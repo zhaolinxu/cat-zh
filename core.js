@@ -189,19 +189,25 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 
 dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
-	title: "",
-	
+	name: "",
+
 	description: "",
-	
-	handler: null,
+
+	visible: true,
 	
 	domNode: null,
 	
-	visible: true,
+	handler: null,
+
+	prices: null,
 	
-	constructor: function(title, handler){
-		this.title = title;
-		this.handler = handler;
+	constructor: function(opts){
+		
+		this.name = opts.name;
+		this.handler = opts.handler;
+		this.description = opts.description;
+		
+		this.prices = opts.prices ? opts.prices : [];
 	},
 	
 	setVisible: function(visible){
@@ -210,7 +216,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
 	render: function(btnContainer){
 		this.domNode = dojo.create("div", { 
-			innerHTML: this.title,
+			innerHTML: this.name,
 			style: {
 				
 			},
@@ -219,18 +225,38 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
-		
-		
-		/*if (this.handler){
-			dojo.connect(this.domNode, "onclick", this,  function(){
-				console.log("foo");
-			});
-		}*/
+
 		jQuery(this.domNode).click(this.handler);
-		//jQuery(this.domNode).click(function(){
-		//	console.log("foo");
-		//});
+		
+		if (this.prices.length){
+			
+			var tooltip = dojo.create("div", { style: {
+				display: 	"none",
+				border: 	"1px solid black",
+				marginTop:	"5px",
+				padding: 	"5px"
+			}}, this.domNode);
+			
+			for( var i = 0; i < this.prices.length; i++){
+				var price = this.prices[i];
+				
+				var priceItemNode = dojo.create("div", { 
+						style : {
+							overflow: "hidden"
+						}
+					}, tooltip); 
+				
+				dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
+				dojo.create("span", { innerHTML: price.val, style: {float: "right" } }, priceItemNode );
+			}
+			
+			jQuery(this.domNode).hover( 
+				function(){ jQuery(tooltip).show(); }, 
+				function(){ jQuery(tooltip).hide(); } 
+			);
+		}
 	}
+
 
 });
 
@@ -275,8 +301,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui
 		
 		var self = this;
 		
-		var btn = new com.nuclearunicorn.game.ui.button("Gather catnip", function(){
-			self.game.resources.catnip++;
+		var btn = new com.nuclearunicorn.game.ui.button({
+			name:	 "Gather catnip", 
+			handler: function(){
+						self.game.resources.catnip++;
+					 }
 		});
 		this.addButton(btn);
 		
@@ -300,10 +329,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var self = this;
 		
-		var btn = new com.nuclearunicorn.game.ui.button("Catnip field", function(){
-			self.game.resources.catnip++;
+		var btn = new com.nuclearunicorn.game.ui.button({
+			name: 		"Catnip field", 
+			handler: 	function(){
+							self.game.resources.catnip++;
+						},
+			description: "Plant some catnip to grow it in the village",
+			prices: [ {name : "catnip", val: 10}]
 		});
-		btn.description = "Plant some catnip to grow it in the village, 10cn";
 		
 		this.addButton(btn);
 
