@@ -62,7 +62,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
-		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Kitten village");
+		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Bonfire");
 		this.addTab(villageTab);
 		
 		var forrestTab = new com.nuclearunicorn.game.ui.tab.Forest("Catnip forrest");
@@ -114,6 +114,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				href:"#",
 				innerHTML: tab.tabName
 			}, tabNavigationDiv);
+			
+			if (this.activeTabId == i){
+				dojo.addClass(tabLink, "activeTab");
+			}
 
 
 			dojo.connect(tabLink, "onclick", this, 
@@ -187,6 +191,8 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
 	title: "",
 	
+	description: "",
+	
 	handler: null,
 	
 	domNode: null,
@@ -203,14 +209,17 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	},
 	
 	render: function(btnContainer){
-		this.domNode = dojo.create("span", { 
+		this.domNode = dojo.create("div", { 
 			innerHTML: this.title,
 			style: {
-				border: "1px solid black",
-				padding: "5px",
-				cursor: "pointer"
-			}
+				
+			},
+			title: this.description
 		}, btnContainer);
+		
+		dojo.addClass(this.domNode, "btn");
+		dojo.addClass(this.domNode, "nosel");
+		
 		
 		/*if (this.handler){
 			dojo.connect(this.domNode, "onclick", this,  function(){
@@ -239,9 +248,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	},
 	
 	render: function(tabContainer){
-		dojo.create("span", { innerHTML: this.tabName }, tabContainer);
+		/*dojo.create("span", { innerHTML: this.tabName }, tabContainer);
 		dojo.create("br", {}, tabContainer);
-		dojo.create("br", {}, tabContainer);
+		dojo.create("br", {}, tabContainer);*/
 				
 		for (var i = 0; i<this.buttons.length; i++){
 			var button = this.buttons[i];
@@ -290,6 +299,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 
 		var self = this;
+		
+		var btn = new com.nuclearunicorn.game.ui.button("Catnip field", function(){
+			self.game.resources.catnip++;
+		});
+		btn.description = "Plant some catnip to grow it in the village, 10cn";
+		
+		this.addButton(btn);
 
 	},
 });

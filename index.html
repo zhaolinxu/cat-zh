@@ -6,6 +6,30 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.js"></script>
 		<script src="./core.js" type="text/javascript"></script>
 		
+		<style type="text/css">
+			.activeTab {
+				text-decoration: none;
+				color: black;
+			}
+			
+			.nosel {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			
+			.btn {
+				border: 1px solid black;
+				padding: 5px;
+				cursor: pointer;
+				width: 100px;
+				text-align: center;
+			}
+	    </style>
+		
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
