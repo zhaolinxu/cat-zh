@@ -8,7 +8,9 @@
 		
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
-				var gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
+				gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
+				gamePage.load();
+				
 				gamePage.render()
 				gamePage.start();
 			});
@@ -20,9 +22,14 @@
 
 
 	<body>
+		<div style="position:absolute; top:10px; right:10px;">
+			<a href="#" onclick="gamePage.save();" >Save</a> |
+			Ver 0.04
+		</div>
+	
 		<table>
 			<tr>
-				<td width="20%">
+				<td width="20%" style="vertical-align:top;">
 					<div>
 						You are a kitten in a catnip forest.
 					</div>

@@ -42,10 +42,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	resPool: null,
 	
-	rate: 1,
+	rate: 5,
 	
 	activeTabId: 0,
 	
+	//dom nodes shit
+	
+	_resourceDiv: null,
+
 	constructor: function(containerId){
 		this.id = containerId;
 		
@@ -61,24 +65,42 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Kitten village");
 		this.addTab(villageTab);
 		
-		var forrestTab = new com.nuclearunicorn.game.ui.tab.Village("Catnip forrest");
+		var forrestTab = new com.nuclearunicorn.game.ui.tab.Forest("Catnip forrest");
 		this.addTab(forrestTab);
 		//this.addTab("tab2");
 		
 	},
 	
+	save: function(){
+		var saveData = {
+			resources: this.resources
+		};
+		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
+	},
+	
+	load: function(){
+		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
+		try {
+			var saveData = JSON.parse(data);
+			
+			//console.log("restored save data:", localStorage);
+			if (saveData){
+				this.resources = saveData.resources;
+			}
+		} catch (ex) {
+			console.error("Unable to load game data: ", ex);
+		}
+	},
 	
 	render: function(){
 		var self = this;
 		
 		var container = dojo.byId(this.id);
-		console.log("container:", container);
 		dojo.empty(container);
 		
-		var kittenDiv = dojo.create("div", {}, container);
-		kittenDiv.innerHTML = "Kittens:" + this.resources.kittens + 
-		"<br>" + "Catnip:" + this.resources.catnip;
-		
+		this._resourceDiv = dojo.create("div", {}, container);
+		this.updateResources();
+
 		var tabNavigationDiv = dojo.create("div", { style: {
 				position: "relative",
 				top: "-70px",
@@ -133,6 +155,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			var tab = this.tabs[i];
 			tab.update();
 		};
+		
+		//update resources tab
+		this.updateResources();
+	},
+	
+	updateResources: function(){
+		this._resourceDiv.innerHTML = "Kittens:" + this.resources.kittens + 
+			"<br>" + "Catnip:" + this.resources.catnip;
 	},
 	
 	addTab: function(tab){
@@ -229,7 +259,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.tab.Forrest", com.nuclearunicorn.game.ui.tab, {
+dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui.tab, {
 	constructor: function(tabName){
 		this.inherited(arguments);
 		
