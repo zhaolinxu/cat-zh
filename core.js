@@ -10,10 +10,16 @@ dojo.declare("com.nuclearunicorn.game.log", null, {
 /**
  * To be used
  */ 
-dojo.declare("com.nuclearunicorn.game.ui.resource", null, {
+dojo.declare("com.nuclearunicorn.game.core.resource", null, {
 	name: "",
 	title: "",
-	value: 0
+	value: 0,
+	
+	/**
+	 * Amount of resource per turn 
+	 */
+	
+	perTick: 0,	
 });
 
 dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
@@ -21,15 +27,25 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	
 	constructor: function(){
 		this.resources = [];
+		
+		this.addResource("catnip");
+		this.addResource("kittens");
 	},
 	
-	getResource: function(name){
+	get: function(name){
 		for (var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			if (res.name == name){
 				return res;
 			}
 		}
+	},
+	
+	addResource: function(name){
+		var res = new com.nuclearunicorn.game.core.resource();
+		res.name = name;
+		
+		this.resources.push(res);
 	}
 });
 
@@ -38,7 +54,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	tabs: null,
 	
-	resources: null,
+	//resources: null,
 	
 	resPool: null,
 	
@@ -55,10 +71,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.tabs = [];
 		
-		this.resources = {
+		/*this.resources = {
 			kittens: 0,
 			catnip: 0
-		};
+		};*/
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
@@ -73,7 +89,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	save: function(){
 		var saveData = {
-			resources: this.resources
+			resPool: this.resPool
 		};
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 	},
@@ -85,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			
 			//console.log("restored save data:", localStorage);
 			if (saveData){
-				this.resources = saveData.resources;
+				//this.resPool = saveData.resources;
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -165,8 +181,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	updateResources: function(){
-		this._resourceDiv.innerHTML = "Kittens:" + this.resources.kittens + 
-			"<br>" + "Catnip:" + this.resources.catnip;
+		this._resourceDiv.innerHTML = "Kittens:" + this.resPool.get("kittens").value + 
+			"<br>" + "Catnip:" + this.resPool.get("catnip").value;
 	},
 	
 	addTab: function(tab){
@@ -304,7 +320,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name:	 "Gather catnip", 
 			handler: function(){
-						self.game.resources.catnip++;
+						self.game.resPool.get("catnip").value++;
 					 }
 		});
 		this.addButton(btn);
@@ -332,7 +348,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Catnip field", 
 			handler: 	function(){
-							self.game.resources.catnip++;
+							self.game.resPool.get("catnip").value -= 10;
+							self.game.resPool.get("catnip").perTick += 1;
 						},
 			description: "Plant some catnip to grow it in the village",
 			prices: [ {name : "catnip", val: 10}]
