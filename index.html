@@ -1,0 +1,42 @@
+<html>
+
+	<head>
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<!--script src="http://download.dojotoolkit.org/release-1.8.5/dojo.js" type="text/javascript"></script-->
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.js"></script>
+		<script src="./core.js" type="text/javascript"></script>
+		
+		<script type="text/javascript">
+			dojo.addOnLoad(function(){
+				var gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
+				gamePage.render()
+				gamePage.start();
+			});
+		</script>
+		
+		<title>A kittens game</title>
+	</head>
+
+
+
+	<body>
+		<table>
+			<tr>
+				<td width="20%">
+					<div>
+						You are a kitten in a catnip forest.
+					</div>
+					<div id="gameLog">
+						Log goes there
+					</div>
+				</td>
+				<td width="80%">
+					<div id="gameContainerId" style="border:1px solid black; padding: 40px;">
+						Sup!
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+	</body>
+</html>
