@@ -46,6 +46,16 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		res.name = name;
 		
 		this.resources.push(res);
+	},
+
+	/**
+	 * Iterates resources and updates their values with per tick increment
+	 */
+	update: function(){
+		for (var i = 0; i< this.resources.length; i++){
+			var res = this.resources[i];
+			res.value += res.perTick;
+		}
 	}
 });
 
@@ -78,10 +88,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
-		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Bonfire");
+		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Bonfire", this);
 		this.addTab(villageTab);
 		
-		var forrestTab = new com.nuclearunicorn.game.ui.tab.Forest("Catnip forrest");
+		var forrestTab = new com.nuclearunicorn.game.ui.tab.Forest("Catnip forrest", this);
 		this.addTab(forrestTab);
 		//this.addTab("tab2");
 		
@@ -171,6 +181,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	update: function(){
+		
+		this.resPool.update();
+		
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
 			tab.update();
@@ -205,11 +218,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 
 dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
+	game: null,
+	
 	name: "",
 
 	description: "",
 
 	visible: true,
+	
+	enabled: true,
 	
 	domNode: null,
 	
@@ -230,7 +247,43 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		this.visible = visible;
 	},
 	
+	setEnabled: function(enabled){
+		this.enabled = enabled;
+		
+		if (enabled){
+			if (this.domNode && dojo.hasClass(this.domNode, "disabled")){
+				dojo.removeClass(this.domNode, "disabled");
+			}
+		} else {
+			dojo.addClass(this.domNode, "disabled");
+		}
+	},
+	
+	update: function(){
+		
+		//console.log(this.game);
+		
+		var isEnabled = true;
+		
+		//todo: move somewhere else?
+		if (this.prices.length){
+			for( var i = 0; i < this.prices.length; i++){
+				var price = this.prices[i];
+				
+				var res = this.game.resPool.get(price.name);
+				if (res.value < price.val){
+					isEnabled = false;
+					break;
+				}
+			}
+		}
+		this.setEnabled(isEnabled);
+		
+	},
+	
 	render: function(btnContainer){
+		var self = this;
+		
 		this.domNode = dojo.create("div", { 
 			innerHTML: this.name,
 			style: {
@@ -241,8 +294,16 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
+		
+		if (!this.enabled){
+			dojo.addClass(this.domNode, "disabled");
+		}
 
-		jQuery(this.domNode).click(this.handler);
+		jQuery(this.domNode).click(function(){
+			if (self.enabled){
+				self.handler();
+			}
+		});
 		
 		if (this.prices.length){
 			
@@ -284,9 +345,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	
 	buttons: null,
 	
-	constructor: function(tabName){
+	constructor: function(tabName, game){
 		this.tabName = tabName;
 		this.buttons = [];
+		
+		this.game = game;
 	},
 	
 	render: function(tabContainer){
@@ -303,16 +366,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	},
 	
 	update: function(){
+		for (var i = 0; i<this.buttons.length; i++){
+			var button = this.buttons[i];
+			button.update();
+		}
 	},
 	
 	addButton:function(button){
+		button.game = this.game;
 		this.buttons.push(button);
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui.tab, {
 	constructor: function(tabName){
-		this.inherited(arguments);
+		//this.inherited(arguments);
 		
 		
 		var self = this;
@@ -341,7 +409,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
 	constructor: function(tabName){
-		this.inherited(arguments);
+		//this.inherited(arguments);
 
 		var self = this;
 		
@@ -349,10 +417,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			name: 		"Catnip field", 
 			handler: 	function(){
 							self.game.resPool.get("catnip").value -= 10;
-							self.game.resPool.get("catnip").perTick += 1;
+							self.game.resPool.get("catnip").perTick += 0.013;
 						},
 			description: "Plant some catnip to grow it in the village",
-			prices: [ {name : "catnip", val: 10}]
+			prices: [ { name : "catnip", val: 10 }]
 		});
 		
 		this.addButton(btn);
