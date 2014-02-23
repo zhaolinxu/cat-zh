@@ -11,6 +11,7 @@ dojo.declare("com.nuclearunicorn.game.log", null, {
  * To be used
  */ 
 dojo.declare("com.nuclearunicorn.game.core.resource", null, {
+	
 	name: "",
 	title: "",
 	value: 0,
@@ -29,7 +30,7 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		this.resources = [];
 		
 		this.addResource("catnip");
-		this.addResource("kittens");
+		//this.addResource("kittens");
 	},
 	
 	get: function(name){
@@ -39,6 +40,9 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 				return res;
 			}
 		}
+		
+		//if no resource found, register new
+		return this.addResource(name);
 	},
 	
 	addResource: function(name){
@@ -46,6 +50,8 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		res.name = name;
 		
 		this.resources.push(res);
+		
+		return res;
 	},
 
 	/**
@@ -123,15 +129,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		var container = dojo.byId(this.id);
 		dojo.empty(container);
-		
-		this._resourceDiv = dojo.create("div", {}, container);
-		this.updateResources();
 
 		var tabNavigationDiv = dojo.create("div", { style: {
 				position: "relative",
-				top: "-70px",
+				top: "-30px",
 				left: "-20px"
 			}}, container);
+			
+		this._resourceDiv = dojo.create("div", { style: {
+				position: "relative",
+				top:"-25px"
+			}}, container);
+		this.updateResources();
 			
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
@@ -194,8 +203,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	updateResources: function(){
-		this._resourceDiv.innerHTML = "Kittens:" + this.resPool.get("kittens").value + 
-			"<br>" + "Catnip:" + this.resPool.get("catnip").value;
+		//this._resourceDiv.innerHTML = "Kittens:" + this.resPool.get("kittens").value + 
+			//"<br>" + "Catnip:" + this.resPool.get("catnip").value;
+			
+		this._resourceDiv.innerHTML = "";
+		for (var i = 0; i < this.resPool.resources.length; i++){
+			var res = this.resPool.resources[i];
+			this._resourceDiv.innerHTML += res.name + ":" + res.value + " (+" + res.perTick + ")<br>";
+		}
 	},
 	
 	addTab: function(tab){
@@ -360,8 +375,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 		for (var i = 0; i<this.buttons.length; i++){
 			var button = this.buttons[i];
 			button.render(tabContainer);
-			dojo.create("br", {}, tabContainer);
-			dojo.create("br", {}, tabContainer);
 		}
 	},
 	
@@ -420,7 +433,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 							self.game.resPool.get("catnip").perTick += 0.013;
 						},
 			description: "Plant some catnip to grow it in the village",
-			prices: [ { name : "catnip", val: 10 }]
+			prices: [ 
+				{ name : "catnip", val: 10 }
+			]
+		});
+		
+		this.addButton(btn);
+		
+		var btn = new com.nuclearunicorn.game.ui.button({
+			name: 		"Refine catnip", 
+			handler: 	function(){
+							self.game.resPool.get("catnip").value -= 100;
+							self.game.resPool.get("wood").value += 1;
+						},
+			description: "Refine catnip into the catnip wood",
+			prices: [ { name : "catnip", val: 100 }]
 		});
 		
 		this.addButton(btn);
