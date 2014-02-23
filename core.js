@@ -7,22 +7,6 @@ dojo.declare("com.nuclearunicorn.game.log", null, {
 	}
 });
 
-/**
- * To be used
- */ 
-dojo.declare("com.nuclearunicorn.game.core.resource", null, {
-	
-	name: "",
-	title: "",
-	value: 0,
-	
-	/**
-	 * Amount of resource per turn 
-	 */
-	
-	perTick: 0,	
-});
-
 dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	resources: null,
 	
@@ -46,8 +30,13 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	},
 	
 	addResource: function(name){
-		var res = new com.nuclearunicorn.game.core.resource();
-		res.name = name;
+		
+		var res = {
+				name: name,
+				title: "",
+				value: 0,
+				perTick: 0,	
+		};
 		
 		this.resources.push(res);
 		
@@ -105,7 +94,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	save: function(){
 		var saveData = {
-			resPool: this.resPool
+			resources: this.resPool.resources
 		};
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 	},
@@ -117,7 +106,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			
 			//console.log("restored save data:", localStorage);
 			if (saveData){
-				//this.resPool = saveData.resources;
+				this.resPool.resources = saveData.resources;
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
