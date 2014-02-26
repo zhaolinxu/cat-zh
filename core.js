@@ -63,6 +63,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	resPool: null,
 	
+	calendar: null,
+	
+	bldManager: null,
+	
 	rate: 5,
 	
 	activeTabId: 0,
@@ -76,10 +80,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.tabs = [];
 		
-		/*this.resources = {
-			kittens: 0,
-			catnip: 0
-		};*/
+		this.calendar = new com.nuclearunicorn.game.calendar();
+		
+		this.bldManager = new com.nuclearunicorn.game.buildings.BuildingsManager();
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
@@ -189,6 +192,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		//update resources tab
 		this.updateResources();
+		this.updateCalendar();
 	},
 	
 	updateResources: function(){
@@ -198,8 +202,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this._resourceDiv.innerHTML = "";
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			this._resourceDiv.innerHTML += res.name + ":" + res.value + " (+" + res.perTick + ")<br>";
+			this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (+" + res.perTick.toFixed(2) + ")<br>";
 		}
+	},
+	
+	updateCalendar: function(){
+		var calendarDiv = dojo.byId("calendarDiv");
+		calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title + ", day " + this.calendar.day.toFixed();
+		
+		//this.calendar
 	},
 	
 	addTab: function(tab){
@@ -215,6 +226,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	tick: function(){
 		//this.resources.kittens++;
 		
+		this.calendar.tick();
 		this.update();
 	}
 		
