@@ -307,6 +307,17 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		this.game.render();
 	},
 	
+	payPrice: function(){
+		if (this.prices.length){
+			for( var i = 0; i < this.prices.length; i++){
+				var price = this.prices[i];
+				
+				var res = this.game.resPool.get(price.name);
+				res.value -= price.val;
+			}
+		}
+	},
+	
 	render: function(btnContainer){
 		var self = this;
 		
@@ -329,7 +340,9 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 
 		jQuery(this.domNode).click(function(){
 			if (self.enabled){
-				self.handler();
+				self.handler(self);
+				
+				self.payPrice();
 				
 				if (self.priceRatio){
 					self.adjustPrice(self.priceRatio);
@@ -356,7 +369,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 					}, tooltip); 
 				
 				dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-				dojo.create("span", { innerHTML: price.val, style: {float: "right" } }, priceItemNode );
+				dojo.create("span", { innerHTML: price.val.toFixed(2), style: {float: "right" } }, priceItemNode );
 			}
 			
 			jQuery(this.domNode).hover( 
@@ -449,8 +462,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Catnip field", 
 			handler: 	function(){
-							self.game.resPool.get("catnip").value -= 10;
-							//self.game.resPool.get("catnip").perTick += 0.013;
+							//self.game.resPool.get("catnip").value -= 10;
+							self.game.resPool.get("catnip").perTick += 0.013;
 						},
 			priceRatio: 1.15,
 			description: "Plant some catnip to grow it in the village",
@@ -464,7 +477,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Refine catnip", 
 			handler: 	function(){
-							self.game.resPool.get("catnip").value -= 100;
+							//self.game.resPool.get("catnip").value -= 100;
 							self.game.resPool.get("wood").value += 1;
 						},
 			description: "Refine catnip into the catnip wood",
@@ -476,7 +489,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Hut", 
 			handler: 	function(){
-							self.game.resPool.get("wood").value -= 100;
+							//self.game.resPool.get("wood").value -= 100;
 						},
 			description: "Build a hut",
 			prices: [ { name : "wood", val: 100 }]
