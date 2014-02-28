@@ -65,7 +65,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	calendar: null,
 	
-	bldManager: null,
+	bld: null,
 	
 	rate: 5,
 	
@@ -82,7 +82,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.calendar = new com.nuclearunicorn.game.calendar();
 		
-		this.bldManager = new com.nuclearunicorn.game.buildings.BuildingsManager();
+		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager();
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
@@ -258,14 +258,31 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
 	tab: null,
 	
-	constructor: function(opts){
+	building: null,
+
+	constructor: function(opts, game){
 		
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
 		
-		this.prices = opts.prices ? opts.prices : [];
-		this.priceRatio = opts.priceRatio;
+		
+		
+		if (opts.building){
+			var bld = game.bld.getBuilding(opts.building);
+			
+			this.building = bld;
+			
+			this.prices = bld.prices;
+			this.priceRatio = bld.priceRatio;
+			
+		} else {
+			
+			this.prices = opts.prices ? opts.prices : [];
+			this.priceRatio = opts.priceRatio;
+			
+		}
+
 	},
 	
 	setVisible: function(visible){
@@ -327,6 +344,10 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				var res = this.game.resPool.get(price.name);
 				res.value -= price.val;
 			}
+		}
+		
+		if (this.building){
+			this.building.val++;
 		}
 	},
 	
@@ -504,8 +525,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 							//self.game.resPool.get("wood").value -= 100;
 						},
 			description: "Build a hut",
-			prices: [ { name : "wood", val: 100 }]
-		});
+			building: "hut"
+			
+		}, this.game);
 		
 		this.addButton(btn);
 
