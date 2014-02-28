@@ -190,6 +190,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			tab.update();
 		};
 		
+		//business logic goes there
+		//maybe it will be a good idea to move it elsewhere?
+		
+		//for example, here kitten resources are calculated per effect, this logic could be unified
+		
+		var maxKittens = this.bld.getEffect("maxKittens");
+
+		var kittens = this.resPool.get("kittens");
+		if (kittens.value < maxKittens){
+			kittens.value += 1;
+		}
+		
 		//update resources tab
 		this.updateResources();
 		this.updateCalendar();
@@ -202,7 +214,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this._resourceDiv.innerHTML = "";
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (+" + res.perTick.toFixed(2) + ")<br>";
+			if (res.value){
+				this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (+" + res.perTick.toFixed(2) + ")<br>";
+			}
 		}
 	},
 	
@@ -532,4 +546,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.addButton(btn);
 
 	},
+	
+	/**
+	 * 
+	 */
+	render: function(){
+		this.inherited(arguments);
+	}
 });
