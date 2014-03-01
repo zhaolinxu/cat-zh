@@ -67,6 +67,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	bld: null,
 	
+	village: null,
+	
 	rate: 5,
 	
 	activeTabId: 0,
@@ -80,12 +82,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.tabs = [];
 		
-		this.calendar = new com.nuclearunicorn.game.calendar();
-		
-		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager();
-		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
 		
+		this.calendar = new com.nuclearunicorn.game.Calendar();
+		
+		this.village = new com.nuclearunicorn.game.villageManager(this);
+		
+		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
+
 		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Bonfire", this);
 		this.addTab(villageTab);
 		
@@ -184,11 +188,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	update: function(){
 		
 		this.resPool.update();
+		this.bld.update();
 		
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
 			tab.update();
 		};
+		
+		
 		
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -296,11 +303,22 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			this.priceRatio = opts.priceRatio;
 			
 		}
+		
+		if (this.game){	//TODO: remove me
+			this.update();
+		}
 
 	},
 	
 	setVisible: function(visible){
 		this.visible = visible;
+		
+		// locked structures are invisible
+		if (this.visible){
+			dojo.setStyle(this.domNode, "display", "");
+		} else {
+			dojo.setStyle(this.domNode, "display", "none");
+		}
 	},
 	
 	setEnabled: function(enabled){
@@ -334,6 +352,15 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			}
 		}
 		this.setEnabled(isEnabled);
+		
+				// locked structures are invisible
+		if (this.building){
+			if (!this.building.unlocked){
+				this.setVisible(false);
+			} else {
+				this.setVisible(true);
+			}
+		}
 		
 	},
 	
@@ -377,6 +404,11 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			},
 			title: this.description
 		}, btnContainer);
+		
+		// locked structures are invisible
+		if (!this.visible){
+			dojo.setStyle(this.domNode, "display", "none");
+		}
 		
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
@@ -510,7 +542,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			name: 		"Catnip field", 
 			handler: 	function(){
 							//self.game.resPool.get("catnip").value -= 10;
-							self.game.resPool.get("catnip").perTick += 0.013;
+							self.game.resPool.get("catnip").perTick += 0.175;
 						},
 			priceRatio: 1.15,
 			description: "Plant some catnip to grow it in the village",

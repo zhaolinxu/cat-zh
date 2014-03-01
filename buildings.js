@@ -1,5 +1,10 @@
 dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
-	/* CITY GARDEN WILL BE THERE */
+	
+	game: null,
+	
+	constructor: function(game){
+		this.game = game;
+	},
 	
 	//TODO: use some class hierarchy there?
 	buildingsData : [{
@@ -47,5 +52,35 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		}
 		
 		return totalEffect;
+	},
+	
+	update: function(){
+		for (var i = 0; i < this.buildingsData.length; i++){
+			var bld = this.buildingsData[i];
+			
+			if (!bld.unlocked){
+				if (this.isConstructionEnabled(bld)){
+					bld.unlocked = true;
+				}
+			}
+		}
+	},
+	
+	isConstructionEnabled: function(building){
+		var isEnabled = true;
+		
+		if (building.prices.length){
+			for( var i = 0; i < building.prices.length; i++){
+				var price = building.prices[i];
+				
+				var res = this.game.resPool.get(price.name);
+				if (res.value < price.val){
+					isEnabled = false;
+					break;
+				}
+			}
+		}
+		
+		return isEnabled;
 	}
 });

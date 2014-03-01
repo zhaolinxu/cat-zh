@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.calendar", null, {
+dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	seasons: [
 	{
 		name: "spring",
