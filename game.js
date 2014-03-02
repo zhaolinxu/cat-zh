@@ -187,7 +187,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					perTick += modifiers[res.name];
 				}
 				
-				this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (+" + perTick.toFixed(2) + ")<br>";
+				var plusSign = "+";
+				if (perTick < 0){
+					plusSign = "";
+				}
+				
+				this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (" + plusSign + perTick.toFixed(2) + ")<br>";
 			}
 		}
 	},

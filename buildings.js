@@ -12,7 +12,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		
 		//prices will eventually go there
-		prices: [{ name : "wood", val: 10 }],
+		prices: [{ name : "wood", val: 5 }],
 		effects: {
 			"maxKittens" : 2
 		},
