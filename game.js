@@ -32,7 +32,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.tabs = [];
 		
-		this.resPool = new com.nuclearunicorn.game.core.resourcePool();
+		this.resPool = new com.nuclearunicorn.game.core.resourcePool(this);
 		
 		this.calendar = new com.nuclearunicorn.game.Calendar();
 		

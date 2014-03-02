@@ -35,6 +35,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.season = 0;
 			}
 		}
+	},
+	
+	getCurSeason: function(){
+		return this.seasons[this.season];
 	}
 	
 });

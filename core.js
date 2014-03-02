@@ -8,11 +8,16 @@ dojo.declare("com.nuclearunicorn.game.log", null, {
 });
 
 dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
+	
 	resources: null,
 	
 	village: null,
 	
-	constructor: function(){
+	game: null,
+	
+	constructor: function(game){
+		this.game = game;
+		
 		this.resources = [];
 		
 		this.addResource("catnip");
@@ -54,7 +59,22 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
-			res.value += res.perTick;
+			var perTickBase = res.perTick;
+			
+			//update BASE production rates per season (probably should be in the calendar)	
+			
+			if (res.name == "catnip"){
+				var curSeason = this.game.calendar.getCurSeason();
+				
+				if (curSeason.name == "spring"){
+					perTickBase *= 1.5;	//+50%
+				}
+				if (curSeason.name == "winter"){
+					perTickBase *= 0.25; //-75%
+				}
+			}
+			
+			res.value += perTickBase;
 			
 			if (modifiers[res.name]){
 				res.value += modifiers[res.name];
