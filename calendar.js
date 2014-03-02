@@ -28,9 +28,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		if (this.day > this.daysPerSeason){
 			this.day = 0;
-			season++;
-			if (season > 3){
-				season = 0;
+			
+			this.season++;
+			
+			if (this.season > 3){
+				this.season = 0;
 			}
 		}
 	}
