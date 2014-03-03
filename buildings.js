@@ -19,7 +19,20 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		priceRatio: 1.15,
 		
 		val: 0
-	}],
+	},
+	{
+		name: "library",
+		unlocked: false,
+		
+		//prices will eventually go there
+		prices: [{ name : "wood", val: 50 }],
+		effects: {
+		},
+		priceRatio: 1.15,
+		
+		val: 0
+	}
+	],
 	
 	getBuilding: function(name){
 		for (var i = 0; i < this.buildingsData.length; i++){

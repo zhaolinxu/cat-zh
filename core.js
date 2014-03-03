@@ -345,20 +345,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui.tab, {
+dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
 	constructor: function(tabName){
 		//this.inherited(arguments);
 		
 		
 		var self = this;
 		
-		var btn = new com.nuclearunicorn.game.ui.button({
+		/*var btn = new com.nuclearunicorn.game.ui.button({
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.resPool.get("catnip").value++;
 					 }
 		});
-		this.addButton(btn);
+		this.addButton(btn);*/
 		
 		/*var btn = new com.nuclearunicorn.game.ui.button("Plant catnip");
 		this.addButton(btn);
@@ -374,11 +374,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Forest", com.nuclearunicorn.game.ui
 	},
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
+dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
 	constructor: function(tabName){
 		//this.inherited(arguments);
 
 		var self = this;
+		
+		var btn = new com.nuclearunicorn.game.ui.button({
+			name:	 "Gather catnip", 
+			handler: function(){
+						self.game.resPool.get("catnip").value++;
+					 }
+		});
+		this.addButton(btn);
 		
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Catnip field", 
@@ -387,7 +395,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 							self.game.resPool.get("catnip").perTick += 0.125;
 						},
 			priceRatio: 1.15,
-			description: "Plant some catnip to grow it in the village",
+			description: "Plant some catnip to grow it in the village.\n"+
+			"Fields have +50% production in spring and -75% in winter",
 			prices: [ 
 				{ name : "catnip", val: 10 }
 			]

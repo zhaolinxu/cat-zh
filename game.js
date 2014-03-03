@@ -26,6 +26,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	//dom nodes shit
 	
 	_resourceDiv: null,
+	
+	ticksBeforeSave: 400,	//40 seconds ~
+
+	//in ticks
+	autosaveFrequency: 400,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -41,13 +46,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
 
-		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Bonfire", this);
+		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
+		this.addTab(bonfireTab);
+		
+		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Town Hall", this);
 		this.addTab(villageTab);
-		
-		var forrestTab = new com.nuclearunicorn.game.ui.tab.Forest("Catnip forrest", this);
-		this.addTab(forrestTab);
-		//this.addTab("tab2");
-		
 	},
 	
 	save: function(){
@@ -55,6 +58,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			resources: this.resPool.resources
 		};
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
+		
+		console.log("Game saved");
 	},
 	
 	load: function(){
@@ -138,6 +143,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	update: function(){
 		
+		this.ticksBeforeSave--;
+		//console.log("ticks left:", this.ticksBeforeSave);
+		
+		if (this.ticksBeforeSave == 0){
+			this.ticksBeforeSave = this.autosaveFrequency;
+			this.save();
+		}
+		
 		this.resPool.update();
 		this.bld.update();
 		
@@ -145,9 +158,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			var tab = this.tabs[i];
 			tab.update();
 		};
-		
-		
-		
+
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
 		
