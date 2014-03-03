@@ -88,6 +88,10 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	
 	setVillage: function(village){
 		this.village = village;
+	},
+	
+	reset: function(){
+		this.resources = [];
 	}
 });
 

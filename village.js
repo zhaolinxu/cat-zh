@@ -52,5 +52,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		return {
 			"catnip" : -1 * this.getKittens()
 		}
+	},
+	
+	reset: function(){
+		this.kittens = 0;
+		this.maxKittens = 0;
 	}
 });

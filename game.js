@@ -219,6 +219,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.calendar.tick();
 		this.update();
+	},
+	
+	reset: function(){
+		if (!confirm("NOOO, KITTENS WILL DIE. ARE YOU SURE?")){
+			return;
+		}
+		this.resPool.reset();
+		this.village.reset();
 	}
 		
 });
