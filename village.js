@@ -5,7 +5,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	kittensPerTick: 0,	//to be updated (also with per day?)
 	
-	kittensPerTickBase: 0.1,
+	kittensPerTickBase: 0.01,
 	
 	//jobs assigned to kittens
 	jobs: [{
@@ -31,6 +31,19 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		
 		if (this.kittens > this.maxKittens){
 			this.kittens = this.maxKittens;
+		}
+		
+		var modifiers = this.getResourceModifers();
+		
+		var catnipVal = this.game.resPool.get("catnip").value;
+		var resDiff = catnipVal + modifiers["catnip"];
+		
+		if (resDiff < 0){
+			//console.log("kittens to die:", Math.abs(resDiff.toFixed()));
+			
+			var starvedKittens = Math.abs(resDiff.toFixed());
+			this.kittens -= starvedKittens;
+			this.game.msg(starvedKittens + " kittens starved to death");
 		}
 		
 	},

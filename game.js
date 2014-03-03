@@ -16,6 +16,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	bld: null,
 	village: null,
 	science: null,
+	console: null,
 	
 	rate: 5,
 	
@@ -35,6 +36,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.tabs = [];
 		
+		this.console = new com.nuclearunicorn.game.log.Console();
+		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar();
 		this.village = new com.nuclearunicorn.game.villageManager(this);
@@ -48,8 +51,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
 		this.addTab(bonfireTab);
 		
-		var villageTab = new com.nuclearunicorn.game.ui.tab.Village("Town Hall", this);
-		this.addTab(villageTab);
+		this.villageTab = new com.nuclearunicorn.game.ui.tab.Village("Small village", this);
+		this.villageTab.visible = false;
+		this.addTab(this.villageTab);
+	},
+	
+	msg: function(message){
+		this.console.static.msg(message);
 	},
 	
 	save: function(){
@@ -95,6 +103,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
+			
+			if (!tab.visible){
+				continue;
+			}
 			
 			var tabLink = dojo.create("a", {
 				href:"#",
@@ -171,6 +183,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
 		kittens.value = this.village.getKittens();	//just a simple way to display them
+		kittens.maxValue = this.village.maxKittens;
 		
 		/*if (kittens.value < maxKittens){
 			kittens.value += 1;
@@ -186,11 +199,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			//"<br>" + "Catnip:" + this.resPool.get("catnip").value;
 			
 		var modifiers = this.village.getResourceModifers();	
+		
+		var season = this.calendar.getCurSeason();
+		
 
 		this._resourceDiv.innerHTML = "";
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			if (res.value){
+			if (res.value || res.maxValue){
 				
 				var perTick = res.perTick;
 				if (modifiers[res.name]){
@@ -202,8 +218,46 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					plusSign = "";
 				}
 				
-				this._resourceDiv.innerHTML += res.name + ":" + res.value.toFixed(2) + " (" + plusSign + perTick.toFixed(2) + ")<br>";
+				this._resourceDiv.innerHTML += res.name + ":" + this.getDisplayValue(res.value);
+				if (res.maxValue){
+					this._resourceDiv.innerHTML += "/" + this.getDisplayValue(res.maxValue);
+				}
+				
+				this._resourceDiv.innerHTML += " (" + plusSign + this.getDisplayValue(perTick) + ")";
+				
+				if (season.modifiers[res.name]){
+					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
+					
+					var modifer = (season.modifiers[res.name]-1)*100;
+					var resModifierSpan = dojo.create("span", {
+							innerHTML: " [" + modifer + "%]",
+							title: "Season modifier"
+						}, null);
+					if (modifer>0){
+						dojo.setStyle(resModifierSpan, "color","green");
+					}else{
+						dojo.setStyle(resModifierSpan, "color","red");
+					}
+
+					//console.log(resModifierSpan);
+					this._resourceDiv.innerHTML += resModifierSpan.outerHTML;
+					
+				}
+				
+				this._resourceDiv.innerHTML += "<br>";
+				
 			}
+		}
+	},
+	
+	/**
+	 * Formats float value to x.xx or x if value is integer
+	 */
+	getDisplayValue: function(floatVal){
+		if (floatVal.toFixed() == floatVal){
+			return floatVal.toFixed();
+		} else {
+			return floatVal.toFixed(2);
 		}
 	},
 	

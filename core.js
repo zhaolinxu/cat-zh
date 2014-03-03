@@ -1,8 +1,15 @@
-dojo.declare("com.nuclearunicorn.game.log", null, {
+dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 		msg : function(message){
-			dojo.byId("gameLog").innerHTML = 
-				dojo.byId("gameLog").innerHTML + "<br>" + message;
+			var gameLog = dojo.byId("gameLog");
+			
+			if (gameLog.innerHTML.length + message.length > 5000){
+				gameLog.innerHTML = "";
+			}
+			
+			gameLog.innerHTML = 
+				gameLog.innerHTML + "<br>" + message;
+
 		}
 	}
 });
@@ -325,6 +332,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	
 	buttons: null,
 	
+	visible: true,
+	
 	//_tabContainer: null,
 	
 	constructor: function(tabName, game){
@@ -398,7 +407,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.resPool.get("catnip").value++;
-					 }
+					 },
+			description: "Gathere some catnip in the wood"
 		});
 		this.addButton(btn);
 		
@@ -433,9 +443,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Hut", 
 			handler: 	function(){
-							//self.game.resPool.get("wood").value -= 100;
+							//unlock village tab
+							self.game.villageTab.visible = true;
 						},
-			description: "Build a hut",
+			description: "Build a hut (each has a space for 2 kittens)",
 			building: "hut"
 			
 		}, this.game);

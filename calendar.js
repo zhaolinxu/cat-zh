@@ -2,19 +2,33 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	seasons: [
 	{
 		name: "spring",
-		title: "Spring"
+		title: "Spring",
+		
+		modifiers:{
+			"catnip" : 1.5
+		}
 	}, 
 	{
 		name: "summer",
-		title: "Summer"
+		title: "Summer",
+		
+		modifiers:{
+		}
 	},
 	{
 		name: "autumn",
-		title: "Autumn"
+		title: "Autumn",
+		
+		modifiers:{
+		}
 	},
 	{
 		name: "winter",
-		title: "Winter"
+		title: "Winter",
+		
+		modifiers:{
+			"catnip" : 0.75
+		}
 	}],
 	
 	season: 0,
