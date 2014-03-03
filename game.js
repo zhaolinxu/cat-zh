@@ -60,6 +60,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.console.static.msg(message);
 	},
 	
+	clearLog: function(){
+		this.console.static.clear();
+	},
+	
 	save: function(){
 		var saveData = {
 			resources: this.resPool.resources

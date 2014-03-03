@@ -10,6 +10,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			gameLog.innerHTML = 
 				gameLog.innerHTML + "<br>" + message;
 
+		},
+		
+		clear: function(){
+			var gameLog = dojo.byId("gameLog");
+			gameLog.innerHTML = "";
 		}
 	}
 });
@@ -369,32 +374,71 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
-	constructor: function(tabName){
+	
+	tdTop: null,
+	
+	constructor: function(tabName, game){
 		//this.inherited(arguments);
 		
 		
 		var self = this;
+		this.game = game;
+
 		
-		/*var btn = new com.nuclearunicorn.game.ui.button({
-			name:	 "Gather catnip", 
+		for (var i = 0; i < this.game.village.jobs.length; i++){
+			var job = this.game.village.jobs[i];
+			
+			var btn = new com.nuclearunicorn.game.ui.button({
+				name : job.title,
+				handler: function(){
+					if (self.game.village.getFreeKittens() > 0 ){
+						job.value += 1;
+					}
+				}
+			});
+			this.addButton(btn);
+		}
+		
+		var btn = new com.nuclearunicorn.game.ui.button({ name:"Clear",
 			handler: function(){
-						self.game.resPool.get("catnip").value++;
-					 }
+				self.game.village.clearJobs();
+			}
 		});
-		this.addButton(btn);*/
-		
-		/*var btn = new com.nuclearunicorn.game.ui.button("Plant catnip");
 		this.addButton(btn);
 		
-		var btn = new com.nuclearunicorn.game.ui.button("Eat catnip");
-		this.addButton(btn);
-		
-		var btn = new com.nuclearunicorn.game.ui.button("Refine catnip");
-		this.addButton(btn);
-		
-		var btn = new com.nuclearunicorn.game.ui.button("Build huts");
-		this.addButton(btn);*/
 	},
+	
+	render: function(tabContainer){
+		
+		var table = dojo.create("table", { style:{
+			width: "100%"
+		}}, tabContainer);
+		
+		var tr = dojo.create("tr", null, table);
+		
+		var tdTop = dojo.create("td", { colspan: 2 },
+			dojo.create("tr", null, table));
+
+		this.tdTop = tdTop;
+		
+		
+		var tr = dojo.create("tr", null, table)
+		
+		var tdLeft = dojo.create("td", null, tr);	
+		var tdRight = dojo.create("td", null, tr);
+		
+		//tdLeft.innerHTML = "Jobs go there";
+		
+		//tdRight.innerHTML = "Other things go there (?)";
+		
+		this.inherited(arguments);
+	},
+	
+	update: function(){
+		if (this.tdTop){
+			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens();
+		}
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {

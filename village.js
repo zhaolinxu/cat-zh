@@ -1,6 +1,7 @@
 dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	kittens: 0,
+
 	maxKittens: 0,
 	
 	kittensPerTick: 0,	//to be updated (also with per day?)
@@ -9,6 +10,13 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	//jobs assigned to kittens
 	jobs: [{
+		name: "woodcutter",
+		title: "Woodcutter",
+		
+		modifiers:{
+			"wood" : 0.01
+		},
+		value: 0
 	}],
 	
 	//resource modifiers per tick
@@ -23,9 +31,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	},
 	
 	update: function(){
-		/*if (kittens.value < maxKittens){
-			kittens.value += 1;
-		}*/
+		
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
 		this.kittens += kittensPerTick;
 		
@@ -46,6 +52,24 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			this.game.msg(starvedKittens + " kittens starved to death");
 		}
 		
+		if (this.getFreeKittens() < 0 ){
+			this.clearJobs();	//sorry, just stupid solution for this problem
+		}
+	},
+	
+	getFreeKittens: function(){
+		var total = 0;
+		for (var i = 0; i< this.jobs.length; i++){
+			total += this.jobs[i].value;
+		}
+		
+		return this.getKittens() - total;
+	},
+	
+	clearJobs: function(){
+		for (var i = 0; i< this.jobs.length; i++){
+			this.jobs[i].value = 0;
+		}
 	},
 	
 	/**
@@ -62,9 +86,23 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	getResourceModifers: function(){
 		
-		return {
+		var res = {
 			"catnip" : -1 * this.getKittens()
+		};
+		
+		for (var i = 0; i< this.jobs.length; i++){
+
+			var job = this.jobs[i];
+			for (jobResMod in job.modifiers){
+				if (!res[jobResMod]){
+					res[jobResMod] = job.modifiers[jobResMod];
+				}else{
+					res[jobResMod] += job.modifiers[jobResMod];
+				}
+			}
 		}
+		
+		return res;
 	},
 	
 	reset: function(){
