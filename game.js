@@ -8,16 +8,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	id: null,
 	
 	tabs: null,
-	
-	//resources: null,
+
+	//componenst:
 	
 	resPool: null,
-	
 	calendar: null,
-	
 	bld: null,
-	
 	village: null,
+	science: null,
 	
 	rate: 5,
 	
@@ -38,13 +36,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.tabs = [];
 		
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool(this);
-		
 		this.calendar = new com.nuclearunicorn.game.Calendar();
-		
 		this.village = new com.nuclearunicorn.game.villageManager(this);
 		this.resPool.setVillage(this.village);
 		
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
+		
+		this.science = new com.nuclearunicorn.game.science.ScienceManager(this);
+		
 
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
 		this.addTab(bonfireTab);
