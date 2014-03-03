@@ -260,6 +260,20 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		}
 
 		jQuery(this.domNode).click(function(){
+			//color:"#bfb"
+			
+			var btnNode = jQuery(self.domNode);
+			//console.log(btnNode);
+			
+			btnNode.animate({
+				opacity: 0.5
+			}, 70, function(){
+				btnNode.animate({
+					opacity: 1.0
+				}, 70)
+			});
+			//btnNode.effect("highlight", {color: "#bfb"}, 400);
+			
 			if (self.enabled){
 				self.handler(self);
 				
