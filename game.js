@@ -225,7 +225,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				this._resourceDiv.innerHTML += " (" + plusSign + this.getDisplayValue(perTick) + ")";
 				
-				if (season.modifiers[res.name]){
+				if (season.modifiers[res.name] && res.perTick != 0 ){
 					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
 					
 					var modifer = (season.modifiers[res.name]-1)*100;

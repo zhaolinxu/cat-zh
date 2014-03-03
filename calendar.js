@@ -27,7 +27,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		title: "Winter",
 		
 		modifiers:{
-			"catnip" : 0.75
+			"catnip" : 0.25
 		}
 	}],
 	

@@ -65,7 +65,11 @@
 				gamePage.resPool.get("catnip").value = 500;
 				gamePage.resPool.get("wood").value = 500;
 				
-				gamePage.msg("Cheatah! >:");
+				gamePage.msg(">:");
+			}
+			
+			function dev_boostCalendar(){
+				gamePage.calendar.dayPerTick = 2;
 			}
 		</script>
 		
@@ -81,7 +85,7 @@
 			<a href="#" onclick="dev();" >#</a> |
 			
 			
-			Ver 0.092
+			Ver 0.093
 			
 			
 		</div>
@@ -102,7 +106,10 @@
 					</div>
 				</td>
 				<td width="60%" style="vertical-align:top; padding-left:20px">
-					<div id="calendarDiv">Calendar :V</div>
+					<div>
+						<span id="calendarDiv">Calendar :V</span>
+						<a href="#" onclick="dev_boostCalendar();">&gt;&gt;</a>
+					</div>
 				</td>
 			</tr>
 		</table>
