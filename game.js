@@ -302,6 +302,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		this.resPool.reset();
 		this.village.reset();
+		this.bld.reset();
 	}
 		
 });

@@ -129,6 +129,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	reset: function(){
 		this.kittens = 0;
 		this.maxKittens = 0;
+		
+		this.clearJobs();
 	},
 	
 	save: function(saveData){

@@ -111,5 +111,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		if (saveData.buildings && saveData.buildings.length){
 			this.buildingsData  = saveData.buildings;
 		}
+	},
+	
+	reset: function(){
+		for (var i = 0; i < this.buildingsData.length; i++){
+			var bld = this.buildingsData[i];
+			
+			bld.val = 0;
+		}
 	}
 });
