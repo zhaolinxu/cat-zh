@@ -253,7 +253,8 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		}
 		
 		if (this.buildingName){
-			this.building.val++;
+			var building = this.getBuilding();
+			building.val++;
 		}
 	},
 	
