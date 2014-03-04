@@ -54,6 +54,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.villageTab = new com.nuclearunicorn.game.ui.tab.Village("Small village", this);
 		this.villageTab.visible = false;
 		this.addTab(this.villageTab);
+		
+		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library("Library", this);
+		this.libraryTab.visible = false;
+		this.addTab(this.libraryTab);
 	},
 	
 	msg: function(message){
@@ -95,6 +99,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		if (this.bld.getBuilding("hut").val > 0 ){
 			this.villageTab.visible = true;
+		}
+		if (this.bld.getBuilding("library").val > 0 ){
+			this.libraryTab.visible = true;
 		}
 	},
 	

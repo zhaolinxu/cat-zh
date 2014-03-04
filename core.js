@@ -507,6 +507,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			
 		}, this.game);
 		
+		var btn = new com.nuclearunicorn.game.ui.button({
+			name: 		"Library", 
+			handler: 	function(){
+							//unlock library tab
+							self.game.libraryTab.visible = true;
+						},
+			description: "Build a library to store sacred catkind knowledge",
+			building: "library"
+			
+		}, this.game);
+		
 		this.addButton(btn);
 
 	},
@@ -517,4 +528,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	render: function(){
 		this.inherited(arguments);
 	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.ui.tab, {
+	
 });
