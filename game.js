@@ -90,6 +90,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
 		}
+		
+		//restore tab visibility
+		
+		if (this.bld.getBuilding("hut").val > 0 ){
+			this.villageTab.visible = true;
+		}
 	},
 	
 	render: function(){
@@ -193,11 +199,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var kittens = this.resPool.get("kittens");
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
-		
-		/*if (kittens.value < maxKittens){
-			kittens.value += 1;
-		}*/
-		
+
 		//update resources tab
 		this.updateResources();
 		this.updateCalendar();

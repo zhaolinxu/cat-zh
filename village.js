@@ -16,7 +16,18 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		modifiers:{
 			"wood" : 0.01
 		},
-		value: 0
+		value: 0,
+		unlocked: true
+	},
+	{
+		name: "scholar",
+		title: "Scholar",
+		
+		modifiers:{
+			"science" : 0.05
+		},
+		value: 0,
+		unlocked: false
 	}],
 	
 	//resource modifiers per tick
