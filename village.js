@@ -30,6 +30,14 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		this.game = game;
 	},
 	
+	getJob: function(jobName){
+		for( var i = 0; i< this.jobs.length; i++){
+			if (this.jobs[i].name == jobName){
+				return this.jobs[i];
+			}
+		}
+	},
+	
 	update: function(){
 		
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
@@ -97,9 +105,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			var job = this.jobs[i];
 			for (jobResMod in job.modifiers){
 				if (!res[jobResMod]){
-					res[jobResMod] = job.modifiers[jobResMod];
+					res[jobResMod] = job.modifiers[jobResMod] * job.value;
 				}else{
-					res[jobResMod] += job.modifiers[jobResMod];
+					res[jobResMod] += job.modifiers[jobResMod] * job.value;
 				}
 			}
 		}

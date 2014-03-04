@@ -404,8 +404,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			var btn = new com.nuclearunicorn.game.ui.button({
 				name : job.title,
 				handler: function(){
-					if (self.game.village.getFreeKittens() > 0 ){
-						job.value += 1;
+					
+					var freeKittens = self.game.village.getFreeKittens();
+					var jobRef = self.game.village.getJob(job.name); //probably will fix missing ref on loading
+					if ( freeKittens > 0 ){
+						jobRef .value += 1;
 					}
 				}
 			});
