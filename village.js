@@ -48,8 +48,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			//console.log("kittens to die:", Math.abs(resDiff.toFixed()));
 			
 			var starvedKittens = Math.abs(resDiff.toFixed());
-			this.kittens -= starvedKittens;
-			this.game.msg(starvedKittens + " kittens starved to death");
+			if (starvedKittens > 0){
+				this.kittens -= starvedKittens;
+				this.game.msg(starvedKittens + " kittens starved to death");
+			}
 		}
 		
 		if (this.getFreeKittens() < 0 ){

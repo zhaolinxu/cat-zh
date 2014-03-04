@@ -7,11 +7,20 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	
 	//TODO: use some class hierarchy there?
-	buildingsData : [{
+	buildingsData : [
+	{
+		name: "field",
+		label: "Catnip field",
+		unlocked: true,
+		prices: [{ name : "catnip", val: 10 }],
+		effects: {},
+		priceRatio: 1.15,
+		
+		val: 0
+	},
+	{
 		name: "hut",
 		unlocked: false,
-		
-		//prices will eventually go there
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
 			"maxKittens" : 2
@@ -23,11 +32,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		unlocked: false,
-		
-		//prices will eventually go there
 		prices: [{ name : "wood", val: 50 }],
-		effects: {
-		},
+		effects: {},
 		priceRatio: 1.15,
 		
 		val: 0
@@ -95,5 +101,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		}
 		
 		return isEnabled;
+	},
+	
+	save: function(saveData){
+		saveData.buildings = this.buildingsData;
+	},
+	
+	load: function(saveData){
+		if (saveData.buildings && saveData.buildings.length){
+			this.buildingsData  = saveData.buildings;
+		}
 	}
 });

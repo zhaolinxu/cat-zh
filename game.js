@@ -68,6 +68,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var saveData = {
 			resources: this.resPool.resources
 		};
+		this.bld.save(saveData);
+		
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
 		console.log("Game saved");
@@ -81,6 +83,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			//console.log("restored save data:", localStorage);
 			if (saveData){
 				this.resPool.resources = saveData.resources;
+				this.bld.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
