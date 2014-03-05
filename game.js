@@ -248,6 +248,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					this._resourceDiv.innerHTML += "/" + this.getDisplayValue(res.maxValue);
 				}
 				
+				if (season.modifiers[res.name]){
+					perTick = perTick * season.modifiers[res.name];
+				}
+				
 				this._resourceDiv.innerHTML += " (" + plusSign + this.getDisplayValue(perTick) + ")";
 				
 				if (season.modifiers[res.name] && res.perTick != 0 ){

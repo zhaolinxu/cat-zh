@@ -40,6 +40,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	}
 	],
 	
+	effectsBase: {
+		"maxCatnip" : 2000
+	},
+	
 	getBuilding: function(name){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
