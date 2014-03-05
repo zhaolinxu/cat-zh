@@ -80,8 +80,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		console.log("Game saved");
 	},
 	
+	wipe: function(){
+		localStorage["com.nuclearunicorn.kittengame.savedata"] = null;
+	},
+	
 	load: function(){
 		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
+		if (!data){
+			return;
+		}
 		try {
 			var saveData = JSON.parse(data);
 			
@@ -300,7 +307,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//this.resources.kittens++;
 		
 		this.calendar.tick();
-		this.update();
+		try {
+			this.update();
+		} catch (ex){
+			console.error("Error on calling update(), you should not see this", ex, ex.stack);
+		}
 	},
 	
 	reset: function(){

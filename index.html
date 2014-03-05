@@ -71,6 +71,12 @@
 			function dev_boostCalendar(){
 				gamePage.calendar.dayPerTick = 2;
 			}
+			
+			function wipe(){
+				if (confirm("Save data will be wiped, ok?")){
+					gamePage.wipe();
+				}
+			}
 		</script>
 		
 		<title>A kittens game</title>
@@ -83,9 +89,9 @@
 			<a href="#" onclick="gamePage.save();" >Save</a> |
 			<a href="#" onclick="gamePage.reset();" >Reset</a> |
 			<a href="#" onclick="dev();" >#</a> |
+			<a href="#" onclick="wipe();" >Wipe</a> |
 			
-			
-			Ver 0.124
+			Ver 0.13
 			
 			
 		</div>

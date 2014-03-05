@@ -47,6 +47,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				return this.jobs[i];
 			}
 		}
+		console.log(this.jobs);
+		throw "Failed to get job for job name '"+jobName+"'";
 	},
 	
 	update: function(){
