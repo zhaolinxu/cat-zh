@@ -512,6 +512,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			building: "hut"
 			
 		}, this.game);
+		this.addButton(btn);
 		
 		var btn = new com.nuclearunicorn.game.ui.button({
 			name: 		"Library", 
@@ -523,7 +524,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			building: "library"
 			
 		}, this.game);
-		
 		this.addButton(btn);
 
 	},
