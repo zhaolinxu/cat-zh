@@ -55,6 +55,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	getCurSeason: function(){
 		return this.seasons[this.season];
+	},
+	
+	save: function(saveData){
+		saveData.calendar = {
+			year : this.year,
+			day: this.day,
+			season: this.season
+		};
+	},
+	
+	load: function(saveData){
+		if (saveData.calendar){
+			this.year  = saveData.calendar.year;
+			this.day  = saveData.calendar.day;
+			this.season  = saveData.calendar.season;
+		}
 	}
 	
 });

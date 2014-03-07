@@ -33,7 +33,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		name: "library",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
-		effects: {},
+		effects: {
+			
+		},
 		priceRatio: 1.15,
 		
 		val: 0

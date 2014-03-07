@@ -11,7 +11,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		title: "Calendar",
 		
 		description: "By studing the rotation of the Cath around the sun we may find a better understanding of the seasons and time.",
-		effect: "Calendar provides a way of more precise time tracking",
+		effectDesc: "Calendar provides a way of more precise time tracking",
 		
 		unlocked: true,
 		researched: false,
@@ -23,7 +23,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		title: "Irrigation",
 		
 		description: "By constructing artificial water channels we may improve our catnip fields production",
-		effect: "Base fields production improved up to 20%",
+		effectDesc: "Base fields production improved up to 20%",
 		
 		unlocked: false,
 		researched: false,
