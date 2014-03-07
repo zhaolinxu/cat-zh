@@ -12,6 +12,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	jobs: [{
 		name: "woodcutter",
 		title: "Woodcutter",
+		description: "+0.01 wood per tick",
 		
 		modifiers:{
 			"wood" : 0.01
@@ -22,6 +23,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	{
 		name: "scholar",
 		title: "Scholar",
+		description: "+0.05 science per tick",
 		
 		modifiers:{
 			"science" : 0.05
@@ -47,7 +49,6 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				return this.jobs[i];
 			}
 		}
-		console.log(this.jobs);
 		throw "Failed to get job for job name '"+jobName+"'";
 	},
 	

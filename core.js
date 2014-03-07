@@ -184,8 +184,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		}
 	},
 	
-	update: function(){
-
+	updateEnabled: function(){
 		var isEnabled = true;
 		
 		var prices = this.getPrices();
@@ -202,7 +201,13 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				}
 			}
 		}
+		
 		this.setEnabled(isEnabled);
+	},
+	
+	update: function(){
+
+		this.updateEnabled();
 		
 		// locked structures are invisible
 		var building = this.getBuilding();
@@ -533,57 +538,5 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	 */
 	render: function(){
 		this.inherited(arguments);
-	}
-});
-
-dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.ui.tab, {
-
-	render: function(tabContainer){
-		
-		var table = dojo.create("table", { style:{
-			width: "100%"
-		}}, tabContainer);
-		
-		var tr = dojo.create("tr", null, table);
-		
-		var tdTop = dojo.create("td", { colspan: 2 },
-			dojo.create("tr", null, table));
-
-		this.tdTop = tdTop;
-		
-		
-		var tr = dojo.create("tr", null, table)
-		
-		var tdLeft = dojo.create("td", null, tr);	
-		var tdRight = dojo.create("td", null, tr);
-
-		
-		this.inherited(arguments);
-	},
-	
-	constructor: function(tabName, game){
-		var self = this;
-		this.game = game;
-
-		for (var i = 0; i < this.game.science.techs.length; i++){
-			var tech = this.game.science.techs[i];
-			
-			var btn = new com.nuclearunicorn.game.ui.button({
-				name : tech.title,
-				handler: function(){
-	
-				},
-				prices:[{
-					name:"science",
-					val: tech.cost
-				}],
-				title: tech.description
-			});
-			
-			if (!tech.unlocked){
-				btn.setEnabled(false);
-			}
-			this.addButton(btn);
-		}
 	}
 });
