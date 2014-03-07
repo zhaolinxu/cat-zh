@@ -291,8 +291,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	updateCalendar: function(){
+		var hasCalendarTech = this.science.get("calendar").researched;
+		
 		var calendarDiv = dojo.byId("calendarDiv");
-		calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title + ", day " + this.calendar.day.toFixed();
+		if (hasCalendarTech){
+			calendarDiv.innerHTML = "Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title + ", day " + this.calendar.day.toFixed();
+		} else {
+			calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title
+		}
 		
 		//this.calendar
 	},

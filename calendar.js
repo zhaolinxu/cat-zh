@@ -35,6 +35,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	daysPerSeason: 100,
 	day: 0,
+	year: 0,
 	dayPerTick: 0.1,
 	
 	tick: function(){
@@ -47,6 +48,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			
 			if (this.season > 3){
 				this.season = 0;
+				this.year++;
 			}
 		}
 	},

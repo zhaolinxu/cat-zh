@@ -129,7 +129,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				name:"science",
 				val: tech.cost
 			}],
-			title: tech.description,
+			description: tech.description,
 			tech: tech.name
 		});
 		return btn;
