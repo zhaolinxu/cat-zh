@@ -9,16 +9,22 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	techs:[{
 		name: "calendar",
 		title: "Calendar",
+		
 		description: "By studing the rotation of the Cath around the sun we may find a better understanding of the seasons and time.",
-		effect: "Calendar allows you to track days",
+		effect: "Calendar provides a way of more precise time tracking",
+		
 		unlocked: true,
 		researched: false,
-		cost: 60	//cos in WCS (weird cat science)
+		cost: 60,	//cos in WCS (weird cat science)
+		unlocks: ["irrigation"]
+			
 	},{
 		name: "irrigation",
 		title: "Irrigation",
+		
 		description: "By constructing artificial water channels we may improve our catnip fields production",
 		effect: "Base fields production improved up to 20%",
+		
 		unlocked: false,
 		researched: false,
 		cost: 200
@@ -47,7 +53,11 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 	},
 	
 	getTech: function(){
-		return this.game.science.get(this.techName);
+		return this.getTechByName(this.techName);
+	},
+	
+	getTechByName: function(name){
+		return this.game.science.get(name);
 	},
 
 	updateEnabled: function(){
@@ -104,9 +114,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 	createTechBtn: function(tech){
 		var btn = new com.nuclearunicorn.game.ui.TechButton({
 			name : tech.title,
-			handler: function(){
+			handler: function(btn){
 				tech.researched = true;
-				//this.render();
+
+				if (tech.unlocks && tech.unlocks.length){
+					for (var i = 0; i < tech.unlocks.length; i++){
+						var newTech = btn.getTechByName(tech.unlocks[i]);
+						newTech.unlocked = true;
+					}
+				}
+				
 			},
 			prices:[{
 				name:"science",
