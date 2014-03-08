@@ -224,6 +224,10 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	update: function(){
 		this.updateEnabled();
 		this.updateVisible();
+		
+		if (this.domNode){
+			this.domNode.innerHTML = this.getName();
+		}
 	},
 	
 	getBuilding: function(){
@@ -276,19 +280,18 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		return this.description
 	},
 	
+	getName: function(){
+		return this.name
+	},
+	
 	render: function(btnContainer){
 		var self = this;
 		
 		this.container = btnContainer;
-		
-		var building = this.getBuilding();
-		var btnName = this.name;
-		if (building){
-			btnName = btnName + " (" + building.val +")";
-		}
+
 		
 		this.domNode = dojo.create("div", { 
-			innerHTML: this.name,
+			innerHTML: this.getName(),
 			style: {
 				
 			},
@@ -407,79 +410,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 		button.game = this.game;
 		button.tab = this;
 		this.buttons.push(button);
-	}
-});
-
-dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
-	
-	tdTop: null,
-	
-	constructor: function(tabName, game){
-		//this.inherited(arguments);
-		
-		
-		var self = this;
-		this.game = game;
-
-		
-		for (var i = 0; i < this.game.village.jobs.length; i++){
-			var job = this.game.village.jobs[i];
-			
-			var btn = new com.nuclearunicorn.game.ui.button({
-				name : job.title,
-				handler: dojo.partial(function(job){
-					
-					var freeKittens = self.game.village.getFreeKittens();
-					var jobRef = self.game.village.getJob(job.name); 	//probably will fix missing ref on loading
-					
-					//console.log("restored job ref: ", jobRef, "for name: ", job.name);  
-					if ( freeKittens > 0 ){
-						jobRef.value += 1;
-					}
-				}, job)
-			});
-			this.addButton(btn);
-		}
-		
-		var btn = new com.nuclearunicorn.game.ui.button({ name:"Clear",
-			handler: function(){
-				self.game.village.clearJobs();
-			}
-		});
-		this.addButton(btn);
-		
-	},
-	
-	render: function(tabContainer){
-		
-		var table = dojo.create("table", { style:{
-			width: "100%"
-		}}, tabContainer);
-		
-		var tr = dojo.create("tr", null, table);
-		
-		var tdTop = dojo.create("td", { colspan: 2 },
-			dojo.create("tr", null, table));
-
-		this.tdTop = tdTop;
-		
-		
-		var tr = dojo.create("tr", null, table)
-		
-		var tdLeft = dojo.create("td", null, tr);	
-		var tdRight = dojo.create("td", null, tr);
-		
-		//tdLeft.innerHTML = "Jobs go there";
-		
-		//tdRight.innerHTML = "Other things go there (?)";
-		
-		this.inherited(arguments);
-	},
-	
-	update: function(){
-		if (this.tdTop){
-			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens();
-		}
 	}
 });
 
