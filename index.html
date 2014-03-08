@@ -80,11 +80,13 @@
 			});
 			
 			function dev(){
-				gamePage.resPool.get("catnip").value = 500;
-				gamePage.resPool.get("wood").value = 500;
-				gamePage.resPool.get("science").value = 500;
-				
-				gamePage.msg(">:");
+				if (confirm("This will give you shitload of resources, please do not abuse this option")){
+					gamePage.resPool.get("catnip").value = 500;
+					gamePage.resPool.get("wood").value = 500;
+					gamePage.resPool.get("science").value = 500;
+					
+					gamePage.msg(">:");
+				}
 			}
 			
 			function dev_boostCalendar(){
