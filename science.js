@@ -40,7 +40,30 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 				return this.techs[i];
 			}
 		}
-		throw "Failed to get job for job name '"+techName+"'";
+		console.error("Failed to get job for job name '"+techName+"'");
+	},
+	
+	save: function(saveData){
+		saveData.science = {
+			techs: this.techs
+		}
+	},
+	
+	load: function(saveData){
+		if (saveData.science){
+			var techs = saveData.science.techs;
+			//console.log("restored techs:",  techs);
+			
+			if (saveData.science.techs.length){
+				for(var i = 0; i< saveData.science.techs.length; i++){
+					var savedTech = saveData.science.techs[i];
+					
+					var tech = this.game.science.get(savedTech.name);
+					tech.unlocked = savedTech.unlocked;
+					tech.researched = savedTech.researched;
+				}
+			}
+		}
 	}
 });
 

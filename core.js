@@ -272,6 +272,12 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		
 		this.container = btnContainer;
 		
+		var building = this.getBuilding();
+		var btnName = this.name;
+		if (building){
+			btnName = btnName + " (" + building.val +")";
+		}
+		
 		this.domNode = dojo.create("div", { 
 			innerHTML: this.name,
 			style: {
