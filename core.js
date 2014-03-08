@@ -160,6 +160,10 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	setVisible: function(visible){
 		this.visible = visible;
 		
+		if (!this.domNode){
+			return;
+		}
+		
 		// locked structures are invisible
 		if (this.visible){
 			dojo.setStyle(this.domNode, "display", "");
@@ -205,10 +209,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		this.setEnabled(isEnabled);
 	},
 	
-	update: function(){
-
-		this.updateEnabled();
-		
+	updateVisible: function(){
 		// locked structures are invisible
 		var building = this.getBuilding();
 		if (this.building){
@@ -218,7 +219,11 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				this.setVisible(true);
 			}
 		}
-		
+	},
+	
+	update: function(){
+		this.updateEnabled();
+		this.updateVisible();
 	},
 	
 	getBuilding: function(){
@@ -267,6 +272,10 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		}
 	},
 	
+	getDescription: function(){
+		return this.description
+	},
+	
 	render: function(btnContainer){
 		var self = this;
 		
@@ -283,7 +292,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			style: {
 				
 			},
-			title: this.description
+			title: this.getDescription()
 		}, btnContainer);
 		
 		// locked structures are invisible
@@ -423,7 +432,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					var freeKittens = self.game.village.getFreeKittens();
 					var jobRef = self.game.village.getJob(job.name); 	//probably will fix missing ref on loading
 					
-					console.log("restored job ref: ", jobRef, "for name: ", job.name);  
+					//console.log("restored job ref: ", jobRef, "for name: ", job.name);  
 					if ( freeKittens > 0 ){
 						jobRef.value += 1;
 					}

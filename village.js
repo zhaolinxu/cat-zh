@@ -8,14 +8,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	kittensPerTickBase: 0.01,
 	
+	catnipPerKitten: -0.85,	/* amount of catnip per tick that kitten consumes */
+	
 	//jobs assigned to kittens
 	jobs: [{
 		name: "woodcutter",
 		title: "Woodcutter",
-		description: "+0.01 wood per tick",
+		description: "+0.015 wood per tick",
 		
 		modifiers:{
-			"wood" : 0.01
+			"wood" : 0.015
 		},
 		value: 0,
 		unlocked: true
@@ -30,7 +32,19 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		},
 		value: 0,
 		unlocked: false
-	}],
+	},{
+		name: "stonecutter",
+		title: "Stonecutter",
+		description: "+0.01 stone per tick",
+		
+		modifiers:{
+			"stone" : 0.01
+		},
+		value: 0,
+		unlocked: false
+	}
+	
+	],
 	
 	//resource modifiers per tick
 	resourceModifiers: {
@@ -111,7 +125,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	getResourceModifers: function(){
 		
 		var res = {
-			"catnip" : -1 * this.getKittens()
+			"catnip" : this.catnipPerKitten * this.getKittens()
 		};
 		
 		for (var i = 0; i< this.jobs.length; i++){
@@ -149,8 +163,17 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			this.kittens  = saveData.village.kittens;
 			this.maxKittens  = saveData.village.maxKittens;
 			
-			if (saveData.village.jobs.length){
+			/*if (saveData.village.jobs.length){
 				this.jobs = saveData.village.jobs;
+			}*/
+			if (saveData.village.jobs.length){
+				for(var i = 0; i< saveData.village.jobs.length; i++){
+					var savedJob = saveData.village.jobs[i];
+					
+					var job = this.getJob(savedJob.name);
+					job.unlocked = savedJob.unlocked;
+					job.value = savedJob.value;
+				}
 			}
 		}
 	}

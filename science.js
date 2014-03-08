@@ -16,19 +16,53 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: true,
 		researched: false,
 		cost: 60,	//cos in WCS (weird cat science)
-		unlocks: ["irrigation"]
+		unlocks: ["agriculture"]
 			
 	},{
-		name: "irrigation",
-		title: "Irrigation",
+		name: "agriculture",
+		title: "Agriculture",
 		
 		description: "By constructing artificial water channels we may improve our catnip fields production",
-		effectDesc: "Base fields production improved up to 20%",
+		effectDesc: "Base fields production improved up to 20%, can construct barns to store more catnip",
 		
 		unlocked: false,
 		researched: false,
-		cost: 200
-	}],
+		cost: 200,
+		unlocks: ["mining"]
+	},{
+		name: "archery",
+		title: "Archery",
+		
+		description: "Ranged waponry known as a 'bow'",
+		effectDesc: "You can train hunters",
+		
+		unlocked: false,
+		researched: false,
+		cost: 800,
+		unlocks: ["metal"]
+	},{
+		name: "mining",
+		title: "Mining",
+		
+		description: "Mining develops the ability to extract mineral resources from the bowels of the Cath",
+		effectDesc: "You can build mines",
+		
+		unlocked: false,
+		researched: false,
+		cost: 800,
+		unlocks: ["metal"]
+	},{
+		name: "metal",
+		title: "Metal working",
+		
+		description: "The first metal-working technology that provides your civilization with sturdy, durable tools",
+		effectDesc: "You can construct smelters that convert ore into the metal",
+		
+		unlocked: false,
+		researched: false,
+		cost: 800
+	}
+	],
 	
 	constructor: function(game){
 		this.game = game;
@@ -40,7 +74,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 				return this.techs[i];
 			}
 		}
-		console.error("Failed to get job for job name '"+techName+"'");
+		console.error("Failed to get tech for tech name '"+techName+"'");
+		return null;
 	},
 	
 	save: function(saveData){
@@ -58,9 +93,11 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 				for(var i = 0; i< saveData.science.techs.length; i++){
 					var savedTech = saveData.science.techs[i];
 					
-					var tech = this.game.science.get(savedTech.name);
-					tech.unlocked = savedTech.unlocked;
-					tech.researched = savedTech.researched;
+					if (savedTech != null){
+						var tech = this.game.science.get(savedTech.name);
+						tech.unlocked = savedTech.unlocked;
+						tech.researched = savedTech.researched;
+					}
 				}
 			}
 		}
@@ -87,8 +124,27 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		this.inherited(arguments);
 		
 		var tech = this.getTech();
-		if (tech.researched || !tech.unlocked){
+		if (tech.researched /*|| !tech.unlocked*/){
 			this.setEnabled(false);
+		}
+	},
+	
+	getDescription: function(){
+		var tech = this.getTech();
+		if (!tech.researched){
+			return this.description;
+		} else {
+			return this.description + "\n" + "Effect: " + tech.effectDesc;
+		}
+	},
+	
+	updateVisible: function(){
+		
+		var tech = this.getTech();
+		if (!tech.unlocked){
+			this.setVisible(false);
+		}else{
+			this.setVisible(true);
 		}
 	}
 });

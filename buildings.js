@@ -14,7 +14,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: true,
 		prices: [{ name : "catnip", val: 10 }],
 		effects: {},
-		priceRatio: 1.15,
+		priceRatio: 1.12,
 		
 		val: 0
 	},
@@ -31,12 +31,39 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	{
 		name: "library",
+		label: "Library",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
 		effects: {
-			
+			"scienceRatio": 1.2
 		},
 		priceRatio: 1.15,
+		
+		val: 0
+	},
+	{
+		name: "barn",
+		label: "Barn",
+		unlocked: false,
+		prices: [{ name : "wood", val: 500 }],
+		effects: {
+			"scienceRatio": 1.2
+		},
+		priceRatio: 1.15,
+		requiredTech: ["agriculture"],
+		
+		val: 0
+	},
+	{
+		name: "mine",
+		label: "Mine",
+		unlocked: false,
+		prices: [{ name : "wood", val: 200 }],
+		effects: {
+			"scienceRatio": 1.2
+		},
+		priceRatio: 1.15,
+		requiredTech: ["mining"],
 		
 		val: 0
 	}
