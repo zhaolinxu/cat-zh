@@ -469,6 +469,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			handler: 	function(){
 							//unlock library tab
 							self.game.libraryTab.visible = true;
+							self.game.village.getJob("scholar").unlocked = true;
 						},
 			description: "Build a library to store sacred catkind knowledge",
 			building: "library"
