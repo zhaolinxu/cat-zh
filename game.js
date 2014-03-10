@@ -238,32 +238,36 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 
 		this._resourceDiv.innerHTML = "";
+		var resTable = dojo.create("table", {}, this._resourceDiv);
+		
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			if (res.value || res.maxValue){
 				
 				var perTick = res.perTick;
+				if (season.modifiers[res.name]){
+					perTick = perTick * season.modifiers[res.name];
+				}
+
 				if (modifiers[res.name]){
 					perTick += modifiers[res.name];
 				}
 				
-				var plusSign = "+";
-				if (perTick < 0){
-					plusSign = "";
-				}
-				
-				this._resourceDiv.innerHTML += res.name + ":" + this.getDisplayValue(res.value);
+				var tr = dojo.create("tr", {}, resTable);
+				var tdResName = dojo.create("td", { innerHTML: res.name + ":"}, tr);
+				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValue(res.value)}, tr);
 				if (res.maxValue){
-					this._resourceDiv.innerHTML += "/" + this.getDisplayValue(res.maxValue);
+					tdResVal.innerHTML += "/" + this.getDisplayValue(res.maxValue);
 				}
 				
-				if (season.modifiers[res.name]){
-					perTick = perTick * season.modifiers[res.name];
-				}
+				var tdResPerTick = dojo.create("td", {
+					innerHTML: "(" + this.getDisplayValue(perTick, true) + ")",
+					"data-tip": this.getDetailedResMap(res)
+				}, tr);
 				
-				this._resourceDiv.innerHTML += " (" + plusSign + this.getDisplayValue(perTick) + ")";
+				$(tdResPerTick).tipr();
 				
-				if (season.modifiers[res.name] && res.perTick != 0 ){
+				/*if (season.modifiers[res.name] && res.perTick != 0 ){
 					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
 					
 					var modifer = (season.modifiers[res.name]-1)*100;
@@ -280,22 +284,53 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					//console.log(resModifierSpan);
 					this._resourceDiv.innerHTML += resModifierSpan.outerHTML;
 					
-				}
-				
-				this._resourceDiv.innerHTML += "<br>";
-				
+				}*/
 			}
 		}
 	},
 	
 	/**
+	 * Returns a flat map of resource production
+	 */ 
+	getDetailedResMap: function(res){
+		var resString = "";
+		
+		var season = this.calendar.getCurSeason();
+		
+		var perTick = res.perTick;
+		if (season.modifiers[res.name]){
+			perTick = perTick * season.modifiers[res.name];
+		}
+
+		resString += "Base: " + this.getDisplayValue(perTick, this);
+		var resMod = this.village.getResourceModifers();
+		
+		if (season.modifiers[res.name]){
+			resString += "<br>Season: " + ((season.modifiers[res.name]-1)*100) + "%";
+		}
+
+		if (resMod[res.name]){
+			resString += "<br>Kittens: " + resMod[res.name];
+		}
+		
+
+		
+		return resString;
+	},
+	
+	/**
 	 * Formats float value to x.xx or x if value is integer
 	 */
-	getDisplayValue: function(floatVal){
+	getDisplayValue: function(floatVal, plusPrefix){
+		var plusSign = "+";
+		if (floatVal < 0 || !plusPrefix){
+			plusSign = "";
+		}
+		
 		if (floatVal.toFixed() == floatVal){
-			return floatVal.toFixed();
+			return plusSign + floatVal.toFixed();
 		} else {
-			return floatVal.toFixed(2);
+			return plusSign + floatVal.toFixed(2);
 		}
 	},
 	

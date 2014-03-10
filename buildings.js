@@ -25,7 +25,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 			"maxKittens" : 2
 		},
-		priceRatio: 1.15,
+		priceRatio: 2.5,
 		
 		val: 0
 	},

@@ -13,6 +13,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		title: "Summer",
 		
 		modifiers:{
+			"catnip" : 1.0
 		}
 	},
 	{
@@ -20,6 +21,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		title: "Autumn",
 		
 		modifiers:{
+			"catnip" : 1.0
 		}
 	},
 	{
