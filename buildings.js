@@ -157,6 +157,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.button, {
+	sellHref: null,
+	
 	getName: function(){
 		var building = this.getBuilding();
 		if (building){
@@ -168,18 +170,33 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	update: function(){
 		this.inherited(arguments);
 		
+		var self = this;
+		
 		var building = this.getBuilding();
 		if (building && building.val){
-			var sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
-					paddingLeft: "4px",
-					float: "right"
-				}}, this.buttonContent);
+			if (!this.sellHref){
+				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
+						paddingLeft: "4px",
+						float: "right",
+						cursor: "default"
+					}}, null);
+					
+				dojo.connect(this.sellHref, "onclick", this, function(event){
+					event.stopPropagation();
+					
+					building.val--;
+					this.update();
+				});
+			} else {
+				dojo.place(this.sellHref, this.buttonContent);
+			}
+			/*jQuery(sellHref).click(function(event){
+				event.stopPropagation();
 				
-			dojo.connect(sellHref, "onclick", this, function(){
-				/*console.log("yatata:", building);*/
 				building.val--;
-				this.update();
-			});
+				console.log("sold building:", building);
+				 self.update();
+			});*/
 		}
 		
 	}

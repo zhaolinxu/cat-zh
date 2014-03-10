@@ -267,24 +267,22 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				$(tdResPerTick).tipr();
 				
-				/*if (season.modifiers[res.name] && res.perTick != 0 ){
+				var tdSeasonMod = dojo.create("td", {}, tr);
+				
+				if (season.modifiers[res.name] && res.perTick != 0 ){
 					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
 					
 					var modifer = (season.modifiers[res.name]-1)*100;
 					var resModifierSpan = dojo.create("span", {
 							innerHTML: " [" + modifer + "%]",
 							title: "Season modifier"
-						}, null);
+						}, tdSeasonMod);
 					if (modifer>0){
 						dojo.setStyle(resModifierSpan, "color","green");
 					}else{
 						dojo.setStyle(resModifierSpan, "color","red");
 					}
-
-					//console.log(resModifierSpan);
-					this._resourceDiv.innerHTML += resModifierSpan.outerHTML;
-					
-				}*/
+				}
 			}
 		}
 	},
