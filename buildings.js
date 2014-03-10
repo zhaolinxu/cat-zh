@@ -154,3 +154,108 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		}
 	}
 });
+
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.button, {
+	getName: function(){
+		var building = this.getBuilding();
+		if (building){
+			return this.name + " (" + building.val + ")";
+		}
+		return this.name;
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		var building = this.getBuilding();
+		if (building && building.val){
+			var sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
+					paddingLeft: "4px",
+					float: "right"
+				}}, this.buttonContent);
+				
+			dojo.connect(sellHref, "onclick", this, function(){
+				/*console.log("yatata:", building);*/
+				building.val--;
+				this.update();
+			});
+		}
+		
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
+	constructor: function(tabName){
+		//this.inherited(arguments);
+
+		var self = this;
+		
+		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+			name:	 "Gather catnip", 
+			handler: function(){
+						self.game.resPool.get("catnip").value++;
+					 },
+			description: "Gathere some catnip in the wood"
+		}, this.game);
+		this.addButton(btn);
+		
+		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+			name: 		"Catnip field", 
+			handler: 	function(){
+							self.game.resPool.get("catnip").perTick += 0.125;
+						},
+			description: "Plant some catnip to grow it in the village.\n"+
+			"Fields have +50% production in spring and -75% in winter",
+			building: "field"
+		}, this.game);
+		
+		this.addButton(btn);
+		
+		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+			name: 		"Refine catnip", 
+			handler: 	function(){
+							//self.game.resPool.get("catnip").value -= 100;
+							self.game.resPool.get("wood").value += 1;
+						},
+			description: "Refine catnip into the catnip wood",
+			prices: [ { name : "catnip", val: 100 }]
+		}, this.game);
+		
+		this.addButton(btn);
+		
+		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+			name: 		"Hut", 
+			handler: 	function(){
+							//unlock village tab
+							self.game.villageTab.visible = true;
+						},
+			description: "Build a hut (each has a space for 2 kittens)",
+			building: "hut"
+			
+		}, this.game);
+		this.addButton(btn);
+		
+		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+			name: 		"Library", 
+			handler: 	function(){
+							//unlock library tab
+							self.game.libraryTab.visible = true;
+							self.game.village.getJob("scholar").unlocked = true;
+						},
+			description: "Build a library to store sacred catkind knowledge",
+			building: "library"
+			
+		}, this.game);
+		this.addButton(btn);
+
+	},
+	
+	/**
+	 * 
+	 */
+	render: function(){
+		this.inherited(arguments);
+	}
+});
+
