@@ -22,6 +22,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		value: 0,
 		unlocked: true
 	},{
+		name: "farmer",
+		title: "Farmer",
+		description: "+1 catnip per tick",
+		
+		modifiers:{
+			"catnip" : 1
+		},
+		value: 0,
+		unlocked: false
+	},{
 		name: "scholar",
 		title: "Scholar",
 		description: "+0.05 science per tick",

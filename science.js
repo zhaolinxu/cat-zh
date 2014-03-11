@@ -15,7 +15,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: true,
 		researched: false,
-		cost: 60,	//cos in WCS (weird cat science)
+		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: ["agriculture"]
 			
 	},{
@@ -27,8 +27,11 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 200,
-		unlocks: ["mining"]
+		cost: 100,
+		unlocks: ["mining", "archery"],
+		handler: function(game){
+			game.village.getJob("farmer").unlocked = true;
+		}
 	},{
 		name: "archery",
 		title: "Archery",
@@ -38,8 +41,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 800,
-		unlocks: ["metal"]
+		cost: 200,
+		unlocks: []
 	},{
 		name: "mining",
 		title: "Mining",
@@ -49,7 +52,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 800,
+		cost: 200,
 		unlocks: ["metal"]
 	},{
 		name: "metal",
@@ -60,7 +63,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 800
+		cost: 200
 	}
 	],
 	
@@ -191,6 +194,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 	},
 	
 	createTechBtn: function(tech){
+		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.TechButton({
 			name : tech.title,
 			handler: function(btn){
@@ -201,6 +205,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 						var newTech = btn.getTechByName(tech.unlocks[i]);
 						newTech.unlocked = true;
 					}
+				}
+				
+				if (tech.handler){
+					tech.handler(self.game);
 				}
 				
 			},

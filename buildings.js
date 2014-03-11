@@ -11,7 +11,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "field",
 		label: "Catnip field",
-		unlocked: true,
+		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
 		effects: {},
 		priceRatio: 1.12,
@@ -33,7 +33,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		name: "library",
 		label: "Library",
 		unlocked: false,
-		prices: [{ name : "wood", val: 50 }],
+		prices: [{ name : "wood", val: 25 }],
 		effects: {
 			"scienceRatio": 1.2
 		},
@@ -141,8 +141,27 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	
 	load: function(saveData){
-		if (saveData.buildings && saveData.buildings.length){
+		/*if (saveData.buildings && saveData.buildings.length){
 			this.buildingsData  = saveData.buildings;
+		}*/
+		
+		if (saveData.buildings.length){
+			for(var i = 0; i< saveData.buildings.length; i++){
+					var savedBld = saveData.buildings[i];
+					
+					if (savedBld != null){
+						var bld = this.game.bld.getBuilding(savedBld.name);
+						bld.val = savedBld.val;
+						bld.unlocked = savedBld.unlocked;
+						
+						for (var j = 0; j< bld.val; j++){
+							for( var k = 0; k < bld.prices.length; k++){
+								var price = bld.prices[k];
+								price.val = price.val * bld.priceRatio;
+							}
+						}
+					}
+			}
 		}
 	},
 	
@@ -199,6 +218,21 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			});*/
 		}
 		
+	},
+	
+	updateVisible: function(){
+		this.inherited(arguments);
+		var building = this.getBuilding();
+		
+		if (!building){
+			return;
+		}
+		
+		if (!building.unlocked){
+			this.setVisible(false);
+		}else{
+			this.setVisible(true);
+		}
 	}
 });
 

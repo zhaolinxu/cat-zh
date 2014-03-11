@@ -308,7 +308,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 
 		if (resMod[res.name]){
-			resString += "<br>Kittens: " + resMod[res.name];
+			resString += "<br>Kittens: " + this.getDisplayValue(resMod[res.name], true);
 		}
 		
 
