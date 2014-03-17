@@ -41,8 +41,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 200,
-		unlocks: [],
+		cost: 400,
+		unlocks: ["animal"],
 		handler: function(game){
 			game.village.getJob("hunter").unlocked = true;
 		}
@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 200,
+		cost: 400,
 		unlocks: ["metal"]
 	},{
 		name: "metal",
@@ -66,9 +66,20 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 200
-	}
-	],
+		cost: 400
+	},
+	{
+		name: "animal",
+		title: "Animal husbandry",
+		description: "Domestication allows the access to various animal resources via the pasture.",
+		effectDesc: "You can build pastures to breed Unicorns and collect Unicorn Tears",
+		
+		unlocked: false,
+		researched: false,
+		cost: 800,
+		unlocks: []
+		
+	}],
 	
 	constructor: function(game){
 		this.game = game;
