@@ -10,6 +10,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	catnipPerKitten: -0.85,	/* amount of catnip per tick that kitten consumes */
 	
+	happiness: 1,	//percents of happiness modifier
+	
 	//jobs assigned to kittens
 	jobs: [{
 		name: "woodcutter",
@@ -48,6 +50,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		
 		modifiers:{
 			"stone" : 0.01
+		},
+		value: 0,
+		unlocked: false
+	},{
+		name: "hunter",
+		title: "Hunter",
+		description: "+0.01 manpower per tick",
+		
+		modifiers:{
+			"manpower" : 0.01
 		},
 		value: 0,
 		unlocked: false
@@ -130,9 +142,12 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 */ 
 	
 	getResourceModifers: function(){
+		var kittens = this.getKittens();
 		
 		var res = {
-			"catnip" : this.catnipPerKitten * this.getKittens()
+			"catnip" : this.catnipPerKitten * kittens,
+			"furs" : -0.01 * kittens,
+			"ivory" : -0.007 * kittens
 		};
 		
 		for (var i = 0; i< this.jobs.length; i++){
@@ -232,6 +247,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	tdTop: null,
 	
+	advModeButtons : null,
+	
 	constructor: function(tabName, game){
 		//this.inherited(arguments);
 		
@@ -253,6 +270,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}
 		});
 		this.addButton(btn);
+		
+		//----------- adv mode buttons ---------------
+		this.advModeButtons = [];
+		
+		var huntBtn = new com.nuclearunicorn.game.ui.button({
+				name: "Send hunters",
+				handler: function(){
+					//do nothing
+					self.sendHunterSquad();
+				},
+				prices: [{ name : "manpower", val: 100 }]
+		}, game);
+		this.advModeButtons.push(huntBtn);
 		
 	},
 	
@@ -291,9 +321,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		var tdLeft = dojo.create("td", null, tr);	
 		var tdRight = dojo.create("td", null, tr);
-		
-		
+				
 		this.inherited(arguments);
+		
+		//----------------- happiness and things ----------------------
+		
+		var advVillageTable = dojo.create("table", { style: {
+				width: "100%"
+			}}, tabContainer);
+		var tr = dojo.create("tr", {}, advVillageTable);
+		var statsTd = dojo.create("td", {}, tr);
+		
+		statsTd.innerHTML = "Happiness: 100%";
+		
+		var controlsTd = dojo.create("td", {}, tr);
+		
+		for (var i = 0; i < this.advModeButtons.length; i++){
+			this.advModeButtons[i].render(controlsTd);
+		}
 	},
 	
 	update: function(){
@@ -302,6 +347,28 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		if (this.tdTop){
 			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens();
 		}
+	},
+	
+	sendHunterSquad: function(){
+		this.game.msg("You hunters returned with some trophies");
+		
+		var furs = this.game.resPool.get("furs");
+		furs.value += this.rand(5);
+		
+		if (this.rand(100) > 60){
+			var ivory = this.game.resPool.get("ivory");
+			furs.value += this.rand(3);
+		}
+		
+		if (this.rand(100) > 95){
+			var unicorns = this.game.resPool.get("unicorns");
+			unicorns.value += 1;
+		}
+	},
+	
+	
+	rand: function(ratio){
+		return (Math.floor(Math.random()*ratio));
 	}
 });
 

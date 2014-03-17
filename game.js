@@ -96,7 +96,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			
 			//console.log("restored save data:", localStorage);
 			if (saveData){
-				this.resPool.resources = saveData.resources;
+				this.resPool.load(saveData);
 				this.bld.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
@@ -255,6 +255,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				var tr = dojo.create("tr", {}, resTable);
 				var tdResName = dojo.create("td", { innerHTML: res.name + ":"}, tr);
+				
+				//console.log("Res:", res, res.type);
+				
+				if (res.type == "uncommon"){
+					dojo.setStyle(tdResName, "color", "Coral");
+				}
+				if (res.type == "rare"){
+					dojo.setStyle(tdResName, "color", "orange");
+					dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
+				}
+				
+				
 				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValue(res.value)}, tr);
 				if (res.maxValue){
 					tdResVal.innerHTML += "/" + this.getDisplayValue(res.maxValue);

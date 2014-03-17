@@ -34,6 +34,13 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		
 		this.addResource("catnip");
 		//this.addResource("kittens");
+		
+		//uncommon resources
+		this.addResource("furs", "uncommon");
+		this.addResource("ivory", "uncommon");
+		
+		//unique resources
+		this.addResource("unicorns", "rare");
 	},
 	
 	get: function(name){
@@ -45,17 +52,24 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		}
 		
 		//if no resource found, register new
-		return this.addResource(name);
+		return this.addResource(name, "common");
 	},
 	
-	addResource: function(name){
+	addResource: function(name, type){
 		
 		var res = {
 				name: name,
 				title: "",
 				value: 0,
 				perTick: 0,	
+				type: "common"
 		};
+		
+		if (type){
+			res.type = type;
+		}
+		
+		console.log(res);
 		
 		this.resources.push(res);
 		
@@ -104,6 +118,23 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	
 	reset: function(){
 		this.resources = [];
+	},
+	
+	load: function(saveData){
+		if (saveData.resources){
+			var resources = saveData.resources;
+			if (resources.length){
+				for(var i = 0; i< resources.length; i++){
+					var savedRes = resources[i];
+					
+					if (savedRes != null){
+						var res = this.get(savedRes.name);
+						res.value = savedRes.value;
+						res.perTick = savedRes.perTick;
+					}
+				}
+			}
+		}
 	}
 });
 

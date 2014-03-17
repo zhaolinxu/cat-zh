@@ -42,7 +42,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 200,
-		unlocks: []
+		unlocks: [],
+		handler: function(game){
+			game.village.getJob("hunter").unlocked = true;
+		}
 	},{
 		name: "mining",
 		title: "Mining",
@@ -100,6 +103,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 						var tech = this.game.science.get(savedTech.name);
 						tech.unlocked = savedTech.unlocked;
 						tech.researched = savedTech.researched;
+						
+						if (tech.unlocked && tech.handler){
+							tech.handler(this.game);	//just in case update tech effects
+						}
 					}
 				}
 			}
