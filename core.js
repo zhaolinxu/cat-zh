@@ -308,11 +308,11 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	},
 	
 	getDescription: function(){
-		return this.description
+		return this.description;
 	},
 	
 	getName: function(){
-		return this.name
+		return this.name;
 	},
 	
 	render: function(btnContainer){

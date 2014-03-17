@@ -226,6 +226,11 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		return this.name + " (" + job.value + ")";
 	},
 	
+	getDescription: function(){
+		var job = this.getJob();
+		return job.description;
+	},
+	
 	updateVisible: function(){
 		//this.inherited(arguments);
 		
@@ -357,7 +362,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		if (this.rand(100) > 60){
 			var ivory = this.game.resPool.get("ivory");
-			furs.value += this.rand(3);
+			ivory.value += this.rand(3);
 		}
 		
 		if (this.rand(100) > 95){
