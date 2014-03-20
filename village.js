@@ -87,13 +87,15 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	update: function(){
 		
+		//calculate kittens
+		
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
 		this.kittens += kittensPerTick;
 		
 		if (this.kittens > this.maxKittens){
 			this.kittens = this.maxKittens;
 		}
-		
+
 		var modifiers = this.getResourceModifers();
 		
 		var catnipVal = this.game.resPool.get("catnip").value;
@@ -112,6 +114,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		if (this.getFreeKittens() < 0 ){
 			this.clearJobs();	//sorry, just stupid solution for this problem
 		}
+		
+				
+		//calculate production and happiness modifers	
+		this.updateHappines();
 	},
 	
 	getFreeKittens: function(){
@@ -151,13 +157,17 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		};
 		
 		for (var i = 0; i< this.jobs.length; i++){
-
 			var job = this.jobs[i];
 			for (jobResMod in job.modifiers){
+				var diff = job.modifiers[jobResMod] * job.value;
+				if (diff > 0 ){
+					 diff  = diff * this.happiness;	//alter positive resource production from jobs
+				}
+				
 				if (!res[jobResMod]){
-					res[jobResMod] = job.modifiers[jobResMod] * job.value;
+					res[jobResMod] = diff;
 				}else{
-					res[jobResMod] += job.modifiers[jobResMod] * job.value;
+					res[jobResMod] += diff;
 				}
 			}
 		}
@@ -198,6 +208,29 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				}
 			}
 		}
+	},
+	
+	/** Calculates a total happines where result is a value of [0..1] **/
+	updateHappines: function(){
+		var happiness = 100;
+		if (this.getKittens() > 5){
+			happiness -= ( this.getKittens()-5 ) * 2;	//every kitten takes 2% of production rate if >5
+		}
+		
+		//boost happiness/production by 10% for every uncommon/rare resource
+		var resources = this.game.resPool.resources;
+		for (var i = 0; i < resources.length; i++){
+			if (resources[i].type != "common" && resources[i].value > 0){
+				happiness += 10;
+			}
+		}
+		
+		
+		if (happiness < 0.25){
+			happiness = 0.25;
+		}
+		
+		this.happiness = happiness/100;
 	}
 });
 
@@ -336,8 +369,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}}, tabContainer);
 		var tr = dojo.create("tr", {}, advVillageTable);
 		var statsTd = dojo.create("td", {}, tr);
+
+		statsTd.title = "Happiness will boost your workers production. \n Rare resources will increse this value while overpopulation will reduce it";
 		
-		statsTd.innerHTML = "Happiness: 100%";
+		this.happinessStats = statsTd;
 		
 		var controlsTd = dojo.create("td", {}, tr);
 		
@@ -351,6 +386,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		if (this.tdTop){
 			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens();
+		}
+		
+		if (this.happinessStats){	
+			var happiness = this.game.village.happiness * 100;
+			this.happinessStats.innerHTML = "Happiness: " + happiness.toFixed() + "%";
 		}
 	},
 	

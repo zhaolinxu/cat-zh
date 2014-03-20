@@ -159,6 +159,15 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		}
 	},
 	
+	getName: function(){
+		var tech = this.getTech();
+		if (!tech.researched){
+			return this.name;
+		} else {
+			return this.name + " (complete)";
+		}
+	},
+	
 	updateVisible: function(){
 		
 		var tech = this.getTech();
