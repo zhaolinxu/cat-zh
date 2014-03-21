@@ -90,10 +90,10 @@
 			});
 			
 			function dev(){
-				if (confirm("This will give you shitload of resources, please do not abuse this option")){
+				if (confirm("You are entering dev mode, is it ok?")){
 					gamePage.resPool.get("catnip").value = 500;
 					gamePage.resPool.get("wood").value = 500;
-					gamePage.resPool.get("science").value = 500;
+					gamePage.resPool.get("science").value = 10000;
 					gamePage.resPool.get("furs").value = 10;
 					gamePage.resPool.get("ivory").value = 10;
 					gamePage.resPool.get("unicorns").value = 1;
@@ -126,14 +126,26 @@
 			<a href="#" onclick="dev();" >#</a> |
 			<a href="#" onclick="wipe();" >Wipe</a> |
 			
-			Ver 0.171
+			Ver 0.18
 			
 			
 		</div>
 	
 		<table>
 			<tr>
-				<td width="20%" style="vertical-align:top;">
+				<td width="220px;" style="vertical-align:top;">
+					
+				</td>
+				<td width="600px;" style="vertical-align:top; height: 420px;">
+					<div id="gameContainerId" style="border:1px solid black; padding: 40px; height: 100%">
+						Sup!
+					</div>
+				</td>
+				<td width="300px;" style="vertical-align:top; padding-left:20px">
+					<div>
+						<span id="calendarDiv">Calendar :V</span>
+						<a href="#" onclick="dev_boostCalendar();">&gt;&gt;</a>
+					</div>
 					<div>
 						You are a kitten in a catnip forest.
 					</div>
@@ -142,17 +154,6 @@
 					</div>
 					<div>
 						<a href="#" onClick="gamePage.clearLog();">Clear</a>
-					</div>
-				</td>
-				<td width="60%" style="vertical-align:top;">
-					<div id="gameContainerId" style="border:1px solid black; padding: 40px;">
-						Sup!
-					</div>
-				</td>
-				<td width="60%" style="vertical-align:top; padding-left:20px">
-					<div>
-						<span id="calendarDiv">Calendar :V</span>
-						<a href="#" onclick="dev_boostCalendar();">&gt;&gt;</a>
 					</div>
 				</td>
 			</tr>

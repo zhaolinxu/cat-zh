@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 400,
+		cost: 600,
 		unlocks: ["metal"]
 	},{
 		name: "metal",
@@ -66,7 +66,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 400
+		cost: 600
 	},
 	{
 		name: "animal",
@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 800,
+		cost: 1500,
 		unlocks: []
 		
 	}],

@@ -129,8 +129,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			}}, container);
 			
 		this._resourceDiv = dojo.create("div", { style: {
-				position: "relative",
-				top:"-25px"
+				position: "absolute",
+				top: "10px",
+				left: "10px"
 			}}, container);
 		this.updateResources();
 		
@@ -180,6 +181,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					style: {
 						border : "1px solid gray",
 						padding: "25px"
+						/*,
+						float: "left",
+						position: "absolute",
+						top: "50px",
+						left: "490px"*/
 					}
 				}, container);
 					
