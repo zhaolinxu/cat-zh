@@ -56,10 +56,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	},{
 		name: "hunter",
 		title: "Hunter",
-		description: "+0.01 manpower per tick",
+		description: "+0.05 manpower per tick",
 		
 		modifiers:{
-			"manpower" : 0.01
+			"manpower" : 0.05
 		},
 		value: 0,
 		unlocked: false
@@ -409,11 +409,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.msg("You hunters returned with some trophies");
 		
 		var furs = this.game.resPool.get("furs");
-		furs.value += this.rand(5);
+		furs.value += this.rand(50);
 		
 		if (this.rand(100) > 60){
 			var ivory = this.game.resPool.get("ivory");
-			ivory.value += this.rand(3);
+			ivory.value += this.rand(30);
 		}
 		
 		if (this.rand(100) > 95){
