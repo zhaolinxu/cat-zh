@@ -314,13 +314,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		var huntBtn = new com.nuclearunicorn.game.ui.button({
 				name: "Send hunters",
+				description: "Send hunters to the forest",
 				handler: function(){
 					//do nothing
 					self.sendHunterSquad();
 				},
 				prices: [{ name : "manpower", val: 100 }]
-		}, game);
+		}, this.game);
 		this.advModeButtons.push(huntBtn);
+		this.hutnBtn = huntBtn;
 		
 	},
 	
@@ -365,8 +367,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//----------------- happiness and things ----------------------
 		
 		var advVillageTable = dojo.create("table", { style: {
-				width: "100%"
+				width: "100%",
+				display: "none"
 			}}, tabContainer);
+		this.advVillageTable = advVillageTable;	
+			
+			
 		var tr = dojo.create("tr", {}, advVillageTable);
 		var statsTd = dojo.create("td", {}, tr);
 
@@ -392,6 +398,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			var happiness = this.game.village.happiness * 100;
 			this.happinessStats.innerHTML = "Happiness: " + happiness.toFixed() + "%";
 		}
+		
+		if (this.advVillageTable && this.game.village.getKittens() >= 5){
+			dojo.setStyle(this.advVillageTable, "display", "");
+		}
+		this.hutnBtn.update();
 	},
 	
 	sendHunterSquad: function(){
