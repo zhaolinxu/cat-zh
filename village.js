@@ -44,22 +44,22 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		value: 0,
 		unlocked: false
 	},{
-		name: "stonecutter",
-		title: "Stonecutter",
-		description: "+0.01 stone per tick",
-		
-		modifiers:{
-			"stone" : 0.01
-		},
-		value: 0,
-		unlocked: false
-	},{
 		name: "hunter",
 		title: "Hunter",
 		description: "+0.05 manpower per tick",
 		
 		modifiers:{
 			"manpower" : 0.05
+		},
+		value: 0,
+		unlocked: false
+	},{
+		name: "miner",
+		title: "Miner",
+		description: "+0.05 mineral per tick",
+		
+		modifiers:{
+			"mineral" : 0.05
 		},
 		value: 0,
 		unlocked: false

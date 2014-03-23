@@ -64,7 +64,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 500 }],
 		effects: {
-			"scienceRatio": 1.2
 		},
 		priceRatio: 1.15,
 		requiredTech: ["agriculture"],
@@ -76,13 +75,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		name: "mine",
 		label: "Mine",
 		unlocked: false,
-		prices: [{ name : "wood", val: 200 }],
+		prices: [{ name : "wood", val: 100 }],
 		effects: {
-			"scienceRatio": 1.2
+			"mineRatio": 1.2
 		},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
 		handler: function(btn){
+			btn.game.village.getJob("miner").unlocked = true;
 		},
 		val: 0
 	}
