@@ -61,6 +61,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	msg: function(message){
+		var hasCalendarTech = this.science.get("calendar").researched;
+		
+		if (hasCalendarTech){
+			message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
+		}
+		
 		this.console.static.msg(message);
 	},
 	
