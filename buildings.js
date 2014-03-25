@@ -85,6 +85,24 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			btn.game.village.getJob("miner").unlocked = true;
 		},
 		val: 0
+	},
+	{
+		name: "workshop",
+		label: "Workshop",
+		unlocked: false,
+		prices: [
+			{ name : "wood", val: 100 },
+			{ name : "minerals", val: 400 }
+		],
+		effects: {
+			"mineRatio": 1.2
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+			btn.game.workshopTab.visible = true;
+		},
+		val: 0,
+		canUpgrade: false
 	}
 	],
 	

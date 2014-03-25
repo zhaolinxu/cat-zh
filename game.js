@@ -16,6 +16,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	bld: null,
 	village: null,
 	science: null,
+	
 	console: null,
 	
 	rate: 5,
@@ -58,6 +59,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library("Library", this);
 		this.libraryTab.visible = false;
 		this.addTab(this.libraryTab);
+		
+		this.workshopTab = new com.nuclearunicorn.game.ui.tab.Workshop("Workshop", this);
+		this.workshopTab.visible = false;
+		this.addTab(this.workshopTab);
 	},
 	
 	msg: function(message){

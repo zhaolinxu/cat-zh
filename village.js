@@ -59,7 +59,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		description: "+0.05 mineral per tick",
 		
 		modifiers:{
-			"mineral" : 0.05
+			"minerals" : 0.05
 		},
 		value: 0,
 		unlocked: false
