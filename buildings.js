@@ -47,7 +47,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
-			"scienceRatio": 1.2
+			"scienceRatio": 0.08
 		},
 		priceRatio: 1.15,
 		handler: 	function(btn){
@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
-			"mineRatio": 1.2
+			"mineralRation": 1.2
 		},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
@@ -95,7 +95,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			{ name : "minerals", val: 400 }
 		],
 		effects: {
-			"mineRatio": 1.2
 		},
 		priceRatio: 1.15,
 		handler: function(btn){

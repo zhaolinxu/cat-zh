@@ -82,7 +82,8 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	 */
 	update: function(){
 					
-		var modifiers = this.village.getResourceModifers();	
+		var modifiers = this.village.getResourceModifers();
+		var bld	
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
@@ -99,6 +100,12 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 				if (curSeason.name == "winter"){
 					perTickBase *= 0.25; //-75%
 				}
+			}
+			
+			//res ratio modifier
+			var bldResRatio = this.game.bld.getEffect(res.name+"Ratio");
+			if (bldResRatio){
+				perTickBase += perTickBase * bldResRatio;
 			}
 			
 			res.value += perTickBase;
