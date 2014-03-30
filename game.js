@@ -16,6 +16,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	bld: null,
 	village: null,
 	science: null,
+	workshop: null,
 	
 	console: null,
 	
@@ -42,6 +43,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.resPool = new com.nuclearunicorn.game.core.resourcePool(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar();
 		this.village = new com.nuclearunicorn.game.villageManager(this);
+		this.workshop = new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
+		
+		
 		this.resPool.setVillage(this.village);
 		
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
@@ -63,6 +67,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.workshopTab = new com.nuclearunicorn.game.ui.tab.Workshop("Workshop", this);
 		this.workshopTab.visible = false;
 		this.addTab(this.workshopTab);
+		
+		//vvvv do not forget to toggle tab visiblity below
 	},
 	
 	msg: function(message){
@@ -129,6 +135,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		if (this.bld.getBuilding("library").val > 0 ){
 			this.libraryTab.visible = true;
+		}
+		if (this.bld.getBuilding("workshop").val > 0 ){
+			this.workshopTab.visible = true;
 		}
 	},
 	

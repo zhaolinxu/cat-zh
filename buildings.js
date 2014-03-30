@@ -78,7 +78,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
-			"mineralRation": 1.2
+			"mineralsRatio": 1.2
 		},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
