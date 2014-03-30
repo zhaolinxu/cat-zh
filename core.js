@@ -330,7 +330,9 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 
 		
 		this.domNode = dojo.create("div", { 
-
+			style: {
+				position: "relative"
+			}
 		}, btnContainer);
 		
 		this.buttonContent = dojo.create("div", {
@@ -388,11 +390,20 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		var prices = this.getPrices();
 		if (prices.length){
 			
-			var tooltip = dojo.create("div", { style: {
+			var tooltip = dojo.create("div", { 
+			classname: "button_tooltip",
+			style: {
 				display: 	"none",
 				border: 	"1px solid black",
-				marginTop:	"5px",
-				padding: 	"5px"
+				marginLeft:	"4px",
+				
+				padding: 	"5px",
+				position:   "absolute",
+				/*left: "110px",
+				top: "35px",*/
+				left: "150px",
+				top: "-1px",
+				width: "120px",
 			}}, this.domNode);
 			
 			for( var i = 0; i < prices.length; i++){

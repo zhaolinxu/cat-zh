@@ -80,7 +80,13 @@
 				margin: 2px;
 			}
 			
-			/* dark color scheme */
+			.button_tooltip {
+				background-color: #FFF;
+				color: black;
+				z-index: 1000;
+			}
+			
+			/* ============ dark color scheme ===========*/
 			
 			.scheme_dark {
 				background-color: #201F1D;
@@ -107,6 +113,11 @@
 			.scheme_dark table {
 				color: #dcdcdc;
 			}
+			
+			.scheme_dark .button_tooltip {
+				background-color: #201F1D;
+				color: 565655;
+			}
 	    </style>
 		
 		<script type="text/javascript">
@@ -126,7 +137,7 @@
 					gamePage.resPool.get("science").value = 10000;
 					gamePage.resPool.get("furs").value = 10;
 					gamePage.resPool.get("ivory").value = 10;
-					gamePage.resPool.get("unicorns").value = 1;
+					gamePage.resPool.get("unicorns").value = 2;
 					
 					gamePage.msg(">:");
 				}
@@ -149,7 +160,7 @@
 
 
 	<body>
-		<div id="gamePageContainer" class="scheme_dark" style="height:100%">
+		<div id="gamePageContainer" class="" style="height:100%">
 			
 			
 			<div style="position:absolute; top:10px; right:10px; height:200px;">
@@ -159,8 +170,25 @@
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				
-				Ver 0.19
+				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.192</a>
 
+			</div>
+			<div id="changelogDiv" style="display:none" class="help">
+				<b>Changelog/features:</b><br>
+				<pre>
+					Version: 0
+						Noting cool yet :V
+						
+					Major: 1
+						Village management
+						
+					Minor: 9
+						Unicorn pastures
+						
+					Rev: 2
+						Button tooltips
+						Changelog window
+				</pre>
 			</div>
 			
 

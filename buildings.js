@@ -74,6 +74,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "mine",
 		label: "Mine",
+		description: "Unlocks miner job",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
@@ -89,6 +90,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "workshop",
 		label: "Workshop",
+		description: "Provides a vast variety of upgrades",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -102,6 +104,24 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		val: 0,
 		canUpgrade: false
+	},
+	{
+		name: "unicornPasture",
+		label: "Unicorn Pasture",
+		description: "Allows to tame unicorns",
+		unlocked: false,
+		prices: [
+			{ name : "unicorns", val: 2 }
+		],
+		effects: {
+		},
+		priceRatio: 1.75,
+		handler: function(btn){
+			btn.game.resPool.get("unicorns").perTick += 0.001;
+		},
+		val: 0,
+		requiredTech: ["animal"],
+		canUpgrade: true
 	}
 	],
 	
