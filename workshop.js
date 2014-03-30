@@ -5,13 +5,30 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	upgrades:[{
 		name: "mineralAxes",
 		title: "Mineral Axes",
-		description: "Improved version of a stone axes providing permanent +50% wood production boost (DOES NOTHING ATM)",
+		description: "Improved version of a stone axes providing permanent +50% wood production boost (NOT IMPLEMENTED YET)",
 		effects: {
 			"woodRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 100 },
 			{ name : "minerals", val: 500 }
+		],
+		unlocked: true,
+		researched: false,
+		unlocks: ["ironAxes"],
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "ironAxes",
+		title: "Iron Axes",
+		description: "Improved version of a stone axes providing permanent +20% wood production boost (NOT IMPLEMENTED YET)",
+		effects: {
+			"woodRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 200 },
+			{ name : "iron", val: 200 },
 		],
 		unlocked: true,
 		researched: false,

@@ -61,6 +61,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "barn",
 		label: "Barn",
+		description: "NOT IMPLEMENTED YET",
 		unlocked: false,
 		prices: [{ name : "wood", val: 500 }],
 		effects: {
@@ -84,6 +85,35 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		requiredTech: ["mining"],
 		handler: function(btn){
 			btn.game.village.getJob("miner").unlocked = true;
+		},
+		val: 0
+	},{
+		name: "smelter",
+		label: "Smelter",
+		description: "Smelts ore into the metal",
+		unlocked: false,
+		prices: [{ name : "minerals", val: 200 }],
+		priceRatio: 1.15,
+		requiredTech: ["metal"],
+		handler: function(btn){
+
+		},
+		effects: {
+		},
+		action: function(self, game){
+
+			var wood = game.resPool.get("wood");
+			var minerals = game.resPool.get("minerals");
+			
+			
+			if (wood.value > self.val * 0.05 &&
+				minerals.value > self.val * 0.1
+			){
+				wood.value -= self.val * 0.05;
+				minerals.value -= self.val * 0.1;
+				
+				game.resPool.get("iron").value += 0.02 * self.val;	//a bit less than ore
+			}
 		},
 		val: 0
 	},
@@ -170,6 +200,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (this.isConstructionEnabled(bld)){
 					bld.unlocked = true;
 				}
+			}
+			
+			if (bld.action && bld.val > 0){
+				bld.action(bld, this.game);
 			}
 		}
 	},
