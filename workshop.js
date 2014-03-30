@@ -5,7 +5,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	upgrades:[{
 		name: "mineralAxes",
 		title: "Mineral Axes",
-		description: "Improved version of a stone axes providing permanent +50% wood production boost",
+		description: "Improved version of a stone axes providing permanent +50% wood production boost (DOES NOTHING ATM)",
 		effects: {
 			"woodRatio" : 0.5
 		},
