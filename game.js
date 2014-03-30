@@ -97,6 +97,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = null;
 	},
 	
+	toggleScheme: function(){
+		this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
+		$("#gamePageContainer").attr("class", "scheme_"+this.colorScheme);
+	},
+	
 	load: function(){
 		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
@@ -139,10 +144,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				left: "-20px"
 			}}, container);
 			
-		this._resourceDiv = dojo.create("div", { style: {
-				position: "absolute",
-				top: "10px",
-				left: "10px"
+		this._resourceDiv = dojo.create("div", {
+				style: {
+					position: "absolute",
+					top: "10px",
+					left: "10px"
 			}}, container);
 		this.updateResources();
 		
@@ -255,7 +261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 
 		this._resourceDiv.innerHTML = "";
-		var resTable = dojo.create("table", {}, this._resourceDiv);
+		var resTable = dojo.create("table", { className: "table" }, this._resourceDiv);
 		
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
@@ -278,7 +284,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 				
 				var tr = dojo.create("tr", {}, resTable);
-				var tdResName = dojo.create("td", { innerHTML: res.name + ":"}, tr);
+				var tdResName = dojo.create("td", { 
+					innerHTML: res.name + ":"
+				}, tr);
 				
 				//console.log("Res:", res, res.type);
 				

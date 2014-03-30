@@ -345,7 +345,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	render: function(tabContainer){
 		
-		var table = dojo.create("table", { style:{
+		var table = dojo.create("table", { className: "table",
+			style:{
 			width: "100%"
 		}}, tabContainer);
 		
