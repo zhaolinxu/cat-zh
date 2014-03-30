@@ -12,7 +12,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "science", val: 100 },
 			{ name : "minerals", val: 500 }
-		]
+		],
+		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
 	}],
 	
 	constructor: function(game){
@@ -41,9 +46,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 			var btn = this.createBtn(uprgade);
 			
-			/*if (!tech.unlocked || tech.researched){
+			if (!uprgade.unlocked || uprgade.researched){
 				btn.setEnabled(false);
-			}*/
+			}
 			this.addButton(btn);
 		}
 	},
@@ -53,18 +58,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
 			name : upgrade.title,
 			handler: function(btn){
-				/*tech.researched = true;
+				uprgade.researched = true;
 
-				if (tech.unlocks && tech.unlocks.length){
-					for (var i = 0; i < tech.unlocks.length; i++){
-						var newTech = btn.getTechByName(tech.unlocks[i]);
-						newTech.unlocked = true;
+				if (uprgade.unlocks && uprgade.unlocks.length){
+					for (var i = 0; i < uprgade.unlocks.length; i++){
+						//var newTech = btn.getTechByName(tech.unlocks[i]);
+						//newTech.unlocked = true;
 					}
 				}
 				
-				if (tech.handler){
-					tech.handler(self.game);
-				}*/
+				if (uprgade.handler){
+					uprgade.handler(self.game);
+				}
 				
 			},
 			prices: upgrade.prices,
