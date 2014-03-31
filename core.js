@@ -69,9 +69,7 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		if (type){
 			res.type = type;
 		}
-		
-		console.log(res);
-		
+
 		this.resources.push(res);
 		
 		return res;
@@ -102,11 +100,23 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 				}
 			}
 			
-			//res ratio modifier
+			//res ratio modifier 
+			
+			//		BUILDINGS
+			
 			var bldResRatio = this.game.bld.getEffect(res.name+"Ratio");
 			if (bldResRatio){
 				perTickBase += perTickBase * bldResRatio;
 			}
+			
+			//		UPGRADES
+			
+			var workshopResRatio = this.game.workshop.getEffect(res.name+"Ratio");
+			if (workshopResRatio){
+				perTickBase += perTickBase * workshopResRatio;
+			}
+			
+			//console.log("res: " + res.name + " perTickRatio:", perTickBase);
 			
 			res.value += perTickBase;
 			

@@ -93,6 +93,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.village.save(saveData);
 		this.calendar.save(saveData);
 		this.science.save(saveData);
+		this.workshop.save(saveData);
 		
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
@@ -123,6 +124,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				this.village.load(saveData);
 				this.calendar.load(saveData);
 				this.science.load(saveData);
+				this.workshop.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -287,10 +289,19 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					perTick += modifiers[res.name];
 				}
 				
+				//BUILDINGS EFFECTS
+				
 				var bldResRatio = this.bld.getEffect(res.name+"Ratio");
 				if (bldResRatio){
 					perTick += perTick * bldResRatio;
 				}
+				
+				//UPGRADE EFFECTS
+				var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
+				if (workshopResRatio){
+					perTick += perTick * workshopResRatio;
+				}
+				
 				
 				var tr = dojo.create("tr", {}, resTable);
 				var tdResName = dojo.create("td", { 

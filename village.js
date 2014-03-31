@@ -239,6 +239,8 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	
 	jobName: null,
 	
+	sellHref: null,
+	
 	getJob: function(){
 		return this.game.village.getJob(this.jobName);
 	},
@@ -297,7 +299,9 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 					this.update();
 				});
 			} else {
-				dojo.place(this.sellHref, this.buttonContent);
+				if (this.buttonContent) {	//idk what causes this, to be investigated later
+					dojo.place(this.sellHref, this.buttonContent);
+				}
 			}
 		}
 	},

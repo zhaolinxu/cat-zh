@@ -5,9 +5,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	upgrades:[{
 		name: "mineralAxes",
 		title: "Mineral Axes",
-		description: "Improved version of a stone axes providing permanent +50% wood production boost (NOT IMPLEMENTED YET)",
+		description: "Improved version of a stone axes providing permanent +70% wood production boost",
 		effects: {
-			"woodRatio" : 0.5
+			"woodRatio" : 0.7
 		},
 		prices:[
 			{ name : "science", val: 100 },
@@ -22,7 +22,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "ironAxes",
 		title: "Iron Axes",
-		description: "Improved version of a stone axes providing permanent +20% wood production boost (NOT IMPLEMENTED YET)",
+		description: "Improved version of a stone axes providing permanent +50% wood production boost",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -62,12 +62,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			var techs = saveData.workshop.upgrades;
 
 			
-			if (saveData.workshop.upgrades.length){
+			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
 				for(var i = 0; i< saveData.workshop.upgrades.length; i++){
 					var savedUpgrade = saveData.workshop.upgrades[i];
 					
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
+	
 						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
 						
@@ -78,11 +79,82 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 				}
 			}
 		}
-	}
+	},
+	
+		/**
+	 * Returns a total effect value per buildings.
+	 * 
+	 * For example, if you have N buldings giving K effect,
+	 * total value will be N*K
+	 * 
+	 */ 
+	getEffect: function(name){
+		var totalEffect = 0;
+		
+		for (var i = 0; i < this.upgrades.length; i++){
+			var upgrade = this.upgrades[i];
+			var effect = upgrade.effects[name];
+			
+			if (effect && upgrade.researched){
+				totalEffect += effect;
+			}
+		}
+		
+		return totalEffect;
+	},
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.button, {
+	upgradeName: null,
 	
+	constructor: function(opts, game){
+		this.upgradeName = opts.upgrade;
+	},
+	
+	getUpgrade: function(){
+		return this.getUpgradeByName(this.upgradeName);
+	},
+	
+	getUpgradeByName: function(name){
+		return this.game.workshop.get(name);
+	},
+
+	updateEnabled: function(){
+		this.inherited(arguments);
+		
+		var upgrade = this.getUpgrade();
+		if (upgrade.researched /*|| !tech.unlocked*/){
+			this.setEnabled(false);
+		}
+	},
+	
+	/*getDescription: function(){
+		var upgrade = this.getUpgrade();
+		if (!upgrade.researched){
+			return this.description;
+		} else {
+			return this.description + "\n" + "Effect: " + upgrade.effectDesc;
+		}
+	},*/
+	
+	getName: function(){
+		var upgrade = this.getUpgrade();
+		if (!upgrade.researched){
+			return this.name;
+		} else {
+			return this.name + " (complete)";
+		}
+	},
+	
+	updateVisible: function(){
+		
+		var upgrade = this.getUpgrade();
+		if (!upgrade.unlocked){
+			this.setVisible(false);
+		}else{
+			this.setVisible(true);
+		}
+	}
 });
 
 
@@ -114,17 +186,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
 			name : upgrade.title,
 			handler: function(btn){
-				uprgade.researched = true;
+				upgrade.researched = true;
 
-				if (uprgade.unlocks && uprgade.unlocks.length){
-					for (var i = 0; i < uprgade.unlocks.length; i++){
+				if (upgrade.unlocks && upgrade.unlocks.length){
+					for (var i = 0; i < upgrade.unlocks.length; i++){
 						//var newTech = btn.getTechByName(tech.unlocks[i]);
 						//newTech.unlocked = true;
 					}
 				}
 				
-				if (uprgade.handler){
-					uprgade.handler(self.game);
+				if (upgrade.handler){
+					upgrade.handler(self.game);
 				}
 				
 			},
