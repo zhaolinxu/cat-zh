@@ -23,7 +23,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		title: "Agriculture",
 		
 		description: "By constructing artificial water channels we may improve our catnip fields production",
-		effectDesc: "Base fields production improved up to 20%, can construct barns to store more catnip",
+		effectDesc: "You can assign farmers and construct barns to store more catnip",
 		
 		unlocked: false,
 		researched: false,
@@ -76,9 +76,39 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
+		cost: 600,	//mostly does nothing, so pirce is lower
+		unlocks: ["civil", "math", "construction"]
+		
+	},{
+		name: "civil",
+		title: "Civil Service",
+		description: "TBD",
+		effectDesc: "TBD",
+		
+		unlocked: false,
+		researched: false,
+		cost: 1500,
+		unlocks: []	//currency
+	},{
+		name: "math",
+		title: "Mathematics",
+		description: "TBD",
+		effectDesc: "TBD",
+		
+		unlocked: false,
+		researched: false,
+		cost: 1000,
+		unlocks: []
+	},{
+		name: "construction",
+		title: "Construction",
+		description: "TBD",
+		effectDesc: "TBD",
+		
+		unlocked: false,
+		researched: false,
 		cost: 1500,
 		unlocks: []
-		
 	}],
 	
 	constructor: function(game){

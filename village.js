@@ -274,7 +274,33 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}else{
 			this.setVisible(true);
 		}
-	}
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		var self = this;
+		
+		var job = this.getJob();
+		if (job && job.value){
+			if (!this.sellHref){
+				this.sellHref = dojo.create("a", { href: "#", innerHTML: "-", style:{
+						paddingLeft: "4px",
+						float: "right",
+						cursor: "default"
+					}}, null);
+					
+				dojo.connect(this.sellHref, "onclick", this, function(event){
+					event.stopPropagation();
+					
+					job.value--;
+					this.update();
+				});
+			} else {
+				dojo.place(this.sellHref, this.buttonContent);
+			}
+		}
+	},
 });
 
 /**

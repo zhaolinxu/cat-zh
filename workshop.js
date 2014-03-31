@@ -39,6 +39,45 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
+	},
+	
+	get: function(upgradeName){
+		for( var i = 0; i< this.upgrades.length; i++){
+			if (this.upgrades[i].name == upgradeName){
+				return this.upgrades[i];
+			}
+		}
+		console.error("Failed to get upgrade for id '"+upgradeName+"'");
+		return null;
+	},
+	
+	save: function(saveData){
+		saveData.workshop = {
+			upgrades: this.upgrades
+		}
+	},
+	
+	load: function(saveData){
+		if (saveData.workshop){
+			var techs = saveData.workshop.upgrades;
+
+			
+			if (saveData.workshop.upgrades.length){
+				for(var i = 0; i< saveData.workshop.upgrades.length; i++){
+					var savedUpgrade = saveData.workshop.upgrades[i];
+					
+					if (savedUpgrade != null){
+						var upgrade = this.game.workshop.get(savedUpgrade.name);
+						upgrade.unlocked = savedUpgrade.unlocked;
+						upgrade.researched = savedUpgrade.researched;
+						
+						if (upgrade.unlocked && upgrade.handler){
+							upgrade.handler(this.game);	//just in case update tech effects
+						}
+					}
+				}
+			}
+		}
 	}
 });
 
