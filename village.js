@@ -190,7 +190,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	save: function(saveData){
 		saveData.village = {
-			kittens : this.kittens,
+			kittens : this.sim.kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.jobs
 		};
@@ -198,7 +198,12 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	load: function(saveData){
 		if (saveData.village){
-			this.kittens  = saveData.village.kittens;
+			var kittens = saveData.village.kittens;
+			//quick legacy hack, remove in future
+			if (!kittens.length) {
+				kittens = [];
+			}
+			this.sim.kittens  = kittens;
 			this.maxKittens  = saveData.village.maxKittens;
 			
 			/*if (saveData.village.jobs.length){
@@ -508,8 +513,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		//--------------- bureaucracy ------------------
-		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Bureaucracy");
-		this.bureaucracyPanel.render(tabContainer);
+		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
+		this.bureaucracyPanelContainer = this.bureaucracyPanel.render(tabContainer);
 		
 	},
 	
@@ -529,6 +534,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			dojo.setStyle(this.advVillageTable, "display", "");
 		}
 		this.hutnBtn.update();
+		
+		//update kitten stats
+		
+		if (this.bureaucracyPanelContainer){
+			this.bureaucracyPanelContainer.innerHTML = "";
+					
+			var sim = this.game.village.sim;
+			
+			for (var i = 0; i <sim.kittens.length; i++){
+				var kitten = sim.kittens[i];
+				var div = dojo.create("div", {
+					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + "<br>" +
+					"age: " + kitten.age
+				}, this.bureaucracyPanelContainer );
+			}
+		}
 	},
 	
 	sendHunterSquad: function(){
