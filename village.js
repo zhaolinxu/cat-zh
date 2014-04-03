@@ -508,7 +508,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		//--------------- bureaucracy ------------------
-		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Bueracracy");
+		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Bureaucracy");
 		this.bureaucracyPanel.render(tabContainer);
 		
 	},
