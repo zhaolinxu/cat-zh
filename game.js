@@ -22,7 +22,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	rate: 5,
 	
-	activeTabId: 0,
+	activeTabName: "Bonfire",
 	
 	//dom nodes shit
 	
@@ -180,18 +180,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				innerHTML: tab.tabName
 			}, tabNavigationDiv);
 			
-			if (this.activeTabId == i){
+			if (this.activeTabName == tab.tabName){
 				dojo.addClass(tabLink, "activeTab");
 			}
 
 
 			dojo.connect(tabLink, "onclick", this, 
 				dojo.partial(
-					function(tabId){
-						self.activeTabId = tabId;
+					function(tab){
+						self.activeTabName = tab.tabName;
 						self.render();
 						//console.log("active tab is:", tabId);
-					}, i)
+					}, tab)
 			);
 			
 			if (i < visibleTabs.length-1){
@@ -200,10 +200,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}	
 		
 		
-		for (var i = 0; i<this.tabs.length; i++){
+		for (var i = 0; i < this.tabs.length; i++){
 			var tab = this.tabs[i];
 			
-			if (this.activeTabId == i){
+			if (this.activeTabName == tab.tabName){
 			
 				var divContainer = dojo.create("div", { 
 					style: {

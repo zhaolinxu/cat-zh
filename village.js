@@ -263,12 +263,13 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
 	}
-}
+});
 
 /**
  * Detailed kitten simulation
  */ 
 dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
+	
 	kittens: null,
 	
 	/**
@@ -454,10 +455,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	render: function(tabContainer){
 		
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs");
+		var jobsPanelContainer = this.jobsPanel.render(tabContainer);
+		
 		var table = dojo.create("table", { className: "table",
 			style:{
 			width: "100%"
-		}}, tabContainer);
+		}}, jobsPanelContainer);
 		
 		var tr = dojo.create("tr", null, table);
 		
@@ -472,14 +476,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tdLeft = dojo.create("td", null, tr);	
 		var tdRight = dojo.create("td", null, tr);
 				
-		this.inherited(arguments);
+		for (var i = 0; i<this.buttons.length; i++){
+			var button = this.buttons[i];
+			button.render(jobsPanelContainer);
+		}
 		
 		//----------------- happiness and things ----------------------
+		
+		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Statistics");
+		var statPanelConetainer = this.statisticsPanel.render(tabContainer);
 		
 		var advVillageTable = dojo.create("table", { style: {
 				width: "100%",
 				display: "none"
-			}}, tabContainer);
+			}}, statPanelConetainer);
+			
 		this.advVillageTable = advVillageTable;	
 			
 			
@@ -495,6 +506,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		for (var i = 0; i < this.advModeButtons.length; i++){
 			this.advModeButtons[i].render(controlsTd);
 		}
+		
+		//--------------- bureaucracy ------------------
+		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Bueracracy");
+		this.bureaucracyPanel.render(tabContainer);
+		
 	},
 	
 	update: function(){

@@ -436,10 +436,57 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		}
 		
 	}
-
-
 });
 
+/**
+ * Collapsible panel for a tab
+ */ 
+dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
+	collapsed: false,
+	
+	name: "",
+	
+	constructor: function(name){
+		this.name = name;
+	},
+	
+	render: function(container){
+		var panel = dojo.create("div", {
+			className: "panelContainer"
+		},
+		container);
+			
+		var toggle = dojo.create("div", {
+			innerHTML: "-",
+			className: "toggle",
+			style: {
+				float: "right"
+			}
+		}, panel);	
+		
+		dojo.create("div", {
+			innerHTML: this.name,
+			className: "title"
+		}, panel);
+		
+		var contentDiv = dojo.create("div", {
+			className: "container"
+		}, panel);	
+		
+		dojo.connect(toggle, "onclick", this, function(){
+			this.collapsed = !this.collapsed;
+			
+			$(contentDiv).toggle();
+			toggle.innerHTML = this.collapsed ? "+" : "-";
+		});
+		
+		return contentDiv;
+	}
+});
+
+/**
+ * Tab
+*/
 dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	
 	game: null,

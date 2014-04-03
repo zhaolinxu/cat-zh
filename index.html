@@ -86,6 +86,29 @@
 				z-index: 1000;
 			}
 			
+			.panelContainer {
+				border: 1px solid black;
+				min-height: 30px;
+				margin-top: 8px;
+			}
+			
+			.panelContainer .title {
+				padding: 4px;
+				padding-left: 10px;
+			}
+			
+			.panelContainer .toggle {
+				border: 1px solid black;
+				margin: 4px;
+				padding-left:  6px;
+				padding-right: 6px;
+				cursor: pointer;
+			}
+			
+			.panelContainer .container {
+				padding: 10px;
+			}
+			
 			/* ============ dark color scheme ===========*/
 			
 			.scheme_dark {
@@ -172,7 +195,7 @@
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				
-				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.1.10.1</a>
+				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.2.2.1</a>
 
 			</div>
 			<div id="changelogDiv" style="display:none; z-order:9999" class="help">
@@ -181,15 +204,15 @@
 					Version: 0
 						Noting cool yet :V
 						
-					Major: 1
-						Village management
+					Major: 2
+						Bureaucracy
 						
-					Minor 10: 
-						Unicorn pastures
-						Smelters and metal
+					Minor 2: 
+						Lumber mills
+						Composite bow
 						
 					Rev: 1
-						Jobs '-' option
+						UI panels
 				</pre>
 			</div>
 			
@@ -200,7 +223,7 @@
 					<td width="220px;" style="vertical-align:top;">
 						
 					</td>
-					<td width="600px;" style="vertical-align:top; height: 420px;">
+					<td width="600px;" style="vertical-align:top; min-height: 420px;">
 						<div id="gameContainerId" style="border:1px solid gray; padding: 40px; height: 100%">
 							Sup!
 						</div>

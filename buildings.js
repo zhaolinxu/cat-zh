@@ -57,22 +57,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		
 		val: 0
-	},
-	{
-		name: "barn",
-		label: "Barn",
-		description: "NOT IMPLEMENTED YET",
-		unlocked: false,
-		prices: [{ name : "wood", val: 500 }],
-		effects: {
-		},
-		priceRatio: 1.15,
-		requiredTech: ["agriculture"],
-		handler: function(btn){
-		},
-		val: 0
-	},
-	{
+	},{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job",
@@ -152,6 +137,28 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["animal"],
 		canUpgrade: true
+	},
+	{
+		name: "lumberMill",
+		label: "Lumber Mill",
+		description: "Improves wood production",
+		unlocked: false,
+		prices: [
+			{ 
+				name : "wood", val: 100,
+				name : "iron", val: 50,
+				name : "minerals", val: 400,
+			}
+		],
+		effects: {
+			"woodRatio" : 0.1
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+		},
+		val: 0,
+		requiredTech: ["construction"],
+		canUpgrade: true
 	}
 	],
 	
@@ -167,7 +174,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				return bld;
 			}
 		}
-		throw "can not find building data for '" + name + "'";
+		console.error("Could not find building data for '" + name + "'");
 	},
 	
 	/**
@@ -249,6 +256,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					
 					if (savedBld != null){
 						var bld = this.game.bld.getBuilding(savedBld.name);
+						if (!bld) { continue; }
+						
 						bld.val = savedBld.val;
 						bld.unlocked = savedBld.unlocked;
 						

@@ -4,7 +4,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	upgrades:[{
 		name: "mineralAxes",
-		title: "Mineral Axes",
+		title: "Mineral Axe",
 		description: "Improved version of a stone axes providing permanent +70% wood production boost",
 		effects: {
 			"woodRatio" : 0.7
@@ -21,7 +21,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		}
 	},{
 		name: "ironAxes",
-		title: "Iron Axes",
+		title: "Iron Axe",
 		description: "Improved version of a stone axes providing permanent +50% wood production boost",
 		effects: {
 			"woodRatio" : 0.5
@@ -31,6 +31,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "iron", val: 200 },
 		],
 		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "compositeBow",
+		title: "Composite Bow",
+		description: "Improved version of a bow providing permanent +50% boost to the hunters",
+		effects: {
+			"manpowerRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 500 },
+			{ name : "iron", val: 100 },
+			{ name : "wood", val: 200 },
+		],
+		unlocked: false,
 		researched: false,
 		handler: function(game){
 			//do nothing
