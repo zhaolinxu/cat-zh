@@ -98,6 +98,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		if (this.kittens > this.maxKittens){
 			this.kittens = this.maxKittens;
 		}*/
+		this.sim.maxKittens = this.maxKittens;
 		this.sim.update(kittensPerTick);
 
 		var modifiers = this.getResourceModifers();
@@ -293,7 +294,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		if (this.nextKittenProgress >= 1){
 			this.nextKittenProgress = 0;
 			
-			this.addKitten();
+			if (this.kittens.length < this.maxKittens){
+				this.addKitten();
+			}
 		}
 	},
 	
