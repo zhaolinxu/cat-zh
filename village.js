@@ -72,8 +72,11 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 
 	game: null,
 	
+	sim: null,
+	
 	constructor: function(game){
 		this.game = game;
+		this.sim = new com.nuclearunicorn.game.village.KittenSim();
 	},
 	
 	getJob: function(jobName){
@@ -90,11 +93,12 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		//calculate kittens
 		
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
-		this.kittens += kittensPerTick;
+		/*this.kittens += kittensPerTick;
 		
 		if (this.kittens > this.maxKittens){
 			this.kittens = this.maxKittens;
-		}
+		}*/
+		this.sim.update(kittensPerTick);
 
 		var modifiers = this.getResourceModifers();
 		
@@ -106,7 +110,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){
-				this.kittens -= starvedKittens;
+				//this.kittens -= starvedKittens;
+				this.sim.killKittens(starvedKittens);
 				this.game.msg(starvedKittens + " kittens starved to death");
 			}
 		}
@@ -140,7 +145,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 * to handle cyclic process like birth ratio / death ration
 	 */ 
 	getKittens: function(){
-		return Math.round(this.kittens);	
+		//return Math.round(this.kittens);	
+		return this.sim.getKittens();
 	},
 	
 	/**
@@ -234,6 +240,79 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	}
 });
 
+/**
+ * Kitten container
+ */ 
+dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
+	
+	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly"],
+	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand"],
+	
+	name: "Undefined",
+	surname: "Undefined",
+	
+	age: 0,
+	
+	constructor: function(){
+		this.name = this.names[this.rand(this.names.length)];
+		this.surname = this.surnames[this.rand(this.surnames.length)];
+		
+		this.age = 16 + this.rand(30);
+	},
+	
+	rand: function(ratio){
+		return (Math.floor(Math.random()*ratio));
+	}
+}
+
+/**
+ * Detailed kitten simulation
+ */ 
+dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
+	kittens: null,
+	
+	/**
+	 * If 1 or more, will increment kitten pool
+	 */ 
+	nextKittenProgress : 0,	
+	
+	maxKittens: 0,
+	
+	constructor: function(){
+		this.kittens = [];
+	},
+	
+	update: function(kittensPerTick){
+		this.nextKittenProgress += kittensPerTick;
+		if (this.nextKittenProgress >= 1){
+			this.nextKittenProgress = 0;
+			
+			this.addKitten();
+		}
+	},
+	
+	addKitten: function(){
+		var kitten = new com.nuclearunicorn.game.village.Kitten();
+		this.kittens.push(kitten);
+	},
+	
+	//just truncate array, I am too lazy to write splice
+	killKittens: function(amount){
+		this.kittens.length -= amount;
+		if (this.kittens.length < 0){
+			this.kittens.length = 0;
+		}
+	},
+	
+	getKittens: function(){
+		return this.kittens.length;
+	},
+	
+	rand: function(ratio){
+		return (Math.floor(Math.random()*ratio));
+	}
+
+});
 
 dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.button, {
 	
