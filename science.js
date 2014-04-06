@@ -102,7 +102,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: []	//currency
+		unlocks: ["currency"]	//currency
 	},{
 		name: "math",
 		title: "Mathematics",
@@ -117,7 +117,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "construction",
 		title: "Construction",
 		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox",
-		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks composit bows.",
+		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks composite bows.",
 		
 		unlocked: false,
 		researched: false,
@@ -126,7 +126,22 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("compositeBow").unlocked = true;
 		}
-	}],
+	},{
+		name: "currency",
+		title: "Currency",
+		description: "TBD",
+		effectDesc: "TBD",
+		
+		unlocked: false,
+		researched: false,
+		cost: 2200,
+		unlocks: [],
+		handler: function(game){
+
+		}
+	}
+	
+	],
 	
 	constructor: function(game){
 		this.game = game;

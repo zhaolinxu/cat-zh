@@ -446,6 +446,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 	
 	name: "",
 	
+	panelDiv: null,
+	
 	constructor: function(name){
 		this.name = name;
 	},
@@ -480,7 +482,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 			toggle.innerHTML = this.collapsed ? "+" : "-";
 		});
 		
+		this.panelDiv = panel;
+		
 		return contentDiv;
+	},
+	
+	setVisible: function(visible){
+		$(this.panelDiv).toggle(visible);
 	}
 });
 
