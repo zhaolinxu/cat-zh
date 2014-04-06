@@ -362,7 +362,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name: 		"Refine catnip", 
 			handler: 	function(){
 							//self.game.resPool.get("catnip").value -= 100;
-							self.game.resPool.get("wood").value += 1;
+							var isEnriched = self.game.workshop.get("advancedRefinement").researched;
+							if (!isEnriched){
+								self.game.resPool.get("wood").value += 1;
+							} else {
+								self.game.resPool.get("wood").value += 2;
+								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
+							}
 						},
 			description: "Refine catnip into the catnip wood",
 			prices: [ { name : "catnip", val: 100 }]

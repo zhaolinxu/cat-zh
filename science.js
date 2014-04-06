@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 100,
-		unlocks: ["mining", "archery"],
+		unlocks: ["mining", "archery", "brewery"],
 		handler: function(game){
 			game.village.getJob("farmer").unlocked = true;
 		}
@@ -77,8 +77,22 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 600,	//mostly does nothing, so pirce is lower
-		unlocks: ["civil", "math", "construction"]
+		unlocks: ["civil", "math", "construction", "brewery"]
 		
+	},{
+		name: "brewery",
+		title: "Brewery",
+		
+		description: "TBD",
+		effectDesc: "Unlocks advanced catnip processing.",
+		
+		unlocked: false,
+		researched: false,
+		cost: 1200,
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("advancedRefinement").unlocked = true;
+		}
 	},{
 		name: "civil",
 		title: "Civil Service",

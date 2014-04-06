@@ -52,6 +52,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 			//do nothing
 		}
+	},{
+		name: "advancedRefinement",
+		title: "Catnip Enrichment",
+		description: "Catnip refines twice as better",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 800 },
+			{ name : "catnip", val: 5000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
 	}],
 	
 	constructor: function(game){
