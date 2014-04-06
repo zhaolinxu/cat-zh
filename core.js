@@ -459,7 +459,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 		container);
 			
 		var toggle = dojo.create("div", {
-			innerHTML: "-",
+			innerHTML: this.collapsed ? "+" : "-",
 			className: "toggle",
 			style: {
 				float: "right"
@@ -472,7 +472,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 		}, panel);
 		
 		var contentDiv = dojo.create("div", {
-			className: "container"
+			className: "container",
+			style: {
+				display: this.collapsed ? "none" : ""
+			}
 		}, panel);	
 		
 		dojo.connect(toggle, "onclick", this, function(){

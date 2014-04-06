@@ -262,11 +262,15 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	
 	age: 0,
 	
+	skills: null,
+	
 	constructor: function(){
 		this.name = this.names[this.rand(this.names.length)];
 		this.surname = this.surnames[this.rand(this.surnames.length)];
 		
 		this.age = 16 + this.rand(30);
+		
+		this.skills = {};
 	},
 	
 	rand: function(ratio){
@@ -301,6 +305,17 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				this.addKitten();
 			}
 		}
+		
+		for (var i = 0; i< this.kittens.length; i++){
+			var kitten = this.kittens[i];
+			if (kitten.job){
+				if (!kitten.skills[kitten.job]){
+					kitten.skills[kitten.job] = 0;
+				}
+				kitten.skills[kitten.job] += 0.01;
+			}
+		}
+			
 	},
 	
 	addKitten: function(){
@@ -548,8 +563,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		//--------------- bureaucracy ------------------
 		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
-		this.bureaucracyPanelContainer = this.bureaucracyPanel.render(tabContainer);
+		this.bureaucracyPanel.collapsed = true;
 		
+		this.bureaucracyPanelContainer = this.bureaucracyPanel.render(tabContainer);
 	},
 	
 	update: function(){
@@ -603,12 +619,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" +
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
+				
+				console.log("Skills:", kitten.skills);
+				for (skill in kitten.skills){
+					div.innerHTML += "<br>" + skill + " :" + kitten.skills[skill].toFixed(2)
+				}
+				
 			}
 		}
 	},
 	
 	sendHunterSquad: function(){
-		this.game.msg("You hunters returned with some trophies");
+		this.game.msg("Your hunters returned with some trophies");
 		
 		var furs = this.game.resPool.get("furs");
 		furs.value += this.rand(50);
