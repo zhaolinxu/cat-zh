@@ -139,6 +139,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		for (var i = 0; i< this.jobs.length; i++){
 			this.jobs[i].value = 0;
 		}
+		this.sim.clearJobs();
 	},
 	
 	/**
@@ -257,6 +258,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	name: "Undefined",
 	surname: "Undefined",
 	
+	job: null,
+	
 	age: 0,
 	
 	constructor: function(){
@@ -319,6 +322,33 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
+	},
+	
+	assignJob: function(job){
+		for (var i = 0; i< this.kittens.length; i++){
+			var kitten = this.kittens[i];
+			
+			if (!kitten.job){
+				kitten.job = job;
+				return;
+			}
+		}
+	},
+	
+	removeJob: function(job){
+		for (var i = 0; i< this.kittens.length; i++){
+			var kitten = this.kittens[i];
+			
+			if (kitten.job == job){
+				kitten.job = null;
+			}
+		}
+	},
+	
+	clearJobs: function(){
+		for (var i = 0; i< this.kittens.length; i++){
+			this.kittens[i].job = null;
+		}
 	}
 
 });
@@ -384,6 +414,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 					event.stopPropagation();
 					
 					job.value--;
+					self.game.village.sim.removeJob(job.name);
 					this.update();
 				});
 			} else {
@@ -453,6 +484,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				var jobRef = game.village.getJob(job.name); 	//probably will fix missing ref on loading
 
 				if ( freeKittens > 0 ){
+					game.village.sim.assignJob(job.name);
 					jobRef.value += 1;
 				}
 			}, job),
@@ -545,7 +577,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			var hasCivilService = this.game.science.get("civil").researched;
 			this.bureaucracyPanel.setVisible(hasCivilService);
 		}
-		
+		this.updateCensus();
+	},
+	
+	updateCensus: function(){
 		if (this.bureaucracyPanelContainer){
 			this.bureaucracyPanelContainer.innerHTML = "";
 					
@@ -553,8 +588,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			
 			for (var i = 0; i <sim.kittens.length; i++){
 				var kitten = sim.kittens[i];
+				
+				var job = "";
+				if (kitten.job){
+					job = " - " + kitten.job;
+				}
+				
 				var div = dojo.create("div", {
-					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + "<br>" +
+					style: {
+						border: "1px solid gray",
+						marginBottom: "5px",
+						padding: "5px"
+					},
+					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" +
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
 			}
