@@ -622,10 +622,26 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				
 				console.log("Skills:", kitten.skills);
 				for (skill in kitten.skills){
-					div.innerHTML += "<br>" + skill + " :" + kitten.skills[skill].toFixed(2)
+					div.innerHTML += "<br>" + this.skillToText(kitten.skills[skill]) + " " + skill;
 				}
 				
 			}
+		}
+	},
+	
+	skillToText: function(value){
+		if (value < 100 ){
+			return "Dabbling"
+		} else if (value < 500){
+			return "Novice"
+		} else if (value < 1200){
+			return "Adequate"
+		} else if (value < 2500){
+			return "Competent"
+		} else if (value < 5000){
+			return "Skilled"
+		} else if (value < 9000){
+			return "Proficient"
 		}
 	},
 	
