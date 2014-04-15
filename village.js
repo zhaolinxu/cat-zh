@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
-		this.sim = new com.nuclearunicorn.game.village.KittenSim();
+		this.sim = new com.nuclearunicorn.game.village.KittenSim(game);
 	},
 	
 	getJob: function(jobName){
@@ -161,7 +161,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
 			"furs" : -0.01 * kittens,
-			"ivory" : -0.007 * kittens
+			"ivory" : -0.007 * kittens,
+			"spice" : -0.001 * kittens
 		};
 		
 		for (var i = 0; i< this.jobs.length; i++){
@@ -285,6 +286,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	
 	kittens: null,
 	
+	game: null,
+	
 	/**
 	 * If 1 or more, will increment kitten pool
 	 */ 
@@ -292,8 +295,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	
 	maxKittens: 0,
 	
-	constructor: function(){
+	constructor: function(game){
 		this.kittens = [];
+		this.game = game;
 	},
 	
 	update: function(kittensPerTick){
@@ -306,13 +310,22 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			}
 		}
 		
+		var learnRatio = this.game.bld.getEffect("learnRatio");
+		var skillRatio = 0.01 + 0.01 * learnRatio;
+		
 		for (var i = 0; i< this.kittens.length; i++){
 			var kitten = this.kittens[i];
 			if (kitten.job){
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
-				kitten.skills[kitten.job] += 0.01;
+				kitten.skills[kitten.job] += skillRatio;
+				
+				for (skill in kitten.skills){
+					if (skill != kitten.job && kitten.skills[skill] > 0 ){
+						kitten.skills[skill] -= 0.001;
+					}
+				}
 			}
 		}
 			
@@ -476,17 +489,32 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//----------- adv mode buttons ---------------
 		this.advModeButtons = [];
 		
+		//hunt
+		
 		var huntBtn = new com.nuclearunicorn.game.ui.button({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
 				handler: function(){
-					//do nothing
 					self.sendHunterSquad();
 				},
 				prices: [{ name : "manpower", val: 100 }]
 		}, this.game);
 		this.advModeButtons.push(huntBtn);
 		this.hutnBtn = huntBtn;
+		
+		//caravans
+		
+		var caravansBtn = new com.nuclearunicorn.game.ui.button({
+				name: "Send caravans",
+				description: "Send caravans to the distant lands",
+				handler: function(){
+					self.sendCaravan();
+				},
+				prices: [{ name : "manpower", val: 500 },
+						 { name : "unicorns", val: 50 }]
+		}, this.game);
+		this.advModeButtons.push(caravansBtn);
+		this.caravansBtn = caravansBtn;
 		
 	},
 	
@@ -586,6 +614,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			);
 		}
 		this.hutnBtn.update();
+		this.caravansBtn.update();
+		
+		var hasUnicorns = ( this.game.resPool.get("unicorns").value > 0 );
+		this.caravansBtn.setVisible(hasUnicorns);
+		
 		
 		//update kitten stats
 		
@@ -620,9 +653,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
 				
-				console.log("Skills:", kitten.skills);
 				for (skill in kitten.skills){
-					div.innerHTML += "<br>" + this.skillToText(kitten.skills[skill]) + " " + skill;
+					div.innerHTML += "<br>" + "<span title='" + kitten.skills[skill].toFixed(2) + 
+						"'>" +this.skillToText(kitten.skills[skill]) + "</span> " + skill;
 				}
 				
 			}
@@ -660,6 +693,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			var unicorns = this.game.resPool.get("unicorns");
 			unicorns.value += 1;
 		}
+	},
+	
+	sendCaravan: function(){
+		this.game.msg("Your caravan returned with some luxuries");
+		
+		var spice = this.game.resPool.get("spice");
+		spice.value += (100 + this.rand(50));
 	},
 	
 	

@@ -58,13 +58,31 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		
 		val: 0
 	},{
+		name: "academy",
+		label: "Academy",
+		description: "Improves your research ratio and the speed of your kitten skills growth",
+		unlocked: false,
+		prices: [{ name : "wood", val: 50 }],
+		prices: [{ name : "minerals", val: 200 }],
+		prices: [{ name : "science", val: 100 }],
+		effects: {
+			"scienceRatio": 0.2,
+			"learnRatio" : 0.05
+		},
+		priceRatio: 1.15,
+		requiredTech: ["math"],
+		handler: function(btn){
+			//btn.game.village.getJob("miner").unlocked = true;
+		},
+		val: 0
+	},{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
-			"mineralsRatio": 1.2
+			"mineralsRatio": 0.2
 		},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
@@ -122,7 +140,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	{
 		name: "unicornPasture",
-		label: "Unicorn Pasture",
+		label: "Unic. Pasture",
 		description: "Allows to tame unicorns",
 		unlocked: false,
 		prices: [
@@ -221,9 +239,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		if (building.prices.length){
 			for( var i = 0; i < building.prices.length; i++){
 				var price = building.prices[i];
-				
+
 				var res = this.game.resPool.get(price.name);
-				if (res.value < price.val){
+				if (res.value * 1.6 < price.val){	// 60% required to unlock structure
 					isEnabled = false;
 					break;
 				}

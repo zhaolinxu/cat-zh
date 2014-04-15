@@ -39,6 +39,7 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 		//uncommon resources
 		this.addResource("furs", "uncommon");
 		this.addResource("ivory", "uncommon");
+		this.addResource("spice", "uncommon");
 		
 		//unique resources
 		this.addResource("unicorns", "rare");

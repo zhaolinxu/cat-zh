@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "science", val: 200 },
-			{ name : "iron", val: 200 },
+			{ name : "iron", val: 50 },
 		],
 		unlocked: true,
 		researched: false,

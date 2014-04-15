@@ -155,14 +155,15 @@
 			});
 			
 			function dev(){
-				if (confirm("You are entering dev mode, is it ok?")){
+				if (confirm("You are about to enter a dev mode, proceed?")){
 					gamePage.resPool.get("catnip").value = 50000;
 					gamePage.resPool.get("wood").value = 5000;
 					gamePage.resPool.get("minerals").value = 5000;
 					gamePage.resPool.get("science").value = 10000;
 					gamePage.resPool.get("furs").value = 10;
 					gamePage.resPool.get("ivory").value = 10;
-					gamePage.resPool.get("unicorns").value = 2;
+					gamePage.resPool.get("unicorns").value = 50;
+					gamePage.resPool.get("manpower").value = 5000;
 					
 					gamePage.msg(">:");
 				}
@@ -195,7 +196,7 @@
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				
-				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.2.3.3</a>
+				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.2.4.5</a>
 
 			</div>
 			<div id="changelogDiv" style="display:none; z-order:9999" class="help">
@@ -207,13 +208,15 @@
 					Major: 2
 						Bureaucracy
 						
-					Minor 3: 
+					Minor 4: 
 						Lumber mills
 						Composite bow
 						Brewery / Carnip enrichment
+						Trade caravans
 						
-					Rev: 4
+					Rev: 5
 						Kitten skills
+						Buildings are unlocked with 60% resources
 				</pre>
 			</div>
 			
