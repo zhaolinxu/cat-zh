@@ -331,11 +331,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				var tdResPerTick = dojo.create("td", {
 					innerHTML: "(" + this.getDisplayValue(perTick, true) + ")",
-					"data-tip": this.getDetailedResMap(res)
+					style: {cursor:"pointer"}
 				}, tr);
 				
-				$(tdResPerTick).tipr();
-				
+				this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
+	
 				var tdSeasonMod = dojo.create("td", {}, tr);
 				
 				if (season.modifiers[res.name] && res.perTick != 0 ){
@@ -354,6 +354,35 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 			}
 		}
+	},
+	
+	attachTooltip: function(container, content){
+		var div = dojo.create("div", { style: {position:"relative"}}, container);
+		
+		var tooltip = dojo.create("div", { 
+			classname: "button_tooltip",
+			style: {
+				display: 	"none",
+				border: 	"1px solid black",
+				marginLeft:	"4px",
+				
+				padding: 	"5px",
+				position:   "absolute",
+
+				left: "50px",
+				top: "-18px",
+				width: "180px",
+				
+				fontWeight: "normal"
+			},
+			innerHTML: content}, 
+		div);
+		
+		jQuery(container).hover( 
+			function(){ jQuery(tooltip).show(); jQuery(container).css("font-weight", "bold"); }, 
+			function(){ jQuery(tooltip).hide(); jQuery(container).css("font-weight", "normal"); } 
+		);
+		
 	},
 	
 	/**
