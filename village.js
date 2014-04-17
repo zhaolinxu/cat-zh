@@ -699,7 +699,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.msg("Your caravan returned with some luxuries");
 		
 		var spice = this.game.resPool.get("spice");
+		var gold = this.game.resPool.get("gold");
+		
 		spice.value += (100 + this.rand(50));
+		
+		if (this.game.science.get("currency").researched){
+			gold.value += this.rand(10);
+		}
 	},
 	
 	

@@ -294,15 +294,20 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var bldResRatio = this.bld.getEffect(res.name+"Ratio");
 				if (bldResRatio){
 					perTick += perTick * bldResRatio;
-				}
-				
+				}			
+
 				//UPGRADE EFFECTS
 				var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
 				if (workshopResRatio){
 					perTick += perTick * workshopResRatio;
 				}
 				
-				
+				//AUTOMATED STRUCTURES EFFECTS
+				var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+				if (bldResRatioTick){
+					perTick += bldResRatioTick;
+				}	
+
 				var tr = dojo.create("tr", {}, resTable);
 				var tdResName = dojo.create("td", { 
 					innerHTML: res.name + ":"
@@ -360,6 +365,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var season = this.calendar.getCurSeason();
 		var bldResRatio = this.bld.getEffect(res.name+"Ratio");
 		
+		var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+		
 		var perTick = res.perTick;
 		if (season.modifiers[res.name]){
 			perTick = perTick * season.modifiers[res.name];
@@ -371,7 +378,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		if (bldResRatio){
 			resString += "<br>Structures: " + 
-				this.getDisplayValue((bldResRatio)*100, true) + "%";
+				this.getDisplayValue((bldResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResRatioTick), true);
 		}
 		
 		if (season.modifiers[res.name]){

@@ -95,6 +95,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		label: "Smelter",
 		description: "Smelts ore into the metal",
 		unlocked: false,
+		enabled: false,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -102,8 +103,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 		},
 		effects: {
+			"woodPerTick" : -0.05,
+			"mineralsPerTick" : -0.1,
+			"ironPerTick" : 0.02,
+			"goldPerTick" : 0.0025,
 		},
 		action: function(self, game){
+			if (!self.enabled){
+				return;
+			}
 
 			var wood = game.resPool.get("wood");
 			var minerals = game.resPool.get("minerals");
@@ -214,6 +222,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			var bld = this.buildingsData[i];
 			var effect = bld.effects[name];
 			
+			if (bld.action && !bld.enabled){
+				continue;
+			}
+			
 			if (effect && bld.val){
 				totalEffect += effect * bld.val;
 			}
@@ -307,6 +319,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.button, {
 	sellHref: null,
+	toggleHref: null,
 	
 	getName: function(){
 		var building = this.getBuilding();
@@ -323,6 +336,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		
 		var building = this.getBuilding();
 		if (building && building.val){
+			
+			// -------------- sell ----------------
+			
 			if (!this.sellHref){
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
 						paddingLeft: "4px",
@@ -339,13 +355,30 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			} else {
 				dojo.place(this.sellHref, this.buttonContent);
 			}
-			/*jQuery(sellHref).click(function(event){
-				event.stopPropagation();
-				
-				building.val--;
-				console.log("sold building:", building);
-				 self.update();
-			});*/
+			
+			//--------------- toggle ------------
+			
+			if (!building.action){
+				return;
+			}
+			if (!this.toggleHref){
+				this.toggleHref = dojo.create("a", { href: "#", innerHTML: building.enabled ? "off" : "on", style:{
+						paddingLeft: "4px",
+						float: "right",
+						cursor: "default"
+					}}, null);
+					
+				dojo.connect(this.toggleHref, "onclick", this, function(event){
+					event.stopPropagation();
+
+					building.enabled = !building.enabled;
+					this.toggleHref.innerHTML = building.enabled ? "off" : "on"
+					
+					this.update();
+				});
+			} else {
+				dojo.place(this.toggleHref, this.buttonContent);
+			}
 		}
 		
 	},
