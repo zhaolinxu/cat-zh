@@ -67,6 +67,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 			//do nothing
 		}
+	},{
+		name: "goldOre",
+		title: "Gold Ore",
+		description: "Small percentage of ore will be smelted to the gold",
+		effects: {
+		},
+		prices:[
+			{ name : "minerals", val: 800 },
+			{ name : "iron", 	 val: 100 },
+			{ name : "sicence",  val: 1000 }
+		],
+		unlocked: false,
+		researched: false
 	}],
 	
 	constructor: function(game){

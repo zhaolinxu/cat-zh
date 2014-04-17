@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 2200,
 		unlocks: [],
 		handler: function(game){
-
+			game.workshop.get("goldOre").unlocked = true;
 		}
 	}
 	

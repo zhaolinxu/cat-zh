@@ -107,6 +107,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 			var wood = game.resPool.get("wood");
 			var minerals = game.resPool.get("minerals");
+			var gold = game.resPool.get("gold");
 			
 			
 			if (wood.value > self.val * 0.05 &&
@@ -116,6 +117,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				minerals.value -= self.val * 0.1;
 				
 				game.resPool.get("iron").value += 0.02 * self.val;	//a bit less than ore
+				
+				if (game.workshop.get("goldOre").unlocked){
+					gold.value += 0.0025 * self.val;
+				}
 			}
 		},
 		val: 0
