@@ -412,7 +412,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				position:   "absolute",
 				/*left: "110px",
 				top: "35px",*/
-				left: "150px",
+				left: "170px",
 				top: "-1px",
 				width: "120px",
 			}}, this.domNode);

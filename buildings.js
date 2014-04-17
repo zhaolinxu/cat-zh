@@ -106,7 +106,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"woodPerTick" : -0.05,
 			"mineralsPerTick" : -0.1,
 			"ironPerTick" : 0.02,
-			"goldPerTick" : 0.0025,
+			"goldPerTick" : 0.00012	//quite fucking slow
 		},
 		action: function(self, game){
 			if (!self.enabled){
@@ -118,16 +118,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			var gold = game.resPool.get("gold");
 			
 			
-			if (wood.value > self.val * 0.05 &&
-				minerals.value > self.val * 0.1
+			if (wood.value > self.val * -self.effects["woodPerTick"] &&
+				minerals.value > self.val * -self.effects["mineralsPerTick"]
 			){
-				wood.value -= self.val * 0.05;
-				minerals.value -= self.val * 0.1;
+				wood.value -= self.val * -self.effects["woodPerTick"];
+				minerals.value -= self.val * -self.effects["mineralsPerTick"];
 				
-				game.resPool.get("iron").value += 0.02 * self.val;	//a bit less than ore
+				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;	//a bit less than ore
 				
 				if (game.workshop.get("goldOre").unlocked){
-					gold.value += 0.0025 * self.val;
+					gold.value += self.effects["goldPerTick"] * self.val;
 				}
 			}
 		},
