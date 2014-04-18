@@ -82,7 +82,6 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	update: function(){
 					
 		var modifiers = this.village.getResourceModifers();
-		var bld	
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
@@ -103,7 +102,7 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 			
 			//res ratio modifier 
 			
-			//		BUILDINGS
+			//		BUILDINGSфво
 			
 			var bldResRatio = this.game.bld.getEffect(res.name+"Ratio");
 			if (bldResRatio){
@@ -305,7 +304,19 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			}
 		}
 		
-		//console.log(this.prices);
+		this.game.render();
+	},
+	
+	rejustPrice: function( ratio){
+		var prices = this.getPrices();
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+				
+				price.val = price.val / ratio;
+
+			}
+		}
 		this.game.render();
 	},
 	
@@ -323,6 +334,18 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		if (this.buildingName){
 			var building = this.getBuilding();
 			building.val++;
+		}
+	},
+	
+	refund: function(percent){
+		var prices = this.getPrices();
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+				
+				var res = this.game.resPool.get(price.name);
+				res.value += price.val * percent;
+			}
 		}
 	},
 	

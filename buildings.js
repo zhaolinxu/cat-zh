@@ -350,6 +350,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					event.stopPropagation();
 					
 					building.val--;
+					
+					this.refund(0.5);
+				
+					if (building.priceRatio){
+						this.rejustPrice(building.priceRatio);
+					}
+					
 					this.update();
 				});
 			} else {
