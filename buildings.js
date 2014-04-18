@@ -43,7 +43,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improve your science output by 8%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -60,7 +60,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth",
+		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improve your science output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
 		prices: [{ name : "minerals", val: 200 }],
@@ -78,7 +78,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "mine",
 		label: "Mine",
-		description: "Unlocks miner job",
+		description: "Unlocks miner job\nEach upgrade level improve your science output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
@@ -95,7 +95,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		label: "Smelter",
 		description: "Smelts ore into the metal",
 		unlocked: false,
-		enabled: false,
+		enabled: true,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -384,6 +384,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					this.update();
 				});
 			} else {
+				
+				
+				dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
 				dojo.place(this.toggleHref, this.buttonContent);
 			}
 		}

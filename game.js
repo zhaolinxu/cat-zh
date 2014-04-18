@@ -155,12 +155,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				left: "-20px"
 			}}, container);
 			
-		this._resourceDiv = dojo.create("div", {
+		/*this._resourceDiv = dojo.create("div", {
 				style: {
 					position: "absolute",
 					top: "10px",
 					left: "10px"
-			}}, container);
+			}}, container);*/
+		this._resourceDiv = dojo.byId("resContainer");
 		this.updateResources();
 		
 		var visibleTabs = [];

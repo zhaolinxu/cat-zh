@@ -41,7 +41,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 400,
+		cost: 300,
 		unlocks: ["animal"],
 		handler: function(game){
 			game.village.getJob("hunter").unlocked = true;

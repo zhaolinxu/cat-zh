@@ -240,8 +240,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		}
 		
 		
-		if (happiness < 0.25){
-			happiness = 0.25;
+		if (happiness < 25){
+			happiness = 25;
 		}
 		
 		this.happiness = happiness/100;
@@ -432,10 +432,11 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		var job = this.getJob();
 		if (job && job.value){
 			if (!this.sellHref){
-				this.sellHref = dojo.create("a", { href: "#", innerHTML: "-", style:{
+				this.sellHref = dojo.create("a", { href: "#", innerHTML: "[&ndash;]", style:{
 						paddingLeft: "4px",
 						float: "right",
-						cursor: "default"
+						cursor: "default",
+						fontWeight: "strong"
 					}}, null);
 					
 				dojo.connect(this.sellHref, "onclick", this, function(event){

@@ -189,7 +189,7 @@
 		<div id="gamePageContainer" class="" style="height:100%">
 			
 			
-			<div style="position:absolute; top:10px; right:10px; height:200px;">
+			<div style="position:absolute; top:10px; right:10px; background-color:white;">
 				<a href="#" onclick="gamePage.save();" >Save</a> |
 				<a href="#" onclick="$('#optionsDiv').toggle();" >Options</a> |
 				<!-- <a href="#" onclick="gamePage.reset();" >Reset</a> | !-->
@@ -199,7 +199,7 @@
 				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.2.4.7</a>
 
 			</div>
-			<div id="changelogDiv" style="display:none; z-order:9999" class="help">
+			<div id="changelogDiv" style="display:none; z-index:9999" class="help">
 				<b>Changelog/features:</b><br>
 				<pre>
 					Version: 0
@@ -214,8 +214,9 @@
 						Brewery / Carnip enrichment
 						Trade caravans
 						
-					Rev: 8
+					Rev: 9
 						Fixed sell option
+						Small resoulution support
 				</pre>
 			</div>
 			
@@ -224,19 +225,20 @@
 			<table>
 				<tr>
 					<td width="220px;" style="vertical-align:top;">
-						
+						<div style=" padding-top:15px;" id="resContainer">
+						</div>
 					</td>
 					<td width="600px;" style="vertical-align:top; min-height: 420px;">
-						<div id="gameContainerId" style="border:1px solid gray; padding: 40px; height: 100%">
+						<div id="gameContainerId" style="border:1px solid gray; padding: 40px; padding-top:48px; height: 100%">
 							Sup!
 						</div>
 					</td>
-					<td width="300px;" style="vertical-align:top; padding-left:20px">
+					<td width="300px;" style="vertical-align:top; padding-left:20px; padding-top:15px;">
 						<div>
 							<span id="calendarDiv">Calendar :V</span>
 							<!--<a href="#" onclick="dev_boostCalendar();">&gt;&gt;</a>-->
 						</div>
-						<div>
+						<div style="padding-top: 10px; border-top: 1px solid gray;">
 							You are a kitten in a catnip forest.
 						</div>
 						<div id="gameLog" style="overflow-y:scroll; height:420px;">
