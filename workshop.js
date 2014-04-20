@@ -2,7 +2,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	game: null,
 	
-	upgrades:[{
+	upgrades:[
+	{
 		name: "mineralAxes",
 		title: "Mineral Axe",
 		description: "Improved version of a stone axes providing permanent +70% wood production boost",
@@ -76,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "minerals", val: 800 },
 			{ name : "iron", 	 val: 100 },
-			{ name : "sicence",  val: 1000 }
+			{ name : "science",  val: 1000 }
 		],
 		unlocked: false,
 		researched: false

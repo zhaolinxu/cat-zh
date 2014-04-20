@@ -378,11 +378,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			},
 			innerHTML: content}, 
 		div);
-		
-		jQuery(container).hover( 
-			function(){ jQuery(tooltip).show(); jQuery(container).css("font-weight", "bold"); }, 
-			function(){ jQuery(tooltip).hide(); jQuery(container).css("font-weight", "normal"); } 
-		);
+
+		dojo.connect(container, "onmouseover", this, function(){
+			 dojo.setStyle(tooltip, "display", ""); 
+			 dojo.setStyle(container, "font-weight", "bold"); 
+	    });
+		dojo.connect(container, "onmouseout", this, function(){
+			 dojo.setStyle(tooltip, "display", "none"); 
+			 dojo.setStyle(container, "font-weight", "normal");
+		});
 		
 	},
 	

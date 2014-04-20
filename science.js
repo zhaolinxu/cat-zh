@@ -66,7 +66,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 600
+		cost: 800
 	},
 	{
 		name: "animal",

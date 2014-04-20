@@ -1,3 +1,18 @@
+dojo.declare("com.nuclearunicorn.core.Control", null, {
+
+	handlers: null,
+	
+	constructor: function(){
+		this.handlers = [];
+	},
+
+	connect: function(node, event, context, handler){
+		var handler = dojo.connect(node, event, context, handler);
+		this.handlers.push(handler);
+	}
+});
+
+
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 		msg : function(message){
@@ -390,7 +405,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			dojo.addClass(this.domNode, "disabled");
 		}
 
-		jQuery(this.domNode).click(function(){
+		dojo.connect(this.domNode, "onclick", this, function(){
 			//color:"#bfb"
 			
 			var btnNode = jQuery(self.domNode);
@@ -452,11 +467,9 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
 				dojo.create("span", { innerHTML: price.val.toFixed(2), style: {float: "right" } }, priceItemNode );
 			}
-			
-			jQuery(this.domNode).hover( 
-				function(){ jQuery(tooltip).show(); }, 
-				function(){ jQuery(tooltip).hide(); } 
-			);
+
+			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });
+			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
 		}
 		
 	}

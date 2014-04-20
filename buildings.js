@@ -78,7 +78,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "mine",
 		label: "Mine",
-		description: "Unlocks miner job\nEach upgrade level improve your science output by 20%",
+		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
