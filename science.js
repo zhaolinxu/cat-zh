@@ -121,7 +121,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 1500,
+		cost: 1300,
 		unlocks: ["engineering"],
 		handler: function(game){
 			game.workshop.get("compositeBow").unlocked = true;
@@ -134,7 +134,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 1700,
+		cost: 1500,
 		unlocks: [],
 		handler: function(game){
 		}
