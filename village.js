@@ -46,10 +46,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	},{
 		name: "hunter",
 		title: "Hunter",
-		description: "+0.05 manpower per tick",
+		description: "+0.06 manpower per tick",
 		
 		modifiers:{
-			"manpower" : 0.05
+			"manpower" : 0.06
 		},
 		value: 0,
 		unlocked: false
@@ -665,17 +665,33 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	skillToText: function(value){
 		if (value < 100 ){
-			return "Dabbling"
+			return "Dabbling";
 		} else if (value < 500){
-			return "Novice"
+			return "Novice";
 		} else if (value < 1200){
-			return "Adequate"
+			return "Adequate";
 		} else if (value < 2500){
-			return "Competent"
+			return "Competent";
 		} else if (value < 5000){
-			return "Skilled"
+			return "Skilled";
 		} else if (value < 9000){
-			return "Proficient"
+			return "Proficient";
+		}
+	},
+	
+	getValueModifierPerSkill: function(value){
+		if (value < 100 ){
+			return 1.0;
+		} else if (value < 500){
+			return 1.05;	//5%
+		} else if (value < 1200){
+			return 1.10;
+		} else if (value < 2500){
+			return 1.18;
+		} else if (value < 5000){
+			return 1.30;
+		} else if (value < 9000){
+			return 1.50;
 		}
 	},
 	
@@ -683,11 +699,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.msg("Your hunters returned with some trophies");
 		
 		var furs = this.game.resPool.get("furs");
-		furs.value += this.rand(50);
+		furs.value += this.rand(65);
 		
-		if (this.rand(100) > 60){
+		if (this.rand(100) > 55){
 			var ivory = this.game.resPool.get("ivory");
-			ivory.value += this.rand(30);
+			ivory.value += this.rand(40);
 		}
 		
 		if (this.rand(100) > 95){

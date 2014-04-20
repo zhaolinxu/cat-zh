@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 100,
-		unlocks: ["mining", "archery", "brewery"],
+		unlocks: ["mining", "archery"],
 		handler: function(game){
 			game.village.getJob("farmer").unlocked = true;
 		}
@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 600,	//mostly does nothing, so pirce is lower
+		cost: 500,	//mostly does nothing, so pirce is lower
 		unlocks: ["civil", "math", "construction", "brewery"]
 		
 	},{
@@ -106,8 +106,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "math",
 		title: "Mathematics",
-		description: "TBD",
-		effectDesc: "TBD",
+		description: " Mathematics is the most basic building block upon which all physical science is based.",
+		effectDesc: "Allows construction of Academies, very efficient research buildings",
 		
 		unlocked: false,
 		researched: false,
@@ -122,9 +122,21 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: [],
+		unlocks: ["engineering"],
 		handler: function(game){
 			game.workshop.get("compositeBow").unlocked = true;
+		}
+	},{
+		name: "engineering",
+		title: "Engineering",
+		description: "Engineering is the science (or art perhaps) of designing complex materials, structures, devices, and systems.",
+		effectDesc: "Unlocks aqueducts",
+		
+		unlocked: false,
+		researched: false,
+		cost: 1700,
+		unlocks: [],
+		handler: function(game){
 		}
 	},{
 		name: "currency",

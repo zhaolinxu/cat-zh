@@ -22,6 +22,22 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		
 		val: 0
+	},{
+		name: "aqueduct",
+		label: "Aqueduct",
+		description: "+3% to catnip production",
+		unlocked: false,
+		prices: [
+			{ name : "minerals", val: 75 }],
+		effects: { 
+			"catnipRatio" : 0.03
+		},
+		priceRatio: 1.12,
+		requiredTech: ["engineering"],
+		handler: function(btn){
+
+		},
+		val: 0
 	},
 	{
 		name: "hut",
@@ -62,9 +78,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		label: "Academy",
 		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improve your science output by 20%",
 		unlocked: false,
-		prices: [{ name : "wood", val: 50 }],
-		prices: [{ name : "minerals", val: 200 }],
-		prices: [{ name : "science", val: 100 }],
+		prices: [{ name : "wood", val: 50 },
+				 {name : "minerals", val: 70 },
+				 { name : "science", val: 100 }],
 		effects: {
 			"scienceRatio": 0.2,
 			"learnRatio" : 0.05
@@ -175,11 +191,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Improves wood production",
 		unlocked: false,
 		prices: [
-			{ 
-				name : "wood", val: 100,
-				name : "iron", val: 50,
-				name : "minerals", val: 400,
-			}
+			{name : "wood", val: 100},
+			{name : "iron", val: 50},
+			{name : "minerals", val: 250}
 		],
 		effects: {
 			"woodRatio" : 0.1
@@ -258,7 +272,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				var price = building.prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				if (res.value * 1.6 < price.val){	// 60% required to unlock structure
+				if (res.value * 1.4 < price.val){	// 40% required to unlock structure
 					isEnabled = false;
 					break;
 				}
@@ -268,7 +282,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		var reqTech = building.requiredTech;
 		if (reqTech){
 			var tech = this.game.science.get(reqTech);
-			if (!tech.researched){
+			if (!tech && tech.researched){
 				isEnabled = false;
 			}
 		}

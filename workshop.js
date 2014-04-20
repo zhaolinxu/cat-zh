@@ -2,7 +2,41 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	game: null,
 	
-	upgrades:[
+	upgrades:[{
+		name: "mineralHoes",
+		title: "Mineral Hoes",
+		description: "Improved hoes providing permanent +50% catnip production boost",
+		effects: {
+			"catnipRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 100 },
+			{ name : "minerals", val: 275 }
+		],
+		unlocked: true,
+		researched: false,
+		unlocks: ["ironHoes"],
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "ironHoes",
+		title: "Iron Hoes",
+		description: "Improved hoes providing permanent +30% catnip production boost",
+		effects: {
+			"catnipRatio" : 0.3
+		},
+		prices:[
+			{ name : "science", val: 200 },
+			{ name : "iron", val: 25 }
+		],
+		unlocked: true,
+		researched: false,
+		unlocks: [],
+		handler: function(game){
+			//do nothing
+		}
+	},
 	{
 		name: "mineralAxes",
 		title: "Mineral Axe",
@@ -23,7 +57,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "ironAxes",
 		title: "Iron Axe",
-		description: "Improved version of a stone axes providing permanent +50% wood production boost",
+		description: "Improved version of axes providing permanent +50% wood production boost",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -60,7 +94,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		effects: {
 		},
 		prices:[
-			{ name : "science", val: 800 },
+			{ name : "science", val: 500 },
 			{ name : "catnip", val: 5000 }
 		],
 		unlocked: false,
