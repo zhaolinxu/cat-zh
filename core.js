@@ -96,48 +96,13 @@ dojo.declare("com.nuclearunicorn.game.core.resourcePool", null, {
 	 */
 	update: function(){
 					
-		var modifiers = this.village.getResourceModifers();
+		//var modifiers = this.village.getResourceModifers();
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
-			var perTickBase = res.perTick;
-			
-			//update BASE production rates per season (probably should be in the calendar)	
-			
-			if (res.name == "catnip"){
-				var curSeason = this.game.calendar.getCurSeason();
-				
-				if (curSeason.name == "spring"){
-					perTickBase *= 1.5;	//+50%
-				}
-				if (curSeason.name == "winter"){
-					perTickBase *= 0.25; //-75%
-				}
-			}
-			
-			//res ratio modifier 
-			
-			//		BUILDINGSфво
-			
-			var bldResRatio = this.game.bld.getEffect(res.name+"Ratio");
-			if (bldResRatio){
-				perTickBase += perTickBase * bldResRatio;
-			}
-			
-			//		UPGRADES
-			
-			var workshopResRatio = this.game.workshop.getEffect(res.name+"Ratio");
-			if (workshopResRatio){
-				perTickBase += perTickBase * workshopResRatio;
-			}
-			
-			//console.log("res: " + res.name + " perTickRatio:", perTickBase);
-			
-			res.value += perTickBase;
-			
-			if (modifiers[res.name]){
-				res.value += modifiers[res.name];
-			}
+		
+			var resPerTick = this.game.getResourcePerTick(res.name);
+			res.value = res.value + resPerTick;
 			
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
@@ -472,6 +437,23 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
 		}
 		
+	}
+});
+
+
+dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {
+	
+	title: "",
+	
+	constructor: function(title){
+		this.title = title;
+	},
+	
+	render: function(container){
+		dojo.create("div", { innerHTML: this.title, className: "spacer"}, container);
+	},
+	
+	update: function(){
 	}
 });
 

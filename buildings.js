@@ -8,6 +8,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	//TODO: use some class hierarchy there?
 	buildingsData : [
+	//----------------------------------- Food production ----------------------------------------
 	{
 		name: "field",
 		label: "Catnip field",
@@ -39,6 +40,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		val: 0
 	},
+	//----------------------------------- Population ----------------------------------------
 	{
 		name: "hut",
 		label: "Hut",
@@ -56,6 +58,22 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		
 		val: 0
 	},
+	{
+		name: "logHouse",
+		label: "Log House",
+		description: "Build a house (each has a space for 1 kittens)",
+		unlocked: false,
+		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
+		effects: {
+			"maxKittens" : 1
+		},
+		priceRatio: 1.15,
+		requiredTech: ["construction"],
+		handler: 	function(btn){
+		},
+		val: 0
+	},
+	//----------------------------------- Science ----------------------------------------
 	{
 		name: "library",
 		label: "Library",
@@ -91,7 +109,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			//btn.game.village.getJob("miner").unlocked = true;
 		},
 		val: 0
-	},{
+	},
+	//----------------------------------- Resource production ----------------------------------------
+	{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",
@@ -150,6 +170,27 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0
 	},
 	{
+		name: "lumberMill",
+		label: "Lumber Mill",
+		description: "Improves wood production",
+		unlocked: false,
+		prices: [
+			{name : "wood", val: 100},
+			{name : "iron", val: 50},
+			{name : "minerals", val: 250}
+		],
+		effects: {
+			"woodRatio" : 0.1
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+		},
+		val: 0,
+		requiredTech: ["construction"],
+		canUpgrade: true
+	},
+	//----------------------------------- Other ----------------------------------------
+	{
 		name: "workshop",
 		label: "Workshop",
 		description: "Provides a vast variety of upgrades",
@@ -184,26 +225,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["animal"],
 		canUpgrade: true
-	},
-	{
-		name: "lumberMill",
-		label: "Lumber Mill",
-		description: "Improves wood production",
-		unlocked: false,
-		prices: [
-			{name : "wood", val: 100},
-			{name : "iron", val: 50},
-			{name : "minerals", val: 250}
-		],
-		effects: {
-			"woodRatio" : 0.1
-		},
-		priceRatio: 1.15,
-		handler: function(btn){
-		},
-		val: 0,
-		requiredTech: ["construction"],
-		canUpgrade: true
 	}
 	],
 	
@@ -234,6 +255,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
+			
+			//TODO: FIX THIS SHIT
+			if (bld.isSpacer) {
+				continue;
+			}
+			
 			var effect = bld.effects[name];
 			
 			if (bld.action && !bld.enabled){
@@ -251,6 +278,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	update: function(){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
+			
+			//TODO: FIX THIS SHIT
+			if (bld.isSpacer){
+				continue;
+			}
 			
 			if (!bld.unlocked){
 				if (this.isConstructionEnabled(bld)){
@@ -341,6 +373,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return this.name + " (" + building.val + ")";
 		}
 		return this.name;
+	},
+	
+	afterRender: function(){
+		this.inherited(arguments);
+		
+		var self = this;
+		var building = this.getBuilding();
+		
+		dojo.connect(this.domNode, "onmouseover", this, function(){ self.game.selectedBuilding = building; });
+		dojo.connect(this.domNode, "onmouseout", this, function(){  self.game.selectedBuilding = null; });
 	},
 	
 	update: function(){
@@ -460,13 +502,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	
 		for (var i = 0; i< this.game.bld.buildingsData.length; i++){
 			var bld = this.game.bld.buildingsData[i];
-			var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
-				name: 			bld.label,		
-				description: 	bld.description,
-				building: 		bld.name,
-				handler: 		bld.handler
-			}, this.game);
-			this.addButton(btn);
+			
+			if (bld.isSpacer){
+				var spacer = new com.nuclearunicorn.game.ui.Spacer(bld.label);
+				this.addButton(spacer);	
+			} else {
+				var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+					name: 			bld.label,		
+					description: 	bld.description,
+					building: 		bld.name,
+					handler: 		bld.handler
+				}, this.game);
+				this.addButton(btn);
+			}
 		}
 
 	},

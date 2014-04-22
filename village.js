@@ -93,34 +93,28 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		//calculate kittens
 		
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
-		/*this.kittens += kittensPerTick;
-		
-		if (this.kittens > this.maxKittens){
-			this.kittens = this.maxKittens;
-		}*/
+
 		this.sim.maxKittens = this.maxKittens;
 		this.sim.update(kittensPerTick);
 
-		var modifiers = this.getResourceModifers();
+
+		var catnipPerTick = this.game.getResourcePerTick("catnip");
 		
 		var catnipVal = this.game.resPool.get("catnip").value;
-		var resDiff = catnipVal + modifiers["catnip"];
+		var resDiff = catnipVal + catnipPerTick;
 		
 		if (resDiff < 0){
-			//console.log("kittens to die:", Math.abs(resDiff.toFixed()));
-			
+
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){
-				//this.kittens -= starvedKittens;
 				this.sim.killKittens(starvedKittens);
 				this.game.msg(starvedKittens + " kittens starved to death");
 			}
 		}
 		
 		if (this.getFreeKittens() < 0 ){
-			this.clearJobs();	//sorry, just stupid solution for this problem
+			this.clearJobs();	//sorry, just a stupid solution for this problem
 		}
-		
 				
 		//calculate production and happiness modifers	
 		this.updateHappines();
@@ -153,18 +147,15 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	/**
 	 * Get a list of resource modifiers per tick
+	 * 
+	 * This method returns positive villager production that can be multiplied by building bonuses
 	 */ 
 	
-	getResourceModifers: function(){
-		var kittens = this.getKittens();
+	getResProduction: function(){
 		
 		var res = {
-			"catnip" : this.catnipPerKitten * kittens,
-			"furs" : -0.01 * kittens,
-			"ivory" : -0.007 * kittens,
-			"spice" : -0.001 * kittens
 		};
-		
+
 		for (var i = 0; i< this.jobs.length; i++){
 			var job = this.jobs[i];
 			for (jobResMod in job.modifiers){
@@ -181,6 +172,22 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			}
 		}
 		
+		return res;
+	},
+	
+	/**
+	 * Same but with negative values
+	 */
+	
+	getResConsumption: function(){
+		var kittens = this.getKittens();
+
+		var res = {
+			"catnip" : this.catnipPerKitten * kittens,
+			"furs" : -0.01 * kittens,
+			"ivory" : -0.007 * kittens,
+			"spice" : -0.001 * kittens
+		};
 		return res;
 	},
 	
