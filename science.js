@@ -23,7 +23,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		title: "Agriculture",
 		
 		description: "By constructing artificial water channels we may improve our catnip fields production",
-		effectDesc: "You can assign farmers and construct barns to store more catnip",
+		effectDesc: "Unlocks farmers",
 		
 		unlocked: false,
 		researched: false,
@@ -37,7 +37,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		title: "Archery",
 		
 		description: "Ranged waponry known as a 'bow'",
-		effectDesc: "You can train hunters",
+		effectDesc: "Unlocks hunters",
 		
 		unlocked: false,
 		researched: false,
@@ -96,8 +96,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "civil",
 		title: "Civil Service",
-		description: "TBD",
-		effectDesc: "TBD",
+		description: "The creation of the first true state organ provides many benefits related with better organisation",
+		effectDesc: "Unlocks detailed information about your population",
 		
 		unlocked: false,
 		researched: false,
@@ -141,8 +141,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "currency",
 		title: "Currency",
-		description: "TBD",
-		effectDesc: "TBD",
+		description: "Currency represent a certain amount of wealth",
+		effectDesc: "Unlocks gold and economics",
 		
 		unlocked: false,
 		researched: false,

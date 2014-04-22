@@ -40,6 +40,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	year: 0,
 	dayPerTick: 0.1,
 	
+	eventChance: 0,
+	
 	tick: function(){
 		this.day += this.dayPerTick;
 		
@@ -47,12 +49,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.day = 0;
 			
 			this.season++;
+			this.onNewSeason();
 			
 			if (this.season > 3){
 				this.season = 0;
 				this.year++;
 			}
 		}
+	},
+	
+	onNewSeason: function(){
+		this.eventChance = 0;
 	},
 	
 	getCurSeason: function(){
@@ -75,4 +82,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	}
 	
+});
+
+dojo.declare("com.nuclearunicorn.game.calendar.Event", null, {
 });

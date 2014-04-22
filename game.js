@@ -228,7 +228,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 	},
 	
-	getResourcePerTick: function(resName){
+	getResourcePerTick: function(resName, calcAutomatedEffect){
 		
 		//STRUCTURES PRODUCTION
 		var res = null;
@@ -245,31 +245,34 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (season.modifiers[res.name]){
 			perTick = perTick * season.modifiers[res.name];
 		}
+		
 		//VILLAGE JOB PRODUCTION
 		
 		var resMapProduction = this.village.getResProduction();
 		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
 		
 		perTick += resProduction;
+			
 
-		
+		//UPGRADE EFFECTS
+		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
+		if (workshopResRatio){
+			perTick += resProduction * workshopResRatio;
+		}
+
 		//BUILDINGS EFFECTS
 				
 		var bldResRatio = this.bld.getEffect(resName+"Ratio");
 		if (bldResRatio){
 			perTick += perTick * bldResRatio;
-		}			
-
-		//UPGRADE EFFECTS
-		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
-		if (workshopResRatio){
-			perTick += perTick * workshopResRatio;
 		}
 		
 		//AUTOMATED STRUCTURES EFFECTS
-		var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
-		if (bldResRatioTick){
-			perTick += bldResRatioTick;
+		if (calcAutomatedEffect){
+			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+			if (bldResRatioTick){
+				perTick += bldResRatioTick;
+			}
 		}	
 		
 		//---------  RESOURCE CONSUMPTION -------------
@@ -330,7 +333,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			var res = this.resPool.resources[i];
 			if (res.value || res.maxValue){
 				
-				var perTick = this.getResourcePerTick(res.name);
+				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
 
 				var tr = dojo.create("tr", {}, resTable);
 				
@@ -370,8 +373,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
 	
 				var tdSeasonMod = dojo.create("td", {}, tr);
-				
-				if (season.modifiers[res.name] && res.perTick != 0 ){
+
+				if (season.modifiers[res.name] && perTick != 0 ){
 					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
 					
 					var modifer = (season.modifiers[res.name]-1)*100;
@@ -379,10 +382,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 							innerHTML: " [" + modifer + "%]",
 							title: "Season modifier"
 						}, tdSeasonMod);
-					if (modifer>0){
+					if (modifer > 0){
 						dojo.setStyle(resModifierSpan, "color","green");
-					}else{
+					}else if (modifer < 0){
 						dojo.setStyle(resModifierSpan, "color","red");
+					} else {
+						dojo.setStyle(resModifierSpan, "color","black");
 					}
 				}
 			}
@@ -453,6 +458,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var resModConsumption = this.village.getResConsumption();
 		
 		
+		var kittensPlus = resMod[res.name] ? resMod[res.name] : 0;
+		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
+		
+		
 		if (bldResRatio){
 			resString += "<br>Structures: " + 
 				this.getDisplayValue((bldResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResRatioTick), true);
@@ -462,8 +471,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			resString += "<br>Season: " + ((season.modifiers[res.name]-1)*100) + "%";
 		}
 
-		if (resMod[res.name]){
-			resString += "<br>Kittens: " + this.getDisplayValue(resMod[res.name], true);
+		if (kittensPlus + kittensMinus != 0){
+			resString += "<br>Kittens: " + this.getDisplayValue(kittensPlus + kittensMinus, true);
 		}
 		
 
