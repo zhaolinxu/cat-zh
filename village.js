@@ -662,8 +662,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				}, this.bureaucracyPanelContainer );
 				
 				for (skill in kitten.skills){
-					div.innerHTML += "<br>" + "<span title='" + kitten.skills[skill].toFixed(2) + 
-						"'>" +this.skillToText(kitten.skills[skill]) + "</span> " + skill;
+					
+					var exp = kitten.skills[skill];
+					var nextExp = this.getNextSkillExp(exp);
+					var prevExp = this.getPrevSkillExp(exp);
+					
+					var expDiff = exp - prevExp;
+					var expRequried = nextExp - prevExp;
+					
+					var expPercent = (expDiff / expRequried) * 100;
+					
+					div.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) + 
+						"'>" +this.skillToText(exp) + " (" + expPercent.toFixed()  + "%)" + "</span> " + skill;
 				}
 				
 			}
@@ -683,6 +693,40 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return "Skilled";
 		} else if (value < 9000){
 			return "Proficient";
+		}
+	},
+	
+	getNextSkillExp: function(value){
+		if (value < 100){
+			return 100;
+		} else if (value < 500){
+			return 500;
+		} else if (value < 2500){
+			return 2500;
+		} else if (value < 5000){
+			return 5000;
+		} else if (value < 9000){
+			return 9000
+		} else if (value < 20000){
+			return 20000;
+		}
+	},
+	
+	getPrevSkillExp: function(value){
+		if (value > 9000){
+			return 9000;
+		} else if (value > 5000){
+			return 5000;
+		} else if (value > 2500){
+			return 2500;
+		} else if (value > 1200){
+			return 1200;
+		} else if (value > 500){
+			return 500;
+		} else if (value > 100){
+			return 100;
+		} else {
+			return 0;
 		}
 	},
 	
