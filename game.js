@@ -42,7 +42,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.console = new com.nuclearunicorn.game.log.Console();
 		
-		this.resPool = new com.nuclearunicorn.game.core.resourcePool(this);
+		this.resPool = new com.nuclearunicorn.game.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar();
 		this.village = new com.nuclearunicorn.game.villageManager(this);
 		this.workshop = new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
@@ -502,6 +502,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var calendarDiv = dojo.byId("calendarDiv");
 		if (hasCalendarTech){
 			calendarDiv.innerHTML = "Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title + ", day " + this.calendar.day.toFixed();
+			document.title = "Kittens Game - Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ", d. " + this.calendar.day.toFixed();
 		} else {
 			calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title
 		}
