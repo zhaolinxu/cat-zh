@@ -322,6 +322,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.village.maxKittens = maxKittens;
 		
 		this.village.update();
+		this.diplomacy.update();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");

@@ -2,7 +2,7 @@
  * Dimplomacy
  */ 
 dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
-	
+
 	game: null,
 	
 	races: [{
@@ -16,6 +16,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		trait: "neutral",
 		unlocked: false
 	}],
+	
+	constructor: function(game){
+		this.game = game;
+	},
 
 	get: function(raceName){
 		for( var i = 0; i< this.races.length; i++){
@@ -38,7 +42,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			var diplomacy = saveData.diplomacy.races;
 
 			
-			if (saveData.diplomacy.races && saveData.diplomacy.upgrades.races){
+			if (saveData.diplomacy.races && saveData.diplomacy.races){
 				for(var i = 0; i< saveData.diplomacy.races.length; i++){
 					var savedRace = saveData.diplomacy.races[i];
 					
@@ -50,6 +54,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				}
 			}
 		}
+	},
+	
+	hasUnlockedRaces: function(){
+		for (var i = 0; i< this.races.length; i++){
+			if (this.races[i].unlocked){
+				return true;
+			}
+		}
+		return false;
 	},
 	
 	unlockRandomRace: function(){
@@ -64,11 +77,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		unmetRaces[raceId].unlocked = true;
 		
 		return unmetRaces[raceId];
+	},
+	
+	update: function(){
+		if (!this.hasUnlockedRaces()){
+			var race = this.unlockRandomRace();
+			
+			this.game.msg("An emissary of " + race.title + " comes to your village");
+		} else {
+			this.game.diplomacyTab.visible = true;
+		}
 	}
 });
  
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 	
+	render: function(tabContainer){
+		this.inherited(arguments);
+	},
 	
+	constructor: function(tabName, game){
+		var self = this;
+		this.game = game;
+	}
 });
