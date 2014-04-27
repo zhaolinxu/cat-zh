@@ -17,6 +17,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	village: null,
 	science: null,
 	workshop: null,
+	diplomacy: null,
 	
 	console: null,
 	
@@ -44,14 +45,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.resPool = new com.nuclearunicorn.game.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar();
+		
 		this.village = new com.nuclearunicorn.game.villageManager(this);
-		this.workshop = new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
-		
-		
 		this.resPool.setVillage(this.village);
 		
+		this.workshop = new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
+		this.diplomacy = new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
-		
 		this.science = new com.nuclearunicorn.game.science.ScienceManager(this);
 		
 
@@ -69,6 +69,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.workshopTab = new com.nuclearunicorn.game.ui.tab.Workshop("Workshop", this);
 		this.workshopTab.visible = false;
 		this.addTab(this.workshopTab);
+		
+		this.economyTab = new com.nuclearunicorn.game.ui.tab.Economy("Economy", this);
+		this.economyTab.visible = false;
+		this.addTab(this.economyTab);
+		
+		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy("Diplomacy", this);
+		this.diplomacyTab.visible = false;
+		this.addTab(this.diplomacyTab);
 		
 		//vvvv do not forget to toggle tab visiblity below
 	},
@@ -96,6 +104,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.calendar.save(saveData);
 		this.science.save(saveData);
 		this.workshop.save(saveData);
+		this.diplomacy.save(saveData);
 		
 		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
@@ -127,6 +136,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				this.calendar.load(saveData);
 				this.science.load(saveData);
 				this.workshop.load(saveData);
+				this.diplomacy.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);

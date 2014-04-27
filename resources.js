@@ -17,6 +17,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "iron",
 		type : "common"
 	},
+	
+	//untradable
+	
 	{
 		name : "manpower",
 		type : "common",
