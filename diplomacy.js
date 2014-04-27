@@ -81,6 +81,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	
 	update: function(){
 		if (!this.hasUnlockedRaces()){
+			
+			if (this.game.calendar.year <20){
+				return;
+			}
+			
 			var race = this.unlockRandomRace();
 			
 			this.game.diplomacyTab.visible = true;
