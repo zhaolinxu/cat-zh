@@ -153,6 +153,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.bld.getBuilding("workshop").val > 0 ){
 			this.workshopTab.visible = true;
 		}
+		
+		if (this.diplomacy.hasUnlockedRaces()){
+			this.game.diplomacyTab.visible = true;
+		}
 	},
 	
 	render: function(){

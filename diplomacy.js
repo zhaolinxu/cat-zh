@@ -83,11 +83,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		if (!this.hasUnlockedRaces()){
 			var race = this.unlockRandomRace();
 			
-			this.game.msg("An emissary of " + race.title + " comes to your village");
-		} else {
 			this.game.diplomacyTab.visible = true;
-		}
+			this.game.render();
+			
+			this.game.msg("An emissary of " + race.title + " comes to your village");
+		} 
 	}
+
 });
  
 
