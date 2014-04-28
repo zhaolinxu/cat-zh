@@ -12,7 +12,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "field",
 		label: "Catnip field",
-		description: "Plant some catnip to grow it in the village.\n"+
+		description: "Plant some catnip to grow it in the village (+0.1 per tick).\n"+
 			"Fields have +50% production in spring and -75% in winter",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
@@ -20,6 +20,21 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		priceRatio: 1.12,
 		handler: function(btn){
 			btn.game.resPool.get("catnip").perTick += 0.125;
+		},
+		
+		val: 0
+	},{
+		name: "pasture",
+		label: "Pasture",
+		description: "Provides alternative source of food, hence reducing catnip consumption by 0.5%.",
+		unlocked: false,
+		prices: [{ name : "catnip", val: 100 }, { name : "wood", val: 10 }],
+		effects: {
+			"catnipDemandRatio": -0.005
+		},
+		requiredTech: ["animal"],
+		priceRatio: 1.15,
+		handler: function(btn){
 		},
 		
 		val: 0
@@ -129,7 +144,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "smelter",
 		label: "Smelter",
-		description: "Smelts ore into the metal",
+		description: "Smelts ore into the metal (-0.05 wood, -0.1 minerals, + 0.02 iron)",
 		unlocked: false,
 		enabled: true,
 		prices: [{ name : "minerals", val: 200 }],
@@ -172,7 +187,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "lumberMill",
 		label: "Lumber Mill",
-		description: "Improves wood production",
+		description: "Improves wood production by 10%",
 		unlocked: false,
 		prices: [
 			{name : "wood", val: 100},
@@ -288,6 +303,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (this.isConstructionEnabled(bld)){
 					bld.unlocked = true;
 				}
+			} else {
+				//just in case we patched something (shit happens?)
+				if (!this.isTechUnlocked(bld)){
+					bld.unlocked = false;
+				}
 			}
 			
 			if (bld.action && bld.val > 0){
@@ -304,21 +324,30 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				var price = building.prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				if (res.value * 1.4 < price.val){	// 40% required to unlock structure
+				if (res.value * 1.7 < price.val){	// 30% required to unlock structure
 					isEnabled = false;
 					break;
 				}
 			}
 		}
 		
+		if (!this.isTechUnlocked(building)){
+			isEnabled = false;
+		}
+		
+		return isEnabled;
+	},
+	
+	isTechUnlocked: function(building){
+		var isEnabled = true;
+		
 		var reqTech = building.requiredTech;
 		if (reqTech){
 			var tech = this.game.science.get(reqTech);
-			if (!tech && tech.researched){
+			if (tech && !tech.researched){
 				isEnabled = false;
 			}
 		}
-		
 		return isEnabled;
 	},
 	

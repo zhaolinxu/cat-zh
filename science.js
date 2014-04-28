@@ -72,7 +72,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "animal",
 		title: "Animal husbandry",
 		description: "Domestication allows the access to various animal resources via the pasture.",
-		effectDesc: "You can build pastures to breed Unicorns and collect Unicorn Tears",
+		effectDesc: "Unlocks Pastures",
 		
 		unlocked: false,
 		researched: false,

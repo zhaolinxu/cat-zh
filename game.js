@@ -155,7 +155,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		
 		if (this.diplomacy.hasUnlockedRaces()){
-			this.game.diplomacyTab.visible = true;
+			this.diplomacyTab.visible = true;
 		}
 	},
 	
@@ -293,6 +293,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] ? resMapConsumption[res.name] : 0;
+		
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio");
 		
 		perTick += resConsumption;
 		
@@ -475,6 +477,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		var kittensPlus = resMod[res.name] ? resMod[res.name] : 0;
 		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
+		
+		//res reduction
+		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio");
 		
 		
 		if (bldResRatio){
