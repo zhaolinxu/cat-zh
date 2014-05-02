@@ -100,12 +100,36 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 	
-	render: function(tabContainer){
-		this.inherited(arguments);
-	},
+	racePanels: null,
 	
 	constructor: function(tabName, game){
 		var self = this;
 		this.game = game;
+		
+		this.racePanels = [];
+	},
+	
+	render: function(tabContainer){
+		this.inherited(arguments);
+		var races = this.game.diplomacy.races;
+		
+		for (var i = 0; i< races.length; i++){
+			var race = races[i];
+			if (!race.unlocked){
+				continue;
+			}
+
+			var racePanel = new com.nuclearunicorn.game.ui.Panel(race.title);
+			var content = racePanel.render(tabContainer);
+
+			//---------- render shit there -------------
+			
+			this.racePanels.push(racePanel);
+		}
+	},
+	
+		
+	update: function(){
+		this.inherited(arguments);
 	}
 });

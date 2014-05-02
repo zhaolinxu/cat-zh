@@ -3,19 +3,27 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	resourceData: [
 	{
 		name : "catnip",
-		type : "common"
+		type : "common",
+		tradable: true,
+		supply: 120,
+		supplyDelta: 10,
+		demand: 70,
+		demandDelta: 10
 	},
 	{
 		name : "wood",
-		type : "common"
+		type : "common",
+		tradable: true
 	},
 	{
 		name : "minerals",
-		type : "common"
+		type : "common",
+		tradable: true
 	},
 	{
 		name : "iron",
-		type : "common"
+		type : "common",
+		tradable: true
 	},
 	
 	//untradable
@@ -45,19 +53,23 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	
 	{
 		name : "furs",
-		type : "uncommon"
+		type : "uncommon",
+		tradable: true
 	},
 	{
 		name : "ivory",
-		type : "uncommon"
+		type : "uncommon",
+		tradable: true
 	},
 	{
 		name : "spice",
-		type : "uncommon"
+		type : "uncommon",
+		tradable: true
 	},
 	{
 		name : "unicorns",
-		type : "rare"
+		type : "rare",
+		tradable: true
 	}
 	
 	],

@@ -154,8 +154,32 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			this.workshopTab.visible = true;
 		}
 		
+		/*if (this.science.get("currency").researched){
+			this.economyTab.visible = true;
+		}*/
+
 		if (this.diplomacy.hasUnlockedRaces()){
 			this.diplomacyTab.visible = true;
+		}
+	},
+	
+	export: function(){
+		this.save();
+		
+		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
+		//alert(btoa(data));
+		window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
+	},
+	
+	import: function(){
+
+		var data = window.prompt("Warning, this will overwrite your save!");
+		if (data){
+			localStorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
+		
+			this.load();
+			
+			this.msg("Save import successfull!");
 		}
 	},
 	
