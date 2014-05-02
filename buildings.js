@@ -127,6 +127,24 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	//----------------------------------- Resource production ----------------------------------------
 	{
+		name: "barn",
+		label: "Barn",
+		description: "Provides a space to store your resources",
+		unlocked: false,
+		prices: [{ name : "wood", val: 50 }],
+		effects: {
+			"maxCatnip" : 5000,
+			"maxWood": 500,
+			"maxMinerals": 100,
+			"maxIron": 50
+		},
+		priceRatio: 1.15,
+		requiredTech: ["construction"],
+		handler: 	function(btn){
+		},
+		val: 0
+	},
+	{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",

@@ -336,7 +336,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 					}, tooltip); 
 				
 				dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-				dojo.create("span", { innerHTML: price.val.toFixed(2), style: {float: "right" } }, priceItemNode );
+				dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
 			}
 
 			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });

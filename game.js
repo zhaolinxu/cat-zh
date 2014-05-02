@@ -401,7 +401,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 				
 				
-				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValue(res.value)}, tr);
+				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value)}, tr);
 				if (res.maxValue){
 					tdResVal.innerHTML += "/" + this.getDisplayValue(res.maxValue);
 				}
@@ -518,10 +518,40 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (kittensPlus + kittensMinus != 0){
 			resString += "<br>Kittens: " + this.getDisplayValue(kittensPlus + kittensMinus, true);
 		}
-		
 
-		
 		return resString;
+	},
+	
+	
+	getDisplayValueExt: function(value, prefix){
+		//shamelesly copied from Sandcastle Builder code
+		var postfixes=[
+			{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},
+			{limit:1e42,divisor:1e42,postfix:['W',' Wololo']},
+			{limit:1e39,divisor:1e39,postfix:['L',' Lotta']},
+			{limit:1e36,divisor:1e36,postfix:['F',' Ferro']},
+			{limit:1e33,divisor:1e33,postfix:['H',' Helo']}, //or Ballard
+			{limit:1e30,divisor:1e30,postfix:['S',' Squilli']},
+			{limit:1e27,divisor:1e27,postfix:['U',' Umpty']},
+
+			{limit:1e24,divisor:1e24,postfix:['Y',' Yotta']},
+			{limit:1e21,divisor:1e21,postfix:['Z',' Zeta']},
+			{limit:1e18,divisor:1e18,postfix:['E',' Exa']},
+			{limit:1e15,divisor:1e15,postfix:['P',' Peta']},
+			{limit:1e12,divisor:1e12,postfix:['T',' Tera']},
+			{limit:1e9,divisor:1e9,postfix:['G',' Giga']},
+			{limit:1e6,divisor:1e6,postfix:['M',' Mega']},
+			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']}, //WHAT
+		];
+		
+		for( var i in postfixes) {
+			var p = postfixes[i];
+			if(value >= p.limit) {
+				return this.getDisplayValueExt(value / p.divisor, prefix) + p.postfix[0];
+			}
+		}
+		
+		return this.getDisplayValue(value, prefix);
 	},
 	
 	/**
