@@ -62,6 +62,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: false,
 		visible: true
 	},
+	{
+		name : "trade",		//trade tokens
+		type : "common",
+		tradable: false,
+		visible: false
+	},
 	
 	//=========================================
 	// 			  luxury resources

@@ -143,6 +143,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}],
 				handler: function(btn){
 					
+					btn.game.resPool.get("trade").value += 1;
 					//grant trade tokens
 					
 				}

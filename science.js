@@ -83,8 +83,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "brewery",
 		title: "Brewery",
 		
-		description: "TBD",
-		effectDesc: "Unlocks advanced catnip processing.",
+		description: "Brewing is a non-mandatory technology allowing the processing of a catnip",
+		effectDesc: "Unlocks Catnip Enrichment.",
 		
 		unlocked: false,
 		researched: false,
@@ -135,7 +135,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: [],
+		unlocks: ["writing"],
 		handler: function(game){
 		}
 	},{
@@ -150,6 +150,18 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("goldOre").unlocked = true;
+		}
+	},{
+		name: "writing",
+		title: "Writing",
+		description: "Writing is the art of recording information on material.",
+		effectDesc: "TBD (may do a lot of cool stuff eventually)",
+		
+		unlocked: false,
+		researched: false,
+		cost: 4000,
+		unlocks: [],
+		handler: function(game){
 		}
 	}
 	],
