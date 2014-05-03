@@ -97,17 +97,20 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "beam",
 		type : "common",
-		tradable: true
+		tradable: true,
+		craftable: true
 	},
 	{
 		name : "slab",
 		type : "common",
-		tradable: true
+		tradable: true,
+		craftable: true
 	},
 	{
 		name : "plate",
 		type : "common",
-		tradable: true
+		tradable: true,
+		craftable: true
 	}],
 	
 	resources: null,

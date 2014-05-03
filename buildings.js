@@ -63,7 +63,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
-			"maxKittens" : 2
+			"maxKittens" : 2,
+			"manpowerMax": 75
 		},
 		priceRatio: 2.5,
 		handler: 	function(btn){
@@ -80,7 +81,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
-			"maxKittens" : 1
+			"maxKittens" : 1,
+			"manpowerMax": 50
 		},
 		priceRatio: 1.15,
 		requiredTech: ["construction"],
@@ -226,13 +228,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "workshop",
 		label: "Workshop",
-		description: "Provides a vast variety of upgrades",
+		description: "Provides a vast variety of upgrades\nImprove craft effectiveness by 6%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 100 },
 			{ name : "minerals", val: 400 }
 		],
 		effects: {
+			"craftRatio" : 0.06	//6% for craft output
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
