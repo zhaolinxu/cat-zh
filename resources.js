@@ -142,8 +142,16 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			var resPerTick = this.game.getResourcePerTick(res.name);
 			res.value = res.value + resPerTick;
 			
+			var maxValue = this.game.bld.getEffect(res.name + "Max");
+			if (maxValue > 0 ){
+				res.maxValue = maxValue;
+			}
+			
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
+			}
+			if (res.value > res.maxValue){
+				res.value = res.maxValue;
 			}
 		}
 	},

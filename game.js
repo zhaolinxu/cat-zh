@@ -402,8 +402,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				
 				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value)}, tr);
-				if (res.maxValue){
-					tdResVal.innerHTML += "/" + this.getDisplayValue(res.maxValue);
+				if (res.maxValue && res.value * 1.5 > res.maxValue){	//50% before limit
+					tdResVal.innerHTML += "/" + this.getDisplayValueExt(res.maxValue);
 				}
 				
 				var tdResPerTick = dojo.create("td", {

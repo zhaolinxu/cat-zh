@@ -117,6 +117,30 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		researched: false
 	}],
 	
+	crafts:[{
+		name: "plank",
+		title: "Plank",
+		prices:[
+			{name: "wood", val: "100"}
+		]
+		
+	},
+	{
+		name: "slab",
+		title: "Slab",
+		prices:[
+			{name: "minerals", val: "100"}
+		]
+		
+	},{
+		name: "plate",
+		title: "Plate",
+		prices:[
+			{name: "iron", val: "25"}
+		]
+		
+	}],
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -243,6 +267,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	render: function(tabContainer){
 		
 		this.inherited(arguments);
+		
+		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting");
+		var content = craftPanel.render(tabContainer);
 	},
 	
 	constructor: function(tabName, game){
