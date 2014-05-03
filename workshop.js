@@ -335,6 +335,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var td = dojo.create("td", { style: {paddingLeft: "50px"}}, table);
 		this.resTd = td;
 		this.renderResources(this.resTd);
+		
+		//----------------
+		if (!this.game.science.get("construction").researched){
+			craftPanel.setVisible(false);
+		}
 	},
 	
 	renderResources: function(container){
