@@ -28,6 +28,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: true,
 		visible: true
 	},
+	{
+		name : "gold",
+		type : "common",
+		tradable: true,
+		visible: true
+	},
 	
 	//=========================================
 	//			   TRANSIENT
