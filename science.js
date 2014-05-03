@@ -10,7 +10,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "calendar",
 		title: "Calendar",
 		
-		description: "By studing the rotation of the Cath around the sun we may find a better understanding of the seasons and time.",
+		description: "Develops the ability to predict the approximate time of change of seasons - ability essential for advanced agriculture.",
 		effectDesc: "Calendar provides a way of more precise time tracking",
 		
 		unlocked: true,
@@ -22,8 +22,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "agriculture",
 		title: "Agriculture",
 		
-		description: "By constructing artificial water channels we may improve our catnip fields production",
-		effectDesc: "Unlocks farmers",
+		description: "The basis of all civilized life, Agriculture allows working the land for food",
+		effectDesc: "Unlocks farmers and Barns",
 		
 		unlocked: false,
 		researched: false,

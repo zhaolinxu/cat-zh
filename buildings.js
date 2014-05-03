@@ -129,16 +129,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "barn",
 		label: "Barn",
-		description: "Provides a space to store your resources.\n(+5K catnip, +500 wood)",
+		description: "Provides a space to store your resources.\n(+5K catnip, +200 wood)",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
 		effects: {
 			"catnipMax" 	: 5000,
-			"woodMax"		: 500,
-			"mineralsMax"	: 100,
+			"woodMax"		: 200,
+			"mineralsMax"	: 250,
 			"ironMax"		: 50
 		},
-		priceRatio: 1.15,
+		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
 		handler: 	function(btn){
 		},
