@@ -175,7 +175,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"woodPerTick" : -0.05,
 			"mineralsPerTick" : -0.1,
 			"ironPerTick" : 0.02,
-			"goldPerTick" : 0.00012	//quite fucking slow
+			"goldPerTick" : 0.001	//quite fucking slow
 		},
 		action: function(self, game){
 			if (!self.enabled){

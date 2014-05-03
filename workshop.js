@@ -118,10 +118,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	}],
 	
 	crafts:[{
-		name: "plank",
-		title: "Plank",
+		name: "beam",
+		title: "Supp. Beam",
 		prices:[
-			{name: "wood", val: "100"}
+			{name: "wood", val: 100}
 		]
 		
 	},
@@ -129,14 +129,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "slab",
 		title: "Slab",
 		prices:[
-			{name: "minerals", val: "100"}
+			{name: "minerals", val: 250}
 		]
 		
 	},{
 		name: "plate",
-		title: "Plate",
+		title: "Metal Plate",
 		prices:[
-			{name: "iron", val: "25"}
+			{name: "iron", val: 75}
 		]
 		
 	}],
@@ -261,20 +261,27 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.button, {
+	craftName: null,
+	
+	constructor: function(opts, game){
+		this.craftName = opts.craft;
+	},
+	
+	updateEnabled: function(){
+		this.inherited(arguments);
+	}
+});
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.ui.tab, {
-
-	render: function(tabContainer){
-		
-		this.inherited(arguments);
-		
-		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting");
-		var content = craftPanel.render(tabContainer);
-	},
+	
+	craftBtns: null,
 	
 	constructor: function(tabName, game){
 		var self = this;
 		this.game = game;
+		
+		this.craftBtns = [];
 
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
 			var uprgade = this.game.workshop.upgrades[i];
@@ -287,6 +294,41 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			this.addButton(btn);
 		}
 	},
+	
+	render: function(tabContainer){
+		this.inherited(arguments);
+		
+		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting");
+		var content = craftPanel.render(tabContainer);
+		
+		var table = dojo.create("table", {}, content);
+		var tr = dojo.create("tr", {}, table);
+		
+		//buttons go there
+		var td = dojo.create("td", {}, table);
+		
+		var self = this;
+		var crafts = this.game.workshop.crafts;
+		for( var i = 0; i < crafts.length; i++ ){
+			var craft =  crafts[i];
+			var craftBtn = new com.nuclearunicorn.game.ui.CraftButton({
+				name: craft.title,
+				craft: craft.name,
+				prices: craft.prices,
+				handler: function(btn){
+					self.game.resPool.get(btn.craftName).value += 1;
+				}
+			}, this.game);
+			
+			craftBtn.render(td);
+			
+			this.craftBtns.push(craftBtn);
+		}
+		
+		//resources go there
+		var td = dojo.create("td", {}, table);
+	},
+
 	
 	createBtn: function(upgrade){
 		var self = this;
@@ -312,5 +354,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			upgrade: upgrade.name
 		});
 		return btn;
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		for( var i = 0; i< this.craftBtns.length; i++){
+			this.craftBtns[i].update();
+		}
 	}
 });

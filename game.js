@@ -364,6 +364,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.updateCalendar();
 	},
 	
+	/**
+	 * Updates a resource table on the UI
+	 */
 	updateResources: function(){
 		var season = this.calendar.getCurSeason();
 
@@ -372,7 +375,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			if (res.value || res.maxValue){
+			
+			if (!res.visible){
+				continue;
+			}
+			
+			if (res.value || (res.name == "kittens" && res.maxValue)){
 				
 				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
 
