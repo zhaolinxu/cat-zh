@@ -152,7 +152,20 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.get("goldOre").unlocked = true;
 		}
 	}
+	],
 	
+	/**
+	 * Lost tech blueprints are sort of wonders that are not available instantly
+	 */  
+	lostTechs:[
+	{
+		name : "lightTemple",
+		title: "Temple of Light",
+		unlocked: false,
+		constructed: false,
+		prices: [{ name : "beam", val: 25}, {name : "block", val: 75}],
+		description: "TBD"
+	}
 	],
 	
 	constructor: function(game){

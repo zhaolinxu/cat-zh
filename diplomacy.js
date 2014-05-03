@@ -8,12 +8,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	races: [{
 		name: "lizards",
 		title: "Lizards",
-		trait: "friendly",	//neutral, friendly, agressive
+		attitude: "friendly",	//neutral, friendly, agressive
 		unlocked: false
 	},{
 		name: "sharks",
 		title: "Sharks",
-		trait: "neutral",
+		attitude: "neutral",
 		unlocked: false
 	}],
 	
@@ -97,6 +97,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 
 });
  
+ 
+dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.game.ui.Panel, {
+	tradeBtn: null,
+	
+	update: function(){
+		if (this.tradeBtn){
+			this.tradeBtn.update();
+		}
+	}
+});
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 	
@@ -119,10 +129,26 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				continue;
 			}
 
-			var racePanel = new com.nuclearunicorn.game.ui.Panel(race.title);
+			var racePanel = new com.nuclearunicorn.game.diplomacy.RacePanel(race.title);
 			var content = racePanel.render(tabContainer);
 
 			//---------- render shit there -------------
+			
+			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
+				marginBottom: "15px"
+			} }, content);
+			
+			var tradeBtn = new com.nuclearunicorn.game.ui.button({
+				name: "Send caravan",
+				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}],
+				handler: function(btn){
+					
+					//grant trade tokens
+					
+				}
+			}, this.game);
+			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
+			racePanel.tradeBtn = tradeBtn;
 			
 			this.racePanels.push(racePanel);
 		}
@@ -131,5 +157,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		
 	update: function(){
 		this.inherited(arguments);
+		
+		for (var i = 0; i< this.racePanels.length; i++){
+			this.racePanels[i].update();
+		}
 	}
 });

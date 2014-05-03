@@ -392,5 +392,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		for( var i = 0; i< this.craftBtns.length; i++){
 			this.craftBtns[i].update();
 		}
+		
+		if (this.resTd){
+			this.renderResources(this.resTd);
+		}
 	}
 });
