@@ -140,6 +140,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			
 			var tradeBtn = new com.nuclearunicorn.game.ui.button({
 				name: "Send caravan",
+				description: "WARING! NOT IMPLEMENTED YET",
 				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}],
 				handler: function(btn){
 					
