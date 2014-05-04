@@ -15,6 +15,26 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		title: "Sharks",
 		attitude: "neutral",
 		unlocked: false
+	},{
+		name: "nagas",
+		title: "Nagas",
+		attitude: "argessive",
+		unlocked: false
+	},{
+		name: "centaurs",
+		title: "Centaurs",
+		attitude: "neutral",
+		unlocked: false
+	},{
+		name: "spiders",
+		title: "Spiders",
+		attitude: "friendly",
+		unlocked: false
+	},{
+		name: "griffins",
+		title: "Griffins",
+		attitude: "agressive",
+		unlocked: false
 	}],
 	
 	constructor: function(game){
@@ -73,6 +93,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			}
 		}
 		
+		if (!unmetRaces.length){
+			return null;
+		}
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
 		unmetRaces[raceId].unlocked = true;
 		
@@ -146,12 +169,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val: 100}],
 				handler: function(btn){
 					
-					btn.game.resPool.get("trade").value += 1;
+					//btn.game.resPool.get("trade").value += 1;
 					//grant trade tokens
 					
-					if (self.rand(100) >= 85){
+					/*if (self.rand(100) >= 85){
 						btn.game.msg("Your caravan has recovered a lost technology");
-					}
+					}*/
 					
 				}
 			}, this.game);
@@ -159,25 +182,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			racePanel.tradeBtn = tradeBtn;
 			
 			this.racePanels.push(racePanel);
-			
-			//------------------------------------
-			
-			var exploreBtn = new com.nuclearunicorn.game.ui.button({
-				name: "Send explorers",
-				description: "WARING! NOT IMPLEMENTED YET",
-				prices: [{ name: "manpower", val: 1000}, { name:"unobtanium", val:250}],
-				handler: function(btn){
-					
-					btn.game.resPool.get("trade").value += 1;
-					//grant trade tokens
-					
-					if (self.rand(100) >= 85){
-						btn.game.msg("Your caravan has recovered a lost technology");
-					}
-					
-				}
-			}, this.game);
+	
 		}
+		
+		//------------------------------------
+		
+		dojo.create("div", { style: {
+				marginBottom: "15px"
+		} }, tabContainer);
+			
+		var exploreBtn = new com.nuclearunicorn.game.ui.button({
+			name: "Send explorers",
+			description: "WARING! NOT IMPLEMENTED YET",
+			prices: [{ name: "manpower", val: 1000}, { name:"unobtanium", val:250}],
+			handler: function(btn){
+				btn.game.diplomacy.unlockRandomRace();
+			}
+		}, this.game);
+		exploreBtn.render(tabContainer);
 	},
 	
 		
