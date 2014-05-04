@@ -123,6 +123,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		this.inherited(arguments);
 		var races = this.game.diplomacy.races;
 		
+		var self = this;
+		
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){
@@ -141,11 +143,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var tradeBtn = new com.nuclearunicorn.game.ui.button({
 				name: "Send caravan",
 				description: "WARING! NOT IMPLEMENTED YET",
-				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}],
+				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val: 100}],
 				handler: function(btn){
 					
 					btn.game.resPool.get("trade").value += 1;
 					//grant trade tokens
+					
+					if (self.rand(100) >= 85){
+						btn.game.msg("Your caravan has recovered a lost technology");
+					}
 					
 				}
 			}, this.game);
@@ -163,5 +169,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		for (var i = 0; i< this.racePanels.length; i++){
 			this.racePanels[i].update();
 		}
+	},
+	
+	rand: function(ratio){
+		return (Math.floor(Math.random()*ratio));
 	}
 });

@@ -71,6 +71,42 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "stoneBarns",
+		title: "Expanded Barns",
+		description: "Barns store 75% more wood and iron",
+		effects: {
+			"barnRatio" : 0.75
+		},
+		prices:[
+			{ name : "science", val: 500 },
+			{ name : "wood", val: 1000 },
+			{ name : "minerals", val: 750 },
+			{ name : "iron", val: 50 },
+		],
+		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "reinforcedBarns",
+		title: "Reinforced Barns",
+		description: "Barns store 80% more wood and iron",
+		effects: {
+			"barnRatio" : 0.80
+		},
+		prices:[
+			{ name : "science", val: 800 },
+			{ name : "beam", val: 35 },
+			{ name : "slab", val: 10 },
+			{ name : "iron", val: 100 },
+		],
+		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "compositeBow",
 		title: "Composite Bow",
 		description: "Improved version of a bow providing permanent +50% boost to the hunters",

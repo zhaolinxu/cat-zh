@@ -266,7 +266,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 	},
 	
-	getResourcePerTick: function(resName, calcAutomatedEffect){
+	getResourcePerTick: function(resName, calcAutomatedEffect, season){
 		
 		//STRUCTURES PRODUCTION
 		var res = null;
@@ -277,7 +277,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		
 		//SEASON MODIFIERS
-		var season = this.calendar.getCurSeason();
+		if (!season){
+			var season = this.calendar.getCurSeason();
+		}
 		var perTick = res.perTick;		//per tick accumulator :3
 		
 		if (season.modifiers[res.name]){
@@ -362,6 +364,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//update resources tab
 		this.updateResources();
 		this.updateCalendar();
+		this.updateAdvisors();
 	},
 	
 	/**
@@ -371,7 +374,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var season = this.calendar.getCurSeason();
 
 		this._resourceDiv.innerHTML = "";
-		var resTable = dojo.create("table", { className: "table" }, this._resourceDiv);
+		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
 		
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
@@ -409,7 +412,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 				
 				
-				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value)}, tr);
+				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
+					style :{
+						width: "320px"
+					}
+					
+				}, tr);
 				if (res.maxValue && res.value * 1.5 > res.maxValue){	//50% before limit
 					tdResVal.innerHTML += "/" + this.getDisplayValueExt(res.maxValue);
 				}
@@ -441,6 +449,29 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 			}
 		}
+	},
+	
+	updateAdvisors: function(){
+		var advDiv = dojo.byId("advisorsContainer");
+		dojo.empty(advDiv);
+		
+		var winterDays = 100;
+		if (this.calendar.season == "winter"){
+			winterDays = 100 - this.calendar.day;
+		}
+		
+		
+		var catnipPerTick = this.getResourcePerTick("catnip", false, { modifiers:{
+			"catnip" : 0.25
+		}});	//calculate estimate winter per tick for catnip;
+		
+		//console.log("Val:", this.resPool.get("catnip").value, " winter days:", winterDays * catnipPerTick);
+
+		if (this.resPool.get("catnip").value + winterDays * catnipPerTick <= 0 ){
+			advDiv.innerHTML = "Food advisor: 'Your catnip supply is too low!'"
+		}
+		
+		
 	},
 	
 	//TODO: freaking slow, use damn dictionaries

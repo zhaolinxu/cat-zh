@@ -195,6 +195,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			res.value = res.value + resPerTick;
 			
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
+			
+			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){
+				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
+			}
+			
 			if (maxValue > 0 ){
 				res.maxValue = maxValue;
 			}

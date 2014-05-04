@@ -247,11 +247,11 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		var self = this;
 		
 		this.container = btnContainer;
-
 		
 		this.domNode = dojo.create("div", { 
 			style: {
-				position: "relative"
+				position: "relative",
+				display: this.visible ? "" : "none"
 			}
 		}, btnContainer);
 		
@@ -262,13 +262,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			},
 			title: this.getDescription()
 		}, this.domNode);
-			
-		
-		// locked structures are invisible
-		if (!this.visible){
-			dojo.setStyle(this.domNode, "display", "none");
-		}
-		
+
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
 		

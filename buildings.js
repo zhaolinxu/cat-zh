@@ -6,6 +6,29 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		this.game = game;
 	},
 	
+	buildingGroups: [{
+		name: "food",
+		title: "Food Production",
+		buildings: ["field","pasture","aqueduct"]
+	},{
+		name: "population",
+		title: "Population",
+		buildings: ["hut", "logHouse"]
+	},{
+		name: "science",
+		title: "Science",
+		buildings: ["library", "academy"]
+	},{
+		name: "resource",
+		title: "Resoruces",
+		buildings: ["barn", "warehouse", "mine", "smelter", "lumberMill"]
+	},{
+		name: "other",
+		title: "Other",
+		buildings: ["workshop", "unicornPasture"]
+	}
+	],
+	
 	//TODO: use some class hierarchy there?
 	buildingsData : [
 	//----------------------------------- Food production ----------------------------------------
@@ -147,6 +170,23 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0
 	},
 	{
+		name: "warehouse",
+		label: "Warehouse",
+		description: "Provides a space to store your resources.\n(+250 wood, +200 minerals, +25 iron)",
+		unlocked: false,
+		prices: [{ name : "beam", val: 2 }, { name : "slab", val: 3 }],
+		effects: {
+			"woodMax"		: 250,
+			"mineralsMax"	: 200,
+			"ironMax"		: 25
+		},
+		priceRatio: 1.15,
+		requiredTech: ["construction"],
+		handler: 	function(btn){
+		},
+		val: 0
+	},
+	{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",
@@ -266,6 +306,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	effectsBase: {
 		"maxCatnip" : 2000
+	},
+	
+	get: function(name){
+		return this.getBuilding(name);
 	},
 	
 	getBuilding: function(name){
@@ -522,11 +566,101 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
+	
+	groupBuildings: false,
+	
 	constructor: function(tabName){
 		//this.inherited(arguments);
 
 		var self = this;
+	},
+
+	render: function(content){
 		
+		//dojo.empty(content);
+		
+		var div = dojo.create("div", { style: { float: "right"}}, content);
+		var groupCheckbox = dojo.create("input", {
+			type: "checkbox",
+			checked: this.groupBuildings
+		}, div);
+		
+		dojo.connect(groupCheckbox, "onclick", this, function(){
+			this.groupBuildings = !this.groupBuildings;
+			
+			dojo.empty(content);
+			this.render(content);
+		});
+		
+		dojo.create("span", { innerHTML: "Group buildings"}, div);
+		
+		var div = dojo.create("div", { style: { marginTop: "25px"}}, content);
+		
+		
+		if (this.groupBuildings){
+			var groups = this.game.bld.buildingGroups;
+			for (var i = 0; i< groups.length; i++){
+				
+				var hasVisibleBldngs = false;
+				for (var j = 0; j< groups[i].buildings.length; j++){
+					var bld = this.game.bld.get(groups[i].buildings[j]);
+					if (bld.unlocked){
+						hasVisibleBldngs = true;
+					}
+				}
+				if (!hasVisibleBldngs && i != 0){
+					continue;
+				}
+				
+				var groupPanel = new com.nuclearunicorn.game.ui.Panel(groups[i].title);
+				var panelContent = groupPanel.render(content);
+				
+				//shitty hack
+				if (i == 0){
+					this.renderCoreBtns(panelContent);
+				}
+				
+				for (var j = 0; j< groups[i].buildings.length; j++){
+					var bld = this.game.bld.get(groups[i].buildings[j]);
+					
+					var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+						name: 			bld.label,		
+						description: 	bld.description,
+						building: 		bld.name,
+						handler: 		bld.handler
+					}, this.game);
+					
+					btn.visible = bld.unlocked;
+					
+					this.addButton(btn);
+					btn.render(panelContent);
+				}
+			}
+		}else{
+			
+			this.renderCoreBtns(content);
+			
+			var buildings = this.game.bld.buildingsData;
+			for (var i = 0; i< buildings.length; i++){
+				var bld = buildings[i];
+				
+				var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+					name: 			bld.label,		
+					description: 	bld.description,
+					building: 		bld.name,
+					handler: 		bld.handler
+				}, this.game);
+				
+				btn.visible = bld.unlocked;
+				
+				this.addButton(btn);
+				btn.render(content);
+			}
+		}	
+	},
+	
+	renderCoreBtns: function(container){
+		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
 			name:	 "Gather catnip", 
 			handler: function(){
@@ -535,6 +669,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			description: "Gathere some catnip in the wood"
 		}, this.game);
 		this.addButton(btn);
+		btn.render(container);
 		
 		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
 			name: 		"Refine catnip", 
@@ -551,34 +686,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			description: "Refine catnip into the catnip wood",
 			prices: [ { name : "catnip", val: 100 }]
 		}, this.game);
-		
 		this.addButton(btn);
-	
-		//create all building buttons
-	
-		for (var i = 0; i< this.game.bld.buildingsData.length; i++){
-			var bld = this.game.bld.buildingsData[i];
-			
-			if (bld.isSpacer){
-				var spacer = new com.nuclearunicorn.game.ui.Spacer(bld.label);
-				this.addButton(spacer);	
-			} else {
-				var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
-					name: 			bld.label,		
-					description: 	bld.description,
-					building: 		bld.name,
-					handler: 		bld.handler
-				}, this.game);
-				this.addButton(btn);
-			}
-		}
-
+		btn.render(container);
 	},
 	
-	/**
-	 * 
-	 */
-	render: function(){
+	update: function(){
 		this.inherited(arguments);
 	}
 });

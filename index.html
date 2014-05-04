@@ -169,6 +169,8 @@
 					gamePage.resPool.get("catnip").value = 50000;
 					gamePage.resPool.get("wood").value = 5000;
 					gamePage.resPool.get("minerals").value = 5000;
+					gamePage.resPool.get("gold").value = 100;
+					
 					gamePage.resPool.get("science").value = 10000;
 					gamePage.resPool.get("furs").value = 10;
 					gamePage.resPool.get("ivory").value = 10;
@@ -222,15 +224,14 @@
 					Major: 2
 						Bureaucracy
 						
-					Minor 9: 
+					Minor 10: 
 						Log house
 						Pasture
-						Barns
+						Barns + upgrades
 						Craft
 						
-					Rev: 8
-						Import/export
-						Price prefixes (K,M,etc)
+					Rev: 9
+						Bonfire UI groups
 						
 				</pre>
 			</div>
@@ -239,9 +240,15 @@
 			
 			<table>
 				<tr>
-					<td width="250px;" style="vertical-align:top;">
-						<div style=" padding-top:15px;" id="resContainer">
+					<td width="300px;" style="vertical-align:top;">
+						<div style="padding-top:15px; width:100%" id="resContainer">
 						</div>
+						
+						<!-- advisors -->
+						
+						<div style=" padding-top:15px;" id="advisorsContainer">
+						</div>
+						
 					</td>
 					<td width="600px;" style="vertical-align:top; min-height:400px;">
 						<div id="gameContainerId" style="border:1px solid gray; padding: 40px; padding-top:48px; height: 100%">
