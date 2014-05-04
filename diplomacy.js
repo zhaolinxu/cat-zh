@@ -159,6 +159,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			racePanel.tradeBtn = tradeBtn;
 			
 			this.racePanels.push(racePanel);
+			
+			//------------------------------------
+			
+			var exploreBtn = new com.nuclearunicorn.game.ui.button({
+				name: "Send explorers",
+				description: "WARING! NOT IMPLEMENTED YET",
+				prices: [{ name: "manpower", val: 1000}, { name:"unobtanium", val:250}],
+				handler: function(btn){
+					
+					btn.game.resPool.get("trade").value += 1;
+					//grant trade tokens
+					
+					if (self.rand(100) >= 85){
+						btn.game.msg("Your caravan has recovered a lost technology");
+					}
+					
+				}
+			}, this.game);
 		}
 	},
 	

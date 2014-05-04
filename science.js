@@ -226,7 +226,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		for (var i = 0; i< this.techs.length; i++ ){
 			var tech = this.techs[i];
 			
-			if (tech.unlocked && tech.unlocks && tech.unlocks.length){
+			if (tech.researched && tech.unlocks && tech.unlocks.length){
 				//console.log("re-evaluating unlocks on :", tech.name);
 				for (var j = 0; j < tech.unlocks.length; j++){
 					var newTech = this.get(tech.unlocks[j]);

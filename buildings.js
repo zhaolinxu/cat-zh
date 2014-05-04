@@ -565,6 +565,73 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	}
 });
 
+
+dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.button, {
+	x100Href: null,
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		var self = this;
+		
+		var catnipVal = self.game.resPool.get("catnip").value;	
+		if (catnipVal < (100 * 100)){
+			return;
+		}
+	    // -------------- x100 ----------------
+			
+		if (!this.x100Href){
+			this.x100Href = dojo.create("a", { href: "#", innerHTML: "x100", style:{
+					paddingLeft: "4px",
+					float: "right",
+					cursor: "default"
+				}}, null);
+				
+			dojo.connect(this.x100Href, "onclick", this, function(event){
+				event.stopPropagation();
+				
+				var catnipVal = self.game.resPool.get("catnip").value;
+				
+				if (catnipVal < (100 * 100)){
+					this.game.msg("not enough catnip!");
+				}
+				
+				self.game.resPool.get("catnip").value -= (100 * 100);
+				
+				var isEnriched = self.game.workshop.get("advancedRefinement").researched;
+				if (!isEnriched){
+					self.game.resPool.get("wood").value += 100;
+				} else {
+					self.game.resPool.get("wood").value += 200;
+					//self.game.resPool.get("oil").value += 1; //no oil until chemistry
+				}
+				
+				this.update();
+			});
+		} else {
+			dojo.place(this.x100Href, this.buttonContent);
+		}
+		
+	},
+	
+	updateVisible: function(){
+		this.inherited(arguments);
+		var building = this.getBuilding();
+		
+		if (!building){
+			return;
+		}
+		
+		if (!building.unlocked){
+			this.setVisible(false);
+		}else{
+			this.setVisible(true);
+		}
+	}
+});
+
+
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
 	
 	groupBuildings: false,
@@ -671,7 +738,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		this.addButton(btn);
 		btn.render(container);
 		
-		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
 			handler: 	function(){
 							//self.game.resPool.get("catnip").value -= 100;
