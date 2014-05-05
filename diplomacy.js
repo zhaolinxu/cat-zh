@@ -11,13 +11,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		attitude: "friendly",	//neutral, friendly, agressive
 		unlocked: false,
 		buys: [
-			{name: "minerals", value: 1000}
+			{name: "minerals", val: 1000}
 		],
 		sells:[
-			{name: "wood", value: 500, chance: 100, delta: 0.08, season:{
+			{name: "wood", value: 500, chance: 100, delta: 0.08, seasons:{
 				"spring": 0.95,
 				"summer": 1.35,
-				"autamn": 1.15,
+				"autumn": 1.15,
 				"winter": 1.05
 			}}
 		]
@@ -27,13 +27,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		attitude: "neutral",
 		unlocked: false,
 		buys: [
-			{name: "iron", value: 100}
+			{name: "iron", val: 100}
 		],
 		sells:[
-			{name: "catnip", value: 50000, chance: 100, delta: 0.15, season:{
+			{name: "catnip", value: 50000, chance: 100, delta: 0.15, seasons:{
 				"spring": 1.20,
 				"summer": 0.95,
-				"autamn": 1.15,
+				"autumn": 1.15,
 				"winter": 1.45
 			}}
 		]
@@ -43,13 +43,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		attitude: "agressive",
 		unlocked: false,
 		buys: [
-			{name: "wood", value: 500}
+			{name: "wood", val: 500}
 		],
 		sells:[
-			{name: "iron", value: 250, chance: 100, delta: 0.12, season:{
+			{name: "iron", value: 250, chance: 100, delta: 0.12, seasons:{
 				"spring": 0.75,
 				"summer": 0.95,
-				"autamn": 1.35,
+				"autumn": 1.35,
 				"winter": 0.80
 			}}
 		]
@@ -201,13 +201,34 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			//---------- render shit there -------------
 			
 			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
-				marginBottom: "15px"
+				marginBottom: "5px"
 			} }, content);
+			
+			for (var i =0; i< race.sells.length; i++){
+				if (race.sells[i].chance == 100){
+					var s = race.sells[i];
+					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+					//console.log(s.seasons, this.game.calendar.getCurSeason().name, sratio);
+					
+					var min = s.value * sratio - s.value * sratio * s.delta/2;
+					var max = s.value * sratio + s.value * sratio * s.delta/2;
+					
+					
+					dojo.create("div", { 
+						innerHTML: "Sells: " + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")",
+						style: { marginBottom: "15px"
+					}}, content);	
+				}
+			}
+			
+			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val: 100}];
+			tradePrices = tradePrices.concat(race.buys);
+			console.log(tradePrices);
 			
 			var tradeBtn = new com.nuclearunicorn.game.ui.button({
 				name: "Send caravan",
 				description: "WARING! NOT IMPLEMENTED YET",
-				prices: [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val: 100}],
+				prices: tradePrices,
 				handler: function(btn){
 					
 					//btn.game.resPool.get("trade").value += 1;
