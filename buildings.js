@@ -20,7 +20,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		buildings: ["library", "academy"]
 	},{
 		name: "resource",
-		title: "Resoruces",
+		title: "Resources",
 		buildings: ["barn", "warehouse", "mine", "smelter", "lumberMill"]
 	},{
 		name: "other",

@@ -9,13 +9,54 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "lizards",
 		title: "Lizards",
 		attitude: "friendly",	//neutral, friendly, agressive
-		unlocked: false
+		unlocked: false,
+		buys: [
+			{name: "minerals", value: 1000}
+		],
+		sells:[
+			{name: "wood", value: 500, chance: 100, delta: 0.08, season:{
+				"spring": 0.95,
+				"summer": 1.35,
+				"autamn": 1.15,
+				"winter": 1.05
+			}}
+		]
 	},{
 		name: "sharks",
 		title: "Sharks",
 		attitude: "neutral",
-		unlocked: false
+		unlocked: false,
+		buys: [
+			{name: "iron", value: 100}
+		],
+		sells:[
+			{name: "catnip", value: 50000, chance: 100, delta: 0.15, season:{
+				"spring": 1.20,
+				"summer": 0.95,
+				"autamn": 1.15,
+				"winter": 1.45
+			}}
+		]
 	},{
+		name: "griffins",
+		title: "Griffins",
+		attitude: "agressive",
+		unlocked: false,
+		buys: [
+			{name: "wood", value: 500}
+		],
+		sells:[
+			{name: "iron", value: 250, chance: 100, delta: 0.12, season:{
+				"spring": 0.75,
+				"summer": 0.95,
+				"autamn": 1.35,
+				"winter": 0.80
+			}}
+		]
+	}
+	
+	
+	/*,{
 		name: "nagas",
 		title: "Nagas",
 		attitude: "argessive",
@@ -35,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		title: "Griffins",
 		attitude: "agressive",
 		unlocked: false
-	}],
+	}*/],
 	
 	constructor: function(game){
 		this.game = game;
