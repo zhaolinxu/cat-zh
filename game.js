@@ -35,6 +35,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	autosaveFrequency: 400,
 	
 	selectedBuilding: null,
+	
+	//flags and shit
+	forceShowLimits: false,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -418,7 +421,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					}
 					
 				}, tr);
-				if (res.maxValue && res.value * 1.5 > res.maxValue){	//50% before limit
+				if (res.maxValue && (res.value * 1.5 > res.maxValue || this.forceShowLimits)){	//50% before limit
 					tdResVal.innerHTML += "/" + this.getDisplayValueExt(res.maxValue);
 				}
 				
@@ -448,6 +451,21 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					}
 				}
 			}
+		}
+		
+		//checkbox
+		if (this.bld.get("barn").val > 0){
+			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
+			var groupCheckbox = dojo.create("input", {
+				type: "checkbox",
+				checked: this.forceShowLimits
+			}, div);
+			
+			dojo.connect(groupCheckbox, "onclick", this, function(){
+				this.forceShowLimits = !this.forceShowLimits;
+			});
+			
+			dojo.create("span", { innerHTML: "Show max resources"}, div);
 		}
 	},
 	

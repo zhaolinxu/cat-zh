@@ -172,6 +172,15 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.button, {
+	
+	race: null,
+
+	constructor: function(opts, game){
+		this.race = opts.race;
+	}
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 	
 	racePanels: null,
@@ -221,22 +230,35 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				}
 			}
 			
-			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val: 100}];
+			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val:5}];
 			tradePrices = tradePrices.concat(race.buys);
 			console.log(tradePrices);
 			
-			var tradeBtn = new com.nuclearunicorn.game.ui.button({
+			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
 				name: "Send caravan",
-				description: "WARING! NOT IMPLEMENTED YET",
+				description: "Trade some of your stuff for the offered resources. Price can vary from season to season.",
 				prices: tradePrices,
+				race: race,
 				handler: function(btn){
 					
-					//btn.game.resPool.get("trade").value += 1;
-					//grant trade tokens
-					
-					/*if (self.rand(100) >= 85){
-						btn.game.msg("Your caravan has recovered a lost technology");
-					}*/
+					for (var i =0; i< btn.race.sells.length; i++){
+						var s = btn.race.sells[i];
+						
+						var chance = self.rand(100);
+						if (chance > s.chance){
+							continue;
+						}
+						
+						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+						var min = s.value * sratio - s.value * sratio * s.delta/2;
+						
+						var amt = min + self.rand(s.value * sratio * s.delta);
+						var res = self.game.resPool.get(s.name);
+						res.value += amt;
+						
+						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
+
+					}
 					
 				}
 			}, this.game);

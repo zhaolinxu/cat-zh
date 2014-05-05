@@ -772,7 +772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		spice.value += (100 + this.rand(50));
 		
 		if (this.game.science.get("currency").researched){
-			gold.value += this.rand(10);
+			gold.value += this.rand(5);
 		}
 	},
 	
