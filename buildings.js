@@ -25,7 +25,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "other",
 		title: "Other",
-		buildings: ["workshop", "unicornPasture"]
+		buildings: ["workshop", "tradepost", "unicornPasture"]
 	}
 	],
 	
@@ -161,7 +161,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"catnipMax" 	: 5000,
 			"woodMax"		: 200,
 			"mineralsMax"	: 250,
-			"ironMax"		: 50
+			"ironMax"		: 50,
+			"goldMax"		: 10
 		},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
@@ -178,7 +179,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 			"woodMax"		: 250,
 			"mineralsMax"	: 200,
-			"ironMax"		: 25
+			"ironMax"		: 25,
+			"goldMax"		: 5
 		},
 		priceRatio: 1.15,
 		requiredTech: ["construction"],
@@ -258,8 +260,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"woodRatio" : 0.1
 		},
 		priceRatio: 1.15,
-		handler: function(btn){
-		},
+		handler: function(btn){},
 		val: 0,
 		requiredTech: ["construction"],
 		canUpgrade: true
@@ -285,14 +286,37 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		canUpgrade: false
 	},
 	{
+		name: "tradepost",
+		label: "Tradepost",
+		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 10%",
+		unlocked: false,
+		prices: [
+			{ name : "wood", val: 500 },
+			{ name : "minerals", val: 200 },
+			{ name : "gold", val: 15 }
+		],
+		effects: {
+			"fursDemandRatio"   : -0.1,
+			"ivoryDemandRatio"  : -0.1,
+			"spiceDemandRatio"  : -0.1,
+			"silkDemandRatio"   : -0.1,
+			"tradeRatio" : 0.015
+		},
+		priceRatio: 1.15,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["currency"]
+	},
+	{
 		name: "unicornPasture",
 		label: "Unic. Pasture",
-		description: "Allows to tame unicorns",
+		description: "Allows to tame unicorns.\n Reduce catnip consumption by 0.15%",
 		unlocked: false,
 		prices: [
 			{ name : "unicorns", val: 2 }
 		],
 		effects: {
+			"catnipDemandRatio": -0.0015
 		},
 		priceRatio: 1.75,
 		handler: function(btn){

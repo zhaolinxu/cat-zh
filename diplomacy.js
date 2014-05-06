@@ -40,7 +40,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	},{
 		name: "griffins",
 		title: "Griffins",
-		attitude: "agressive",
+		attitude: "hostile",
 		unlocked: false,
 		buys: [
 			{name: "wood", val: 500}
@@ -213,14 +213,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "5px"
 			} }, content);
 			
-			for (var i =0; i< race.sells.length; i++){
-				if (race.sells[i].chance == 100){
-					var s = race.sells[i];
+			for (var j =0; j< race.sells.length; j++){
+				if (race.sells[j].chance == 100){
+					var s = race.sells[j];
 					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 					//console.log(s.seasons, this.game.calendar.getCurSeason().name, sratio);
 					
-					var min = s.value * sratio - s.value * sratio * s.delta/2;
-					var max = s.value * sratio + s.value * sratio * s.delta/2;
+					var tratio = self.game.bld.getEffect("tradeRatio");
+					var val = s.value + s.value * tratio;
+
+					var min = val * sratio - val * sratio * s.delta/2;
+					var max = val * sratio + val * sratio * s.delta/2;
 					
 					
 					dojo.create("div", { 
@@ -230,19 +233,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				}
 			}
 			
-			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 10}, { name:"unobtanium", val:5}];
+			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
 			tradePrices = tradePrices.concat(race.buys);
-			console.log(tradePrices);
+			//console.log(tradePrices);
 			
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
 				name: "Send caravan",
-				description: "Trade some of your stuff for the offered resources. Price can vary from season to season.",
+				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.",
 				prices: tradePrices,
 				race: race,
 				handler: function(btn){
 					
-					for (var i =0; i< btn.race.sells.length; i++){
-						var s = btn.race.sells[i];
+					for (var j =0; j< btn.race.sells.length; j++){
+						var s = btn.race.sells[j];
 						
 						var chance = self.rand(100);
 						if (chance > s.chance){
@@ -254,6 +257,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						
 						var amt = min + self.rand(s.value * sratio * s.delta);
 						var res = self.game.resPool.get(s.name);
+						
+						var ratio = self.game.bld.getEffect("tradeRatio");
+						amt += amt*ratio;
+						
 						res.value += amt;
 						
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
@@ -277,13 +284,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			
 		var exploreBtn = new com.nuclearunicorn.game.ui.button({
 			name: "Send explorers",
-			description: "WARING! NOT IMPLEMENTED YET",
-			prices: [{ name: "manpower", val: 1000}, { name:"unobtanium", val:250}],
+			description: "Discover more civilizations",
+			prices: [{ name: "manpower", val: 1000}],
 			handler: function(btn){
 				btn.game.diplomacy.unlockRandomRace();
+				btn.game.render();
 			}
 		}, this.game);
 		exploreBtn.render(tabContainer);
+		this.exploreBtn = exploreBtn;
 	},
 	
 		
@@ -292,6 +301,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		
 		for (var i = 0; i< this.racePanels.length; i++){
 			this.racePanels[i].update();
+		}
+		
+		if (this.exploreBtn){
+			this.exploreBtn.update();
 		}
 	},
 	

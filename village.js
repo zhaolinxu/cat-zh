@@ -624,7 +624,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.hutnBtn.update();
 		this.caravansBtn.update();
 		
-		var hasUnicorns = ( this.game.resPool.get("unicorns").value > 0 );
+		var hasUnicorns = false;
 		this.caravansBtn.setVisible(hasUnicorns);
 		
 		
