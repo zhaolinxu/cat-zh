@@ -268,15 +268,6 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}
 	},
 	
-	/*getDescription: function(){
-		var upgrade = this.getUpgrade();
-		if (!upgrade.researched){
-			return this.description;
-		} else {
-			return this.description + "\n" + "Effect: " + upgrade.effectDesc;
-		}
-	},*/
-	
 	getName: function(){
 		var upgrade = this.getUpgrade();
 		if (!upgrade.researched){
@@ -287,7 +278,6 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 	},
 	
 	updateVisible: function(){
-		
 		var upgrade = this.getUpgrade();
 		if (!upgrade.unlocked){
 			this.setVisible(false);
@@ -302,10 +292,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	
 	constructor: function(opts, game){
 		this.craftName = opts.craft;
-	},
-	
-	updateEnabled: function(){
-		this.inherited(arguments);
 	}
 });
 
@@ -321,6 +307,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		
 		this.craftBtns = [];
 
+	},
+	
+	render: function(tabContainer){
+		//this.inherited(arguments);
+		
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
 			var uprgade = this.game.workshop.upgrades[i];
 
@@ -330,12 +321,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				btn.setEnabled(false);
 			}
 			this.addButton(btn);
+			btn.render(tabContainer);
 		}
-	},
-	
-	render: function(tabContainer){
-		this.inherited(arguments);
 		
+		//------------------------------------------
+
 		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting");
 		var content = craftPanel.render(tabContainer);
 		

@@ -282,7 +282,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 	},
 	
 	updateVisible: function(){
-		
 		var tech = this.getTech();
 		if (!tech.unlocked){
 			this.setVisible(false);
@@ -314,13 +313,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		var tdRight = dojo.create("td", null, tr);
 
 		
-		this.inherited(arguments);
-	},
-	
-	constructor: function(tabName, game){
-		var self = this;
-		this.game = game;
-
+		//this.inherited(arguments);
+		
+		
 		for (var i = 0; i < this.game.science.techs.length; i++){
 			var tech = this.game.science.techs[i];
 
@@ -330,7 +325,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				btn.setEnabled(false);
 			}
 			this.addButton(btn);
+			btn.render(tr);
 		}
+	},
+	
+	constructor: function(tabName, game){
+		var self = this;
+		this.game = game;
 	},
 	
 	createTechBtn: function(tech){

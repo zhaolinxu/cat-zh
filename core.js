@@ -301,7 +301,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			}
 		});
 		
-		this.afterRender()
+		this.afterRender();
 	},
 	
 	afterRender: function(){
