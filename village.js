@@ -519,20 +519,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons.push(huntBtn);
 		this.hutnBtn = huntBtn;
 		
-		//caravans
-		
-		var caravansBtn = new com.nuclearunicorn.game.ui.button({
-				name: "Send caravans",
-				description: "Send caravans to the distant lands",
-				handler: function(){
-					self.sendCaravan();
-				},
-				prices: [{ name : "manpower", val: 500 },
-						 { name : "unicorns", val: 50 }]
-		}, this.game);
-		this.advModeButtons.push(caravansBtn);
-		this.caravansBtn = caravansBtn;
-		
 	},
 	
 	createJobBtn: function(job, game){
@@ -631,11 +617,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			);
 		}
 		this.hutnBtn.update();
-		this.caravansBtn.update();
-		
-		var hasUnicorns = false;
-		this.caravansBtn.setVisible(hasUnicorns);
-		
 		
 		//update kitten stats
 		
@@ -756,33 +737,35 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	sendHunterSquad: function(){
-		this.game.msg("Your hunters returned with some trophies");
-		
+		var fursVal = 0;
+		var ivoryVal = 0;
+
 		var furs = this.game.resPool.get("furs");
-		furs.value += this.rand(65);
 		
-		if (this.rand(100) > 55){
+		
+		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
+		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
+		furs.value += fursVal; 
+		
+		if (this.rand(100) > ( 55 + 2 * hunterRatio)){
 			var ivory = this.game.resPool.get("ivory");
-			ivory.value += this.rand(40);
+			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
+			
+			ivory.value += ivoryVal;
 		}
 		
 		if (this.rand(100) > 95){
 			var unicorns = this.game.resPool.get("unicorns");
 			unicorns.value += 1;
+			
+			this.game.msg("You got a unicorn!");
 		}
-	},
-	
-	sendCaravan: function(){
-		this.game.msg("Your caravan returned with some luxuries");
 		
-		var spice = this.game.resPool.get("spice");
-		var gold = this.game.resPool.get("gold");
-		
-		spice.value += (100 + this.rand(50));
-		
-		if (this.game.science.get("currency").researched){
-			gold.value += this.rand(5);
+		var msg = "Your hunters have returned. +" + fursVal + " furs";
+		if (ivoryVal){
+			msg += ", +" + ivoryVal + " ivory";
 		}
+		this.game.msg( msg );
 	},
 	
 	

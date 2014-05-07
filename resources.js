@@ -117,6 +117,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		tradable: true,
 		craftable: true
+	},{
+		name : "leather",
+		type : "common",
+		tradable: true,
+		craftable: true
 	}],
 	
 	resources: null,

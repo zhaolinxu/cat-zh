@@ -124,6 +124,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "huntingArmor",
+		title: "Hunting Armor",
+		description: "Hunters are 4 times as effective",
+		effects: {
+			"hunterRatio" : 3
+		},
+		prices:[
+			{ name : "science", val: 2000 },
+			{ name : "iron", val: 1000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "advancedRefinement",
 		title: "Catnip Enrichment",
 		description: "Catnip refines twice as better",
@@ -173,6 +189,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Metal Plate",
 		prices:[
 			{name: "iron", val: 75}
+		]
+		
+	},{
+		name: "leather",
+		title: "Leather",
+		prices:[
+			{name: "furs", val: 50}
 		]
 		
 	}],

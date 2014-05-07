@@ -66,7 +66,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 800
+		cost: 800,
+		handler: function(game){
+			game.workshop.get("huntingArmor").unlocked = true;
+		}
 	},
 	{
 		name: "animal",
