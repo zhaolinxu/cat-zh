@@ -255,13 +255,12 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			}
 		}, btnContainer);
 		
-		this.buttonContent = dojo.create("div", {
+		this.buttonContent = dojo.create("div", {}, this.domNode);
+		this.buttonTitle = dojo.create("div", {
 			innerHTML: this.getName(),
-			style: {
-				
-			},
+			style: {},
 			title: this.getDescription()
-		}, this.domNode);
+		}, this.buttonContent);
 
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
@@ -302,7 +301,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	afterRender: function(){
 
 		var prices = this.getPrices();
-		if (prices.length){
+		if (prices.length && !this.tooltip){
 			
 			var tooltip = dojo.create("div", { 
 			classname: "button_tooltip",
@@ -317,7 +316,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 				top: "35px",*/
 				left: "170px",
 				top: "-1px",
-				width: "120px",
+				width: "120px"
 			}}, this.domNode);
 			
 			for( var i = 0; i < prices.length; i++){
@@ -335,6 +334,8 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 
 			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });
 			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
+			
+			this.tooltip = tooltip;
 		}
 		
 	}

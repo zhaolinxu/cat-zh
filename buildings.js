@@ -317,11 +317,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Reduce negative effects of overpopulation by 8%",
 		unlocked: false,
 		prices: [
-			{ name : "iron", val: 300 },
-			{ name : "slab", val: 10 },
+			{ name : "wood", val: 200 },
+			{ name : "minerals", val: 1200 }
 		],
 		effects: {
-			"unhappinessRatio" : -0.08,
+			"unhappinessRatio" : -0.08
 		},
 		priceRatio: 1.15,
 		handler: function(btn){},

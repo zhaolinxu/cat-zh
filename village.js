@@ -463,7 +463,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 				}
 			}
 		}
-	},
+	}
 });
 
 /**
