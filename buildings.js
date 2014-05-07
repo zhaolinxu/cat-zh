@@ -544,7 +544,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
 						paddingLeft: "4px",
 						float: "right",
-						cursor: "default"
+						cursor: "pointer"
 					}}, null);
 					
 				dojo.connect(this.sellHref, "onclick", this, function(event){
@@ -560,8 +560,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					
 					this.update();
 				});
-			} else {
 				dojo.place(this.sellHref, this.buttonContent);
+			} else {
+				dojo.setStyle(this.sellHref, "display", (building.val > 0) ? "" : "none");
 			}
 			
 			//--------------- toggle ------------
@@ -573,22 +574,22 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.toggleHref = dojo.create("a", { href: "#", innerHTML: building.enabled ? "off" : "on", style:{
 						paddingLeft: "4px",
 						float: "right",
-						cursor: "default"
+						cursor: "pointer"
 					}}, null);
 					
 				dojo.connect(this.toggleHref, "onclick", this, function(event){
 					event.stopPropagation();
 
 					building.enabled = !building.enabled;
-					this.toggleHref.innerHTML = building.enabled ? "off" : "on"
-					
+
 					this.update();
 				});
-			} else {
-				
 				
 				dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
 				dojo.place(this.toggleHref, this.buttonContent);
+				
+			} else {
+				this.toggleHref.innerHTML = building.enabled ? "off" : "on";
 			}
 		}
 		
@@ -620,9 +621,6 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 		var self = this;
 		
 		var catnipVal = self.game.resPool.get("catnip").value;	
-		if (catnipVal < (100 * 100)){
-			return;
-		}
 	    // -------------- x100 ----------------
 			
 		if (!this.x100Href){
@@ -653,8 +651,10 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 				
 				this.update();
 			});
-		} else {
+			
 			dojo.place(this.x100Href, this.buttonContent);
+		} else {
+			dojo.setStyle(this.x100Href, "display", catnipVal < (100 * 100) ? "none" : "");
 		}
 		
 	},

@@ -61,6 +61,10 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	tab: null,
 	
 	buildingName: null,
+	
+	//--------------------
+	//left part of the button
+	buttonTitle: null,
 
 	constructor: function(opts, game){
 		
@@ -160,8 +164,8 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		this.updateEnabled();
 		this.updateVisible();
 		
-		if (this.buttonContent){
-			this.buttonContent.innerHTML = this.getName();
+		if (this.buttonTitle){
+			this.buttonTitle.innerHTML = this.getName();
 		}
 	},
 	
@@ -255,12 +259,14 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 			}
 		}, btnContainer);
 		
-		this.buttonContent = dojo.create("div", {}, this.domNode);
-		this.buttonTitle = dojo.create("div", {
+		this.buttonContent = dojo.create("div", { title: this.getDescription()}, this.domNode);
+		this.buttonTitle = dojo.create("span", {
 			innerHTML: this.getName(),
-			style: {},
-			title: this.getDescription()
+			style: {}
 		}, this.buttonContent);
+		
+		/*this.buttonLinks = dojo.create("div", {
+		}, this.buttonContent);*/
 
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");

@@ -396,7 +396,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	
 	jobName: null,
 	
-	sellHref: null,
+	unassignHref: null,
 	
 	getJob: function(){
 		return this.game.village.getJob(this.jobName);
@@ -441,26 +441,31 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		var self = this;
 		
 		var job = this.getJob();
-		if (job && job.value){
-			if (!this.sellHref){
-				this.sellHref = dojo.create("a", { href: "#", innerHTML: "[&ndash;]", style:{
+		if (job && job.value && this.buttonContent	/* mystic bug */){
+			
+			if (!this.unassignHref ){
+				this.unassignHref = dojo.create("a", { href: "#", innerHTML: "[&ndash;]", style:{
 						paddingLeft: "4px",
 						float: "right",
 						cursor: "default",
 						fontWeight: "strong"
 					}}, null);
 					
-				dojo.connect(this.sellHref, "onclick", this, function(event){
+				dojo.connect(this.unassignHref, "onclick", this, function(event){
 					event.stopPropagation();
+					
+					if (!job.value){
+						return;
+					}
 					
 					job.value--;
 					self.game.village.sim.removeJob(job.name);
 					this.update();
 				});
+
+				dojo.place(this.unassignHref, this.buttonContent);
 			} else {
-				if (this.buttonContent) {	//idk what causes this, to be investigated later
-					dojo.place(this.sellHref, this.buttonContent);
-				}
+				dojo.setStyle(this.unassignHref, "display", job.value ? "" : "none");
 			}
 		}
 	}
