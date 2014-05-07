@@ -23,6 +23,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		title: "Resources",
 		buildings: ["barn", "warehouse", "mine", "smelter", "lumberMill"]
 	},{
+		name: "culture",
+		title: "Culture",
+		buildings: ["amphitheatre"]
+	},{
 		name: "other",
 		title: "Other",
 		buildings: ["workshop", "tradepost", "unicornPasture"]
@@ -306,6 +310,23 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["currency"]
+	},
+	{
+		name: "amphitheatre",
+		label: "Amphitheatre",
+		description: "Reduce negative effects of overpopulation by 8%",
+		unlocked: false,
+		prices: [
+			{ name : "iron", val: 300 },
+			{ name : "slab", val: 10 },
+		],
+		effects: {
+			"unhappinessRatio" : -0.08,
+		},
+		priceRatio: 1.15,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["writing"]
 	},
 	{
 		name: "unicornPasture",
