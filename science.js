@@ -155,7 +155,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "writing",
 		title: "Writing",
 		description: "Writing is the art of recording information on material.",
-		effectDesc: "TBD (may do a lot of cool stuff eventually)",
+		effectDesc: "Unlocks Amphitheatres",
 		
 		unlocked: false,
 		researched: false,

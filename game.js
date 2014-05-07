@@ -2,6 +2,14 @@
  * A class for a game page container
  * 
  */
+ 
+//dummy workaround with ie9 local storage :V
+window.LCstorage = window.localStorage;
+if (document.all && !window.localStorage)
+{
+    window.LCstorage = {};
+    window.LCstorage.removeItem = function () { };
+} 
 
 dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
@@ -109,13 +117,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.workshop.save(saveData);
 		this.diplomacy.save(saveData);
 		
-		localStorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
 		console.log("Game saved");
 	},
 	
 	wipe: function(){
-		localStorage["com.nuclearunicorn.kittengame.savedata"] = null;
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = null;
 	},
 	
 	toggleScheme: function(){
@@ -124,7 +132,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	load: function(){
-		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
 			return;
 		}
@@ -166,19 +174,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 	},
 	
-	export: function(){
+	saveExport: function(){
 		this.save();
 		
-		var data = localStorage["com.nuclearunicorn.kittengame.savedata"];
-		//alert(btoa(data));
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
 	},
 	
-	import: function(){
+	saveImport: function(){
 
 		var data = window.prompt("Warning, this will overwrite your save!");
 		if (data){
-			localStorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
 		
 			this.load();
 			

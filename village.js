@@ -234,8 +234,12 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	/** Calculates a total happines where result is a value of [0..1] **/
 	updateHappines: function(){
 		var happiness = 100;
+		
+		var unhappiness = ( this.getKittens()-5 ) * 2;
+		var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio");
+		
 		if (this.getKittens() > 5){
-			happiness -= ( this.getKittens()-5 ) * 2;	//every kitten takes 2% of production rate if >5
+			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
 		
 		//boost happiness/production by 10% for every uncommon/rare resource
@@ -459,7 +463,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 				}
 			}
 		}
-	},
+	}
 });
 
 /**
