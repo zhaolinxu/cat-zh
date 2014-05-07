@@ -120,7 +120,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	toggleScheme: function(){
 		this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
-		$("#gamePageContainer").attr("class", "scheme_"+this.colorScheme);
+		$("body").attr("class", "scheme_"+this.colorScheme);
 	},
 	
 	load: function(){
