@@ -236,7 +236,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var happiness = 100;
 		
 		var unhappiness = ( this.getKittens()-5 ) * 2;
-		var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio");
+		var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio", true);	//limit ratio by 1.0 by 75% hyperbolic falloff
 		
 		if (this.getKittens() > 5){
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
@@ -441,7 +441,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		var self = this;
 		
 		var job = this.getJob();
-		if (job && job.value && this.buttonContent	/* mystic bug */){
+		if (job && this.buttonContent	/* mystic bug */){
 			
 			if (!this.unassignHref ){
 				this.unassignHref = dojo.create("a", { href: "#", innerHTML: "[&ndash;]", style:{
@@ -465,7 +465,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 				dojo.place(this.unassignHref, this.buttonContent);
 			} else {
-				dojo.setStyle(this.unassignHref, "display", job.value ? "" : "none");
+				dojo.setStyle(this.unassignHref, "display", job.value > 0  ? "" : "none");
 			}
 		}
 	}
@@ -506,18 +506,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//----------- adv mode buttons ---------------
 		this.advModeButtons = [];
 		
-		//hunt
-		
-		var huntBtn = new com.nuclearunicorn.game.ui.button({
-				name: "Send hunters",
-				description: "Send hunters to the forest",
-				handler: function(){
-					self.sendHunterSquad();
-				},
-				prices: [{ name : "manpower", val: 100 }]
-		}, this.game);
-		this.advModeButtons.push(huntBtn);
-		this.hutnBtn = huntBtn;
 		
 	},
 	
@@ -540,6 +528,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	render: function(tabContainer){
+		
+		var self = this;
 		
 		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs");
 		var jobsPanelContainer = this.jobsPanel.render(tabContainer);
@@ -588,9 +578,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		var controlsTd = dojo.create("td", {}, tr);
 		
-		for (var i = 0; i < this.advModeButtons.length; i++){
-			this.advModeButtons[i].render(controlsTd);
-		}
+		//hunt
+		
+		var huntBtn = new com.nuclearunicorn.game.ui.button({
+				name: "Send hunters",
+				description: "Send hunters to the forest",
+				handler: function(){
+					self.sendHunterSquad();
+				},
+				prices: [{ name : "manpower", val: 100 }]
+		}, this.game);
+		huntBtn.render(controlsTd);
+		this.hutnBtn = huntBtn;
 		
 		//--------------- bureaucracy ------------------
 		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
@@ -616,7 +615,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				this.game.village.getKittens() >= 5
 			);
 		}
-		this.hutnBtn.update();
+		if (this.hutnBtn){
+			this.hutnBtn.update();
+		}
 		
 		//update kitten stats
 		

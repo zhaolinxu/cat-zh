@@ -330,7 +330,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] ? resMapConsumption[res.name] : 0;
 		
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio");
+		//works very wrong on catmip
+		var useHypHack = (res.name != "catnip") ? true : false;
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyp reduction
 		
 		perTick += resConsumption;
 		
@@ -567,7 +569,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
 		
 		//res reduction
-		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio");
+		var useHypHack = (res.name != "catnip") ? true : false;
+		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyperbolic reduction on negative effects
 		
 		
 		if (bldResRatio){

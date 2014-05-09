@@ -292,12 +292,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 10%",
+		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 5-10%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
 			{ name : "minerals", val: 200 },
-			{ name : "gold", val: 15 }
+			{ name : "gold", val: 10 }
 		],
 		effects: {
 			"fursDemandRatio"   : -0.1,
@@ -314,7 +314,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduce negative effects of overpopulation by 8%",
+		description: "Reduce negative effects of overpopulation by 5-10%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },
@@ -375,7 +375,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	 * total value will be N*K
 	 * 
 	 */ 
-	getEffect: function(name){
+	getEffect: function(name, isHyperbolic){
 		var totalEffect = 0;
 		
 		for (var i = 0; i < this.buildingsData.length; i++){
@@ -398,12 +398,45 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				val += 1;
 			}
 			
+			/* *
+			 * TBD: some comment on why the heck we doing all those thingies
+			 * */
 			if (effect && val){
-				totalEffect += effect * val;
+				if (isHyperbolic && effect < 0){
+					//we do not handle positive effects couse whats the point
+					totalEffect -= this.getHyperbolicEffect(val, Math.abs(effect), 1.0);
+				} else {
+					totalEffect += effect * val;
+				}
 			}
 		}
 		
 		return totalEffect;
+	},
+	
+	/*
+	 * Returns a parabolic-aproaching value of the effect that heades to the limit, but unable to approach it completely
+	 */ 
+	getHyperbolicEffect: function(n, effect, limit){
+		
+		var a = -0.75 * limit * 5;	//empiric formula giving hyp distribution of first 75% withing [0..15 iteration]
+		var k = 0.75
+		
+		if (!n){ return 0};
+		if ( n*effect <= k*limit){
+
+			var lerp_n = -a / (limit - k*limit);
+			var t = n / lerp_n;
+			
+			//console.log("t:", t, "lerp_n", lerp_n, "est:", (a/lerp_n)+limit);
+			return this.lerp(0, (a/lerp_n)+limit, t);
+			
+		}
+		return (a/n)+limit;
+	},
+	
+	lerp: function (v0, v1, t){
+		return v0 + t*(v1-v0);
 	},
 	
 	update: function(){

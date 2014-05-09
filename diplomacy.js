@@ -287,7 +287,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],
 			handler: function(btn){
-				btn.game.diplomacy.unlockRandomRace();
+				var race = btn.game.diplomacy.unlockRandomRace();
+				
+				if (race){
+					self.game.msg("You've found a new civilization!");
+				} else {
+					self.game.msg("Your explorers failed to find anyone.");
+					var res = self.game.resPool.get("manpower");
+					res.value += 950;
+				}
+				
 				btn.game.render();
 			}
 		}, this.game);
