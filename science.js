@@ -217,7 +217,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 						tech.unlocked = savedTech.unlocked;
 						tech.researched = savedTech.researched;
 						
-						if (tech.unlocked && tech.handler){
+						if (tech.researched && tech.handler){
 							tech.handler(this.game);	//just in case update tech effects
 						}
 					}

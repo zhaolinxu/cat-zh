@@ -492,9 +492,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
 		
+		//console.log("days:", winterDays, "perTick":, 
+		
 		//console.log("Val:", this.resPool.get("catnip").value, " winter days:", winterDays * catnipPerTick);
 
-		if (this.resPool.get("catnip").value + winterDays * catnipPerTick <= 0 ){
+		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick * 10 ) <= 0 ){
 			advDiv.innerHTML = "Food advisor: 'Your catnip supply is too low!'"
 		}
 		
