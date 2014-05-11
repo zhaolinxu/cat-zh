@@ -2,6 +2,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	game: null,
 	
+	groupBuildings: false,
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -125,7 +127,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
-			"scienceRatio": 0.08
+			"scienceRatio": 0.08,
+			"scienceMax" : 250
 		},
 		priceRatio: 1.15,
 		handler: 	function(btn){
@@ -145,6 +148,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				 { name : "science", val: 100 }],
 		effects: {
 			"scienceRatio": 0.2,
+			"scienceMax" : 500,
 			"learnRatio" : 0.05
 		},
 		priceRatio: 1.15,
@@ -473,7 +477,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				var price = building.prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				if (res.value * 1.7 < price.val){	// 30% required to unlock structure
+				if (res.value / 0.3 < price.val){	// 30% required to unlock structure
 					isEnabled = false;
 					break;
 				}
@@ -502,12 +506,21 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	save: function(saveData){
 		saveData.buildings = this.buildingsData;
+		
+		if (!saveData.bldData){
+			saveData.bldData = {};
+		}
+		saveData.bldData.groupBuildings = this.groupBuildings;
 	},
 	
 	load: function(saveData){
 		/*if (saveData.buildings && saveData.buildings.length){
 			this.buildingsData  = saveData.buildings;
 		}*/
+		
+		if (saveData.bldData){
+			this.groupBuildings = saveData.bldData.groupBuildings;
+		}
 		
 		if (saveData.buildings.length){
 			for(var i = 0; i< saveData.buildings.length; i++){
@@ -712,7 +725,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
 	
-	groupBuildings: false,
+	//groupBuildings: false,
 	
 	constructor: function(tabName){
 		//this.inherited(arguments);
@@ -727,11 +740,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		var div = dojo.create("div", { style: { float: "right"}}, content);
 		var groupCheckbox = dojo.create("input", {
 			type: "checkbox",
-			checked: this.groupBuildings
+			checked: this.game.bld.groupBuildings
 		}, div);
 		
 		dojo.connect(groupCheckbox, "onclick", this, function(){
-			this.groupBuildings = !this.groupBuildings;
+			this.game.bld.groupBuildings = !this.game.bld.groupBuildings;
 			
 			dojo.empty(content);
 			this.render(content);

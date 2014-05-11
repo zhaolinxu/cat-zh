@@ -46,6 +46,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	//flags and shit
 	forceShowLimits: false,
+	colorScheme: "",
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -117,6 +118,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.workshop.save(saveData);
 		this.diplomacy.save(saveData);
 		
+		/*forceShowLimits: false,
+		colorScheme: null,*/
+		saveData.forceShowLimits = this.forceShowLimits;
+		saveData.colorScheme = this.colorScheme;
+		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
 		console.log("Game saved");
@@ -128,6 +134,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	toggleScheme: function(){
 		this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
+		this.setColorScheme();
+	},
+	
+	setColorScheme: function(){
+		$("schemeToggle").checked = (this.colorScheme == "dark");
 		$("body").attr("class", "scheme_"+this.colorScheme);
 	},
 	
@@ -172,6 +183,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.diplomacy.hasUnlockedRaces()){
 			this.diplomacyTab.visible = true;
 		}
+		
+		this.forceShowLimits = saveData.forceShowLimits;
+		this.colorScheme = saveData.colorScheme;
+		this.setColorScheme();
 	},
 	
 	saveExport: function(){
@@ -431,7 +446,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					
 				}, tr);
 				if (res.maxValue && (res.value * 1.5 > res.maxValue || this.forceShowLimits)){	//50% before limit
-					tdResVal.innerHTML += "/" + this.getDisplayValueExt(res.maxValue);
+					tdResVal.innerHTML += " / <span class='maxRes'>" + this.getDisplayValueExt(res.maxValue) + "<span>";
 				}
 				
 				var tdResPerTick = dojo.create("td", {
@@ -465,12 +480,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//checkbox
 		if (this.bld.get("barn").val > 0){
 			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
-			var groupCheckbox = dojo.create("input", {
+			var limitCheckBox = dojo.create("input", {
 				type: "checkbox",
 				checked: this.forceShowLimits
 			}, div);
 			
-			dojo.connect(groupCheckbox, "onclick", this, function(){
+			dojo.connect(limitCheckBox, "onclick", this, function(){
 				this.forceShowLimits = !this.forceShowLimits;
 			});
 			
