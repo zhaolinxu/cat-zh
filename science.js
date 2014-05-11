@@ -204,6 +204,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},
 	
 	load: function(saveData){
+				
 		if (saveData.science){
 			var techs = saveData.science.techs;
 			//console.log("restored techs:",  techs);
