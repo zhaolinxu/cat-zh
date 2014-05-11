@@ -184,8 +184,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			this.diplomacyTab.visible = true;
 		}
 		
-		this.forceShowLimits = saveData.forceShowLimits;
-		this.colorScheme = saveData.colorScheme;
+		this.forceShowLimits = saveData ? saveData.forceShowLimits : false;
+		this.colorScheme = saveData? saveData.colorScheme : false;
 		this.setColorScheme();
 	},
 	
