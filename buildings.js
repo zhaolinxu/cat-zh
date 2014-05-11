@@ -350,7 +350,30 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["animal"],
 		canUpgrade: true
+	},
+	
+	//----------------------------------- Wonders ----------------------------------------
+	
+	{
+		name: "ziggurat",
+		label: "Ziggurat",
+		description: "The dark legacy of the lost race",
+		unlocked: false,
+		prices: [
+			{ name : "megalith", val: 50 },
+			{ name : "beam", val: 25 },
+		],
+		effects: {
+		},
+		priceRatio: 1.75,
+		handler: function(btn){
+		},
+		val: 0,
+		requiredTech: ["construction"],
+		canUpgrade: true
 	}
+	
+	
 	],
 	
 	effectsBase: {
