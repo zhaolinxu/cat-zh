@@ -204,6 +204,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},
 	
 	load: function(saveData){
+				
 		if (saveData.science){
 			var techs = saveData.science.techs;
 			//console.log("restored techs:",  techs);
@@ -217,7 +218,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 						tech.unlocked = savedTech.unlocked;
 						tech.researched = savedTech.researched;
 						
-						if (tech.unlocked && tech.handler){
+						if (tech.researched && tech.handler){
 							tech.handler(this.game);	//just in case update tech effects
 						}
 					}

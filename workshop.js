@@ -198,6 +198,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "furs", val: 50}
 		]
 		
+	},{
+		name: "megalith",
+		title: "Megalith",
+		prices:[
+			{ name: "slab", val: 10 },
+			{ name: "beam", val: 2 },
+			{ name: "plate", val: 4 }
+		]
+		
 	}],
 	
 	constructor: function(game){

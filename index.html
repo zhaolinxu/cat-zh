@@ -6,18 +6,18 @@
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
 
-		<script src="./core.js?v=1" type="text/javascript"></script>
+		<script src="./core.js?v=0.3.3.4" type="text/javascript"></script>
 		
-		<script src="./resources.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./calendar.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./buildings.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./village.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./science.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./workshop.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./diplomacy.js?v=0.3.3.2" type="text/javascript"></script>
-		<script src="./economy.js?v=0.3.3.2" type="text/javascript"></script>
+		<script src="./resources.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./calendar.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./buildings.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./village.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./science.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./workshop.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./diplomacy.js?v=0.3.3.4" type="text/javascript"></script>
+		<script src="./economy.js?v=0.3.3.4" type="text/javascript"></script>
 		
-		<script src="./game.js?v=0.3.3.2" type="text/javascript"></script>
+		<script src="./game.js?v=0.3.3.4" type="text/javascript"></script>
 		
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -125,9 +125,13 @@
 				padding: 10px;
 			}
 			
+			.maxRes {
+				color: #AAA;
+			}
+			
 			/* ============ dark color scheme ===========*/
 			
-			.scheme_dark {
+			.scheme_dark, .scheme_dark .help{
 				background-color: #201F1D;
 				color: #dcdcdc;
 			}
@@ -135,6 +139,10 @@
 			.scheme_dark .btn {
 				border: 1px solid #DE8D47;
 				color: #dcdcdc;
+			}
+			
+			.scheme_dark .highlited{
+				background-color: #403F3D;
 			}
 
 			.scheme_dark a {
@@ -159,6 +167,11 @@
 				background-color: #201F1D;
 				color: 565655;
 			}
+			
+			.scheme_dark .maxRes {
+				color: #555;
+			}
+			
 	    </style>
 		
 		<script type="text/javascript">
@@ -219,7 +232,7 @@
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				
-				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.3.3.2</a>
+				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.3.4.4</a>
 
 			</div>
 			<div id="changelogDiv" style="display:none; z-index:9999" class="help">
@@ -230,14 +243,11 @@
 					Major: 3
 						Trade
 						
-					Minor 3: 
-						Tradepost
-						Amphitheatre
-						Hunting armor
+					Minor 4: 
+						Weather
 						
-					Rev: 2
-						Toggle res limit
-						IE + links
+					Rev: 4
+						Save tweaks + sci limit
 						
 						
 				</pre>
@@ -286,7 +296,7 @@
 			</div>
 			
 			<div id="optionsDiv" style="display:none" class="help">
-				Color scheme : <input type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br>
+				Color scheme : <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br>
 				
 				<input type="button" value="Export" onclick="gamePage.saveExport();"><br>
 				<input type="button" value="Import" onclick="gamePage.saveImport();" style="margin-top:10px;"><br>

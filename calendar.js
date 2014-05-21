@@ -1,4 +1,6 @@
 dojo.declare("com.nuclearunicorn.game.Calendar", null, {
+	game: null,
+	
 	seasons: [
 	{
 		name: "spring",
@@ -42,6 +44,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	eventChance: 0,
 	
+	weather: null,	//warm / cold
+	
+	constructor: function(game){
+		this.game = game;
+	},
+	
 	tick: function(){
 		this.day += this.dayPerTick;
 		
@@ -60,6 +68,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	onNewSeason: function(){
 		this.eventChance = 0;
+		
+		if (this.game.rand(100) < 35 && this.year > 3){
+			if (this.game.rand(100) > 50){
+				this.weather = "warm";
+			} else {
+				this.weather = "cold";
+			}
+		}else{
+			this.weather = null;
+		}
+	},
+	
+	getWeatherMod: function(){
+		if (this.weather == "warm"){
+			return 0.15;
+		} else if (this.weather == "cold"){
+			return -0.15
+		}
+		return 0;
 	},
 	
 	getCurSeason: function(){
