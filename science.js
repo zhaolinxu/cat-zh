@@ -166,6 +166,18 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 		}
+	},{
+		name: "philosophy",
+		title: "Philosophy",
+		description: "TBD.",
+		effectDesc: "Unlocks Temples",
+		
+		unlocked: false,
+		researched: false,
+		cost: 9500,
+		unlocks: [],
+		handler: function(game){
+		}
 	}
 	],
 	

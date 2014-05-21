@@ -49,6 +49,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	science: null,
 	workshop: null,
 	diplomacy: null,
+	achievements: null,
 	
 	console: null,
 	
@@ -90,6 +91,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.diplomacy = new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
 		this.science = new com.nuclearunicorn.game.science.ScienceManager(this);
+		this.achievements = new com.nuclearunicorn.game.science.Achievements(this);
 		
 
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
