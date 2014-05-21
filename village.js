@@ -488,21 +488,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var self = this;
 		this.game = game;
 
-		
-		for (var i = 0; i < this.game.village.jobs.length; i++){
-			var job = this.game.village.jobs[i];
-			
-			var btn = this.createJobBtn(job, game);
-			this.addButton(btn);
-		}
-		
-		var btn = new com.nuclearunicorn.game.ui.button({ name:"Clear",
-			handler: function(){
-				self.game.village.clearJobs();
-			}
-		});
-		this.addButton(btn);
-		
 		//----------- adv mode buttons ---------------
 		this.advModeButtons = [];
 		
@@ -540,6 +525,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	render: function(tabContainer){
+		var self = this;
 		
 		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs");
 		var jobsPanelContainer = this.jobsPanel.render(tabContainer);
@@ -561,11 +547,25 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		var tdLeft = dojo.create("td", null, tr);	
 		var tdRight = dojo.create("td", null, tr);
-				
-		for (var i = 0; i<this.buttons.length; i++){
-			var button = this.buttons[i];
-			button.render(jobsPanelContainer);
+		
+		//----------------
+		
+		for (var i = 0; i < this.game.village.jobs.length; i++){
+			var job = this.game.village.jobs[i];
+			
+			var btn = this.createJobBtn(job, this.game);
+			btn.render(jobsPanelContainer);
+			
+			this.addButton(btn);
 		}
+		
+		var btn = new com.nuclearunicorn.game.ui.button({ name:"Clear",
+			handler: function(){
+				self.game.village.clearJobs();
+			}
+		});
+		btn.render(jobsPanelContainer);
+		this.addButton(btn);
 		
 		//----------------- happiness and things ----------------------
 		

@@ -292,18 +292,18 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 10%",
+		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 6%",
 		unlocked: false,
 		prices: [
-			{ name : "wood", val: 500 },
+			{ name : "wood", val: 800 },
 			{ name : "minerals", val: 200 },
-			{ name : "gold", val: 15 }
+			{ name : "gold", val: 10 }
 		],
 		effects: {
-			"fursDemandRatio"   : -0.1,
-			"ivoryDemandRatio"  : -0.1,
-			"spiceDemandRatio"  : -0.1,
-			"silkDemandRatio"   : -0.1,
+			"fursDemandRatio"   : -0.06,
+			"ivoryDemandRatio"  : -0.06,
+			"spiceDemandRatio"  : -0.06,
+			"silkDemandRatio"   : -0.06,
 			"tradeRatio" : 0.015
 		},
 		priceRatio: 1.15,
