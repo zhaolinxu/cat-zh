@@ -246,5 +246,32 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 				}
 			}
 		}
+	},
+	
+	hasRes: function(prices){
+		var hasRes = true;
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+				
+				var res = this.get(price.name);
+				if (res.value < price.val){
+					hasRes = false;
+					break;
+				}
+			}
+		}
+		return hasRes;
+	},
+	
+	payPrices: function(prices){
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+				
+				var res = this.get(price.name);
+				res.value -= price.val;
+			}
+		}
 	}
 });

@@ -223,6 +223,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		return null;
 	},
 	
+	getCraft: function(craftName){
+		for( var i = 0; i< this.crafts.length; i++){
+			if (this.crafts[i].name == craftName){
+				return this.crafts[i];
+			}
+		}
+		console.error("Failed to get craft for id '"+craftName+"'");
+		return null;
+	},
+	
 	save: function(saveData){
 		saveData.workshop = {
 			upgrades: this.upgrades
@@ -273,6 +283,24 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		}
 		
 		return totalEffect;
+	},
+	
+		
+	craft: function (res, amt){
+		var ratio = this.game.bld.getEffect("craftRatio");
+		var craftAmt = amt + amt*ratio;
+		
+		var craft = this.getCraft(res);
+		var prices = dojo.clone(craft.prices);
+		
+		for (var i = 0; i< prices.length; i++){
+			prices[i].val *= amt;
+		}
+		
+		if (this.game.resPool.hasRes(prices)){
+			this.game.resPool.payPrices(prices);
+			this.game.resPool.get(res).value += craftAmt;
+		}
 	}
 });
 
@@ -399,7 +427,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			craftPanel.setVisible(false);
 		}
 	},
-	
+
 	renderResources: function(container){
 		
 		dojo.empty(container);

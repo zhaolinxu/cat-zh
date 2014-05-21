@@ -11,6 +11,29 @@ if (document.all && !window.localStorage)
     window.LCstorage.removeItem = function () { };
 } 
 
+dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
+	handlers: [],
+	
+	addEvent: function(handler, frequency){
+		this.handlers.push({
+			handler: handler,
+			frequency: frequency,
+			phase: 0
+		});
+	},
+	
+	update: function(){
+		for (var i= 0; i < this.handlers.length; i++){
+			var h = this.handlers[i];
+			h.phase--;
+			if (h.phase <= 0){
+				h.phase = h.frequency;
+				h.handler();
+			}
+		}
+	}
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	id: null,
@@ -47,6 +70,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	//flags and shit
 	forceShowLimits: false,
 	colorScheme: "",
+	
+	timer: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -91,6 +116,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.addTab(this.diplomacyTab);
 		
 		//vvvv do not forget to toggle tab visiblity below
+		
+		this.timer = new com.nuclearunicorn.game.ui.Timer();
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 5);	//once per 5 ticks
 	},
 	
 	msg: function(message){
@@ -219,15 +248,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				top: "-30px",
 				left: "-20px"
 			}}, container);
-			
-		/*this._resourceDiv = dojo.create("div", {
-				style: {
-					position: "absolute",
-					top: "10px",
-					left: "10px"
-			}}, container);*/
-		this._resourceDiv = dojo.byId("resContainer");
+
 		this.updateResources();
+		this.updateCraftResources();
 		
 		var visibleTabs = [];
 		
@@ -392,15 +415,19 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		kittens.maxValue = this.village.maxKittens;
 
 		//update resources tab
-		this.updateResources();
+		//this.updateResources();
+		//this.updateCraftResources();
 		this.updateCalendar();
 		this.updateAdvisors();
+		
+		this.timer.update();
 	},
 	
 	/**
 	 * Updates a resource table on the UI
 	 */
 	updateResources: function(){
+		this._resourceDiv = dojo.byId("resContainer");
 		var season = this.calendar.getCurSeason();
 
 		this._resourceDiv.innerHTML = "";
@@ -488,12 +515,55 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				checked: this.forceShowLimits
 			}, div);
 			
-			dojo.connect(limitCheckBox, "onclick", this, function(){
+			dojo.connect(limitCheckBox, "onclick", this, function(event){
+				event.stopPropagation();
 				this.forceShowLimits = !this.forceShowLimits;
 			});
 			
 			dojo.create("span", { innerHTML: "Show max resources"}, div);
 		}
+	},
+	
+	updateCraftResources: function(){
+		//TODO: reduce regeneration rate
+		
+		this._craftDiv = dojo.byId("craftContainer");
+		this._craftDiv.innerHTML = "";
+		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._craftDiv);
+		
+		for (var i = 0; i < this.resPool.resources.length; i++){
+			var res = this.resPool.resources[i];
+			
+			if (res.craftable && res.value > 0 ){
+				var tr = dojo.create("tr", {}, resTable);
+				
+				var tdResName = dojo.create("td", { 
+					innerHTML: res.name + ":"
+				}, tr);
+				
+				dojo.create("td", { innerHTML: res.value.toFixed(2)}, tr);
+				
+				//sort of hack to override regeneration bug
+				var td = dojo.create("td", {}, tr);
+				dojo.create("a", { 
+					href: "#", 
+					onclick: "gamePage.craft('" + res.name + "', 1);", 
+					innerHTML : "+" 
+				}, td);
+				
+				var td = dojo.create("td", {}, tr);
+				dojo.create("a", {
+					href: "#", 
+					onclick: "gamePage.craft('" + res.name + "', 100);", 
+					innerHTML : "+100" 
+				}, td);
+			}
+		}
+	},
+	
+	craft: function(res, value){
+		this.workshop.craft(res, value);
+		this.updateCraftResources();
 	},
 	
 	updateAdvisors: function(){

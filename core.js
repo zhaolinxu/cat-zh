@@ -133,19 +133,7 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 		
 		var prices = this.getPrices();
 		
-		//todo: move somewhere else?
-		if (prices.length){
-			for( var i = 0; i < prices.length; i++){
-				var price = prices[i];
-				
-				var res = this.game.resPool.get(price.name);
-				if (res.value < price.val){
-					hasRes = false;
-					break;
-				}
-			}
-		}
-		return hasRes;
+		return this.game.resPool.hasRes(prices);
 	},
 	
 	updateVisible: function(){
@@ -212,14 +200,8 @@ dojo.declare("com.nuclearunicorn.game.ui.button", null, {
 	
 	payPrice: function(){
 		var prices = this.getPrices();
-		if (prices.length){
-			for( var i = 0; i < prices.length; i++){
-				var price = prices[i];
-				
-				var res = this.game.resPool.get(price.name);
-				res.value -= price.val;
-			}
-		}
+
+		this.game.resPool.payPrices(prices);
 		
 		if (this.buildingName){
 			var building = this.getBuilding();

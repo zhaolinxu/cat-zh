@@ -778,7 +778,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		var div = dojo.create("div", { style: { marginTop: "25px"}}, content);
 		
 		
-		if (this.groupBuildings){
+		if (this.game.bld.groupBuildings){
 			var groups = this.game.bld.buildingGroups;
 			for (var i = 0; i< groups.length; i++){
 				
@@ -846,6 +846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.resPool.get("catnip").value++;
+						self.game.updateResources();
 					 },
 			description: "Gathere some catnip in the wood"
 		}, this.game);
@@ -863,6 +864,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 								self.game.resPool.get("wood").value += 2;
 								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 							}
+							
+							self.game.updateResources();
 						},
 			description: "Refine catnip into the catnip wood",
 			prices: [ { name : "catnip", val: 100 }]
