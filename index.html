@@ -188,6 +188,8 @@
 				if (confirm("You are about to enter a dev mode, proceed?")){
 					
 					gamePage.bld.get("barn").val = 10;
+					gamePage.bld.get("library").val = 30;
+					gamePage.bld.get("academy").val = 15;
 					
 					gamePage.resPool.get("catnip").value = 50000;
 					gamePage.resPool.get("wood").value = 5000;
@@ -195,13 +197,13 @@
 					gamePage.resPool.get("iron").value = 1000;
 					gamePage.resPool.get("gold").value = 100;
 					
-					gamePage.resPool.get("science").value = 10000;
+					gamePage.resPool.get("science").value = 15000;
 					gamePage.resPool.get("furs").value = 10;
 					gamePage.resPool.get("ivory").value = 10;
 					gamePage.resPool.get("unicorns").value = 50;
 					gamePage.resPool.get("manpower").value = 5000;
 					
-					gamePage.msg(">:");
+					gamePage.msg("b-baka! >:");
 					
 					//------
 
@@ -236,7 +238,7 @@
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				
-				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.3.4.5</a>
+				<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.3.6.5</a>
 
 			</div>
 			<div id="changelogDiv" style="display:none; z-index:9999" class="help">
@@ -247,8 +249,9 @@
 					Major: 3
 						Trade
 						
-					Minor 4: 
-						Weather
+					Minor 6: 
+						Culture
+						Philosophy
 						
 					Rev: 5
 						Craft snippets

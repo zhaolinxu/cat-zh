@@ -167,6 +167,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "deepMining",
+		title: "Deep Mining",
+		description: "Mines will also produce coal",
+		effects: {
+		},
+		prices:[
+			{ name : "iron", 	 val: 1200 },
+			{ name : "beam", 	 val: 75 },
+			{ name : "science",  val: 5000 }
+		],
+		unlocked: false,
+		researched: false
 	}],
 	
 	crafts:[{
@@ -202,7 +215,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "parchment",
 		title: "Parchment",
 		prices:[
-			{name: "leather", val: 15}
+			{name: "leather", val: 5}
 		]
 		
 	},{

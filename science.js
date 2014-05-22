@@ -163,13 +163,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 3600,
-		unlocks: ["philosophy"],
+		unlocks: ["philosophy", "machinery", "steel"],
 		handler: function(game){
 		}
 	},{
 		name: "philosophy",
 		title: "Philosophy",
-		description: "TBD.",
+		description: "Philosophy is the first abstract science developed by catkind.",
 		effectDesc: "Unlocks Temples",
 		
 		unlocked: false,
@@ -177,6 +177,31 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 9500,
 		unlocks: [],
 		handler: function(game){
+		}
+	},{
+		name: "machinery",
+		title: "Machinery",
+		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
+		effectDesc: "Allows factory automation. (TBD)",
+		
+		unlocked: false,
+		researched: false,
+		cost: 15000,
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "steel",
+		title: "Steel",
+		description: "TBD.",
+		effectDesc: "Unlocks Coal and Steal production (TBD)",
+		
+		unlocked: false,
+		researched: false,
+		cost: 12000,
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("deepMining").unlocked = true;
 		}
 	}
 	],

@@ -566,6 +566,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	craft: function(res, value){
 		this.workshop.craft(res, value);
 		this.updateCraftResources();
+		this.updateResources();
 	},
 	
 	updateAdvisors: function(){

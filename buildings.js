@@ -216,13 +216,25 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: function(btn){
 			btn.game.village.getJob("miner").unlocked = true;
 		},
-		val: 0
-	},{
+		val: 0,
+		action: function(self, game){
+			var coal = game.resPool.get("coal");
+
+			if (game.workshop.get("deepMining").researched){
+				//fun but ugly hack
+				self.effects["coalPerTick"] = 0.005;
+				
+				coal.value += self.effects["coalPerTick"] * self.val;
+			}
+		}
+	},
+	{
 		name: "smelter",
 		label: "Smelter",
 		description: "Smelts ore into the metal (-0.05 wood, -0.1 minerals, + 0.02 iron)",
 		unlocked: false,
 		enabled: true,
+		togglable: true,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -329,7 +341,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		prices: [
 			{ name : "wood", val: 200 },
 			{ name : "minerals", val: 1200 },
-			{ name : "parchment", val: 5 }
+			{ name : "parchment", val: 3 }
 		],
 		effects: {
 			"unhappinessRatio" : -0.08,
@@ -441,12 +453,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
-			
-			//TODO: FIX THIS SHIT
-			if (bld.isSpacer) {
-				continue;
-			}
-			
+
 			var effect = bld.effects[name];
 			
 			if (bld.action && !bld.enabled){
@@ -670,7 +677,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			
 			//--------------- toggle ------------
 			
-			if (!building.action){
+			if (!building.action || !building.togglable){
 				return;
 			}
 			if (!this.toggleHref){
