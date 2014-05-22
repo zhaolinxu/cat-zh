@@ -123,6 +123,16 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: true,
 		craftable: true
 	},{
+		name : "parchment",
+		type : "common",
+		tradable: true,
+		craftable: true
+	},{
+		name : "manuscript",
+		type : "common",
+		tradable: true,
+		craftable: true
+	},{
 		name : "megalith",
 		type : "common",
 		tradable: true,

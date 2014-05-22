@@ -163,7 +163,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 3600,
-		unlocks: [],
+		unlocks: ["philosophy"],
 		handler: function(game){
 		}
 	},{

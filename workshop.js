@@ -199,12 +199,27 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		]
 		
 	},{
+		name: "parchment",
+		title: "Parchment",
+		prices:[
+			{name: "leather", val: 15}
+		]
+		
+	},{
+		name: "manuscript",
+		title: "Manuscript",
+		prices:[
+			{name: "leather", val: 50},
+			{name: "culture", val: 500}
+		]
+		
+	},{
 		name: "megalith",
 		title: "Megalith",
 		prices:[
-			{ name: "slab", val: 10 },
-			{ name: "beam", val: 2 },
-			{ name: "plate", val: 4 }
+			{ name: "slab", val: 25 },
+			{ name: "beam", val: 10 },
+			{ name: "plate", val: 5 }
 		]
 		
 	}],

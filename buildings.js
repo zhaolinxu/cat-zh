@@ -27,11 +27,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "culture",
 		title: "Culture",
-		buildings: ["amphitheatre"]
+		buildings: ["amphitheatre", "temple"]
 	},{
 		name: "other",
 		title: "Other",
 		buildings: ["workshop", "tradepost", "unicornPasture"]
+	},{
+		name: "megastructures",
+		title: "Mega Structures",
+		buildings: ["ziggurat"]
 	}
 	],
 	
@@ -128,7 +132,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
 			"scienceRatio": 0.08,
-			"scienceMax" : 250
+			"scienceMax" : 250,
+			"cultureMax" : 10
 		},
 		priceRatio: 1.15,
 		handler: 	function(btn){
@@ -149,7 +154,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 			"scienceRatio": 0.2,
 			"scienceMax" : 500,
-			"learnRatio" : 0.05
+			"learnRatio" : 0.05,
+			"cultureMax" : 25
 		},
 		priceRatio: 1.15,
 		requiredTech: ["math"],
@@ -247,7 +253,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				
 				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;	//a bit less than ore
 				
-				if (game.workshop.get("goldOre").unlocked){
+				if (game.workshop.get("goldOre").researched){
 					gold.value += self.effects["goldPerTick"] * self.val;
 				}
 			}
@@ -318,19 +324,47 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduce negative effects of overpopulation by 5-10%",
+		description: "Reduce negative effects of overpopulation by 5-10%. +0.1 culture per tick",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },
-			{ name : "minerals", val: 1200 }
+			{ name : "minerals", val: 1200 },
+			{ name : "parchment", val: 5 }
 		],
 		effects: {
-			"unhappinessRatio" : -0.08
+			"unhappinessRatio" : -0.08,
+			"culturePerTick" : 0.1,
+			"cultureMax" : 50
 		},
 		priceRatio: 1.15,
 		handler: function(btn){},
 		val: 0,
-		requiredTech: ["writing"]
+		requiredTech: ["writing"],
+		action: function(self, game){
+			var culture = game.resPool.get("culture");
+			culture.value += self.val * 0.1;
+		}
+	},
+	{
+		name: "temple",
+		label: "Temple",
+		description: "Temple of light. +0.5 culture per tick. Faith effects TBD",
+		unlocked: false,
+		prices: [
+			{ name : "block", val: 25 },
+			{ name : "plate", val: 10 },
+			{ name : "gold", val: 150 },
+			{ name : "manuscript", val: 10 }
+		],
+		effects: {
+			"culturePerTick" : 0.5
+		},
+		priceRatio: 1.15,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["philosophy"],
+		action: function(self, game){
+		}
 	},
 	{
 		name: "unicornPasture",
@@ -360,8 +394,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "The dark legacy of the lost race",
 		unlocked: false,
 		prices: [
-			{ name : "megalith", val: 50 },
-			{ name : "beam", val: 25 },
+			{ name : "megalith", val: 75 },
+			{ name : "beam", val: 25 }
 		],
 		effects: {
 		},
