@@ -458,7 +458,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 			var effect = bld.effects[name];
 			
-			if (bld.action && !bld.enabled){
+			if (bld.action && !bld.enabled && bld.togglable){
 				continue;
 			}
 			
