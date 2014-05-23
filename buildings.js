@@ -345,7 +345,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		],
 		effects: {
 			"unhappinessRatio" : -0.08,
-			"culturePerTick" : 0.1,
+			"culturePerTick" : 0.005,
 			"cultureMax" : 50
 		},
 		priceRatio: 1.15,
@@ -354,7 +354,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		requiredTech: ["writing"],
 		action: function(self, game){
 			var culture = game.resPool.get("culture");
-			culture.value += self.val * 0.1;
+			culture.value += self.val * self.effects["culturePerTick"];
 		}
 	},
 	{
@@ -369,7 +369,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			{ name : "manuscript", val: 10 }
 		],
 		effects: {
-			"culturePerTick" : 0.5
+			"culturePerTick" : 0.05
 		},
 		priceRatio: 1.15,
 		handler: function(btn){},
