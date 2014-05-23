@@ -27,6 +27,14 @@ dojo.declare("com.nuclearunicorn.game.science.Achievements", null, {
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
-	
+	render: function(content){
+		var div = dojo.create("div", { style: { float: "right"}}, content);
+		
+		div.innerHTML = "";
+		for (var i = 0; i< this.game.achievements.achievements; i++){
+			var ach = this.game.achievements.achievements[i];
+			div.innerHTML += ach.title + "<br>";
+		}
+	}
 });
 	
