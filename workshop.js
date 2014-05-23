@@ -184,7 +184,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	crafts:[{
 		name: "beam",
-		title: "Supp. Beam",
+		title: "Wooden Beam",
 		prices:[
 			{name: "wood", val: 100}
 		]
@@ -192,7 +192,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},
 	{
 		name: "slab",
-		title: "Slab",
+		title: "Stone Slab",
 		prices:[
 			{name: "minerals", val: 250}
 		]
@@ -222,7 +222,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "manuscript",
 		title: "Manuscript",
 		prices:[
-			{name: "leather", val: 50},
+			{name: "parchment", val: 25},
 			{name: "culture", val: 500}
 		]
 		
