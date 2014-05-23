@@ -649,6 +649,23 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.bureaucracyPanel.setVisible(hasCivilService);
 		}
 		this.updateCensus();
+		
+		//-------- update tab title -------
+		var freeKittens = this.game.village.getFreeKittens();
+		if (freeKittens){
+			this.tabName = this.getVillageTitle() + " (" + freeKittens + ")";
+		}
+	},
+	
+	getVillageTitle: function(){
+		var kittens = this.game.village.getKittens();
+		if (kittens > 50){
+			return "Small town";
+		} else if (kittens > 30){
+			return "Settlement";
+		} else if (kittens > 15){
+			return "Village";
+		}
 	},
 	
 	updateCensus: function(){

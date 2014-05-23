@@ -51,7 +51,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		visible: true
 	},
 	{
-		name : "kittens",
+		name : "culture",
 		type : "common",
 		tradable: false,
 		visible: true
@@ -63,10 +63,15 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		visible: true
 	},
 	{
-		name : "trade",		//trade tokens
+		name : "kittens",
 		type : "common",
 		tradable: false,
-		visible: false
+		visible: true
+	},{
+		name : "schema",
+		type : "common",
+		tradable: false,
+		visible: true
 	},
 	
 	//=========================================
@@ -257,8 +262,19 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			}
 		}
 	},
-	
-	hasRes: function(prices){
+
+	/**
+	 * Retruns true if user has enough resources to construct AMT building with given price
+	 */ 
+	hasRes: function(prices, amt){
+		if (amt){
+			prices = dojo.clone(prices);
+		
+			for (var i = 0; i< prices.length; i++){
+				prices[i].val *= amt;
+			}
+		}
+		
 		var hasRes = true;
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){

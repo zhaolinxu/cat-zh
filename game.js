@@ -224,7 +224,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.save();
 		
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
-		window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
+		
+		var is_chrome = window.chrome;
+		if (is_chrome){
+			/*alert("Press Ctrl+C when you see next window. (Sorry crome folks)");
+			alert(btoa(data));
+			//console.log("EXPORTED SAVE DATA:", btoa(data));*/
+			$("#exportDiv").show();
+			$("#exportData").val(btoa(data));
+			$("#exportData").select();
+		} else {
+			window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
+		}
 	},
 	
 	saveImport: function(){
@@ -540,24 +551,51 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var tr = dojo.create("tr", {}, resTable);
 				
 				var tdResName = dojo.create("td", { 
-					innerHTML: res.name + ":"
+					innerHTML: res.name + ":",
+					style: {
+						width: "75px"
+					}
 				}, tr);
 				
-				dojo.create("td", { innerHTML: res.value.toFixed(2)}, tr);
+				dojo.create("td", { innerHTML: res.value.toFixed(2),
+					style: {
+						width: "50px"
+					}}, tr);
 				
 				//sort of hack to override regeneration bug
-				var td = dojo.create("td", {}, tr);
+				
+				//TODO: add 'hasRes' check
+				
+				var recipe = this.workshop.getCraft(res.name);
+
+				var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				dojo.create("a", { 
 					href: "#", 
 					onclick: "gamePage.craft('" + res.name + "', 1);", 
-					innerHTML : "+" 
+					innerHTML : "+",
+					style: {
+						display: this.resPool.hasRes(recipe.prices, 1) ? "" : "none"
+					}
 				}, td);
 				
-				var td = dojo.create("td", {}, tr);
+				var td = dojo.create("td", { style: {width: "20px"}}, tr);
+				dojo.create("a", {
+					href: "#", 
+					onclick: "gamePage.craft('" + res.name + "', 25);", 
+					innerHTML : "+25",
+					style: {
+						display: this.resPool.hasRes(recipe.prices, 25) ? "" : "none"
+					}
+				}, td);
+				
+				var td = dojo.create("td", { }, tr);
 				dojo.create("a", {
 					href: "#", 
 					onclick: "gamePage.craft('" + res.name + "', 100);", 
-					innerHTML : "+100" 
+					innerHTML : "+100",
+					style: {
+						display: this.resPool.hasRes(recipe.prices, 100) ? "" : "none"
+					} 
 				}, td);
 			}
 		}
