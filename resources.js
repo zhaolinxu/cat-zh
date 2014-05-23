@@ -23,7 +23,19 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		visible: true
 	},
 	{
+		name : "coal",
+		type : "common",
+		tradable: true,
+		visible: true
+	},
+	{
 		name : "iron",
+		type : "common",
+		tradable: true,
+		visible: true
+	},
+	{
+		name : "steel",
 		type : "common",
 		tradable: true,
 		visible: true

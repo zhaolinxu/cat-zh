@@ -121,7 +121,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 5);	//once per 5 ticks
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 3);	//once per 3 ticks
 	},
 	
 	msg: function(message){

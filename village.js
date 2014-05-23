@@ -654,6 +654,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var freeKittens = this.game.village.getFreeKittens();
 		if (freeKittens){
 			this.tabName = this.getVillageTitle() + " (" + freeKittens + ")";
+		} else {
+			this.tabName = this.getVillageTitle();
 		}
 	},
 	
@@ -665,6 +667,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return "Settlement";
 		} else if (kittens > 15){
 			return "Village";
+		} else {
+			return "Small Village";
 		}
 	},
 	

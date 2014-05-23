@@ -176,6 +176,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"woodMax"		: 200,
 			"mineralsMax"	: 250,
 			"ironMax"		: 50,
+			"coalMax"		: 60,
 			"goldMax"		: 10
 		},
 		priceRatio: 1.75,
@@ -194,6 +195,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"woodMax"		: 250,
 			"mineralsMax"	: 200,
 			"ironMax"		: 25,
+			"coalMax"		: 30,
 			"goldMax"		: 5
 		},
 		priceRatio: 1.15,
@@ -222,7 +224,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 			if (game.workshop.get("deepMining").researched){
 				//fun but ugly hack
-				self.effects["coalPerTick"] = 0.005;
+				self.effects["coalPerTick"] = 0.001;
 				
 				coal.value += self.effects["coalPerTick"] * self.val;
 			}
@@ -248,7 +250,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"goldPerTick" : 0.001	//quite fucking slow
 		},
 		action: function(self, game){
-			if (!self.enabled){
+			if (!self.enabled && self.togglable){
 				return;
 			}
 
