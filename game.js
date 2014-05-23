@@ -480,6 +480,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					dojo.setStyle(tdResName, "color", "orange");
 					dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
 				}
+				if (res.color){
+					dojo.setStyle(tdResName, "color", res.color);
+				}
 				
 				
 				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),

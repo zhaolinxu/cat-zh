@@ -40,21 +40,25 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	//=========================================
 	{
 		name : "manpower",
+		title: "power",
 		type : "common",
 		tradable: false,
-		visible: true
+		visible: true,
+		color: "#DBA901"
 	},
 	{
 		name : "science",
 		type : "common",
 		tradable: false,
-		visible: true
+		visible: true,
+		color: "#01A9DB"
 	},
 	{
 		name : "culture",
 		type : "common",
 		tradable: false,
-		visible: true
+		visible: true,
+		color: "#DF01D7"
 	},
 	{
 		name : "kittens",
