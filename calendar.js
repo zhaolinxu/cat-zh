@@ -51,6 +51,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 	
 	tick: function(){
+		
+		var nextDay = this.day + this.dayPerTick;
+		if ( nextDay.toFixed() > this.day.toFixed()){
+			this.onNewDay();
+		}
+		
 		this.day += this.dayPerTick;
 		
 		if (this.day > this.daysPerSeason){
@@ -63,6 +69,48 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.season = 0;
 				this.year++;
 			}
+		}
+	},
+	
+	onNewDay: function(){
+		var self = this;
+		
+		if (self.observeBtn){
+			dojo.destroy(self.observeBtn);
+		}
+		
+		var chance = 10;
+		if (this.game.rand(1000) < chance){
+			var gameLog = dojo.byId("gameLog");
+			this.game.msg("A rare astronomical event occured in the sky");
+			
+			this.observeBtn = dojo.create("input", {
+				type: "button",
+				value: "Observe"
+			}, gameLog);
+			
+			dojo.connect(this.observeBtn, "onclick", this, function(){
+				dojo.destroy(this.observeBtn);
+				
+				//console.log("gotcha!");
+				var diagram = this.game.resPool.get("starchart");
+				var science = this.game.resPool.get("science");
+				
+				var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
+				science.value += sciBonus;
+				this.game.msg("+" + sciBonus + " science!");
+				
+				if (this.game.science.get("astronomy").researched){
+					this.game.msg("You've made a star chart!");
+					diagram.value +=1;
+				}
+			});
+
+			var seconds = 35;
+			var timeout = setInterval(function(){
+				dojo.destroy(self.observeBtn);
+				window.clearInterval(timeout);
+			}, seconds * 1000);
 		}
 	},
 	

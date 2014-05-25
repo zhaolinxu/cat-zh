@@ -365,19 +365,29 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Temple of light. +0.5 culture per tick. Faith effects TBD",
 		unlocked: false,
 		prices: [
-			{ name : "block", val: 25 },
-			{ name : "plate", val: 10 },
+			{ name : "slab", val: 25 },
+			{ name : "plate", val: 20 },
 			{ name : "gold", val: 150 },
 			{ name : "manuscript", val: 10 }
 		],
 		effects: {
-			"culturePerTick" : 0.05
+			"culturePerTick" : 0.05,
+			"faithPerTick" : 0.001,
+			"faithMax": 100
 		},
 		priceRatio: 1.15,
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["philosophy"],
 		action: function(self, game){
+			var culture = game.resPool.get("culture");
+			culture.value += self.val * self.effects["culturePerTick"];
+			
+			var theology = game.science.get("theology");
+			if (theology.researched){
+				var faith = game.resPool.get("faith");
+				faith.value += self.val * self.effects["faithPerTick"];
+			}
 		}
 	},
 	{

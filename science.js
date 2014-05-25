@@ -5,6 +5,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	
 	game: null,
 	
+	hideResearched: false,	//hide researched techs
+	
 	//list of technologies
 	techs:[{
 		name: "calendar",
@@ -175,7 +177,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 9500,
-		unlocks: [],
+		unlocks: ["theology"],
 		handler: function(game){
 		}
 	},{
@@ -203,7 +205,35 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("deepMining").unlocked = true;
 		}
-	}
+	},{
+		name: "theology",
+		title: "Theology",
+		description: "Theology is the study of religion",
+		effectDesc: "Unlocks access to the religion",
+		
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 20000},
+			{name: 	"manuscript", val: 50}
+		],
+		unlocks: ["astronomy"],
+		handler: function(game){
+		}
+	},{
+		name: "astronomy",
+		title: "Astronomy",
+		description: "Theology is the study of religion",
+		effectDesc: "Unlocks observatory",
+		
+		unlocked: false,
+		researched: false,
+		cost: 28000,
+		unlocks: [],
+		handler: function(game){
+		}
+	},
+		
 	],
 	
 	/**
@@ -329,12 +359,38 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		}else{
 			this.setVisible(true);
 		}
+		
+		if (tech.researched && this.game.science.hideResearched){
+			this.setVisible(false);
+		}
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.ui.tab, {
 
 	render: function(tabContainer){
+		
+		var hasCivil = this.game.science.get("civil");
+		
+		//--------------------------------------------------------------------
+		var div = dojo.create("div", { style: { float: "right"}}, tabContainer);
+		var groupCheckbox = dojo.create("input", {
+			type: "checkbox",
+			checked: this.game.science.hideResearched,
+			style: {
+				display: hasCivil ? "" : "none"
+			}
+		}, div);
+		
+		dojo.connect(groupCheckbox, "onclick", this, function(){
+			this.game.science.hideResearched = !this.game.science.hideResearched;
+			
+			dojo.empty(tabContainer);
+			this.render(tabContainer);
+		});
+		
+		dojo.create("span", { innerHTML: "Hide researched techs"}, div);
+		//---------------------------------------------------------------------
 		
 		var table = dojo.create("table", { className: "table", style:{
 			width: "100%"
@@ -394,7 +450,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				}
 				
 			},
-			prices:[{
+			prices: tech.prices ? tech.prices : [{
 				name:"science",
 				val: tech.cost
 			}],

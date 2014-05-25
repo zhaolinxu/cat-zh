@@ -213,6 +213,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "5px"
 			} }, content);
 			
+			var buys = race.buys[0];
+			dojo.create("div", { 
+				innerHTML: "Buys: " + buys.name + " (" + buys.val + ")"
+			}, content);
+			
 			for (var j =0; j< race.sells.length; j++){
 				if (race.sells[j].chance == 100){
 					var s = race.sells[j];
@@ -230,9 +235,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						innerHTML: "Sells: " + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")",
 						style: { marginBottom: "15px"
 					}}, content);	
+					
 				}
 			}
-			
+
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
 			tradePrices = tradePrices.concat(race.buys);
 			//console.log(tradePrices);

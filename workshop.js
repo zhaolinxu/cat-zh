@@ -186,7 +186,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "beam",
 		title: "Wooden Beam",
 		prices:[
-			{name: "wood", val: 100}
+			{name: "wood", val: 200}
 		]
 	},
 	{
@@ -199,7 +199,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "plate",
 		title: "Metal Plate",
 		prices:[
-			{name: "iron", val: 75}
+			{name: "iron", val: 125}
 		]
 	},{
 		name: "leather",
@@ -226,6 +226,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 500}
+		]
+	},{
+		name: "scaffold",
+		title: "Scaffold",
+		prices:[
+			{ name: "beam", val: 75 }
 		]
 	},{
 		name: "megalith",

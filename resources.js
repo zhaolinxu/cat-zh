@@ -38,6 +38,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "steel",
 		type : "common",
 		tradable: true,
+		craftable: true,
 		visible: true
 	},
 	{
@@ -71,20 +72,21 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: false,
 		visible: true,
 		color: "#DF01D7"
-	},
-	{
-		name : "kittens",
-		type : "common",
-		tradable: false,
-		visible: true
-	},
-	{
-		name : "kittens",
-		type : "common",
-		tradable: false,
-		visible: true
 	},{
-		name : "schema",
+		name : "faith",
+		type : "common",
+		tradable: false,
+		visible: true,
+		color: "gray"
+	},
+	{
+		name : "kittens",
+		type : "common",
+		tradable: false,
+		visible: true
+	},
+	{
+		name : "starchart",
 		type : "common",
 		tradable: false,
 		visible: true
