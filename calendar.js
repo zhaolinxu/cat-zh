@@ -46,6 +46,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	weather: null,	//warm / cold
 	
+	observeBtn: null,
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -74,13 +76,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	onNewDay: function(){
 		var self = this;
-		
-		if (self.observeBtn){
-			dojo.destroy(self.observeBtn);
-		}
-		
-		var chance = 10;
+
+		var chance = 20;					//3% of event per day
 		if (this.game.rand(1000) < chance){
+
+			dojo.destroy(this.observeBtn);
+			this.observeBtn = null;
+			
 			var gameLog = dojo.byId("gameLog");
 			this.game.msg("A rare astronomical event occured in the sky");
 			
@@ -90,9 +92,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}, gameLog);
 			
 			dojo.connect(this.observeBtn, "onclick", this, function(){
-				dojo.destroy(this.observeBtn);
 				
-				//console.log("gotcha!");
+				dojo.destroy(this.observeBtn);
+				this.observeBtn = null;
+				
+				console.log("gotcha!");
 				var diagram = this.game.resPool.get("starchart");
 				var science = this.game.resPool.get("science");
 				
@@ -108,7 +112,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			var seconds = 35;
 			var timeout = setInterval(function(){
+				
 				dojo.destroy(self.observeBtn);
+				self.observeBtn = null;
+				
 				window.clearInterval(timeout);
 			}, seconds * 1000);
 		}

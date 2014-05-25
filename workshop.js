@@ -186,7 +186,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "beam",
 		title: "Wooden Beam",
 		prices:[
-			{name: "wood", val: 200}
+			{name: "wood", val: 175}
 		]
 	},
 	{

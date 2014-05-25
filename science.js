@@ -223,8 +223,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "astronomy",
 		title: "Astronomy",
-		description: "Theology is the study of religion",
-		effectDesc: "Unlocks observatory",
+		description: "Astronomy is the study of objects in space",
+		effectDesc: "Unlocks observatory and star charts",
 		
 		unlocked: false,
 		researched: false,

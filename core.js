@@ -18,18 +18,23 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		msg : function(message){
 			var gameLog = dojo.byId("gameLog");
 			
-			if (gameLog.innerHTML.length + message.length > 5000){
+			/*if (gameLog.innerHTML.length + message.length > 5000){
 				gameLog.innerHTML = "";
 			}
 			
 			gameLog.innerHTML = 
-				gameLog.innerHTML + "<br>" + message;
+				gameLog.innerHTML + "<br>" + message;*/
+				
+			dojo.create("br", {}, gameLog);
+			dojo.create("span", { innerHTML: message }, gameLog);
+			
 
 		},
 		
 		clear: function(){
 			var gameLog = dojo.byId("gameLog");
-			gameLog.innerHTML = "";
+			//gameLog.innerHTML = "";
+			dojo.empty(gameLog);
 		}
 	}
 });
