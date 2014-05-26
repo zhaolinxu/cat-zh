@@ -99,7 +99,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "science", val: 800 },
-			{ name : "beam", val: 35 },
+			{ name : "beam", val: 25 },
 			{ name : "slab", val: 10 },
 			{ name : "iron", val: 100 }
 		],
@@ -177,7 +177,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "iron", 	 val: 1200 },
-			{ name : "beam", 	 val: 75 },
+			{ name : "beam", 	 val: 50 },
 			{ name : "science",  val: 5000 }
 		],
 		unlocked: false,
@@ -277,7 +277,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "scaffold",
 		title: "Scaffold",
 		prices:[
-			{ name: "beam", val: 75 }
+			{ name: "beam", val: 50 }
 		],
 		unclocked: true
 	},{
@@ -285,7 +285,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Megalith",
 		prices:[
 			{ name: "slab", val: 25 },
-			{ name: "beam", val: 50 },
+			{ name: "beam", val: 40 },
 			{ name: "plate", val: 5 }
 		],
 		unclocked: true

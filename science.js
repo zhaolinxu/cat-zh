@@ -242,7 +242,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "navigation",
 		title: "Navigation",
 		description: "Navigation allows serious advancements in sailing and shipbuilding technology",
-		effectDesc: "Unlocks construction of the ships",
+		effectDesc: "Unlocks construction of the ships (TBD)",
 		
 		unlocked: false,
 		researched: false,

@@ -211,7 +211,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		label: "Warehouse",
 		description: "Provides a space to store your resources.\n(+250 wood, +200 minerals, +25 iron)",
 		unlocked: false,
-		prices: [{ name : "beam", val: 2 }, { name : "slab", val: 3 }],
+		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
 		effects: {
 			"woodMax"		: 150,
 			"mineralsMax"	: 200,
@@ -301,6 +301,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		enabled: false,
 		togglable: true,
+		jammed: false,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "gear",  val: 25 },
@@ -315,9 +316,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"coalPerTick" : -0.5
 		},
 		action: function(self, game){
-			if (!self.enabled){
+			if (!self.enabled || self.jammed){
 				return;
 			}
+			
 			//DO PSSSH AND CHOO CHOO
 			
 			var coal = game.resPool.get("coal");
@@ -342,6 +344,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			}
 			
 			if (game.workshop.get("factoryAutomation").researched){
+				self.jammed = true;				//jamm untill next year
 				
 				var baseAutomationRate = 0.02;
 				//TBD
@@ -472,7 +475,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },
-			{ name : "plate", val: 20 },
+			{ name : "plate", val: 15 },
 			{ name : "gold", val: 150 },
 			{ name : "manuscript", val: 10 }
 		],
