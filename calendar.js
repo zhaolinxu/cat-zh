@@ -77,7 +77,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewDay: function(){
 		var self = this;
 
-		var chance = 20;					//3% of event per day
+		var chance = 5;					//0.5% of event per day
+		chance += this.game.bld.getEffect("starEventChance");
+		
 		if (this.game.rand(1000) < chance){
 
 			dojo.destroy(this.observeBtn);
@@ -110,7 +112,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			});
 
-			var seconds = 35;
+			var seconds = 45;
 			var timeout = setInterval(function(){
 				
 				dojo.destroy(self.observeBtn);

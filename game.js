@@ -554,7 +554,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var tr = dojo.create("tr", {}, resTable);
 				
 				var tdResName = dojo.create("td", { 
-					innerHTML: res.name + ":",
+					innerHTML: res.title ? res.title : res.name + ":",
 					style: {
 						width: "75px"
 					}

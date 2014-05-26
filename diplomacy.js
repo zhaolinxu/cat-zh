@@ -272,6 +272,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
 
 					}
+					//-------------- 35% to get spice --------------
+					if (self.rand(100) < 35){
+						var res = self.game.resPool.get("spice");
+						var spiceVal = self.rand(50);
+						var val = 25 +  spiceVal + spiceVal * self.game.bld.getEffect("tradeRatio");
+						
+						res.value += val;
+						self.game.msg("You've got " + val + " spice");
+					}
+					
+					if (self.rand(100) < 10){
+						self.game.resPool.get("blueprint").value += 1;
+						self.game.msg("You've got a blueprint!");
+					}
 					
 				}
 			}, this.game);

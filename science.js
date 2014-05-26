@@ -184,19 +184,22 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "machinery",
 		title: "Machinery",
 		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
-		effectDesc: "Allows factory automation. (TBD)",
+		effectDesc: "Unlocks steamworks, printing press and factory automation. (TBD)",
 		
 		unlocked: false,
 		researched: false,
 		cost: 15000,
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("printingPress").unlocked = true;
+			game.workshop.get("factoryAutomation").unlocked = true;
+			game.workshop.getCraft("paper").unlocked = true;
 		}
 	},{
 		name: "steel",
 		title: "Steel",
 		description: "TBD.",
-		effectDesc: "Unlocks Coal and Steal production (TBD)",
+		effectDesc: "Unlocks Coal and Steel production",
 		
 		unlocked: false,
 		researched: false,
@@ -228,11 +231,29 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		
 		unlocked: false,
 		researched: false,
-		cost: 28000,
+		prices: [
+			{name : "science", val: 28000},
+			{name: 	"manuscript", val: 75}
+		],
+		unlocks: ["navigation"],
+		handler: function(game){
+		}
+	},{
+		name: "navigation",
+		title: "Navigation",
+		description: "Navigation allows serious advancements in sailing and shipbuilding technology",
+		effectDesc: "Unlocks construction of the ships",
+		
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 35000},
+			{name: 	"manuscript", val: 150}
+		],
 		unlocks: [],
 		handler: function(game){
 		}
-	},
+	}
 		
 	],
 	

@@ -3,6 +3,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	game: null,
 	
 	groupBuildings: false,
+	twoRows: false,
 	
 	constructor: function(game){
 		this.game = game;
@@ -163,6 +164,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			//btn.game.village.getJob("miner").unlocked = true;
 		},
 		val: 0
+	},{
+		name: "observatory",
+		label: "Observatory",
+		description: "Increase the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
+		unlocked: false,
+		prices: [{ name : "scaffold", val: 50 },
+				 { name : "slab", val: 15 },
+				 { name : "iron", val: 750 },
+				 { name : "science", val: 1000 }
+		],
+		effects: {
+			"scienceRatio": 0.25,
+			"starEventChance": 5,
+			"scienceMax" : 1000
+		},
+		priceRatio: 1.15,
+		requiredTech: ["astronomy"],
+		handler: function(btn){
+		},
+		val: 0
 	},
 	//----------------------------------- Resource production ----------------------------------------
 	{
@@ -192,7 +213,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [{ name : "beam", val: 2 }, { name : "slab", val: 3 }],
 		effects: {
-			"woodMax"		: 250,
+			"woodMax"		: 150,
 			"mineralsMax"	: 200,
 			"ironMax"		: 25,
 			"coalMax"		: 30,
@@ -270,6 +291,91 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (game.workshop.get("goldOre").researched){
 					gold.value += self.effects["goldPerTick"] * self.val;
 				}
+			}
+		},
+		val: 0
+	},{
+		name: "steamworks",
+		label: "Steamworks",
+		description: "Consumes 0.5 coal per working cycle",
+		unlocked: false,
+		enabled: false,
+		togglable: true,
+		prices: [
+			{ name : "steel", val: 120 },
+			{ name : "gear",  val: 25 },
+			{ name : "blueprint",  val: 1 }
+		],
+		priceRatio: 1.25,
+		requiredTech: ["machinery"],
+		handler: function(btn){
+
+		},
+		effects: {
+			"coalPerTick" : -0.5
+		},
+		action: function(self, game){
+			if (!self.enabled){
+				return;
+			}
+			//DO PSSSH AND CHOO CHOO
+			
+			var coal = game.resPool.get("coal");
+			//coal.value += self.effects["coalPerTick"] * self.val;
+			if (coal.value < self.effects["coalPerTick"] * self.val){
+				return;
+			}
+			
+			coal.value += self.effects["coalPerTick"] * self.val;
+			
+			if (game.workshop.get("printingPress").researched){
+				var paper = game.resPool.get("paper");
+				var manuscript = game.resPool.get("manuscript");
+				
+				if (paper.value > 2.5){
+					paper.value -= 2.5;
+					manuscript.value += 1;
+					
+					game.msg("Printing press: +1 manuscript!");
+				}
+					
+			}
+			
+			if (game.workshop.get("factoryAutomation").researched){
+				
+				var baseAutomationRate = 0.02;
+				//TBD
+				var wood = game.resPool.get("wood");
+				var minerals = game.resPool.get("minerals");
+				var iron = game.resPool.get("iron");
+				
+				if (
+					wood.value >= wood.maxValue * (1 - baseAutomationRate) ||
+					minerals.value >= minerals.maxValue * (1 - baseAutomationRate) 
+					// || iron.value >= iron.maxValue * (1 - baseAutomationRate)
+				){
+					game.msg("Activating factory automation");
+				}
+
+				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
+					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
+						game.workshop.craft("beam", 1);
+					}
+				}
+				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
+					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
+						game.workshop.craft("slab", 1);
+					}
+				}
+				/*if (iron.value >= iron.maxValue * (1 - baseAutomationRate)){
+					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
+						game.workshop.craft("plate", 1);
+					}
+				}*/
+				//BUGBUGBUG
 			}
 		},
 		val: 0
@@ -419,11 +525,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
-			{ name : "beam", val: 25 }
+			{ name : "scaffold", val: 50 },
+			{ name : "blueprint", val: 1 }
 		],
 		effects: {
 		},
-		priceRatio: 1.75,
+		priceRatio: 1.25,
 		handler: function(btn){
 		},
 		val: 0,
@@ -827,6 +934,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		});
 		
 		dojo.create("span", { innerHTML: "Group buildings"}, div);
+		//---------------------------------------------------------------
+		/*var twoRowsCheckbox = dojo.create("input", {
+			type: "checkbox",
+			checked: this.game.bld.twoRows
+		}, div);
+		dojo.connect(twoRowsCheckbox, "onclick", this, function(){
+			this.game.bld.twoRows = !this.game.bld.twoRows;
+			
+			dojo.empty(content);
+			this.render(content);
+		});
+		dojo.create("span", { innerHTML: "Two rows"}, div);*/
 		
 		var div = dojo.create("div", { style: { marginTop: "25px"}}, content);
 		
@@ -867,6 +986,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 					btn.visible = bld.unlocked;
 					
 					this.addButton(btn);
+					
+					if (j % 2 == 0){
+					}
+					
 					btn.render(panelContent);
 				}
 			}

@@ -39,7 +39,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		tradable: true,
 		craftable: true,
-		visible: true
+		visible: false,
 	},
 	{
 		name : "gold",
@@ -91,6 +91,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: false,
 		visible: true
 	},
+	{
+		name : "blueprint",
+		type : "common",
+		tradable: false,
+		visible: true
+	},
 	
 	//=========================================
 	// 			  luxury resources
@@ -124,18 +130,26 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	// 				    CRAFT 
 	//=========================================
 	{
+		name : "gear",
+		type : "common",
+		tradable: true,
+		craftable: true
+	},{
 		name : "beam",
 		type : "common",
 		tradable: true,
 		craftable: true
-	},
-	{
+	},{
+		name : "scaffold",
+		type : "common",
+		tradable: true,
+		craftable: true
+	},{
 		name : "slab",
 		type : "common",
 		tradable: true,
 		craftable: true
-	},
-	{
+	},{
 		name : "plate",
 		type : "common",
 		tradable: true,
@@ -147,6 +161,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true
 	},{
 		name : "parchment",
+		type : "common",
+		tradable: true,
+		craftable: true
+	},{
+		name : "paper",
 		type : "common",
 		tradable: true,
 		craftable: true

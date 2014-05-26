@@ -2,6 +2,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	game: null,
 	
+	hideResearched: false,
+	
 	upgrades:[{
 		name: "mineralHoes",
 		title: "Mineral Hoes",
@@ -63,7 +65,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "science", val: 200 },
-			{ name : "iron", val: 50 },
+			{ name : "iron", val: 50 }
 		],
 		unlocked: true,
 		researched: false,
@@ -81,7 +83,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "science", val: 500 },
 			{ name : "wood", val: 1000 },
 			{ name : "minerals", val: 750 },
-			{ name : "iron", val: 50 },
+			{ name : "iron", val: 50 }
 		],
 		unlocked: true,
 		researched: false,
@@ -99,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "science", val: 800 },
 			{ name : "beam", val: 35 },
 			{ name : "slab", val: 10 },
-			{ name : "iron", val: 100 },
+			{ name : "iron", val: 100 }
 		],
 		unlocked: true,
 		researched: false,
@@ -116,7 +118,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "science", val: 500 },
 			{ name : "iron", val: 100 },
-			{ name : "wood", val: 200 },
+			{ name : "wood", val: 200 }
 		],
 		unlocked: false,
 		researched: false,
@@ -180,6 +182,30 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "printingPress",
+		title: "Printing Press",
+		description: "Unlocks crafting manuscripts via the paper",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 25 },
+			{ name : "science",  val: 7500 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "factoryAutomation",
+		title: "Factory Automation",
+		description: "Automatically converts small quantities of the resources to craftable tools",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 50 },
+			{ name : "science",  val: 10000 }
+		],
+		unlocked: false,
+		researched: false
 	}],
 	
 	crafts:[{
@@ -187,52 +213,73 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Wooden Beam",
 		prices:[
 			{name: "wood", val: 175}
-		]
-	},
-	{
+		],
+		unclocked: true
+	},{
 		name: "slab",
 		title: "Stone Slab",
 		prices:[
 			{name: "minerals", val: 250}
-		]
+		],
+		unclocked: true
 	},{
 		name: "plate",
 		title: "Metal Plate",
 		prices:[
 			{name: "iron", val: 125}
-		]
+		],
+		unclocked: true
 	},{
 		name: "leather",
 		title: "Leather",
 		prices:[
 			{name: "furs", val: 50}
-		]
+		],
+		unclocked: true
 	},{
 		name: "steel",
 		title: "Steel",
 		prices:[
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
-		]
+		],
+		unclocked: true
+	},{
+		name: "gear",
+		title: "Gear",
+		prices:[
+			{name: "steel", val: 15}
+		],
+		unclocked: true
 	},{
 		name: "parchment",
 		title: "Parchment",
 		prices:[
 			{name: "leather", val: 5}
-		]
+		],
+		unclocked: true
+	},{
+		name: "paper",
+		title: "Paper",
+		prices:[
+			{name: "wood", val: 2500}
+		],
+		unclocked: false
 	},{
 		name: "manuscript",
 		title: "Manuscript",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 500}
-		]
+		],
+		unclocked: true
 	},{
 		name: "scaffold",
 		title: "Scaffold",
 		prices:[
 			{ name: "beam", val: 75 }
-		]
+		],
+		unclocked: true
 	},{
 		name: "megalith",
 		title: "Megalith",
@@ -240,7 +287,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name: "slab", val: 25 },
 			{ name: "beam", val: 50 },
 			{ name: "plate", val: 5 }
-		]
+		],
+		unclocked: true
 	}],
 	
 	constructor: function(game){
@@ -269,15 +317,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	save: function(saveData){
 		saveData.workshop = {
-			upgrades: this.upgrades
+			upgrades: this.upgrades,
+			crafts: this.crafts
 		}
 	},
 	
 	load: function(saveData){
 		if (saveData.workshop){
-			var techs = saveData.workshop.upgrades;
 
-			
 			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
 				for(var i = 0; i< saveData.workshop.upgrades.length; i++){
 					var savedUpgrade = saveData.workshop.upgrades[i];
@@ -294,10 +341,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 					}
 				}
 			}
+			//same for craft recipes
+			
+			if (saveData.workshop.crafts && saveData.workshop.crafts.length){
+				for(var i = 0; i< saveData.workshop.crafts.length; i++){
+					var savedCraft = saveData.workshop.crafts[i];
+					
+					if (savedCraft != null){
+						var craft = this.game.workshop.getCraft(savedCraft.name);
+	
+						craft.unlocked = savedCraft.unlocked;
+					}
+				}
+			}
 		}
 	},
 	
-		/**
+	/**
 	 * Returns a total effect value per buildings.
 	 * 
 	 * For example, if you have N buldings giving K effect,
@@ -378,6 +438,10 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}else{
 			this.setVisible(true);
 		}
+		
+		if (upgrade.researched && this.game.workshop.hideResearched){
+			this.setVisible(false);
+		}
 	}
 });
 
@@ -406,6 +470,28 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	render: function(tabContainer){
 		//this.inherited(arguments);
 		
+		//--------------------------------------------------------------------
+		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);
+		var div = dojo.create("div", { style: { float: "right"}}, divCombobox);
+		
+		var groupCheckbox = dojo.create("input", {
+			type: "checkbox",
+			checked: this.game.workshop.hideResearched
+		}, div);
+		
+		dojo.connect(groupCheckbox, "onclick", this, function(){
+			this.game.workshop.hideResearched = !this.game.workshop.hideResearched;
+			
+			dojo.empty(tabContainer);
+			this.render(tabContainer);
+		});
+		
+		dojo.create("span", { innerHTML: "Hide researched upgrades"}, div);
+		//---------------------------------------------------------------------
+		
+		var upgradePanel = new com.nuclearunicorn.game.ui.Panel("Upgrades");
+		var content = upgradePanel.render(tabContainer);
+		
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
 			var uprgade = this.game.workshop.upgrades[i];
 
@@ -415,7 +501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				btn.setEnabled(false);
 			}
 			this.addButton(btn);
-			btn.render(tabContainer);
+			btn.render(content);
 		}
 		
 		//------------------------------------------
