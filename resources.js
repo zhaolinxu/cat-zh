@@ -125,6 +125,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		tradable: true,
 		visible: true
 	},
+	{
+		name : "karma",
+		type : "rare",
+		tradable: true,
+		visible: true
+	},
 	
 	//=========================================
 	// 				    CRAFT 

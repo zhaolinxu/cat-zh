@@ -342,9 +342,12 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			
 	},
 	
-	addKitten: function(){
-		var kitten = new com.nuclearunicorn.game.village.Kitten();
-		this.kittens.push(kitten);
+	addKitten: function(amount){
+		if (!amount) { amount = 1 };
+		for (var i = 0; i < amount; i ++){
+			var kitten = new com.nuclearunicorn.game.village.Kitten();
+			this.kittens.push(kitten);
+		}
 	},
 	
 	//just truncate array, I am too lazy to write splice

@@ -708,7 +708,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			this.groupBuildings = saveData.bldData.groupBuildings;
 		}
 		
-		if (saveData.buildings.length){
+		if (saveData.buildings && saveData.buildings.length){
 			for(var i = 0; i< saveData.buildings.length; i++){
 					var savedBld = saveData.buildings[i];
 					
