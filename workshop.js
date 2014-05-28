@@ -210,7 +210,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		researched: false
 	},{
 		name: "factoryAutomation",
-		title: "Factory Automation",
+		title: "Workshop Automation",
 		description: "Automatically converts small quantities of the resources to craftable tools",
 		effects: {
 		},
