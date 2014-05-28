@@ -70,6 +70,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (this.season > 3){
 				this.season = 0;
 				this.year++;
+				
+				this.onNewYear();
 			}
 		}
 	},
@@ -135,6 +137,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}else{
 			this.weather = null;
 		}
+	},
+	
+	onNewYear: function(){
+		this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 	},
 	
 	getWeatherMod: function(){

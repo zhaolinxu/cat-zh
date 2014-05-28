@@ -180,6 +180,8 @@
 				gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
 				gamePage.load();
 				
+				gamePage.updateKarma();
+				
 				gamePage.render()
 				gamePage.start();
 			});
@@ -195,6 +197,10 @@
 					gamePage.bld.get("warehouse").val = 10;
 					gamePage.bld.get("library").val = 50;
 					gamePage.bld.get("academy").val = 45;
+					gamePage.bld.get("hut").val = 50;
+					
+					gamePage.village.sim.kittens = [];
+					gamePage.village.sim.addKitten(50);
 					
 					gamePage.resPool.get("catnip").value = 50000;
 					gamePage.resPool.get("wood").value = 15000;
@@ -250,7 +256,7 @@
 			<div style="position:absolute; top:10px; right:10px; background-color:white;">
 				<a href="#" onclick="gamePage.save();" >Save</a> |
 				<a href="#" onclick="$('#optionsDiv').toggle();" >Options</a> |
-				<!-- <a href="#" onclick="gamePage.reset();" >Reset</a> | !-->
+				<a href="#" onclick="gamePage.reset();" >Reset</a> |
 				<a href="#" onclick="dev();" >#</a> |
 				<a href="#" onclick="wipe();" >Wipe</a> |
 				

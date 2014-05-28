@@ -73,6 +73,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	colorScheme: "",
 	
 	timer: null,
+	
+	karmaKittens: 0,	//counter for karmic reincarnation
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -151,8 +153,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		/*forceShowLimits: false,
 		colorScheme: null,*/
-		saveData.forceShowLimits = this.forceShowLimits;
-		saveData.colorScheme = this.colorScheme;
+		saveData.game = {
+			forceShowLimits: this.forceShowLimits,
+			colorScheme: this.colorScheme,
+			karmaKittens: this.karmaKittens
+		};
 		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		
@@ -214,10 +219,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.diplomacy.hasUnlockedRaces()){
 			this.diplomacyTab.visible = true;
 		}
-		
-		this.forceShowLimits = saveData ? saveData.forceShowLimits : false;
-		this.colorScheme = saveData? saveData.colorScheme : false;
-		this.setColorScheme();
+		if (saveData && saveData.game){
+			var data = saveData.game;
+			
+			this.forceShowLimits = data.forceShowLimits ? data.forceShowLimits : false;
+			this.colorScheme = data.colorScheme ? data.colorScheme : null;
+			this.setColorScheme();
+			
+			this.karmaKittens = data.karmaKittens ? data.karmaKittens : 0;
+		}
 	},
 	
 	saveExport: function(){
@@ -817,17 +827,39 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	reset: function(){
-		if (!confirm("NOOO, KITTENS WILL DIE. ARE YOU SURE?")){
+		if (!confirm("Are you sure you want to reset? You will save your achievemenets and karma points.")){
 			return;
 		}
-		this.resPool.reset();
+		/*this.resPool.reset();
 		this.village.reset();
-		this.bld.reset();
+		this.bld.reset();*/
+		if (this.resPool.get("kittens").value > 35){
+			this.karmaKittens += (this.resPool.get("kittens").value - 35);
+		}
+
+		
+		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+		dojo.mixin(lsData.game, { karmaKittens: this.karmaKittens });
+		
+		var saveData = {
+			game : lsData.game
+		}
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
+		this.load();
+		
+		window.location.reload();
 	},
 	
 	//TO BE USED EXTERNALLY
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
+	},
+	
+	updateKarma: function(){
+		var stripe = 5;	//initial amount of kittens per stripe
+		var karma = (Math.sqrt(1+8 * this.karmaKittens / stripe)-1)/2;
+		
+		this.resPool.get("karma").value = karma;
 	}
 		
 });
