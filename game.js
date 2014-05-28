@@ -855,6 +855,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		return (Math.floor(Math.random()*ratio));
 	},
 	
+	//Karma has no menu. You get served what you deserve.
 	updateKarma: function(){
 		var stripe = 5;	//initial amount of kittens per stripe
 		var karma = (Math.sqrt(1+8 * this.karmaKittens / stripe)-1)/2;

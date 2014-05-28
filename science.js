@@ -207,6 +207,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("deepMining").unlocked = true;
+			game.workshop.get("coalFurnace").unlocked = true;
 		}
 	},{
 		name: "theology",
@@ -289,11 +290,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		saveData.science = {
 			techs: this.techs
 		}
+		saveData.science.hideResearched = this.hideResearched;
 	},
 	
-	load: function(saveData){
-				
+	load: function(saveData){		
 		if (saveData.science){
+			this.hideResearched = saveData.science.hideResearched;
+			
 			var techs = saveData.science.techs;
 			//console.log("restored techs:",  techs);
 			

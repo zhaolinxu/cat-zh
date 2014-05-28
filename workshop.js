@@ -170,6 +170,20 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false
 	},{
+		name: "coalFurnace",	//sup 4chan
+		title: "Coal Furnace",
+		description: "Smelters produce coal while burning wood",
+		effects: {
+		},
+		prices:[
+			{ name : "minerals", val: 5000 },
+			{ name : "iron", 	 val: 2000 },
+			{ name : "beam", 	 val: 35 },
+			{ name : "science",  val: 5000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
 		name: "deepMining",
 		title: "Deep Mining",
 		description: "Mines will also produce coal",
@@ -328,10 +342,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			upgrades: this.upgrades,
 			crafts: this.crafts
 		}
+		saveData.workshop.hideResearched = this.hideResearched;
 	},
 	
 	load: function(saveData){
 		if (saveData.workshop){
+			this.hideResearched = saveData.workshop.hideResearched;
 
 			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
 				for(var i = 0; i< saveData.workshop.upgrades.length; i++){

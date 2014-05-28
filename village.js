@@ -250,6 +250,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			}
 		}
 		
+		var karma = this.game.resPool.get("karma");
+		happiness += karma.value;	//+1% to the production per karma point
+		
 		
 		if (happiness < 25){
 			happiness = 25;
@@ -795,7 +798,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
 		furs.value += fursVal; 
 		
-		if (this.rand(100) > ( 55 + 2 * hunterRatio)){
+		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
 			var ivory = this.game.resPool.get("ivory");
 			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
 			
