@@ -122,7 +122,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "construction",
 		title: "Construction",
 		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox",
-		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks composite bows.",
+		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks composite bows",
 		
 		unlocked: false,
 		researched: false,

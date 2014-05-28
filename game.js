@@ -543,6 +543,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	updateCraftResources: function(){
 		//TODO: reduce regeneration rate
 		
+		if ( this.bld.get("workshop").val == 0 ){
+			return;
+		}
+		
 		this._craftDiv = dojo.byId("craftContainer");
 		this._craftDiv.innerHTML = "";
 		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._craftDiv);

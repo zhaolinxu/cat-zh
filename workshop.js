@@ -154,7 +154,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//do nothing
+			game.workshop.getCraft("wood").prices = [{name: "catnip", val: 50}];
 		}
 	},{
 		name: "goldOre",
@@ -209,6 +209,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	}],
 	
 	crafts:[{
+		name: "wood",
+		title: "Refine catnip",
+		prices:[
+			{name: "catnip", val: 100}
+		],
+		unclocked: true,
+		ignoreBonuses: true,
+	},{
 		name: "beam",
 		title: "Wooden Beam",
 		prices:[
@@ -382,9 +390,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		
 	craft: function (res, amt){
 		var ratio = this.game.bld.getEffect("craftRatio");
-		var craftAmt = amt + amt*ratio;
+		
+		var craftAmt = 0;
 		
 		var craft = this.getCraft(res);
+		if (craft.ignoreBonuses){
+			craftAmt = amt;
+		} else {
+			craftAmt = amt + amt*ratio;
+		}
+		
 		var prices = dojo.clone(craft.prices);
 		
 		for (var i = 0; i< prices.length; i++){

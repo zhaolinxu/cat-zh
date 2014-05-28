@@ -14,6 +14,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "wood",
 		type : "common",
 		tradable: true,
+		craftable: true,
 		visible: true
 	},
 	{

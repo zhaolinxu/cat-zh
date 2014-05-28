@@ -93,7 +93,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "hut",
 		label: "Hut",
-		description: "Build a hut (each has a space for 2 kittens)",
+		description: "Build a hut (each has a space for 2 kittens). +75 to the max manpower ",
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
@@ -111,7 +111,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "logHouse",
 		label: "Log House",
-		description: "Build a house (each has a space for 1 kittens)",
+		description: "Build a house (each has a space for 1 kittens)  +50 to the max manpower",
 		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
