@@ -140,7 +140,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 	
 	onNewYear: function(){
-		this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		if (this.game.bld.get("steamworks").jammed) {
+			//this.game.msg("Workshop automation ready for operation");
+			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		}
 	},
 	
 	getWeatherMod: function(){
