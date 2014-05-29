@@ -106,7 +106,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				
 				var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
 				science.value += sciBonus;
-				this.game.msg("+" + sciBonus + " science!");
+				this.game.msg("+" + sciBonus.toFixed() + " science!");
 				
 				if (this.game.science.get("astronomy").researched){
 					this.game.msg("You've made a star chart!");
