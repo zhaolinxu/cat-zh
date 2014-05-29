@@ -53,6 +53,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"winter": 0.80
 			}}
 		]
+	},{
+		name: "nagas",
+		title: "Nagas",
+		attitude: "neutral",
+		unlocked: false,
+		buys: [
+			{name: "ivory", val: 500}
+		],
+		sells:[
+			{name: "minerals", value: 1000, chance: 100, delta: 0.18, seasons:{
+				"spring": 1.25,
+				"summer": 1.05,
+				"autumn": 0.65,
+				"winter": 0.95
+			}}
+		]
 	}
 	
 	
@@ -129,14 +145,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	unlockRandomRace: function(){
 		var unmetRaces = [];
 		for (var i = 0; i< this.races.length; i++){
-			if (!this.races[i].unlocked){
+			if (!this.races[i].unlocked && this.races[i].name != "nagas"){
 				unmetRaces.push(this.races[i]);
 			}
 		}
 		
-		if (!unmetRaces.length){
+		if (!unmetRaces.length && this.get("nagas").unlocked){
 			return null;
 		}
+		
+		//nagas like highly cultural kittens :3
+		if (this.game.resPool.get("culture").value >= 1500){
+			var nagas = this.get("nagas");
+			nagas.unlocked = true;
+			
+			return nagas;
+		}
+		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
 		unmetRaces[raceId].unlocked = true;
 		
