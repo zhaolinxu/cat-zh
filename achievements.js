@@ -9,7 +9,31 @@ dojo.declare("com.nuclearunicorn.game.science.Achievements", null, {
 			
 		},
 		unlocked: false
-	}],
+	},{
+		name: "ironWill",
+		title: "Iron Will",
+		condition: function(){
+			
+		},
+		unlocked: false
+	},
+	{
+		name: "winterIsComing",
+		title: "Winter Is Coming",
+		condition: function(){
+			
+		},
+		unlocked: false
+	},
+	{
+		name: "utopiaAnomaly",
+		title: "Utopia Project",
+		condition: function(){
+			
+		},
+		unlocked: false
+	}
+	],
 	
 	constructor: function(game){
 		this.game = game;
