@@ -11,6 +11,9 @@ if (document.all && !window.localStorage)
     window.LCstorage.removeItem = function () { };
 } 
 
+/**
+ * Just a simple timer, js timer sucks
+ */
 dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	handlers: [],
 	
@@ -74,7 +77,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	timer: null,
 	
+	//game-related flags that will go to the save
 	karmaKittens: 0,	//counter for karmic reincarnation
+	deadKittens: 0,
+	ironWill: true,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -93,7 +99,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.diplomacy = new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
 		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
 		this.science = new com.nuclearunicorn.game.science.ScienceManager(this);
-		this.achievements = new com.nuclearunicorn.game.science.Achievements(this);
+		this.achievements = new com.nuclearunicorn.game.Achievements(this);
 		
 
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
@@ -119,11 +125,16 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.diplomacyTab.visible = false;
 		this.addTab(this.diplomacyTab);
 		
+		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
+		this.achievementTab.visible = false;
+		this.addTab(this.achievementTab);
+		
 		//vvvv do not forget to toggle tab visiblity below
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 3);	//once per 3 ticks
+		//this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 10);	//once per 10 ticks
 	},
 	
 	msg: function(message){
@@ -150,13 +161,16 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.science.save(saveData);
 		this.workshop.save(saveData);
 		this.diplomacy.save(saveData);
+		this.achievements.save(saveData);
 		
 		/*forceShowLimits: false,
 		colorScheme: null,*/
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
 			colorScheme: this.colorScheme,
-			karmaKittens: this.karmaKittens
+			karmaKittens: this.karmaKittens,
+			ironWill : this.ironWill,
+			deadKittens: this.deadKittens
 		};
 		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
@@ -195,6 +209,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				this.science.load(saveData);
 				this.workshop.load(saveData);
 				this.diplomacy.load(saveData);
+				this.achievements.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -210,6 +225,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		if (this.bld.getBuilding("workshop").val > 0 ){
 			this.workshopTab.visible = true;
+		}
+		if (this.achievements.hasUnlocked()){
+			this.achievementTab.visible = true;
 		}
 		
 		/*if (this.science.get("currency").researched){
@@ -227,6 +245,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			this.setColorScheme();
 			
 			this.karmaKittens = data.karmaKittens ? data.karmaKittens : 0;
+			this.deadKittens = data.deadKittens ? data.deadKittens : 0;
+			this.ironWill = data.ironWill ? data.ironWill : true;
 		}
 	},
 	
@@ -431,6 +451,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.village.update();
 		this.diplomacy.update();
+		this.achievements.update();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -839,10 +860,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 
 		
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
-		dojo.mixin(lsData.game, { karmaKittens: this.karmaKittens });
+		dojo.mixin(lsData.game, { 
+			karmaKittens: this.karmaKittens,
+			ironWill : true 
+		});
 		
 		var saveData = {
-			game : lsData.game
+			game : lsData.game,
+			achievements: lsData.achievements
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		this.load();

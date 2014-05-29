@@ -109,6 +109,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			if (starvedKittens > 0){
 				this.sim.killKittens(starvedKittens);
 				this.game.msg(starvedKittens + " kittens starved to death");
+				
+				this.game.deadKittens += starvedKittens;
 			}
 		}
 		

@@ -104,6 +104,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: 	function(btn){
 			//unlock village tab
 			btn.game.villageTab.visible = true;
+			btn.game.ironWill = false;	//har har har
 		},
 		
 		val: 0
@@ -121,6 +122,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		priceRatio: 1.15,
 		requiredTech: ["construction"],
 		handler: 	function(btn){
+			btn.game.ironWill = false;
 		},
 		val: 0
 	},
