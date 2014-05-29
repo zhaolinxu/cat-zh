@@ -303,6 +303,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unclocked: true
 	},{
+		name: "ship",
+		title: "Trade Ship",
+		prices:[
+			{ name: "scaffold", val: 120 },
+			{ name: "plate",    val: 150 },
+			{ name: "starchart", val: 25 }
+		],
+		unclocked: false
+	},{
 		name: "megalith",
 		title: "Megalith",
 		prices:[

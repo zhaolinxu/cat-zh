@@ -7,45 +7,38 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "catnip",
 		type : "common",
-		tradable: true,
 		visible: true
 	},
 {
 		name : "wood",
 		type : "common",
-		tradable: true,
 		craftable: true,
 		visible: true
 	},
 	{
 		name : "minerals",
 		type : "common",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "coal",
 		type : "common",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "iron",
 		type : "common",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "steel",
 		type : "common",
-		tradable: true,
 		craftable: true,
 		visible: false,
 	},
 	{
 		name : "gold",
 		type : "common",
-		tradable: true,
 		visible: true
 	},
 	
@@ -56,46 +49,39 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "manpower",
 		title: "power",
 		type : "common",
-		tradable: false,
 		visible: true,
 		color: "#DBA901"
 	},
 	{
 		name : "science",
 		type : "common",
-		tradable: false,
 		visible: true,
 		color: "#01A9DB"
 	},
 	{
 		name : "culture",
 		type : "common",
-		tradable: false,
 		visible: true,
 		color: "#DF01D7"
 	},{
 		name : "faith",
 		type : "common",
-		tradable: false,
 		visible: true,
 		color: "gray"
 	},
 	{
 		name : "kittens",
 		type : "common",
-		tradable: false,
 		visible: true
 	},
 	{
 		name : "starchart",
 		type : "common",
-		tradable: false,
 		visible: true
 	},
 	{
 		name : "blueprint",
 		type : "common",
-		tradable: false,
 		visible: true
 	},
 	
@@ -105,31 +91,26 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "furs",
 		type : "uncommon",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "ivory",
 		type : "uncommon",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "spice",
 		type : "uncommon",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "unicorns",
 		type : "rare",
-		tradable: true,
 		visible: true
 	},
 	{
 		name : "karma",
 		type : "rare",
-		tradable: true,
 		visible: true
 	},
 	
@@ -139,52 +120,46 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "gear",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "beam",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "scaffold",
 		type : "common",
-		tradable: true,
+		craftable: true
+	},{
+		name : "ship",
+		type : "common",
 		craftable: true
 	},{
 		name : "slab",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "plate",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "leather",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "parchment",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "paper",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "manuscript",
 		type : "common",
-		tradable: true,
 		craftable: true
 	},{
 		name : "megalith",
 		type : "common",
-		tradable: true,
 		craftable: true
 	}],
 	
@@ -198,18 +173,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		this.game = game;
 		
 		this.resources = [];
-		
-		/*this.addResource("catnip");
-		this.addResource("wood");
-		this.addResource("minerals");	//?
-		
-		//uncommon resources
-		this.addResource("furs", "uncommon");
-		this.addResource("ivory", "uncommon");
-		this.addResource("spice", "uncommon");
-		
-		//unique resources
-		this.addResource("unicorns", "rare");*/
 		
 		for (var i = 0; i< this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
