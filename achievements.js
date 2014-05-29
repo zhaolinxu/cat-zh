@@ -15,7 +15,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		title: "Iron Will",
 		description: "You trully deserved this",
 		condition: function(){
-			return ( this.game.ironWill && this.game.bld.get("mine").val > 0 );
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").val > 0 );
 		},
 		unlocked: false
 	},
