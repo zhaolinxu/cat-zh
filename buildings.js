@@ -385,7 +385,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
 					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.val); 
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-						var amt = Math.floor(autoWood / game.workshop.getCraft("slab").prices[0].val);
+						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
 						game.msg("+" + amt + " slabs!");
 					}
@@ -717,16 +717,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			saveData.bldData = {};
 		}
 		saveData.bldData.groupBuildings = this.groupBuildings;
+		saveData.bldData.twoRows = this.twoRows;
 	},
 	
 	load: function(saveData){
-		/*if (saveData.buildings && saveData.buildings.length){
-			this.buildingsData  = saveData.buildings;
-		}*/
-		
-		if (saveData.bldData){
-			this.groupBuildings = saveData.bldData.groupBuildings;
-		}
+
+		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings: false;
+		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		
 		if (saveData.buildings && saveData.buildings.length){
 			for(var i = 0; i< saveData.buildings.length; i++){
@@ -957,9 +954,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 
 	render: function(content){
 		
-		//dojo.empty(content);
+		this.twoRows = this.game.bld.twoRows;
 		
-		var div = dojo.create("div", { style: { float: "right"}}, content);
+		var topContainer = dojo.create("div", {
+			style: {
+				paddingBottom : "5px",
+				marginBottom: "15px",
+				borderBottom: "1px solid gray"
+			}
+		}, content);
+		this.initRenderer(content);
+		
+		var div = dojo.create("div", { style: { float: "right"}}, topContainer);
 		var groupCheckbox = dojo.create("input", {
 			type: "checkbox",
 			checked: this.game.bld.groupBuildings
@@ -972,9 +978,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			this.render(content);
 		});
 		
-		dojo.create("span", { innerHTML: "Group buildings"}, div);
+		dojo.create("span", { innerHTML: "Group buildings", style: { paddingRight: "10px" }}, div);
 		//---------------------------------------------------------------
-		/*var twoRowsCheckbox = dojo.create("input", {
+		var twoRowsCheckbox = dojo.create("input", {
 			type: "checkbox",
 			checked: this.game.bld.twoRows
 		}, div);
@@ -984,8 +990,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			dojo.empty(content);
 			this.render(content);
 		});
-		dojo.create("span", { innerHTML: "Two rows"}, div);*/
-		
+		dojo.create("span", { innerHTML: "Two rows"}, div);
+		//---------------------------------------------------------------
 		var div = dojo.create("div", { style: { marginTop: "25px"}}, content);
 		
 		
@@ -1009,7 +1015,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 				
 				//shitty hack
 				if (i == 0){
-					this.renderCoreBtns(panelContent);
+					this.renderCoreBtns(content);
 				}
 				
 				for (var j = 0; j< groups[i].buildings.length; j++){
@@ -1025,16 +1031,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 					btn.visible = bld.unlocked;
 					
 					this.addButton(btn);
-					
-					if (j % 2 == 0){
-					}
-					
 					btn.render(panelContent);
 				}
 			}
 		}else{
 			
-			this.renderCoreBtns(content);
+			this.renderCoreBtns(topContainer);
 			
 			var buildings = this.game.bld.buildingsData;
 			for (var i = 0; i< buildings.length; i++){
@@ -1050,7 +1052,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 				btn.visible = bld.unlocked;
 				
 				this.addButton(btn);
-				btn.render(content);
+				btn.render(this.getElementContainer(i + 2));	//where 2 is a size of core buttons, do not forget to change it
 			}
 		}	
 	},

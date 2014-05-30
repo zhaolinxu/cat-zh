@@ -163,9 +163,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		}
 		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
-		unmetRaces[raceId].unlocked = true;
 		
-		return unmetRaces[raceId];
+		if (unmetRaces[raceId]){	//someone reported a bug there, to be investigated later
+			unmetRaces[raceId].unlocked = true;
+			return unmetRaces[raceId];
+		}
+		return null;
 	},
 	
 	update: function(){

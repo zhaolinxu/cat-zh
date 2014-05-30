@@ -12,6 +12,12 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
 	}
 });
 
+/**
+ * A base class for every tab manager component like science, village, bld, etc */
+dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
+
+});
+
 
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
@@ -408,10 +414,47 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
+	twoRows: false,	//by default every tab/panel has one row only
+	
+	leftRow: null,
+	rightRow: null,
+	
+	initRenderer: function(content){
+		this.content = content;
+		
+		if (this.twoRows){
+			var table = dojo.create("table", { 
+				cellpadding: "0",
+				cellspacing: "0",
+				style: { width: "100%"}
+			}, content);
+			var tr = dojo.create("tr", {}, table);
+			this.leftRow  = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
+			this.rightRow = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
+		}
+	},
+	
+	/**
+	 * Get a DOM Node container for an array element with a given index, starting with 0
+	 */ 
+	getElementContainer: function(id){
+		if (!this.twoRows){
+			return this.content;
+		}
+		
+		if (id % 2 == 0){
+			return this.leftRow;
+		} else {
+			return this.rightRow;
+		}
+	}
+});
+
 /**
  * Tab
 */
-dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
+dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.ContentRowRenderer, {
 	
 	game: null,
 	
@@ -420,7 +463,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 	buttons: null,
 	
 	visible: true,
-	
+
 	//_tabContainer: null,
 	
 	constructor: function(tabName, game){
@@ -434,10 +477,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", null, {
 		/*dojo.create("span", { innerHTML: this.tabName }, tabContainer);
 		dojo.create("br", {}, tabContainer);
 		dojo.create("br", {}, tabContainer);*/
+		
+		this.initRenderer(tabContainer);
 				
 		for (var i = 0; i<this.buttons.length; i++){
 			var button = this.buttons[i];
-			button.render(tabContainer);
+			
+			var btnContainer = this.getElementContainer(i);
+			button.render(btnContainer);
 		}
 	},
 	
