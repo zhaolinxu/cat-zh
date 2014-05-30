@@ -953,17 +953,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	},
 
 	render: function(content){
-		
+		var topContainer = content;
 		this.twoRows = this.game.bld.twoRows;
-		
-		var topContainer = dojo.create("div", {
-			style: {
-				paddingBottom : "5px",
-				marginBottom: "15px",
-				borderBottom: "1px solid gray"
-			}
-		}, content);
-		this.initRenderer(content);
+
+		if (!this.game.bld.groupBuildings){
+			topContainer = dojo.create("div", {
+				style: {
+					paddingBottom : "5px",
+					marginBottom: "15px",
+					borderBottom: "1px solid gray"
+				}
+			}, content);
+			this.initRenderer(content);
+		}
 		
 		var div = dojo.create("div", { style: { float: "right"}}, topContainer);
 		var groupCheckbox = dojo.create("input", {
@@ -1012,12 +1014,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 				
 				var groupPanel = new com.nuclearunicorn.game.ui.Panel(groups[i].title);
 				var panelContent = groupPanel.render(content);
-				
+
 				//shitty hack
 				if (i == 0){
-					this.renderCoreBtns(content);
+					this.renderCoreBtns(panelContent);
 				}
 				
+				groupPanel.twoRows = this.twoRows;
+				groupPanel.initRenderer(panelContent);
+
 				for (var j = 0; j< groups[i].buildings.length; j++){
 					var bld = this.game.bld.get(groups[i].buildings[j]);
 					
@@ -1031,7 +1036,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 					btn.visible = bld.unlocked;
 					
 					this.addButton(btn);
-					btn.render(panelContent);
+
+					btn.render(groupPanel.getElementContainer(j));
 				}
 			}
 		}else{

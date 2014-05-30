@@ -357,10 +357,49 @@ dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {
 	}
 });
 
+
+dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
+	twoRows: false,	//by default every tab/panel has one row only
+	
+	leftRow: null,
+	rightRow: null,
+	
+	initRenderer: function(content){
+		this.content = content;
+		
+		if (this.twoRows){
+			var table = dojo.create("table", { 
+				cellpadding: "0",
+				cellspacing: "0",
+				style: { width: "100%"}
+			}, content);
+			var tr = dojo.create("tr", {}, table);
+			this.leftRow  = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
+			this.rightRow = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
+		}
+	},
+	
+	/**
+	 * Get a DOM Node container for an array element with a given index, starting with 0
+	 */ 
+	getElementContainer: function(id){
+		if (!this.twoRows){
+			return this.content;
+		}
+		
+		if (id % 2 == 0){
+			return this.leftRow;
+		} else {
+			return this.rightRow;
+		}
+	}
+});
+
+
 /**
  * Collapsible panel for a tab
  */ 
-dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
+dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
 	collapsed: false,
 	
 	name: "",
@@ -411,43 +450,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", null, {
 	
 	setVisible: function(visible){
 		$(this.panelDiv).toggle(visible);
-	}
-});
-
-dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
-	twoRows: false,	//by default every tab/panel has one row only
-	
-	leftRow: null,
-	rightRow: null,
-	
-	initRenderer: function(content){
-		this.content = content;
-		
-		if (this.twoRows){
-			var table = dojo.create("table", { 
-				cellpadding: "0",
-				cellspacing: "0",
-				style: { width: "100%"}
-			}, content);
-			var tr = dojo.create("tr", {}, table);
-			this.leftRow  = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
-			this.rightRow = dojo.create("td", {style:{verticalAlign: "top"}}, tr);
-		}
-	},
-	
-	/**
-	 * Get a DOM Node container for an array element with a given index, starting with 0
-	 */ 
-	getElementContainer: function(id){
-		if (!this.twoRows){
-			return this.content;
-		}
-		
-		if (id % 2 == 0){
-			return this.leftRow;
-		} else {
-			return this.rightRow;
-		}
 	}
 });
 
