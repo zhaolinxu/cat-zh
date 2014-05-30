@@ -334,7 +334,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.button, {
+dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.Button, {
 	
 	techName: null,
 	

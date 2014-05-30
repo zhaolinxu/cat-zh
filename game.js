@@ -95,11 +95,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.village = new com.nuclearunicorn.game.villageManager(this);
 		this.resPool.setVillage(this.village);
 		
-		this.workshop = new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
-		this.diplomacy = new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
-		this.bld = new com.nuclearunicorn.game.buildings.BuildingsManager(this);
-		this.science = new com.nuclearunicorn.game.science.ScienceManager(this);
-		this.achievements = new com.nuclearunicorn.game.Achievements(this);
+		this.workshop 		= 	new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
+		this.diplomacy 		= 	new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
+		this.bld 			= 	new com.nuclearunicorn.game.buildings.BuildingsManager(this);
+		this.science 		= 	new com.nuclearunicorn.game.science.ScienceManager(this);
+		this.achievements 	= 	new com.nuclearunicorn.game.Achievements(this);
+		this.religion 		= 	new com.nuclearunicorn.game.religion.ReligionManager(this);
 		
 
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
@@ -166,6 +167,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.workshop.save(saveData);
 		this.diplomacy.save(saveData);
 		this.achievements.save(saveData);
+		this.religion.save(saveData);
 		
 		/*forceShowLimits: false,
 		colorScheme: null,*/
@@ -214,6 +216,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				this.workshop.load(saveData);
 				this.diplomacy.load(saveData);
 				this.achievements.load(saveData);
+				this.religion.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -234,6 +237,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			this.achievementTab.visible = true;
 		}
 		
+		//Nice try, probably someday
 		/*if (this.science.get("currency").researched){
 			this.economyTab.visible = true;
 		}*/
@@ -241,6 +245,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.diplomacy.hasUnlockedRaces()){
 			this.diplomacyTab.visible = true;
 		}
+		
+		if (this.resPool.get("faith").value > 0 ){
+			this.religionTab.visible = true;
+		}
+		
 		if (saveData && saveData.game){
 			var data = saveData.game;
 			
@@ -313,7 +322,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 
 			var tabLink = dojo.create("a", {
 				href:"#",
-				innerHTML: tab.tabName
+				innerHTML: tab.tabName,
+				style : {
+					whiteSpace: "nowrap"
+				}
 			}, tabNavigationDiv);
 			
 			if (this.activeTabName == tab.tabName){
@@ -457,6 +469,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.village.update();
 		this.diplomacy.update();
 		this.achievements.update();
+		this.religion.update();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -654,6 +667,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	updateAdvisors: function(){
+		
+		if (this.bld.get("field").val == 0){
+			return;
+		}
+		
 		var advDiv = dojo.byId("advisorsContainer");
 		dojo.empty(advDiv);
 		
@@ -672,7 +690,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//console.log("Val:", this.resPool.get("catnip").value, " winter days:", winterDays * catnipPerTick);
 
 		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick * 10 ) <= 0 ){
-			advDiv.innerHTML = "Food advisor: 'Your catnip supply is too low!'"
+			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>"
 		}
 		
 		

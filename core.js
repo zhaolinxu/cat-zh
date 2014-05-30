@@ -45,7 +45,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.button", null, {
+dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	
 	game: null,
 	

@@ -768,7 +768,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 });
 
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.button, {
+dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.Button, {
 	sellHref: null,
 	toggleHref: null,
 	
@@ -884,7 +884,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 });
 
 
-dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.button, {
+dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Button, {
 	x100Href: null,
 	
 	update: function(){

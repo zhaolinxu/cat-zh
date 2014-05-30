@@ -200,7 +200,7 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.button, {
+dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.Button, {
 	
 	race: null,
 
@@ -330,7 +330,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "15px"
 		} }, tabContainer);
 			
-		var exploreBtn = new com.nuclearunicorn.game.ui.button({
+		var exploreBtn = new com.nuclearunicorn.game.ui.Button({
 			name: "Send explorers",
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],

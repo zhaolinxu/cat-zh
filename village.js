@@ -400,7 +400,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.button, {
+dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.Button, {
 	
 	jobName: null,
 	
@@ -557,7 +557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.addButton(btn);
 		}
 		
-		var btn = new com.nuclearunicorn.game.ui.button({ name:"Clear",
+		var btn = new com.nuclearunicorn.game.ui.Button({ name:"Clear",
 			handler: function(){
 				self.game.village.clearJobs();
 			}
@@ -611,7 +611,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		//hunt
 		
-		var huntBtn = new com.nuclearunicorn.game.ui.button({
+		var huntBtn = new com.nuclearunicorn.game.ui.Button({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
 				handler: function(){

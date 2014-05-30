@@ -107,6 +107,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "unicorns",
 		type : "rare",
 		visible: true
+	},{
+		name : "tears",
+		type : "rare",
+		visible: true
 	},
 	{
 		name : "karma",
