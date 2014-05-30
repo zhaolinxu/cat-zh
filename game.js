@@ -125,6 +125,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.diplomacyTab.visible = false;
 		this.addTab(this.diplomacyTab);
 		
+		this.religionTab = new com.nuclearunicorn.game.ui.tab.ReligionTab("Religion", this);
+		this.religionTab.visible = false;
+		this.addTab(this.religionTab);
+		
 		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
 		this.achievementTab.visible = false;
 		this.addTab(this.achievementTab);
@@ -374,7 +378,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			var weatherMod = this.calendar.getWeatherMod();
 		}
 
-		var perTick = res.perTick;		//per tick accumulator :3
+		//var perTick = res.perTick;		//per tick accumulator :3
+		var perTick = this.bld.getEffect(res.name + "PerTickBase");	
 		
 		if (season.modifiers[res.name]){
 			perTick = perTick * (season.modifiers[res.name] + weatherMod);
@@ -573,6 +578,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	updateCraftResources: function(){
 		//TODO: reduce regeneration rate
+		var self = this;
 		
 		if ( this.bld.get("workshop").val == 0 ){
 			return;
@@ -607,17 +613,17 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var recipe = this.workshop.getCraft(res.name);
 
 				var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				dojo.create("a", { 
+				var a = dojo.create("a", { 
 					href: "#", 
-					onclick: "gamePage.craft('" + res.name + "', 1);", 
 					innerHTML : "+",
 					style: {
 						display: this.resPool.hasRes(recipe.prices, 1) ? "" : "none"
 					}
 				}, td);
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 1); event.preventDefault(); }, res));
 				
 				var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				dojo.create("a", {
+				var a = dojo.create("a", {
 					href: "#", 
 					onclick: "gamePage.craft('" + res.name + "', 25);", 
 					innerHTML : "+25",
@@ -625,9 +631,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 						display: this.resPool.hasRes(recipe.prices, 25) ? "" : "none"
 					}
 				}, td);
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 25); event.preventDefault(); }, res));
 				
 				var td = dojo.create("td", { }, tr);
-				dojo.create("a", {
+				var a = dojo.create("a", {
 					href: "#", 
 					onclick: "gamePage.craft('" + res.name + "', 100);", 
 					innerHTML : "+100",
@@ -635,6 +642,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 						display: this.resPool.hasRes(recipe.prices, 100) ? "" : "none"
 					} 
 				}, td);
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 100); event.preventDefault(); }, res));
 			}
 		}
 	},
@@ -723,8 +731,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var bldResRatio = this.bld.getEffect(res.name+"Ratio");
 		
 		var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+		var bldResRatioTickBase = this.bld.getEffect(res.name + "PerTickBase");
 		
-		var perTick = res.perTick;
+		var perTick = bldResRatioTickBase;
 		if (season.modifiers[res.name]){
 			perTick = perTick * season.modifiers[res.name];
 		}
@@ -822,12 +831,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		} else {
 			calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title
 		}
-		
-		//this.calendar
+
 	},
 	
 	addTab: function(tab){
-		//var tab = new com.nuclearunicorn.game.ui.tab(tabName);
 		this.tabs.push(tab);
 		tab.game = this;
 	},
@@ -837,8 +844,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	tick: function(){
-		//this.resources.kittens++;
-		
 		this.calendar.tick();
 		try {
 			this.update();
@@ -851,9 +856,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (!confirm("Are you sure you want to reset? You will save your achievemenets and karma points.")){
 			return;
 		}
-		/*this.resPool.reset();
-		this.village.reset();
-		this.bld.reset();*/
+
 		if (this.resPool.get("kittens").value > 35){
 			this.karmaKittens += (this.resPool.get("kittens").value - 35);
 		}

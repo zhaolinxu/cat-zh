@@ -50,14 +50,19 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"Fields have +50% production in spring and -75% in winter",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
-		effects: {},
+		effects: {
+			"catnipPerTickBase": 0.125
+		},
 		priceRatio: 1.12,
 		handler: function(btn){
-			btn.game.resPool.get("catnip").perTick += 0.125;
+			//btn.game.resPool.get("catnip").perTick += 0.125;
 		},
-		
+		/*action: function(self, game){
+			game.resPool.get("catnip").value += game.bld.getEffect("catnipPerTick");
+		},*/
 		val: 0
-	},{
+	},
+	{
 		name: "pasture",
 		label: "Pasture",
 		description: "Provides alternative source of food, hence reducing catnip consumption by 0.5%.",
@@ -248,9 +253,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 			if (game.workshop.get("deepMining").researched){
 				//fun but ugly hack
-				self.effects["coalPerTick"] = 0.001;
-				
-				coal.value += self.effects["coalPerTick"] * self.val;
+				self.effects["coalPerTickBase"] = 0.001;
+				//coal.value += self.effects["coalPerTick"] * self.val;
 			}
 		}
 	},
@@ -528,11 +532,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			{ name : "unicorns", val: 2 }
 		],
 		effects: {
-			"catnipDemandRatio": -0.0015
+			"catnipDemandRatio": -0.0015,
+			"unicornsPerTickBase" : 0.001
 		},
 		priceRatio: 1.75,
 		handler: function(btn){
-			btn.game.resPool.get("unicorns").perTick += 0.001;
+			//btn.game.resPool.get("unicorns").perTick += 0.001;
 		},
 		val: 0,
 		requiredTech: ["animal"],
@@ -814,6 +819,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					
 				dojo.connect(this.sellHref, "onclick", this, function(event){
 					event.stopPropagation();
+					event.preventDefault();
 					
 					building.val--;
 					
@@ -844,6 +850,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					
 				dojo.connect(this.toggleHref, "onclick", this, function(event){
 					event.stopPropagation();
+					event.preventDefault();
 
 					building.enabled = !building.enabled;
 

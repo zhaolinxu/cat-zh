@@ -38,7 +38,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "archery",
 		title: "Archery",
 		
-		description: "Ranged waponry known as a 'bow'",
+		description: "Ranged weaponry known as a 'bow'",
 		effectDesc: "Unlocks hunters",
 		
 		unlocked: false,
