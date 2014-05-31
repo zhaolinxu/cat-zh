@@ -330,7 +330,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "steamworks",
 		label: "Steamworks",
-		description: "Consumes 0.5 coal per working cycle",
+		description: "When active, reduces your coal production by 80%. \nCan perform a vast variety of operations if upgraded.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -347,7 +347,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 		},
 		effects: {
-			"coalPerTick" : -0.5
+			"coalRatioGlobal" : -0.8	//shitty hacky effect, to be revisited later
 		},
 		action: function(self, game){
 			if (!self.enabled){
@@ -862,7 +862,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				return;
 			}
 			if (!this.toggleHref){
-				this.toggleHref = dojo.create("a", { href: "#", innerHTML: building.enabled ? "off" : "on", style:{
+				this.toggleHref = dojo.create("a", { 
+					href: "#", 
+					innerHTML: building.enabled ? "off" : "on", 
+					style:{
 						paddingLeft: "4px",
 						float: "right",
 						cursor: "pointer"
@@ -883,6 +886,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			} else {
 				this.toggleHref.innerHTML = building.enabled ? "off" : "on";
 			}
+			
+			dojo.toggleClass(this.domNode, "bldEnabled", building.enabled);
 		}
 		
 	},

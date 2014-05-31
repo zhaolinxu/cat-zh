@@ -431,6 +431,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				perTick += bldResRatioTick;
 			}
 		}	
+		//SPECIAL STEAMWORKS HACK FOR COAL
+		var steamworks = this.bld.get("steamworks");
+		if (steamworks.enabled && steamworks.val != 0){
+			perTick += perTick * steamworks.effects["coalRatioGlobal"];
+		}
 		
 		//---------  RESOURCE CONSUMPTION -------------
 	
@@ -512,7 +517,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
 
-				var tr = dojo.create("tr", {}, resTable);
+				var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 				
 				//  highlight resources for selected building
 				//--------------------------------------------
@@ -778,6 +783,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		bldResRatio = bldResRatio ? bldResRatio : 0;
 		relResRatio = relResRatio ? relResRatio : 0;
+		
+		//steamwork hack for coal
+		var steamworks = this.bld.get("steamworks");
+		if (steamworks.enabled && steamworks.val != 0 && res.name == "coal"){
+			bldResRatio += steamworks.effects["coalRatioGlobal"];
+		}
 		
 		if (bldResRatio || relResRatio){
 			resString += "<br>Structures: " + 

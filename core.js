@@ -300,7 +300,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			}
 		}, btnContainer);
 		
-		this.buttonContent = dojo.create("div", { title: this.getDescription()}, this.domNode);
+		this.buttonContent = dojo.create("div", { 
+			className: "btnContent",
+			title: this.getDescription() 
+		}, this.domNode);
+		
 		this.buttonTitle = dojo.create("span", {
 			innerHTML: this.getName(),
 			style: {}

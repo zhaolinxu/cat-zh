@@ -9,7 +9,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		visible: true
 	},
-{
+	{
 		name : "wood",
 		type : "common",
 		craftable: true,

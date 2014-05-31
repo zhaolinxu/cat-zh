@@ -73,6 +73,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "steelAxe",
+		title: "Steel Axe",
+		description: "Very sharp and durable axes providing +30% wood production boost",
+		effects: {
+			"woodRatio" : 0.3
+		},
+		prices:[
+			{ name : "science", val: 20000 },
+			{ name : "steel", val: 100 }
+		],
+		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "stoneBarns",
 		title: "Expanded Barns",
 		description: "Barns store 75% more wood and iron",
@@ -199,7 +215,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "printingPress",
 		title: "Printing Press",
-		description: "Unlocks crafting manuscripts via the paper",
+		description: "Steamwork converts paper to manuscripts",
 		effects: {
 		},
 		prices:[
@@ -211,7 +227,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Automatically converts small quantities of the resources to craftable tools",
+		description: "Steamwork converts small quantities of the resources to craftable tools",
 		effects: {
 		},
 		prices:[
