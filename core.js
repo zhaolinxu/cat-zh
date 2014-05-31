@@ -15,6 +15,33 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
 /**
  * A base class for every tab manager component like science, village, bld, etc */
 dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
+		
+	
+	getMetaEffect: function(name, metadata){
+		var totalEffect = 0;
+		
+		for (var i = 0; i < metadata.length; i++){
+			var meta = metadata[i];
+
+			var effect = meta.effects[name];
+
+			var val = meta.val;
+			totalEffect += effect * val;
+		}
+		
+		return totalEffect;
+	},
+	
+	getMeta: function(name, metadata){
+		for (var i = 0; i < metadata.length; i++){
+			var meta = metadata[i];
+			
+			if (meta.name == name){
+				return meta;
+			}
+		}
+		console.error("Could not find metadata for '" + name + "'");
+	},
 
 });
 
@@ -79,6 +106,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 
 	constructor: function(opts, game){
 		
+		this.id = opts.id;
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
@@ -214,7 +242,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 
 		this.game.resPool.payPrices(prices);
 		
-		if (this.buildingName){
+		if (this.buildingName || this.id){
 			var building = this.getBuilding();
 			building.val++;
 		}

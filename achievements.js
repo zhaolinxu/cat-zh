@@ -11,6 +11,14 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		},
 		unlocked: false
 	},{
+		name: "uniception",
+		title: "Uniception",
+		description: "Find the conspiracy within the conspiracy",
+		condition: function(){
+			return ( this.game.resPool.get("tears").value > 0 );
+		},
+		unlocked: false
+	},{
 		name: "ironWill",
 		title: "Iron Will",
 		description: "You trully deserved this",

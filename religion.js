@@ -25,13 +25,49 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		if (this.game.resPool.get("faith").value > 0){
 			this.game.religionTab.visible = true;
 		}
-	}
+	},
 	
+	zigguratUpgrades: [{
+		name: "unicornTomb",
+		label: "Unicorn Tomb",
+		description: "Improves your unicorns generation by 5%",
+		prices: [
+			{ name : "ivory", val: 500 },
+			{ name : "tears", val: 5 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"unicornsRatio" : 0.05
+		},
+		val: 0,
+		unlocked: true
+	}],
+	
+	getZU: function(name){
+		return this.getMeta(name, this.zigguratUpgrades);
+	},
+	
+	getEffect: function(name){
+		return this.getMetaEffect(name, this.zigguratUpgrades);
+	}
+
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	
+	getBuilding: function(){
+		return this.game.religion.getZU(this.id);
+	}
+});
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
+	
 	sacrificeBtn : null,
+	zgUpgradeButtons: null,
+	
+	constructor: function(){
+		this.zgUpgradeButtons = [];
+	},
 	
 	render : function(container) {
 		var zigguratCount = this.game.bld.get("ziggurat").val;
@@ -52,6 +88,23 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.sacrificeBtn = sacrificeBtn;
 			
 			//todo: all the dark miracles there
+			
+			var upgrades = this.game.religion.zigguratUpgrades;
+			for (var i = 0; i < upgrades.length; i++){
+				var upgr = upgrades[i];
+				
+				var button = new com.nuclearunicorn.game.ui.ZigguratBtn({
+					id: 		upgr.name,
+					name: upgr.label,
+					description: upgr.description,
+					prices: upgr.prices,
+					handler: function(){
+					}
+				}, this.game);
+				
+				button.render(content);
+				this.zgUpgradeButtons.push(button);
+			}
 		}
 		
 		var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun");
@@ -82,6 +135,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		var faith = this.game.religion.faith;
 		if (faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + this.game.religion.faith.toFixed();
+		}
+		
+		for (var i = 0; i< this.zgUpgradeButtons.length; i++){
+			this.zgUpgradeButtons[i].update();
 		}
 	}
 });
