@@ -234,6 +234,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0
 	},
 	{
+		name: "harbor",
+		label: "Harbor",
+		description: "Provides a space to store resources. Other effects TBD",
+		unlocked: false,
+		prices: [{ name : "scaffold", val: 5 }, { name : "slab", val: 25 }, { name : "plate", val: 50 }],
+		effects: {
+			"catnipMax" 	: 2500,
+			"woodMax"		: 700,
+			"mineralsMax"	: 950,
+			"ironMax"		: 150,
+			"coalMax"		: 100,
+			"goldMax"		: 25
+		},
+		priceRatio: 1.15,
+		requiredTech: ["navigation"],
+		handler: 	function(btn){
+		},
+		val: 0
+	},
+	{
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",

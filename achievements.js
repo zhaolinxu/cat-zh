@@ -26,8 +26,15 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").val > 0 );
 		},
 		unlocked: false
-	},
-	{
+	},{
+		name: "sunGod",
+		title: "Sun God",
+		description: "Get a total of 696,342 accumulated faith",
+		condition: function(){
+			return ( this.game.religion.faith >= 696342 );
+		},
+		unlocked: false
+	},{
 		name: "winterIsComing",
 		title: "Winter Is Coming",
 		description: "Have 10 kittens dead",

@@ -13,12 +13,23 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	
 	save: function(saveData){
 		saveData.religion = {
-			faith: this.faith
+			faith: this.faith,
+			zu: this.zigguratUpgrades
 		}
 	},
 	
 	load: function(saveData){
 		this.faith = saveData.religion ? saveData.religion.faith : 0;
+		if (saveData.religion.zu){
+			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
+				for (var j = 0; j< loadedElem.val; j++){
+					for( var k = 0; k < loadedElem.prices.length; k++){
+						var price = loadedElem.prices[k];
+						price.val = price.val * loadedElem.priceRatio;
+					}
+				}
+			});
+		}
 	},
 	
 	update: function(){

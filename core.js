@@ -42,6 +42,26 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		}
 		console.error("Could not find metadata for '" + name + "'");
 	},
+	
+	loadMetadata: function(meta, saveMeta, fields, handler){
+		for(var i = 0; i< saveMeta.length; i++){
+			var savedMetaElem = saveMeta[i];
+			
+			if (savedMetaElem != null){
+				var elem = this.getMeta(savedMetaElem.name, meta);
+				for (var j = 0; j < fields.length; j++){
+					var fld = fields[i];
+					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
+						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
+					}
+					elem[fields[j]] = savedMetaElem[fields[j]];
+				}
+				if (handler){
+					handler(elem);
+				}
+			}
+		}
+	}
 
 });
 

@@ -753,6 +753,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		var season = this.calendar.getCurSeason();
 		var bldResRatio = this.bld.getEffect(res.name+"Ratio");
+		var relResRatio = this.religion.getEffect(res.name+"Ratio");
 		
 		var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
 		var bldResRatioTickBase = this.bld.getEffect(res.name + "PerTickBase");
@@ -774,7 +775,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var useHypHack = (res.name != "catnip") ? true : false;
 		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyperbolic reduction on negative effects
 		
-		var relResRatio = this.religion.getEffect(res.name+"Ratio");
+		
+		bldResRatio = bldResRatio ? bldResRatio : 0;
+		relResRatio = relResRatio ? relResRatio : 0;
+		
 		if (bldResRatio || relResRatio){
 			resString += "<br>Structures: " + 
 				this.getDisplayValue((bldResRatio+relResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResRatioTick), true);
