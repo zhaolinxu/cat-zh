@@ -900,13 +900,28 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	start: function(){
-		var timer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
+		if (window.Worker){
+			var blob = new Blob([
+				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.rate + "); }"]);	//no shitty external js
+			var blobURL = window.URL.createObjectURL(blob);
+
+			this.worker = new Worker(blobURL);
+			this.worker.addEventListener('message', dojo.hitch(this, function(e) {
+				this.tick();
+			}));
+			this.worker.postMessage("tick");
+		} else {
+			//some older browser, perhaps IE. Have a nice idling.
+			var timer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
+		}
 	},
 	
 	tick: function(){
 		this.calendar.tick();
 		try {
-			this.update();
+			for (var i = 0; i< this.updateRate; i++){
+				this.update();
+			}
 		} catch (ex){
 			console.error("Error on calling update(), you should not see this", ex, ex.stack);
 		}
