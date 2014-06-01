@@ -83,7 +83,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "science", val: 20000 },
 			{ name : "steel", val: 100 }
 		],
-		unlocked: true,
+		unlocked: false,
 		researched: false,
 		handler: function(game){
 			//do nothing
@@ -120,6 +120,24 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "iron", val: 100 }
 		],
 		unlocked: true,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "reinforcedWarehouses",
+		title: "Reinforced Warehoses",
+		description: "Warehouses store 25% more resources",
+		effects: {
+			"warehouseRatio" : 0.25
+		},
+		prices:[
+			{ name : "science", val: 15000 },
+			{ name : "plate", val: 50 },
+			{ name : "steel", val: 50 },
+			{ name : "scaffold", val: 25 }
+		],
+		unlocked: false,
 		researched: false,
 		handler: function(game){
 			//do nothing
@@ -233,6 +251,20 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "gear", 	 val: 50 },
 			{ name : "science",  val: 10000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "combustionEngine",
+		title: "Combustion Engine",
+		description: "Reduces coal consumption of Steamworks by 20%",
+		effects: {
+			"coalRatioGlobal" : 0.2
+		},
+		prices:[
+			{ name : "gear", 	 val: 25 },
+			{ name : "blueprint",  val: 5 },
+			{ name : "science",  val: 20000 },
 		],
 		unlocked: false,
 		researched: false

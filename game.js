@@ -433,8 +433,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}	
 		//SPECIAL STEAMWORKS HACK FOR COAL
 		var steamworks = this.bld.get("steamworks");
-		if (steamworks.enabled && steamworks.val != 0){
-			perTick += perTick * steamworks.effects["coalRatioGlobal"];
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.enabled && steamworks.val != 0 && swEffectGlobal ){
+			perTick += perTick * swEffectGlobal;
 		}
 		
 		//---------  RESOURCE CONSUMPTION -------------
@@ -459,6 +460,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.ticksBeforeSave == 0){
 			this.ticksBeforeSave = this.autosaveFrequency;
 			this.save();
+			
+			dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
+			dojo.animateProperty({
+			  node:"autosaveTooltip",
+			  properties: {
+				  opacity: 0
+			  },
+			  duration: 1200,
+			}).play();
 		}
 		
 		this.resPool.update();
@@ -690,21 +700,15 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.calendar.season == "winter"){
 			winterDays = 100 - this.calendar.day;
 		}
-		
-		
+
 		var catnipPerTick = this.getResourcePerTick("catnip", false, { modifiers:{
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
-		
-		//console.log("days:", winterDays, "perTick":, 
-		
-		//console.log("Val:", this.resPool.get("catnip").value, " winter days:", winterDays * catnipPerTick);
-
+	
 		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick * 10 ) <= 0 ){
 			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>"
 		}
-		
-		
+
 	},
 	
 	//TODO: freaking slow, use damn dictionaries
@@ -786,8 +790,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		//steamwork hack for coal
 		var steamworks = this.bld.get("steamworks");
-		if (steamworks.enabled && steamworks.val != 0 && res.name == "coal"){
-			bldResRatio += steamworks.effects["coalRatioGlobal"];
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.enabled && steamworks.val != 0 && swEffectGlobal){
+			bldResRatio += swEffectGlobal;
 		}
 		
 		if (bldResRatio || relResRatio){

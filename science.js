@@ -208,6 +208,9 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("deepMining").unlocked = true;
 			game.workshop.get("coalFurnace").unlocked = true;
+			game.workshop.get("combustionEngine").unlocked = true;
+			game.workshop.get("reinforcedWarehouses").unlocked = true;
+			game.workshop.get("steelAxe").unlocked = true;
 		}
 	},{
 		name: "theology",

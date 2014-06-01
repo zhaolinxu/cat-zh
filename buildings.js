@@ -248,6 +248,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"goldMax"		: 25
 		},
 		priceRatio: 1.15,
+		ignorePriceCheck: true,
 		requiredTech: ["navigation"],
 		handler: 	function(btn){
 		},
@@ -354,16 +355,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				return;
 			}
 			
-			//DO PSSSH AND CHOO CHOO
-			
-			var coal = game.resPool.get("coal");
-			//coal.value += self.effects["coalPerTick"] * self.val;
-			if (coal.value < self.effects["coalPerTick"] * self.val){
-				return;
+			var combEngine = game.workshop.get("combustionEngine");
+			if( combEngine.researched){
+				self.effects["coalRatioGlobal"] = -0.8 + combEngine.effects["coalRatioGlobal"];
 			}
 			
-			coal.value += self.effects["coalPerTick"] * self.val;
-			
+			//DO PSSSH AND CHOO CHOO
+
 			if (game.workshop.get("printingPress").researched){
 				var paper = game.resPool.get("paper");
 				var manuscript = game.resPool.get("manuscript");
@@ -374,7 +372,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					
 					game.msg("Printing press: +1 manuscript!");
 				}
-					
 			}
 			
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){

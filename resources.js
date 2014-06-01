@@ -232,9 +232,20 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
 			
-			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){
+			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
+			if (res.name == "wood" || 
+				res.name == "minerals" || 
+				res.name == "iron" || 
+				res.name == "steel" || 
+				res.name == "coal" || 
+				res.name == "gold"){
+				if (this.game.workshop.getEffect("warehouseRatio")){
+					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
+				}
+			}
+			
 			
 			if (maxValue > 0 ){
 				res.maxValue = maxValue;
@@ -245,6 +256,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			}
 			if (res.value > res.maxValue){
 				res.value = res.maxValue;
+			}
+			
+			if (isNaN(res.value)){
+				res.value = 0;	//safe switch
 			}
 		}
 	},
