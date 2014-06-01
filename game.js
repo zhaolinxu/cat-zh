@@ -56,7 +56,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	console: null,
 	
+	//first one is just a generic concrate modifier affecting timer frequency
 	rate: 5,
+	
+	//this is a update xN modifer for debug purpose
+	updateRate: 1,
 	
 	activeTabName: "Bonfire",
 	
@@ -189,12 +193,19 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	toggleScheme: function(){
-		this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
+		var schemeToggle = dojo.byId("schemeToggle");
+		this.colorScheme = schemeToggle.value;
+		
+		//console.log(schemeToggle, schemeToggle.value);
+		
+		//this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
 		this.setColorScheme();
 	},
 	
 	setColorScheme: function(){
-		$("schemeToggle").checked = (this.colorScheme == "dark");
+		//$("schemeToggle").checked = (this.colorScheme == "dark");
+		
+		$("#schemeToggle").val(this.colorScheme);
 		$("body").attr("class", "scheme_"+this.colorScheme);
 	},
 	

@@ -407,7 +407,12 @@
 			
 			
 			<div id="optionsDiv" style="display:none" class="help">
-				Color scheme : <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br>
+				Color scheme : <!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
+				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
+					<option value="">Classic</option>
+					<option value="dark">Inverted</option>
+					<option value="grassy">Grassy</option>
+				</select> <br><br><br>
 				
 				<input type="button" value="Export" onclick="gamePage.saveExport();"><br>
 				<input type="button" value="Import" onclick="gamePage.saveImport();" style="margin-top:10px;"><br>
