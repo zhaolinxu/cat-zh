@@ -539,6 +539,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
 
 				var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
+				if (i % 2 == 0){
+					dojo.addClass(tr, "odd");
+				}
 				
 				//  highlight resources for selected building
 				//--------------------------------------------

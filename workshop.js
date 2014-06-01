@@ -126,7 +126,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		}
 	},{
 		name: "reinforcedWarehouses",
-		title: "Reinforced Warehoses",
+		title: "Reinforced Warehouses",
 		description: "Warehouses store 25% more resources",
 		effects: {
 			"warehouseRatio" : 0.25

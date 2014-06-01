@@ -1,1 +1,98 @@
-/* ============ grassy theme TBD there ===========*/
+/* ============ grassy theme (c) A million pies ===========*/
+
+body.scheme_grassy {
+    background-color: #C6EBA1 !important;
+    background-image: url("http://northwaygames.com/wp-content/uploads/band.png") !important;
+	background-repeat:repeat-x;
+	background-position: center bottom -50px;
+	background-attachment: fixed;
+	font-family: "Trebuchet MS";
+	font-size: 11pt;
+}
+
+.scheme_grassy #optionsDiv, .scheme_grassy #changelogDiv {
+	background-color: #C6EBA1;
+	padding: 30px;
+}
+
+.scheme_grassy #gameContainerId, .scheme_grassy .tabInner, .scheme_grassy .btn {
+	background: rgba(255,255,255,.2) !important;
+}
+
+.scheme_grassy #headerLinks {
+	background: none !important;
+}
+
+.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer, .scheme_grassy #craftContainer {
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+	background: rgba(255,255,255,.2) !important;
+	border: 1px solid gray;
+}
+
+.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer {
+	margin-bottom: 7px;
+}
+
+.scheme_grassy #footerLinks {
+	background: rgba(223, 255, 225,.7) !important;
+	-webkit-box-shadow: 0px 0px 5px 5px rgba(223, 255, 225, 0.7);
+    box-shadow:         0px 0px 5px 5px rgba(223, 255, 225, 0.7);
+}
+
+.scheme_grassy a {
+	text-decoration: none;
+	color: #993300;
+}
+
+.scheme_grassy #clearLogHref {
+	position: relative;
+	bottom: 15px;
+}
+
+.scheme_grassy  #gameLog {
+	margin-bottom: 20px !important;
+}
+
+.scheme_grassy .tabInner {
+	padding-bottom: 20px !important;
+	margin-bottom: 10px !important;
+}
+
+.scheme_grassy #gameContainerId {
+	padding-bottom: 15px !important;
+	margin-bottom: 20px !important;
+}
+
+.scheme_grassy #advisorsContainer {
+	margin-right: -2px !important;
+	padding: 5px !important;
+}
+
+.scheme_grassy #resContainer>table {
+	border-collapse: collapse;
+}
+
+.scheme_grassy #resContainer>table>tr>td, .scheme_grassy #craftContainer>table>tr>td {        
+	line-height:140%;
+	padding-left: 3px;
+	padding-right: 3px;
+	/*border-bottom: 1px solid rgba(100,100,100,.15);        */
+}
+
+.scheme_grassy #resContainer>table>tr.odd, .scheme_grassy #craftContainer>table>tr.odd {        
+	background: rgba(255,255,255,.2) !important;
+}
+
+.scheme_grassy .btn {
+	width: 180px;
+}
+.scheme_grassy .button_tooltip {
+	left: 190px !important;
+	background-color: #E1F5CF;
+}
+
+.scheme_grassy table>tr>td>* {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
