@@ -228,6 +228,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"goldMax"		: 5
 		},
 		priceRatio: 1.15,
+		ignorePriceCheck: true,
 		requiredTech: ["construction"],
 		handler: 	function(btn){
 		},

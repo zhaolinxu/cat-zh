@@ -900,7 +900,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	start: function(){
-		if (window.Worker){
+		if (!dojo.isIE && window.Worker){	//IE10 has a nasty security issue with running blob workers
 			var blob = new Blob([
 				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.rate + "); }"]);	//no shitty external js
 			var blobURL = window.URL.createObjectURL(blob);

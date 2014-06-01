@@ -20,7 +20,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	
 	load: function(saveData){
 		this.faith = saveData.religion ? saveData.religion.faith : 0;
-		if (saveData.religion.zu){
+		if (saveData.religion && saveData.religion.zu){
 			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
 				for (var j = 0; j< loadedElem.val; j++){
 					for( var k = 0; k < loadedElem.prices.length; k++){
