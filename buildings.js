@@ -607,6 +607,39 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},
 	
 	/**
+	 * Since there are now dynamic effects affecting price ratio, it should be calculated there
+	 * All direct calls to bld.price ratio should be concidered deprecated
+	 */ 
+	getPriceRatio: function(bldName){
+		var bld = this.get(bldName);
+		var ratio = bld.priceRatio;
+		
+		var wEffect = this.game.workshop.getEffect(bldName + "PriceRatio");
+		if (wEffect){
+			ratio += wEffect;
+		}
+		return ratio;
+	},
+	
+	/**
+	 * For fucks sake, finally we have a non-concrate dynamic price calculation algorithm
+	 * It only took couple of months. TODO: potential performance impact?
+	 */
+	 getPrices: function(bldName) {
+		 var bld = this.get(bldName);
+		 var ratio = this.getPriceRatio(bldName);
+		 
+		 var prices = dojo.clone(bld.prices);
+		 
+		 for (var i = 0; i< bld.val; i++){
+			 for( var j = 0; j < prices.length; j++){
+				prices[j].val = prices[j].val * ratio;
+			 }
+		 }
+	     return prices;
+	 },
+	
+	/**
 	 * Returns a total effect value per buildings.
 	 * 
 	 * For example, if you have N buldings giving K effect,
@@ -765,12 +798,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 						
 						bld.enabled = savedBld.enabled;
 						
-						for (var j = 0; j< bld.val; j++){
+						/*for (var j = 0; j< bld.val; j++){
 							for( var k = 0; k < bld.prices.length; k++){
 								var price = bld.prices[k];
 								price.val = price.val * bld.priceRatio;
 							}
-						}
+						}*/
 					}
 			}
 		}
@@ -843,9 +876,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					
 					this.refund(0.5);
 				
-					if (building.priceRatio){
+					/*if (building.priceRatio){
 						this.rejustPrice(building.priceRatio);
-					}
+					}*/
 					
 					this.update();
 				});

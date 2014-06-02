@@ -270,7 +270,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 50000},
 			{name: 	"compedium", val: 5}
 		],
-		unlocks: ["physics"],
+		unlocks: [],
 		handler: function(game){
 		}
 	}

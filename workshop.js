@@ -140,7 +140,24 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//do nothing
+			game.workshop.get("ironwood").unlocked = true;
+		}
+	},{
+		name: "ironwood",
+		title: "Ironwood Huts",
+		description: "Hut price ratio reduced by 0.5",
+		effects: {
+			"hutPriceRatio" : -0.5
+		},
+		prices:[
+			{ name : "science", val: 30000 },
+			{ name : "wood", val: 15000 },
+			{ name : "iron", val: 3000 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+
 		}
 	},{
 		name: "compositeBow",

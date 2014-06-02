@@ -120,6 +120,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	
 	buildingName: null,
 	
+	priceChanged: false,
+	
 	//--------------------
 	//left part of the button
 	buttonTitle: null,
@@ -224,9 +226,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	},
 	
 	getPrices: function(){
-		if (this.buildingName){
-			var building = this.getBuilding();
-			return building.prices;
+		if (this.buildingName && this.priceChanged){
+			var prices = this.game.bld.getPrices(this.buildingName);
+			
+			this.prices = prices;
+			this.priceChanged = false;
+			
+			return prices;
 		}
 		return this.prices;
 	},

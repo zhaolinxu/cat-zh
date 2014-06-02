@@ -52,6 +52,20 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		},
 		val: 0,
 		unlocked: true
+	},{
+		name: "ivoryTower",
+		label: "Ivory Tower",
+		description: "Improves your unicorns generation by 10%, other effects TBD",
+		prices: [
+			{ name : "ivory", val: 5000 },
+			{ name : "tears", val: 25 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"unicornsRatio" : 0.1
+		},
+		val: 0,
+		unlocked: true
 	}],
 	
 	getZU: function(name){

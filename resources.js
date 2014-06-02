@@ -152,6 +152,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "compedium",
+		type : "common",
+		craftable: true
+	},{
 		name : "megalith",
 		type : "common",
 		craftable: true
