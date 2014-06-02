@@ -317,6 +317,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "gear",
 		title: "Gear",
+		description: "An integral part of automated structures",
 		prices:[
 			{name: "steel", val: 15}
 		],
@@ -332,7 +333,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		name: "paper",
 		title: "Paper",
 		prices:[
-			{name: "wood", val: 2500}
+			{name: "wood", val: 5000}
 		],
 		unclocked: false
 	},{
@@ -344,8 +345,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unclocked: true
 	},{
+		name: "compedium",
+		title: "Compedium",
+		description: "A summ of all modern knowlege of the catkind",
+		prices:[
+			{name: "manuscript", val: 50},
+			{name: "science", val: 5000}
+		],
+		unclocked: false
+	},
+	{
 		name: "scaffold",
 		title: "Scaffold",
+		description: "A large structure made of wood beams required for construction of very complex buildings and objects",
 		prices:[
 			{ name: "beam", val: 50 }
 		],
@@ -362,6 +374,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "megalith",
 		title: "Megalith",
+		description: "A massive block that can be used to construct enormous structures",
 		prices:[
 			{ name: "slab", val: 25 },
 			{ name: "beam", val: 40 },
@@ -609,6 +622,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			var craft =  crafts[i];
 			var craftBtn = new com.nuclearunicorn.game.ui.CraftButton({
 				name: craft.title,
+				description: craft.description,
 				craft: craft.name,
 				prices: craft.prices,
 				handler: function(btn){

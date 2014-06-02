@@ -38,6 +38,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		name: "winterIsComing",
 		title: "Winter Is Coming",
 		description: "Have 10 kittens dead",
+		unethical: true,
 		condition: function(){
 			return (this.game.deadKittens >= 10);
 		},
@@ -46,6 +47,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	{
 		name: "youMonster",
 		title: "You Monster",
+		unethical: true,
 		description: "Poor kittens.",
 		condition: function(){
 			return (this.game.deadKittens >= 100);
@@ -57,6 +59,15 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		description: "Break the cycle of reincarnations",
 		condition: function(){
 			return (this.game.resPool.get("karma").value >= 1);
+		},
+		unlocked: false
+	},
+	{
+		name: "serenity",
+		title: "Serenity",
+		description: "Have 50 kittens without loosing any of them",
+		condition: function(){
+			return (this.game.village.getKittens() >= 50 && this.game.deadKittens == 0);
 		},
 		unlocked: false
 	},
@@ -130,6 +141,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			var ach = this.game.achievements.achievements[i];
 			if (ach.unlocked){
 				div.innerHTML += "<span class='achievement' style='cursor:pointer' title= '" + ach.description + "'>" + ach.title + "</span>";
+			} else {
+				div.innerHTML += "<span class='achievement' style='cursor:pointer' title= '???'>???</span>";
 			}
 		}
 	}

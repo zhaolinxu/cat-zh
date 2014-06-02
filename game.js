@@ -62,6 +62,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	//this is a update xN modifer for debug purpose
 	updateRate: 1,
 	
+	//I wonder why someone may need this
+	isPaused: false,
+	
 	activeTabName: "Bonfire",
 	
 	//dom nodes shit
@@ -77,6 +80,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	//flags and shit
 	forceShowLimits: false,
+	useWorkers: false,
 	colorScheme: "",
 	
 	timer: null,
@@ -85,6 +89,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	karmaKittens: 0,	//counter for karmic reincarnation
 	deadKittens: 0,
 	ironWill: true,
+	
+	gatherClicks: 0,	//yes, I do love to annoy people
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -172,11 +178,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.diplomacy.save(saveData);
 		this.achievements.save(saveData);
 		this.religion.save(saveData);
-		
-		/*forceShowLimits: false,
-		colorScheme: null,*/
+
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
+			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
 			ironWill : this.ironWill,
@@ -195,18 +200,21 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	toggleScheme: function(){
 		var schemeToggle = dojo.byId("schemeToggle");
 		this.colorScheme = schemeToggle.value;
-		
-		//console.log(schemeToggle, schemeToggle.value);
-		
-		//this.colorScheme = (this.colorScheme == "dark") ? "" : "dark";
-		this.setColorScheme();
+
+		this.updateOptionsUI();
 	},
 	
-	setColorScheme: function(){
-		//$("schemeToggle").checked = (this.colorScheme == "dark");
-		
+	togglePause: function(){
+		var pauseBtn = dojo.byId("pauseBtn");
+		this.isPaused = !this.isPaused;
+		pauseBtn.innerHTML = this.isPaused ? "unpause" : "pause";
+	},
+	
+	updateOptionsUI: function(){
 		$("#schemeToggle").val(this.colorScheme);
 		$("body").attr("class", "scheme_"+this.colorScheme);
+		
+		$("#workersToggle")[0].checked = this.useWorkers;
 	},
 	
 	load: function(){
@@ -264,13 +272,17 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (saveData && saveData.game){
 			var data = saveData.game;
 			
+			//console.log(data);
+
 			this.forceShowLimits = data.forceShowLimits ? data.forceShowLimits : false;
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
-			this.setColorScheme();
+
+			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
+			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
+			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
+			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : true;
 			
-			this.karmaKittens = data.karmaKittens ? data.karmaKittens : 0;
-			this.deadKittens = data.deadKittens ? data.deadKittens : 0;
-			this.ironWill = data.ironWill ? data.ironWill : true;
+			this.updateOptionsUI();
 		}
 	},
 	
@@ -281,9 +293,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		var is_chrome = window.chrome;
 		if (is_chrome){
-			/*alert("Press Ctrl+C when you see next window. (Sorry crome folks)");
-			alert(btoa(data));
-			//console.log("EXPORTED SAVE DATA:", btoa(data));*/
 			$("#exportDiv").show();
 			$("#exportData").val(btoa(data));
 			$("#exportData").select();
@@ -369,11 +378,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					style: {
 						border : "1px solid gray",
 						padding: "25px"
-						/*,
-						float: "left",
-						position: "absolute",
-						top: "50px",
-						left: "490px"*/
 					}
 				}, container);
 					
@@ -900,7 +904,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	start: function(){
-		if (!dojo.isIE && window.Worker){	//IE10 has a nasty security issue with running blob workers
+		if (!dojo.isIE && this.useWorkers && window.Worker){	//IE10 has a nasty security issue with running blob workers
+			console.log("starting web worker...");
 			var blob = new Blob([
 				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.rate + "); }"]);	//no shitty external js
 			var blobURL = window.URL.createObjectURL(blob);
@@ -911,12 +916,18 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			}));
 			this.worker.postMessage("tick");
 		} else {
+			console.log("starting js timer...");
 			//some older browser, perhaps IE. Have a nice idling.
 			var timer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
 		}
 	},
 	
 	tick: function(){
+		
+		if (this.isPaused){
+			return;
+		}
+		
 		this.calendar.tick();
 		try {
 			for (var i = 0; i< this.updateRate; i++){

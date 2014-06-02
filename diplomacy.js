@@ -9,6 +9,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "lizards",
 		title: "Lizards",
 		attitude: "friendly",	//neutral, friendly, agressive
+		standing: 0.15,			//chance of trade success, works differently based on attitude
 		unlocked: false,
 		buys: [
 			{name: "minerals", val: 1000}
@@ -41,6 +42,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "griffins",
 		title: "Griffins",
 		attitude: "hostile",
+		standing: 0.85,
 		unlocked: false,
 		buys: [
 			{name: "wood", val: 500}
@@ -57,6 +59,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "nagas",
 		title: "Nagas",
 		attitude: "neutral",
+		hidden: true,
 		unlocked: false,
 		buys: [
 			{name: "ivory", val: 500}
@@ -69,15 +72,27 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"winter": 0.95
 			}}
 		]
-	}
-	
-	
-	/*,{
-		name: "nagas",
-		title: "Nagas",
-		attitude: "argessive",
-		unlocked: false
 	},{
+		name: "zebras",
+		hidden: true,
+		title: "Zebras",
+		attitude: "hostile",
+		standing: 0.70,
+		unlocked: false,
+		buys: [
+			{name: "unobtanium", val: 5}
+		],
+		sells:[
+			{name: "unobtanium", value: 1000, chance: 100, delta: 0.18, seasons:{
+				"spring": 1.25,
+				"summer": 1.05,
+				"autumn": 0.65,
+				"winter": 0.95
+			}}
+		]
+	},
+
+	/*{
 		name: "centaurs",
 		title: "Centaurs",
 		attitude: "neutral",
@@ -144,22 +159,33 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	
 	unlockRandomRace: function(){
 		var unmetRaces = [];
+		var hasLockedHiddenRaces = false;
+		
 		for (var i = 0; i< this.races.length; i++){
-			if (!this.races[i].unlocked && this.races[i].name != "nagas"){
-				unmetRaces.push(this.races[i]);
+			if (!this.races[i].unlocked ){
+				if (!this.races[i].hidden){
+					unmetRaces.push(this.races[i]);
+				}else{
+					hasLockedHiddenRaces = true;
+				}
 			}
 		}
 		
-		if (!unmetRaces.length && this.get("nagas").unlocked){
+		if (!unmetRaces.length && !hasLockedHiddenRaces){
 			return null;
 		}
 		
 		//nagas like highly cultural kittens :3
-		if (this.game.resPool.get("culture").value >= 1500){
-			var nagas = this.get("nagas");
+		var nagas = this.get("nagas");
+		if (!nagas.unlocked && this.game.resPool.get("culture").value >= 1500){	
 			nagas.unlocked = true;
-			
 			return nagas;
+		}
+		
+		var zebras = this.get("zebras");
+		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
+			zebras.unlocked = true;	
+			return zebras;
 		}
 		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
@@ -276,7 +302,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.",
 				prices: tradePrices,
 				race: race,
-				handler: function(btn){
+				handler: dojo.partial(
+				function(race, btn){
+					
+					var tradeRatioAttitude = 0;
+					
+					if (race.attitude == "hostile" && self.rand(100) >= race.standing * 100){
+						self.game.msg( race.title + " hate you for no reason");
+						return;
+					}
+					
+					if (race.attitude == "friendly" && self.rand(100) <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+						self.game.msg( race.title + " think your kittens are adorable");
+						tradeRatioAttitude = 0.25;
+					}
 					
 					for (var j =0; j< btn.race.sells.length; j++){
 						var s = btn.race.sells[j];
@@ -295,7 +334,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var ratio = self.game.bld.getEffect("tradeRatio");
 						amt += amt*ratio;
 						
-						res.value += amt;
+						res.value += (amt + amt*tradeRatioAttitude);
 						
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
 
@@ -314,8 +353,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						self.game.resPool.get("blueprint").value += 1;
 						self.game.msg("You've got a blueprint!");
 					}
-					
-				}
+				}, race )	//eo partial
+
 			}, this.game);
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;

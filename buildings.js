@@ -24,7 +24,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "resource",
 		title: "Resources",
-		buildings: ["barn", "warehouse", "mine", "smelter", "lumberMill"]
+		buildings: ["barn", "warehouse", "harbor", "mine", "smelter", "lumberMill"]
 	},{
 		name: "culture",
 		title: "Culture",
@@ -230,7 +230,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["construction"],
-		handler: 	function(btn){
+		handler: function(btn){
 		},
 		val: 0
 	},
@@ -1098,6 +1098,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
 			name:	 "Gather catnip", 
 			handler: function(){
+						self.game.gatherClicks++;
+						if (self.game.gatherClicks >= 100){
+							alert("You are so tired");
+							self.game.gatherClicks = 0;
+						}
+				
 						self.game.resPool.get("catnip").value++;
 						self.game.updateResources();
 					 },

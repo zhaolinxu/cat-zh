@@ -179,6 +179,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 9500,
 		unlocks: ["theology"],
 		handler: function(game){
+			game.workshop.getCraft("compedium").unlocked = true;
 		}
 	},{
 		name: "machinery",
@@ -254,9 +255,23 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 35000},
 			{name: 	"manuscript", val: 150}
 		],
-		unlocks: [],
+		unlocks: ["physics"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
+		}
+	},{
+		name: "physics",
+		title: "Physics",
+		description: "TBD",
+		effectDesc: "(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 50000},
+			{name: 	"compedium", val: 5}
+		],
+		unlocks: ["physics"],
+		handler: function(game){
 		}
 	}
 		
