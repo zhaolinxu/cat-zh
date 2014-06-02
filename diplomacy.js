@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		hidden: true,
 		title: "Zebras",
 		attitude: "hostile",
-		standing: 0.70,
+		standing: 0.65,
 		unlocked: false,
 		buys: [
 			{name: "unobtanium", val: 5}
@@ -185,6 +185,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		var zebras = this.get("zebras");
 		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
 			zebras.unlocked = true;	
+			this.game.workshop.get("сaravanserai").unlocked = true;
 			return zebras;
 		}
 		

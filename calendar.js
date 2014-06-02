@@ -82,7 +82,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var chance = 5;					//0.5% of event per day
 		chance += this.game.bld.getEffect("starEventChance");
 		
-		if (this.game.rand(1000) < chance){
+		if (this.game.rand(1000) < chance && 
+			this.game.bld.get("library").val > 0){
 
 			dojo.destroy(this.observeBtn);
 			this.observeBtn = null;
@@ -100,7 +101,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				dojo.destroy(this.observeBtn);
 				this.observeBtn = null;
 				
-				console.log("gotcha!");
 				var diagram = this.game.resPool.get("starchart");
 				var science = this.game.resPool.get("science");
 				
@@ -122,6 +122,29 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				
 				window.clearInterval(timeout);
 			}, seconds * 1000);
+		}
+		
+		
+		var iwChance = 0;
+		if (this.game.ironWill){
+			iwChance = 4;	// +0.4 additional chance of falling metheors
+		}
+		
+		if (this.game.rand(1000) < (1 + iwChance) && 
+			this.game.science.get("mining").researched){	//0.1% chance of metheors
+			
+			var minerals = this.game.resPool.get("minerals");
+			var mineralsAmt = 50 + 25 * this.game.bld.getEffect("mineralsRatio");
+		
+			if (this.game.ironWill){
+				var mineralsAmt = mineralsAmt + mineralsAmt * 0.1;	//+10% of minerals for iron will
+			}
+			
+			this.game.msg("A meteor felt near the village, +"+ mineralsAmt +" minerals!");
+			
+			minerals.value += mineralsAmt;
+			
+			//TODO: make meteors give titanium on higher levels
 		}
 	},
 	

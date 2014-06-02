@@ -27,6 +27,24 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		},
 		unlocked: false
 	},{
+		name: "uberkatzhen",
+		title: "Überkätzchen",
+		description: "What does not kill you makes your stronger",
+		condition: function(){
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").val > 0 );
+		},
+		unlocked: false
+	},{
+		name: "hundredYearsSolitude",
+		title: "One Hundred Years of Solitude",
+		description: "TBD",
+		condition: function(){
+			return false;	//TBD
+		},
+		unlocked: false
+	},
+	
+	{
 		name: "sunGod",
 		title: "Sun God",
 		description: "Get a total of 696,342 accumulated faith",

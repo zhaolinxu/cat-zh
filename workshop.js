@@ -176,6 +176,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "сaravanserai",
+		title: "Caravanserai",
+		description: "Your tradeposts have a very minor effect on race standing",
+		effects: {
+			"standingRatio" : 0.5	//0.5% per tradepost
+		},
+		prices:[
+			{ name : "science", val: 25000 },
+			{ name : "ivory", val: 10000 },
+			{ name : "gold", val: 250 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "advancedRefinement",
 		title: "Catnip Enrichment",
 		description: "Catnip refines twice as better",
