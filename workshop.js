@@ -193,7 +193,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
-		name: "сaravanserai",
+		name: "caravanserai",
 		title: "Caravanserai",
 		description: "Your tradeposts have a very minor effect on race standing",
 		effects: {
@@ -265,13 +265,26 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false
 	},{
+		name: "pyrolysis",
+		title: "Pyrolysis",
+		description: "Coal output is boosted by 20%",
+		effects: {
+			"coalRatio": 0.2	//may be buggy
+		},
+		prices:[
+			{ name : "compedium", 	 val: 5 },
+			{ name : "science",  val: 35000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
 		name: "printingPress",
 		title: "Printing Press",
 		description: "Steamwork converts paper to manuscripts",
 		effects: {
 		},
 		prices:[
-			{ name : "gear", 	 val: 25 },
+			{ name : "gear", 	 val: 35 },
 			{ name : "science",  val: 7500 }
 		],
 		unlocked: false,
@@ -285,6 +298,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "gear", 	 val: 50 },
 			{ name : "science",  val: 10000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "pneumaticPress",
+		title: "Pneumatic Press",
+		description: "Workshop automation will also convert iron to plates",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 30 },
+			{ name : "blueprint",  val: 5 },
+			{ name : "science",  val: 20000 }
 		],
 		unlocked: false,
 		researched: false
@@ -310,7 +336,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "catnip", val: 100}
 		],
-		unclocked: true,
+		unlocked: true,
 		ignoreBonuses: true,
 	},{
 		name: "beam",
@@ -318,28 +344,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "wood", val: 175}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "slab",
 		title: "Stone Slab",
 		prices:[
 			{name: "minerals", val: 250}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "plate",
 		title: "Metal Plate",
 		prices:[
 			{name: "iron", val: 125}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "leather",
 		title: "Leather",
 		prices:[
 			{name: "furs", val: 50}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "steel",
 		title: "Steel",
@@ -347,7 +373,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "gear",
 		title: "Gear",
@@ -355,21 +381,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "steel", val: 15}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "parchment",
 		title: "Parchment",
 		prices:[
 			{name: "leather", val: 5}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "paper",
 		title: "Paper",
 		prices:[
 			{name: "wood", val: 5000}
 		],
-		unclocked: false
+		unlocked: false
 	},{
 		name: "manuscript",
 		title: "Manuscript",
@@ -377,7 +403,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "parchment", val: 25},
 			{name: "culture", val: 500}
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "compedium",
 		title: "Compedium",
@@ -386,7 +412,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "manuscript", val: 50},
 			{name: "science", val: 5000}
 		],
-		unclocked: false
+		unlocked: false
 	},
 	{
 		name: "scaffold",
@@ -395,7 +421,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name: "beam", val: 50 }
 		],
-		unclocked: true
+		unlocked: true
 	},{
 		name: "ship",
 		title: "Trade Ship",
@@ -404,7 +430,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name: "plate",    val: 150 },
 			{ name: "starchart", val: 25 }
 		],
-		unclocked: false
+		unlocked: false
 	},{
 		name: "megalith",
 		title: "Megalith",
@@ -414,7 +440,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name: "beam", val: 40 },
 			{ name: "plate", val: 5 }
 		],
-		unclocked: true
+		unlocked: true
 	}],
 	
 	constructor: function(game){
@@ -661,10 +687,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				prices: craft.prices,
 				handler: function(btn){
 					
-					var ratio = self.game.bld.getEffect("craftRatio");
+					/*var ratio = self.game.bld.getEffect("craftRatio");
 					var craftAmt = 1 + 1*ratio;
 					
-					self.game.resPool.get(btn.craftName).value += craftAmt;
+					self.game.resPool.get(btn.craftName).value += craftAmt;*/
+					self.game.workshop.craft(craft.name, 1);
 				}
 			}, this.game);
 			

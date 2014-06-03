@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		unlocked: false
 	},{
 		name: "uberkatzhen",
-		title: "Überkätzchen",
+		title: "Uberkatzchen",
 		description: "What does not kill you makes your stronger",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").val > 0 );
@@ -94,7 +94,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		title: "Utopia Project",
 		description: "Have a camulative happiness of over 150%",
 		condition: function(){
-			return (this.game.village.happiness > 1.5);
+			return (this.game.village.happiness >= 1.5);
 		},
 		unlocked: false
 	}

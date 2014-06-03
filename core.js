@@ -118,10 +118,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	
 	tab: null,
 	
-	buildingName: null,
-	
-	priceChanged: false,
-	
 	//--------------------
 	//left part of the button
 	buttonTitle: null,
@@ -135,18 +131,15 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		
 		this.game = game;
 
-		if (opts.building){
-			this.buildingName = opts.building;
-			
-			var bld = this.getBuilding();
-			this.priceRatio = bld.priceRatio;
-			
-		} else {
-			
-			this.prices = opts.prices ? opts.prices : [];
-			this.priceRatio = opts.priceRatio;
-			
-		}
+		this.prices = opts.prices ? opts.prices : [];
+		this.priceRatio = opts.priceRatio;
+		
+		this.init();
+	},
+	
+	//required by BuildingButton
+	init: function(){
+		
 	},
 	
 	setVisible: function(visible){
@@ -185,28 +178,18 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		if (!this.hasResources()){
 			isEnabled = false;
 		}
-		
 		this.setEnabled(isEnabled);
 	},
 	
 	hasResources: function(){
 		var hasRes = true;
-		
 		var prices = this.getPrices();
 		
 		return this.game.resPool.hasRes(prices);
 	},
 	
 	updateVisible: function(){
-		// locked structures are invisible
-		var building = this.getBuilding();
-		if (this.building){
-			if (!this.building.unlocked){
-				this.setVisible(false);
-			} else {
-				this.setVisible(true);
-			}
-		}
+
 	},
 	
 	update: function(){
@@ -217,23 +200,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			this.buttonTitle.innerHTML = this.getName();
 		}
 	},
-	
-	getBuilding: function(){
-		if (this.buildingName){
-			return this.game.bld.getBuilding(this.buildingName);
-		}
-		return null;
-	},
-	
+
 	getPrices: function(){
-		if (this.buildingName && this.priceChanged){
-			var prices = this.game.bld.getPrices(this.buildingName);
-			
-			this.prices = prices;
-			this.priceChanged = false;
-			
-			return prices;
-		}
 		return this.prices;
 	},
 	
@@ -265,13 +233,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	
 	payPrice: function(){
 		var prices = this.getPrices();
-
 		this.game.resPool.payPrices(prices);
-		
-		if (this.buildingName || this.id){
-			var building = this.getBuilding();
-			building.val++;
-		}
 	},
 	
 	refund: function(percent){
@@ -315,9 +277,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			innerHTML: this.getName(),
 			style: {}
 		}, this.buttonContent);
-		
-		/*this.buttonLinks = dojo.create("div", {
-		}, this.buttonContent);*/
 
 		dojo.addClass(this.domNode, "btn");
 		dojo.addClass(this.domNode, "nosel");
@@ -326,35 +285,39 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			dojo.addClass(this.domNode, "disabled");
 		}
 
-		dojo.connect(this.domNode, "onclick", this, function(){
-			//color:"#bfb"
-			
-			var btnNode = jQuery(self.domNode);
-			//console.log(btnNode);
-			
-			btnNode.animate({
-				opacity: 0.5
-			}, 70, function(){
-				btnNode.animate({
-					opacity: 1.0
-				}, 70)
-			});
-			//btnNode.effect("highlight", {color: "#bfb"}, 400);
-			
-			if (self.enabled && self.hasResources()){
-				self.handler(self);
-				
-				self.payPrice();
-				
-				if (self.priceRatio){
-					self.adjustPrice(self.priceRatio);
-				}
-			}
-		});
+		dojo.connect(this.domNode, "onclick", this, "onClick");
 		
 		this.afterRender();
 	},
 	
+	animate: function(){
+		var btnNode = jQuery(this.domNode);
+	
+		btnNode.animate({
+			opacity: 0.5
+		}, 70, function(){
+			btnNode.animate({
+				opacity: 1.0
+			}, 70)
+		});
+	},
+	
+	onClick: function(){
+		this.animate();
+
+		if (this.enabled && this.hasResources()){
+			this.handler(this);
+			
+			this.payPrice();
+			
+			if (this.priceRatio){
+				this.adjustPrice(this.priceRatio);
+			}
+			
+			this.update();
+		}
+	},
+
 	afterRender: function(){
 
 		var prices = this.getPrices();
@@ -518,6 +481,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	
 	game: null,
 	
+	tabId: null,
+	
 	tabName: null,
 	
 	buttons: null,
@@ -528,6 +493,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	
 	constructor: function(tabName, game){
 		this.tabName = tabName;
+		this.tabId = tabName;
 		this.buttons = [];
 		
 		this.game = game;

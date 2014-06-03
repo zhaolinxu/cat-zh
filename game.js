@@ -65,7 +65,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	//I wonder why someone may need this
 	isPaused: false,
 	
-	activeTabName: "Bonfire",
+	activeTabId: "Bonfire",
 	
 	//dom nodes shit
 	
@@ -348,7 +348,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 			}, tabNavigationDiv);
 			
-			if (this.activeTabName == tab.tabName){
+			if (this.activeTabId == tab.tabId){
 				dojo.addClass(tabLink, "activeTab");
 			}
 
@@ -356,7 +356,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			dojo.connect(tabLink, "onclick", this, 
 				dojo.partial(
 					function(tab){
-						self.activeTabName = tab.tabName;
+						self.activeTabId = tab.tabId;
 						self.render();
 						//console.log("active tab is:", tabId);
 					}, tab)
@@ -371,7 +371,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		for (var i = 0; i < this.tabs.length; i++){
 			var tab = this.tabs[i];
 			
-			if (this.activeTabName == tab.tabName){
+			if (this.activeTabId == tab.tabId){
 			
 				var divContainer = dojo.create("div", {
 					className: "tabInner",
@@ -419,18 +419,17 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		perTick += resProduction;
 			
-
-		//UPGRADE EFFECTS
-		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
-		if (workshopResRatio){
-			perTick += resProduction * workshopResRatio;
-		}
-
 		//BUILDINGS EFFECTS
 				
 		var bldResRatio = this.bld.getEffect(resName+"Ratio");
 		if (bldResRatio){
 			perTick += perTick * bldResRatio;
+		}
+		
+		//UPGRADE EFFECTS
+		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
+		if (workshopResRatio){
+			perTick += perTick * workshopResRatio;
 		}
 		
 		//RELIGION EFFECTS
@@ -488,11 +487,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		this.resPool.update();
 		this.bld.update();
-		
-		for (var i = 0; i<this.tabs.length; i++){
-			var tab = this.tabs[i];
-			tab.update();
-		};
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -519,6 +513,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.updateAdvisors();
 		
 		this.timer.update();
+		
+		for (var i = 0; i<this.tabs.length; i++){
+			var tab = this.tabs[i];
+			
+			if (tab.tabId == this.activeTabId){
+				tab.update();
+			}
+		};
 	},
 	
 	/**
@@ -528,7 +530,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this._resourceDiv = dojo.byId("resContainer");
 		var season = this.calendar.getCurSeason();
 
-		this._resourceDiv.innerHTML = "";
+		//this._resourceDiv.innerHTML = "";	//oh heck no
+		dojo.empty(this._resourceDiv);
+		
 		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
 		
 		for (var i = 0; i < this.resPool.resources.length; i++){
@@ -637,7 +641,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		
 		this._craftDiv = dojo.byId("craftContainer");
-		this._craftDiv.innerHTML = "";
+		//this._craftDiv.innerHTML = "";
+		dojo.empty(this._craftDiv);
+
 		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._craftDiv);
 		
 		for (var i = 0; i < this.resPool.resources.length; i++){

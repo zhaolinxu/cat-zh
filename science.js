@@ -223,7 +223,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 20000},
-			{name: 	"manuscript", val: 50}
+			{name: 	"manuscript", val: 35}
 		],
 		unlocks: ["astronomy"],
 		handler: function(game){
@@ -238,7 +238,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 28000},
-			{name: 	"manuscript", val: 75}
+			{name: 	"manuscript", val: 70}
 		],
 		unlocks: ["navigation"],
 		handler: function(game){
@@ -258,6 +258,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: ["physics"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
+			game.workshop.get("caravanserai").unlocked = true;
 		}
 	},{
 		name: "physics",
@@ -272,9 +273,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("pneumaticPress").unlocked = true;
+			game.workshop.get("pyrolysis").unlocked = true;
 		}
 	}
-		
 	],
 	
 	/**

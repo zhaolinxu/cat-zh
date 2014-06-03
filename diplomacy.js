@@ -308,18 +308,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					
 					var tradeRatioAttitude = 0;
 					
-					if (race.attitude == "hostile" && self.rand(100) >= race.standing * 100){
+					var attitudeChance = self.rand(100);
+					var standingRatio = self.game.bld.getEffect("standingRatio");
+					standingRatio = standingRatio ? standingRatio : 0;
+					
+					if (race.attitude == "hostile" && self.rand(100) + standingRatio >= race.standing * 100){
 						self.game.msg( race.title + " hate you for no reason");
 						return;
 					}
 					
-					if (race.attitude == "friendly" && self.rand(100) <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+					if (race.attitude == "friendly" && self.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 						self.game.msg( race.title + " think your kittens are adorable");
 						tradeRatioAttitude = 0.25;
 					}
 					
-					for (var j =0; j< btn.race.sells.length; j++){
-						var s = btn.race.sells[j];
+					for (var j =0; j< race.sells.length; j++){
+						var s = race.sells[j];
 						
 						var chance = self.rand(100);
 						if (chance > s.chance){
