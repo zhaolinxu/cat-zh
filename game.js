@@ -404,38 +404,37 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			var season = this.calendar.getCurSeason();
 			var weatherMod = this.calendar.getWeatherMod();
 		}
-
-		//var perTick = res.perTick;		//per tick accumulator :3
-		var perTick = this.bld.getEffect(res.name + "PerTickBase");	
+	
+		var perTick = this.bld.getEffect(res.name + "PerTickBase");		//per tick accumulator
 		
 		if (season.modifiers[res.name]){
 			perTick = perTick * (season.modifiers[res.name] + weatherMod);
 		}
 
-		//BUILDINGS EFFECTS
-				
-		var bldResRatio = this.bld.getEffect(resName+"Ratio");
-		if (bldResRatio){
-			perTick += perTick * bldResRatio;
-		}
-		
 		//VILLAGE JOB PRODUCTION
 		
 		var resMapProduction = this.village.getResProduction();
 		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
-
-		//UPGRADE EFFECTS
+		
+		perTick += resProduction;
+		
+		//UPGRADE EFFECTS GENERAL
 		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
-		if (workshopResRatio){
-			
-			if (res.name == "coal"){	//TODO: fix it with different effects modifiers
-				perTick += perTick * workshopResRatio;
-			} else {		
-				resProduction += resProduction * workshopResRatio;
-			}
+		if (workshopResRatio && res.name != "coal"){
+			perTick += resProduction * workshopResRatio;
 		}
 		
-		perTick += resProduction;	//add res production bonuses
+		//BUILDINGS EFFECTS
+		var bldResRatio = this.bld.getEffect(res.name + "Ratio");
+		if (bldResRatio){
+			perTick += perTick * bldResRatio;
+		}
+		
+		//UPGRADE EFFECTS FOR COAL (HACK, TO BE FIXED)
+		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
+		if (workshopResRatio && res.name == "coal"){
+			perTick += perTick * workshopResRatio;
+		}
 		
 		//RELIGION EFFECTS
 		var relResEffect = this.religion.getEffect(resName+"Ratio");
