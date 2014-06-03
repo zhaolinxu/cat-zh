@@ -536,7 +536,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		
 	craft: function (res, amt){
 		var ratio = this.game.bld.getEffect("craftRatio");
-		
 		var craftAmt = 0;
 		
 		var craft = this.getCraft(res);
@@ -685,14 +684,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				description: craft.description,
 				craft: craft.name,
 				prices: craft.prices,
-				handler: function(btn){
-					
-					/*var ratio = self.game.bld.getEffect("craftRatio");
-					var craftAmt = 1 + 1*ratio;
-					
-					self.game.resPool.get(btn.craftName).value += craftAmt;*/
-					self.game.workshop.craft(craft.name, 1);
-				}
+				handler: dojo.partial(function(craft, btn){
+					btn.game.workshop.craft(craft.name, 1);
+				}, craft)
 			}, this.game);
 			
 			craftBtn.render(td);

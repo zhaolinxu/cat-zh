@@ -411,14 +411,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (season.modifiers[res.name]){
 			perTick = perTick * (season.modifiers[res.name] + weatherMod);
 		}
-		
-		//VILLAGE JOB PRODUCTION
-		
-		var resMapProduction = this.village.getResProduction();
-		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
-		
-		perTick += resProduction;
-			
+
 		//BUILDINGS EFFECTS
 				
 		var bldResRatio = this.bld.getEffect(resName+"Ratio");
@@ -426,11 +419,23 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			perTick += perTick * bldResRatio;
 		}
 		
+		//VILLAGE JOB PRODUCTION
+		
+		var resMapProduction = this.village.getResProduction();
+		var resProduction = resMapProduction[res.name] ? resMapProduction[res.name] : 0;
+
 		//UPGRADE EFFECTS
 		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
 		if (workshopResRatio){
-			perTick += perTick * workshopResRatio;
+			
+			if (res.name == "coal"){	//TODO: fix it with different effects modifiers
+				perTick += perTick * workshopResRatio;
+			} else {		
+				resProduction += resProduction * workshopResRatio;
+			}
 		}
+		
+		perTick += resProduction;	//add res production bonuses
 		
 		//RELIGION EFFECTS
 		var relResEffect = this.religion.getEffect(resName+"Ratio");

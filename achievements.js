@@ -37,13 +37,28 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "hundredYearsSolitude",
 		title: "One Hundred Years of Solitude",
+		description: "How far is too far?",
+		condition: function(){
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("steamworks").val > 0 );
+		},
+		unlocked: false
+	},{
+		name: "soilUptuned",
+		title: "Virgin Soil Upturned",
+		description: "Have 45 pastures in the iron will mode",
+		condition: function(){
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("pasture").val >= 45 );
+		},
+		unlocked: false
+	},{
+		name: "atlasUnmeowed",
+		title: "Atlas Unmeowed",
 		description: "TBD",
 		condition: function(){
-			return false;	//TBD
+			return false;	//TBD something insane and mindwrecking
 		},
 		unlocked: false
 	},
-	
 	{
 		name: "sunGod",
 		title: "Sun God",

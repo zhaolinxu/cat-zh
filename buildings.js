@@ -869,9 +869,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			
 			this.payPrice();
 
-			this.getBuilding().val++;
-			//price check is sorta heavy operation, so we will store the value in the button
-			this.prices = this.getPrices();	
+			if (this.getBuilding()){
+				this.getBuilding().val++;
+				
+				//price check is sorta heavy operation, so we will store the value in the button
+				this.prices = this.getPrices();	
+			}
+
 			
 			this.game.render();
 		}
@@ -1167,7 +1171,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 100){
+						if (self.game.gatherClicks >= 100 && !self.game.ironWill){
 							alert("You are so tired");
 							self.game.gatherClicks = 0;
 						}
