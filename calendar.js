@@ -140,11 +140,20 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				var mineralsAmt = mineralsAmt + mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 			
-			this.game.msg("A meteor felt near the village, +"+ mineralsAmt +" minerals!");
+			this.game.msg("A meteor felt near the village, +"+ mineralsAmt.toFixed() +" minerals!");
 			
 			minerals.value += mineralsAmt;
 			
 			//TODO: make meteors give titanium on higher levels
+		}
+		
+		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
+		if (this.game.ironWill){
+			var unicorns = this.game.resPool.get("unicorns");
+			if (this.game.rand(100000) <= 35 && unicorns.value < 2){
+				unicorns.value += 1;
+				this.game.msg("A unicorn comes to your village attracted by the catnip scent!");
+			}	
 		}
 	},
 	

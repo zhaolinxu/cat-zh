@@ -136,7 +136,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improve your science output by 8%",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -155,7 +155,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improve your science output by 20%",
+		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
@@ -175,7 +175,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increase the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
+		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 15 },
@@ -379,7 +379,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			}
 			
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
-				var baseAutomationRate = 0.015;
+				var baseAutomationRate = 0.02;
 
 				var wood = game.resPool.get("wood");
 				var minerals = game.resPool.get("minerals");
@@ -470,7 +470,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire\nImprove trade effectiveness by 1.5%, reduce rare resource consumption by 5-10%",
+		description: "The hearth of your trading empire\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 5-10%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
@@ -498,7 +498,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduce negative effects of overpopulation by 5-10%. +0.1 culture per tick",
+		description: "Reduces negative effects of overpopulation by 5-10%. +0.1 culture per tick",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },

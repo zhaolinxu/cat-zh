@@ -77,17 +77,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		hidden: true,
 		title: "Zebras",
 		attitude: "hostile",
-		standing: 0.65,
+		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
-			{name: "unobtanium", val: 5}
+			{name: "plate", val: 25}
 		],
 		sells:[
-			{name: "unobtanium", value: 1000, chance: 100, delta: 0.18, seasons:{
-				"spring": 1.25,
-				"summer": 1.05,
-				"autumn": 0.65,
-				"winter": 0.95
+			{name: "coal", value: 500, chance: 100, delta: 0.10, seasons:{
+				"spring": 1.05,
+				"summer": 1.15,
+				"autumn": 0.95,
+				"winter": 0.85
+			}},
+			{name: "steel", value: 5, chance: 75, delta: 0.25, seasons:{
+				"spring": 1.05,
+				"summer": 0.85,
+				"autumn": 1.05,
+				"winter": 1.25
 			}}
 		]
 	},
@@ -300,7 +306,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
 				name: "Send caravan",
-				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.",
+				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.\nYou also have a small chance of getting rare resources.",
 				prices: tradePrices,
 				race: race,
 				handler: dojo.partial(
@@ -344,7 +350,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
 
 					}
-					//-------------- 35% to get spice --------------
+					//-------------------- 35% to get spice ------------------
 					if (self.rand(100) < 35){
 						var res = self.game.resPool.get("spice");
 						var spiceVal = self.rand(50);
@@ -354,10 +360,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						self.game.msg("You've got " + val + " spice");
 					}
 					
+					//-------------- 10% change to get blueprint ---------------
+					
 					if (self.rand(100) < 10){
 						self.game.resPool.get("blueprint").value += 1;
 						self.game.msg("You've got a blueprint!");
 					}
+					
+					//-------------- 15% change to get titanium  ---------------
+					
+					if (self.rand(100) < 15 && race.name == "zebras"){
+						
+						var titaniumAmt = 1;
+						titaniumAmt += titaniumAmt * ( self.game.resPool.get("ship").value / 100 ) * 2;	//2% more titanium per ship
+						
+						self.game.resPool.get("titanium").value += titaniumAmt;
+						self.game.msg("You've got " + self.game.getDisplayValueExt(titaniumAmt) + " titanium!");
+					}
+					
 				}, race )	//eo partial
 
 			}, this.game);

@@ -284,7 +284,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		effects: {
 		},
 		prices:[
-			{ name : "gear", 	 val: 35 },
+			{ name : "gear", 	 val: 50 },
 			{ name : "science",  val: 7500 }
 		],
 		unlocked: false,
@@ -296,7 +296,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		effects: {
 		},
 		prices:[
-			{ name : "gear", 	 val: 50 },
+			{ name : "gear", 	 val: 35 },
 			{ name : "science",  val: 10000 }
 		],
 		unlocked: false,
@@ -544,7 +544,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		} else {
 			craftAmt = amt + amt*ratio;
 		}
-		
+
 		var prices = dojo.clone(craft.prices);
 		
 		for (var i = 0; i< prices.length; i++){
@@ -554,6 +554,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
 			this.game.resPool.get(res).value += craftAmt;
+		}else{
+			console.log("not enough resources for", prices);
+		}
+	},
+	
+	//Crafts maximum possible ammount for given recipe name
+	craftAll: function(craftName){
+		
+		var recipe = this.getCraft(craftName);
+		
+		var minAmt = Number.MAX_VALUE;
+		for (var j = 0; j < recipe.prices.length; j++){
+			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
+			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+			if (allAmt < minAmt){
+				minAmt = allAmt;
+			}
+		}
+
+		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt) + " " + craftName + " crafted");
+			this.craft(craftName, minAmt);
 		}
 	}
 });

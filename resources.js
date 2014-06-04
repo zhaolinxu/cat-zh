@@ -33,8 +33,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	},{
 		name : "titanium",
 		type : "common",
-		craftable: true,
-		visible: false,
+		visible: true,
 	},{
 		name : "gold",
 		type : "common",

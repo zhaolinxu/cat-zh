@@ -517,7 +517,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.updateAdvisors();
 		
 		this.timer.update();
-		
+
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
 			
@@ -671,9 +671,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				//sort of hack to override regeneration bug
 				
 				//TODO: add 'hasRes' check
-				
-				var recipe = this.workshop.getCraft(res.name);
 
+				var recipe = this.workshop.getCraft(res.name);
+				if (!recipe){
+					continue;
+				}
+				
 				var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				var a = dojo.create("a", { 
 					href: "#", 
@@ -687,7 +690,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				var a = dojo.create("a", {
 					href: "#", 
-					onclick: "gamePage.craft('" + res.name + "', 25);", 
 					innerHTML : "+25",
 					style: {
 						display: this.resPool.hasRes(recipe.prices, 25) ? "" : "none"
@@ -698,19 +700,52 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var td = dojo.create("td", { }, tr);
 				var a = dojo.create("a", {
 					href: "#", 
-					onclick: "gamePage.craft('" + res.name + "', 100);", 
 					innerHTML : "+100",
 					style: {
 						display: this.resPool.hasRes(recipe.prices, 100) ? "" : "none"
 					} 
 				}, td);
 				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 100); event.preventDefault(); }, res));
+				
+				var td = dojo.create("td", { }, tr);
+
+				//iterate prices and calculate minimal possible amount of craftable resource
+				//this may have a negative impact, but update cycle for this div is deliberately rare
+				
+				var minAmt = Number.MAX_VALUE;
+				for (var j = 0; j < recipe.prices.length; j++){
+					var totalRes = this.resPool.get(recipe.prices[j].name).value;
+					var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+					if (allAmt < minAmt){
+						minAmt = allAmt;
+					}
+				}
+
+				var a = dojo.create("a", {
+					href: "#", 
+					innerHTML : "all",
+					style: {
+						display: (minAmt > 0 && minAmt < Number.MAX_VALUE) ? "" : "none"
+					} 
+				}, td);
+
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ 
+					self.craftAll(res.name);
+					event.preventDefault(); 
+				}, res));
+				
 			}
 		}
 	},
 	
 	craft: function(res, value){
 		this.workshop.craft(res, value);
+		this.updateCraftResources();
+		this.updateResources();
+	},
+	
+	craftAll: function(res){
+		this.workshop.craftAll(res);
 		this.updateCraftResources();
 		this.updateResources();
 	},
