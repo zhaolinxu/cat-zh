@@ -740,6 +740,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				bld.action(bld, this.game);
 			}
 		}
+		
+		if (this.game.ironWill && this.game.science.get("writing").researched){
+			this.get("amphitheatre").prices[2].name = "papyrus";
+		} else {
+			this.get("amphitheatre").prices[2].name = "parchment";
+		}
 	},
 	
 	isConstructionEnabled: function(building){

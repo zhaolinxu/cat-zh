@@ -385,10 +385,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "parchment",
 		title: "Parchment",
+		description: "A material for writing on made from animal skin, requred for cultural buildings",
 		prices:[
 			{name: "leather", val: 5}
 		],
 		unlocked: true
+	},{
+		name: "papyrus",
+		title: "Papyrus",
+		description: "A paper-like matherial made from the pith of the catnip",
+		prices:[
+			{name: "catnip", val: 5000}
+		],
+		unlocked: false
 	},{
 		name: "paper",
 		title: "Paper",
@@ -399,6 +408,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "manuscript",
 		title: "Manuscript",
+		description: "Written document required for technological advancement",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 500}
@@ -574,8 +584,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		}
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt) + " " + craftName + " crafted");
+			var ratio = this.game.bld.getEffect("craftRatio");
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + minAmt*ratio) + " " + craftName + " crafted");
 			this.craft(craftName, minAmt);
+		}
+	},
+	
+	update: function(){
+		if (this.game.ironWill && this.game.science.get("writing").researched){
+			this.getCraft("papyrus").unlocked = true;
+			this.getCraft("manuscript").prices[0].name = "papyrus";
+		} else {
+			this.getCraft("papyrus").unlocked = false;
+			this.getCraft("manuscript").prices[0].name = "parchment";
 		}
 	}
 });
@@ -632,6 +653,16 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	
 	constructor: function(opts, game){
 		this.craftName = opts.craft;
+	},
+	
+	updateVisible: function(){
+		var craft = this.game.workshop.getCraft(this.craftName);
+		
+		if (craft.unlocked){
+			this.setVisible(true);
+		}else{
+			this.setVisible(false);
+		}
 	}
 });
 

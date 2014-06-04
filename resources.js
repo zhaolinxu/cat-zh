@@ -143,6 +143,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "papyrus",
+		type : "common",
+		craftable: true
+	},{
 		name : "paper",
 		type : "common",
 		craftable: true

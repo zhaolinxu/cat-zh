@@ -501,6 +501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.village.maxKittens = maxKittens;
 		
 		this.village.update();
+		this.workshop.update();
 		this.diplomacy.update();
 		this.achievements.update();
 		this.religion.update();
@@ -984,7 +985,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	reset: function(){
-		if (!confirm("Are you sure you want to reset? You will save your achievemenets and karma points.")){
+		
+		var msg = "Are you sure you want to reset? You will save your achievemenets and karma points.";
+		if (this.resPool.get("kittens").value <= 35){
+			msg = "Are you sure you want to reset? You will recieve NO KARMA POINTS. You will save old karma points and achievements.";
+		}
+		
+		if (!confirm(msg)){
 			return;
 		}
 
