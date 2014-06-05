@@ -543,6 +543,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		var self = this;
 		
+		
+		this.advModeButtons = [];
+		this.buttons = [];
+		
 		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs");
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);

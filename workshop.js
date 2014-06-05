@@ -695,6 +695,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		this.craftName = opts.craft;
 	},
 	
+	onClick: function(){
+		this.animate();
+		this.handler(this);
+	},
+	
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
 		
@@ -723,6 +728,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	
 	render: function(tabContainer){
 		//this.inherited(arguments);
+		
+		this.craftBtns = [];
+		this.buttons = [];
 		
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

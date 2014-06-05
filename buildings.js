@@ -1078,6 +1078,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	},
 
 	render: function(content){
+		
+		this.buttons = [];
+		
+		
 		var topContainer = content;
 		this.twoRows = this.game.bld.twoRows;
 

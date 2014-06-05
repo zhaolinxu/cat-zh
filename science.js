@@ -417,6 +417,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 	render: function(tabContainer){
 		
+		this.buttons = [];
+		
 		var hasCivil = this.game.science.get("civil");
 		
 		//--------------------------------------------------------------------

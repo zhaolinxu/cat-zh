@@ -95,6 +95,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 	
 	render : function(container) {
+		
+		this.zgUpgradeButtons = [];
+		
 		var zigguratCount = this.game.bld.get("ziggurat").val;
 		if (zigguratCount > 0){
 			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats");

@@ -257,6 +257,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		this.inherited(arguments);
 		var races = this.game.diplomacy.races;
 		
+		this.buttons = [];
+		this.racePanels = [];
+		
 		var self = this;
 		
 		for (var i = 0; i< races.length; i++){
@@ -347,7 +350,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						
 						res.value += (amt + amt*tradeRatioAttitude);
 						
-						self.game.msg("You've got " + self.game.getDisplayValueExt(amt) + " " + s.name);
+						self.game.msg("You've got " + self.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
 					}
 					//-------------------- 35% to get spice ------------------
