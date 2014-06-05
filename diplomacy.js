@@ -108,12 +108,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		title: "Spiders",
 		attitude: "friendly",
 		unlocked: false
-	},{
-		name: "griffins",
-		title: "Griffins",
-		attitude: "agressive",
-		unlocked: false
-	}*/],
+	}*/
+	],
 	
 	constructor: function(game){
 		this.game = game;
@@ -271,7 +267,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var racePanel = new com.nuclearunicorn.game.diplomacy.RacePanel(race.title);
 			var content = racePanel.render(tabContainer);
 
-			//---------- render shit there -------------
+			//---------- render stuff there -------------
 			
 			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
 				marginBottom: "5px"
@@ -286,7 +282,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				if (race.sells[j].chance == 100){
 					var s = race.sells[j];
 					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-					//console.log(s.seasons, this.game.calendar.getCurSeason().name, sratio);
 					
 					var tratio = self.game.bld.getEffect("tradeRatio");
 					var val = s.value + s.value * tratio;
@@ -305,7 +300,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
 			tradePrices = tradePrices.concat(race.buys);
-			//console.log(tradePrices);
 			
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
 				name: "Send caravan",
@@ -353,7 +347,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
 					}
-					//-------------------- 35% to get spice ------------------
+					//-------------------- 35% chance to get spice ------------------
 					if (self.rand(100) < 35){
 						var res = self.game.resPool.get("spice");
 						var spiceVal = self.rand(50);

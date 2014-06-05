@@ -71,26 +71,27 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		msg : function(message){
 			var gameLog = dojo.byId("gameLog");
 			
-			/*if (gameLog.innerHTML.length + message.length > 5000){
-				gameLog.innerHTML = "";
-			}
-			
-			gameLog.innerHTML = 
-				gameLog.innerHTML + "<br>" + message;*/
+			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
+				var opacity = dojo.getStyle(entry, "opacity");
+				dojo.setStyle(entry, "opacity", opacity-0.033);
+			});
 				
-			dojo.create("br", {}, gameLog);
-			dojo.create("span", { innerHTML: message }, gameLog);
+			dojo.create("br", {}, gameLog, "first");
+			var span = dojo.create("span", { innerHTML: message }, gameLog, "first");
 			
-
+			return span;
 		},
 		
 		clear: function(){
 			var gameLog = dojo.byId("gameLog");
-			//gameLog.innerHTML = "";
 			dojo.empty(gameLog);
 		}
 	}
 });
+
+/**
+ * A base class for game button. Inventing the wheels since 2014
+ */ 
 
 dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	
@@ -189,7 +190,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 	},
 	
 	updateVisible: function(){
-
+		//do nothing
 	},
 	
 	update: function(){

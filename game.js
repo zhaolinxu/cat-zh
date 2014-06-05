@@ -152,6 +152,9 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 10);	//once per 10 ticks
 	},
 	
+	/**
+	 * Display a message in the console. Returns a <span> node of a text container
+	 */
 	msg: function(message){
 		var hasCalendarTech = this.science.get("calendar").researched;
 		
@@ -159,7 +162,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
 		}
 		
-		this.console.static.msg(message);
+		return this.console.static.msg(message);
 	},
 	
 	clearLog: function(){

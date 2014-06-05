@@ -479,6 +479,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "ship",
 		title: "Trade Ship",
+		description: "Ships can be used to discover new civilizations. May improve chances of getting certain rare resources",
 		prices:[
 			{ name: "scaffold", val: 120 },
 			{ name: "plate",    val: 150 },

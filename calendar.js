@@ -89,12 +89,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.observeBtn = null;
 			
 			var gameLog = dojo.byId("gameLog");
-			this.game.msg("A rare astronomical event occured in the sky");
+			var node = this.game.msg("A rare astronomical event occured in the sky");
 			
 			this.observeBtn = dojo.create("input", {
 				type: "button",
 				value: "Observe"
-			}, gameLog);
+			}, node);
 			
 			dojo.connect(this.observeBtn, "onclick", this, function(){
 				

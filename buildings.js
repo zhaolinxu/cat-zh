@@ -930,6 +930,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		
 		var self = this;
 		
+		//we are calling update before render, panic flee
+		if (!this.buttonContent){
+			return;
+		}
+		
 		var building = this.getBuilding();
 		if (building && building.val){
 			
@@ -1069,12 +1074,8 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
 	
-	//groupBuildings: false,
-	
 	constructor: function(tabName){
-		//this.inherited(arguments);
 
-		var self = this;
 	},
 
 	render: function(content){
@@ -1162,10 +1163,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 						handler: 		bld.handler
 					}, this.game);
 					
-					btn.visible = bld.unlocked;
+					/*btn.visible = bld.unlocked;
+					
+					var prices = this.game.bld.getPrices(bld.name);
+					btn.enabled = this.game.resPool.hasRes(prices, 1);*/
 					
 					this.addButton(btn);
 
+					btn.update();
 					btn.render(groupPanel.getElementContainer(j));
 				}
 			}
@@ -1187,6 +1192,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 				btn.visible = bld.unlocked;
 				
 				this.addButton(btn);
+				btn.update();
 				btn.render(this.getElementContainer(i + 2));	//where 2 is a size of core buttons, do not forget to change it
 			}
 		}	
