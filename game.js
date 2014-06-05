@@ -243,7 +243,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		//restore tab visibility
 		
-		if (this.bld.getBuilding("hut").val > 0 ){
+		if (this.bld.getBuilding("hut").val > 0 || this.resPool.get("zebras").value > 0 ){
 			this.villageTab.visible = true;
 		}
 		if (this.bld.getBuilding("library").val > 0 ){

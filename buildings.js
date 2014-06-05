@@ -146,9 +146,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		priceRatio: 1.15,
 		handler: 	function(btn){
-			//unlock library tab
 			btn.game.libraryTab.visible = true;
 			btn.game.village.getJob("scholar").unlocked = true;
+		},
+		action: function(self, game){
+			var mirrors = game.workshop.get("titaniumMirrors");
+			if (mirrors.researched){
+				self.effects["scienceMax"] = 250 + ( 250 * game.bld.get("observatory").val * mirrors.effects["libraryRatio"]);
+			}
 		},
 		
 		val: 0
@@ -192,6 +197,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		requiredTech: ["astronomy"],
 		handler: function(btn){
 		},
+		/*action: function(self, game){
+			var astrolabe = game.workshop.get("astrolabe");
+			if (astrolabe.researched){
+				self.effects["scienceMax"] = 1500;
+			}
+		},*/
 		val: 0
 	},
 	//----------------------------------- Resource production ----------------------------------------
@@ -599,7 +610,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	],
 	
 	effectsBase: {
-		"maxCatnip" : 2000
+		//"maxCatnip" : 2000,
+		"manpowerMax": 100
 	},
 	
 	get: function(name){
@@ -659,6 +671,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	 */ 
 	getEffect: function(name, isHyperbolic){
 		var totalEffect = 0;
+		
+		if (this.effectsBase[name]){
+			totalEffect += this.effectsBase[name];
+		}
 		
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
@@ -739,12 +755,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			if (bld.action && bld.val > 0){
 				bld.action(bld, this.game);
 			}
-		}
-		
-		if (this.game.ironWill && this.game.science.get("writing").researched){
-			this.get("amphitheatre").prices[2].name = "papyrus";
-		} else {
-			this.get("amphitheatre").prices[2].name = "parchment";
 		}
 	},
 	
@@ -999,6 +1009,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.Button, {
+	onClick: function(){
+		this.animate();
+		this.handler(this);
+	}
+});
 
 dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Button, {
 	x100Href: null,
@@ -1015,7 +1031,8 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 			this.x100Href = dojo.create("a", { href: "#", innerHTML: "x100", style:{
 					paddingLeft: "4px",
 					float: "right",
-					cursor: "default"
+					cursor: "default",
+					display: catnipVal < (100 * 100) ? "none" : ""
 				}}, null);
 				
 			dojo.connect(this.x100Href, "onclick", this, function(event){
@@ -1173,7 +1190,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 	
 	renderCoreBtns: function(container){
 		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
+		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.gatherClicks++;

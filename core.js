@@ -421,7 +421,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
  * Collapsible panel for a tab
  */ 
 dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
+	
 	collapsed: false,
+	
+	visible: true,
 	
 	name: "",
 	
@@ -433,7 +436,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	
 	render: function(container){
 		var panel = dojo.create("div", {
-			className: "panelContainer"
+			className: "panelContainer",
+			style: {
+				display: this.visible ? "" : "none"
+			}
 		},
 		container);
 			
@@ -470,7 +476,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	},
 	
 	setVisible: function(visible){
-		$(this.panelDiv).toggle(visible);
+		this.visible = visible;
+		if (this.panelDiv){
+			$(this.panelDiv).toggle(visible);
+		}
 	}
 });
 

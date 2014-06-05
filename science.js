@@ -185,7 +185,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "machinery",
 		title: "Machinery",
 		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
-		effectDesc: "Unlocks steamworks, printing press and factory automation. (TBD)",
+		effectDesc: "Unlocks steamworks, printing press and factory automation.",
 		
 		unlocked: false,
 		researched: false,
@@ -199,7 +199,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "steel",
 		title: "Steel",
-		description: "TBD.",
+		description: "Development of the new Steel alloy advances further metal working",
 		effectDesc: "Unlocks Coal and Steel production",
 		
 		unlocked: false,
@@ -259,6 +259,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
 			game.workshop.get("caravanserai").unlocked = true;
+			game.workshop.get("astrolabe").unlocked = true;
+			game.workshop.get("titaniumMirrors").unlocked = true;
 		}
 	},{
 		name: "physics",

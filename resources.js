@@ -69,6 +69,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		visible: true
 	},{
+		name : "zebras",
+		type : "common",
+		visible: true
+	},{
 		name : "starchart",
 		type : "common",
 		visible: true
@@ -140,10 +144,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true
 	},{
 		name : "parchment",
-		type : "common",
-		craftable: true
-	},{
-		name : "papyrus",
 		type : "common",
 		craftable: true
 	},{

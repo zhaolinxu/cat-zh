@@ -4,7 +4,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	hideResearched: false,
 	
-	upgrades:[{
+	upgrades:[
+		//--------------------- food upgrades ----------------------
+		{
 		name: "mineralHoes",
 		title: "Mineral Hoes",
 		description: "Improved hoes providing permanent +50% catnip production boost",
@@ -39,6 +41,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},
+	//--------------------- wood upgrades ----------------------
 	{
 		name: "mineralAxes",
 		title: "Mineral Axe",
@@ -88,7 +91,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 			//do nothing
 		}
-	},{
+	},
+	//--------------------- storage upgrades ----------------------
+	{
 		name: "stoneBarns",
 		title: "Expanded Barns",
 		description: "Barns store 75% more wood and iron",
@@ -159,7 +164,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 
 		}
-	},{
+	},
+	//--------------------- hunt upgrades ----------------------
+	{
 		name: "compositeBow",
 		title: "Composite Bow",
 		description: "Improved version of a bow providing permanent +50% boost to the hunters",
@@ -209,7 +216,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 			//do nothing
 		}
-	},{
+	},
+	//--------------------- stuff ----------------------
+	{
 		name: "advancedRefinement",
 		title: "Catnip Enrichment",
 		description: "Catnip refines twice as better",
@@ -237,8 +246,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
-	},{
-		name: "coalFurnace",	//sup 4chan
+	},
+	//--------------------- coal upgrades ----------------------
+	{
+		name: "coalFurnace",
 		title: "Coal Furnace",
 		description: "Smelters produce coal while burning wood",
 		effects: {
@@ -277,7 +288,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
-	},{
+	},
+	//--------------------- automation upgrades ----------------------
+	{
 		name: "printingPress",
 		title: "Printing Press",
 		description: "Steamwork converts paper to manuscripts",
@@ -328,7 +341,46 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
-	}],
+	},
+	//--------------------- science upgrades ----------------------
+	{
+		name: "astrolabe",
+		title: "Astrolabe",
+		description: "Improves Observatory effectiveness by 50%",
+		effects: {
+
+		},
+		prices:[
+			{ name : "titanium", val: 5 },
+			{ name : "starchart",  val: 150 },
+			{ name : "science",  val: 25000 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.bld.get("observatory").effects["scienceMax"] = 1500;
+		}
+	},
+	{
+		name: "titaniumMirrors",
+		title: "Titanium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give 2% to the Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "titanium", val: 25 },
+			{ name : "starchart",  val: 25 },
+			{ name : "science",  val: 20000 },
+		],
+		unlocked: false,
+		researched: false
+	}
+	],
+	
+	//=============================================================
+	//					     CRAFT RECIPES
+	//=============================================================
 	
 	crafts:[{
 		name: "wood",
@@ -390,14 +442,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "leather", val: 5}
 		],
 		unlocked: true
-	},{
-		name: "papyrus",
-		title: "Papyrus",
-		description: "A paper-like matherial made from the pith of the catnip",
-		prices:[
-			{name: "catnip", val: 5000}
-		],
-		unlocked: false
 	},{
 		name: "paper",
 		title: "Paper",
@@ -585,19 +629,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
 			var ratio = this.game.bld.getEffect("craftRatio");
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + minAmt*ratio) + " " + craftName + " crafted");
+			
+			var bonus = recipe.ignoreBonuses ? 0 : minAmt*ratio;
+			
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");
 			this.craft(craftName, minAmt);
 		}
 	},
 	
 	update: function(){
-		if (this.game.ironWill && this.game.science.get("writing").researched){
-			this.getCraft("papyrus").unlocked = true;
-			this.getCraft("manuscript").prices[0].name = "papyrus";
-		} else {
-			this.getCraft("papyrus").unlocked = false;
-			this.getCraft("manuscript").prices[0].name = "parchment";
-		}
 	}
 });
 
@@ -658,11 +698,12 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
 		
-		if (craft.unlocked){
+		/*if (craft.unlocked){	//TBD
 			this.setVisible(true);
 		}else{
 			this.setVisible(false);
-		}
+		}*/
+		this.setVisible(true);
 	}
 });
 

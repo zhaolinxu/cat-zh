@@ -140,7 +140,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				var mineralsAmt = mineralsAmt + mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 			
-			this.game.msg("A meteor felt near the village, +"+ mineralsAmt.toFixed() +" minerals!");
+			this.game.msg("A meteor fell near the village, +"+ mineralsAmt.toFixed() +" minerals!");
 			
 			minerals.value += mineralsAmt;
 			
@@ -148,12 +148,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
+		var zebras = this.game.resPool.get("zebras");
+		
 		if (this.game.ironWill){
+			var archery = this.game.science.get("archery");
 			var unicorns = this.game.resPool.get("unicorns");
-			if (this.game.rand(100000) <= 35 && unicorns.value < 2){
+			if (this.game.rand(100000) <= 17 && unicorns.value < 2 && archery.researched){
 				unicorns.value += 1;
 				this.game.msg("A unicorn comes to your village attracted by the catnip scent!");
 			}	
+
+			if (!zebras.value && archery.researched){
+				zebras.value += 1;
+				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
+			}
+		}else{
+			if (zebras.value > 0 ){
+				zebras.value = 0;
+				this.game.msg("Zebra hunter has departed from your village.");
+			}
 		}
 	},
 	

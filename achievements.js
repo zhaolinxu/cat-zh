@@ -21,7 +21,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "ironWill",
 		title: "Iron Will",
-		description: "You trully deserved this",
+		description: "You truly deserved this",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").val > 0 );
 		},
@@ -98,7 +98,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	{
 		name: "serenity",
 		title: "Serenity",
-		description: "Have 50 kittens without loosing any of them",
+		description: "Have 50 kittens without losing any of them",
 		condition: function(){
 			return (this.game.village.getKittens() >= 50 && this.game.deadKittens == 0);
 		},
