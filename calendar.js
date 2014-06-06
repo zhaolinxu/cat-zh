@@ -222,10 +222,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		/**
 		 * Endgame players will freak out so we will introduce it gradually
 		 */ 
-		if (this.iceage >= 3 && this.iceage < 6){
+		/*if (this.iceage >= 3 && this.iceage < 6){
 			this.iceage++;
-			this.game.msg("Nights are getting colder");
-		}
+			
+			if (this.iceage != 6){
+				this.game.msg("Nights are getting colder");
+			} else {
+				this.game.msg("An ice age has started");
+			}
+		}*/
 	},
 	
 	getWeatherMod: function(){
@@ -245,7 +250,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			mod -= 0.5;				
 		}else if (this.iceage >=4){
 			mod -= 0.35;
-		}else if (this.iceage ==3){
+		}else if (this.iceage == 3){
 			mod -= 0.15;
 		}
 		return mod;

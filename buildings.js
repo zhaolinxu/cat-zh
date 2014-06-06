@@ -431,7 +431,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-						game.workshop.craft("plate", 1);
+						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
+						game.workshop.craft("plate", amt);
 					}
 				}
 				//BUGBUGBUG
