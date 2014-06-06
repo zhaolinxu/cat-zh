@@ -152,9 +152,25 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 * 
 	 * This method returns positive villager production that can be multiplied by building bonuses
 	 */ 
-	
 	getResProduction: function(){
+		if (!this.resourceProduction){
+			this.updateResourceProduction();	//lazy synch
+		}
+		var res = dojo.clone(this.resourceProduction);
 		
+		//special hack for ironwill mode
+		var zebras = this.game.resPool.get("zebras");
+		if (zebras.value > 0){
+			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
+		}
+		
+		return res;
+	},
+	
+	/**
+	 * Get camulative resource production per village population
+	 */ 
+	updateResourceProduction: function(){
 		var res = {
 		};
 
@@ -180,14 +196,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				}
 			}
 		}
-		
-		//special hack for ironwill mode
-		var zebras = this.game.resPool.get("zebras");
-		if (zebras.value > 0){
-			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
-		}
-		
-		return res;
+		this.resourceProduction = res;
 	},
 	
 	/**
@@ -409,6 +418,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].job = job;
+			
+			this.game.village.updateResourceProduction();	//out of synch, refresh instantly
 		}else{
 			console.error("failed to assign job", job);
 		}
@@ -420,6 +431,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			
 			if (kitten.job == job){
 				kitten.job = null;
+				
+				this.game.village.updateResourceProduction();	//out of synch, refresh instantly
 				return;
 			}
 		}
