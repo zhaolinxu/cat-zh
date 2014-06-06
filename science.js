@@ -255,7 +255,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 35000},
 			{name: 	"manuscript", val: 150}
 		],
-		unlocks: ["physics"],
+		unlocks: ["physics", "archeology"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
 			game.workshop.get("caravanserai").unlocked = true;
@@ -266,17 +266,74 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "physics",
 		title: "Physics",
 		description: "TBD",
-		effectDesc: "(TBD)",
+		effectDesc: "Unlocks some usefull upgrades",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 50000},
 			{name: 	"compedium", val: 5}
 		],
-		unlocks: [],
+		unlocks: ["chemistry", "elictricity"],
 		handler: function(game){
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
+		}
+	},{
+		name: "chemistry",
+		title: "Chemistry",
+		description: "TBD",
+		effectDesc: "(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 60000},
+			{name: 	"compedium", val: 25}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "archeology",
+		title: "Archeology",
+		description: "TBD",
+		effectDesc: "(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 70000},
+			{name: 	"compedium", val: 30}
+		],
+		unlocks: ["biology"],
+		handler: function(game){
+
+		}
+	},{
+		name: "elictricity",
+		title: "Elictricity",
+		description: "TBD",
+		effectDesc: "(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 75000},
+			{name: 	"compedium", val: 35}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "biology",
+		title: "Biology",
+		description: "TBD",
+		effectDesc: "(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 85000},
+			{name: 	"compedium", val: 75}
+		],
+		unlocks: [],
+		handler: function(game){
 		}
 	}
 	],

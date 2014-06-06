@@ -377,7 +377,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			
 			//DO PSSSH AND CHOO CHOO
 
-			if (game.workshop.get("printingPress").researched){
+			/*if (game.workshop.get("printingPress").researched){
 				var paper = game.resPool.get("paper");
 				var manuscript = game.resPool.get("manuscript");
 				
@@ -387,7 +387,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					
 					game.msg("Printing press: +1 manuscript!");
 				}
-			}
+			}*/
 			
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
 				var baseAutomationRate = 0.02;
@@ -408,8 +408,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				} else {
 					return;
 				}
-				
-				
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
 					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.val); 
@@ -431,10 +429,18 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-						game.workshop.craft("plate", 1);
+						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
+						game.workshop.craft("plate", amt);
 					}
 				}
 				//BUGBUGBUG
+				
+				if (game.workshop.get("printingPress").researched){
+					var amt = 2*self.val;
+					game.resPool.get("manuscript").value += amt;
+					
+					game.msg("Printing press: +" + amt + " manuscript!");
+				}
 			}
 		},
 		val: 0
@@ -534,17 +540,17 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "temple",
 		label: "Temple",
-		description: "Temple of light. +0.5 culture per tick. Faith effects TBD",
+		description: "Temple of light. +0.5 culture per tick. May be improved with Theology.",
 		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },
 			{ name : "plate", val: 15 },
-			{ name : "gold", val: 150 },
+			{ name : "gold", val: 50 },
 			{ name : "manuscript", val: 10 }
 		],
 		effects: {
 			"culturePerTick" : 0.05,
-			"faithPerTick" : 0.001,
+			"faithPerTickBase" : /*0.001*/ 0,
 			"faithMax": 100
 		},
 		priceRatio: 1.15,
@@ -558,8 +564,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			
 			var theology = game.science.get("theology");
 			if (theology.researched){
-				var faith = game.resPool.get("faith");
-				faith.value += self.val * self.effects["faithPerTick"];
+				/*var faith = game.resPool.get("faith");
+				faith.value += self.val * self.effects["faithPerTick"];*/
+				self.effects["faithPerTickBase"] = 0.001;
+			}
+			
+			var scholastics = game.religion.getRU("scholasticism");
+			if (scholastics.researched){
+				self.effects["scienceMax"] = 500;
 			}
 		}
 	},
@@ -921,25 +933,18 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		var self = this;
 		var building = this.getBuilding();
 		
+		this.renderLinks();
+		
 		dojo.connect(this.domNode, "onmouseover", this, function(){ self.game.selectedBuilding = building; });
 		dojo.connect(this.domNode, "onmouseout", this, function(){  self.game.selectedBuilding = null; });
 	},
 	
-	update: function(){
-		this.inherited(arguments);
-		
-		var self = this;
-		
-		//we are calling update before render, panic flee
-		if (!this.buttonContent){
-			return;
-		}
-		
+	/**
+	 * Render button links like off/on and sell
+	 */  
+	renderLinks: function(){
 		var building = this.getBuilding();
 		if (building && building.val){
-			
-			// -------------- sell ----------------
-			
 			if (!this.sellHref){
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
 						paddingLeft: "4px",
@@ -959,7 +964,53 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					this.game.render();
 				});
 				dojo.place(this.sellHref, this.buttonContent);
-			} else {
+			}
+		}	
+		
+		//--------------- toggle ------------
+			
+		if (!building.action || !building.togglable){
+			return;
+		}
+		if (!this.toggleHref){
+			this.toggleHref = dojo.create("a", { 
+				href: "#", 
+				innerHTML: building.enabled ? "off" : "on", 
+				style:{
+					paddingLeft: "4px",
+					float: "right",
+					cursor: "pointer"
+				}}, null);
+				
+			dojo.connect(this.toggleHref, "onclick", this, function(event){
+				event.stopPropagation();
+				event.preventDefault();
+
+				building.enabled = !building.enabled;
+
+				this.update();
+			});
+			
+			dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
+			dojo.place(this.toggleHref, this.buttonContent);
+		} 
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		var self = this;
+		
+		//we are calling update before render, panic flee
+		if (!this.buttonContent){
+			return;
+		}
+		
+		var building = this.getBuilding();
+		if (building && building.val){
+			
+			// -------------- sell ----------------
+			if (this.sellHref){
 				dojo.setStyle(this.sellHref, "display", (building.val > 0) ? "" : "none");
 			}
 			

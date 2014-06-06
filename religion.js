@@ -11,16 +11,22 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		this.game = game;
 	},
 	
+	//todo: save certain keys only like in load method below
+	
 	save: function(saveData){
 		saveData.religion = {
 			faith: this.faith,
-			zu: this.zigguratUpgrades
+			zu: this.zigguratUpgrades,
+			ru: this.religionUpgrades
 		}
 	},
 	
 	load: function(saveData){
 		this.faith = saveData.religion ? saveData.religion.faith : 0;
-		if (saveData.religion && saveData.religion.zu){
+		if (!saveData.religion){
+			return;
+		}
+		if (saveData.religion.zu){
 			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
 				for (var j = 0; j< loadedElem.val; j++){
 					for( var k = 0; k < loadedElem.prices.length; k++){
@@ -29,6 +35,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 					}
 				}
 			});
+		}
+		if (saveData.religion.ru){
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["researched"], function(loadedElem){});
 		}
 	},
 	
@@ -68,20 +77,98 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		unlocked: true
 	}],
 	
+	religionUpgrades:[{
+		name: "solarchant",
+		label: "Solar Chant",
+		description: "Improves your faith generation rate by 10%",
+		prices: [
+			{ name : "faith", val: 100 }
+		],
+		faith: 150,	//total faith required to unlock the upgrade
+		effects: {
+			"faithRatio" : 0.1
+		},
+		researched: false
+	},{
+		name: "scholasticism",
+		label: "Scholasticism",
+		description: "Temples will give bonus to the science",
+		prices: [
+			{ name : "faith", val: 250 }
+		],
+		faith: 300,
+		effects: {
+			//none
+		},
+		researched: false
+	}],
+	
 	getZU: function(name){
 		return this.getMeta(name, this.zigguratUpgrades);
 	},
 	
+	getRU: function(name){
+		return this.getMeta(name, this.religionUpgrades);
+	},
+	
+	getReligionEffect: function(name){
+		var effectTotal = 0;
+		dojo.forEach(this.religionUpgrades, function(e, i){
+			if (e.researched && e.effects[name]){
+				effectTotal += e.effects[name];
+			}
+		});
+		return effectTotal;
+	},
+	
 	getEffect: function(name){
-		return this.getMetaEffect(name, this.zigguratUpgrades);
+		var zeff = this.getMetaEffect(name, this.zigguratUpgrades);
+		var reff = this.getReligionEffect(name);
+
+		return zeff+reff;
 	}
 
 });
 
+/**
+ * A button for ziggurat upgrade
+ */
 dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	
 	getBuilding: function(){
 		return this.game.religion.getZU(this.id);
+	}
+});
+
+/**
+ * A button for religion upgrade
+ */
+dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	getBuilding: function(){
+		return this.game.religion.getRU(this.id);
+	},
+	
+	updateVisible: function(){
+		var upgrade = this.getBuilding();
+		return ( this.game.religion.faith >= upgrade.faith );
+	},
+	
+	updateEnabled: function(){
+		this.inherited(arguments);
+		
+		var upgrade = this.getBuilding();
+		if (upgrade.researched){
+			this.setEnabled(false);
+		}
+	},
+	
+	getName: function(){
+		var upgrade = this.getBuilding();
+		if (upgrade.researched){
+			var name = this.name;
+			return name + " (complete)";
+		}
+		return this.name;
 	}
 });
 
@@ -92,11 +179,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	
 	constructor: function(){
 		this.zgUpgradeButtons = [];
+		this.rUpgradeButtons = [];
 	},
 	
 	render : function(container) {
 		
 		this.zgUpgradeButtons = [];
+		this.rUpgradeButtons = [];
 		
 		var zigguratCount = this.game.bld.get("ziggurat").val;
 		if (zigguratCount > 0){
@@ -126,14 +215,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					name: upgr.label,
 					description: upgr.description,
 					prices: upgr.prices,
-					handler: function(){
+					handler: function(btn){
 					}
 				}, this.game);
 				
 				button.render(content);
 				this.zgUpgradeButtons.push(button);
 			}
-		}
+		}	//eo zg upgrades
+		
+		//------------------- religion -------------------
 		
 		var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun");
 		var content = religionPanel.render(container);
@@ -154,6 +245,23 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		praiseBtn.render(content);
 		this.praiseBtn = praiseBtn;
 		
+		var upgrades = this.game.religion.religionUpgrades;
+		for (var i = 0; i < upgrades.length; i++){
+			var upgr = upgrades[i];
+			
+			var button = new com.nuclearunicorn.game.ui.ReligionBtn({
+				id: 		upgr.name,
+				name: 		upgr.label,
+				description: upgr.description,
+				prices: upgr.prices,
+				handler: function(btn){
+					btn.getBuilding().researched = true;
+				}
+			}, this.game);
+			
+			button.render(content);
+			this.rUpgradeButtons.push(button);
+		}
 	},
 	
 	update: function(){
@@ -164,9 +272,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + this.game.religion.faith.toFixed();
 		}
-		
-		for (var i = 0; i< this.zgUpgradeButtons.length; i++){
-			this.zgUpgradeButtons[i].update();
-		}
+
+		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
+		dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
 	}
 });
