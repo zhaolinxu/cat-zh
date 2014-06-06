@@ -363,7 +363,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 		},
 		effects: {
-			"coalRatioGlobal" : -0.8	//shitty hacky effect, to be revisited later
+			"coalRatioGlobal" : -0.8	//to be revisited later
 		},
 		action: function(self, game){
 			if (!self.enabled){
@@ -374,21 +374,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			if( combEngine.researched){
 				self.effects["coalRatioGlobal"] = -0.8 + combEngine.effects["coalRatioGlobal"];
 			}
-			
-			//DO PSSSH AND CHOO CHOO
 
-			/*if (game.workshop.get("printingPress").researched){
-				var paper = game.resPool.get("paper");
-				var manuscript = game.resPool.get("manuscript");
-				
-				if (paper.value > 2.5){
-					paper.value -= 2.5;
-					manuscript.value += 1;
-					
-					game.msg("Printing press: +1 manuscript!");
-				}
-			}*/
-			
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
 				var baseAutomationRate = 0.02;
 
@@ -430,8 +416,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
-					
-					console.log("autoIron:", autoIron, "req:", game.workshop.getCraft("plate").prices[0]);
 					
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
