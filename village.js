@@ -685,8 +685,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return "Settlement";
 		} else if (kittens > 15){
 			return "Village";
-		} else {
+		} else if (kittens > 0){
 			return "Small Village";
+		} else {
+			return "Outpost";
 		}
 	},
 	
@@ -739,22 +741,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					div.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) + 
 						"'>" +this.skillToText(exp) + " (" + expPercent.toFixed()  + "%)" + "</span> " + skillsArr[j].name;
 				}
-				
-				/*for (skill in kitten.skills){
-					
-					var exp = kitten.skills[skill];
-					var nextExp = this.getNextSkillExp(exp);
-					var prevExp = this.getPrevSkillExp(exp);
-					
-					var expDiff = exp - prevExp;
-					var expRequried = nextExp - prevExp;
-					
-					var expPercent = (expDiff / expRequried) * 100;
-					
-					div.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) + 
-						"'>" +this.skillToText(exp) + " (" + expPercent.toFixed()  + "%)" + "</span> " + skill;
-				}*/
-				
 			}
 		}
 	},

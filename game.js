@@ -405,13 +405,19 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		//SEASON MODIFIERS
 		if (!season){
 			var season = this.calendar.getCurSeason();
-			var weatherMod = this.calendar.getWeatherMod();
 		}
+		
+		weatherMod = this.calendar.getWeatherMod();
+		weatherMod = (season.modifiers[res.name] + weatherMod);
+		if (weatherMod < -0.95){
+			weatherMod = -0.95;
+		}
+
 	
 		var perTick = this.bld.getEffect(res.name + "PerTickBase");		//per tick accumulator
 		
 		if (season.modifiers[res.name]){
-			perTick = perTick * (season.modifiers[res.name] + weatherMod);
+			perTick = perTick * weatherMod;
 		}
 
 		//VILLAGE JOB PRODUCTION
@@ -431,6 +437,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var bldResRatio = this.bld.getEffect(res.name + "Ratio");
 		if (bldResRatio){
 			perTick += perTick * bldResRatio;
+		}
+		
+		//let's mess a bit with a ice age
+		if (resName == "catnip"){
+			perTick += perTick * this.calendar.getIceageMod();
 		}
 		
 		//UPGRADE EFFECTS FOR COAL (HACK, TO BE FIXED)
@@ -474,9 +485,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	},
 	
 	update: function(){
-		
 		this.ticksBeforeSave--;
-		//console.log("ticks left:", this.ticksBeforeSave);
 		
 		if (this.ticksBeforeSave == 0){
 			this.ticksBeforeSave = this.autosaveFrequency;
@@ -514,9 +523,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
 
-		//update resources tab
-		//this.updateResources();
-		//this.updateCraftResources();
 		this.updateCalendar();
 		this.updateAdvisors();
 		
@@ -605,13 +611,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var tdSeasonMod = dojo.create("td", {}, tr);
 
 				if (season.modifiers[res.name] && perTick != 0 ){
-					//this._resourceDiv.innerHTML += "<span> [" + ((season.modifiers[res.name]-1)*100) + "%]</span>";
 					
-					var modifer = (season.modifiers[res.name] + this.calendar.getWeatherMod() -1)*100;
+					var modifer = (season.modifiers[res.name] + this.calendar.getWeatherMod() + this.calendar.getIceageMod() -1)*100;
 					var resModifierSpan = dojo.create("span", {
 							innerHTML: " [" + modifer.toFixed() + "%]",
 							title: "Season modifier"
 						}, tdSeasonMod);
+
 					if (modifer > 0){
 						dojo.setStyle(resModifierSpan, "color","green");
 					}else if (modifer < 0){

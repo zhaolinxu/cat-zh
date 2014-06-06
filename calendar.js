@@ -1,3 +1,6 @@
+/**
+ * Calendar class. Manages time, seasons and random events of the game
+ */ 
 dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	game: null,
 	
@@ -45,6 +48,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	eventChance: 0,
 	
 	weather: null,	//warm / cold
+	
+	iceage: 0,	//iceage apocalypse level
 	
 	observeBtn: null,
 	
@@ -127,10 +132,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		var iwChance = 0;
 		if (this.game.ironWill){
-			iwChance = 4;	// +0.4 additional chance of falling metheors
+			iwChance = 40;	// +0.4 additional chance of falling metheors
 		}
 		
-		if (this.game.rand(1000) < (1 + iwChance) && 
+		var baseChance = 10;
+		if (this.iceage >=3){
+			baseChance = 3;
+		}
+		
+		if (this.game.rand(10000) < (baseChance + iwChance) && 
 			this.game.science.get("mining").researched){	//0.1% chance of metheors
 			
 			var minerals = this.game.resPool.get("minerals");
@@ -168,6 +178,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.msg("Zebra hunter has departed from your village.");
 			}
 		}
+		
+		$("#iceage").toggle(this.iceage >= 3);
 	},
 	
 	onNewSeason: function(){
@@ -182,6 +194,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}else{
 			this.weather = null;
 		}
+		
+		//-------------------- icage stuff -------------------------
+		/*if (this.iceage == 2 && this.game.village.getKittens() >= 60){
+			
+			this.game.msg("The air is freezing cold");
+			this.iceage = 3;
+			
+		}else if (this.iceage == 1 && this.game.village.getKittens() >= 55){
+			
+			this.game.msg("The weather is geting colder.");
+			this.iceage = 2;
+			
+		}else if (this.iceage == 0 && this.game.village.getKittens() >= 50){
+			
+			this.game.msg("Days are getting shorter.");
+			this.iceage = 1;
+		}*/
 	},
 	
 	onNewYear: function(){
@@ -189,15 +218,37 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//this.game.msg("Workshop automation ready for operation");
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}
+		
+		/**
+		 * Endgame players will freak out so we will introduce it gradually
+		 */ 
+		if (this.iceage >= 3 && this.iceage < 6){
+			this.iceage++;
+			this.game.msg("Nights are getting colder");
+		}
 	},
 	
 	getWeatherMod: function(){
+		var mod = 0;
 		if (this.weather == "warm"){
-			return 0.15;
+			mod =  0.15;
 		} else if (this.weather == "cold"){
-			return -0.15
+			mod = -0.15
 		}
-		return 0;
+		return mod;
+	},
+	
+	getIceageMod: function(){
+		var mod = 0;	
+		//the end is neigh
+		if (this.iceage >= 5){
+			mod -= 0.5;				
+		}else if (this.iceage >=4){
+			mod -= 0.35;
+		}else if (this.iceage ==3){
+			mod -= 0.15;
+		}
+		return mod;
 	},
 	
 	getCurSeason: function(){
@@ -208,7 +259,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		saveData.calendar = {
 			year : this.year,
 			day: this.day,
-			season: this.season
+			season: this.season,
+			weather: this.weather,
+			iceage: this.iceage
 		};
 	},
 	
@@ -217,6 +270,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.year  = saveData.calendar.year;
 			this.day  = saveData.calendar.day;
 			this.season  = saveData.calendar.season;
+			this.weather = saveData.calendar.weather;
+			this.bloodmoon = saveData.calendar.iceage ? saveData.calendar.iceage : 0;
 		}
 	}
 	
