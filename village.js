@@ -155,21 +155,49 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	getResProduction: function(){
 		
+		/**
+		 * From Zusias
+		 * It seems like the new job allocation is doing better, but there are still some problems.
+		 * Running the following code provides a quick check to accumulate the number of kittens 
+		 * in each job to compare against the numbers reported on the job buttons, some testing 
+		 * with it shows that there are still some problems as of 6.5.4
+		 
+		 * var jobs = {};
+		 * for(kitten in gamePage.village.sim.kittens){
+		 *	if (!jobs[gamePage.village.sim.kittens[kitten].job]){
+		 *		jobs[gamePage.village.sim.kittens[kitten].job] = 1;
+		 *	}else{
+		 *		jobs[gamePage.village.sim.kittens[kitten].job] += 1;
+		 *	};
+		 * }
+		 
+		 * This code does ok, but as it loops through every kitten every tick, it's a bit more
+		 * costly than I would like (cpu usage for this code went from 2% to 6% but that's still
+		 * pretty acceptable imo). Any major improvement might require a refactoring of several
+		 * other functions and I'm trying to change as little as possible and retain the same basic
+		 * code style for my contributions.
+		 */
+
 		var res = {
 		};
 
-		for (var i = 0; i< this.jobs.length; i++){
-			var job = this.jobs[i];
-			for (jobResMod in job.modifiers){
-				var diff = job.modifiers[jobResMod] * job.value;
-				if (diff > 0 ){
-					 diff  = diff * this.happiness;	//alter positive resource production from jobs
-				}
-				
-				if (!res[jobResMod]){
-					res[jobResMod] = diff;
-				}else{
-					res[jobResMod] += diff;
+		for (i in this.sim.kittens){
+			var kitten = this.sim.kittens[i]
+			var job = this.getJob(kitten.job);
+			if(job) {
+				for (jobResMod in job.modifiers){
+					// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
+					var diff = job.modifiers[jobResMod] * this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+					
+					if (diff > 0 ){
+						diff  = diff * this.happiness;	//alter positive resource production from jobs
+					}
+					
+					if (!res[jobResMod]){
+						res[jobResMod] = diff;
+					}else{
+						res[jobResMod] += diff;
+					}
 				}
 			}
 		}
