@@ -109,6 +109,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "karma",
 		type : "rare",
 		visible: true
+	},{
+		name : "paragon",
+		type : "common",
+		visible: true,
+		color: "#6141CD"
 	},
 	
 	//=========================================

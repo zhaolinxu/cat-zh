@@ -194,7 +194,6 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("printingPress").unlocked = true;
 			game.workshop.get("factoryAutomation").unlocked = true;
-			game.workshop.getCraft("paper").unlocked = true;
 		}
 	},{
 		name: "steel",
@@ -261,6 +260,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.get("caravanserai").unlocked = true;
 			game.workshop.get("astrolabe").unlocked = true;
 			game.workshop.get("titaniumMirrors").unlocked = true;
+			game.workshop.get("titaniumAxe").unlocked = true;
 		}
 	},{
 		name: "physics",

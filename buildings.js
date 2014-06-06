@@ -408,13 +408,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				} else {
 					return;
 				}
+				
+				var ratio = game.bld.getEffect("craftRatio");
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
 					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.val); 
 					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
 						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
-						game.msg("+" + amt + " beams!");
+						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!");
 					}
 				}
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
@@ -422,21 +424,25 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
 						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
-						game.msg("+" + amt + " slabs!");
+						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!");
 					}
 				}
 				
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					
+					console.log("autoIron:", autoIron, "req:", game.workshop.getCraft("plate").prices[0]);
+					
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
 						game.workshop.craft("plate", amt);
+						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!");
 					}
 				}
 				//BUGBUGBUG
 				
 				if (game.workshop.get("printingPress").researched){
-					var amt = 2*self.val;
+					var amt = 0.5 * self.val;
 					game.resPool.get("manuscript").value += amt;
 					
 					game.msg("Printing press: +" + amt + " manuscript!");
@@ -923,7 +929,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!building || (building && !building.jammed)){
 			return this.description;
 		} else {
-			return this.description + "\n" + "***JAMMED!***";
+			return this.description + "\n" + "***Maintenance***";
 		}
 	},
 	
@@ -1255,7 +1261,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 100 && !self.game.ironWill){
+						if (self.game.gatherClicks >= 250 && !self.game.ironWill){
 							alert("You are so tired");
 							self.game.gatherClicks = 0;
 						}
