@@ -58,6 +58,9 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 600,
+		handler: function(game){
+			game.workshop.get("bolas").unlocked = true;
+		},
 		unlocks: ["metal"]
 	},{
 		name: "metal",

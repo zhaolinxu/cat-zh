@@ -200,15 +200,32 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "bolas",
+		title: "Bolas",
+		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
+		effects: {
+			"hunterRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 1000 },
+			{ name : "minerals", val: 250 },
+			{ name : "wood", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "huntingArmor",
 		title: "Hunting Armor",
 		description: "Hunters are 4 times as effective",
 		effects: {
-			"hunterRatio" : 3
+			"hunterRatio" : 2
 		},
 		prices:[
 			{ name : "science", val: 2000 },
-			{ name : "iron", val: 1000 }
+			{ name : "iron", val: 750 }
 		],
 		unlocked: false,
 		researched: false,

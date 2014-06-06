@@ -774,6 +774,20 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				bld.action(bld, this.game);
 			}
 		}
+		
+		/*
+		 * Manpower hack for ironwill mode. 1000 manpower is absolutely required for civilization unlock.
+		 * There may be some microperf tweaks, but let's keep it simple
+		 */ 
+		 if (this.game.ironWill){
+			 if (this.game.workshop.get("compositeBow").researched){
+				 this.game.bld.effectsBase["manpowerMax"] = 200;
+			 } else if (this.game.workshop.get("bolas").researched){
+				 this.game.bld.effectsBase["manpowerMax"] = 400;
+			 } else if (this.game.workshop.get("bolas").researched){
+				 this.game.bld.effectsBase["huntingArmor"] = 1000;
+			 }
+		 }
 	},
 	
 	isConstructionEnabled: function(building){
