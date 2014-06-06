@@ -185,7 +185,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 					for (jobResMod in job.modifiers){
 						// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 						//TODO: move to the village manager
-						var diff = job.modifiers[jobResMod] * this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]) * productionRatio;
+						var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+						
+						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod-1) * productionRatio);
 						
 						if (diff > 0 ){
 							diff  = diff * this.happiness;	//alter positive resource production from jobs

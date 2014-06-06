@@ -423,8 +423,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!");
 					}
 				}
-				//BUGBUGBUG
-				
+
 				if (game.workshop.get("printingPress").researched){
 					var amt = 0.5 * self.val;
 					game.resPool.get("manuscript").value += amt;
