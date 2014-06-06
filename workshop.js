@@ -442,14 +442,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "leather", val: 5}
 		],
 		unlocked: true
-	},{
+	},
+	/*,{
 		name: "paper",
 		title: "Paper",
 		prices:[
 			{name: "wood", val: 5000}
 		],
 		unlocked: false
-	},{
+	},*/
+	{
 		name: "manuscript",
 		title: "Manuscript",
 		description: "Written document required for technological advancement",

@@ -377,7 +377,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			
 			//DO PSSSH AND CHOO CHOO
 
-			if (game.workshop.get("printingPress").researched){
+			/*if (game.workshop.get("printingPress").researched){
 				var paper = game.resPool.get("paper");
 				var manuscript = game.resPool.get("manuscript");
 				
@@ -387,7 +387,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					
 					game.msg("Printing press: +1 manuscript!");
 				}
-			}
+			}*/
 			
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
 				var baseAutomationRate = 0.02;
@@ -408,8 +408,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				} else {
 					return;
 				}
-				
-				
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
 					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.val); 
@@ -436,6 +434,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					}
 				}
 				//BUGBUGBUG
+				
+				if (game.workshop.get("printingPress").researched){
+					var amt = 2*self.val;
+					game.resPool.get("manuscript").value += amt;
+					
+					game.msg("Printing press: +" + amt + " manuscript!");
+				}
 			}
 		},
 		val: 0
