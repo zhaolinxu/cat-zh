@@ -87,6 +87,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	
 	//game-related flags that will go to the save
 	karmaKittens: 0,	//counter for karmic reincarnation
+	paragonPoints: 0,	//endgame prestige
 	deadKittens: 0,
 	ironWill: true,
 	
@@ -187,6 +188,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
+			paragonPoints: this.paragonPoints,
 			ironWill : this.ironWill,
 			deadKittens: this.deadKittens
 		};
@@ -281,6 +283,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
 
 			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
+			this.paragonPoints = (data.paragonPoints !== undefined) ? data.paragonPoints : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
 			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : true;
@@ -990,7 +993,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	reset: function(){
 		
 		var msg = "Are you sure you want to reset? You will save your achievemenets and karma points.";
-		if (this.resPool.get("kittens").value <= 35){
+		if (this.resPool.get("kittens").value > 70){
+			msg = "Are you sure you want to reset? You will recieve extra carma and paragon points.";
+		}else if (this.resPool.get("kittens").value > 60){
+			msg = "Are you sure you want to reset? You will recieve extra carma points.";
+		}else if (this.resPool.get("kittens").value <= 35){
 			msg = "Are you sure you want to reset? You will recieve NO KARMA POINTS. You will save old karma points and achievements.";
 		}
 		
@@ -1001,11 +1008,21 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		if (this.resPool.get("kittens").value > 35){
 			this.karmaKittens += (this.resPool.get("kittens").value - 35);
 		}
+		
+		if (this.resPool.get("kittens").value > 60){
+			this.karmaKittens += (this.resPool.get("kittens").value - 60)*4;
+		}
+		
+		if (this.resPool.get("kittens").value > 70){
+			this.paragonPoints += (this.resPool.get("kittens").value - 70);
+		}
+		
 
 		
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 
 			karmaKittens: this.karmaKittens,
+			paragonPoints: this.paragonPoints,
 			ironWill : true 
 		});
 		
@@ -1030,6 +1047,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var karma = (Math.sqrt(1+8 * this.karmaKittens / stripe)-1)/2;
 		
 		this.resPool.get("karma").value = karma;
+		this.resPool.get("paragon").value = this.paragonPoints;
 	}
 		
 });
