@@ -690,6 +690,12 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				//TODO: add 'hasRes' check
 
 				var recipe = this.workshop.getCraft(res.name);
+				
+				//self-recovery hack to discard removed resources
+				//TODO: remove the reference from the res pool
+				if (!recipe && res.craftable){
+					res.value = 0;
+				}
 				if (!recipe){
 					continue;
 				}

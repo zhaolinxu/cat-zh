@@ -809,6 +809,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return 9000
 		} else if (value < 20000){
 			return 20000;
+		} else {
+			return Number.MAX_VALUE;
 		}
 	},
 	
