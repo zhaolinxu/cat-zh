@@ -154,7 +154,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 */ 
 	
 	getResProduction: function(){
-
+		
 		var res = {
 		};
 
