@@ -151,9 +151,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 3);	//once per 3 ticks
 		
-		
-		//update village resource production. 
-		//Since this method is CPU heavy and rarely usefull, we will call it from time to time, but not every ticl
+		//Update village resource production. 
+		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
 		this.timer.addEvent(dojo.hitch(this, function(){ this.village.updateResourceProduction(); }), 10);
 
 	},

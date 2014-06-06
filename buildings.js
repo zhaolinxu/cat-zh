@@ -546,7 +546,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "temple",
 		label: "Temple",
-		description: "Temple of light. +0.5 culture per tick. May be improved with Theology.",
+		description: "Temple of light. +0.05 culture per tick. May be improved with Theology.",
 		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },
