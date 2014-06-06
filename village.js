@@ -183,20 +183,22 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 
 		for (i in this.sim.kittens){
 			var kitten = this.sim.kittens[i]
-			var job = this.getJob(kitten.job);
-			if(job) {
-				for (jobResMod in job.modifiers){
-					// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
-					var diff = job.modifiers[jobResMod] * this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
-					
-					if (diff > 0 ){
-						diff  = diff * this.happiness;	//alter positive resource production from jobs
-					}
-					
-					if (!res[jobResMod]){
-						res[jobResMod] = diff;
-					}else{
-						res[jobResMod] += diff;
+			if(kitten.job) {
+				var job = this.getJob(kitten.job);
+				if(job) {
+					for (jobResMod in job.modifiers){
+						// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
+						var diff = job.modifiers[jobResMod] * this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+						
+						if (diff > 0 ){
+							diff  = diff * this.happiness;	//alter positive resource production from jobs
+						}
+						
+						if (!res[jobResMod]){
+							res[jobResMod] = diff;
+						}else{
+							res[jobResMod] += diff;
+						}
 					}
 				}
 			}
@@ -441,8 +443,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			
 			if (kitten.job == job){
 				kitten.job = null;
+				return;
 			}
-			return;
 		}
 	},
 	
