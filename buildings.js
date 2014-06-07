@@ -287,7 +287,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 			if (game.workshop.get("deepMining").researched){
 				//fun but ugly hack
-				self.effects["coalPerTickBase"] = 0.001;
+				self.effects["coalPerTickBase"] = 0.003;
 				//coal.value += self.effects["coalPerTick"] * self.val;
 			}
 		}
