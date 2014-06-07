@@ -693,10 +693,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				
 				//self-recovery hack to discard removed resources
 				//TODO: remove the reference from the res pool
-				if (!recipe && res.craftable){
-					res.value = 0;
-				}
 				if (!recipe){
+					res.value = 0;
 					continue;
 				}
 				

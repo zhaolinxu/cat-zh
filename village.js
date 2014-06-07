@@ -161,6 +161,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		//special hack for ironwill mode
 		var zebras = this.game.resPool.get("zebras");
 		if (zebras.value > 0){
+			res["manpower"] = res["manpower"] ? res["manpower"] : 0;
 			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
 		}
 		
