@@ -91,6 +91,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	deadKittens: 0,
 	ironWill: true,
 	
+	gatherTimeoutHandler: null,
 	gatherClicks: 0,	//yes, I do love to annoy people
 
 	constructor: function(containerId){

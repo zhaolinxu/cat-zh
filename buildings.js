@@ -1257,8 +1257,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip", 
 			handler: function(){
+						clearTimeout(self.game.gatherTimeoutHandler);
+						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 10000);	//10 sec 
+						
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 250 && !self.game.ironWill){
+						if (self.game.gatherClicks >= 100 && !self.game.ironWill){
 							alert("You are so tired");
 							self.game.gatherClicks = 0;
 						}
