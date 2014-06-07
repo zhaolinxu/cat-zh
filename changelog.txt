@@ -1,0 +1,12 @@
+v.0.6.7.5
+
+Trade ships will give 0.35% to the titanium drop chance
+Added Hunt All button
+Rised Mines coal output from 0.01 to 0.03
+Added color codes to craft resources
+
+v.0.6.7.4
+
+Hunting armor was split into two upgrades
+Bolas and Hunting Armor will increase mapowerMax to 400 and 1000 in ironwill
+Census skills wlll now contribute to the production rate
