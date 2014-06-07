@@ -120,6 +120,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				
 		//calculate production and happiness modifers	
 		this.updateHappines();
+		
+		var showFastHunt = (this.game.resPool.get("manpower").value >= 100);
+		$("#fastHuntContainer").toggle(showFastHunt);
 	},
 	
 	getFreeKittens: function(){
@@ -290,6 +293,54 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		}
 		
 		this.happiness = happiness/100;
+	},
+	
+	
+	sendHunters: function(){
+		var fursVal = 0;
+		var ivoryVal = 0;
+
+		var furs = this.game.resPool.get("furs");
+		
+		
+		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
+		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
+		furs.value += fursVal; 
+		
+		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
+			var ivory = this.game.resPool.get("ivory");
+			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
+			
+			ivory.value += ivoryVal;
+		}
+		
+		if (this.rand(100) > 95){
+			var unicorns = this.game.resPool.get("unicorns");
+			unicorns.value += 1;
+			
+			this.game.msg("You got a unicorn!");
+		}
+		
+		var msg = "Your hunters have returned. +" + fursVal + " furs";
+		if (ivoryVal){
+			msg += ", +" + ivoryVal + " ivory";
+		}
+		this.game.msg( msg );
+	},
+	
+	huntAll: function(){
+		var mpower = this.game.resPool.get("manpower");
+		
+		var squads = Math.floor(mpower.value / 100);
+		mpower.value -= squads*100;
+		for(var i = 0; i< squads; i++){
+			this.sendHunters();
+		}
+		
+	},
+	
+	rand: function(val){
+		return this.game.rand(val);
 	}
 });
 
@@ -852,35 +903,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	sendHunterSquad: function(){
-		var fursVal = 0;
-		var ivoryVal = 0;
-
-		var furs = this.game.resPool.get("furs");
-		
-		
-		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
-		furs.value += fursVal; 
-		
-		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			var ivory = this.game.resPool.get("ivory");
-			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
-			
-			ivory.value += ivoryVal;
-		}
-		
-		if (this.rand(100) > 95){
-			var unicorns = this.game.resPool.get("unicorns");
-			unicorns.value += 1;
-			
-			this.game.msg("You got a unicorn!");
-		}
-		
-		var msg = "Your hunters have returned. +" + fursVal + " furs";
-		if (ivoryVal){
-			msg += ", +" + ivoryVal + " ivory";
-		}
-		this.game.msg( msg );
+		this.game.village.sendHunters();
 	},
 	
 	

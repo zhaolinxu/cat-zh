@@ -544,6 +544,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		};
 	},
 	
+	huntAll: function(event){
+		event.preventDefault();
+		this.village.huntAll();
+	},
+	
 	/**
 	 * Updates a resource table on the UI
 	 */
@@ -679,6 +684,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 						width: "75px"
 					}
 				}, tr);
+				
+				if (res.color){
+					dojo.setStyle(tdResName, "color", res.color);
+				}
 				
 				dojo.create("td", { innerHTML: res.value.toFixed(2),
 					style: {

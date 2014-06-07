@@ -504,7 +504,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduces negative effects of overpopulation by 5-10%. +0.1 culture per tick",
+		description: "Reduces negative effects of overpopulation by 5-10%. +0.005 culture per tick",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },
@@ -513,7 +513,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		],
 		effects: {
 			"unhappinessRatio" : -0.08,
-			"culturePerTick" : 0.005,
+			"culturePerTickBase" : 0.005,
 			"cultureMax" : 50
 		},
 		priceRatio: 1.15,
@@ -522,8 +522,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["writing"],
 		action: function(self, game){
-			var culture = game.resPool.get("culture");
-			culture.value += self.val * self.effects["culturePerTick"];
+			/*var culture = game.resPool.get("culture");
+			culture.value += self.val * self.effects["culturePerTick"];*/
 		}
 	},
 	{
