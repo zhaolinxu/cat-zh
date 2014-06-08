@@ -1,3 +1,23 @@
+v.0.6.8.5
+
+Religion: Golden Spire (+50% max faith per temple)
+Religion: Sun Altar (+0.5% happiness per temple)
+Religion: Stained Glass (doubles temple culture)
+
+Production buildings group was split into Production and Storage
+
+Quarry (50 Scaffold, 1000 Slab), +35% minerals ratio, +0.015 coal per tick [archeology]
+
+Oil Well (25 Scaffold, 100 Steel), 2500 max oil, +0.01 oil per tick [chemistry]
+
+'Tired' status will be cleared after very brief timeout
+Pritning press will give 0.00025 manuscript per tick (2 per year total) constantly instead of 0.5 per year
+
+Fixed astrolabe effect working even without purchased upgrade (not a nerf)
+Reduced titanum price of Titanium Reflectors from 25 to 15
+
+Craft resources will be highlighted for buildings
+
 v.0.6.7.5
 
 Trade ships will give 0.35% to the titanium drop chance

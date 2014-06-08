@@ -33,6 +33,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "gold",
 		type : "common",
 		visible: true
+	},{
+		name : "oil",
+		type : "common",
+		visible: true
 	},
 	
 	//=========================================

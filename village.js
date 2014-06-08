@@ -276,6 +276,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
 		
+		var happinessBonus = this.game.bld.getEffect("happiness");
+		happiness += happinessBonus;
+		
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
 		for (var i = 0; i < resources.length; i++){

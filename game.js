@@ -249,6 +249,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
+			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
 		
 		//restore tab visibility
@@ -678,6 +679,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			
 			if (res.craftable && res.value > 0 ){
 				var tr = dojo.create("tr", {}, resTable);
+				
+				//  highlight resources for selected building
+				//--------------------------------------------
+				var selBld = this.selectedBuilding;
+				if (selBld && this.isResRequired(selBld, res.name)){
+					dojo.addClass(tr, "highlited");
+				}
 				
 				var tdResName = dojo.create("td", { 
 					innerHTML: res.title ? res.title : res.name + ":",

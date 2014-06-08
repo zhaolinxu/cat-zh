@@ -234,7 +234,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "astronomy",
 		title: "Astronomy",
 		description: "Astronomy is the study of objects in space",
-		effectDesc: "Unlocks observatory and star charts",
+		effectDesc: "Unlocks Observatory and star charts",
 		
 		unlocked: false,
 		researched: false,
@@ -276,7 +276,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 50000},
 			{name: 	"compedium", val: 5}
 		],
-		unlocks: ["chemistry", "elictricity"],
+		unlocks: ["chemistry", "electricity"],
 		handler: function(game){
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
@@ -285,7 +285,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "chemistry",
 		title: "Chemistry",
 		description: "TBD",
-		effectDesc: "(TBD)",
+		effectDesc: "Unlocks Oil and Oil Wells",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -299,7 +299,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "archeology",
 		title: "Archeology",
 		description: "TBD",
-		effectDesc: "(TBD)",
+		effectDesc: "Unlocks Quarrys",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -311,10 +311,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 
 		}
 	},{
-		name: "elictricity",
-		title: "Elictricity",
+		name: "electricity",
+		title: "Electricity",
 		description: "TBD",
-		effectDesc: "(TBD)",
+		effectDesc: "Unlocks Magnetos",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -389,11 +389,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 					
 					if (savedTech != null){
 						var tech = this.game.science.get(savedTech.name);
-						tech.unlocked = savedTech.unlocked;
-						tech.researched = savedTech.researched;
-						
-						if (tech.researched && tech.handler){
-							tech.handler(this.game);	//just in case update tech effects
+						if (tech){
+							tech.unlocked = savedTech.unlocked;
+							tech.researched = savedTech.researched;
+							
+							if (tech.researched && tech.handler){
+								tech.handler(this.game);	//just in case update tech effects
+							}
 						}
 					}
 				}

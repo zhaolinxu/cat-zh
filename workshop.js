@@ -402,7 +402,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			"libraryRatio" : 0.02
 		},
 		prices:[
-			{ name : "titanium", val: 25 },
+			{ name : "titanium", val: 15 },
 			{ name : "starchart",  val: 25 },
 			{ name : "science",  val: 20000 },
 		],
@@ -571,8 +571,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
 						
-						if (upgrade.unlocked && upgrade.handler){
-							upgrade.handler(this.game);	//just in case update tech effects
+						if (upgrade.researched && upgrade.handler){
+							upgrade.handler(this.game);	//just in case update workshop upgrade effects
 						}
 					}
 				}
