@@ -1,3 +1,12 @@
+v 0.7.0.0
+
+Calciner: 
+Converts minerals and oil into iron and titanium [chemistry] 
+(120 stell, 5 titanium, 5 bp, 300 oil)
+-1.5 min, -0.012 oil, +0.001 titanium, +0.15 iron
+
+Changed Oil Well price to (50 steel, 25 gear, 25 scaffold)
+
 v 0.6.9.6
 
 Reduced Observatory price ratio from 1.15 to 1.10 and increased Slab price from 15 to 35

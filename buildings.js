@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "resource",
 		title: "Resources",
-		buildings: ["mine", "quarry", "smelter", "lumberMill", "oilWell"]
+		buildings: ["mine", "quarry", "smelter", "calciner", "lumberMill", "oilWell"]
 	},{
 		name: "culture",
 		title: "Culture",
@@ -222,7 +222,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"mineralsMax"	: 250,
 			"ironMax"		: 50,
 			"coalMax"		: 60,
-			"goldMax"		: 10
+			"goldMax"		: 10,
+			"titaniumMax"	: 2
 		},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
@@ -241,7 +242,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"mineralsMax"	: 200,
 			"ironMax"		: 25,
 			"coalMax"		: 30,
-			"goldMax"		: 5
+			"goldMax"		: 5,
+			"titaniumMax"	: 10
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
@@ -262,7 +264,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"mineralsMax"	: 950,
 			"ironMax"		: 150,
 			"coalMax"		: 100,
-			"goldMax"		: 25
+			"goldMax"		: 25,
+			"titaniumMax"	: 50
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
@@ -368,16 +371,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "calciner",
 		label: "Calciner",
-		description: "Highly effective source of iron and titanium",
+		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.01 oil per tick. Produces 0.15 iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 5 },
-			{ name : "blueprint",  val: 15 },
-			{ name : "oil",  val: 5000 },
-			{ name: "unobtanium", val: 1}
+			{ name : "blueprint",  val: 5 },
+			{ name : "oil",  val: 3000 }
 		],
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
@@ -386,14 +388,31 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 
 		},
 		effects: {
-			//iron : sorta a lot per tick
-			//titanium: a little tiny bit per tick
-			//oil - some value minus per tick
+			"mineralsPerTick" : -1.5,
+			"ironPerTick" : 0.15,
+			"titaniumPerTick" : 0.001,
+			"oilPerTick" : -0.012	//base + 0.01
 		},
 		action: function(self, game){
+			if (!self.enabled && self.togglable){
+				return;
+			}
+			
+			var oil = game.resPool.get("oil");
+			var minerals = game.resPool.get("minerals");
+
+			if (oil.value > self.val * -self.effects["oilPerTick"] &&
+				minerals.value > self.val * -self.effects["mineralsPerTick"]
+			){
+				oil.value -= self.val * -self.effects["oilPerTick"];
+				minerals.value -= self.val * -self.effects["mineralsPerTick"];
+				
+				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;
+				game.resPool.get("titanium").value += self.effects["titaniumPerTick"] * self.val;
+			}
+			
 		},
 		val: 0
-		
 	},
 	{
 		name: "steamworks",
@@ -507,10 +526,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "oilWell",
 		label: "Oil Well",
-		description: "Produces oil",
+		description: "Produces 0.01 oil per tick, +2500 to maximum oil limit",
 		unlocked: false,
 		prices: [
-			{name : "steel", val: 100},
+			{name : "steel", val: 50},
+			{name : "gear",  val: 25},
 			{name : "scaffold", val: 25}
 		],
 		effects: {
