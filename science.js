@@ -238,7 +238,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 28000},
-			{name: 	"manuscript", val: 70}
+			{name: 	"manuscript", val: 50}
 		],
 		unlocks: ["navigation"],
 		handler: function(game){
@@ -253,7 +253,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 35000},
-			{name: 	"manuscript", val: 150}
+			{name: 	"manuscript", val: 75}
 		],
 		unlocks: ["physics", "archeology"],
 		handler: function(game){

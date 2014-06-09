@@ -457,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		description: "Written document required for technological advancement",
 		prices:[
 			{name: "parchment", val: 25},
-			{name: "culture", val: 500}
+			{name: "culture", val: 350}
 		],
 		unlocked: true
 	},{
