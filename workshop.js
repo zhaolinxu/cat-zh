@@ -92,6 +92,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "steelSaw",
+		title: "Steel Saw",
+		description: "Improve Lumber Mill efficiency by 10%",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 52000 },
+			{ name : "steel", val: 1000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+			game.bld.get("lumberMill").effects["woodRatio"] = 0.11;
+		}
+	},{
 		name: "titaniumAxe",
 		title: "Titanium Axe",
 		description: "Indestructable axes providing +50% wood production boost",
@@ -482,7 +498,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		description: "Written document required for technological advancement",
 		prices:[
 			{name: "parchment", val: 25},
-			{name: "culture", val: 350}
+			{name: "culture", val: 400}
 		],
 		unlocked: true
 	},{
@@ -508,7 +524,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Trade Ship",
 		description: "Ships can be used to discover new civilizations. May improve chances of getting certain rare resources",
 		prices:[
-			{ name: "scaffold", val: 120 },
+			{ name: "scaffold", val: 100 },
 			{ name: "plate",    val: 150 },
 			{ name: "starchart", val: 25 }
 		],

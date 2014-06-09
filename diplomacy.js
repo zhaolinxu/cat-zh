@@ -367,11 +367,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					//-------------- 15% change to get titanium  ---------------
 					
 					var shipVal = self.game.resPool.get("ship").value;
-					var shipRate = shipVal * 0.035;		//0.35% per ship to get titanum	
+					var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
 					
-					if (self.rand(100) < 15 + shipRate && race.name == "zebras"){
+					if ( self.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
 						
-						var titaniumAmt = 1;
+						var titaniumAmt = 1.5;
 						titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
 						
 						self.game.resPool.get("titanium").value += titaniumAmt;

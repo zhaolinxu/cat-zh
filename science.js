@@ -188,7 +188,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "machinery",
 		title: "Machinery",
 		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
-		effectDesc: "Unlocks steamworks, printing press and factory automation.",
+		effectDesc: "Unlocks Steamworks, Printing press and Factory automation.",
 		
 		unlocked: false,
 		researched: false,
@@ -219,7 +219,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "theology",
 		title: "Theology",
 		description: "Theology is the study of religion",
-		effectDesc: "Unlocks access to the religion",
+		effectDesc: "Unlocks the access to the religion",
 		
 		unlocked: false,
 		researched: false,
@@ -234,13 +234,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "astronomy",
 		title: "Astronomy",
 		description: "Astronomy is the study of objects in space",
-		effectDesc: "Unlocks Observatory and star charts",
+		effectDesc: "Unlocks Observatory and Star charts",
 		
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 28000},
-			{name: 	"manuscript", val: 50}
+			{name: 	"manuscript", val: 65}
 		],
 		unlocks: ["navigation"],
 		handler: function(game){
@@ -249,13 +249,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "navigation",
 		title: "Navigation",
 		description: "Navigation allows serious advancements in sailing and shipbuilding technology",
-		effectDesc: "Unlocks construction of the ships (TBD)",
+		effectDesc: "Unlocks the construction of Trade Ships and oversea trade",
 		
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 35000},
-			{name: 	"manuscript", val: 75}
+			{name: 	"manuscript", val: 100}
 		],
 		unlocks: ["physics", "archeology"],
 		handler: function(game){
@@ -280,6 +280,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
+			game.workshop.get("steelSaw").unlocked = true;
 		}
 	},{
 		name: "chemistry",

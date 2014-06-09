@@ -187,7 +187,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
-				 { name : "slab", val: 15 },
+				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
 				 { name : "science", val: 1000 }
 		],
@@ -196,7 +196,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"starEventChance": 5,
 			"scienceMax" : 1000
 		},
-		priceRatio: 1.15,
+		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["astronomy"],
 		handler: function(btn){
@@ -302,6 +302,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Quarry improves your mining efficiency by 50% and produces a bit of coal",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
+				 { name : "steel", val: 150 },
 				 { name : "slab", val: 1000 }],
 		effects: {
 			"mineralsRatio": 0.35,
@@ -365,6 +366,36 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		val: 0
 	},{
+		name: "calciner",
+		label: "Calciner",
+		description: "Highly effective source of iron and titanium",
+		unlocked: false,
+		enabled: false,
+		togglable: true,
+		prices: [
+			{ name : "steel", val: 120 },
+			{ name : "titanium",  val: 5 },
+			{ name : "blueprint",  val: 15 },
+			{ name : "oil",  val: 5000 },
+			{ name: "unobtanium", val: 1}
+		],
+		priceRatio: 1.15,
+		ignorePriceCheck: true,
+		requiredTech: ["chemistry"],
+		handler: function(btn){
+
+		},
+		effects: {
+			//iron : sorta a lot per tick
+			//titanium: a little tiny bit per tick
+			//oil - some value minus per tick
+		},
+		action: function(self, game){
+		},
+		val: 0
+		
+	},
+	{
 		name: "steamworks",
 		label: "Steamworks",
 		description: "When active, reduces your coal production by 80%. \nCan perform a vast variety of operations if upgraded.",
@@ -450,13 +481,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!");
 					}
 				}
-
-				/*if (game.workshop.get("printingPress").researched){
-					var amt = 0.5 * self.val;
-					game.resPool.get("manuscript").value += amt;
-					
-					game.msg("Printing press: +" + amt + " manuscript!");
-				}*/
 			}
 		},
 		val: 0
@@ -594,14 +618,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["philosophy"],
 		action: function(self, game){
-			/*var culture = game.resPool.get("culture");
-			culture.value += self.val * self.effects["culturePerTick"];*/
-			
+
 			var theology = game.science.get("theology");
 			if (theology.researched){
-				/*var faith = game.resPool.get("faith");
-				faith.value += self.val * self.effects["faithPerTick"];*/
-				self.effects["faithPerTickBase"] = 0.001;
+				self.effects["faithPerTickBase"] = 0.0015;
 			}
 			
 			var stainedGlass = game.religion.getRU("stainedGlass");

@@ -1,3 +1,20 @@
+v 0.6.9.6
+
+Reduced Observatory price ratio from 1.15 to 1.10 and increased Slab price from 15 to 35
+Reduced Trade Ship scaffold price from 120 to 100
+
+Changed prices of Quarry to 50 scaffold, 150 steel, 1000 slab (prices may be reduced later)
+
+Steel Saw: improves lumber mull efffectiveness by 10%
+
+v.0.6.8.6
+
+Raised base faith output of the temples by 50%
+Trade ships will give 0.35% to the titanium proc instead of 0.035%
+Improved base titanium output from 1 to 1.5
+Reduced manuscripts culture price from 500 to 400
+Reduced manuscript prices of Astronomy and Navigation to 65 and 100 (from 75 and 150)
+
 v.0.6.8.5
 
 Religion: Golden Spire (+50% max faith per temple)
@@ -22,7 +39,7 @@ v.0.6.7.5
 
 Trade ships will give 0.35% to the titanium drop chance
 Added Hunt All button
-Rised Mines coal output from 0.01 to 0.03
+Raised Mines coal output from 0.01 to 0.03
 Added color codes to craft resources
 
 v.0.6.7.4
