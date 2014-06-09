@@ -78,13 +78,29 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "steelAxe",
 		title: "Steel Axe",
-		description: "Very sharp and durable axes providing +30% wood production boost",
+		description: "Very sharp and durable axes providing +50% wood production boost",
 		effects: {
-			"woodRatio" : 0.3
+			"woodRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 20000 },
-			{ name : "steel", val: 100 }
+			{ name : "steel", val: 75 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "titaniumAxe",
+		title: "Titanium Axe",
+		description: "Indestructable axes providing +50% wood production boost",
+		effects: {
+			"woodRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 38000 },
+			{ name : "titanium", val: 10 }
 		],
 		unlocked: false,
 		researched: false,
@@ -184,15 +200,32 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "bolas",
+		title: "Bolas",
+		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
+		effects: {
+			"hunterRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 1000 },
+			{ name : "minerals", val: 250 },
+			{ name : "wood", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "huntingArmor",
 		title: "Hunting Armor",
 		description: "Hunters are 4 times as effective",
 		effects: {
-			"hunterRatio" : 3
+			"hunterRatio" : 2
 		},
 		prices:[
 			{ name : "science", val: 2000 },
-			{ name : "iron", val: 1000 }
+			{ name : "iron", val: 750 }
 		],
 		unlocked: false,
 		researched: false,
@@ -293,7 +326,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	{
 		name: "printingPress",
 		title: "Printing Press",
-		description: "Steamwork converts paper to manuscripts",
+		description: "Steamwork automatically prints manuscripts",
 		effects: {
 		},
 		prices:[
@@ -369,7 +402,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			"libraryRatio" : 0.02
 		},
 		prices:[
-			{ name : "titanium", val: 25 },
+			{ name : "titanium", val: 15 },
 			{ name : "starchart",  val: 25 },
 			{ name : "science",  val: 20000 },
 		],
@@ -443,14 +476,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: true
 	},
-	/*,{
-		name: "paper",
-		title: "Paper",
-		prices:[
-			{name: "wood", val: 5000}
-		],
-		unlocked: false
-	},*/
 	{
 		name: "manuscript",
 		title: "Manuscript",
@@ -546,8 +571,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
 						
-						if (upgrade.unlocked && upgrade.handler){
-							upgrade.handler(this.game);	//just in case update tech effects
+						if (upgrade.researched && upgrade.handler){
+							upgrade.handler(this.game);	//just in case update workshop upgrade effects
 						}
 					}
 				}
@@ -560,8 +585,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 					
 					if (savedCraft != null){
 						var craft = this.game.workshop.getCraft(savedCraft.name);
-	
-						craft.unlocked = savedCraft.unlocked;
+						if (craft){
+							craft.unlocked = savedCraft.unlocked;
+						}
 					}
 				}
 			}

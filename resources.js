@@ -26,16 +26,15 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		visible: true
 	},{
-		name : "steel",
-		type : "common",
-		craftable: true,
-		visible: false,
-	},{
 		name : "titanium",
 		type : "common",
 		visible: true,
 	},{
 		name : "gold",
+		type : "common",
+		visible: true
+	},{
+		name : "oil",
 		type : "common",
 		visible: true
 	},
@@ -109,25 +108,18 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "karma",
 		type : "rare",
 		visible: true
+	},{
+		name : "paragon",
+		type : "common",
+		visible: true,
+		color: "#6141CD"
 	},
 	
 	//=========================================
 	// 				    CRAFT 
 	//=========================================
 	{
-		name : "gear",
-		type : "common",
-		craftable: true
-	},{
 		name : "beam",
-		type : "common",
-		craftable: true
-	},{
-		name : "scaffold",
-		type : "common",
-		craftable: true
-	},{
-		name : "ship",
 		type : "common",
 		craftable: true
 	},{
@@ -139,29 +131,50 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "gear",
+		type : "common",
+		craftable: true,
+		color: "gray"
+	},{
+		name : "scaffold",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "ship",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
 		name : "leather",
 		type : "common",
 		craftable: true
 	},{
 		name : "parchment",
 		type : "common",
-		craftable: true
-	},{
-		name : "paper",
-		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#DF01D7"
 	},{
 		name : "manuscript",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "compedium",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "megalith",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "gray"
 	}],
 	
 	resources: null,

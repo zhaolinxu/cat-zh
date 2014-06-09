@@ -5,6 +5,10 @@
 	color: #dcdcdc;
 }
 
+.scheme_darl #autosaveTooltip{
+	color: #dcdcdc;	!important;
+}
+
 .scheme_dark .btn {
 	border: 1px solid #DE8D47;
 	color: #dcdcdc;

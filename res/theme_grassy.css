@@ -23,15 +23,15 @@ body.scheme_grassy {
 	background: none !important;
 }
 
-.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer, .scheme_grassy #craftContainer {
+.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer, .scheme_grassy #craftContainer, .scheme_grassy #fastHuntContainer{
 	padding-top: 5px !important;
 	padding-bottom: 5px !important;
 	background: rgba(255,255,255,.2) !important;
 	border: 1px solid gray;
 }
 
-.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer {
-	margin-bottom: 7px;
+.scheme_grassy #resContainer, .scheme_grassy #advisorsContainer, .scheme_grassy #fastHuntContainer {
+	margin-bottom: 5px;
 }
 
 .scheme_grassy #footerLinks {
@@ -43,11 +43,6 @@ body.scheme_grassy {
 .scheme_grassy a {
 	text-decoration: none;
 	color: #993300;
-}
-
-.scheme_grassy #clearLogHref {
-	position: relative;
-	bottom: 15px;
 }
 
 .scheme_grassy  #gameLog {
@@ -64,9 +59,17 @@ body.scheme_grassy {
 	margin-bottom: 20px !important;
 }
 
+.scheme_grassy #gameContainerId .tabInner>div {
+	margin-left: 33px !important;
+	margin-right: 33px !important;
+ }
+    
 .scheme_grassy #advisorsContainer {
-	margin-right: -2px !important;
-	padding: 5px !important;
+	position: absolute;
+	top: -36px;
+	left: 348px;
+	border: none;
+	background: none !important;
 }
 
 .scheme_grassy #resContainer>table {
@@ -77,7 +80,6 @@ body.scheme_grassy {
 	line-height:140%;
 	padding-left: 3px;
 	padding-right: 3px;
-	/*border-bottom: 1px solid rgba(100,100,100,.15);        */
 }
 
 .scheme_grassy #resContainer>table>tr.odd, .scheme_grassy #craftContainer>table>tr.odd {        
@@ -85,10 +87,10 @@ body.scheme_grassy {
 }
 
 .scheme_grassy .btn {
-	width: 180px;
+	width: 190px;
 }
 .scheme_grassy .button_tooltip {
-	left: 190px !important;
+	left: 200px !important;
 	background-color: #E1F5CF;
 }
 
