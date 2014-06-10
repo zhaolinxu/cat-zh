@@ -803,8 +803,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			}
 		}
 		
-		// Previously, catnip demand could have theoretically had more than 100% reduction because pastures
-		// and unicorn pastures diminished separately, this takes the total effect and diminishes it appropriately.
+		// Previously, catnip demand (or other buildings that both effected the same resource)
+		// could have theoretically had more than 100% reduction because they diminished separately, 
+		// this takes the total effect and diminishes it as a whole.
 		if(isHyperbolic && totalEffect < 0) {
 		  totalEffect = this.getHyperbolicEffect(totalEffect, 1.0);
 		}
@@ -816,9 +817,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	 * Returns a parabolic-aproaching value of the effect that heades to the limit, but unable to approach it completely
 	 */ 
 	getHyperbolicEffect: function(effect, limit){
-		// The following formula's effects are shown in the following google doc
-		// https://docs.google.com/spreadsheets/d/11CIDX7VOKzUapUSU9Bh34v8dhqAfsPKP_W3aL95WG80/edit?usp=sharing
-		
 		effect = Math.abs(effect);
 		
 		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
