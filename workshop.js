@@ -781,8 +781,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	},
 	
 	render: function(tabContainer){
-		//this.inherited(arguments);
-		
+
 		this.craftBtns = [];
 		this.buttons = [];
 		
@@ -812,10 +811,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			var uprgade = this.game.workshop.upgrades[i];
 
 			var btn = this.createBtn(uprgade);
+
+			btn.updateEnabled();
+			btn.updateVisible();
 			
-			if (!uprgade.unlocked || uprgade.researched){
-				btn.setEnabled(false);
-			}
 			this.addButton(btn);
 			btn.render(content);
 		}
@@ -891,12 +890,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			handler: function(btn){
 				upgrade.researched = true;
 
-				if (upgrade.unlocks && upgrade.unlocks.length){
+				/*if (upgrade.unlocks && upgrade.unlocks.length){
 					for (var i = 0; i < upgrade.unlocks.length; i++){
 						//var newTech = btn.getTechByName(tech.unlocks[i]);
 						//newTech.unlocked = true;
 					}
-				}
+				}*/
 				
 				if (upgrade.handler){
 					upgrade.handler(self.game);
@@ -906,7 +905,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			prices: upgrade.prices,
 			description: upgrade.description,
 			upgrade: upgrade.name
-		});
+		}, this.game);
 		return btn;
 	},
 	
