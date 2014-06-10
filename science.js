@@ -342,20 +342,6 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	}
 	],
 	
-	/**
-	 * Lost tech blueprints are sort of wonders that are not available instantly
-	 */  
-	lostTechs:[
-	{
-		name : "lightTemple",
-		title: "Temple of Light",
-		unlocked: false,
-		constructed: false,
-		prices: [{ name : "beam", val: 25}, {name : "block", val: 75}],
-		description: "TBD"
-	}
-	],
-	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -382,8 +368,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			this.hideResearched = saveData.science.hideResearched;
 			
 			var techs = saveData.science.techs;
-			//console.log("restored techs:",  techs);
-			
+
 			if (saveData.science.techs.length){
 				for(var i = 0; i< saveData.science.techs.length; i++){
 					var savedTech = saveData.science.techs[i];
@@ -395,7 +380,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 							tech.researched = savedTech.researched;
 							
 							if (tech.researched && tech.handler){
-								tech.handler(this.game);	//just in case update tech effects
+								tech.handler(this.game);	//update tech effects to keep saves consistent
 							}
 						}
 					}
@@ -408,7 +393,6 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			var tech = this.techs[i];
 			
 			if (tech.researched && tech.unlocks && tech.unlocks.length){
-				//console.log("re-evaluating unlocks on :", tech.name);
 				for (var j = 0; j < tech.unlocks.length; j++){
 					var newTech = this.get(tech.unlocks[j]);
 					newTech.unlocked = true;
@@ -529,10 +513,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			var tech = this.game.science.techs[i];
 
 			var btn = this.createTechBtn(tech);
-			
-			if (!tech.unlocked || tech.researched){
-				btn.setEnabled(false);
-			}
+
+			btn.updateVisible();
+			btn.updateEnabled();
+
 			this.addButton(btn);
 			btn.render(tr);
 		}
@@ -568,7 +552,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			}],
 			description: tech.description,
 			tech: tech.name
-		});
+		}, this.game);
 		return btn;
 	}
 });
