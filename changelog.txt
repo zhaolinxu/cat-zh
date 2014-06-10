@@ -1,3 +1,10 @@
+v 0.7.0.1
+
+Every compedium will give a +10 bonus to the max science
+Raised science price of compediums from 5K to 10K
+
+Paragon points will improve your total production by 1%
+
 v 0.7.0.0
 
 Calciner: 

@@ -354,7 +354,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Steamwork converts small quantities of the resources to craftable tools",
+		description: "Steamwork converts small quantities of the resources to craftable tools when they are at the limit",
 		effects: {
 		},
 		prices:[
@@ -504,10 +504,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "compedium",
 		title: "Compedium",
-		description: "A summ of all modern knowlege of the catkind",
+		description: "A summ of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
 		prices:[
 			{name: "manuscript", val: 50},
-			{name: "science", val: 5000}
+			{name: "science", val: 10000}
 		],
 		unlocked: false
 	},
@@ -540,6 +540,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: true
 	}],
+	
+	effectsBase: {
+		"scienceMax" : 0
+	},
 	
 	constructor: function(game){
 		this.game = game;
@@ -620,6 +624,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	getEffect: function(name){
 		var totalEffect = 0;
 		
+		if (this.effectsBase[name]){
+			totalEffect += this.effectsBase[name];
+		}
+		
 		for (var i = 0; i < this.upgrades.length; i++){
 			var upgrade = this.upgrades[i];
 			var effect = upgrade.effects[name];
@@ -683,6 +691,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},
 	
 	update: function(){
+		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 	}
 });
 

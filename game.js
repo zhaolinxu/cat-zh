@@ -479,6 +479,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 		
+		//---------  PARAGON BONUS ------------
+		
+		perTick += perTick * this.resPool.get("paragon").value * 0.01;		//whoever reading this: expect paragon effect to be nerfed
+		
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();
