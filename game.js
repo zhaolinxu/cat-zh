@@ -91,6 +91,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	deadKittens: 0,
 	ironWill: true,
 	
+	gatherTimeoutHandler: null,
 	gatherClicks: 0,	//yes, I do love to annoy people
 
 	constructor: function(containerId){
@@ -150,7 +151,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 3);	//once per 3 ticks
-		//this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 10);	//once per 10 ticks
+		
+		//Update village resource production. 
+		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
+		this.timer.addEvent(dojo.hitch(this, function(){ this.village.updateResourceProduction(); }), 10);
+
 	},
 	
 	/**
@@ -244,6 +249,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
+			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
 		
 		//restore tab visibility
@@ -473,6 +479,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 		
+		//---------  PARAGON BONUS ------------
+		
+		perTick += perTick * this.resPool.get("paragon").value * 0.01;		//whoever reading this: expect paragon effect to be nerfed
+		
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();
@@ -538,6 +548,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				tab.update();
 			}
 		};
+	},
+	
+	huntAll: function(event){
+		event.preventDefault();
+		this.village.huntAll();
 	},
 	
 	/**
@@ -669,12 +684,23 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			if (res.craftable && res.value > 0 ){
 				var tr = dojo.create("tr", {}, resTable);
 				
+				//  highlight resources for selected building
+				//--------------------------------------------
+				var selBld = this.selectedBuilding;
+				if (selBld && this.isResRequired(selBld, res.name)){
+					dojo.addClass(tr, "highlited");
+				}
+				
 				var tdResName = dojo.create("td", { 
 					innerHTML: res.title ? res.title : res.name + ":",
 					style: {
 						width: "75px"
 					}
 				}, tr);
+				
+				if (res.color){
+					dojo.setStyle(tdResName, "color", res.color);
+				}
 				
 				dojo.create("td", { innerHTML: res.value.toFixed(2),
 					style: {
@@ -686,7 +712,11 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				//TODO: add 'hasRes' check
 
 				var recipe = this.workshop.getCraft(res.name);
+				
+				//self-recovery hack to discard removed resources
+				//TODO: remove the reference from the res pool
 				if (!recipe){
+					res.value = 0;
 					continue;
 				}
 				

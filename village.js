@@ -120,6 +120,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				
 		//calculate production and happiness modifers	
 		this.updateHappines();
+		
+		var showFastHunt = (this.game.resPool.get("manpower").value >= 100);
+		$("#fastHuntContainer").toggle(showFastHunt);
 	},
 	
 	getFreeKittens: function(){
@@ -152,8 +155,28 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 * 
 	 * This method returns positive villager production that can be multiplied by building bonuses
 	 */ 
-	
 	getResProduction: function(){
+		if (!this.resourceProduction){
+			this.updateResourceProduction();	//lazy synch
+		}
+		var res = dojo.clone(this.resourceProduction);
+		
+		//special hack for ironwill mode
+		var zebras = this.game.resPool.get("zebras");
+		if (zebras.value > 0){
+			res["manpower"] = res["manpower"] ? res["manpower"] : 0;
+			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
+		}
+		
+		return res;
+	},
+	
+	/**
+	 * Get camulative resource production per village population
+	 */ 
+	updateResourceProduction: function(){
+		
+		var productionRatio = 0.25;	//fast access snippet for tweaking job profficiency
 		
 		var res = {
 		};
@@ -165,7 +188,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				if(job) {
 					for (jobResMod in job.modifiers){
 						// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
-						var diff = job.modifiers[jobResMod] * this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+						//TODO: move to the village manager
+						var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+						
+						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod-1) * productionRatio);
 						
 						if (diff > 0 ){
 							diff  = diff * this.happiness;	//alter positive resource production from jobs
@@ -180,14 +206,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				}
 			}
 		}
-		
-		//special hack for ironwill mode
-		var zebras = this.game.resPool.get("zebras");
-		if (zebras.value > 0){
-			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
-		}
-		
-		return res;
+		this.resourceProduction = res;
 	},
 	
 	/**
@@ -257,6 +276,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
 		
+		var happinessBonus = this.game.bld.getEffect("happiness");
+		happiness += happinessBonus;
+		
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
 		for (var i = 0; i < resources.length; i++){
@@ -274,6 +296,54 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		}
 		
 		this.happiness = happiness/100;
+	},
+	
+	
+	sendHunters: function(){
+		var fursVal = 0;
+		var ivoryVal = 0;
+
+		var furs = this.game.resPool.get("furs");
+		
+		
+		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
+		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
+		furs.value += fursVal; 
+		
+		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
+			var ivory = this.game.resPool.get("ivory");
+			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
+			
+			ivory.value += ivoryVal;
+		}
+		
+		if (this.rand(100) > 95){
+			var unicorns = this.game.resPool.get("unicorns");
+			unicorns.value += 1;
+			
+			this.game.msg("You got a unicorn!");
+		}
+		
+		var msg = "Your hunters have returned. +" + fursVal + " furs";
+		if (ivoryVal){
+			msg += ", +" + ivoryVal + " ivory";
+		}
+		this.game.msg( msg );
+	},
+	
+	huntAll: function(){
+		var mpower = this.game.resPool.get("manpower");
+		
+		var squads = Math.floor(mpower.value / 100);
+		mpower.value -= squads*100;
+		for(var i = 0; i< squads; i++){
+			this.sendHunters();
+		}
+		
+	},
+	
+	rand: function(val){
+		return this.game.rand(val);
 	}
 });
 
@@ -409,6 +479,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].job = job;
+			
+			this.game.village.updateResourceProduction();	//out of synch, refresh instantly
 		}else{
 			console.error("failed to assign job", job);
 		}
@@ -420,6 +492,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			
 			if (kitten.job == job){
 				kitten.job = null;
+				
+				this.game.village.updateResourceProduction();	//out of synch, refresh instantly
 				return;
 			}
 		}
@@ -790,6 +864,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return 9000
 		} else if (value < 20000){
 			return 20000;
+		} else {
+			return Number.MAX_VALUE;
 		}
 	},
 	
@@ -830,35 +906,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	sendHunterSquad: function(){
-		var fursVal = 0;
-		var ivoryVal = 0;
-
-		var furs = this.game.resPool.get("furs");
-		
-		
-		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
-		furs.value += fursVal; 
-		
-		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			var ivory = this.game.resPool.get("ivory");
-			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
-			
-			ivory.value += ivoryVal;
-		}
-		
-		if (this.rand(100) > 95){
-			var unicorns = this.game.resPool.get("unicorns");
-			unicorns.value += 1;
-			
-			this.game.msg("You got a unicorn!");
-		}
-		
-		var msg = "Your hunters have returned. +" + fursVal + " furs";
-		if (ivoryVal){
-			msg += ", +" + ivoryVal + " ivory";
-		}
-		this.game.msg( msg );
+		this.game.village.sendHunters();
 	},
 	
 	

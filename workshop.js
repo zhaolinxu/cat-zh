@@ -84,12 +84,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "science", val: 20000 },
-			{ name : "steel", val: 100 }
+			{ name : "steel", val: 75 }
 		],
 		unlocked: false,
 		researched: false,
 		handler: function(game){
 			//do nothing
+		}
+	},{
+		name: "steelSaw",
+		title: "Steel Saw",
+		description: "Improve Lumber Mill efficiency by 10%",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 52000 },
+			{ name : "steel", val: 1000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+			game.bld.get("lumberMill").effects["woodRatio"] = 0.11;
 		}
 	},{
 		name: "titaniumAxe",
@@ -200,15 +216,32 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			//do nothing
 		}
 	},{
+		name: "bolas",
+		title: "Bolas",
+		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
+		effects: {
+			"hunterRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 1000 },
+			{ name : "minerals", val: 250 },
+			{ name : "wood", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "huntingArmor",
 		title: "Hunting Armor",
 		description: "Hunters are 4 times as effective",
 		effects: {
-			"hunterRatio" : 3
+			"hunterRatio" : 2
 		},
 		prices:[
 			{ name : "science", val: 2000 },
-			{ name : "iron", val: 1000 }
+			{ name : "iron", val: 750 }
 		],
 		unlocked: false,
 		researched: false,
@@ -321,7 +354,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Steamwork converts small quantities of the resources to craftable tools",
+		description: "Steamwork converts small quantities of the resources to craftable tools when they are at the limit",
 		effects: {
 		},
 		prices:[
@@ -385,7 +418,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			"libraryRatio" : 0.02
 		},
 		prices:[
-			{ name : "titanium", val: 25 },
+			{ name : "titanium", val: 15 },
 			{ name : "starchart",  val: 25 },
 			{ name : "science",  val: 20000 },
 		],
@@ -465,16 +498,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		description: "Written document required for technological advancement",
 		prices:[
 			{name: "parchment", val: 25},
-			{name: "culture", val: 500}
+			{name: "culture", val: 400}
 		],
 		unlocked: true
 	},{
 		name: "compedium",
 		title: "Compedium",
-		description: "A summ of all modern knowlege of the catkind",
+		description: "A summ of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
 		prices:[
 			{name: "manuscript", val: 50},
-			{name: "science", val: 5000}
+			{name: "science", val: 10000}
 		],
 		unlocked: false
 	},
@@ -491,7 +524,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Trade Ship",
 		description: "Ships can be used to discover new civilizations. May improve chances of getting certain rare resources",
 		prices:[
-			{ name: "scaffold", val: 120 },
+			{ name: "scaffold", val: 100 },
 			{ name: "plate",    val: 150 },
 			{ name: "starchart", val: 25 }
 		],
@@ -507,6 +540,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: true
 	}],
+	
+	effectsBase: {
+		"scienceMax" : 0
+	},
 	
 	constructor: function(game){
 		this.game = game;
@@ -554,8 +591,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
 						
-						if (upgrade.unlocked && upgrade.handler){
-							upgrade.handler(this.game);	//just in case update tech effects
+						if (upgrade.researched && upgrade.handler){
+							upgrade.handler(this.game);	//just in case update workshop upgrade effects
 						}
 					}
 				}
@@ -586,6 +623,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	 */ 
 	getEffect: function(name){
 		var totalEffect = 0;
+		
+		if (this.effectsBase[name]){
+			totalEffect += this.effectsBase[name];
+		}
 		
 		for (var i = 0; i < this.upgrades.length; i++){
 			var upgrade = this.upgrades[i];
@@ -650,6 +691,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},
 	
 	update: function(){
+		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 	}
 });
 

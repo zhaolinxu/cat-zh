@@ -101,6 +101,45 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			//none
 		},
 		researched: false
+	},{
+		name: "goldenSpire",
+		label: "Golden Spire",
+		description: "Temples can generate 50% more max faith",
+		prices: [
+			{ name : "faith", val: 350 },
+			{ name : "gold",  val: 150 }
+		],
+		faith: 500,
+		effects: {
+			//none
+		},
+		researched: false
+	},{
+		name: "sunAltar",
+		label: "Sun Altar",
+		description: "Every temple will improve happiness by 0.5%",
+		prices: [
+			{ name : "faith", val: 500 },
+			{ name : "gold",  val: 250 }
+		],
+		faith: 750,
+		effects: {
+			//none
+		},
+		researched: false
+	},{
+		name: "stainedGlass",
+		label: "Stained Glass",
+		description: "Every temple will generate twice as much culture",
+		prices: [
+			{ name : "faith", val: 500 },
+			{ name : "gold",  val: 250 }
+		],
+		faith: 750,
+		effects: {
+			//none
+		},
+		researched: false
 	}],
 	
 	getZU: function(name){

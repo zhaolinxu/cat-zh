@@ -26,16 +26,15 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		visible: true
 	},{
-		name : "steel",
-		type : "common",
-		craftable: true,
-		visible: false,
-	},{
 		name : "titanium",
 		type : "common",
 		visible: true,
 	},{
 		name : "gold",
+		type : "common",
+		visible: true
+	},{
+		name : "oil",
 		type : "common",
 		visible: true
 	},
@@ -120,19 +119,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	// 				    CRAFT 
 	//=========================================
 	{
-		name : "gear",
-		type : "common",
-		craftable: true
-	},{
 		name : "beam",
-		type : "common",
-		craftable: true
-	},{
-		name : "scaffold",
-		type : "common",
-		craftable: true
-	},{
-		name : "ship",
 		type : "common",
 		craftable: true
 	},{
@@ -144,29 +131,50 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "gear",
+		type : "common",
+		craftable: true,
+		color: "gray"
+	},{
+		name : "scaffold",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "ship",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
 		name : "leather",
 		type : "common",
 		craftable: true
 	},{
 		name : "parchment",
 		type : "common",
-		craftable: true
-	},{
-		name : "paper",
-		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#DF01D7"
 	},{
 		name : "manuscript",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "compedium",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "megalith",
 		type : "common",
-		craftable: true
+		craftable: true,
+		color: "gray"
 	}],
 	
 	resources: null,
@@ -233,6 +241,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			res.value = res.value + resPerTick;
 			
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
+			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");

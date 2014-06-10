@@ -1,0 +1,65 @@
+v 0.7.0.1
+
+Every compedium will give a +10 bonus to the max science
+Raised science price of compediums from 5K to 10K
+
+Paragon points will improve your total production by 1%
+
+v 0.7.0.0
+
+Calciner: 
+Converts minerals and oil into iron and titanium [chemistry] 
+(120 stell, 5 titanium, 5 bp, 300 oil)
+-1.5 min, -0.012 oil, +0.001 titanium, +0.15 iron
+
+Changed Oil Well price to (50 steel, 25 gear, 25 scaffold)
+
+v 0.6.9.6
+
+Reduced Observatory price ratio from 1.15 to 1.10 and increased Slab price from 15 to 35
+Reduced Trade Ship scaffold price from 120 to 100
+
+Changed prices of Quarry to 50 scaffold, 150 steel, 1000 slab (prices may be reduced later)
+
+Steel Saw: improves lumber mull efffectiveness by 10%
+
+v.0.6.8.6
+
+Raised base faith output of the temples by 50%
+Trade ships will give 0.35% to the titanium proc instead of 0.035%
+Improved base titanium output from 1 to 1.5
+Reduced manuscripts culture price from 500 to 400
+Reduced manuscript prices of Astronomy and Navigation to 65 and 100 (from 75 and 150)
+
+v.0.6.8.5
+
+Religion: Golden Spire (+50% max faith per temple)
+Religion: Sun Altar (+0.5% happiness per temple)
+Religion: Stained Glass (doubles temple culture)
+
+Production buildings group was split into Production and Storage
+
+Quarry (50 Scaffold, 1000 Slab), +35% minerals ratio, +0.015 coal per tick [archeology]
+
+Oil Well (25 Scaffold, 100 Steel), 2500 max oil, +0.01 oil per tick [chemistry]
+
+'Tired' status will be cleared after very brief timeout
+Pritning press will give 0.00025 manuscript per tick (2 per year total) constantly instead of 0.5 per year
+
+Fixed astrolabe effect working even without purchased upgrade (not a nerf)
+Reduced titanum price of Titanium Reflectors from 25 to 15
+
+Craft resources will be highlighted for buildings
+
+v.0.6.7.5
+
+Trade ships will give 0.35% to the titanium drop chance
+Added Hunt All button
+Raised Mines coal output from 0.01 to 0.03
+Added color codes to craft resources
+
+v.0.6.7.4
+
+Hunting armor was split into two upgrades
+Bolas and Hunting Armor will increase mapowerMax to 400 and 1000 in ironwill
+Census skills wlll now contribute to the production rate
