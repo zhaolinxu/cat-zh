@@ -5,6 +5,8 @@ Raised science price of compediums from 5K to 10K
 
 Paragon points will improve your total production by 1%
 
+Zebras are now trading slabs to iron/plates instead of plates to coal/steel
+
 v 0.7.0.0
 
 Calciner: 

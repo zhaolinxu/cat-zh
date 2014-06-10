@@ -80,16 +80,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
-			{name: "plate", val: 25}
+			{name: "slab", val: 25}
 		],
 		sells:[
-			{name: "coal", value: 500, chance: 100, delta: 0.10, seasons:{
+			{name: "iron", value: 500, chance: 100, delta: 0.10, seasons:{
 				"spring": 1.05,
 				"summer": 1.15,
 				"autumn": 0.95,
 				"winter": 0.85
 			}},
-			{name: "steel", value: 5, chance: 75, delta: 0.25, seasons:{
+			{name: "plate", value: 5, chance: 75, delta: 0.25, seasons:{
 				"spring": 1.05,
 				"summer": 0.85,
 				"autumn": 1.05,
