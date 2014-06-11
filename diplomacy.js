@@ -80,16 +80,16 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
-			{name: "slab", val: 25}
+			{name: "slab", val: 50}
 		],
 		sells:[
-			{name: "iron", value: 500, chance: 100, delta: 0.10, seasons:{
-				"spring": 1.05,
+			{name: "iron", value: 300, chance: 100, delta: 0.08, seasons:{
+				"spring": 1.00,
 				"summer": 1.15,
-				"autumn": 0.95,
-				"winter": 0.85
+				"autumn": 0.90,
+				"winter": 0.80
 			}},
-			{name: "plate", value: 5, chance: 75, delta: 0.25, seasons:{
+			{name: "plate", value: 2, chance: 65, delta: 0.25, seasons:{
 				"spring": 1.05,
 				"summer": 0.85,
 				"autumn": 1.05,
@@ -187,7 +187,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		var zebras = this.get("zebras");
 		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
 			zebras.unlocked = true;	
-			this.game.workshop.get("сaravanserai").unlocked = true;
+			this.game.workshop.get("caravanserai").unlocked = true;
 			return zebras;
 		}
 		
@@ -354,7 +354,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var val = 25 +  spiceVal + spiceVal * self.game.bld.getEffect("tradeRatio");
 						
 						res.value += val;
-						self.game.msg("You've got " + val + " spice");
+						self.game.msg("You've got " + self.game.getDisplayValueExt(val) + " spice");
 					}
 					
 					//-------------- 10% change to get blueprint ---------------

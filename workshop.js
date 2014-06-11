@@ -534,8 +534,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",
 		prices:[
-			{ name: "slab", val: 25 },
-			{ name: "beam", val: 40 },
+			{ name: "slab", val: 75 },
+			{ name: "beam", val: 35 },
 			{ name: "plate", val: 5 }
 		],
 		unlocked: true

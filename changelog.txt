@@ -1,3 +1,13 @@
+v 0.7.0.2
+
+changed by Zusias:
+
+Pastures, Tradeposts and Amphitheatres will now give correct reduction effects with smother distribution curve.
+_
+
+Rebalanced ratio coefficients to grant the same distribution curve.
+Rebalanced prices of Harbors and Megaliths in favour of slabs
+
 v 0.7.0.1
 
 Every compedium will give a +10 bonus to the max science
@@ -62,6 +72,10 @@ Added color codes to craft resources
 
 v.0.6.7.4
 
+changed by Zusias:
+
+Census skills wlll now contribute to the production rate
+____
+
 Hunting armor was split into two upgrades
 Bolas and Hunting Armor will increase mapowerMax to 400 and 1000 in ironwill
-Census skills wlll now contribute to the production rate

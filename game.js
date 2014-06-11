@@ -562,7 +562,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		this._resourceDiv = dojo.byId("resContainer");
 		var season = this.calendar.getCurSeason();
 
-		//this._resourceDiv.innerHTML = "";	//oh heck no
 		dojo.empty(this._resourceDiv);
 		
 		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
@@ -594,9 +593,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				var tdResName = dojo.create("td", { 
 					innerHTML: res.name + ":"
 				}, tr);
-				
-				//console.log("Res:", res, res.type);
-				
+
 				if (res.type == "uncommon"){
 					dojo.setStyle(tdResName, "color", "Coral");
 				}
@@ -620,11 +617,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 				}
 				
 				var tdResPerTick = dojo.create("td", {
-					innerHTML: "(" + this.getDisplayValue(perTick, true) + ")",
-					style: {cursor:"pointer"}
+					innerHTML: perTick ? "(" + this.getDisplayValue(perTick, true) + ")" : "",
+					style: { cursor: perTick ? "pointer" : "default" }
 				}, tr);
 				
-				this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
+				if (perTick){
+					this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
+				}
 	
 				var tdSeasonMod = dojo.create("td", {}, tr);
 
@@ -870,7 +869,10 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var bldResRatio = this.bld.getEffect(res.name+"Ratio");
 		var relResRatio = this.religion.getEffect(res.name+"Ratio");
 		
-		var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+		//togglable structure effect (not affected by ratio modifers)
+		var bldResTogglableTick = this.bld.getEffect(res.name + "PerTick");
+		
+		//base structure effect (affected by all mods)
 		var bldResRatioTickBase = this.bld.getEffect(res.name + "PerTickBase");
 		
 		var perTick = bldResRatioTickBase;
@@ -878,7 +880,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			perTick = perTick * season.modifiers[res.name];
 		}
 
-		resString += "Base: " + this.getDisplayValue(perTick, this);
+		resString += "Base: " + this.getDisplayValue(bldResRatioTickBase, true); //plus prefix if positive income
+		
 		var resMod = this.village.getResProduction();
 		var resModConsumption = this.village.getResConsumption();
 		
@@ -886,9 +889,8 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		var kittensPlus = resMod[res.name] ? resMod[res.name] : 0;
 		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
 		
-		//res reduction
-		var useHypHack = (res.name != "catnip") ? true : false;
-		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyperbolic reduction on negative effects
+		//use hyperbolic reduction on all DemandRatio effects
+		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio", true);	
 		
 		
 		bldResRatio = bldResRatio ? bldResRatio : 0;
@@ -903,7 +905,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		
 		if (bldResRatio || relResRatio){
 			resString += "<br>Structures: " + 
-				this.getDisplayValue((bldResRatio+relResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResRatioTick), true);
+				this.getDisplayValue((bldResRatio+relResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResTogglableTick), true);
 		}
 		
 
@@ -912,8 +914,14 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 			resString += "<br>Season: " + ((season.modifiers[res.name]-1)*100) + "%";
 		}
 
-		if (kittensPlus + kittensMinus != 0){
+		/**if (kittensPlus + kittensMinus != 0){
 			resString += "<br>Kittens: " + this.getDisplayValue(kittensPlus + kittensMinus, true);
+		}**/
+		if (kittensPlus){
+			resString += "<br>Job output: " + this.getDisplayValue(kittensPlus, true);
+		}
+		if (kittensMinus){
+			resString += "<br>Demand: " + this.getDisplayValue(kittensMinus, true);
 		}
 
 		return resString;
@@ -956,7 +964,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 	 */
 	getDisplayValue: function(floatVal, plusPrefix){
 		var plusSign = "+";
-		if (floatVal < 0 || !plusPrefix){
+		if (floatVal <= 0 || !plusPrefix){
 			plusSign = "";
 		}
 		
