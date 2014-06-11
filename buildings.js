@@ -799,13 +799,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			 * TBD: some comment on why the heck we doing all those thingies
 			 * */
 			if (effect && val){
-				if (isHyperbolic && effect < 0){
-					//we do not handle positive effects couse whats the point
-					totalEffect -= this.getHyperbolicEffect(val, Math.abs(effect), 1.0);
-				} else {
-					totalEffect += effect * val;
-				}
+				totalEffect += effect * val;
 			}
+		}
+		
+		// Previously, catnip demand (or other buildings that both effected the same resource)
+		// could have theoretically had more than 100% reduction because they diminished separately, 
+		// this takes the total effect and diminishes it as a whole.
+		if(isHyperbolic && totalEffect < 0) {
+		  totalEffect = this.getHyperbolicEffect(totalEffect, 1.0);
 		}
 		
 		return totalEffect ? totalEffect : 0;
@@ -814,22 +816,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	/*
 	 * Returns a parabolic-aproaching value of the effect that heades to the limit, but unable to approach it completely
 	 */ 
-	getHyperbolicEffect: function(n, effect, limit){
+	getHyperbolicEffect: function(effect, limit){
+		effect = Math.abs(effect);
 		
-		var a = -0.75 * limit * 5;	//empiric formula giving hyp distribution of first 75% withing [0..15 iteration]
-		var k = 0.75
-		
-		if (!n){ return 0};
-		if ( n*effect <= k*limit){
-
-			var lerp_n = -a / (limit - k*limit);
-			var t = n / lerp_n;
-			
-			//console.log("t:", t, "lerp_n", lerp_n, "est:", (a/lerp_n)+limit);
-			return this.lerp(0, (a/lerp_n)+limit, t);
-			
+		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
+				
+		if (effect <= maxUndiminished) {
+			//Not high enough for diminishing returns to apply
+			return -effect;
 		}
-		return (a/n)+limit;
+		
+		var diminishedPortion = effect - maxUndiminished;
+		
+		var delta = .25; //Lower values will approach 1 more quickly.
+		
+		// The last 25% will approach .25 but cannot actually reach it
+		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25;
+		
+		var totalEffect = maxUndiminished+diminishedEffect;
+		
+		return  -totalEffect;
 	},
 	
 	lerp: function (v0, v1, t){
