@@ -9,7 +9,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "lizards",
 		title: "Lizards",
 		attitude: "friendly",	//neutral, friendly, agressive
-		standing: 0.15,			//chance of trade success, works differently based on attitude
+		standing: 0.25,			//chance of trade success, works differently based on attitude
 		unlocked: false,
 		buys: [
 			{name: "minerals", val: 1000}
@@ -31,7 +31,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			{name: "iron", val: 100}
 		],
 		sells:[
-			{name: "catnip", value: 50000, chance: 100, delta: 0.15, seasons:{
+			{name: "catnip", value: 35000, chance: 100, delta: 0.15, seasons:{
 				"spring": 1.20,
 				"summer": 0.95,
 				"autumn": 1.15,
