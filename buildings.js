@@ -193,7 +193,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		],
 		effects: {
 			"scienceRatio": 0.25,
-			"starEventChance": 5,
+			"starEventChance": 2.5,
 			"scienceMax" : 1000
 		},
 		priceRatio: 1.10,
@@ -868,12 +868,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		 * There may be some microperf tweaks, but let's keep it simple
 		 */ 
 		 if (this.game.ironWill){
-			 if (this.game.workshop.get("compositeBow").researched){
-				 this.game.bld.effectsBase["manpowerMax"] = 200;
+			 if (this.game.workshop.get("huntingArmor").researched){
+				 this.game.bld.effectsBase["manpowerMax"] = 1000;
 			 } else if (this.game.workshop.get("bolas").researched){
 				 this.game.bld.effectsBase["manpowerMax"] = 400;
-			 } else if (this.game.workshop.get("bolas").researched){
-				 this.game.bld.effectsBase["huntingArmor"] = 1000;
+			 } else if (this.game.workshop.get("compositeBow").researched){
+				 this.game.bld.effectsBase["manpowerMax"] = 200;
 			 }
 		 }
 	},
@@ -944,13 +944,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 						}
 						
 						bld.enabled = savedBld.enabled;
-						
-						/*for (var j = 0; j< bld.val; j++){
-							for( var k = 0; k < bld.prices.length; k++){
-								var price = bld.prices[k];
-								price.val = price.val * bld.priceRatio;
-							}
-						}*/
+
 					}
 			}
 		}

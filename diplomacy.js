@@ -315,7 +315,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					var standingRatio = self.game.bld.getEffect("standingRatio");
 					standingRatio = standingRatio ? standingRatio : 0;
 					
-					if (race.attitude == "hostile" && self.rand(100) + standingRatio >= race.standing * 100){
+					if (race.attitude == "hostile" && self.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 						self.game.msg( race.title + " hate you for no reason");
 						return;
 					}

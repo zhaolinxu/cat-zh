@@ -84,7 +84,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewDay: function(){
 		var self = this;
 
-		var chance = 5;					//0.5% of event per day
+		var chance = 2.5;					//0.25% of event per day
 		chance += this.game.bld.getEffect("starEventChance");
 		
 		if (this.game.rand(1000) < chance && 

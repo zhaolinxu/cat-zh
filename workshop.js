@@ -253,7 +253,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Caravanserai",
 		description: "Your tradeposts have a very minor effect on race standing",
 		effects: {
-			"standingRatio" : 0.5	//0.5% per tradepost
+			"standingRatio" : 0.35	//0.5% per tradepost
 		},
 		prices:[
 			{ name : "science", val: 25000 },
@@ -401,7 +401,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "titanium", val: 5 },
-			{ name : "starchart",  val: 150 },
+			{ name : "starchart",  val: 75 },
 			{ name : "science",  val: 25000 },
 		],
 		unlocked: false,
@@ -419,7 +419,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		},
 		prices:[
 			{ name : "titanium", val: 15 },
-			{ name : "starchart",  val: 25 },
+			{ name : "starchart",  val: 20 },
 			{ name : "science",  val: 20000 },
 		],
 		unlocked: false,
@@ -890,17 +890,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			handler: function(btn){
 				upgrade.researched = true;
 
-				/*if (upgrade.unlocks && upgrade.unlocks.length){
-					for (var i = 0; i < upgrade.unlocks.length; i++){
-						//var newTech = btn.getTechByName(tech.unlocks[i]);
-						//newTech.unlocked = true;
-					}
-				}*/
-				
 				if (upgrade.handler){
 					upgrade.handler(self.game);
 				}
-				
 			},
 			prices: upgrade.prices,
 			description: upgrade.description,
