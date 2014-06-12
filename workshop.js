@@ -9,7 +9,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		{
 		name: "mineralHoes",
 		title: "Mineral Hoes",
-		description: "Improved hoes providing permanent +50% catnip production boost",
+		description: "Your farmers are 50% more effective",
 		effects: {
 			"catnipRatio" : 0.5
 		},
@@ -26,7 +26,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "ironHoes",
 		title: "Iron Hoes",
-		description: "Improved hoes providing permanent +30% catnip production boost",
+		description: "Your farmers are 30% more effective",
 		effects: {
 			"catnipRatio" : 0.3
 		},
@@ -45,7 +45,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	{
 		name: "mineralAxes",
 		title: "Mineral Axe",
-		description: "Improved version of a stone axes providing permanent +70% wood production boost",
+		description: "Woodcutters are 70% more effective",
 		effects: {
 			"woodRatio" : 0.7
 		},
@@ -62,7 +62,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "ironAxes",
 		title: "Iron Axe",
-		description: "Improved version of axes providing permanent +50% wood production boost",
+		description: "Woodcutters are 50% more effective",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -78,7 +78,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "steelAxe",
 		title: "Steel Axe",
-		description: "Very sharp and durable axes providing +50% wood production boost",
+		description: "Very sharp and durable axes. Woodcutters are 50% more effective",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -110,7 +110,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "titaniumAxe",
 		title: "Titanium Axe",
-		description: "Indestructable axes providing +50% wood production boost",
+		description: "Indestructable axes. Woodcutters are 50% more effective.",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -253,7 +253,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Caravanserai",
 		description: "Your tradeposts have a very minor effect on race standing",
 		effects: {
-			"standingRatio" : 0.35	//0.5% per tradepost
+			"standingRatio" : 0.35	//0.35% per tradepost
 		},
 		prices:[
 			{ name : "science", val: 25000 },
