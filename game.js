@@ -3,7 +3,14 @@
  * 
  */
  
-//dummy workaround with ie9 local storage :V
+/**
+ * Workaround for ie9 local storage :V
+ * 
+ * This fix is intended for IE in general and especially for IE9, 
+ * where localStorage is defined as system variable.
+ * 
+ */ 
+
 window.LCstorage = window.localStorage;
 if (document.all && !window.localStorage)
 {
@@ -37,7 +44,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
+/**
+ * Main game class, available globably as 'gamePage' variable
+ */ 
+
+dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	id: null,
 	
@@ -672,7 +683,6 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 		
 		this._craftDiv = dojo.byId("craftContainer");
-		//this._craftDiv.innerHTML = "";
 		dojo.empty(this._craftDiv);
 
 		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._craftDiv);
@@ -690,6 +700,7 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					dojo.addClass(tr, "highlited");
 				}
 				
+				//------ resource name --------
 				var tdResName = dojo.create("td", { 
 					innerHTML: res.title ? res.title : res.name + ":",
 					style: {
@@ -701,13 +712,13 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 					dojo.setStyle(tdResName, "color", res.color);
 				}
 				
-				dojo.create("td", { innerHTML: res.value.toFixed(2),
+				//------ resource count --------
+				dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
 					style: {
-						width: "50px"
+						width: "75px"
 					}}, tr);
 				
 				//sort of hack to override regeneration bug
-				
 				//TODO: add 'hasRes' check
 
 				var recipe = this.workshop.getCraft(res.name);
@@ -780,14 +791,22 @@ dojo.declare("com.nuclearunicorn.game.ui.gamePage", null, {
 		}
 	},
 	
-	craft: function(res, value){
-		this.workshop.craft(res, value);
+	craft: function(resName, value){
+		this.workshop.craft(resName, value);
 		this.updateCraftResources();
 		this.updateResources();
 	},
 	
-	craftAll: function(res){
-		this.workshop.craftAll(res);
+	craftAll: function(resName){
+
+		// some way to protect people from refining all catnip during the winter
+		if (resName == "wood" && this.getResourcePerTick("catnip", true) <= 0){
+			if (!confirm("Are you sure? Your kittens will DIE")){
+				return;
+			}
+		}
+		
+		this.workshop.craftAll(resName);
 		this.updateCraftResources();
 		this.updateResources();
 	},

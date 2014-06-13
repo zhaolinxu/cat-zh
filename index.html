@@ -114,6 +114,10 @@
 				textShadow: 1px 0px 10px Coral;
 			}
 			
+			.btn .noRes {
+				color: #FF3030;
+			}
+			
 			.spacer {
 				border-bottom: 1px solid gray;
 				margin-bottom: 12px;
@@ -194,7 +198,7 @@
 		
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
-				gamePage = new com.nuclearunicorn.game.ui.gamePage("gameContainerId");
+				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
 				gamePage.load();
 				
 				gamePage.updateKarma();
@@ -300,7 +304,7 @@
 					<a href="#" onclick="dev();" >#</a> |
 					<a href="#" onclick="wipe();" >Wipe</a> |
 					
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.7.0.2</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.7.0.3</a>
 
 				</div>
 			</div>
@@ -316,7 +320,7 @@
 					Minor 0: 
 						- N/A
 						
-					Rev: 2
+					Rev: 3
 						Paragons
 						Compedium bonus
 						

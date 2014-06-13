@@ -299,7 +299,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "archeology",
 		title: "Archeology",
-		description: "TBD",
+		description: "Archaeology reveals the historical and cultural value of ancient artifacts",
 		effectDesc: "Unlocks Quarrys",
 		unlocked: false,
 		researched: false,

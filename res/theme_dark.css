@@ -28,6 +28,10 @@
 	color: #565655
 }
 
+.scheme_dark .button_tooltip div {
+	color: #dcdcdc;
+}
+
 .scheme_dark table {
 	color: #dcdcdc;
 }
@@ -43,5 +47,9 @@
 
 .scheme_dark .maxRes {
 	color: #555;
+}
+
+.scheme_dark .btn .noRes {
+	color: #CF6060;
 }
 			

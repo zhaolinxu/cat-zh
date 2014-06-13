@@ -371,13 +371,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "calciner",
 		label: "Calciner",
-		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.01 oil per tick. Produces 0.15 iron and a small amount of titanium",
+		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces 0.15 iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
 		prices: [
 			{ name : "steel", val: 120 },
-			{ name : "titanium",  val: 5 },
+			{ name : "titanium",  val: 15 },
 			{ name : "blueprint",  val: 5 },
 			{ name : "oil",  val: 3000 }
 		],
@@ -390,8 +390,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 			"mineralsPerTick" : -1.5,
 			"ironPerTick" : 0.15,
-			"titaniumPerTick" : 0.001,
-			"oilPerTick" : -0.012	//base + 0.01
+			"titaniumPerTick" : 0.0005,
+			"oilPerTick" : -0.024	//base + 0.01
 		},
 		action: function(self, game){
 			if (!self.enabled && self.togglable){
@@ -526,7 +526,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "oilWell",
 		label: "Oil Well",
-		description: "Produces 0.01 oil per tick, +2500 to maximum oil limit",
+		description: "Produces 0.02 oil per tick, +1500 to maximum oil limit",
 		unlocked: false,
 		prices: [
 			{name : "steel", val: 50},
@@ -534,8 +534,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			{name : "scaffold", val: 25}
 		],
 		effects: {
-			"oilMax" : 2500,
-			"oilPerTickBase" : 0.01
+			"oilMax" : 1500,
+			"oilPerTickBase" : 0.02
 		},
 		priceRatio: 1.15,
 		handler: function(btn){},

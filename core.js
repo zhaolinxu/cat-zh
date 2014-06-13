@@ -13,10 +13,15 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
 });
 
 /**
- * A base class for every tab manager component like science, village, bld, etc */
+ * A base class for every tab manager component like science, village, bld, etc 
+ * Ideally every manager should be a sublcass of a TabManager. See reference implementation in the religion.js
+ */
 dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
 		
-	
+	/**
+	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
+	 * Replacement for getEffect() method
+	 */ 
 	getMetaEffect: function(name, metadata){
 		var totalEffect = 0;
 		
@@ -62,12 +67,20 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			}
 		}
 	}
+	
+	//TODO: add saveMetadata
 
 });
 
-
+/**
+ * Simple class from a right-sided console in the game UI
+ */ 
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
+		
+		/**
+		 * Prints message in the console. Returns a DOM node for the last created message
+		 */ 
 		msg : function(message){
 			var gameLog = dojo.byId("gameLog");
 			
@@ -182,17 +195,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		this.setEnabled(isEnabled);
 	},
 	
+	updateVisible: function(){
+		//do nothing
+	},
+	
 	hasResources: function(){
 		var hasRes = true;
 		var prices = this.getPrices();
 		
 		return this.game.resPool.hasRes(prices);
 	},
-	
-	updateVisible: function(){
-		//do nothing
-	},
-	
+
 	update: function(){
 		this.updateEnabled();
 		this.updateVisible();
@@ -200,12 +213,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		if (this.buttonTitle){
 			this.buttonTitle.innerHTML = this.getName();
 		}
+		
+		this.updatePrices();
 	},
 
 	getPrices: function(){
 		return this.prices;
 	},
 	
+	/**
+	 * Deprecated method for price managment (increeses price property stored in button)
+	 */ 
 	adjustPrice:function( ratio ){
 		var prices = this.getPrices();
 		if (prices.length){
@@ -219,6 +237,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		this.game.render();
 	},
 	
+	/**
+	 * Deprecated method for price managment (same as above, but decreeses price on sale)
+	 */ 
 	rejustPrice: function( ratio){
 		var prices = this.getPrices();
 		if (prices.length){
@@ -257,6 +278,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		return this.name;
 	},
 	
+	/**
+	 * Renders button. Method is usually called once the tab is created.
+	 */ 
 	render: function(btnContainer){
 		var self = this;
 		
@@ -333,12 +357,20 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 				
 				padding: 	"5px",
 				position:   "absolute",
-				/*left: "110px",
-				top: "35px",*/
+				
 				left: "170px",
 				top: "-1px",
+				
 				width: "120px"
+				
 			}}, this.domNode);
+			
+			/**
+			 * Create prices tooltip and store it inside of the button DOM node
+			 */ 
+			 
+			 
+			var tooltipPricesNodes = []; 
 			
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
@@ -349,16 +381,36 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 						}
 					}, tooltip); 
 				
-				dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-				dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
+				var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
+				var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
+				
+				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
 			}
 
 			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });
 			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
 			
 			this.tooltip = tooltip;
+			this.tooltipPricesNodes = tooltipPricesNodes;
 		}
+	},
+	
+	/**
+	 * Basically paints prices in red color if have not enough resoruces
+	 * SLOOOOOW LIKE HELL
+	 */ 
+	updatePrices: function(){
+		if (!this.tooltipPricesNodes) { return; }
 		
+		var prices = this.getPrices();
+		
+		for (var i = 0; i< prices.length; i++){
+			
+			var res = this.game.resPool.get(prices[i].name);
+			var hasRes = (res.value < prices[i].val);
+			
+			dojo.toggleClass( this.tooltipPricesNodes[i]["price"], "noRes", hasRes);
+		}
 	}
 });
 

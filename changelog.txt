@@ -1,3 +1,8 @@
+v 0.7.0.3
+
+Red prices in tolltips
+Alert for catnip craft
+
 v 0.7.0.2
 
 changed by Zusias:
