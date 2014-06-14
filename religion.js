@@ -64,14 +64,30 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "ivoryTower",
 		label: "Ivory Tower",
-		description: "Improves your unicorns generation by 10%, other effects TBD",
+		description: "Improves your unicorns generation by 10%, unlocks Unicorn Rifts",
 		prices: [
 			{ name : "ivory", val: 5000 },
 			{ name : "tears", val: 25 }
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 0.1
+			"unicornsRatio" : 0.1,
+			"riftChance" : 5	//
+		},
+		val: 0,
+		unlocked: true
+	},{
+		name: "ivoryCitadel",
+		label: "Ivory Citadel",
+		description: "Improves your unicorns generation by 25%, summons Ivory Meteors",
+		prices: [
+			{ name : "ivory", val: 25000 },
+			{ name : "tears", val: 50 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"unicornsRatio" : 0.25,
+			"ivoryMeteorChance" : 5
 		},
 		val: 0,
 		unlocked: true

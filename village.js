@@ -646,6 +646,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			var job = this.game.village.jobs[i];
 			
 			var btn = this.createJobBtn(job, this.game);
+			
+			btn.updateEnabled();
+			btn.updateVisible();
+			
 			btn.render(jobsPanelContainer);
 			this.addButton(btn);
 		}
@@ -675,6 +679,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//----------------- happiness and things ----------------------
 		
 		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Resources");
+		if (this.game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0){
+			this.statisticsPanel.setVisible(false);
+		}
 		var statPanelContainer = this.statisticsPanel.render(tabContainer);
 		
 		var advVillageTable = dojo.create("table", { style: {
@@ -709,6 +716,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//--------------- bureaucracy ------------------
 		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
 		this.bureaucracyPanel.collapsed = true;
+		if (!this.game.science.get("civil").researched){
+			this.bureaucracyPanel.setVisible(false);
+		}
 		
 		this.bureaucracyPanelContainer = this.bureaucracyPanel.render(tabContainer);
 	},

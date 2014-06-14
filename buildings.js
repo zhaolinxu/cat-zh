@@ -193,7 +193,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		],
 		effects: {
 			"scienceRatio": 0.25,
-			"starEventChance": 2.5,
+			"starEventChance": 25,
 			"scienceMax" : 1000
 		},
 		priceRatio: 1.10,
@@ -703,13 +703,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 		},
 		priceRatio: 1.25,
+		unlockRatio: 0.05,	//5% of resources required to unlock building instead of default 30
 		handler: function(btn){
 		},
 		val: 0,
 		requiredTech: ["construction"],
 		canUpgrade: true
 	}
-	
 	
 	],
 	
@@ -884,9 +884,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		if (building.prices.length && !building.ignorePriceCheck){
 			for( var i = 0; i < building.prices.length; i++){
 				var price = building.prices[i];
+				
+				var unlockRatio = 0.3;
+				if (building.unlockRatio){
+					unlockRatio = building.unlockRatio;
+				}
 
 				var res = this.game.resPool.get(price.name);
-				if (res.value / 0.3 < price.val){	// 30% required to unlock structure
+				if (res.value < price.val * unlockRatio){	// 30% required to unlock structure
 					isEnabled = false;
 					break;
 				}

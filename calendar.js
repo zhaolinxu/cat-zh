@@ -81,13 +81,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 	
+	/*
+	 * All daily chances are in 1/10K units (OPTK) (0.0X%)
+	 */ 
 	onNewDay: function(){
 		var self = this;
 
-		var chance = 2.5;					//0.25% of event per day
+		var chance = 25;					//25 OPTK of event per day	(0.25%)
 		chance += this.game.bld.getEffect("starEventChance");
 		
-		if (this.game.rand(1000) < chance && 
+		if (this.game.rand(10000) < chance && 
 			this.game.bld.get("library").val > 0){
 
 			dojo.destroy(this.observeBtn);
@@ -136,9 +139,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		
 		var baseChance = 10;
-		if (this.iceage >=3){
+		/*if (this.iceage >=3){
 			baseChance = 3;
-		}
+		}*/
 		
 		if (this.game.rand(10000) < (baseChance + iwChance) && 
 			this.game.science.get("mining").researched){	//0.1% chance of metheors
@@ -179,7 +182,27 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 		
-		$("#iceage").toggle(this.iceage >= 3);
+		//$("#iceage").toggle(this.iceage >= 3); //ONE DAY
+		
+		//TODO: maybe it is a good idea to start moving daily events to json metadata
+		//-------------------------  -------------------
+		
+		var riftChance = 0 + this.game.religion.getEffect("riftChance");	//5 OPTK
+		if (this.game.rand(10000) < riftChance){
+			this.game.msg("A rift to Unicorn Dimension has opened in your village, +500 unicorns!");
+			
+			this.game.resPool.get("unicorns") += 500;
+		}
+		
+		// -------------- ivory meteors ---------------
+		var meteorChance = 0 + this.game.religion.getEffect("ivoryMeteorChance");	//5 OPTK
+		if (this.game.rand(10000) < meteorChance){
+			
+			var ivory = 250 + this.game.rand(1500);
+			this.game.msg("Ivory Meteor fell near the village, + "+ ivory.toFixed() +" ivory!");
+			
+			this.game.resPool.get("ivory") += ivory;
+		}
 	},
 	
 	onNewSeason: function(){
