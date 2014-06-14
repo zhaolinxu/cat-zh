@@ -897,7 +897,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				}
 			}
 		}
-		
+
 		if (!this.isTechUnlocked(building)){
 			isEnabled = false;
 		}
@@ -1373,7 +1373,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 						self.game.resPool.get("catnip").value++;
 						self.game.updateResources();
 					 },
-			description: "Gathere some catnip in the wood"
+			description: "Gather some catnip in the wood"
 		}, this.game);
 		this.addButton(btn);
 		btn.render(container);
