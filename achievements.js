@@ -76,14 +76,22 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			return (this.game.deadKittens >= 10);
 		},
 		unlocked: false
-	},
-	{
+	},{
 		name: "youMonster",
 		title: "You Monster",
 		unethical: true,
 		description: "Poor kittens.",
 		condition: function(){
 			return (this.game.deadKittens >= 100);
+		},
+		unlocked: false
+	},{
+		name: "superUnethicalClimax",
+		title: "Super Unethical Reality Climax",
+		unethical: true,
+		description: "Cheat the laws of space and time.",
+		condition: function(){
+			return (this.game.cheatMode);
 		},
 		unlocked: false
 	},{
@@ -94,8 +102,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			return (this.game.resPool.get("karma").value >= 1);
 		},
 		unlocked: false
-	},
-	{
+	},{
 		name: "serenity",
 		title: "Serenity",
 		description: "Have 50 kittens without losing any of them",

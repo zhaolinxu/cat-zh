@@ -103,7 +103,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	ironWill: true,
 	
 	gatherTimeoutHandler: null,
-	gatherClicks: 0,	//yes, I do love to annoy people
+	gatherClicks: 0,	//yes, I do love to annoy people,
+	
+	cheatMode: false,	//>:
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -206,7 +208,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaKittens: this.karmaKittens,
 			paragonPoints: this.paragonPoints,
 			ironWill : this.ironWill,
-			deadKittens: this.deadKittens
+			deadKittens: this.deadKittens,
+			cheatMode: this.cheatMode
 		};
 		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
@@ -303,7 +306,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints = (data.paragonPoints !== undefined) ? data.paragonPoints : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
-			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : true;
+			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
+			
+			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			
 			this.updateOptionsUI();
 		}

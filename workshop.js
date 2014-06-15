@@ -466,7 +466,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "furs", val: 50}
 		],
-		unlocked: true
+		unlocked: false
 	},{
 		name: "steel",
 		title: "Steel",
@@ -474,7 +474,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
 		],
-		unlocked: true
+		unlocked: false
 	},{
 		name: "alloy",
 		title: "Alloy",
@@ -499,7 +499,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{name: "leather", val: 5}
 		],
-		unlocked: true
+		unlocked: false
 	},
 	{
 		name: "manuscript",
@@ -614,7 +614,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 					
 					if (savedCraft != null){
 						var craft = this.game.workshop.getCraft(savedCraft.name);
-						if (craft){
+						if (craft && !craft.unlocked){					// a little hack to make autounlockable recipes work with old saves
 							craft.unlocked = savedCraft.unlocked;
 						}
 					}
@@ -766,12 +766,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
 		
-		/*if (craft.unlocked){	//TBD
+		if (craft.unlocked){	//TBD
 			this.setVisible(true);
 		}else{
 			this.setVisible(false);
-		}*/
-		this.setVisible(true);
+		}
 	}
 });
 

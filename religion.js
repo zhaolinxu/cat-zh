@@ -159,7 +159,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "solarRevolution",
 		label: "Solar Revolution",
-		description: "Accamulated faith will give a small boost to resource production.",
+		description: "Accumulated faith will give a small boost to resource production.",
 		prices: [
 			{ name : "faith", val: 750 },
 			{ name : "gold",  val: 500 }

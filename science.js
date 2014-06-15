@@ -85,7 +85,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocked: false,
 		researched: false,
 		cost: 500,	//mostly does nothing, so pirce is lower
-		unlocks: ["civil", "math", "construction", "brewery"]
+		unlocks: ["civil", "math", "construction", "brewery"],
+		handler: function(game){
+			game.workshop.getCraft("leather").unlocked = true;
+		}
 		
 	},{
 		name: "brewery",
@@ -170,6 +173,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 3600,
 		unlocks: ["philosophy", "machinery", "steel"],
 		handler: function(game){
+			game.workshop.getCraft("parchment").unlocked = true;
 		}
 	},{
 		name: "philosophy",
@@ -209,6 +213,9 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 12000,
 		unlocks: [],
 		handler: function(game){
+			
+			game.workshop.getCraft("steel").unlocked = true;
+			
 			game.workshop.get("deepMining").unlocked = true;
 			game.workshop.get("coalFurnace").unlocked = true;
 			game.workshop.get("combustionEngine").unlocked = true;

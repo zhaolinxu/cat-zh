@@ -104,7 +104,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				value: "Observe"
 			}, node);
 			
-			dojo.connect(this.observeBtn, "onclick", this, function(){
+			dojo.connect(this.observeBtn, "onclick", this, function(event){
+
+				if (!event.clientX || !event.clientY){
+					//>:
+					this.game.cheatMode = true;
+				}
 				
 				dojo.destroy(this.observeBtn);
 				this.observeBtn = null;
