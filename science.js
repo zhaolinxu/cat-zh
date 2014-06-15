@@ -295,6 +295,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.getCraft("alloy").unlocked = true;	//TODO: replace with workshop.unlockCraft("alloy");
 		}
 	},{
 		name: "archeology",

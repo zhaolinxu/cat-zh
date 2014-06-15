@@ -156,6 +156,19 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			//none
 		},
 		researched: false
+	},{
+		name: "solarRevolution",
+		label: "Solar Revolution",
+		description: "Accamulated faith will give a small boost to resource production.",
+		prices: [
+			{ name : "faith", val: 750 },
+			{ name : "gold",  val: 500 }
+		],
+		faith: 1000,
+		effects: {
+			//none
+		},
+		researched: false
 	}],
 	
 	getZU: function(name){
@@ -181,6 +194,16 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		var reff = this.getReligionEffect(name);
 
 		return zeff+reff;
+	},
+	
+	/*
+	 * Get a total production bonus unlocked by a Solar Revolution
+	 */ 
+	getProductionBonus: function(){
+		var stripe = 1000;
+		var rate = (Math.sqrt(1+8 * this.faith / stripe)-1)/2;
+		
+		return rate;
 	}
 
 });
@@ -205,7 +228,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	
 	updateVisible: function(){
 		var upgrade = this.getBuilding();
-		return ( this.game.religion.faith >= upgrade.faith );
+		var isVisible = ( this.game.religion.faith >= upgrade.faith );
+		
+		this.setVisible(isVisible);
 	},
 	
 	updateEnabled: function(){
@@ -274,6 +299,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					}
 				}, this.game);
 				
+				button.updateVisible();
+				button.updateEnabled();
+				
 				button.render(content);
 				this.zgUpgradeButtons.push(button);
 			}
@@ -314,18 +342,27 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				}
 			}, this.game);
 			
+			button.updateVisible();
+			button.updateEnabled();
+			
 			button.render(content);
 			this.rUpgradeButtons.push(button);
 		}
 	},
 	
 	update: function(){
+		
+		var religion = this.game.religion;
+		
 		if (this.sacrificeBtn){
 			this.sacrificeBtn.update();
 		}
 		var faith = this.game.religion.faith;
 		if (faith && this.faithCount){
-			this.faithCount.innerHTML = "Total faith: " + this.game.religion.faith.toFixed();
+			this.faithCount.innerHTML = "Total faith: " + religion.faith.toFixed();
+		}
+		if (religion.getRU("solarRevolution").researched){
+			this.faithCount.innerHTML += ( " (+" + religion.getProductionBonus().toFixed() + "%)" );
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });

@@ -494,6 +494,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		perTick += perTick * this.resPool.get("paragon").value * 0.01;		//whoever reading this: expect paragon effect to be nerfed
 		
+		//---------  FAITH BONUS --------------
+		if (this.religion.getRU("solarRevolution").researched){
+			perTick += perTick * (this.religion.getProductionBonus() / 100);
+		}
+		
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();
@@ -1057,9 +1062,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var msg = "Are you sure you want to reset? You will save your achievemenets and karma points.";
 		if (this.resPool.get("kittens").value > 70){
-			msg = "Are you sure you want to reset? You will recieve extra carma and paragon points.";
+			msg = "Are you sure you want to reset? You will recieve extra karma and paragon points.";
 		}else if (this.resPool.get("kittens").value > 60){
-			msg = "Are you sure you want to reset? You will recieve extra carma points.";
+			msg = "Are you sure you want to reset? You will recieve extra karma points.";
 		}else if (this.resPool.get("kittens").value <= 35){
 			msg = "Are you sure you want to reset? You will recieve NO KARMA POINTS. You will save old karma points and achievements.";
 		}
@@ -1073,7 +1078,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		if (this.resPool.get("kittens").value > 60){
-			this.karmaKittens += (this.resPool.get("kittens").value - 60)*4;
+			this.karmaKittens += (this.resPool.get("kittens").value - 60)*3;
 		}
 		
 		if (this.resPool.get("kittens").value > 70){

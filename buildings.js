@@ -1053,11 +1053,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		var building = this.getBuilding();
 		if (building && building.val){
 			if (!this.sellHref){
-				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell", style:{
-						paddingLeft: "4px",
-						float: "right",
-						cursor: "pointer"
-					}}, null);
+				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
+						title: "Sell building for 50% of the price",
+						style:{
+							paddingLeft: "4px",
+							float: "right",
+							cursor: "pointer"}
+						}, null);
 					
 				dojo.connect(this.sellHref, "onclick", this, function(event){
 					event.stopPropagation();

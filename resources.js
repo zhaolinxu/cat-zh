@@ -101,6 +101,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "rare",
 		visible: true
 	},{
+		name : "alicorns",
+		type : "rare",
+		visible: true
+	},{
 		name : "tears",
 		type : "rare",
 		visible: true
@@ -113,6 +117,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		visible: true,
 		color: "#6141CD"
+	},{
+		name : "time crystals",
+		type : "common",
+		visible: true,
+		color: "#14CD61"
 	},
 	
 	//=========================================
@@ -132,6 +141,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true
 	},{
 		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "alloy",
 		type : "common",
 		craftable: true,
 		visible: false,

@@ -1,3 +1,10 @@
+v 0.7.2.3
+
+Solar Revolution
+Alloy
+
+Fixed religion buttons always visible regardless of the faith pool
+
 v 0.7.1.3
 
 Ivory Citadel
