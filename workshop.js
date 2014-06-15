@@ -478,7 +478,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "alloy",
 		title: "Alloy",
-		description: "A durable alloy of steel and titanium. Required for advanced buildings.",
+		description: "A durable alloy of steel and titanium. Required for advanced buildings. TBD.",
 		prices:[
 			{name: "steel", val: 75},
 			{name: "titanium", val: 5}

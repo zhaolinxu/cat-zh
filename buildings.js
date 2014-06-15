@@ -538,6 +538,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"oilPerTickBase" : 0.02
 		},
 		priceRatio: 1.15,
+		ignorePriceCheck: true,
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["chemistry"],
