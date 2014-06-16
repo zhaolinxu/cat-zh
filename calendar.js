@@ -104,12 +104,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				value: "Observe"
 			}, node);
 			
-			dojo.connect(this.observeBtn, "onclick", this, function(event){
+			var observeHandler = function(event, ironwill){
 
-				if (!event.clientX || !event.clientY){
+				if ((!event.clientX || !event.clientY) && !ironwill){
 					//>:
 					this.game.cheatMode = true;
+					if (this.game.rand(100) < 99){
+						return;
+					}
 				}
+
 				
 				dojo.destroy(this.observeBtn);
 				this.observeBtn = null;
@@ -125,15 +129,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					this.game.msg("You've made a star chart!");
 					diagram.value +=1;
 				}
-			});
+			}
+			
+			dojo.connect(this.observeBtn, "onclick", this, observeHandler);
 
-			var seconds = 45;
+			var seconds = 60;
 			var timeout = setInterval(function(){
 				
 				dojo.destroy(self.observeBtn);
 				self.observeBtn = null;
 				
 				window.clearInterval(timeout);
+
+				if(self.game.ironWill && (self.game.rand(100) < 25)){	//25% of autofiring?
+					dojo.hitch(self, observeHandler)({}, true);
+				}
+				
 			}, seconds * 1000);
 		}
 		

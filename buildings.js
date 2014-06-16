@@ -210,7 +210,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		],
 		effects: {
 			"scienceRatio": 0.25,
-			"starEventChance": 25,
+			"starEventChance": 20,
 			"scienceMax" : 1000
 		},
 		priceRatio: 1.10,

@@ -285,9 +285,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
-			game.workshop.get("pneumaticPress").unlocked = true;
-			game.workshop.get("pyrolysis").unlocked = true;
-			game.workshop.get("steelSaw").unlocked = true;
+
 		}
 	},{
 		name: "physics",
