@@ -16,7 +16,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "population",
 		title: "Population",
-		buildings: ["hut", "logHouse"]
+		buildings: ["hut", "logHouse", "mansion"]
 	},{
 		name: "science",
 		title: "Science",
@@ -131,6 +131,23 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		priceRatio: 1.15,
 		requiredTech: ["construction"],
+		handler: 	function(btn){
+			btn.game.ironWill = false;
+		},
+		val: 0
+	},{
+		name: "mansion",
+		label: "Mansion",
+		description: "A spacy mansion (each has a space for 1 kittens)  +50 to the max manpower",
+		unlocked: false,
+		prices: [{ name : "slab", val: 200 }, { name : "steel", val: 100 }, { name : "titanium", val: 1 }],
+		effects: {
+			"maxKittens" : 1,
+			"manpowerMax": 50
+		},
+		priceRatio: 1.15,
+		ignorePriceCheck: true,
+		requiredTech: ["architecture"],
 		handler: 	function(btn){
 			btn.game.ironWill = false;
 		},

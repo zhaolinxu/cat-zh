@@ -87,9 +87,9 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		unlocked: false
 	},{
 		name: "superUnethicalClimax",
-		title: "Super Unethical Reality Climax",
+		title: "Super Unethical Climax",
 		unethical: true,
-		description: "Cheat the laws of space and time.",
+		description: "Cheat your way through the game.",
 		condition: function(){
 			return (this.game.cheatMode);
 		},
@@ -180,7 +180,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 		for (var i = 0; i< this.game.achievements.achievements.length; i++){
 			var ach = this.game.achievements.achievements[i];
 			if (ach.unlocked){
-				div.innerHTML += "<span class='achievement' style='cursor:pointer' title= '" + ach.description + "'>" + ach.title + "</span>";
+				var unethicalClass = ach.unethical ? "unethical" : "";
+				div.innerHTML += "<span class='achievement " + unethicalClass + "' style='cursor:pointer' title= '" + ach.description + "'>" + ach.title + "</span>";
 			} else {
 				div.innerHTML += "<span class='achievement' style='cursor:pointer' title= '???'>???</span>";
 			}

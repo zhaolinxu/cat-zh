@@ -264,13 +264,30 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 35000},
 			{name: 	"manuscript", val: 100}
 		],
-		unlocks: ["physics", "archeology"],
+		unlocks: ["physics", "archeology", "architecture"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
 			game.workshop.get("caravanserai").unlocked = true;
 			game.workshop.get("astrolabe").unlocked = true;
 			game.workshop.get("titaniumMirrors").unlocked = true;
 			game.workshop.get("titaniumAxe").unlocked = true;
+		}
+	},{
+		name: "architecture",
+		title: "Architecture",
+		description: "TBD",
+		effectDesc: "Unlocks Mint and Mansions",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 42000},
+			{name: 	"compedium", val: 10}
+		],
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("pneumaticPress").unlocked = true;
+			game.workshop.get("pyrolysis").unlocked = true;
+			game.workshop.get("steelSaw").unlocked = true;
 		}
 	},{
 		name: "physics",
@@ -281,7 +298,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 50000},
-			{name: 	"compedium", val: 5}
+			{name: 	"compedium", val: 35}
 		],
 		unlocks: ["chemistry", "electricity"],
 		handler: function(game){
@@ -298,7 +315,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 60000},
-			{name: 	"compedium", val: 25}
+			{name: 	"compedium", val: 50}
 		],
 		unlocks: [],
 		handler: function(game){
@@ -313,7 +330,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 70000},
-			{name: 	"compedium", val: 30}
+			{name: 	"compedium", val: 75}
 		],
 		unlocks: ["biology"],
 		handler: function(game){
@@ -328,7 +345,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 75000},
-			{name: 	"compedium", val: 35}
+			{name: 	"compedium", val: 85}
 		],
 		unlocks: [],
 		handler: function(game){
@@ -342,7 +359,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 85000},
-			{name: 	"compedium", val: 75}
+			{name: 	"compedium", val: 100}
 		],
 		unlocks: [],
 		handler: function(game){
