@@ -1,6 +1,11 @@
+v 0.7.4.4
+
+Middle column is now fixed and scrollable
+
 v 0.7.4.3
 
-Cargo Ships (Every ship you have will give 2% to Harbor resource limits)
+Cargo Ships (Every ship you have will give 2% to Harbor resource limits)	//will give diminishing effect starting with 187% total
+Every observatory will now give a 1% chance of auto-generating starcharts
 
 v 0.7.3.3
 

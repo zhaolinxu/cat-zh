@@ -184,7 +184,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Cargo Ships",
 		description: "Every ship will give 2% bonus to the Harbor capacity",
 		effects: {
-			"harborRatio" : 0.02
+			"harborRatio" : 0.01
 		},
 		prices:[
 			{ name : "science", val: 55000 },

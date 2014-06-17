@@ -140,8 +140,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				self.observeBtn = null;
 				
 				window.clearInterval(timeout);
+				
+				var autoChance = self.game.bld.getEffect("starAutoSuccessChance");	//in %
 
-				if(self.game.ironWill && (self.game.rand(100) < 25)){	//25% of autofiring?
+				if(
+					(self.game.ironWill && (self.game.rand(100) <= 25)) ||
+					(self.game.rand(100) <= autoChance)
+				){	
 					dojo.hitch(self, observeHandler)({}, true);
 				}
 				

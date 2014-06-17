@@ -211,6 +211,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		effects: {
 			"scienceRatio": 0.25,
 			"starEventChance": 20,
+			"starAutoSuccessChance": 1,
 			"scienceMax" : 1000
 		},
 		priceRatio: 1.10,
@@ -294,15 +295,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
 				
-				var ratio = cargoShips.effects["harborRatio"];
-				
-				self.effects["catnipMax"] = ( 2500 * ( 1 + shipVal * ratio));
-				self.effects["woodMax"] = ( 700 * ( 1 + shipVal * ratio));
-				self.effects["mineralsMax"] = ( 950 * ( 1 + shipVal * ratio));
-				self.effects["ironMax"] = ( 700 * ( 1 + shipVal * ratio));
-				self.effects["coalMax"] = ( 700 * ( 1 + shipVal * ratio));
-				self.effects["goldMax"] = ( 700 * ( 1 + shipVal * ratio));
-				self.effects["titaniumMax"] = ( 700 * ( 1 + shipVal * ratio));
+				var ratio = game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, 2.25);	//100% to 225% with slow falldown on the 75%
+
+				self.effects["catnipMax"] = ( 2500 * ( 1 - ratio));
+				self.effects["woodMax"] = ( 700 * ( 1 - ratio));
+				self.effects["mineralsMax"] = ( 950 * ( 1 - ratio));
+				self.effects["ironMax"] = ( 150 * ( 1 - ratio));
+				self.effects["coalMax"] = ( 100 * ( 1 - ratio));
+				self.effects["goldMax"] = ( 25 * ( 1 - ratio));
+				self.effects["titaniumMax"] = ( 50 * ( 1 - ratio));
 			}
 		},
 		val: 0
