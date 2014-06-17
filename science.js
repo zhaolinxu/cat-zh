@@ -267,7 +267,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: ["physics", "archeology", "architecture"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
+			
 			game.workshop.get("caravanserai").unlocked = true;
+			game.workshop.get("cargoShips").unlocked = true;
+			
 			game.workshop.get("astrolabe").unlocked = true;
 			game.workshop.get("titaniumMirrors").unlocked = true;
 			game.workshop.get("titaniumAxe").unlocked = true;

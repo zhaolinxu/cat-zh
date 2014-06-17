@@ -180,6 +180,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			game.workshop.get("ironwood").unlocked = true;
 		}
 	},{
+		name: "cargoShips",
+		title: "Cargo Ships",
+		description: "Every ship will give 2% bonus to the Harbor capacity",
+		effects: {
+			"harborRatio" : 0.02
+		},
+		prices:[
+			{ name : "science", val: 55000 },
+			{ name : "blueprint", val: 15 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
 		description: "Hut price ratio reduced by 0.5",

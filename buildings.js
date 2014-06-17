@@ -157,7 +157,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves your max science by 250",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -288,6 +288,22 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		ignorePriceCheck: true,
 		requiredTech: ["navigation"],
 		handler: 	function(btn){
+		},
+		action: function(self, game){
+			var cargoShips = game.workshop.get("cargoShips");
+			if (cargoShips.researched){
+				var shipVal = game.resPool.get("ship").value;
+				
+				var ratio = cargoShips.effects["harborRatio"];
+				
+				self.effects["catnipMax"] = ( 2500 * ( 1 + shipVal * ratio));
+				self.effects["woodMax"] = ( 700 * ( 1 + shipVal * ratio));
+				self.effects["mineralsMax"] = ( 950 * ( 1 + shipVal * ratio));
+				self.effects["ironMax"] = ( 700 * ( 1 + shipVal * ratio));
+				self.effects["coalMax"] = ( 700 * ( 1 + shipVal * ratio));
+				self.effects["goldMax"] = ( 700 * ( 1 + shipVal * ratio));
+				self.effects["titaniumMax"] = ( 700 * ( 1 + shipVal * ratio));
+			}
 		},
 		val: 0
 	},
