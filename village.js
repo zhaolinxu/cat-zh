@@ -63,6 +63,26 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		},
 		value: 0,
 		unlocked: false
+	},{
+		name: "priest",
+		title: "Priest",
+		description: "+0.0015 faith per tick",
+		
+		modifiers:{
+			"faith" : 0.0015
+		},
+		value: 0,
+		unlocked: false
+	},{
+		name: "geologist",
+		title: "Geologist",
+		description: "+0.015 coal per tick",
+		
+		modifiers:{
+			"coal" : 0.015
+		},
+		value: 0,
+		unlocked: false
 	}],
 	
 	//resource modifiers per tick

@@ -236,6 +236,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: ["astronomy"],
 		handler: function(game){
+			game.village.getJob("priest").unlocked = true;
 		}
 	},{
 		name: "astronomy",
@@ -324,9 +325,9 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		}
 	},{
 		name: "archeology",
-		title: "Archeology",
-		description: "Archaeology reveals the historical and cultural value of ancient artifacts",
-		effectDesc: "Unlocks Quarrys",
+		title: "Geology",
+		description: "Geology is the science comprising the study of Cat, the rocks of which it is composed, and the processes by which they change",
+		effectDesc: "Unlocks Quarrys and Geologists",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -335,7 +336,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: ["biology"],
 		handler: function(game){
-
+			game.village.getJob("geologist").unlocked = true;
 		}
 	},{
 		name: "electricity",
