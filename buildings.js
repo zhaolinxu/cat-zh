@@ -1452,9 +1452,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 5000);	//5 sec 
 						
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 500 && !self.game.ironWill){
-							alert("You are so tired");
+						if (self.game.gatherClicks >= 1500 && !self.game.ironWill){
+							//alert("You are so tired");
 							self.game.gatherClicks = 0;
+							self.game.cheatMode = true;
 						}
 				
 						self.game.resPool.get("catnip").value++;

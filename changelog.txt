@@ -2,6 +2,7 @@ v 0.7.6.5
 
 Mint
 Updated data import to support some browsers
+Removed all autoclick-related things, because people are clearly not getting the message and that is making me sad.
 
 v 0.7.5.4
 

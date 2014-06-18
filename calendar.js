@@ -109,9 +109,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if ((!event.clientX || !event.clientY) && !ironwill){
 					//>:
 					this.game.cheatMode = true;
-					if (this.game.rand(100) < 99){
-						return;
-					}
 				}
 
 				
