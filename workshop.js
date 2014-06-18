@@ -510,7 +510,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "parchment",
 		title: "Parchment",
-		description: "A material for writing on made from animal skin, requred for cultural buildings",
+		description: "A material for writing on made from animal skin, required for cultural buildings",
 		prices:[
 			{name: "leather", val: 5}
 		],
@@ -528,7 +528,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "compedium",
 		title: "Compedium",
-		description: "A summ of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
+		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}

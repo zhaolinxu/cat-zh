@@ -36,7 +36,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "other",
 		title: "Other",
-		buildings: ["workshop", "steamworks", "tradepost", "unicornPasture"]
+		buildings: ["workshop", "steamworks", "tradepost", "mint", "unicornPasture"]
 	},{
 		name: "megastructures",
 		title: "Mega Structures",
@@ -625,7 +625,57 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				self.effects["standingRatio"] = seri.effects["standingRatio"];
 			}
 		}
+	},{
+		name: "mint",
+		label: "Mint",
+		description: "Converts small percent of your total manpower to luxury resources. Uses 0.75 manpower per tick and a bit of gold.",
+		unlocked: false,
+		togglable: true,
+		enabled: false,
+		prices: [
+			{ name : "minerals", val: 5000 },
+			{ name : "plate", val: 200 },
+			{ name : "gold", val: 500 }
+		],
+		effects: {
+			"mintEffect" : 0.007,
+			"manpowerPerTick" : -0.75,
+			"goldPerTick" : -0.005		//~5 smelters
+		},
+		priceRatio: 1.15,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["architecture"],
+		ignorePriceCheck: true,
+		action: function(self, game){
+			if (!self.enabled){
+				return;
+			}
+			
+			var mpower = game.resPool.get("manpower");
+			var gold = game.resPool.get("gold");
+			
+			
+			if (mpower.value > self.val * -self.effects["manpowerPerTick"] &&
+				gold.value > self.val * -self.effects["goldPerTick"]
+			){
+				mpower.value -= self.val * -self.effects["manpowerPerTick"];
+				gold.value -= self.val * -self.effects["goldPerTick"];
+				
+				var mpratio = (game.resPool.get("manpower").value * self.effects["mintEffect"] * self.val) / 100;
+				
+				self.effects["fursPerTick"]  = mpratio * 2;
+				self.effects["ivoryPerTick"] = mpratio * 1.5;
+				
+				var furs = game.resPool.get("furs");
+				var ivory = game.resPool.get("ivory");
+				
+				furs.value += self.effects["fursPerTick"];
+				ivory.value += self.effects["ivoryPerTick"];
+			}
+		}
 	},
+	//-------------------------- Culture -------------------------------
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",

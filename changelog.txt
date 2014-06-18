@@ -1,3 +1,8 @@
+v 0.7.6.5
+
+Mint
+Updated data import to support some browsers
+
 v 0.7.5.4
 
 Renamed Archeology to the Geology (makes more sense)

@@ -329,14 +329,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	
-	saveImport: function(){
-
+	//** deprecated **/
+	/*saveImport: function(){
 		var data = window.prompt("Warning, this will overwrite your save!");
 		if (data){
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
-		
 			this.load();
-			
+			this.msg("Save import successfull!");
+		}
+	},*/
+	
+	saveImport: function(){
+		if (!window.confirm("Are your sure? This will overwrite your save!")){
+			return;
+		}
+		var data = $("#importData").val();
+		if (data){
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
+			this.load();
 			this.msg("Save import successfull!");
 		}
 	},
