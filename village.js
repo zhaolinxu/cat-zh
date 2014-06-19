@@ -318,35 +318,42 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		this.happiness = happiness/100;
 	},
 	
-	
-	sendHunters: function(){
-		var fursVal = 0;
-		var ivoryVal = 0;
+	sendHuntersInternal: function(){
+		var huntingRes = {
+			furs: 0,
+			ivory: 0,
+			isUnicorn: false
+		};
 
 		var furs = this.game.resPool.get("furs");
 		
-		
 		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		fursVal = this.rand(65) + this.rand(65 * hunterRatio);
-		furs.value += fursVal; 
+		huntingRes.furs = this.rand(65) + this.rand(65 * hunterRatio);
+		furs.value += huntingRes.furs;
 		
 		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
 			var ivory = this.game.resPool.get("ivory");
-			ivoryVal = this.rand(40) + this.rand(40 * hunterRatio);
+			huntingRes.ivory = this.rand(40) + this.rand(40 * hunterRatio);
 			
-			ivory.value += ivoryVal;
+			ivory.value += huntingRes.ivory;
 		}
 		
 		if (this.rand(100) > 95){
 			var unicorns = this.game.resPool.get("unicorns");
 			unicorns.value += 1;
-			
-			this.game.msg("You got a unicorn!");
+			huntingRes.isUnicorn = true;
 		}
 		
-		var msg = "Your hunters have returned. +" + fursVal + " furs";
-		if (ivoryVal){
-			msg += ", +" + ivoryVal + " ivory";
+		return huntingRes;
+	},
+
+	sendHunters: function(){
+		var huntingRes = this.sendHuntersInternal();
+		if (huntingRes.isUnicorn)
+			this.game.msg("You got a unicorn!");
+		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
+		if (huntingRes.ivory){
+			msg += ", +" + huntingRes.ivory + " ivory";
 		}
 		this.game.msg( msg );
 	},
@@ -355,10 +362,34 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var mpower = this.game.resPool.get("manpower");
 		
 		var squads = Math.floor(mpower.value / 100);
+		if (squads < 1)
+			return;
 		mpower.value -= squads*100;
+		var totalYield = {
+			furs: 0,
+			ivory: 0,
+			unicorns: 0
+		};
 		for(var i = 0; i< squads; i++){
-			this.sendHunters();
+			var squadYield = this.sendHuntersInternal();
+			totalYield.furs += squadYield.furs;
+			totalYield.ivory += squadYield.ivory;
+			if (squadYield.isUnicorn) totalYield.unicorns++;
 		}
+		if (totalYield.unicorns){
+			if(totalYield.unicorns == 1)
+				this.game.msg("You got a unicorn!");
+			else
+				this.game.msg("You got " + totalYield.unicorns + " unicorns!");
+		}
+		var msg = "Your hunters have returned";
+		if (squads > 1)
+			msg += " from " + squads + " hunts";
+		msg += ". +" + totalYield.furs + " furs";
+		if (totalYield.ivory){
+			msg += ", +" + totalYield.ivory + " ivory";
+		}
+		this.game.msg( msg );
 		
 	},
 	
