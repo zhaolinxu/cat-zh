@@ -362,7 +362,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.faithCount.innerHTML = "Total faith: " + religion.faith.toFixed();
 		}
 		if (religion.getRU("solarRevolution").researched){
-			this.faithCount.innerHTML += ( " (+" + religion.getProductionBonus().toFixed() + "%)" );
+			
+			var bonus = religion.getProductionBonus();
+			var bonusFixed = bonus.toFixed();
+			var progress = (bonus - bonusFixed) * 100;
+			
+			this.faithCount.innerHTML += ( " (+" + bonusFixed + "% bonus, " + progress.toFixed() + "% progress)" );
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });

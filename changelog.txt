@@ -1,3 +1,13 @@
+v 0.7.6.6
+
+changed by Duke:
+
+"Send all" command will now display single message instead of spamming the log
+Fixed religion bonuses working incorrectly
+_____
+
+Added progress indicator for Solar Revolution
+
 v 0.7.6.5
 
 Mint

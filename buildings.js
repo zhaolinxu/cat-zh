@@ -252,7 +252,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "warehouse",
 		label: "Warehouse",
-		description: "Provides a space to store your resources.\n(+250 wood, +200 minerals, +25 iron)",
+		description: "Provides a space to store your resources.\n(+150 wood, +200 minerals, +25 iron)",
 		unlocked: false,
 		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
 		effects: {
