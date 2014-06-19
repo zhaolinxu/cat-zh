@@ -28,13 +28,13 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var i = 0; i < metadata.length; i++){
 			var meta = metadata[i];
 
-			var effect = meta.effects[name];
+			var effect = meta.effects[name] || 0;
 
 			var val = meta.val;
 			totalEffect += effect * val;
 		}
 		
-		return totalEffect ? totalEffect : 0;
+		return totalEffect || 0;
 	},
 	
 	getMeta: function(name, metadata){
