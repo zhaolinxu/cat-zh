@@ -364,7 +364,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (religion.getRU("solarRevolution").researched){
 			
 			var bonus = religion.getProductionBonus();
-			var bonusFixed = bonus.toFixed();
+			var bonusFixed = Math.floor(bonus);
 			var progress = (bonus - bonusFixed) * 100;
 			
 			this.faithCount.innerHTML += ( " (+" + bonusFixed + "% bonus, " + progress.toFixed() + "% progress)" );
