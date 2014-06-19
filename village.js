@@ -362,6 +362,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var mpower = this.game.resPool.get("manpower");
 		
 		var squads = Math.floor(mpower.value / 100);
+		if (squads < 1)
+			return;
 		mpower.value -= squads*100;
 		var totalYield = {
 			furs: 0,
