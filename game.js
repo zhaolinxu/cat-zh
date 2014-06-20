@@ -44,6 +44,209 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	}
 });
 
+/*
+ * this._resourceDiv = dojo.byId("resContainer");
+		var season = this.calendar.getCurSeason();
+
+		dojo.empty(this._resourceDiv);
+		
+		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
+		
+		for (var i = 0; i < this.resPool.resources.length; i++){
+			var res = this.resPool.resources[i];
+			
+			if (!res.visible){
+				continue;
+			}
+			
+			if (res.value || (res.name == "kittens" && res.maxValue)){
+				
+				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
+
+				var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
+				if (i % 2 == 0){
+					dojo.addClass(tr, "odd");
+				}
+				
+				//  highlight resources for selected building
+				//--------------------------------------------
+				var selBld = this.selectedBuilding;
+				if (selBld && this.isResRequired(selBld, res.name)){
+					dojo.addClass(tr, "highlited");
+				}
+				//---------------------------------------------
+				
+				var tdResName = dojo.create("td", { 
+					innerHTML: res.name + ":"
+				}, tr);
+
+				if (res.type == "uncommon"){
+					dojo.setStyle(tdResName, "color", "Coral");
+				}
+				if (res.type == "rare"){
+					dojo.setStyle(tdResName, "color", "orange");
+					dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
+				}
+				if (res.color){
+					dojo.setStyle(tdResName, "color", res.color);
+				}
+				
+				
+				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
+					style :{
+						width: "320px"
+					}
+					
+				}, tr);
+				if (res.maxValue && (res.value * 1.5 > res.maxValue || this.forceShowLimits)){	//50% before limit
+					tdResVal.innerHTML += " / <span class='maxRes'>" + this.getDisplayValueExt(res.maxValue) + "<span>";
+				}
+				
+				var tdResPerTick = dojo.create("td", {
+					innerHTML: perTick ? "(" + this.getDisplayValue(perTick, true) + ")" : "",
+					style: { cursor: perTick ? "pointer" : "default" }
+				}, tr);
+				
+				if (perTick){
+					this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
+				}
+	
+				var tdSeasonMod = dojo.create("td", {}, tr);
+
+				if (season.modifiers[res.name] && perTick != 0 ){
+					
+					var modifer = (season.modifiers[res.name] + this.calendar.getWeatherMod() + this.calendar.getIceageMod() -1)*100;
+					var resModifierSpan = dojo.create("span", {
+							innerHTML: " [" + modifer.toFixed() + "%]",
+							title: "Season modifier"
+						}, tdSeasonMod);
+
+					if (modifer > 0){
+						dojo.setStyle(resModifierSpan, "color","green");
+					}else if (modifer < 0){
+						dojo.setStyle(resModifierSpan, "color","red");
+					} else {
+						dojo.setStyle(resModifierSpan, "color","black");
+					}
+				}
+			}
+		}
+		
+		//checkbox
+		if (this.bld.get("barn").val > 0){
+			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
+			var limitCheckBox = dojo.create("input", {
+				type: "checkbox",
+				checked: this.forceShowLimits
+			}, div);
+			
+			dojo.connect(limitCheckBox, "onclick", this, function(event){
+				event.stopPropagation();
+				this.forceShowLimits = !this.forceShowLimits;
+			});
+			
+			dojo.create("span", { innerHTML: "Show max resources"}, div);
+		}
+*/
+
+dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
+	
+	game: null,
+	containerId: null,
+	
+	resRows: null,
+	
+	constructor: function(game, containerId){
+		this.game = game;
+		this.containerId = containerId;
+		
+		this.resRows = [];
+	},
+	
+	render: function(){
+		if (!this.containerId) { throw "container id is undefined for res table"; }
+		dojo.empty(this.containerId);
+		
+		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
+		
+		for (var i = 0; i < this.game.resPool.resources.length; i++){
+			var res = this.game.resPool.resources[i];
+			
+			if (!res.visible){
+				continue;
+			}
+			
+			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
+			//	---------------- name ----------------------
+			var tdResName = dojo.create("td", { innerHTML: res.name + ":" }, tr);
+			
+			if (res.type == "uncommon"){
+				dojo.setStyle(tdResName, "color", "Coral");
+			}
+			if (res.type == "rare"){
+				dojo.setStyle(tdResName, "color", "orange");
+				dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
+			}
+			if (res.color){
+				dojo.setStyle(tdResName, "color", res.color);
+			}
+
+			//	---------------- amt ----------------------
+			var tdAmt = dojo.create("td", null, tr);
+			//	---------------- max ----------------------
+			var tdMax = dojo.create("td", { className: "maxRes" }, tr);
+			//	---------------- +tick ----------------------
+			var tdPerTick = dojo.create("td", null, tr);
+			
+			var tdWeatherMod = dojo.create("td", null, tr);
+			
+			this.resRows.push({
+				resRef: res,
+				rowRef: tr,
+				resAmt : tdAmt,
+				resMax : tdMax,
+				resTick: tdPerTick,
+				resWMod: tdWeatherMod
+			});
+		}
+	},
+	
+	update: function(){
+		for (var i = 0; i < this.resRows.length; i++){
+			var row = this.resRows[i];
+			var res = row.resRef;
+			
+			//  highlight resources for selected building
+			//--------------------------------------------
+			var selBld = this.game.selectedBuilding;
+			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
+			//---------------------------------------------
+			
+			
+			var isVisible = (res.value || (res.name == "kittens" && res.maxValue));
+			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
+			
+			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			
+			dojo.toggleClass(row.resAmt, "resLimitNotice", res.value > res.maxValue * 0.75);
+			dojo.toggleClass(row.resAmt, "resLimitWarn", res.value > res.maxValue * 0.95);
+			
+			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
+			row.resMax.innerHTML  = maxResValue;
+
+			var perTickValue = res.perTickUI ? "(" + this.game.getDisplayValue(res.perTickUI, true) + ")" : "";
+			row.resTick.innerHTML = perTickValue;
+			
+			dojo.setStyle(row.resTick, "cursor", res.perTick ? "pointer" : "default");
+		}
+	}
+});
+
+
+
+
+
+
 /**
  * Main game class, available globably as 'gamePage' variable
  */ 
@@ -108,6 +311,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	ticks: 0,
 	totalUpdateTime: 0,
+	
+	
+	//resource table 
+	
+	resTable: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -165,11 +373,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 3);	//once per 3 ticks
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 5);	//once per 5 ticks
 		
 		//Update village resource production. 
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
 		this.timer.addEvent(dojo.hitch(this, function(){ this.village.updateResourceProduction(); }), 10);
+		
+		
+		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer2");
+		
+		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
 
 	},
 	
@@ -365,7 +578,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				left: "-20px"
 			}}, container);
 
-		this.updateResources();
+		
+		this.resTable.render();
+
+		//this.updateResources();
 		this.updateCraftResources();
 		
 		var visibleTabs = [];
@@ -589,110 +805,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	/**
-	 * Updates a resource table on the UI
+	 * Updates a perTickValue of resource for UI
 	 */
 	updateResources: function(){
-		this._resourceDiv = dojo.byId("resContainer");
-		var season = this.calendar.getCurSeason();
-
-		dojo.empty(this._resourceDiv);
 		
-		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
-		
+		/**
+		* Updating per tick value is actually a heavy operation. Why don't we do it per 3 tick and cache values?
+		*/ 
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			
-			if (!res.visible){
-				continue;
-			}
-			
-			if (res.value || (res.name == "kittens" && res.maxValue)){
-				
-				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
-
-				var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
-				if (i % 2 == 0){
-					dojo.addClass(tr, "odd");
-				}
-				
-				//  highlight resources for selected building
-				//--------------------------------------------
-				var selBld = this.selectedBuilding;
-				if (selBld && this.isResRequired(selBld, res.name)){
-					dojo.addClass(tr, "highlited");
-				}
-				//---------------------------------------------
-				
-				var tdResName = dojo.create("td", { 
-					innerHTML: res.name + ":"
-				}, tr);
-
-				if (res.type == "uncommon"){
-					dojo.setStyle(tdResName, "color", "Coral");
-				}
-				if (res.type == "rare"){
-					dojo.setStyle(tdResName, "color", "orange");
-					dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
-				}
-				if (res.color){
-					dojo.setStyle(tdResName, "color", res.color);
-				}
-				
-				
-				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
-					style :{
-						width: "320px"
-					}
-					
-				}, tr);
-				if (res.maxValue && (res.value * 1.5 > res.maxValue || this.forceShowLimits)){	//50% before limit
-					tdResVal.innerHTML += " / <span class='maxRes'>" + this.getDisplayValueExt(res.maxValue) + "<span>";
-				}
-				
-				var tdResPerTick = dojo.create("td", {
-					innerHTML: perTick ? "(" + this.getDisplayValue(perTick, true) + ")" : "",
-					style: { cursor: perTick ? "pointer" : "default" }
-				}, tr);
-				
-				if (perTick){
-					this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
-				}
-	
-				var tdSeasonMod = dojo.create("td", {}, tr);
-
-				if (season.modifiers[res.name] && perTick != 0 ){
-					
-					var modifer = (season.modifiers[res.name] + this.calendar.getWeatherMod() + this.calendar.getIceageMod() -1)*100;
-					var resModifierSpan = dojo.create("span", {
-							innerHTML: " [" + modifer.toFixed() + "%]",
-							title: "Season modifier"
-						}, tdSeasonMod);
-
-					if (modifer > 0){
-						dojo.setStyle(resModifierSpan, "color","green");
-					}else if (modifer < 0){
-						dojo.setStyle(resModifierSpan, "color","red");
-					} else {
-						dojo.setStyle(resModifierSpan, "color","black");
-					}
-				}
-			}
-		}
-		
-		//checkbox
-		if (this.bld.get("barn").val > 0){
-			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
-			var limitCheckBox = dojo.create("input", {
-				type: "checkbox",
-				checked: this.forceShowLimits
-			}, div);
-			
-			dojo.connect(limitCheckBox, "onclick", this, function(event){
-				event.stopPropagation();
-				this.forceShowLimits = !this.forceShowLimits;
-			});
-			
-			dojo.create("span", { innerHTML: "Show max resources"}, div);
+			res.perTickUI = this.getResourcePerTick(res.name, true);
 		}
 	},
 	
@@ -970,6 +1092,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	
 	getDisplayValueExt: function(value, prefix){
+		
+		if(!value) { return 0; }
+		
 		//shamelesly copied from Sandcastle Builder code
 		var postfixes=[
 			{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},

@@ -40,6 +40,7 @@
 			
 			html, body {
 				height: 100%;
+				overflow-y: hidden;
 			}
 			
 			body {
@@ -87,7 +88,12 @@
 			}
 			
 			#leftColumn {
-				width: 300px;
+				min-width: 300px;
+				
+				padding-right: 20px;
+				
+				overflow-y: scroll;
+				overflow-x: hidden;
 			}
 
 			#midColumn {
@@ -101,7 +107,6 @@
 			}
 			
 			div#gameLog {
-				height: 600px;
 			}
 			
 			#footerLinks {
@@ -231,6 +236,16 @@
 			.achievement.unethical {
 				border-color: red;
 			}
+			
+			td.resLimitNotice {
+				color: orange;
+			}
+			
+			td.resLimitWarn {
+				color: #FF3030;
+				opacity: 0.75;
+			}
+			
 	    </style>
 		
 		<script type="text/javascript">
@@ -371,9 +386,9 @@
 
 			<div id="game">
 				<div id="leftColumn" style="vertical-align:top;" class="column">
-						<div style="padding-top:15px; width:100%" id="resContainer">
-						</div>
+						<div style="padding-top:15px; width:100%" id="resContainer"></div>
 						
+						<div style="padding-top:15px; width:100%" id="resContainer2"></div>
 						<!-- advisors -->
 						
 						<div style=" padding-top:10px;" id="advisorsContainer">
