@@ -198,6 +198,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			//	---------------- +tick ----------------------
 			var tdPerTick = dojo.create("td", null, tr);
 			
+			this.game.attachTooltip(tdPerTick, res);
+			
 			var tdWeatherMod = dojo.create("td", null, tr);
 			
 			this.resRows.push({
@@ -237,7 +239,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var perTickValue = res.perTickUI ? "(" + this.game.getDisplayValue(res.perTickUI, true) + ")" : "";
 			row.resTick.innerHTML = perTickValue;
 			
-			dojo.setStyle(row.resTick, "cursor", res.perTick ? "pointer" : "default");
+			dojo.setStyle(row.resTick, "cursor", res.perTickUI ? "pointer" : "default");
 		}
 	}
 });
@@ -989,32 +991,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return false;
 	},
 	
-	attachTooltip: function(container, content){
-		var div = dojo.create("div", { style: {position:"relative"}}, container);
+	attachTooltip: function(container, resRef){
 		
-		var tooltip = dojo.create("div", { 
-			classname: "button_tooltip",
-			style: {
-				display: 	"none",
-				border: 	"1px solid black",
-				marginLeft:	"4px",
-				
-				padding: 	"5px",
-				position:   "absolute",
-
-				left: "50px",
-				top: "-18px",
-				width: "180px",
-				
-				fontWeight: "normal"
-			},
-			innerHTML: content}, 
-		div);
-
-		dojo.connect(container, "onmouseover", this, function(){
+		var tooltip = dojo.byId("tooltip");
+		
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, event){
+			 if (!resRef.perTickUI){ return;}
+			 
+			 tooltip.innerHTML = this.getDetailedResMap(resRef);
+			 
+			 var pos = $(event.originalTarget).position();
+			 
+			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
+			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+			
 			 dojo.setStyle(tooltip, "display", ""); 
 			 dojo.setStyle(container, "fontWeight", "bold"); 
-	    });
+			 
+	    }, resRef));
 		dojo.connect(container, "onmouseout", this, function(){
 			 dojo.setStyle(tooltip, "display", "none"); 
 			 dojo.setStyle(container, "fontWeight", "normal");
