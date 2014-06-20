@@ -103,9 +103,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	ironWill: true,
 	
 	gatherTimeoutHandler: null,
-	gatherClicks: 0,	//yes, I do love to annoy people,
+	gatherClicks: 0,
+	cheatMode: false,
 	
-	cheatMode: false,	//>:
+	ticks: 0,
+	totalUpdateTime: 0,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -1063,6 +1065,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 		
+		var timestampStart = new Date().getTime();
+		
 		this.calendar.tick();
 		try {
 			for (var i = 0; i< this.updateRate; i++){
@@ -1070,6 +1074,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		} catch (ex){
 			console.error("Error on calling update(), you should not see this", ex, ex.stack);
+		}
+		
+		var timestampEnd = new Date().getTime();
+		if (window.location.protocol == "file:") {
+			
+			var tsDiff = timestampEnd - timestampStart;
+			this.totalUpdateTime += tsDiff;
+			this.ticks++;
+			
+			var avg = this.totalUpdateTime / this.ticks;
+			
+			if (tsDiff < 10) {tsDiff = 10;}
+			$("#devPanel")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
 		}
 	},
 	

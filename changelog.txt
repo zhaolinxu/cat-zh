@@ -1,3 +1,10 @@
+v 0.7.7.6
+
+Resources will stay if limit is lower for some reason. (Workaround for a couple of cases).
+
+Titanium Barns
+Titanium Warehouses
+
 v 0.7.6.6
 
 changed by Duke:
@@ -12,7 +19,6 @@ v 0.7.6.5
 
 Mint
 Updated data import to support some browsers
-Removed all autoclick-related things, because people are clearly not getting the message and that is making me sad.
 
 v 0.7.5.4
 

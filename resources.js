@@ -251,10 +251,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
-		
-			var resPerTick = this.game.getResourcePerTick(res.name);
-			res.value = res.value + resPerTick;
-			
+
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			
@@ -280,8 +277,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
 			}
-			if (res.value > res.maxValue){
-				res.value = res.maxValue;
+			if (res.value < res.maxValue){
+				var resPerTick = this.game.getResourcePerTick(res.name);
+				res.value = res.value + resPerTick;
 			}
 			
 			if (isNaN(res.value)){
