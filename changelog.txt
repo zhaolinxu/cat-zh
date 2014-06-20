@@ -1,3 +1,7 @@
+v 0.7.7.7
+
+Fixed resource table ( tooltips should work in chrome now)
+
 v 0.7.7.6
 
 Resources will stay if limit is lower for some reason. (Workaround for a couple of cases).

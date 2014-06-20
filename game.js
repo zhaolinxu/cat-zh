@@ -175,10 +175,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			if (!res.visible){
 				continue;
 			}
-			
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
+			
+			var isVisible = (res.value || (res.name == "kittens" && res.maxValue));
+			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
-			var tdResName = dojo.create("td", { innerHTML: res.name + ":" }, tr);
+			
+			var tdResName = dojo.create("td", { innerHTML: res.name + ":", style: { width: "60px"} }, tr);
 			
 			if (res.type == "uncommon"){
 				dojo.setStyle(tdResName, "color", "Coral");
@@ -193,8 +196,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
+			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			
 			//	---------------- max ----------------------
 			var tdMax = dojo.create("td", { className: "maxRes" }, tr);
+			tdMax.innerHTML = this.game.getDisplayValueExt(res.maxValueUI);
+			
 			//	---------------- +tick ----------------------
 			var tdPerTick = dojo.create("td", null, tr);
 			
@@ -240,6 +247,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			row.resTick.innerHTML = perTickValue;
 			
 			dojo.setStyle(row.resTick, "cursor", res.perTickUI ? "pointer" : "default");
+			
+			//weather mod
+			var season = this.game.calendar.getCurSeason();
+			if (season.modifiers[res.name] && res.perTickUI != 0 ){
+					
+				var modifer = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
+				row.resWMod.innerHTML = modifer ? "[" + modifer.toFixed() + "%]" : "";
+
+				if (modifer > 0){
+					dojo.setStyle(row.resWMod, "color","green");
+				}else if (modifer < 0){
+					dojo.setStyle(row.resWMod, "color","red");
+				} else {
+					dojo.setStyle(row.resWMod, "color","black");
+				}
+			}
 		}
 	}
 });
@@ -1000,7 +1023,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
 			 
-			 var pos = $(event.originalTarget).position();
+			 var target = event.originalTarget || event.toElement;	//fucking chrome
+			 var pos = $(target).position();
+			 if (!pos){
+				 return;
+			 }
 			 
 			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
 			 dojo.setStyle(tooltip, "top",  pos.top + "px");
