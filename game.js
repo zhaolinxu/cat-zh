@@ -45,93 +45,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 });
 
 /*
- * this._resourceDiv = dojo.byId("resContainer");
-		var season = this.calendar.getCurSeason();
-
-		dojo.empty(this._resourceDiv);
-		
-		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._resourceDiv);
-		
-		for (var i = 0; i < this.resPool.resources.length; i++){
-			var res = this.resPool.resources[i];
-			
-			if (!res.visible){
-				continue;
-			}
-			
-			if (res.value || (res.name == "kittens" && res.maxValue)){
-				
-				var perTick = this.getResourcePerTick(res.name, true);	//calc automation
-
-				var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
-				if (i % 2 == 0){
-					dojo.addClass(tr, "odd");
-				}
-				
-				//  highlight resources for selected building
-				//--------------------------------------------
-				var selBld = this.selectedBuilding;
-				if (selBld && this.isResRequired(selBld, res.name)){
-					dojo.addClass(tr, "highlited");
-				}
-				//---------------------------------------------
-				
-				var tdResName = dojo.create("td", { 
-					innerHTML: res.name + ":"
-				}, tr);
-
-				if (res.type == "uncommon"){
-					dojo.setStyle(tdResName, "color", "Coral");
-				}
-				if (res.type == "rare"){
-					dojo.setStyle(tdResName, "color", "orange");
-					dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
-				}
-				if (res.color){
-					dojo.setStyle(tdResName, "color", res.color);
-				}
-				
-				
-				var tdResVal = dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
-					style :{
-						width: "320px"
-					}
-					
-				}, tr);
-				if (res.maxValue && (res.value * 1.5 > res.maxValue || this.forceShowLimits)){	//50% before limit
-					tdResVal.innerHTML += " / <span class='maxRes'>" + this.getDisplayValueExt(res.maxValue) + "<span>";
-				}
-				
-				var tdResPerTick = dojo.create("td", {
-					innerHTML: perTick ? "(" + this.getDisplayValue(perTick, true) + ")" : "",
-					style: { cursor: perTick ? "pointer" : "default" }
-				}, tr);
-				
-				if (perTick){
-					this.attachTooltip(tdResPerTick, this.getDetailedResMap(res));
-				}
-	
-				var tdSeasonMod = dojo.create("td", {}, tr);
-
-				if (season.modifiers[res.name] && perTick != 0 ){
-					
-					var modifer = (season.modifiers[res.name] + this.calendar.getWeatherMod() + this.calendar.getIceageMod() -1)*100;
-					var resModifierSpan = dojo.create("span", {
-							innerHTML: " [" + modifer.toFixed() + "%]",
-							title: "Season modifier"
-						}, tdSeasonMod);
-
-					if (modifer > 0){
-						dojo.setStyle(resModifierSpan, "color","green");
-					}else if (modifer < 0){
-						dojo.setStyle(resModifierSpan, "color","red");
-					} else {
-						dojo.setStyle(resModifierSpan, "color","black");
-					}
-				}
-			}
-		}
-		
 		//checkbox
 		if (this.bld.get("barn").val > 0){
 			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
@@ -405,7 +318,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.village.updateResourceProduction(); }), 10);
 		
 		
-		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer2");
+		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
 		
 		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
 
