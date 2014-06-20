@@ -141,7 +141,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: true,
 		researched: false,
 		handler: function(game){
-			//do nothing
 		}
 	},{
 		name: "reinforcedBarns",
@@ -159,7 +158,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: true,
 		researched: false,
 		handler: function(game){
-			//do nothing
+			game.workshop.get("titaniumBarns").unlocked = true;
 		}
 	},{
 		name: "reinforcedWarehouses",
@@ -180,6 +179,41 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			game.workshop.get("ironwood").unlocked = true;
 		}
 	},{
+		name: "titaniumBarns",
+		title: "Titanium Barns",
+		description: "Barns store twice as many resources",
+		effects: {
+			"barnRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 60000 },
+			{ name : "titanium", val: 25 },
+			{ name : "steel",    val: 200 },
+			{ name : "scaffold", val: 250 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "titaniumWarehouses",
+		title: "Titanium Warehouses",
+		description: "Warehouses store 50% more resources",
+		effects: {
+			"warehouseRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "titanium", val: 50 },
+			{ name : "steel",    val: 500 },
+			{ name : "scaffold", val: 500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},
+	{
 		name: "cargoShips",
 		title: "Cargo Ships",
 		description: "Every ship will give 2% bonus to the Harbor capacity",

@@ -111,7 +111,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					this.game.cheatMode = true;
 				}
 
-				
 				dojo.destroy(this.observeBtn);
 				this.observeBtn = null;
 				
@@ -209,7 +208,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < riftChance){
 			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!");
 			
-			this.game.resPool.get("unicorns") += 500;
+			this.game.resPool.get("unicorns").value += 500;
 		}
 		
 		// -------------- ivory meteors ---------------
@@ -219,7 +218,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var ivory = 250 + this.game.rand(1500);
 			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!");
 			
-			this.game.resPool.get("ivory") += ivory;
+			this.game.resPool.get("ivory").value += ivory;
 		}
 	},
 	

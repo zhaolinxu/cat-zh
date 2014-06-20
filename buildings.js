@@ -413,7 +413,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
 			{ name : "blueprint",  val: 5 },
-			{ name : "oil",  val: 3000 }
+			{ name : "oil",  val: 500 }
 		],
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
