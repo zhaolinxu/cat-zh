@@ -157,7 +157,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves your max science by 250",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves max science by 250",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -181,7 +181,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%",
+		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%.\nImproves max science by 500",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
@@ -778,7 +778,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "ziggurat",
 		label: "Ziggurat",
-		description: "The dark legacy of the lost race",
+		description: "The dark legacy of the lost race.\n May have special usage once Theology is researched.",
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },

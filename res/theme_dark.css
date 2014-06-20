@@ -52,4 +52,8 @@
 .scheme_dark .btn .noRes {
 	color: #CF6060;
 }
+
+.scheme_dark td.resLimitWarn {
+	color: #CF6060;
+}
 			
