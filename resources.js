@@ -277,7 +277,8 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
 			}
-			if (res.value < res.maxValue){
+			
+			if (!res.maxValue || res.value < res.maxValue){
 				var resPerTick = this.game.getResourcePerTick(res.name);
 				res.value = res.value + resPerTick;
 			}
