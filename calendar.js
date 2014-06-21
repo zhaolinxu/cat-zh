@@ -115,10 +115,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.observeBtn = null;
 				
 				var diagram = this.game.resPool.get("starchart");
-				var science = this.game.resPool.get("science");
+				//var science = this.game.resPool.get("science");
 				
 				var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
-				science.value += sciBonus;
+				//science.value += sciBonus;
+				this.game.resPool.addResAmt("science", sciBonus);
+				
 				this.game.msg("+" + sciBonus.toFixed() + " science!");
 				
 				if (this.game.science.get("astronomy").researched){

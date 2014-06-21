@@ -337,12 +337,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var min = s.value * sratio - s.value * sratio * s.delta/2;
 						
 						var amt = min + self.rand(s.value * sratio * s.delta);
-						var res = self.game.resPool.get(s.name);
+						//var res = self.game.resPool.get(s.name);
 						
 						var ratio = self.game.bld.getEffect("tradeRatio");
 						amt += amt*ratio;
 						
-						res.value += (amt + amt*tradeRatioAttitude);
+						//res.value += (amt + amt*tradeRatioAttitude);
+						self.game.resPool.addResAmt(s.name, (amt + amt*tradeRatioAttitude));
 						
 						self.game.msg("You've got " + self.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
@@ -374,7 +375,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var titaniumAmt = 1.5;
 						titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
 						
-						self.game.resPool.get("titanium").value += titaniumAmt;
+						//self.game.resPool.get("titanium").value += titaniumAmt;
+						self.game.resPool.addResAmt("titanium", titaniumAmt);
+						
 						self.game.msg("You've got " + self.game.getDisplayValueExt(titaniumAmt) + " titanium!");
 					}
 					

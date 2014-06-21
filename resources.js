@@ -241,6 +241,14 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		
 		return res;
 	},
+	
+	addResAmt: function(name, value){
+		var res = this.get(name);
+		res.value += value;
+		if (res.value > res.maxValue){
+			res.value = res.maxValue;
+		}
+	},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
