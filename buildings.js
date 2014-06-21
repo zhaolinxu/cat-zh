@@ -59,11 +59,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		priceRatio: 1.12,
 		handler: function(btn){
-			//btn.game.resPool.get("catnip").perTick += 0.125;
 		},
-		/*action: function(self, game){
-			game.resPool.get("catnip").value += game.bld.getEffect("catnipPerTick");
-		},*/
 		val: 0
 	},
 	{
@@ -387,11 +383,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				wood.value -= self.val * -self.effects["woodPerTick"];
 				minerals.value -= self.val * -self.effects["mineralsPerTick"];
 				
-				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;	//a bit less than ore
+				var iron = game.resPool.get("iron");
+				if (iron.value < iron.maxValue){
+					iron.value += self.effects["ironPerTick"] * self.val;	//a bit less than ore
+				}
 				
 				if (game.workshop.get("goldOre").researched){
 					self.effects["goldPerTick"] = 0.001;
-					gold.value += self.effects["goldPerTick"] * self.val;
+					if (gold.value < gold.maxValue){
+						gold.value += self.effects["goldPerTick"] * self.val;
+					}
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
@@ -441,8 +442,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				oil.value -= self.val * -self.effects["oilPerTick"];
 				minerals.value -= self.val * -self.effects["mineralsPerTick"];
 				
-				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;
-				game.resPool.get("titanium").value += self.effects["titaniumPerTick"] * self.val;
+				var iron = game.resPool.get("iron");
+				if (iron.value < iron.maxValue){
+					iron.value += self.effects["ironPerTick"] * self.val;
+				}
+				var titanium = game.resPool.get("titanium");
+				if (titanium.value < titanium.maxValue){
+					titanium.value += self.effects["titaniumPerTick"] * self.val;
+				}
 			}
 			
 		},
