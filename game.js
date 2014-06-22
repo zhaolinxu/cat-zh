@@ -1049,7 +1049,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']}, //WHAT
 		];
 		
-		for( var i in postfixes) {
+		for(var i = 0; i < postfixes.length; i++) {
 			var p = postfixes[i];
 			if(value >= p.limit) {
 				return this.getDisplayValueExt(value / p.divisor, prefix) + p.postfix[0];
@@ -1127,13 +1127,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var timestampStart = new Date().getTime();
 		
 		this.calendar.tick();
-		try {
-			for (var i = 0; i< this.updateRate; i++){
-				this.update();
-			}
-		} catch (ex){
-			console.error("Error on calling update(), you should not see this", ex, ex.stack);
-		}
+		this.update();
 		
 		var timestampEnd = new Date().getTime();
 		if (window.location.protocol == "file:") {
