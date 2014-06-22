@@ -310,12 +310,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//vvvv do not forget to toggle tab visiblity below
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateResources(); }), 5);	//once per 5 ticks
 		
+		
+
 		//Update village resource production. 
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
-		this.timer.addEvent(dojo.hitch(this, function(){ this.village.updateResourceProduction(); }), 10);
+		this.timer.addEvent(dojo.hitch(this, function(){	
+			this.village.updateResourceProduction(); 
+		}), 10);	//every 2 seconds
+		
+		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
+		this.timer.addEvent(dojo.hitch(this, function(){ 
+			
+			this.bld.invalidateCachedEffects();
+			this.workshop.invalidateCachedEffects();
+			
+			this.updateResources(); 
+		}), 5);		//once per 5 ticks
 		
 		
 		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");

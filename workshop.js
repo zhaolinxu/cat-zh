@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
+dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunicorn.core.TabManager, {
 	
 	game: null,
 	
@@ -605,6 +605,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
+		
+		this.registerMeta(this.upgrades);
 	},
 	
 	get: function(upgradeName){
@@ -680,7 +682,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	 * 
 	 */ 
 	getEffect: function(name){
-		var totalEffect = 0;
+		/*var totalEffect = 0;
 		
 		if (this.effectsBase[name]){
 			totalEffect += this.effectsBase[name];
@@ -695,7 +697,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			}
 		}
 		
-		return totalEffect;
+		return totalEffect;*/
+		var totalEffect = 0;
+		
+		if (this.effectsBase[name]){
+			totalEffect += this.effectsBase[name];
+		}
+		return totalEffect + this.getEffectCached(name);
 	},
 	
 		

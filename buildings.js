@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
+dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearunicorn.core.TabManager, {
 	
 	game: null,
 	
@@ -7,6 +7,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
+		
+		this.registerMeta(this.buildingsData);
 	},
 	
 	buildingGroups: [{
@@ -871,7 +873,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			totalEffect += this.effectsBase[name];
 		}
 		
-		for (var i = 0; i < this.buildingsData.length; i++){
+		/*for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 
 			var effect = bld.effects[name];
@@ -889,7 +891,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			if (effect && val){
 				totalEffect += effect * val;
 			}
-		}
+		}*/
+		
+		totalEffect += this.getEffectCached(name);
 		
 		// Previously, catnip demand (or other buildings that both effected the same resource)
 		// could have theoretically had more than 100% reduction because they diminished separately, 

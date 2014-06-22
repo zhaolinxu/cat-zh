@@ -17,6 +17,39 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
  * Ideally every manager should be a sublcass of a TabManager. See reference implementation in the religion.js
  */
 dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
+	
+	effectsCached: null,
+	meta: null,
+	
+	constructor: function(){
+		this.effectsCached = {};
+		this.meta = [];
+	},
+	
+	registerMeta: function(meta){
+		this.meta.push(meta);
+	},
+	
+	invalidateCachedEffects: function(){
+		this.effectsCached = {};
+	},
+	
+	/**
+	 * Returns a cached combined value of effect of all managers.
+	 * Will calculate and store cached value if called first time.
+	 */ 
+	getEffectCached: function(name){
+		var cached = this.effectsCached[name];
+		if (cached != undefined) { return cached; }
+		
+		var effect = 0;
+		for (var i = 0; i< this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(name, this.meta[i]);
+			effect += effectMeta;
+		}
+		this.effectsCached[name] = effect;
+		return effect;
+	},
 		
 	/**
 	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
@@ -30,8 +63,16 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 			var effect = meta.effects[name] || 0;
 
-			var val = meta.val;
-			totalEffect += effect * val;
+			/**
+			 * This is an ugly hack for managers like workshop or science
+			 * Ideally just a getter handler should be called there returning correct value
+			 */
+			if (meta.hasOwnProperty("val")) {
+				var val = meta.val;
+				totalEffect += effect * val;
+			}else{
+				totalEffect += effect;
+			}
 		}
 		
 		return totalEffect || 0;
