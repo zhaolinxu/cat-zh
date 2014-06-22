@@ -90,7 +90,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
-			var isVisible = (res.value || (res.name == "kittens" && res.maxValue));
+			
+			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 			
@@ -145,7 +146,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			//---------------------------------------------
 			
 			
-			var isVisible = (res.value || (res.name == "kittens" && res.maxValue));
+			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
 			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
 			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
@@ -169,11 +170,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				row.resWMod.innerHTML = modifer ? "[" + modifer.toFixed() + "%]" : "";
 
 				if (modifer > 0){
-					dojo.setStyle(row.resWMod, "color","green");
+					dojo.setStyle(row.resWMod, "color", "green");
 				}else if (modifer < 0){
-					dojo.setStyle(row.resWMod, "color","red");
+					dojo.setStyle(row.resWMod, "color", "red");
 				} else {
-					dojo.setStyle(row.resWMod, "color","black");
+					dojo.setStyle(row.resWMod, "color", "black");
 				}
 			}
 		}

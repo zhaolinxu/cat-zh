@@ -671,16 +671,21 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				mpower.value -= self.val * -self.effects["manpowerPerTick"];
 				gold.value -= self.val * -self.effects["goldPerTick"];
 				
-				var mpratio = (game.resPool.get("manpower").value * self.effects["mintEffect"] * self.val) / 100;
 				
+				var manpower = game.resPool.get("manpower");
+				var mpratio = (manpower.maxValue * self.effects["mintEffect"] * self.val) / 100;
+
 				self.effects["fursPerTick"]  = mpratio * 2;
 				self.effects["ivoryPerTick"] = mpratio * 1.5;
 				
-				var furs = game.resPool.get("furs");
-				var ivory = game.resPool.get("ivory");
+				//var furs = game.resPool.get("furs");
+				//var ivory = game.resPool.get("ivory");
 				
-				furs.value += self.effects["fursPerTick"];
-				ivory.value += self.effects["ivoryPerTick"];
+				game.resPool.addResAmt("furs", self.effects["fursPerTick"]);
+				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"]);
+				
+				//furs.value += self.effects["fursPerTick"];
+				//ivory.value += self.effects["ivoryPerTick"];
 			}
 		}
 	},

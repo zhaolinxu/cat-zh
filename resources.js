@@ -248,6 +248,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		if (res.value > res.maxValue){
 			res.value = res.maxValue;
 		}
+		if (res.value < 0){
+			res.value = 0;
+		}
 	},
 
 	/**

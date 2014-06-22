@@ -68,6 +68,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			 * Ideally just a getter handler should be called there returning correct value
 			 */
 			if (meta.hasOwnProperty("val")) {
+				
+				if (meta.togglable && !meta.enabled){
+					continue;
+				}
+				
 				var val = meta.val;
 				totalEffect += effect * val;
 			}else{
