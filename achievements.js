@@ -114,7 +114,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	{
 		name: "utopiaProject",
 		title: "Utopia Project",
-		description: "Have a camulative happiness of over 150%",
+		description: "Get a total happiness of over 150%",
 		condition: function(){
 			return (this.game.village.happiness >= 1.5 && this.game.resPool.get("kittens").value > 35);
 		},

@@ -1,3 +1,13 @@
+v 0.7.9.8
+
+Silos (workshop upgrade), +750 max catnip to warehouse capacity
+
+v 0.7.8.8
+
+Basilica (religion upgrade for culture)
+Acoustics (tech, 65K science, 65 compedium, unlocks Chapel)
+Chapel ( + 200 to max culture, +0.05 culture per tick, +0.005 faith per tick )
+
 v 0.7.7.7
 
 Fixed resource table ( tooltips should work in chrome now)

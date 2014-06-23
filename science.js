@@ -287,7 +287,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 42000},
 			{name: 	"compedium", val: 10}
 		],
-		unlocks: [],
+		unlocks: ["acoustics"],
 		handler: function(game){
 
 		}
@@ -322,6 +322,21 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.getCraft("alloy").unlocked = true;	//TODO: replace with workshop.unlockCraft("alloy");
+		}
+	},{
+		name: "acoustics",
+		title: "Acoustics",
+		description: "Acoustics is the study of sound.",
+		effectDesc: "Unlocks Chapells",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 65000},
+			{name: 	"compedium", val: 65}
+		],
+		unlocks: [],
+		handler: function(game){
+			
 		}
 	},{
 		name: "archeology",

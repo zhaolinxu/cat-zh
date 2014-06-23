@@ -243,7 +243,24 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-
+			game.workshop.get("silos").unlocked = true;
+		}
+	},
+	{
+		name: "silos",
+		title: "Silos",
+		description: "Warehouses can now store catnip",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 50000 },
+			{ name : "steel", val: 125 },
+			{ name : "blueprint", val: 5 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.bld.get("warehouse").effects["catnipMax"] = 750;
 		}
 	},
 	//--------------------- hunt upgrades ----------------------

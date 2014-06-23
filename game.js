@@ -1157,7 +1157,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	reset: function(){
 		
-		var msg = "Are you sure you want to reset? You will save your achievemenets and karma points.";
+		var msg = "Are you sure you want to reset? You will save your achievements and karma points.";
 		if (this.resPool.get("kittens").value > 70){
 			msg = "Are you sure you want to reset? You will recieve extra karma and paragon points.";
 		}else if (this.resPool.get("kittens").value > 60){

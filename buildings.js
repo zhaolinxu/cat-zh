@@ -711,8 +711,28 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		val: 0,
 		requiredTech: ["writing"],
 		action: function(self, game){
-			/*var culture = game.resPool.get("culture");
-			culture.value += self.val * self.effects["culturePerTick"];*/
+		}
+	},{
+		name: "chapel",
+		label: "Chapel",
+		description: "+0.05 culture per tick, a bit of faith per tick. +200 to max culture",
+		unlocked: false,
+		prices: [
+			{ name : "minerals", val: 2000 },
+			{ name : "culture",  val: 250 },
+			{ name : "parchment", val: 250 }
+		],
+		effects: {
+			"culturePerTickBase" : 0.05,
+			"faithPerTickBase" : 0.005,
+			"cultureMax" : 200
+		},
+		priceRatio: 1.15,
+		ignorePriceCheck: true,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["acoustics"],
+		action: function(self, game){
 		}
 	},
 	{
@@ -758,12 +778,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["faithMax"] = 150;
 			}
 			
+			var basilica = game.religion.getRU("basilica");
+			if (basilica.researched){
+				self.effects["cultureMax"] = 75;
+				self.effects["culturePerTickBase"] = 0.2;
+			}
+			
 			var sunAltar = game.religion.getRU("sunAltar");
 			if (sunAltar.researched){
 				self.effects["happiness"] = 0.5;
 			}
-			
-			
 		}
 	},
 	{

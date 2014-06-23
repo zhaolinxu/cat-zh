@@ -169,6 +169,19 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			//none
 		},
 		researched: false
+	},{
+		name: "basilica",
+		label: "Basilica",
+		description: "Temples are generating more culture and expanding cultural limits",
+		prices: [
+			{ name : "faith", val: 1250 },
+			{ name : "gold",  val: 750 }
+		],
+		faith: 10000,
+		effects: {
+			//none
+		},
+		researched: false
 	}],
 	
 	getZU: function(name){
