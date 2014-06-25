@@ -573,7 +573,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.TechButton({
 			name : tech.title,
-			handler: function(btn){
+			handler: dojo.partial(function(tech, game, btn){
 				tech.researched = true;
 
 				if (tech.unlocks && tech.unlocks.length){
@@ -584,10 +584,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				}
 				
 				if (tech.handler){
-					tech.handler(self.game);
+					tech.handler(game);
 				}
 				
-			},
+			}, tech, self.game),
 			prices: tech.prices ? tech.prices : [{
 				name:"science",
 				val: tech.cost

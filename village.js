@@ -142,7 +142,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		this.updateHappines();
 		
 		var showFastHunt = (this.game.resPool.get("manpower").value >= 100);
-		$("#fastHuntContainer").toggle(showFastHunt);
+		$("#fastHuntContainer").css("visibility", showFastHunt ? "visible" : "hidden");
 	},
 	
 	getFreeKittens: function(){
@@ -623,7 +623,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 						fontWeight: "strong"
 					}}, null);
 					
-				dojo.connect(this.unassignHref, "onclick", this, function(event){
+				dojo.connect(this.unassignHref, "onclick", this, dojo.partial(function(job, event){
 					event.stopPropagation();
 					
 					if (!job.value){
@@ -631,9 +631,9 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 					}
 					
 					job.value--;
-					self.game.village.sim.removeJob(job.name);
+					this.game.village.sim.removeJob(job.name);
 					this.update();
-				});
+				}, job));
 
 				dojo.place(this.unassignHref, this.buttonContent);
 			} else {
@@ -662,7 +662,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	createJobBtn: function(job, game){
 		var btn = new com.nuclearunicorn.game.ui.JobButton({
 			name : job.title,
-			handler: dojo.partial(function(job){
+			handler: dojo.partial(function(job, game){
 				
 				var freeKittens = game.village.getFreeKittens();
 				var jobRef = game.village.getJob(job.name); 	//probably will fix missing ref on loading
@@ -671,7 +671,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					game.village.sim.assignJob(job.name);
 					jobRef.value += 1;
 				}
-			}, job),
+			}, job, game),
 			job: job.name
 		}, game);
 		return btn;
@@ -712,9 +712,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		var btn = new com.nuclearunicorn.game.ui.Button({ name:"Clear",
-			handler: function(){
-				self.game.village.clearJobs();
-			}
+			handler: dojo.hitch(this, function(){
+				this.game.village.clearJobs();
+			})
 		});
 		btn.render(jobsPanelContainer);
 		this.addButton(btn);
@@ -762,9 +762,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var huntBtn = new com.nuclearunicorn.game.ui.Button({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
-				handler: function(){
-					self.sendHunterSquad();
-				},
+				handler: dojo.hitch(this, function(){
+					this.sendHunterSquad();
+				}),
 				prices: [{ name : "manpower", val: 100 }]
 		}, this.game);
 		huntBtn.render(controlsTd);

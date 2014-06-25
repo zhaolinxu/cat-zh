@@ -437,8 +437,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
 			}
 
-			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });
-			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
+			dojo.connect(this.domNode, "onmouseover", this, dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", ""); }, tooltip));
+			dojo.connect(this.domNode, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "none"); }, tooltip));
 			
 			this.tooltip = tooltip;
 			this.tooltipPricesNodes = tooltipPricesNodes;
@@ -566,12 +566,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 			}
 		}, panel);	
 		
-		dojo.connect(toggle, "onclick", this, function(){
+		dojo.connect(toggle, "onclick", this, dojo.partial(function(contentDiv, toggle){
 			this.collapsed = !this.collapsed;
 			
 			$(contentDiv).toggle();
 			toggle.innerHTML = this.collapsed ? "+" : "-";
-		});
+		}, contentDiv, toggle));
 		
 		this.panelDiv = panel;
 		
@@ -601,8 +601,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	
 	visible: true,
 
-	//_tabContainer: null,
-	
 	constructor: function(tabName, game){
 		this.tabName = tabName;
 		this.tabId = tabName;
@@ -612,10 +610,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	},
 	
 	render: function(tabContainer){
-		/*dojo.create("span", { innerHTML: this.tabName }, tabContainer);
-		dojo.create("br", {}, tabContainer);
-		dojo.create("br", {}, tabContainer);*/
-		
 		this.initRenderer(tabContainer);
 				
 		for (var i = 0; i<this.buttons.length; i++){

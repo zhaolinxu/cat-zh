@@ -288,10 +288,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var sacrificeBtn = new com.nuclearunicorn.game.ui.Button({ 
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension.\nYou will recieve one Unicorn Tear for every ziggurat you have.",
-				handler: function(btn){
+				handler: dojo.partial(function(zigguratCount, btn){
 					btn.game.msg("2500 unicorns sacrificed. You've got " + zigguratCount + " unicorn tears!");
 					btn.game.resPool.get("tears").value += 1 * zigguratCount;
-				},
+				}, zigguratCount),
 				prices: [{ name: "unicorns", val: 2500}]
 			}, this.game);
 			sacrificeBtn.render(content);

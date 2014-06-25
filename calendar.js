@@ -53,6 +53,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	observeBtn: null,
 	
+	observeHandler: null,
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -104,7 +106,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				value: "Observe"
 			}, node);
 			
-			var observeHandler = function(event, ironwill){
+			this.observeHandler = function(event, ironwill){
 
 				if ((!event.clientX || !event.clientY) && !ironwill){
 					//>:
@@ -129,26 +131,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 			
-			dojo.connect(this.observeBtn, "onclick", this, observeHandler);
+			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
 			var seconds = 60;
-			var timeout = setInterval(function(){
+			var timeout = setInterval(dojo.hitch(this, function(){
 				
-				dojo.destroy(self.observeBtn);
-				self.observeBtn = null;
+				dojo.destroy(this.observeBtn);
+				this.observeBtn = null;
 				
 				window.clearInterval(timeout);
 				
-				var autoChance = self.game.bld.getEffect("starAutoSuccessChance");	//in %
+				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
 
 				if(
-					(self.game.ironWill && (self.game.rand(100) <= 25)) ||
-					(self.game.rand(100) <= autoChance)
+					(this.game.ironWill && (self.game.rand(100) <= 25)) ||
+					(this.game.rand(100) <= autoChance)
 				){	
-					dojo.hitch(self, observeHandler)({}, true);
+					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 				
-			}, seconds * 1000);
+			}), seconds * 1000);
 		}
 		
 		

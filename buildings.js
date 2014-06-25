@@ -34,7 +34,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "culture",
 		title: "Culture",
-		buildings: ["amphitheatre", "temple"]
+		buildings: ["amphitheatre", "chapel", "temple"]
 	},{
 		name: "other",
 		title: "Other",
@@ -1167,8 +1167,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		
 		this.renderLinks();
 		
-		dojo.connect(this.domNode, "onmouseover", this, function(){ self.game.selectedBuilding = building; });
-		dojo.connect(this.domNode, "onmouseout", this, function(){  self.game.selectedBuilding = null; });
+		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = building; }));
+		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
 	},
 	
 	/**
@@ -1186,7 +1186,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 							cursor: "pointer"}
 						}, null);
 					
-				dojo.connect(this.sellHref, "onclick", this, function(event){
+				dojo.connect(this.sellHref, "onclick", this, dojo.partial(function(building, event){
 					event.stopPropagation();
 					event.preventDefault();
 					
@@ -1196,7 +1196,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				
 					this.prices = this.getPrices();
 					this.game.render();
-				});
+				}, building));
 				dojo.place(this.sellHref, this.buttonContent);
 			}
 		}	
@@ -1216,14 +1216,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					cursor: "pointer"
 				}}, null);
 				
-			dojo.connect(this.toggleHref, "onclick", this, function(event){
+			dojo.connect(this.toggleHref, "onclick", this, dojo.partial(function(building, event){
 				event.stopPropagation();
 				event.preventDefault();
 
 				building.enabled = !building.enabled;
 
 				this.update();
-			});
+			}, building));
 			
 			dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
 			dojo.place(this.toggleHref, this.buttonContent);
@@ -1263,14 +1263,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						cursor: "pointer"
 					}}, null);
 					
-				dojo.connect(this.toggleHref, "onclick", this, function(event){
+				dojo.connect(this.toggleHref, "onclick", this, dojo.partial(function(building, event){
 					event.stopPropagation();
 					event.preventDefault();
 
 					building.enabled = !building.enabled;
 
 					this.update();
-				});
+				}, building));
 				
 				dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
 				dojo.place(this.toggleHref, this.buttonContent);
@@ -1311,10 +1311,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 	
 	update: function(){
 		this.inherited(arguments);
-		
-		var self = this;
-		
-		var catnipVal = self.game.resPool.get("catnip").value;	
+		var catnipVal = this.game.resPool.get("catnip").value;	
 	    // -------------- x100 ----------------
 			
 		if (!this.x100Href){
@@ -1325,27 +1322,26 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 					display: catnipVal < (100 * 100) ? "none" : ""
 				}}, null);
 				
-			dojo.connect(this.x100Href, "onclick", this, function(event){
+			dojo.connect(this.x100Href, "onclick", this, dojo.hitch(this, function(event){
 				event.stopPropagation();
 				
-				var catnipVal = self.game.resPool.get("catnip").value;
+				var catnipVal = this.game.resPool.get("catnip").value;
 				
 				if (catnipVal < (100 * 100)){
 					this.game.msg("not enough catnip!");
 				}
 				
-				self.game.resPool.get("catnip").value -= (100 * 100);
+				this.game.resPool.get("catnip").value -= (100 * 100);
 				
-				var isEnriched = self.game.workshop.get("advancedRefinement").researched;
+				var isEnriched = this.game.workshop.get("advancedRefinement").researched;
 				if (!isEnriched){
-					self.game.resPool.get("wood").value += 100;
+					this.game.resPool.get("wood").value += 100;
 				} else {
-					self.game.resPool.get("wood").value += 200;
-					//self.game.resPool.get("oil").value += 1; //no oil until chemistry
+					this.game.resPool.get("wood").value += 200;
 				}
 				
 				this.update();
-			});
+			}));
 			
 			dojo.place(this.x100Href, this.buttonContent);
 		} else {

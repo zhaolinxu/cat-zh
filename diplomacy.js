@@ -311,63 +311,63 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					
 					var tradeRatioAttitude = 0;
 					
-					var attitudeChance = self.rand(100);
-					var standingRatio = self.game.bld.getEffect("standingRatio");
+					var attitudeChance = btn.game.rand(100);
+					var standingRatio = btn.game.bld.getEffect("standingRatio");
 					standingRatio = standingRatio ? standingRatio : 0;
 					
-					if (race.attitude == "hostile" && self.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-						self.game.msg( race.title + " hate you for no reason");
+					if (race.attitude == "hostile" && btn.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
+						btn.game.msg( race.title + " hate you for no reason");
 						return;
 					}
 					
-					if (race.attitude == "friendly" && self.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
-						self.game.msg( race.title + " think your kittens are adorable");
+					if (race.attitude == "friendly" && btn.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+						btn.game.msg( race.title + " think your kittens are adorable");
 						tradeRatioAttitude = 0.25;
 					}
 					
 					for (var j =0; j< race.sells.length; j++){
 						var s = race.sells[j];
 						
-						var chance = self.rand(100);
+						var chance = btn.game.rand(100);
 						if (chance > s.chance){
 							continue;
 						}
 						
-						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+						var sratio = s.seasons[btn.game.calendar.getCurSeason().name];
 						var min = s.value * sratio - s.value * sratio * s.delta/2;
 						
-						var amt = min + self.rand(s.value * sratio * s.delta);
+						var amt = min + btn.game.rand(s.value * sratio * s.delta);
 						//var res = self.game.resPool.get(s.name);
 						
-						var ratio = self.game.bld.getEffect("tradeRatio");
+						var ratio = btn.game.bld.getEffect("tradeRatio");
 						amt += amt*ratio;
 						
 						//res.value += (amt + amt*tradeRatioAttitude);
-						self.game.resPool.addResAmt(s.name, (amt + amt*tradeRatioAttitude));
+						btn.game.resPool.addResAmt(s.name, (amt + amt*tradeRatioAttitude));
 						
-						self.game.msg("You've got " + self.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
+						btn.game.msg("You've got " + btn.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
 					}
 					//-------------------- 35% chance to get spice ------------------
-					if (self.rand(100) < 35){
-						var res = self.game.resPool.get("spice");
-						var spiceVal = self.rand(50);
-						var val = 25 +  spiceVal + spiceVal * self.game.bld.getEffect("tradeRatio");
+					if (btn.game.rand(100) < 35){
+						var res = btn.game.resPool.get("spice");
+						var spiceVal = btn.game.rand(50);
+						var val = 25 +  spiceVal + spiceVal * btn.game.bld.getEffect("tradeRatio");
 						
 						res.value += val;
-						self.game.msg("You've got " + self.game.getDisplayValueExt(val) + " spice");
+						btn.game.msg("You've got " + btn.game.getDisplayValueExt(val) + " spice");
 					}
 					
 					//-------------- 10% change to get blueprint ---------------
 					
-					if (self.rand(100) < 10){
-						self.game.resPool.get("blueprint").value += 1;
-						self.game.msg("You've got a blueprint!");
+					if (btn.game.rand(100) < 10){
+						btn.game.resPool.get("blueprint").value += 1;
+						btn.game.msg("You've got a blueprint!");
 					}
 					
 					//-------------- 15% change to get titanium  ---------------
 					
-					var shipVal = self.game.resPool.get("ship").value;
+					var shipVal = btn.game.resPool.get("ship").value;
 					var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
 					
 					if ( self.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
@@ -376,9 +376,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
 						
 						//self.game.resPool.get("titanium").value += titaniumAmt;
-						self.game.resPool.addResAmt("titanium", titaniumAmt);
+						btn.game.resPool.addResAmt("titanium", titaniumAmt);
 						
-						self.game.msg("You've got " + self.game.getDisplayValueExt(titaniumAmt) + " titanium!");
+						btn.game.msg("You've got " + btn.game.getDisplayValueExt(titaniumAmt) + " titanium!");
 					}
 					
 				}, race )	//eo partial
@@ -405,10 +405,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var race = btn.game.diplomacy.unlockRandomRace();
 				
 				if (race){
-					self.game.msg("You've found a new civilization!");
+					btn.game.msg("You've found a new civilization!");
 				} else {
-					self.game.msg("Your explorers failed to find anyone.");
-					var res = self.game.resPool.get("manpower");
+					btn.game.msg("Your explorers failed to find anyone.");
+					var res = btn.game.resPool.get("manpower");
 					res.value += 950;
 				}
 				

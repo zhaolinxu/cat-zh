@@ -261,6 +261,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 			game.bld.get("warehouse").effects["catnipMax"] = 750;
+			game.workshop.get("titaniumBarns").unlocked = true;
 		}
 	},
 	//--------------------- hunt upgrades ----------------------
@@ -336,7 +337,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "advancedRefinement",
 		title: "Catnip Enrichment",
-		description: "Catnip refines twice as better",
+		description: "Catnip refines twice as well",
 		effects: {
 		},
 		prices:[
@@ -699,22 +700,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	 * 
 	 */ 
 	getEffect: function(name){
-		/*var totalEffect = 0;
-		
-		if (this.effectsBase[name]){
-			totalEffect += this.effectsBase[name];
-		}
-		
-		for (var i = 0; i < this.upgrades.length; i++){
-			var upgrade = this.upgrades[i];
-			var effect = upgrade.effects[name];
-			
-			if (effect && upgrade.researched){
-				totalEffect += effect;
-			}
-		}
-		
-		return totalEffect;*/
 		var totalEffect = 0;
 		
 		if (this.effectsBase[name]){

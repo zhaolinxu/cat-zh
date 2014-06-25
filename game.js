@@ -80,6 +80,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 		if (!this.containerId) { throw "container id is undefined for res table"; }
 		dojo.empty(this.containerId);
 		
+		this.resRows = [];
+		
 		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
 		
 		for (var i = 0; i < this.game.resPool.resources.length; i++){
@@ -517,8 +519,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	render: function(){
-		var self = this;
-		
+
 		var container = dojo.byId(this.id);
 		dojo.empty(container);
 
@@ -562,9 +563,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			dojo.connect(tabLink, "onclick", this, 
 				dojo.partial(
 					function(tab){
-						self.activeTabId = tab.tabId;
-						self.render();
-						//console.log("active tab is:", tabId);
+						this.activeTabId = tab.tabId;
+						this.render();
 					}, tab)
 			);
 			
@@ -769,9 +769,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	updateCraftResources: function(){
-		//TODO: reduce regeneration rate
-		var self = this;
-		
 		if ( this.bld.get("workshop").val == 0 ){
 			return;
 		}
@@ -832,7 +829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						display: this.resPool.hasRes(recipe.prices, 1) ? "" : "none"
 					}
 				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 1); event.preventDefault(); }, res));
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 1); event.preventDefault(); }, res));
 				
 				var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				var a = dojo.create("a", {
@@ -842,7 +839,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						display: this.resPool.hasRes(recipe.prices, 25) ? "" : "none"
 					}
 				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 25); event.preventDefault(); }, res));
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 25); event.preventDefault(); }, res));
 				
 				var td = dojo.create("td", { }, tr);
 				var a = dojo.create("a", {
@@ -852,7 +849,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						display: this.resPool.hasRes(recipe.prices, 100) ? "" : "none"
 					} 
 				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ self.craft(res.name, 100); event.preventDefault(); }, res));
+				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 100); event.preventDefault(); }, res));
 				
 				var td = dojo.create("td", { }, tr);
 
@@ -877,7 +874,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}, td);
 
 				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ 
-					self.craftAll(res.name);
+					this.craftAll(res.name);
 					event.preventDefault(); 
 				}, res));
 				
@@ -943,7 +940,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var tooltip = dojo.byId("tooltip");
 		
-		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, event){
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
 			 if (!resRef.perTickUI){ return;}
 			 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
@@ -960,11 +957,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			 dojo.setStyle(tooltip, "display", ""); 
 			 dojo.setStyle(container, "fontWeight", "bold"); 
 			 
-	    }, resRef));
-		dojo.connect(container, "onmouseout", this, function(){
+	    }, resRef, tooltip));
+	    
+		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
 			 dojo.setStyle(tooltip, "display", "none"); 
 			 dojo.setStyle(container, "fontWeight", "normal");
-		});
+		},tooltip, container));
 		
 	},
 	
