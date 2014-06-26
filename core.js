@@ -131,7 +131,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */ 
-		msg : function(message){
+		msg : function(message, type){
 			var gameLog = dojo.byId("gameLog");
 			
 			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
@@ -140,7 +140,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			});
 				
 			dojo.create("br", {}, gameLog, "first");
-			var span = dojo.create("span", { innerHTML: message }, gameLog, "first");
+			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
+			
+			if (type){
+				dojo.addClass(span, "type_"+type);
+			}
 			
 			return span;
 		},

@@ -350,7 +350,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	sendHunters: function(){
 		var huntingRes = this.sendHuntersInternal();
 		if (huntingRes.isUnicorn){
-			this.game.msg("You got a unicorn!");
+			this.game.msg("You got a unicorn!", "important");
 		}
 		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
 		if (huntingRes.ivory){
@@ -384,7 +384,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			if(totalYield.unicorns == 1){
 				this.game.msg("You got a unicorn!");
 			} else {
-				this.game.msg("You got " + totalYield.unicorns + " unicorns!");
+				this.game.msg("You got " + totalYield.unicorns + " unicorns!", "important");
 			}
 		}
 		var msg = "Your hunters have returned";
@@ -847,7 +847,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		if (this.bureaucracyPanelContainer){
-			this.bureaucracyPanelContainer.innerHTML = "";
+			dojo.empty(this.bureaucracyPanelContainer);
 					
 			var sim = this.game.village.sim;
 			
@@ -868,6 +868,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" +
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
+				
+				/*
+				 * //good stuff but regeneration is to fast
+				 * if (kitten.job){
+					var unassignHref = dojo.create("a", { href: "#", innerHTML: "[-]", style: { float: "right"}}, div);
+					dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
+						event.preventDefault(); 
+						sim.kittens[i].job = null; 
+					}, this.game.village.sim, i));
+				}*/
 				
 				var skillsArr = this.getSkillsSorted(kitten.skills);
 

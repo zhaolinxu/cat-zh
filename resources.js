@@ -269,6 +269,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
+			
+			if (res.name == "catnip" && this.game.workshop.get("silos").researched){
+				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio") * 0.25;
+			}
+			
 			if (res.name == "wood" || 
 				res.name == "minerals" || 
 				res.name == "iron" || 

@@ -94,6 +94,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"summer": 0.85,
 				"autumn": 1.05,
 				"winter": 1.25
+			}},
+			{name: "titanium", value: 1, chance: 0, delta: 0, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
 			}}
 		]
 	},
@@ -212,7 +218,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			this.game.diplomacyTab.visible = true;
 			this.game.render();
 			
-			this.game.msg("An emissary of " + race.title + " comes to your village");
+			this.game.msg("An emissary of " + race.title + " comes to your village", "notice");
 		} 
 	}
 
@@ -275,11 +281,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			
 			var buys = race.buys[0];
 			dojo.create("div", { 
-				innerHTML: "Buys: " + buys.name + " (" + buys.val + ")"
+				innerHTML: "<span style='color: #01A9DB'>Buys: </span>" + buys.name + " (" + buys.val + ")"
 			}, content);
 			
 			for (var j =0; j< race.sells.length; j++){
-				if (race.sells[j].chance == 100){
+				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
 					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 					
@@ -289,13 +295,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					var min = val * sratio - val * sratio * s.delta/2;
 					var max = val * sratio + val * sratio * s.delta/2;
 					
+					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
+					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);	
+					if (j == (race.sells.length - 1)){
+						dojo.style(div, "marginBottom", "15px");
+					}
 					
-					dojo.create("div", { 
-						innerHTML: "Sells: " + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")",
-						style: { marginBottom: "15px"
-					}}, content);	
-					
-				}
+				//}
 			}
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
@@ -362,7 +368,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					
 					if (btn.game.rand(100) < 10){
 						btn.game.resPool.get("blueprint").value += 1;
-						btn.game.msg("You've got a blueprint!");
+						btn.game.msg("You've got a blueprint!", "notice");
 					}
 					
 					//-------------- 15% change to get titanium  ---------------
@@ -378,7 +384,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						//self.game.resPool.get("titanium").value += titaniumAmt;
 						btn.game.resPool.addResAmt("titanium", titaniumAmt);
 						
-						btn.game.msg("You've got " + btn.game.getDisplayValueExt(titaniumAmt) + " titanium!");
+						btn.game.msg("You've got " + btn.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
 					}
 					
 				}, race )	//eo partial
@@ -405,7 +411,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var race = btn.game.diplomacy.unlockRandomRace();
 				
 				if (race){
-					btn.game.msg("You've found a new civilization!");
+					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
 					btn.game.msg("Your explorers failed to find anyone.");
 					var res = btn.game.resPool.get("manpower");

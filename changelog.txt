@@ -1,3 +1,23 @@
+v 0.8.0.1
+
+Alloy barns
+Alloy axe
+
+All barn capacity upgrades will now affect catnip as well if Silos are researched (25% of ratio)
+
+v 0.8.0.0
+
+Fixed few more memory leaks (Thanks Zusias!)
+
+Craft table will display price tooltips for recipes
+Renamed "Diplomacy" tab to "Trade"
+Zebras will display titanium drop
+Buy and Sell sections will be now color coded
+Certain important messages in the log are now color coded
+
+Nerfed Mints to the ground (less furs, significanly less ivory)
+Fixed Titanium Warehouses not being correctly unlocked
+
 v 0.7.9.9
 
 Fixed lots of memory leaks in the game.

@@ -123,6 +123,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 			//do nothing
 		}
+	},{
+		name: "alloyAxe",
+		title: "Alloy Axe",
+		description: "The more you use them, the sharper they are! Woodcutters are 50% more effective.",
+		effects: {
+			"woodRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "alloy", val: 25 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
 	},
 	//--------------------- storage upgrades ----------------------
 	{
@@ -196,6 +212,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 		}
 	},{
+		name: "alloyBarns",
+		title: "Alloy Barns",
+		description: "Barns store twice as many resources",
+		effects: {
+			"barnRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 75000 },
+			{ name : "alloy", val: 20 },
+			{ name : "plate",    val: 750 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "titaniumWarehouses",
 		title: "Titanium Warehouses",
 		description: "Warehouses store 50% more resources",
@@ -261,7 +293,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 			game.bld.get("warehouse").effects["catnipMax"] = 750;
-			game.workshop.get("titaniumBarns").unlocked = true;
+			game.workshop.get("titaniumWarehouses").unlocked = true;
 		}
 	},
 	//--------------------- hunt upgrades ----------------------
@@ -545,10 +577,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "alloy",
 		title: "Alloy",
-		description: "A durable alloy of steel and titanium. Required for advanced buildings. TBD.",
+		description: "A durable alloy of steel and titanium. Required for advanced buildings and upgrades.",
 		prices:[
 			{name: "steel", val: 75},
-			{name: "titanium", val: 5}
+			{name: "titanium", val: 10}
 		],
 		unlocked: false
 	},{

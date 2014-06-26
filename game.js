@@ -44,23 +44,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	}
 });
 
-/*
-		//checkbox
-		if (this.bld.get("barn").val > 0){
-			var div = dojo.create("div", { style: { paddingTop: "15px" }  }, this._resourceDiv);
-			var limitCheckBox = dojo.create("input", {
-				type: "checkbox",
-				checked: this.forceShowLimits
-			}, div);
-			
-			dojo.connect(limitCheckBox, "onclick", this, function(event){
-				event.stopPropagation();
-				this.forceShowLimits = !this.forceShowLimits;
-			});
-			
-			dojo.create("span", { innerHTML: "Show max resources"}, div);
-		}
-*/
+/**
+ * Generic resource table for res/craft panels in the game.
+ * 
+ * Instead of re-creating the DOM tree every tick they are capable of rendering 
+ * outline table and then updating related cells
+ */ 
 
 dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	
@@ -180,10 +169,201 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				}
 			}
 		}
+	},
+	
+	attachTooltip: function(container, htmlProvider){
+		var tooltip = dojo.byId("tooltip");
+		
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
+			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
+			 
+			 var target = event.originalTarget || event.toElement;	//fucking chrome
+			 var pos = $(target).position();
+			 if (!pos){
+				 return;
+			 }
+			 
+			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
+			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+			
+			 dojo.setStyle(tooltip, "display", ""); 
+			 dojo.setStyle(container, "fontWeight", "bold"); 
+			 
+	    }, tooltip, htmlProvider));
+	    
+		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
+			 dojo.setStyle(tooltip, "display", "none"); 
+			 dojo.setStyle(container, "fontWeight", "normal");
+		}, tooltip, container));
 	}
 });
 
+/**
+ * Same as resources, but no per tick values
+ */ 
+dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn.game.ui.GenericResourceTable, {
 
+	render: function(){
+		if (!this.containerId) { throw "container id is undefined for res table"; }
+		dojo.empty(this.containerId);
+		
+		this.resRows = [];
+		
+		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
+		
+		for (var i = 0; i < this.game.resPool.resources.length; i++){
+			var res = this.game.resPool.resources[i];
+			
+			if (!res.craftable){
+				continue;
+			}
+			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
+			
+			
+			var isVisible = (res.value > 0);
+			dojo.setStyle(tr, "display", isVisible ? "" : "none");
+			//	---------------- name ----------------------
+			
+			var tdResName = dojo.create("td", { 
+					innerHTML: res.title ? res.title : res.name + ":",
+					style: {
+						width: "75px"
+					}
+				}, tr);
+			if (res.color){
+				dojo.setStyle(tdResName, "color", res.color);
+			}
+			
+			//sort of hack to override regeneration bug
+			var recipe = this.game.workshop.getCraft(res.name);
+				
+			//self-recovery hack to discard removed resources
+			//TODO: remove the reference from the res pool
+			if (!recipe){
+				res.value = 0;
+				continue;
+			}
+
+			//	---------------- amt ----------------------
+			var tdAmt = dojo.create("td", null, tr);
+			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			
+			//	---------------- + ----------------------
+			var td = dojo.create("td", { style: {width: "20px", cursor: "pointer"}}, tr);
+				var a1 = dojo.create("a", { 
+					href: "#", 
+					innerHTML : "+",
+					style: {
+						display: this.game.resPool.hasRes(recipe.prices, 1) ? "" : "none"
+					}
+				}, td);
+			dojo.connect(a1, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 1); event.preventDefault(); }, res));
+			this.attachTooltip(td, dojo.partial( function(recipe){
+				
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+				
+				for( var i = 0; i < recipe.prices.length; i++){
+					var price = recipe.prices[i];
+					
+					var priceItemNode = dojo.create("div", null, tooltip); 
+					
+					var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
+					var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right", paddingLeft: "6px" } }, priceItemNode );
+				}
+				return tooltip.outerHTML;
+			
+			}, recipe));	
+			
+			//	---------------- +25 ----------------------
+			var td = dojo.create("td", { style: {width: "20px"}}, tr);
+				var a25 = dojo.create("a", {
+					href: "#", 
+					innerHTML : "+25",
+					style: {
+						display: this.game.resPool.hasRes(recipe.prices, 25) ? "" : "none"
+					}
+				}, td);
+			dojo.connect(a25, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 25); event.preventDefault(); }, res));
+
+			//	---------------- +100 ----------------------
+			var td = dojo.create("td", { style: {width: "20px"}}, tr);
+				var a100 = dojo.create("a", {
+					href: "#", 
+					innerHTML : "+100",
+					style: {
+						display: this.game.resPool.hasRes(recipe.prices, 100) ? "" : "none"
+					}
+				}, td);
+			dojo.connect(a100, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 100); event.preventDefault(); }, res));
+
+			
+			//	---------------- +all ----------------------
+			var td = dojo.create("td", { }, tr);
+			
+
+			var aAll = dojo.create("a", {
+				href: "#", 
+				innerHTML : "all",
+				style: {
+					display: this.hasMinAmt(recipe) ? "" : "none"
+				} 
+			}, td);
+
+			dojo.connect(aAll, "onclick", this, dojo.partial(function(res, event){ 
+				this.game.craftAll(res.name);
+				event.preventDefault(); 
+			}, res));
+			
+			this.resRows.push({
+				resRef: res,
+				recipeRef: recipe,
+				rowRef: tr,
+				resAmt : tdAmt,
+				a1 : a1,
+				a25: a25,
+				a100: a100,
+				aAll: aAll
+			});
+		}
+	},
+	
+	hasMinAmt: function(recipe){
+		var minAmt = Number.MAX_VALUE;
+		for (var j = 0; j < recipe.prices.length; j++){
+			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
+			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+			if (allAmt < minAmt){
+				minAmt = allAmt;
+			}
+		}
+		
+		return minAmt > 0 && minAmt < Number.MAX_VALUE;
+	},
+	
+	update: function(){
+		for (var i = 0; i < this.resRows.length; i++){
+			var row = this.resRows[i];
+			var res = row.resRef;
+			
+			//  highlight resources for selected building
+			//--------------------------------------------
+			var selBld = this.game.selectedBuilding;
+			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
+			//---------------------------------------------
+			
+			var isVisible = (res.value > 0);
+			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
+			
+			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			
+			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, 1) ? "" : "none");
+			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, 25) ? "" : "none");
+			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(row.recipeRef.prices, 100) ? "" : "none");
+			
+			dojo.setStyle(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");
+		}
+	}
+});
 
 
 
@@ -298,7 +478,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.economyTab.visible = false;
 		this.addTab(this.economyTab);
 		
-		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy("Diplomacy", this);
+		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy("Trade", this);
 		this.diplomacyTab.visible = false;
 		this.addTab(this.diplomacyTab);
 		
@@ -328,27 +508,29 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.bld.invalidateCachedEffects();
 			this.workshop.invalidateCachedEffects();
 			
-			this.updateResources(); 
+			this.updateResources();
 		}), 5);		//once per 5 ticks
 		
-		
 		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
+		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
 		
 		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
+		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
+		
 
 	},
 	
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-	msg: function(message){
+	msg: function(message, type){
 		var hasCalendarTech = this.science.get("calendar").researched;
 		
 		if (hasCalendarTech){
 			message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
 		}
 		
-		return this.console.static.msg(message);
+		return this.console.static.msg(message, type);
 	},
 	
 	clearLog: function(){
@@ -496,16 +678,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	
-	//** deprecated **/
-	/*saveImport: function(){
-		var data = window.prompt("Warning, this will overwrite your save!");
-		if (data){
-			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
-			this.load();
-			this.msg("Save import successfull!");
-		}
-	},*/
-	
 	saveImport: function(){
 		if (!window.confirm("Are your sure? This will overwrite your save!")){
 			return;
@@ -531,10 +703,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		
 		this.resTable.render();
+		this.craftTable.render();
 
-		//this.updateResources();
-		this.updateCraftResources();
-		
 		var visibleTabs = [];
 		
 		for (var i = 0; i<this.tabs.length; i++){
@@ -769,117 +939,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	updateCraftResources: function(){
-		if ( this.bld.get("workshop").val == 0 ){
-			return;
-		}
-		
-		this._craftDiv = dojo.byId("craftContainer");
-		dojo.empty(this._craftDiv);
-
-		var resTable = dojo.create("table", { className: "table", style: { width: "100%"} }, this._craftDiv);
-		
-		for (var i = 0; i < this.resPool.resources.length; i++){
-			var res = this.resPool.resources[i];
-			
-			if (res.craftable && res.value > 0 ){
-				var tr = dojo.create("tr", {}, resTable);
-				
-				//  highlight resources for selected building
-				//--------------------------------------------
-				var selBld = this.selectedBuilding;
-				if (selBld && this.isResRequired(selBld, res.name)){
-					dojo.addClass(tr, "highlited");
-				}
-				
-				//------ resource name --------
-				var tdResName = dojo.create("td", { 
-					innerHTML: res.title ? res.title : res.name + ":",
-					style: {
-						width: "75px"
-					}
-				}, tr);
-				
-				if (res.color){
-					dojo.setStyle(tdResName, "color", res.color);
-				}
-				
-				//------ resource count --------
-				dojo.create("td", { innerHTML: this.getDisplayValueExt(res.value),
-					style: {
-						width: "75px"
-					}}, tr);
-				
-				//sort of hack to override regeneration bug
-				//TODO: add 'hasRes' check
-
-				var recipe = this.workshop.getCraft(res.name);
-				
-				//self-recovery hack to discard removed resources
-				//TODO: remove the reference from the res pool
-				if (!recipe){
-					res.value = 0;
-					continue;
-				}
-				
-				var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a = dojo.create("a", { 
-					href: "#", 
-					innerHTML : "+",
-					style: {
-						display: this.resPool.hasRes(recipe.prices, 1) ? "" : "none"
-					}
-				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 1); event.preventDefault(); }, res));
-				
-				var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+25",
-					style: {
-						display: this.resPool.hasRes(recipe.prices, 25) ? "" : "none"
-					}
-				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 25); event.preventDefault(); }, res));
-				
-				var td = dojo.create("td", { }, tr);
-				var a = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+100",
-					style: {
-						display: this.resPool.hasRes(recipe.prices, 100) ? "" : "none"
-					} 
-				}, td);
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ this.craft(res.name, 100); event.preventDefault(); }, res));
-				
-				var td = dojo.create("td", { }, tr);
-
-				//iterate prices and calculate minimal possible amount of craftable resource
-				//this may have a negative impact, but update cycle for this div is deliberately rare
-				
-				var minAmt = Number.MAX_VALUE;
-				for (var j = 0; j < recipe.prices.length; j++){
-					var totalRes = this.resPool.get(recipe.prices[j].name).value;
-					var allAmt = Math.floor(totalRes / recipe.prices[j].val);
-					if (allAmt < minAmt){
-						minAmt = allAmt;
-					}
-				}
-
-				var a = dojo.create("a", {
-					href: "#", 
-					innerHTML : "all",
-					style: {
-						display: (minAmt > 0 && minAmt < Number.MAX_VALUE) ? "" : "none"
-					} 
-				}, td);
-
-				dojo.connect(a, "onclick", this, dojo.partial(function(res, event){ 
-					this.craftAll(res.name);
-					event.preventDefault(); 
-				}, res));
-				
-			}
-		}
+		//do nothing, outdated
 	},
 	
 	craft: function(resName, value){
@@ -1014,16 +1074,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += "<br>Structures: " + 
 				this.getDisplayValue((bldResRatio+relResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResTogglableTick), true);
 		}
-		
 
-		
 		if (season.modifiers[res.name]){
 			resString += "<br>Season: " + ((season.modifiers[res.name]-1)*100) + "%";
 		}
 
-		/**if (kittensPlus + kittensMinus != 0){
-			resString += "<br>Kittens: " + this.getDisplayValue(kittensPlus + kittensMinus, true);
-		}**/
 		if (kittensPlus){
 			resString += "<br>Job output: " + this.getDisplayValue(kittensPlus, true);
 		}
