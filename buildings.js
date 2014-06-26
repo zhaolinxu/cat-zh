@@ -675,8 +675,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				var manpower = game.resPool.get("manpower");
 				var mpratio = (manpower.maxValue * self.effects["mintEffect"] * self.val) / 100;
 
-				self.effects["fursPerTick"]  = mpratio * 2;
-				self.effects["ivoryPerTick"] = mpratio * 1.5;
+				self.effects["fursPerTick"]  = mpratio * 1.25;	//2
+				self.effects["ivoryPerTick"] = mpratio * 0.25;	//1.5
 				
 				//var furs = game.resPool.get("furs");
 				//var ivory = game.resPool.get("ivory");
