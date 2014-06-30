@@ -533,6 +533,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	crafts:[{
 		name: "wood",
 		title: "Refine catnip",
+		description: "A sturdy block of catnip wood. Difficult to process, but great building material.",
 		prices:[
 			{name: "catnip", val: 100}
 		],
@@ -541,6 +542,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "beam",
 		title: "Wooden Beam",
+		description: "Simple support structure made of a wood. Required for advanced construction",
 		prices:[
 			{name: "wood", val: 175}
 		],
