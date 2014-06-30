@@ -564,7 +564,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["construction"],
-		canUpgrade: true
+		canUpgrade: true,
+		action: function(self, game){
+			var ratio = game.workshop.getEffect("lumberMillRatio");
+			self.effects["woodRatio"] = 0.1 + 0.1*ratio;
+		}
 	},
 	{
 		name: "oilWell",
@@ -615,6 +619,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		prices: [
 			{ name : "wood", val: 500 },
 			{ name : "minerals", val: 200 },
+			{ name : "leather", val: 5 },
 			{ name : "gold", val: 10 }
 		],
 		effects: {

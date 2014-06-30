@@ -94,18 +94,49 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "steelSaw",
 		title: "Steel Saw",
-		description: "Improve Lumber Mill efficiency by 10%",
+		description: "Improve Lumber Mill efficiency by 20%",
 		effects: {
+			"lumberMillRatio" : 0.2
 		},
 		prices:[
 			{ name : "science", val: 52000 },
-			{ name : "steel", val: 1000 }
+			{ name : "steel", val: 750 }
 		],
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//do nothing
-			game.bld.get("lumberMill").effects["woodRatio"] = 0.11;
+			game.workshop.get("titaniumSaw").unlocked = true;
+		}
+	},{
+		name: "titaniumSaw",
+		title: "Titanium Saw",
+		description: "Improve Lumber Mill efficiency by 15%",
+		effects: {
+			"lumberMillRatio" : 0.15
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "titanium", val: 500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.workshop.get("alloySaw").unlocked = true;
+		}
+	},{
+		name: "alloySaw",
+		title: "Alloy Saw",
+		description: "Improve Lumber Mill efficiency by 15%",
+		effects: {
+			"lumberMillRatio" : 0.15
+		},
+		prices:[
+			{ name : "science", val: 85000 },
+			{ name : "alloy", val: 75 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
 		}
 	},{
 		name: "titaniumAxe",
@@ -394,6 +425,35 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "goldOre",
+		title: "Gold Ore",
+		description: "Small percentage of ore will be smelted to the gold",
+		effects: {
+		},
+		prices:[
+			{ name : "minerals", val: 800 },
+			{ name : "iron", 	 val: 100 },
+			{ name : "science",  val: 1000 }
+		],
+		handler: function(game){
+			game.workshop.get("geodesy").unlocked = true;
+		},
+		unlocked: false,
+		researched: false
+	},{
+		name: "geodesy",
+		title: "Geodesy",
+		description: "Geologists are more effective and can find gold. (TBD)",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 250 },
+			{ name : "starchart", val: 500 },
+			{ name : "science",  val: 90000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- coal upgrades ----------------------
 	{
@@ -618,6 +678,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
+		],
+		unlocked: false
+	},{
+		name: "blueprint",
+		title: "Blueprint",
+		description: "Strange piece of paper with blue lines.",
+		prices:[
+			{name: "compedium", val: 25},
+			{name: "science", val: 25000}
 		],
 		unlocked: false
 	},
