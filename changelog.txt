@@ -1,3 +1,7 @@
+v 0.8.2.1
+
+Craftable blueprints (25 compendium, 25k science)
+
 v 0.8.2.0
 
 Titanium Saw

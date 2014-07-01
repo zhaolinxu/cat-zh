@@ -423,19 +423,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		unlocked: false,
-		researched: false
-	},{
-		name: "goldOre",
-		title: "Gold Ore",
-		description: "Small percentage of ore will be smelted to the gold",
-		effects: {
-		},
-		prices:[
-			{ name : "minerals", val: 800 },
-			{ name : "iron", 	 val: 100 },
-			{ name : "science",  val: 1000 }
-		],
 		handler: function(game){
 			game.workshop.get("geodesy").unlocked = true;
 		},
@@ -769,7 +756,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
 	
-						upgrade.unlocked = savedUpgrade.unlocked;
+						if (!upgrade.unlocked){		//temporary hack for certain save bugs, once unlocked can't be locked back
+							upgrade.unlocked = savedUpgrade.unlocked;
+						}
 						upgrade.researched = savedUpgrade.researched;
 						
 						if (upgrade.researched && upgrade.handler){

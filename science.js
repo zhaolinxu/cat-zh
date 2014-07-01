@@ -153,7 +153,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "currency",
 		title: "Currency",
 		description: "Currency represent a certain amount of wealth",
-		effectDesc: "Unlocks gold and economics",
+		effectDesc: "Unlocks gold and trade",
 		
 		unlocked: false,
 		researched: false,
@@ -307,6 +307,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
 			game.workshop.get("steelSaw").unlocked = true;
+			game.workshop.getCraft("blueprint").unlocked = true;
 		}
 	},{
 		name: "chemistry",
@@ -372,7 +373,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "biology",
 		title: "Biology",
-		description: "TBD",
+		description: "Biology deals with living organisms, their characteristics and their use in our society.",
 		effectDesc: "Unlocks Biolabs",
 		unlocked: false,
 		researched: false,
@@ -386,13 +387,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "industrialization",
 		title: "Industrialization",
-		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts",
+		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts (TBD)",
 		effectDesc: "TBD",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 100000},
-			{name: 	"blueprints", val: 25}
+			{name: 	"blueprint", val: 25}
 		],
 		unlocks: [],
 		handler: function(game){

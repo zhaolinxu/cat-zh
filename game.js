@@ -217,6 +217,17 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			if (!res.craftable){
 				continue;
 			}
+			
+			//sort of hack to override regeneration bug
+			var recipe = this.game.workshop.getCraft(res.name);
+				
+			//self-recovery hack to discard removed resources
+			//TODO: remove the reference from the res pool
+			if (!recipe){
+				res.value = 0;
+				continue;
+			}
+
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
 			
@@ -232,16 +243,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				}, tr);
 			if (res.color){
 				dojo.setStyle(tdResName, "color", res.color);
-			}
-			
-			//sort of hack to override regeneration bug
-			var recipe = this.game.workshop.getCraft(res.name);
-				
-			//self-recovery hack to discard removed resources
-			//TODO: remove the reference from the res pool
-			if (!recipe){
-				res.value = 0;
-				continue;
 			}
 
 			//	---------------- amt ----------------------
@@ -350,8 +351,9 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var selBld = this.game.selectedBuilding;
 			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
 			//---------------------------------------------
+			var recipe = this.game.workshop.getCraft(res.name);
+			var isVisible = (res.value > 0 && recipe.unlocked);
 			
-			var isVisible = (res.value > 0);
 			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
 			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);

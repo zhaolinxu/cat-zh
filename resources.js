@@ -86,7 +86,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "blueprint",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		craftable: true,
+		color: "#01A9DB"
 	},
 	
 	//=========================================
