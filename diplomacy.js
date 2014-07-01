@@ -335,7 +335,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var s = race.sells[j];
 						
 						var chance = btn.game.rand(100);
-						if (chance > s.chance){
+						if (chance >= s.chance){
 							continue;
 						}
 						

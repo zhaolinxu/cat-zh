@@ -47,37 +47,45 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		title: "power",
 		type : "common",
 		visible: true,
+		transient: true,		//cant be affected by magneto bonus
 		color: "#DBA901"
 	},{
 		name : "science",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "#01A9DB"
 	},{
 		name : "culture",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "#DF01D7"
 	},{
 		name : "faith",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "gray"
 	},{
 		name : "kittens",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "zebras",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "starchart",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "blueprint",
 		type : "common",
+		transient: true,
 		visible: true
 	},
 	
@@ -87,18 +95,22 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "furs",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "ivory",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "spice",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "unicorns",
 		type : "rare",
+		transient: true,
 		visible: true
 	},{
 		name : "alicorns",

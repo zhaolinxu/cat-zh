@@ -852,6 +852,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * (this.religion.getProductionBonus() / 100);
 		}
 		
+		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
+		if (!res.transient && this.bld.get("magneto").enabled){
+			var steamworks = this.bld.get("steamworks");
+			var swRatio = steamworks.enabled ? (1+ 0.25*this.bld.get("steamworks").val) : 1;
+			perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
+		}
+		
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();

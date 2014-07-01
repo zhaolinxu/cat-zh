@@ -22,7 +22,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "science",
 		title: "Science",
-		buildings: ["library", "academy", "observatory"]
+		buildings: ["library", "academy", "observatory", "biolab"]
 	},{
 		name: "storage",
 		title: "Storage",
@@ -38,7 +38,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "other",
 		title: "Other",
-		buildings: ["workshop", "steamworks", "tradepost", "mint", "unicornPasture"]
+		buildings: ["workshop", "steamworks", "magneto", "tradepost", "mint", "unicornPasture"]
 	},{
 		name: "megastructures",
 		title: "Mega Structures",
@@ -222,6 +222,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (astrolabe.researched){
 				self.effects["scienceMax"] = 1750;
 			}*/
+		},
+		val: 0
+	},{
+		name: "biolab",
+		label: "Bio Lab",
+		description: "Improves effectiveness of catnip refinement by 5%, +35% to the science output, +1.5K to the max science",
+		unlocked: false,
+		prices: [{ name : "slab", val: 100 },
+				 { name : "alloy", val: 25 },
+				 { name : "science", val: 1500 },
+		],
+		effects: {
+			"scienceRatio": 0.35,
+			"refineRatio" : 0.05,
+			"scienceMax"  : 1500
+		},
+		priceRatio: 1.10,
+		ignorePriceCheck: true,
+		requiredTech: ["biology"],
+		handler: function(btn){
 		},
 		val: 0
 	},
@@ -546,7 +566,39 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			}
 		},
 		val: 0
+	},{
+		name: "magneto",
+		label: "Magneto",
+		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 25%. Consumes oil.",
+		unlocked: false,
+		enabled: false,
+		togglable: true,
+		jammed: false,
+		prices: [
+			{ name : "alloy", val: 10 },
+			{ name : "gear",  val: 5 },
+			{ name : "blueprint",  val: 1 }
+		],
+		priceRatio: 1.25,
+		ignorePriceCheck: true,
+		requiredTech: ["machinery"],
+		handler: function(btn){
+
+		},
+		effects: {
+			"oilPerTick" : -0.05,
+			"magnetoRatio": 0.02
+		},
+		action: function(self, game){
+			if (!self.enabled){
+				return;
+			}
+			var oil = game.resPool.get("oil");
+			oil.value += self.effects["oilPerTick"] * self.val;
+		},
+		val: 0
 	},
+	
 	{
 		name: "lumberMill",
 		label: "Lumber Mill",

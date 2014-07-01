@@ -366,19 +366,33 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 75000},
 			{name: 	"compedium", val: 85}
 		],
-		unlocks: [],
+		unlocks: ["industrialization"],
 		handler: function(game){
 		}
 	},{
 		name: "biology",
 		title: "Biology",
 		description: "TBD",
-		effectDesc: "(TBD)",
+		effectDesc: "Unlocks Biolabs",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 85000},
 			{name: 	"compedium", val: 100}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "industrialization",
+		title: "Industrialization",
+		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 100000},
+			{name: 	"blueprints", val: 25}
 		],
 		unlocks: [],
 		handler: function(game){

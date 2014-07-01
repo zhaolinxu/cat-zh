@@ -1,4 +1,14 @@
-v 0.8.0.1
+v 0.8.2.0
+
+Titanium Saw
+Alloy Saw
+
+Magneto
+Biolab
+
+Industrialization
+
+v 0.8.1.0
 
 Alloy barns
 Alloy axe
