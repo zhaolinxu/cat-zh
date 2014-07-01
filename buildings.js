@@ -581,7 +581,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		],
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
-		requiredTech: ["machinery"],
+		requiredTech: ["electricity"],
 		handler: function(btn){
 
 		},
