@@ -894,7 +894,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	],
 	
 	effectsBase: {
-		"manpowerMax": 100
+		"manpowerMax": 100,
+		"catnipMax": 5000
 	},
 	
 	get: function(name){

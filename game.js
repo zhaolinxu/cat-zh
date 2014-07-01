@@ -202,6 +202,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
  * Same as resources, but no per tick values
  */ 
 dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn.game.ui.GenericResourceTable, {
+	
+	workshop: null,
+	
+	constructor: function(game){
+		this.workshop = game.bld.get("workshop");
+	},
 
 	render: function(){
 		if (!this.containerId) { throw "container id is undefined for res table"; }
@@ -231,7 +237,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
 			
-			var isVisible = (res.value > 0);
+			var isVisible = (res.value > 0 && this.workshop.val > 0);
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 			
@@ -352,7 +358,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
-			var isVisible = (res.value > 0 && recipe.unlocked);
+			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.val > 0);
 			
 			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
@@ -831,20 +837,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * relResEffect;
 		}
 		
-		//AUTOMATED STRUCTURES EFFECTS
-		if (calcAutomatedEffect){
-			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
-			if (bldResRatioTick){
-				perTick += bldResRatioTick;
-			}
-		}	
-		//SPECIAL STEAMWORKS HACK FOR COAL
-		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
-		if (steamworks.enabled && steamworks.val != 0 && swEffectGlobal ){
-			perTick += perTick * swEffectGlobal;
-		}
-		
 		//---------  PARAGON BONUS ------------
 		
 		perTick += perTick * this.resPool.get("paragon").value * 0.01;		//whoever reading this: expect paragon effect to be nerfed
@@ -860,7 +852,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var swRatio = steamworks.enabled ? (1+ 0.25*this.bld.get("steamworks").val) : 1;
 			perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 		}
-		
+
+		//AUTOMATED STRUCTURES EFFECTS
+		if (calcAutomatedEffect){
+			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+			if (bldResRatioTick){
+				perTick += bldResRatioTick;
+			}
+		}	
+		//SPECIAL STEAMWORKS HACK FOR COAL
+		var steamworks = this.bld.get("steamworks");
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.enabled && steamworks.val != 0 && swEffectGlobal ){
+			perTick += perTick * swEffectGlobal;
+		}
+
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();
