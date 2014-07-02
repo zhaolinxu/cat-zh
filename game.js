@@ -870,13 +870,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//---------  RESOURCE CONSUMPTION -------------
 	
 		var resMapConsumption = this.village.getResConsumption();
-		var resConsumption = resMapConsumption[res.name] ? resMapConsumption[res.name] : 0;
+		var resConsumption = resMapConsumption[res.name] || 0;
 		
 		//works very wrong on catmip
 		var useHypHack = (res.name != "catnip") ? true : false;
 		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyp reduction
 		
 		perTick += resConsumption;
+		
+		if (isNaN(perTick)){
+			return 0;
+		}
 		
 		return perTick;
 	},
@@ -898,7 +902,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}).play();
 		}
 		
-		this.resPool.update();
+		
 		this.bld.update();
 
 		//business logic goes there
@@ -924,6 +928,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.updateAdvisors();
 		
 		this.timer.update();
+		
+		this.resPool.update();
 
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];

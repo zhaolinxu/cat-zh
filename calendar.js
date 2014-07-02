@@ -171,7 +171,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var mineralsAmt = 50 + 25 * this.game.bld.getEffect("mineralsRatio");
 		
 			if (this.game.ironWill){
-				var mineralsAmt = mineralsAmt + mineralsAmt * 0.1;	//+10% of minerals for iron will
+				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 			
 			this.game.msg("A meteor fell near the village, +"+ mineralsAmt.toFixed() +" minerals!");

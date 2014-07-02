@@ -258,8 +258,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	
 	addResAmt: function(name, value){
 		var res = this.get(name);
-		res.value += value;
-		if (res.value > res.maxValue){
+		if (value){
+			res.value += value;
+		}
+		if (res.maxValue && res.value > res.maxValue){
 			res.value = res.maxValue;
 		}
 		if (res.value < 0){
@@ -308,9 +310,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 				res.value = 0;	//can't be negative
 			}
 			
-			var resPerTick = this.game.getResourcePerTick(res.name);
-			if (!res.maxValue || resPerTick < 0 || res.value < res.maxValue){
-				res.value = res.value + resPerTick;
+			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
+			
+			res.value = res.value + resPerTick;
+			if (res.maxValue && res.value > res.maxValue){
+				res.value = res.maxValue;
 			}
 			
 			if (isNaN(res.value)){
