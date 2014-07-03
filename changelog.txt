@@ -1,3 +1,8 @@
+v 0.8.3.2
+
+Drama and Poetry tech
+Cultural Festivals
+
 v 0.8.2.2
 
 Geodesy will now give ~60% boost to the geologists coal output ( 0.0225 cpt, 0.0008 gpt)

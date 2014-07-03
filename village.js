@@ -307,6 +307,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			}
 		}
 		
+		if (this.game.calendar.festivalDays){
+			happiness += 30;
+		}
+		
 		var karma = this.game.resPool.get("karma");
 		happiness += karma.value;	//+1% to the production per karma point
 		
@@ -653,6 +657,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	advModeButtons : null,
 	
+	hutnBtn: null,
+	
+	festivalBtn: null,
+	
 	constructor: function(tabName, game){
 		this.game = game;
 
@@ -770,6 +778,26 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		huntBtn.render(controlsTd);
 		this.hutnBtn = huntBtn;
 		
+		var festivalBtn = new com.nuclearunicorn.game.ui.Button({
+				name: "Hold festival",
+				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
+				handler: dojo.hitch(this, function(){
+					this.holdFestival();
+				}),
+				prices: [
+					{ name : "manpower", val: 1500 },
+					{ name : "culture", val: 5000 },
+					{ name : "parchment", val: 2500 }
+				]
+		}, this.game);
+		
+		if (!this.game.science.get("drama").researched){
+			festivalBtn.setVisible(false);
+		}
+		
+		festivalBtn.render(controlsTd);
+		this.festivalBtn = festivalBtn;
+		
 		//--------------- bureaucracy ------------------
 		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
 		this.bureaucracyPanel.collapsed = true;
@@ -792,6 +820,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.happinessStats.innerHTML = "Happiness: " + happiness.toFixed() + "%";
 		}
 		
+		var festivalDays = this.game.calendar.festivalDays;
+		if (festivalDays){
+			this.happinessStats.innerHTML += " ("+festivalDays+" days)";
+		}
+		
 		if (this.statisticsPanel){
 			this.statisticsPanel.setVisible(
 				this.game.village.getKittens() >= 5 || this.game.resPool.get("zebras").value > 0
@@ -799,6 +832,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		if (this.hutnBtn){
 			this.hutnBtn.update();
+		}
+		if (this.festivalBtn){
+			this.festivalBtn.update();
 		}
 		
 		//update kitten stats
@@ -986,6 +1022,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.village.sendHunters();
 	},
 	
+	holdFestival: function(){
+		this.game.calendar.festivalDays = 400;	//nope, they don't stack
+		this.game.msg("The cultural festival has started");
+		//TODO: some fun message like Molly Chalk is making a play 'blah blah'
+	},
 	
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));

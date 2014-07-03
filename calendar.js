@@ -49,6 +49,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	weather: null,	//warm / cold
 	
+	festivalDays: 0,
+	
 	iceage: 0,	//iceage apocalypse level
 	
 	observeBtn: null,
@@ -88,6 +90,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	 */ 
 	onNewDay: function(){
 		var self = this;
+		
+		if (this.festivalDays){
+			this.festivalDays--;
+		}
 
 		var chance = 25;					//25 OPTK of event per day	(0.25%)
 		chance += this.game.bld.getEffect("starEventChance");
@@ -310,7 +316,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			day: this.day,
 			season: this.season,
 			weather: this.weather,
-			iceage: this.iceage
+			iceage: this.iceage,
+			festivalDays: this.festivalDays
 		};
 	},
 	
@@ -320,7 +327,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.day  = saveData.calendar.day;
 			this.season  = saveData.calendar.season;
 			this.weather = saveData.calendar.weather;
-			this.bloodmoon = saveData.calendar.iceage ? saveData.calendar.iceage : 0;
+			this.festivalDays = saveData.calendar.festivalDays || 0;
 		}
 	}
 	

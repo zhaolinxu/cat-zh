@@ -337,6 +337,21 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 65000},
 			{name: 	"compedium", val: 65}
 		],
+		unlocks: ["drama"],
+		handler: function(game){
+			
+		}
+	},{
+		name: "drama",
+		title: "Drama and Poetry",
+		description: "Drama and poetry are both forms of artistic expression.\nThe former expressed through the use of visual performance, the latter through the written word.",
+		effectDesc: "Unlocks Festivals and Cultural artifacts(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 90000},
+			{name: 	"parchment", val: 5000}
+		],
 		unlocks: [],
 		handler: function(game){
 			
