@@ -440,7 +440,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "science",  val: 90000 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		handler: function(game){
+			var gJob = game.village.getJob("geologist");
+			gJob.modifiers["coal"] = 0.0225;	//instead of 0.015
+			gJob.modifiers["gold"] = 0.0008;
+		}
 	},
 	//--------------------- coal upgrades ----------------------
 	{
