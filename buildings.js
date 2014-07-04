@@ -595,6 +595,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			}
 			var oil = game.resPool.get("oil");
 			oil.value += self.effects["oilPerTick"] * self.val;
+			
+			if (oil.value <= 0){
+				self.enabled = false;	//simpliest fix so far
+			}
 		},
 		val: 0
 	},
@@ -730,7 +734,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				
 				
 				var manpower = game.resPool.get("manpower");
-				var mpratio = (manpower.maxValue * self.effects["mintEffect"] * self.val) / 100;
+				var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
 
 				self.effects["fursPerTick"]  = mpratio * 1.25;	//2
 				self.effects["ivoryPerTick"] = mpratio * 0.3;	//1.5
@@ -738,8 +742,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				//var furs = game.resPool.get("furs");
 				//var ivory = game.resPool.get("ivory");
 				
-				game.resPool.addResAmt("furs", self.effects["fursPerTick"]);
-				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"]);
+				game.resPool.addResAmt("furs", self.effects["fursPerTick"] * self.val);
+				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"] * self.val);
 				
 				//furs.value += self.effects["fursPerTick"];
 				//ivory.value += self.effects["ivoryPerTick"];
