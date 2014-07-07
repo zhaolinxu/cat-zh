@@ -839,7 +839,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//---------  PARAGON BONUS ------------
 		
-		perTick += perTick * this.resPool.get("paragon").value * 0.01;		//whoever reading this: expect paragon effect to be nerfed
+		
+		var paragonRatio = perTick * this.resPool.get("paragon").value * 0.01;
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably is the END OF THE LINE
+		perTick += paragonRatio;
 		
 		//---------  FAITH BONUS --------------
 		if (this.religion.getRU("solarRevolution").researched){

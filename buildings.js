@@ -309,6 +309,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: 	function(btn){
 		},
 		action: function(self, game){
+			
+			self.effects["coalMax"] = 100;
+			
+			var barges = game.workshop.get("barges");
+			if (barges.researched){
+				self.effects["coalMax"] += self.effects["coalMax"] * barges.effects["harborCoalRatio"];
+			}
+			
 			var cargoShips = game.workshop.get("cargoShips");
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
@@ -319,7 +327,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["woodMax"] = ( 700 * ( 1 - ratio));
 				self.effects["mineralsMax"] = ( 950 * ( 1 - ratio));
 				self.effects["ironMax"] = ( 150 * ( 1 - ratio));
-				self.effects["coalMax"] = ( 100 * ( 1 - ratio));
+				self.effects["coalMax"] = ( self.effects["coalMax"] * ( 1 - ratio));
 				self.effects["goldMax"] = ( 25 * ( 1 - ratio));
 				self.effects["titaniumMax"] = ( 50 * ( 1 - ratio));
 			}
@@ -901,7 +909,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		"manpowerMax"	: 100,
 		"catnipMax"		: 5000,
 		"woodMax"		: 200,
-		"mineralsMax"	: 250
+		"mineralsMax"	: 250,
+		"faithMax" 		: 100,
+		"cultureMax"	: 100
 	},
 	
 	get: function(name){

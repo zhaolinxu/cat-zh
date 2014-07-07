@@ -301,6 +301,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 				}
 			}
 			
+			var paragon = this.game.resPool.get("paragon").value;
+			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
+			
 			
 			if (maxValue > 0 ){
 				res.maxValue = maxValue;

@@ -245,6 +245,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.weather = null;
 		}
 		
+		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
+			this.game.bld.get("steamworks").jammed = false;
+		}
+		
 		//-------------------- icage stuff -------------------------
 		/*if (this.iceage == 2 && this.game.village.getKittens() >= 60){
 			

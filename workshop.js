@@ -292,6 +292,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 		}
 	},{
+		name: "barges",
+		title: "Barges",
+		description: "Harbors store more coal",
+		effects: {
+			"harborCoalRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "titanium", val: 1500 },
+			{ name : "blueprint", val: 30 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
 		description: "Hut price ratio reduced by 0.5",
@@ -511,6 +527,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "gear", 	 val: 35 },
 			{ name : "science",  val: 10000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "advancedAutomation",
+		title: "Advanced Automation",
+		description: "Reduce Steamworks maintainance cycle by 50%",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 75 },
+			{ name : "blueprint",  val: 25 },
+			{ name : "science",  val: 100000 }
 		],
 		unlocked: false,
 		researched: false

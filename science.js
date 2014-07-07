@@ -402,13 +402,57 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "industrialization",
 		title: "Industrialization",
-		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts (TBD)",
-		effectDesc: "TBD",
+		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts.",
+		effectDesc: "Unlocks Advanced Automation and Bargets",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 100000},
 			{name: 	"blueprint", val: 25}
+		],
+		unlocks: ["mechanization", "metalurgy", "combustion"],
+		handler: function(game){
+			game.workshop.get("barges").unlocked = true;
+			game.workshop.get("advancedAutomation").unlocked = true;
+		}
+	},{
+		name: "mechanization",
+		title: "Mechanization",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 115000},
+			{name: 	"blueprint", val: 50}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "metalurgy",
+		title: "Metalurgy",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 125000},
+			{name: 	"blueprint", val: 65}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "combustion",
+		title: "Combustion",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 120000},
+			{name: 	"blueprint", val: 55}
 		],
 		unlocks: [],
 		handler: function(game){
