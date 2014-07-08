@@ -1018,6 +1018,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	
 	/*
 	 * Returns a parabolic-aproaching value of the effect that heades to the limit, but unable to approach it completely
+	 * Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
 	 */ 
 	getHyperbolicEffect: function(effect, limit){
 		effect = Math.abs(effect);
@@ -1031,10 +1032,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		
 		var diminishedPortion = effect - maxUndiminished;
 		
-		var delta = .25; //Lower values will approach 1 more quickly.
+		var delta = .25*limit; //Lower values will approach 1 more quickly.
 		
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25;
+		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25*limit;
 		
 		var totalEffect = maxUndiminished+diminishedEffect;
 		
