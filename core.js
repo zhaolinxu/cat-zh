@@ -73,12 +73,17 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			 
 			if (meta.hasOwnProperty("val")) {
 				
-				if (meta.togglable && !meta.enabled){
-					continue;
+				if (meta.togglable){
+					if (meta.on > 0) {
+						 var val = meta.on;
+						 totalEffect += effect * val;
+					} else {
+						continue;
+					}
+				} else {				
+					var val = meta.val;
+					totalEffect += effect * val;
 				}
-				
-				var val = meta.val;
-				totalEffect += effect * val;
 			}else{
 				totalEffect += effect;
 			}
