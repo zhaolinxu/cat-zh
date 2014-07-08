@@ -840,9 +840,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//---------  PARAGON BONUS ------------
 		
 		
-		var paragonRatio = perTick * this.resPool.get("paragon").value * 0.01;
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably is the END OF THE LINE
-		perTick += paragonRatio;
+		var paragonRatio = this.resPool.get("paragon").value * 0.01;
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		paragonRatio *= -1; //getHyperbolicEffect always returns negative values, maybe that should be adjusted now that two positive effects now use it
+		perTick += paragonRatio * perTick;
 		
 		//---------  FAITH BONUS --------------
 		if (this.religion.getRU("solarRevolution").researched){
