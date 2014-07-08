@@ -838,11 +838,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		//---------  PARAGON BONUS ------------
-		
-		
-		var paragonRatio = perTick * this.resPool.get("paragon").value * 0.01;
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably is the END OF THE LINE
-		perTick += paragonRatio;
+
+		var paragonRatio = this.resPool.get("paragon").value * 0.01;
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		perTick -= perTick * paragonRatio;
 		
 		//---------  FAITH BONUS --------------
 		if (this.religion.getRU("solarRevolution").researched){
@@ -1110,7 +1109,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += "<br>Demand: " + this.getDisplayValue(kittensMinus, true);
 		}
 
+		var toCap = (res.maxValue - res.value) / (res.perTickUI * this.rate);
+		if (res.maxValue && toCap){
+			resString += "<br><br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
+		}
+
 		return resString;
+	},
+
+	toDisplaySeconds : function (secondsRaw) {
+	    var sec_num = parseInt(secondsRaw, 10); // don't forget the second param
+	    var hours   = Math.floor(sec_num / 3600);
+	    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+	    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+	    var timeFormated = "";
+	    if ( hours ) {  timeFormated = hours + "h " }
+	    if ( minutes) { timeFormated += minutes + "m " }
+	    if ( seconds ) { timeFormated += seconds + "s " }
+
+	    return timeFormated;
 	},
 	
 	
