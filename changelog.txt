@@ -1,3 +1,15 @@
+v 0.8.4.3
+
+Fixed Sunsipre not giving faith bonus
+Fixed Ziggurat upgrades not recalculating prices
+
+Barges - improve coal limits for Harbors
+Advanced Automation - makes Steamworks activate twice per year
+
+Paragon levels should give minor bonus to the resource limit
+
++ pile of placeholder techs
+
 v 0.8.3.2
 
 Drama and Poetry tech

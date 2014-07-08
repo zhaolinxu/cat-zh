@@ -228,7 +228,22 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 	
 	getBuilding: function(){
 		return this.game.religion.getZU(this.id);
-	}
+	},
+	
+	getPrices: function(bldName) {
+ 
+		 var bld = this.getBuilding();
+		 var ratio = bld.priceRatio;
+		 
+		 var prices = dojo.clone(bld.prices);
+		 
+		 for (var i = 0; i< bld.val; i++){
+			 for( var j = 0; j < prices.length; j++){
+				prices[j].val = prices[j].val * ratio;
+			 }
+		 }
+	     return prices;
+	 }
 });
 
 /**

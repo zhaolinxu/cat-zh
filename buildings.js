@@ -826,6 +826,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		val: 0,
 		requiredTech: ["philosophy"],
 		action: function(self, game){
+			
+			self.effects["faithMax"] = 100;
 
 			var theology = game.science.get("theology");
 			if (theology.researched){
@@ -844,8 +846,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			
 			var sunAltar = game.religion.getRU("sunAltar");
 			if (sunAltar.researched){
-				self.effects["faithMax"] = 150;
+				self.effects["faithMax"] += 50;
 			}
+			
+			var goldenSpire = game.religion.getRU("goldenSpire");
+			if (goldenSpire.researched){
+				self.effects["faithMax"] += self.effects["faithMax"] * 0.5;
+			}
+			
 			
 			var basilica = game.religion.getRU("basilica");
 			if (basilica.researched){
