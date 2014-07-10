@@ -87,7 +87,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 500,	//mostly does nothing, so pirce is lower
 		unlocks: ["civil", "math", "construction", "brewery"],
 		handler: function(game){
-			game.workshop.getCraft("leather").unlocked = true;
+			//game.workshop.getCraft("leather").unlocked = true;
 		}
 		
 	},{

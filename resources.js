@@ -181,10 +181,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true,
 		color: "#FF7F50"
 	},{
-		name : "leather",
-		type : "common",
-		craftable: true
-	},{
 		name : "parchment",
 		type : "common",
 		craftable: true,

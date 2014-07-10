@@ -643,13 +643,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: true
 	},{
-		name: "leather",
-		title: "Leather",
-		prices:[
-			{name: "furs", val: 50}
-		],
-		unlocked: false
-	},{
 		name: "steel",
 		title: "Steel",
 		prices:[
@@ -679,7 +672,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		title: "Parchment",
 		description: "A material for writing on made from animal skin, required for cultural buildings",
 		prices:[
-			{name: "leather", val: 5}
+			{name: "furs", val: 250}
 		],
 		unlocked: false
 	},

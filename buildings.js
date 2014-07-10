@@ -687,7 +687,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		prices: [
 			{ name : "wood", val: 500 },
 			{ name : "minerals", val: 200 },
-			{ name : "leather", val: 5 },
 			{ name : "gold", val: 10 }
 		],
 		effects: {
