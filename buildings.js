@@ -1292,6 +1292,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					
 					building.val--;
 					
+					if (building.on > building.val){
+						building.on = building.val;
+					}
+					
 					this.refund(0.5);
 				
 					this.prices = this.getPrices();
