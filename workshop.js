@@ -672,7 +672,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		title: "Parchment",
 		description: "A material for writing on made from animal skin, required for cultural buildings",
 		prices:[
-			{name: "furs", val: 250}
+			{name: "furs", val: 175}
 		],
 		unlocked: false
 	},
