@@ -550,16 +550,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
 					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.on); 
-					if (autoWood >= game.workshop.getCraft("beam").prices[0].on){
-						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].on);
+					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
+						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
 						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!");
 					}
 				}
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
 					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.on); 
-					if (autoMinerals > game.workshop.getCraft("slab").prices[0].on){
-						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].on);
+					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
+						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
 						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!");
 					}
@@ -568,8 +568,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.on); 
 					
-					if (autoIron > game.workshop.getCraft("plate").prices[0].on){
-						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].on);
+					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
+						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
 						game.workshop.craft("plate", amt);
 						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!");
 					}
