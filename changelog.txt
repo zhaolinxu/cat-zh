@@ -1,3 +1,12 @@
+v 0.8.5.4
+
+changed by Zusias:
+
+Added %power toggle for automated structures
+____
+
+Removed leather from the resources
+
 v 0.8.4.4
 
 Time to cap in the resource tooltips
