@@ -447,7 +447,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "geodesy",
 		title: "Geodesy",
-		description: "Geologists are more effective and can find gold. (TBD)",
+		description: "Geologists are more effective and can find gold.",
 		effects: {
 		},
 		prices:[
@@ -558,7 +558,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false
 	},{
 		name: "combustionEngine",
-		title: "Combustion Engine",
+		title: "High Pressure Engine",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
 			"coalRatioGlobal" : 0.2
@@ -604,6 +604,25 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},
+	//---------------------- oil ---------------
+	{
+		name: "pumpjack",
+		title: "Pumpjack",
+		description: "Improves effectiveness of oil vells by 75%",
+		effects: {
+			"oilRatio" : 0.75
+		},
+		prices:[
+			{ name : "titanium", val: 250- },
+			{ name : "gear", 	 val: 125 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	}
 	],
 	
