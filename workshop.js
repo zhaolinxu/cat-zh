@@ -614,7 +614,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			"oilRatio" : 0.75
 		},
 		prices:[
-			{ name : "titanium", val: 250- },
+			{ name : "titanium", val: 250 },
 			{ name : "gear", 	 val: 125 },
 			{ name : "science",  val: 100000 }
 		],
