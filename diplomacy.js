@@ -238,9 +238,176 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.Button, {
 	
 	race: null,
+	
+	tradeAllHref: null,
 
 	constructor: function(opts, game){
 		this.race = opts.race;
+		
+		this.handler = this.trade;	//weird hack
+	},
+	
+	tradeInternal: function(suppressMessages){
+		var race = this.race;
+		
+		var tradeRes = {
+		};
+		
+		var tradeRatioAttitude = 0;
+					
+		var attitudeChance = this.game.rand(100);
+		var standingRatio = this.game.bld.getEffect("standingRatio");
+		standingRatio = standingRatio ? standingRatio : 0;
+		
+		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
+			if (!suppressMessages){
+				this.game.msg( race.title + " hate you for no reason");
+			}
+			return;
+		}
+		
+		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+			if (!suppressMessages){
+				this.game.msg( race.title + " think your kittens are adorable");
+			}
+			tradeRatioAttitude = 0.25;
+		}
+		
+		for (var j =0; j< race.sells.length; j++){
+			var s = race.sells[j];
+			
+			var chance = this.game.rand(100);
+			if (chance >= s.chance){
+				continue;
+			}
+			
+			var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+			var min = s.value * sratio - s.value * sratio * s.delta/2;
+			var amt = min + this.game.rand(s.value * sratio * s.delta);
+			
+			var ratio = this.game.bld.getEffect("tradeRatio");
+			amt += amt*ratio;
+			
+			var resValue = amt + amt*tradeRatioAttitude;
+			
+			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
+			this.game.resPool.addResAmt(s.name, resValue);
+			
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
+
+		}
+		//-------------------- 35% chance to get spice ------------------
+		if (this.game.rand(100) < 35){
+			var spiceVal = this.game.rand(50);
+			var resValue = 25 +  spiceVal + spiceVal * this.game.bld.getEffect("tradeRatio");
+			
+			this.game.resPool.addResAmt("spice", resValue);
+			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(val) + " spice");
+		}
+		
+		//-------------- 10% change to get blueprint ---------------
+		
+		if (this.game.rand(100) < 10){
+			this.game.resPool.addResAmt("blueprint", titaniumAmt);
+			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
+			//this.game.msg("You've got a blueprint!", "notice");
+		}
+		
+		//-------------- 15% change to get titanium  ---------------
+		
+		var shipVal = this.game.resPool.get("ship").value;
+		var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
+		
+		if ( this.game.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
+			
+			var titaniumAmt = 1.5;
+			titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
+			
+			this.game.resPool.addResAmt("titanium", titaniumAmt);
+			tradeRes["blueprint"] = tradeRes["titanium"] ? tradeRes["titanium"] + titaniumAmt : titaniumAmt;
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
+		}
+		
+		return tradeRes;
+	},
+	
+	trade: function(){
+		var yieldRes = this.tradeInternal();
+		
+		this.printYieldOutput(yieldRes);
+	},
+	
+	tradeAll: function(){
+		var yieldResTotal = {};
+
+		var amt = [
+			Math.floor(this.game.resPool.get("manpower").value / 50),
+			Math.floor(this.game.resPool.get("gold").value / 15),
+			Math.floor(this.game.resPool.get(this.race.buys[0].name).value / this.race.buys[0].val)
+		];
+		var min = Number.MAX_VALUE;
+		for (var i = 0; i < amt.length; i++){
+			if (min > amt[i]) { min = amt[i]; }
+		}
+		
+		if (min == Number.MAX_VALUE || min == 0){
+			return;
+		}
+		//-------------- pay prices ------------------
+		
+		this.game.resPool.addResAmt("manpower", -50*min);
+		this.game.resPool.addResAmt("gold", -15*min);
+		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*min);
+		
+		//---------- calculate yield -----------------
+		
+		this.game.msg("You have send " + min + " trade caravans");
+		for (var i = 0; i<min; i++){
+			var yieldRes = this.tradeInternal(true);	//supress msg
+			
+			for (var res in yieldRes) {
+				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
+			}
+		}
+		
+		this.printYieldOutput(yieldResTotal);
+	},
+	
+	/**
+	 * Prints a formated output of a trade results based on a resource map
+	 */ 
+	printYieldOutput: function(yieldResTotal){
+		for (var res in yieldResTotal) {
+			if (res != "blueprint" && res != "titanium"){
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
+			} else {
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice");
+			}
+		}
+	},
+	
+	afterRender: function(){
+		this.inherited(arguments);
+		this.renderLinks();
+	},
+	
+	renderLinks: function(){
+		this.tradeAllHref = dojo.create("a", { href: "#", innerHTML: "all",
+			title: "Spend all the manpower/gold on trade caravans",
+			style:{
+				paddingLeft: "2px",
+				float: "right",
+				cursor: "pointer"}
+			}, null);
+			
+		dojo.connect(this.tradeAllHref, "onclick", this, dojo.partial(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			
+			this.tradeAll();
+		}));
+		dojo.place(this.tradeAllHref, this.buttonContent);
 	}
 });
 
@@ -311,84 +478,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				name: "Send caravan",
 				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.\nYou also have a small chance of getting rare resources.",
 				prices: tradePrices,
-				race: race,
-				handler: dojo.partial(
-				function(race, btn){
-					
-					var tradeRatioAttitude = 0;
-					
-					var attitudeChance = btn.game.rand(100);
-					var standingRatio = btn.game.bld.getEffect("standingRatio");
-					standingRatio = standingRatio ? standingRatio : 0;
-					
-					if (race.attitude == "hostile" && btn.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-						btn.game.msg( race.title + " hate you for no reason");
-						return;
-					}
-					
-					if (race.attitude == "friendly" && btn.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
-						btn.game.msg( race.title + " think your kittens are adorable");
-						tradeRatioAttitude = 0.25;
-					}
-					
-					for (var j =0; j< race.sells.length; j++){
-						var s = race.sells[j];
-						
-						var chance = btn.game.rand(100);
-						if (chance >= s.chance){
-							continue;
-						}
-						
-						var sratio = s.seasons[btn.game.calendar.getCurSeason().name];
-						var min = s.value * sratio - s.value * sratio * s.delta/2;
-						
-						var amt = min + btn.game.rand(s.value * sratio * s.delta);
-						//var res = self.game.resPool.get(s.name);
-						
-						var ratio = btn.game.bld.getEffect("tradeRatio");
-						amt += amt*ratio;
-						
-						//res.value += (amt + amt*tradeRatioAttitude);
-						btn.game.resPool.addResAmt(s.name, (amt + amt*tradeRatioAttitude));
-						
-						btn.game.msg("You've got " + btn.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
-
-					}
-					//-------------------- 35% chance to get spice ------------------
-					if (btn.game.rand(100) < 35){
-						var res = btn.game.resPool.get("spice");
-						var spiceVal = btn.game.rand(50);
-						var val = 25 +  spiceVal + spiceVal * btn.game.bld.getEffect("tradeRatio");
-						
-						res.value += val;
-						btn.game.msg("You've got " + btn.game.getDisplayValueExt(val) + " spice");
-					}
-					
-					//-------------- 10% change to get blueprint ---------------
-					
-					if (btn.game.rand(100) < 10){
-						btn.game.resPool.get("blueprint").value += 1;
-						btn.game.msg("You've got a blueprint!", "notice");
-					}
-					
-					//-------------- 15% change to get titanium  ---------------
-					
-					var shipVal = btn.game.resPool.get("ship").value;
-					var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
-					
-					if ( self.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
-						
-						var titaniumAmt = 1.5;
-						titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-						
-						//self.game.resPool.get("titanium").value += titaniumAmt;
-						btn.game.resPool.addResAmt("titanium", titaniumAmt);
-						
-						btn.game.msg("You've got " + btn.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
-					}
-					
-				}, race )	//eo partial
-
+				race: race
 			}, this.game);
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;

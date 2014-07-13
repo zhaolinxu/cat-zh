@@ -36,7 +36,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	
 	/**
 	 * Returns a cached combined value of effect of all managers.
-	 * Will calculate and store cached value if called first time.
+	 * Will calculate and store cached value if called for a first time.
 	 */ 
 	getEffectCached: function(name){
 		var cached = this.effectsCached[name];

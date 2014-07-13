@@ -1261,13 +1261,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	
 	afterRender: function(){
 		this.inherited(arguments);
-		
-		var self = this;
-		var building = this.getBuilding();
-		
+
 		this.renderLinks();
 		
-		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = building; }));
+		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = this.getBuilding(); }));
 		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
 	},
 	
