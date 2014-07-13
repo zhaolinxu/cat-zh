@@ -46,7 +46,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	},{
 		name: "hunter",
 		title: "Hunter",
-		description: "+0.06 manpower per tick",
+		description: "+0.06 catpower per tick",
 		
 		modifiers:{
 			"manpower" : 0.06

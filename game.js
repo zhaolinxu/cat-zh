@@ -86,7 +86,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 			
-			var tdResName = dojo.create("td", { innerHTML: res.name + ":", style: { width: "60px"} }, tr);
+			var tdResName = dojo.create("td", { innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} }, tr);
 			
 			if (res.type == "uncommon"){
 				dojo.setStyle(tdResName, "color", "Coral");
@@ -242,7 +242,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 			
 			var tdResName = dojo.create("td", { 
-					innerHTML: res.title ? res.title : res.name + ":",
+					innerHTML: res.title || res.name + ":",
 					style: {
 						width: "75px"
 					}

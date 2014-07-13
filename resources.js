@@ -44,7 +44,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	//=========================================
 	{
 		name : "manpower",
-		title: "power",
+		title: "catpower",
 		type : "common",
 		visible: true,
 		transient: true,		//cant be affected by magneto bonus
@@ -192,6 +192,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		color: "#01A9DB"
 	},{
 		name : "compedium",
+		title: "compendium",
 		type : "common",
 		craftable: true,
 		color: "#01A9DB"

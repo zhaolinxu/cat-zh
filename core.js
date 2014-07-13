@@ -440,7 +440,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 						}
 					}, tooltip); 
 				
-				var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
+				var res = this.game.resPool.get(price.name);
+				
+				var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
 				var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
 				
 				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
