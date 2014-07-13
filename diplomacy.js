@@ -309,7 +309,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		//-------------- 10% change to get blueprint ---------------
 		
 		if (this.game.rand(100) < 10){
-			this.game.resPool.addResAmt("blueprint", titaniumAmt);
+			this.game.resPool.addResAmt("blueprint", 1);
 			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
 			//this.game.msg("You've got a blueprint!", "notice");
 		}
