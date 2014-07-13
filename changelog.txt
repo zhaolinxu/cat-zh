@@ -1,6 +1,7 @@
 v 0.8.5.5
 
 Added "Trade all" option
+Added "High precision" game setting ( 3 digits after point )
 Removed "manpower" to "catpower" and "compedium" to "compendium"
 
 v 0.8.5.4

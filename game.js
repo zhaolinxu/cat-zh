@@ -377,7 +377,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 
 /**
- * Main game class, available globably as 'gamePage' variable
+ * Main game class, can be accessed globably as a 'gamePage' variable
  */ 
 
 dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
@@ -408,12 +408,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//I wonder why someone may need this
 	isPaused: false,
 	
+	//current selected game tab
 	activeTabId: "Bonfire",
-	
-	//dom nodes shit
-	
-	_resourceDiv: null,
-	
+
 	ticksBeforeSave: 400,	//40 seconds ~
 
 	//in ticks
@@ -421,14 +418,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	selectedBuilding: null,
 	
-	//flags and shit
+	//=============================
+	//		option settings
+	//=============================
 	forceShowLimits: false,
+	forceHighPrecision: false,
 	useWorkers: false,
 	colorScheme: "",
 	
 	timer: null,
 	
+	//===========================================
 	//game-related flags that will go to the save
+	//===========================================
+	
+	//on a side note, I hate those flags. Could we use gamePage.opts = []/{}; ?
 	karmaKittens: 0,	//counter for karmic reincarnation
 	paragonPoints: 0,	//endgame prestige
 	deadKittens: 0,
@@ -440,7 +444,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	ticks: 0,
 	totalUpdateTime: 0,
-	
 	
 	//resource table 
 	
@@ -560,6 +563,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
+			forceHighPrecision: this.forceHighPrecision,
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
@@ -596,6 +600,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("body").attr("class", "scheme_"+this.colorScheme);
 		
 		$("#workersToggle")[0].checked = this.useWorkers;
+		$("#forceHighPrecision")[0].checked	= this.forceHighPrecision;
 	},
 	
 	load: function(){
@@ -654,8 +659,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (saveData && saveData.game){
 			var data = saveData.game;
 			
-			//console.log(data);
-
+			//something should really be done with this mess there
 			this.forceShowLimits = data.forceShowLimits ? data.forceShowLimits : false;
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
 
@@ -666,6 +670,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
 			
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
+			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
 			
 			this.updateOptionsUI();
 		}
@@ -1175,10 +1180,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			plusSign = "";
 		}
 		
+		var fixedAmt = this.forceHighPrecision ? 3 : 2;
+		
 		if (floatVal.toFixed() == floatVal){
 			return plusSign + floatVal.toFixed();
 		} else {
-			return plusSign + floatVal.toFixed(2);
+			return plusSign + floatVal.toFixed(fixedAmt);
 		}
 	},
 	
