@@ -19,6 +19,22 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		},
 		unlocked: false
 	},{
+		name: "sinsOfEmpire",
+		title: "Sins of a Solar Empire",
+		description: "Wait, seriously?",
+		condition: function(){
+			return ( this.game.resPool.get("alicorns").value > 0 );
+		},
+		unlocked: false
+	},{
+		name: "anachronox",
+		title: "Anachronox",
+		description: "Please stop",
+		condition: function(){
+			return ( this.game.resPool.get("time crystals").value > 0 );
+		},
+		unlocked: false
+	},{
 		name: "ironWill",
 		title: "Iron Will",
 		description: "You truly deserved this",

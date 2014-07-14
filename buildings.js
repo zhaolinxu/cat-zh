@@ -199,8 +199,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
+		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science.\nTurning off observatories will disable event bonus obly.",
 		unlocked: false,
+		enabled: false,
+		togglable: true,
+		on: 0,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
@@ -385,6 +388,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		enabled: false,
 		on: 0,
 		togglable: true,
+		tunable: true,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -442,6 +446,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		enabled: false,
 		on: 0,
 		togglable: true,
+		tunable: true,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
@@ -584,6 +589,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		unlocked: false,
 		enabled: false,
 		togglable: true,
+		tunable: true,
 		on: 0,
 		jammed: false,
 		prices: [
@@ -657,7 +663,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["chemistry"],
-		canUpgrade: true
+		canUpgrade: true,
+		action: function(self, game){
+			var ratio = game.workshop.getEffect("oilRatio");
+			self.effects["oilPerTickBase"] = 0.02 + 0.02*ratio;
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
@@ -712,6 +722,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		description: "Converts small percent of your total manpower to luxury resources. Uses 0.75 manpower per tick and a bit of gold.",
 		unlocked: false,
 		togglable: true,
+		tunable: true,
 		on: 0,
 		enabled: false,
 		prices: [
@@ -869,6 +880,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (sunAltar.researched){
 				self.effects["happiness"] = 0.5;
 			}
+			
+			var templars = game.religion.getRU("templars");
+			if (templars.researched){
+				self.effects["manpowerMax"] = 75;
+			}
 		}
 	},
 	{
@@ -987,26 +1003,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		if (this.effectsBase[name]){
 			totalEffect += this.effectsBase[name];
 		}
-		
-		/*for (var i = 0; i < this.buildingsData.length; i++){
-			var bld = this.buildingsData[i];
-
-			var effect = bld.effects[name];
-			
-			if (bld.action && !bld.enabled && bld.togglable){
-				continue;
-			}
-			
-			var val = bld.val;
-			//for barns we will enforce default limit effect
-			if (bld.name == "barn"){
-				val += 1;
-			}
-
-			if (effect && val){
-				totalEffect += effect * val;
-			}
-		}*/
 		
 		totalEffect += this.getEffectCached(name);
 		
@@ -1231,6 +1227,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable && (!building.on)) {
 				building.on = 0;
 			}
+			if (!building.tunable){
+				building.on = building.val;
+			}
 			
 			this.game.render();
 		}
@@ -1241,7 +1240,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (building){
 			if (building.togglable) {
 				var name = this.name;
-				return name + " ("+building.val+"|"+building.on+")";
+				
+				var postfix = building.tunable ? ( "|" +building.on ) : "";
+				return name + " ("+ building.val + postfix + ")";
 			} else {
 				var name = this.name;
 				return name + " (" + building.val + ")";
@@ -1307,60 +1308,81 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!building.action || !building.togglable){
 			return;
 		}
-		if (!this.remove){
-			this.remove = dojo.create("a", { 
-				href: "#", 
-				innerHTML: "-", 
-				style:{
-					paddingLeft: "2px",
-					float: "right",
-					cursor: "pointer"
-				}}, null);
-		
-			dojo.connect(this.remove, "onclick", this, dojo.partial(function(building, event){
-				event.stopPropagation();
-				event.preventDefault();
-
-				building.on--;
-
-				this.update();
-			}, building));
-		
-			this.removeBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
-			dojo.place(this.remove, this.buttonContent);
+		if (!this.remove && building.tunable){
+			this.remove = this.addLink("-", 
+				function(){
+					var building = this.getBuilding();
+					building.on--;
+				}, true	//use | break
+			);
 		}
-		if (!this.add){
-			this.add = dojo.create("a", { 
-				href: "#", 
-				innerHTML: "+", 
-				style:{
-					paddingLeft: "2px",
-					float: "right",
-					cursor: "pointer"
-				}}, null);
-				
-			dojo.connect(this.add, "onclick", this, dojo.partial(function(building, event){
-				event.stopPropagation();
-				event.preventDefault();
-
-				building.on++;
-
-				this.update();
-			}, building));
-			
-			this.addBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
-			dojo.place(this.add, this.buttonContent);
+		if (!this.add && building.tunable){
+			this.add = this.addLink("+", 
+				function(){
+					var building = this.getBuilding();
+					building.on++;
+				},true	//use | break
+			);
 		}
 		
-		dojo.setStyle(this.remove, "display", (building.on > 0) ? "" : "none");
-		dojo.setStyle(this.removeBreak, "display", (building.on > 0) ? "" : "none");
-		dojo.setStyle(this.add, "display", (building.on < building.val) ? "" : "none");
-		dojo.setStyle(this.addBreak, "display", (building.on < building.val) ? "" : "none");
+		if (!this.off && !building.tunable){
+			this.toggle = this.addLink( building.enabled ? "off" : "on", 
+				function(){
+					var building = this.getBuilding();
+					building.enabled = !building.enabled;
+
+					building.on = building.enabled ? building.val : 0;	//legacy safe switch
+				}, true	//use | break
+			);
+		}
+		
+		if (this.remove){
+			dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
+			dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
+		}
+		if (this.add){
+			dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
+			dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
+		}
 		
 		if(building.val > 10) {
 			//Steamworks specifically can be too large if 
 			dojo.setStyle(this.domNode,"font-size","90%");
 		}
+	},
+	
+	//TODO: move to the base button class
+	addLink: function(title, handler, addBreak){
+
+		var linkBreak = null;
+		var link = dojo.create("a", { 
+				href: "#", 
+				innerHTML: title, 
+				style:{
+					paddingLeft: "2px",
+					float: "right",
+					cursor: "pointer"
+				}
+			}, null);
+		
+		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+			event.stopPropagation();
+			event.preventDefault();
+
+			dojo.hitch(this, handler)();
+
+			this.update();
+		}, handler));
+		
+		if (addBreak){
+			linkBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
+		}
+		dojo.place(link, this.buttonContent);
+		
+		return {
+			link: link,
+			linkBreak: linkBreak
+		};
 	},
 	
 	update: function(){
@@ -1387,58 +1409,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				return;
 			}
 			
-			if (!this.remove){
-				this.remove = dojo.create("a", { 
-					href: "#", 
-					innerHTML: "-", 
-					style:{
-						paddingLeft: "2px",
-						float: "right",
-						cursor: "pointer"
-					}}, null);
-			
-				dojo.connect(this.remove, "onclick", this, dojo.partial(function(building, event){
-					event.stopPropagation();
-					event.preventDefault();
-
-					building.on--;
-
-					this.update();
-				}, building));
-			
-				this.removeBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
-				dojo.place(this.remove, this.buttonContent);
+			if (this.remove){
+				dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
+				dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
+			}
+			if (this.add){
+				dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
+				dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
 			}
 			
-			if (!this.add){
-				this.add = dojo.create("a", { 
-					href: "#", 
-					innerHTML: "+", 
-					style:{
-						paddingLeft: "2px",
-						float: "right",
-						cursor: "pointer"
-					}}, null);
-					
-				dojo.connect(this.add, "onclick", this, dojo.partial(function(building, event){
-					event.stopPropagation();
-					event.preventDefault();
-
-					building.on++;
-
-					this.update();
-				}, building));
-				
-				this.addBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
-				dojo.place(this.add, this.buttonContent);
+			if (this.toggle){
+				this.toggle.link.innerHTML = building.enabled ? "off" : "on";
 			}
-		
-			dojo.setStyle(this.remove, "display", (building.on > 0) ? "" : "none");
-			dojo.setStyle(this.removeBreak, "display", (building.on > 0) ? "" : "none");
-			dojo.setStyle(this.add, "display", (building.on < building.val) ? "" : "none");
-			dojo.setStyle(this.addBreak, "display", (building.on < building.val) ? "" : "none");
-			
-			dojo.toggleClass(this.domNode, "bldEnabled", (building.on>0?true:false));
+	
+			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
 			
 			if(building.val > 10) {
 				dojo.setStyle(this.domNode,"font-size","90%");

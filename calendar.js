@@ -214,11 +214,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
 		//-------------------------  -------------------
 		
-		var riftChance = 0 + this.game.religion.getEffect("riftChance");	//5 OPTK
+		var riftChance = this.game.religion.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance){
-			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!");
+			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice");
 			
 			this.game.resPool.get("unicorns").value += 500;
+		}
+		//----------------------------------------------
+		var aliChance = this.game.religion.getEffect("alicornChance");	//1 OPTK
+		if (this.game.rand(10000) < aliChance){
+			this.game.msg("An Alicorn has descended from the sky!", "important");
+			
+			this.game.resPool.get("alicorn").value += 1;
 		}
 		
 		// -------------- ivory meteors ---------------
@@ -226,7 +233,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < meteorChance){
 			
 			var ivory = 250 + this.game.rand(1500);
-			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!");
+			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice");
 			
 			this.game.resPool.get("ivory").value += ivory;
 		}

@@ -609,7 +609,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "pumpjack",
 		title: "Pumpjack",
-		description: "Improves effectiveness of oil vells by 75%",
+		description: "Improves effectiveness of oil wells by 75%",
 		effects: {
 			"oilRatio" : 0.75
 		},
@@ -706,7 +706,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: true
 	},{
 		name: "compedium",
-		title: "Compedium",
+		title: "Compendium",
 		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
 		prices:[
 			{name: "manuscript", val: 50},
@@ -1089,8 +1089,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
 				
-				var td = dojo.create("td", { innerHTML: res.name + ":" }, tr);
-				var td = dojo.create("td", { innerHTML: res.value.toFixed(2) }, tr);
+				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
+				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
 		}
 	},

@@ -73,7 +73,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			 
 			if (meta.hasOwnProperty("val")) {
 				
-				if (meta.togglable){
+				if (meta.togglable && meta.name != "observatory"){	//ugly crappy hack
 					if (meta.on > 0) {
 						 var val = meta.on;
 						 totalEffect += effect * val;

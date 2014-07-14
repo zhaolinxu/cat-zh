@@ -1,3 +1,15 @@
+v 0.8.6.5
+
+Observatories are now togglable
+Steamworks is not tunable anymore (yet togglable)
+
+Sky Palace (endgame Ziggurat upgrade)
+Templars (endgame religion upgrade)
+
+Pumpjack - improves oil production by 75%
+
+Two new achievements
+
 v 0.8.5.5
 
 Added "Trade all" option

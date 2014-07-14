@@ -91,6 +91,20 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		},
 		val: 0,
 		unlocked: true
+	},{
+		name: "skyPalace",
+		label: "Sky Palace",
+		description: "Improves your unicorns generation by 50%.\nThere was a legend of ancient and misterious beings inhabitings this place long ago.",
+		prices: [
+			{ name : "ivory", val: 250000 },
+			{ name : "tears", val: 500 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"alicornsRatio" : 0.1
+		},
+		val: 0,
+		unlocked: true
 	}],
 	
 	religionUpgrades:[{
@@ -178,6 +192,19 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "gold",  val: 750 }
 		],
 		faith: 10000,
+		effects: {
+			//none
+		},
+		researched: false
+	},{
+		name: "templars",
+		label: "Templars",
+		description: "Temples have small impact on the catpower limit",
+		prices: [
+			{ name : "faith", val: 5000 },
+			{ name : "gold",  val: 3000 }
+		],
+		faith: 75000,
 		effects: {
 			//none
 		},
