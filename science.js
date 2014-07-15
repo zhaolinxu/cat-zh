@@ -433,7 +433,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		}
 	},{
 		name: "metalurgy",
-		title: "Metalurgy",
+		title: "Metallurgy",
 		description: "TBD",
 		effectDesc: "Unlocks Electrolytic Smelting",
 		unlocked: false,

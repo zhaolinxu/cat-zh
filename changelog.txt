@@ -1,9 +1,11 @@
 v 0.8.8.5
 
-Concrate (T3 craft recipe)
+Concrete (T3 craft recipe)
 
 Spiders (trade scaffolds for coal)
 Factory (+5% production rate)
+
+Mechanization, Metallurgy and Combustion techs
 
 v 0.8.7.5
 
