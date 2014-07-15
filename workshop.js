@@ -669,8 +669,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: true
 	},{
 		name: "concrate",
-		title: "Concrate",
-		description: "A block of reinforced concrate",
+		title: "Concrete",
+		description: "A block of reinforced concrete",
 		prices:[
 			{name: "slab", val: 2500},
 			{name: "steel", val: 25}

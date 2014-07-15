@@ -419,7 +419,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "mechanization",
 		title: "Mechanization",
 		description: "TBD",
-		effectDesc: "Unlocks Factories, Pumpjacks and Concrate",
+		effectDesc: "Unlocks Factories, Pumpjacks and Concrete",
 		unlocked: false,
 		researched: false,
 		prices: [
