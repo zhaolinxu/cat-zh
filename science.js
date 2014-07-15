@@ -226,7 +226,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "theology",
 		title: "Theology",
 		description: "Theology is the study of religion",
-		effectDesc: "Unlocks the access to the religion",
+		effectDesc: "Unlocks religion",
 		
 		unlocked: false,
 		researched: false,
@@ -419,7 +419,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "mechanization",
 		title: "Mechanization",
 		description: "TBD",
-		effectDesc: "TBD",
+		effectDesc: "Unlocks Factories, Pumpjacks and Concrate",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -429,12 +429,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("pumpjack").unlocked = true;
+			game.workshop.getCraft("concrate").unlocked = true;
 		}
 	},{
 		name: "metalurgy",
 		title: "Metalurgy",
 		description: "TBD",
-		effectDesc: "TBD",
+		effectDesc: "Unlocks Electrolytic Smelting",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -443,6 +444,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("electrolyticSmelting").unlocked = true;
 		}
 	},{
 		name: "combustion",

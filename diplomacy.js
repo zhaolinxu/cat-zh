@@ -102,17 +102,30 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"winter": 1
 			}}
 		]
+	},{
+		name: "spiders",
+		hidden: true,
+		title: "Spiders",
+		attitude: "friendly",
+		standing: 0.15,			//friendly, but not much
+		unlocked: false,
+		buys: [
+			{name: "scaffold", val: 50}
+		],
+		sells:[
+			{name: "coal", value: 350, chance: 100, delta: 0.15, seasons:{
+				"spring": 1.00,
+				"summer": 1.05,
+				"autumn": 1.15,
+				"winter": 0.95
+			}},
+		]
 	},
 
 	/*{
 		name: "centaurs",
 		title: "Centaurs",
 		attitude: "neutral",
-		unlocked: false
-	},{
-		name: "spiders",
-		title: "Spiders",
-		attitude: "friendly",
 		unlocked: false
 	}*/
 	],
@@ -195,6 +208,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			zebras.unlocked = true;	
 			this.game.workshop.get("caravanserai").unlocked = true;
 			return zebras;
+		}
+		
+		var spiders = this.get("spiders");
+		if (!spiders.unlocked && this.game.resPool.get("ship").value >= 100 && this.game.resPool.get("science").maxValue > 125000){	
+			spiders.unlocked = true;	
+			return spiders;
 		}
 		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));

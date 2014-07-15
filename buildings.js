@@ -411,12 +411,21 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var gold = game.resPool.get("gold");
 			var coal = game.resPool.get("coal");
 			
+			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
+			self.effects["ironPerTick"] = 0.02 * smelterRatio;
 			
+			//hackhackhack
+			if (game.religion.getRU("solarRevolution").researched){
+				self.effects["ironPerTick"] = self.effects["ironPerTick"] * ( 1 + (game.religion.getProductionBonus() / 100));
+			}
+
 			if (wood.value > self.on * -self.effects["woodPerTick"] &&
 				minerals.value > self.on * -self.effects["mineralsPerTick"]
 			){
 				wood.value -= self.on * -self.effects["woodPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
+				
+				
 				
 				var iron = game.resPool.get("iron");
 				if (iron.value < iron.maxValue){
@@ -431,9 +440,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
-					//self.effects["coalPerTick"] = 0.005;
-					self.effects["coalPerTickBase"] = 0.005;
-					//coal.value += self.effects["coalPerTick"] * self.val;
+					self.effects["coalPerTickBase"] = 0.005 * smelterRatio;
 				}
 			}
 		},
@@ -673,7 +680,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "workshop",
 		label: "Workshop",
-		description: "Provides a vast variety of upgrades\nImprove craft effectiveness by 6%",
+		description: "Provides a vast variety of upgrades\nImproves craft effectiveness by 6%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -686,8 +693,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 			btn.game.workshopTab.visible = true;
 		},
+		val: 0
+	},{
+		name: "factory",
+		label: "Factory",
+		description: "Improves craft effectiveness by 5%",
+		unlocked: false,
+		ignorePriceCheck: true,
+		prices: [
+			{ name : "titanium", val: 2500 },
+			{ name : "concrate", val: 15}
+		],
+		effects: {
+			"craftRatio" : 0.05
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+			btn.game.workshopTab.visible = true;
+		},
 		val: 0,
-		canUpgrade: false
+		requiredTech: ["mechanization"],
 	},
 	{
 		name: "tradepost",
@@ -1219,6 +1244,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			if (building){
 				building.val++;
+				
+				//to not force player re-click '+' button all the time
+				if (building.on){
+					building.on++;
+				}
 				
 				//price check is sorta heavy operation, so we will store the value in the button
 				this.prices = this.getPrices();	

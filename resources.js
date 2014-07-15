@@ -150,6 +150,10 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "concrate",
+		type : "common",
+		craftable: true
+	},{
 		name : "plate",
 		type : "common",
 		craftable: true
@@ -255,6 +259,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	
 	addResAmt: function(name, value){
 		var res = this.get(name);
+
 		if (value){
 			res.value += value;
 		}

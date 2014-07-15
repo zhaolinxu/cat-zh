@@ -1,3 +1,18 @@
+v 0.8.8.5
+
+Concrate (T3 craft recipe)
+
+Spiders (trade scaffolds for coal)
+Factory (+5% production rate)
+
+v 0.8.7.5
+
+Electrolytic Smelting (+95% to smelter effectiveness)
+
+Iron output of smelters is now affected by Solar Revolution bonus
+Fixed disabled observatories still giving chance bonus to events
+Fixed Sky Palace not giving correct bonuses
+
 v 0.8.6.5
 
 Observatories are now togglable

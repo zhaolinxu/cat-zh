@@ -101,7 +101,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		],
 		priceRatio: 1.15,
 		effects: {
-			"alicornsRatio" : 0.1
+			"unicornsRatio" : 0.5,
+			"alicornChance" : 1
 		},
 		val: 0,
 		unlocked: true

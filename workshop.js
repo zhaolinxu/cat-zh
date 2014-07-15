@@ -504,6 +504,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "electrolyticSmelting",
+		title: "Electrolytic Smelting",
+		description: "Smelters are twice as effective",
+		effects: {
+			"smelterRatio": 0.95
+		},
+		prices:[
+			{ name : "titanium", val: 2500 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- automation upgrades ----------------------
 	{
@@ -654,6 +667,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{name: "minerals", val: 250}
 		],
 		unlocked: true
+	},{
+		name: "concrate",
+		title: "Concrate",
+		description: "A block of reinforced concrate",
+		prices:[
+			{name: "slab", val: 2500},
+			{name: "steel", val: 25}
+		],
+		unlocked: false
 	},{
 		name: "plate",
 		title: "Metal Plate",
