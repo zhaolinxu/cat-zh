@@ -267,7 +267,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		},
 		prices:[
 			{ name : "science", val: 100000 },
-			{ name : "concrete", val: 45 },
+			{ name : "concrate", val: 45 },
 			{ name : "titanium",    val: 2500 }
 		],
 		unlocked: false,
@@ -317,7 +317,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "science", val: 100000 },
 			{ name : "titanium", val: 1250 },
-			{ name : "concrete", val: 35 }
+			{ name : "concrate", val: 35 }
 		],
 		unlocked: false,
 		researched: false,
@@ -382,7 +382,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		},
 		prices:[
 			{ name : "science", val: 125000 },
-			{ name : "concrete", val: 50 },
+			{ name : "concrate", val: 50 },
 			{ name : "titanium", val: 3500 },
 		],
 		unlocked: false,
