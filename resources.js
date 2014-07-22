@@ -115,7 +115,8 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		transient: true,
 		visible: true
 	},{
-		name : "alicorns",
+		name : "alicorn",
+		title: "alicorns",
 		type : "rare",
 		visible: true
 	},{
@@ -151,6 +152,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true
 	},{
 		name : "concrate",
+		title: "concrete",
 		type : "common",
 		craftable: true
 	},{
