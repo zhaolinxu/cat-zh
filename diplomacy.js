@@ -381,7 +381,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		
 		//---------- calculate yield -----------------
 		
-		this.game.msg("You have send " + min + " trade caravans");
+		this.game.msg("You have sent " + min + " trade caravans");
 		for (var i = 0; i<min; i++){
 			var yieldRes = this.tradeInternal(true);	//supress msg
 			

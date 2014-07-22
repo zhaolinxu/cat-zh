@@ -259,6 +259,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 		}
 	},{
+		name: "concreteBarns",
+		title: "Concrete Barns",
+		description: "Barns store 75% more resources",
+		effects: {
+			"barnRatio" : 0.75
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "concrete", val: 45 },
+			{ name : "titanium",    val: 2500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "titaniumWarehouses",
 		title: "Titanium Warehouses",
 		description: "Warehouses store 50% more resources",
@@ -275,7 +291,40 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 		}
+	},{
+		name: "alloyWarehouses",
+		title: "Alloy Warehouses",
+		description: "Warehouses store 45% more resources",
+		effects: {
+			"warehouseRatio" : 0.45
+		},
+		prices:[
+			{ name : "science", val: 90000 },
+			{ name : "titanium", val: 750 },
+			{ name : "alloy",    val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "concreteWarehouses",
+		title: "Concrete Warehouses",
+		description: "Warehouses store 35% more resources",
+		effects: {
+			"warehouseRatio" : 0.35
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "titanium", val: 1250 },
+			{ name : "concrete", val: 35 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
 	},
+	//	------------- harbor stuff ------------
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
@@ -310,7 +359,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
-		description: "Hut price ratio reduced by 0.5",
+		description: "Hut price ratio reduced by 50%",
 		effects: {
 			"hutPriceRatio" : -0.5
 		},
@@ -323,6 +372,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 			game.workshop.get("silos").unlocked = true;
+		}
+	},{
+		name: "concreteHuts",
+		title: "Concrete Huts",
+		description: "Hut price ratio reduced by 50%",
+		effects: {
+			"hutPriceRatio" : -0.5
+		},
+		prices:[
+			{ name : "science", val: 125000 },
+			{ name : "concrete", val: 50 },
+			{ name : "titanium", val: 3500 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
 		}
 	},
 	{

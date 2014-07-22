@@ -30,7 +30,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "resource",
 		title: "Resources",
-		buildings: ["mine", "quarry", "smelter", "calciner", "lumberMill", "oilWell"]
+		buildings: ["mine", "quarry", "lumberMill", "oilWell"]
+	},{
+		name: "industry",
+		title: "Industry",
+		buildings: ["steamworks", "magneto", "smelter", "calciner", "factory" ]
 	},{
 		name: "culture",
 		title: "Culture",
@@ -38,7 +42,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "other",
 		title: "Other",
-		buildings: ["workshop", "steamworks", "magneto", "tradepost", "mint", "unicornPasture"]
+		buildings: ["workshop", "tradepost", "mint", "unicornPasture"]
 	},{
 		name: "megastructures",
 		title: "Mega Structures",
@@ -1662,10 +1666,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						clearTimeout(self.game.gatherTimeoutHandler);
-						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 5000);	//5 sec 
+						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 2500);	//2.5 sec 
 						
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 1500 && !self.game.ironWill){
+						if (self.game.gatherClicks >= 2500 && !self.game.ironWill){
 							//alert("You are so tired");
 							self.game.gatherClicks = 0;
 							self.game.cheatMode = true;

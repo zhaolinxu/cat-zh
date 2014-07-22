@@ -325,6 +325,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.getCraft("alloy").unlocked = true;	//TODO: replace with workshop.unlockCraft("alloy");
 			game.workshop.get("alloyAxe").unlocked = true;
 			game.workshop.get("alloyBarns").unlocked = true;
+			game.workshop.get("alloyWarehouses").unlocked = true;
 		}
 	},{
 		name: "acoustics",
@@ -430,6 +431,11 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("pumpjack").unlocked = true;
 			game.workshop.getCraft("concrate").unlocked = true;
+			
+			//todo: move to the separate tech?
+			game.workshop.get("concreteWarehouses").unlocked = true;
+			game.workshop.get("concreteBarns").unlocked = true;
+			game.workshop.get("concreteHuts").unlocked = true;
 		}
 	},{
 		name: "metalurgy",

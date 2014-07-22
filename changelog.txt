@@ -1,3 +1,10 @@
+v 0.8.9.5 (22 jul)
+
+Alloy Warehouses
+Concrete Warehouses
+Concrete Barns
+Concrete Huts
+
 v 0.8.8.5
 
 Concrate (T3 craft recipe)
