@@ -11,19 +11,19 @@
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
 		
-		<script src="./core.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./resources.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./calendar.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./buildings.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./village.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./science.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./workshop.js?v=0.8.9.5a" type="text/javascript"></script>
-		<script src="./diplomacy.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./economy.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./religion.js?v=0.8.9.5" type="text/javascript"></script>
-		<script src="./achievements.js?v=0.8.9.5" type="text/javascript"></script>
+		<script src="./core.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./resources.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./calendar.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./buildings.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./village.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./science.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./workshop.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./diplomacy.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./economy.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./religion.js?v=0.8.9.6" type="text/javascript"></script>
+		<script src="./achievements.js?v=0.8.9.6" type="text/javascript"></script>
 		
-		<script src="./game.js?v=0.8.9.5" type="text/javascript"></script>
+		<script src="./game.js?v=0.8.9.6" type="text/javascript"></script>
 		
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -281,54 +281,6 @@
 					
 				if (confirm("You are about to enter a dev mode, proceed?")){
 					
-					gamePage.bld.get("barn").val = 15;
-					gamePage.bld.get("warehouse").val = 10;
-					gamePage.bld.get("library").val = 50;
-					gamePage.bld.get("academy").val = 45;
-					gamePage.bld.get("observatory").val = 15;
-					gamePage.bld.get("hut").val = 50;
-					
-					gamePage.bld.get("temple").val = 5;
-					gamePage.bld.get("ziggurat").val = 2;
-					gamePage.bld.get("ziggurat").unlocked = true;
-					
-					gamePage.village.sim.kittens = [];
-					gamePage.village.sim.addKitten(50);
-					
-					
-					
-					gamePage.resPool.get("catnip").value = 50000;
-					gamePage.resPool.get("wood").value = 15000;
-					gamePage.resPool.get("minerals").value = 20000;
-					gamePage.resPool.get("iron").value = 3500;
-					gamePage.resPool.get("coal").value = 1500;
-					gamePage.resPool.get("steel").value = 500;
-					gamePage.resPool.get("gold").value = 100;
-					
-					gamePage.resPool.get("science").value = 50000;
-					gamePage.resPool.get("furs").value = 10;
-					gamePage.resPool.get("ivory").value = 10;
-					gamePage.resPool.get("unicorns").value = 5000;
-					gamePage.resPool.get("manpower").value = 5000;
-					
-					gamePage.resPool.get("beam").value = 50;
-					gamePage.resPool.get("slab").value = 50;
-					gamePage.resPool.get("plate").value = 50;
-					
-					gamePage.resPool.get("gear").value = 125;
-					gamePage.resPool.get("scaffold").value = 50;
-					gamePage.resPool.get("manuscript").value = 500;
-					gamePage.resPool.get("culture").value = 500;
-					
-					gamePage.resPool.get("blueprint").value = 25;
-					
-					gamePage.resPool.get("ivory").value = 25000;
-					
-					gamePage.msg("Hey! >:");
-					
-					//------
-
-					gamePage.calendar.year = 20;
 				}
 			}
 			
@@ -373,7 +325,7 @@
 					<a href="#" onclick="dev();" >#</a> |
 					<a href="#" onclick="wipe();" >Wipe</a> |
 					
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.8.9.5</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 0.8.9.6</a>
 
 				</div>
 			</div>
@@ -392,9 +344,10 @@
 						Concrete Warehouses
 						Concrete Huts
 						
-					Rev: 5
+					Rev: 6
 						Trade all
 						High precision
+						Unicorns x10
 						
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position:relative; top:-15px;">full changelog</a>

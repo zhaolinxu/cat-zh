@@ -308,6 +308,68 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.Button, {
+	x10: null,
+	
+	afterRender: function(){
+		this.inherited(arguments);
+		this.renderLinks();
+	},
+	
+	onClick: function(){
+		this.animate();
+		
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.sacrifice(1);
+		}
+	},
+	
+	/**
+	 * Render button links like off/on and sell
+	 */  
+	renderLinks: function(){
+
+		this.x10 = this.addLink("x10", 
+			function(){
+				this.animate();
+				
+				for (var i = 0; i<10; i++){
+					this.payPrice();	//this is so lame
+				}
+				this.sacrifice(10);
+				this.update();
+			}, false
+		);
+		
+		var prices = this.getPrices();
+		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
+		
+		dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+				
+		var prices = this.getPrices();
+		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
+
+		if (this.x10){
+			dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
+		}
+	},
+	
+	sacrifice: function(amt){
+		
+		var amt = amt || 1;
+		var unicornCount = 2500 * amt;
+		var zigguratCount = this.game.bld.get("ziggurat").val;
+		
+		this.game.msg(unicornCount + " unicorns sacrificed. You've got " + zigguratCount * amt + " unicorn tears!");
+		this.game.resPool.get("tears").value += 1 * zigguratCount * amt;
+	}
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 	
 	sacrificeBtn : null,
@@ -328,13 +390,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats");
 			var content = zigguratPanel.render(container);
 			
-			var sacrificeBtn = new com.nuclearunicorn.game.ui.Button({ 
+			var sacrificeBtn = new com.nuclearunicorn.game.ui.SacrificeBtn({ 
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension.\nYou will recieve one Unicorn Tear for every ziggurat you have.",
-				handler: dojo.partial(function(zigguratCount, btn){
-					btn.game.msg("2500 unicorns sacrificed. You've got " + zigguratCount + " unicorn tears!");
-					btn.game.resPool.get("tears").value += 1 * zigguratCount;
-				}, zigguratCount),
 				prices: [{ name: "unicorns", val: 2500}]
 			}, this.game);
 			sacrificeBtn.render(content);

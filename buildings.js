@@ -1385,40 +1385,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 	},
 	
-	//TODO: move to the base button class
-	addLink: function(title, handler, addBreak){
-
-		var linkBreak = null;
-		var link = dojo.create("a", { 
-				href: "#", 
-				innerHTML: title, 
-				style:{
-					paddingLeft: "2px",
-					float: "right",
-					cursor: "pointer"
-				}
-			}, null);
-		
-		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
-			event.stopPropagation();
-			event.preventDefault();
-
-			dojo.hitch(this, handler)();
-
-			this.update();
-		}, handler));
-		
-		if (addBreak){
-			linkBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
-		}
-		dojo.place(link, this.buttonContent);
-		
-		return {
-			link: link,
-			linkBreak: linkBreak
-		};
-	},
-	
 	update: function(){
 		this.inherited(arguments);
 		

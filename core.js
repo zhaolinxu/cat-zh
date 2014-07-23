@@ -472,6 +472,40 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			
 			dojo.toggleClass( this.tooltipPricesNodes[i]["price"], "noRes", hasRes);
 		}
+	},
+	
+	//Fast access snippet to create button links like "on", "off", "sell", etc
+	addLink: function(title, handler, addBreak){
+
+		var linkBreak = null;
+		var link = dojo.create("a", { 
+				href: "#", 
+				innerHTML: title, 
+				style:{
+					paddingLeft: "2px",
+					float: "right",
+					cursor: "pointer"
+				}
+			}, null);
+		
+		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+			event.stopPropagation();
+			event.preventDefault();
+
+			dojo.hitch(this, handler)();
+
+			this.update();
+		}, handler));
+		
+		if (addBreak){
+			linkBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
+		}
+		dojo.place(link, this.buttonContent);
+		
+		return {
+			link: link,
+			linkBreak: linkBreak
+		};
 	}
 });
 

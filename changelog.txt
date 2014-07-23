@@ -1,3 +1,7 @@
+v 0.8.9.6 (23 jul)
+
+x10 link for Sacrifice Unicorns button
+
 v 0.8.9.5 (22 jul)
 
 Alloy Warehouses
