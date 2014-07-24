@@ -1,8 +1,158 @@
+v 0.8.9.6 (23 jul)
+
+x10 link for Sacrifice Unicorns button
+
+v 0.8.9.5 (22 jul)
+
+Alloy Warehouses
+Concrete Warehouses
+Concrete Barns
+Concrete Huts
+
+v 0.8.8.5
+
+Concrete (T3 craft recipe)
+
+Spiders (trade scaffolds for coal)
+Factory (+5% production rate)
+
+Mechanization, Metallurgy and Combustion techs
+
+v 0.8.7.5
+
+Electrolytic Smelting (+95% to smelter effectiveness)
+
+Iron output of smelters is now affected by Solar Revolution bonus
+Fixed disabled observatories still giving chance bonus to events
+Fixed Sky Palace not giving correct bonuses
+
+v 0.8.6.5
+
+Observatories are now togglable
+Steamworks is not tunable anymore (yet togglable)
+
+Sky Palace (endgame Ziggurat upgrade)
+Templars (endgame religion upgrade)
+
+Pumpjack - improves oil production by 75%
+
+Two new achievements
+
+v 0.8.5.5
+
+Added "Trade all" option
+Added "High precision" game setting ( 3 digits after point )
+Removed "manpower" to "catpower" and "compedium" to "compendium"
+
+v 0.8.5.4
+
+changed by Zusias:
+
+Added %power toggle for automated structures
+____
+
+Removed leather from the resources
+
+v 0.8.4.4
+
+Time to cap in the resource tooltips
+
+v 0.8.4.3
+
+Fixed Sunsipre not giving faith bonus
+Fixed Ziggurat upgrades not recalculating prices
+
+Barges - improve coal limits for Harbors
+Advanced Automation - makes Steamworks activate twice per year
+
+Paragon levels should give minor bonus to the resource limit
+
++ pile of placeholder techs
+
+v 0.8.3.2
+
+Drama and Poetry tech
+Cultural Festivals
+
+Fixed steamworks giving effect even without the oil
+
+v 0.8.2.2
+
+Geodesy will now give ~60% boost to the geologists coal output ( 0.0225 cpt, 0.0008 gpt)
+
+v 0.8.2.1
+
+Craftable blueprints (25 compendium, 25k science)
+
+v 0.8.2.0
+
+Titanium Saw
+Alloy Saw
+
+Magneto
+Biolab
+
+Industrialization
+
+v 0.8.1.0
+
+Alloy barns
+Alloy axe
+
+All barn capacity upgrades will now affect catnip as well if Silos are researched (25% of ratio)
+
+v 0.8.0.0
+
+Fixed few more memory leaks (Thanks Zusias!)
+
+Craft table will display price tooltips for recipes
+Renamed "Diplomacy" tab to "Trade"
+Zebras will display titanium drop
+Buy and Sell sections will be now color coded
+Certain important messages in the log are now color coded
+
+Nerfed Mints to the ground (less furs, significanly less ivory)
+Fixed Titanium Warehouses not being correctly unlocked
+
+v 0.7.9.9
+
+Fixed lots of memory leaks in the game.
+
+v 0.7.9.8
+
+Silos (workshop upgrade), +750 max catnip to warehouse capacity
+
+v 0.7.8.8
+
+Basilica (religion upgrade for culture)
+Acoustics (tech, 65K science, 65 compedium, unlocks Chapel)
+Chapel ( + 200 to max culture, +0.05 culture per tick, +0.005 faith per tick )
+
+v 0.7.7.7
+
+Fixed resource table ( tooltips should work in chrome now)
+
+v 0.7.7.6
+
+Resources will stay if limit is lower for some reason. (Workaround for a couple of cases).
+
+Titanium Barns
+Titanium Warehouses
+
+v 0.7.6.6
+
+changed by Duke:
+
+"Send all" command will now display single message instead of spamming the log
+Fixed religion bonuses working incorrectly
+_____
+
+Added progress indicator for Solar Revolution
+
 v 0.7.6.5
 
 Mint
 Updated data import to support some browsers
-Removed all autoclick-related things, because people are clearly not getting the message and that is making me sad.
 
 v 0.7.5.4
 

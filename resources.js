@@ -44,41 +44,51 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	//=========================================
 	{
 		name : "manpower",
-		title: "power",
+		title: "catpower",
 		type : "common",
 		visible: true,
+		transient: true,		//cant be affected by magneto bonus
 		color: "#DBA901"
 	},{
 		name : "science",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "#01A9DB"
 	},{
 		name : "culture",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "#DF01D7"
 	},{
 		name : "faith",
 		type : "common",
 		visible: true,
+		transient: true,
 		color: "gray"
 	},{
 		name : "kittens",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "zebras",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "starchart",
 		type : "common",
+		transient: true,
 		visible: true
 	},{
 		name : "blueprint",
 		type : "common",
-		visible: true
+		transient: true,
+		visible: true,
+		craftable: true,
+		color: "#01A9DB"
 	},
 	
 	//=========================================
@@ -87,21 +97,26 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	{
 		name : "furs",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "ivory",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "spice",
 		type : "uncommon",
+		transient: true,
 		visible: true
 	},{
 		name : "unicorns",
 		type : "rare",
+		transient: true,
 		visible: true
 	},{
-		name : "alicorns",
+		name : "alicorn",
+		title: "alicorns",
 		type : "rare",
 		visible: true
 	},{
@@ -136,6 +151,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		craftable: true
 	},{
+		name : "concrate",
+		title: "concrete",
+		type : "common",
+		craftable: true
+	},{
 		name : "plate",
 		type : "common",
 		craftable: true
@@ -167,10 +187,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		craftable: true,
 		color: "#FF7F50"
 	},{
-		name : "leather",
-		type : "common",
-		craftable: true
-	},{
 		name : "parchment",
 		type : "common",
 		craftable: true,
@@ -182,6 +198,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		color: "#01A9DB"
 	},{
 		name : "compedium",
+		title: "compendium",
 		type : "common",
 		craftable: true,
 		color: "#01A9DB"
@@ -241,6 +258,20 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		
 		return res;
 	},
+	
+	addResAmt: function(name, value){
+		var res = this.get(name);
+
+		if (value){
+			res.value += value;
+		}
+		if (res.maxValue && res.value > res.maxValue){
+			res.value = res.maxValue;
+		}
+		if (res.value < 0){
+			res.value = 0;
+		}
+	},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
@@ -251,16 +282,18 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
-		
-			var resPerTick = this.game.getResourcePerTick(res.name);
-			res.value = res.value + resPerTick;
-			
+
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
+			
+			if (res.name == "catnip" && this.game.workshop.get("silos").researched){
+				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio") * 0.25;
+			}
+			
 			if (res.name == "wood" || 
 				res.name == "minerals" || 
 				res.name == "iron" || 
@@ -272,6 +305,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 				}
 			}
 			
+			var paragon = this.game.resPool.get("paragon").value;
+			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
+			
 			
 			if (maxValue > 0 ){
 				res.maxValue = maxValue;
@@ -280,7 +316,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
 			}
-			if (res.value > res.maxValue){
+			
+			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
+			
+			res.value = res.value + resPerTick;
+			if (res.maxValue && res.value > res.maxValue){
 				res.value = res.maxValue;
 			}
 			

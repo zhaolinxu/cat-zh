@@ -49,9 +49,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	
 	weather: null,	//warm / cold
 	
+	festivalDays: 0,
+	
 	iceage: 0,	//iceage apocalypse level
 	
 	observeBtn: null,
+	
+	observeHandler: null,
 	
 	constructor: function(game){
 		this.game = game;
@@ -86,9 +90,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	 */ 
 	onNewDay: function(){
 		var self = this;
+		
+		if (this.festivalDays){
+			this.festivalDays--;
+		}
 
 		var chance = 25;					//25 OPTK of event per day	(0.25%)
-		chance += this.game.bld.getEffect("starEventChance");
+		if (this.game.bld.get("observatory").enabled){
+			chance += this.game.bld.getEffect("starEventChance");
+		}
 		
 		if (this.game.rand(10000) < chance && 
 			this.game.bld.get("library").val > 0){
@@ -104,22 +114,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				value: "Observe"
 			}, node);
 			
-			var observeHandler = function(event, ironwill){
+			this.observeHandler = function(event, ironwill){
 
 				if ((!event.clientX || !event.clientY) && !ironwill){
 					//>:
 					this.game.cheatMode = true;
 				}
 
-				
 				dojo.destroy(this.observeBtn);
 				this.observeBtn = null;
 				
 				var diagram = this.game.resPool.get("starchart");
-				var science = this.game.resPool.get("science");
+				//var science = this.game.resPool.get("science");
 				
 				var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
-				science.value += sciBonus;
+				//science.value += sciBonus;
+				this.game.resPool.addResAmt("science", sciBonus);
+				
 				this.game.msg("+" + sciBonus.toFixed() + " science!");
 				
 				if (this.game.science.get("astronomy").researched){
@@ -128,26 +139,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 			
-			dojo.connect(this.observeBtn, "onclick", this, observeHandler);
+			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
 			var seconds = 60;
-			var timeout = setInterval(function(){
+			var timeout = setInterval(dojo.hitch(this, function(){
 				
-				dojo.destroy(self.observeBtn);
-				self.observeBtn = null;
+				dojo.destroy(this.observeBtn);
+				this.observeBtn = null;
 				
 				window.clearInterval(timeout);
 				
-				var autoChance = self.game.bld.getEffect("starAutoSuccessChance");	//in %
+				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
 
 				if(
-					(self.game.ironWill && (self.game.rand(100) <= 25)) ||
-					(self.game.rand(100) <= autoChance)
+					(this.game.ironWill && (self.game.rand(100) <= 25)) ||
+					(this.game.rand(100) <= autoChance)
 				){	
-					dojo.hitch(self, observeHandler)({}, true);
+					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 				
-			}, seconds * 1000);
+			}), seconds * 1000);
 		}
 		
 		
@@ -168,7 +179,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var mineralsAmt = 50 + 25 * this.game.bld.getEffect("mineralsRatio");
 		
 			if (this.game.ironWill){
-				var mineralsAmt = mineralsAmt + mineralsAmt * 0.1;	//+10% of minerals for iron will
+				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 			
 			this.game.msg("A meteor fell near the village, +"+ mineralsAmt.toFixed() +" minerals!");
@@ -205,11 +216,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
 		//-------------------------  -------------------
 		
-		var riftChance = 0 + this.game.religion.getEffect("riftChance");	//5 OPTK
+		var riftChance = this.game.religion.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance){
-			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!");
+			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice");
 			
-			this.game.resPool.get("unicorns") += 500;
+			this.game.resPool.get("unicorns").value += 500;
+		}
+		//----------------------------------------------
+		var aliChance = this.game.religion.getEffect("alicornChance");	//0.2 OPTK
+		if (this.game.rand(100000) < aliChance){
+			this.game.msg("An Alicorn has descended from the sky!", "important");
+			
+			this.game.resPool.get("alicorn").value += 1;
 		}
 		
 		// -------------- ivory meteors ---------------
@@ -217,9 +235,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < meteorChance){
 			
 			var ivory = 250 + this.game.rand(1500);
-			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!");
+			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice");
 			
-			this.game.resPool.get("ivory") += ivory;
+			this.game.resPool.get("ivory").value += ivory;
 		}
 	},
 	
@@ -234,6 +252,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}else{
 			this.weather = null;
+		}
+		
+		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
+			this.game.bld.get("steamworks").jammed = false;
 		}
 		
 		//-------------------- icage stuff -------------------------
@@ -307,7 +329,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			day: this.day,
 			season: this.season,
 			weather: this.weather,
-			iceage: this.iceage
+			iceage: this.iceage,
+			festivalDays: this.festivalDays
 		};
 	},
 	
@@ -317,7 +340,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.day  = saveData.calendar.day;
 			this.season  = saveData.calendar.season;
 			this.weather = saveData.calendar.weather;
-			this.bloodmoon = saveData.calendar.iceage ? saveData.calendar.iceage : 0;
+			this.festivalDays = saveData.calendar.festivalDays || 0;
 		}
 	}
 	

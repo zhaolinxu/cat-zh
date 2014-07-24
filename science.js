@@ -87,7 +87,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		cost: 500,	//mostly does nothing, so pirce is lower
 		unlocks: ["civil", "math", "construction", "brewery"],
 		handler: function(game){
-			game.workshop.getCraft("leather").unlocked = true;
+			//game.workshop.getCraft("leather").unlocked = true;
 		}
 		
 	},{
@@ -153,7 +153,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "currency",
 		title: "Currency",
 		description: "Currency represent a certain amount of wealth",
-		effectDesc: "Unlocks gold and economics",
+		effectDesc: "Unlocks gold and trade",
 		
 		unlocked: false,
 		researched: false,
@@ -226,7 +226,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "theology",
 		title: "Theology",
 		description: "Theology is the study of religion",
-		effectDesc: "Unlocks the access to the religion",
+		effectDesc: "Unlocks religion",
 		
 		unlocked: false,
 		researched: false,
@@ -287,7 +287,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 42000},
 			{name: 	"compedium", val: 10}
 		],
-		unlocks: [],
+		unlocks: ["acoustics"],
 		handler: function(game){
 
 		}
@@ -307,6 +307,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
 			game.workshop.get("steelSaw").unlocked = true;
+			game.workshop.getCraft("blueprint").unlocked = true;
 		}
 	},{
 		name: "chemistry",
@@ -322,6 +323,39 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.getCraft("alloy").unlocked = true;	//TODO: replace with workshop.unlockCraft("alloy");
+			game.workshop.get("alloyAxe").unlocked = true;
+			game.workshop.get("alloyBarns").unlocked = true;
+			game.workshop.get("alloyWarehouses").unlocked = true;
+		}
+	},{
+		name: "acoustics",
+		title: "Acoustics",
+		description: "Acoustics is the study of sound.",
+		effectDesc: "Unlocks Chapells",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 65000},
+			{name: 	"compedium", val: 65}
+		],
+		unlocks: ["drama"],
+		handler: function(game){
+			
+		}
+	},{
+		name: "drama",
+		title: "Drama and Poetry",
+		description: "Drama and poetry are both forms of artistic expression.\nThe former expressed through the use of visual performance, the latter through the written word.",
+		effectDesc: "Unlocks Festivals and Cultural artifacts(TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 90000},
+			{name: 	"parchment", val: 5000}
+		],
+		unlocks: [],
+		handler: function(game){
+			
 		}
 	},{
 		name: "archeology",
@@ -349,19 +383,85 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 75000},
 			{name: 	"compedium", val: 85}
 		],
-		unlocks: [],
+		unlocks: ["industrialization"],
 		handler: function(game){
 		}
 	},{
 		name: "biology",
 		title: "Biology",
-		description: "TBD",
-		effectDesc: "(TBD)",
+		description: "Biology deals with living organisms, their characteristics and their use in our society.",
+		effectDesc: "Unlocks Biolabs",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 85000},
 			{name: 	"compedium", val: 100}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "industrialization",
+		title: "Industrialization",
+		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts.",
+		effectDesc: "Unlocks Advanced Automation and Bargets",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 100000},
+			{name: 	"blueprint", val: 25}
+		],
+		unlocks: ["mechanization", "metalurgy", "combustion"],
+		handler: function(game){
+			game.workshop.get("barges").unlocked = true;
+			game.workshop.get("advancedAutomation").unlocked = true;
+		}
+	},{
+		name: "mechanization",
+		title: "Mechanization",
+		description: "TBD",
+		effectDesc: "Unlocks Factories, Pumpjacks and Concrete",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 115000},
+			{name: 	"blueprint", val: 50}
+		],
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("pumpjack").unlocked = true;
+			game.workshop.getCraft("concrate").unlocked = true;
+			
+			//todo: move to the separate tech?
+			game.workshop.get("concreteWarehouses").unlocked = true;
+			game.workshop.get("concreteBarns").unlocked = true;
+			game.workshop.get("concreteHuts").unlocked = true;
+		}
+	},{
+		name: "metalurgy",
+		title: "Metallurgy",
+		description: "TBD",
+		effectDesc: "Unlocks Electrolytic Smelting",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 125000},
+			{name: 	"blueprint", val: 65}
+		],
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("electrolyticSmelting").unlocked = true;
+		}
+	},{
+		name: "combustion",
+		title: "Combustion",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 120000},
+			{name: 	"blueprint", val: 55}
 		],
 		unlocks: [],
 		handler: function(game){
@@ -558,7 +658,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.TechButton({
 			name : tech.title,
-			handler: function(btn){
+			handler: dojo.partial(function(tech, game, btn){
 				tech.researched = true;
 
 				if (tech.unlocks && tech.unlocks.length){
@@ -569,10 +669,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				}
 				
 				if (tech.handler){
-					tech.handler(self.game);
+					tech.handler(game);
 				}
 				
-			},
+			}, tech, self.game),
 			prices: tech.prices ? tech.prices : [{
 				name:"science",
 				val: tech.cost

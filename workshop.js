@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
+dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunicorn.core.TabManager, {
 	
 	game: null,
 	
@@ -94,18 +94,49 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "steelSaw",
 		title: "Steel Saw",
-		description: "Improve Lumber Mill efficiency by 10%",
+		description: "Improve Lumber Mill efficiency by 20%",
 		effects: {
+			"lumberMillRatio" : 0.2
 		},
 		prices:[
 			{ name : "science", val: 52000 },
-			{ name : "steel", val: 1000 }
+			{ name : "steel", val: 750 }
 		],
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//do nothing
-			game.bld.get("lumberMill").effects["woodRatio"] = 0.11;
+			game.workshop.get("titaniumSaw").unlocked = true;
+		}
+	},{
+		name: "titaniumSaw",
+		title: "Titanium Saw",
+		description: "Improve Lumber Mill efficiency by 15%",
+		effects: {
+			"lumberMillRatio" : 0.15
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "titanium", val: 500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.workshop.get("alloySaw").unlocked = true;
+		}
+	},{
+		name: "alloySaw",
+		title: "Alloy Saw",
+		description: "Improve Lumber Mill efficiency by 15%",
+		effects: {
+			"lumberMillRatio" : 0.15
+		},
+		prices:[
+			{ name : "science", val: 85000 },
+			{ name : "alloy", val: 75 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
 		}
 	},{
 		name: "titaniumAxe",
@@ -117,6 +148,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		prices:[
 			{ name : "science", val: 38000 },
 			{ name : "titanium", val: 10 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "alloyAxe",
+		title: "Alloy Axe",
+		description: "The more you use them, the sharper they are! Woodcutters are 50% more effective.",
+		effects: {
+			"woodRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "alloy", val: 25 }
 		],
 		unlocked: false,
 		researched: false,
@@ -141,7 +188,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: true,
 		researched: false,
 		handler: function(game){
-			//do nothing
 		}
 	},{
 		name: "reinforcedBarns",
@@ -159,7 +205,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: true,
 		researched: false,
 		handler: function(game){
-			//do nothing
+			game.workshop.get("titaniumBarns").unlocked = true;
 		}
 	},{
 		name: "reinforcedWarehouses",
@@ -180,6 +226,106 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			game.workshop.get("ironwood").unlocked = true;
 		}
 	},{
+		name: "titaniumBarns",
+		title: "Titanium Barns",
+		description: "Barns store twice as many resources",
+		effects: {
+			"barnRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 60000 },
+			{ name : "titanium", val: 25 },
+			{ name : "steel",    val: 200 },
+			{ name : "scaffold", val: 250 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "alloyBarns",
+		title: "Alloy Barns",
+		description: "Barns store twice as many resources",
+		effects: {
+			"barnRatio" : 1
+		},
+		prices:[
+			{ name : "science", val: 75000 },
+			{ name : "alloy", val: 20 },
+			{ name : "plate",    val: 750 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "concreteBarns",
+		title: "Concrete Barns",
+		description: "Barns store 75% more resources",
+		effects: {
+			"barnRatio" : 0.75
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "concrate", val: 45 },
+			{ name : "titanium",    val: 2500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "titaniumWarehouses",
+		title: "Titanium Warehouses",
+		description: "Warehouses store 50% more resources",
+		effects: {
+			"warehouseRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 70000 },
+			{ name : "titanium", val: 50 },
+			{ name : "steel",    val: 500 },
+			{ name : "scaffold", val: 500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "alloyWarehouses",
+		title: "Alloy Warehouses",
+		description: "Warehouses store 45% more resources",
+		effects: {
+			"warehouseRatio" : 0.45
+		},
+		prices:[
+			{ name : "science", val: 90000 },
+			{ name : "titanium", val: 750 },
+			{ name : "alloy",    val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "concreteWarehouses",
+		title: "Concrete Warehouses",
+		description: "Warehouses store 35% more resources",
+		effects: {
+			"warehouseRatio" : 0.35
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "titanium", val: 1250 },
+			{ name : "concrate", val: 35 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},
+	//	------------- harbor stuff ------------
+	{
 		name: "cargoShips",
 		title: "Cargo Ships",
 		description: "Every ship will give 2% bonus to the Harbor capacity",
@@ -195,9 +341,25 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		handler: function(game){
 		}
 	},{
+		name: "barges",
+		title: "Barges",
+		description: "Harbors store more coal",
+		effects: {
+			"harborCoalRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "titanium", val: 1500 },
+			{ name : "blueprint", val: 30 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
-		description: "Hut price ratio reduced by 0.5",
+		description: "Hut price ratio reduced by 50%",
 		effects: {
 			"hutPriceRatio" : -0.5
 		},
@@ -209,7 +371,41 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-
+			game.workshop.get("silos").unlocked = true;
+		}
+	},{
+		name: "concreteHuts",
+		title: "Concrete Huts",
+		description: "Hut price ratio reduced by 50%",
+		effects: {
+			"hutPriceRatio" : -0.5
+		},
+		prices:[
+			{ name : "science", val: 125000 },
+			{ name : "concrate", val: 50 },
+			{ name : "titanium", val: 3500 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},
+	{
+		name: "silos",
+		title: "Silos",
+		description: "Warehouses can now store catnip",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 50000 },
+			{ name : "steel", val: 125 },
+			{ name : "blueprint", val: 5 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.bld.get("warehouse").effects["catnipMax"] = 750;
+			game.workshop.get("titaniumWarehouses").unlocked = true;
 		}
 	},
 	//--------------------- hunt upgrades ----------------------
@@ -285,7 +481,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	{
 		name: "advancedRefinement",
 		title: "Catnip Enrichment",
-		description: "Catnip refines twice as better",
+		description: "Catnip refines twice as well",
 		effects: {
 		},
 		prices:[
@@ -308,8 +504,29 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
+		handler: function(game){
+			game.workshop.get("geodesy").unlocked = true;
+		},
 		unlocked: false,
 		researched: false
+	},{
+		name: "geodesy",
+		title: "Geodesy",
+		description: "Geologists are more effective and can find gold.",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 250 },
+			{ name : "starchart", val: 500 },
+			{ name : "science",  val: 90000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			var gJob = game.village.getJob("geologist");
+			gJob.modifiers["coal"] = 0.0225;	//instead of 0.015
+			gJob.modifiers["gold"] = 0.0008;
+		}
 	},
 	//--------------------- coal upgrades ----------------------
 	{
@@ -352,6 +569,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "electrolyticSmelting",
+		title: "Electrolytic Smelting",
+		description: "Smelters are twice as effective",
+		effects: {
+			"smelterRatio": 0.95
+		},
+		prices:[
+			{ name : "titanium", val: 2500 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- automation upgrades ----------------------
 	{
@@ -379,6 +609,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: false,
 		researched: false
 	},{
+		name: "advancedAutomation",
+		title: "Advanced Automation",
+		description: "Reduce Steamworks maintainance cycle by 50%",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 75 },
+			{ name : "blueprint",  val: 25 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
 		name: "pneumaticPress",
 		title: "Pneumatic Press",
 		description: "Workshop automation will also convert iron to plates",
@@ -393,7 +636,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		researched: false
 	},{
 		name: "combustionEngine",
-		title: "Combustion Engine",
+		title: "High Pressure Engine",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
 			"coalRatioGlobal" : 0.2
@@ -439,6 +682,25 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: false,
 		researched: false
+	},
+	//---------------------- oil ---------------
+	{
+		name: "pumpjack",
+		title: "Pumpjack",
+		description: "Improves effectiveness of oil wells by 75%",
+		effects: {
+			"oilRatio" : 0.75
+		},
+		prices:[
+			{ name : "titanium", val: 250 },
+			{ name : "gear", 	 val: 125 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	}
 	],
 	
@@ -449,6 +711,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	crafts:[{
 		name: "wood",
 		title: "Refine catnip",
+		description: "A sturdy block of catnip wood. Difficult to process, but great building material.",
 		prices:[
 			{name: "catnip", val: 100}
 		],
@@ -457,6 +720,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "beam",
 		title: "Wooden Beam",
+		description: "Simple support structure made of a wood. Required for advanced construction",
 		prices:[
 			{name: "wood", val: 175}
 		],
@@ -469,19 +733,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		],
 		unlocked: true
 	},{
+		name: "concrate",
+		title: "Concrete",
+		description: "A block of reinforced concrete",
+		prices:[
+			{name: "slab", val: 2500},
+			{name: "steel", val: 25}
+		],
+		unlocked: false
+	},{
 		name: "plate",
 		title: "Metal Plate",
 		prices:[
 			{name: "iron", val: 125}
 		],
 		unlocked: true
-	},{
-		name: "leather",
-		title: "Leather",
-		prices:[
-			{name: "furs", val: 50}
-		],
-		unlocked: false
 	},{
 		name: "steel",
 		title: "Steel",
@@ -493,10 +759,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	},{
 		name: "alloy",
 		title: "Alloy",
-		description: "A durable alloy of steel and titanium. Required for advanced buildings. TBD.",
+		description: "A durable alloy of steel and titanium. Required for advanced buildings and upgrades.",
 		prices:[
 			{name: "steel", val: 75},
-			{name: "titanium", val: 5}
+			{name: "titanium", val: 10}
 		],
 		unlocked: false
 	},{
@@ -512,7 +778,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		title: "Parchment",
 		description: "A material for writing on made from animal skin, required for cultural buildings",
 		prices:[
-			{name: "leather", val: 5}
+			{name: "furs", val: 175}
 		],
 		unlocked: false
 	},
@@ -527,11 +793,20 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		unlocked: true
 	},{
 		name: "compedium",
-		title: "Compedium",
+		title: "Compendium",
 		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
+		],
+		unlocked: false
+	},{
+		name: "blueprint",
+		title: "Blueprint",
+		description: "Strange piece of paper with blue lines.",
+		prices:[
+			{name: "compedium", val: 25},
+			{name: "science", val: 25000}
 		],
 		unlocked: false
 	},
@@ -571,6 +846,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
+		
+		this.registerMeta(this.upgrades);
 	},
 	
 	get: function(upgradeName){
@@ -612,7 +889,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
 	
-						upgrade.unlocked = savedUpgrade.unlocked;
+						if (!upgrade.unlocked){		//temporary hack for certain save bugs, once unlocked can't be locked back
+							upgrade.unlocked = savedUpgrade.unlocked;
+						}
 						upgrade.researched = savedUpgrade.researched;
 						
 						if (upgrade.researched && upgrade.handler){
@@ -651,22 +930,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 		if (this.effectsBase[name]){
 			totalEffect += this.effectsBase[name];
 		}
-		
-		for (var i = 0; i < this.upgrades.length; i++){
-			var upgrade = this.upgrades[i];
-			var effect = upgrade.effects[name];
-			
-			if (effect && upgrade.researched){
-				totalEffect += effect;
-			}
-		}
-		
-		return totalEffect;
+		return totalEffect + this.getEffectCached(name);
 	},
 	
 		
 	craft: function (res, amt){
 		var ratio = this.game.bld.getEffect("craftRatio");
+		if (res == "wood"){
+			ratio += this.game.bld.getEffect("refineRatio");
+		}
 		var craftAmt = 0;
 		
 		var craft = this.getCraft(res);
@@ -706,6 +978,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", null, {
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
 			var ratio = this.game.bld.getEffect("craftRatio");
+			
+			if (craftName == "wood"){
+				ratio += this.game.bld.getEffect("refineRatio");
+			}
 			
 			var bonus = recipe.ignoreBonuses ? 0 : minAmt*ratio;
 			
@@ -900,8 +1176,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
 				
-				var td = dojo.create("td", { innerHTML: res.name + ":" }, tr);
-				var td = dojo.create("td", { innerHTML: res.value.toFixed(2) }, tr);
+				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
+				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
 		}
 	},

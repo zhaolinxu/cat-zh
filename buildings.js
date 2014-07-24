@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
+dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearunicorn.core.TabManager, {
 	
 	game: null,
 	
@@ -7,6 +7,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	constructor: function(game){
 		this.game = game;
+		
+		this.registerMeta(this.buildingsData);
 	},
 	
 	buildingGroups: [{
@@ -20,7 +22,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "science",
 		title: "Science",
-		buildings: ["library", "academy", "observatory"]
+		buildings: ["library", "academy", "observatory", "biolab"]
 	},{
 		name: "storage",
 		title: "Storage",
@@ -28,15 +30,19 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "resource",
 		title: "Resources",
-		buildings: ["mine", "quarry", "smelter", "calciner", "lumberMill", "oilWell"]
+		buildings: ["mine", "quarry", "lumberMill", "oilWell"]
+	},{
+		name: "industry",
+		title: "Industry",
+		buildings: ["steamworks", "magneto", "smelter", "calciner", "factory" ]
 	},{
 		name: "culture",
 		title: "Culture",
-		buildings: ["amphitheatre", "temple"]
+		buildings: ["amphitheatre", "chapel", "temple"]
 	},{
 		name: "other",
 		title: "Other",
-		buildings: ["workshop", "steamworks", "tradepost", "mint", "unicornPasture"]
+		buildings: ["workshop", "tradepost", "mint", "unicornPasture"]
 	},{
 		name: "megastructures",
 		title: "Mega Structures",
@@ -59,11 +65,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		priceRatio: 1.12,
 		handler: function(btn){
-			//btn.game.resPool.get("catnip").perTick += 0.125;
 		},
-		/*action: function(self, game){
-			game.resPool.get("catnip").value += game.bld.getEffect("catnipPerTick");
-		},*/
 		val: 0
 	},
 	{
@@ -157,7 +159,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves your max science by 250",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves max science by 250",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -181,7 +183,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%",
+		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%.\nImproves max science by 500",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
@@ -201,8 +203,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science",
+		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science.\nTurning off observatories will disable event bonus obly.",
 		unlocked: false,
+		enabled: false,
+		togglable: true,
+		on: 0,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
@@ -224,6 +229,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			if (astrolabe.researched){
 				self.effects["scienceMax"] = 1750;
 			}*/
+		},
+		val: 0
+	},{
+		name: "biolab",
+		label: "Bio Lab",
+		description: "Improves effectiveness of catnip refinement by 5%, +35% to the science output, +1.5K to the max science",
+		unlocked: false,
+		prices: [{ name : "slab", val: 100 },
+				 { name : "alloy", val: 25 },
+				 { name : "science", val: 1500 },
+		],
+		effects: {
+			"scienceRatio": 0.35,
+			"refineRatio" : 0.05,
+			"scienceMax"  : 1500
+		},
+		priceRatio: 1.10,
+		ignorePriceCheck: true,
+		requiredTech: ["biology"],
+		handler: function(btn){
 		},
 		val: 0
 	},
@@ -252,7 +277,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "warehouse",
 		label: "Warehouse",
-		description: "Provides a space to store your resources.\n(+250 wood, +200 minerals, +25 iron)",
+		description: "Provides a space to store your resources.\n(+150 wood, +200 minerals, +25 iron)",
 		unlocked: false,
 		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
 		effects: {
@@ -291,6 +316,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: 	function(btn){
 		},
 		action: function(self, game){
+			
+			self.effects["coalMax"] = 100;
+			
+			var barges = game.workshop.get("barges");
+			if (barges.researched){
+				self.effects["coalMax"] += self.effects["coalMax"] * barges.effects["harborCoalRatio"];
+			}
+			
 			var cargoShips = game.workshop.get("cargoShips");
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
@@ -301,7 +334,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				self.effects["woodMax"] = ( 700 * ( 1 - ratio));
 				self.effects["mineralsMax"] = ( 950 * ( 1 - ratio));
 				self.effects["ironMax"] = ( 150 * ( 1 - ratio));
-				self.effects["coalMax"] = ( 100 * ( 1 - ratio));
+				self.effects["coalMax"] = ( self.effects["coalMax"] * ( 1 - ratio));
 				self.effects["goldMax"] = ( 25 * ( 1 - ratio));
 				self.effects["titaniumMax"] = ( 50 * ( 1 - ratio));
 			}
@@ -356,8 +389,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		label: "Smelter",
 		description: "Smelts ore into the metal (-0.05 wood, -0.1 minerals, + 0.02 iron)",
 		unlocked: false,
-		enabled: true,
+		enabled: false,
+		on: 0,
 		togglable: true,
+		tunable: true,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -371,7 +406,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		},
 		action: function(self, game){
 			self.effects["coalPerTickBase"] = 0;
-			if (!self.enabled && self.togglable){
+			if (self.on < 1){
 				return;
 			}
 
@@ -380,24 +415,36 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			var gold = game.resPool.get("gold");
 			var coal = game.resPool.get("coal");
 			
+			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
+			self.effects["ironPerTick"] = 0.02 * smelterRatio;
 			
-			if (wood.value > self.val * -self.effects["woodPerTick"] &&
-				minerals.value > self.val * -self.effects["mineralsPerTick"]
+			//hackhackhack
+			if (game.religion.getRU("solarRevolution").researched){
+				self.effects["ironPerTick"] = self.effects["ironPerTick"] * ( 1 + (game.religion.getProductionBonus() / 100));
+			}
+
+			if (wood.value > self.on * -self.effects["woodPerTick"] &&
+				minerals.value > self.on * -self.effects["mineralsPerTick"]
 			){
-				wood.value -= self.val * -self.effects["woodPerTick"];
-				minerals.value -= self.val * -self.effects["mineralsPerTick"];
+				wood.value -= self.on * -self.effects["woodPerTick"];
+				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
-				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;	//a bit less than ore
+				
+				
+				var iron = game.resPool.get("iron");
+				if (iron.value < iron.maxValue){
+					iron.value += self.effects["ironPerTick"] * self.on;	//a bit less than ore
+				}
 				
 				if (game.workshop.get("goldOre").researched){
 					self.effects["goldPerTick"] = 0.001;
-					gold.value += self.effects["goldPerTick"] * self.val;
+					if (gold.value < gold.maxValue){
+						gold.value += self.effects["goldPerTick"] * self.on;
+					}
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
-					//self.effects["coalPerTick"] = 0.005;
-					self.effects["coalPerTickBase"] = 0.005;
-					//coal.value += self.effects["coalPerTick"] * self.val;
+					self.effects["coalPerTickBase"] = 0.005 * smelterRatio;
 				}
 			}
 		},
@@ -408,12 +455,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces 0.15 iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
+		on: 0,
 		togglable: true,
+		tunable: true,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
 			{ name : "blueprint",  val: 5 },
-			{ name : "oil",  val: 3000 }
+			{ name : "oil",  val: 500 }
 		],
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
@@ -428,21 +477,27 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"oilPerTick" : -0.024	//base + 0.01
 		},
 		action: function(self, game){
-			if (!self.enabled && self.togglable){
+			if (self.on < 1){
 				return;
 			}
 			
 			var oil = game.resPool.get("oil");
 			var minerals = game.resPool.get("minerals");
 
-			if (oil.value > self.val * -self.effects["oilPerTick"] &&
-				minerals.value > self.val * -self.effects["mineralsPerTick"]
+			if (oil.value > self.on * -self.effects["oilPerTick"] &&
+				minerals.value > self.on * -self.effects["mineralsPerTick"]
 			){
-				oil.value -= self.val * -self.effects["oilPerTick"];
-				minerals.value -= self.val * -self.effects["mineralsPerTick"];
+				oil.value -= self.on * -self.effects["oilPerTick"];
+				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
-				game.resPool.get("iron").value += self.effects["ironPerTick"] * self.val;
-				game.resPool.get("titanium").value += self.effects["titaniumPerTick"] * self.val;
+				var iron = game.resPool.get("iron");
+				if (iron.value < iron.maxValue){
+					iron.value += self.effects["ironPerTick"] * self.on;
+				}
+				var titanium = game.resPool.get("titanium");
+				if (titanium.value < titanium.maxValue){
+					titanium.value += self.effects["titaniumPerTick"] * self.on;
+				}
 			}
 			
 		},
@@ -455,6 +510,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		unlocked: false,
 		enabled: false,
 		togglable: true,
+		on: 0,
 		jammed: false,
 		prices: [
 			{ name : "steel", val: 75 },
@@ -471,12 +527,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			"coalRatioGlobal" : -0.8	//to be revisited later
 		},
 		action: function(self, game){
-			if (!self.enabled){
+			if (self.on < 1){
 				return;
 			}
 			
 			if (game.workshop.get("printingPress").researched){
-				var amt = 0.0005 * self.val;						// 2 per year per SW
+				var amt = 0.0005 * self.on;						// 2 per year per SW
 				game.resPool.get("manuscript").value += amt;
 				//game.msg("Printing press: +" + amt + " manuscript!");
 			}
@@ -509,7 +565,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				var ratio = game.bld.getEffect("craftRatio");
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
-					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.on); 
 					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
 						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
@@ -517,7 +573,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 					}
 				}
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
-					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.on); 
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
 						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
@@ -526,7 +582,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				}
 				
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
-					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.val); 
+					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.on); 
 					
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
@@ -537,7 +593,45 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			}
 		},
 		val: 0
+	},{
+		name: "magneto",
+		label: "Magneto",
+		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 25%. Consumes oil.",
+		unlocked: false,
+		enabled: false,
+		togglable: true,
+		tunable: true,
+		on: 0,
+		jammed: false,
+		prices: [
+			{ name : "alloy", val: 10 },
+			{ name : "gear",  val: 5 },
+			{ name : "blueprint",  val: 1 }
+		],
+		priceRatio: 1.25,
+		ignorePriceCheck: true,
+		requiredTech: ["electricity"],
+		handler: function(btn){
+
+		},
+		effects: {
+			"oilPerTick" : -0.05,
+			"magnetoRatio": 0.02
+		},
+		action: function(self, game){
+			if (self.on < 1){
+				return;
+			}
+			var oil = game.resPool.get("oil");
+			oil.value += self.effects["oilPerTick"] * self.on;
+			
+			if (oil.value <= 0){
+				self.on--;//Turn off one per tick until oil flow is sufficient
+			}
+		},
+		val: 0
 	},
+	
 	{
 		name: "lumberMill",
 		label: "Lumber Mill",
@@ -555,7 +649,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["construction"],
-		canUpgrade: true
+		canUpgrade: true,
+		action: function(self, game){
+			var ratio = game.workshop.getEffect("lumberMillRatio");
+			self.effects["woodRatio"] = 0.1 + 0.1*ratio;
+		}
 	},
 	{
 		name: "oilWell",
@@ -576,13 +674,17 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: function(btn){},
 		val: 0,
 		requiredTech: ["chemistry"],
-		canUpgrade: true
+		canUpgrade: true,
+		action: function(self, game){
+			var ratio = game.workshop.getEffect("oilRatio");
+			self.effects["oilPerTickBase"] = 0.02 + 0.02*ratio;
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
 		name: "workshop",
 		label: "Workshop",
-		description: "Provides a vast variety of upgrades\nImprove craft effectiveness by 6%",
+		description: "Provides a vast variety of upgrades\nImproves craft effectiveness by 6%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -595,8 +697,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		handler: function(btn){
 			btn.game.workshopTab.visible = true;
 		},
+		val: 0
+	},{
+		name: "factory",
+		label: "Factory",
+		description: "Improves craft effectiveness by 5%",
+		unlocked: false,
+		ignorePriceCheck: true,
+		prices: [
+			{ name : "titanium", val: 2500 },
+			{ name : "concrate", val: 15}
+		],
+		effects: {
+			"craftRatio" : 0.05
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+			btn.game.workshopTab.visible = true;
+		},
 		val: 0,
-		canUpgrade: false
+		requiredTech: ["mechanization"],
 	},
 	{
 		name: "tradepost",
@@ -631,6 +751,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		description: "Converts small percent of your total manpower to luxury resources. Uses 0.75 manpower per tick and a bit of gold.",
 		unlocked: false,
 		togglable: true,
+		tunable: true,
+		on: 0,
 		enabled: false,
 		prices: [
 			{ name : "minerals", val: 5000 },
@@ -648,7 +770,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		requiredTech: ["architecture"],
 		ignorePriceCheck: true,
 		action: function(self, game){
-			if (!self.enabled){
+			if (self.on < 1){
 				return;
 			}
 			
@@ -656,22 +778,27 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			var gold = game.resPool.get("gold");
 			
 			
-			if (mpower.value > self.val * -self.effects["manpowerPerTick"] &&
-				gold.value > self.val * -self.effects["goldPerTick"]
+			if (mpower.value > self.on * -self.effects["manpowerPerTick"] &&
+				gold.value > self.on * -self.effects["goldPerTick"]
 			){
-				mpower.value -= self.val * -self.effects["manpowerPerTick"];
-				gold.value -= self.val * -self.effects["goldPerTick"];
+				mpower.value -= self.on * -self.effects["manpowerPerTick"];
+				gold.value -= self.on * -self.effects["goldPerTick"];
 				
-				var mpratio = (game.resPool.get("manpower").value * self.effects["mintEffect"] * self.val) / 100;
 				
-				self.effects["fursPerTick"]  = mpratio * 2;
-				self.effects["ivoryPerTick"] = mpratio * 1.5;
+				var manpower = game.resPool.get("manpower");
+				var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
+
+				self.effects["fursPerTick"]  = mpratio * 1.25;	//2
+				self.effects["ivoryPerTick"] = mpratio * 0.3;	//1.5
 				
-				var furs = game.resPool.get("furs");
-				var ivory = game.resPool.get("ivory");
+				//var furs = game.resPool.get("furs");
+				//var ivory = game.resPool.get("ivory");
 				
-				furs.value += self.effects["fursPerTick"];
-				ivory.value += self.effects["ivoryPerTick"];
+				game.resPool.addResAmt("furs", self.effects["fursPerTick"] * self.on);
+				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"] * self.on);
+				
+				//furs.value += self.effects["fursPerTick"];
+				//ivory.value += self.effects["ivoryPerTick"];
 			}
 		}
 	},
@@ -697,8 +824,28 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["writing"],
 		action: function(self, game){
-			/*var culture = game.resPool.get("culture");
-			culture.value += self.val * self.effects["culturePerTick"];*/
+		}
+	},{
+		name: "chapel",
+		label: "Chapel",
+		description: "+0.05 culture per tick, a bit of faith per tick. +200 to max culture",
+		unlocked: false,
+		prices: [
+			{ name : "minerals", val: 2000 },
+			{ name : "culture",  val: 250 },
+			{ name : "parchment", val: 250 }
+		],
+		effects: {
+			"culturePerTickBase" : 0.05,
+			"faithPerTickBase" : 0.005,
+			"cultureMax" : 200
+		},
+		priceRatio: 1.15,
+		ignorePriceCheck: true,
+		handler: function(btn){},
+		val: 0,
+		requiredTech: ["acoustics"],
+		action: function(self, game){
 		}
 	},
 	{
@@ -723,6 +870,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		val: 0,
 		requiredTech: ["philosophy"],
 		action: function(self, game){
+			
+			self.effects["faithMax"] = 100;
 
 			var theology = game.science.get("theology");
 			if (theology.researched){
@@ -741,7 +890,19 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			
 			var sunAltar = game.religion.getRU("sunAltar");
 			if (sunAltar.researched){
-				self.effects["faithMax"] = 150;
+				self.effects["faithMax"] += 50;
+			}
+			
+			var goldenSpire = game.religion.getRU("goldenSpire");
+			if (goldenSpire.researched){
+				self.effects["faithMax"] += self.effects["faithMax"] * 0.5;
+			}
+			
+			
+			var basilica = game.religion.getRU("basilica");
+			if (basilica.researched){
+				self.effects["cultureMax"] = 75;
+				self.effects["culturePerTickBase"] = 0.2;
 			}
 			
 			var sunAltar = game.religion.getRU("sunAltar");
@@ -749,7 +910,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 				self.effects["happiness"] = 0.5;
 			}
 			
-			
+			var templars = game.religion.getRU("templars");
+			if (templars.researched){
+				self.effects["manpowerMax"] = 75;
+			}
 		}
 	},
 	{
@@ -778,7 +942,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	{
 		name: "ziggurat",
 		label: "Ziggurat",
-		description: "The dark legacy of the lost race",
+		description: "The dark legacy of the lost race.\n May have special usage once Theology is researched.",
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
@@ -799,7 +963,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	],
 	
 	effectsBase: {
-		"manpowerMax": 100
+		"manpowerMax"	: 100,
+		"catnipMax"		: 5000,
+		"woodMax"		: 200,
+		"mineralsMax"	: 250,
+		"faithMax" 		: 100,
+		"cultureMax"	: 100
 	},
 	
 	get: function(name){
@@ -864,25 +1033,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 			totalEffect += this.effectsBase[name];
 		}
 		
-		for (var i = 0; i < this.buildingsData.length; i++){
-			var bld = this.buildingsData[i];
-
-			var effect = bld.effects[name];
-			
-			if (bld.action && !bld.enabled && bld.togglable){
-				continue;
-			}
-			
-			var val = bld.val;
-			//for barns we will enforce default limit effect
-			if (bld.name == "barn"){
-				val += 1;
-			}
-
-			if (effect && val){
-				totalEffect += effect * val;
-			}
-		}
+		totalEffect += this.getEffectCached(name);
 		
 		// Previously, catnip demand (or other buildings that both effected the same resource)
 		// could have theoretically had more than 100% reduction because they diminished separately, 
@@ -896,6 +1047,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 	
 	/*
 	 * Returns a parabolic-aproaching value of the effect that heades to the limit, but unable to approach it completely
+	 * Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
 	 */ 
 	getHyperbolicEffect: function(effect, limit){
 		effect = Math.abs(effect);
@@ -909,10 +1061,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 		
 		var diminishedPortion = effect - maxUndiminished;
 		
-		var delta = .25; //Lower values will approach 1 more quickly.
+		var delta = .25*limit; //Lower values will approach 1 more quickly.
 		
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25;
+		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25*limit;
 		
 		var totalEffect = maxUndiminished+diminishedEffect;
 		
@@ -1028,6 +1180,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", null, {
 						
 						bld.val = savedBld.val;
 						bld.unlocked = savedBld.unlocked;
+						if(savedBld.on){
+							bld.on = savedBld.on;
+						}
 						
 						if (savedBld.jammed){
 							bld.jammed = savedBld.jammed;
@@ -1088,14 +1243,27 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			this.handler(this);
 			
 			this.payPrice();
+			
+			var building = this.getBuilding();
 
-			if (this.getBuilding()){
-				this.getBuilding().val++;
+			if (building){
+				building.val++;
+				
+				//to not force player re-click '+' button all the time
+				if (building.on){
+					building.on++;
+				}
 				
 				//price check is sorta heavy operation, so we will store the value in the button
 				this.prices = this.getPrices();	
 			}
-
+			
+			if (building.togglable && (!building.on)) {
+				building.on = 0;
+			}
+			if (!building.tunable){
+				building.on = building.val;
+			}
 			
 			this.game.render();
 		}
@@ -1104,8 +1272,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	getName: function(){
 		var building = this.getBuilding();
 		if (building){
-			var name = this.name;
-			return name + " (" + building.val + ")";
+			if (building.togglable) {
+				var name = this.name;
+				
+				var postfix = building.tunable ? ( "|" +building.on ) : "";
+				return name + " ("+ building.val + postfix + ")";
+			} else {
+				var name = this.name;
+				return name + " (" + building.val + ")";
+			}
 		}
 		return this.name;
 	},
@@ -1121,14 +1296,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	
 	afterRender: function(){
 		this.inherited(arguments);
-		
-		var self = this;
-		var building = this.getBuilding();
-		
+
 		this.renderLinks();
 		
-		dojo.connect(this.domNode, "onmouseover", this, function(){ self.game.selectedBuilding = building; });
-		dojo.connect(this.domNode, "onmouseout", this, function(){  self.game.selectedBuilding = null; });
+		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = this.getBuilding(); }));
+		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
 	},
 	
 	/**
@@ -1141,22 +1313,26 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
 						title: "Sell building for 50% of the price",
 						style:{
-							paddingLeft: "4px",
+							paddingLeft: "2px",
 							float: "right",
 							cursor: "pointer"}
 						}, null);
 					
-				dojo.connect(this.sellHref, "onclick", this, function(event){
+				dojo.connect(this.sellHref, "onclick", this, dojo.partial(function(building, event){
 					event.stopPropagation();
 					event.preventDefault();
 					
 					building.val--;
 					
+					if (building.on > building.val){
+						building.on = building.val;
+					}
+					
 					this.refund(0.5);
 				
 					this.prices = this.getPrices();
 					this.game.render();
-				});
+				}, building));
 				dojo.place(this.sellHref, this.buttonContent);
 			}
 		}	
@@ -1166,28 +1342,47 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!building.action || !building.togglable){
 			return;
 		}
-		if (!this.toggleHref){
-			this.toggleHref = dojo.create("a", { 
-				href: "#", 
-				innerHTML: building.enabled ? "off" : "on", 
-				style:{
-					paddingLeft: "4px",
-					float: "right",
-					cursor: "pointer"
-				}}, null);
-				
-			dojo.connect(this.toggleHref, "onclick", this, function(event){
-				event.stopPropagation();
-				event.preventDefault();
+		if (!this.remove && building.tunable){
+			this.remove = this.addLink("-", 
+				function(){
+					var building = this.getBuilding();
+					building.on--;
+				}, true	//use | break
+			);
+		}
+		if (!this.add && building.tunable){
+			this.add = this.addLink("+", 
+				function(){
+					var building = this.getBuilding();
+					building.on++;
+				},true	//use | break
+			);
+		}
+		
+		if (!this.off && !building.tunable){
+			this.toggle = this.addLink( building.enabled ? "off" : "on", 
+				function(){
+					var building = this.getBuilding();
+					building.enabled = !building.enabled;
 
-				building.enabled = !building.enabled;
-
-				this.update();
-			});
-			
-			dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
-			dojo.place(this.toggleHref, this.buttonContent);
-		} 
+					building.on = building.enabled ? building.val : 0;	//legacy safe switch
+				}, true	//use | break
+			);
+		}
+		
+		if (this.remove){
+			dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
+			dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
+		}
+		if (this.add){
+			dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
+			dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
+		}
+		
+		if(building.val > 10) {
+			//Steamworks specifically can be too large if 
+			dojo.setStyle(this.domNode,"font-size","90%");
+		}
 	},
 	
 	update: function(){
@@ -1213,33 +1408,25 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (!building.action || !building.togglable){
 				return;
 			}
-			if (!this.toggleHref){
-				this.toggleHref = dojo.create("a", { 
-					href: "#", 
-					innerHTML: building.enabled ? "off" : "on", 
-					style:{
-						paddingLeft: "4px",
-						float: "right",
-						cursor: "pointer"
-					}}, null);
-					
-				dojo.connect(this.toggleHref, "onclick", this, function(event){
-					event.stopPropagation();
-					event.preventDefault();
-
-					building.enabled = !building.enabled;
-
-					this.update();
-				});
-				
-				dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "5px"}}, this.buttonContent);
-				dojo.place(this.toggleHref, this.buttonContent);
-				
-			} else {
-				this.toggleHref.innerHTML = building.enabled ? "off" : "on";
+			
+			if (this.remove){
+				dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
+				dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
+			}
+			if (this.add){
+				dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
+				dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
 			}
 			
-			dojo.toggleClass(this.domNode, "bldEnabled", building.enabled);
+			if (this.toggle){
+				this.toggle.link.innerHTML = building.enabled ? "off" : "on";
+			}
+	
+			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+			
+			if(building.val > 10) {
+				dojo.setStyle(this.domNode,"font-size","90%");
+			}
 		}
 	},
 
@@ -1271,10 +1458,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 	
 	update: function(){
 		this.inherited(arguments);
-		
-		var self = this;
-		
-		var catnipVal = self.game.resPool.get("catnip").value;	
+		var catnipVal = this.game.resPool.get("catnip").value;	
 	    // -------------- x100 ----------------
 			
 		if (!this.x100Href){
@@ -1285,27 +1469,26 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 					display: catnipVal < (100 * 100) ? "none" : ""
 				}}, null);
 				
-			dojo.connect(this.x100Href, "onclick", this, function(event){
+			dojo.connect(this.x100Href, "onclick", this, dojo.hitch(this, function(event){
 				event.stopPropagation();
 				
-				var catnipVal = self.game.resPool.get("catnip").value;
+				var catnipVal = this.game.resPool.get("catnip").value;
 				
 				if (catnipVal < (100 * 100)){
 					this.game.msg("not enough catnip!");
 				}
 				
-				self.game.resPool.get("catnip").value -= (100 * 100);
+				this.game.resPool.get("catnip").value -= (100 * 100);
 				
-				var isEnriched = self.game.workshop.get("advancedRefinement").researched;
+				var isEnriched = this.game.workshop.get("advancedRefinement").researched;
 				if (!isEnriched){
-					self.game.resPool.get("wood").value += 100;
+					this.game.resPool.get("wood").value += 100;
 				} else {
-					self.game.resPool.get("wood").value += 200;
-					//self.game.resPool.get("oil").value += 1; //no oil until chemistry
+					this.game.resPool.get("wood").value += 200;
 				}
 				
 				this.update();
-			});
+			}));
 			
 			dojo.place(this.x100Href, this.buttonContent);
 		} else {
@@ -1449,10 +1632,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 			name:	 "Gather catnip", 
 			handler: function(){
 						clearTimeout(self.game.gatherTimeoutHandler);
-						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 5000);	//5 sec 
+						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 2500);	//2.5 sec 
 						
 						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 1500 && !self.game.ironWill){
+						if (self.game.gatherClicks >= 2500 && !self.game.ironWill){
 							//alert("You are so tired");
 							self.game.gatherClicks = 0;
 							self.game.cheatMode = true;
@@ -1491,4 +1674,3 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 	}
 });
-

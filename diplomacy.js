@@ -94,7 +94,31 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"summer": 0.85,
 				"autumn": 1.05,
 				"winter": 1.25
+			}},
+			{name: "titanium", value: 1, chance: 0, delta: 0, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
 			}}
+		]
+	},{
+		name: "spiders",
+		hidden: true,
+		title: "Spiders",
+		attitude: "friendly",
+		standing: 0.15,			//friendly, but not much
+		unlocked: false,
+		buys: [
+			{name: "scaffold", val: 50}
+		],
+		sells:[
+			{name: "coal", value: 350, chance: 100, delta: 0.15, seasons:{
+				"spring": 1.00,
+				"summer": 1.05,
+				"autumn": 1.15,
+				"winter": 0.95
+			}},
 		]
 	},
 
@@ -102,11 +126,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		name: "centaurs",
 		title: "Centaurs",
 		attitude: "neutral",
-		unlocked: false
-	},{
-		name: "spiders",
-		title: "Spiders",
-		attitude: "friendly",
 		unlocked: false
 	}*/
 	],
@@ -191,6 +210,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			return zebras;
 		}
 		
+		var spiders = this.get("spiders");
+		if (!spiders.unlocked && this.game.resPool.get("ship").value >= 100 && this.game.resPool.get("science").maxValue > 125000){	
+			spiders.unlocked = true;	
+			return spiders;
+		}
+		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
 		
 		if (unmetRaces[raceId]){	//someone reported a bug there, to be investigated later
@@ -212,7 +237,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			this.game.diplomacyTab.visible = true;
 			this.game.render();
 			
-			this.game.msg("An emissary of " + race.title + " comes to your village");
+			this.game.msg("An emissary of " + race.title + " comes to your village", "notice");
 		} 
 	}
 
@@ -232,9 +257,176 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.Button, {
 	
 	race: null,
+	
+	tradeAllHref: null,
 
 	constructor: function(opts, game){
 		this.race = opts.race;
+		
+		this.handler = this.trade;	//weird hack
+	},
+	
+	tradeInternal: function(suppressMessages){
+		var race = this.race;
+		
+		var tradeRes = {
+		};
+		
+		var tradeRatioAttitude = 0;
+					
+		var attitudeChance = this.game.rand(100);
+		var standingRatio = this.game.bld.getEffect("standingRatio");
+		standingRatio = standingRatio ? standingRatio : 0;
+		
+		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
+			if (!suppressMessages){
+				this.game.msg( race.title + " hate you for no reason");
+			}
+			return;
+		}
+		
+		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+			if (!suppressMessages){
+				this.game.msg( race.title + " think your kittens are adorable");
+			}
+			tradeRatioAttitude = 0.25;
+		}
+		
+		for (var j =0; j< race.sells.length; j++){
+			var s = race.sells[j];
+			
+			var chance = this.game.rand(100);
+			if (chance >= s.chance){
+				continue;
+			}
+			
+			var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+			var min = s.value * sratio - s.value * sratio * s.delta/2;
+			var amt = min + this.game.rand(s.value * sratio * s.delta);
+			
+			var ratio = this.game.bld.getEffect("tradeRatio");
+			amt += amt*ratio;
+			
+			var resValue = amt + amt*tradeRatioAttitude;
+			
+			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
+			this.game.resPool.addResAmt(s.name, resValue);
+			
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
+
+		}
+		//-------------------- 35% chance to get spice ------------------
+		if (this.game.rand(100) < 35){
+			var spiceVal = this.game.rand(50);
+			var resValue = 25 +  spiceVal + spiceVal * this.game.bld.getEffect("tradeRatio");
+			
+			this.game.resPool.addResAmt("spice", resValue);
+			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(val) + " spice");
+		}
+		
+		//-------------- 10% change to get blueprint ---------------
+		
+		if (this.game.rand(100) < 10){
+			this.game.resPool.addResAmt("blueprint", 1);
+			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
+			//this.game.msg("You've got a blueprint!", "notice");
+		}
+		
+		//-------------- 15% change to get titanium  ---------------
+		
+		var shipVal = this.game.resPool.get("ship").value;
+		var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
+		
+		if ( this.game.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
+			
+			var titaniumAmt = 1.5;
+			titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
+			
+			this.game.resPool.addResAmt("titanium", titaniumAmt);
+			tradeRes["titanium"] = tradeRes["titanium"] ? tradeRes["titanium"] + titaniumAmt : titaniumAmt;
+			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
+		}
+		
+		return tradeRes;
+	},
+	
+	trade: function(){
+		var yieldRes = this.tradeInternal();
+		
+		this.printYieldOutput(yieldRes);
+	},
+	
+	tradeAll: function(){
+		var yieldResTotal = {};
+
+		var amt = [
+			Math.floor(this.game.resPool.get("manpower").value / 50),
+			Math.floor(this.game.resPool.get("gold").value / 15),
+			Math.floor(this.game.resPool.get(this.race.buys[0].name).value / this.race.buys[0].val)
+		];
+		var min = Number.MAX_VALUE;
+		for (var i = 0; i < amt.length; i++){
+			if (min > amt[i]) { min = amt[i]; }
+		}
+		
+		if (min == Number.MAX_VALUE || min == 0){
+			return;
+		}
+		//-------------- pay prices ------------------
+		
+		this.game.resPool.addResAmt("manpower", -50*min);
+		this.game.resPool.addResAmt("gold", -15*min);
+		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*min);
+		
+		//---------- calculate yield -----------------
+		
+		this.game.msg("You have sent " + min + " trade caravans");
+		for (var i = 0; i<min; i++){
+			var yieldRes = this.tradeInternal(true);	//supress msg
+			
+			for (var res in yieldRes) {
+				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
+			}
+		}
+		
+		this.printYieldOutput(yieldResTotal);
+	},
+	
+	/**
+	 * Prints a formated output of a trade results based on a resource map
+	 */ 
+	printYieldOutput: function(yieldResTotal){
+		for (var res in yieldResTotal) {
+			if (res != "blueprint" && res != "titanium"){
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
+			} else {
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice");
+			}
+		}
+	},
+	
+	afterRender: function(){
+		this.inherited(arguments);
+		this.renderLinks();
+	},
+	
+	renderLinks: function(){
+		this.tradeAllHref = dojo.create("a", { href: "#", innerHTML: "all",
+			title: "Spend all the manpower/gold on trade caravans",
+			style:{
+				paddingLeft: "2px",
+				float: "right",
+				cursor: "pointer"}
+			}, null);
+			
+		dojo.connect(this.tradeAllHref, "onclick", this, dojo.partial(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			
+			this.tradeAll();
+		}));
+		dojo.place(this.tradeAllHref, this.buttonContent);
 	}
 });
 
@@ -275,11 +467,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			
 			var buys = race.buys[0];
 			dojo.create("div", { 
-				innerHTML: "Buys: " + buys.name + " (" + buys.val + ")"
+				innerHTML: "<span style='color: #01A9DB'>Buys: </span>" + buys.name + " (" + buys.val + ")"
 			}, content);
 			
 			for (var j =0; j< race.sells.length; j++){
-				if (race.sells[j].chance == 100){
+				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
 					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 					
@@ -289,13 +481,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					var min = val * sratio - val * sratio * s.delta/2;
 					var max = val * sratio + val * sratio * s.delta/2;
 					
+					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
+					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);	
+					if (j == (race.sells.length - 1)){
+						dojo.style(div, "marginBottom", "15px");
+					}
 					
-					dojo.create("div", { 
-						innerHTML: "Sells: " + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")",
-						style: { marginBottom: "15px"
-					}}, content);	
-					
-				}
+				//}
 			}
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
@@ -305,81 +497,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				name: "Send caravan",
 				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.\nYou also have a small chance of getting rare resources.",
 				prices: tradePrices,
-				race: race,
-				handler: dojo.partial(
-				function(race, btn){
-					
-					var tradeRatioAttitude = 0;
-					
-					var attitudeChance = self.rand(100);
-					var standingRatio = self.game.bld.getEffect("standingRatio");
-					standingRatio = standingRatio ? standingRatio : 0;
-					
-					if (race.attitude == "hostile" && self.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-						self.game.msg( race.title + " hate you for no reason");
-						return;
-					}
-					
-					if (race.attitude == "friendly" && self.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
-						self.game.msg( race.title + " think your kittens are adorable");
-						tradeRatioAttitude = 0.25;
-					}
-					
-					for (var j =0; j< race.sells.length; j++){
-						var s = race.sells[j];
-						
-						var chance = self.rand(100);
-						if (chance > s.chance){
-							continue;
-						}
-						
-						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-						var min = s.value * sratio - s.value * sratio * s.delta/2;
-						
-						var amt = min + self.rand(s.value * sratio * s.delta);
-						var res = self.game.resPool.get(s.name);
-						
-						var ratio = self.game.bld.getEffect("tradeRatio");
-						amt += amt*ratio;
-						
-						res.value += (amt + amt*tradeRatioAttitude);
-						
-						self.game.msg("You've got " + self.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
-
-					}
-					//-------------------- 35% chance to get spice ------------------
-					if (self.rand(100) < 35){
-						var res = self.game.resPool.get("spice");
-						var spiceVal = self.rand(50);
-						var val = 25 +  spiceVal + spiceVal * self.game.bld.getEffect("tradeRatio");
-						
-						res.value += val;
-						self.game.msg("You've got " + self.game.getDisplayValueExt(val) + " spice");
-					}
-					
-					//-------------- 10% change to get blueprint ---------------
-					
-					if (self.rand(100) < 10){
-						self.game.resPool.get("blueprint").value += 1;
-						self.game.msg("You've got a blueprint!");
-					}
-					
-					//-------------- 15% change to get titanium  ---------------
-					
-					var shipVal = self.game.resPool.get("ship").value;
-					var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
-					
-					if ( self.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
-						
-						var titaniumAmt = 1.5;
-						titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-						
-						self.game.resPool.get("titanium").value += titaniumAmt;
-						self.game.msg("You've got " + self.game.getDisplayValueExt(titaniumAmt) + " titanium!");
-					}
-					
-				}, race )	//eo partial
-
+				race: race
 			}, this.game);
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
@@ -402,10 +520,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var race = btn.game.diplomacy.unlockRandomRace();
 				
 				if (race){
-					self.game.msg("You've found a new civilization!");
+					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
-					self.game.msg("Your explorers failed to find anyone.");
-					var res = self.game.resPool.get("manpower");
+					btn.game.msg("Your explorers failed to find anyone.");
+					var res = btn.game.resPool.get("manpower");
 					res.value += 950;
 				}
 				

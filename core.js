@@ -17,6 +17,39 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
  * Ideally every manager should be a sublcass of a TabManager. See reference implementation in the religion.js
  */
 dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
+	
+	effectsCached: null,
+	meta: null,
+	
+	constructor: function(){
+		this.effectsCached = {};
+		this.meta = [];
+	},
+	
+	registerMeta: function(meta){
+		this.meta.push(meta);
+	},
+	
+	invalidateCachedEffects: function(){
+		this.effectsCached = {};
+	},
+	
+	/**
+	 * Returns a cached combined value of effect of all managers.
+	 * Will calculate and store cached value if called for a first time.
+	 */ 
+	getEffectCached: function(name){
+		var cached = this.effectsCached[name];
+		if (cached != undefined) { return cached; }
+		
+		var effect = 0;
+		for (var i = 0; i< this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(name, this.meta[i]);
+			effect += effectMeta;
+		}
+		this.effectsCached[name] = effect;
+		return effect;
+	},
 		
 	/**
 	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
@@ -30,8 +63,30 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 			var effect = meta.effects[name] || 0;
 
-			var val = meta.val;
-			totalEffect += effect * val;
+			/**
+			 * This is an ugly hack for managers like workshop or science
+			 * Ideally just a getter handler should be called there returning correct value
+			 */
+			if (meta.hasOwnProperty("researched") && !meta.researched){
+				continue;	//workshops and stuff
+			}
+			 
+			if (meta.hasOwnProperty("val")) {
+				
+				if (meta.togglable && meta.name != "observatory"){	//ugly crappy hack
+					if (meta.on > 0) {
+						 var val = meta.on;
+						 totalEffect += effect * val;
+					} else {
+						continue;
+					}
+				} else {				
+					var val = meta.val;
+					totalEffect += effect * val;
+				}
+			}else{
+				totalEffect += effect;
+			}
 		}
 		
 		return totalEffect || 0;
@@ -81,7 +136,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */ 
-		msg : function(message){
+		msg : function(message, type){
 			var gameLog = dojo.byId("gameLog");
 			
 			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
@@ -90,7 +145,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			});
 				
 			dojo.create("br", {}, gameLog, "first");
-			var span = dojo.create("span", { innerHTML: message }, gameLog, "first");
+			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
+			
+			if (type){
+				dojo.addClass(span, "type_"+type);
+			}
 			
 			return span;
 		},
@@ -381,14 +440,16 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 						}
 					}, tooltip); 
 				
-				var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
+				var res = this.game.resPool.get(price.name);
+				
+				var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
 				var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
 				
 				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
 			}
 
-			dojo.connect(this.domNode, "onmouseover", this, function(){ dojo.setStyle(tooltip, "display", ""); });
-			dojo.connect(this.domNode, "onmouseout", this, function(){ dojo.setStyle(tooltip, "display", "none"); });
+			dojo.connect(this.domNode, "onmouseover", this, dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", ""); }, tooltip));
+			dojo.connect(this.domNode, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "none"); }, tooltip));
 			
 			this.tooltip = tooltip;
 			this.tooltipPricesNodes = tooltipPricesNodes;
@@ -411,6 +472,40 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 			
 			dojo.toggleClass( this.tooltipPricesNodes[i]["price"], "noRes", hasRes);
 		}
+	},
+	
+	//Fast access snippet to create button links like "on", "off", "sell", etc
+	addLink: function(title, handler, addBreak){
+
+		var linkBreak = null;
+		var link = dojo.create("a", { 
+				href: "#", 
+				innerHTML: title, 
+				style:{
+					paddingLeft: "2px",
+					float: "right",
+					cursor: "pointer"
+				}
+			}, null);
+		
+		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+			event.stopPropagation();
+			event.preventDefault();
+
+			dojo.hitch(this, handler)();
+
+			this.update();
+		}, handler));
+		
+		if (addBreak){
+			linkBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
+		}
+		dojo.place(link, this.buttonContent);
+		
+		return {
+			link: link,
+			linkBreak: linkBreak
+		};
 	}
 });
 
@@ -516,12 +611,12 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 			}
 		}, panel);	
 		
-		dojo.connect(toggle, "onclick", this, function(){
+		dojo.connect(toggle, "onclick", this, dojo.partial(function(contentDiv, toggle){
 			this.collapsed = !this.collapsed;
 			
 			$(contentDiv).toggle();
 			toggle.innerHTML = this.collapsed ? "+" : "-";
-		});
+		}, contentDiv, toggle));
 		
 		this.panelDiv = panel;
 		
@@ -551,8 +646,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	
 	visible: true,
 
-	//_tabContainer: null,
-	
 	constructor: function(tabName, game){
 		this.tabName = tabName;
 		this.tabId = tabName;
@@ -562,10 +655,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	},
 	
 	render: function(tabContainer){
-		/*dojo.create("span", { innerHTML: this.tabName }, tabContainer);
-		dojo.create("br", {}, tabContainer);
-		dojo.create("br", {}, tabContainer);*/
-		
 		this.initRenderer(tabContainer);
 				
 		for (var i = 0; i<this.buttons.length; i++){

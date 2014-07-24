@@ -46,7 +46,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	},{
 		name: "hunter",
 		title: "Hunter",
-		description: "+0.06 manpower per tick",
+		description: "+0.06 catpower per tick",
 		
 		modifiers:{
 			"manpower" : 0.06
@@ -142,7 +142,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		this.updateHappines();
 		
 		var showFastHunt = (this.game.resPool.get("manpower").value >= 100);
-		$("#fastHuntContainer").toggle(showFastHunt);
+		$("#fastHuntContainer").css("visibility", showFastHunt ? "visible" : "hidden");
 	},
 	
 	getFreeKittens: function(){
@@ -307,6 +307,10 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			}
 		}
 		
+		if (this.game.calendar.festivalDays){
+			happiness += 30;
+		}
+		
 		var karma = this.game.resPool.get("karma");
 		happiness += karma.value;	//+1% to the production per karma point
 		
@@ -350,7 +354,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	sendHunters: function(){
 		var huntingRes = this.sendHuntersInternal();
 		if (huntingRes.isUnicorn){
-			this.game.msg("You got a unicorn!");
+			this.game.msg("You got a unicorn!", "important");
 		}
 		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
 		if (huntingRes.ivory){
@@ -384,7 +388,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			if(totalYield.unicorns == 1){
 				this.game.msg("You got a unicorn!");
 			} else {
-				this.game.msg("You got " + totalYield.unicorns + " unicorns!");
+				this.game.msg("You got " + totalYield.unicorns + " unicorns!", "important");
 			}
 		}
 		var msg = "Your hunters have returned";
@@ -623,7 +627,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 						fontWeight: "strong"
 					}}, null);
 					
-				dojo.connect(this.unassignHref, "onclick", this, function(event){
+				dojo.connect(this.unassignHref, "onclick", this, dojo.partial(function(job, event){
 					event.stopPropagation();
 					
 					if (!job.value){
@@ -631,9 +635,9 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 					}
 					
 					job.value--;
-					self.game.village.sim.removeJob(job.name);
+					this.game.village.sim.removeJob(job.name);
 					this.update();
-				});
+				}, job));
 
 				dojo.place(this.unassignHref, this.buttonContent);
 			} else {
@@ -653,6 +657,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	advModeButtons : null,
 	
+	hutnBtn: null,
+	
+	festivalBtn: null,
+	
 	constructor: function(tabName, game){
 		this.game = game;
 
@@ -662,7 +670,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	createJobBtn: function(job, game){
 		var btn = new com.nuclearunicorn.game.ui.JobButton({
 			name : job.title,
-			handler: dojo.partial(function(job){
+			handler: dojo.partial(function(job, game){
 				
 				var freeKittens = game.village.getFreeKittens();
 				var jobRef = game.village.getJob(job.name); 	//probably will fix missing ref on loading
@@ -671,7 +679,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					game.village.sim.assignJob(job.name);
 					jobRef.value += 1;
 				}
-			}, job),
+			}, job, game),
 			job: job.name
 		}, game);
 		return btn;
@@ -712,9 +720,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		var btn = new com.nuclearunicorn.game.ui.Button({ name:"Clear",
-			handler: function(){
-				self.game.village.clearJobs();
-			}
+			handler: dojo.hitch(this, function(){
+				this.game.village.clearJobs();
+			})
 		});
 		btn.render(jobsPanelContainer);
 		this.addButton(btn);
@@ -762,13 +770,33 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var huntBtn = new com.nuclearunicorn.game.ui.Button({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
-				handler: function(){
-					self.sendHunterSquad();
-				},
+				handler: dojo.hitch(this, function(){
+					this.sendHunterSquad();
+				}),
 				prices: [{ name : "manpower", val: 100 }]
 		}, this.game);
 		huntBtn.render(controlsTd);
 		this.hutnBtn = huntBtn;
+		
+		var festivalBtn = new com.nuclearunicorn.game.ui.Button({
+				name: "Hold festival",
+				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
+				handler: dojo.hitch(this, function(){
+					this.holdFestival();
+				}),
+				prices: [
+					{ name : "manpower", val: 1500 },
+					{ name : "culture", val: 5000 },
+					{ name : "parchment", val: 2500 }
+				]
+		}, this.game);
+		
+		if (!this.game.science.get("drama").researched){
+			festivalBtn.setVisible(false);
+		}
+		
+		festivalBtn.render(controlsTd);
+		this.festivalBtn = festivalBtn;
 		
 		//--------------- bureaucracy ------------------
 		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
@@ -792,6 +820,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.happinessStats.innerHTML = "Happiness: " + happiness.toFixed() + "%";
 		}
 		
+		var festivalDays = this.game.calendar.festivalDays;
+		if (festivalDays){
+			this.happinessStats.innerHTML += " ("+festivalDays+" days)";
+		}
+		
 		if (this.statisticsPanel){
 			this.statisticsPanel.setVisible(
 				this.game.village.getKittens() >= 5 || this.game.resPool.get("zebras").value > 0
@@ -799,6 +832,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		if (this.hutnBtn){
 			this.hutnBtn.update();
+		}
+		if (this.festivalBtn){
+			this.festivalBtn.update();
 		}
 		
 		//update kitten stats
@@ -847,7 +883,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		if (this.bureaucracyPanelContainer){
-			this.bureaucracyPanelContainer.innerHTML = "";
+			dojo.empty(this.bureaucracyPanelContainer);
 					
 			var sim = this.game.village.sim;
 			
@@ -868,6 +904,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" +
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
+				
+				/*
+				 * //good stuff but regeneration is to fast
+				 * if (kitten.job){
+					var unassignHref = dojo.create("a", { href: "#", innerHTML: "[-]", style: { float: "right"}}, div);
+					dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
+						event.preventDefault(); 
+						sim.kittens[i].job = null; 
+					}, this.game.village.sim, i));
+				}*/
 				
 				var skillsArr = this.getSkillsSorted(kitten.skills);
 
@@ -976,6 +1022,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.village.sendHunters();
 	},
 	
+	holdFestival: function(){
+		this.game.calendar.festivalDays = 400;	//nope, they don't stack
+		this.game.msg("The cultural festival has started");
+		//TODO: some fun message like Molly Chalk is making a play 'blah blah'
+	},
 	
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
