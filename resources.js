@@ -133,7 +133,8 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		visible: true,
 		color: "#6141CD"
 	},{
-		name : "time crystals",
+		name : "timeCrystal",
+		title: "time crystal",
 		type : "common",
 		visible: true,
 		color: "#14CD61"

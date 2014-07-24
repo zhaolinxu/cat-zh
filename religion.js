@@ -7,6 +7,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	
 	faith: 0,
 	
+	faithRatio : 0,
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -16,16 +18,20 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	save: function(saveData){
 		saveData.religion = {
 			faith: this.faith,
+			faithRatio: this.faithRatio,
 			zu: this.zigguratUpgrades,
 			ru: this.religionUpgrades
 		}
 	},
 	
 	load: function(saveData){
-		this.faith = saveData.religion ? saveData.religion.faith : 0;
 		if (!saveData.religion){
 			return;
 		}
+		
+		this.faith = saveData.religion.faith || 0;
+		this.faithRatio = saveData.religion.faithRatio || 0;
+		
 		if (saveData.religion.zu){
 			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
 				for (var j = 0; j< loadedElem.val; j++){
@@ -202,10 +208,23 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		label: "Templars",
 		description: "Temples have small impact on the catpower limit",
 		prices: [
-			{ name : "faith", val: 5000 },
+			{ name : "faith", val: 3500 },
 			{ name : "gold",  val: 3000 }
 		],
 		faith: 75000,
+		effects: {
+			//none
+		},
+		researched: false
+	},{
+		name: "apocripha",
+		label: "Apocripha",
+		description: "Grants the ability to discard accumulated faith to improve prays effectiveness",
+		prices: [
+			{ name : "faith", val: 6000 },
+			{ name : "gold",  val: 5000 }
+		],
+		faith: 100000,
 		effects: {
 			//none
 		},
@@ -370,9 +389,33 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 	}
 });
 
+
+dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.Button, {
+	
+	onClick: function(){
+		this.animate();
+		
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.sacrifice(1);
+		}
+	},
+	
+	sacrifice: function(amt){
+		var amt = amt || 1;
+		var alicornsCount = 25 * amt;
+
+		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystals!");
+		this.game.resPool.get("timeCrystal").value += amt;
+	}
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 	
 	sacrificeBtn : null,
+	sacrificeAlicornsBtn: null,
+	faithResetBtn: null,
+	
 	zgUpgradeButtons: null,
 	
 	constructor: function(){
@@ -397,6 +440,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}, this.game);
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
+			
+			var sacrificeAlicornsBtn = new com.nuclearunicorn.game.ui.SacrificeAlicornsBtn({ 
+				name: "Sacrifice Alicorns",
+				description: "Banish the alicorns to the Bloodmoon.\nYou will recieve a Time Crystal.",
+				prices: [{ name: "alicorns", val: 25}]
+			}, this.game);
+			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorns") >= 25);
+			sacrificeAlicornsBtn.render(content);
+			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 			
 			//todo: all the dark miracles there
 			
@@ -426,15 +478,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun");
 		var content = religionPanel.render(container);
 		
-		var faithCount = dojo.create("span", { style: { display: "block", marginBottom: "10px" }}, content);
+		var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
 		this.faithCount = faithCount;
+		
+		var faithResetBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
+			href: "#",
+			innerHTML: "[Reset]"
+		}, content);
+		this.faithResetBtn = faithResetBtn;
+		dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 		
 		var praiseBtn = new com.nuclearunicorn.game.ui.Button({ 
 			name: "Praise the sun!",
 			description: "Convert all your accumulated faith to the total pool",
 			handler: function(btn){
 				var faith = btn.game.resPool.get("faith");
-				btn.game.religion.faith += faith.value;
+				btn.game.religion.faith += faith.value + faith.value * btn.game.religion.faithRatio;
 				faith.value = 0.01;	//have a nice autoclicking
 			}
 		}, this.game);
@@ -471,20 +530,42 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (this.sacrificeBtn){
 			this.sacrificeBtn.update();
 		}
+		
 		var faith = this.game.religion.faith;
 		if (faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + religion.faith.toFixed();
 		}
 		if (religion.getRU("solarRevolution").researched){
-			
 			var bonus = religion.getProductionBonus();
 			var bonusFixed = Math.floor(bonus);
 			var progress = (bonus - bonusFixed) * 100;
 			
 			this.faithCount.innerHTML += ( " (+" + bonusFixed + "% bonus, " + progress.toFixed() + "% progress)" );
 		}
+		
+		if (religion.getRU("apocripha").researched){
+			dojo.style(this.faithResetBtn, "display", "");
+			
+			var ratio = this.game.religion.faithRatio;
+			this.faithCount.innerHTML += " [+" + ratio.toFixed(2)*100 + "%]";
+		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
 		dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
+	},
+	
+	resetFaith: function(event){
+		
+		event.preventDefault()
+		
+		if (!this.game.religion.getRU("apocripha").researched){
+			return;	//trust no one
+		}
+		
+		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith generation per 100K of faith.")){
+			return;
+		}
+		this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
+		this.game.religion.faith = 0.01;
 	}
 });

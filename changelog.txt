@@ -1,3 +1,15 @@
+v 0.9.0.0 (24 jul)
+
+Fuel Injectors
+Offset Press
+
+v 0.8.9.7 (24 jul)
+
+Apocripha (religious upgrade, a prestige of some sort for faith)
+Added new building group (industry) and rearranged buildings accordingly
+Time Crystals
+Oxidation
+
 v 0.8.9.6 (23 jul)
 
 x10 link for Sacrifice Unicorns button

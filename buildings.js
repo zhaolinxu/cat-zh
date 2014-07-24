@@ -490,6 +490,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				oil.value -= self.on * -self.effects["oilPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
+				var calcinerRatio = game.workshop.getEffect("calcinerRatio");
+				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*2 );
+				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio );
+				
 				var iron = game.resPool.get("iron");
 				if (iron.value < iron.maxValue){
 					iron.value += self.effects["ironPerTick"] * self.on;
@@ -533,8 +537,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			
 			if (game.workshop.get("printingPress").researched){
 				var amt = 0.0005 * self.on;						// 2 per year per SW
+				
+				if (game.workshop.get("offsetPress").researched){
+					amt *= 4;
+				}
 				game.resPool.get("manuscript").value += amt;
-				//game.msg("Printing press: +" + amt + " manuscript!");
 			}
 			
 			var combEngine = game.workshop.get("combustionEngine");
@@ -1195,11 +1202,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		}
 	},
 	
+	//TODO: do we need it?
 	reset: function(){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 			
 			bld.val = 0;
+			bld.on = 0;
 		}
 	}
 });
@@ -1250,7 +1259,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				building.val++;
 				
 				//to not force player re-click '+' button all the time
-				if (building.on){
+				if (building.on && building.tunable){
 					building.on++;
 				}
 				

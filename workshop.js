@@ -582,6 +582,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "oxidation",
+		title: "Oxidation",
+		description: "Calciners are twice as effective at producing iron and 4 times at producing titanium",
+		effects: {
+			"calcinerRatio": 0.95
+		},
+		prices:[
+			{ name : "steel", val: 5000 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- automation upgrades ----------------------
 	{
@@ -593,6 +606,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "gear", 	 val: 50 },
 			{ name : "science",  val: 7500 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "offsetPress",
+		title: "Offset Press",
+		description: "Printing press is 4 times as effective",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 250 },
+			{ name : "oil", 	 val: 15000 },
+			{ name : "science",  val: 100000 }
 		],
 		unlocked: false,
 		researched: false
@@ -645,6 +671,20 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "gear", 	 val: 25 },
 			{ name : "blueprint",  val: 5 },
 			{ name : "science",  val: 20000 },
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "fuelInjectors",
+		title: "Fuel Injectors",
+		description: "Reduces coal consumption of Steamworks by 20%",
+		effects: {
+			"coalRatioGlobal" : 0.2
+		},
+		prices:[
+			{ name : "gear", 	 val: 250 },
+			{ name : "oil", 	 val: 20000 },
+			{ name : "science",  val: 100000 }
 		],
 		unlocked: false,
 		researched: false

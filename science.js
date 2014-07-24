@@ -375,7 +375,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "electricity",
 		title: "Electricity",
-		description: "TBD",
+		description: "Electicity unlocks a new ways to automate production, benefiting the catkind in all different areas",
 		effectDesc: "Unlocks Magnetos",
 		unlocked: false,
 		researched: false,
@@ -419,7 +419,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "mechanization",
 		title: "Mechanization",
-		description: "TBD",
+		description: "Mechanisation provides a lot of ways to automate redundant tasks, hence improving craft, oil pumps and construction technologies.",
 		effectDesc: "Unlocks Factories, Pumpjacks and Concrete",
 		unlocked: false,
 		researched: false,
@@ -440,8 +440,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "metalurgy",
 		title: "Metallurgy",
-		description: "TBD",
-		effectDesc: "Unlocks Electrolytic Smelting",
+		description: "Metalurgy improves the process of metal production, benefiting Smelters and Calciners",
+		effectDesc: "Unlocks Electrolytic Smelting and Oxidation",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -451,12 +451,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("electrolyticSmelting").unlocked = true;
+			game.workshop.get("oxidation").unlocked = true;
 		}
 	},{
 		name: "combustion",
 		title: "Combustion",
-		description: "TBD",
-		effectDesc: "TBD",
+		description: "The Combustion technology provides a number of ways to improve old coal-based automation technologies like Steamworks.",
+		effectDesc: "Unlocks Offset Printing and Fuel Injection",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -465,6 +466,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("offsetPress").unlocked = true;
+			game.workshop.get("fuelInjectors").unlocked = true;
 		}
 	}
 	],

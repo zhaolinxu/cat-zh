@@ -66,7 +66,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	},
 	
 	render: function(){
-		if (!this.containerId) { throw "container id is undefined for res table"; }
+		if (!this.containerId) { throw "Container id is undefined for res table"; }
 		dojo.empty(this.containerId);
 		
 		this.resRows = [];
@@ -399,10 +399,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	console: null,
 	
-	//first one is just a generic concrate modifier affecting timer frequency
+	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 	
-	//this is a update xN modifer for debug purpose
+	//xN update rate modifer for debug purpose
 	updateRate: 1,
 	
 	//I wonder why someone may need this
@@ -416,6 +416,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 	
+	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	selectedBuilding: null,
 	
 	//=============================
@@ -436,18 +437,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	karmaKittens: 0,	//counter for karmic reincarnation
 	paragonPoints: 0,	//endgame prestige
 	deadKittens: 0,
-	ironWill: true,
+	ironWill: true,		//true if player has no kittens or housing buildings
 	
-	gatherTimeoutHandler: null,
-	gatherClicks: 0,
-	cheatMode: false,
+	gatherTimeoutHandler: null,	//timeout till resetting gather counter, see below
+	gatherClicks: 0,	//how many clicks in a row was performed on a gather button
+	cheatMode: false,	//flag triggering Super Unethical Climax achievement
 	
-	ticks: 0,
-	totalUpdateTime: 0,
+	ticks: 0,				//how many ticks passed since the start of the game
+	totalUpdateTime: 0,		//total time spent on update cycle in miliseconds, usefull for debug/fps counter
 	
 	//resource table 
-	
-	resTable: null,
+	resTable: null,			
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -470,6 +470,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religion 		= 	new com.nuclearunicorn.game.religion.ReligionManager(this);
 		
 
+		//very sloppy design, could we just use an array for tab managers?
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
 		this.addTab(bonfireTab);
 		
@@ -505,7 +506,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		
-		
 
 		//Update village resource production. 
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
@@ -527,8 +527,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
 		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
-		
-
 	},
 	
 	/**
@@ -777,6 +775,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	
+	/**
+	 * Returns an estimated productuion amount per tick for a given resource.
+	 * 
+	 * If calcAutomatedEffect is true, it will also estimate the conditional effects for automated structures,
+	 * like smelters or calciners. calcAutomatedEffect should be typically off, or you will give DOUBLE resources for auto structures
+	 * 
+	 * If season is provided, the method will use given season modifiers for resource estimation. 
+	 * Current resource will be used otherwise.
+	 */ 
 	getResourcePerTick: function(resName, calcAutomatedEffect, season){
 		
 		//STRUCTURES PRODUCTION
@@ -892,6 +899,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return perTick;
 	},
 	
+	/**
+	 * Update all tab managers, resources and UI controls
+	 */ 
 	update: function(){
 		this.ticksBeforeSave--;
 		
@@ -1024,6 +1034,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return false;
 	},
 	
+	/**
+	 * Attaches onMouseOver/onMouseOut events to a given DOM node in order to display tooltip.
+	 * All tooltips will reuse the same container.
+	 */ 
 	attachTooltip: function(container, resRef){
 		
 		var tooltip = dojo.byId("tooltip");
@@ -1136,7 +1150,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	    return timeFormated;
 	},
 	
-	
+	/**
+	 * Converts raw resource value (e.g. 12345.67890) to a formated representation (i.e. 12.34K)
+	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
+	 */ 
 	getDisplayValueExt: function(value, prefix){
 		
 		if(!value) { return 0; }
