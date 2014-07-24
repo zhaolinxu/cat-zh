@@ -54,8 +54,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	iceage: 0,	//iceage apocalypse level
 	
 	observeBtn: null,
-	
 	observeHandler: null,
+	observeTimeout: null,
+	observeClear: function(){
+		dojo.destroy(this.observeBtn);
+		this.observeBtn = null;
+		clearTimeout(this.observeTimeout);
+	},
 	
 	constructor: function(game){
 		this.game = game;
@@ -103,8 +108,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < chance && 
 			this.game.bld.get("library").val > 0){
 
-			dojo.destroy(this.observeBtn);
-			this.observeBtn = null;
+			this.observeClear();
 			
 			var gameLog = dojo.byId("gameLog");
 			var node = this.game.msg("A rare astronomical event occured in the sky");
@@ -121,8 +125,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					this.game.cheatMode = true;
 				}
 
-				dojo.destroy(this.observeBtn);
-				this.observeBtn = null;
+				this.observeClear();
 				
 				var diagram = this.game.resPool.get("starchart");
 				//var science = this.game.resPool.get("science");
@@ -142,12 +145,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
 			var seconds = 60;
-			var timeout = setInterval(dojo.hitch(this, function(){
+			this.observeTimeout = setTimeout(dojo.hitch(this, function(){
 				
-				dojo.destroy(this.observeBtn);
-				this.observeBtn = null;
-				
-				window.clearInterval(timeout);
+				this.observeClear();
 				
 				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
 
