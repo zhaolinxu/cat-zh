@@ -1219,6 +1219,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			calendarDiv.innerHTML = "Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title + mod + ", day " + this.calendar.day.toFixed();
 			document.title = "Kittens Game - Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ", d. " + this.calendar.day.toFixed();
+			
+			if (this.ironWill && this.calendar.observeBtn){
+				document.title = "[EVENT!]" + document.title;
+			}
+			
 		} else {
 			calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title
 		}
@@ -1312,7 +1317,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var saveData = {
 			game : lsData.game,
-			achievements: lsData.achievements
+			achievements: lsData.achievements,
+			religion: {
+				faithRatio: this.religion.faithRatio
+			}
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 		this.load();

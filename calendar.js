@@ -56,12 +56,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	observeBtn: null,
 	observeHandler: null,
 	observeTimeout: null,
-	observeClear: function(){
-		dojo.destroy(this.observeBtn);
-		this.observeBtn = null;
-		clearTimeout(this.observeTimeout);
-	},
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
@@ -88,6 +83,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.onNewYear();
 			}
 		}
+	},
+	
+	observeClear: function(){
+		dojo.destroy(this.observeBtn);
+		this.observeBtn = null;
+		clearTimeout(this.observeTimeout);
 	},
 	
 	/*

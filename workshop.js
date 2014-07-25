@@ -976,14 +976,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		
 	craft: function (res, amt){
 		var ratio = this.game.bld.getEffect("craftRatio");
-		if (res == "wood"){
-			ratio += this.game.bld.getEffect("refineRatio");
-		}
 		var craftAmt = 0;
 		
 		var craft = this.getCraft(res);
 		if (craft.ignoreBonuses){
 			craftAmt = amt;
+			if (res == "wood"){
+				craftAmt += craftAmt * this.game.bld.getEffect("refineRatio");
+			}
 		} else {
 			craftAmt = amt + amt*ratio;
 		}
@@ -1018,12 +1018,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
 			var ratio = this.game.bld.getEffect("craftRatio");
-			
-			if (craftName == "wood"){
-				ratio += this.game.bld.getEffect("refineRatio");
-			}
-			
+
 			var bonus = recipe.ignoreBonuses ? 0 : minAmt*ratio;
+			if (craftName == "wood"){
+				bonus += minAmt*this.game.bld.getEffect("refineRatio");
+			}
 			
 			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");
 			this.craft(craftName, minAmt);

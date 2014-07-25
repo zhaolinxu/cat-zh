@@ -1,3 +1,16 @@
+v 0.9.0.1 (25 jul)
+
+changed by Duke:
+
+Fixed some issues with observe events.
+_____
+
+Added observe notification to page title in ironwill
+Apocrypha effect will be carried over the reset
+Fixed Fuel Injection not giving correct bonus
+Fixed Labs not giving correct refine bonus
+Fixed Sins of a Solar Empire not working correctly
+
 v 0.9.0.0 (24 jul)
 
 Fuel Injectors
@@ -5,7 +18,7 @@ Offset Press
 
 v 0.8.9.7 (24 jul)
 
-Apocripha (religious upgrade, a prestige of some sort for faith)
+Apocrypha (religious upgrade, a prestige of some sort for faith)
 Added new building group (industry) and rearranged buildings accordingly
 Time Crystals
 Oxidation

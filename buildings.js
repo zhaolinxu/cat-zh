@@ -543,11 +543,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 				game.resPool.get("manuscript").value += amt;
 			}
-			
-			var combEngine = game.workshop.get("combustionEngine");
-			if( combEngine.researched){
-				self.effects["coalRatioGlobal"] = -0.8 + combEngine.effects["coalRatioGlobal"];
-			}
+
+			var coalRatio = game.workshop.getEffect("coalRatioGlobal");
+			self.effects["coalRatioGlobal"] = -0.8 + coalRatio;
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
 				var baseAutomationRate = 0.02;

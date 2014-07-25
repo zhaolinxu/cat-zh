@@ -427,7 +427,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 115000},
 			{name: 	"blueprint", val: 50}
 		],
-		unlocks: [],
+		unlocks: ["electronics"],
 		handler: function(game){
 			game.workshop.get("pumpjack").unlocked = true;
 			game.workshop.getCraft("concrate").unlocked = true;
@@ -469,7 +469,92 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			game.workshop.get("offsetPress").unlocked = true;
 			game.workshop.get("fuelInjectors").unlocked = true;
 		}
+	},{
+		name: "electronics",
+		title: "Electronics",
+		description: "TBD, required for rocketry.",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 135000},
+			{name: 	"blueprint", val: 75}
+		],
+		unlocks: ["nuclearFission", "rocketry"],
+		handler: function(game){
+		}
+	},{
+		name: "nuclearFission",
+		title: "Nuclear Fission",
+		description: "TBD, required for Alicorn Techs",
+		effectDesc: "Unlocks Nuclear Reactors (TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 150000},
+			{name: 	"blueprint", val: 100}
+		],
+		unlocks: ["nanotechnology", "particlePhysics"],
+		handler: function(game){
+		}
+	},{
+		name: "rocketry",
+		title: "Rocketry",
+		description: "Required for space exploration. (TBD)",
+		effectDesc: "Unlocks construction of the spaceships. (TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 175000},
+			{name: 	"blueprint", val: 125}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "nanotechnology",
+		title: "Nanotechnology",
+		description: "TBD",
+		effectDesc: "Unlocks Nanoassemblers and Augumetations (TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 200000},
+			{name: 	"blueprint", val: 150}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},{
+		name: "particlePhysics",
+		title: "Particle Physics",
+		description: "TBD",
+		effectDesc: "Unlocks Particle Accelerators (TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 185000},
+			{name: 	"blueprint", val: 135}
+		],
+		unlocks: ["chronophysics"],
+		handler: function(game){
+		}
+	},{
+		name: "chronophysics",
+		title: "Chronophysics",
+		description: "TBD",
+		effectDesc: "Unlocks Chronospheres (TBD)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 250000},
+			{name: 	"timeCrystals", val: 5}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
 	}
+	
 	],
 	
 	constructor: function(game){

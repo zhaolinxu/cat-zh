@@ -23,7 +23,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		title: "Sins of a Solar Empire",
 		description: "Wait, seriously?",
 		condition: function(){
-			return ( this.game.resPool.get("alicorns").value > 0 );
+			return ( this.game.resPool.get("alicorn").value > 0 );
 		},
 		unlocked: false
 	},{

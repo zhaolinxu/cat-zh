@@ -218,7 +218,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		researched: false
 	},{
 		name: "apocripha",
-		label: "Apocripha",
+		label: "Apocrypha",
 		description: "Grants the ability to discard accumulated faith to improve prays effectiveness",
 		prices: [
 			{ name : "faith", val: 6000 },
