@@ -56,7 +56,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	observeBtn: null,
 	observeHandler: null,
 	observeTimeout: null,
-
+	observeClear: function(){
+		dojo.destroy(this.observeBtn);
+		this.observeBtn = null;
+		clearTimeout(this.observeTimeout);
+	},
+	
 	constructor: function(game){
 		this.game = game;
 	},
@@ -85,12 +90,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 	
-	observeClear: function(){
-		dojo.destroy(this.observeBtn);
-		this.observeBtn = null;
-		clearTimeout(this.observeTimeout);
-	},
-	
 	/*
 	 * All daily chances are in 1/10K units (OPTK) (0.0X%)
 	 */ 
@@ -109,16 +108,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < chance && 
 			this.game.bld.get("library").val > 0){
 
-			this.observeClear();
-			
-			var gameLog = dojo.byId("gameLog");
-			var node = this.game.msg("A rare astronomical event occured in the sky");
-			
-			this.observeBtn = dojo.create("input", {
-				type: "button",
-				value: "Observe"
-			}, node);
-			
 			this.observeHandler = function(event, ironwill){
 
 				if ((!event.clientX || !event.clientY) && !ironwill){
@@ -143,23 +132,38 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 			
-			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
-
-			var seconds = 60;
-			this.observeTimeout = setTimeout(dojo.hitch(this, function(){
+			var observeTimeout = function(){
 				
 				this.observeClear();
 				
 				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
-
+				var rand = this.game.rand(100);
+				
 				if(
 					(this.game.ironWill && (self.game.rand(100) <= 25)) ||
-					(this.game.rand(100) <= autoChance)
+					(rand <= autoChance)
 				){	
 					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 				
-			}), seconds * 1000);
+			}
+			if (this.observeBtn){
+				dojo.hitch(this, observeTimeout)();
+			}
+			this.observeClear();
+			
+			var gameLog = dojo.byId("gameLog");
+			var node = this.game.msg("A rare astronomical event occured in the sky");
+			
+			this.observeBtn = dojo.create("input", {
+				type: "button",
+				value: "Observe"
+			}, node);
+
+			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
+
+			var seconds = 60;
+			this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), seconds * 1000);
 		}
 		
 		

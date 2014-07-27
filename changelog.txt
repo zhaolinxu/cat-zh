@@ -11,6 +11,8 @@ Fixed Fuel Injection not giving correct bonus
 Fixed Labs not giving correct refine bonus
 Fixed Sins of a Solar Empire not working correctly
 
+Fixed Duke's fix not handling autoobserve correctly :)
+
 v 0.9.0.0 (24 jul)
 
 Fuel Injectors
