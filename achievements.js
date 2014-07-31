@@ -31,7 +31,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		title: "Anachronox",
 		description: "Please stop",
 		condition: function(){
-			return ( this.game.resPool.get("time crystals").value > 0 );
+			return ( this.game.resPool.get("timeCrystal").value > 0 );
 		},
 		unlocked: false
 	},{

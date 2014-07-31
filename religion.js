@@ -408,6 +408,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunico
 
 		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystals!");
 		this.game.resPool.get("timeCrystal").value += amt;
+	},
+	
+	updateVisible: function(){
+		this.setVisible(this.game.resPool.get("alicorn").value >= 25);
 	}
 });
 
@@ -445,9 +449,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var sacrificeAlicornsBtn = new com.nuclearunicorn.game.ui.SacrificeAlicornsBtn({ 
 				name: "Sacrifice Alicorns",
 				description: "Banish the alicorns to the Bloodmoon.\nYou will recieve a Time Crystal.",
-				prices: [{ name: "alicorns", val: 25}]
+				prices: [{ name: "alicorn", val: 25}]
 			}, this.game);
-			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn") >= 25);
+			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 			
@@ -530,6 +534,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		
 		if (this.sacrificeBtn){
 			this.sacrificeBtn.update();
+		}
+		
+		if (this.sacrificeAlicornsBtn){
+			this.sacrificeAlicornsBtn.update();
 		}
 		
 		var faith = this.game.religion.faith;
