@@ -268,7 +268,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "science", val: 100000 },
 			{ name : "concrate", val: 45 },
-			{ name : "titanium",    val: 2500 }
+			{ name : "titanium",    val: 2000 }
 		],
 		unlocked: false,
 		researched: false,
@@ -383,7 +383,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "science", val: 125000 },
 			{ name : "concrate", val: 50 },
-			{ name : "titanium", val: 3500 },
+			{ name : "titanium", val: 3000 },
 		],
 		unlocked: false,
 		researched: false,
@@ -577,7 +577,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			"smelterRatio": 0.95
 		},
 		prices:[
-			{ name : "titanium", val: 2500 },
+			{ name : "titanium", val: 2000 },
 			{ name : "science",  val: 100000 }
 		],
 		unlocked: false,
@@ -727,14 +727,32 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "pumpjack",
 		title: "Pumpjack",
-		description: "Improves effectiveness of oil wells by 75%",
+		description: "Improves effectiveness of oil wells by 45%",
 		effects: {
-			"oilRatio" : 0.75
+			"oilRatio" : 0.45
 		},
 		prices:[
 			{ name : "titanium", val: 250 },
 			{ name : "gear", 	 val: 125 },
 			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
+	},
+	//------------------- blueprints ----------------
+	{
+		name: "cadSystems",
+		title: "CAD Systems",
+		description: "All scientific buildings will improve effectiveness of blueprint crafting",
+		effects: {
+			"blueprintCraftRatio" : 0.01
+		},
+		prices:[
+			{ name : "titanium", val: 750 },
+			{ name : "science",  val: 125000 }
 		],
 		unlocked: false,
 		researched: false,
@@ -1022,6 +1040,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			var bonus = recipe.ignoreBonuses ? 0 : minAmt*ratio;
 			if (craftName == "wood"){
 				bonus += minAmt*this.game.bld.getEffect("refineRatio");
+			}
+			
+			if (craftName == "blueprint"){
+				var bpRatio = this.game.workshop.getEffect("blueprintCraftRatio");
+				var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
+					this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
+				
+				bonus += minAmt * scienceBldAmt * bpRatio; //~2x refine rate with 200 buildings
 			}
 			
 			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");

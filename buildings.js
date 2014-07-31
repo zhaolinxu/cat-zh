@@ -34,7 +34,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "industry",
 		title: "Industry",
-		buildings: ["steamworks", "magneto", "smelter", "calciner", "factory" ]
+		buildings: ["steamworks", "magneto", "smelter", "calciner", "factory", "reactor" ]
 	},{
 		name: "culture",
 		title: "Culture",
@@ -414,6 +414,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var minerals = game.resPool.get("minerals");
 			var gold = game.resPool.get("gold");
 			var coal = game.resPool.get("coal");
+			var iron = game.resPool.get("iron");
+			
+			//safe switch for IW to save precious resources, as per players request
+			if (game.ironwill && iron.value > iron.maxValue * 0.95){
+				self.enabled = false;
+				self.on = 0;
+				return;
+			}
 			
 			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
 			self.effects["ironPerTick"] = 0.02 * smelterRatio;
@@ -429,9 +437,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				wood.value -= self.on * -self.effects["woodPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
-				
-				
-				var iron = game.resPool.get("iron");
 				if (iron.value < iron.maxValue){
 					iron.value += self.effects["ironPerTick"] * self.on;	//a bit less than ore
 				}
@@ -491,7 +496,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
 				var calcinerRatio = game.workshop.getEffect("calcinerRatio");
-				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*2 );
+				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 );
 				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio );
 				
 				var iron = game.resPool.get("iron");
@@ -722,6 +727,26 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		val: 0,
 		requiredTech: ["mechanization"],
+	},{
+		name: "reactor",
+		label: "Reactor",
+		description: "Provides a boost to production. Requires uranium to operate",
+		unlocked: false,
+		ignorePriceCheck: true,
+		prices: [
+			{ name : "titanium",    val: 5000 },
+			{ name : "concrate",    val: 50},
+			{ name : "blueprint",   val: 25},
+			{ name : "unobtainium", val: 1}
+		],
+		effects: {
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+			btn.game.workshopTab.visible = true;
+		},
+		val: 0,
+		requiredTech: ["nuclearFission"],
 	},
 	{
 		name: "tradepost",
@@ -1268,7 +1293,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable && (!building.on)) {
 				building.on = 0;
 			}
-			if (!building.tunable){
+			
+			if (!building.tunable && building.enabled){
 				building.on = building.val;
 			}
 			

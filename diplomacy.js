@@ -120,6 +120,24 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				"winter": 0.95
 			}},
 		]
+	},{
+		name: "dragons",
+		hidden: true,
+		title: "Dragons",
+		attitude: "neutral",
+		standing: 0.25,
+		unlocked: false,
+		buys: [
+			{name: "titanium", val: 250}
+		],
+		sells:[
+			{name: "uranium", value: 1, chance: 1, delta: 0, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}}
+		]
 	},
 
 	/*{
@@ -214,6 +232,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		if (!spiders.unlocked && this.game.resPool.get("ship").value >= 100 && this.game.resPool.get("science").maxValue > 125000){	
 			spiders.unlocked = true;	
 			return spiders;
+		}
+		
+		var dragons = this.get("dragons");
+		if (!dragons.unlocked && this.game.science.get("nuclearFission").researched){	
+			dragons.unlocked = true;	
+			return dragons;
 		}
 		
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));

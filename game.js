@@ -79,6 +79,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			if (!res.visible){
 				continue;
 			}
+			//migrate dual resources (e.g. blueprint) to lower table once craft recipe is unlocked
+			if (res.craftable && this.game.workshop.getCraft(res.name).unlocked && res.name != "wood"){
+				continue;
+			}
+			
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
 			
@@ -435,6 +440,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	//on a side note, I hate those flags. Could we use gamePage.opts = []/{}; ?
 	karmaKittens: 0,	//counter for karmic reincarnation
+	karmaZebras: 0,
 	paragonPoints: 0,	//endgame prestige
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
@@ -565,6 +571,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
+			karmaZebras: this.karmaZebras,
 			paragonPoints: this.paragonPoints,
 			ironWill : this.ironWill,
 			deadKittens: this.deadKittens,
@@ -662,6 +669,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
 
 			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
+			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
 			this.paragonPoints = (data.paragonPoints !== undefined) ? data.paragonPoints : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
@@ -1306,11 +1314,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
+		this.karmaZebras = this.resPool.get("zebras").value;
 
-		
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 
 			karmaKittens: this.karmaKittens,
+			karmaZebras: this.karmaZebras,
 			paragonPoints: this.paragonPoints,
 			ironWill : true 
 		});

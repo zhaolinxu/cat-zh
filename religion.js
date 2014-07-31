@@ -34,9 +34,10 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		
 		if (saveData.religion.zu){
 			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
-				for (var j = 0; j< loadedElem.val; j++){
-					for( var k = 0; k < loadedElem.prices.length; k++){
-						var price = loadedElem.prices[k];
+				var prices = dojo.clone(loadedElem.prices);
+				for( var k = 0; k < prices.length; k++){
+					var price = prices[k];
+					for (var j = 0; j < loadedElem.val; j++){
 						price.val = price.val * loadedElem.priceRatio;
 					}
 				}
@@ -100,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "skyPalace",
 		label: "Sky Palace",
-		description: "Improves your unicorns generation by 50%.\nThere was a legend of ancient and misterious beings inhabitings this place long ago.",
+		description: "Improves your unicorns generation by 50%.\nThere was a legend of ancient and mysterious beings inhabitings this place long ago.",
 		prices: [
 			{ name : "ivory", val: 250000 },
 			{ name : "tears", val: 500 }
@@ -446,7 +447,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				description: "Banish the alicorns to the Bloodmoon.\nYou will recieve a Time Crystal.",
 				prices: [{ name: "alicorns", val: 25}]
 			}, this.game);
-			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorns") >= 25);
+			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn") >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 			
@@ -562,7 +563,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;	//trust no one
 		}
 		
-		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith generation per 100K of faith.")){
+		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith conversion per 100K of faith.\n This bonus will carry over through resets.")){
 			return;
 		}
 		this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;

@@ -69,13 +69,28 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "atlasUnmeowed",
 		title: "Atlas Unmeowed",
-		description: "TBD",
+		description: "Construct a magneto in the iron will mode",
 		condition: function(){
-			return false;	//TBD something insane and mindwrecking
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("magneto").val > 0 );
 		},
 		unlocked: false
-	},
-	{
+	},{
+		name: "meowMeowRevolution",
+		title: "Meow Meow Revolution",
+		description: "Construct a factory in the iron will mode",
+		condition: function(){
+			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("factory").val > 0 );
+		},
+		unlocked: false
+	},{
+		name: "spaceOddity",
+		title: "Space Oddity",
+		description: "Complete Bastet Program in the iron will mode",
+		condition: function(){
+			return false;
+		},
+		unlocked: false
+	},{
 		name: "sunGod",
 		title: "Sun God",
 		description: "Get a total of 696,342 accumulated faith",
@@ -83,6 +98,14 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			return ( this.game.religion.faith >= 696342 );
 		},
 		unlocked: false
+	},{
+		name: "heartOfDarkness",
+		title: "Heart Of Darkness",
+		description: "Become a chieftain of a zebra tribe. (How is this even possible?)",
+		condition: function(){
+			return (this.game.resPool.get("zebras").value > 1);
+		},
+		unlocked: false,
 	},{
 		name: "winterIsComing",
 		title: "Winter Is Coming",

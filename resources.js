@@ -37,6 +37,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "oil",
 		type : "common",
 		visible: true
+	},{
+		name : "uranium",
+		type : "common",
+		visible: true,
+		color: "#4EA24E"
 	},
 	
 	//=========================================
@@ -82,13 +87,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		type : "common",
 		transient: true,
 		visible: true
-	},{
-		name : "blueprint",
-		type : "common",
-		transient: true,
-		visible: true,
-		craftable: true,
-		color: "#01A9DB"
 	},
 	
 	//=========================================
@@ -201,6 +199,13 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 		name : "compedium",
 		title: "compendium",
 		type : "common",
+		craftable: true,
+		color: "#01A9DB"
+	},{
+		name : "blueprint",
+		type : "common",
+		transient: true,
+		visible: true,
 		craftable: true,
 		color: "#01A9DB"
 	},{
@@ -340,6 +345,13 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 	},
 	
 	load: function(saveData){
+		//erase old resources (is there better way to handle it?
+		for(var i = 0; i< this.resources.length; i++){
+			var res = this.resources[i];
+			res.value = 0;
+			res.maxValue = 0;
+		}
+		
 		if (saveData.resources){
 			var resources = saveData.resources;
 			if (resources.length){

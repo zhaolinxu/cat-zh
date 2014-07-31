@@ -473,7 +473,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "electronics",
 		title: "Electronics",
 		description: "TBD, required for rocketry.",
-		effectDesc: "TBD",
+		effectDesc: "Unlocks CAD Systems",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -482,6 +482,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: ["nuclearFission", "rocketry"],
 		handler: function(game){
+			game.workshop.get("cadSystems").unlocked = true;
 		}
 	},{
 		name: "nuclearFission",

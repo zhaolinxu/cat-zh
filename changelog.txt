@@ -1,3 +1,21 @@
+v 0.9.1.2 (31 jul)
+
+Reduced Pumpjack effect from 75% to 45%
+Reduced titanium price of Concrete Barns, Concrete Huts and El. Smelting
+Changed Oxidation bonus to titanium form 300% to 400%
+Fixed "Sacrifice Alicorns" button not being unlocked correctly
+Fixed incorrect price adjustment for Ziggurat upgrades
+Moved blueprints in the resource table clother to the compediums
+
+Smelters will be turned off in IW once hit res limit
+
+Couple of IW achievements
+One super-secret achievement
+
+CAD Systems (unlocked with Electronics)
+
+Here be dragons.
+
 v 0.9.0.1 (25 jul)
 
 changed by Duke:
