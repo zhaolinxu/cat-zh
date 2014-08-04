@@ -8,6 +8,7 @@ Log size will be limited to 50 entries
 Fixed CAD SYS not applying correct bonus to the craft
 
 Refrigeration
+SETI
 
 v 0.9.1.2 (31 jul)
 
