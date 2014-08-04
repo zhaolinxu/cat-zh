@@ -149,7 +149,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			var spans = this.spans;
 			spans.push(span);
 			if (spans.length > 50){
-				for (var i = 50; i< spans.length; i++){
+				for (var i = 0; i< spans.length-50; i++){
 					dojo.empty(spans[i]);
 				}
 				spans.length = 50;	//truncate array
