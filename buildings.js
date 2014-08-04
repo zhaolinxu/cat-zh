@@ -10,8 +10,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
-				var effect;
-				
+				var effect = 0;
+
 				if (bld.togglable){
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
@@ -19,9 +19,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 						effect = bld.enabled ? bld.effects[effectName] * bld.val : 0;
 					}
 				}else{
-					effect = bld.effects[effectName] || 0;
+					effect = bld.effects[effectName] * bld.val || 0;
 				}
-				//console.log("effect ", effectName, "is ", effect);
 				return effect;
 			}
 		});
@@ -345,13 +344,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				
 				var ratio = game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, 2.25);	//100% to 225% with slow falldown on the 75%
 
-				self.effects["catnipMax"] = ( 2500 * ( 1 - ratio));
-				self.effects["woodMax"] = ( 700 * ( 1 - ratio));
-				self.effects["mineralsMax"] = ( 950 * ( 1 - ratio));
-				self.effects["ironMax"] = ( 150 * ( 1 - ratio));
-				self.effects["coalMax"] = ( self.effects["coalMax"] * ( 1 - ratio));
-				self.effects["goldMax"] = ( 25 * ( 1 - ratio));
-				self.effects["titaniumMax"] = ( 50 * ( 1 - ratio));
+				self.effects["catnipMax"] = ( 2500 * ( 1 + ratio));
+				self.effects["woodMax"] = ( 700 * ( 1 + ratio));
+				self.effects["mineralsMax"] = ( 950 * ( 1 + ratio));
+				self.effects["ironMax"] = ( 150 * ( 1 + ratio));
+				self.effects["coalMax"] = ( self.effects["coalMax"] * ( 1 + ratio));
+				self.effects["goldMax"] = ( 25 * ( 1 + ratio));
+				self.effects["titaniumMax"] = ( 50 * ( 1 + ratio));
 			}
 		},
 		val: 0
@@ -1095,16 +1094,16 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	 * Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
 	 */ 
 	getHyperbolicEffect: function(effect, limit){
-		effect = Math.abs(effect);
+		var absEffect = Math.abs(effect);
 		
 		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
 				
-		if (effect <= maxUndiminished) {
+		if (absEffect <= maxUndiminished) {
 			//Not high enough for diminishing returns to apply
-			return -effect;
+			return effect < 0 ? -absEffect : absEffect;
 		}
 		
-		var diminishedPortion = effect - maxUndiminished;
+		var diminishedPortion = absEffect - maxUndiminished;
 		
 		var delta = .25*limit; //Lower values will approach 1 more quickly.
 		
@@ -1112,8 +1111,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25*limit;
 		
 		var totalEffect = maxUndiminished+diminishedEffect;
-		
-		return  -totalEffect;
+
+		return effect < 0 ? -totalEffect : totalEffect;
 	},
 	
 	lerp: function (v0, v1, t){

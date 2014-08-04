@@ -59,7 +59,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
 	 * Replacement for getEffect() method
 	 */ 
-	/*getMetaEffect: function(name, metadata){
+	getMetaEffect: function(name, metadata){
 		var totalEffect = 0;
 
 		for (var i = 0; i < metadata.meta.length; i++){
@@ -80,37 +80,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				
 			}
 			totalEffect += effect;
-		}
-		
-		return totalEffect || 0;
-	},*/
-	
-	getMetaEffect: function(name, metadata){
-		var totalEffect = 0;
-		
-		for (var i = 0; i < metadata.meta.length; i++){
-			var meta = metadata.meta[i];
-			var effect = meta.effects[name] || 0;
-
-			if (meta.hasOwnProperty("researched") && !meta.researched){
-				continue;	//workshops and stuff
-			}
-			 
-			if (meta.hasOwnProperty("val")) {
-				if (meta.togglable && meta.name != "observatory"){	//ugly crappy hack
-					if (meta.on > 0) {
-						 var val = meta.on;
-						 totalEffect += effect * val;
-					} else {
-						continue;
-					}
-				} else {				
-					var val = meta.val;
-					totalEffect += effect * val;
-				}
-			}else{
-				totalEffect += effect;
-			}
 		}
 		
 		return totalEffect || 0;
