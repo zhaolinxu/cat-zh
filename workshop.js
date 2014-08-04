@@ -1046,7 +1046,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
 				this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
 			
-			craftAmt = amt * scienceBldAmt * bpRatio; //~2x refine rate with 200 buildings
+			craftAmt += craftAmt * scienceBldAmt * bpRatio; //~2x refine rate with 200 buildings
 		}
 
 		var prices = dojo.clone(craft.prices);
