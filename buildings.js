@@ -8,7 +8,23 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	constructor: function(game){
 		this.game = game;
 		
-		this.registerMeta(this.buildingsData);
+		this.registerMeta(this.buildingsData, {
+			getEffect: function(bld, effectName){
+				var effect;
+				
+				if (bld.togglable){
+					if (bld.tunable){
+						effect = bld.effects[effectName] * bld.on;
+					} else {
+						effect = bld.enabled ? bld.effects[effectName] * bld.val : 0;
+					}
+				}else{
+					effect = bld.effects[effectName] || 0;
+				}
+				//console.log("effect ", effectName, "is ", effect);
+				return effect;
+			}
+		});
 	},
 	
 	buildingGroups: [{
@@ -49,8 +65,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		buildings: ["ziggurat"]
 	}
 	],
-	
-	//TODO: use some class hierarchy there?
+
+	/**
+	 * Note:
+	 * Do not abuse action() method, it is called on every tick and may have negative performance impact
+	 * Try to reduce .get or .getEffect calls to minimum
+	 */ 
 	buildingsData : [
 	//----------------------------------- Food production ----------------------------------------
 	{
@@ -197,7 +217,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		priceRatio: 1.15,
 		requiredTech: ["math"],
 		handler: function(btn){
-			//btn.game.village.getJob("miner").unlocked = true;
 		},
 		val: 0
 	},{
@@ -225,10 +244,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 		},
 		action: function(self, game){
-			/*var astrolabe = game.workshop.get("astrolabe");
-			if (astrolabe.researched){
-				self.effects["scienceMax"] = 1750;
-			}*/
 		},
 		val: 0
 	},{

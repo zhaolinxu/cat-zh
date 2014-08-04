@@ -105,33 +105,34 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			chance += this.game.bld.getEffect("starEventChance");
 		}
 		
+		this.observeHandler = function(event){
+			this.observeClear();
+			
+			var isSilent = false;
+			if (this.game.workshop.get("seti").researched){
+				isSilent = true;
+			}
+			
+			var starchart = this.game.resPool.get("starchart");
+
+			var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
+			this.game.resPool.addResAmt("science", sciBonus);
+			
+			if (!isSilent){
+				this.game.msg("+" + sciBonus.toFixed() + " science!");
+			}
+			
+			if (this.game.science.get("astronomy").researched){
+				if (!isSilent){
+					this.game.msg("You've made a star chart!");
+				}
+				starchart.value +=1;
+			}
+		}
+		
 		if (this.game.rand(10000) < chance && 
 			this.game.bld.get("library").val > 0){
 
-			this.observeHandler = function(event, ironwill){
-
-				if ((!event.clientX || !event.clientY) && !ironwill){
-					//>:
-					this.game.cheatMode = true;
-				}
-
-				this.observeClear();
-				
-				var diagram = this.game.resPool.get("starchart");
-				//var science = this.game.resPool.get("science");
-				
-				var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
-				//science.value += sciBonus;
-				this.game.resPool.addResAmt("science", sciBonus);
-				
-				this.game.msg("+" + sciBonus.toFixed() + " science!");
-				
-				if (this.game.science.get("astronomy").researched){
-					this.game.msg("You've made a star chart!");
-					diagram.value +=1;
-				}
-			}
-			
 			var observeTimeout = function(){
 				
 				this.observeClear();
@@ -151,6 +152,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				dojo.hitch(this, observeTimeout)();
 			}
 			this.observeClear();
+			
+			//---------------- seti hack-------------------
+			if (this.game.workshop.get("seti").researched){
+				this.observeHandler();
+				return;
+			}
 			
 			var gameLog = dojo.byId("gameLog");
 			var node = this.game.msg("A rare astronomical event occured in the sky");

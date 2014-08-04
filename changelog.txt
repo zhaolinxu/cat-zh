@@ -1,3 +1,14 @@
+v 0.9.1.3 (4 aug)
+
+Added couple of kitten names and one surname
+Apocrypha will now have hyp cap of 2750%
+Solar Revolution will now have hyp cap of 275% (sorry folks)
+Log size will be limited to 50 entries
+
+Fixed CAD SYS not applying correct bonus to the craft
+
+Refrigeration
+
 v 0.9.1.2 (31 jul)
 
 Reduced Pumpjack effect from 75% to 45%

@@ -483,6 +483,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: ["nuclearFission", "rocketry"],
 		handler: function(game){
 			game.workshop.get("cadSystems").unlocked = true;
+			game.workshop.get("refrigeration").unlocked = true;
+			game.workshop.get("seti").unlocked = true;
 		}
 	},{
 		name: "nuclearFission",

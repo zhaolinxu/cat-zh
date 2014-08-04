@@ -856,13 +856,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (relResEffect){
 			perTick += perTick * relResEffect;
 		}
-		
-		//---------  PARAGON BONUS ------------
 
+		//---------  PARAGON BONUS ------------
 		var paragonRatio = this.resPool.get("paragon").value * 0.01;
 		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
 		perTick -= perTick * paragonRatio;
-		
+
 		//---------  FAITH BONUS --------------
 		if (this.religion.getRU("solarRevolution").researched){
 			perTick += perTick * (this.religion.getProductionBonus() / 100);
@@ -874,14 +873,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var swRatio = steamworks.on > 0 ? (1+ 0.25*this.bld.get("steamworks").on) : 1;
 			perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 		}
-
+		
 		//AUTOMATED STRUCTURES EFFECTS
 		if (calcAutomatedEffect){
 			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
 			if (bldResRatioTick){
 				perTick += bldResRatioTick;
 			}
-		}	
+		}
+
 		//SPECIAL STEAMWORKS HACK FOR COAL
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];

@@ -251,7 +251,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},
 	
 	getEffect: function(name){
-		var zeff = this.getMetaEffect(name, this.zigguratUpgrades);
+		var zeff = this.getMetaEffect(name, {meta:this.zigguratUpgrades});
 		var reff = this.getReligionEffect(name);
 
 		return zeff+reff;
@@ -263,6 +263,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	getProductionBonus: function(){
 		var stripe = 1000;
 		var rate = (Math.sqrt(1+8 * this.faith / stripe)-1)/2;
+		
+		rate = this.game.bld.getHyperbolicEffect(rate, 275);			//275%
 		
 		return rate;
 	}
@@ -498,7 +500,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			description: "Convert all your accumulated faith to the total pool",
 			handler: function(btn){
 				var faith = btn.game.resPool.get("faith");
-				btn.game.religion.faith += faith.value + faith.value * btn.game.religion.faithRatio;
+				btn.game.religion.faith += faith.value + 
+					faith.value * btn.game.bld.getHyperbolicEffect(btn.game.religion.faithRatio, 27.5);	//2750% is a hardcoded limit of faith ratio
 				faith.value = 0.01;	//have a nice autoclicking
 			}
 		}, this.game);
@@ -574,6 +577,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith conversion per 100K of faith.\n This bonus will carry over through resets.")){
 			return;
 		}
+
 		this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
 		this.game.religion.faith = 0.01;
 	}

@@ -407,6 +407,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			game.bld.get("warehouse").effects["catnipMax"] = 750;
 			game.workshop.get("titaniumWarehouses").unlocked = true;
 		}
+	},{
+		name: "refrigeration",
+		title: "Refrigeration",
+		description: "Expands catnip limit by 75%",
+		effects: {
+			"catnipMaxRatio" : 0.75
+		},
+		prices:[
+			{ name : "science", val: 125000 },
+			{ name : "titanium", val: 2500 },
+			{ name : "blueprint", val: 15 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
 	},
 	//--------------------- hunt upgrades ----------------------
 	{
@@ -745,13 +761,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	//------------------- blueprints ----------------
 	{
 		name: "cadSystems",
-		title: "CAD Systems",
+		title: "CAD System",
 		description: "All scientific buildings will improve effectiveness of blueprint crafting",
 		effects: {
 			"blueprintCraftRatio" : 0.01
 		},
 		prices:[
 			{ name : "titanium", val: 750 },
+			{ name : "science",  val: 125000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
+	},{
+		name: "seti",
+		title: "SETI",
+		description: "A large array of electronic telescopes. Makes astronomical events automatic and silent",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 250 },
 			{ name : "science",  val: 125000 }
 		],
 		unlocked: false,
@@ -905,7 +936,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	constructor: function(game){
 		this.game = game;
 		
-		this.registerMeta(this.upgrades);
+		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
+			if (upgrade.researched){
+				return upgrade.effects[name];
+			}
+		}});
 	},
 	
 	get: function(upgradeName){
@@ -1004,6 +1039,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			}
 		} else {
 			craftAmt = amt + amt*ratio;
+		}
+		
+		if (res == "blueprint"){
+			var bpRatio = this.game.workshop.getEffect("blueprintCraftRatio");
+			var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
+				this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
+			
+			craftAmt = amt * scienceBldAmt * bpRatio; //~2x refine rate with 200 buildings
 		}
 
 		var prices = dojo.clone(craft.prices);

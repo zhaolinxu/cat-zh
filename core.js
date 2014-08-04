@@ -26,8 +26,12 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		this.meta = [];
 	},
 	
-	registerMeta: function(meta){
-		this.meta.push(meta);
+	/**
+	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
+	 * @param provider - any object having getEffect(metaElem, effectName) method
+	 */ 
+	registerMeta: function(meta, provider){
+		this.meta.push({meta: meta, provider: provider});
 	},
 	
 	invalidateCachedEffects: function(){
@@ -55,24 +59,44 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
 	 * Replacement for getEffect() method
 	 */ 
+	/*getMetaEffect: function(name, metadata){
+		var totalEffect = 0;
+
+		for (var i = 0; i < metadata.meta.length; i++){
+			var meta = metadata.meta[i];
+			//
+			// This is an ugly hack for managers like workshop or science
+			// Ideally just a getter handler should be called there returning correct value
+			//
+			if (meta.hasOwnProperty("researched") && !meta.researched){
+				continue;	//workshops and stuff	//TODO: move to the effect provider
+			}
+			
+			var effect;
+			if (metadata.provider){
+				effect = metadata.provider.getEffect(meta, name) || 0;
+			} else {
+				effect = meta.effects[name] || 0;
+				
+			}
+			totalEffect += effect;
+		}
+		
+		return totalEffect || 0;
+	},*/
+	
 	getMetaEffect: function(name, metadata){
 		var totalEffect = 0;
 		
-		for (var i = 0; i < metadata.length; i++){
-			var meta = metadata[i];
-
+		for (var i = 0; i < metadata.meta.length; i++){
+			var meta = metadata.meta[i];
 			var effect = meta.effects[name] || 0;
 
-			/**
-			 * This is an ugly hack for managers like workshop or science
-			 * Ideally just a getter handler should be called there returning correct value
-			 */
 			if (meta.hasOwnProperty("researched") && !meta.researched){
 				continue;	//workshops and stuff
 			}
 			 
 			if (meta.hasOwnProperty("val")) {
-				
 				if (meta.togglable && meta.name != "observatory"){	//ugly crappy hack
 					if (meta.on > 0) {
 						 var val = meta.on;
@@ -133,6 +157,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 		
+		spans: [],
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */ 
@@ -151,10 +176,23 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				dojo.addClass(span, "type_"+type);
 			}
 			
+
+			var spans = this.spans;
+			spans.push(span);
+			if (spans.length > 50){
+				for (var i = 50; i< spans.length; i++){
+					dojo.empty(spans[i]);
+				}
+				spans.length = 50;	//truncate array
+			}
+			
+
 			return span;
 		},
 		
 		clear: function(){
+			this.spans = [];
+			
 			var gameLog = dojo.byId("gameLog");
 			dojo.empty(gameLog);
 		}

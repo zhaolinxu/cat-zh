@@ -413,8 +413,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
  */ 
 dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	
-	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly"],
-	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand"],
+	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly", "Jasper",
+			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha" ],
+	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch"],
 	
 	name: "Undefined",
 	surname: "Undefined",
