@@ -251,7 +251,11 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},
 	
 	getEffect: function(name){
-		var zeff = this.getMetaEffect(name, {meta:this.zigguratUpgrades});
+		var zeff = this.getMetaEffect(name, {meta:this.zigguratUpgrades, provider: {
+			getEffect: function(bld, effectName){
+				return bld.effects[effectName] * bld.val;
+			}
+		}});
 		var reff = this.getReligionEffect(name);
 
 		return zeff+reff;

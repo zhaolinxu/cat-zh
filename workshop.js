@@ -1045,7 +1045,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			var bpRatio = this.game.workshop.getEffect("blueprintCraftRatio");
 			var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
 				this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
-			
+				
 			craftAmt += craftAmt * scienceBldAmt * bpRatio; //~2x refine rate with 200 buildings
 		}
 
