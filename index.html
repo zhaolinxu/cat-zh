@@ -294,7 +294,11 @@
 				}
 			}
 			// we don't need no css, let the dynamic height be. be, dynamic height, be.
-			$(function(){ $('#gameLog').outerHeight($('#footerLinks').position().top - $('#gameLog').offset().top); });
+			function resetGameLogHeight(){
+				$('#gameLog').outerHeight($('#footerLinks').position().top - $('#gameLog').offset().top);
+			}
+			$(resetGameLogHeight);
+			$(window).resize(resetGameLogHeight);
 		</script>
 		
 		<title>Kittens Game - a Dark Souls of incremental gaming</title>
