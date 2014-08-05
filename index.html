@@ -293,6 +293,12 @@
 					gamePage.wipe();
 				}
 			}
+			// we don't need no css, let the dynamic height be. be, dynamic height, be.
+			function resetGameLogHeight(){
+				$('#gameLog').outerHeight($('#footerLinks').position().top - $('#gameLog').offset().top);
+			}
+			$(resetGameLogHeight);
+			$(window).resize(resetGameLogHeight);
 		</script>
 		
 		<title>Kittens Game - a Dark Souls of incremental gaming</title>
@@ -374,7 +380,7 @@
 				<div id="rightColumn" style="vertical-align:top; padding-left:20px; padding-top:15px;" class="column">
 					<div>
 						<span id="calendarDiv">Calendar :V</span>
-						<!--<a href="#" onclick="dev_boostCalendar();">&gt;&gt;</a>-->
+						<!--<a href="#" onclick="dev_boostCalendar();">>></a>-->
 						<a id="pauseBtn" style="font-size:12px; float:right;" href="#" onclick="gamePage.togglePause();">pause</a>
 					</div>
 					<div style="padding-top: 10px; border-top: 1px solid gray;">
