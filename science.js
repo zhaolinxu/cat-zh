@@ -499,6 +499,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: ["nanotechnology", "particlePhysics"],
 		handler: function(game){
+			game.workshop.get("reactorVessel").unlocked = true;
 		}
 	},{
 		name: "rocketry",

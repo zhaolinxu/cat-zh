@@ -342,7 +342,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
 				
-				var ratio = game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, 2.25);	//100% to 225% with slow falldown on the 75%
+				var limit = 2.25 + game.workshop.getEffect("shipLimit");	//100% to 225% with slow falldown on the 75%
+				var ratio = game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, limit);
 
 				self.effects["catnipMax"] = ( 2500 * ( 1 + ratio));
 				self.effects["woodMax"] = ( 700 * ( 1 + ratio));
@@ -744,16 +745,20 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "reactor",
 		label: "Reactor",
-		description: "Provides a boost to production. Requires uranium to operate",
+		description: "Provides a 5% boost to production while active. Requires uranium to operate. (WIP)",
 		unlocked: false,
 		ignorePriceCheck: true,
+		togglable: true,
+		tunable: true,
+		on: 0,
 		prices: [
 			{ name : "titanium",    val: 5000 },
 			{ name : "concrate",    val: 50},
 			{ name : "blueprint",   val: 25},
-			{ name : "unobtainium", val: 1}
 		],
 		effects: {
+			"uraniumPerTick" : -0.01,
+			"productionRatio": 0.05
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
@@ -761,6 +766,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		val: 0,
 		requiredTech: ["nuclearFission"],
+		action: function(self, game){
+			var uranium = game.resPool.get("uranium");
+			if (uranium.value <= 0){
+				self.on = 0;
+				self.enabled = false;
+			}
+		}
 	},
 	{
 		name: "tradepost",

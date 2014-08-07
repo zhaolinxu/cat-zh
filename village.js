@@ -864,7 +864,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
-		if (kittens > 50){
+		if (kittens > 300){
+			return "Imperium";
+		} else if (kittens > 200){
+			return "Metropolis";
+		} if (kittens > 150){
+			return "City";
+		} else if (kittens > 100){
+			return "Town";
+		} else if (kittens > 50){
 			return "Small town";
 		} else if (kittens > 30){
 			return "Settlement";

@@ -1,3 +1,9 @@
+v 0.9.1.4 (6 aug)
+Added a couple of village names
+Removed caps on solar rev and apocrypha, nerfed apocyrypha effect
+
+Fixed Refrigeration not giving correct bonus
+
 v 0.9.1.3 (4 aug)
 
 Added couple of kitten names and one surname

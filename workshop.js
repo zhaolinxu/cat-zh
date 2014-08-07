@@ -357,6 +357,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 		}
 	},{
+		name: "reactorVessel",
+		title: "Reactor Vessel",
+		description: "Every reactor improves ship potential by 5%",
+		effects: {
+			"shipLimit" : 0.05
+		},
+		prices:[
+			{ name : "science", val: 135000 },
+			{ name : "titanium", val: 5000 },
+			{ name : "uranium",  val: 125 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
 		description: "Hut price ratio reduced by 50%",

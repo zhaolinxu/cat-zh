@@ -312,7 +312,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
 			}
 			
 			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue += maxValue * this.game.workshop.getEffect(res + "MaxRatio");
+			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
 			
 			var paragon = this.game.resPool.get("paragon").value;
 			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
