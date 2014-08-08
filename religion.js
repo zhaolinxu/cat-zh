@@ -503,7 +503,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			handler: function(btn){
 				var faith = btn.game.resPool.get("faith");
 				btn.game.religion.faith += faith.value + 
-					faith.value * btn.game.getTriValue(btn.game.religion.faithRatio, 1); //starting up from 100% fratio will work surpisingly bad
+					faith.value * btn.game.getTriValue(btn.game.religion.faithRatio, 0.1)*0.1; //starting up from 100% fratio will work surpisingly bad
 				faith.value = 0.01;	//have a nice autoclicking
 			}
 		}, this.game);
@@ -560,7 +560,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (religion.getRU("apocripha").researched){
 			dojo.style(this.faithResetBtn, "display", "");
 			
-			var ratio = this.game.getTriValue(this.game.religion.faithRatio, 1);
+			var ratio = this.game.getTriValue(this.game.religion.faithRatio, 0.1)*0.1;
 			this.faithCount.innerHTML += " [+" + (ratio*100).toFixed() + "%]";
 		}
 

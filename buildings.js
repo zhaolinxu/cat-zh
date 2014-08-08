@@ -12,7 +12,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			getEffect: function(bld, effectName){
 				var effect = 0;
 
-				if (bld.togglable){
+				if (bld.togglable && bld.name != "observatory"){
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
@@ -342,7 +342,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
 				
-				var limit = 2.25 + game.workshop.getEffect("shipLimit");	//100% to 225% with slow falldown on the 75%
+				//100% to 225% with slow falldown on the 75%
+				var limit = 2.25 + game.workshop.getEffect("shipLimit") * game.bld.get("reactor").val;
 				var ratio = game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, limit);
 
 				self.effects["catnipMax"] = ( 2500 * ( 1 + ratio));
@@ -384,7 +385,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "quarry",
 		label: "Quarry",
-		description: "Quarry improves your mining efficiency by 50% and produces a bit of coal",
+		description: "Quarry improves your mining efficiency by 35% and produces a bit of coal",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "steel", val: 150 },

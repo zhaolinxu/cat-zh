@@ -1,8 +1,13 @@
-v 0.9.1.4 (6 aug)
+v 0.9.1.4 (8 aug)
 Added a couple of village names
 Removed caps on solar rev and apocrypha, nerfed apocyrypha effect
 
 Fixed Refrigeration not giving correct bonus
+Changed uranium rate of dragons to 75%
+Fixed Observatory science limit being affected by on/off switch
+
+Reactors
+Reactor Vessel
 
 v 0.9.1.3 (4 aug)
 

@@ -874,6 +874,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 		}
 		
+		//--------- GENERAL PRODUCTION RATIO --------------
+		if (!res.transient){
+			perTick += perTick * this.bld.getEffect("productionRatio");
+		}
+		
 		//AUTOMATED STRUCTURES EFFECTS
 		if (calcAutomatedEffect){
 			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
@@ -1354,5 +1359,4 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getTriValue: function(value, stripe){
 		return (Math.sqrt(1+8 * value / stripe)-1)/2;
 	}
-		
 });
