@@ -480,6 +480,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire", this);
 		this.addTab(bonfireTab);
 		
+		var bldTabV2 = new com.nuclearunicorn.game.ui.tab.BuildingsModern("V2", this);
+		this.addTab(bldTabV2);
+		
 		this.villageTab = new com.nuclearunicorn.game.ui.tab.Village("Small village", this);
 		this.villageTab.visible = false;
 		this.addTab(this.villageTab);
@@ -714,11 +717,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var container = dojo.byId(this.id);
 		dojo.empty(container);
 
-		var tabNavigationDiv = dojo.create("div", { style: {
-				position: "relative",
-				top: "-30px",
-				left: "-20px"
-			}}, container);
+		var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
 
 		
 		this.resTable.render();
@@ -739,6 +738,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var tabLink = dojo.create("a", {
 				href:"#",
 				innerHTML: tab.tabName,
+				className: "tab",
 				style : {
 					whiteSpace: "nowrap"
 				}

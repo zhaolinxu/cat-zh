@@ -150,7 +150,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			spans.push(span);
 			if (spans.length > 50){
 				for (var i = 0; i< spans.length-50; i++){
-					dojo.empty(spans[i]);
+					dojo.destroy(spans[i]);
 				}
 				spans.length = 50;	//truncate array
 			}
@@ -505,7 +505,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
 		}, handler));
 		
 		if (addBreak){
-			linkBreak = dojo.create("span", { innerHTML:"|", style: {float: "right", paddingLeft: "2px"}}, this.buttonContent);
+			linkBreak = dojo.create("span", { 
+				innerHTML: "|", 
+				className: "linkBreak",
+				style: {float: "right", paddingLeft: "2px"}
+			}, this.buttonContent);
 		}
 		dojo.place(link, this.buttonContent);
 		
