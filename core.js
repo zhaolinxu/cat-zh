@@ -1,6 +1,6 @@
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 
-	handlers: null,
+	/*handlers: null,
 	
 	constructor: function(){
 		this.handlers = [];
@@ -9,7 +9,8 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
 	connect: function(node, event, context, handler){
 		var handler = dojo.connect(node, event, context, handler);
 		this.handlers.push(handler);
-	}
+	},*/
+	
 });
 
 /**
@@ -172,7 +173,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
  * A base class for game button. Inventing the wheels since 2014
  */ 
 
-dojo.declare("com.nuclearunicorn.game.ui.Button", null, {
+dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 	
 	game: null,
 	

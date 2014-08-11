@@ -446,6 +446,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	}
 });
 
+//==================================================================================
+//									DIPLOMACY
+//==================================================================================
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 	
 	racePanels: null,
@@ -459,10 +463,27 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 	
 	render: function(tabContainer){
 		this.inherited(arguments);
-		var races = this.game.diplomacy.races;
+		
 		
 		this.buttons = [];
-		this.racePanels = [];
+		
+		/*
+		 * Once race panel is rendered, we will save the panels states.
+		 * 
+		 * However races can be unlocked in random order, so once new race appear,
+		 * we will clear array and reinit it again
+		 */ 
+		
+		var races = [];
+		for (var i = 0; i< this.game.diplomacy.races.length; i++){
+			var race = this.game.diplomacy.races[i];
+			if (race.unlocked){
+				races.push(race);
+			}
+		}
+		if (this.racePanels.length != races.length){
+			this.racePanels = [];
+		}
 		
 		var self = this;
 		
@@ -472,7 +493,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				continue;
 			}
 
-			var racePanel = new com.nuclearunicorn.game.diplomacy.RacePanel(race.title);
+			var racePanel = this.racePanels[i];
+			if (!racePanel){
+				racePanel = new com.nuclearunicorn.game.diplomacy.RacePanel(race.title);
+				this.racePanels.push(racePanel);
+			}
 			var content = racePanel.render(tabContainer);
 
 			//---------- render stuff there -------------
@@ -517,9 +542,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}, this.game);
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
-			
-			this.racePanels.push(racePanel);
-	
 		}
 		
 		//------------------------------------

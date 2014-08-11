@@ -1753,6 +1753,128 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		/*this.game.attachTooltip(this.domNode, dojo.partial( function(btn){
 
 		}, this));*/
+		this.attachTooltip(this.domNode, dojo.partial( function(btn){
+			
+			var tooltip = dojo.create("div", { style: { 
+				width: "280px",
+				minHeight:"150px"
+			}}, null);
+			
+			dojo.create("div", { 
+				innerHTML: this.getName(), 
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px"
+			}}, tooltip);
+			
+			//----------- description -------
+			
+			dojo.create("div", { 
+				innerHTML: this.description, 
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px",
+					fontSize: "15px",
+					color: "gray"
+			}}, tooltip);
+			
+			//--------------- prices ----------------
+			var prices = this.getPrices();
+			if (prices.length){
+				for( var i = 0; i < prices.length; i++){
+					var price = prices[i];
+					var priceItemNode = dojo.create("div", { 
+							style : {
+								overflow: "hidden"
+							}
+						}, tooltip); 
+					
+					var res = this.game.resPool.get(price.name);
+					var hasRes = (res.value >= prices[i].val);
+					
+					var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
+					var priceSpan = dojo.create("span", { 
+						innerHTML: hasRes ? 
+							this.game.getDisplayValueExt(price.val) : 
+							this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val), 
+						className: hasRes ? "" : "noRes",
+						style: {
+							float: "right"
+						}
+					}, priceItemNode );
+				}
+			}
+			//---------- effects-------------
+			
+			dojo.create("div", { 
+				innerHTML: "Effects:", 
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px",
+					marginBottom: "8px"
+			}}, tooltip);
+			
+			//-----------------------------------------
+			
+			var bld = this.getBuilding();
+			for (effectName in bld.effects){
+				var nameSpan = dojo.create("div", { innerHTML: effectName + ": " + this.game.getDisplayValueExt(bld.effects[effectName]), 
+					style: { 
+						float: "left",
+						fontSize: "14px",
+						color: "gray",
+						clear: "both"
+				}}, tooltip );
+			}
+			
+			dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
+			
+			//-------------- flavor stuff -------------
+			
+			dojo.create("div", { 
+				innerHTML: bld.flavour || "flavor text",
+				className: "flavor",
+				style: {
+					position: "absolute",
+					bottom: "2px",
+					right: "4px",
+					fontSize: "12px",
+					fontStyle: "italic"
+			}}, tooltip);
+			
+			return tooltip.outerHTML;
+		}, this));
+	},
+	
+	getDescription: function(){
+		return "";
+	},
+	
+	attachTooltip: function(container, htmlProvider){
+		var tooltip = dojo.byId("tooltip");
+		
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
+			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
+			 
+			 var pos = $(container).position();
+			 
+			 dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
+			 dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			
+			 dojo.setStyle(tooltip, "display", ""); 
+			 
+	    }, tooltip, htmlProvider));
+	    
+		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
+			 dojo.setStyle(tooltip, "display", "none"); 
+			 //dojo.setStyle(container, "fontWeight", "normal");
+		}, tooltip, container));
 	}
 });
 
