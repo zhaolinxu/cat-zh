@@ -769,11 +769,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.activeTabId == tab.tabId){
 			
 				var divContainer = dojo.create("div", {
-					className: "tabInner",
-					style: {
-						border : "1px solid gray",
-						padding: "25px"
-					}
+					className: "tabInner"
 				}, container);
 					
 				tab.render(divContainer);
@@ -1326,7 +1322,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaKittens: this.karmaKittens,
 			karmaZebras: this.karmaZebras,
 			paragonPoints: this.paragonPoints,
-			ironWill : true 
+			ironWill : true,
+			deadKittens: 0
 		});
 		
 		var saveData = {

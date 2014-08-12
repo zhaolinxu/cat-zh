@@ -1899,7 +1899,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			}
 		}, content);
 		
-		var groups = this.game.bld.buildingGroups;
+		var groups = dojo.clone(this.game.bld.buildingGroups, true);
+		
+		groups.unshift({
+			name: "allEnabled",
+			title: "Enabled",
+			buildings: []
+		});
+		groups.unshift({
+			name: "all",
+			title: "All",
+			buildings: []
+		});
+		
+		
 		for (var i = 0; i< groups.length; i++){
 				
 			var hasVisibleBldngs = false;
@@ -1910,7 +1923,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					break;
 				}
 			}
-			
+			if (groups[i].name == "all" || groups[i].name == "allEnabled"){
+				hasVisibleBldngs = true;
+			}
+
 			var separator = null;
 			if ( i != 0){
 				separator = dojo.create("span", { 
@@ -1942,6 +1958,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			}, groups[i].name));
 		}
 		
+		
 		var groupContainer = dojo.create("div", { className: "bldGroupContainer"}, topContainer);
 		this.groupContainer = groupContainer;
 		
@@ -1959,33 +1976,52 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		for( var i = 0; i< this.bldGroups.length; i++){
 			if (this.bldGroups[i].group.name != this.activeGroup){
-				continue;
+				if (this.activeGroup != "all" && this.activeGroup != "allEnabled"){
+					continue;
+				}
 			}
 			if (i == 0){
-				this.renderCoreBtns(groupContainer);
+				this.addCoreBtns(groupContainer);
 			}
+			this.twoRows = (this.activeGroup == "all");
+			this.initRenderer(groupContainer);
+			
 			var group = this.bldGroups[i].group;
+			
 			
 			for (var j = 0; j< group.buildings.length; j++){
 				var bldName = group.buildings[j];
 				var bld = this.game.bld.get(bldName);
-				
+
 				var btn = new com.nuclearunicorn.game.ui.BuildingBtnModern({
 					name: 			bld.label,		
 					description: 	bld.description,
 					building: 		bld.name,
 					handler: 		bld.handler
 				}, this.game);
+				
+				if (this.activeGroup == "allEnabled"){
+					if (!btn.hasResources()){
+						continue;
+					}
+				}
+				btn.update();
+				if (!btn.visible){
+					continue;	//skip invisible buttons to not make gaps in the two rows renderer
+				}
 
 				this.addButton(btn);
-
-				btn.update();
-				btn.render(groupContainer);
 			}
+		}
+		
+		for (var i = 0; i< this.buttons.length; i++){
+			var buttonContainer = (this.activeGroup == "all") ? 
+						this.getElementContainer(i) : groupContainer;
+			this.buttons[i].render(buttonContainer);
 		}
 	},
 	
-	renderCoreBtns: function(container){
+	addCoreBtns: function(container){
 		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip", 
@@ -2006,7 +2042,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			description: "Gather some catnip in the wood"
 		}, this.game);
 		this.addButton(btn);
-		btn.render(container);
+		//btn.render(container);
 		
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
@@ -2026,7 +2062,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			prices: [ { name : "catnip", val: 100 }]
 		}, this.game);
 		this.addButton(btn);
-		btn.render(container);
+		//btn.render(container);
 	},
 	
 	update: function(){
