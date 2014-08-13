@@ -864,9 +864,10 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "alloy",
 		title: "Alloy",
-		description: "A durable alloy of steel and titanium. Required for advanced buildings and upgrades.",
+		description: "A durable alloy of steel, iron and titanium. Required for advanced buildings and upgrades.",
 		prices:[
-			{name: "steel", val: 75},
+			{name: "steel", val: 75 },
+			{name: "iron", val: 500 },
 			{name: "titanium", val: 10}
 		],
 		unlocked: false

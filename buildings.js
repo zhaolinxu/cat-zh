@@ -731,7 +731,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
-			{ name : "titanium", val: 2500 },
+			{ name : "titanium", val: 2000 },
+			{ name : "plate", val: 2500},
 			{ name : "concrate", val: 15}
 		],
 		effects: {
@@ -753,7 +754,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		tunable: true,
 		on: 0,
 		prices: [
-			{ name : "titanium",    val: 5000 },
+			{ name : "titanium",    val: 3500 },
+			{ name : "plate", 		val: 5000},
 			{ name : "concrate",    val: 50},
 			{ name : "blueprint",   val: 25},
 		],
@@ -1860,14 +1862,21 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		var tooltip = dojo.byId("tooltip");
 		
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
-			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
+			tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
 			 
-			 var pos = $(container).position();
+			var pos = $(container).position();
 			 
-			 dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
-			 dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			//prevent tooltip from leaving the window area
+			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
+
+			if (pos.top + $(tooltip).height() >= scrollBottom){
+				pos.top = scrollBottom - $(tooltip).height();
+			}
+			 
+			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
 			
-			 dojo.setStyle(tooltip, "display", ""); 
+			dojo.setStyle(tooltip, "display", ""); 
 			 
 	    }, tooltip, htmlProvider));
 	    
@@ -1901,6 +1910,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 		
+		//non-group filters
+		groups.unshift({
+			name: "togglable",
+			title: "Togglable",
+			buildings: [],
+		});
 		groups.unshift({
 			name: "allEnabled",
 			title: "Enabled",
@@ -1923,7 +1938,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					break;
 				}
 			}
-			if (groups[i].name == "all" || groups[i].name == "allEnabled"){
+			if (!groups[i].buildings.length){	//emptry groups are visible by default
 				hasVisibleBldngs = true;
 			}
 
@@ -1976,7 +1991,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		for( var i = 0; i< this.bldGroups.length; i++){
 			if (this.bldGroups[i].group.name != this.activeGroup){
-				if (this.activeGroup != "all" && this.activeGroup != "allEnabled"){
+				if (this.activeGroup != "all" && 
+					this.activeGroup != "allEnabled" && 
+					this.activeGroup != "togglable"){
+						
 					continue;
 				}
 			}
@@ -2005,6 +2023,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 						continue;
 					}
 				}
+				if (this.activeGroup == "togglable"){
+					if (!bld.togglable){
+						continue;
+					}
+				}
+				
 				btn.update();
 				if (!btn.visible){
 					continue;	//skip invisible buttons to not make gaps in the two rows renderer
