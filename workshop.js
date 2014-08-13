@@ -809,7 +809,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "augumentation",
 		title: "Augumentations",
-		description: "Kittens skills are 25% more effective",
+		description: "Kitten skills are 25% more effective",
 		effects: {
 			"skillMultiplier" : 0.25 
 		},
