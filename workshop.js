@@ -806,6 +806,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 			
 		}
+	},{
+		name: "augumentation",
+		title: "Augumentations",
+		description: "Kittens skills are 25% more effective",
+		effects: {
+			"skillMultiplier" : 0.25 
+		},
+		prices:[
+			{ name : "titanium", val: 5000 },
+			{ name : "uranium",  val: 50 },
+			{ name : "science",  val: 150000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	}
 	],
 	

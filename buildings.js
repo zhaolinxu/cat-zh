@@ -439,33 +439,28 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				return;
 			}
 			
-			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
-			self.effects["ironPerTick"] = 0.02 * smelterRatio;
+			//--------------------------- hack hack hack hack --------------------------------
+			var autoProdRatio = game.bld.getAutoProductionRatio();
+			//--------------------------------------------------------------------------------
 			
-			//hackhackhack
-			if (game.religion.getRU("solarRevolution").researched){
-				self.effects["ironPerTick"] = self.effects["ironPerTick"] * ( 1 + (game.religion.getProductionBonus() / 100));
-			}
-
+			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
+			self.effects["ironPerTick"] = 0.02 * smelterRatio * autoProdRatio;
+			
 			if (wood.value > self.on * -self.effects["woodPerTick"] &&
 				minerals.value > self.on * -self.effects["mineralsPerTick"]
 			){
 				wood.value -= self.on * -self.effects["woodPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
-				
-				if (iron.value < iron.maxValue){
-					iron.value += self.effects["ironPerTick"] * self.on;	//a bit less than ore
-				}
+
+				iron.value += self.effects["ironPerTick"] * self.on * autoProdRatio;	//a bit less than ore
 				
 				if (game.workshop.get("goldOre").researched){
-					self.effects["goldPerTick"] = 0.001;
-					if (gold.value < gold.maxValue){
-						gold.value += self.effects["goldPerTick"] * self.on;
-					}
+					self.effects["goldPerTick"] = 0.001 * autoProdRatio;
+					gold.value += self.effects["goldPerTick"] * self.on;
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
-					self.effects["coalPerTickBase"] = 0.005 * smelterRatio;
+					self.effects["coalPerTickBase"] = 0.005 * smelterRatio * autoProdRatio;
 				}
 			}
 		},
@@ -511,18 +506,20 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				oil.value -= self.on * -self.effects["oilPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 				
+				//--------------------------- hack hack hack hack --------------------------------
+				var autoProdRatio = game.bld.getAutoProductionRatio();
+				//--------------------------------------------------------------------------------
+				
 				var calcinerRatio = game.workshop.getEffect("calcinerRatio");
-				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 );
-				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio );
+				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
+				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
+				
 				
 				var iron = game.resPool.get("iron");
-				if (iron.value < iron.maxValue){
-					iron.value += self.effects["ironPerTick"] * self.on;
-				}
+				iron.value += self.effects["ironPerTick"] * self.on;
+				
 				var titanium = game.resPool.get("titanium");
-				if (titanium.value < titanium.maxValue){
-					titanium.value += self.effects["titaniumPerTick"] * self.on;
-				}
+				titanium.value += self.effects["titaniumPerTick"] * self.on ;
 			}
 			
 		},
@@ -1043,6 +1040,27 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			}
 		}
 		console.error("Could not find building data for '" + name + "'");
+	},
+	
+	getAutoProductionRatio: function(){
+		var autoProdRatio = 1;
+				
+		//	faith
+		if (this.game.religion.getRU("solarRevolution").researched){
+			autoProdRatio *= ( 1 + (this.game.religion.getProductionBonus() / 100));
+		}
+		//	SW
+		var steamworks = this.get("steamworks");
+		var swRatio = steamworks.on > 0 ? (1+ 0.25 * this.get("steamworks").on) : 1;
+			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
+			
+		// paragon (25%)
+		var paragonRatio = this.game.resPool.get("paragon").value * 0.01;
+		paragonRatio = this.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		
+			autoProdRatio *= (1 + paragonRatio * 0.25);
+			
+		return autoProdRatio;
 	},
 	
 	/**
@@ -1911,10 +1929,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 		
 		//non-group filters
+		if (this.game.ironWill && this.game.bld.get("library").val > 0){
+			groups.unshift({
+				name: "iw",
+				title: "IW",
+				buildings: []
+			});
+		}
 		groups.unshift({
 			name: "togglable",
 			title: "Togglable",
-			buildings: [],
+			buildings: []
 		});
 		groups.unshift({
 			name: "allEnabled",
@@ -1927,8 +1952,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			buildings: []
 		});
 		
-		
+		if (!this.activeGroup){
+			this.activeGroup = groups[0].name;
+		}
 		for (var i = 0; i< groups.length; i++){
+			var isActiveGroup = (groups[i].name == this.activeGroup);
 				
 			var hasVisibleBldngs = false;
 			for (var j = 0; j< groups[i].buildings.length; j++){
@@ -1951,13 +1979,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					} 
 				}, topContainer);
 			}
+
 			var tab = dojo.create("a", { 
 				innerHTML: groups[i].title,
 				href: "#",
 				style: {
 					display: hasVisibleBldngs ? "" : "none",
-					whiteSpace: "nowrap"
-				}
+					whiteSpace: "nowrap",
+				},
+				className: isActiveGroup ? "activeTab" : ""
 			}, topContainer);
 			
 			this.bldGroups.push({
@@ -1984,24 +2014,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		
 		dojo.empty(groupContainer);
 		this.buttons = [];
-		
-		//do nothing
-		if (!this.activeGroup){
-			this.activeGroup = this.bldGroups[0].group.name;
-		}
+
 		for( var i = 0; i< this.bldGroups.length; i++){
 			if (this.bldGroups[i].group.name != this.activeGroup){
 				if (this.activeGroup != "all" && 
 					this.activeGroup != "allEnabled" && 
-					this.activeGroup != "togglable"){
-						
-					continue;
+					this.activeGroup != "togglable" &&
+					this.activeGroup != "iw"){
+							
+						continue;
 				}
 			}
 			if (i == 0){
 				this.addCoreBtns(groupContainer);
 			}
-			this.twoRows = (this.activeGroup == "all");
+			this.twoRows = (this.activeGroup == "all" || this.activeGroup == "iw");
 			this.initRenderer(groupContainer);
 			
 			var group = this.bldGroups[i].group;
@@ -2029,6 +2056,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					}
 				}
 				
+				if (this.activeGroup == "iw"){
+					if (group.name == "population"){
+						continue;
+					}
+				}
+				
 				btn.update();
 				if (!btn.visible){
 					continue;	//skip invisible buttons to not make gaps in the two rows renderer
@@ -2039,7 +2072,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		
 		for (var i = 0; i< this.buttons.length; i++){
-			var buttonContainer = (this.activeGroup == "all") ? 
+			var buttonContainer = this.twoRows ? 
 						this.getElementContainer(i) : groupContainer;
 			this.buttons[i].render(buttonContainer);
 		}

@@ -528,6 +528,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("augumentation").unlocked = true;
 		}
 	},{
 		name: "particlePhysics",

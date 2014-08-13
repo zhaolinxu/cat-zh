@@ -196,7 +196,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	 */ 
 	updateResourceProduction: function(){
 		
-		var productionRatio = 0.25;	//fast access snippet for tweaking job profficiency
+		var productionRatio = 0.25 + 
+			this.game.workshop.getEffect("skillMultiplier");	//fast access snippet for tweaking job profficiency
 		
 		var res = {
 		};

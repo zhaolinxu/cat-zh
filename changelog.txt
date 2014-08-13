@@ -1,3 +1,11 @@
+v 0.9.3.7 (14 aug)
+
+Augumentations
+'IW' buildings filter for V2 (only in IW mode whith library puchased)
+
+Steamworks and Magnetos will now correctly boost Smelters and Calciners (iron, gold, coal and titanium output)
+Paragons will now boost Smelters and Calciners (with 75% penalty)
+
 v 0.9.2.7 (13 aug)
 
 Reduced titanium price of reactors and factories in favour of plates
