@@ -138,8 +138,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				var opacity = dojo.getStyle(entry, "opacity");
 				dojo.setStyle(entry, "opacity", opacity-0.033);
 			});
-				
-			dojo.create("br", {}, gameLog, "first");
+			
 			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
 			
 			if (type){
@@ -149,11 +148,8 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			var spans = this.spans;
 			spans.push(span);
-			if (spans.length > 50){
-				for (var i = 0; i< spans.length-50; i++){
-					dojo.destroy(spans[i]);
-				}
-				spans.length = 50;	//truncate array
+			if (spans.length > 31){
+                dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
 			}
 			
 
