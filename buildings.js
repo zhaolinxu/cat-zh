@@ -433,7 +433,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var iron = game.resPool.get("iron");
 			
 			//safe switch for IW to save precious resources, as per players request
-			if (game.ironwill && iron.value > iron.maxValue * 0.95){
+			if (game.ironWill && iron.value > iron.maxValue * 0.95){
 				self.enabled = false;
 				self.on = 0;
 				return;
