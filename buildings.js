@@ -757,7 +757,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			{ name : "blueprint",   val: 25},
 		],
 		effects: {
-			"uraniumPerTickBase" : -0.01,
+			"uraniumPerTickBase" : -0.001,
 			"productionRatio": 0.05
 		},
 		priceRatio: 1.15,
