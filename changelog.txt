@@ -1,3 +1,12 @@
+v 0.9.3.8 (14 aug)
+
+Slightly nerfed steamworks/magneto synergy
+Magnetos will no longer provide a bonus to the oil production
+Fixed HoD
+Fixed Reactors not consuming uranium correctly
+Reactors will now benefit Smelters and Caliceners in the same way as magnetos
+Fixed export issue on IE11
+
 v 0.9.3.7 (14 aug)
 
 Augumentations

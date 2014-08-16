@@ -757,7 +757,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			{ name : "blueprint",   val: 25},
 		],
 		effects: {
-			"uraniumPerTick" : -0.01,
+			"uraniumPerTickBase" : -0.01,
 			"productionRatio": 0.05
 		},
 		priceRatio: 1.15,
@@ -1059,6 +1059,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		paragonRatio = this.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
 		
 			autoProdRatio *= (1 + paragonRatio * 0.25);
+			
+		// reactors
+		autoProdRatio *= (1 + this.getEffect("productionRatio"));
 			
 		return autoProdRatio;
 	},

@@ -56,4 +56,9 @@
 .scheme_dark td.resLimitWarn {
 	color: #coral;
 }
+
+.scheme_dark .btn.modern a {
+	background-color: #212121;
+	color: gray;
+}
 			

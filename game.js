@@ -685,18 +685,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	
+	//btw, ie11 is horrible crap and should not exist
 	saveExport: function(){
 		this.save();
 		
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		
-		var is_chrome = window.chrome;
+		var is_chrome = /*window.chrome*/ true;
 		if (is_chrome){
 			$("#exportDiv").show();
 			$("#exportData").val(btoa(data));
 			$("#exportData").select();
 		} else {
-			window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
+			window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data)); 
 		}
 	},
 	
@@ -865,9 +866,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
-			var steamworks = this.bld.get("steamworks");
-			var swRatio = steamworks.on > 0 ? (1+ 0.25*this.bld.get("steamworks").on) : 1;
-			perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
+			
+			if (res.name != "oil"){
+				var steamworks = this.bld.get("steamworks");
+				var swRatio = steamworks.on > 0 ? (1+ 0.15 * this.bld.get("steamworks").on) : 1;
+				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
+			}
+			
 		}
 		
 		//--------- GENERAL PRODUCTION RATIO --------------
@@ -1315,7 +1320,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
-		this.karmaZebras = this.resPool.get("zebras").value;
+		this.karmaZebras = this.resPool.get("zebras").value + 1;
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 
