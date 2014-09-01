@@ -638,7 +638,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//restore tab visibility
 		
-		if (this.bld.getBuilding("hut").val > 0 || this.resPool.get("zebras").value > 0 ){
+		if (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 ){
 			this.villageTab.visible = true;
 		}
 		if (this.bld.getBuilding("library").val > 0 ){
@@ -759,7 +759,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			);
 			
 			if (i < visibleTabs.length-1){
-				dojo.create("span", {innerHTML:"&nbsp;|&nbsp;"}, tabNavigationDiv);
+				dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
 			}
 		}	
 		
