@@ -759,7 +759,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			);
 			
 			if (i < visibleTabs.length-1){
-				dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
+				dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
 			}
 		}	
 		

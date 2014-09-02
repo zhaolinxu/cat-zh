@@ -221,7 +221,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science.\nTurning off observatories will disable event bonus obly.",
+		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science.\nTurning off observatories will only disable event bonus.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -757,7 +757,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			{ name : "blueprint",   val: 25},
 		],
 		effects: {
-			"uraniumPerTickBase" : -0.001,
+			"uraniumPerTick" : -0.001,
 			"productionRatio": 0.05
 		},
 		priceRatio: 1.15,
@@ -768,6 +768,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		requiredTech: ["nuclearFission"],
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
+			uranium.value -= self.on * -self.effects["uraniumPerTick"];
+
 			if (uranium.value <= 0){
 				self.on = 0;
 				self.enabled = false;
@@ -1747,7 +1749,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 							
 							self.game.updateResources();
 						},
-			description: "Refine catnip into the catnip wood",
+			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: 100 }]
 		}, this.game);
 		this.addButton(btn);

@@ -570,7 +570,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	
 	jobName: null,
 	
@@ -613,39 +613,101 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}
 	},
 	
+	renderLinks: function(){
+		this.unassignHref = this.addLink("[&ndash;]", 
+			function(){
+				var job = this.getJob();
+				
+				if (!job.value){
+					return;
+				}
+				
+				job.value--;
+				this.game.village.sim.removeJob(job.name);
+				this.update();
+			}, true	//use | break
+		);
+	},
+	
 	update: function(){
 		this.inherited(arguments);
-		
-		var self = this;
-		
-		var job = this.getJob();
-		if (job && this.buttonContent	/* mystic bug */){
-			
-			if (!this.unassignHref ){
-				this.unassignHref = dojo.create("a", { href: "#", innerHTML: "[&ndash;]", style:{
-						paddingLeft: "4px",
-						float: "right",
-						cursor: "default",
-						fontWeight: "strong"
-					}}, null);
-					
-				dojo.connect(this.unassignHref, "onclick", this, dojo.partial(function(job, event){
-					event.stopPropagation();
-					
-					if (!job.value){
-						return;
-					}
-					
-					job.value--;
-					this.game.village.sim.removeJob(job.name);
-					this.update();
-				}, job));
 
-				dojo.place(this.unassignHref, this.buttonContent);
-			} else {
-				dojo.setStyle(this.unassignHref, "display", job.value > 0  ? "" : "none");
-			}
+		var job = this.getJob();
+		if (job && this.buttonContent && this.unassignHref.link	/* mystic bug */){
+			dojo.setStyle(this.unassignHref.link, "display", job.value > 0  ? "" : "none");
 		}
+	},
+	
+	getTooltipHTML: function(btn){
+		var job = this.getJob();
+		
+		var tooltip = dojo.create("div", { style: { 
+			width: "280px",
+			minHeight:"50px"
+		}}, null);
+		
+		dojo.create("div", { 
+			innerHTML: this.getName(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px"
+		}}, tooltip);
+		
+		//----------- description -------
+		/*
+		dojo.create("div", { 
+			innerHTML: job.description, 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);*/
+		
+		//---------- effects-------------
+		
+		dojo.create("div", { 
+			innerHTML: "", 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				paddingBottom: "4px",
+				marginBottom: "8px"
+		}}, tooltip);
+		
+		//-----------------------------------------
+
+		for (effectName in job.modifiers){
+			var nameSpan = dojo.create("div", { innerHTML: effectName + ": +" + this.game.getDisplayValueExt(job.modifiers[effectName]) + " ( +" + 
+				this.game.getDisplayValueExt(job.modifiers[effectName] * job.value) + " total)", 
+				style: { 
+					float: "left",
+					fontSize: "14px",
+					color: "gray",
+					clear: "both"
+			}}, tooltip );
+		}
+		
+		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
+		
+		//-------------- flavor stuff -------------
+		
+		dojo.create("div", { 
+			innerHTML: job.flavour || "flavor text",
+			className: "flavor",
+			style: {
+				position: "absolute",
+				bottom: "2px",
+				right: "4px",
+				fontSize: "12px",
+				fontStyle: "italic"
+		}}, tooltip);
+			
+		return tooltip.outerHTML;
 	}
 });
 
@@ -721,9 +783,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.addButton(btn);
 		}
 		
-		var btn = new com.nuclearunicorn.game.ui.Button({ name:"Clear",
+		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name:"Clear",
+			description: "Clear all jobs",
 			handler: dojo.hitch(this, function(){
-				this.game.village.clearJobs();
+				if (confirm("Are you sure?")){
+					this.game.village.clearJobs();
+				}
 			})
 		});
 		btn.render(jobsPanelContainer);

@@ -1,3 +1,12 @@
+v 0.9.3.9 (2 sep)
+
+Nice vacation
+
+Uranium consumption will no longer scale with reactors and magnetos (sic)
+Village job buttons will display more accurate tooltips
+"Clear jobs" button will finally display confirmation message
+Player will be able to open Village tab even if there are no houses (thanks Duke for fixing it)
+
 v 0.9.3.8 (14 aug)
 
 Slightly nerfed steamworks/magneto synergy

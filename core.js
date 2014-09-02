@@ -517,6 +517,60 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	}
 });
 
+/*
+ * Restyled button with slightly more sophysticated tooltip mechanism
+ */ 
+
+dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
+	afterRender: function(){
+		dojo.addClass(this.domNode, "modern");
+
+		this.renderLinks();
+
+		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
+	},
+	
+	getDescription: function(){
+		return "";
+	},
+	
+	getTooltipHTML: function(btn){
+		//throw "ButtonModern::getTooltipHTML must be implemented";
+		return this.description;
+	},
+	
+	attachTooltip: function(container, htmlProvider){
+		var tooltip = dojo.byId("tooltip");
+		
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
+			tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
+			 
+			var pos = $(container).position();
+			 
+			//prevent tooltip from leaving the window area
+			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
+
+			if (pos.top + $(tooltip).height() >= scrollBottom){
+				pos.top = scrollBottom - $(tooltip).height();
+			}
+			 
+			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			
+			dojo.setStyle(tooltip, "display", ""); 
+			 
+	    }, tooltip, htmlProvider));
+	    
+		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
+			 dojo.setStyle(tooltip, "display", "none"); 
+		}, tooltip, container));
+	},
+	
+	renderLinks: function(){
+		//do nothing, implement me
+	}
+});
+
 
 dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {
 	
