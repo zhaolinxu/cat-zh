@@ -553,7 +553,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 250000},
-			{name: 	"timeCrystals", val: 5}
+			{name: 	"timeCrystal", val: 5}
 		],
 		unlocks: [],
 		handler: function(game){
