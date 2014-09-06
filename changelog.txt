@@ -2,6 +2,8 @@ v 0.9.4.0 (4 sep)
 
 Bonfire is now replaced with V2 (Old bonfire still accessible, but hidden)
 Added ETA in the building tooltips
+Fixed iron incorrectly getting double bonus from sw/magneto
+Fixed Smelter/Calciner having higher SW bonus compared to other resources
 
 v 0.9.3.9 (2 sep)
 
