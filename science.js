@@ -472,8 +472,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "electronics",
 		title: "Electronics",
-		description: "TBD, required for rocketry.",
-		effectDesc: "Unlocks CAD Systems",
+		description: "Electronics unlocks some high level upgrades mainly related to science",
+		effectDesc: "Unlocks CAD Systems, Refrigeration and SETI",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -489,8 +489,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "nuclearFission",
 		title: "Nuclear Fission",
-		description: "TBD, required for Alicorn Techs",
-		effectDesc: "Unlocks Nuclear Reactors (TBD)",
+		description: "Nuclear Fission unlocks Nuclear Reactors and nuclear-related upgrades",
+		effectDesc: "Unlocks Nuclear Reactors and Nuclear Vessel",
 		unlocked: false,
 		researched: false,
 		prices: [

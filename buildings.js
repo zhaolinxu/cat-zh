@@ -1831,6 +1831,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 							float: "right"
 						}
 					}, priceItemNode );
+					
+					if (!hasRes && res.perTickUI){
+						var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
+						priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
+					}
 				}
 			}
 			//---------- effects-------------

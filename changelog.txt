@@ -1,6 +1,9 @@
-v 0.9.3.9 (2 sep)
+v 0.9.4.0 (4 sep)
 
-Nice vacation
+Bonfire is now replaced with V2 (Old bonfire still accessible, but hidden)
+Added ETA in the building tooltips
+
+v 0.9.3.9 (2 sep)
 
 Uranium consumption will no longer scale with reactors and magnetos (sic)
 Village job buttons will display more accurate tooltips
