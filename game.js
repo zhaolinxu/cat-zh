@@ -868,9 +868,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
 			
+			var sw = this.bld.get("steamworks");
+			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ 0.15 * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRato"] * this.bld.get("steamworks").on) : 1;
 				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 			}
 			

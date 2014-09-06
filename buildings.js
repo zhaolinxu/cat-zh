@@ -452,7 +452,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				wood.value -= self.on * -self.effects["woodPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 
-				iron.value += self.effects["ironPerTick"] * self.on * autoProdRatio;	//a bit less than ore
+				iron.value += self.effects["ironPerTick"];
 				
 				if (game.workshop.get("goldOre").researched){
 					self.effects["goldPerTick"] = 0.001 * autoProdRatio;
@@ -546,7 +546,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 
 		},
 		effects: {
-			"coalRatioGlobal" : -0.8	//to be revisited later
+			"coalRatioGlobal" : -0.8,	//to be revisited later
+			"magnetoBoostRato" : 0.15
 		},
 		action: function(self, game){
 			if (self.on < 1){
@@ -619,7 +620,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "magneto",
 		label: "Magneto",
-		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 25%. Consumes oil.",
+		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 15%. Consumes oil.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -1053,7 +1054,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		}
 		//	SW
 		var steamworks = this.get("steamworks");
-		var swRatio = steamworks.on > 0 ? (1+ 0.25 * this.get("steamworks").on) : 1;
+		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRato"] * this.get("steamworks").on) : 1;
 			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
 			
 		// paragon (25%)
