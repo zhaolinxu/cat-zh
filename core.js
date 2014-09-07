@@ -541,7 +541,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		return this.description;
 	},
 	
-	renderPrices: function(tooltip){
+	renderPrices: function(tooltip, simpleUI){
 		var prices = this.getPrices();
 		if (!prices.length){
 			return;
@@ -559,7 +559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			
 			var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
 			var priceSpan = dojo.create("span", { 
-				innerHTML: hasRes ? 
+				innerHTML: hasRes || simpleUI ? 
 					this.game.getDisplayValueExt(price.val) : 
 					this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val), 
 				className: hasRes ? "" : "noRes",
@@ -568,7 +568,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				}
 			}, priceItemNode );
 			
-			if (!hasRes && res.perTickUI){
+			if (!hasRes && res.perTickUI && !simpleUI){
 				var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
 				priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
 			}

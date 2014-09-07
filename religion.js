@@ -295,6 +295,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 			 }
 		 }
 	     return prices;
+	 },
+	 
+	 getTooltipHTML: function(btn){
+		 var tooltip = dojo.create("div", { style: { 
+			width: "150px",
+			minHeight:"40px"
+		}}, null);
+		this.renderPrices(tooltip, true);	//use simple prices format
+		
+		return tooltip.outerHTML;
 	 }
 });
 
