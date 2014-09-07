@@ -452,7 +452,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				wood.value -= self.on * -self.effects["woodPerTick"];
 				minerals.value -= self.on * -self.effects["mineralsPerTick"];
 
-				iron.value += self.effects["ironPerTick"];
+				iron.value += self.effects["ironPerTick"] * self.on;
 				
 				if (game.workshop.get("goldOre").researched){
 					self.effects["goldPerTick"] = 0.001 * autoProdRatio;
@@ -1290,7 +1290,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 });
 
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	sellHref: null,
 	toggleHref: null,
 	
@@ -1809,36 +1809,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 			}}, tooltip);
 			
 			//--------------- prices ----------------
-			var prices = this.getPrices();
-			if (prices.length){
-				for( var i = 0; i < prices.length; i++){
-					var price = prices[i];
-					var priceItemNode = dojo.create("div", { 
-							style : {
-								overflow: "hidden"
-							}
-						}, tooltip); 
-					
-					var res = this.game.resPool.get(price.name);
-					var hasRes = (res.value >= prices[i].val);
-					
-					var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
-					var priceSpan = dojo.create("span", { 
-						innerHTML: hasRes ? 
-							this.game.getDisplayValueExt(price.val) : 
-							this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val), 
-						className: hasRes ? "" : "noRes",
-						style: {
-							float: "right"
-						}
-					}, priceItemNode );
-					
-					if (!hasRes && res.perTickUI){
-						var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
-						priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
-					}
-				}
-			}
+			this.renderPrices(tooltip);
 			//---------- effects-------------
 			
 			dojo.create("div", { 

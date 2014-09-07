@@ -528,6 +528,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		this.renderLinks();
 
 		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
+		
+		this.buttonContent.title = "";	//no old title for modern buttons :V
 	},
 	
 	getDescription: function(){
@@ -537,6 +539,40 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	getTooltipHTML: function(btn){
 		//throw "ButtonModern::getTooltipHTML must be implemented";
 		return this.description;
+	},
+	
+	renderPrices: function(tooltip){
+		var prices = this.getPrices();
+		if (!prices.length){
+			return;
+		}
+		for( var i = 0; i < prices.length; i++){
+			var price = prices[i];
+			var priceItemNode = dojo.create("div", { 
+					style : {
+						overflow: "hidden"
+					}
+				}, tooltip); 
+			
+			var res = this.game.resPool.get(price.name);
+			var hasRes = (res.value >= prices[i].val);
+			
+			var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
+			var priceSpan = dojo.create("span", { 
+				innerHTML: hasRes ? 
+					this.game.getDisplayValueExt(price.val) : 
+					this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val), 
+				className: hasRes ? "" : "noRes",
+				style: {
+					float: "right"
+				}
+			}, priceItemNode );
+			
+			if (!hasRes && res.perTickUI){
+				var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
+				priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
+			}
+		}
 	},
 	
 	attachTooltip: function(container, htmlProvider){

@@ -1,6 +1,13 @@
+v 0.9.4.1 (7 sep)
+
+New tooltips for science tab (with ETA)
+
 v 0.9.4.0 (4 sep)
 
 Bonfire is now replaced with V2 (Old bonfire still accessible, but hidden)
+
+> gamePage.bonfireTab.visible = true;
+
 Added ETA in the building tooltips
 Fixed iron incorrectly getting double bonus from sw/magneto
 Fixed Smelter/Calciner having higher SW bonus compared to other resources

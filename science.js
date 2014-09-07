@@ -623,7 +623,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	
 	techName: null,
 	
@@ -653,7 +653,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		if (!tech.researched){
 			return this.description;
 		} else {
-			return this.description + "\n" + "Effect: " + tech.effectDesc;
+			return this.description + "<br>" + "Effect: " + tech.effectDesc;
 		}
 	},
 	
@@ -677,6 +677,53 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		if (tech.researched && this.game.science.hideResearched){
 			this.setVisible(false);
 		}
+	},
+	
+	getTooltipHTML: function(btn){
+		var tech = this.getTech();
+		
+		var tooltip = dojo.create("div", { style: { 
+			width: "280px",
+			minHeight:"150px"
+		}}, null);
+		
+		dojo.create("div", { 
+			innerHTML: this.getName(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px"
+		}}, tooltip);
+		
+		//----------- description -------
+		dojo.create("div", { 
+			innerHTML: this.getDescription(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		this.renderPrices(tooltip);
+
+		//-------------- flavor stuff -------------
+		
+		dojo.create("div", { 
+			innerHTML: tech.flavour || "flavor text",
+			className: "flavor",
+			style: {
+				position: "absolute",
+				bottom: "2px",
+				right: "4px",
+				fontSize: "12px",
+				fontStyle: "italic"
+		}}, tooltip);
+			
+		return tooltip.outerHTML;
 	}
 });
 
