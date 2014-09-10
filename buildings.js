@@ -123,7 +123,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "hut",
 		label: "Hut",
-		description: "Build a hut (each has a space for 2 kittens). +75 to the max manpower ",
+		description: "Build a hut (each has a space for 2 kittens). +75 to the maximum catpower ",
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
@@ -143,7 +143,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "logHouse",
 		label: "Log House",
-		description: "Build a house (each has a space for 1 kittens)  +50 to the max manpower",
+		description: "Build a house (each has a space for 1 kittens)  +50 to the maximum catpower",
 		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
@@ -1556,14 +1556,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	onClick: function(){
 		this.animate();
 		this.handler(this);
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	x100Href: null,
 	
 	update: function(){
@@ -1605,7 +1605,30 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 			dojo.setStyle(this.x100Href, "display", catnipVal < (100 * 100) ? "none" : "");
 		}
 		
-	}
+	},
+	
+	getTooltipHTML: function(btn){
+		 
+		var tooltip = dojo.create("div", { style: { 
+			width: "200px",
+			minHeight:"50px"
+		}}, null);
+
+		dojo.create("div", { 
+			innerHTML: this.description, 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		this.renderPrices(tooltip, true);	//simple prices
+		
+		return tooltip.outerHTML;
+	 }
 });
 
 
@@ -2072,8 +2095,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				
 						self.game.resPool.get("catnip").value++;
 						self.game.updateResources();
+						self.game.render();
 					 },
-			description: "Gather some catnip in the wood"
+			description: "Gather some catnip in the forest"
 		}, this.game);
 		this.addButton(btn);
 		//btn.render(container);
@@ -2091,8 +2115,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 							}
 							
 							self.game.updateResources();
+							self.game.render();
 						},
-			description: "Refine catnip into the catnip wood",
+			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: 100 }]
 		}, this.game);
 		this.addButton(btn);

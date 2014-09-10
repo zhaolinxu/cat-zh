@@ -2,6 +2,7 @@ v 0.9.5.2 (10 sep)
 
 Fixed tooltips for religion tab
 Fixed tooltip position for smaller resolutions
+Fixed tooltips and styling for gather / refine buttons
 
 Robotics
 
