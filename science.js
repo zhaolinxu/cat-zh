@@ -468,6 +468,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.workshop.get("offsetPress").unlocked = true;
 			game.workshop.get("fuelInjectors").unlocked = true;
+			game.workshop.get("oilRefinery").unlocked = true;
 		}
 	},{
 		name: "electronics",
@@ -480,11 +481,26 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 			{name : "science", val: 135000},
 			{name: 	"blueprint", val: 75}
 		],
-		unlocks: ["nuclearFission", "rocketry"],
+		unlocks: ["nuclearFission", "rocketry", "robotics"],
 		handler: function(game){
 			game.workshop.get("cadSystems").unlocked = true;
 			game.workshop.get("refrigeration").unlocked = true;
 			game.workshop.get("seti").unlocked = true;
+		}
+	},{
+		name: "robotics",
+		title: "Robotics",
+		description: "TBD",
+		effectDesc: "Unlocks Steel Plants",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 140000},
+			{name: 	"blueprint", val: 85}
+		],
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("steelPlants").unlocked = true;
 		}
 	},{
 		name: "nuclearFission",
@@ -543,6 +559,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		],
 		unlocks: ["chronophysics"],
 		handler: function(game){
+			game.workshop.get("enrichedUranium").unlocked = true;
 		}
 	},{
 		name: "chronophysics",

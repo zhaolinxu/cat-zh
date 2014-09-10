@@ -1,3 +1,14 @@
+v 0.9.5.2 (10 sep)
+
+Fixed tooltips for religion tab
+Fixed tooltip position for smaller resolutions
+
+Robotics
+
+Enriched Uranium
+Oil Refinery
+Steel Plants
+
 v 0.9.4.1 (7 sep)
 
 New tooltips for science tab (with ETA)

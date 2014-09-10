@@ -298,11 +298,33 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 	 },
 	 
 	 getTooltipHTML: function(btn){
-		 var tooltip = dojo.create("div", { style: { 
-			width: "150px",
-			minHeight:"40px"
+		 
+		var tooltip = dojo.create("div", { style: { 
+			width: "200px",
+			minHeight:"50px"
 		}}, null);
-		this.renderPrices(tooltip, true);	//use simple prices format
+		
+		dojo.create("div", { 
+			innerHTML: this.getName(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px"
+		}}, tooltip);
+		
+		dojo.create("div", { 
+			innerHTML: this.getDescription(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		this.renderPrices(tooltip, true);	//simple prices
 		
 		return tooltip.outerHTML;
 	 }
@@ -339,7 +361,39 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 			return name + " (complete)";
 		}
 		return this.name;
-	}
+	},
+	
+	getTooltipHTML: function(btn){
+		 
+		var tooltip = dojo.create("div", { style: { 
+			width: "180px",
+			minHeight:"50px"
+		}}, null);
+		
+		dojo.create("div", { 
+			innerHTML: this.getName(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px"
+		}}, tooltip);
+		
+		dojo.create("div", { 
+			innerHTML: this.getDescription(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		this.renderPrices(tooltip, true);	//use simple prices
+		
+		return tooltip.outerHTML;
+	 }
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.Button, {

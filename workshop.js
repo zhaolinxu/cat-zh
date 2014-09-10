@@ -823,6 +823,57 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 			
 		}
+	},{
+		name: "enrichedUranium",
+		title: "Enriched Uranium",
+		description: "Reduce uranium consumption of reactors by 25%",
+		effects: {
+			"uraniumRatio" : 0.25 
+		},
+		prices:[
+			{ name : "titanium", val: 7500 },
+			{ name : "uranium",  val: 150 },
+			{ name : "science",  val: 175000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
+	},{
+		name: "oilRefinery",
+		title: "Oil Refinery",
+		description: "Improves effectiveness of oil wells by 35%",
+		effects: {
+			"oilRatio" : 0.35 
+		},
+		prices:[
+			{ name : "titanium", val: 1250 },
+			{ name : "gear", 	 val: 500 },
+			{ name : "science",  val: 125000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
+	},{
+		name: "steelPlants",
+		title: "Steel Plants",
+		description: "10% of the calciners iron output will be converted to steel ",
+		effects: {
+			"calcinerSteelRatio" : 0.1
+		},
+		prices:[
+			{ name : "titanium", val: 3500 },
+			{ name : "gear", 	 val: 750 },
+			{ name : "science",  val: 140000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	}
 	],
 	

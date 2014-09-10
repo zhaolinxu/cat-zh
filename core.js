@@ -585,9 +585,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			 
 			//prevent tooltip from leaving the window area
 			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
+			var scrollRight = $(window).scrollLeft() + $(window).width() - 25;	//25px padding-bottom
 
 			if (pos.top + $(tooltip).height() >= scrollBottom){
 				pos.top = scrollBottom - $(tooltip).height();
+			}
+
+			if (pos.left + $(tooltip).width() + 320 >= scrollRight){
+				pos.left = scrollRight - $(tooltip).width() - 320;
 			}
 			 
 			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");

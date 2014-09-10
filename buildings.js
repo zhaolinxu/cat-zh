@@ -497,6 +497,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				return;
 			}
 			
+			self.effects["steelPerTick"] = 0;
+			
 			var oil = game.resPool.get("oil");
 			var minerals = game.resPool.get("minerals");
 
@@ -510,14 +512,33 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				var autoProdRatio = game.bld.getAutoProductionRatio();
 				//--------------------------------------------------------------------------------
 				
+				var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
+				
 				var calcinerRatio = game.workshop.getEffect("calcinerRatio");
 				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
 				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
-				
-				
+
 				var iron = game.resPool.get("iron");
-				iron.value += self.effects["ironPerTick"] * self.on;
+				var coal = game.resPool.get("coal");
+				var steel = game.resPool.get("steel");
 				
+				// we have iron to steel upgrade and enough coal for 1:1 conversion
+				if (steelRatio && coal.value >= self.effects["ironPerTick"] * self.on * steelRatio) {
+					
+					self.effects["steelPerTick"] = self.effects["ironPerTick"] * self.on * steelRatio / 100;
+					
+					iron.value += self.effects["ironPerTick"] * self.on * (1 - steelRatio);
+					coal.value -= self.effects["ironPerTick"] * self.on * steelRatio;
+					steel.value += self.effects["steelPerTick"];
+					
+				} else {
+					iron.value += self.effects["ironPerTick"] * self.on;
+				}
+				
+				//display the effect of the steel conversion
+				
+				self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
+
 				var titanium = game.resPool.get("titanium");
 				titanium.value += self.effects["titaniumPerTick"] * self.on ;
 			}
@@ -769,7 +790,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		requiredTech: ["nuclearFission"],
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
-			uranium.value -= self.on * -self.effects["uraniumPerTick"];
+			
+			uranium.value -= self.on * 
+				-self.effects["uraniumPerTick"] * (1-this.game.workshop.getEffect("uraniumRatio"));
 
 			if (uranium.value <= 0){
 				self.on = 0;
@@ -1856,34 +1879,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 	
 	getDescription: function(){
 		return "";
-	},
-	
-	attachTooltip: function(container, htmlProvider){
-		var tooltip = dojo.byId("tooltip");
-		
-		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
-			tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
-			 
-			var pos = $(container).position();
-			 
-			//prevent tooltip from leaving the window area
-			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
-
-			if (pos.top + $(tooltip).height() >= scrollBottom){
-				pos.top = scrollBottom - $(tooltip).height();
-			}
-			 
-			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
-			
-			dojo.setStyle(tooltip, "display", ""); 
-			 
-	    }, tooltip, htmlProvider));
-	    
-		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none"); 
-			 //dojo.setStyle(container, "fontWeight", "normal");
-		}, tooltip, container));
 	}
 });
 
