@@ -792,7 +792,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var uranium = game.resPool.get("uranium");
 			
 			uranium.value -= self.on * 
-				-self.effects["uraniumPerTick"] * (1-this.game.workshop.getEffect("uraniumRatio"));
+				-self.effects["uraniumPerTick"] * (1-game.workshop.getEffect("uraniumRatio"));
 
 			if (uranium.value <= 0){
 				self.on = 0;
