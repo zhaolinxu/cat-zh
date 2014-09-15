@@ -549,17 +549,27 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		}
 	},
 	
+	/**
+	 * Same, but removes the least proficient worker
+	 */ 
 	removeJob: function(job){
-		for (var i = 0; i< this.kittens.length; i++){
-			var kitten = this.kittens[i];
-			
-			if (kitten.job == job){
-				kitten.job = null;
-				
-				this.game.village.updateResourceProduction();	//out of synch, refresh instantly
-				return;
-			}
-		}
+		var jobKittens = [];
+        for (var i = 0; i< this.kittens.length; i++){
+            var kitten = this.kittens[i];
+            if (kitten.job == job){
+                var val = kitten.skills[job] ? kitten.skills[job] : 0;
+                jobKittens.push({"id": i, "val": val});
+            }
+        }
+        jobKittens.sort(function(a, b){return a.val-b.val});
+
+        if (jobKittens.length){
+            this.kittens[jobKittens[0].id].job = null;
+
+            this.game.village.updateResourceProduction();   //out of synch, refresh instantly
+        }else{
+            console.error("failed to remove job", job);
+        }
 	},
 	
 	clearJobs: function(){

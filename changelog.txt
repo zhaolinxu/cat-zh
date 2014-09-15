@@ -1,3 +1,18 @@
+v 0.9.5.5 (15 sep)
+
+Improved performance of buttons/resource rendering (38 ms per tick)
+Gather/refine buttons will display animation and not cause horrible lags anymore
+Some effects will now have title and be hidden if require specific resources (e.g. barn effects)
+
+v 0.9.5.4 (14 sep)
+
+Fixed Reactor issues
+
+v 0.9.5.3 (14 sep)
+
+New buttons/tooltips for workshop
+Least profficient worker will be selected when unassigning job
+
 v 0.9.5.2 (10 sep)
 
 Fixed tooltips for religion tab

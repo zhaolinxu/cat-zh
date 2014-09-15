@@ -44,6 +44,105 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	}
 });
 
+/*
+ * Effects metadata manager
+ */ 
+dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
+	statics: {
+		effectMeta: {
+			//catnip
+			
+			"catnipPerTickBase" : {
+				title: "Catnip Per Tick",
+				resName: "catnip"
+			},
+			"catnipDemandRatio" : {
+				title: "Catnip Demand Ratio",
+				resName: "catnip"
+			},
+			"catnipRatio" : {
+				title: "Catnip Ratio",
+				resName: "catnip"
+			},
+			"catnipMax" : {
+				title: "Max Catnip",
+				resName: "catnip"
+			},
+			
+			//wood
+			
+			"woodMax" : {
+				title: "Max Wood",
+				resName: "wood"
+			},
+			
+			//minerals
+			
+			"mineralsMax" : {
+				title: "Max Minerals",
+				resName: "minerals"
+			},
+			
+			//iron
+			
+			"ironMax" : {
+				title: "Max Iron",
+				resName: "iron"
+			},
+			
+			//coal
+			
+			"coalMax" : {
+				title: "Max Coal",
+				resName: "coal"
+			},
+			
+			//gold
+			
+			"goldMax" : {
+				title: "Max Gold",
+				resName: "gold"
+			},
+			
+			//titanium
+			
+			"titaniumMax" : {
+				title: "Max Titanium",
+				resName: "titanium"
+			},
+			
+			//kittens
+			
+			"maxKittens" : {
+				title: "Kittens",
+			},
+			
+			//catpower
+			
+			"manpowerMax": {
+				title: "Max Catpower",
+				resName: "catpower"
+			},
+			
+			//science
+			
+			"scienceRatio" : {
+				title: "Science bonus (%)"
+			},
+			"scienceMax" : {
+				title: "Max Science"
+			},
+			"learnRatio" : {},
+			
+			//culture
+			
+			"cultureMax" : {
+				resName: "culture"
+			}
+		}
+	}
+});
+
 /**
  * Generic resource table for res/craft panels in the game.
  * 
@@ -63,6 +162,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 		this.containerId = containerId;
 		
 		this.resRows = [];
+
 	},
 	
 	render: function(){
@@ -130,33 +230,54 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 		}
 	},
 	
+	/**
+	 * This section is performance-critical. Using non vanilla js here is a very *BAD* idea.
+	 */ 
 	update: function(){
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
 			
+			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
+			var isHidden = (row.rowRef.style.display === "none");
+			if (isHidden && !isVisible){
+				continue;
+			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+
 			//  highlight resources for selected building
 			//--------------------------------------------
 			var selBld = this.game.selectedBuilding;
-			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
+
+			if (selBld && this.game.isResRequired(selBld, res.name)){
+				row.rowRef.className = "highlited";
+			} else {
+				if (row.rowRef.className){	//surprisingly, this check makes setClass ~50% faster
+					row.rowRef.className = "";
+				}
+			}
 			//---------------------------------------------
-			
-			
-			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
-			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
-			
+
 			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
 			
-			dojo.toggleClass(row.resAmt, "resLimitNotice", res.value > res.maxValue * 0.75);
-			dojo.toggleClass(row.resAmt, "resLimitWarn", res.value > res.maxValue * 0.95);
+			if (res.value > res.maxValue * 0.95){
+				//rowClass += " resLimitNotice";
+				row.resAmt.className = "resLimitNotice";
+			} else if (res.value > res.maxValue * 0.75){
+				row.resAmt.className = "resLimitWarn";
+			} else if (row.resAmt.className){
+				row.resAmt.className = "";
+			}
+
 			
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.innerHTML  = maxResValue;
 
 			var perTickValue = res.perTickUI ? "(" + this.game.getDisplayValue(res.perTickUI, true) + ")" : "";
 			row.resTick.innerHTML = perTickValue;
-			
-			dojo.setStyle(row.resTick, "cursor", res.perTickUI ? "pointer" : "default");
+
+			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
 			
 			//weather mod
 			var season = this.game.calendar.getCurSeason();
@@ -170,7 +291,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				}else if (modifer < 0){
 					dojo.setStyle(row.resWMod, "color", "red");
 				} else {
-					dojo.setStyle(row.resWMod, "color", "black");
+					if (row.resWMod.style.color != "black"){
+						row.resWMod.style.color = "black";
+					}
 				}
 			}
 		}
@@ -357,15 +480,29 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var row = this.resRows[i];
 			var res = row.resRef;
 			
-			//  highlight resources for selected building
-			//--------------------------------------------
-			var selBld = this.game.selectedBuilding;
-			dojo.toggleClass(row.rowRef, "highlited", selBld && this.game.isResRequired(selBld, res.name));
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
 			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.val > 0);
 			
-			dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
+			var isHidden = (row.rowRef.style.display === "none");
+			if (isHidden && !isVisible){
+				continue;
+			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+			
+			//  highlight resources for selected building
+			//--------------------------------------------
+			var selBld = this.game.selectedBuilding;
+			if (selBld && this.game.isResRequired(selBld, res.name)){
+				row.rowRef.className = "highlited";
+			} else {
+				if (row.rowRef.className){
+					row.rowRef.className = "";
+				}
+			}
+
+			//dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
 			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
 			
@@ -453,7 +590,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTime: 0,		//total time spent on update cycle in miliseconds, usefull for debug/fps counter
 	
 	//resource table 
-	resTable: null,			
+	resTable: null,		
+	
+	effectsMgr: null,	
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -539,6 +678,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
 		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
+		
+		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
+		
+	
+		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager();
+	},
+	
+	getEffectMeta: function(effectName) {
+		return this.effectsMgr.statics.effectMeta[effectName];
 	},
 	
 	/**
@@ -952,7 +1100,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.village.update();
 		this.workshop.update();
 		this.diplomacy.update();
-		this.achievements.update();
 		this.religion.update();
 
 		//nah, kittens are not a resource anymore (?)

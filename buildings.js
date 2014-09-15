@@ -24,7 +24,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				return effect;
 			}
 		});
+
 	},
+
 	
 	buildingGroups: [{
 		name: "food",
@@ -1108,21 +1110,19 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},
 	
 	/**
-	 * For fucks sake, finally we have a non-concrate dynamic price calculation algorithm
-	 * It only took couple of months. TODO: potential performance impact?
+	 * For fucks sake, finally we have a non-concrete dynamic price calculation algorithm
+	 * It only took a couple of months. TODO: potential performance impact?
 	 */
 	 getPrices: function(bldName) {
-		 var bld = this.get(bldName);
-		 var ratio = this.getPriceRatio(bldName);
+		var bld = this.get(bldName);
+		var ratio = this.getPriceRatio(bldName);
 		 
-		 var prices = dojo.clone(bld.prices);
+		var prices = dojo.clone(bld.prices);
 		 
-		 for (var i = 0; i< bld.val; i++){
-			 for( var j = 0; j < prices.length; j++){
-				prices[j].val = prices[j].val * ratio;
-			 }
-		 }
-	     return prices;
+		for (var i = 0; i< prices.length; i++){
+			prices[i].val = prices[i].val * Math.pow(ratio, bld.val);
+		}
+	    return prices;
 	 },
 	
 	/**
@@ -1825,79 +1825,93 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		/*this.game.attachTooltip(this.domNode, dojo.partial( function(btn){
 
 		}, this));*/
-		this.attachTooltip(this.domNode, dojo.partial( function(btn){
+		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
+	},
+	
+	getTooltipHTML : function(btn){
 			
-			var tooltip = dojo.create("div", { style: { 
-				width: "280px",
-				minHeight:"150px"
-			}}, null);
+		var tooltip = dojo.create("div", { style: { 
+			width: "280px",
+			minHeight:"150px"
+		}}, null);
+		
+		dojo.create("div", { 
+			innerHTML: this.getName(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px"
+		}}, tooltip);
+		
+		//----------- description -------
+		
+		dojo.create("div", { 
+			innerHTML: this.description, 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		//--------------- prices ----------------
+		this.renderPrices(tooltip);
+		//---------- effects-------------
+		
+		dojo.create("div", { 
+			innerHTML: "Effects:", 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				marginBottom: "8px"
+		}}, tooltip);
+		
+		//-----------------------------------------
+		
+		var bld = this.getBuilding();
+		
+		for (effectName in bld.effects){
+			var effectMeta = this.game.getEffectMeta(effectName);
 			
-			dojo.create("div", { 
-				innerHTML: this.getName(), 
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px"
-			}}, tooltip);
+			if (!effectMeta) {
+				effectMeta = {};
+			}
+			var displayEffectName = effectMeta.title || effectName;
 			
-			//----------- description -------
-			
-			dojo.create("div", { 
-				innerHTML: this.description, 
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px",
-					fontSize: "15px",
-					color: "gray"
-			}}, tooltip);
-			
-			//--------------- prices ----------------
-			this.renderPrices(tooltip);
-			//---------- effects-------------
-			
-			dojo.create("div", { 
-				innerHTML: "Effects:", 
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px",
-					marginBottom: "8px"
-			}}, tooltip);
-			
-			//-----------------------------------------
-			
-			var bld = this.getBuilding();
-			for (effectName in bld.effects){
-				var nameSpan = dojo.create("div", { innerHTML: effectName + ": " + this.game.getDisplayValueExt(bld.effects[effectName]), 
-					style: { 
-						float: "left",
-						fontSize: "14px",
-						color: "gray",
-						clear: "both"
-				}}, tooltip );
+			if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
+				continue;	//hide resource-related effects if we did not unlocked this effect yet
 			}
 			
-			dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-			
-			//-------------- flavor stuff -------------
-			
-			dojo.create("div", { 
-				innerHTML: bld.flavour || "flavor text",
-				className: "flavor",
-				style: {
-					position: "absolute",
-					bottom: "2px",
-					right: "4px",
-					fontSize: "12px",
-					fontStyle: "italic"
-			}}, tooltip);
-			
-			return tooltip.outerHTML;
-		}, this));
+			var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + this.game.getDisplayValueExt(bld.effects[effectName]), 
+				style: { 
+					float: "left",
+					fontSize: "14px",
+					color: "gray",
+					clear: "both"
+			}}, tooltip );
+		}
+		
+		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
+		
+		//-------------- flavor stuff -------------
+		
+		dojo.create("div", { 
+			innerHTML: bld.flavour || "flavor text",
+			className: "flavor",
+			style: {
+				position: "absolute",
+				bottom: "2px",
+				right: "4px",
+				fontSize: "12px",
+				fontStyle: "italic"
+		}}, tooltip);
+		
+		return tooltip.outerHTML;
 	},
 	
 	getDescription: function(){
@@ -2079,23 +2093,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 	},
 	
 	addCoreBtns: function(container){
-		var self = this;
+		
 		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip", 
-			handler: function(){
-						clearTimeout(self.game.gatherTimeoutHandler);
-						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 2500);	//2.5 sec 
-						
-						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 2500 && !self.game.ironWill){
-							//alert("You are so tired");
-							self.game.gatherClicks = 0;
-							self.game.cheatMode = true;
-						}
+			handler: function(btn){
+						clearTimeout(btn.game.gatherTimeoutHandler);
+						btn.game.gatherTimeoutHandler = setTimeout( dojo.partial(function(){ btn.game.render();}, btn), 1500);	//1.5 sec 
+						btn.game.gatherClicks++;
 				
-						self.game.resPool.get("catnip").value++;
-						self.game.updateResources();
-						self.game.render();
+						btn.game.resPool.get("catnip").value++;
+						btn.game.updateResources();
+
+						//btn.game.render();	//not good
 					 },
 			description: "Gather some catnip in the forest"
 		}, this.game);
@@ -2104,18 +2113,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
-			handler: 	function(){
+			handler: 	function(btn){
 							//self.game.resPool.get("catnip").value -= 100;
-							var isEnriched = self.game.workshop.get("advancedRefinement").researched;
+							var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
 							if (!isEnriched){
-								self.game.resPool.get("wood").value += 1;
+								btn.game.resPool.get("wood").value += 1;
 							} else {
-								self.game.resPool.get("wood").value += 2;
+								btn.game.resPool.get("wood").value += 2;
 								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 							}
 							
-							self.game.updateResources();
-							self.game.render();
+							btn.game.updateResources();
+							btn.game.render();
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: 100 }]

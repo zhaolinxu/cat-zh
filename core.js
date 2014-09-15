@@ -228,26 +228,31 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		
 		// locked structures are invisible
 		if (this.visible){
-			dojo.setStyle(this.domNode, "display", "");
+			if (this.domNode.style.display === "none"){
+				this.domNode.style.display = "";
+			}
 		} else {
-			dojo.setStyle(this.domNode, "display", "none");
+			if (this.domNode.style.display === ""){
+				this.domNode.style.display = "none";
+			}
 		}
 	},
 	
 	setEnabled: function(enabled){
-		this.enabled = enabled;
-		
 		if ( !this.domNode ){
 			return;
 		}
 		
 		if (enabled){
-			if (dojo.hasClass(this.domNode, "disabled")){
-				dojo.removeClass(this.domNode, "disabled");
+			if (!this.enabled){
+				this.domNode.className = this.domNode.className.replace("disabled","");
 			}
 		} else {
-			dojo.addClass(this.domNode, "disabled");
+			if (this.enabled){
+				this.domNode.className += " disabled";
+			}
 		}
+		this.enabled = enabled;
 	},
 	
 	updateEnabled: function(){
@@ -273,7 +278,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.updateEnabled();
 		this.updateVisible();
 		
-		if (this.buttonTitle){
+		if (this.buttonTitle && this.buttonTitle.innerHTML != this.getName()){
 			this.buttonTitle.innerHTML = this.getName();
 		}
 		
@@ -345,8 +350,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	 * Renders button. Method is usually called once the tab is created.
 	 */ 
 	render: function(btnContainer){
-		var self = this;
-		
+
 		this.container = btnContainer;
 		
 		this.domNode = dojo.create("div", { 
@@ -366,11 +370,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			style: {}
 		}, this.buttonContent);
 
-		dojo.addClass(this.domNode, "btn");
-		dojo.addClass(this.domNode, "nosel");
+		this.domNode.className = "btn nosel";
 		
 		if (!this.enabled){
-			dojo.addClass(this.domNode, "disabled");
+			this.domNode.className += " disabled";
 		}
 
 		dojo.connect(this.domNode, "onclick", this, "onClick");
@@ -473,8 +476,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			
 			var res = this.game.resPool.get(prices[i].name);
 			var hasRes = (res.value < prices[i].val);
-			
-			dojo.toggleClass( this.tooltipPricesNodes[i]["price"], "noRes", hasRes);
+
+			var priceSpan = this.tooltipPricesNodes[i]["price"];
+			if (hasRes && !priceSpan.className){
+				priceSpan.className = "noRes";
+			}else if (!hasRes && priceSpan.className){
+				priceSpan.className = "";
+			}
 		}
 	},
 	
