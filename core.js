@@ -576,7 +576,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				}
 			}, priceItemNode );
 			
-			if (!hasRes && res.perTickUI && !simpleUI){
+			if (!hasRes && res.perTickUI > 0 && !simpleUI){
 				var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
 				priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
 			}

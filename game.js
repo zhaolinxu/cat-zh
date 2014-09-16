@@ -1294,9 +1294,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resString += "<br>Demand: " + this.getDisplayValue(kittensMinus, true);
 		}
 
-		var toCap = (res.maxValue - res.value) / (res.perTickUI * this.rate);
-		if (res.maxValue && toCap){
-			resString += "<br><br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
+		if (res.perTickUI < 0) {
+			var toZero = res.value / (-res.perTickUI * this.rate);
+			resString += "<br><br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
+		} else {
+			if (res.maxValue) {
+				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.rate);
+				resString += "<br><br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
+			}
 		}
 
 		return resString;
