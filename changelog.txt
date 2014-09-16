@@ -1,3 +1,8 @@
+v 0.9.6.6 (16 sep)
+
+Time to cap fix by xranti
+Rotary Kiln
+
 v 0.9.5.5 (15 sep)
 
 Improved performance of buttons/resource rendering (38 ms per tick)

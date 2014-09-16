@@ -627,6 +627,37 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "steelPlants",
+		title: "Steel Plants",
+		description: "10% of the calciners iron output will be converted to steel ",
+		effects: {
+			"calcinerSteelRatio" : 0.1
+		},
+		prices:[
+			{ name : "titanium", val: 3500 },
+			{ name : "gear", 	 val: 750 },
+			{ name : "science",  val: 140000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
+	},{
+		name: "rotaryKiln",
+		title: "Rotary Kiln",
+		description: "Calciners are 75% more effective at producing iron and 3 times at producing titanium",
+		effects: {
+			"calcinerRatio": 0.75
+		},
+		prices:[
+			{ name : "titanium", val: 5000 },
+			{ name : "gear", 	 val: 500 },
+			{ name : "science",  val: 145000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- automation upgrades ----------------------
 	{
@@ -851,23 +882,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "titanium", val: 1250 },
 			{ name : "gear", 	 val: 500 },
 			{ name : "science",  val: 125000 }
-		],
-		unlocked: false,
-		researched: false,
-		handler: function(game){
-			
-		}
-	},{
-		name: "steelPlants",
-		title: "Steel Plants",
-		description: "10% of the calciners iron output will be converted to steel ",
-		effects: {
-			"calcinerSteelRatio" : 0.1
-		},
-		prices:[
-			{ name : "titanium", val: 3500 },
-			{ name : "gear", 	 val: 750 },
-			{ name : "science",  val: 140000 }
 		],
 		unlocked: false,
 		researched: false,

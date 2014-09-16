@@ -219,7 +219,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		requiredTech: ["math"],
 		handler: function(btn){
 		},
-		val: 0
+		val: 0,
+		flavor: "Curiosity is the basis of science. Our cats died nobly"
 	},{
 		name: "observatory",
 		label: "Observatory",
@@ -1895,18 +1896,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 					clear: "both"
 			}}, tooltip );
 		}
-		
-		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-		
+
 		//-------------- flavor stuff -------------
 		
 		dojo.create("div", { 
-			innerHTML: bld.flavour || "flavor text",
+			innerHTML: bld.flavor || "flavor text",
 			className: "flavor",
 			style: {
-				position: "absolute",
-				bottom: "2px",
-				right: "4px",
+				display: "inline-block",
+				paddingTop: "10px",
+				float: "right",
 				fontSize: "12px",
 				fontStyle: "italic"
 		}}, tooltip);

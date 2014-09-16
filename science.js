@@ -490,8 +490,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "robotics",
 		title: "Robotics",
-		description: "TBD",
-		effectDesc: "Unlocks Steel Plants",
+		description: "Robotics improves automated structures like Calciners",
+		effectDesc: "Unlocks Steel Plants and Rotary Kilns",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -501,6 +501,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("steelPlants").unlocked = true;
+			game.workshop.get("rotaryKiln").unlocked = true;
 		}
 	},{
 		name: "nuclearFission",
