@@ -199,8 +199,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["scienceMax"] = 250 + ( 250 * game.bld.get("observatory").val * mirrors.effects["libraryRatio"]);
 			}
 		},
-		
-		val: 0
+		val: 0,
+		flavor: "All in Catonese"
 	},{
 		name: "academy",
 		label: "Academy",
@@ -247,7 +247,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		action: function(self, game){
 		},
-		val: 0
+		val: 0,
+		flavor: "Yearning to one day catch the red light fairy"
 	},{
 		name: "biolab",
 		label: "Bio Lab",
@@ -384,7 +385,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["coalPerTickBase"] = 0.003;
 				//coal.value += self.effects["coalPerTick"] * self.val;
 			}
-		}
+		},
+		flavor: "100 days without diggor mortis"
 	},{
 		name: "quarry",
 		label: "Quarry",
@@ -701,7 +703,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 			var ratio = game.workshop.getEffect("lumberMillRatio");
 			self.effects["woodRatio"] = 0.1 + 0.1*ratio;
-		}
+		},
+		flavor: "Best log analysing tool"
 	},
 	{
 		name: "oilWell",
@@ -909,7 +912,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		val: 0,
 		requiredTech: ["writing"],
 		action: function(self, game){
-		}
+		},
+		flavor: "Daily 'All Dogs Go to Heaven' showings"
 	},{
 		name: "chapel",
 		label: "Chapel",

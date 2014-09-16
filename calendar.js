@@ -219,12 +219,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (this.game.rand(100000) <= 500){
 					zebras.value += 1;
 					this.game.msg("Another zebra hunter joins your village.");
+					this.game.render();
 				}
 			}
 		}else{
 			if (zebras.value > 0 ){
 				zebras.value = 0;
 				this.game.msg("Zebra hunter has departed from your village.");
+				this.game.render();
 			}
 		}
 		
