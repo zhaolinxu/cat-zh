@@ -76,10 +76,20 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "wood"
 			},
 			
+			"woodRatio" : {
+				title: "Wood Bonus %",
+				resName: "wood"
+			},
+			
 			//minerals
 			
 			"mineralsMax" : {
 				title: "Max Minerals",
+				resName: "minerals"
+			},
+			
+			"mineralsRatio" : {
+				title: "Minerals Bonus %",
 				resName: "minerals"
 			},
 			
@@ -90,10 +100,32 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "iron"
 			},
 			
+			"ironPerTick" : {
+				title: "Iron Per Tick",
+				resName: "iron"
+			},
+			
+			//gold
+			
+			"goldPerTick" : {
+				title: "Gold Per Tick",
+				resName: "gold"
+			},
+			
 			//coal
 			
 			"coalMax" : {
 				title: "Max Coal",
+				resName: "coal"
+			},
+			
+			"coalPerTickBase" : {
+				title: "Coal Per Tick",
+				resName: "coal"
+			},
+			
+			"coalRatioGlobal" : {
+				title: "Coal Production penalty %",
 				resName: "coal"
 			},
 			
@@ -137,7 +169,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//culture
 			
 			"cultureMax" : {
-				resName: "culture"
+				resName: "culture",
+				title: "Max Culture"
+			},
+			
+			//oil
+			
+			"magnetoBoostRatio" : {
+				title: "Magneto Boost %",
+				resName: "oil"				//this is sort of hack to prevent early spoiler on magnetos
 			}
 		}
 	}

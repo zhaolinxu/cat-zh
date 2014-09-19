@@ -87,7 +87,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		priceRatio: 1.12,
 		handler: function(btn){
 		},
-		val: 0
+		val: 0,
+		flavor : "'Nip as far as the eye can see."
 	},
 	{
 		name: "pasture",
@@ -119,7 +120,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 
 		},
-		val: 0
+		val: 0,
+		flavor : "No Swimming"
 	},
 	//----------------------------------- Population ----------------------------------------
 	{
@@ -140,7 +142,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			btn.game.ironWill = false;	//har har har
 		},
 		
-		val: 0
+		val: 0,
+		flavor : "The Nation of Two"
 	},
 	{
 		name: "logHouse",
@@ -157,7 +160,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: 	function(btn){
 			btn.game.ironWill = false;
 		},
-		val: 0
+		val: 0,
+		flavor : "The Cabin in the Woods"
 	},{
 		name: "mansion",
 		label: "Mansion",
@@ -174,7 +178,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: 	function(btn){
 			btn.game.ironWill = false;
 		},
-		val: 0
+		val: 0,
+		flavor: "The best shipping container available"
 	},
 	//----------------------------------- Science ----------------------------------------
 	{
@@ -403,7 +408,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		requiredTech: ["archeology"],
 		handler: function(btn){
 		},
-		val: 0
+		val: 0,
+		flavor : "Its full of mice! Wait, wrong 'quarry'"
 	},
 	{
 		name: "smelter",
@@ -573,7 +579,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		effects: {
 			"coalRatioGlobal" : -0.8,	//to be revisited later
-			"magnetoBoostRato" : 0.15
+			"magnetoBoostRatio" : 0.15
 		},
 		action: function(self, game){
 			if (self.on < 1){
@@ -1089,7 +1095,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		}
 		//	SW
 		var steamworks = this.get("steamworks");
-		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRato"] * this.get("steamworks").on) : 1;
+		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
 			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
 			
 		// paragon (25%)
