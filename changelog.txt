@@ -13,6 +13,7 @@ Fixed workshop upgrades not being re-locked upon reset
 Minor UI tweaks
 Price will be marked with '*' if you need to expand your resource limit
 Craft "+" links will be adjusted based on the workshop bonuses
+Per second values for resources (optional)
 
 v 0.9.6.6 (16 sep)
 

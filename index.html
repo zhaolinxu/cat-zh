@@ -515,7 +515,10 @@
 					Use web worker (game works correctly in background tab, may cause performance issues) <br>
 				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
 					Use high precision for resource values<br>
-				
+					
+				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
+					Use per second values (per tick otherwise)<br>
+
 				<br><br>
 				
 				<input type="button" value="Export" onclick="gamePage.saveExport();"><br>

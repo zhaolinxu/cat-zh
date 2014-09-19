@@ -607,6 +607,51 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 	
+	renderEffects: function(tooltip, effectsList){
+		dojo.create("div", { 
+			innerHTML: "Effects:", 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				borderBottom: "1px solid gray",
+				paddingBottom: "4px",
+				marginBottom: "8px"
+		}}, tooltip);
+		
+		//-----------------------------------------
+
+		for (effectName in effectsList){
+			var effectMeta = this.game.getEffectMeta(effectName);
+			
+			if (!effectMeta) {
+				effectMeta = {};
+			}
+			var displayEffectName = effectMeta.title || effectName;
+			
+			if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
+				continue;	//hide resource-related effects if we did not unlocked this effect yet
+			}
+			
+			var effectValue = effectsList[effectName];
+			var displayEffectValue;
+			
+			if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
+				displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec"
+			} else {
+				displayEffectValue = this.game.getDisplayValueExt(effectValue);
+			}
+			
+			var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + displayEffectValue, 
+				style: { 
+					float: "left",
+					fontSize: "14px",
+					color: "gray",
+					clear: "both"
+			}}, tooltip );
+		}
+
+	},
+	
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		

@@ -1881,41 +1881,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		this.renderPrices(tooltip);
 		//---------- effects-------------
 		
-		dojo.create("div", { 
-			innerHTML: "Effects:", 
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				marginBottom: "8px"
-		}}, tooltip);
-		
-		//-----------------------------------------
-		
 		var bld = this.getBuilding();
+		this.renderEffects(tooltip, bld.effects);
 		
-		for (effectName in bld.effects){
-			var effectMeta = this.game.getEffectMeta(effectName);
-			
-			if (!effectMeta) {
-				effectMeta = {};
-			}
-			var displayEffectName = effectMeta.title || effectName;
-			
-			if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
-				continue;	//hide resource-related effects if we did not unlocked this effect yet
-			}
-			
-			var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + this.game.getDisplayValueExt(bld.effects[effectName]), 
-				style: { 
-					float: "left",
-					fontSize: "14px",
-					color: "gray",
-					clear: "both"
-			}}, tooltip );
-		}
-
 		//-------------- flavor stuff -------------
 		
 		dojo.create("div", { 

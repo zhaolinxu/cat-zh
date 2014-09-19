@@ -50,12 +50,22 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 	statics: {
 		effectMeta: {
-			//catnip
+			//=====================
+			//		catnip
+			//=====================
 			
+			//	effect id
 			"catnipPerTickBase" : {
-				title: "Catnip Per Tick",
-				resName: "catnip"
+				//title to be displayed for effect, id if not defined
+				title: "Catnip production",		
+				
+				//effect will be hidden if resource is not unlocked
+				resName: "catnip",	
+				
+				//value will be affected by opts.usePerSecondValues	
+				type: "perTick"			
 			},
+			
 			"catnipDemandRatio" : {
 				title: "Catnip Demand Ratio",
 				resName: "catnip"
@@ -93,6 +103,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "minerals"
 			},
 			
+			"mineralsPerTick" : {
+				title: "Minerals production",
+				resName: "minerals",
+				type : "perTick"
+			},
+			
 			//iron
 			
 			"ironMax" : {
@@ -101,15 +117,17 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"ironPerTick" : {
-				title: "Iron Per Tick",
-				resName: "iron"
+				title: "Iron production",
+				resName: "iron",
+				type: "perTick"
 			},
 			
 			//gold
 			
 			"goldPerTick" : {
-				title: "Gold Per Tick",
-				resName: "gold"
+				title: "Gold production",
+				resName: "gold",
+				type: "perTick"
 			},
 			
 			//coal
@@ -120,8 +138,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"coalPerTickBase" : {
-				title: "Coal Per Tick",
-				resName: "coal"
+				title: "Coal production",
+				resName: "coal",
+				type : "perTick"
 			},
 			
 			"coalRatioGlobal" : {
@@ -141,6 +160,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"titaniumMax" : {
 				title: "Max Titanium",
 				resName: "titanium"
+			},
+			
+			"titaniumPerTick" : {
+				title: "Titanium production",
+				resName: "titanium",
+				type: "perTick"
 			},
 			
 			//kittens
@@ -314,7 +339,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.innerHTML  = maxResValue;
 
-			var perTickValue = res.perTickUI ? "(" + this.game.getDisplayValue(res.perTickUI, true) + ")" : "";
+			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.rate : res.perTickUI;
+			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
+			 
+			var perTickValue = perTick ? "(" + this.game.getDisplayValue(perTick, true) + postfix + ")" : "";
 			row.resTick.innerHTML = perTickValue;
 
 			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
@@ -626,6 +654,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 	
+	//FINALLY
+	opts: null,
+	
 	gatherTimeoutHandler: null,	//timeout till resetting gather counter, see below
 	gatherClicks: 0,	//how many clicks in a row was performed on a gather button
 	cheatMode: false,	//flag triggering Super Unethical Climax achievement
@@ -642,6 +673,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.id = containerId;
 		
 		this.tabs = [];
+		
+		this.opts = {
+			usePerSecondValues: true
+		};
 		
 		this.console = new com.nuclearunicorn.game.log.Console();
 		
@@ -773,7 +808,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			paragonPoints: this.paragonPoints,
 			ironWill : this.ironWill,
 			deadKittens: this.deadKittens,
-			cheatMode: this.cheatMode
+			cheatMode: this.cheatMode,
+			
+			opts : this.opts
 		};
 		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
@@ -804,6 +841,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		$("#workersToggle")[0].checked = this.useWorkers;
 		$("#forceHighPrecision")[0].checked	= this.forceHighPrecision;
+		$("#usePerSecondValues")[0].checked	= this.opts.usePerSecondValues;
+		
 	},
 	
 	load: function(){
@@ -863,6 +902,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
+			
+			// ora ora
+			if (data.opts){
+				for (opt in data.opts){
+					this.opts[opt] = data.opts[opt];
+				}
+			}
 			
 			this.updateOptionsUI();
 		}
