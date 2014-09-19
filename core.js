@@ -587,10 +587,13 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			var hasRes = (res.value >= prices[i].val);
 			
 			var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
+			
+			var asterisk = price.val > res.maxValue ? "*" : "";	//mark limit issues with asterisk
+			
 			var priceSpan = dojo.create("span", { 
 				innerHTML: hasRes || simpleUI ? 
 					this.game.getDisplayValueExt(price.val) : 
-					this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val), 
+					this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val) + asterisk, 
 				className: hasRes ? "" : "noRes",
 				style: {
 					float: "right"
