@@ -1,3 +1,17 @@
+v 0.9.6.7 (19 sep)
+
+Changes by xranti:
+
+Max resource values now load correctly after importing a save, so resources aren't lost for being over the cap (http://redd.it/2e75ms)
+Factory automation no longer fires immediately when loading the page, before max resource values are loaded (http://redd.it/2gr99l)
+Tunable buildings now correctly reset their "on" values when importing a save with none on
+Village production now gets recalculated immediately when importing, so you don't get a few ticks of old production values
+Tabs will now be hidden when importing a save if they should be
+____
+
+Fixed workshop upgrades not being re-locked upon reset
+Minor UI tweaks
+
 v 0.9.6.6 (16 sep)
 
 Time to cap fix by xranti

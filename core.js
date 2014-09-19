@@ -541,12 +541,33 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	},
 	
 	getDescription: function(){
-		return "";
+		return this.description;
 	},
 	
 	getTooltipHTML: function(btn){
 		//throw "ButtonModern::getTooltipHTML must be implemented";
-		return this.description;
+		
+		var tooltip = dojo.create("div", { style: { 
+			width: "200px",
+			minHeight:"50px"
+		}}, null);
+		
+		var descDiv = dojo.create("div", { 
+			innerHTML: this.getDescription(), 
+			style: {
+				textAlign: "center",
+				width: "100%",
+				paddingBottom: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+		
+		if (this.prices){
+			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
+			this.renderPrices(tooltip, true);	//simple prices
+		}
+
+		return tooltip.outerHTML;
 	},
 	
 	renderPrices: function(tooltip, simpleUI){

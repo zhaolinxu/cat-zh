@@ -733,7 +733,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	advModeButtons : null,
 	
-	hutnBtn: null,
+	huntBtn: null,
 	
 	festivalBtn: null,
 	
@@ -846,7 +846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		//hunt
 		
-		var huntBtn = new com.nuclearunicorn.game.ui.Button({
+		var huntBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
 				handler: dojo.hitch(this, function(){
@@ -855,9 +855,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				prices: [{ name : "manpower", val: 100 }]
 		}, this.game);
 		huntBtn.render(controlsTd);
-		this.hutnBtn = huntBtn;
+		this.huntBtn = huntBtn;
 		
-		var festivalBtn = new com.nuclearunicorn.game.ui.Button({
+		var festivalBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
 				handler: dojo.hitch(this, function(){
@@ -909,8 +909,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				this.game.village.getKittens() >= 5 || this.game.resPool.get("zebras").value > 0
 			);
 		}
-		if (this.hutnBtn){
-			this.hutnBtn.update();
+		if (this.huntBtn){
+			this.huntBtn.update();
 		}
 		if (this.festivalBtn){
 			this.festivalBtn.update();

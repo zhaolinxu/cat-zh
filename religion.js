@@ -396,14 +396,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	 }
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	x10: null,
-	
-	afterRender: function(){
-		this.inherited(arguments);
-		this.renderLinks();
-	},
-	
+
 	onClick: function(){
 		this.animate();
 		
@@ -459,7 +454,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 });
 
 
-dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	
 	onClick: function(){
 		this.animate();
@@ -561,7 +556,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.faithResetBtn = faithResetBtn;
 		dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 		
-		var praiseBtn = new com.nuclearunicorn.game.ui.Button({ 
+		var praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({ 
 			name: "Praise the sun!",
 			description: "Convert all your accumulated faith to the total pool",
 			handler: function(btn){

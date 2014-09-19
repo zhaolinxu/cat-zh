@@ -270,7 +270,7 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.Button, {
+dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	
 	race: null,
 	
@@ -422,11 +422,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		}
 	},
 	
-	afterRender: function(){
-		this.inherited(arguments);
-		this.renderLinks();
-	},
-	
 	renderLinks: function(){
 		this.tradeAllHref = dojo.create("a", { href: "#", innerHTML: "all",
 			title: "Spend all the manpower/gold on trade caravans",
@@ -550,7 +545,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "15px"
 		} }, tabContainer);
 			
-		var exploreBtn = new com.nuclearunicorn.game.ui.Button({
+		var exploreBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: "Send explorers",
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],
