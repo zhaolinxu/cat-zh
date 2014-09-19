@@ -404,6 +404,27 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 	constructor: function(game){
 		this.workshop = game.bld.get("workshop");
 	},
+	
+	
+	//TODO: merge with workshop?
+	getResourceCraftRatio: function(res){
+		
+		if (res.name == "wood"){
+			return this.game.bld.getEffect("refineRatio");
+		}
+		
+		if (res.name == "blueprint"){
+			var bpRatio = this.game.workshop.getEffect("blueprintCraftRatio");
+			var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
+				this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
+				
+			var ratio = this.game.bld.getEffect("craftRatio");
+			
+			return ratio + scienceBldAmt * bpRatio;
+		}
+		
+		return this.game.bld.getEffect("craftRatio");
+	},
 
 	render: function(){
 		if (!this.containerId) { throw "container id is undefined for res table"; }
@@ -412,15 +433,15 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		this.resRows = [];
 		
 		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
-		
-		var craftRatio = this.game.bld.getEffect("craftRatio");
-		
+
 		for (var i = 0; i < this.game.resPool.resources.length; i++){
 			var res = this.game.resPool.resources[i];
 			
 			if (!res.craftable){
 				continue;
 			}
+			
+			var craftRatio = this.getResourceCraftRatio(res);
 			
 			//sort of hack to override regeneration bug
 			var recipe = this.game.workshop.getCraft(res.name);
