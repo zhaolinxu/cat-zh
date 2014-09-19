@@ -598,7 +598,12 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				var wood = game.resPool.get("wood");
 				var minerals = game.resPool.get("minerals");
 				var iron = game.resPool.get("iron");
-				
+
+				if (wood.maxValue == 0 || minerals.maxValue == 0) {
+					// Hack to prevent factory automation from starting
+					// when the page is first loaded, before caps are
+					return;
+				}
 				if (
 					wood.value >= wood.maxValue * (1 - baseAutomationRate) ||
 					minerals.value >= minerals.maxValue * (1 - baseAutomationRate) ||
@@ -1291,11 +1296,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 						
 						bld.val = savedBld.val;
 						bld.unlocked = savedBld.unlocked;
-						if(savedBld.on){
+						if(savedBld.on != undefined){
 							bld.on = savedBld.on;
 						}
 						
-						if (savedBld.jammed){
+						if (savedBld.jammed != undefined){
 							bld.jammed = savedBld.jammed;
 						}
 						
@@ -1304,6 +1309,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 					}
 			}
 		}
+
+		this.invalidateCachedEffects();
 	},
 	
 	//TODO: do we need it?

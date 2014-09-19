@@ -284,6 +284,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				}
 			}
 		}
+
+		this.updateResourceProduction();
 	},
 	
 	/** Calculates a total happines where result is a value of [0..1] **/
