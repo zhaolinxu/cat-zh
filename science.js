@@ -371,7 +371,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		unlocks: ["biology"],
 		handler: function(game){
 			game.village.getJob("geologist").unlocked = true;
-		}
+		},
+		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal"
 	},{
 		name: "electricity",
 		title: "Electricity",

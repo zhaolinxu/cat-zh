@@ -1079,10 +1079,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 					
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
-	
-						if (!upgrade.unlocked){		//temporary hack for certain save bugs, once unlocked can't be locked back
-							upgrade.unlocked = savedUpgrade.unlocked;
-						}
+
+						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
 						
 						if (upgrade.researched && upgrade.handler){
