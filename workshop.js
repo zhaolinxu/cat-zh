@@ -1401,6 +1401,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var div = dojo.create("div", { style: { float: "right"}}, divCombobox);
 		
 		var groupCheckbox = dojo.create("input", {
+			id: "toggleResearched",
 			type: "checkbox",
 			checked: this.game.workshop.hideResearched
 		}, div);
@@ -1412,7 +1413,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			this.render(tabContainer);
 		});
 		
-		dojo.create("span", { innerHTML: "Hide researched upgrades"}, div);
+		dojo.create("label", { innerHTML: "Hide researched upgrades", for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
 		
 		var upgradePanel = new com.nuclearunicorn.game.ui.Panel("Upgrades");

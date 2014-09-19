@@ -757,6 +757,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		//--------------------------------------------------------------------
 		var div = dojo.create("div", { style: { float: "right"}}, tabContainer);
 		var groupCheckbox = dojo.create("input", {
+			id : "toggleResearched",
 			type: "checkbox",
 			checked: this.game.science.hideResearched,
 			style: {
@@ -771,7 +772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.render(tabContainer);
 		});
 		
-		dojo.create("span", { innerHTML: "Hide researched techs"}, div);
+		dojo.create("label", { innerHTML: "Hide researched techs", for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
 		
 		var table = dojo.create("table", { className: "table", style:{
