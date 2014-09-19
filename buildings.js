@@ -1304,6 +1304,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 					}
 			}
 		}
+
+		this.invalidateCachedEffects();
 	},
 	
 	//TODO: do we need it?
