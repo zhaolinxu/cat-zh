@@ -1101,7 +1101,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRato"] * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
 				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 			}
 			
