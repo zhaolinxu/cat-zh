@@ -822,7 +822,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//----------------- happiness and things ----------------------
 		
-		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Resources");
+		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Management");
 		if (this.game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0){
 			this.statisticsPanel.setVisible(false);
 		}
@@ -855,6 +855,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				prices: [{ name : "manpower", val: 100 }]
 		}, this.game);
 		huntBtn.render(controlsTd);
+		huntBtn.setVisible(this.game.science.get("archery").researched);
 		this.huntBtn = huntBtn;
 		
 		var festivalBtn = new com.nuclearunicorn.game.ui.ButtonModern({
@@ -910,6 +911,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			);
 		}
 		if (this.huntBtn){
+			this.huntBtn.setVisible(this.game.science.get("archery").researched);
 			this.huntBtn.update();
 		}
 		if (this.festivalBtn){

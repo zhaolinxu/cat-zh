@@ -295,7 +295,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "physics",
 		title: "Physics",
 		description: "TBD",
-		effectDesc: "Unlocks some usefull upgrades",
+		effectDesc: "Unlocks some useful upgrades",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -331,7 +331,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "acoustics",
 		title: "Acoustics",
 		description: "Acoustics is the study of sound.",
-		effectDesc: "Unlocks Chapells",
+		effectDesc: "Unlocks Chapels",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -361,7 +361,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "archeology",
 		title: "Geology",
 		description: "Geology is the science comprising the study of Cat, the rocks of which it is composed, and the processes by which they change",
-		effectDesc: "Unlocks Quarrys and Geologists",
+		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -376,7 +376,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "electricity",
 		title: "Electricity",
-		description: "Electicity unlocks a new ways to automate production, benefiting the catkind in all different areas",
+		description: "Electricity unlocks a new way to automate production, benefiting the catkind in all different areas",
 		effectDesc: "Unlocks Magnetos",
 		unlocked: false,
 		researched: false,

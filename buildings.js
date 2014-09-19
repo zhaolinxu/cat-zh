@@ -127,7 +127,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "hut",
 		label: "Hut",
-		description: "Build a hut (each has a space for 2 kittens). +75 to the maximum catpower ",
+		description: "Build a hut ( each has a space for 2 kittens )",
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
@@ -279,7 +279,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "barn",
 		label: "Barn",
-		description: "Provides a space to store your resources.\n(+5K catnip, +200 wood)",
+		description: "Provides a space to store your resources.",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
 		effects: {
