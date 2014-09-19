@@ -861,6 +861,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
 			this.load();
 			this.msg("Save import successfull!");
+			this.render();
 		}
 	},
 	
