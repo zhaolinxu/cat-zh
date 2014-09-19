@@ -1104,6 +1104,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 				}
 			}
 		}
+
+		this.invalidateCachedEffects();
 	},
 	
 	/**

@@ -789,31 +789,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//restore tab visibility
 		
-		if (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 ){
-			this.villageTab.visible = true;
-		}
-		if (this.bld.getBuilding("library").val > 0 ){
-			this.libraryTab.visible = true;
-		}
-		if (this.bld.getBuilding("workshop").val > 0 ){
-			this.workshopTab.visible = true;
-		}
-		if (this.achievements.hasUnlocked()){
-			this.achievementTab.visible = true;
-		}
+		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
+		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
+		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
+		this.achievementTab.visible = (this.achievements.hasUnlocked());
 		
 		//Nice try, probably someday
 		/*if (this.science.get("currency").researched){
 			this.economyTab.visible = true;
 		}*/
 
-		if (this.diplomacy.hasUnlockedRaces()){
-			this.diplomacyTab.visible = true;
-		}
-		
-		if (this.resPool.get("faith").value > 0 ){
-			this.religionTab.visible = true;
-		}
+		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
+
+		this.religionTab.visible = (this.resPool.get("faith").value > 0);
 		
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -860,7 +848,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (data){
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
 			this.load();
-			this.msg("Save import successfull!");
+			this.msg("Save import successful!");
+			this.render();
 		}
 	},
 	
