@@ -280,7 +280,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "architecture",
 		title: "Architecture",
 		description: "TBD",
-		effectDesc: "Unlocks Mint and Mansions",
+		effectDesc: "Unlocks Mints and Mansions",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -360,7 +360,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "archeology",
 		title: "Geology",
-		description: "Geology is the science comprising the study of Cat, the rocks of which it is composed, and the processes by which they change",
+		description: "Geology is the science comprising the study of Cath, the rocks of which it is composed, and the processes by which they change",
 		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
@@ -426,7 +426,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 115000},
-			{name: 	"blueprint", val: 50}
+			{name: 	"blueprint", val: 45}
 		],
 		unlocks: ["electronics"],
 		handler: function(game){
@@ -447,7 +447,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 125000},
-			{name: 	"blueprint", val: 65}
+			{name: 	"blueprint", val: 60}
 		],
 		unlocks: [],
 		handler: function(game){
@@ -463,7 +463,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 120000},
-			{name: 	"blueprint", val: 55}
+			{name: 	"blueprint", val: 50}
 		],
 		unlocks: [],
 		handler: function(game){
@@ -480,7 +480,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 135000},
-			{name: 	"blueprint", val: 75}
+			{name: 	"blueprint", val: 70}
 		],
 		unlocks: ["nuclearFission", "rocketry", "robotics"],
 		handler: function(game){
@@ -497,7 +497,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		researched: false,
 		prices: [
 			{name : "science", val: 140000},
-			{name: 	"blueprint", val: 85}
+			{name: 	"blueprint", val: 80}
 		],
 		unlocks: [],
 		handler: function(game){
