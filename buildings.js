@@ -1296,11 +1296,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 						
 						bld.val = savedBld.val;
 						bld.unlocked = savedBld.unlocked;
-						if(savedBld.on){
+						if(savedBld.on != undefined){
 							bld.on = savedBld.on;
 						}
 						
-						if (savedBld.jammed){
+						if (savedBld.jammed != undefined){
 							bld.jammed = savedBld.jammed;
 						}
 						
