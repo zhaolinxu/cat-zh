@@ -1436,6 +1436,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	renderLinks: function(){
 		var building = this.getBuilding();
 		
+		
+		//TODO: rewrite this with addLink
 		if (building && building.val){
 			if (!this.sellHref){
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
@@ -1486,7 +1488,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				},true	//use | break
 			);
 		}
-		
+
 		if (!this.off && !building.tunable){
 			this.toggle = this.addLink( building.enabled ? "off" : "on", 
 				function(){

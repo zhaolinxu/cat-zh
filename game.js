@@ -385,6 +385,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		
 		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
 		
+		var craftRatio = this.game.bld.getEffect("craftRatio");
+		
 		for (var i = 0; i < this.game.resPool.resources.length; i++){
 			var res = this.game.resPool.resources[i];
 			
@@ -424,10 +426,12 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- + ----------------------
+			
+			
 			var td = dojo.create("td", { style: {width: "20px", cursor: "pointer"}}, tr);
 				var a1 = dojo.create("a", { 
 					href: "#", 
-					innerHTML : "+",
+					innerHTML : "+" + (1 * (1+craftRatio)).toFixed(),
 					style: {
 						display: this.game.resPool.hasRes(recipe.prices, 1) ? "" : "none"
 					}
@@ -453,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				var a25 = dojo.create("a", {
 					href: "#", 
-					innerHTML : "+25",
+					innerHTML : "+" + (25 * (1+craftRatio)).toFixed(),
 					style: {
 						display: this.game.resPool.hasRes(recipe.prices, 25) ? "" : "none"
 					}
@@ -464,7 +468,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var td = dojo.create("td", { style: {width: "20px"}}, tr);
 				var a100 = dojo.create("a", {
 					href: "#", 
-					innerHTML : "+100",
+					innerHTML : "+" + (100 * (1+craftRatio)).toFixed(),
 					style: {
 						display: this.game.resPool.hasRes(recipe.prices, 100) ? "" : "none"
 					}
