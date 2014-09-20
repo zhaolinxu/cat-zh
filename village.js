@@ -682,27 +682,8 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		
 		//---------- effects-------------
 		
-		dojo.create("div", { 
-			innerHTML: "", 
-			style: {
-				textAlign: "center",
-				width: "100%",
-				paddingBottom: "4px",
-				marginBottom: "8px"
-		}}, tooltip);
-		
-		//-----------------------------------------
+		this.renderEffects(tooltip, job.modifiers, true);	//hide title
 
-		for (effectName in job.modifiers){
-			var nameSpan = dojo.create("div", { innerHTML: effectName + ": +" + this.game.getDisplayValueExt(job.modifiers[effectName]) + " ( +" + 
-				this.game.getDisplayValueExt(job.modifiers[effectName] * job.value) + " total)", 
-				style: { 
-					float: "left",
-					fontSize: "14px",
-					color: "gray",
-					clear: "both"
-			}}, tooltip );
-		}
 		
 		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
 		

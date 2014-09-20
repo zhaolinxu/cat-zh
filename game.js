@@ -79,6 +79,13 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "catnip"
 			},
 			
+			/* Worker pseudoeffect */
+			"catnip" : {
+				title: "catnip",
+				resName: "catnip",
+				type: "perTick"
+			},
+			
 			//wood
 			
 			"woodMax" : {
@@ -89,6 +96,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"woodRatio" : {
 				title: "Wood Bonus %",
 				resName: "wood"
+			},
+			
+			"wood" : {
+				title: "wood",
+				resName: "wood",
+				type: "perTick"
 			},
 			
 			//minerals
@@ -107,6 +120,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Minerals production",
 				resName: "minerals",
 				type : "perTick"
+			},
+			
+			"minerals" : {
+				title: "minerals",
+				resName: "minerals",
+				type: "perTick"
 			},
 			
 			//iron
@@ -155,6 +174,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "gold"
 			},
 			
+			"gold" : {
+				title: "gold",
+				resName: "gold",
+				type: "perTick"
+			},
+			
 			//titanium
 			
 			"titaniumMax" : {
@@ -181,6 +206,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "catpower"
 			},
 			
+			"manpower" : {
+				title: "catpower",
+				resName: "manpower",
+				type: "perTick"
+			},
+			
 			//science
 			
 			"scienceRatio" : {
@@ -190,6 +221,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Max Science"
 			},
 			"learnRatio" : {},
+			
+			"science" : {
+				title: "science",
+				resName: "science",
+				type: "perTick"
+			},
 			
 			//culture
 			
@@ -203,6 +240,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"magnetoBoostRatio" : {
 				title: "Magneto Boost %",
 				resName: "oil"				//this is sort of hack to prevent early spoiler on magnetos
+			},
+			
+			//faith
+			
+			"faith" : {
+				title: "faith",
+				resName: "faith",
+				type: "perTick"
 			}
 		}
 	}

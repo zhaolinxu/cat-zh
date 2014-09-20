@@ -444,7 +444,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "compositeBow",
 		title: "Composite Bow",
-		description: "Improved version of a bow providing permanent +50% boost to the hunters",
+		description: "An improved version of a bow which provides a permanent +50% boost to the hunters",
 		effects: {
 			"manpowerRatio" : 0.5
 		},
@@ -667,7 +667,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		effects: {
 		},
 		prices:[
-			{ name : "gear", 	 val: 50 },
+			{ name : "gear", 	 val: 45 },
 			{ name : "science",  val: 7500 }
 		],
 		unlocked: false,
@@ -692,7 +692,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		effects: {
 		},
 		prices:[
-			{ name : "gear", 	 val: 35 },
+			{ name : "gear", 	 val: 25 },
 			{ name : "science",  val: 10000 }
 		],
 		unlocked: false,
@@ -907,7 +907,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "beam",
 		title: "Wooden Beam",
-		description: "Simple support structure made of a wood. Required for advanced construction",
+		description: "Simple support structure made of a wood. Required for advanced construction.",
 		prices:[
 			{name: "wood", val: 175}
 		],
@@ -915,6 +915,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "slab",
 		title: "Stone Slab",
+		description: "A small slab composed of minerals. Required for advanced construction.",
 		prices:[
 			{name: "minerals", val: 250}
 		],
@@ -922,7 +923,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "concrate",
 		title: "Concrete",
-		description: "A block of reinforced concrete",
+		description: "A block of reinforced concrete.",
 		prices:[
 			{name: "slab", val: 2500},
 			{name: "steel", val: 25}
@@ -931,6 +932,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "plate",
 		title: "Metal Plate",
+		description: "A metal plate. Required for advanecd construction.",
 		prices:[
 			{name: "iron", val: 125}
 		],
@@ -938,6 +940,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "steel",
 		title: "Steel",
+		description: "A durable metal made by smelting iron and coal. Required for constuction of gears and complex machinery.",
 		prices:[
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
@@ -955,7 +958,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "gear",
 		title: "Gear",
-		description: "An integral part of automated structures",
+		description: "An integral part of automated structures.",
 		prices:[
 			{name: "steel", val: 15}
 		],
@@ -963,7 +966,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "parchment",
 		title: "Parchment",
-		description: "A material for writing on made from animal skin, required for cultural buildings",
+		description: "A material for writing on made from animal skin, required for cultural buildings.",
 		prices:[
 			{name: "furs", val: 175}
 		],
@@ -972,7 +975,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "manuscript",
 		title: "Manuscript",
-		description: "Written document required for technological advancement",
+		description: "Written document required for technological advancement.",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 400}

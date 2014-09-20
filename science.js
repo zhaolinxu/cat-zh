@@ -12,7 +12,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "calendar",
 		title: "Calendar",
 		
-		description: "Develops the ability to predict the approximate time of change of seasons - ability essential for advanced agriculture.",
+		description: "Develops the ability to predict when the seasons will change. This ability is essential for advanced agriculture.",
 		effectDesc: "Calendar provides a way of more precise time tracking",
 		
 		unlocked: true,
@@ -24,8 +24,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "agriculture",
 		title: "Agriculture",
 		
-		description: "The basis of all civilized life, Agriculture allows working the land for food",
-		effectDesc: "Unlocks farmers and Barns",
+		description: "The basis of all civilized life, Agriculture allows the working of land for food.",
+		effectDesc: "Unlocks Farmers and Barns",
 		
 		unlocked: false,
 		researched: false,
@@ -38,8 +38,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "archery",
 		title: "Archery",
 		
-		description: "Ranged weaponry known as a 'bow'",
-		effectDesc: "Unlocks hunters",
+		description: "Ranged weaponry known as a 'Bow'.",
+		effectDesc: "Unlocks Hunters",
 		
 		unlocked: false,
 		researched: false,
@@ -52,8 +52,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "mining",
 		title: "Mining",
 		
-		description: "Mining develops the ability to extract mineral resources from the bowels of the Cath",
-		effectDesc: "You can build mines",
+		description: "Mining develops the ability to extract mineral resources from the bowels of Cath.",
+		effectDesc: "You can build Mines",
 		
 		unlocked: false,
 		researched: false,
@@ -66,8 +66,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "metal",
 		title: "Metal working",
 		
-		description: "The first metal-working technology that provides your civilization with sturdy, durable tools",
-		effectDesc: "You can construct smelters that convert ore into the metal",
+		description: "The first metal-working technology that provides your civilization with sturdy, durable tools.",
+		effectDesc: "You can construct Smelters that convert ore into metal",
 		
 		unlocked: false,
 		researched: false,
@@ -94,7 +94,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "brewery",
 		title: "Brewery",
 		
-		description: "Brewing is a non-mandatory technology allowing the processing of a catnip",
+		description: "Brewery is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
 		effectDesc: "Unlocks Catnip Enrichment.",
 		
 		unlocked: false,
@@ -107,7 +107,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "civil",
 		title: "Civil Service",
-		description: "The creation of the first true state organ provides many benefits related with better organisation",
+		description: "The creating of the first true state organ provides many benefits related with better organization.",
 		effectDesc: "Unlocks detailed information about your population",
 		
 		unlocked: false,
@@ -127,8 +127,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "construction",
 		title: "Construction",
-		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox",
-		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks composite bows",
+		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox.",
+		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks Composite Bows",
 		
 		unlocked: false,
 		researched: false,
@@ -205,7 +205,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "steel",
 		title: "Steel",
-		description: "Development of the new Steel alloy advances further metal working",
+		description: "Development of the new Steel alloy advances further metal working.",
 		effectDesc: "Unlocks Coal and Steel production",
 		
 		unlocked: false,
@@ -241,7 +241,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "astronomy",
 		title: "Astronomy",
-		description: "Astronomy is the study of objects in space",
+		description: "Astronomy is the study of objects in space.",
 		effectDesc: "Unlocks Observatory and Star charts",
 		
 		unlocked: false,
@@ -256,7 +256,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "navigation",
 		title: "Navigation",
-		description: "Navigation allows serious advancements in sailing and shipbuilding technology",
+		description: "Navigation allows serious advancements in sailing and shipbuilding technology.",
 		effectDesc: "Unlocks the construction of Trade Ships and oversea trade",
 		
 		unlocked: false,
@@ -279,8 +279,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "architecture",
 		title: "Architecture",
-		description: "TBD",
-		effectDesc: "Unlocks Mints and Mansions",
+		description: "Architecture allows construction of some new sophisticated structures.",
+		effectDesc: "Unlocks Mints and Mansions.",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -294,8 +294,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "physics",
 		title: "Physics",
-		description: "TBD",
-		effectDesc: "Unlocks some useful upgrades",
+		description: "Physics is a study of laws of nature.",
+		effectDesc: "Unlocks some useful upgrades.",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -313,7 +313,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		name: "chemistry",
 		title: "Chemistry",
 		description: "TBD",
-		effectDesc: "Unlocks Oil and Oil Wells",
+		effectDesc: "Unlocks Oil and Oil Wells.",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -360,7 +360,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	},{
 		name: "archeology",
 		title: "Geology",
-		description: "Geology is the science comprising the study of Cath, the rocks of which it is composed, and the processes by which they change",
+		description: "Geology is the science comprising the study of Cath, the rocks of which it is composed, and the processes by which they change.",
 		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
@@ -372,11 +372,11 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 		handler: function(game){
 			game.village.getJob("geologist").unlocked = true;
 		},
-		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal"
+		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal."
 	},{
 		name: "electricity",
 		title: "Electricity",
-		description: "Electricity unlocks a new way to automate production, benefiting the catkind in all different areas",
+		description: "Electricity unlocks a new way to automate production, benefiting the catkind in all different areas.",
 		effectDesc: "Unlocks Magnetos",
 		unlocked: false,
 		researched: false,

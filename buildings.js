@@ -93,7 +93,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "pasture",
 		label: "Pasture",
-		description: "Provides alternative source of food, hence reducing catnip consumption by 0.5%.",
+		description: "Provides alternative source of food, which reduces catnip consumption.",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 100 }, { name : "wood", val: 10 }],
 		effects: {
@@ -370,7 +370,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "mine",
 		label: "Mine",
-		description: "Unlocks miner job\nEach upgrade level improve your minerals output by 20%",
+		description: "Unlocks the miner job.\nEach upgrade level improves your mineral output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
@@ -414,7 +414,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "smelter",
 		label: "Smelter",
-		description: "Smelts ore into the metal (-0.05 wood, -0.1 minerals, + 0.02 iron)",
+		description: "Smelts the ore into metal",
 		unlocked: false,
 		enabled: false,
 		on: 0,
@@ -560,15 +560,15 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "steamworks",
 		label: "Steamworks",
-		description: "When active, reduces your coal production by 80%. \nCan perform a vast variety of operations if upgraded.",
+		description: "When active, significantly reduces your coal production.\nCan perform a vast variety of operations if upgraded.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
 		on: 0,
 		jammed: false,
 		prices: [
-			{ name : "steel", val: 75 },
-			{ name : "gear",  val: 25 },
+			{ name : "steel", val: 65 },
+			{ name : "gear",  val: 20 },
 			{ name : "blueprint",  val: 1 }
 		],
 		priceRatio: 1.25,
@@ -746,7 +746,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "workshop",
 		label: "Workshop",
-		description: "Provides a vast variety of upgrades\nImproves craft effectiveness by 6%",
+		description: "Provides a vast variety of upgrades.\nImproves craft effectiveness by 6%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -820,7 +820,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
+		description: "The hearth of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
@@ -1019,7 +1019,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "unicornPasture",
 		label: "Unic. Pasture",
-		description: "Allows to tame unicorns.\n Reduce catnip consumption by 0.15%",
+		description: "Allows the taming of unicorns.\nReduces catnip consumption 0.15%",
 		unlocked: false,
 		prices: [
 			{ name : "unicorns", val: 2 }

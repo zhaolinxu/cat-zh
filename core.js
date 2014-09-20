@@ -588,7 +588,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			
 			var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
 			
-			var asterisk = price.val > res.maxValue ? "*" : "";	//mark limit issues with asterisk
+			var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
 			
 			var priceSpan = dojo.create("span", { 
 				innerHTML: hasRes || simpleUI ? 
@@ -607,16 +607,19 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 	
-	renderEffects: function(tooltip, effectsList){
-		dojo.create("div", { 
-			innerHTML: "Effects:", 
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				marginBottom: "8px"
-		}}, tooltip);
+	renderEffects: function(tooltip, effectsList, hideTitle){
+		
+		if (!hideTitle){
+			dojo.create("div", { 
+				innerHTML: "Effects:", 
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px",
+					marginBottom: "8px"
+			}}, tooltip);
+		}
 		
 		//-----------------------------------------
 

@@ -1,3 +1,11 @@
+v 0.9.6.8 (20 sep)
+
+Slightly reduced gear prices of Steamworks and SW upgrades.
+Sligtly reduced blueprint prices of pre-electronics  technologies.
+
+Village jobs can now display /sec values.
+Fixed incorrect "+" values for blueprints and wood
+
 v 0.9.6.7 (19 sep)
 
 Changes by xranti:
