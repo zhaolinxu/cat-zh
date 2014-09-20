@@ -103,8 +103,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		priceRatio: 1.15,
 		handler: function(btn){
 		},
-		
-		val: 0
+		val: 0,
+		flavor: "Take a pint o' milk, sir!"
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
@@ -257,7 +257,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "biolab",
 		label: "Bio Lab",
-		description: "Improves effectiveness of catnip refinement by 5%, +35% to the science output, +1.5K to the max science",
+		description: "Improves effectiveness of catnip refinement by 10%",
 		unlocked: false,
 		prices: [{ name : "slab", val: 100 },
 				 { name : "alloy", val: 25 },
@@ -265,7 +265,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		],
 		effects: {
 			"scienceRatio": 0.35,
-			"refineRatio" : 0.05,
+			"refineRatio" : 0.1,
 			"scienceMax"  : 1500
 		},
 		priceRatio: 1.10,
@@ -273,7 +273,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		requiredTech: ["biology"],
 		handler: function(btn){
 		},
-		val: 0
+		val: 0,
+		flavor: "New postdoc positions available."
 	},
 	//----------------------------------- Resource storage -------------------------------------------
 	{
@@ -364,7 +365,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["titaniumMax"] = ( 50 * ( 1 + ratio));
 			}
 		},
-		val: 0
+		val: 0,
+		flavor: "Ahoy, landlubbers!"
 	},
 	//----------------------------------- Resource production ----------------------------------------
 	{
@@ -715,7 +717,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var ratio = game.workshop.getEffect("lumberMillRatio");
 			self.effects["woodRatio"] = 0.1 + 0.1*ratio;
 		},
-		flavor: "Best log analysing tool"
+		flavor: "Best log analysing tool/"
 	},
 	{
 		name: "oilWell",
@@ -740,7 +742,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 			var ratio = game.workshop.getEffect("oilRatio");
 			self.effects["oilPerTickBase"] = 0.02 + 0.02*ratio;
-		}
+		},
+		flavor: "Formula for success: rise early, work hard, strike oil."
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
