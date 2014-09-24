@@ -473,7 +473,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
-					self.effects["coalPerTickBase"] = 0.005 * smelterRatio * autoProdRatio;
+					self.effects["coalPerTickBase"] = 0.005 * smelterRatio;
 				}
 			}
 		},
