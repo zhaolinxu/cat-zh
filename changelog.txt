@@ -1,3 +1,13 @@
+v 0.9.6.9 (25 sep)
+
+Changes by Zusias:
+
+Fixed smelter coal incorrectly getting double bonus from paragons/magnetos
+___
+Rows in the craft table will be now highlighted
+Wood refinement in IW will be now affected by Saw Mills
+Zebras will now have a 25% chance to bring a gold from a hunt if Golden Ore is researched
+
 v 0.9.6.8 (20 sep)
 
 Slightly reduced gear prices of Steamworks and SW upgrades.

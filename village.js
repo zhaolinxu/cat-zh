@@ -329,6 +329,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var huntingRes = {
 			furs: 0,
 			ivory: 0,
+			gold: 0,
 			isUnicorn: false
 		};
 
@@ -351,6 +352,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			huntingRes.isUnicorn = true;
 		}
 		
+		
+		if (this.game.ironWill && this.workshop.get("goldOre").researched){
+			if (this.rand(100) > 75){
+				var gold = this.game.resPool.get("gold");
+				huntingRes.gold = this.rand(5) + this.rand(10 * hunterRatio/2);
+			
+				gold.value += huntingRes.gold;
+			}
+		}
+		
 		return huntingRes;
 	},
 
@@ -362,6 +373,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
 		if (huntingRes.ivory){
 			msg += ", +" + huntingRes.ivory + " ivory";
+		}
+		if (huntingRes.gold){
+			msg += ", +" + huntingRes.gold + " gold";
 		}
 		this.game.msg( msg );
 	},
@@ -401,6 +415,9 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " furs";
 		if (totalYield.ivory){
 			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " ivory";
+		}
+		if (totalYield.gold){
+			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivgoldory) + " gold";
 		}
 		this.game.msg( msg );
 		

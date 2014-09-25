@@ -453,22 +453,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 	
 	//TODO: merge with workshop?
 	getResourceCraftRatio: function(res){
-		
-		if (res.name == "wood"){
-			return this.game.bld.getEffect("refineRatio");
-		}
-		
-		if (res.name == "blueprint"){
-			var bpRatio = this.game.workshop.getEffect("blueprintCraftRatio");
-			var scienceBldAmt = this.game.bld.get("library").val + this.game.bld.get("academy").val + 
-				this.game.bld.get("observatory").val + this.game.bld.get("biolab").val;
-				
-			var ratio = this.game.bld.getEffect("craftRatio");
-			
-			return ratio + scienceBldAmt * bpRatio;
-		}
-		
-		return this.game.bld.getEffect("craftRatio");
+		return this.game.getResCraftRatio(res);
 	},
 
 	render: function(){
@@ -477,7 +462,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		
 		this.resRows = [];
 		
-		var resTable = dojo.create("table", { className: "table resTable", style: { width: "100%"} }, this.containerId);
+		var resTable = dojo.create("table", { className: "table resTable craftTable", style: { width: "100%"} }, this.containerId);
 
 		for (var i = 0; i < this.game.resPool.resources.length; i++){
 			var res = this.game.resPool.resources[i];
@@ -499,7 +484,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			}
 
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
-			
 			
 			var isVisible = (res.value > 0 && this.workshop.val > 0);
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
@@ -1209,6 +1193,29 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		return perTick;
+	},
+	
+	getResCraftRatio: function(res){
+		if (res.name == "wood"){
+			var refineRatio = this.bld.getEffect("refineRatio");
+			if (this.ironWill){
+				return refineRatio * (1 + this.bld.getEffect("woodRatio"));
+			} else {
+				return refineRatio;
+			}
+		}
+		
+		if (res.name == "blueprint"){
+			var bpRatio = this.workshop.getEffect("blueprintCraftRatio");
+			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val + 
+				this.bld.get("observatory").val + this.bld.get("biolab").val;
+				
+			var ratio = this.bld.getEffect("craftRatio");
+			
+			return ratio + scienceBldAmt * bpRatio;
+		}
+		
+		return this.bld.getEffect("craftRatio");
 	},
 	
 	/**

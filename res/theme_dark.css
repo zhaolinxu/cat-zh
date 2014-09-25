@@ -61,4 +61,8 @@
 	background-color: #212121;
 	color: gray;
 }
+
+.scheme_dark table.craftTable tr:hover td {
+	background-color: rgba(155, 250, 155, 0.2);
+}
 			
