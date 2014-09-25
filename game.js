@@ -1675,8 +1675,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
-		this.load();
-		
+
+		// Hack to prevent an autosave from occuring before the reload completes
+		this.isPaused = true;
 		window.location.reload();
 	},
 	
