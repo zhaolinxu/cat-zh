@@ -359,14 +359,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			//  highlight resources for selected building
 			//--------------------------------------------
 			var selBld = this.game.selectedBuilding;
-
 			if (selBld && this.game.isResRequired(selBld, res.name)){
-				row.rowRef.className = "highlited";
+				className = "resourceRow highlited";
 			} else {
-				if (row.rowRef.className){	//surprisingly, this check makes setClass ~50% faster
-					row.rowRef.className = "";
-				}
+				className = "resourceRow";
 			}
+			if (row.rowRef.className != className){	//surprisingly, this check makes setClass ~50% faster
+				row.rowRef.className = className;
+			}
+			
 			//---------------------------------------------
 
 			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
@@ -615,13 +616,16 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			
 			//  highlight resources for selected building
 			//--------------------------------------------
+			var className;
+			
 			var selBld = this.game.selectedBuilding;
 			if (selBld && this.game.isResRequired(selBld, res.name)){
-				row.rowRef.className = "highlited";
+				className = "resourceRow highlited";
 			} else {
-				if (row.rowRef.className){
-					row.rowRef.className = "";
-				}
+				className = "resourceRow";
+			}
+			if (row.rowRef.className != className){
+				row.rowRef.className = className;
 			}
 
 			//dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
@@ -1407,13 +1411,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick = perTick * season.modifiers[res.name];
 		}
 
-		resString += "Base: " + this.getDisplayValue(bldResRatioTickBase, true); //plus prefix if positive income
+		if( bldResRatioTickBase ){
+			resString += "Buildings: " + this.getDisplayValueExt(bldResRatioTickBase, true, true) + "<br>"; //plus prefix if positive income, per tick fix
+		}
 		
 		var resMod = this.village.getResProduction();
 		var resModConsumption = this.village.getResConsumption();
 		
 		
 		var kittensPlus = resMod[res.name] ? resMod[res.name] : 0;
+		var kittenWSRatio = this.workshop.getEffect(res.name + "Ratio");
+		kittensPlus *= (1 + kittenWSRatio + bldResRatio);
 		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
 		
 		//use hyperbolic reduction on all DemandRatio effects
@@ -1429,30 +1437,37 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (steamworks.on > 0 && swEffectGlobal){
 			bldResRatio += swEffectGlobal;
 		}
-		
+
 		if (bldResRatio || relResRatio){
-			resString += "<br>Structures: " + 
-				this.getDisplayValue((bldResRatio+relResRatio)*100, true) + "%" + " "+ this.getDisplayValue((bldResTogglableTick), true);
+			var bldRatio = bldResRatio + relResRatio;
+			var structureBonusAbsolute = (bldResRatioTickBase * bldRatio) + bldResTogglableTick;
+
+			resString += "Buildings bonus: " + 
+				this.getDisplayValueExt(structureBonusAbsolute, true, true) + " (" + this.getDisplayValueExt((bldRatio*100).toFixed(), true) + "%)<br>";
 		}
+		
+		//TODO: magneto/faith/prestige bonuses there
 
 		if (season.modifiers[res.name]){
-			resString += "<br>Season: " + ((season.modifiers[res.name]-1)*100) + "%";
+			resString += "Season: " + ((season.modifiers[res.name]-1)*100) + "% (included)<br>";
 		}
 
 		if (kittensPlus){
-			resString += "<br>Job output: " + this.getDisplayValue(kittensPlus, true);
+			resString += "Job output: " + this.getDisplayValueExt(kittensPlus, true, true) +  " (" + this.getDisplayValueExt((kittenWSRatio*100).toFixed(), true) + "%)<br>";
 		}
 		if (kittensMinus){
-			resString += "<br>Demand: " + this.getDisplayValue(kittensMinus, true);
+			resString += "Demand: " + this.getDisplayValueExt(kittensMinus, true, true) + "<br>";
 		}
 
 		if (res.perTickUI < 0) {
 			var toZero = res.value / (-res.perTickUI * this.rate);
-			resString += "<br><br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
+			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
 			if (res.maxValue) {
 				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.rate);
-				resString += "<br><br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
+				if (toCap){
+					resString += "<br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
+				}
 			}
 		}
 
@@ -1477,9 +1492,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Converts raw resource value (e.g. 12345.67890) to a formated representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
 	 */ 
-	getDisplayValueExt: function(value, prefix){
+	getDisplayValueExt: function(value, prefix, usePetTickHack){
 		
 		if(!value) { return 0; }
+		
+		if (usePetTickHack){
+			usePetTickHack = this.opts.usePerSecondValues;
+		}
+		if (usePetTickHack){
+			value = value * this.rate;
+		}
 		
 		//shamelesly copied from Sandcastle Builder code
 		var postfixes=[
@@ -1508,19 +1530,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 		
-		return this.getDisplayValue(value, prefix);
+		return this.getDisplayValue(value, prefix) + (usePetTickHack ? "/s" : "");
 	},
 	
 	/**
 	 * Formats float value to x.xx or x if value is integer
 	 */
 	getDisplayValue: function(floatVal, plusPrefix){
+		
 		var plusSign = "+";
 		if (floatVal <= 0 || !plusPrefix){
 			plusSign = "";
 		}
 		
 		var fixedAmt = this.forceHighPrecision ? 3 : 2;
+		
+		if (!floatVal.toFixed){
+			return plusSign + floatVal;
+		}
 		
 		if (floatVal.toFixed() == floatVal){
 			return plusSign + floatVal.toFixed();
