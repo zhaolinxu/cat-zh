@@ -1131,7 +1131,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	craft: function (res, amt){
 
 		var craft = this.getCraft(res);
-		var craftRatio = this.game.getResCraftRatio(res);
+		var craftRatio = this.game.getResCraftRatio({name:res});
 		
 		var craftAmt = amt * (1 + craftRatio);
 		var prices = dojo.clone(craft.prices);
@@ -1163,7 +1163,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		}
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
-			var craftRatio = this.game.getResCraftRatio(craftName);
+			var craftRatio = this.game.getResCraftRatio({name:craftName});
 			var bonus = minAmt * craftRatio;
 
 			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");
