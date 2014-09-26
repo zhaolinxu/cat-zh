@@ -353,7 +353,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		}
 		
 		
-		if (this.game.ironWill && this.workshop.get("goldOre").researched){
+		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
 			if (this.rand(100) > 75){
 				var gold = this.game.resPool.get("gold");
 				huntingRes.gold = this.rand(5) + this.rand(10 * hunterRatio/2);
