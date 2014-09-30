@@ -841,8 +841,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	save: function(){
 		var saveData = {
-			resources: this.resPool.resources
+			resources: this.resPool.filterMetadata(
+				this.resPool.resources, ["name", "value"]
+			)
 		};
+		
 		this.bld.save(saveData);
 		this.village.save(saveData);
 		this.calendar.save(saveData);

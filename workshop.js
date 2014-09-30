@@ -1065,9 +1065,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},
 	
 	save: function(saveData){
+		
+		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
+		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked"]);
+		
 		saveData.workshop = {
-			upgrades: this.upgrades,
-			crafts: this.crafts
+			upgrades: upgrades,
+			crafts:   crafts
 		}
 		saveData.workshop.hideResearched = this.hideResearched;
 	},

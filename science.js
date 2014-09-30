@@ -1,7 +1,7 @@
 /**
  * Weird cat science
  */
-dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
+dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicorn.core.TabManager, {
 	
 	game: null,
 	
@@ -597,7 +597,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", null, {
 	
 	save: function(saveData){
 		saveData.science = {
-			techs: this.techs
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
 		}
 		saveData.science.hideResearched = this.hideResearched;
 	},

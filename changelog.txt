@@ -1,6 +1,7 @@
 v 0.9.7.0 (26 sep)
 
 More accurate resource tooltips
+Slighlty reduced save footprint
 
 
 v 0.9.6.9 (25 sep)

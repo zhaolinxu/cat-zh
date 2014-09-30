@@ -115,6 +115,23 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				}
 			}
 		}
+	},
+	
+	filterMetadata: function(meta, fields){
+		var filtered = [];
+		for(var i = 0; i< meta.length; i++){
+			var clone = {};
+			
+			for (var j = 0; j < fields.length; j++){
+				var fld = fields[j];
+				/*if (!meta[i].hasOwnProperty(fld)){
+					console.warn("Can't find elem." + fld + " in", meta[i]);
+				}*/
+				clone[fld] = meta[i][fld];
+			}
+			filtered.push(clone);
+		}
+		return filtered;
 	}
 	
 	//TODO: add saveMetadata

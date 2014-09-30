@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.ResourceManager", null, {
+dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.TabManager, {
 	
 	//=========================================
 	//				COMMON

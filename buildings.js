@@ -1281,7 +1281,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},
 	
 	save: function(saveData){
-		saveData.buildings = this.buildingsData;
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on"]);
 		
 		if (!saveData.bldData){
 			saveData.bldData = {};
