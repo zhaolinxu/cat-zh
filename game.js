@@ -1132,7 +1132,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * workshopResRatio;
 		}
 		
-		//RELIGION EFFECTS
+		//---------- RELIGION EFFECTS -----------
 		var relResEffect = this.religion.getEffect(resName+"Ratio");
 		if (relResEffect){
 			perTick += perTick * relResEffect;
@@ -1197,6 +1197,151 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		return perTick;
+	},
+	
+	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
+		
+		var res = null;
+		for (var i = 0; i < this.resPool.resources.length; i++){
+			if (this.resPool.resources[i].name == resName){
+				res = this.resPool.resources[i];
+			}
+		}
+
+		if (!season){
+			var season = this.calendar.getCurSeason();
+		}
+		
+		var stack = [];
+		
+		stack.push({
+			name: "Base",
+			type: "fixed",
+			value: this.bld.getEffect(res.name + "PerTickBase")
+		});
+		
+		
+		var weatherMod = this.calendar.getWeatherMod();
+		weatherMod = (season.modifiers[res.name] + weatherMod);
+		if (weatherMod < -0.95){
+			weatherMod = -0.95;
+		}
+		
+		stack.push({
+			name: "Weather",
+			type: "ratio",
+			value: weatherMod
+		});
+		
+		//----------- production -----------
+		
+		var resMapProduction = this.village.getResProduction();
+		var villageStack = [];
+		//---->
+				villageStack.push({
+					name: "Village",
+					type: "fixed",
+					value: resMapProduction[res.name] || 0
+				});
+				
+				if (res.name != "coal"){
+					villageStack.push({
+						name: "Upgrades",
+						type: "ratio",
+						value: this.workshop.getEffect(res.name + "Ratio")
+					});
+				}
+		//<----		
+		stack.push(villageStack);
+		
+		stack.push({
+			name: "Buildings",
+			type: "ratio",
+			value: this.bld.getEffect(res.name + "Ratio")
+		});
+		
+		//*** SW coal penalty, affected by workshop upgrades
+		/*if (res.name == "coal"){
+			stack.push({
+				name: "Buildings",
+				type: "ratio",
+				val: this.workshop.getEffect(res.name + "Ratio")
+			});
+		}*/	//???
+		
+		stack.push({
+			name: "Religion",
+			type: "ratio",
+			value: this.religion.getEffect(res.name + "Ratio")
+		});
+		
+		var paragonRatio = this.resPool.get("paragon").value * 0.01;
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		stack.push({
+			name: "Paragon",
+			type: "ratio",
+			value: paragonRatio
+		});
+		
+		if (this.religion.getRU("solarRevolution").researched){
+			stack.push({
+				name: "Faith",
+				type: "ratio",
+				value: this.religion.getProductionBonus() / 100
+			});
+		}
+		
+		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
+		if (!res.transient && this.bld.get("magneto").on > 0){
+			
+			var sw = this.bld.get("steamworks");
+			
+			if (res.name != "oil"){
+				var steamworks = this.bld.get("steamworks");
+				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
+				stack.push({
+					name: "Magnetos",
+					type: "ratio",
+					value: this.bld.getEffect("magnetoRatio") * swRatio
+				});
+			}
+		}
+		
+		stack.push({
+			name: "Reactors",
+			type: "ratio",
+			value: this.bld.getEffect("productionRatio") * swRatio
+		});
+		
+		stack.push({
+			name: "Automated",
+			type: "fixed",
+			value: this.bld.getEffect(res.name + "PerTick")
+		});
+		
+		var steamworks = this.bld.get("steamworks");
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.on > 0 && swEffectGlobal ){
+			stack.push({
+				name: "Steamworks",
+				type: "fixed",
+				value: swEffectGlobal
+			});
+		}
+		
+		var resMapConsumption = this.village.getResConsumption();
+		var resConsumption = resMapConsumption[res.name] || 0;
+		
+		var useHypHack = (res.name != "catnip") ? true : false;		//	TODO: ************ WTF!?? ***************
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);
+		
+		stack.push({
+			name: "Demand",
+			type: "fixed",
+			value: resConsumption
+		});
+		
+		return stack;
 	},
 	
 	getResCraftRatio: function(res){
@@ -1395,70 +1540,25 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 */ 
 	getDetailedResMap: function(res){
 		var resString = "";
-		
-		var season = this.calendar.getCurSeason();
-		var bldResRatio = this.bld.getEffect(res.name+"Ratio");
-		var relResRatio = this.religion.getEffect(res.name+"Ratio");
-		
-		//togglable structure effect (not affected by ratio modifers)
-		var bldResTogglableTick = this.bld.getEffect(res.name + "PerTick");
-		
-		//base structure effect (affected by all mods)
-		var bldResRatioTickBase = this.bld.getEffect(res.name + "PerTickBase");
-		
-		var perTick = bldResRatioTickBase;
-		if (season.modifiers[res.name]){
-			perTick = perTick * season.modifiers[res.name];
-		}
+		var resStack = this.getResourcePerTickStack(res.name);
 
-		if( bldResRatioTickBase ){
-			resString += "Buildings: " + this.getDisplayValueExt(bldResRatioTickBase, true, true) + "<br>"; //plus prefix if positive income, per tick fix
-		}
-		
-		var resMod = this.village.getResProduction();
-		var resModConsumption = this.village.getResConsumption();
-		
-		
-		var kittensPlus = resMod[res.name] ? resMod[res.name] : 0;
-		var kittenWSRatio = this.workshop.getEffect(res.name + "Ratio");
-		kittensPlus *= (1 + kittenWSRatio + bldResRatio);
-		var kittensMinus = resModConsumption[res.name] ? resModConsumption[res.name] : 0;
-		
-		//use hyperbolic reduction on all DemandRatio effects
-		var kittensMinus = kittensMinus + kittensMinus * this.bld.getEffect(res.name + "DemandRatio", true);	
-		
-		
-		bldResRatio = bldResRatio ? bldResRatio : 0;
-		relResRatio = relResRatio ? relResRatio : 0;
-		
-		//steamwork hack for coal
-		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
-		if (steamworks.on > 0 && swEffectGlobal){
-			bldResRatio += swEffectGlobal;
-		}
+		for (var i = 0; i < resStack.length; i++){
+			var stackElem = resStack[i];
+			
+			if (stackElem.length){
+				//TODO: use recursive iteration
+				for (elem in stackElem){
+					resString += "&nbsp;*&nbsp;" + this.getStackElemString(stackElem[elem]);
+				}
+			}
+			
+			if (!stackElem.value){
+				continue;
+			}
 
-		if (bldResRatio || relResRatio){
-			var bldRatio = bldResRatio + relResRatio;
-			var structureBonusAbsolute = (bldResRatioTickBase * bldRatio) + bldResTogglableTick;
-
-			resString += "Buildings bonus: " + 
-				this.getDisplayValueExt(structureBonusAbsolute, true, true) + " (" + this.getDisplayValueExt((bldRatio*100).toFixed(), true) + "%)<br>";
+			resString += this.getStackElemString(stackElem);
 		}
 		
-		//TODO: magneto/faith/prestige bonuses there
-
-		if (season.modifiers[res.name]){
-			resString += "Season: " + ((season.modifiers[res.name]-1)*100) + "% (included)<br>";
-		}
-
-		if (kittensPlus){
-			resString += "Job output: " + this.getDisplayValueExt(kittensPlus, true, true) +  " (" + this.getDisplayValueExt((kittenWSRatio*100).toFixed(), true) + "%)<br>";
-		}
-		if (kittensMinus){
-			resString += "Demand: " + this.getDisplayValueExt(kittensMinus, true, true) + "<br>";
-		}
-
 		if (res.perTickUI < 0) {
 			var toZero = res.value / (-res.perTickUI * this.rate);
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
@@ -1470,7 +1570,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-
+		return resString;
+	},
+	
+	getStackElemString: function(stackElem){
+		var resString = stackElem.name + ":";
+			
+		if (stackElem.type == "fixed"){
+			resString += " " + this.getDisplayValueExt(stackElem.value, true, true);
+		} else {
+			resString += " " + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		}
+		
+		resString += "<br>";
+		
 		return resString;
 	},
 

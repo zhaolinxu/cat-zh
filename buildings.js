@@ -434,7 +434,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			"ironPerTick" : 0.02
 		},
 		action: function(self, game){
-			self.effects["coalPerTickBase"] = 0;
 			if (self.on < 1){
 				return;
 			}
@@ -473,7 +472,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 				
 				if (game.workshop.get("coalFurnace").researched){
-					self.effects["coalPerTickBase"] = 0.005 * smelterRatio;
+					self.effects["coalPerTick"] = 0.005 * smelterRatio * autoProdRatio;
+					coal.value += self.effects["coalPerTick"] * self.on;
 				}
 			}
 		},
