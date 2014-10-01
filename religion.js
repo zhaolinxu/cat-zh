@@ -44,7 +44,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			});
 		}
 		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["researched"], function(loadedElem){});
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "researched"], function(loadedElem){});
 		}
 	},
 	
