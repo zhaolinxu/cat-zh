@@ -2088,13 +2088,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			name:	 "Gather catnip", 
 			handler: function(btn){
 						clearTimeout(btn.game.gatherTimeoutHandler);
-						btn.game.gatherTimeoutHandler = setTimeout( dojo.partial(function(){ btn.game.render();}, btn), 1500);	//1.5 sec 
+						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec 
+
 						btn.game.gatherClicks++;
+						if (btn.game.gatherClicks >= 2500 && !self.game.ironWill){
+							btn.game.gatherClicks = 0;
+							btn.game.cheatMode = true;
+						}
 				
 						btn.game.resPool.get("catnip").value++;
-						btn.game.updateResources();
-
-						//btn.game.render();	//not good
 					 },
 			description: "Gather some catnip in the forest"
 		}, this.game);
@@ -2104,17 +2106,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
 			handler: 	function(btn){
-							//self.game.resPool.get("catnip").value -= 100;
 							var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
+							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
 							if (!isEnriched){
-								btn.game.resPool.get("wood").value += 1;
+								btn.game.resPool.get("wood").value += 1 * craftRatio;
 							} else {
-								btn.game.resPool.get("wood").value += 2;
+								btn.game.resPool.get("wood").value += 2 * craftRatio;
 								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 							}
-							
-							btn.game.updateResources();
-							btn.game.render();
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: 100 }]
