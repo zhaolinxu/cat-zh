@@ -166,7 +166,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			var spans = this.spans;
 			spans.push(span);
 			if (spans.length > 31){
-                dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
+				dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
 			}
 			
 
@@ -174,10 +174,24 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		},
 		
 		clear: function(){
+			// Hack to save active astronomical events
+			var event;
+			var observeBtn = dojo.byId("observeBtn");
+			if (observeBtn) {
+				event = observeBtn.parentNode;
+			}
+
 			this.spans = [];
 			
 			var gameLog = dojo.byId("gameLog");
 			dojo.empty(gameLog);
+
+			if (event) {
+				dojo.setStyle(event, "opacity", 1);
+				dojo.setStyle(observeBtn, "opacity", 1);
+				this.spans.push(event);
+				dojo.place(event, gameLog, "first");
+			}
 		}
 	}
 });
