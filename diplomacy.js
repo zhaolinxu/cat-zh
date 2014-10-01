@@ -274,6 +274,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	
 	race: null,
 	
+	trade25Href: null,
+	trade100Href: null,
 	tradeAllHref: null,
 
 	constructor: function(opts, game){
@@ -373,9 +375,35 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		this.printYieldOutput(yieldRes);
 	},
 	
-	tradeAll: function(){
-		var yieldResTotal = {};
+	tradeMultiple: function(amt){
+		//------------ safety measure ----------------
+		if (!this.hasMultipleResources(amt)) {
+			return;
+		}
 
+		//-------------- pay prices ------------------
+		
+		this.game.resPool.addResAmt("manpower", -50*amt);
+		this.game.resPool.addResAmt("gold", -15*amt);
+		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*amt);
+		
+		//---------- calculate yield -----------------
+		
+		this.game.msg("You have sent " + amt + " trade caravans");
+
+		var yieldResTotal = {};
+		for (var i = 0; i<amt; i++){
+			var yieldRes = this.tradeInternal(true);	//supress msg
+			
+			for (var res in yieldRes) {
+				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
+			}
+		}
+		
+		this.printYieldOutput(yieldResTotal);
+	},
+	
+	tradeAll: function(){
 		var amt = [
 			Math.floor(this.game.resPool.get("manpower").value / 50),
 			Math.floor(this.game.resPool.get("gold").value / 15),
@@ -389,24 +417,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		if (min == Number.MAX_VALUE || min == 0){
 			return;
 		}
-		//-------------- pay prices ------------------
 		
-		this.game.resPool.addResAmt("manpower", -50*min);
-		this.game.resPool.addResAmt("gold", -15*min);
-		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*min);
-		
-		//---------- calculate yield -----------------
-		
-		this.game.msg("You have sent " + min + " trade caravans");
-		for (var i = 0; i<min; i++){
-			var yieldRes = this.tradeInternal(true);	//supress msg
-			
-			for (var res in yieldRes) {
-				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
-			}
-		}
-		
-		this.printYieldOutput(yieldResTotal);
+		this.tradeMultiple(min);
 	},
 	
 	/**
@@ -423,21 +435,40 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	},
 	
 	renderLinks: function(){
-		this.tradeAllHref = dojo.create("a", { href: "#", innerHTML: "all",
-			title: "Spend all the manpower/gold on trade caravans",
-			style:{
-				paddingLeft: "2px",
-				float: "right",
-				cursor: "pointer"}
-			}, null);
-			
-		dojo.connect(this.tradeAllHref, "onclick", this, dojo.partial(function(event){
-			event.stopPropagation();
-			event.preventDefault();
-			
-			this.tradeAll();
-		}));
-		dojo.place(this.tradeAllHref, this.buttonContent);
+		this.tradeAllHref = this.addLink("all",
+			function(){
+				this.tradeAll();
+			}
+		);
+
+		this.trade100Href = this.addLink("x100",
+			function(){
+				this.tradeMultiple(100);
+			}
+		);
+
+		this.trade25Href = this.addLink("x25",
+			function(){
+				this.tradeMultiple(25);
+			}
+		);
+
+		dojo.setStyle(this.trade100Href.link, "display", this.hasMultipleResources(100) ? "" : "none");
+		dojo.setStyle(this.trade25Href.link, "display", this.hasMultipleResources(25) ? "" : "none");
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		
+		dojo.setStyle(this.trade100Href.link, "display", this.hasMultipleResources(100) ? "" : "none");
+		dojo.setStyle(this.trade25Href.link, "display", this.hasMultipleResources(25) ? "" : "none");
+	},
+	
+	hasMultipleResources: function(amt){
+		return (this.game.resPool.get("manpower").value >= 50 * amt &&
+			this.game.resPool.get("gold").value >= 15 * amt &&
+			this.game.resPool.get(this.race.buys[0].name).value >=
+				this.race.buys[0].val * amt);
 	}
 });
 
