@@ -486,7 +486,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
-			var isVisible = (res.value > 0 && this.workshop.val > 0);
+			var isVisible = (recipe.unlocked && res.value > 0 && this.workshop.val > 0);
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 			
