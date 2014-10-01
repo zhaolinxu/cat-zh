@@ -510,6 +510,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				return;
 			}
 			
+			self.effects["coalPerTick"] = 0;
 			self.effects["steelPerTick"] = 0;
 			
 			var oil = game.resPool.get("oil");
@@ -537,20 +538,18 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				
 				// we have iron to steel upgrade and enough coal for 1:1 conversion
 				if (steelRatio && coal.value >= self.effects["ironPerTick"] * self.on * steelRatio) {
+
+					//display the effect of the steel conversion
+					self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
+					self.effects["coalPerTick"] = -self.effects["ironPerTick"] * steelRatio;
+					self.effects["steelPerTick"] = self.effects["ironPerTick"] * steelRatio / 100;
 					
-					self.effects["steelPerTick"] = self.effects["ironPerTick"] * self.on * steelRatio / 100;
-					
-					iron.value += self.effects["ironPerTick"] * self.on * (1 - steelRatio);
-					coal.value -= self.effects["ironPerTick"] * self.on * steelRatio;
-					steel.value += self.effects["steelPerTick"];
-					
+					iron.value += self.effects["ironPerTick"] * self.on;
+					coal.value += self.effects["coalPerTick"] * self.on;
+					steel.value += self.effects["steelPerTick"] * self.on;
 				} else {
 					iron.value += self.effects["ironPerTick"] * self.on;
 				}
-				
-				//display the effect of the steel conversion
-				
-				self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
 
 				var titanium = game.resPool.get("titanium");
 				titanium.value += self.effects["titaniumPerTick"] * self.on ;
