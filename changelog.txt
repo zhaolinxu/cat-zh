@@ -1,3 +1,8 @@
+v 0.9.8.0 (1 oct)
+
+Transcendence
+Fixed Stained Glass not giving correct bonuses to faith
+
 v 0.9.7.0 (26 sep)
 
 More accurate resource tooltips

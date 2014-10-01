@@ -126,6 +126,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			"faithRatio" : 0.1
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "scholasticism",
@@ -138,6 +141,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "goldenSpire",
@@ -151,6 +157,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "sunAltar",
@@ -164,6 +173,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "stainedGlass",
@@ -177,6 +189,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "solarRevolution",
@@ -203,6 +218,9 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "templars",
@@ -216,16 +234,32 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
+		upgradable: true,
+		priceRatio: 2.5,
 		researched: false
 	},{
 		name: "apocripha",
 		label: "Apocrypha",
 		description: "Grants the ability to discard accumulated faith to improve prays effectiveness",
 		prices: [
-			{ name : "faith", val: 6000 },
+			{ name : "faith", val: 5000 },
 			{ name : "gold",  val: 5000 }
 		],
 		faith: 100000,
+		effects: {
+			//none
+		},
+		researched: false
+	},{
+		name: "transcendence",
+		label: "Trasncendence",
+		description: "Unlocks additional religion upgrades",
+		prices: [
+			{ name : "faith", val: 7500 },
+			{ name : "gold",  val: 7500 }
+		],
+		faith: 125000,
 		effects: {
 			//none
 		},
@@ -244,7 +278,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		var effectTotal = 0;
 		dojo.forEach(this.religionUpgrades, function(e, i){
 			if (e.researched && e.effects[name]){
-				effectTotal += e.effects[name];
+				var ratio = e.upgradable ? e.val + 1 : 1;
+				effectTotal += e.effects[name] * ratio;
 			}
 		});
 		return effectTotal;
@@ -334,8 +369,28 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
  * A button for religion upgrade
  */
 dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	
+	ruCached: null,
+	
 	getBuilding: function(){
-		return this.game.religion.getRU(this.id);
+		if (!this.ruCached){
+			this.ruCached = this.game.religion.getRU(this.id);
+		}
+		return this.ruCached;
+	},
+
+	getRU: function(){
+		return this.getBuilding(this.id);
+	},
+	
+	getPrices: function(){
+		var ratio = this.getRU().priceRatio;
+		var prices = dojo.clone(this.ruCached.prices);
+		 
+		for (var i = 0; i< prices.length; i++){
+			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val + 1);
+		}
+	    return this.ruCached.upgradable ? prices : this.ruCached.prices;
 	},
 	
 	updateVisible: function(){
@@ -349,16 +404,19 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 		
 		var upgrade = this.getBuilding();
-		if (upgrade.researched){
+		if (upgrade.researched && !upgrade.upgradable){
 			this.setEnabled(false);
+		} else if (upgrade.researched && upgrade.upgradable){
+			this.setEnabled(this.hasResources());
 		}
 	},
 	
 	getName: function(){
 		var upgrade = this.getBuilding();
-		if (upgrade.researched){
-			var name = this.name;
-			return name + " (complete)";
+		if (upgrade.researched && !upgrade.upgradable){
+			return this.name + " (complete)";
+		} else if (upgrade.researched && upgrade.upgradable && this.game.religion.getRU("transcendence").researched){	//TODO: cache this too
+			return this.name + " (" + upgrade.val + ")";
 		}
 		return this.name;
 	},
