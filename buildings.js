@@ -1212,6 +1212,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (!bld.unlocked){
 				if (this.isConstructionEnabled(bld)){
 					bld.unlocked = true;
+					this.game.render();
 				}
 			} else {
 				//just in case we patched something (shit happens?)
