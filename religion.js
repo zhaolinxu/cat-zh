@@ -388,6 +388,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		}
 		return this.ruCached;
 	},
+	
+	hasSellLink: function(){
+		return this.ruCached.upgradable && this.ruCached.val > 1 && this.transcendence.researched;
+	},
 
 	getRU: function(){
 		return this.getBuilding(this.id);
@@ -400,7 +404,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
 		}
-	    return this.ruCached.upgradable ? prices : this.ruCached.prices;
+	    return ( this.ruCached.upgradable && this.transcendence && this.transcendence.researched ) ? prices : this.ruCached.prices;
 	},
 	
 	updateVisible: function(){

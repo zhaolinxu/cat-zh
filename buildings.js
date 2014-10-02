@@ -1432,6 +1432,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
 	},
 	
+	hasSellLink: function(){
+		return true;
+	},
+	
 	/**
 	 * Render button links like off/on and sell
 	 */  
@@ -1440,7 +1444,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		
 		
 		//TODO: rewrite this with addLink
-		if (building && building.val){
+		if (building && building.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
 						title: "Sell building for 50% of the price",

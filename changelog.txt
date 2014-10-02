@@ -1,3 +1,24 @@
+v 0.9.8.2 (2 oct)
+
+Changes by xranti:
+___
+
+    The game will now render when new buildings are unlocked (http://redd.it/2hnj5z)
+    Removed render hacks from gather and refine catnip buttons (see above fix)
+    Fixed Super Unethical Climax achievement
+    Added bio lab bonus to the refine catnip button
+    Fixed coal rate display with Steel Plants upgrade (http://redd.it/2hh7it)
+    Hide 0 effects in building tooltips
+    Prevent crafting blueprints before researching physics (http://redd.it/2h4s74)
+    Preserve active astronomical events when clearing the log (http://redd.it/2hysk9)
+    Added x25 and x100 trade links (http://redd.it/2hd29d)
+    Fixed bug causing the game to crash when all your kittens die (issue #9)
+    Fixed transcendence save loading issues
+    
+	Fixed wood refine ratio in iron will mode
+
+<333
+
 v 0.9.8.0 (1 oct)
 
 Transcendence
