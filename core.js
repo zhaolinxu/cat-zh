@@ -107,8 +107,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 					var fld = fields[j];
 					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
 						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
+					}else{
+						elem[fld] = savedMetaElem[fld];
 					}
-					elem[fld] = savedMetaElem[fld];
 				}
 				if (handler){
 					handler(elem);
