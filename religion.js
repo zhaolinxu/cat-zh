@@ -201,6 +201,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 750 },
 			{ name : "gold",  val: 500 }
 		],
+		val: 0,
 		faith: 1000,
 		effects: {
 			//none
@@ -214,6 +215,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 1250 },
 			{ name : "gold",  val: 750 }
 		],
+		val: 0,
 		faith: 10000,
 		effects: {
 			//none
@@ -246,6 +248,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 5000 },
 			{ name : "gold",  val: 5000 }
 		],
+		val: 0,
 		faith: 100000,
 		effects: {
 			//none
@@ -253,12 +256,13 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		researched: false
 	},{
 		name: "transcendence",
-		label: "Trasncendence",
+		label: "Transcendence",
 		description: "Unlocks additional religion upgrades",
 		prices: [
 			{ name : "faith", val: 7500 },
 			{ name : "gold",  val: 7500 }
 		],
+		val: 0,
 		faith: 125000,
 		effects: {
 			//none
