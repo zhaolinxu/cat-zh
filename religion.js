@@ -283,7 +283,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		var effectTotal = 0;
 		dojo.forEach(this.religionUpgrades, function(e, i){
 			if (e.researched && e.effects[name]){
-				var ratio = e.upgradable ? e.val + 1 : 1;
+				var ratio = e.upgradable ? e.val : 1;
 				effectTotal += e.effects[name] * ratio;
 			}
 		});
@@ -398,7 +398,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		var prices = dojo.clone(this.ruCached.prices);
 		 
 		for (var i = 0; i< prices.length; i++){
-			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val + 1);
+			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
 		}
 	    return this.ruCached.upgradable ? prices : this.ruCached.prices;
 	},
