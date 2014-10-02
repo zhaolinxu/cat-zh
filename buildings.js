@@ -510,6 +510,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				return;
 			}
 			
+			self.effects["coalPerTick"] = 0;
 			self.effects["steelPerTick"] = 0;
 			
 			var oil = game.resPool.get("oil");
@@ -537,20 +538,18 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				
 				// we have iron to steel upgrade and enough coal for 1:1 conversion
 				if (steelRatio && coal.value >= self.effects["ironPerTick"] * self.on * steelRatio) {
+
+					//display the effect of the steel conversion
+					self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
+					self.effects["coalPerTick"] = -self.effects["ironPerTick"] * steelRatio;
+					self.effects["steelPerTick"] = self.effects["ironPerTick"] * steelRatio / 100;
 					
-					self.effects["steelPerTick"] = self.effects["ironPerTick"] * self.on * steelRatio / 100;
-					
-					iron.value += self.effects["ironPerTick"] * self.on * (1 - steelRatio);
-					coal.value -= self.effects["ironPerTick"] * self.on * steelRatio;
-					steel.value += self.effects["steelPerTick"];
-					
+					iron.value += self.effects["ironPerTick"] * self.on;
+					coal.value += self.effects["coalPerTick"] * self.on;
+					steel.value += self.effects["steelPerTick"] * self.on;
 				} else {
 					iron.value += self.effects["ironPerTick"] * self.on;
 				}
-				
-				//display the effect of the steel conversion
-				
-				self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
 
 				var titanium = game.resPool.get("titanium");
 				titanium.value += self.effects["titaniumPerTick"] * self.on ;
@@ -1211,6 +1210,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (!bld.unlocked){
 				if (this.isConstructionEnabled(bld)){
 					bld.unlocked = true;
+					this.game.render();
 				}
 			} else {
 				//just in case we patched something (shit happens?)
@@ -2086,13 +2086,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			name:	 "Gather catnip", 
 			handler: function(btn){
 						clearTimeout(btn.game.gatherTimeoutHandler);
-						btn.game.gatherTimeoutHandler = setTimeout( dojo.partial(function(){ btn.game.render();}, btn), 1500);	//1.5 sec 
+						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec 
+
 						btn.game.gatherClicks++;
+						if (btn.game.gatherClicks >= 2500 && !self.game.ironWill){
+							btn.game.gatherClicks = 0;
+							btn.game.cheatMode = true;
+						}
 				
 						btn.game.resPool.get("catnip").value++;
-						btn.game.updateResources();
-
-						//btn.game.render();	//not good
 					 },
 			description: "Gather some catnip in the forest"
 		}, this.game);
@@ -2102,17 +2104,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
 			handler: 	function(btn){
-							//self.game.resPool.get("catnip").value -= 100;
 							var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
+							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
 							if (!isEnriched){
-								btn.game.resPool.get("wood").value += 1;
+								btn.game.resPool.get("wood").value += 1 * craftRatio;
 							} else {
-								btn.game.resPool.get("wood").value += 2;
+								btn.game.resPool.get("wood").value += 2 * craftRatio;
 								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 							}
-							
-							btn.game.updateResources();
-							btn.game.render();
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: 100 }]

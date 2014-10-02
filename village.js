@@ -522,10 +522,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	
 	//just truncate array, I am too lazy to write splice
 	killKittens: function(amount){
-		this.kittens.length -= amount;
-		if (this.kittens.length < 0){
-			this.kittens.length = 0;
+		if (amount > this.kittens.length) {
+			amount = this.kittens.length;
 		}
+		this.kittens.length -= amount;
 	},
 	
 	getKittens: function(){

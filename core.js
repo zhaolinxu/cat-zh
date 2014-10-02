@@ -108,7 +108,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
 						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
 					}
-					elem[fld] = savedMetaElem[fld];
+					if (savedMetaElem[fld] !== undefined) {
+						elem[fld] = savedMetaElem[fld];
+					}
 				}
 				if (handler){
 					handler(elem);
@@ -166,7 +168,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			var spans = this.spans;
 			spans.push(span);
 			if (spans.length > 31){
-                dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
+				dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
 			}
 			
 
@@ -174,10 +176,24 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		},
 		
 		clear: function(){
+			// Hack to save active astronomical events
+			var event;
+			var observeBtn = dojo.byId("observeBtn");
+			if (observeBtn) {
+				event = observeBtn.parentNode;
+			}
+
 			this.spans = [];
 			
 			var gameLog = dojo.byId("gameLog");
 			dojo.empty(gameLog);
+
+			if (event) {
+				dojo.setStyle(event, "opacity", 1);
+				dojo.setStyle(observeBtn, "opacity", 1);
+				this.spans.push(event);
+				dojo.place(event, gameLog, "first");
+			}
 		}
 	}
 });
@@ -641,33 +657,35 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		//-----------------------------------------
 
 		for (effectName in effectsList){
-			var effectMeta = this.game.getEffectMeta(effectName);
-			
-			if (!effectMeta) {
-				effectMeta = {};
-			}
-			var displayEffectName = effectMeta.title || effectName;
-			
-			if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
-				continue;	//hide resource-related effects if we did not unlocked this effect yet
-			}
-			
 			var effectValue = effectsList[effectName];
-			var displayEffectValue;
-			
-			if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec"
-			} else {
-				displayEffectValue = this.game.getDisplayValueExt(effectValue);
+			if (effectValue != 0) {
+				var effectMeta = this.game.getEffectMeta(effectName);
+				
+				if (!effectMeta) {
+					effectMeta = {};
+				}
+				var displayEffectName = effectMeta.title || effectName;
+				
+				if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
+					continue;	//hide resource-related effects if we did not unlocked this effect yet
+				}
+				
+				var displayEffectValue;
+				
+				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec"
+				} else {
+					displayEffectValue = this.game.getDisplayValueExt(effectValue);
+				}
+				
+				var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + displayEffectValue, 
+					style: { 
+						float: "left",
+						fontSize: "14px",
+						color: "gray",
+						clear: "both"
+				}}, tooltip );
 			}
-			
-			var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + displayEffectValue, 
-				style: { 
-					float: "left",
-					fontSize: "14px",
-					color: "gray",
-					clear: "both"
-			}}, tooltip );
 		}
 
 	},

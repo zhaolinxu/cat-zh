@@ -492,7 +492,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 			
-			var isVisible = (res.value > 0 && this.workshop.val > 0);
+			var isVisible = (recipe.unlocked && res.value > 0 && this.workshop.val > 0);
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 			
@@ -1357,7 +1357,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (res.name == "wood"){
 			var refineRatio = this.bld.getEffect("refineRatio");
 			if (this.ironWill){
-				return refineRatio * (1 + this.bld.getEffect("woodRatio"));
+				return (1 + refineRatio) * (1 + this.bld.getEffect("woodRatio"));
 			} else {
 				return refineRatio;
 			}

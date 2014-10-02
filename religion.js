@@ -44,7 +44,12 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			});
 		}
 		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "researched"], function(loadedElem){});
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "researched"], function(loadedElem){
+				// Hack to fix old saves
+				if (loadedElem.researched && (loadedElem.val == 0 || loadedElem.val == null)) {
+					loadedElem.val = 1;
+				}
+			});
 		}
 	},
 	
@@ -371,6 +376,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	
 	ruCached: null,
+	transcendence: null,
+
+	constructor: function(opts, game) {
+		this.transcendence = this.game.religion.getRU("transcendence");
+	},
 	
 	getBuilding: function(){
 		if (!this.ruCached){
@@ -404,18 +414,18 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 		
 		var upgrade = this.getBuilding();
-		if (upgrade.researched && !upgrade.upgradable){
+		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
 			this.setEnabled(false);
-		} else if (upgrade.researched && upgrade.upgradable){
+		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){
 			this.setEnabled(this.hasResources());
 		}
 	},
 	
 	getName: function(){
 		var upgrade = this.getBuilding();
-		if (upgrade.researched && !upgrade.upgradable){
+		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
 			return this.name + " (complete)";
-		} else if (upgrade.researched && upgrade.upgradable && this.game.religion.getRU("transcendence").researched){	//TODO: cache this too
+		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){	//TODO: cache this too
 			return this.name + " (" + upgrade.val + ")";
 		}
 		return this.name;
