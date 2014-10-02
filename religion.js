@@ -411,7 +411,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		if (upgrade.researched && !upgrade.upgradable){
 			this.setEnabled(false);
 		} else if (upgrade.researched && upgrade.upgradable){
-			this.setEnabled(this.hasResources());
+			if (!this.game.religion.getRU("transcendence").researched){
+				this.setEnabled(false);
+			} else {
+				this.setEnabled(this.hasResources());
+			}
 		}
 	},
 	
@@ -419,8 +423,12 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		var upgrade = this.getBuilding();
 		if (upgrade.researched && !upgrade.upgradable){
 			return this.name + " (complete)";
-		} else if (upgrade.researched && upgrade.upgradable && this.game.religion.getRU("transcendence").researched){	//TODO: cache this too
-			return this.name + " (" + upgrade.val + ")";
+		} else if (upgrade.researched && upgrade.upgradable){	//TODO: cache this too
+			if (this.game.religion.getRU("transcendence").researched){
+				return this.name + " (" + upgrade.val + ")";
+			} else {
+				return this.name + " (complete)";
+			}
 		}
 		return this.name;
 	},
