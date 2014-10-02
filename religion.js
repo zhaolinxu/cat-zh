@@ -201,7 +201,6 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 750 },
 			{ name : "gold",  val: 500 }
 		],
-		val: 0,
 		faith: 1000,
 		effects: {
 			//none
@@ -215,7 +214,6 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 1250 },
 			{ name : "gold",  val: 750 }
 		],
-		val: 0,
 		faith: 10000,
 		effects: {
 			//none
@@ -248,7 +246,6 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 5000 },
 			{ name : "gold",  val: 5000 }
 		],
-		val: 0,
 		faith: 100000,
 		effects: {
 			//none
@@ -256,13 +253,12 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		researched: false
 	},{
 		name: "transcendence",
-		label: "Transcendence",
+		label: "Trasncendence",
 		description: "Unlocks additional religion upgrades",
 		prices: [
 			{ name : "faith", val: 7500 },
 			{ name : "gold",  val: 7500 }
 		],
-		val: 0,
 		faith: 125000,
 		effects: {
 			//none
@@ -411,11 +407,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		if (upgrade.researched && !upgrade.upgradable){
 			this.setEnabled(false);
 		} else if (upgrade.researched && upgrade.upgradable){
-			if (!this.game.religion.getRU("transcendence").researched){
-				this.setEnabled(false);
-			} else {
-				this.setEnabled(this.hasResources());
-			}
+			this.setEnabled(this.hasResources());
 		}
 	},
 	
@@ -423,12 +415,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		var upgrade = this.getBuilding();
 		if (upgrade.researched && !upgrade.upgradable){
 			return this.name + " (complete)";
-		} else if (upgrade.researched && upgrade.upgradable){	//TODO: cache this too
-			if (this.game.religion.getRU("transcendence").researched){
-				return this.name + " (" + upgrade.val + ")";
-			} else {
-				return this.name + " (complete)";
-			}
+		} else if (upgrade.researched && upgrade.upgradable && this.game.religion.getRU("transcendence").researched){	//TODO: cache this too
+			return this.name + " (" + upgrade.val + ")";
 		}
 		return this.name;
 	},
