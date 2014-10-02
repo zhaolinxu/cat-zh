@@ -1357,7 +1357,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (res.name == "wood"){
 			var refineRatio = this.bld.getEffect("refineRatio");
 			if (this.ironWill){
-				return (1 + refineRatio) * (1 + this.bld.getEffect("woodRatio"));
+				return ( (1 + refineRatio) * (1 + this.bld.getEffect("woodRatio")) ) - 1;
 			} else {
 				return refineRatio;
 			}
