@@ -1,17 +1,12 @@
 dojo.declare("com.nuclearunicorn.core.Control", null, {
-
-	/*handlers: null,
-	
-	constructor: function(){
-		this.handlers = [];
-	},
-
-	connect: function(node, event, context, handler){
-		var handler = dojo.connect(node, event, context, handler);
-		this.handlers.push(handler);
-	},*/
-	
+	//Base control class. Must be a superclass for all game components.
 });
+
+/**
+ * core.js - a collection of base classes shared among all components of the game.
+ * UI controls go there.
+ */ 
+
 
 /**
  * A base class for every tab manager component like science, village, bld, etc 
@@ -19,15 +14,35 @@ dojo.declare("com.nuclearunicorn.core.Control", null, {
  */
 dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Control, {
 	
+	/**
+	 * This may not be obvious, but all objects instanciated there will be STATIC and shared among all the instances of the class.
+	 * 
+	 * Wrong:
+	 * 
+	 * >>  arrayField: []
+	 * 
+	 * Correct:
+	 * 
+	 * >>  arrayField: null,
+	 * >>  
+	 * >>  constructor: function() { this.arrayField = []; }
+	 */ 
 	effectsCached: null,
 	meta: null,
 	
+	/**
+	 * Constructors are INHERITED automatically and CHAINED in the class hierarchy
+	 */ 
 	constructor: function(){
 		this.effectsCached = {};
 		this.meta = [];
 	},
-	
+
 	/**
+	 * Methods however are NOT. Use this.inherited(argumetns) to call a base method;
+	 */ 
+	 
+	 /**
 	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
 	 * @param provider - any object having getEffect(metaElem, effectName) method
 	 */ 

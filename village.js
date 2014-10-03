@@ -94,9 +94,19 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 	
 	sim: null,
 	
+	//this is a transient variable to contain the references to kittens 
+	//must be populated in the runtime
+	government: null,
+	
 	constructor: function(game){
 		this.game = game;
 		this.sim = new com.nuclearunicorn.game.village.KittenSim(game);
+		
+		this.government = {
+			ruler: null,
+			council: [
+			]
+		};
 	},
 	
 	getJob: function(jobName){
@@ -721,10 +731,158 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
+	
+	game: null,
+	
+	records: null,
+	
+	constructor: function(game){
+		this.game = game;
+		
+		this.records = [];
+	},
+	
+	render: function(container){
+		this.records = [];
+		
+		var governmentDiv = dojo.create("div", { style: {
+			paddingBottom: "10px"
+		}}, container);
+		dojo.create("div", { innerHTML: "Leader: TBD"}, governmentDiv);
+		
+		var councilDiv = dojo.create("div", null, governmentDiv);
+		dojo.create("div", { innerHTML: "Council: TBD"}, councilDiv);
+		
+		
+		var navbar = dojo.create("div", { style: {
+			height: "24px"
+		}}, container);
+		
+		var jobSelect = dojo.create("select", { style: {float: "right" }}, navbar);
+		
+		dojo.create("option", { value: "", innerHTML: "All jobs"}, jobSelect);
+		for (var i = 0; i < this.game.village.jobs.length; i++){
+			var job = this.game.village.jobs[i];
+			if (job.unlocked){
+				dojo.create("option", { value: job.name, innerHTML: job.title}, jobSelect);
+			}
+		}
+		
+		var sim = this.game.village.sim;
+		for (var i = 0; i < sim.kittens.length; i++){
+			if (i > 10) { return; }
+			
+			var kitten = sim.kittens[i];
+			
+			var div = dojo.create("div", {
+				style: {
+					border: "1px solid gray",
+					marginBottom: "5px",
+					padding: "5px",
+					minHeight: "80px"
+				},
+				innerHTML: ""
+			}, container );
+			
+			//--------- content -----------
+			
+			var content = dojo.create("div", {
+				style: {
+					display: "inline-block"
+				}
+			}, div);
+			
+			//--------- links -----------
+			
+			var linksDiv = dojo.create("div", {
+				style: {
+					display: "inline-block",
+					float: "right"
+				}
+			}, div);
+			
+			var unassignHref = dojo.create("a", { 
+				href: "#", innerHTML: "Unassign Job", 
+				style: { 
+					display: kitten.job ? "block" : "none"
+				}
+			}, linksDiv);
+			
+			dojo.create("a", { 
+				href: "#", innerHTML: "Make Leader", 
+				style: { 
+					display: kitten.job ? "block" : "none"
+				}
+			}, linksDiv);
+			
+			dojo.create("a", { 
+				href: "#", innerHTML: "Make Senator", 
+				style: { 
+					display: kitten.job ? "block" : "none"
+				}
+			}, linksDiv);
+			
+			dojo.create("a", { 
+				href: "#", innerHTML: "Promote", 
+				style: { 
+					display: kitten.job ? "block" : "none"
+				}
+			}, linksDiv);
+				
+			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
+				event.preventDefault(); 
+				sim.kittens[i].job = null; 
+			}, this.game.village.sim, i));
+		
+			this.records.push({
+				content: content,
+				kitten: kitten,
+				unassignHref: unassignHref
+			});
+		}
+	},
+	
+	update: function(){
+		for (var i = 0; i < this.records.length; i++){
+			var record = this.records[i];
+			var kitten = record.kitten;
+			
+			var job = "";
+			if (kitten.job){
+				job = " - " + kitten.job;
+				dojo.setStyle(record.unassignHref, "display", "block");
+			} else {
+				dojo.setStyle(record.unassignHref, "display", "none");
+			}
+			
+			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" + "age: " + kitten.age;
+		}
+	}
+	
+}); 
+
+dojo.declare("com.nuclearunicorn.game.ui.CensusPanel", com.nuclearunicorn.game.ui.Panel, {
+	census: null,
+	
+	constructor: function(name, game){
+		this.census = new com.nuclearunicorn.game.ui.village.Census(game);
+	},
+	
+	render: function(container){
+		var panelContainer = this.inherited(arguments);
+		this.census.render(panelContainer);
+	},
+	
+	update: function(){
+		this.census.update();
+	}
+});
+//com.nuclearunicorn.game.ui.village.Census
 /**
  * Village tab to manage jobs
  */ 
-
+ 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
 	
 	tdTop: null,
@@ -877,13 +1035,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.festivalBtn = festivalBtn;
 		
 		//--------------- bureaucracy ------------------
-		this.bureaucracyPanel = new com.nuclearunicorn.game.ui.Panel("Census");
-		this.bureaucracyPanel.collapsed = true;
+		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game);
+		//this.censusPanel.collapsed = true;
 		if (!this.game.science.get("civil").researched){
-			this.bureaucracyPanel.setVisible(false);
+			this.censusPanel.setVisible(false);
 		}
 		
-		this.bureaucracyPanelContainer = this.bureaucracyPanel.render(tabContainer);
+		this.censusPanelContainer = this.censusPanel.render(tabContainer);
 	},
 	
 	update: function(){
@@ -918,9 +1076,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		
 		//update kitten stats
 		
-		if (this.bureaucracyPanel){
+		if (this.censusPanel){
 			var hasCivilService = this.game.science.get("civil").researched;
-			this.bureaucracyPanel.setVisible(hasCivilService);
+			this.censusPanel.setVisible(hasCivilService);
+			
+			this.censusPanel.update();
 		}
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
@@ -929,7 +1089,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 		
 		
-		this.updateCensus();
+		//this.updateCensus();
 		
 		//-------- update tab title -------
 		var freeKittens = this.game.village.getFreeKittens();
@@ -963,7 +1123,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 	},
 	
-	updateCensus: function(){
+	/*updateCensus: function(){
 		
 		if (!this.bureaucracyPanel || this.bureaucracyPanel.collapsed && !this.bureaucracyPanel.visible){
 			return;
@@ -992,15 +1152,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					"age: " + kitten.age
 				}, this.bureaucracyPanelContainer );
 				
-				/*
-				 * //good stuff but regeneration is to fast
-				 * if (kitten.job){
-					var unassignHref = dojo.create("a", { href: "#", innerHTML: "[-]", style: { float: "right"}}, div);
-					dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
-						event.preventDefault(); 
-						sim.kittens[i].job = null; 
-					}, this.game.village.sim, i));
-				}*/
+				//
+				// //good stuff but regeneration is to fast
+				// if (kitten.job){
+				//	var unassignHref = dojo.create("a", { href: "#", innerHTML: "[-]", style: { float: "right"}}, div);
+				//	dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
+				//		event.preventDefault(); 
+				//		sim.kittens[i].job = null; 
+				//	}, this.game.village.sim, i));
+				//}
 				
 				var skillsArr = this.getSkillsSorted(kitten.skills);
 
@@ -1024,7 +1184,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 				}
 			}
 		}
-	},
+	},*/
 	
 	/**
 	 * TODO: potential performance impact
