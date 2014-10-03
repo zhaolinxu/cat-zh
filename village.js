@@ -812,28 +812,35 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			dojo.create("a", { 
 				href: "#", innerHTML: "Make Leader", 
 				style: { 
-					display: kitten.job ? "block" : "none"
+					display: "block"
 				}
 			}, linksDiv);
 			
 			dojo.create("a", { 
 				href: "#", innerHTML: "Make Senator", 
 				style: { 
-					display: kitten.job ? "block" : "none"
+					display: "block"
 				}
 			}, linksDiv);
 			
 			dojo.create("a", { 
 				href: "#", innerHTML: "Promote", 
 				style: { 
-					display: kitten.job ? "block" : "none"
+					display: "block"
 				}
 			}, linksDiv);
 				
-			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
+			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){ 
 				event.preventDefault(); 
-				sim.kittens[i].job = null; 
-			}, this.game.village.sim, i));
+				
+				var job = game.village.sim.kittens[i].job;
+				game.village.getJob(job).value--;
+				
+				game.village.sim.kittens[i].job = null; 
+				game.village.updateResourceProduction();
+				game.render();
+				
+			}, this.game, i));
 		
 			this.records.push({
 				content: content,
