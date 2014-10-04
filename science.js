@@ -315,13 +315,14 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "metaphysics",
 		title: "Metaphysics",
-		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.(TBD)",
 		effectDesc: "Unlocks a Metaphysics upgrades.",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 55000},
-			{name: 	"paragon", val: 5}
+			{name: 	"paragon", val: 5},
+			{name: 	"unobtainium", val: 5}
 		],
 		unlocks: [],
 		handler: function(game){

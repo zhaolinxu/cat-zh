@@ -1785,7 +1785,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		if (this.resPool.get("kittens").value > 60){
-			this.karmaKittens += (this.resPool.get("kittens").value - 60)*3;
+			this.karmaKittens += (this.resPool.get("kittens").value - 60) * 3;
+		}
+		
+		if (this.resPool.get("kittens").value > 100){
+			this.karmaKittens += (this.resPool.get("kittens").value - 100) * 4;
+		}
+		
+		if (this.resPool.get("kittens").value > 150){
+			this.karmaKittens += (this.resPool.get("kittens").value - 150) * 5;
+		}
+		
+		if (this.resPool.get("kittens").value > 300){
+			this.karmaKittens += (this.resPool.get("kittens").value - 300) * 10;
 		}
 		
 		if (this.resPool.get("kittens").value > 70){
