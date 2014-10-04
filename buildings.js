@@ -47,12 +47,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "resource",
 		title: "Resources",
-		buildings: ["mine", "quarry", "lumberMill", "oilWell"]
+		buildings: ["mine", "quarry", "lumberMill", "oilWell", "accelerator"]
 	},{
 		name: "industry",
 		title: "Industry",
 		buildings: ["steamworks", "magneto", "smelter", "calciner", "factory", "reactor" ]
-	},{
+	},
+	{
 		name: "culture",
 		title: "Culture",
 		buildings: ["amphitheatre", "chapel", "temple"]
@@ -778,7 +779,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
-			btn.game.workshopTab.visible = true;
 		},
 		val: 0,
 		requiredTech: ["mechanization"],
@@ -803,7 +803,6 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
-			btn.game.workshopTab.visible = true;
 		},
 		val: 0,
 		requiredTech: ["nuclearFission"],
@@ -816,6 +815,38 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (uranium.value <= 0){
 				self.on = 0;
 				self.enabled = false;
+			}
+		}
+	},{
+		name: "accelerator",
+		label: "Accelerator",
+		description: "Converts titanium to the uranium (sic)",
+		unlocked: false,
+		ignorePriceCheck: true,
+		togglable: true,
+		tunable: true,
+		on: 0,
+		prices: [
+			{ name : "titanium",    val: 7500 },
+			{ name : "concrate",    val: 125  },
+			{ name : "blueprint",   val: 50   },
+		],
+		effects: {
+			"titaniumPerTick" : -0.005,
+			"uraniumPerTick" : -0.0025,
+		},
+		priceRatio: 1.15,
+		handler: function(btn){
+		},
+		val: 0,
+		requiredTech: ["particlePhysics"],
+		action: function(self, game){
+			var uranium = game.resPool.get("uranium");
+			var titanium = game.resPool.get("titanium");
+
+			if (titanium.value > self.effects["titaniumPerTick"] * self.on){
+				titanium.value -= self.effects["titaniumPerTick"] * self.on;
+				uranium.value  -= self.effects["uraniumPerTick"] * self.on;
 			}
 		}
 	},

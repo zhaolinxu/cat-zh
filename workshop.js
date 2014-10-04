@@ -323,12 +323,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 		}
+	},{
+		name: "energyRifts",
+		title: "Energy Rifts",
+		description: "Accelerators will now create rifts to pocket dimension",
+		effects: {
+		},
+		prices:[
+			{ name : "science", val: 200000 },
+			{ name : "titanium", val: 7500 },
+			{ name : "uranium", val: 250 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
 	},
+
 	//	------------- harbor stuff ------------
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give 2% bonus to the Harbor capacity",
+		description: "Every ship will give 1% bonus to the Harbor capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -444,7 +460,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "compositeBow",
 		title: "Composite Bow",
-		description: "An improved version of a bow which provides a permanent +50% boost to the hunters",
+		description: "An improved version of a bow which provides a permanent +50% boost to the catpower production",
 		effects: {
 			"manpowerRatio" : 0.5
 		},
@@ -754,12 +770,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},
 	//--------------------- science upgrades ----------------------
 	{
+		name: "celestialMechanics",
+		title: "Celestial Mechanics",
+		description: "Celestial events and meteors will generate additional science",
+		effects: {},
+		prices:[
+			{ name : "science",  val: 250 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "astrolabe",
 		title: "Astrolabe",
 		description: "Improves Observatory effectiveness by 50%",
-		effects: {
-
-		},
+		effects: {},
 		prices:[
 			{ name : "titanium", val: 5 },
 			{ name : "starchart",  val: 75 },

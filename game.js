@@ -212,6 +212,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			
+			"manpowerRatio" : {
+				title: "Catpower bonus (%)",
+				resName: "manpower",
+				type: "ratio"
+			},
+			
 			"manpowerPerTick" : {
 				title: "catpower",
 				resName: "manpower",

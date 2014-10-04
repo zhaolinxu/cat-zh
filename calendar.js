@@ -114,8 +114,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			
 			var starchart = this.game.resPool.get("starchart");
+			
+			var celestialBonus = 0;
+			if (this.game.workshop.get("celestialMechanics").researched){
+				celestialBonus = 5;	//20% bonus in the normal mode
+				if (this.game.ironWill){
+					celestialBonus = 15;	//60% in the IW
+				}
+			}
 
-			var sciBonus = 25 + 25* this.game.bld.getEffect("scienceRatio");
+			var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
 			this.game.resPool.addResAmt("science", sciBonus);
 			
 			if (!isSilent){
@@ -196,6 +204,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			
 			this.game.msg("A meteor fell near the village, +"+ mineralsAmt.toFixed() +" minerals!");
+			
+			if (this.game.workshop.get("celestialMechanics").researched){
+				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
+				this.game.resPool.addResAmt("science", sciBonus);
+				this.game.msg("+" + sciBonus.toFixed() + " science!");
+			}
 			
 			minerals.value += mineralsAmt;
 			

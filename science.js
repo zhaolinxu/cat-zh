@@ -123,7 +123,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocked: false,
 		researched: false,
 		cost: 1000,
-		unlocks: []
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("celestialMechanics").unlocked = true;
+		}
 	},{
 		name: "construction",
 		title: "Construction",
@@ -302,12 +305,26 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			{name : "science", val: 50000},
 			{name: 	"compedium", val: 35}
 		],
-		unlocks: ["chemistry", "electricity"],
+		unlocks: ["chemistry", "electricity", "metaphysics"],
 		handler: function(game){
 			game.workshop.get("pneumaticPress").unlocked = true;
 			game.workshop.get("pyrolysis").unlocked = true;
 			game.workshop.get("steelSaw").unlocked = true;
 			game.workshop.getCraft("blueprint").unlocked = true;
+		}
+	},{
+		name: "metaphysics",
+		title: "Metahysics",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.",
+		effectDesc: "Unlocks a Metaphysics upgrades.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 55000},
+			{name: 	"paragon", val: 5}
+		],
+		unlocks: [],
+		handler: function(game){
 		}
 	},{
 		name: "chemistry",
@@ -537,7 +554,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanoassemblers and Augumetations (TBD)",
+		effectDesc: "Unlocks Nanoassemblers(TBD) and Augumetations",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -551,17 +568,31 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "particlePhysics",
 		title: "Particle Physics",
-		description: "TBD",
-		effectDesc: "Unlocks Particle Accelerators (TBD)",
+		description: "Particle physics takes us one step deeper into the understanding of the nature of matter and energy than its ancestor, Nuclear Physics",
+		effectDesc: "Unlocks Particle Accelerators and Enriched Uranium",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 185000},
 			{name: 	"blueprint", val: 135}
 		],
-		unlocks: ["chronophysics"],
+		unlocks: ["chronophysics", "dimensionalPhysics"],
 		handler: function(game){
 			game.workshop.get("enrichedUranium").unlocked = true;
+		}
+	},{
+		name: "dimensionalPhysics",
+		title: "Dimensional Physics",
+		description: "Dimensional Physics explore the concepts of space and time",
+		effectDesc: "Unlocks Energy Rifts",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 235000}
+		],
+		unlocks: [],
+		handler: function(game){
+			game.workshop.get("energyRifts").unlocked = true;
 		}
 	},{
 		name: "chronophysics",
