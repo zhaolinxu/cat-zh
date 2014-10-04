@@ -190,6 +190,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 			{ name : "faith", val: 500 },
 			{ name : "gold",  val: 250 }
 		],
+		val: 0,
 		faith: 750,
 		effects: {
 			//none
@@ -210,6 +211,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
 		researched: false
 	},{
 		name: "basilica",
@@ -255,6 +257,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
 		researched: false
 	},{
 		name: "transcendence",
@@ -268,6 +271,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		effects: {
 			//none
 		},
+		val: 0,
 		researched: false
 	}],
 	

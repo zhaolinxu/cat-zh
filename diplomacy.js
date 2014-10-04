@@ -131,7 +131,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			{name: "titanium", val: 250}
 		],
 		sells:[
-			{name: "uranium", value: 1, chance: 75, delta: 0.25, seasons:{
+			{name: "uranium", value: 1, chance: 95, delta: 0.25, seasons:{
 				"spring": 1,
 				"summer": 1,
 				"autumn": 1,

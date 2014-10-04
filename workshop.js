@@ -674,6 +674,18 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "nuclearSmelters",
+		title: "Nuclear Smelters",
+		description: "Smelters can now produce titanium",
+		effects: {
+		},
+		prices:[
+			{ name : "uranium", val: 250 },
+			{ name : "science",  val: 165000 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//--------------------- automation upgrades ----------------------
 	{

@@ -476,6 +476,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 					self.effects["coalPerTick"] = 0.005 * smelterRatio * autoProdRatio;
 					coal.value += self.effects["coalPerTick"] * self.on;
 				}
+				
+				if (game.workshop.get("nuclearSmelters").researched){
+					self.effects["titaniumPerTick"] = 0.0015;
+					
+					var titanium = game.resPool.get("titanium");
+					titanium.value += self.effects["titaniumPerTick"] * self.on ;
+				}
 			}
 		},
 		val: 0
@@ -799,7 +806,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		],
 		effects: {
 			"uraniumPerTick" : -0.001,
-			"productionRatio": 0.05
+			"productionRatio": 0.05,
+			"uraniumMax" : 250
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
@@ -829,11 +837,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		prices: [
 			{ name : "titanium",    val: 7500 },
 			{ name : "concrate",    val: 125  },
-			{ name : "blueprint",   val: 50   },
+			{ name : "uranium",   	val: 25   },
 		],
 		effects: {
 			"titaniumPerTick" : -0.005,
-			"uraniumPerTick" : -0.0025,
+			"uraniumPerTick" : 0.0025,
 		},
 		priceRatio: 1.15,
 		handler: function(btn){
@@ -845,8 +853,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var titanium = game.resPool.get("titanium");
 
 			if (titanium.value > self.effects["titaniumPerTick"] * self.on){
-				titanium.value -= self.effects["titaniumPerTick"] * self.on;
-				uranium.value  -= self.effects["uraniumPerTick"] * self.on;
+				titanium.value += self.effects["titaniumPerTick"] * self.on;
+				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
 		}
 	},
@@ -1100,7 +1108,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		"woodMax"		: 200,
 		"mineralsMax"	: 250,
 		"faithMax" 		: 100,
-		"cultureMax"	: 100
+		"cultureMax"	: 100,
+		"uraniumMax"	: 250
 	},
 	
 	get: function(name){

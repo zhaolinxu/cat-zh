@@ -260,6 +260,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "faith",
 				resName: "faith",
 				type: "perTick"
+			},
+			
+			//uranium
+			
+			"uraniumPerTick": {
+				title: "Uranium production",
+				resType: "uranium",
+				type: "perTick"
 			}
 		}
 	}
@@ -774,7 +782,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.villageTab.visible = false;
 		this.addTab(this.villageTab);
 		
-		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library("Library", this);
+		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library("Science", this);
 		this.libraryTab.visible = false;
 		this.addTab(this.libraryTab);
 		

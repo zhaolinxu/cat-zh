@@ -4,8 +4,13 @@ v 0.9.9.2 (5 oct)
 Dimensional Physics
 Celestial Mechanics
 Energy Rifts
+Nuclear Smelters
 
 Government (wip)
+
+Dragons trade chance is changed from 75% to 95% 
+Uranium will now have 250 base limit
+Reactors will now improve uranium limit by 250
 
 v 0.9.8.2 (2 oct)
 

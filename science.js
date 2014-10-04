@@ -314,7 +314,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		}
 	},{
 		name: "metaphysics",
-		title: "Metahysics",
+		title: "Metaphysics",
 		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.",
 		effectDesc: "Unlocks a Metaphysics upgrades.",
 		unlocked: false,
@@ -535,6 +535,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: ["nanotechnology", "particlePhysics"],
 		handler: function(game){
 			game.workshop.get("reactorVessel").unlocked = true;
+			game.workshop.get("nuclearSmelters").unlocked = true;
 		}
 	},{
 		name: "rocketry",
@@ -778,6 +779,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.ui.tab, {
+	
+	metaphysicsPanel: null,
 
 	render: function(tabContainer){
 		
@@ -838,6 +841,23 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.addButton(btn);
 			btn.render(tr);
 		}
+		
+		
+		//------------ metaphisics ----------------
+		if (this.game.science.get("metaphysics").researched){
+			var metaphysicsPanel = new com.nuclearunicorn.game.ui.Panel("Metaphysics");
+			var content = metaphysicsPanel.render(tabContainer);
+			
+			this.metaphysicsPanel = metaphysicsPanel;
+		}
+	},
+	
+	update: function(){
+		this.inherited(arguments);
+		
+		/*if (this.metaphysicsPanel){
+			this.metaphysicsPanel.update();
+		}*/
 	},
 	
 	constructor: function(tabName, game){
