@@ -283,6 +283,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			
 			for (var i = 0; i< kittens.length; i++){
 				var kitten = kittens[i];
+				
 				var newKitten = new com.nuclearunicorn.game.village.Kitten();
 				newKitten.name = kitten.name;
 				newKitten.surname = kitten.surname;
@@ -290,6 +291,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 				newKitten.skills = kitten.skills;
 				newKitten.exp = kitten.exp;
 				newKitten.trait = kitten.trait;
+				newKitten.job = kitten.job;
 				
 				this.sim.kittens.push(newKitten);
 			}
@@ -929,7 +931,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			
 			//console.log("KITTEN:", kitten);
 			
-			var trait = (kitten.trait != "none") ? " - " + kitten.getTrait(kitten.trait).title : "";
+			var traitTitle = /*kitten.getTrait(kitten.trait).title*/ "n/a";
+			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
 			var rank = kitten.rank ? "(" + kitten.rank + ")": "";
 			
 			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job  + 
