@@ -688,7 +688,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				var displayEffectValue;
 				
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec"
+					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
+				} else if ( effectMeta.type === "ratio" ) {
+					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}

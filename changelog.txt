@@ -1,6 +1,9 @@
-v 0.9.9.3 (5 oct)
+v 0.9.9.3 (8 oct)
 
 Resetting with more kittens will give additional bonuses to karma
+Warehouse upgrades will now affect titanium limits
+Energy Rifts will now give correct capacity effects to accelerators
+Some ratio effects will be displayed in % format
 
 v 0.9.9.2 (5 oct)
 

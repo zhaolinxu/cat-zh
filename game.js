@@ -68,7 +68,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			
 			"catnipDemandRatio" : {
 				title: "Catnip Demand Ratio",
-				resName: "catnip"
+				resName: "catnip",
+				type: "ratio"
 			},
 			"catnipRatio" : {
 				title: "Catnip Ratio",
@@ -94,12 +95,19 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"woodRatio" : {
-				title: "Wood Bonus %",
-				resName: "wood"
+				title: "Wood Bonus",
+				resName: "wood",
+				type: "ratio"
 			},
 			
 			"wood" : {
 				title: "wood",
+				resName: "wood",
+				type: "perTick"
+			},
+			
+			"woodPerTick" : {
+				title: "Wood production",
 				resName: "wood",
 				type: "perTick"
 			},
@@ -112,8 +120,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"mineralsRatio" : {
-				title: "Minerals Bonus %",
-				resName: "minerals"
+				title: "Minerals Bonus",
+				resName: "minerals",
+				type: "ratio"
 			},
 			
 			"mineralsPerTick" : {
@@ -163,8 +172,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"coalRatioGlobal" : {
-				title: "Coal Production penalty %",
-				resName: "coal"
+				title: "Coal Production penalty",
+				resName: "coal",
+				type: "ratio"
+			},
+			
+			"coalPerTick" : {
+				title: "Coal production",
+				resName: "coal",
+				type: "perTick"
 			},
 			
 			//gold
@@ -213,7 +229,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"manpowerRatio" : {
-				title: "Catpower bonus (%)",
+				title: "Catpower bonus",
 				resName: "manpower",
 				type: "ratio"
 			},
@@ -227,7 +243,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//science
 			
 			"scienceRatio" : {
-				title: "Science bonus (%)"
+				title: "Science bonus",
+				type: "ratio"
 			},
 			"scienceMax" : {
 				title: "Max Science"
@@ -247,11 +264,35 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Max Culture"
 			},
 			
+			"culturePerTickBase" : {
+				resName: "culture",
+				title: "Max Culture",
+				type: "perTick"
+			},
+			
 			//oil
 			
 			"magnetoBoostRatio" : {
-				title: "Magneto Boost %",
-				resName: "oil"				//this is sort of hack to prevent early spoiler on magnetos
+				title: "Magneto Boost",
+				resName: "oil",				//this is sort of hack to prevent early spoiler on magnetos
+				type: "ratio"
+			},
+			
+			"oilMax" : {
+				resName: "oil",
+				title: "Max Oil"
+			},
+			
+			"oilPerTickBase" : {
+				resName: "oil",
+				title: "Oil production",
+				type: "perTick"
+			},
+			
+			"oilPerTick" : {
+				resName: "oil",
+				title: "Oil production",
+				type: "perTick"
 			},
 			
 			//faith
@@ -268,6 +309,24 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Uranium production",
 				resType: "uranium",
 				type: "perTick"
+			},
+			
+			//unicorns
+			
+			"unicornsPerTickBase": {
+				title: "Unicorn production",
+				resType: "unicorns",
+				type: "perTick"
+			},
+			
+			"craftRatio": {
+				title: "Craft bonus",
+				type: "ratio"
+			},
+			
+			"unhappinessRatio": {
+				title: "Happiness bonus",
+				type: "ratio"
 			}
 		}
 	}

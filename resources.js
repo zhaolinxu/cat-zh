@@ -305,7 +305,8 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 				res.name == "iron" || 
 				res.name == "steel" || 
 				res.name == "coal" || 
-				res.name == "gold"){
+				res.name == "gold" || 
+				res.name == "titanium"){
 				if (this.game.workshop.getEffect("warehouseRatio")){
 					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
 				}

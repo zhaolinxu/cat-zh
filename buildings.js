@@ -78,7 +78,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "field",
 		label: "Catnip field",
-		description: "Plant some catnip to grow it in the village (+0.1 per tick).\n"+
+		description: "Plant some catnip to grow it in the village.\n"+
 			"Fields have +50% production in spring and -75% in winter",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
@@ -149,7 +149,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "logHouse",
 		label: "Log House",
-		description: "Build a house (each has a space for 1 kittens)  +50 to the maximum catpower",
+		description: "Build a house (each has a space for 1 kittens)",
 		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
@@ -166,7 +166,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "mansion",
 		label: "Mansion",
-		description: "A spacy mansion (each has a space for 1 kittens)  +50 to the max manpower",
+		description: "A spacy mansion (each has a space for 1 kittens)",
 		unlocked: false,
 		prices: [{ name : "slab", val: 200 }, { name : "steel", val: 100 }, { name : "titanium", val: 1 }],
 		effects: {
@@ -186,7 +186,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%.\nImproves max science by 250",
+		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -210,7 +210,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%.\nImproves max science by 500",
+		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
@@ -230,7 +230,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of the astronomical events by 0.5%, +25% to the science output, +1K to the max science.\nTurning off observatories will only disable event bonus.",
+		description: "Increases the chance of the astronomical events by 0.5%\nTurning off observatories will only disable event bonus.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -302,7 +302,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "warehouse",
 		label: "Warehouse",
-		description: "Provides a space to store your resources.\n(+150 wood, +200 minerals, +25 iron)",
+		description: "Provides a space to store your resources",
 		unlocked: false,
 		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
 		effects: {
@@ -323,7 +323,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "harbor",
 		label: "Harbor",
-		description: "Provides a space to store resources. Other effects TBD",
+		description: "Provides a space to store resources",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 5 }, { name : "slab", val: 50 }, { name : "plate", val: 75 }],
 		effects: {
@@ -489,7 +489,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "calciner",
 		label: "Calciner",
-		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces 0.15 iron and a small amount of titanium",
+		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
 		on: 0,
@@ -569,7 +569,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "steamworks",
 		label: "Steamworks",
-		description: "When active, significantly reduces your coal production.\nCan perform a vast variety of operations if upgraded.",
+		description: "When active, significantly reduces your coal production. Does nothing usefull by default, but can do a lot of cool stuff once upgraded.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -729,7 +729,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "oilWell",
 		label: "Oil Well",
-		description: "Produces 0.02 oil per tick, +1500 to maximum oil limit",
+		description: "Produces a bit of oil, +1500 to maximum oil limit",
 		unlocked: false,
 		prices: [
 			{name : "steel", val: 50},
@@ -792,7 +792,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "reactor",
 		label: "Reactor",
-		description: "Provides a 5% boost to production while active. Requires uranium to operate. (WIP)",
+		description: "Provides a 5% boost to production while active. Requires uranium to operate.",
 		unlocked: false,
 		ignorePriceCheck: true,
 		togglable: true,
@@ -856,6 +856,19 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
 				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
+			
+			//------------- limit upgrades ------------
+			if (game.workshop.get("energyRifts").researched){
+				dojo.mixin(self.effects, {
+					"catnipMax" 	: 30000,
+					"woodMax"		: 20000,
+					"mineralsMax"	: 25000,
+					"ironMax"		: 7500,
+					"coalMax"		: 2500,
+					"goldMax"		: 250,
+					"titaniumMax"	: 750
+				});
+			}
 		}
 	},
 	{
@@ -872,7 +885,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			"fursDemandRatio"   : -0.04,
 			"ivoryDemandRatio"  : -0.04,
 			"spiceDemandRatio"  : -0.04,
-			"silkDemandRatio"   : -0.04,
+			/*"silkDemandRatio"   : -0.04,*/
 			"tradeRatio" : 0.015
 		},
 		priceRatio: 1.15,
@@ -888,7 +901,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "mint",
 		label: "Mint",
-		description: "Converts small percent of your total manpower to luxury resources. Uses 0.75 manpower per tick and a bit of gold.",
+		description: "Produce luxurious resource proportinally to your max catpower. Consumes catpower and a bit of gold.",
 		unlocked: false,
 		togglable: true,
 		tunable: true,
@@ -946,7 +959,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduces negative effects of overpopulation by 5%. +0.005 culture per tick",
+		description: "Reduces negative effects of overpopulation by 5%. Produce culture.",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },
@@ -966,10 +979,11 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 		},
 		flavor: "Daily 'All Dogs Go to Heaven' showings"
-	},{
+	},
+	{
 		name: "chapel",
 		label: "Chapel",
-		description: "+0.05 culture per tick, a bit of faith per tick. +200 to max culture",
+		description: "Produce a bit of culture and faith per tick. May be improved with religious upgrades",
 		unlocked: false,
 		prices: [
 			{ name : "minerals", val: 2000 },
@@ -992,7 +1006,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "temple",
 		label: "Temple",
-		description: "Temple of light. +0.05 culture per tick. May be improved with Theology.",
+		description: "Temple of light. Produce culture. May be improved with Theology.",
 		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },

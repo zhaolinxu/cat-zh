@@ -278,7 +278,23 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			if (!kittens.length) {
 				kittens = [];
 			}
-			this.sim.kittens  = kittens;
+			
+			this.sim.kittens = [];
+			
+			for (var i = 0; i< kittens.length; i++){
+				var kitten = kittens[i];
+				var newKitten = new com.nuclearunicorn.game.village.Kitten();
+				newKitten.name = kitten.name;
+				newKitten.surname = kitten.surname;
+				newKitten.age = kitten.age;
+				newKitten.skills = kitten.skills;
+				newKitten.exp = kitten.exp;
+				newKitten.trait = kitten.trait;
+				
+				this.sim.kittens.push(newKitten);
+			}
+			
+			//this.sim.kittens  = kittens;
 			this.maxKittens  = saveData.village.maxKittens;
 			
 			/*if (saveData.village.jobs.length){
@@ -462,29 +478,36 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},{
 		name: "none",
 		title: "None"
-	}
-	],
+	}],
 	
 	name: "Undefined",
 	surname: "Undefined",
 	
 	job: null,
+	trait: null,
 	
 	age: 0,
 	
 	skills: null,
-	
 	exp: 0,
-
 	rank: 0,
 	
 	constructor: function(){
 		this.name = this.names[this.rand(this.names.length)];
 		this.surname = this.surnames[this.rand(this.surnames.length)];
+		this.trait = this.traits[this.rand(this.traits.length)];
 		
 		this.age = 16 + this.rand(30);
 		
 		this.skills = {};
+	},
+	
+	getTrait: function(name){
+		for (var i = 0; i< this.traits; i++){
+			if (this.traits[i].name == name){
+				return this.trait[i];
+			}
+		}
 	},
 	
 	rand: function(ratio){
@@ -539,6 +562,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			//hack
 			if (kitten.rank === undefined){
 				kitten.rank = 0;
+			}
+			//hack
+			if (!kitten.trait){
+				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 			
 			if (kitten.job){
@@ -899,8 +926,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			} else {
 				dojo.setStyle(record.unassignHref, "display", "none");
 			}
-			var rank = kitten.rank ? "rank: " + kitten.rank : "";
-			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" + rank + "age: " + kitten.age + ", exp: " + this.game.getDisplayValueExt(kitten.exp) ;
+			
+			//console.log("KITTEN:", kitten);
+			
+			var trait = (kitten.trait != "none") ? " - " + kitten.getTrait(kitten.trait).title : "";
+			var rank = kitten.rank ? "(" + kitten.rank + ")": "";
+			
+			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job  + 
+				trait + rank + "<br>" +
+				"age: " + kitten.age + ", exp: " + this.game.getDisplayValueExt(kitten.exp) ;
 			
 			//--------------- skills ----------------
 			var skillsArr = this.game.village.sim.getSkillsSorted(kitten.skills);
