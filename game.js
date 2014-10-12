@@ -494,6 +494,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
+		dojo.empty(tooltip);
 		
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
 			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
@@ -1590,6 +1591,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	attachTooltip: function(container, resRef){
 		
 		var tooltip = dojo.byId("tooltip");
+		dojo.empty(tooltip);
 		
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
 			 if (!resRef.perTickUI){ return;}

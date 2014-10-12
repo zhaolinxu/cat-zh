@@ -118,6 +118,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		throw "Failed to get job for job name '"+jobName+"'";
 	},
 	
+	assignJob: function(job){
+		var freeKittens = this.getFreeKittens();
+		var jobRef = this.getJob(job.name); 	//probably will fix missing ref on loading
+
+		if ( freeKittens > 0 ){
+			this.sim.assignJob(job.name);
+			jobRef.value += 1;
+		}
+	},
+	
 	update: function(){
 		
 		//calculate kittens
@@ -170,13 +180,8 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		}
 		this.sim.clearJobs();
 	},
-	
-	/**
-	 * kittens can't be float value, it's an internal representation
-	 * to handle cyclic process like birth ratio / death ration
-	 */ 
+
 	getKittens: function(){
-		//return Math.round(this.kittens);	
 		return this.sim.getKittens();
 	},
 	
@@ -680,6 +685,8 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	jobName: null,
 	
 	unassignHref: null,
+	plus25: null,
+	minus25: null,
 	
 	getJob: function(){
 		return this.game.village.getJob(this.jobName);
@@ -718,29 +725,109 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}
 	},
 	
+	unassignJobs: function(amt){
+		var job = this.getJob();
+				
+		if (job.value < amt){
+			return;
+		}
+		
+		job.value -= amt;
+		for (var i = 0; i<amt ; i++){
+			this.game.village.sim.removeJob(job.name);
+		}
+		this.update();
+	},
+	
+	assignJobs: function(amt){
+		var job = this.getJob();
+		for (var i = 0; i<amt ; i++){
+			this.game.village.assignJob(job);
+		}
+		this.update();
+	},
+	
 	renderLinks: function(){
-		this.unassignHref = this.addLink("[&ndash;]", 
-			function(){
-				var job = this.getJob();
-				
-				if (!job.value){
-					return;
+
+		this.unassignLinks = this.addLinkList([
+		  { 
+				id: "unassign",
+				title: "[&ndash;]",
+				handler: function(){
+					this.unassignJobs(1);
 				}
-				
-				job.value--;
-				this.game.village.sim.removeJob(job.name);
-				this.update();
-			}, true	//use | break
+		   },{
+				id: "unassign5",
+				title: "[-5]",
+				handler: function(){
+					this.unassignJobs(5);
+				}
+		   },{
+				id: "unassign25",
+				title: "[-25]",
+				handler: function(){
+					this.unassignJobs(25);
+				}
+		   },{
+				id: "unassignAll",
+				title: "[-all]",
+				handler: function(){
+					var job = this.getJob();
+					this.unassignJobs(job.value);
+				}
+		   }]
+		);
+		
+		this.assignLinks = this.addLinkList([
+			{ 
+				id: "assign",
+				title: "[+]",
+				handler: function(){
+					this.assignJobs(1);
+				}
+		   },{
+				id: "assign5",
+				title: "[+5]",
+				handler: function(){
+					this.assignJobs(5);
+				}
+		   },{
+				id: "assign25",
+				title: "[+25]",
+				handler: function(){
+					this.assignJobs(25);
+				}
+		   },{
+				id: "assignall",
+				title: "[+all]",
+				handler: function(){
+					var freeKittens = this.game.village.getFreeKittens();
+					this.assignJobs(freeKittens);
+				}
+		   }]
 		);
 	},
 	
 	update: function(){
 		this.inherited(arguments);
+		
+		var freeKittens = this.game.village.getFreeKittens();
 
 		var job = this.getJob();
-		if (job && this.buttonContent && this.unassignHref.link	/* mystic bug */){
-			dojo.setStyle(this.unassignHref.link, "display", job.value > 0  ? "" : "none");
+		if (job && this.buttonContent && this.unassignLinks.unassign.link	/* mystic bug */){
+			dojo.setStyle(this.unassignLinks.unassign.link, "display", job.value > 0  ? "" : "none");
 		}
+		if (job && this.buttonContent && this.assignLinks.assign.link	/* mystic bug */){
+			dojo.setStyle(this.assignLinks.assign.link, "display", freeKittens > 0  ? "" : "none");
+		}
+		
+		/*if (job && this.buttonContent && this.plus25.link){
+			dojo.setStyle(this.plus25.link, "display", freeKittens >= 25  ? "" : "none");
+		}
+		
+		if (job && this.buttonContent && this.minus25.link){
+			dojo.setStyle(this.minus25.link, "display", job.value >= 25  ? "" : "none");
+		}*/
 	},
 	
 	getTooltipHTML: function(btn){
@@ -759,20 +846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px"
 		}}, tooltip);
-		
-		//----------- description -------
-		/*
-		dojo.create("div", { 
-			innerHTML: job.description, 
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);*/
-		
+	
 		//---------- effects-------------
 		
 		this.renderEffects(tooltip, job.modifiers, true);	//hide title
@@ -1006,14 +1080,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.JobButton({
 			name : job.title,
 			handler: dojo.partial(function(job, game){
-				
-				var freeKittens = game.village.getFreeKittens();
-				var jobRef = game.village.getJob(job.name); 	//probably will fix missing ref on loading
-
-				if ( freeKittens > 0 ){
-					game.village.sim.assignJob(job.name);
-					jobRef.value += 1;
-				}
+				game.village.assignJob(job);
 			}, job, game),
 			job: job.name
 		}, game);
@@ -1225,69 +1292,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return "Outpost";
 		}
 	},
-	
-	/*updateCensus: function(){
-		
-		if (!this.bureaucracyPanel || this.bureaucracyPanel.collapsed && !this.bureaucracyPanel.visible){
-			return;
-		}
-		
-		if (this.bureaucracyPanelContainer){
-			dojo.empty(this.bureaucracyPanelContainer);
-					
-			var sim = this.game.village.sim;
-			
-			for (var i = 0; i <sim.kittens.length; i++){
-				var kitten = sim.kittens[i];
-				
-				var job = "";
-				if (kitten.job){
-					job = " - " + kitten.job;
-				}
-				
-				var div = dojo.create("div", {
-					style: {
-						border: "1px solid gray",
-						marginBottom: "5px",
-						padding: "5px"
-					},
-					innerHTML: "[:3] " + kitten.name + " " + kitten.surname + job + "<br>" +
-					"age: " + kitten.age
-				}, this.bureaucracyPanelContainer );
-				
-				//
-				// //good stuff but regeneration is to fast
-				// if (kitten.job){
-				//	var unassignHref = dojo.create("a", { href: "#", innerHTML: "[-]", style: { float: "right"}}, div);
-				//	dojo.connect(unassignHref, "onclick", this, dojo.partial(function(sim, i, event){ 
-				//		event.preventDefault(); 
-				//		sim.kittens[i].job = null; 
-				//	}, this.game.village.sim, i));
-				//}
-				
-				var skillsArr = this.getSkillsSorted(kitten.skills);
-
-				for (var j = 0 ; j < skillsArr.length; j++){
-					if (j > 1){
-						break;
-					}
-					
-					var exp = skillsArr[j].val;
-					
-					var nextExp = this.getNextSkillExp(exp);
-					var prevExp = this.getPrevSkillExp(exp);
-					
-					var expDiff = exp - prevExp;
-					var expRequried = nextExp - prevExp;
-					
-					var expPercent = (expDiff / expRequried) * 100;
-					
-					div.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) + 
-						"'>" +this.skillToText(exp) + " (" + expPercent.toFixed()  + "%)" + "</span> " + skillsArr[j].name;
-				}
-			}
-		}
-	},*/
 	
 	skillToText: function(value){
 		if (value < 100 ){

@@ -404,7 +404,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.domNode = dojo.create("div", { 
 			style: {
 				position: "relative",
-				display: this.visible ? "" : "none"
+				display: this.visible ? "block" : "none"
 			}
 		}, btnContainer);
 		
@@ -570,6 +570,91 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			link: link,
 			linkBreak: linkBreak
 		};
+	},
+	
+	/*
+	 * Add a link control with a collapsible menu of other links
+	 */ 
+	addLinkList: function(links){
+		var linkList = {};
+
+		var linksDiv = dojo.create("div", {
+			style: {
+				float: "right"
+			}
+		}, this.buttonContent);
+				
+		var linksTooltip = dojo.create("div", { 
+			className: "linkContent",
+			style: {
+				display: "none",
+				position: "absolute",
+				right: "0",
+				float: "right",
+				paddingTop: "38px",
+				zIndex: "100"
+			},
+		}, linksDiv);
+		
+		//linksTooltip.innerHTML = "<div>FOO</div><div>BAR</div><div>BAZ</baz>";
+		
+		if (!links.length){
+			return linkList;
+		}
+		//------------- root href --------------
+		var link = dojo.create("a", { 
+			href: "#", 
+			style: {
+				display: "block",
+				float: "right"
+			},
+			innerHTML: links[0].title
+		}, linksDiv);
+			
+		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+			event.stopPropagation();
+			event.preventDefault();
+
+			dojo.hitch(this, handler)();
+
+			this.update();
+		}, links[0].handler));
+		
+		linkList[links[0].id] = { link : link };
+		
+		if (links.length <= 1){
+			return linkList;
+		}
+		
+		//-----------dropdown
+		
+		dojo.connect(linksDiv, "onmouseover", this, dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "block"); }, linksTooltip));
+		dojo.connect(linksDiv, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "none"); }, linksTooltip));
+		
+		for (var i = 1; i< links.length; i++){
+			
+			var link = dojo.create("a", { 
+				href: "#", 
+				innerHTML: links[i].title, 
+				style:{
+					display: "block",
+					width: "30px",
+					cursor: "pointer"
+				}
+			}, linksTooltip);
+			
+			dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+				event.stopPropagation();
+				event.preventDefault();
+
+				dojo.hitch(this, handler)();
+
+				this.update();
+			}, links[i].handler));
+			linkList[links[i].id] = { link : link };
+		}
+		
+		return linkList;
 	}
 });
 
