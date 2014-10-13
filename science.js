@@ -195,7 +195,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "machinery",
 		title: "Machinery",
 		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
-		effectDesc: "Unlocks Steamworks, Printing press and Factory automation.",
+		effectDesc: "Unlocks Steamworks, Crossbows, Printing press and Factory automation.",
 		
 		unlocked: false,
 		researched: false,
@@ -204,6 +204,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		handler: function(game){
 			game.workshop.get("printingPress").unlocked = true;
 			game.workshop.get("factoryAutomation").unlocked = true;
+			game.workshop.get("crossbow").unlocked = true;
 		}
 	},{
 		name: "steel",
@@ -224,6 +225,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			game.workshop.get("combustionEngine").unlocked = true;
 			game.workshop.get("reinforcedWarehouses").unlocked = true;
 			game.workshop.get("steelAxe").unlocked = true;
+			game.workshop.get("steelArmor").unlocked = true;
 		}
 	},{
 		name: "theology",
@@ -344,6 +346,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			game.workshop.get("alloyAxe").unlocked = true;
 			game.workshop.get("alloyBarns").unlocked = true;
 			game.workshop.get("alloyWarehouses").unlocked = true;
+			game.workshop.get("alloyArmor").unlocked = true;
 		}
 	},{
 		name: "acoustics",

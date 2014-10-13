@@ -475,6 +475,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			//do nothing
 		}
 	},{
+		name: "crossbow",
+		title: "Crossbow",
+		description: "An improved version of a bow which provides a permanent +25% boost to the catpower production",
+		effects: {
+			"manpowerRatio" : 0.25
+		},
+		prices:[
+			{ name : "science", val: 12000 },
+			{ name : "iron", val: 1500 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "bolas",
 		title: "Bolas",
 		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
@@ -501,6 +517,38 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "science", val: 2000 },
 			{ name : "iron", val: 750 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "steelArmor",
+		title: "Steel Armor",
+		description: "Hunters are a bit more effective",
+		effects: {
+			"hunterRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 10000 },
+			{ name : "steel", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "alloyArmor",
+		title: "Alloy Armor",
+		description: "Hunters are a bit more effective",
+		effects: {
+			"hunterRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 50000 },
+			{ name : "alloy", val: 25 }
 		],
 		unlocked: false,
 		researched: false,

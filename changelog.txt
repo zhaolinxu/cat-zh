@@ -1,3 +1,11 @@
+v 0.9.9.4 (13 oct)
+
+Crossbows
+Steel Armor
+Alloy Armor
+
++-5/25/all options in the village tab
+
 v 0.9.9.3 (8 oct)
 
 Resetting with more kittens will give additional bonuses to karma
