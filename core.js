@@ -589,9 +589,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			style: {
 				display: "none",
 				position: "absolute",
-				right: "0",
 				float: "right",
-				paddingTop: "38px",
+				marginTop: "35px",
 				zIndex: "100"
 			},
 		}, linksDiv);
@@ -610,6 +609,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			},
 			innerHTML: links[0].title
 		}, linksDiv);
+		
+		linksTooltip.style.left = link.offsetLeft;	//hack hack hack
 			
 		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
 			event.stopPropagation();

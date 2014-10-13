@@ -1532,20 +1532,45 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!building.action || !building.togglable){
 			return;
 		}
-		if (!this.remove && building.tunable){
-			this.remove = this.addLink("-", 
-				function(){
+
+		if (building.tunable){
+			this.remLinks = this.addLinkList([
+			   { 
+				id: "off1",
+				title: "-",
+				handler: function(){
 					var building = this.getBuilding();
-					building.on--;
-				}, true	//use | break
+					if (building.on){
+						building.on--;
+					}
+				}
+			   },{
+				id: "offAll",
+				title: "-all",
+				handler: function(){
+					var building = this.getBuilding();
+					building.on = 0;
+				}
+			   }]
 			);
-		}
-		if (!this.add && building.tunable){
-			this.add = this.addLink("+", 
-				function(){
+			this.addLinks = this.addLinkList([
+			   { 
+				id: "add1",
+				title: "+",
+				handler: function(){
 					var building = this.getBuilding();
-					building.on++;
-				},true	//use | break
+					if (building.on < building.val){
+						building.on++;
+					}
+				}
+			   },{
+				id: "add",
+				title: "+all",
+				handler: function(){
+					var building = this.getBuilding();
+					building.on = building.val;
+				}
+			   }]
 			);
 		}
 
@@ -1560,14 +1585,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 		
-		if (this.remove){
+		/*if (this.remove){
 			dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
 			dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
 		}
 		if (this.add){
 			dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
 			dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
-		}
+		}*/
 		
 		if(building.val > 10) {
 			//Steamworks specifically can be too large if 

@@ -5,6 +5,7 @@ Steel Armor
 Alloy Armor
 
 +-5/25/all options in the village tab
++all/-all options to the togglable buildings
 
 v 0.9.9.3 (8 oct)
 
