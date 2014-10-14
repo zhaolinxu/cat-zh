@@ -1,3 +1,9 @@
+v 0.9.9.5 (15 oct)
+
+Railgun
++/- options in village will be now fixed
+job filter will now work correctly
+
 v 0.9.9.4 (13 oct)
 
 Crossbows

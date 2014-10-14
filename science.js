@@ -574,7 +574,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "particlePhysics",
 		title: "Particle Physics",
 		description: "Particle physics takes us one step deeper into the understanding of the nature of matter and energy than its ancestor, Nuclear Physics",
-		effectDesc: "Unlocks Particle Accelerators and Enriched Uranium",
+		effectDesc: "Unlocks Particle Accelerators, Railguns and Enriched Uranium",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -584,6 +584,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: ["chronophysics", "dimensionalPhysics"],
 		handler: function(game){
 			game.workshop.get("enrichedUranium").unlocked = true;
+			game.workshop.get("railgun").unlocked = true;
 		}
 	},{
 		name: "dimensionalPhysics",

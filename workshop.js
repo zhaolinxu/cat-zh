@@ -491,6 +491,23 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			//do nothing
 		}
 	},{
+		name: "railgun",
+		title: "Railgun",
+		description: "Deadly electromagnetic weapon. +25% boost to the catpower production",
+		effects: {
+			"manpowerRatio" : 0.25
+		},
+		prices:[
+			{ name : "science", val: 150000 },
+			{ name : "titanium", val: 5000 },
+			{ name : "blueprint", val: 25 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
 		name: "bolas",
 		title: "Bolas",
 		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
