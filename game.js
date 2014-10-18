@@ -266,7 +266,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			
 			"culturePerTickBase" : {
 				resName: "culture",
-				title: "Max Culture",
+				title: "Culture",
 				type: "perTick"
 			},
 			
