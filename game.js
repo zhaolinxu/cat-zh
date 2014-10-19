@@ -1234,11 +1234,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
 			
-			var sw = this.bld.get("steamworks");
-			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 			}
 			
@@ -1377,11 +1375,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
 			
-			var sw = this.bld.get("steamworks");
-			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 				stack.push({
 					name: "Magnetos",
 					type: "ratio",
@@ -1389,12 +1385,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		}
-		
-		stack.push({
-			name: "Reactors",
-			type: "ratio",
-			value: this.bld.getEffect("productionRatio") * swRatio
-		});
+
+		if (!res.transient) {		
+			stack.push({
+				name: "Reactors",
+				type: "ratio",
+				value: this.bld.getEffect("productionRatio")
+			});
+		}
 		
 		stack.push({
 			name: "Automated",
