@@ -852,7 +852,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var uranium = game.resPool.get("uranium");
 			var titanium = game.resPool.get("titanium");
 
-			if (titanium.value > self.effects["titaniumPerTick"] * self.on){
+			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
 				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
