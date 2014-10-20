@@ -1082,6 +1082,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	render: function(){
 
+		var midColumn = dojo.byId("midColumn");
+		var scrollPosition = midColumn.scrollTop;
+		
 		var container = dojo.byId(this.id);
 		dojo.empty(container);
 
@@ -1145,6 +1148,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 			}
 		}
+		
+		midColumn.scrollTop = scrollPosition;
 	},
 	
 	/**
