@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.villageManager", null, {
+dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.TabManager, {
 	
 	kittens: 0,
 
@@ -1068,7 +1068,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 dojo.declare("com.nuclearunicorn.game.ui.CensusPanel", com.nuclearunicorn.game.ui.Panel, {
 	census: null,
 	
-	constructor: function(name, game){
+	constructor: function(name, village, game){
 		this.census = new com.nuclearunicorn.game.ui.village.Census(game);
 	},
 	
@@ -1121,7 +1121,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons = [];
 		this.buttons = [];
 		
-		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs");
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs", this.game.village);
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
 		}
@@ -1174,7 +1174,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//----------------- happiness and things ----------------------
 		
-		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Management");
+		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Management", this.game.village);
 		if (this.game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0){
 			this.statisticsPanel.setVisible(false);
 		}
@@ -1231,7 +1231,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.festivalBtn = festivalBtn;
 		
 		//--------------- bureaucracy ------------------
-		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game);
+		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game.village, this.game);
 		//this.censusPanel.collapsed = true;
 		if (!this.game.science.get("civil").researched){
 			this.censusPanel.setVisible(false);

@@ -29,6 +29,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */ 
 	effectsCached: null,
 	meta: null,
+	panelData: null,
 	
 	/**
 	 * Constructors are INHERITED automatically and CHAINED in the class hierarchy
@@ -36,6 +37,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	constructor: function(){
 		this.effectsCached = {};
 		this.meta = [];
+		this.panelData = {};
 	},
 
 	/**
@@ -52,6 +54,18 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	
 	invalidateCachedEffects: function(){
 		this.effectsCached = {};
+	},
+			
+	registerPanel: function(id, panel){
+		if (!this.panelData[id]){
+			this.panelData[id] = {
+				collapsed: panel.collapsed
+			};
+		}
+		panel.collapsed = this.panelData[id].collapsed;
+		dojo.connect(panel, "onToggle", this, function(collapsed){
+			this.panelData[id].collapsed = collapsed;
+		});
 	},
 	
 	/**
@@ -899,8 +913,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	
 	panelDiv: null,
 	
-	constructor: function(name){
+	constructor: function(name, tabManager){
 		this.name = name;
+		if (tabManager){
+			tabManager.registerPanel(name, this);
+		}
 	},
 	
 	render: function(container){
@@ -937,11 +954,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 			
 			$(contentDiv).toggle();
 			toggle.innerHTML = this.collapsed ? "+" : "-";
+			
+			this.onToggle(this.collapsed);
 		}, contentDiv, toggle));
 		
 		this.panelDiv = panel;
 		
 		return contentDiv;
+	},
+
+	onToggle: function(isCollapsed){
+		//subscribe me!
 	},
 	
 	setVisible: function(visible){
@@ -957,16 +980,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 */
 dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.ContentRowRenderer, {
 	
-	game: null,
+	game: 		null,
+	buttons: 	null,
 	
-	tabId: null,
+	tabId: 		null,
+	tabName: 	null,
+	visible: 	true,
 	
-	tabName: null,
-	
-	buttons: null,
-	
-	visible: true,
-
 	constructor: function(tabName, game){
 		this.tabName = tabName;
 		this.tabId = tabName;

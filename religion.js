@@ -574,7 +574,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		
 		var zigguratCount = this.game.bld.get("ziggurat").val;
 		if (zigguratCount > 0){
-			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats");
+			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", this.game.religion);
 			var content = zigguratPanel.render(container);
 			
 			var sacrificeBtn = new com.nuclearunicorn.game.ui.SacrificeBtn({ 
@@ -619,7 +619,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		
 		//------------------- religion -------------------
 		
-		var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun");
+		var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", this.game.religion);
 		var content = religionPanel.render(container);
 		
 		var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);

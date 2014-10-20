@@ -1498,7 +1498,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		dojo.create("label", { innerHTML: "Hide researched upgrades", for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
 		
-		var upgradePanel = new com.nuclearunicorn.game.ui.Panel("Upgrades");
+		var upgradePanel = new com.nuclearunicorn.game.ui.Panel("Upgrades", this.game.workshop);
 		var content = upgradePanel.render(tabContainer);
 		
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
@@ -1515,7 +1515,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		
 		//------------------------------------------
 
-		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting");
+		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting", this.game.workshop);
 		var content = craftPanel.render(tabContainer);
 		
 		var table = dojo.create("table", {}, content);

@@ -3,6 +3,26 @@ v 0.9.9.5 (15 oct)
 Railgun
 +/- options in village will be now fixed
 job filter will now work correctly
+Village, Science and Workshop panels will retain collapsible status
+
+Changes by xranti:
+___
+
+	The x100 refine catnip link now respects the wood refine ratio (bonus from bio labs and lumber mills in iron will). (http://redd.it/2i5jzp)
+	The reactor bonus now displays in the resource tooltips correctly. (http://redd.it/2idy8s)
+	The solar revolution bonus now displays as a single percentage on the religion tab. (http://redd.it/2igc4g)
+	Enriched uranium effects are now reflected in the resource table. (http://redd.it/2ij88k)
+	The classic theme now uses a white background, rather than the browser's default. (http://redd.it/2ixq1o)
+	Accelerators no longer work even if you have no titanium.
+	Reactors and Accelerators (with the Energy Rifts upgrade) now add to resource caps even when turned off. (http://redd.it/2iiakf)
+	Karma zebras now save over resets correctly. (http://redd.it/2j0qlo)
+	The bonfire tab will no longer scroll back to the top when buying a building at the bottom of the list. (http://redd.it/2j6tsx)
+	Crafts no longer appear in the workshop tab before they get unlocked. (http://redd.it/2jg5jy)
+	Steamworks with the Printing Press upgrade will now display a manuscript production effect on their tooltip. (http://redd.it/2jgbvr)
+	Huts, Log Houses and Mansions will now display a max catpower effect on their tooltips. (http://redd.it/2jgbvr)
+	Gold from hunting now displays in the log. (http://www.reddit.com/r/kittensgame/comments/2i0xeh/v_0980_transcendence/ckzsleu)
+
+<33333333
 
 v 0.9.9.4 (13 oct)
 
