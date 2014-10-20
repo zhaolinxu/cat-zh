@@ -425,6 +425,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 		var totalYield = {
 			furs: 0,
 			ivory: 0,
+			gold: 0,
 			unicorns: 0
 		};
 		
@@ -432,6 +433,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			var squadYield = this.sendHuntersInternal();
 			totalYield.furs += squadYield.furs;
 			totalYield.ivory += squadYield.ivory;
+			totalYield.gold += squadYield.gold;
 			if (squadYield.isUnicorn) { totalYield.unicorns++; }
 		}
 		if (totalYield.unicorns){
@@ -450,7 +452,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", null, {
 			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " ivory";
 		}
 		if (totalYield.gold){
-			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivgoldory) + " gold";
+			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " gold";
 		}
 		this.game.msg( msg );
 		

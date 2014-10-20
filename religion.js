@@ -261,7 +261,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		researched: false
 	},{
 		name: "transcendence",
-		label: "Trasncendence",
+		label: "Transcendence",
 		description: "Unlocks additional religion upgrades",
 		prices: [
 			{ name : "faith", val: 7500 },
@@ -686,10 +686,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 		if (religion.getRU("solarRevolution").researched){
 			var bonus = religion.getProductionBonus();
-			var bonusFixed = Math.floor(bonus);
-			var progress = (bonus - bonusFixed) * 100;
 			
-			this.faithCount.innerHTML += ( " (+" + bonusFixed + "% bonus, " + progress.toFixed() + "% progress)" );
+			this.faithCount.innerHTML += ( " (+" + bonus.toFixed(2) + "% bonus)" );
 		}
 		
 		if (religion.getRU("apocripha").researched){

@@ -277,10 +277,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		// locked structures are invisible
 		if (this.visible){
 			if (this.domNode.style.display === "none"){
-				this.domNode.style.display = "";
+				this.domNode.style.display = "block";
 			}
 		} else {
-			if (this.domNode.style.display === ""){
+			if (this.domNode.style.display === "block"){
 				this.domNode.style.display = "none";
 			}
 		}

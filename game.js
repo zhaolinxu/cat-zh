@@ -219,7 +219,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			
 			"manpowerMax": {
 				title: "Max Catpower",
-				resName: "catpower"
+				resName: "manpower"
 			},
 			
 			"manpower" : {
@@ -318,6 +318,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resType: "unicorns",
 				type: "perTick"
 			},
+			
+			//manuscripts
+			
+			"manuscriptPerTick": {
+				title: "Manuscript production",
+				resType: "manuscript",
+				type: "perTick"
+			},
+			
+			//miscellaneous
 			
 			"craftRatio": {
 				title: "Craft bonus",
@@ -1082,6 +1092,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	render: function(){
 
+		var midColumn = dojo.byId("midColumn");
+		var scrollPosition = midColumn.scrollTop;
+		
 		var container = dojo.byId(this.id);
 		dojo.empty(container);
 
@@ -1145,6 +1158,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 			}
 		}
+		
+		midColumn.scrollTop = scrollPosition;
 	},
 	
 	/**
@@ -1234,11 +1249,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
 			
-			var sw = this.bld.get("steamworks");
-			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
 			}
 			
@@ -1377,11 +1390,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
 			
-			var sw = this.bld.get("steamworks");
-			
 			if (res.name != "oil"){
 				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ sw.effects["magnetoBoostRatio"] * this.bld.get("steamworks").on) : 1;
+				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 				stack.push({
 					name: "Magnetos",
 					type: "ratio",
@@ -1389,12 +1400,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 		}
-		
-		stack.push({
-			name: "Reactors",
-			type: "ratio",
-			value: this.bld.getEffect("productionRatio") * swRatio
-		});
+
+		if (!res.transient) {		
+			stack.push({
+				name: "Reactors",
+				type: "ratio",
+				value: this.bld.getEffect("productionRatio")
+			});
+		}
 		
 		stack.push({
 			name: "Automated",
@@ -1865,7 +1878,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
-		this.karmaZebras = this.resPool.get("zebras").value + 1;
+		this.karmaZebras += this.resPool.get("zebras").value;
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 

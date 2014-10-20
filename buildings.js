@@ -12,7 +12,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			getEffect: function(bld, effectName){
 				var effect = 0;
 
-				if (bld.togglable && bld.name != "observatory"){
+				// Need a better way to do this...
+				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1){
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
@@ -596,12 +597,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			}
 			
 			if (game.workshop.get("printingPress").researched){
-				var amt = 0.0005 * self.on;						// 2 per year per SW
+				var amt = 0.0005;						// 2 per year per SW
 				
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
 				}
-				game.resPool.get("manuscript").value += amt;
+				self.effects["manuscriptPerTick"] = amt;
+				game.resPool.get("manuscript").value += amt * self.on;
 			}
 
 			var coalRatio = game.workshop.getEffect("coalRatioGlobal");
@@ -817,8 +819,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
 			
-			uranium.value -= self.on * 
-				-self.effects["uraniumPerTick"] * (1-game.workshop.getEffect("uraniumRatio"));
+			self.effects["uraniumPerTick"] = -0.001 * (1 - game.workshop.getEffect("uraniumRatio"));
+			uranium.value -= self.on * -self.effects["uraniumPerTick"];
 
 			if (uranium.value <= 0){
 				self.on = 0;
@@ -852,7 +854,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var uranium = game.resPool.get("uranium");
 			var titanium = game.resPool.get("titanium");
 
-			if (titanium.value > self.effects["titaniumPerTick"] * self.on){
+			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
 				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
@@ -1673,7 +1675,8 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 	
 	update: function(){
 		this.inherited(arguments);
-		var catnipVal = this.game.resPool.get("catnip").value;	
+		var catnipVal = this.game.resPool.get("catnip").value;
+		var catnipCost = this.prices[0].val;
 	    // -------------- x100 ----------------
 			
 		if (!this.x100Href){
@@ -1681,7 +1684,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 					paddingLeft: "4px",
 					float: "right",
 					cursor: "default",
-					display: catnipVal < (100 * 100) ? "none" : ""
+					display: catnipVal < (catnipCost * 100) ? "none" : ""
 				}}, null);
 				
 			dojo.connect(this.x100Href, "onclick", this, dojo.hitch(this, function(event){
@@ -1689,25 +1692,21 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 				
 				var catnipVal = this.game.resPool.get("catnip").value;
 				
-				if (catnipVal < (100 * 100)){
+				if (catnipVal < (catnipCost * 100)){
 					this.game.msg("not enough catnip!");
 				}
 				
-				this.game.resPool.get("catnip").value -= (100 * 100);
+				this.game.resPool.get("catnip").value -= (catnipCost * 100);
 				
-				var isEnriched = this.game.workshop.get("advancedRefinement").researched;
-				if (!isEnriched){
-					this.game.resPool.get("wood").value += 100;
-				} else {
-					this.game.resPool.get("wood").value += 200;
-				}
+				var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
+				this.game.resPool.get("wood").value += 100 * craftRatio;
 				
 				this.update();
 			}));
 			
 			dojo.place(this.x100Href, this.buttonContent);
 		} else {
-			dojo.setStyle(this.x100Href, "display", catnipVal < (100 * 100) ? "none" : "");
+			dojo.setStyle(this.x100Href, "display", catnipVal < (catnipCost * 100) ? "none" : "");
 		}
 		
 	},
@@ -2183,21 +2182,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}, this.game);
 		this.addButton(btn);
 		//btn.render(container);
+
+		var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
 		
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip", 
 			handler: 	function(btn){
-							var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
 							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
-							if (!isEnriched){
-								btn.game.resPool.get("wood").value += 1 * craftRatio;
-							} else {
-								btn.game.resPool.get("wood").value += 2 * craftRatio;
-								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
-							}
+							btn.game.resPool.get("wood").value += 1 * craftRatio;
+							//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 						},
 			description: "Refine catnip into catnip wood",
-			prices: [ { name : "catnip", val: 100 }]
+			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }]
 		}, this.game);
 		this.addButton(btn);
 		//btn.render(container);
