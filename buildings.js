@@ -12,7 +12,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			getEffect: function(bld, effectName){
 				var effect = 0;
 
-				if (bld.togglable && bld.name != "observatory"){
+				// Need a better way to do this...
+				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1){
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
