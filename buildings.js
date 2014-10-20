@@ -597,12 +597,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			}
 			
 			if (game.workshop.get("printingPress").researched){
-				var amt = 0.0005 * self.on;						// 2 per year per SW
+				var amt = 0.0005;						// 2 per year per SW
 				
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
 				}
-				game.resPool.get("manuscript").value += amt;
+				self.effects["manuscriptPerTick"] = amt;
+				game.resPool.get("manuscript").value += amt * self.on;
 			}
 
 			var coalRatio = game.workshop.getEffect("coalRatioGlobal");

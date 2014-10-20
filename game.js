@@ -319,6 +319,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			
+			//manuscripts
+			
+			"manuscriptPerTick": {
+				title: "Manuscript production",
+				resType: "manuscript",
+				type: "perTick"
+			},
+			
+			//miscellaneous
+			
 			"craftRatio": {
 				title: "Craft bonus",
 				type: "ratio"
