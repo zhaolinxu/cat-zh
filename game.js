@@ -219,7 +219,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			
 			"manpowerMax": {
 				title: "Max Catpower",
-				resName: "catpower"
+				resName: "manpower"
 			},
 			
 			"manpower" : {
