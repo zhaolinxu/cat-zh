@@ -261,7 +261,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		researched: false
 	},{
 		name: "transcendence",
-		label: "Trasncendence",
+		label: "Transcendence",
 		description: "Unlocks additional religion upgrades",
 		prices: [
 			{ name : "faith", val: 7500 },
