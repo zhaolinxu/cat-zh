@@ -1863,7 +1863,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
-		this.karmaZebras = this.resPool.get("zebras").value + 1;
+		this.karmaZebras += this.resPool.get("zebras").value;
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 
