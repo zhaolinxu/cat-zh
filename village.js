@@ -93,20 +93,16 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 	game: null,
 	
 	sim: null,
-	
-	//this is a transient variable to contain the references to kittens 
-	//must be populated in the runtime
-	government: null,
+			
+	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
+	senators: null,
+
 	
 	constructor: function(game){
 		this.game = game;
 		this.sim = new com.nuclearunicorn.game.village.KittenSim(game);
 		
-		this.government = {
-			ruler: null,
-			council: [
-			]
-		};
+		this.senators = [];
 	},
 	
 	getJob: function(jobName){
@@ -289,14 +285,15 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 			for (var i = 0; i< kittens.length; i++){
 				var kitten = kittens[i];
 				
-				var newKitten = new com.nuclearunicorn.game.village.Kitten();
-				newKitten.name = kitten.name;
-				newKitten.surname = kitten.surname;
-				newKitten.age = kitten.age;
-				newKitten.skills = kitten.skills;
-				newKitten.exp = kitten.exp;
-				newKitten.trait = kitten.trait;
-				newKitten.job = kitten.job;
+				var newKitten = new com.nuclearunicorn.game.village.Kitten();	
+				newKitten.load(kitten);
+				
+				if (newKitten.isLeader){
+					this.game.village.leader = newKitten;
+				}
+				if (newKitten.isSenator){
+					this.game.village.senators.push(newKitten);
+				}
 				
 				this.sim.kittens.push(newKitten);
 			}
@@ -501,6 +498,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	exp: 0,
 	rank: 0,
 	
+	isLeader: false,
+	isSenator: false,
+	
 	constructor: function(){
 		this.name = this.names[this.rand(this.names.length)];
 		this.surname = this.surnames[this.rand(this.surnames.length)];
@@ -521,6 +521,18 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
+	},
+	
+	load: function(data){
+		this.name = 	data.name;
+		this.surname =  data.surname;
+		this.age = 		data.age;
+		this.skills = 	data.skills;
+		this.exp = 		data.exp;
+		this.trait = 	data.trait;
+		this.job = 		data.job;
+		this.isLeader = data.isLeader || false;
+		this.isSenator = data.isSenator || false;
 	}
 });
 
@@ -898,10 +910,43 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var governmentDiv = dojo.create("div", { style: {
 			paddingBottom: "10px"
 		}}, container);
-		dojo.create("div", { innerHTML: "Leader: TBD"}, governmentDiv);
+		
+		var leaderName = "N/A";
+		var leader = this.game.village.leader;
+		if (leader){
+			leaderName = leader.name + " " + leader.surname + " (" + leader.trait.title + " rank "+leader.rank +")";
+		}
+		//TODO: promote leader link
+		
+		dojo.create("div", { innerHTML: "<strong>Leader:</strong> " + leaderName}, governmentDiv);
 		
 		var councilDiv = dojo.create("div", null, governmentDiv);
-		dojo.create("div", { innerHTML: "Council: TBD"}, councilDiv);
+		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
+		
+		for (var i = 0; i< this.game.village.senators.length; i++){
+			var senator = this.game.village.senators[i];
+			
+			var span = dojo.create("span", { innerHTML : senator.name + " " + senator.surname,
+				style: {
+					display : "block",
+					paddingLeft: "15px"
+				}
+			}, councilList);
+			
+			var fireHref = dojo.create("a", {
+				href: "#", 
+				innerHTML: "[-]", 
+				style: {
+					paddingLeft : "5px"
+			}}, span);
+			
+			dojo.connect(fireHref, "onclick", this, dojo.partial(function(game, i){
+				console.log(i);
+				game.village.senators[i].isSenator = false;
+				game.village.senators.splice(i,1);
+				game.render();
+			}, this.game, i));
+		}
 		
 		
 		var navbar = dojo.create("div", { style: {
@@ -975,17 +1020,17 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, linksDiv);
 			
-			dojo.create("a", { 
+			var leaderHref = dojo.create("a", { 
 				href: "#", innerHTML: "Make Leader", 
 				style: { 
-					display: "block"
+					display: kitten.isLeader ? "none" : "block"
 				}
 			}, linksDiv);
 			
-			dojo.create("a", { 
+			var senatorHref = dojo.create("a", { 
 				href: "#", innerHTML: "Make Senator", 
 				style: { 
-					display: "block"
+					display: kitten.isSenator ? "none" : "block"
 				}
 			}, linksDiv);
 			
@@ -1004,6 +1049,33 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				
 				game.village.sim.kittens[i].job = null; 
 				game.village.updateResourceProduction();
+				game.render();
+				
+			}, this.game, i));
+			
+			dojo.connect(leaderHref, "onclick", this, dojo.partial(function(game, i, event){ 
+				event.preventDefault(); 
+				
+				var kitten = game.village.sim.kittens[i];
+				if (game.village.leader){
+					game.village.leader.isLeader = false;
+				}
+				kitten.isLeader = true;
+				game.village.leader = kitten;
+				
+				game.render();
+				
+			}, this.game, i));
+			
+			dojo.connect(senatorHref, "onclick", this, dojo.partial(function(game, i, event){ 
+				event.preventDefault(); 
+				
+				var kitten = game.village.sim.kittens[i];
+				if (game.village.senators.length < 5){
+					game.village.senators.push(kitten);
+					kitten.isSenator = true;
+				}
+				
 				game.render();
 				
 			}, this.game, i));

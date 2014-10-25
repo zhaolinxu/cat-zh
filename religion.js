@@ -636,10 +636,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			name: "Praise the sun!",
 			description: "Convert all your accumulated faith to the total pool",
 			handler: function(btn){
-				var faith = btn.game.resPool.get("faith");
-				btn.game.religion.faith += faith.value + 
-					faith.value * btn.game.getTriValue(btn.game.religion.faithRatio, 0.1)*0.1; //starting up from 100% fratio will work surpisingly bad
-				faith.value = 0.01;	//have a nice autoclicking
+				btn.game.religion.praise();	//sigh, enjoy your automation scripts
 			}
 		}, this.game);
 		
@@ -666,6 +663,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			button.render(content);
 			this.rUpgradeButtons.push(button);
 		}
+	},
+	
+	praise: function(){
+		var faith = this.game.resPool.get("faith");
+		this.game.religion.faith += faith.value + 
+			faith.value * btn.game.getTriValue(btn.game.religion.faithRatio, 0.1)*0.1; //starting up from 100% fratio will work surpisingly bad
+		faith.value = 0.01;	//have a nice autoclicking
 	},
 	
 	update: function(){
