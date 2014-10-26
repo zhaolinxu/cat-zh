@@ -1035,9 +1035,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				self.effects["faithPerTickBase"] = 0.0015;
 			}
 			
+			self.effects["culturePerTickBase"] = 0.1;
 			var stainedGlass = game.religion.getRU("stainedGlass");
 			if (stainedGlass.researched){
-				self.effects["culturePerTickBase"] = 0.1 + 0.05 * stainedGlass.val;
+				self.effects["culturePerTickBase"] += 0.05 * stainedGlass.val;
 			}
 			
 			var scholastics = game.religion.getRU("scholasticism");

@@ -914,7 +914,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var leaderName = "N/A";
 		var leader = this.game.village.leader;
 		if (leader){
-			leaderName = leader.name + " " + leader.surname + " (" + leader.trait.title + " rank "+leader.rank +")";
+			var title = leader.trait.title == "None" ? "No trait :(" : leader.trait.title + " rank " + leader.rank;
+			leaderName = leader.name + " " + leader.surname + " (" + title +")";
 		}
 		//TODO: promote leader link
 		
@@ -926,7 +927,9 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		for (var i = 0; i< this.game.village.senators.length; i++){
 			var senator = this.game.village.senators[i];
 			
-			var span = dojo.create("span", { innerHTML : senator.name + " " + senator.surname,
+			var title = senator.trait.title == "None" ? "No trait" : senator.trait.title + " rank " + senator.rank;
+			var span = dojo.create("span", { 
+				innerHTML : senator.name + " " + senator.surname + " (" + title +")",
 				style: {
 					display : "block",
 					paddingLeft: "15px"
@@ -1023,14 +1026,14 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			var leaderHref = dojo.create("a", { 
 				href: "#", innerHTML: "Make Leader", 
 				style: { 
-					display: kitten.isLeader ? "none" : "block"
+					display: kitten.isLeader || kitten.isSenator ? "none" : "block"
 				}
 			}, linksDiv);
 			
 			var senatorHref = dojo.create("a", { 
 				href: "#", innerHTML: "Make Senator", 
 				style: { 
-					display: kitten.isSenator ? "none" : "block"
+					display: kitten.isLeader || kitten.isSenator ? "none" : "block"
 				}
 			}, linksDiv);
 			
