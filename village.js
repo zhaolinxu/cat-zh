@@ -96,7 +96,27 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 			
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
 	senators: null,
-
+	
+	rankExp: {
+		1 : 500,
+		2 : 1250,
+		3 : 2500,
+		4 : 5000,
+		5 : 7500,
+		6 : 12000,
+		7 : 18000,
+		8 : 25000,
+		9 : 37000,
+		10: 60000,
+		11: 95000,
+		12: 135000,
+		13: 250000,
+		14: 475000,
+		15: 625000,
+		16: 950000,
+		17: 1250000,
+		18: 2350000	//IDK
+	},
 	
 	constructor: function(game){
 		this.game = game;
@@ -471,7 +491,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	
 	traits: [{
 		name: "scientist",
-		title: "Scientinst"
+		title: "Scientist"
 	},{
 		name: "manager",
 		title: "Manager"
@@ -528,9 +548,10 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.surname =  data.surname;
 		this.age = 		data.age;
 		this.skills = 	data.skills;
-		this.exp = 		data.exp;
+		this.exp = 		data.exp || 0;
 		this.trait = 	data.trait;
 		this.job = 		data.job;
+		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = data.isSenator || false;
 	}
@@ -1037,10 +1058,11 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, linksDiv);
 			
-			dojo.create("a", { 
-				href: "#", innerHTML: "Promote", 
+			var expToPromote = this.game.village.rankExp[kitten.rank+1];
+			var promoteHref = dojo.create("a", { 
+				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote) + " exp)", 
 				style: { 
-					display: "block"
+					display: kitten.exp < expToPromote ? "none" : "block"
 				}
 			}, linksDiv);
 				
@@ -1069,6 +1091,20 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.render();
 				
 			}, this.game, i));
+			
+			dojo.connect(promoteHref, "onclick", this, dojo.partial(function(game, i, event){ 
+				event.preventDefault(); 
+				
+				var kitten = game.village.sim.kittens[i];
+				if (kitten.exp >= game.village.rankExp[kitten.rank+1]){
+					kitten.exp -= game.village.rankExp[kitten.rank+1];
+					kitten.rank++;
+				}
+				game.render();
+				
+			}, this.game, i));
+			
+			//rankExp
 			
 			dojo.connect(senatorHref, "onclick", this, dojo.partial(function(game, i, event){ 
 				event.preventDefault(); 
@@ -1106,9 +1142,9 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			
 			//console.log("KITTEN:", kitten);
 			
-			var traitTitle = /*kitten.getTrait(kitten.trait).title*/ "n/a";
+			var traitTitle = kitten.trait.title;
 			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
-			var rank = kitten.rank ? "(" + kitten.rank + ")": "";
+			var rank = kitten.rank ? " rank " + kitten.rank : "";
 			
 			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job  + 
 				trait + rank + "<br>" +
