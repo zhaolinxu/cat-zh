@@ -568,6 +568,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	faithResetBtn: null,
 	
 	zgUpgradeButtons: null,
+	rUpgradeButtons: null,
 	
 	constructor: function(){
 		this.zgUpgradeButtons = [];

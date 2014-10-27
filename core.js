@@ -913,11 +913,19 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	
 	panelDiv: null,
 	
+	children: null,
+	
 	constructor: function(name, tabManager){
 		this.name = name;
 		if (tabManager){
 			tabManager.registerPanel(name, this);
 		}
+		
+		this.children = [];
+	},
+	
+	addChild: function(child){
+		this.children.push(child);
 	},
 	
 	render: function(container){
@@ -972,6 +980,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 		if (this.panelDiv){
 			$(this.panelDiv).toggle(visible);
 		}
+	},
+	
+	update: function(){
+		dojo.forEach(this.children, function(e, i){ e.update(); });
 	}
 });
 

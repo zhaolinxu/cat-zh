@@ -419,6 +419,35 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			{name : "science", val: 85000},
 			{name: 	"compedium", val: 100}
 		],
+		unlocks: ["biochemistry"],
+		handler: function(game){
+		}
+	},{
+		name: "biochemistry",
+		title: "Biochemistry",
+		description: "TBD.",
+		effectDesc: "Unlocks biofuel processing",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 145000},
+			{name: 	"compedium", val: 500}
+		],
+		unlocks: ["genetics"],
+		handler: function(game){
+			game.workshop.get("biofuel").unlocked = true;
+		}
+	},{
+		name: "genetics",
+		title: "Genetics",
+		description: "TBD.",
+		effectDesc: "Unlocks genetic engineering(?)",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 190000},
+			{name: 	"compedium", val: 1500}
+		],
 		unlocks: [],
 		handler: function(game){
 		}
@@ -544,18 +573,48 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "rocketry",
 		title: "Rocketry",
-		description: "Required for space exploration. (TBD)",
-		effectDesc: "Unlocks construction of the spaceships. (TBD)",
+		description: "Required for space exploration",
+		effectDesc: "Unlocks construction of the spaceships",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 175000},
 			{name: 	"blueprint", val: 125}
 		],
-		unlocks: [],
+		unlocks: ["sattelites"],
+		handler: function(game){
+			game.spaceTab.visible = true;
+		}
+	},{
+		name: "sattelites",
+		title: "Sattelites",
+		description: "TBD",
+		effectDesc: "Unlocks deployment of orbital sattelites",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 190000},
+			{name: 	"blueprint", val: 125}
+		],
+		unlocks: ["orbitalEngineering"],
 		handler: function(game){
 		}
 	},{
+		name: "orbitalEngineering",
+		title: "Orbital Engineering",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 250000},
+			{name: 	"blueprint", val: 250}
+		],
+		unlocks: [],
+		handler: function(game){
+		}
+	},
+	{
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",

@@ -274,6 +274,13 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		ignorePriceCheck: true,
 		requiredTech: ["biology"],
 		handler: function(btn){
+			
+		},
+		action: function(self, game){
+			if (game.workshop.get("biofuel").researched){
+				self.effects["catnipPerTick"] = -1;
+				self.effects["oilPerTick"] = 0.02;
+			}
 		},
 		val: 0,
 		flavor: "New postdoc positions available."

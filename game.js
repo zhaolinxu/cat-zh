@@ -836,6 +836,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.science 		= 	new com.nuclearunicorn.game.science.ScienceManager(this);
 		this.achievements 	= 	new com.nuclearunicorn.game.Achievements(this);
 		this.religion 		= 	new com.nuclearunicorn.game.religion.ReligionManager(this);
+		this.space 			= 	new com.nuclearunicorn.game.space.SpaceManager(this);
 		
 
 		//very sloppy design, could we just use an array for tab managers?
@@ -860,10 +861,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.workshopTab.visible = false;
 		this.addTab(this.workshopTab);
 		
-		this.economyTab = new com.nuclearunicorn.game.ui.tab.Economy("Economy", this);
-		this.economyTab.visible = false;
-		this.addTab(this.economyTab);
-		
 		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy("Trade", this);
 		this.diplomacyTab.visible = false;
 		this.addTab(this.diplomacyTab);
@@ -875,6 +872,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
 		this.achievementTab.visible = false;
 		this.addTab(this.achievementTab);
+		
+		this.spaceTab = new com.nuclearunicorn.game.ui.tab.SpaceTab("Space", this);
+		this.spaceTab.visible = false;
+		this.addTab(this.spaceTab);
 		
 		//vvvv do not forget to toggle tab visiblity below
 		

@@ -907,6 +907,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 			
 		}
+	},{
+		name: "biofuel",
+		title: "Biofuel processing",
+		description: "Biolabs will convert catnip into oil",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 1250 },
+			{ name : "science",  val: 150000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	},
 	//------------------- blueprints ----------------
 	{
