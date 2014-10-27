@@ -313,6 +313,13 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		var rate = (Math.sqrt(1+8 * this.faith / stripe)-1)/2;
 		
 		return rate;
+	},
+	
+	praise: function(){
+		var faith = this.game.resPool.get("faith");
+		this.faith += faith.value + 
+			faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1; //starting up from 100% fratio will work surpisingly bad
+		faith.value = 0.01;	//have a nice autoclicking
 	}
 
 });
@@ -663,13 +670,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			button.render(content);
 			this.rUpgradeButtons.push(button);
 		}
-	},
-	
-	praise: function(){
-		var faith = this.game.resPool.get("faith");
-		this.game.religion.faith += faith.value + 
-			faith.value * btn.game.getTriValue(btn.game.religion.faithRatio, 0.1)*0.1; //starting up from 100% fratio will work surpisingly bad
-		faith.value = 0.01;	//have a nice autoclicking
 	},
 	
 	update: function(){
