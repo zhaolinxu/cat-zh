@@ -937,6 +937,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			)
 		};
 		
+		//TODO: fix this disgrace
 		this.bld.save(saveData);
 		this.village.save(saveData);
 		this.calendar.save(saveData);
@@ -945,6 +946,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacy.save(saveData);
 		this.achievements.save(saveData);
 		this.religion.save(saveData);
+		this.space.save(saveData);
 
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
@@ -1012,6 +1014,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.diplomacy.load(saveData);
 				this.achievements.load(saveData);
 				this.religion.load(saveData);
+				this.space.load(saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -1499,6 +1502,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.workshop.update();
 		this.diplomacy.update();
 		this.religion.update();
+		this.space.update();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
