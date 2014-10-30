@@ -16,14 +16,15 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "manpower", val: 5000 },
 			{ name : "science", val: 100000 }
 		],
-		chance: 100,	//success chance in %
+		chance: 90,	//success chance in %
 		handler: function(game, self){
 			game.space.getProgram("sattelite").unlocked = true;
+			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
 		name: "sattelite",
 		title: "Deploy Sattelite",
-		description: "Deploy a sattelite. Sattelites improve your observatory effectiveness by 5%",
+		description: "Deploy a sattelite. Sattelites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
 		prices: [
 			{ name : "starchart", val: 325 },
@@ -31,8 +32,30 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "science", val: 125000 }
 		],
 		chance: 80,
+		priceRatio: 1.08,
+		requiredTech: ["sattelites"],
 		val: 0,
 		upgradable: true,
+		handler: function(game, self){
+		},
+		effects: {
+			"observatoryRatio" : 0.05,
+			"starchartPerTickBase": 0.001
+		}
+	},{
+		name: "moonMission",
+		title: "Moon Mission",
+		description: "Launch a rocket to the Crimsonmoon, a Cath planet sattelite",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{ name : "starchart", val: 500 },
+			{ name : "titanium", val: 5000 },
+			{ name : "oil", 	val: 45000 },
+			{ name : "science", val: 125000 }
+		],
+		chance: 60,
+		upgradable: false,
 		handler: function(game, self){
 		}
 	}],
@@ -74,6 +97,19 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	getProgram: function(name){
 		return this.getMeta(name, this.programs);
 	},
+	
+	getEffect: function(name){
+		return this.getMetaEffect(name, {meta:this.programs, provider: {
+			getEffect: function(program, effectName){
+				if (!program.effects){
+					return 0;
+				}
+				return program.upgradable ? 
+					program.effects[effectName] * program.val : 
+					program.effects[effectName];
+			}
+		}});
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
@@ -119,6 +155,16 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 	
 	updateVisible: function(){
+		var program = this.getProgram();
+		if (program.requiredTech){
+			for (var i = 0; i< program.requiredTech.length; i++){
+				var tech = this.game.science.get(program.requiredTech[i]);
+				if (!tech.researched){
+					this.setVisible(false);
+					return;
+				}
+			}
+		}
 		this.setVisible(this.getProgram().unlocked);
 	},
 	

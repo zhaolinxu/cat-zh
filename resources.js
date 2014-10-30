@@ -86,7 +86,14 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		name : "starchart",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		color: "#9A2EFE"
+	},{
+		name : "rocket",
+		type : "common",
+		transient: true,
+		visible: true,
+		color: "#9A2EFE"
 	},
 	
 	//=========================================

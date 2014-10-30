@@ -913,6 +913,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return this.effectsMgr.statics.effectMeta[effectName];
 	},
 	
+	//TODO: store all managers in a single array and handle them in the common way
+	getEffect: function(effectName){
+		return this.bld.getEffect(effectName) + 
+			this.space.getEffect(effectName);
+	},
+	
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
@@ -1198,7 +1204,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 	
-		var perTick = this.bld.getEffect(res.name + "PerTickBase");		//per tick accumulator
+		var perTick = this.getEffect(res.name + "PerTickBase");		//per tick accumulator
 		
 		if (season.modifiers[res.name]){
 			perTick = perTick * weatherMod;
@@ -1317,7 +1323,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Base",
 			type: "fixed",
-			value: this.bld.getEffect(res.name + "PerTickBase")
+			value: this.getEffect(res.name + "PerTickBase")
 		});
 		
 		

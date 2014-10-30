@@ -588,8 +588,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "sattelites",
 		title: "Sattelites",
-		description: "TBD",
-		effectDesc: "Unlocks deployment of orbital sattelites",
+		description: "Sattelites are machines that permanently orbit the planet outside its atmosphere",
+		effectDesc: "Unlocks deployment of sattelites",
 		unlocked: false,
 		researched: false,
 		prices: [

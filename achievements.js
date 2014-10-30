@@ -85,9 +85,9 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "spaceOddity",
 		title: "Space Oddity",
-		description: "Complete Bastet Program in the iron will mode",
+		description: "Complete a Moon Program in the iron will mode",
 		condition: function(){
-			return false;
+			return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched );
 		},
 		unlocked: false
 	},{

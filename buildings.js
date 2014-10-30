@@ -253,6 +253,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 		},
 		action: function(self, game){
+			var ratio = game.space.getEffect("observatoryRatio");
+			self.effects["scienceMax"] = 1000 * (1 + ratio);
+			self.effects["scienceRatio"] = 0.25 * (1 + ratio);
 		},
 		val: 0,
 		flavor: "Yearning to one day catch the red light fairy"
