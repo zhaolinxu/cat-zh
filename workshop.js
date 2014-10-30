@@ -355,7 +355,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-		}
+		},
+		flavor: "It's like a tuna can, but bigger"
 	},{
 		name: "barges",
 		title: "Barges",
@@ -588,7 +589,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 			//do nothing
-		}
+		},
+		flavor: "Now hiring: cuter kittens"
 	},
 	//--------------------- stuff ----------------------
 	{
@@ -605,7 +607,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 			game.workshop.getCraft("wood").prices = [{name: "catnip", val: 50}];
-		}
+		},
+		flavor: "It's all fun and games 'til someone gets pounced"
 	},{
 		name: "goldOre",
 		title: "Gold Ore",
@@ -621,7 +624,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			game.workshop.get("geodesy").unlocked = true;
 		},
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Shiny!"
 	},{
 		name: "geodesy",
 		title: "Geodesy",
@@ -639,7 +643,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			var gJob = game.village.getJob("geologist");
 			gJob.modifiers["coal"] = 0.0225;	//instead of 0.015
 			gJob.modifiers["gold"] = 0.0008;
-		}
+		},
+		flavor: "Gold sniffing cats"
 	},
 	//--------------------- coal upgrades ----------------------
 	{
@@ -655,7 +660,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "science",  val: 5000 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "So warm... so sleepy..."
 	},{
 		name: "deepMining",
 		title: "Deep Mining",
@@ -789,7 +795,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "science",  val: 10000 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Includes autofeeders"
 	},{
 		name: "advancedAutomation",
 		title: "Advanced Automation",
@@ -887,7 +894,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "science",  val: 20000 },
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Did that light spot just move?"
 	},
 	//---------------------- oil ---------------
 	{
@@ -1405,7 +1413,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		//-------------- flavor stuff -------------
 		
 		dojo.create("div", { 
-			innerHTML: upgrade.flavour || "flavor text",
+			innerHTML: upgrade.flavor || "flavor text",
 			className: "flavor",
 			style: {
 				position: "absolute",

@@ -1,14 +1,16 @@
 v 1.0.0.0 (30 oct)
-	Space and missions (partly based on a space mod by Fringeware)
-	
-	Rocket recipe
-				
-	Sattelites
-	Orbital Engineering (TBD)
-	Biochemistry
-	Biofuel processing
-	
-	Updated "panic message" to be more informative and less scary
+
+Senators and leader can be assigned, unassigned and promoted based on exp (no effect yet)
+Space and missions (partly based on a space mod by Fringeware)
+
+Rocket recipe
+			
+Sattelites
+Orbital Engineering (TBD)
+Biochemistry
+Biofuel processing
+
+Updated "panic message" to be more informative and less scary
 
 v 0.9.9.5 (15 oct)
 

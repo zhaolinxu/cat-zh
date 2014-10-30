@@ -762,7 +762,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var ratio = game.workshop.getEffect("oilRatio");
 			self.effects["oilPerTickBase"] = 0.02 + 0.02*ratio;
 		},
-		flavor: "Formula for success: rise early, work hard, strike oil."
+		flavor: "Rise early, work hard, strike oil."
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
@@ -781,7 +781,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 			btn.game.workshopTab.visible = true;
 		},
-		val: 0
+		val: 0,
+		flavor: "Free toys for workers"
 	},{
 		name: "factory",
 		label: "Factory",
@@ -1101,7 +1102,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		},
 		val: 0,
 		requiredTech: ["animal"],
-		canUpgrade: true
+		canUpgrade: true,
+		flavor: "We glue horns on horses"
 	},
 	
 	//----------------------------------- Wonders ----------------------------------------
