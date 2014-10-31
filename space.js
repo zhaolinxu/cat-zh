@@ -11,6 +11,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Launch a rocket to a space.",
 		researched: false,
 		unlocked: true,
+		fuel: 10000,
 		prices: [
 			{ name : "starchart", val: 250 },
 			{ name : "manpower", val: 5000 },
@@ -26,6 +27,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		title: "Deploy Sattelite",
 		description: "Deploy a sattelite. Sattelites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
+		fuel: 10000,
 		prices: [
 			{ name : "starchart", val: 325 },
 			{ name : "titanium", val: 2500 },
@@ -45,16 +47,70 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "moonMission",
 		title: "Moon Mission",
-		description: "Launch a rocket to the Crimsonmoon, a Cath planet sattelite",
+		description: "Launch a rocket to the Redmoon, a Cath planet sattelite",
 		unlocked: false,
 		researched: false,
+		fuel: 40000,
 		prices: [
 			{ name : "starchart", val: 500 },
 			{ name : "titanium", val: 5000 },
-			{ name : "oil", 	val: 45000 },
 			{ name : "science", val: 125000 }
 		],
 		chance: 60,
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("moonBase").unlocked = true;
+			game.space.getProgram("duneMission").unlocked = true;
+			game.space.getProgram("piscineMission").unlocked = true;
+		}
+	},{
+		name: "moonBase",
+		title: "Moon base",
+		description: "Establish a base on a surface of Redmoon",
+		unlocked: false,
+		researched: false,
+		fuel: 50000,
+		priceRatio: 1.12,
+		prices: [
+			/*{ name : "starchart", val: 500 },
+			{ name : "titanium", val: 9500 },
+			{ name : "concrate", val: 250 },
+			{ name : "science", val: 100000 },*/
+			{ name : "unobtainium", val: 1 }
+		],
+		chance: 60,
+		upgradable: false,
+		handler: function(game, self){
+		}
+	},{
+		name: "duneMission",
+		title: "Dune Mission",
+		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
+		unlocked: false,
+		researched: false,
+		fuel: 50000,
+		prices: [
+			{ name : "starchart", val: 750 },
+			{ name : "titanium", val: 7000 },
+			{ name : "science", val: 175000 }
+		],
+		chance: 50,
+		upgradable: false,
+		handler: function(game, self){
+		}
+	},{
+		name: "piscineMission",
+		title: "Piscine Mission",
+		description: "Piscine is a gigantic aquatic planet composed of acid body and methane atmosphere",
+		unlocked: false,
+		researched: false,
+		fuel: 65000,
+		prices: [
+			{ name : "starchart", val: 900 },
+			{ name : "titanium", val: 9000 },
+			{ name : "science", val: 200000 }
+		],
+		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
 		}
@@ -75,10 +131,17 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		if (!saveData.space){
 			return;
 		}
+		
+		var self = this;
 
 		if (saveData.space.programs){
 			this.loadMetadata(this.programs, saveData.space.programs, ["val", "unlocked", "researched"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
+				
+				/*if (loadedElem.handler && loadedElem.researched){
+					loadedElem.handler(self.game, loadedElem);
+				}*/ /*CRYPTIC BUG*/
+				
 				var prices = dojo.clone(loadedElem.prices);
 				for( var k = 0; k < prices.length; k++){
 					var price = prices[k];
@@ -87,6 +150,11 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 					}
 				}
 			});
+		}
+		for (var i = 0; i< this.programs.length; i++){
+			if (this.programs[i].handler && this.programs[i].researched){
+				this.programs[i].handler(this.game, this.programs[i]);
+			}
 		}
 	},
 	
@@ -149,6 +217,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			  }
 			}
 		}
+		prices.push({name: "oil", val: program.fuel});
 		prices.push({name: "rocket", val: 1});
 	    
 	    return prices;
@@ -283,7 +352,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			description: "Construct a rocket",
 			prices: [
 				{ name: "alloy", val: 50 },
-				{ name: "oil", val: 10000 },
+				{ name: "oil", val: 5000 }
 			],
 			handler: function(btn){
 				btn.game.resPool.get("rocket").value++;	//TODO: i don't like polluting resource there, let's move this into the space manager variable?

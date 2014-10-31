@@ -1,3 +1,10 @@
+v 1.0.0.1 (31 oct)
+
+Fixed astrolabe not giving correct bonus to observatory
+Fixed biofuel not affecting oil
+
+Added two more planets
+
 v 1.0.0.0 (30 oct)
 
 Senators and leader can be assigned, unassigned and promoted based on exp (no effect yet)

@@ -253,8 +253,14 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 		},
 		action: function(self, game){
+			
+			self.effects["scienceMax"] = 1000;
+			if (game.workshop.get("astrolabe").researched){
+				self.effects["scienceMax"] = 1500;
+			}
+			
 			var ratio = game.space.getEffect("observatoryRatio");
-			self.effects["scienceMax"] = 1000 * (1 + ratio);
+			self.effects["scienceMax"] *= (1 + ratio);
 			self.effects["scienceRatio"] = 0.25 * (1 + ratio);
 		},
 		val: 0,
@@ -282,7 +288,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 			if (game.workshop.get("biofuel").researched){
 				self.effects["catnipPerTick"] = -1;
-				self.effects["oilPerTick"] = 0.02;
+				self.effects["oilPerTickBase"] = 0.02;
 			}
 		},
 		val: 0,

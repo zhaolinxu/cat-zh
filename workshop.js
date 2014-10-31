@@ -878,7 +878,6 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			game.bld.get("observatory").effects["scienceMax"] = 1500;
 		}
 	},
 	{
