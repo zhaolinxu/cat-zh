@@ -603,7 +603,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
 		description: "TBD",
-		effectDesc: "TBD",
+		effectDesc: "Unlocks Space Stations and Hubble Telescope",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -612,6 +612,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("hubbleTelescope").unlocked = true;
 		}
 	},
 	{

@@ -1013,6 +1013,25 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 			
 		}
+	},
+	//------------------- starcharts / space ----------------
+	{
+		name: "hubbleTelescope",
+		title: "Hubble Space Telescope",
+		description: "Improves effectiveness of sattelites by by 30%",
+		effects: {
+			"oilRatio" : 0.35 
+		},
+		prices:[
+			{ name : "alloy", 	 val: 1250 },
+			{ name : "oil", 	 val: 50000 },
+			{ name : "science",  val: 250000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			
+		}
 	}
 	],
 	

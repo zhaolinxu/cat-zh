@@ -3,6 +3,13 @@
  */ 
 dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.core.TabManager, {
 	
+	/*
+	 * Planets and celestial bodies from left to right:
+	 * 
+	 * Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath sattelite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
+	 * 
+	 */
+	
 	game: null,
 	
 	programs: [{
@@ -43,6 +50,28 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		effects: {
 			"observatoryRatio" : 0.05,
 			"starchartPerTickBase": 0.001
+		}
+	},{
+		name: "spaceStation",
+		title: "Deploy S. Station",
+		description: "Deploy a space station. Each tations generates science and provide a space for 2 astronauts",
+		unlocked: false,
+		fuel: 30000,
+		prices: [
+			{ name : "starchart", val: 425 },
+			{ name : "alloy", val: 500 },
+			{ name : "science", val: 150000 }
+		],
+		chance: 70,
+		priceRatio: 1.12,
+		requiredTech: ["orbitalEngineering"],
+		val: 0,
+		upgradable: true,
+		handler: function(game, self){
+		},
+		effects: {
+			"scienceRatio" 0.25,
+			"maxKittens" : 2
 		}
 	},{
 		name: "moonMission",
