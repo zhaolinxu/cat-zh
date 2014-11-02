@@ -1020,7 +1020,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		title: "Hubble Space Telescope",
 		description: "Improves effectiveness of sattelites by by 30%",
 		effects: {
-			"oilRatio" : 0.35 
+			"starchartRatio" : 0.30 
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1250 },

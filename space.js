@@ -70,7 +70,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		handler: function(game, self){
 		},
 		effects: {
-			"scienceRatio" 0.25,
+			"scienceRatio": 0.25,
 			"maxKittens" : 2
 		}
 	},{
@@ -363,7 +363,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 				prices: program.prices,
 				handler: function(btn){
 					var program = btn.getProgram();
+					
+					if (btn.game.rand(100) > program.chance){
+						btn.game.msg("Space launch failed catastropically! >:", "important");
+						//HACK HACK HACK
+						if (program.upgradable){
+							program.val--;
+						}
+						//UGLY HACK, FIX ME
+					}
+					
 					program.researched = true;
+					
 					if (program.handler){
 						program.handler(btn.game, program);
 					}

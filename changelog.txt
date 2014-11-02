@@ -1,3 +1,9 @@
+v 1.0.1.2 (3 nov)
+
+Space Stations
+Space missions can now fail based on their chance
+Hubble Telescope
+
 v 1.0.0.1 (31 oct)
 
 Fixed astrolabe not giving correct bonus to observatory
