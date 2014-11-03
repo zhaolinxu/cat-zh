@@ -151,7 +151,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){
 				this.sim.killKittens(starvedKittens);
-				this.game.msg(starvedKittens + " kittens starved to death");
+				this.game.msg(starvedKittens + starvedKittens === 1 ? " kitten " : " kittens " + "starved to death");
 				
 				this.game.deadKittens += starvedKittens;
 			}
@@ -441,11 +441,7 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 			if (squadYield.isUnicorn) { totalYield.unicorns++; }
 		}
 		if (totalYield.unicorns){
-			if(totalYield.unicorns == 1){
-				this.game.msg("You got a unicorn!");
-			} else {
-				this.game.msg("You got " + totalYield.unicorns + " unicorns!", "important");
-			}
+			this.game.msg("You got " + totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!");
 		}
 		var msg = "Your hunters have returned";
 		if (squads > 1) {
@@ -478,7 +474,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	
 	traits: [{
 		name: "scientist",
-		title: "Scientist",
+		title: "Scientist",//Grr... someone emaciated the evil Scientinst first...
 	},{
 		name: "manager",
 		title: "Manager"
@@ -1288,7 +1284,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tr = dojo.create("tr", {}, advVillageTable);
 		var statsTd = dojo.create("td", {}, tr);
 
-		statsTd.title = "Happiness will boost your workers production. \n Rare resources will increse this value while overpopulation will reduce it";
+		statsTd.title = "Happiness will boost your workers' production. \n Rare resources will increase this value whilst over-population will reduce it";
 		
 		this.happinessStats = statsTd;
 		
@@ -1396,7 +1392,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
-		if (kittens > 300){
+		if (kittens > 300){//You really should put a switch here. ~Ædx
 			return "Imperium";
 		} else if (kittens > 200){
 			return "Metropolis";
@@ -1418,7 +1414,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	skillToText: function(value){
-		if (value < 100 ){
+		if (value < 100 ){//And here.
 			return "Dabbling";
 		} else if (value < 500){
 			return "Novice";
@@ -1436,7 +1432,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	getNextSkillExp: function(value){
-		if (value < 100){
+		if (value < 100){//And here.
 			return 100;
 		} else if (value < 500){
 			return 500;
@@ -1454,7 +1450,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	getPrevSkillExp: function(value){
-		if (value > 9000){
+		if (value > 9000){//You probably get the point by now.
 			return 9000;
 		} else if (value > 5000){
 			return 5000;
@@ -1472,7 +1468,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 	
 	getValueModifierPerSkill: function(value){
-		if (value < 100 ){
+		if (value < 100 ){//Possibly.
 			return 1.0;
 		} else if (value < 500){
 			return 1.05;	//5%
@@ -1503,4 +1499,3 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		return (Math.floor(Math.random()*ratio));
 	}
 });
-
