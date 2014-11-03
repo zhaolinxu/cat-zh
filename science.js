@@ -24,7 +24,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "agriculture",
 		title: "Agriculture",
 		
-		description: "The basis of all civilized life, Agriculture allows the working of land for food.",
+		description: "The basis of all civilised life, Agriculture allows the working of land for food.",
 		effectDesc: "Unlocks Farmers and Barns",
 		
 		unlocked: false,
@@ -66,7 +66,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "metal",
 		title: "Metal working",
 		
-		description: "The first metal-working technology that provides your civilization with sturdy, durable tools.",
+		description: "The first metal-working technology that provides your civilisation with sturdy, durable tools.",
 		effectDesc: "You can construct Smelters that convert ore into metal",
 		
 		unlocked: false,
@@ -107,7 +107,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "civil",
 		title: "Civil Service",
-		description: "The creating of the first true state organ provides many benefits related with better organization.",
+		description: "The creation of the first true state organ provides many benefits related with better organization.",
 		effectDesc: "Unlocks detailed information about your population",
 		
 		unlocked: false,
@@ -117,7 +117,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "math",
 		title: "Mathematics",
-		description: " Mathematics is the most basic building block upon which all physical science is based.",
+		description: "Mathematics is the most basic building block upon which all physical science is based.",
 		effectDesc: "Allows construction of Academies, very efficient research buildings",
 		
 		unlocked: false,
@@ -317,7 +317,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "metaphysics",
 		title: "Metaphysics",
-		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.(TBD)",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it. (TBD)",
 		effectDesc: "Unlocks a Metaphysics upgrades.",
 		unlocked: false,
 		researched: false,
@@ -470,7 +470,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "mechanization",
 		title: "Mechanization",
-		description: "Mechanisation provides a lot of ways to automate redundant tasks, hence improving craft, oil pumps and construction technologies.",
+		description: "Mechanisation provides a lot of ways to automate redundant tasks; hence improving craft, oil pumps and construction technologies.",
 		effectDesc: "Unlocks Factories, Pumpjacks and Concrete",
 		unlocked: false,
 		researched: false,
@@ -491,7 +491,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "metalurgy",
 		title: "Metallurgy",
-		description: "Metalurgy improves the process of metal production, benefiting Smelters and Calciners",
+		description: "Metallurgy improves the process of metal production, benefiting Smelters and Calciners",
 		effectDesc: "Unlocks Electrolytic Smelting and Oxidation",
 		unlocked: false,
 		researched: false,
@@ -507,7 +507,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "combustion",
 		title: "Combustion",
-		description: "The Combustion technology provides a number of ways to improve old coal-based automation technologies like Steamworks.",
+		description: "Combustion provides a number of ways to improve old coal-based automation technologies, such as Steamworks.",
 		effectDesc: "Unlocks Offset Printing and Fuel Injection",
 		unlocked: false,
 		researched: false,
@@ -574,7 +574,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "rocketry",
 		title: "Rocketry",
 		description: "Required for space exploration",
-		effectDesc: "Unlocks construction of the spaceships",
+		effectDesc: "Unlocks construction of spaceships",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -587,8 +587,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		}
 	},{
 		name: "sattelites",
-		title: "Sattelites",
-		description: "Sattelites are machines that permanently orbit the planet outside its atmosphere",
+		title: "Satellites",
+		description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
 		effectDesc: "Unlocks deployment of sattelites",
 		unlocked: false,
 		researched: false,
@@ -603,7 +603,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
 		description: "TBD",
-		effectDesc: "Unlocks Space Stations and Hubble Telescope",
+		effectDesc: "Unlocks Space Stations and the Hubble Telescope",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -619,7 +619,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanoassemblers(TBD) and Augumetations",
+		effectDesc: "Unlocks Nanoassemblers (TBD) and Augmentations",
 		unlocked: false,
 		researched: false,
 		prices: [
