@@ -54,7 +54,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "spaceStation",
 		title: "Deploy S. Station",
-		description: "Deploy a space station. Each tations generates science and provide a space for 2 astronauts",
+		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
 		fuel: 30000,
 		prices: [
