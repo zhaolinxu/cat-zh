@@ -171,6 +171,40 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			//do nothing
 		}
 	},
+	//--------------------- unobtainium stuff --------------------------
+	{
+		name: "unobtainiumAxe",
+		title: "Unobtainium Axe",
+		description: "Those axes are literally unobtainable! Woodcutters are 50% more effective.",
+		effects: {
+			"woodRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 125000 },
+			{ name : "unobtainium", val: 75 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},
+	{
+		name: "unobtainiumSaw",
+		title: "Unobtainium Saw",
+		description: "Improve Lumber Mill efficiency by 25%",
+		effects: {
+			"lumberMillRatio" : 0.25
+		},
+		prices:[
+			{ name : "science", val: 145000 },
+			{ name : "unobtainium", val: 125 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},
 	//--------------------- storage upgrades ----------------------
 	{
 		name: "stoneBarns",
@@ -567,6 +601,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		prices:[
 			{ name : "science", val: 50000 },
 			{ name : "alloy", val: 25 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			//do nothing
+		}
+	},{
+		name: "nanosuits",
+		title: "Nanosuits",
+		description: "Maximum catpower!",
+		effects: {
+			"hunterRatio" : 0.5
+		},
+		prices:[
+			{ name : "science", val: 185000 },
+			{ name : "alloy", val: 250 }
 		],
 		unlocked: false,
 		researched: false,

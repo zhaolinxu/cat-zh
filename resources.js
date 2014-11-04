@@ -42,6 +42,11 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		type : "common",
 		visible: true,
 		color: "#4EA24E"
+	},{
+		name : "unobtainium",
+		type : "common",
+		visible: true,
+		color: "darkRed"
 	},
 	
 	//=========================================

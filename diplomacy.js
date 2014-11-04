@@ -244,7 +244,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 	update: function(){
 		if (!this.hasUnlockedRaces()){
 			
-			if (this.game.calendar.year <20){
+			var unlockYear = 20;
+			if (this.game.karmaKittens > 0 ){
+				unlockYear = 5;
+			}
+			
+			if (this.game.calendar.year < unlockYear){
 				return;
 			}
 			

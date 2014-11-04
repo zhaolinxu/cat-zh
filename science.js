@@ -619,7 +619,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanoassemblers (TBD) and Augmentations",
+		effectDesc: "Unlocks Nanoassemblers (TBD), Nanosuits and Augmentations",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -629,6 +629,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("augumentation").unlocked = true;
+			game.workshop.get("nanosuits").unlocked = true;
 		}
 	},{
 		name: "particlePhysics",

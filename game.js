@@ -316,6 +316,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			
+			//unobtainium
+			
+			"unobtainiumPerTick": {
+				title: "Unobtainium production",
+				resType: "unobtainium",
+				type: "perTick"
+			},
+			
 			//unicorns
 			
 			"unicornsPerTickBase": {
@@ -329,6 +337,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"manuscriptPerTick": {
 				title: "Manuscript production",
 				resType: "manuscript",
+				type: "perTick"
+			},
+			
+			//starchart
+			
+			"starchartPerTickBase": {
+				title: "Starchart production",
+				resType: "starchart",
 				type: "perTick"
 			},
 			
@@ -1506,7 +1522,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//for example, here kitten resources are calculated per effect, this logic could be unified
 		
-		var maxKittens = this.bld.getEffect("maxKittens");
+		var maxKittens = this.getEffect("maxKittens");
 		this.village.maxKittens = maxKittens;
 		
 		this.village.update();

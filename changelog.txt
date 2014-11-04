@@ -1,3 +1,17 @@
+v 1.0.2.0 (4 nov)
+
+First race arrives 15 year earlier after the reset
+Moon base should give correct population bonus
+Biolab will be togglable once Biofuel is researched
+Building type missions will display effects
+Lots of typo fixes by Aedx
+
+Unobtainium
+Moon Outpost
+Unobtainium Axe
+Unobtainium Saw
+Nanosuits
+
 v 1.0.1.2 (3 nov)
 
 Space Stations

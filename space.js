@@ -117,6 +117,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		enabled: false,
 		
 		handler: function(game, self){
+			game.workshop.get("unobtainiumAxe").unlocked = true;
+			game.workshop.get("unobtainiumSaw").unlocked = true;
 		},
 		val:  0,
 		on:	  0,
@@ -125,6 +127,13 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			"unobtainiumPerTick" : 0.05
 		},
 		action: function(game, self){
+			
+			//TODO: move to resPool.convert(a, b)
+			var uranium = game.resPool.get("uranium");
+			if (uranium.value >= self.effects["uraniumPerTick"] * self.on){
+				uranium.value -= self.effects["uraniumPerTick"] * self.on;
+				game.resPool.get("unobtainium").value += self.effects["uraniumPerTick"] * self.on;
+			}
 		}
 	},{
 		name: "moonBase",
@@ -336,7 +345,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		if (!program.upgradable && program.researched){
 			return program.title + " (Complete)";
 		}else if (program.upgradable){
-			return program.title + " (" + program.val + ")";
+			return this.inherited(arguments);
 		}else {
 			return program.title;
 		}
@@ -375,6 +384,11 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}}, tooltip);
 		
 		this.renderPrices(tooltip);
+		
+		var program = this.getProgram();
+		if (program.effects){
+			this.renderEffects(tooltip, program.effects);
+		}
 		
 		return tooltip.outerHTML;
 	 }
