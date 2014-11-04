@@ -880,6 +880,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
 			var titanium = game.resPool.get("titanium");
+			
+			var autoProdRatio = game.bld.getAutoProductionRatio();
+			self.effects["uraniumPerTick"] = 0.0025 * autoProdRatio;
 
 			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
@@ -1172,7 +1175,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		console.error("Could not find building data for '" + name + "'");
 	},
 	
-	getAutoProductionRatio: function(){
+	getAutoProductionRatio: function(disableReactors){
 		var autoProdRatio = 1;
 				
 		//	faith
@@ -1191,7 +1194,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			autoProdRatio *= (1 + paragonRatio * 0.25);
 			
 		// reactors
-		autoProdRatio *= (1 + this.getEffect("productionRatio"));
+		if (!disableReactors){
+			autoProdRatio *= (1 + this.getEffect("productionRatio"));
+		}
 			
 		return autoProdRatio;
 	},

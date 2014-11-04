@@ -113,9 +113,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		upgradable: true,
 		togglable: 	true,
 		tunable: 	true,
-		
-		enabled: false,
-		
+
 		handler: function(game, self){
 			game.workshop.get("unobtainiumAxe").unlocked = true;
 			game.workshop.get("unobtainiumSaw").unlocked = true;
@@ -123,15 +121,15 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		val:  0,
 		on:	  0,
 		effects: {
-			"uraniumPerTick": 0.1,
+			"uraniumPerTick": -0.2,
 			"unobtainiumPerTick" : 0.01
 		},
 		action: function(game, self){
 			
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
-			if (uranium.value >= self.effects["uraniumPerTick"] * self.on){
-				uranium.value -= self.effects["uraniumPerTick"] * self.on;
+			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
+				uranium.value += self.effects["uraniumPerTick"] * self.on;
 				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
 			}
 		}
@@ -209,11 +207,6 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		if (saveData.space.programs){
 			this.loadMetadata(this.programs, saveData.space.programs, ["val", "unlocked", "researched"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
-				
-				/*if (loadedElem.handler && loadedElem.researched){
-					loadedElem.handler(self.game, loadedElem);
-				}*/ /*CRYPTIC BUG*/
-				
 				var prices = dojo.clone(loadedElem.prices);
 				for( var k = 0; k < prices.length; k++){
 					var price = prices[k];
@@ -249,8 +242,10 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 				if (!program.effects){
 					return 0;
 				}
+				
+				var val = program.togglable ? program.on : program.val;
 				return program.upgradable ? 
-					program.effects[effectName] * program.val : 
+					program.effects[effectName] * val : 
 					program.effects[effectName];
 			}
 		}});

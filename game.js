@@ -1202,6 +1202,44 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * If season is provided, the method will use given season modifiers for resource estimation. 
 	 * Current resource will be used otherwise.
 	 */ 
+	 
+	 
+	//====================== ONE DAY =====================================
+	/*getResourcePerTick: function(resName, calcAutomatedEffect, season){
+		var stack = this.getResourcePerTickStack(resName, season);
+		var perTick = this.getStackPerTick(stack, calcAutomatedEffect, season);
+		
+		return perTick;
+	},
+	
+	getStackPerTick: function(stack, calcAutomatedEffect, season){
+		var perTick = 0;
+		
+		for (var i = 0; i< stack.length; i++){
+			var s = stack[i];
+			
+			if (s.length){
+				perTick += this.getStackPerTick(s, calcAutomatedEffect, season) || 0;
+			}
+			
+			if (s.automated && !calcAutomatedEffect){
+				continue;
+			}
+			
+			if (s.type == "fixed"){
+				perTick += s.value || 0;
+			} else if (s.type == "ratio"){
+				perTick *= (1 + s.value || 0);
+			}
+			
+		}
+		
+		if (isNaN(perTick)){
+			return 0;
+		}
+		return perTick;
+	}, */
+	 
 	getResourcePerTick: function(resName, calcAutomatedEffect, season){
 		
 		//STRUCTURES PRODUCTION
@@ -1326,6 +1364,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return perTick;
 	},
 	
+	/**
+	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
+	 */ 
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
 		
 		var res = null;
@@ -1397,6 +1438,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}*/	//???
 		
 		stack.push({
+			name: "Space",
+			type: "ratio",
+			value: this.space.getEffect(res.name + "Ratio")
+		});
+		
+		stack.push({
 			name: "Religion",
 			type: "ratio",
 			value: this.religion.getEffect(res.name + "Ratio")
@@ -1443,9 +1490,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Automated",
 			type: "fixed",
-			value: this.bld.getEffect(res.name + "PerTick")
+			automated: true,
+			value: this.getEffect(res.name + "PerTick")
 		});
-		
+
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal ){

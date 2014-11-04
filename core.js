@@ -98,9 +98,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			// This is an ugly hack for managers like workshop or science
 			// Ideally just a getter handler should be called there returning correct value
 			//
-			if (meta.hasOwnProperty("researched") && !meta.researched){
-				continue;	//workshops and stuff	//TODO: move to the effect provider
-			}
 			
 			var effect;
 			if (metadata.provider){

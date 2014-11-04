@@ -11,6 +11,17 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	
 	constructor: function(game){
 		this.game = game;
+		
+		this.registerMeta(this.zigguratUpgrades, { getEffect: function(bld, effectName){
+			return bld.effects[effectName] * bld.val;
+		}});
+		
+		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){
+			if (upgrade.researched && upgrade.effects[name]){
+				var ratio = upgrade.upgradable ? upgrade.val : 1;
+				return upgrade.effects[name] * ratio;
+			}
+		}});
 	},
 	
 	//todo: save certain keys only like in load method below
@@ -283,26 +294,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 		return this.getMeta(name, this.religionUpgrades);
 	},
 	
-	getReligionEffect: function(name){
-		var effectTotal = 0;
-		dojo.forEach(this.religionUpgrades, function(e, i){
-			if (e.researched && e.effects[name]){
-				var ratio = e.upgradable ? e.val : 1;
-				effectTotal += e.effects[name] * ratio;
-			}
-		});
-		return effectTotal;
-	},
-	
 	getEffect: function(name){
-		var zeff = this.getMetaEffect(name, {meta:this.zigguratUpgrades, provider: {
-			getEffect: function(bld, effectName){
-				return bld.effects[effectName] * bld.val;
-			}
-		}});
-		var reff = this.getReligionEffect(name);
-
-		return zeff+reff;
+		return this.getEffectCached(name);
 	},
 	
 	/*
