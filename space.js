@@ -27,6 +27,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		chance: 90,	//success chance in %
 		handler: function(game, self){
 			game.space.getProgram("sattelite").unlocked = true;
+			game.space.getProgram("spaceStation").unlocked = true;
 			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
@@ -278,15 +279,20 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
 			
-			//TODO: check for chance and display message like "Space program ended with spectacular failure"
+			this.payPrice();
 			
+			if (this.game.rand(100) > program.chance){
+				this.game.msg("Space launch failed catastrophically! >:", "important");
+				return;
+			}
+					
 			if (program.upgradable){
 				program.val++;
 			}
 			
 			this.handler(this);
 			
-			this.payPrice();
+			
 			this.update();
 		}
 	},
@@ -363,16 +369,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 				prices: program.prices,
 				handler: function(btn){
 					var program = btn.getProgram();
-					
-					if (btn.game.rand(100) > program.chance){
-						btn.game.msg("Space launch failed catastropically! >:", "important");
-						//HACK HACK HACK
-						if (program.upgradable){
-							program.val--;
-						}
-						//UGLY HACK, FIX ME
-					}
-					
 					program.researched = true;
 					
 					if (program.handler){
