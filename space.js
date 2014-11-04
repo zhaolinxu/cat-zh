@@ -96,7 +96,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		}
 	},{
 		name: "moonOutpost",
-		title: "Moon Outpost",
+		title: "Lunar Outpost",
 		description: "Deploy a nuclear powered mining outpost on a Redmoon",
 		unlocked: false,
 		fuel: 50000,
@@ -132,7 +132,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			var uranium = game.resPool.get("uranium");
 			if (uranium.value >= self.effects["uraniumPerTick"] * self.on){
 				uranium.value -= self.effects["uraniumPerTick"] * self.on;
-				game.resPool.get("unobtainium").value += self.effects["uraniumPerTick"] * self.on;
+				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
 			}
 		}
 	},{
@@ -231,7 +231,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},
 	
 	update: function(){
-
+		for (var i = 0; i < this.programs.length; i++){
+			var program = this.programs[i];
+			if (program.action && program.val > 0){
+				program.action(program, this.game);
+			}
+		}
 	},
 	
 	getProgram: function(name){
