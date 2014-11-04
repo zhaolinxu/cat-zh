@@ -274,6 +274,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				 { name : "alloy", val: 25 },
 				 { name : "science", val: 1500 },
 		],
+		enabled: true,
 		effects: {
 			"scienceRatio": 0.35,
 			"refineRatio" : 0.1,
@@ -283,15 +284,24 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		ignorePriceCheck: true,
 		requiredTech: ["biology"],
 		handler: function(btn){
-			
 		},
 		action: function(self, game){
+			
 			if (game.workshop.get("biofuel").researched){
+				self.togglable = true;
+				self.tunable = true;
+				
 				self.effects["catnipPerTick"] = -1;
-				self.effects["oilPerTickBase"] = 0.02;
+				self.effects["oilPerTick"] = 0.02;
+				
+				game.resPool.get("catnip").value += self.effects["catnipPerTick"] * self.on;
+				game.resPool.get("oil").value += self.effects["oilPerTick"] * self.on;
+				
+				
 			}
 		},
 		val: 0,
+		on: 0,
 		flavor: "New postdoc positions available."
 	},
 	//----------------------------------- Resource storage -------------------------------------------
@@ -1517,7 +1527,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	renderLinks: function(){
 		var building = this.getBuilding();
 		
-		
 		//TODO: rewrite this with addLink
 		if (building && building.val && this.hasSellLink()){
 			if (!this.sellHref){
@@ -1555,47 +1564,51 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if (building.tunable){
-			this.remLinks = this.addLinkList([
-			   { 
-				id: "off1",
-				title: "-",
-				handler: function(){
-					var building = this.getBuilding();
-					if (building.on){
-						building.on--;
+			if (!this.remLinks){
+				this.remLinks = this.addLinkList([
+				   { 
+					id: "off1",
+					title: "-",
+					handler: function(){
+						var building = this.getBuilding();
+						if (building.on){
+							building.on--;
+						}
 					}
-				}
-			   },{
-				id: "offAll",
-				title: "-all",
-				handler: function(){
-					var building = this.getBuilding();
-					building.on = 0;
-				}
-			   }]
-			);
-			this.addLinks = this.addLinkList([
-			   { 
-				id: "add1",
-				title: "+",
-				handler: function(){
-					var building = this.getBuilding();
-					if (building.on < building.val){
-						building.on++;
+				   },{
+					id: "offAll",
+					title: "-all",
+					handler: function(){
+						var building = this.getBuilding();
+						building.on = 0;
 					}
-				}
-			   },{
-				id: "add",
-				title: "+all",
-				handler: function(){
-					var building = this.getBuilding();
-					building.on = building.val;
-				}
-			   }]
-			);
+				   }]
+				);
+			}
+			if (!this.addLinks){
+				this.addLinks = this.addLinkList([
+				   { 
+					id: "add1",
+					title: "+",
+					handler: function(){
+						var building = this.getBuilding();
+						if (building.on < building.val){
+							building.on++;
+						}
+					}
+				   },{
+					id: "add",
+					title: "+all",
+					handler: function(){
+						var building = this.getBuilding();
+						building.on = building.val;
+					}
+				   }]
+				);
+			}
 		}
 
-		if (!this.off && !building.tunable){
+		if (!this.toggle && !building.tunable){
 			this.toggle = this.addLink( building.enabled ? "off" : "on", 
 				function(){
 					var building = this.getBuilding();
@@ -1605,15 +1618,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}, true	//use | break
 			);
 		}
-		
-		/*if (this.remove){
-			dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
-			dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
-		}
-		if (this.add){
-			dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
-			dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
-		}*/
 		
 		if(building.val > 10) {
 			//Steamworks specifically can be too large if 

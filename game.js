@@ -65,6 +65,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				//value will be affected by opts.usePerSecondValues	
 				type: "perTick"			
 			},
+			"catnipPerTick" : {
+				title: "Catnip production",		
+				resName: "catnip",
+				type: "perTick"			
+			},
 			
 			"catnipDemandRatio" : {
 				title: "Catnip Demand Ratio",

@@ -60,7 +60,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		fuel: 30000,
 		prices: [
 			{ name : "starchart", val: 425 },
-			{ name : "alloy", val: 500 },
+			{ name : "alloy", 	val: 750 },
 			{ name : "science", val: 150000 }
 		],
 		chance: 70,
@@ -71,7 +71,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		handler: function(game, self){
 		},
 		effects: {
-			"scienceRatio": 0.25,
+			"scienceRatio": 0.5,
 			"maxKittens" : 2
 		}
 	},{
@@ -90,8 +90,41 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("moonBase").unlocked = true;
+			game.space.getProgram("moonOutpost").unlocked = true;
 			game.space.getProgram("duneMission").unlocked = true;
 			game.space.getProgram("piscineMission").unlocked = true;
+		}
+	},{
+		name: "moonOutpost",
+		title: "Moon Outpost",
+		description: "Deploy a nuclear powered mining outpost on a Redmoon",
+		unlocked: false,
+		fuel: 50000,
+		priceRatio: 1.12,
+		prices: [
+			{ name : "starchart", val: 650 },
+			{ name : "uranium",  val: 500 },
+			{ name : "alloy",    val: 750 },
+			{ name : "concrate", val: 150 },
+			{ name : "science", val: 100000 }
+		],
+		chance: 60,
+		
+		upgradable: true,
+		togglable: 	true,
+		tunable: 	true,
+		
+		enabled: false,
+		
+		handler: function(game, self){
+		},
+		val:  0,
+		on:	  0,
+		effects: {
+			"uraniumPerTick": -0.1,
+			"unobtainiumPerTick" : 0.05
+		},
+		action: function(game, self){
 		}
 	},{
 		name: "moonBase",
@@ -99,14 +132,14 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Establish a base on a surface of Redmoon",
 		unlocked: false,
 		researched: false,
-		fuel: 50000,
+		fuel: 65000,
 		priceRatio: 1.12,
 		prices: [
-			/*{ name : "starchart", val: 500 },
+			{ name : "starchart", val: 700 },
 			{ name : "titanium", val: 9500 },
 			{ name : "concrate", val: 250 },
-			{ name : "science", val: 100000 },*/
-			{ name : "unobtainium", val: 1 }
+			{ name : "science", val: 100000 },
+			{ name : "unobtainium", val: 50 }
 		],
 		chance: 60,
 		upgradable: false,
@@ -120,7 +153,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		researched: false,
 		fuel: 50000,
 		prices: [
-			{ name : "starchart", val: 750 },
+			{ name : "starchart", val: 1000 },
 			{ name : "titanium", val: 7000 },
 			{ name : "science", val: 175000 }
 		],
@@ -136,7 +169,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		researched: false,
 		fuel: 65000,
 		prices: [
-			{ name : "starchart", val: 900 },
+			{ name : "starchart", val: 1500 },
 			{ name : "titanium", val: 9000 },
 			{ name : "science", val: 200000 }
 		],
