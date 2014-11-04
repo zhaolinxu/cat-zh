@@ -123,8 +123,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		val:  0,
 		on:	  0,
 		effects: {
-			"uraniumPerTick": -0.1,
-			"unobtainiumPerTick" : 0.05
+			"uraniumPerTick": 0.1,
+			"unobtainiumPerTick" : 0.01
 		},
 		action: function(game, self){
 			
@@ -234,7 +234,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 			if (program.action && program.val > 0){
-				program.action(program, this.game);
+				program.action(this.game, program);
 			}
 		}
 	},
