@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "moonMission",
 		title: "Moon Mission",
-		description: "Launch a rocket to the Redmoon, a Cath planet sattelite",
+		description: "Launch a rocket to Redmoon, a Cath planet sattelite",
 		unlocked: false,
 		researched: false,
 		fuel: 40000,
@@ -130,7 +130,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "piscineMission",
 		title: "Piscine Mission",
-		description: "Piscine is a gigantic aquatic planet composed of acid body and methane atmosphere",
+		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
 		unlocked: false,
 		researched: false,
 		fuel: 65000,
@@ -365,7 +365,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 					var program = btn.getProgram();
 					
 					if (btn.game.rand(100) > program.chance){
-						btn.game.msg("Space launch failed catastropically! >:", "important");
+						btn.game.msg("Space launch failed catastrophically! >:", "important");
 						//HACK HACK HACK
 						if (program.upgradable){
 							program.val--;
