@@ -45,7 +45,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "uberkatzhen",
 		title: "Uberkatzchen",
-		description: "What does not kill you makes your stronger",
+		description: "What does not kill you makes you stronger",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").val > 0 );
 		},
@@ -61,7 +61,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "soilUptuned",
 		title: "Virgin Soil Upturned",
-		description: "Have 45 pastures in the iron will mode",
+		description: "Have 45 pastures in Iron Will mode",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("pasture").val >= 45 );
 		},
@@ -69,7 +69,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "atlasUnmeowed",
 		title: "Atlas Unmeowed",
-		description: "Construct a magneto in the iron will mode",
+		description: "Construct a magneto in Iron Will mode",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("magneto").val > 0 );
 		},
@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "meowMeowRevolution",
 		title: "Meow Meow Revolution",
-		description: "Construct a factory in the iron will mode",
+		description: "Construct a factory in Iron Will mode",
 		condition: function(){
 			return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("factory").val > 0 );
 		},
@@ -85,7 +85,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "spaceOddity",
 		title: "Space Oddity",
-		description: "Complete a Moon Program in the iron will mode",
+		description: "Complete a Moon Program in Iron Will mode",
 		condition: function(){
 			return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched );
 		},
@@ -93,7 +93,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "sunGod",
 		title: "Sun God",
-		description: "Get a total of 696,342 accumulated faith",
+		description: "Gain a total of 696,342 accumulated faith",
 		condition: function(){
 			return ( this.game.religion.faith >= 696342 );
 		},
@@ -101,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	},{
 		name: "heartOfDarkness",
 		title: "Heart Of Darkness",
-		description: "Become a chieftain of a zebra tribe. (How is this even possible?)",
+		description: "Become the chieftain of a zebra tribe. (How is this even possible?)",
 		condition: function(){
 			return (this.game.resPool.get("zebras").value > 1);
 		},

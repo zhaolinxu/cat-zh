@@ -586,7 +586,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "steamworks",
 		label: "Steamworks",
-		description: "When active, significantly reduces your coal production. Does nothing usefull by default, but can do a lot of cool stuff once upgraded.",
+		description: "When active, significantly reduces your coal production. Does nothing useful by default, but can do a lot of cool stuff once upgraded.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -893,7 +893,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
+		description: "The hearth of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",//Should this be "heart"? ~Ædx
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
@@ -2069,7 +2069,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					break;
 				}
 			}
-			if (!groups[i].buildings.length){	//emptry groups are visible by default
+			if (!groups[i].buildings.length){	//empty groups are visible by default
 				hasVisibleBldngs = true;
 			}
 

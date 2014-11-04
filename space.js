@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "spaceStation",
 		title: "Deploy S. Station",
-		description: "Deploy a space station. Each tations generates science and provide a space for 2 astronauts",
+		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
 		fuel: 30000,
 		prices: [
@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "moonMission",
 		title: "Moon Mission",
-		description: "Launch a rocket to the Redmoon, a Cath planet sattelite",
+		description: "Launch a rocket to Redmoon, a Cath planet sattelite",
 		unlocked: false,
 		researched: false,
 		fuel: 40000,
@@ -131,7 +131,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "piscineMission",
 		title: "Piscine Mission",
-		description: "Piscine is a gigantic aquatic planet composed of acid body and methane atmosphere",
+		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
 		unlocked: false,
 		researched: false,
 		fuel: 65000,

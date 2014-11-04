@@ -326,7 +326,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "energyRifts",
 		title: "Energy Rifts",
-		description: "Accelerators will now create rifts to pocket dimension",
+		description: "Accelerators will now create rifts to a pocket dimension",
 		effects: {
 		},
 		prices:[
@@ -344,7 +344,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give 1% bonus to the Harbor capacity",
+		description: "Every ship will give a 1% bonus to the Harbor capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -717,7 +717,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "steelPlants",
 		title: "Steel Plants",
-		description: "10% of the calciners iron output will be converted to steel ",
+		description: "10% of the calciners' iron output will be converted to steel",
 		effects: {
 			"calcinerSteelRatio" : 0.1
 		},
@@ -762,7 +762,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "printingPress",
 		title: "Printing Press",
-		description: "Steamwork automatically prints manuscripts",
+		description: "Steamworks automatically print manuscripts",
 		effects: {
 		},
 		prices:[
@@ -787,7 +787,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Steamwork converts small quantities of the resources to craftable tools when they are at the limit",
+		description: "Steamworks convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx
 		effects: {
 		},
 		prices:[
@@ -800,7 +800,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "advancedAutomation",
 		title: "Advanced Automation",
-		description: "Reduce Steamworks maintainance cycle by 50%",
+		description: "Reduce Steamworks' maintainance cycle by 50%",
 		effects: {
 		},
 		prices:[
@@ -1018,7 +1018,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	{
 		name: "hubbleTelescope",
 		title: "Hubble Space Telescope",
-		description: "Improves effectiveness of sattelites by by 30%",
+		description: "Improves effectiveness of satellites by by 30%",
 		effects: {
 			"starchartRatio" : 0.30 
 		},
@@ -1128,7 +1128,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science ",
+		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
@@ -1155,7 +1155,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "ship",
 		title: "Trade Ship",
-		description: "Ships can be used to discover new civilizations. May improve chances of getting certain rare resources",
+		description: "Ships can be used to discover new civilisations. May improve chances of getting certain rare resources",
 		prices:[
 			{ name: "scaffold", val: 100 },
 			{ name: "plate",    val: 150 },
@@ -1248,7 +1248,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 					
 					if (savedCraft != null){
 						var craft = this.game.workshop.getCraft(savedCraft.name);
-						if (craft && !craft.unlocked){					// a little hack to make autounlockable recipes work with old saves
+						if (craft && !craft.unlocked){					// a little hack to make auto-unlockable recipes work with old saves
 							craft.unlocked = savedCraft.unlocked;
 						}
 					}
@@ -1343,7 +1343,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		this.inherited(arguments);
 		
 		var upgrade = this.getUpgrade();
-		if (upgrade.researched /*|| !tech.unlocked*/){
+		if (upgrade.researched/* || !tech.unlocked*/){
 			this.setEnabled(false);
 		}
 	},
