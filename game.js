@@ -1333,7 +1333,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//AUTOMATED STRUCTURES EFFECTS
 		if (calcAutomatedEffect){
-			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick");
+			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick") + this.space.getEffect(res.name + "PerTick");
 			if (bldResRatioTick){
 				perTick += bldResRatioTick;
 			}

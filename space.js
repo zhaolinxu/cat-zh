@@ -63,7 +63,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "alloy", 	val: 750 },
 			{ name : "science", val: 150000 }
 		],
-		chance: 70,
+		chance: 90,
 		priceRatio: 1.12,
 		requiredTech: ["orbitalEngineering"],
 		val: 0,
@@ -86,7 +86,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "titanium", val: 5000 },
 			{ name : "science", val: 125000 }
 		],
-		chance: 60,
+		chance: 75,
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("moonBase").unlocked = true;
@@ -108,7 +108,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "concrate", val: 150 },
 			{ name : "science", val: 100000 }
 		],
-		chance: 60,
+		chance: 90,
 		
 		upgradable: true,
 		togglable: 	true,
@@ -148,7 +148,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "science", val: 100000 },
 			{ name : "unobtainium", val: 50 }
 		],
-		chance: 60,
+		chance: 90,
 		upgradable: false,
 		handler: function(game, self){
 		}
@@ -205,7 +205,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		var self = this;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "unlocked", "researched"], function(loadedElem){
+			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked", "researched"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
 				for( var k = 0; k < prices.length; k++){
@@ -325,6 +325,16 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			
 			if (this.game.rand(100) > program.chance){
 				this.game.msg("Space launch failed catastrophically! >:", "important");
+				
+				var refundRatio = (this.game.rand(30) + 40) / 100;
+				var prices = this.getPrices();
+				for( var i = 0; i < prices.length; i++){
+					if (prices[i].name != "oil" && prices[i].name != "rocket" && prices[i].name != "science"){
+						var res = this.game.resPool.get(prices[i].name);
+						res.value += prices[i].val * refundRatio;
+					}
+				}
+				this.game.msg("Kittens scavenged back " + (refundRatio*100).toFixed() + "% of resources");
 				return;
 			}
 					

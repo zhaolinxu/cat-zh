@@ -1,3 +1,9 @@
+v 1.0.2.1 (5 nov)
+
+Resource-heavy missions have less chance to fail.
+Failed missions will return 40-70% of spent resources
+Fixed that one bug with lunar outposts
+
 v 1.0.2.0 (4 nov)
 
 First race arrives 15 year earlier after the reset
