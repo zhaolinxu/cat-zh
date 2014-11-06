@@ -545,14 +545,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			for (var j =0; j< race.sells.length; j++){
 				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
-					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-					
-					var tratio = self.game.bld.getEffect("tradeRatio");
-					var val = s.value + s.value * tratio;
+					var min = 0;
+					var max = 0;
 
-					var min = val * sratio - val * sratio * s.delta/2;
-					var max = val * sratio + val * sratio * s.delta/2;
-					
+					if (race.name == "zebras" && s.name == "titanium"){
+						var val = 1.5 + (1.5 * this.game.resPool.get("ship").value / 100 * 2);
+						
+						min = Math.floor(val);
+						max = Math.ceil(val);
+					} else {
+						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+						
+						var tratio = self.game.bld.getEffect("tradeRatio");
+						var val = s.value + s.value * tratio;
+
+						min = val * sratio - val * sratio * s.delta/2;
+						max = val * sratio + val * sratio * s.delta/2;
+					}
+
 					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
 					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);	
 					if (j == (race.sells.length - 1)){
