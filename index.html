@@ -1,54 +1,51 @@
+<!DOCTYPE html>
 <html>
 
 	<head>
-		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon" />
-		
-		<link rel="stylesheet" href="res/theme_dark.css" type="text/css" />
-		<link rel="stylesheet" href="res/theme_grassy.css" type="text/css" />
-		
+		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
+
 		<!-- I only use jquery ironically -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		
+
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
-		
-		<script src="./core.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./resources.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./calendar.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./buildings.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./village.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./science.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./workshop.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./diplomacy.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./religion.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./achievements.js?v=1.0.2.1" type="text/javascript"></script>
-		<script src="./space.js?v=1.0.2.1" type="text/javascript"></script>
-		
-		<script src="./game.js?v=1.0.2.1" type="text/javascript"></script>
-		
+
+		<script src="core.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="resources.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="calendar.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="buildings.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="village.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="science.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="workshop.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="diplomacy.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="religion.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="achievements.js?v=1.0.2.1" type="text/javascript"></script>
+		<script src="space.js?v=1.0.2.1" type="text/javascript"></script>
+
+		<script src="game.js?v=1.0.2.1" type="text/javascript"></script>
+
 		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-		  ga('create', 'UA-29812134-1', 'bloodrizer.ru');
-		  ga('send', 'pageview');
-
+			ga('create', 'UA-29812134-1', 'bloodrizer.ru');
+			ga('send', 'pageview');
 		</script>
-		
+
 		<style type="text/css">
-			
+
 			html, body {
 				height: 100%;
 				overflow-y: hidden;
 			}
-			
+
 			body {
 				margin: 0;
 				padding: 0;
 				background-color: #FFFFFF;
 			}
-			
+
 			#gamePageContainer {
 				border: 0 none;
 				font: inherit;
@@ -58,7 +55,7 @@
 
 				overflow: auto;
 			}
-			
+
 			#topBar {
 				position:absolute;
 				top: 2px;
@@ -66,35 +63,35 @@
 				height: 26px;
 				width: 100%;
 				border-bottom: 1px solid gray;
-				
+
 				box-shadow: 1px 0px 2px #888;
 			}
-			
+
 			#game {
 				position:absolute;
 				bottom: 0;
 				top: 26px;
-				
-				width:100%;
+
+				width: 100%;
 				min-width: 1280px;
-				
+
 				margin: 0 auto;
 				height: auto;
 			}
-			
+
 			.column {
 				min-height: 100%;
 				height: 100%;
-				
-				display: inline-block;			
+
+				display: inline-block;
 				margin-top: 2px;
 			}
-			
+
 			#leftColumn {
 				width: 25%;
 				max-width: 300px;
 				padding-right: 20px;
-				
+
 				overflow-y: scroll;
 				overflow-x: hidden;
 			}
@@ -104,25 +101,25 @@
 				overflow-y: scroll;
 				overflow-x: hidden;
 			}
-			
+
 			#rightColumn {
 				width: 300px;
 			}
-			
+
 			div#gameLog {
 			}
-			
+
 			#footerLinks {
-				position:absolute; 
-				bottom:10px;
+				position: absolute;
+				bottom: 10px;
 				right: 5px;
 			}
-			
+
 			.activeTab {
 				text-decoration: none;
 				color: black;
 			}
-			
+
 			.resourceRow {
 				white-space: nowrap;
 			}
@@ -135,7 +132,7 @@
 				-ms-user-select: none;
 				user-select: none;
 			}
-			
+
 			.btn {
 				border: 1px solid black;
 				padding: 5px;
@@ -144,74 +141,74 @@
 				text-align: center;
 				margin-bottom:10px;
 			}
-			
+
 			.btn.bldEnabled div.btnContent {
 				padding: 4px;
 				border: 1px solid green;
 			}
-			
+
 			.btn a:hover {
 				color: orange;
-				textShadow: 1px 0px 10px Coral;
+				text-shadow: 1px 0px 10px coral;
 			}
-			
+
 			.btn .noRes {
 				color: #FF3030;
 			}
-			
+
 			.spacer {
 				border-bottom: 1px solid gray;
 				margin-bottom: 12px;
 			}
-			
+
 			.highlited {
 				background-color: #EEE;
 			}
-			
+
 			.help {
 				position: absolute;
 				border: 1px solid black;
 				width: 600px;
 				height: 300px;
 
-				left:50%;
-				top:50%;
-				
+				left: 50%;
+				top: 50%;
+
 				margin-top: -150px;
 				margin-left: -300px;
-				
+
 				background-color: #FFF;
 				padding: 20px;
 			}
-			
+
 			.disabled {
 				color: #999
 			}
-			
+
 			.tipr_content {
 				border: 1px solid black;
 				background-color: #F6F6F6;
 				padding: 3px;
 				margin: 2px;
 			}
-			
+
 			.button_tooltip {
 				background-color: #FFF;
 				color: black;
 				z-index: 9000;
 			}
-			
+
 			.panelContainer {
 				border: 1px solid black;
 				min-height: 30px;
 				margin-top: 8px;
 			}
-			
+
 			.panelContainer .title {
 				padding: 4px;
 				padding-left: 10px;
 			}
-			
+
 			.panelContainer .toggle {
 				border: 1px solid black;
 				margin: 4px;
@@ -219,15 +216,15 @@
 				padding-right: 6px;
 				cursor: pointer;
 			}
-			
+
 			.panelContainer .container {
 				padding: 10px;
 			}
-			
+
 			.maxRes {
 				color: #AAA;
 			}
-			
+
 			.achievement {
 				display: block;
 				margin-bottom: 10px;
@@ -235,58 +232,59 @@
 				padding-left: 10px;
 				border: 1px solid gray;
 			}
-			
+
 			.achievement.unethical {
 				border-color: red;
 			}
-			
+
 			td.resLimitNotice {
 				color: orange;
 			}
-			
+
 			td.resLimitWarn {
 				color: coral;
 				opacity: 0.75;
 			}
-			
+
 			.tooltipExt {
 				position: absolute;
 				border: 1px solid gray;
 				padding: 5px;
-				pointer-events:none;
+				pointer-events: none;
 			}
-			
+
 			.msg {
 				display: inline-block;
 			}
-			
+
 			.msg.type_notice {
 				color: #01A9DB;
 			}
-			
+
 			.msg.type_important {
-				color: Coral;
+				color: coral;
 			}
-			
+
 			#gameContainerId {
-				padding: 10px; 
-				padding-top:10px;
+				padding: 10px;
+				padding-top: 10px;
 			}
-			
+
 			.tabsContainer {
 				padding-bottom: 15px;
 			}
-			
+
+			/*What is the point of these 2 rules?*/
 			.tabsContainer .tab {}
-			
+
 			.tabsContainer .activeTab {}
-			
+
 			.bldGroupContainer {
 				padding-top: 15px;
 				border-top: 1px solid gray;
 				margin-top: 10px;
 			}
-			
+
 			.btn.modern {
 				font-family: Helvetica;
 				font-size: 14px;
@@ -295,69 +293,69 @@
 				padding: 0;
 				width: 264px;
 			}
-			
+
 			.modern .btnContent {
 				padding: 10px 0 10px 10px;
 			}
 			.btn.modern a {
-				background-color: #eee;
+				background-color: #EEE;
 				border-left: 1px solid #888;
 				padding: 10px !important;
 				margin: -10px 0;
 				min-width: 20px;
 				text-decoration: none;
 			}
-			
+
 			.btn.bldEnabled.modern div.btnContent {
 				border-width: 0 0 0 8px;
 				padding: 10px 0px 10px 10px;
 			}
-			
+
 			.btn.modern .linkBreak{
 				display: none;
 			}
-			
+
 			.button_tooltip .noRes {
 				color: #FF3030;
 			}
-			
+
 			.tabInner {
 				padding: 20px;
-				border : 1px solid gray;
+				border: 1px solid gray;
 			}
-			
+
 			table.craftTable tr:hover td {
 				background-color: rgba(155, 200, 155, 0.8);
 			}
 
-			
 	    </style>
-		
+
+		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
+		<link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
+
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
 				gamePage.load();
-				
+
 				gamePage.updateKarma();
-				
+
 				gamePage.render()
 				gamePage.start();
 			});
-			
+
 			function dev(){
-				if (window.location.protocol != "file:") {
-					return;	
-				}
-					
-				if (confirm("You are about to enter developer mode, proceed?")){
-					
+				if (window.location.protocol != "file:" || !confirm("You are about to enter developer mode, proceed?")) {
+					return;
+				} else {
+					$('#dev_boostCalendar').html("&gt;&gt;&gt;");
 				}
 			}
-			
+
 			function dev_boostCalendar(){
 				gamePage.calendar.dayPerTick = 2;
 			}
-			
+
 			function wipe(){
 				if (confirm("Save data will be wiped, are you sure?")){
 					gamePage.wipe();
@@ -370,7 +368,7 @@
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
 		</script>
-		
+
 		<title>Kittens Game - a Dark Souls of incremental gaming</title>
 	</head>
 
@@ -381,109 +379,112 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					Kittens Game <font size="2">by <a href="http://bloodrizer.ru/">bloodrizer</a></font>
+					Kittens Game <span style="font-size: small;">by <a href="http://bloodrizer.ru/">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
-					
-					<a href="#" style="color:red">
+
+					<a href="#" style="color: red">
 						<!-- nothing exceptional there so far -->
 					</a>
-					
-					<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14;"></div>
-					
+
+					<div id="devPanel" style="display: inline-block; padding-left: 15px; font-size: 14;"></div>
+
 				</div>
-				<div id="headerLinks" style="position:absolute; top:0; right:10px; float:right;" >
-					
-					<span id="autosaveTooltip" style="padding-right:15px;font-size:12px; opacity:0;">autosaving...</span>
-					
-					<a href="#" onclick="gamePage.save();" >Save</a> |
-					<a href="#" onclick="$('#optionsDiv').toggle();" >Options</a> |
-					<a href="#" onclick="gamePage.reset();" >Reset</a> |
-					<a href="#" onclick="dev();" >#</a> |
-					<a href="#" onclick="wipe();" >Wipe</a> |
-					
+				<div id="headerLinks" style="position: absolute; top: 0; right: 10px; float: right;" >
+
+					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
+
+					<a href="#" onclick="gamePage.save();">Save</a> |
+					<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+					<a href="#" onclick="gamePage.reset();">Reset</a> |
+					<a href="#" onclick="dev();">#</a> |
+					<a href="#" onclick="wipe();">Wipe</a> |
+
 					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.0.2.1</a>
 
 				</div>
 			</div>
-			<div id="changelogDiv" style="display:none; z-index:9999" class="help">
+			<div id="changelogDiv" class="help" style="display: none; z-index: 9999">
 				<a href="#" onclick="$('#changelogDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
-				
-				<b>Changelog/features:</b><br>
+
+				<b>Changelog/features:</b>
+				<br>
 				<pre>
 					Version: 1
 						Pre-Space era complete.
-						
+
 					Major: 0
 						-
-						
-					Minor 2: 
+
+					Minor 2:
 						Unobtainium
 						Moon Outpost
 						Unobtainium Axe
 						Unobtainium Saw
 						Nanosuits
-						
+
 					Rev: 1
 						-
 
-						
+
 				</pre>
-				<a href="changelog.txt" target="_blank" style="position:relative; top:-15px;">full changelog</a>
+				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
 			</div>
 
 			<div id="game">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
-				<div id="leftColumn" style="vertical-align:top;" class="column">
-						<div style="padding-top:15px; width:100%" id="resContainer"></div>
-						<!-- advisors -->
-						
-						<div style=" padding-top:10px;" id="advisorsContainer">
-						</div>
-						
-						<div style="padding-left: 5px;" id="fastHuntContainer" style="visibility:hidden;">
-							<a href="#" onclick="gamePage.huntAll(event);">Send hunters (all)</a>
-						</div>
-						
-						<div style="padding-top: 10px; width:100%" id="craftContainer">
-						</div>
+				<div id="leftColumn" class="column" style="vertical-align: top;">
+					<div id="resContainer" style="padding-top: 15px; width: 100%">
+					</div>
+
+					<!-- Advisers -->
+
+					<div id="advisorsContainer" style=" padding-top: 10px;">
+					</div>
+
+					<div id="fastHuntContainer" style="padding-left: 5px; visibility: hidden;">
+						<a href="#" onclick="gamePage.huntAll(event);">Send hunters (all)</a>
+					</div>
+
+					<div id="craftContainer" style="padding-top: 10px; width: 100%">
+					</div>
 				</div>
-				<div id="midColumn" style="vertical-align:top;" class="column">
-					<div id="gameContainerId" style="border:1px solid gray;">
+				<div id="midColumn" style="vertical-align: top;" class="column">
+					<div id="gameContainerId" style="border: 1px solid gray;">
 						Oops, something went wrong. It seems like the game is not working, but don't worry.<br>
 						<ul>
 							<li>Try to refresh the game by pressing Ctrl+F5.</li>
-							<li>Try to reload the game in a 10-15 minutes</li>
-							<li>Export the save, wipe data, and try to re-import the game.</li>
-							<li>If nothing works, kindly contact me via the reddit link below.</li>
+							<li>Try to reload the game in about 10-15 minutes.</li>
+							<li>Export your save, wipe your save, and try to import the save.</li>
+							<li>If none of these work, kindly contact me via the Reddit link below.</li>
 						</ul>
 					</div>
-				</div> 
-				<div id="rightColumn" style="vertical-align:top; padding-left:20px; padding-top:15px;" class="column">
+				</div>
+				<div id="rightColumn" class="column" style="vertical-align: top; padding-left: 20px; padding-top: 15px;">
 					<div>
 						<span id="calendarDiv">Calendar :V</span>
-						<!--<a href="#" onclick="dev_boostCalendar();">>></a>-->
-						<a id="pauseBtn" style="font-size:12px; float:right;" href="#" onclick="gamePage.togglePause();">pause</a>
+						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
+						<a id="pauseBtn" style="font-size: 12px; float: right;" href="#" onclick="gamePage.togglePause();">pause</a>
 					</div>
 					<div style="padding-top: 10px; border-top: 1px solid gray;">
 						You are a kitten in a catnip forest.
 					</div>
-					<div id="iceage" style="display:none;">
+					<div id="iceage" style="display: none;">
 						<span>The forest is covered in snow.</span>
 					</div>
 					<div id="clearLog">
 						<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
 					</div>
-					<div id="gameLog" style="overflow-y:scroll; padding-top:15px;">
+					<div id="gameLog" style="overflow-y: scroll; padding-top: 15px;">
 						<!-- Log goes there -->
 					</div>
 				</div>
 			</div>
-			
-			<div id="helpDiv" style="display:none" class="help">
+
+			<div id="helpDiv" style="display: none" class="help">
 				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 				<ul>
-					<li>Q: The game is not working</li>
-					<li>A: Press Ctrl+F5. Wiping the game and re-importing the save may also help.</li>
+					<li>Q: The game is not working!</li>
+					<li>A: Press Ctrl+F5. Wiping and re-importing the save may also help.</li>
 					<br>
 					<li>Q: Wood is useless. It's more effective to refine catnip! [formula follows]</li>
 					<li>A: Catnip/wood mechanics are much more complicated.</li>
@@ -495,74 +496,96 @@
 					<li>A: Things will be better. Just try to think creatively and prioritise goals.</li>
 				</ul>
 			</div>
-			
-			<div id="creditsDiv" style="display:none" class="help">
+
+			<div id="creditsDiv" style="display: none" class="help">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
-				
-				Grassy css theme by <a href="http://www.reddit.com/user/shrx">shrx</a><br>
-				Code contribution: <br>
+
+				Grassy CSS theme by <a href="http://www.reddit.com/user/shrx">shrx</a>
+				<br>
+				Code contribution:
+				<br>
 				<ul>
 					<li><a href="http://www.reddit.com/user/Zusias">Zusias</a></li>
 					<li>Duke</li>
 					<li><a href="http://www.reddit.com/user/xranti">xranti</a>
 				</ul>
-				<br><br>
-				
-				Thanks a lot to 4chan /igg/ for being such a nice guys.<br>
-				Thanks a lot ot /r/kittensgame community for all the feedback and testing<br><br>
-				
-				Warmest thanks to the <a href="http://www.reddit.com/user/ainil">ainil</a> for the long months of support and feedback.<br><br>
-				And finally, my undying gratitude to Waraiko.<br>
-				
+				<br>
+				<br>
+
+				Thanks a lot to 4chan/igg for being such a nice guys.
+				<br>
+				Thanks a lot to /r/kittensgame community for all the feedback and testing
+				<br>
+				<br>
+
+				Warmest thanks to <a href="http://www.reddit.com/user/ainil">ainil</a> for the long months of support and feedback.
+				<br>
+				<br>
+				And finally, my undying gratitude to Waraiko.
+				<br>
+
 			</div>
-			
-			
-			<div id="optionsDiv" style="display:none" class="help">
+
+
+			<div id="optionsDiv" style="display: none" class="help">
 				<a href="#" onclick="$('#optionsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
-				
-				Color scheme : <!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
+
+				Color scheme: <!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
 					<option value="">Classic</option>
 					<option value="dark">Inverted</option>
 					<option value="grassy">Grassy</option>
-				</select> <br><br>
-				
-				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
-					Use web worker (game works correctly in background tab, may cause performance issues) <br>
-				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
-					Use high precision for resource values<br>
-					
-				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
-					Use per second values (per tick otherwise)<br>
+				</select>
+				<br>
+				<br>
 
-				<br><br>
-				
-				<input type="button" value="Export" onclick="gamePage.saveExport();"><br>
-				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top:10px;"><br>
+				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
+					Use web worker (game works correctly in background tab, may cause performance issues)
+				<br>
+
+				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
+					Use high precision for resource values
+				<br>
+
+				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
+					Use per second values (per tick otherwise)
+				<br>
+
+				<br>
+				<br>
+
+				<input type="button" value="Export" onclick="gamePage.saveExport();">
+				<br>
+				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
+				<br>
 			</div>
-			
-			<div id="exportDiv" style="display:none" class="help">
-				<span>Please write this data somewhere safe</span><br>
-				<textarea id="exportData" style="width: 550px; height: 250px;"></textarea><br>
-				<input type="button" value="OK" onclick="$('#exportDiv').hide();" style="margin-top:10px;">
+
+			<div id="exportDiv" style="display: none" class="help">
+				<span>Please keep this data somewhere safe</span>
+				<br>
+				<textarea id="exportData" style="width: 550px; height: 250px;"></textarea>
+				<br>
+				<input type="button" value="OK" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
-			
-			<div id="importDiv" style="display:none" class="help">
-				<span>Warning! Importing data will overwrite your save.</span><br>
-				<textarea id="importData" style="width: 550px; height: 250px;"></textarea><br>
-				<input type="button" value="OK" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top:10px;">
-				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top:10px;">
+
+			<div id="importDiv" style="display: none" class="help">
+				<span>Warning! Importing data will overwrite your save.</span>
+				<br>
+				<textarea id="importData" style="width: 550px; height: 250px;"></textarea>
+				<br>
+				<input type="button" value="OK" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 			</div>
-			
+
 			<div id="footerLinks">
 				<a href="http://www.reddit.com/r/kittensgame/">reddit</a> |
 				<a href="wiki/">wiki</a> |
-				<a href="http://kittensgame.tumblr.com" onclick="" >tumblr</a> |
-				<a href="#" onclick="$('#helpDiv').toggle();" >?</a> |
-				<a href="#" onclick="$('#creditsDiv').toggle();" >credits</a> |
+				<a href="http://kittensgame.tumblr.com">tumblr</a> |
+				<a href="#" onclick="$('#helpDiv').toggle();">?</a> |
+				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
 				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU">donate</a>
 			</div>
 		</div>
-		
+
 	</body>
 </html>

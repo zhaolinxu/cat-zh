@@ -1,17 +1,19 @@
-/* ============ dark color scheme ===========*/
+/**
+ *			Dark Theme
+ */
 
 .scheme_dark, .scheme_dark .help{
 	background-color: #201F1D;
-	color: #dcdcdc;
+	color: #DCDCDC;
 }
 
 .scheme_darl #autosaveTooltip{
-	color: #dcdcdc;	!important;
+	color: #DCDCDC;
 }
 
 .scheme_dark .btn {
-	border: 1px solid #DE8D47;
-	color: #dcdcdc;
+	border: solid 1px #DE8D47;
+	color: #DCDCDC;
 }
 
 .scheme_dark .highlited{
@@ -22,27 +24,27 @@
 	color: #868685
 }
 .scheme_dark div {
-	color: #dcdcdc;
+	color: #DCDCDC;
 }
 .scheme_dark .disabled div {
 	color: #565655
 }
 
 .scheme_dark .button_tooltip div {
-	color: #dcdcdc;
+	color: #DCDCDC;
 }
 
 .scheme_dark table {
-	color: #dcdcdc;
+	color: #DCDCDC;
 }
 
 .scheme_dark .activeTab {
-	color: #dcdcdc;
+	color: #DCDCDC;
 }
 
 .scheme_dark .button_tooltip {
 	background-color: #201F1D;
-	color: 565655;
+	color: #565655;
 }
 
 .scheme_dark .maxRes {
@@ -54,7 +56,7 @@
 }
 
 .scheme_dark td.resLimitWarn {
-	color: #coral;
+	color: coral;
 }
 
 .scheme_dark .btn.modern a {
@@ -65,4 +67,3 @@
 .scheme_dark table.craftTable tr:hover td {
 	background-color: rgba(155, 250, 155, 0.2);
 }
-			
