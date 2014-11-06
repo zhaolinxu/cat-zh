@@ -881,7 +881,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var uranium = game.resPool.get("uranium");
 			var titanium = game.resPool.get("titanium");
 			
-			var autoProdRatio = game.bld.getAutoProductionRatio();
+			var autoProdRatio = game.bld.getAutoProductionRatio(true);
 			self.effects["uraniumPerTick"] = 0.0025 * autoProdRatio;
 
 			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
