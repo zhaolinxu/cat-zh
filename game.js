@@ -1282,10 +1282,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += resProduction * workshopResRatio;
 		}
 		
-		//BUILDINGS EFFECTS
-		var bldResRatio = this.bld.getEffect(res.name + "Ratio");
-		if (bldResRatio){
-			perTick += perTick * bldResRatio;
+		//BUILDINGS AND SPACE EFFECTS
+		var resRatio = this.getEffect(res.name + "Ratio");
+		if (resRatio){
+			perTick += perTick * resRatio;
 		}
 		
 		//let's mess a bit with a ice age
@@ -1340,9 +1340,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//AUTOMATED STRUCTURES EFFECTS
 		if (calcAutomatedEffect){
-			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick") + this.space.getEffect(res.name + "PerTick");
-			if (bldResRatioTick){
-				perTick += bldResRatioTick;
+			var resRatioTick = this.getEffect(res.name + "PerTick");
+			if (resRatioTick){
+				perTick += resRatioTick;
 			}
 		}
 
