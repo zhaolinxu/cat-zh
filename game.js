@@ -1330,6 +1330,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!res.transient){
 			perTick += perTick * this.bld.getEffect("productionRatio");
 		}
+
+		//SPECIAL STEAMWORKS HACK FOR COAL
+		var steamworks = this.bld.get("steamworks");
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.on > 0 && swEffectGlobal ){
+			perTick += perTick * swEffectGlobal;
+		}
 		
 		//AUTOMATED STRUCTURES EFFECTS
 		if (calcAutomatedEffect){
@@ -1337,13 +1344,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (bldResRatioTick){
 				perTick += bldResRatioTick;
 			}
-		}
-
-		//SPECIAL STEAMWORKS HACK FOR COAL
-		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
-		if (steamworks.on > 0 && swEffectGlobal ){
-			perTick += perTick * swEffectGlobal;
 		}
 
 		//---------  RESOURCE CONSUMPTION -------------
@@ -1499,7 +1499,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (steamworks.on > 0 && swEffectGlobal ){
 			stack.push({
 				name: "Steamworks",
-				type: "fixed",
+				type: "ratio",
 				value: swEffectGlobal
 			});
 		}
