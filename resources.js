@@ -1,5 +1,6 @@
+
 dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.TabManager, {
-	
+
 	//=========================================
 	//				COMMON
 	//=========================================
@@ -48,7 +49,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		visible: true,
 		color: "darkRed"
 	},
-	
+
 	//=========================================
 	//			   TRANSIENT
 	//=========================================
@@ -100,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		visible: true,
 		color: "#9A2EFE"
 	},
-	
+
 	//=========================================
 	// 			  luxury resources
 	//=========================================
@@ -149,9 +150,9 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		visible: true,
 		color: "#14CD61"
 	},
-	
+
 	//=========================================
-	// 				    CRAFT 
+	// 				    CRAFT
 	//=========================================
 	{
 		name : "beam",
@@ -226,18 +227,18 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		craftable: true,
 		color: "gray"
 	}],
-	
+
 	resources: null,
-	
+
 	village: null,
-	
+
 	game: null,
-	
+
 	constructor: function(game){
 		this.game = game;
-		
+
 		this.resources = [];
-		
+
 		for (var i = 0; i< this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
@@ -245,7 +246,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 			this.resources.push(res);
 		}
 	},
-	
+
 	get: function(name){
 		for (var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
@@ -253,30 +254,30 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 				return res;
 			}
 		}
-		
+
 		//if no resource found, register new
 		return this.addResource(name, "common");
 	},
-	
+
 	addResource: function(name, type){
-		
+
 		var res = {
 				name: name,
 				title: "",
 				value: 0,
-				perTick: 0,	
+				perTick: 0,
 				type: "common"
 		};
-		
+
 		if (type){
 			res.type = type;
 		}
 
 		this.resources.push(res);
-		
+
 		return res;
 	},
-	
+
 	addResAmt: function(name, value){
 		var res = this.get(name);
 
@@ -295,71 +296,71 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 	 * Iterates resources and updates their values with per tick increment
 	 */
 	update: function(){
-					
+
 		//var modifiers = this.village.getResourceModifers();
-		
+
 		for (var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
 
 			var maxValue = this.game.bld.getEffect(res.name + "Max");
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
-			
-			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
+
+			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
-			
+
 			if (res.name == "catnip" && this.game.workshop.get("silos").researched){
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio") * 0.25;
 			}
-			
-			if (res.name == "wood" || 
-				res.name == "minerals" || 
-				res.name == "iron" || 
-				res.name == "steel" || 
-				res.name == "coal" || 
-				res.name == "gold" || 
+
+			if (res.name == "wood" ||
+				res.name == "minerals" ||
+				res.name == "iron" ||
+				res.name == "steel" ||
+				res.name == "coal" ||
+				res.name == "gold" ||
 				res.name == "titanium"){
 				if (this.game.workshop.getEffect("warehouseRatio")){
 					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
 				}
 			}
-			
-			//Stuff for Refrigiration and (potentially) similar effects
+
+			//Stuff for Refrigeration and (potentially) similar effects
 			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
-			
+
 			var paragon = this.game.resPool.get("paragon").value;
 			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
-			
-			
+
+
 			if (maxValue > 0 ){
 				res.maxValue = maxValue;
 			}
-			
+
 			if (res.value < 0){
 				res.value = 0;	//can't be negative
 			}
-			
+
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-			
+
 			res.value = res.value + resPerTick;
 			if (res.maxValue && res.value > res.maxValue){
 				res.value = res.maxValue;
 			}
-			
+
 			if (isNaN(res.value)){
 				res.value = 0;	//safe switch
 			}
 		}
 	},
-	
+
 	setVillage: function(village){
 		this.village = village;
 	},
-	
+
 	reset: function(){
 		this.resources = [];
 	},
-	
+
 	load: function(saveData){
 		//erase old resources (is there better way to handle it?
 		for(var i = 0; i< this.resources.length; i++){
@@ -367,13 +368,13 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 			res.value = 0;
 			res.maxValue = 0;
 		}
-		
+
 		if (saveData.resources){
 			var resources = saveData.resources;
 			if (resources.length){
 				for(var i = 0; i< resources.length; i++){
 					var savedRes = resources[i];
-					
+
 					if (savedRes != null){
 						var res = this.get(savedRes.name);
 						res.value = savedRes.value;
@@ -385,22 +386,22 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 	},
 
 	/**
-	 * Retruns true if user has enough resources to construct AMT building with given price
-	 */ 
+	 * Returns true if user has enough resources to construct AMT building with given price
+	 */
 	hasRes: function(prices, amt){
 		if (amt){
 			prices = dojo.clone(prices);
-		
+
 			for (var i = 0; i< prices.length; i++){
 				prices[i].val *= amt;
 			}
 		}
-		
+
 		var hasRes = true;
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-				
+
 				var res = this.get(price.name);
 				if (res.value < price.val){
 					hasRes = false;
@@ -410,12 +411,12 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 		}
 		return hasRes;
 	},
-	
+
 	payPrices: function(prices){
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-				
+
 				var res = this.get(price.name);
 				res.value -= price.val;
 			}

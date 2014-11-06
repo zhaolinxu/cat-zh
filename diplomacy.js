@@ -1,14 +1,14 @@
 /**
- * Dimplomacy
- */ 
+ * Diplomacy
+ */
 dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 
 	game: null,
-	
+
 	races: [{
 		name: "lizards",
 		title: "Lizards",
-		attitude: "friendly",	//neutral, friendly, agressive
+		attitude: "friendly",	//neutral, friendly, aggressive
 		standing: 0.25,			//chance of trade success, works differently based on attitude
 		unlocked: false,
 		buys: [
@@ -139,7 +139,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 			}}
 		]
 	}],
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
@@ -153,32 +153,32 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		console.error("Failed to get race for id '"+raceName+"'");
 		return null;
 	},
-	
+
 	save: function(saveData){
 		saveData.diplomacy = {
 			races: this.races
 		}
 	},
-	
+
 	load: function(saveData){
 		if (saveData.diplomacy){
 			var diplomacy = saveData.diplomacy.races;
 
-			
+
 			if (saveData.diplomacy.races && saveData.diplomacy.races){
 				for(var i = 0; i< saveData.diplomacy.races.length; i++){
 					var savedRace = saveData.diplomacy.races[i];
-					
+
 					if (savedRace != null){
 						var race = this.game.diplomacy.get(savedRace.name);
-	
+
 						race.unlocked = savedRace.unlocked;
 					}
 				}
 			}
 		}
 	},
-	
+
 	hasUnlockedRaces: function(){
 		for (var i = 0; i< this.races.length; i++){
 			if (this.races[i].unlocked){
@@ -187,11 +187,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 		}
 		return false;
 	},
-	
+
 	unlockRandomRace: function(){
 		var unmetRaces = [];
 		var hasLockedHiddenRaces = false;
-		
+
 		for (var i = 0; i< this.races.length; i++){
 			if (!this.races[i].unlocked ){
 				if (!this.races[i].hidden){
@@ -201,73 +201,73 @@ dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
 				}
 			}
 		}
-		
+
 		if (!unmetRaces.length && !hasLockedHiddenRaces){
 			return null;
 		}
-		
+
 		//nagas like highly cultural kittens :3
 		var nagas = this.get("nagas");
-		if (!nagas.unlocked && this.game.resPool.get("culture").value >= 1500){	
+		if (!nagas.unlocked && this.game.resPool.get("culture").value >= 1500){
 			nagas.unlocked = true;
 			return nagas;
 		}
-		
+
 		var zebras = this.get("zebras");
 		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
-			zebras.unlocked = true;	
+			zebras.unlocked = true;
 			this.game.workshop.get("caravanserai").unlocked = true;
 			return zebras;
 		}
-		
+
 		var spiders = this.get("spiders");
-		if (!spiders.unlocked && this.game.resPool.get("ship").value >= 100 && this.game.resPool.get("science").maxValue > 125000){	
-			spiders.unlocked = true;	
+		if (!spiders.unlocked && this.game.resPool.get("ship").value >= 100 && this.game.resPool.get("science").maxValue > 125000){
+			spiders.unlocked = true;
 			return spiders;
 		}
-		
+
 		var dragons = this.get("dragons");
-		if (!dragons.unlocked && this.game.science.get("nuclearFission").researched){	
-			dragons.unlocked = true;	
+		if (!dragons.unlocked && this.game.science.get("nuclearFission").researched){
+			dragons.unlocked = true;
 			return dragons;
 		}
-		
+
 		var raceId = (Math.floor(Math.random()*unmetRaces.length));
-		
+
 		if (unmetRaces[raceId]){	//someone reported a bug there, to be investigated later
 			unmetRaces[raceId].unlocked = true;
 			return unmetRaces[raceId];
 		}
 		return null;
 	},
-	
+
 	update: function(){
 		if (!this.hasUnlockedRaces()){
-			
+
 			var unlockYear = 20;
 			if (this.game.karmaKittens > 0 ){
 				unlockYear = 5;
 			}
-			
+
 			if (this.game.calendar.year < unlockYear){
 				return;
 			}
-			
+
 			var race = this.unlockRandomRace();
-			
+
 			this.game.diplomacyTab.visible = true;
 			this.game.render();
-			
+
 			this.game.msg("An emissary of " + race.title + " comes to your village", "notice");
-		} 
+		}
 	}
 
 });
- 
- 
+
+
 dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
-	
+
 	update: function(){
 		if (this.tradeBtn){
 			this.tradeBtn.update();
@@ -276,65 +276,65 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	
+
 	race: null,
-	
+
 	trade25Href: null,
 	trade100Href: null,
 	tradeAllHref: null,
 
 	constructor: function(opts, game){
 		this.race = opts.race;
-		
+
 		this.handler = this.trade;	//weird hack
 	},
-	
+
 	tradeInternal: function(suppressMessages){
 		var race = this.race;
-		
+
 		var tradeRes = {
 		};
-		
+
 		var tradeRatioAttitude = 0;
-					
+
 		var attitudeChance = this.game.rand(100);
 		var standingRatio = this.game.bld.getEffect("standingRatio");
 		standingRatio = standingRatio ? standingRatio : 0;
-		
+
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
 				this.game.msg( race.title + " hate you for no reason");
 			}
 			return;
 		}
-		
+
 		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 			if (!suppressMessages){
 				this.game.msg( race.title + " think your kittens are adorable");
 			}
 			tradeRatioAttitude = 0.25;
 		}
-		
+
 		for (var j =0; j< race.sells.length; j++){
 			var s = race.sells[j];
-			
+
 			var chance = this.game.rand(100);
 			if (chance >= s.chance){
 				continue;
 			}
-			
+
 			var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 			var min = s.value * sratio - s.value * sratio * s.delta/2;
 			var amt = min + this.game.rand(s.value * sratio * s.delta);
-			
+
 			var ratio = this.game.bld.getEffect("tradeRatio");
 			amt += amt*ratio;
-			
+
 			var resValue = amt + amt*tradeRatioAttitude;
-			
+
 			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
 			this.game.resPool.addResAmt(s.name, resValue);
-			
+
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
 		}
@@ -342,44 +342,44 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		if (this.game.rand(100) < 35){
 			var spiceVal = this.game.rand(50);
 			var resValue = 25 +  spiceVal + spiceVal * this.game.bld.getEffect("tradeRatio");
-			
+
 			this.game.resPool.addResAmt("spice", resValue);
 			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(val) + " spice");
 		}
-		
+
 		//-------------- 10% change to get blueprint ---------------
-		
+
 		if (this.game.rand(100) < 10){
 			this.game.resPool.addResAmt("blueprint", 1);
 			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
 			//this.game.msg("You've got a blueprint!", "notice");
 		}
-		
+
 		//-------------- 15% change to get titanium  ---------------
-		
+
 		var shipVal = this.game.resPool.get("ship").value;
-		var shipRate = shipVal * 0.35;		//0.35% per ship to get titanum	
-		
+		var shipRate = shipVal * 0.35;		//0.35% per ship to get titanium
+
 		if ( this.game.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
-			
+
 			var titaniumAmt = 1.5;
 			titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-			
+
 			this.game.resPool.addResAmt("titanium", titaniumAmt);
 			tradeRes["titanium"] = tradeRes["titanium"] ? tradeRes["titanium"] + titaniumAmt : titaniumAmt;
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
 		}
-		
+
 		return tradeRes;
 	},
-	
+
 	trade: function(){
 		var yieldRes = this.tradeInternal();
-		
+
 		this.printYieldOutput(yieldRes);
 	},
-	
+
 	tradeMultiple: function(amt){
 		//------------ safety measure ----------------
 		if (!this.hasMultipleResources(amt)) {
@@ -387,27 +387,27 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		}
 
 		//-------------- pay prices ------------------
-		
+
 		this.game.resPool.addResAmt("manpower", -50*amt);
 		this.game.resPool.addResAmt("gold", -15*amt);
 		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*amt);
-		
+
 		//---------- calculate yield -----------------
-		
+
 		this.game.msg("You have sent " + amt + " trade caravans");
 
 		var yieldResTotal = {};
 		for (var i = 0; i<amt; i++){
-			var yieldRes = this.tradeInternal(true);	//supress msg
-			
+			var yieldRes = this.tradeInternal(true);	//suppress msg
+
 			for (var res in yieldRes) {
 				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
 			}
 		}
-		
+
 		this.printYieldOutput(yieldResTotal);
 	},
-	
+
 	tradeAll: function(){
 		var amt = [
 			Math.floor(this.game.resPool.get("manpower").value / 50),
@@ -418,17 +418,17 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		for (var i = 0; i < amt.length; i++){
 			if (min > amt[i]) { min = amt[i]; }
 		}
-		
+
 		if (min == Number.MAX_VALUE || min == 0){
 			return;
 		}
-		
+
 		this.tradeMultiple(min);
 	},
-	
+
 	/**
-	 * Prints a formated output of a trade results based on a resource map
-	 */ 
+	 * Prints a formatted output of a trade results based on a resource map
+	 */
 	printYieldOutput: function(yieldResTotal){
 		for (var res in yieldResTotal) {
 			if (res != "blueprint" && res != "titanium"){
@@ -438,7 +438,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			}
 		}
 	},
-	
+
 	renderLinks: function(){
 		this.tradeAllHref = this.addLink("all",
 			function(){
@@ -464,11 +464,11 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 	update: function(){
 		this.inherited(arguments);
-		
+
 		dojo.setStyle(this.trade100Href.link, "display", this.hasMultipleResources(100) ? "" : "none");
 		dojo.setStyle(this.trade25Href.link, "display", this.hasMultipleResources(25) ? "" : "none");
 	},
-	
+
 	hasMultipleResources: function(amt){
 		return (this.game.resPool.get("manpower").value >= 50 * amt &&
 			this.game.resPool.get("gold").value >= 15 * amt &&
@@ -482,29 +482,29 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 //==================================================================================
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
-	
+
 	racePanels: null,
-	
+
 	constructor: function(tabName, game){
 		var self = this;
 		this.game = game;
-		
+
 		this.racePanels = [];
 	},
-	
+
 	render: function(tabContainer){
 		this.inherited(arguments);
-		
-		
+
+
 		this.buttons = [];
-		
+
 		/*
 		 * Once race panel is rendered, we will save the panels states.
-		 * 
+		 *
 		 * However races can be unlocked in random order, so once new race appear,
-		 * we will clear array and reinit it again
-		 */ 
-		
+		 * we will clear array and reinitialise it again
+		 */
+
 		var races = [];
 		for (var i = 0; i< this.game.diplomacy.races.length; i++){
 			var race = this.game.diplomacy.races[i];
@@ -515,9 +515,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		if (this.racePanels.length != races.length){
 			this.racePanels = [];
 		}
-		
+
 		var self = this;
-		
+
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){
@@ -532,39 +532,39 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var content = racePanel.render(tabContainer);
 
 			//---------- render stuff there -------------
-			
+
 			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
 				marginBottom: "5px"
 			} }, content);
-			
+
 			var buys = race.buys[0];
-			dojo.create("div", { 
+			dojo.create("div", {
 				innerHTML: "<span style='color: #01A9DB'>Buys: </span>" + buys.name + " (" + buys.val + ")"
 			}, content);
-			
+
 			for (var j =0; j< race.sells.length; j++){
 				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
 					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-					
+
 					var tratio = self.game.bld.getEffect("tradeRatio");
 					var val = s.value + s.value * tratio;
 
 					var min = val * sratio - val * sratio * s.delta/2;
 					var max = val * sratio + val * sratio * s.delta/2;
-					
+
 					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
-					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);	
+					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);
 					if (j == (race.sells.length - 1)){
 						dojo.style(div, "marginBottom", "15px");
 					}
-					
+
 				//}
 			}
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
 			tradePrices = tradePrices.concat(race.buys);
-			
+
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
 				name: "Send caravan",
 				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.\nYou also have a small chance of getting rare resources.",
@@ -574,20 +574,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
 		}
-		
+
 		//------------------------------------
-		
+
 		dojo.create("div", { style: {
 				marginBottom: "15px"
 		} }, tabContainer);
-			
+
 		var exploreBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: "Send explorers",
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],
 			handler: function(btn){
 				var race = btn.game.diplomacy.unlockRandomRace();
-				
+
 				if (race){
 					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
@@ -595,27 +595,27 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					var res = btn.game.resPool.get("manpower");
 					res.value += 950;
 				}
-				
+
 				btn.game.render();
 			}
 		}, this.game);
 		exploreBtn.render(tabContainer);
 		this.exploreBtn = exploreBtn;
 	},
-	
-		
+
+
 	update: function(){
 		this.inherited(arguments);
-		
+
 		for (var i = 0; i< this.racePanels.length; i++){
 			this.racePanels[i].update();
 		}
-		
+
 		if (this.exploreBtn){
 			this.exploreBtn.update();
 		}
 	},
-	
+
 	rand: function(ratio){
 		return (Math.floor(Math.random()*ratio));
 	}

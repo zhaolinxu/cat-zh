@@ -1,9 +1,9 @@
 dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunicorn.core.TabManager, {
-	
+
 	game: null,
-	
+
 	hideResearched: false,
-	
+
 	upgrades:[
 		//--------------------- food upgrades ----------------------
 		{
@@ -141,7 +141,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "titaniumAxe",
 		title: "Titanium Axe",
-		description: "Indestructable axes. Woodcutters are 50% more effective.",
+		description: "Indestructible axes. Woodcutters are 50% more effective.",
 		effects: {
 			"woodRatio" : 0.5
 		},
@@ -374,11 +374,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		}
 	},
 
-	//	------------- harbor stuff ------------
+	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give a 1% bonus to the Harbor capacity",
+		description: "Every ship will give a 1% bonus to the Harbour capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -394,7 +394,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "barges",
 		title: "Barges",
-		description: "Harbors store more coal",
+		description: "Harbours store more coal",
 		effects: {
 			"harborCoalRatio" : 0.5
 		},
@@ -577,7 +577,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		}
 	},{
 		name: "steelArmor",
-		title: "Steel Armor",
+		title: "Steel Armour",
 		description: "Hunters are a bit more effective",
 		effects: {
 			"hunterRatio" : 0.5
@@ -593,7 +593,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		}
 	},{
 		name: "alloyArmor",
-		title: "Alloy Armor",
+		title: "Alloy Armour",
 		description: "Hunters are a bit more effective",
 		effects: {
 			"hunterRatio" : 0.5
@@ -779,7 +779,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "rotaryKiln",
@@ -962,7 +962,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "biofuel",
@@ -977,7 +977,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},
 	//------------------- blueprints ----------------
@@ -995,7 +995,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "seti",
@@ -1010,14 +1010,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "augumentation",
 		title: "Augmentations",
 		description: "Kitten skills are 25% more effective",
 		effects: {
-			"skillMultiplier" : 0.25 
+			"skillMultiplier" : 0.25
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
@@ -1027,14 +1027,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "enrichedUranium",
 		title: "Enriched Uranium",
 		description: "Reduce uranium consumption of reactors by 25%",
 		effects: {
-			"uraniumRatio" : 0.25 
+			"uraniumRatio" : 0.25
 		},
 		prices:[
 			{ name : "titanium", val: 7500 },
@@ -1044,14 +1044,14 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "oilRefinery",
 		title: "Oil Refinery",
 		description: "Improves effectiveness of oil wells by 35%",
 		effects: {
-			"oilRatio" : 0.35 
+			"oilRatio" : 0.35
 		},
 		prices:[
 			{ name : "titanium", val: 1250 },
@@ -1061,7 +1061,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	},
 	//------------------- starcharts / space ----------------
@@ -1070,7 +1070,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		title: "Hubble Space Telescope",
 		description: "Improves effectiveness of satellites by by 30%",
 		effects: {
-			"starchartRatio" : 0.30 
+			"starchartRatio" : 0.30
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1250 },
@@ -1080,15 +1080,15 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			
+
 		}
 	}
 	],
-	
+
 	//=============================================================
 	//					     CRAFT RECIPES
 	//=============================================================
-	
+
 	crafts:[{
 		name: "wood",
 		title: "Refine catnip",
@@ -1126,7 +1126,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "plate",
 		title: "Metal Plate",
-		description: "A metal plate. Required for advanecd construction.",
+		description: "A metal plate. Required for advanced construction.",
 		prices:[
 			{name: "iron", val: 125}
 		],
@@ -1134,7 +1134,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "steel",
 		title: "Steel",
-		description: "A durable metal made by smelting iron and coal. Required for constuction of gears and complex machinery.",
+		description: "A durable metal made by smelting iron and coal. Required for construction of gears and complex machinery.",
 		prices:[
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
@@ -1178,7 +1178,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowlege of the catkind\nEvery compedium will give +10 to max science",
+		description: "A sum of all modern knowledge of the catkind\nEvery compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
@@ -1223,21 +1223,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		],
 		unlocked: true
 	}],
-	
+
 	effectsBase: {
 		"scienceMax" : 0
 	},
-	
+
 	constructor: function(game){
 		this.game = game;
-		
+
 		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
 			if (upgrade.researched){
 				return upgrade.effects[name];
 			}
 		}});
 	},
-	
+
 	get: function(upgradeName){
 		for( var i = 0; i< this.upgrades.length; i++){
 			if (this.upgrades[i].name == upgradeName){
@@ -1247,7 +1247,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		console.error("Failed to get upgrade for id '"+upgradeName+"'");
 		return null;
 	},
-	
+
 	getCraft: function(craftName){
 		for( var i = 0; i< this.crafts.length; i++){
 			if (this.crafts[i].name == craftName){
@@ -1257,19 +1257,19 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		console.error("Failed to get craft for id '"+craftName+"'");
 		return null;
 	},
-	
+
 	save: function(saveData){
-		
+
 		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
 		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked"]);
-		
+
 		saveData.workshop = {
 			upgrades: upgrades,
 			crafts:   crafts
 		}
 		saveData.workshop.hideResearched = this.hideResearched;
 	},
-	
+
 	load: function(saveData){
 		if (saveData.workshop){
 			this.hideResearched = saveData.workshop.hideResearched;
@@ -1277,13 +1277,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
 				for(var i = 0; i< saveData.workshop.upgrades.length; i++){
 					var savedUpgrade = saveData.workshop.upgrades[i];
-					
+
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
 
 						upgrade.unlocked = savedUpgrade.unlocked;
 						upgrade.researched = savedUpgrade.researched;
-						
+
 						if (upgrade.researched && upgrade.handler){
 							upgrade.handler(this.game);	//just in case update workshop upgrade effects
 						}
@@ -1291,11 +1291,11 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 				}
 			}
 			//same for craft recipes
-			
+
 			if (saveData.workshop.crafts && saveData.workshop.crafts.length){
 				for(var i = 0; i< saveData.workshop.crafts.length; i++){
 					var savedCraft = saveData.workshop.crafts[i];
-					
+
 					if (savedCraft != null){
 						var craft = this.game.workshop.getCraft(savedCraft.name);
 						if (craft && !craft.unlocked){					// a little hack to make auto-unlockable recipes work with old saves
@@ -1308,36 +1308,36 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 
 		this.invalidateCachedEffects();
 	},
-	
+
 	/**
 	 * Returns a total effect value per buildings.
-	 * 
-	 * For example, if you have N buldings giving K effect,
+	 *
+	 * For example, if you have N buildings giving K effect,
 	 * total value will be N*K
-	 * 
-	 */ 
+	 *
+	 */
 	getEffect: function(name){
 		var totalEffect = 0;
-		
+
 		if (this.effectsBase[name]){
 			totalEffect += this.effectsBase[name];
 		}
 		return totalEffect + this.getEffectCached(name);
 	},
-	
-		
+
+
 	craft: function (res, amt){
 
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio({name:res});
-		
+
 		var craftAmt = amt * (1 + craftRatio);
 		var prices = dojo.clone(craft.prices);
-		
+
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val *= amt;
 		}
-		
+
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
 			this.game.resPool.get(res).value += craftAmt;
@@ -1345,12 +1345,12 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			console.log("not enough resources for", prices);
 		}
 	},
-	
-	//Crafts maximum possible ammount for given recipe name
+
+	//Crafts maximum possible amount for given recipe name
 	craftAll: function(craftName){
-		
+
 		var recipe = this.getCraft(craftName);
-		
+
 		var minAmt = Number.MAX_VALUE;
 		for (var j = 0; j < recipe.prices.length; j++){
 			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
@@ -1368,7 +1368,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			this.craft(craftName, minAmt);
 		}
 	},
-	
+
 	update: function(){
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 	}
@@ -1376,28 +1376,28 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 
 dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	upgradeName: null,
-	
+
 	constructor: function(opts, game){
 		this.upgradeName = opts.upgrade;
 	},
-	
+
 	getUpgrade: function(){
 		return this.getUpgradeByName(this.upgradeName);
 	},
-	
+
 	getUpgradeByName: function(name){
 		return this.game.workshop.get(name);
 	},
 
 	updateEnabled: function(){
 		this.inherited(arguments);
-		
+
 		var upgrade = this.getUpgrade();
 		if (upgrade.researched/* || !tech.unlocked*/){
 			this.setEnabled(false);
 		}
 	},
-	
+
 	getName: function(){
 		var upgrade = this.getUpgrade();
 		if (!upgrade.researched){
@@ -1406,7 +1406,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 			return this.name + " (complete)";
 		}
 	},
-	
+
 	updateVisible: function(){
 		var upgrade = this.getUpgrade();
 		if (!upgrade.unlocked){
@@ -1414,33 +1414,33 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}else{
 			this.setVisible(true);
 		}
-		
+
 		if (upgrade.researched && this.game.workshop.hideResearched){
 			this.setVisible(false);
 		}
 	},
-	
+
 	getTooltipHTML: function(){
-		
+
 		var upgrade = this.getUpgrade();
-		var tooltip = dojo.create("div", { style: { 
+		var tooltip = dojo.create("div", { style: {
 				width: "280px",
 				minHeight:"150px"
 		}}, null);
-		
-		dojo.create("div", { 
-			innerHTML: this.getName(), 
+
+		dojo.create("div", {
+			innerHTML: this.getName(),
 			style: {
 				textAlign: "center",
 				width: "100%",
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px"
 		}}, tooltip);
-			
+
 		//----------- description -------
-		
-		dojo.create("div", { 
-			innerHTML: this.description, 
+
+		dojo.create("div", {
+			innerHTML: this.description,
 			style: {
 				textAlign: "center",
 				width: "100%",
@@ -1449,13 +1449,13 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 				fontSize: "15px",
 				color: "gray"
 		}}, tooltip);
-			
+
 		//--------------- prices ----------------
 		this.renderPrices(tooltip);
 		//---------- effects-------------
-		
-		dojo.create("div", { 
-			innerHTML: "Effects:", 
+
+		dojo.create("div", {
+			innerHTML: "Effects:",
 			style: {
 				textAlign: "center",
 				width: "100%",
@@ -1463,24 +1463,24 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 				paddingBottom: "4px",
 				marginBottom: "8px"
 		}}, tooltip);
-			
+
 		//-----------------------------------------
 
 		for (effectName in upgrade.effects){
-			var nameSpan = dojo.create("div", { innerHTML: effectName + ": " + this.game.getDisplayValueExt(upgrade.effects[effectName]), 
-				style: { 
+			var nameSpan = dojo.create("div", { innerHTML: effectName + ": " + this.game.getDisplayValueExt(upgrade.effects[effectName]),
+				style: {
 					float: "left",
 					fontSize: "14px",
 					color: "gray",
 					clear: "both"
 			}}, tooltip );
 		}
-		
+
 		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-		
+
 		//-------------- flavor stuff -------------
-		
-		dojo.create("div", { 
+
+		dojo.create("div", {
 			innerHTML: upgrade.flavor || "flavor text",
 			className: "flavor",
 			style: {
@@ -1490,51 +1490,51 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 				fontSize: "12px",
 				fontStyle: "italic"
 		}}, tooltip);
-		
+
 		return tooltip.outerHTML;
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	craftName: null,
-	
+
 	constructor: function(opts, game){
 		this.craftName = opts.craft;
 	},
-	
+
 	onClick: function(){
 		this.animate();
 		this.handler(this);
 	},
-	
+
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
-		
+
 		if (craft.unlocked){	//TBD
 			this.setVisible(true);
 		}else{
 			this.setVisible(false);
 		}
 	},
-	
+
 	getTooltipHTML: function(btn){
-		 
-		var tooltip = dojo.create("div", { style: { 
+
+		var tooltip = dojo.create("div", { style: {
 			width: "200px",
 			minHeight:"50px"
 		}}, null);
-		
-		dojo.create("div", { 
-			innerHTML: this.getName(), 
+
+		dojo.create("div", {
+			innerHTML: this.getName(),
 			style: {
 				textAlign: "center",
 				width: "100%",
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px"
 		}}, tooltip);
-		
-		dojo.create("div", { 
-			innerHTML: this.description, 
+
+		dojo.create("div", {
+			innerHTML: this.description,
 			style: {
 				textAlign: "center",
 				width: "100%",
@@ -1543,55 +1543,55 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 				fontSize: "15px",
 				color: "gray"
 		}}, tooltip);
-		
+
 		this.renderPrices(tooltip, true);	//simple prices
-		
+
 		return tooltip.outerHTML;
 	 }
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.ui.tab, {
-	
+
 	craftBtns: null,
-	
+
 	resTd: null,
-	
+
 	constructor: function(tabName, game){
 		var self = this;
 		this.game = game;
-		
+
 		this.craftBtns = [];
 
 	},
-	
+
 	render: function(tabContainer){
 
 		this.craftBtns = [];
 		this.buttons = [];
-		
+
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);
 		var div = dojo.create("div", { style: { float: "right"}}, divCombobox);
-		
+
 		var groupCheckbox = dojo.create("input", {
 			id: "toggleResearched",
 			type: "checkbox",
 			checked: this.game.workshop.hideResearched
 		}, div);
-		
+
 		dojo.connect(groupCheckbox, "onclick", this, function(){
 			this.game.workshop.hideResearched = !this.game.workshop.hideResearched;
-			
+
 			dojo.empty(tabContainer);
 			this.render(tabContainer);
 		});
-		
+
 		dojo.create("label", { innerHTML: "Hide researched upgrades", for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
-		
+
 		var upgradePanel = new com.nuclearunicorn.game.ui.Panel("Upgrades", this.game.workshop);
 		var content = upgradePanel.render(tabContainer);
-		
+
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
 			var uprgade = this.game.workshop.upgrades[i];
 
@@ -1599,22 +1599,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 			btn.updateEnabled();
 			btn.updateVisible();
-			
+
 			this.addButton(btn);
 			btn.render(content);
 		}
-		
+
 		//------------------------------------------
 
 		var craftPanel = new com.nuclearunicorn.game.ui.Panel("Crafting", this.game.workshop);
 		var content = craftPanel.render(tabContainer);
-		
+
 		var table = dojo.create("table", {}, content);
 		var tr = dojo.create("tr", {}, table);
-		
+
 		//buttons go there
 		var td = dojo.create("td", {}, table);
-		
+
 		var self = this;
 		var crafts = this.game.workshop.crafts;
 		for( var i = 0; i < crafts.length; i++ ){
@@ -1628,17 +1628,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 					btn.game.workshop.craft(craft.name, 1);
 				}, craft)
 			}, this.game);
-			
+
 			craftBtn.render(td);
-			
+
 			this.craftBtns.push(craftBtn);
 		}
-		
+
 		//resources go there
 		var td = dojo.create("td", { style: {paddingLeft: "50px"}}, table);
 		this.resTd = td;
 		this.renderResources(this.resTd);
-		
+
 		//----------------
 		if (!this.game.science.get("construction").researched){
 			craftPanel.setVisible(false);
@@ -1646,22 +1646,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	},
 
 	renderResources: function(container){
-		
+
 		dojo.empty(container);
-		
+
 		dojo.create("span", { innerHTML: "Stuff:" },container);
-		
+
 		var table = dojo.create("table", { style: {
 			paddingTop: "20px"
 		}}, container);
-		
+
 		var resources = this.game.resPool.resources;
 		for (var i = 0; i < resources.length; i++){
 			var res = resources[i];
-			
+
 			if (res.craftable && res.value){
 				var tr = dojo.create("tr", {}, table);
-				
+
 				var td = dojo.create("td", { innerHTML: res.title || res.name + ":" }, tr);
 				var td = dojo.create("td", { innerHTML: this.game.getDisplayValueExt(res.value) }, tr);
 			}
@@ -1685,14 +1685,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}, this.game);
 		return btn;
 	},
-	
+
 	update: function(){
 		this.inherited(arguments);
-		
+
 		for( var i = 0; i< this.craftBtns.length; i++){
 			this.craftBtns[i].update();
 		}
-		
+
 		if (this.resTd){
 			this.renderResources(this.resTd);
 		}
