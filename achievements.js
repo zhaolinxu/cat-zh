@@ -1,6 +1,6 @@
 dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 	game: null,
-	
+
 	achievements: [
 	{
 		name: "unicornConspiracy",
@@ -160,11 +160,11 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		unlocked: false
 	}
 	],
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
-	
+
 	get: function(name){
 		for( var i = 0; i< this.achievements.length; i++){
 			if (this.achievements[i].name == name){
@@ -172,7 +172,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			}
 		}
 	},
-	
+
 	hasUnlocked: function(){
 		for( var i = 0; i< this.achievements.length; i++){
 			if (this.achievements[i].unlocked){
@@ -181,7 +181,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		}
 		return false;
 	},
-	
+
 	update: function(){
 		for (var i = 0; i< this.achievements.length; i++){
 			var ach = this.achievements[i];
@@ -192,11 +192,11 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 			}
 		}
 	},
-	
+
 	save: function(saveData){
 		saveData.achievements = this.achievements;
 	},
-	
+
 	load: function(saveData){
 		var ach = saveData.achievements;
 		if (!ach || !ach.length){
@@ -204,7 +204,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 		}
 		for(var i = 0; i< ach.length; i++){
 			var savedAch = ach[i];
-			
+
 			var a = this.get(savedAch.name);
 			a.unlocked = savedAch.unlocked;
 		}
@@ -214,7 +214,7 @@ dojo.declare("com.nuclearunicorn.game.Achievements", null, {
 dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
 	render: function(content){
 		var div = dojo.create("div", { }, content);
-		
+
 		div.innerHTML = "";
 		for (var i = 0; i< this.game.achievements.achievements.length; i++){
 			var ach = this.game.achievements.achievements[i];
@@ -227,4 +227,3 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 		}
 	}
 });
-	

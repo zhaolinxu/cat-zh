@@ -1,3 +1,4 @@
+
 dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.TabManager, {
 	
 	//=========================================
@@ -317,7 +318,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 			
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			
-			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awfull
+			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
 			
@@ -406,7 +407,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 	},
 
 	/**
-	 * Retruns true if user has enough resources to construct AMT building with given price
+	 * Returns true if user has enough resources to construct AMT building with given price
 	 */ 
 	hasRes: function(prices, amt){
 		if (amt){

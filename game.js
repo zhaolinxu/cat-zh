@@ -4,7 +4,7 @@
  */
  
 /**
- * Workaround for ie9 local storage :V
+ * Workaround for IE9 local storage :V
  * 
  * This fix is intended for IE in general and especially for IE9, 
  * where localStorage is defined as system variable.
@@ -364,7 +364,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 });
 
 /**
- * Main game class, can be accessed globably as a 'gamePage' variable
+ * Main game class, can be accessed globally as a 'gamePage' variable
  */ 
 
 dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
@@ -373,7 +373,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	tabs: null,
 
-	//componenst:
+	//components:
 	
 	resPool: null,
 	calendar: null,
@@ -389,7 +389,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 	
-	//xN update rate modifer for debug purpose
+	//xN update rate modifier for debug purpose
 	updateRate: 1,
 	
 	//I wonder why someone may need this
@@ -435,7 +435,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	cheatMode: false,	//flag triggering Super Unethical Climax achievement
 	
 	ticks: 0,				//how many ticks passed since the start of the game
-	totalUpdateTime: 0,		//total time spent on update cycle in miliseconds, usefull for debug/fps counter
+	totalUpdateTime: 0,		//total time spent on update cycle in milliseconds, useful for debug/fps counter
 	
 	//resource table 
 	resTable: null,		
@@ -506,7 +506,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.spaceTab.visible = false;
 		this.addTab(this.spaceTab);
 		
-		//vvvv do not forget to toggle tab visiblity below
+		//vvvv do not forget to toggle tab visibility below
 		
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 		
@@ -802,7 +802,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	/**
-	 * Returns an estimated productuion amount per tick for a given resource.
+	 * Returns an estimated production amount per tick for a given resource.
 	 * 
 	 * If calcAutomatedEffect is true, it will also estimate the conditional effects for automated structures,
 	 * like smelters or calciners. calcAutomatedEffect should be typically off, or you will give DOUBLE resources for auto structures
@@ -959,7 +959,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		
-		//works very wrong on catmip
+		//works very wrong on catnip
 		var useHypHack = (res.name != "catnip") ? true : false;
 		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyp reduction
 		
@@ -1387,7 +1387,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	/**
-	 * Converts raw resource value (e.g. 12345.67890) to a formated representation (i.e. 12.34K)
+	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
 	 */ 
 	getDisplayValueExt: function(value, prefix, usePetTickHack){
@@ -1401,7 +1401,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value = value * this.rate;
 		}
 		
-		//shamelesly copied from Sandcastle Builder code
+		//shamelessly copied from Sandcastle Builder code
 		var postfixes=[
 			{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},
 			{limit:1e42,divisor:1e42,postfix:['W',' Wololo']},
@@ -1531,11 +1531,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var msg = "Are you sure that you want to reset? You will save your achievements and karma points.";
 		if (this.resPool.get("kittens").value > 70){
-			msg = "Are you sure that you want to reset? You will recieve extra karma and paragon points.";
+			msg = "Are you sure that you want to reset? You will receive extra karma and paragon points.";
 		}else if (this.resPool.get("kittens").value > 60){
-			msg = "Are you sure that you want to reset? You will recieve extra karma points.";
+			msg = "Are you sure that you want to reset? You will receive extra karma points.";
 		}else if (this.resPool.get("kittens").value <= 35){
-			msg = "Are you sure that you want to reset? You will recieve NO KARMA POINTS. You will save old karma points and achievements.";
+			msg = "Are you sure that you want to reset? You will receive NO KARMA POINTS. You will save old karma points and achievements.";
 		}
 		
 		if (!confirm(msg)){
@@ -1586,7 +1586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
-		// Hack to prevent an autosave from occuring before the reload completes
+		// Hack to prevent an autosave from occurring before the reload completes
 		this.isPaused = true;
 		window.location.reload();
 	},
