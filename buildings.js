@@ -505,7 +505,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 				
 				if (game.workshop.get("nuclearSmelters").researched){
-					self.effects["titaniumPerTick"] = 0.0015;
+					self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 					
 					var titanium = game.resPool.get("titanium");
 					titanium.value += self.effects["titaniumPerTick"] * self.on ;
