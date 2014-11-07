@@ -522,6 +522,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			this.bld.invalidateCachedEffects();
 			this.workshop.invalidateCachedEffects();
+			this.religion.invalidateCachedEffects();
 			
 			this.updateResources();
 		}), 5);		//once per 5 ticks
@@ -890,10 +891,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += resProduction * workshopResRatio;
 		}
 		
-		//BUILDINGS EFFECTS
-		var bldResRatio = this.bld.getEffect(res.name + "Ratio");
-		if (bldResRatio){
-			perTick += perTick * bldResRatio;
+		//BUILDINGS AND SPACE EFFECTS
+		var resRatio = this.getEffect(res.name + "Ratio");
+		if (resRatio){
+			perTick += perTick * resRatio;
 		}
 		
 		//let's mess a bit with a ice age
@@ -938,20 +939,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!res.transient){
 			perTick += perTick * this.bld.getEffect("productionRatio");
 		}
-		
-		//AUTOMATED STRUCTURES EFFECTS
-		if (calcAutomatedEffect){
-			var bldResRatioTick = this.bld.getEffect(res.name + "PerTick") + this.space.getEffect(res.name + "PerTick");
-			if (bldResRatioTick){
-				perTick += bldResRatioTick;
-			}
-		}
 
 		//SPECIAL STEAMWORKS HACK FOR COAL
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal ){
 			perTick += perTick * swEffectGlobal;
+		}
+		
+		//AUTOMATED STRUCTURES EFFECTS
+		if (calcAutomatedEffect){
+			var resRatioTick = this.getEffect(res.name + "PerTick");
+			if (resRatioTick){
+				perTick += resRatioTick;
+			}
 		}
 
 		//---------  RESOURCE CONSUMPTION -------------
@@ -1006,7 +1007,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Weather",
 			type: "ratio",
-			value: weatherMod
+			value: weatherMod - 1
 		});
 		
 		//----------- production -----------
@@ -1107,7 +1108,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (steamworks.on > 0 && swEffectGlobal ){
 			stack.push({
 				name: "Steamworks",
-				type: "fixed",
+				type: "ratio",
 				value: swEffectGlobal
 			});
 		}
@@ -1327,23 +1328,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = "";
 		var resStack = this.getResourcePerTickStack(res.name);
 
-		for (var i = 0; i < resStack.length; i++){
-			var stackElem = resStack[i];
-			
-			if (stackElem.length){
-				//TODO: use recursive iteration
-				for (elem in stackElem){
-					resString += "&nbsp;*&nbsp;" + this.getStackElemString(stackElem[elem]);
-				}
-			}
-			
-			if (!stackElem.value){
-				continue;
-			}
+		resString = this.processResourcePerTickStack(resStack, 0);
 
-			resString += this.getStackElemString(stackElem);
-		}
-		
 		if (res.perTickUI < 0) {
 			var toZero = res.value / (-res.perTickUI * this.rate);
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
@@ -1357,7 +1343,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		return resString;
 	},
-	
+
+	processResourcePerTickStack: function(resStack, depth){
+		var resString = "";
+		var hasFixed = false;
+		
+		for (var i = 0; i < resStack.length; i++){
+			var stackElem = resStack[i];
+			
+			if (stackElem.length){
+				var subStack = this.processResourcePerTickStack(stackElem, depth + 1);
+				if (subStack.length){
+					resString += subStack;
+					hasFixed = true;
+				}
+			}
+			
+			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
+				continue;
+			}
+
+			for (var j = 0; j < depth; j++){
+				resString += "*";
+			}
+
+			resString += this.getStackElemString(stackElem);
+			if (stackElem.type == "fixed") {
+				hasFixed = true;
+			}
+		}
+
+		return resString;
+	},
+
 	getStackElemString: function(stackElem){
 		var resString = stackElem.name + ":";
 			

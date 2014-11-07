@@ -13,7 +13,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				var effect = 0;
 
 				// Need a better way to do this...
-				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1){
+				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 && !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
@@ -505,7 +505,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				}
 
 				if (game.workshop.get("nuclearSmelters").researched){
-					self.effects["titaniumPerTick"] = 0.0015;
+					self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 
 					var titanium = game.resPool.get("titanium");
 					titanium.value += self.effects["titaniumPerTick"] * self.on ;
@@ -881,7 +881,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			var uranium = game.resPool.get("uranium");
 			var titanium = game.resPool.get("titanium");
 
-			var autoProdRatio = game.bld.getAutoProductionRatio();
+			var autoProdRatio = game.bld.getAutoProductionRatio(true);
 			self.effects["uraniumPerTick"] = 0.0025 * autoProdRatio;
 
 			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
