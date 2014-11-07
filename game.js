@@ -1719,23 +1719,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = "";
 		var resStack = this.getResourcePerTickStack(res.name);
 
-		for (var i = 0; i < resStack.length; i++){
-			var stackElem = resStack[i];
-			
-			if (stackElem.length){
-				//TODO: use recursive iteration
-				for (elem in stackElem){
-					resString += "&nbsp;*&nbsp;" + this.getStackElemString(stackElem[elem]);
-				}
-			}
-			
-			if (!stackElem.value){
-				continue;
-			}
+		resString = this.processResourcePerTickStack(resStack, 0);
 
-			resString += this.getStackElemString(stackElem);
-		}
-		
 		if (res.perTickUI < 0) {
 			var toZero = res.value / (-res.perTickUI * this.rate);
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
@@ -1749,7 +1734,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		return resString;
 	},
-	
+
+	processResourcePerTickStack: function(resStack, depth){
+		var resString = "";
+		var hasFixed = false;
+		
+		for (var i = 0; i < resStack.length; i++){
+			var stackElem = resStack[i];
+			
+			if (stackElem.length){
+				var subStack = this.processResourcePerTickStack(stackElem, depth + 1);
+				if (subStack.length){
+					resString += subStack;
+					hasFixed = true;
+				}
+			}
+			
+			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
+				continue;
+			}
+
+			for (var j = 0; j < depth; j++){
+				resString += "*";
+			}
+
+			resString += this.getStackElemString(stackElem);
+			if (stackElem.type == "fixed") {
+				hasFixed = true;
+			}
+		}
+
+		return resString;
+	},
+
 	getStackElemString: function(stackElem){
 		var resString = stackElem.name + ":";
 			
