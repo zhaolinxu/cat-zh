@@ -2,31 +2,31 @@
  * Weird cat science
  */
 dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicorn.core.TabManager, {
-	
+
 	game: null,
-	
+
 	hideResearched: false,	//hide researched techs
-	
+
 	//list of technologies
 	techs:[{
 		name: "calendar",
 		title: "Calendar",
-		
+
 		description: "Develops the ability to predict when the seasons will change. This ability is essential for advanced agriculture.",
 		effectDesc: "Calendar provides a way of more precise time tracking",
-		
+
 		unlocked: true,
 		researched: false,
 		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: ["agriculture"]
-			
+
 	},{
 		name: "agriculture",
 		title: "Agriculture",
-		
+
 		description: "The basis of all civilised life, Agriculture allows the working of land for food.",
 		effectDesc: "Unlocks Farmers and Barns",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 100,
@@ -37,10 +37,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "archery",
 		title: "Archery",
-		
+
 		description: "Ranged weaponry known as a 'Bow'.",
 		effectDesc: "Unlocks Hunters",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 300,
@@ -51,10 +51,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "mining",
 		title: "Mining",
-		
+
 		description: "Mining develops the ability to extract mineral resources from the bowels of Cath.",
 		effectDesc: "You can build Mines",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 600,
@@ -65,10 +65,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "metal",
 		title: "Metal working",
-		
+
 		description: "The first metal-working technology that provides your civilisation with sturdy, durable tools.",
 		effectDesc: "You can construct Smelters that convert ore into metal",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 800,
@@ -81,22 +81,22 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Animal husbandry",
 		description: "Domestication allows the access to various animal resources via the pasture.",
 		effectDesc: "Unlocks Pastures",
-		
+
 		unlocked: false,
 		researched: false,
-		cost: 500,	//mostly does nothing, so pirce is lower
+		cost: 500,	//mostly does nothing, so price is lower
 		unlocks: ["civil", "math", "construction", "brewery"],
 		handler: function(game){
 			//game.workshop.getCraft("leather").unlocked = true;
 		}
-		
+
 	},{
 		name: "brewery",
 		title: "Brewery",
-		
+
 		description: "Brewery is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
 		effectDesc: "Unlocks Catnip Enrichment.",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 1200,
@@ -109,7 +109,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Civil Service",
 		description: "The creation of the first true state organ provides many benefits related with better organization.",
 		effectDesc: "Unlocks detailed information about your population",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 1500,
@@ -119,7 +119,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Mathematics",
 		description: "Mathematics is the most basic building block upon which all physical science is based.",
 		effectDesc: "Allows construction of Academies, very efficient research buildings",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 1000,
@@ -132,7 +132,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Construction",
 		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox.",
 		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks Composite Bows",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 1300,
@@ -145,7 +145,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Engineering",
 		description: "Engineering is the science (or art perhaps) of designing complex materials, structures, devices, and systems.",
 		effectDesc: "Unlocks aqueducts",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 1500,
@@ -157,7 +157,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Currency",
 		description: "Currency represent a certain amount of wealth",
 		effectDesc: "Unlocks gold and trade",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 2200,
@@ -170,7 +170,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Writing",
 		description: "Writing is the art of recording information on material.",
 		effectDesc: "Unlocks Amphitheatres",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 3600,
@@ -183,7 +183,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Philosophy",
 		description: "Philosophy is the first abstract science developed by catkind.",
 		effectDesc: "Unlocks Temples",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 9500,
@@ -196,7 +196,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Machinery",
 		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
 		effectDesc: "Unlocks Steamworks, Crossbows, Printing press and Factory automation.",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 15000,
@@ -211,15 +211,15 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Steel",
 		description: "Development of the new Steel alloy advances further metal working.",
 		effectDesc: "Unlocks Coal and Steel production",
-		
+
 		unlocked: false,
 		researched: false,
 		cost: 12000,
 		unlocks: [],
 		handler: function(game){
-			
+
 			game.workshop.getCraft("steel").unlocked = true;
-			
+
 			game.workshop.get("deepMining").unlocked = true;
 			game.workshop.get("coalFurnace").unlocked = true;
 			game.workshop.get("combustionEngine").unlocked = true;
@@ -232,7 +232,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Theology",
 		description: "Theology is the study of religion",
 		effectDesc: "Unlocks religion",
-		
+
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -248,7 +248,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Astronomy",
 		description: "Astronomy is the study of objects in space.",
 		effectDesc: "Unlocks Observatory and Star charts",
-		
+
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -263,7 +263,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		title: "Navigation",
 		description: "Navigation allows serious advancements in sailing and shipbuilding technology.",
 		effectDesc: "Unlocks the construction of Trade Ships and oversea trade",
-		
+
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -273,10 +273,10 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: ["physics", "archeology", "architecture"],
 		handler: function(game){
 			game.workshop.getCraft("ship").unlocked = true;
-			
+
 			game.workshop.get("caravanserai").unlocked = true;
 			game.workshop.get("cargoShips").unlocked = true;
-			
+
 			game.workshop.get("astrolabe").unlocked = true;
 			game.workshop.get("titaniumMirrors").unlocked = true;
 			game.workshop.get("titaniumAxe").unlocked = true;
@@ -361,13 +361,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		],
 		unlocks: ["drama"],
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "drama",
 		title: "Drama and Poetry",
 		description: "Drama and poetry are both forms of artistic expression.\nThe former expressed through the use of visual performance, the latter through the written word.",
-		effectDesc: "Unlocks Festivals and Cultural artifacts(TBD)",
+		effectDesc: "Unlocks Festivals and Cultural artefacts(TBD)",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -376,7 +376,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		],
 		unlocks: [],
 		handler: function(game){
-			
+
 		}
 	},{
 		name: "archeology",
@@ -482,8 +482,8 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		handler: function(game){
 			game.workshop.get("pumpjack").unlocked = true;
 			game.workshop.getCraft("concrate").unlocked = true;
-			
-			//todo: move to the separate tech?
+
+			//TODO: move to the separate tech?
 			game.workshop.get("concreteWarehouses").unlocked = true;
 			game.workshop.get("concreteBarns").unlocked = true;
 			game.workshop.get("concreteHuts").unlocked = true;
@@ -589,7 +589,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "sattelites",
 		title: "Satellites",
 		description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
-		effectDesc: "Unlocks deployment of sattelites",
+		effectDesc: "Unlocks deployment of satellites",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -676,13 +676,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		handler: function(game){
 		}
 	}
-	
+
 	],
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
-	
+
 	get: function(techName){
 		for( var i = 0; i< this.techs.length; i++){
 			if (this.techs[i].name == techName){
@@ -692,30 +692,30 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		console.error("Failed to get tech for tech name '"+techName+"'");
 		return null;
 	},
-	
+
 	save: function(saveData){
 		saveData.science = {
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
 		}
 		saveData.science.hideResearched = this.hideResearched;
 	},
-	
-	load: function(saveData){		
+
+	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-			
+
 			var techs = saveData.science.techs;
 
 			if (saveData.science.techs.length){
 				for(var i = 0; i< saveData.science.techs.length; i++){
 					var savedTech = saveData.science.techs[i];
-					
+
 					if (savedTech != null){
 						var tech = this.game.science.get(savedTech.name);
 						if (tech){
 							tech.unlocked = savedTech.unlocked;
 							tech.researched = savedTech.researched;
-							
+
 							if (tech.researched && tech.handler){
 								tech.handler(this.game);	//update tech effects to keep saves consistent
 							}
@@ -724,11 +724,11 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 				}
 			}
 		}
-		
+
 		//re-unlock technologies in case we have modified something
 		for (var i = 0; i< this.techs.length; i++ ){
 			var tech = this.techs[i];
-			
+
 			if (tech.researched && tech.unlocks && tech.unlocks.length){
 				for (var j = 0; j < tech.unlocks.length; j++){
 					var newTech = this.get(tech.unlocks[j]);
@@ -736,35 +736,35 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 				}
 			}
 		}
-		
+
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	
+
 	techName: null,
-	
+
 	constructor: function(opts, game){
 		this.techName = opts.tech;
 	},
-	
+
 	getTech: function(){
 		return this.getTechByName(this.techName);
 	},
-	
+
 	getTechByName: function(name){
 		return this.game.science.get(name);
 	},
 
 	updateEnabled: function(){
 		this.inherited(arguments);
-		
+
 		var tech = this.getTech();
 		if (tech.researched /*|| !tech.unlocked*/){
 			this.setEnabled(false);
 		}
 	},
-	
+
 	getDescription: function(){
 		var tech = this.getTech();
 		if (!tech.researched){
@@ -773,7 +773,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 			return this.description + "<br>" + "Effect: " + tech.effectDesc;
 		}
 	},
-	
+
 	getName: function(){
 		var tech = this.getTech();
 		if (!tech.researched){
@@ -782,7 +782,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 			return this.name + " (complete)";
 		}
 	},
-	
+
 	updateVisible: function(){
 		var tech = this.getTech();
 		if (!tech.unlocked){
@@ -790,32 +790,32 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		}else{
 			this.setVisible(true);
 		}
-		
+
 		if (tech.researched && this.game.science.hideResearched){
 			this.setVisible(false);
 		}
 	},
-	
+
 	getTooltipHTML: function(btn){
 		var tech = this.getTech();
-		
-		var tooltip = dojo.create("div", { style: { 
+
+		var tooltip = dojo.create("div", { style: {
 			width: "280px",
 			minHeight:"150px"
 		}}, null);
-		
-		dojo.create("div", { 
-			innerHTML: this.getName(), 
+
+		dojo.create("div", {
+			innerHTML: this.getName(),
 			style: {
 				textAlign: "center",
 				width: "100%",
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px"
 		}}, tooltip);
-		
+
 		//----------- description -------
-		dojo.create("div", { 
-			innerHTML: this.getDescription(), 
+		dojo.create("div", {
+			innerHTML: this.getDescription(),
 			style: {
 				textAlign: "center",
 				width: "100%",
@@ -824,13 +824,13 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 				fontSize: "15px",
 				color: "gray"
 		}}, tooltip);
-		
+
 		this.renderPrices(tooltip);
 
 		//-------------- flavor stuff -------------
-		
-		dojo.create("div", { 
-			innerHTML: tech.flavour || "flavor text",
+
+		dojo.create("div", {
+			innerHTML: tech.flavour || "flavour text",
 			className: "flavor",
 			style: {
 				position: "absolute",
@@ -839,21 +839,21 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 				fontSize: "12px",
 				fontStyle: "italic"
 		}}, tooltip);
-			
+
 		return tooltip.outerHTML;
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.ui.tab, {
-	
+
 	metaphysicsPanel: null,
 
 	render: function(tabContainer){
-		
+
 		this.buttons = [];
-		
+
 		var hasCivil = this.game.science.get("civil");
-		
+
 		//--------------------------------------------------------------------
 		var div = dojo.create("div", { style: { float: "right"}}, tabContainer);
 		var groupCheckbox = dojo.create("input", {
@@ -864,38 +864,38 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				display: hasCivil ? "" : "none"
 			}
 		}, div);
-		
+
 		dojo.connect(groupCheckbox, "onclick", this, function(){
 			this.game.science.hideResearched = !this.game.science.hideResearched;
-			
+
 			dojo.empty(tabContainer);
 			this.render(tabContainer);
 		});
-		
+
 		dojo.create("label", { innerHTML: "Hide researched techs", for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
-		
+
 		var table = dojo.create("table", { className: "table", style:{
 			width: "100%"
 		}}, tabContainer);
-		
+
 		var tr = dojo.create("tr", null, table);
-		
+
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));
 
 		this.tdTop = tdTop;
-		
-		
+
+
 		var tr = dojo.create("tr", null, table)
-		
-		var tdLeft = dojo.create("td", null, tr);	
+
+		var tdLeft = dojo.create("td", null, tr);
 		var tdRight = dojo.create("td", null, tr);
 
-		
+
 		//this.inherited(arguments);
-		
-		
+
+
 		for (var i = 0; i < this.game.science.techs.length; i++){
 			var tech = this.game.science.techs[i];
 
@@ -907,30 +907,30 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.addButton(btn);
 			btn.render(tr);
 		}
-		
-		
-		//------------ metaphisics ----------------
+
+
+		//------------ metaphysics ----------------
 		if (this.game.science.get("metaphysics").researched){
 			var metaphysicsPanel = new com.nuclearunicorn.game.ui.Panel("Metaphysics");
 			var content = metaphysicsPanel.render(tabContainer);
-			
+
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
 	},
-	
+
 	update: function(){
 		this.inherited(arguments);
-		
+
 		/*if (this.metaphysicsPanel){
 			this.metaphysicsPanel.update();
 		}*/
 	},
-	
+
 	constructor: function(tabName, game){
 		var self = this;
 		this.game = game;
 	},
-	
+
 	createTechBtn: function(tech){
 		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.TechButton({
@@ -944,11 +944,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 						newTech.unlocked = true;
 					}
 				}
-				
+
 				if (tech.handler){
 					tech.handler(game);
 				}
-				
+
 			}, tech, self.game),
 			prices: tech.prices ? tech.prices : [{
 				name:"science",

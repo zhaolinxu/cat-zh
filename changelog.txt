@@ -10,7 +10,7 @@ First race arrives 15 year earlier after the reset
 Moon base should give correct population bonus
 Biolab will be togglable once Biofuel is researched
 Building type missions will display effects
-Lots of typo fixes by Aedx
+Lots of typo fixes by Ædx
 
 Unobtainium
 Moon Outpost
@@ -37,7 +37,7 @@ Senators and leader can be assigned, unassigned and promoted based on exp (no ef
 Space and missions (partly based on a space mod by Fringeware)
 
 Rocket recipe
-			
+
 Sattelites
 Orbital Engineering (TBD)
 Biochemistry
@@ -97,7 +97,7 @@ Nuclear Smelters
 
 Government (wip)
 
-Dragons trade chance is changed from 75% to 95% 
+Dragons trade chance is changed from 75% to 95%
 Uranium will now have 250 base limit
 Reactors will now improve uranium limit by 250
 
@@ -106,18 +106,18 @@ v 0.9.8.2 (2 oct)
 Changes by xranti:
 ___
 
-    The game will now render when new buildings are unlocked (http://redd.it/2hnj5z)
-    Removed render hacks from gather and refine catnip buttons (see above fix)
-    Fixed Super Unethical Climax achievement
-    Added bio lab bonus to the refine catnip button
-    Fixed coal rate display with Steel Plants upgrade (http://redd.it/2hh7it)
-    Hide 0 effects in building tooltips
-    Prevent crafting blueprints before researching physics (http://redd.it/2h4s74)
-    Preserve active astronomical events when clearing the log (http://redd.it/2hysk9)
-    Added x25 and x100 trade links (http://redd.it/2hd29d)
-    Fixed bug causing the game to crash when all your kittens die (issue #9)
-    Fixed transcendence save loading issues
-    
+	The game will now render when new buildings are unlocked (http://redd.it/2hnj5z)
+	Removed render hacks from gather and refine catnip buttons (see above fix)
+	Fixed Super Unethical Climax achievement
+	Added bio lab bonus to the refine catnip button
+	Fixed coal rate display with Steel Plants upgrade (http://redd.it/2hh7it)
+	Hide 0 effects in building tooltips
+	Prevent crafting blueprints before researching physics (http://redd.it/2h4s74)
+	Preserve active astronomical events when clearing the log (http://redd.it/2hysk9)
+	Added x25 and x100 trade links (http://redd.it/2hd29d)
+	Fixed bug causing the game to crash when all your kittens die (issue #9)
+	Fixed transcendence save loading issues
+
 	Fixed wood refine ratio in iron will mode
 
 <333
@@ -550,8 +550,8 @@ Zebras are now trading slabs to iron/plates instead of plates to coal/steel
 
 v 0.7.0.0
 
-Calciner: 
-Converts minerals and oil into iron and titanium [chemistry] 
+Calciner:
+Converts minerals and oil into iron and titanium [chemistry]
 (120 stell, 5 titanium, 5 bp, 300 oil)
 -1.5 min, -0.012 oil, +0.001 titanium, +0.15 iron
 

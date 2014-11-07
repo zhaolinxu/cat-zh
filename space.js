@@ -1,17 +1,17 @@
 /**
  * Behold the bringer of light!
- */ 
+ */
 dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.core.TabManager, {
-	
+
 	/*
 	 * Planets and celestial bodies from left to right:
-	 * 
-	 * Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath sattelite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
-	 * 
+	 *
+	 * Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
+	 *
 	 */
-	
+
 	game: null,
-	
+
 	programs: [{
 		name: "orbitalLaunch",
 		title: "Orbital Launch",
@@ -32,8 +32,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		}
 	},{
 		name: "sattelite",
-		title: "Deploy Sattelite",
-		description: "Deploy a sattelite. Sattelites improve your observatory effectiveness by 5% and produce starcharts",
+		title: "Deploy Satellite",
+		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
 		fuel: 10000,
 		prices: [
@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "moonMission",
 		title: "Moon Mission",
-		description: "Launch a rocket to Redmoon, a Cath planet sattelite",
+		description: "Launch a rocket to Redmoon, a Cath planet satellite",
 		unlocked: false,
 		researched: false,
 		fuel: 40000,
@@ -109,7 +109,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{ name : "science", val: 100000 }
 		],
 		chance: 90,
-		
+
 		upgradable: true,
 		togglable: 	true,
 		tunable: 	true,
@@ -125,7 +125,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			"unobtainiumPerTick" : 0.01
 		},
 		action: function(game, self){
-			
+
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
 			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
@@ -185,23 +185,23 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		handler: function(game, self){
 		}
 	}],
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
-	
-	
+
+
 	save: function(saveData){
 		saveData.space = {
 			programs: this.programs
 		}
 	},
-	
+
 	load: function(saveData){
 		if (!saveData.space){
 			return;
 		}
-		
+
 		var self = this;
 
 		if (saveData.space.programs){
@@ -222,7 +222,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			}
 		}
 	},
-	
+
 	update: function(){
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
@@ -231,21 +231,21 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			}
 		}
 	},
-	
+
 	getProgram: function(name){
 		return this.getMeta(name, this.programs);
 	},
-	
+
 	getEffect: function(name){
 		return this.getMetaEffect(name, {meta:this.programs, provider: {
 			getEffect: function(program, effectName){
 				if (!program.effects){
 					return 0;
 				}
-				
+
 				var val = program.togglable ? program.on : program.val;
-				return program.upgradable ? 
-					program.effects[effectName] * val : 
+				return program.upgradable ?
+					program.effects[effectName] * val :
 					program.effects[effectName];
 			}
 		}});
@@ -255,9 +255,9 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	program: null,
-	
+
 	constructor: function(opts, game) {
-		
+
 	},
 
 	getProgram: function(){
@@ -266,21 +266,21 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 		return this.program;
 	},
-	
+
 	getBuilding: function(){
 		return this.getProgram();
 	},
-	
+
 	hasSellLink: function(){
 		return false;
 	},
-	
+
 	getPrices: function(){
 	    var prices = dojo.clone(this.getProgram().prices);
 
 	    var program = this.getProgram();
 	    var ratio = program.priceRatio || 1.15;
-		 
+
 		var prices = dojo.clone(program.prices);
 		if (program.upgradable){
 			for (var i = 0; i< program.val; i++){
@@ -291,10 +291,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 		prices.push({name: "oil", val: program.fuel});
 		prices.push({name: "rocket", val: 1});
-	    
+
 	    return prices;
 	},
-	
+
 	updateVisible: function(){
 		var program = this.getProgram();
 		if (program.requiredTech){
@@ -308,24 +308,24 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 		this.setVisible(this.getProgram().unlocked);
 	},
-	
+
 	updateEnabled: function(){
 		this.inherited(arguments);
 		if (this.getProgram().researched && !this.getProgram().upgradable){
 			this.setEnabled(false);
 		}
 	},
-	
+
 	onClick: function(){
 		this.animate();
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
-			
+
 			this.payPrice();
-			
+
 			if (this.game.rand(100) > program.chance){
 				this.game.msg("Space launch failed catastrophically! >:", "important");
-				
+
 				var refundRatio = (this.game.rand(30) + 40) / 100;
 				var prices = this.getPrices();
 				for( var i = 0; i < prices.length; i++){
@@ -337,19 +337,19 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				this.game.msg("Kittens scavenged back " + (refundRatio*100).toFixed() + "% of resources");
 				return;
 			}
-					
+
 			if (program.upgradable){
 				program.val++;
 			}
-			
+
 			this.handler(this);
-			
-			
+
+
 			this.update();
 		}
 	},
 
-	
+
 	getName: function(){
 		var program = this.getProgram();
 		if (!program.upgradable && program.researched){
@@ -360,30 +360,30 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			return program.title;
 		}
 	},
-	
+
 	getDescription: function(){
 		var program = this.getProgram();
 		return program.description + "<br>Success chance: " + program.chance + "%";
 	},
-	
+
 	getTooltipHTML: function(btn){
-		 
-		var tooltip = dojo.create("div", { style: { 
+
+		var tooltip = dojo.create("div", { style: {
 			width: "280px",
 			minHeight:"50px"
 		}}, null);
-		
-		dojo.create("div", { 
-			innerHTML: this.getName(), 
+
+		dojo.create("div", {
+			innerHTML: this.getName(),
 			style: {
 				textAlign: "center",
 				width: "100%",
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px"
 		}}, tooltip);
-		
-		dojo.create("div", { 
-			innerHTML: this.getDescription(), 
+
+		dojo.create("div", {
+			innerHTML: this.getDescription(),
 			style: {
 				textAlign: "center",
 				width: "100%",
@@ -392,33 +392,33 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				fontSize: "15px",
 				color: "gray"
 		}}, tooltip);
-		
+
 		this.renderPrices(tooltip);
-		
+
 		var program = this.getProgram();
 		if (program.effects){
 			this.renderEffects(tooltip, program.effects);
 		}
-		
+
 		return tooltip.outerHTML;
 	 }
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.ui.tab, {
-	
+
 	GCPanel: null,
 	engineeringPanel: null,
 
 	constructor: function(){
-		
+
 	},
-	
+
 	render : function(container) {
 		var self = this;
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel("Ground Control", this.game.space);
 		var content = this.GCPanel.render(container);
 
-		dojo.forEach(this.game.space.programs, function(program, i){ 
+		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({
 				id: 		program.name,
 				name: 		program.title,
@@ -427,7 +427,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 				handler: function(btn){
 					var program = btn.getProgram();
 					program.researched = true;
-					
+
 					if (program.handler){
 						program.handler(btn.game, program);
 					}
@@ -436,11 +436,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});
-		
+
 		this.engineeringPanel = new com.nuclearunicorn.game.ui.Panel("Engineering", this.game.space);
 		var content = this.engineeringPanel.render(container);
-		
-		var buildRocketBtn = new com.nuclearunicorn.game.ui.ButtonModern({ 
+
+		var buildRocketBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: "Rocket",
 			description: "Construct a rocket",
 			prices: [
@@ -448,13 +448,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 				{ name: "oil", val: 5000 }
 			],
 			handler: function(btn){
-				btn.game.resPool.get("rocket").value++;	//TODO: i don't like polluting resource there, let's move this into the space manager variable?
+				btn.game.resPool.get("rocket").value++;	//TODO: I don't like polluting resource there, let's move this into the space manager variable?
 			}
 		}, this.game);
 		buildRocketBtn.render(content);
 		this.buildRocketBtn = buildRocketBtn;
 	},
-	
+
 	update: function(){
 		this.GCPanel.update();
 
