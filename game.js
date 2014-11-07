@@ -1399,7 +1399,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Weather",
 			type: "ratio",
-			value: weatherMod
+			value: weatherMod - 1
 		});
 		
 		//----------- production -----------
