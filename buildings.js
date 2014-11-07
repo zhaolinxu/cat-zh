@@ -1174,7 +1174,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		}
 		console.error("Could not find building data for '" + name + "'");
 	},
-	
+
 	getAutoProductionRatio: function(disableReactors){
 		var autoProdRatio = 1;
 				
