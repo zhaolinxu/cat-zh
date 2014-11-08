@@ -79,8 +79,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "field",
 		label: "Catnip field",
-		description: "Plant some catnip to grow it in the village.\n"+
-			"Fields have +50% production in spring and -75% in winter",
+		description: "Plant some catnip to grow in the village.\n"+
+			"Fields have +50% production in Spring and -75% production in Winter",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
 		effects: {
@@ -95,7 +95,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "pasture",
 		label: "Pasture",
-		description: "Provides alternative source of food, which reduces catnip consumption.",
+		description: "Provides an alternative source of food, which reduces catnip consumption.",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 100 }, { name : "wood", val: 10 }],
 		effects: {
@@ -106,7 +106,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		handler: function(btn){
 		},
 		val: 0,
-		flavor: "Take a pint o' milk, sir!"
+		flavor: "Take a pint o' milk, Sir!"
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
@@ -129,7 +129,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "hut",
 		label: "Hut",
-		description: "Build a hut ( each has a space for 2 kittens )",
+		description: "Build a hut (each has a space for 2 kittens)",
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
@@ -150,7 +150,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "logHouse",
 		label: "Log House",
-		description: "Build a house (each has a space for 1 kittens)",
+		description: "Build a house (each has a space for 1 kitten)",
 		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
@@ -167,7 +167,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "mansion",
 		label: "Mansion",
-		description: "A spacy mansion (each has a space for 1 kittens)",
+		description: "A spacy mansion (each has a space for 1 kitten)",
 		unlocked: false,
 		prices: [{ name : "slab", val: 200 }, { name : "steel", val: 100 }, { name : "titanium", val: 1 }],
 		effects: {
@@ -231,7 +231,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of the astronomical events by 0.5%\nTurning off observatories will only disable event bonus.",
+		description: "Increases the chance of astronomical events by 0.5%\nTurning off observatories will only disable event bonus.",
 		unlocked: false,
 		enabled: false,
 		togglable: true,
@@ -350,7 +350,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "harbor",
 		label: "Harbour",
-		description: "Provides a space to store resources",
+		description: "Provides a space to store your resources",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 5 }, { name : "slab", val: 50 }, { name : "plate", val: 75 }],
 		effects: {
@@ -425,7 +425,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "quarry",
 		label: "Quarry",
-		description: "Quarry improves your mining efficiency by 35% and produces a bit of coal",
+		description: "Quarries each improve your mining efficiency by 35% and produce a bit of coal",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "steel", val: 150 },
@@ -444,7 +444,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "smelter",
 		label: "Smelter",
-		description: "Smelts the ore into metal",
+		description: "Smelts ore into metal",
 		unlocked: false,
 		enabled: false,
 		on: 0,
@@ -516,7 +516,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "calciner",
 		label: "Calciner",
-		description: "Highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
+		description: "A highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
 		on: 0,
@@ -906,7 +906,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The hearth of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",//Should this be "heart"? ~Ædx
+		description: "The heart of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
@@ -933,7 +933,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	},{
 		name: "mint",
 		label: "Mint",
-		description: "Produce luxurious resource proportionally to your max catpower. Consumes catpower and a bit of gold.",
+		description: "Produce luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
 		unlocked: false,
 		togglable: true,
 		tunable: true,
@@ -1015,7 +1015,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "chapel",
 		label: "Chapel",
-		description: "Produce a bit of culture and faith per tick. May be improved with religious upgrades",
+		description: "Produces a bit of culture and faith per tick. May be improved with religious upgrades",
 		unlocked: false,
 		prices: [
 			{ name : "minerals", val: 2000 },
@@ -1038,7 +1038,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "temple",
 		label: "Temple",
-		description: "Temple of light. Produce culture. May be improved with Theology.",
+		description: "Temple of light. Produces culture. May be improved with Theology.",
 		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },
@@ -1106,7 +1106,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 	{
 		name: "unicornPasture",
 		label: "Unic. Pasture",
-		description: "Allows the taming of unicorns.\nReduces catnip consumption 0.15%",
+		description: "Allows the taming of unicorns.\nReduces catnip consumption by 0.15%",
 		unlocked: false,
 		prices: [
 			{ name : "unicorns", val: 2 }
@@ -1315,7 +1315,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		}
 
 		/*
-		 * Manpower hack for ironwill mode. 1000 manpower is absolutely required for civilization unlock.
+		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
 		 * There may be some microperf tweaks, but let's keep it simple
 		 */
 		 if (this.game.ironWill){
@@ -1536,7 +1536,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (building && building.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
-						title: "Sell building for 50% of the price",
+						title: "Sell building for 50% of its price",
 						style:{
 							paddingLeft: "2px",
 							float: "right",
@@ -1625,7 +1625,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if(building.val > 10) {
-			//Steamworks specifically can be too large if
+			//Steamworks specifically can be too large
 			dojo.setStyle(this.domNode,"font-size","90%");
 		}
 	},
@@ -1996,10 +1996,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		var bld = this.getBuilding();
 		this.renderEffects(tooltip, bld.effects);
 
-		//-------------- flavor stuff -------------
+		//-------------- flavour stuff -------------
 
 		dojo.create("div", {
-			innerHTML: bld.flavor || "flavor text",
+			innerHTML: bld.flavor || "flavour text",
 			className: "flavor",
 			style: {
 				display: "inline-block",
