@@ -151,7 +151,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "scholasticism",
 		label: "Scholasticism",
-		description: "Temples will give bonus to the science",
+		description: "Temples will give a bonus to science",
 		prices: [
 			{ name : "faith", val: 250 }
 		],
@@ -166,7 +166,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "goldenSpire",
 		label: "Golden Spire",
-		description: "Temples can generate 50% more max faith",
+		description: "Temples can store 50% more max faith",
 		prices: [
 			{ name : "faith", val: 350 },
 			{ name : "gold",  val: 150 }
@@ -245,7 +245,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "templars",
 		label: "Templars",
-		description: "Temples have small impact on the catpower limit",
+		description: "Temples have a small impact on the catpower limit",
 		prices: [
 			{ name : "faith", val: 3500 },
 			{ name : "gold",  val: 3000 }
@@ -261,7 +261,7 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 	},{
 		name: "apocripha",
 		label: "Apocrypha",
-		description: "Grants the ability to discard accumulated faith to improve prays effectiveness",
+		description: "Grants the ability to discard accumulated faith to improve effectiveness of praying",
 		prices: [
 			{ name : "faith", val: 5000 },
 			{ name : "gold",  val: 5000 }
