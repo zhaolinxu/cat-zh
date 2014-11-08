@@ -1,21 +1,23 @@
 v 1.0.2.2 (7 nov)
 
-Changes by Aedx:
+Changes by Ædx:
 ___
 
 	Fixed incorrect grassy theme layout
-	Typos
-	
+	Fixed dark theme colours
+	Fixed misc default theme bugs
+	Fixed typos
+
 Changes by xranti:
-__
-	Fixed steamworks coal multiplier on rate/tooltip 
-	Adjust listed titanium trade amount for ships 
-	Space ratio bonuses are now applied 
-	Reactors no longer affect accelerators 
-	Resource tooltips no longer show multipliers that don't apply 
-	Fixed religion effects 
-	Fixed weather ratio in resource tooltips 
-	Bio lab bonuses no longer get turned off 
+___
+	Fixed steamworks coal multiplier on rate/tooltip
+	Adjust listed titanium trade amount for ships
+	Space ratio bonuses are now applied
+	Reactors no longer affect accelerators
+	Resource tooltips no longer show multipliers that don't apply
+	Fixed religion effects
+	Fixed weather ratio in resource tooltips
+	Bio lab bonuses no longer get turned off
 	Faith/Magnetos/Reactors/Paragon now affect titanium from smelters
 
 Storage upgrades in workshop will no longer affect Accelerators

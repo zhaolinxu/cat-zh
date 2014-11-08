@@ -18,11 +18,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Launch a rocket to a space.",
 		researched: false,
 		unlocked: true,
-		fuel: 10000,
 		prices: [
-			{ name : "starchart", val: 250 },
-			{ name : "manpower", val: 5000 },
-			{ name : "science", val: 100000 }
+			{name: "starchart", val: 250},
+			{name: "manpower", val: 5000},
+			{name: "science", val: 100000},
+			{name: "oil", val: 10000},
+			{name: "rocket", val: 1}
 		],
 		chance: 90,	//success chance in %
 		handler: function(game, self){
@@ -35,11 +36,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		title: "Deploy Satellite",
 		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
-		fuel: 10000,
 		prices: [
-			{ name : "starchart", val: 325 },
-			{ name : "titanium", val: 2500 },
-			{ name : "science", val: 125000 }
+			{name: "starchart", val: 325},
+			{name: "titanium", val: 2500},
+			{name: "science", val: 125000},
+			{name: "oil", val: 10000},
+			{name: "rocket", val: 1}
 		],
 		chance: 80,
 		priceRatio: 1.08,
@@ -49,7 +51,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		handler: function(game, self){
 		},
 		effects: {
-			"observatoryRatio" : 0.05,
+			"observatoryRatio": 0.05,
 			"starchartPerTickBase": 0.001
 		}
 	},{
@@ -57,11 +59,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		title: "Deploy S. Station",
 		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
-		fuel: 30000,
 		prices: [
-			{ name : "starchart", val: 425 },
-			{ name : "alloy", 	val: 750 },
-			{ name : "science", val: 150000 }
+			{name: "starchart", val: 425},
+			{name: "alloy", 	val: 750},
+			{name: "science", val: 150000},
+			{name: "oil", val: 30000},
+			{name: "rocket", val: 1}
 		],
 		chance: 90,
 		priceRatio: 1.12,
@@ -72,7 +75,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		},
 		effects: {
 			"scienceRatio": 0.5,
-			"maxKittens" : 2
+			"maxKittens": 2
 		}
 	},{
 		name: "moonMission",
@@ -80,11 +83,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Launch a rocket to Redmoon, a Cath planet satellite",
 		unlocked: false,
 		researched: false,
-		fuel: 40000,
 		prices: [
-			{ name : "starchart", val: 500 },
-			{ name : "titanium", val: 5000 },
-			{ name : "science", val: 125000 }
+			{name: "starchart", val: 500},
+			{name: "titanium", val: 5000},
+			{name: "science", val: 125000},
+			{name: "oil", val: 40000},
+			{name: "rocket", val: 1}
 		],
 		chance: 75,
 		upgradable: false,
@@ -97,16 +101,18 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 	},{
 		name: "moonOutpost",
 		title: "Lunar Outpost",
-		description: "Deploy a nuclear powered mining outpost on a Redmoon",
+		description: "Deploy a nuclear powered mining outpost on Redmoon",
 		unlocked: false,
 		fuel: 50000,
 		priceRatio: 1.12,
 		prices: [
-			{ name : "starchart", val: 650 },
-			{ name : "uranium",  val: 500 },
-			{ name : "alloy",    val: 750 },
-			{ name : "concrate", val: 150 },
-			{ name : "science", val: 100000 }
+			{name: "starchart", val: 650},
+			{name: "uranium",  val: 500},
+			{name: "alloy",    val: 750},
+			{name: "concrate", val: 150},
+			{name: "science", val: 100000},
+			{name: "oil", val: 50000},
+			{name: "rocket", val: 1}
 		],
 		chance: 90,
 
@@ -122,7 +128,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		on:	  0,
 		effects: {
 			"uraniumPerTick": -0.2,
-			"unobtainiumPerTick" : 0.01
+			"unobtainiumPerTick": 0.01
 		},
 		action: function(game, self){
 
@@ -139,14 +145,15 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Establish a base on a surface of Redmoon",
 		unlocked: false,
 		researched: false,
-		fuel: 65000,
 		priceRatio: 1.12,
 		prices: [
-			{ name : "starchart", val: 700 },
-			{ name : "titanium", val: 9500 },
-			{ name : "concrate", val: 250 },
-			{ name : "science", val: 100000 },
-			{ name : "unobtainium", val: 50 }
+			{name: "starchart", val: 700},
+			{name: "titanium", val: 9500},
+			{name: "concrate", val: 250},
+			{name: "science", val: 100000},
+			{name: "unobtainium", val: 50},
+			{name: "oil", val: 65000},
+			{name: "rocket", val: 1}
 		],
 		chance: 90,
 		upgradable: false,
@@ -158,11 +165,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
 		unlocked: false,
 		researched: false,
-		fuel: 50000,
 		prices: [
-			{ name : "starchart", val: 1000 },
-			{ name : "titanium", val: 7000 },
-			{ name : "science", val: 175000 }
+			{name: "starchart", val: 1000},
+			{name: "titanium", val: 7000},
+			{name: "science", val: 175000},
+			{name: "oil", val: 50000},
+			{name: "rocket", val: 1}
 		],
 		chance: 50,
 		upgradable: false,
@@ -174,11 +182,12 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
 		unlocked: false,
 		researched: false,
-		fuel: 65000,
 		prices: [
-			{ name : "starchart", val: 1500 },
-			{ name : "titanium", val: 9000 },
-			{ name : "science", val: 200000 }
+			{name: "starchart", val: 1500},
+			{name: "titanium", val: 9000},
+			{name: "science", val: 200000},
+			{name: "oil", val: 65000},
+			{name: "rocket", val: 1}
 		],
 		chance: 50,
 		upgradable: false,
@@ -243,9 +252,9 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 					return 0;
 				}
 
-				var val = program.togglable ? program.on : program.val;
+				var val = program.togglable ? program.on: program.val;
 				return program.upgradable ?
-					program.effects[effectName] * val :
+					program.effects[effectName] * val:
 					program.effects[effectName];
 			}
 		}});
@@ -276,23 +285,24 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
 	getPrices: function(){
-	    var prices = dojo.clone(this.getProgram().prices);
+		var prices = dojo.clone(this.getProgram().prices);
 
-	    var program = this.getProgram();
-	    var ratio = program.priceRatio || 1.15;
+		var program = this.getProgram();
+		var ratio = program.priceRatio || 1.15;
 
 		var prices = dojo.clone(program.prices);
 		if (program.upgradable){
-			for (var i = 0; i< program.val; i++){
-			  for( var j = 0; j < prices.length; j++){
-				 prices[j].val = prices[j].val * ratio;
-			  }
+			for (var i = 0; i < program.val; i++) {
+				for(var j = 0; j < prices.length; j++) {
+					//Hack to avoid increase in rocket or fuel price:
+					if (prices[j].name !== "oil" && prices[j].name !== "rocket") {
+						prices[j].val = prices[j].val * ratio;
+					}
+				}
 			}
 		}
-		prices.push({name: "oil", val: program.fuel});
-		prices.push({name: "rocket", val: 1});
 
-	    return prices;
+		return prices;
 	},
 
 	updateVisible: function(){
@@ -368,7 +378,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 	getTooltipHTML: function(btn){
 
-		var tooltip = dojo.create("div", { style: {
+		var tooltip = dojo.create("div", {style: {
 			width: "280px",
 			minHeight:"50px"
 		}}, null);
@@ -401,7 +411,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 
 		return tooltip.outerHTML;
-	 }
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.ui.tab, {
@@ -413,7 +423,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 	},
 
-	render : function(container) {
+	render: function(container) {
 		var self = this;
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel("Ground Control", this.game.space);
 		var content = this.GCPanel.render(container);
@@ -444,8 +454,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			name: "Rocket",
 			description: "Construct a rocket",
 			prices: [
-				{ name: "alloy", val: 50 },
-				{ name: "oil", val: 5000 }
+				{name: "alloy", val: 50},
+				{name: "oil", val: 5000}
 			],
 			handler: function(btn){
 				btn.game.resPool.get("rocket").value++;	//TODO: I don't like polluting resource there, let's move this into the space manager variable?
