@@ -62,6 +62,8 @@ dojo.declare("com.nuclearunicorn.game.religion.ReligionManager", com.nuclearunic
 				}
 			});
 		}
+
+		this.invalidateCachedEffects();
 	},
 
 	update: function(){
