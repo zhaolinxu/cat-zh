@@ -230,7 +230,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (!zebras.value && archery.researched){
 				zebras.value += 1;
 				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
-			} else if ( zebras.value > 0 && zebras.value < this.game.karmaZebras){	//zebra revolution
+			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras){	//zebra revolution
 				if (this.game.rand(100000) <= 500){
 					zebras.value += 1;
 					this.game.msg("Another zebra hunter joins your village.");
