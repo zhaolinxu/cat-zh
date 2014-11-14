@@ -311,12 +311,15 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 			var maxValue = (this.game.bld.effectsBase[res.name + "Max"] || 0);
 			for (var j = 0; j < this.game.bld.buildingsData.length; j++){
 				var bld = this.game.bld.buildingsData[j];
-				if (bld.name != "accelerator"){
+				if (bld.name != "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
 					maxValue += bld.effects[res.name + "Max"] * bld.val || 0;
+				}else{
+					maxValue *= (1 + this.game.workshop.getEffect(bld.name + "Ratio"));
 				}
 			}
 			
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
+			maxValue += this.game.space.getEffect(res.name + "Max");
 			
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");

@@ -332,7 +332,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "chemistry",
 		title: "Chemistry",
-		description: "TBD",
+		description: "The discovery of Chemistry allows the deeper study and understanding of natural elements and their interaction. As a result new resources may be unlocked.",
 		effectDesc: "Unlocks Oil and Oil Wells.",
 		unlocked: false,
 		researched: false,
@@ -342,7 +342,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		],
 		unlocks: [],
 		handler: function(game){
-			game.workshop.getCraft("alloy").unlocked = true;	//TODO: replace with workshop.unlockCraft("alloy");
+			game.workshop.getCraft("alloy").unlocked = true;
 			game.workshop.get("alloyAxe").unlocked = true;
 			game.workshop.get("alloyBarns").unlocked = true;
 			game.workshop.get("alloyWarehouses").unlocked = true;
@@ -602,7 +602,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 	},{
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
-		description: "TBD",
+		description: "Orbital Engineering allows kitten civilization to develop advanced space projects.",
 		effectDesc: "Unlocks Space Stations and the Hubble Telescope",
 		unlocked: false,
 		researched: false,
@@ -610,16 +610,31 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			{name : "science", val: 250000},
 			{name: 	"blueprint", val: 250}
 		],
-		unlocks: [],
+		unlocks: ["exogeology"],
 		handler: function(game){
 			game.workshop.get("hubbleTelescope").unlocked = true;
+		}
+	},{
+		name: "exogeology",
+		title: "Exogeology",
+		description: "Exogeology or Planetary Geology studies extraterestial metals and minerals.",
+		effectDesc: "Unlocks various Unobtainium upgrades",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 275000},
+			{name: 	"blueprint", val: 250}
+		],
+		unlocks: ["exogeology"],
+		handler: function(game){
+			game.workshop.get("unobtainiumReflectors").unlocked = true;
 		}
 	},
 	{
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanoassemblers (TBD), Nanosuits and Augmentations",
+		effectDesc: "Unlocks Nanosuits and Augmentations",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -651,7 +666,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		name: "dimensionalPhysics",
 		title: "Dimensional Physics",
 		description: "Dimensional Physics explore the concepts of space and time",
-		effectDesc: "Unlocks Energy Rifts",
+		effectDesc: "Unlocks Energy Rifts and LHC",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -660,12 +675,13 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("energyRifts").unlocked = true;
+			game.workshop.get("LHC").unlocked = true;
 		}
 	},{
 		name: "chronophysics",
 		title: "Chronophysics",
-		description: "TBD",
-		effectDesc: "Unlocks Chronospheres (TBD)",
+		description: "Chronophysics studies the nature of time and possibilities of temporal manipulations",
+		effectDesc: "Unlocks Chronospheres (TBD) and Stasis Chambers",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -674,6 +690,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		],
 		unlocks: [],
 		handler: function(game){
+			game.workshop.get("stasisChambers").unlocked = true;
 		}
 	}
 

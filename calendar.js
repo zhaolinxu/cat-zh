@@ -136,7 +136,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 				starchart.value +=1;
 			}
-		}
+		}//this.observeHandler
 
 		if (this.game.rand(10000) < chance &&
 			this.game.bld.get("library").val > 0){
@@ -155,7 +155,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 
-			}
+			}//observeTimeout
+			
 			if (this.observeBtn){
 				dojo.hitch(this, observeTimeout)();
 			}
@@ -164,22 +165,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//---------------- SETI hack-------------------
 			if (this.game.workshop.get("seti").researched){
 				this.observeHandler();
-				return;
+			}else{
+				var gameLog = dojo.byId("gameLog");
+				var node = this.game.msg("A rare astronomical event occurred in the sky");
+
+				this.observeBtn = dojo.create("input", {
+					id: "observeBtn",
+					type: "button",
+					value: "Observe"
+				}, node);
+
+				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
+
+				var seconds = 60;
+				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), seconds * 1000);
 			}
-
-			var gameLog = dojo.byId("gameLog");
-			var node = this.game.msg("A rare astronomical event occurred in the sky");
-
-			this.observeBtn = dojo.create("input", {
-				id: "observeBtn",
-				type: "button",
-				value: "Observe"
-			}, node);
-
-			dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
-
-			var seconds = 60;
-			this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), seconds * 1000);
 		}
 
 

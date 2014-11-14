@@ -357,7 +357,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 		}
-	},{
+	},
+	//==================== accelerators ==============
+	{
 		name: "energyRifts",
 		title: "Energy Rifts",
 		description: "Accelerators will now create rifts to a pocket dimension",
@@ -372,8 +374,37 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 		}
+	},{
+		name: "statisChambers",
+		title: "Statis Chambers",
+		description: "Energy Rifts are 75% more effective",
+		effects: {
+			"acceleratorRatio" : 0.75
+		},
+		prices:[
+			{ name : "science", val: 235000 },
+			{ name : "alloy", val: 	 250 },
+			{ name : "uranium", val: 2500 },
+			{ name : "timeCrystal", val: 5 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "lhc",
+		title: "LHC",
+		description: "Every accelerator will provide a bonus to the maximum science",
+		prices:[
+			{ name : "science", val: 250000 },
+			{ name : "unobtainium", val: 100 },
+			{ name : "alloy", val: 150 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
 	},
-
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
@@ -946,6 +977,21 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		flavor: "Did that light spot just move?"
 	},
+	{
+		name: "unobtainiumReflectors",
+		title: "Unobtainium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to the Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "unobtainium", val: 75 },
+			{ name : "starchart",  val: 750 },
+			{ name : "science",  val: 250000 },
+		],
+		unlocked: false,
+		researched: false
+	},
 	//---------------------- oil ---------------
 	{
 		name: "pumpjack",
@@ -1070,7 +1116,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		title: "Hubble Space Telescope",
 		description: "Improves effectiveness of satellites by by 30%",
 		effects: {
-			"starchartRatio" : 0.30
+			"starchartGlobalRatio" : 0.30
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1250 },

@@ -121,8 +121,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		tunable: 	true,
 
 		handler: function(game, self){
-			game.workshop.get("unobtainiumAxe").unlocked = true;
-			game.workshop.get("unobtainiumSaw").unlocked = true;
+			//game.workshop.get("unobtainiumAxe").unlocked = true;
+			//game.workshop.get("unobtainiumSaw").unlocked = true;
 		},
 		val:  0,
 		on:	  0,
@@ -156,6 +156,16 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			{name: "rocket", val: 1}
 		],
 		chance: 90,
+		effects: {
+			"catnipMax" 	: 45000,
+			"woodMax"		: 25000,
+			"mineralsMax"	: 30000,
+			"ironMax"		: 9000,
+			"coalMax"		: 3500,
+			"goldMax"		: 500,
+			"titaniumMax"	: 1250,
+			"oilMax"		: 3500
+		},
 		upgradable: false,
 		handler: function(game, self){
 		}

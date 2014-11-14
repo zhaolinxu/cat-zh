@@ -890,6 +890,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (workshopResRatio && res.name != "coal"){
 			perTick += resProduction * workshopResRatio;
 		}
+		var workshopResGlobalRatio = this.workshop.getEffect(res.name+"GlobalRatio");
+		perTick *= (1 + workshopResGlobalRatio);
 		
 		//BUILDINGS AND SPACE EFFECTS
 		var resRatio = this.getEffect(res.name + "Ratio");
@@ -1031,6 +1033,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//<----		
 		stack.push(villageStack);
 		
+		stack.push({
+			name: "Upgrades",
+			type: "ratio",
+			value: this.workshop.getEffect(res.name + "GlobalRatio")
+		});
+
 		stack.push({
 			name: "Buildings",
 			type: "ratio",

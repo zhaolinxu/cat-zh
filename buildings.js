@@ -888,6 +888,10 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
 				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
+			
+			if (!self.effects["scienceMax"] && game.workshop.get("lhc").researched){
+				self.effects["scienceMax"] = 2500;
+			}
 
 			//------------- limit upgrades ------------
 			if (game.workshop.get("energyRifts").researched){
@@ -1068,38 +1072,38 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			self.effects["culturePerTickBase"] = 0.1;
 			var stainedGlass = game.religion.getRU("stainedGlass");
 			if (stainedGlass.researched){
-				self.effects["culturePerTickBase"] += 0.05 * stainedGlass.val;
+				self.effects["culturePerTickBase"] += 0.05 * (stainedGlass.val-1);
 			}
 
 			var scholastics = game.religion.getRU("scholasticism");
 			if (scholastics.researched){
-				self.effects["scienceMax"] = 500 + 100 * scholastics.val;
+				self.effects["scienceMax"] = 500 + 100 * (scholastics.val-1);
 			}
 
 			var sunAltar = game.religion.getRU("sunAltar");
 			if (sunAltar.researched){
-				self.effects["faithMax"] += 50 + 50 * sunAltar.val;
+				self.effects["faithMax"] += 50 + 50 * (sunAltar.val-1);
 			}
 
 			var goldenSpire = game.religion.getRU("goldenSpire");
 			if (goldenSpire.researched){
-				self.effects["faithMax"] += self.effects["faithMax"] * ( 0.5 + 0.1 * goldenSpire.val);
+				self.effects["faithMax"] += self.effects["faithMax"] * ( 0.5 + 0.1 * (goldenSpire.val-1));
 			}
 
 			var basilica = game.religion.getRU("basilica");
 			if (basilica.researched){
 				self.effects["cultureMax"] = 75 + 50 * basilica.val;
-				self.effects["culturePerTickBase"] = self.effects["culturePerTickBase"] + 0.2 + 0.05 * basilica.val;
+				self.effects["culturePerTickBase"] = self.effects["culturePerTickBase"] + 0.2 + 0.05 * (basilica.val-1);
 			}
 
 			var sunAltar = game.religion.getRU("sunAltar");
 			if (sunAltar.researched){
-				self.effects["happiness"] = 0.5 + 0.1 * sunAltar.val;
+				self.effects["happiness"] = 0.5 + 0.1 * (sunAltar.val-1);
 			}
 
 			var templars = game.religion.getRU("templars");
 			if (templars.researched){
-				self.effects["manpowerMax"] = 75 + 25 * templars.val;
+				self.effects["manpowerMax"] = 75 + 25 * (templars.val-1);
 			}
 		}
 	},

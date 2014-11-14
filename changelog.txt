@@ -1,8 +1,20 @@
+v 1.0.3.2 (15 nov)
+
+Fixed SETI preventing other random events
+Religion upgrades will not give double bonuses if transcendece is not researched
+Moon base will now grant storage bonus
+
+Stasis Chambers
+Unobtainium Reflectors
+LHC
+Exogeology
+
+
 v 1.0.2.2 (7 nov)
 
 Changes by Ædx:
 ___
-
+	Fixed space program purchases not highlighting oil and rockets (http://redd.it/2lm044)
 	Fixed incorrect grassy theme layout
 	Fixed dark theme colours
 	Fixed misc default theme bugs
