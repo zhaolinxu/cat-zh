@@ -675,7 +675,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("energyRifts").unlocked = true;
-			game.workshop.get("LHC").unlocked = true;
+			game.workshop.get("lhc").unlocked = true;
 		}
 	},{
 		name: "chronophysics",
