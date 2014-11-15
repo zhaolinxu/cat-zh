@@ -892,17 +892,17 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			if (!self.effects["scienceMax"] && game.workshop.get("lhc").researched){
 				self.effects["scienceMax"] = 2500;
 			}
-
 			//------------- limit upgrades ------------
+			var capRatio = (1+game.workshop.getEffect("acceleratorRatio"));
 			if (game.workshop.get("energyRifts").researched){
 				dojo.mixin(self.effects, {
-					"catnipMax" 	: 30000,
-					"woodMax"		: 20000,
-					"mineralsMax"	: 25000,
-					"ironMax"		: 7500,
-					"coalMax"		: 2500,
-					"goldMax"		: 250,
-					"titaniumMax"	: 750
+					"catnipMax" 	: 30000 * capRatio,
+					"woodMax"		: 20000 * capRatio,
+					"mineralsMax"	: 25000 * capRatio,
+					"ironMax"		: 7500 * capRatio,
+					"coalMax"		: 2500 * capRatio,
+					"goldMax"		: 250 * capRatio,
+					"titaniumMax"	: 750 * capRatio
 				});
 			}
 		}

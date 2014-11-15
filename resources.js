@@ -313,8 +313,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 				var bld = this.game.bld.buildingsData[j];
 				if (bld.name != "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
 					maxValue += bld.effects[res.name + "Max"] * bld.val || 0;
-				}else{
-					maxValue *= (1 + this.game.workshop.getEffect(bld.name + "Ratio"));
 				}
 			}
 			
@@ -340,7 +338,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
 				}
 			}
-			
 			//------ + fixed resource bonus from accelerator and similar structures
 			maxValue += (this.game.bld.get("accelerator").effects[res.name + "Max"] * this.game.bld.get("accelerator").val) || 0;
 		

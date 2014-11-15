@@ -375,8 +375,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		handler: function(game){
 		}
 	},{
-		name: "statisChambers",
-		title: "Statis Chambers",
+		name: "stasisChambers",
+		title: "Stasis Chambers",
 		description: "Energy Rifts are 75% more effective",
 		effects: {
 			"acceleratorRatio" : 0.75
@@ -400,6 +400,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "unobtainium", val: 100 },
 			{ name : "alloy", val: 150 },
 		],
+		effects: {
+		},
 		unlocked: false,
 		researched: false,
 		handler: function(game){
@@ -1279,7 +1281,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 
 		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
 			if (upgrade.researched){
-				return upgrade.effects[name];
+				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
 	},
@@ -1327,11 +1329,13 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 					if (savedUpgrade != null){
 						var upgrade = this.game.workshop.get(savedUpgrade.name);
 
-						upgrade.unlocked = savedUpgrade.unlocked;
-						upgrade.researched = savedUpgrade.researched;
+						if (upgrade){
+							upgrade.unlocked = savedUpgrade.unlocked;
+							upgrade.researched = savedUpgrade.researched;
 
-						if (upgrade.researched && upgrade.handler){
-							upgrade.handler(this.game);	//just in case update workshop upgrade effects
+							if (upgrade.researched && upgrade.handler){
+								upgrade.handler(this.game);	//just in case update workshop upgrade effects
+							}
 						}
 					}
 				}
