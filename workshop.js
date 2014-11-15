@@ -400,6 +400,8 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 			{ name : "unobtainium", val: 100 },
 			{ name : "alloy", val: 150 },
 		],
+		effects: {
+		},
 		unlocked: false,
 		researched: false,
 		handler: function(game){
@@ -1279,7 +1281,7 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 
 		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
 			if (upgrade.researched){
-				return upgrade.effects[name];
+				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
 	},

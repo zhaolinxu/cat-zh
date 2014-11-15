@@ -166,7 +166,10 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			"titaniumMax"	: 1250,
 			"oilMax"		: 3500
 		},
-		upgradable: false,
+		upgradable: true,
+		togglable: 	false,
+		tunable: 	false,
+		val: 0,
 		handler: function(game, self){
 		}
 	},{
