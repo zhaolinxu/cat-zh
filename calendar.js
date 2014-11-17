@@ -315,6 +315,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//this.game.msg("Workshop automation ready for operation");
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}
+		
+		if ( this.year % 1000 === 0 ){
+			this.game.paragonPoints++;
+		}
 
 		/**
 		 * Endgame players will freak out so we will introduce it gradually
