@@ -316,9 +316,6 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 				}
 			}
 			
-			maxValue += this.game.workshop.getEffect(res.name + "Max");
-			maxValue += this.game.space.getEffect(res.name + "Max");
-			
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
@@ -345,6 +342,7 @@ dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.
 			
 			// fixed bonus
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
+			maxValue += this.game.space.getEffect(res.name + "Max");
 			
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");

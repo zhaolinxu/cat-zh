@@ -416,6 +416,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	timer: null,
 	
+	//===================
+	//	retarded stuff
+	//===================
+	
+	nerfs: 0,
+	sorrow: 0,
+	
 	//===========================================
 	//game-related flags that will go to the save
 	//===========================================
@@ -596,6 +603,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
 			
+			nerfs: this.nerfs,
+			sorrow: this.sorrow,
+			
 			opts : this.opts
 		};
 		
@@ -689,6 +699,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
+			
+			//-------------------------------------------
+			this.sorrow = data.sorrow || 0;
+			var nerfs = data.nerfs || 0;
+
+			if (nerfs < this.nerfs && this.calendar.year >= 100){
+				this.sorrow++;
+				this.msg("Black rain is falling over the village");
+			}
+			if (this.sorrow){
+				$("#sorrowTooltip").html("BLS: " + this.sorrow + "%");
+			}
+			//-------------------------------------------
+			
 			
 			// ora ora
 			if (data.opts){
@@ -1178,8 +1202,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			  duration: 1200,
 			}).play();
 		}
-		
-		
+
 		this.bld.update();
 
 		//business logic goes there
@@ -1592,7 +1615,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
-		this.karmaZebras += this.resPool.get("zebras").value;
+		//that's all folks
+		if (this.resPool.get("zebras").value >= 10 ){
+			this.karmaZebras += (this.resPool.get("zebras").value * 0.1).toFixed();
+		}else if (this.resPool.get("zebras").value > 0 ){
+			this.karmaZebras++;
+		}
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		dojo.mixin(lsData.game, { 
@@ -1626,9 +1654,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	updateKarma: function(){
 		var stripe = 5;	//initial amount of kittens per stripe
 		var karma = this.getTriValue(this.karmaKittens, stripe);
+
+		var milleniums = (this.calendar.year / 1000).toFixed();
+		if (this.paragonPoints < milleniums){
+			this.paragonPoints = parseInt(milleniums);
+		}
 		
 		this.resPool.get("karma").value = karma;
-		this.resPool.get("paragon").value = this.paragonPoints;
+		this.resPool.get("paragon").value = parseInt(this.paragonPoints);
 	},
 	
 	getTriValue: function(value, stripe){
