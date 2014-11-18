@@ -203,7 +203,11 @@ dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.T
 		var zebras = this.game.resPool.get("zebras");
 		if (zebras.value > 0){
 			res["manpower"] = res["manpower"] ? res["manpower"] : 0;
-			res["manpower"] += 0.15 * zebras.value;	//zebras are a bit stronger than kittens
+			res["manpower"] += 0.15;	//zebras are a bit stronger than kittens
+		}
+		if (zebras.value > 1){
+			 res["manpower"] += (zebras.value-1) * 0.05;
+			 res["manpower"] = this.game.bld.getHyperbolicEffect(res["manpower"], 2);
 		}
 
 		return res;
