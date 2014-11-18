@@ -693,7 +693,6 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			game.workshop.get("stasisChambers").unlocked = true;
 		}
 	}
-
 	],
 
 	constructor: function(game){
@@ -754,6 +753,15 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 			}
 		}
 
+	},
+	
+	unlockAll: function(){
+		for (var i = 0; i< this.techs.length; i++ ){
+			var tech = this.techs[i];
+			tech.researched = true;
+			tech.unlocked = true;
+		}
+		this.game.msg("All techs are unlocked!");
 	}
 });
 

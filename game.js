@@ -1572,7 +1572,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg = this.totalUpdateTime / this.ticks;
 			
 			if (tsDiff < 10) {tsDiff = 10;}
-			$("#devPanel")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
+			$("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
 		}
 	},
 	
@@ -1615,14 +1615,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.paragonPoints += (this.resPool.get("kittens").value - 70);
 		}
 		
+		this.karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
-		if (this.resPool.get("zebras").value >= 10 ){
-			this.karmaZebras += (this.resPool.get("zebras").value * 0.1).toFixed();
-		}else if (this.resPool.get("zebras").value > 0 ){
-			this.karmaZebras++;
+		
+		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
+		var totalScience = 0;
+		var bonusZebras = 0;
+		if (this.science.get("archery").researched && this.karmaZebras < 10){
+			bonusZebras = 1;
 		}
+		for (var i = 0; i < this.science.techs.length; i++){
+			var tech = this.science.techs[i];
+			if (tech.researched){
+				if( tech.cost){
+					totalScience += tech.cost;
+				}else{
+					for (j in tech.prices){
+						if (tech.prices[j].name == "science"){
+							totalScience += tech.prices[j].val;
+						}
+					}
+				}
+			}
+		}
+		bonusZebras += Math.floor(this.bld.getHyperbolicEffect(totalScience / 10000, 100));
+		if (this.resPool.get("zebras").value > 0 ){
+			this.karmaZebras += bonusZebras;
+		}
+		//------------------------------------------------------------------------------------------------------
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+		if (!lsData){
+			lsData = {game: {}};
+		}
 		dojo.mixin(lsData.game, { 
 			karmaKittens: this.karmaKittens,
 			karmaZebras: this.karmaZebras,
@@ -1655,13 +1680,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var stripe = 5;	//initial amount of kittens per stripe
 		var karma = this.getTriValue(this.karmaKittens, stripe);
 
-		var milleniums = (this.calendar.year / 1000).toFixed();
+		var milleniums = Math.floor(this.calendar.year / 1000);
 		if (this.paragonPoints < milleniums){
 			this.paragonPoints = parseInt(milleniums);
 		}
 		
 		this.resPool.get("karma").value = karma;
 		this.resPool.get("paragon").value = parseInt(this.paragonPoints);
+		
+		if (this.karmaZebras){
+			this.resPool.get("zebras").maxValue = this.karmaZebras;
+		}
 	},
 	
 	getTriValue: function(value, stripe){
