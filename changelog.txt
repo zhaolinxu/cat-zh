@@ -1,3 +1,17 @@
+v 1.0.3.3 (15 nov)
+
+Unobtainium capacity will be limited by moon bases (with small base amount)
+Unobtainium output of moon bases was reduced by ~45%
+Titanium to uranium conversion ration will now require ~30% more titanium
+Titanium price of mansions was significantly increased, while steel/concrate price slightly reduced
+Concrete Huts bonus was reduced from 50% to 35% (due to all those endless "wait till concrete huts" threads)
+
+Added option to highlight capacity challenged buildings/upgrades (sic)
+Added option to hide sell links for buildings
+
+Space Elevators
+- reduce oil requirement of space missions by 5% (and actually working)
+
 v 1.0.3.2 (15 nov)
 
 Fixed SETI preventing other random events

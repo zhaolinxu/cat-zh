@@ -476,9 +476,9 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "concreteHuts",
 		title: "Concrete Huts",
-		description: "Hut price ratio reduced by 50%",
+		description: "Hut price ratio reduced by 35%",
 		effects: {
-			"hutPriceRatio" : -0.5
+			"hutPriceRatio" : -0.35
 		},
 		prices:[
 			{ name : "science", val: 125000 },

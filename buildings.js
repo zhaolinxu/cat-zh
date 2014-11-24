@@ -169,7 +169,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		label: "Mansion",
 		description: "A spacy mansion (each has a space for 1 kitten)",
 		unlocked: false,
-		prices: [{ name : "slab", val: 200 }, { name : "steel", val: 100 }, { name : "titanium", val: 1 }],
+		prices: [{ name : "slab", val: 185 }, { name : "steel", val: 75 }, { name : "titanium", val: 25 }],
 		effects: {
 			"maxKittens" : 1,
 			"manpowerMax": 50
@@ -869,7 +869,7 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 			{ name : "uranium",   	val: 25   },
 		],
 		effects: {
-			"titaniumPerTick" : -0.005,
+			"titaniumPerTick" : -0.015,
 			"uraniumPerTick" : 0.0025,
 		},
 		priceRatio: 1.15,
@@ -1161,7 +1161,8 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 		"mineralsMax"	: 250,
 		"faithMax" 		: 100,
 		"cultureMax"	: 100,
-		"uraniumMax"	: 250
+		"uraniumMax"	: 250,
+		"unobtainiumMax": 150
 	},
 
 	get: function(name){
@@ -1527,7 +1528,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	hasSellLink: function(){
-		return true;
+		return true && !this.game.opts.hideSell;
 	},
 
 	/**

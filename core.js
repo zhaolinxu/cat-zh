@@ -319,19 +319,46 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 	updateEnabled: function(){
 		var isEnabled = true;
-		if (!this.hasResources()){
+		
+		var prices = this.getPrices();
+		if (!this.hasResources(prices)){
 			isEnabled = false;
 		}
 		this.setEnabled(isEnabled);
+		
+		if (!this.buttonTitle || !this.game.opts.highlightUnavailable){
+			return;
+		}
+		
+		//---------------------------------------------------
+		//		a bit hackish place for price highlight
+		//---------------------------------------------------
+		var limited = false;
+		for (var i = 0; i< prices.length; i++){
+			var res = this.game.resPool.get(prices[i].name);
+			if (res.maxValue && prices[i].val > res.maxValue){
+				limited = true;
+			}
+		}
+		//---- now highlight some stuff in vanilla js way ---
+		if (limited){
+			if (this.buttonTitle.className != "limited"){
+				this.buttonTitle.className = "limited";
+			}
+		} else if (this.buttonTitle.className != "") {
+			this.buttonTitle.className = "";
+		}
 	},
 
 	updateVisible: function(){
 		//do nothing
 	},
 
-	hasResources: function(){
+	hasResources: function(prices){
 		var hasRes = true;
-		var prices = this.getPrices();
+		if (!prices){
+			prices = this.getPrices();
+		}
 
 		return this.game.resPool.hasRes(prices);
 	},
@@ -530,6 +557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	 * SLOOOOOW LIKE HELL
 	 */
 	updatePrices: function(){
+		var limited = false;
 		if (!this.tooltipPricesNodes) { return; }
 
 		var prices = this.getPrices();

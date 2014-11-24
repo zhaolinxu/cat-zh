@@ -315,7 +315,7 @@
 				display: none;
 			}
 
-			.button_tooltip .noRes {
+			.button_tooltip .noRes, .limited {
 				color: #FF3030;
 			}
 
@@ -341,7 +341,7 @@
 			dojo.addOnLoad(function(){
 				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
 				
-				gamePage.nerfs = 2;
+				gamePage.nerfs = 3;
 				gamePage.load();
 
 				gamePage.updateKarma();
@@ -360,7 +360,7 @@
 			}
 
 			function dev_boostCalendar(){
-				gamePage.calendar.dayPerTick = 2;
+				gamePage.calendar.dayPerTick = 3;
 			}
 
 			function wipe(){
@@ -562,6 +562,12 @@
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
 					Use per second values (per tick otherwise)
+				<br>
+				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
+					Highlight buildings limited by storage space
+				<br>
+				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
+					Hide 'sell' buttons
 				<br>
 
 				<br>

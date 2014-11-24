@@ -32,6 +32,29 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
+		//===================================================
+		//		TODO: move this to the engineeering section
+		//===================================================
+		name: "spaceElevator",
+		title: "Space Elevator",
+		description: "Every S. Elevator reduces oil requirements for space missions by 5%",
+		researched: false,
+		unlocked: false,
+		upgradable:true,
+		priceRatio: 1.15,
+		prices: [
+			{name: "titanium", val: 12000},
+			{name: "science", val: 125000},
+			{name: "unobtainium", val: 75},
+		],
+		requiredTech: ["orbitalEngineering", "nanotechnology"],
+		chance: 100,	//see comment above
+		handler: function(game, self){
+		},
+		effects: {
+			"oilReductionRatio": 0.05,
+		}
+	},{
 		name: "sattelite",
 		title: "Deploy Satellite",
 		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
@@ -127,8 +150,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		val:  0,
 		on:	  0,
 		effects: {
-			"uraniumPerTick": -0.2,
-			"unobtainiumPerTick": 0.01
+			"uraniumPerTick": -0.35,
+			"unobtainiumPerTick": 0.007
 		},
 		action: function(game, self){
 
@@ -164,7 +187,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			"coalMax"		: 3500,
 			"goldMax"		: 500,
 			"titaniumMax"	: 1250,
-			"oilMax"		: 3500
+			"oilMax"		: 3500,
+			"unobtainiumMax": 150
 		},
 		upgradable: true,
 		togglable: 	false,
@@ -312,6 +336,12 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 						prices[j].val = prices[j].val * ratio;
 					}
 				}
+			}
+		}
+		for(var i = 0; i < prices.length; i++) {
+			if (prices[i].name == "oil"){
+				var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
+				prices[i].val *= (1 - reductionRatio);
 			}
 		}
 
