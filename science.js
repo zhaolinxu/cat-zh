@@ -628,6 +628,7 @@ dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicor
 		unlocks: ["exogeology"],
 		handler: function(game){
 			game.workshop.get("unobtainiumReflectors").unlocked = true;
+			game.workshop.get("unobtainiumHuts").unlocked = true;
 		}
 	},
 	{

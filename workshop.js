@@ -489,6 +489,22 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 		researched: false,
 		handler: function(game){
 		}
+	},{
+		name: "unobtainiumHuts",
+		title: "Unobtainium Huts",
+		description: "Hut price ratio reduced by 30%",
+		effects: {
+			"hutPriceRatio" : -0.30
+		},
+		prices:[
+			{ name : "science", val: 200000 },
+			{ name : "unobtainium", val: 500 },
+			{ name : "titanium", val: 15000 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
 	},
 	{
 		name: "silos",

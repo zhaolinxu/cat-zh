@@ -212,6 +212,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
 		}
 	},{
 		name: "piscineMission",
@@ -229,6 +230,43 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
+			game.space.getProgram("terminusMission").unlocked = true;
+		}
+	},{
+		name: "heliosMission",
+		title: "Helios Mission",
+		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 3000},
+			{name: "titanium", val: 15000},
+			{name: "science", val: 250000},
+			{name: "oil", val: 90000},
+			{name: "rocket", val: 1}
+		],
+		chance: 50,
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
+		}
+	},{
+		name: "terminusMission",
+		title: "T-minus Mission",
+		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 2500},
+			{name: "titanium", val: 12000},
+			{name: "science", val: 225000},
+			{name: "oil", val: 75000},
+			{name: "rocket", val: 1}
+		],
+		chance: 50,
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
 		}
 	}],
 
