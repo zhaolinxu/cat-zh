@@ -1,7 +1,7 @@
 /**
  * Weird cat science
  */
-dojo.declare("com.nuclearunicorn.game.science.ScienceManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
 

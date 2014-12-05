@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
 
@@ -13,7 +13,9 @@ dojo.declare("com.nuclearunicorn.game.buildings.BuildingsManager", com.nuclearun
 				var effect = 0;
 
 				// Need a better way to do this...
-				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 && !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
+				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
+                    !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
+                    
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {

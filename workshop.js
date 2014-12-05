@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
 

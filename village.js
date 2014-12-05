@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.villageManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManager, {
 
 	kittens: 0,
 

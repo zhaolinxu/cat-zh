@@ -1,5 +1,5 @@
 
-dojo.declare("com.nuclearunicorn.game.ResourceManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabManager, {
 	
 	//=========================================
 	//				COMMON

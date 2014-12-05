@@ -1,7 +1,7 @@
 /**
  * Behold the bringer of light!
  */
-dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager, {
 
 	/*
 	 * Planets and celestial bodies from left to right:

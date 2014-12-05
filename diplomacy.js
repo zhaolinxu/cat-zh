@@ -1,7 +1,7 @@
 /**
  * Diplomacy
  */
-dojo.declare("com.nuclearunicorn.game.upgrades.DiplomacyManager", null, {
+dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	game: null,
 
