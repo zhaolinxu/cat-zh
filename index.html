@@ -9,19 +9,19 @@
 
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
 
-		<script src="core.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="resources.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="calendar.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="buildings.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="village.js?v=1.0.3.3c" type="text/javascript"></script>
-		<script src="science.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="workshop.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="diplomacy.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="religion.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="achievements.js?v=1.0.3.3b" type="text/javascript"></script>
-		<script src="space.js?v=1.0.3.3b" type="text/javascript"></script>
+		<script src="core.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="resources.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="calendar.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="buildings.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="village.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="science.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="workshop.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="diplomacy.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="religion.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="achievements.js?v=1.0.3.4" type="text/javascript"></script>
+		<script src="space.js?v=1.0.3.4" type="text/javascript"></script>
 
-		<script src="game.js?v=1.0.3.3b" type="text/javascript"></script>
+		<script src="game.js?v=1.0.3.4" type="text/javascript"></script>
 
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -315,7 +315,7 @@
 				display: none;
 			}
 
-			.button_tooltip .noRes {
+			.button_tooltip .noRes, .limited {
 				color: #FF3030;
 			}
 
@@ -341,7 +341,7 @@
 			dojo.addOnLoad(function(){
 				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
 				
-				gamePage.nerfs = 2;
+				gamePage.nerfs = 3;
 				gamePage.load();
 
 				gamePage.updateKarma();
@@ -360,7 +360,7 @@
 			}
 
 			function dev_boostCalendar(){
-				gamePage.calendar.dayPerTick = 2;
+				gamePage.calendar.dayPerTick = 3;
 			}
 
 			function wipe(){
@@ -413,7 +413,7 @@
 					<a href="#" onclick="dev();">#</a> |
 					<a href="#" onclick="wipe();">Wipe</a> |
 
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.0.3.2</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.0.3.4</a>
 
 				</div>
 			</div>
@@ -430,13 +430,10 @@
 						-
 
 					Minor 3:
-						Stasis Chambers
-						Unobtainium Reflectors
-						LHC
-						Exogeology
+						Space Elevators
 
-					Rev: 2
-						Fixes
+					Rev: 4
+						Unobtainium Huts
 
 
 				</pre>
@@ -562,6 +559,12 @@
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
 					Use per second values (per tick otherwise)
+				<br>
+				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
+					Highlight buildings limited by storage space
+				<br>
+				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
+					Hide 'sell' buttons
 				<br>
 
 				<br>

@@ -12,11 +12,10 @@
  */ 
 
 window.LCstorage = window.localStorage;
-if (document.all && !window.localStorage)
-{
+if (document.all && !window.localStorage) {
     window.LCstorage = {};
     window.LCstorage.removeItem = function () { };
-} 
+}
 
 /**
  * Just a simple timer, js timer sucks
@@ -448,32 +447,45 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	resTable: null,		
 	
 	effectsMgr: null,	
+    
+    managers: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
 		
 		this.tabs = [];
+        this.managers = [];
 		
 		this.opts = {
-			usePerSecondValues: true
+			usePerSecondValues: true,
+			highlightUnavailable: false,
+			hideSell: false
 		};
 		
 		this.console = new com.nuclearunicorn.game.log.Console();
 		
-		this.resPool = new com.nuclearunicorn.game.ResourceManager(this);
+		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this);
 		
-		this.village = new com.nuclearunicorn.game.villageManager(this);
+		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
-		
-		this.workshop 		= 	new com.nuclearunicorn.game.upgrades.WorkshopManager(this);
-		this.diplomacy 		= 	new com.nuclearunicorn.game.upgrades.DiplomacyManager(this);
-		this.bld 			= 	new com.nuclearunicorn.game.buildings.BuildingsManager(this);
-		this.science 		= 	new com.nuclearunicorn.game.science.ScienceManager(this);
-		this.achievements 	= 	new com.nuclearunicorn.game.Achievements(this);
-		this.religion 		= 	new com.nuclearunicorn.game.religion.ReligionManager(this);
-		this.space 			= 	new com.nuclearunicorn.game.space.SpaceManager(this);
-		
+        
+        var managers = [
+            { id: "workshop", class: "WorkshopManager" },
+            { id: "diplomacy", class: "DiplomacyManager" },
+            { id: "bld", class: "BuildingsManager" },
+            { id: "science", class: "ScienceManager" },
+            { id: "achievements", class: "Achievements" },
+            { id: "religion", class: "ReligionManager" },
+            { id: "space", class: "SpaceManager" }
+        ]
+        
+        for (i in managers){
+            var manager = managers[i];
+            this[manager.id] = new window["classes"]["managers"][manager.class](this);
+            
+            this.managers.push(this[manager.id]);
+        }
 
 		//very sloppy design, could we just use an array for tab managers?
 		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire(Old)", this);
@@ -580,16 +592,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			)
 		};
 		
-		//TODO: fix this disgrace
-		this.bld.save(saveData);
 		this.village.save(saveData);
 		this.calendar.save(saveData);
-		this.science.save(saveData);
-		this.workshop.save(saveData);
-		this.diplomacy.save(saveData);
-		this.achievements.save(saveData);
-		this.religion.save(saveData);
-		this.space.save(saveData);
+        
+        for (i in this.managers){
+            this.managers[i].save(saveData);
+        }
 
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
@@ -638,6 +646,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("#workersToggle")[0].checked = this.useWorkers;
 		$("#forceHighPrecision")[0].checked	= this.forceHighPrecision;
 		$("#usePerSecondValues")[0].checked	= this.opts.usePerSecondValues;
+		$("#highlightUnavailable")[0].checked	= this.opts.highlightUnavailable;
+		$("#hideSell")[0].checked	= this.opts.hideSell;
 		
 	},
 	
@@ -652,15 +662,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			//console.log("restored save data:", localStorage);
 			if (saveData){
 				this.resPool.load(saveData);
-				this.bld.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
-				this.science.load(saveData);
-				this.workshop.load(saveData);
-				this.diplomacy.load(saveData);
-				this.achievements.load(saveData);
-				this.religion.load(saveData);
-				this.space.load(saveData);
+                
+                for (i in this.managers){
+                    this.managers[i].load(saveData);
+                }
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -1214,10 +1221,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.village.maxKittens = maxKittens;
 		
 		this.village.update();
-		this.workshop.update();
+		/*this.workshop.update();
 		this.diplomacy.update();
 		this.religion.update();
-		this.space.update();
+		this.space.update();*/
+        
+        for (i in this.managers){
+            if (this.managers[i].update){
+                this.managers[i].update();
+            }
+        }
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");

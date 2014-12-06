@@ -1,7 +1,7 @@
 /**
  * Behold the bringer of light!
  */
-dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager, {
 
 	/*
 	 * Planets and celestial bodies from left to right:
@@ -30,6 +30,29 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			game.space.getProgram("sattelite").unlocked = true;
 			game.space.getProgram("spaceStation").unlocked = true;
 			game.space.getProgram("moonMission").unlocked = true;
+		}
+	},{
+		//===================================================
+		//		TODO: move this to the engineeering section
+		//===================================================
+		name: "spaceElevator",
+		title: "Space Elevator",
+		description: "Every S. Elevator reduces oil requirements for space missions by 5%",
+		researched: false,
+		unlocked: false,
+		upgradable:true,
+		priceRatio: 1.15,
+		prices: [
+			{name: "titanium", val: 12000},
+			{name: "science", val: 125000},
+			{name: "unobtainium", val: 75},
+		],
+		requiredTech: ["orbitalEngineering", "nanotechnology"],
+		chance: 100,	//see comment above
+		handler: function(game, self){
+		},
+		effects: {
+			"oilReductionRatio": 0.05,
 		}
 	},{
 		name: "sattelite",
@@ -127,8 +150,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		val:  0,
 		on:	  0,
 		effects: {
-			"uraniumPerTick": -0.2,
-			"unobtainiumPerTick": 0.01
+			"uraniumPerTick": -0.35,
+			"unobtainiumPerTick": 0.007
 		},
 		action: function(game, self){
 
@@ -164,7 +187,8 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 			"coalMax"		: 3500,
 			"goldMax"		: 500,
 			"titaniumMax"	: 1250,
-			"oilMax"		: 3500
+			"oilMax"		: 3500,
+			"unobtainiumMax": 150
 		},
 		upgradable: true,
 		togglable: 	false,
@@ -188,6 +212,7 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
 		}
 	},{
 		name: "piscineMission",
@@ -205,6 +230,43 @@ dojo.declare("com.nuclearunicorn.game.space.SpaceManager", com.nuclearunicorn.co
 		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
+			game.space.getProgram("terminusMission").unlocked = true;
+		}
+	},{
+		name: "heliosMission",
+		title: "Helios Mission",
+		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 3000},
+			{name: "titanium", val: 15000},
+			{name: "science", val: 250000},
+			{name: "oil", val: 90000},
+			{name: "rocket", val: 1}
+		],
+		chance: 50,
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
+		}
+	},{
+		name: "terminusMission",
+		title: "T-minus Mission",
+		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 2500},
+			{name: "titanium", val: 12000},
+			{name: "science", val: 225000},
+			{name: "oil", val: 75000},
+			{name: "rocket", val: 1}
+		],
+		chance: 50,
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("heliosMission").unlocked = true;
 		}
 	}],
 
@@ -312,6 +374,12 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 						prices[j].val = prices[j].val * ratio;
 					}
 				}
+			}
+		}
+		for(var i = 0; i < prices.length; i++) {
+			if (prices[i].name == "oil"){
+				var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
+				prices[i].val *= (1 - reductionRatio);
 			}
 		}
 

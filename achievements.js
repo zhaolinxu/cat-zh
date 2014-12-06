@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.Achievements", null, {
+dojo.declare("classes.managers.Achievements", null, {
 	game: null,
 
 	achievements: [

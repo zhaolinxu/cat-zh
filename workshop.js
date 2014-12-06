@@ -1,4 +1,4 @@
-dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunicorn.core.TabManager, {
+dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
 
@@ -476,14 +476,30 @@ dojo.declare("com.nuclearunicorn.game.upgrades.WorkshopManager", com.nuclearunic
 	},{
 		name: "concreteHuts",
 		title: "Concrete Huts",
-		description: "Hut price ratio reduced by 50%",
+		description: "Hut price ratio reduced by 35%",
 		effects: {
-			"hutPriceRatio" : -0.5
+			"hutPriceRatio" : -0.35
 		},
 		prices:[
 			{ name : "science", val: 125000 },
 			{ name : "concrate", val: 50 },
 			{ name : "titanium", val: 3000 },
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "unobtainiumHuts",
+		title: "Unobtainium Huts",
+		description: "Hut price ratio reduced by 30%",
+		effects: {
+			"hutPriceRatio" : -0.30
+		},
+		prices:[
+			{ name : "science", val: 200000 },
+			{ name : "unobtainium", val: 500 },
+			{ name : "titanium", val: 15000 },
 		],
 		unlocked: false,
 		researched: false,
