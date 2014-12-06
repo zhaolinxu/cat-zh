@@ -318,7 +318,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "metaphysics",
 		title: "Metaphysics",
 		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.\nAbsolutely useless.",
-		effectDesc: "Do nothing.",
+		effectDesc: "Does nothing.",
 		unlocked: false,
 		researched: false,
 		prices: [

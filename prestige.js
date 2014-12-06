@@ -1,4 +1,15 @@
 dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabManager, {
+	
+	constructor: function(game){
+		this.game = game;
+
+		/*this.registerMeta(this.perks, { getEffect: function(meta, effectName){
+			if (meta.researched){
+				return meta.effects[effectName];
+			}
+			return 0;
+		}});*/
+	},
     
     perks:[{
 		name: "engeneering",
@@ -12,12 +23,12 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("goldenRatio").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : 0.01
+			"priceRatio" : -0.01
 		}
 	},{
 		name: "megalomania",
 		title: "Megalomania",
-		description: "Unlocks additional megastructures.",
+		description: "Unlocks additional megastructures. (TBD)",
 		paragon: 25,
 		unlocked: false,
 		researched: false,
@@ -34,7 +45,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : 0.02
+			"priceRatio" : -0.02
 		}
 	},{
 		name: "divineProportion",
@@ -46,13 +57,13 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		handler: function(game, self){
 		},
 		effects:{
-			"priceRatio" : 0.03
+			"priceRatio" : -0.03
 		}
 	},
 	{
 		name: "diplomacy",
 		title: "Diplomacy",
-		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
+		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades. (TBD)",
 		paragon: 5,
 		unlocked: true,
 		researched: false,
@@ -71,7 +82,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
-		description: "Meteor and star events will happen faster.",
+		description: "Meteor and star events will happen faster. (TBD)",
 		paragon: 25,
 		unlocked: true,
 		researched: false,
@@ -81,7 +92,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "anachronomancy",
 		title: "Anachronomancy",
-		description: "Time crystals and chronophisics will be saved across resets",
+		description: "Time crystals and chronophisics will be saved across resets. (TBD)",
 		paragon: 75,
 		unlocked: false,
 		researched: false,
@@ -124,7 +135,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getEffect: function(name){
-		return this.getEffectCached(name);
+		//return this.getEffectCached(name);
+		return this.getMetaEffect(name, { meta: this.perks, provider: {
+			getEffect: function(perk, effectName){
+				if (!perk.effects || !perk.researched){
+					return 0;
+				}
+				return perk.effects[effectName];
+			}
+		}});
 	},
 	
 	getPerk: function(name){

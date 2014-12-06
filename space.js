@@ -29,6 +29,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		handler: function(game, self){
 			game.space.getProgram("sattelite").unlocked = true;
 			game.space.getProgram("spaceStation").unlocked = true;
+			game.space.getProgram("spaceElevator").unlocked = true;
 			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
