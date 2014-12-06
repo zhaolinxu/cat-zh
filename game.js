@@ -1680,6 +1680,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			achievements: lsData.achievements,
 			religion: {
 				faithRatio: this.religion.faithRatio
+			},
+			prestige: {
+				perks: this.prestige.perks	//save this stuff
 			}
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);

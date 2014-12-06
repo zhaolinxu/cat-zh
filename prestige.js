@@ -10,6 +10,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		handler: function(game, self){
 			game.prestige.getPerk("megalomania").unlocked = true;
 			game.prestige.getPerk("goldenRatio").unlocked = true;
+		},
+		effects:{
+			"priceRatio" : 0.01
 		}
 	},{
 		name: "megalomania",
@@ -29,6 +32,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game, self){
 			game.prestige.getPerk("divineProportion").unlocked = true;
+		},
+		effects:{
+			"priceRatio" : 0.02
 		}
 	},{
 		name: "divineProportion",
@@ -38,6 +44,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
+		},
+		effects:{
+			"priceRatio" : 0.03
 		}
 	},
 	{
@@ -192,9 +201,6 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		
 		var self = this;
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
-			
-			//console.log("perk:", perk);
-			
 			var button = new classes.ui.PrestigeBtn({
 				id: 		perk.name,
 				name: 		perk.title,

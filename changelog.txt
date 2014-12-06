@@ -4,6 +4,8 @@ Unobtainium huts
 A couple of new space missions
 BLS will be saved upon reset
 
+Non-working version of the Metaphysics tree (be careful!)
+
 v 1.0.3.3 (15 nov)
 
 Unobtainium capacity will be limited by moon bases (with small base amount)
