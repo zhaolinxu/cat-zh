@@ -8,14 +8,14 @@ v 1.0.3.3 (15 nov)
 Unobtainium capacity will be limited by moon bases (with small base amount)
 Unobtainium output of moon bases was reduced by ~45%
 Titanium to uranium conversion ration will now require ~30% more titanium
-Titanium price of mansions was significantly increased, while steel/concrate price slightly reduced
+Titanium price of mansions was significantly increased, while steel/concrete price was slightly reduced
 Concrete Huts bonus was reduced from 50% to 35% (due to all those endless "wait till concrete huts" threads)
 
-Added option to highlight capacity challenged buildings/upgrades (sic)
+Added option to highlight capacity-challenged buildings/upgrades (sic)
 Added option to hide sell links for buildings
 
 Space Elevators
-- reduce oil requirement of space missions by 5% (and actually working)
+- reduce oil requirement of space missions by 5% (actually working now)
 
 v 1.0.3.2 (15 nov)
 
@@ -31,7 +31,7 @@ Exogeology
 
 v 1.0.2.2 (7 nov)
 
-Changes by Ædx:
+Changes by Ä†dx:
 ___
 	Fixed space program purchases not highlighting oil and rockets (http://redd.it/2lm044)
 	Fixed incorrect grassy theme layout
@@ -66,7 +66,7 @@ First race arrives 15 years earlier after a reset
 Moon base should give correct population bonus
 Bio Lab will be togglable once Biofuel is researched
 Building type missions will display effects
-Lots of typo fixes by Ædx
+Lots of typo fixes by Ä†dx
 
 Unobtainium
 Moon Outpost
