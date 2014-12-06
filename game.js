@@ -471,14 +471,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.setVillage(this.village);
         
         var managers = [
-            { id: "workshop", class: "WorkshopManager" },
-            { id: "diplomacy", class: "DiplomacyManager" },
-            { id: "bld", class: "BuildingsManager" },
-            { id: "science", class: "ScienceManager" },
-            { id: "achievements", class: "Achievements" },
-            { id: "religion", class: "ReligionManager" },
-            { id: "space", class: "SpaceManager" }
-        ]
+            { id: "workshop",       class:  "WorkshopManager"   },
+            { id: "diplomacy",      class:  "DiplomacyManager"  },
+            { id: "bld",            class:  "BuildingsManager"  },
+            { id: "science",        class:  "ScienceManager"    },
+            { id: "achievements",   class:  "Achievements"      },
+            { id: "religion",       class:  "ReligionManager"   },
+            { id: "space",          class:  "SpaceManager"      },
+            { id: "prestige",       class:  "PrestigeManager"   }
+        ];
         
         for (i in managers){
             var manager = managers[i];
@@ -1322,6 +1323,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	//TODO: freaking slow, use damn dictionaries
 	isResRequired: function(bld, resName){
+		if (!bld.prices){
+			return false;
+		}
 		for (var i = 0; i < bld.prices.length; i++){
 			if (bld.prices[i].name == resName){
 				return true;
@@ -1662,11 +1666,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			lsData = {game: {}};
 		}
 		dojo.mixin(lsData.game, { 
-			karmaKittens: this.karmaKittens,
-			karmaZebras: this.karmaZebras,
-			paragonPoints: this.paragonPoints,
-			ironWill : true,
-			deadKittens: 0
+			karmaKittens: 		this.karmaKittens,
+			karmaZebras: 		this.karmaZebras,
+			paragonPoints: 		this.paragonPoints,
+			nerfs: 				this.nerfs,
+			sorrow: 			this.sorrow,
+			ironWill : 			true,
+			deadKittens: 		0
 		});
 		
 		var saveData = {

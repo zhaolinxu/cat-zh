@@ -317,13 +317,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "metaphysics",
 		title: "Metaphysics",
-		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it. (TBD)",
-		effectDesc: "Unlocks a Metaphysics upgrades.",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.\nAbsolutely useless.",
+		effectDesc: "Do nothing.",
 		unlocked: false,
 		researched: false,
 		prices: [
 			{name : "science", val: 55000},
-			{name: 	"paragon", val: 5},
 			{name: 	"unobtainium", val: 5}
 		],
 		unlocks: [],
@@ -936,8 +935,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 
 		//------------ metaphysics ----------------
-		if (this.game.science.get("metaphysics").researched){
-			var metaphysicsPanel = new com.nuclearunicorn.game.ui.Panel("Metaphysics");
+		if (this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0){
+			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics");
+			metaphysicsPanel.game = this.game;
+			
 			var content = metaphysicsPanel.render(tabContainer);
 
 			this.metaphysicsPanel = metaphysicsPanel;
@@ -947,9 +948,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 	update: function(){
 		this.inherited(arguments);
 
-		/*if (this.metaphysicsPanel){
+		if (this.metaphysicsPanel){
 			this.metaphysicsPanel.update();
-		}*/
+		}
 	},
 
 	constructor: function(tabName, game){
