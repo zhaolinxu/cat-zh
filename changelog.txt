@@ -9,19 +9,19 @@ v 1.0.3.3 (15 nov)
 Unobtainium capacity will be limited by moon bases (with small base amount)
 Unobtainium output of moon bases was reduced by ~45%
 Titanium to uranium conversion ration will now require ~30% more titanium
-Titanium price of mansions was significantly increased, while steel/concrate price slightly reduced
+Titanium price of mansions was significantly increased, while steel/concrete price was slightly reduced
 Concrete Huts bonus was reduced from 50% to 35% (due to all those endless "wait till concrete huts" threads)
 
-Added option to highlight capacity challenged buildings/upgrades (sic)
+Added option to highlight capacity-challenged buildings/upgrades (sic)
 Added option to hide sell links for buildings
 
 Space Elevators
-- reduce oil requirement of space missions by 5% (and actually working)
+- reduce oil requirement of space missions by 5% (actually working now)
 
 v 1.0.3.2 (15 nov)
 
 Fixed SETI preventing other random events
-Religion upgrades will not give double bonuses if transcendece is not researched
+Religion upgrades will not give double bonuses if transcendence is not researched
 Moon base will now grant storage bonus
 
 Stasis Chambers
@@ -32,7 +32,7 @@ Exogeology
 
 v 1.0.2.2 (7 nov)
 
-Changes by Ædx:
+Changes by Ćdx:
 ___
 	Fixed space program purchases not highlighting oil and rockets (http://redd.it/2lm044)
 	Fixed incorrect grassy theme layout
@@ -42,32 +42,32 @@ ___
 
 Changes by xranti:
 ___
-	Fixed steamworks coal multiplier on rate/tooltip
+	Fixed Steamworks coal multiplier on rate/tooltip
 	Adjust listed titanium trade amount for ships
 	Space ratio bonuses are now applied
 	Reactors no longer affect accelerators
 	Resource tooltips no longer show multipliers that don't apply
 	Fixed religion effects
 	Fixed weather ratio in resource tooltips
-	Bio lab bonuses no longer get turned off
-	Faith/Magnetos/Reactors/Paragon now affect titanium from smelters
+	Bio Lab bonuses no longer get turned off
+	Faith/Magnetos/Reactors/Paragon now affect titanium from Smelters
 
-Storage upgrades in workshop will no longer affect Accelerators
+Storage upgrades in Workshop will no longer affect Accelerators
 
 
 v 1.0.2.1 (5 nov)
 
-Resource-heavy missions have less chance to fail.
+Resource-heavy missions have a lower chance of failing.
 Failed missions will return 40-70% of spent resources
 Fixed that one bug with lunar outposts
 
 v 1.0.2.0 (4 nov)
 
-First race arrives 15 year earlier after the reset
+First race arrives 15 years earlier after a reset
 Moon base should give correct population bonus
-Biolab will be togglable once Biofuel is researched
+Bio Lab will be togglable once Biofuel is researched
 Building type missions will display effects
-Lots of typo fixes by Ædx
+Lots of typo fixes by Ćdx
 
 Unobtainium
 Moon Outpost
@@ -78,7 +78,7 @@ Nanosuits
 v 1.0.1.2 (3 nov)
 
 Space Stations
-Space missions can now fail based on their chance
+Space Missions can now fail - each have their own chance to fail
 Hubble Telescope
 
 v 1.0.0.1 (31 oct)
@@ -95,7 +95,7 @@ Space and missions (partly based on a space mod by Fringeware)
 
 Rocket recipe
 
-Sattelites
+Satellites
 Orbital Engineering (TBD)
 Biochemistry
 Biofuel processing
@@ -131,8 +131,8 @@ ___
 v 0.9.9.4 (13 oct)
 
 Crossbows
-Steel Armor
-Alloy Armor
+Steel Armour
+Alloy Armour
 
 +-5/25/all options in the village tab
 +all/-all options to the togglable buildings
@@ -166,7 +166,7 @@ ___
 	The game will now render when new buildings are unlocked (http://redd.it/2hnj5z)
 	Removed render hacks from gather and refine catnip buttons (see above fix)
 	Fixed Super Unethical Climax achievement
-	Added bio lab bonus to the refine catnip button
+	Added Bio Lab bonus to the refine catnip button
 	Fixed coal rate display with Steel Plants upgrade (http://redd.it/2hh7it)
 	Hide 0 effects in building tooltips
 	Prevent crafting blueprints before researching physics (http://redd.it/2h4s74)
@@ -187,14 +187,14 @@ Fixed Stained Glass not giving correct bonuses to faith
 v 0.9.7.0 (26 sep)
 
 More accurate resource tooltips
-Slighlty reduced save footprint
+Slightly reduced save footprint
 
 
 v 0.9.6.9 (25 sep)
 
 Changes by Zusias:
 
-Fixed smelter coal incorrectly getting double bonus from paragons/magnetos
+Fixed smelter coal incorrectly getting double bonus from paragon/magnetos
 ___
 Rows in the craft table will be now highlighted
 Wood refinement in IW will be now affected by Saw Mills
@@ -203,7 +203,7 @@ Zebras will now have a 25% chance to bring a gold from a hunt if Golden Ore is r
 v 0.9.6.8 (20 sep)
 
 Slightly reduced gear prices of Steamworks and SW upgrades.
-Sligtly reduced blueprint prices of pre-electronics  technologies.
+Slightly reduced blueprint prices of pre-electronics  technologies.
 Buffed Bio Lab effect to 10%
 
 Village jobs can now display /sec values.
@@ -234,7 +234,7 @@ Rotary Kiln
 v 0.9.5.5 (15 sep)
 
 Improved performance of buttons/resource rendering (38 ms per tick)
-Gather/refine buttons will display animation and not cause horrible lags anymore
+Gather/refine buttons will display animation and not cause horrible lags any more
 Some effects will now have title and be hidden if require specific resources (e.g. barn effects)
 
 v 0.9.5.4 (14 sep)
@@ -244,7 +244,7 @@ Fixed Reactor issues
 v 0.9.5.3 (14 sep)
 
 New buttons/tooltips for workshop
-Least profficient worker will be selected when unassigning job
+Least proficient worker will be selected when unassigning job
 
 v 0.9.5.2 (10 sep)
 
@@ -264,12 +264,12 @@ New tooltips for science tab (with ETA)
 
 v 0.9.4.0 (4 sep)
 
-Bonfire is now replaced with V2 (Old bonfire still accessible, but hidden)
+Bonfire is now replaced with v2 (Old bonfire still accessible, but hidden)
 
 > gamePage.bonfireTab.visible = true;
 
 Added ETA in the building tooltips
-Fixed iron incorrectly getting double bonus from sw/magneto
+Fixed iron incorrectly getting double bonus from steamworks/magneto
 Fixed Smelter/Calciner having higher SW bonus compared to other resources
 
 v 0.9.3.9 (2 sep)
@@ -281,20 +281,20 @@ Player will be able to open Village tab even if there are no houses (thanks Duke
 
 v 0.9.3.8 (14 aug)
 
-Slightly nerfed steamworks/magneto synergy
+Slightly nerfed Steamworks/Magneto synergy
 Magnetos will no longer provide a bonus to the oil production
 Fixed HoD
 Fixed Reactors not consuming uranium correctly
-Reactors will now benefit Smelters and Caliceners in the same way as magnetos
+Reactors will now benefit Smelters and Calciners in the same way as Magnetos
 Fixed export issue on IE11
 
 v 0.9.3.7 (14 aug)
 
-Augumentations
-'IW' buildings filter for V2 (only in IW mode whith library puchased)
+Augmentations
+'IW' buildings filter for v2 (only in IW mode with library purchased)
 
 Steamworks and Magnetos will now correctly boost Smelters and Calciners (iron, gold, coal and titanium output)
-Paragons will now boost Smelters and Calciners (with 75% penalty)
+Paragon will now boost Smelters and Calciners (with 75% penalty)
 
 Msg fix by xranti <3
 
@@ -303,12 +303,12 @@ v 0.9.2.7 (13 aug)
 Reduced titanium price of reactors and factories in favour of plates
 Alloy will now require iron to craft
 Added 'togglable' buildings filter
-V2 tooltip will now stick to bottom
+v2 tooltip will now stick to bottom
 
 v 0.9.2.6 (12 aug)
 
 Fixed reset not clearing dead kittens counter
-Added two more filter tabs for V2 (all/enabled)
+Added two more filter tabs for v2 (all/enabled)
 
 v 0.9.2.5 (11 aug)
 
@@ -318,7 +318,7 @@ Trade tab will keep panel states (collapsed/opened)
 
 v 0.9.1.4 (8 aug)
 Added a couple of village names
-Removed caps on solar rev and apocrypha, nerfed apocyrypha effect
+Removed caps on solar rev and apocrypha, nerfed apocrypha effect
 
 Fixed Refrigeration not giving correct bonus
 Changed uranium rate of dragons to 75%
@@ -346,9 +346,9 @@ Reduced titanium price of Concrete Barns, Concrete Huts and El. Smelting
 Changed Oxidation bonus to titanium form 300% to 400%
 Fixed "Sacrifice Alicorns" button not being unlocked correctly
 Fixed incorrect price adjustment for Ziggurat upgrades
-Moved blueprints in the resource table clother to the compediums
+Moved blueprints in the resource table closer to the compendiums
 
-Smelters will be turned off in IW once hit res limit
+Smelters will be turned off in IW once hit resource limit
 
 Couple of IW achievements
 One super-secret achievement
@@ -364,13 +364,13 @@ changed by Duke:
 Fixed some issues with observe events.
 _____
 
-Added observe notification to page title in ironwill
+Added observe notification to page title in iron will mode
 Apocrypha effect will be carried over the reset
 Fixed Fuel Injection not giving correct bonus
 Fixed Labs not giving correct refine bonus
 Fixed Sins of a Solar Empire not working correctly
 
-Fixed Duke's fix not handling autoobserve correctly :)
+Fixed Duke's fix not handling auto-observe correctly :)
 
 v 0.9.0.0 (24 jul)
 
@@ -415,7 +415,7 @@ Fixed Sky Palace not giving correct bonuses
 v 0.8.6.5
 
 Observatories are now togglable
-Steamworks is not tunable anymore (yet togglable)
+Steamworks is not tunable any more (however it is togglable)
 
 Sky Palace (endgame Ziggurat upgrade)
 Templars (endgame religion upgrade)
@@ -427,8 +427,8 @@ Two new achievements
 v 0.8.5.5
 
 Added "Trade all" option
-Added "High precision" game setting ( 3 digits after point )
-Removed "manpower" to "catpower" and "compedium" to "compendium"
+Added "High precision" game setting (3 digits after point)
+Changed "manpower" to "catpower" and "compedium" to "compendium"
 
 v 0.8.5.4
 
@@ -445,10 +445,10 @@ Time to cap in the resource tooltips
 
 v 0.8.4.3
 
-Fixed Sunsipre not giving faith bonus
+Fixed golden spire not giving faith bonus
 Fixed Ziggurat upgrades not recalculating prices
 
-Barges - improve coal limits for Harbors
+Barges - improve coal limits for Harbours
 Advanced Automation - makes Steamworks activate twice per year
 
 Paragon levels should give minor bonus to the resource limit
@@ -460,7 +460,7 @@ v 0.8.3.2
 Drama and Poetry tech
 Cultural Festivals
 
-Fixed steamworks giving effect even without the oil
+Fixed Steamworks giving effect even without the oil
 
 v 0.8.2.2
 
@@ -476,7 +476,7 @@ Titanium Saw
 Alloy Saw
 
 Magneto
-Biolab
+Bio Lab
 
 Industrialization
 
@@ -494,10 +494,10 @@ Fixed few more memory leaks (Thanks Zusias!)
 Craft table will display price tooltips for recipes
 Renamed "Diplomacy" tab to "Trade"
 Zebras will display titanium drop
-Buy and Sell sections will be now color coded
-Certain important messages in the log are now color coded
+Buy and Sell sections will be now colour-coded
+Certain important messages in the log are now colour-coded
 
-Nerfed Mints to the ground (less furs, significanly less ivory)
+Nerfed Mints to the ground (less furs, significantly less ivory)
 Fixed Titanium Warehouses not being correctly unlocked
 
 v 0.7.9.9
@@ -511,12 +511,12 @@ Silos (workshop upgrade), +750 max catnip to warehouse capacity
 v 0.7.8.8
 
 Basilica (religion upgrade for culture)
-Acoustics (tech, 65K science, 65 compedium, unlocks Chapel)
+Acoustics (tech, 65K science, 65 compendium, unlocks Chapel)
 Chapel ( + 200 to max culture, +0.05 culture per tick, +0.005 faith per tick )
 
 v 0.7.7.7
 
-Fixed resource table ( tooltips should work in chrome now)
+Fixed resource table (tooltips should work in chrome now)
 
 v 0.7.7.6
 
@@ -553,14 +553,14 @@ Middle column is now fixed and scrollable
 
 v 0.7.4.3
 
-Cargo Ships (Every ship you have will give 2% to Harbor resource limits)	//will give diminishing effect starting with 187% total
+Cargo Ships (Every ship you have will give 2% to Harbour resource limits)	//will give diminishing effect starting with 187% total
 Every observatory will now give a 1% chance of auto-generating starcharts
 
 v 0.7.3.3
 
-Increased compedium prices of all techs
+Increased compendium prices of all techs
 
-Architecture (43k science, 10 compediums)
+Architecture (43k science, 10 compendiums)
 Mansion (200 slab, 100 steel, 1 titanium), +1 max kitten
 
 Added one Unethical Achievement.
@@ -583,7 +583,7 @@ Ziggurats will require 5% of resources to unlock instead of 30%
 
 v 0.7.0.3
 
-Red prices in tolltips
+Red prices in tooltips
 Alert for catnip craft
 
 v 0.7.0.2
@@ -594,12 +594,12 @@ Pastures, Tradeposts and Amphitheatres will now give correct reduction effects w
 _
 
 Rebalanced ratio coefficients to grant the same distribution curve.
-Rebalanced prices of Harbors and Megaliths in favour of slabs
+Rebalanced prices of Harbours and Megaliths in favour of slabs
 
 v 0.7.0.1
 
-Every compedium will give a +10 bonus to the max science
-Raised science price of compediums from 5K to 10K
+Every compendium will give a +10 bonus to the max science
+Raised science price of compendiums from 5K to 10K
 
 Paragon points will improve your total production by 1%
 
@@ -609,7 +609,7 @@ v 0.7.0.0
 
 Calciner:
 Converts minerals and oil into iron and titanium [chemistry]
-(120 stell, 5 titanium, 5 bp, 300 oil)
+(120 steel, 5 titanium, 5 bp, 300 oil)
 -1.5 min, -0.012 oil, +0.001 titanium, +0.15 iron
 
 Changed Oil Well price to (50 steel, 25 gear, 25 scaffold)
@@ -621,12 +621,12 @@ Reduced Trade Ship scaffold price from 120 to 100
 
 Changed prices of Quarry to 50 scaffold, 150 steel, 1000 slab (prices may be reduced later)
 
-Steel Saw: improves lumber mull efffectiveness by 10%
+Steel Saw: improves Lumber Mill effectiveness by 10%
 
 v.0.6.8.6
 
-Raised base faith output of the temples by 50%
-Trade ships will give 0.35% to the titanium proc instead of 0.035%
+Raised base faith output of Temples by 50%
+Trade Ships will give 0.35% to titanium proc instead of 0.035%
 Improved base titanium output from 1 to 1.5
 Reduced manuscripts culture price from 500 to 400
 Reduced manuscript prices of Astronomy and Navigation to 65 and 100 (from 75 and 150)
@@ -644,10 +644,10 @@ Quarry (50 Scaffold, 1000 Slab), +35% minerals ratio, +0.015 coal per tick [arch
 Oil Well (25 Scaffold, 100 Steel), 2500 max oil, +0.01 oil per tick [chemistry]
 
 'Tired' status will be cleared after very brief timeout
-Pritning press will give 0.00025 manuscript per tick (2 per year total) constantly instead of 0.5 per year
+Printing press will give 0.00025 manuscript per tick (2 per year total) constantly instead of 0.5 per year
 
 Fixed astrolabe effect working even without purchased upgrade (not a nerf)
-Reduced titanum price of Titanium Reflectors from 25 to 15
+Reduced titanium price of Titanium Reflectors from 25 to 15
 
 Craft resources will be highlighted for buildings
 
@@ -656,14 +656,14 @@ v.0.6.7.5
 Trade ships will give 0.35% to the titanium drop chance
 Added Hunt All button
 Raised Mines coal output from 0.01 to 0.03
-Added color codes to craft resources
+Added colour-codes to craft resources
 
 v.0.6.7.4
 
 changed by Zusias:
 
-Census skills wlll now contribute to the production rate
+Census skills will now contribute to the production rate
 ____
 
-Hunting armor was split into two upgrades
-Bolas and Hunting Armor will increase mapowerMax to 400 and 1000 in ironwill
+Hunting armour was split into two upgrades
+Bolas and Hunting Armour will increase mapowerMax to 400 and 1000 in iron will mode
