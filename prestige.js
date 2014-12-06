@@ -8,12 +8,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		researched: false,
 		handler: function(game, self){
+			game.prestige.getPerk("megalomania").unlocked = true;
+			game.prestige.getPerk("goldenRatio").unlocked = true;
 		}
 	},{
 		name: "megalomania",
 		title: "Megalomania",
 		description: "Unlocks additional megastructures.",
-		paragon: 15,
+		paragon: 25,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
@@ -26,6 +28,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
+			game.prestige.getPerk("divineProportion").unlocked = true;
 		}
 	},{
 		name: "divineProportion",
@@ -45,6 +48,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		researched: false,
 		handler: function(game, self){
+			game.prestige.getPerk("zebraDiplomacy").unlocked = true;
 		}
 	},{
 		name: "zebraDiplomacy",
@@ -59,16 +63,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "chronomancy",
 		title: "Chronomancy",
 		description: "Meteor and star events will happen faster.",
-		paragon: 10,
+		paragon: 25,
 		unlocked: true,
 		researched: false,
 		handler: function(game, self){
+			game.prestige.getPerk("anachronomancy").unlocked = true;
 		}
 	},{
 		name: "anachronomancy",
 		title: "Anachronomancy",
 		description: "Time crystals and chronophisics will be saved across resets",
-		paragon: 25,
+		paragon: 75,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
@@ -81,16 +86,28 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 	},
 
-	//TODO: save certain keys only like in load method below
-
 	save: function(saveData){
-		saveData.religion = {
-			upgrades: this.upgrades
+		saveData.prestige = {
+			perks: this.perks
 		}
 	},
 
 	load: function(saveData){
-		
+		if (!saveData.prestige){
+			return;
+		}
+
+		var self = this;
+
+		if (saveData.prestige.perks){
+			this.loadMetadata(this.perks, saveData.prestige.perks, ["unlocked", "researched"], function(loadedElem){
+			});
+		}
+		for (var i = 0; i< this.perks.length; i++){
+			if (this.perks[i].handler && this.perks[i].researched){
+				this.perks[i].handler(this.game, this.perks[i]);
+			}
+		}
 	},
 
 	update: function(){
@@ -137,7 +154,30 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 		} else {
 			return perk.title;
 		}
-	}
+	},
+	
+	updateEnabled: function(){
+		this.inherited(arguments);
+		if (this.getPerk().researched){
+			this.setEnabled(false);
+		}
+	},
+
+	onClick: function(){
+		this.animate();
+		var perk = this.getPerk();
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.game.paragonPoints -= perk.paragon;
+			
+			perk.researched = true;
+			if (perk.handler){
+				perk.handler(this.game, perk);
+			}
+
+			this.update();
+		}
+	},
 });
 
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
@@ -158,15 +198,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 			var button = new classes.ui.PrestigeBtn({
 				id: 		perk.name,
 				name: 		perk.title,
-				description: perk.description,
-				handler: function(btn){
-					var perk = btn.getPerk();
-					perk.researched = true;
-
-					if (perk.handler){
-						perk.handler(btn.game, program);
-					}
-				}
+				description: perk.description
 			}, self.game);
 			button.render(content);
 			self.addChild(button);
