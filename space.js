@@ -29,6 +29,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		handler: function(game, self){
 			game.space.getProgram("sattelite").unlocked = true;
 			game.space.getProgram("spaceStation").unlocked = true;
+			game.space.getProgram("spaceElevator").unlocked = true;
 			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
@@ -48,6 +49,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "unobtainium", val: 75},
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
+		val: 0,
 		chance: 100,	//see comment above
 		handler: function(game, self){
 		},

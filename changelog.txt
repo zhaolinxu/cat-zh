@@ -1,3 +1,9 @@
+v 1.0.4.4 (7 dec)
+
+BLS will be saved upon reset
+Fixed space elevators not being unlocked correctly
+Metaphysics upgrades tree (be careful, most of it is TBD)
+
 v 1.0.3.4 (30 nov)
 
 Unobtainium huts

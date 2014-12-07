@@ -982,14 +982,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["fursPerTick"]  = mpratio * 1.25;	//2
 				self.effects["ivoryPerTick"] = mpratio * 0.3;	//1.5
 
-				//var furs = game.resPool.get("furs");
-				//var ivory = game.resPool.get("ivory");
-
 				game.resPool.addResAmt("furs", self.effects["fursPerTick"] * self.on);
 				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"] * self.on);
-
-				//furs.value += self.effects["fursPerTick"];
-				//ivory.value += self.effects["ivoryPerTick"];
 			}
 		}
 	},
@@ -1216,10 +1210,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var bld = this.get(bldName);
 		var ratio = bld.priceRatio;
 
-		var wEffect = this.game.workshop.getEffect(bldName + "PriceRatio");
-		if (wEffect){
-			ratio += wEffect;
-		}
+		ratio += this.game.workshop.getEffect(bldName + "PriceRatio") || 0;
+		ratio += this.game.prestige.getEffect("priceRatio") || 0;
+		
 		return ratio;
 	},
 

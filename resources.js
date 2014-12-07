@@ -440,6 +440,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.value -= price.val;
 			}
 		}
+	},
+	
+	maxAll: function(){
+		for(var i = 0; i< this.resources.length; i++){
+			var res = this.resources[i];
+			if (res.maxValue){
+				res.value = res.maxValue;
+			}
+		}
 	}
 });
 
