@@ -1211,7 +1211,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}).play();
 		}
 
-		this.bld.update();
+		//this.bld.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
