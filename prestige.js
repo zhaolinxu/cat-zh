@@ -148,6 +148,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	
 	getPerk: function(name){
 		return this.getMeta(name, this.perks);
+	},
+	
+	getSpentParagon: function(){
+		var paragon = 0;
+		for (var i = 0; i < this.perks.length; i++){
+			var perk = this.perks[i];
+			if (perk.researched){
+				paragon += perk.paragon || 0;
+			}
+		}
+		return paragon;
 	}
 });
 
