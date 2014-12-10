@@ -1714,8 +1714,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var karma = this.getTriValue(this.karmaKittens, stripe);
 
 		var milleniums = Math.floor(this.calendar.year / 1000);
-		if (this.paragonPoints < milleniums){
-			this.paragonPoints = parseInt(milleniums);
+		var paragon = milleniums - this.prestige.getSpentParagon();
+		if (this.paragonPoints < paragon){
+			this.paragonPoints = parseInt(paragon);
 		}
 		
 		this.resPool.get("karma").value = karma;
