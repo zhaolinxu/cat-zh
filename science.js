@@ -502,6 +502,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		handler: function(game){
 			game.workshop.get("electrolyticSmelting").unlocked = true;
 			game.workshop.get("oxidation").unlocked = true;
+			game.workshop.get("miningDrill").unlocked = true;
 		}
 	},{
 		name: "combustion",
@@ -628,6 +629,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		handler: function(game){
 			game.workshop.get("unobtainiumReflectors").unlocked = true;
 			game.workshop.get("unobtainiumHuts").unlocked = true;
+			game.workshop.get("unobtainiumDrill").unlocked = true;
 		}
 	},
 	{

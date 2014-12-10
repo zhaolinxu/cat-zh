@@ -28,42 +28,70 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "megalomania",
 		title: "Megalomania",
-		description: "Unlocks additional megastructures. (TBD)",
+		description: "Unlocks additional megastructures.",
 		paragon: 25,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
+			game.religion.getZU("marker").unlocked = true;
+			game.religion.getZU("blackPyramid").unlocked = true;
 		}
 	},{
 		name: "goldenRatio",
 		title: "Golden Ratio",
-		description: "Reduce all price ratios by 2%",
-		paragon: 25,
+		description: "Reduce all price ratios by 1.5%",
+		paragon: 50,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.02
+			"priceRatio" : -0.015
 		}
 	},{
 		name: "divineProportion",
 		title: "Divine Proportion",
+		description: "Reduce all price ratios by 2%",
+		paragon: 100,
+		unlocked: false,
+		researched: false,
+		handler: function(game, self){
+			game.prestige.getPerk("vitruvianFeline").unlocked = true;
+		},
+		effects:{
+			"priceRatio" : -0.02
+		}
+	},{
+		name: "vitruvianFeline",
+		title: "Vitruvian Feline",
+		description: "Reduce all price ratios by 2.5%",
+		paragon: 250,
+		unlocked: false,
+		researched: false,
+		handler: function(game, self){
+			game.prestige.getPerk("renaissance").unlocked = true;
+		},
+		effects:{
+			"priceRatio" : -0.025
+		}
+	},{
+		name: "renaissance",
+		title: "Renaissance",
 		description: "Reduce all price ratios by 3%",
-		paragon: 75,
+		paragon: 750,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
 		},
 		effects:{
-			"priceRatio" : -0.03
+			"priceRatio" : -0.3
 		}
 	},
 	{
 		name: "diplomacy",
 		title: "Diplomacy",
-		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades. (TBD)",
+		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
 		paragon: 5,
 		unlocked: true,
 		researched: false,
@@ -73,8 +101,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "zebraDiplomacy",
 		title: "Zebra Diplomacy",
-		description: "Some zebras hunters will stay in the village.",
-		paragon: 25,
+		description: "Some zebras hunters will stay in the village.(TBD)",
+		paragon: 50,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
@@ -82,18 +110,29 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
-		description: "Meteor and star events will happen faster. (TBD)",
+		description: "Meteor and star events will happen faster.",
 		paragon: 25,
 		unlocked: true,
 		researched: false,
 		handler: function(game, self){
 			game.prestige.getPerk("anachronomancy").unlocked = true;
+			game.prestige.getPerk("unicornmancy").unlocked = true;
 		}
 	},{
+		name: "unicornmancy",
+		title: "Unicornmancy",
+		description: "Unicorn rifts and ivory meteors are more frequent.",
+		paragon: 125,
+		unlocked: true,
+		researched: false,
+		handler: function(game, self){
+		}
+	},
+	{
 		name: "anachronomancy",
 		title: "Anachronomancy",
-		description: "Time crystals and chronophisics will be saved across resets. (TBD)",
-		paragon: 75,
+		description: "Time crystals and chronophisics will be saved across resets.",
+		paragon: 125,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){

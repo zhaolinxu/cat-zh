@@ -1682,9 +1682,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				faithRatio: this.religion.faithRatio
 			},
 			prestige: {
-				perks: this.prestige.perks	//save this stuff
-			}
+				perks: this.prestige.perks	//never resets
+			},
+			science: [],
+			resources: []
+		};
+		
+		//cary rare time-related stuff and techs over reset
+		if (this.prestige.getPerk("anachronomancy").researched){
+			saveData.science.push(this.science.get("chronophysics"));
+			saveData.resources.push(this.resPool.get("timeCrystal"));
+			 
 		}
+		
+		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		// Hack to prevent an autosave from occurring before the reload completes

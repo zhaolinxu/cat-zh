@@ -248,6 +248,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			if (this.game.karmaKittens > 0 ){
 				unlockYear = 5;
 			}
+			if (this.game.prestige.getPerk("diplomacy").researched){
+				unlockYear = 1;
+			}
 
 			if (this.game.calendar.year < unlockYear){
 				return;
@@ -300,6 +303,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var attitudeChance = this.game.rand(100);
 		var standingRatio = this.game.bld.getEffect("standingRatio");
 		standingRatio = standingRatio ? standingRatio : 0;
+		
+		if (this.game.prestige.getPerk("diplomacy").researched){
+			standingRatio += 10;
+		}
 
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){

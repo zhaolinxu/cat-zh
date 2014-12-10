@@ -1,3 +1,18 @@
+v 1.0.5.4 (10 dec)
+
+Slightly increased prestige upgrade prices and slightly reduced certain effects
+
+Anachronomancy should be working now
+Diplomacy should affect emissaries and increase standing by 10
+Megalomania should unlock Marker and Black Pyramid
+Chronomancy should boost meteor and star events frequencey by 10%
+Alicornomancy should boost unicorn rifts and ivory meteors frequencey by 10%
+
+Vitruvian Feline and Renaissance (more price upgrades)
+
+Mining Drill
+Unobtainium Drill
+
 v 1.0.4.4 (7 dec)
 
 BLS will be saved upon reset
