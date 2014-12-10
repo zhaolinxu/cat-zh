@@ -782,7 +782,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			gJob.modifiers["coal"] += 0.02;
 			gJob.modifiers["gold"] += 0.0008;
 		}
-	}
+	},
 	//--------------------- coal upgrades ----------------------
 	{
 		name: "coalFurnace",

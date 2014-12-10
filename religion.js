@@ -139,7 +139,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			{ name : "spice", val: 50000 },
 			{ name : "tears", val: 5000 },
 			{ name : "unobtainium", val: 2500 },
-			{ name : "megalith", val: 250 }
+			{ name : "megalith", val: 750 }
 		],
 		priceRatio: 1.15,
 		effects: {
@@ -154,7 +154,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			{ name : "spice", val: 150000 },
 			{ name : "sorrow", val: 5 },
 			{ name : "unobtainium", val: 5000 },
-			{ name : "megalith", val: 1250 }
+			{ name : "megalith", val: 2500 }
 		],
 		priceRatio: 1.15,
 		effects: {

@@ -103,10 +103,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var chanceRatio = 1;
 		var unicornChanceRatio = 1;
 		
-		if (this.game.getPerk("chronomancy").researched){
+		if (this.game.prestige.getPerk("chronomancy").researched){
 			chanceRatio = 1.1;
 		}
-		if (this.game.getPerk("unicornmancy").researched){
+		if (this.game.prestige.getPerk("unicornmancy").researched){
 			unicornChanceRatio = 1.1;
 		}
 		
