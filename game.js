@@ -1684,15 +1684,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			prestige: {
 				perks: this.prestige.perks	//never resets
 			},
-			science: [],
+			science: { techs: [] },
 			resources: []
 		};
 		
 		//cary rare time-related stuff and techs over reset
 		if (this.prestige.getPerk("anachronomancy").researched){
-			saveData.science.push(this.science.get("chronophysics"));
+			
+			saveData.science.techs.push(this.science.get("chronophysics"));
 			saveData.resources.push(this.resPool.get("timeCrystal"));
-			 
+
 		}
 		
 		
