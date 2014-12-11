@@ -99,8 +99,20 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.festivalDays){
 			this.festivalDays--;
 		}
+		
+		var chanceRatio = 1;
+		var unicornChanceRatio = 1;
+		
+		if (this.game.prestige.getPerk("chronomancy").researched){
+			chanceRatio = 1.1;
+		}
+		if (this.game.prestige.getPerk("unicornmancy").researched){
+			unicornChanceRatio = 1.1;
+		}
+		
+		
 
-		var chance = 25;					//25 OPTK of event per day	(0.25%)
+		var chance = 25 * chanceRatio;									//25 OPTK of event per day	(0.25%)
 		if (this.game.bld.get("observatory").enabled){
 			chance += this.game.bld.getEffect("starEventChance");
 		}
@@ -188,11 +200,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			iwChance = 40;	// +0.4 additional chance of falling meteors
 		}
 
-		var baseChance = 10;
-		/*if (this.iceage >=3){
-			baseChance = 3;
-		}*/
-
+		var baseChance = 10 * chanceRatio;
 		if (this.game.rand(10000) < (baseChance + iwChance) &&
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
@@ -222,7 +230,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.ironWill){
 			var archery = this.game.science.get("archery");
 			var unicorns = this.game.resPool.get("unicorns");
-			if (this.game.rand(100000) <= 17 && unicorns.value < 2 && archery.researched){
+			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && archery.researched){
 				unicorns.value += 1;
 				this.game.msg("A unicorn comes to your village attracted by the catnip scent!");
 			}
@@ -244,14 +252,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.render();
 			}
 		}
-
-		//$("#iceage").toggle(this.iceage >= 3); //ONE DAY
-
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
 		//-------------------------  -------------------
 
 		var riftChance = this.game.religion.getEffect("riftChance");	//5 OPTK
-		if (this.game.rand(10000) < riftChance){
+		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
 			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice");
 
 			this.game.resPool.get("unicorns").value += 500;
@@ -266,7 +271,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		// -------------- ivory meteors ---------------
 		var meteorChance = 0 + this.game.religion.getEffect("ivoryMeteorChance");	//5 OPTK
-		if (this.game.rand(10000) < meteorChance){
+		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
 
 			var ivory = 250 + this.game.rand(1500);
 			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice");

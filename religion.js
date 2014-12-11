@@ -131,6 +131,36 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		val: 0,
 		unlocked: true
+	},{
+		name: "marker",
+		label: "Marker",
+		description: "A strange structure made of unknown metal and serving unidentified purpose.",
+		prices: [
+			{ name : "spice", val: 50000 },
+			{ name : "tears", val: 5000 },
+			{ name : "unobtainium", val: 2500 },
+			{ name : "megalith", val: 750 }
+		],
+		priceRatio: 1.15,
+		effects: {
+		},
+		val: 0,
+		unlocked: false
+	},{
+		name: "blackPyramid",
+		label: "Black Pyramid",
+		description: "A dark relic of unspeakable horrors.",
+		prices: [
+			{ name : "spice", val: 150000 },
+			{ name : "sorrow", val: 5 },
+			{ name : "unobtainium", val: 5000 },
+			{ name : "megalith", val: 2500 }
+		],
+		priceRatio: 1.15,
+		effects: {
+		},
+		val: 0,
+		unlocked: false
 	}],
 
 	religionUpgrades:[{

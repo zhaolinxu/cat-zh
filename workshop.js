@@ -745,6 +745,44 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		flavor: "Gold sniffing cats"
 	},
+	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
+	{
+		name: "miningDrill",
+		title: "Mining Drill",
+		description: "Geologists are more effective",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 1750 },
+			{ name : "steel", 	 val: 750 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			var gJob = game.village.getJob("geologist");
+			gJob.modifiers["coal"] += 0.015;
+			gJob.modifiers["gold"] += 0.0006;
+		}
+	},{
+		name: "unobtainiumDrill",
+		title: "Unobtainium Drill",
+		description: "Geologists are even more effective",
+		effects: {
+		},
+		prices:[
+			{ name : "unobtainium", val: 250 },
+			{ name : "alloy", 	 	val: 1250 },
+			{ name : "science",  	val: 250000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			var gJob = game.village.getJob("geologist");
+			gJob.modifiers["coal"] += 0.02;
+			gJob.modifiers["gold"] += 0.0008;
+		}
+	},
 	//--------------------- coal upgrades ----------------------
 	{
 		name: "coalFurnace",
