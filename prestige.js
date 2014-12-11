@@ -85,7 +85,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		handler: function(game, self){
 		},
 		effects:{
-			"priceRatio" : -0.3
+			"priceRatio" : -0.03
 		}
 	},
 	{
