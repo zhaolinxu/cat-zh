@@ -1209,11 +1209,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	getPriceRatio: function(bldName){
 		var bld = this.get(bldName);
 		var ratio = bld.priceRatio;
-
-		ratio += this.game.workshop.getEffect(bldName + "PriceRatio") || 0;
-		ratio += this.game.prestige.getEffect("priceRatio") || 0;
 		
-		return ratio;
+		var ratioBase = ratio - 1;
+
+		var ratioDiff = this.game.workshop.getEffect(bldName + "PriceRatio") || 0;
+		ratioDiff += this.game.prestige.getEffect("priceRatio") || 0;
+		
+		ratioDiff = this.getHyperbolicEffect(ratioDiff, ratioBase);
+		
+		return ratio + ratioDiff;
 	},
 
 	/**

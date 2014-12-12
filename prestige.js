@@ -52,7 +52,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "divineProportion",
 		title: "Divine Proportion",
-		description: "Reduce all price ratios by 2%",
+		description: "Reduce all price ratios by 1.75%",
 		paragon: 100,
 		unlocked: false,
 		researched: false,
@@ -60,12 +60,12 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("vitruvianFeline").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.02
+			"priceRatio" : -0.0175
 		}
 	},{
 		name: "vitruvianFeline",
 		title: "Vitruvian Feline",
-		description: "Reduce all price ratios by 2.5%",
+		description: "Reduce all price ratios by 2.25%",
 		paragon: 250,
 		unlocked: false,
 		researched: false,
@@ -73,19 +73,19 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("renaissance").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.025
+			"priceRatio" : -0.0225
 		}
 	},{
 		name: "renaissance",
 		title: "Renaissance",
-		description: "Reduce all price ratios by 3%",
+		description: "Reduce all price ratios by 2.5%",
 		paragon: 750,
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
 		},
 		effects:{
-			"priceRatio" : -0.03
+			"priceRatio" : -0.025
 		}
 	},
 	{

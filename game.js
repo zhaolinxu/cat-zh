@@ -518,13 +518,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religionTab.visible = false;
 		this.addTab(this.religionTab);
 		
-		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
-		this.achievementTab.visible = false;
-		this.addTab(this.achievementTab);
-		
 		this.spaceTab = new com.nuclearunicorn.game.ui.tab.SpaceTab("Space", this);
 		this.spaceTab.visible = false;
 		this.addTab(this.spaceTab);
+		
+		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
+		this.achievementTab.visible = false;
+		this.addTab(this.achievementTab);
 		
 		//vvvv do not forget to toggle tab visibility below
 		
