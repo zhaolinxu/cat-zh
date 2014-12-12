@@ -6,6 +6,7 @@ Drill efffects are sliightly nerferd
 Proportion, Feline and Renaissance effects a very slightly nerfed
 
 Fixed duplicate senators being displayed on the game import
+Fixed unobtainium reflectors not giving correct bonuses
 
 v 1.0.5.4 (10 dec)
 

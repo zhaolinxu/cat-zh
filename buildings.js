@@ -203,10 +203,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			btn.game.village.getJob("scholar").unlocked = true;
 		},
 		action: function(self, game){
-			var mirrors = game.workshop.get("titaniumMirrors");
-			if (mirrors.researched){
-				self.effects["scienceMax"] = 250 + ( 250 * game.bld.get("observatory").val * mirrors.effects["libraryRatio"]);
-			}
+			var libraryRatio = game.workshop.getEffect("libraryRatio");
+			self.effects["scienceMax"] = 250 * ( 1+  game.bld.get("observatory").val * libraryRatio);
 		},
 		val: 0,
 		flavor: "All in Catonese"
