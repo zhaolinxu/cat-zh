@@ -1,3 +1,13 @@
+v 1.0.5.5 (13 dec)
+
+Price reduction effects will start to have diminishing return on 75% of total possible reduction
+Space and Achievements tabs were swapped
+Drill efffects are sliightly nerferd
+Proportion, Feline and Renaissance effects a very slightly nerfed
+
+Fixed duplicate senators being displayed on the game import
+Fixed unobtainium reflectors not giving correct bonuses
+
 v 1.0.5.4 (10 dec)
 
 Slightly increased prestige upgrade prices and slightly reduced certain effects

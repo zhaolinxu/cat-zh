@@ -761,8 +761,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			var gJob = game.village.getJob("geologist");
-			gJob.modifiers["coal"] += 0.015;
-			gJob.modifiers["gold"] += 0.0006;
+			gJob.modifiers["coal"] += 0.010;
+			gJob.modifiers["gold"] += 0.0005;
 		}
 	},{
 		name: "unobtainiumDrill",
@@ -779,8 +779,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			var gJob = game.village.getJob("geologist");
-			gJob.modifiers["coal"] += 0.02;
-			gJob.modifiers["gold"] += 0.0008;
+			gJob.modifiers["coal"] += 0.015;
+			gJob.modifiers["gold"] += 0.0005;
 		}
 	},
 	//--------------------- coal upgrades ----------------------

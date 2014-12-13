@@ -284,6 +284,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	load: function(saveData){
+		
+		this.leader = null;
+		this.senators = [];
+		
 		if (saveData.village){
 			var kittens = saveData.village.kittens;
 			//quick legacy hack, remove in future
