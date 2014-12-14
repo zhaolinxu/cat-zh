@@ -1341,8 +1341,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	get: function(upgradeName){
-		for( var i = 0; i< this.upgrades.length; i++){
-			if (this.upgrades[i].name == upgradeName){
+		for (var i = this.upgrades.length - 1; i >= 0; i--) {
+			if (this.upgrades[i].name === upgradeName){
 				return this.upgrades[i];
 			}
 		}
@@ -1351,8 +1351,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getCraft: function(craftName){
-		for( var i = 0; i< this.crafts.length; i++){
-			if (this.crafts[i].name == craftName){
+		for (var i = this.crafts.length - 1; i >= 0; i--) {
+			if (this.crafts[i].name === craftName){
 				return this.crafts[i];
 			}
 		}
@@ -1377,7 +1377,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			this.hideResearched = saveData.workshop.hideResearched;
 
 			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
-				for(var i = 0; i< saveData.workshop.upgrades.length; i++){
+				for (var i = saveData.workshop.upgrades.length - 1; i >= 0; i--) {
 					var savedUpgrade = saveData.workshop.upgrades[i];
 
 					if (savedUpgrade != null){
@@ -1397,7 +1397,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			//same for craft recipes
 
 			if (saveData.workshop.crafts && saveData.workshop.crafts.length){
-				for(var i = 0; i< saveData.workshop.crafts.length; i++){
+				for (var i = saveData.workshop.crafts.length - 1; i >= 0; i--) {
 					var savedCraft = saveData.workshop.crafts[i];
 
 					if (savedCraft != null){
@@ -1438,9 +1438,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var craftAmt = amt * (1 + craftRatio);
 		var prices = dojo.clone(craft.prices);
 
-		for (var i = 0; i< prices.length; i++){
+		for (var i = prices.length - 1; i >= 0; i--) {
 			prices[i].val *= amt;
 		}
+
 
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
@@ -1456,7 +1457,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var recipe = this.getCraft(craftName);
 
 		var minAmt = Number.MAX_VALUE;
-		for (var j = 0; j < recipe.prices.length; j++){
+		for (var j = recipe.prices.length - 1; j >= 0; j--) {
 			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
 			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
 			if (allAmt < minAmt){
@@ -1721,7 +1722,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		var self = this;
 		var crafts = this.game.workshop.crafts;
-		for( var i = 0; i < crafts.length; i++ ){
+		for (var i = 0; i < crafts.length; i++ ){
 			var craft =  crafts[i];
 			var craftBtn = new com.nuclearunicorn.game.ui.CraftButton({
 				name: craft.title,
@@ -1793,7 +1794,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	update: function(){
 		this.inherited(arguments);
 
-		for( var i = 0; i< this.craftBtns.length; i++){
+		for (var i = this.craftBtns.length - 1; i >= 0; i--) {
 			this.craftBtns[i].update();
 		}
 
