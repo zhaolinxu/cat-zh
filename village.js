@@ -307,10 +307,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					this.game.village.leader = newKitten;
 				}
 				if (newKitten.isSenator){
-					this.game.village.senators.push(newKitten);
+					this.game.village.senators.unshift(newKitten);
 				}
 
-				this.sim.kittens.push(newKitten);
+				this.sim.kittens.unshift(newKitten);
 			}
 
 			//this.sim.kittens  = kittens;
