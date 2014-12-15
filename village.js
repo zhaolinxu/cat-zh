@@ -284,10 +284,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	load: function(saveData){
-		
+
 		this.leader = null;
 		this.senators = [];
-		
+
 		if (saveData.village){
 			var kittens = saveData.village.kittens;
 			//quick legacy hack, remove in future
@@ -763,7 +763,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}
 
 		job.value -= amt;
-		for (var i = amt.length - 1; i >= 0; i--) {
+		for (var i = amt - 1; i >= 0; i--) {
 			this.game.village.sim.removeJob(job.name);
 		}
 		this.update();
@@ -771,7 +771,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	assignJobs: function(amt){
 		var job = this.getJob();
-		for (var i = amt.length - 1; i >= 0; i--) {
+		for (var i = amt - 1; i >= 0; i--) {
 			this.game.village.assignJob(job);
 		}
 		this.update();
