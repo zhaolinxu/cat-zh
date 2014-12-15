@@ -755,7 +755,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		var job = this.getJob();
 
 		if (job.value < amt){
-			return;
+			amt = job.value;
 		}
 
 		job.value -= amt;
