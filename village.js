@@ -113,7 +113,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getJob: function(jobName){
-		for( var i = 0; i< this.jobs.length; i++){
+		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			if (this.jobs[i].name == jobName){
 				return this.jobs[i];
 			}
@@ -170,7 +170,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getFreeKittens: function(){
 		var total = 0;
-		for (var i = 0; i< this.jobs.length; i++){
+		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			total += this.jobs[i].value;
 		}
 
@@ -178,7 +178,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	clearJobs: function(){
-		for (var i = 0; i< this.jobs.length; i++){
+		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			this.jobs[i].value = 0;
 		}
 		this.sim.clearJobs();
@@ -284,10 +284,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	load: function(saveData){
-		
+
 		this.leader = null;
 		this.senators = [];
-		
+
 		if (saveData.village){
 			var kittens = saveData.village.kittens;
 			//quick legacy hack, remove in future
@@ -297,7 +297,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.sim.kittens = [];
 
-			for (var i = 0; i< kittens.length; i++){
+			for (var i = kittens.length - 1; i >= 0; i--) {
 				var kitten = kittens[i];
 
 				var newKitten = new com.nuclearunicorn.game.village.Kitten();
@@ -307,10 +307,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					this.game.village.leader = newKitten;
 				}
 				if (newKitten.isSenator){
-					this.game.village.senators.push(newKitten);
+					this.game.village.senators.unshift(newKitten);
 				}
 
-				this.sim.kittens.push(newKitten);
+				this.sim.kittens.unshift(newKitten);
 			}
 
 			//this.sim.kittens  = kittens;
@@ -320,7 +320,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				this.jobs = saveData.village.jobs;
 			}*/
 			if (saveData.village.jobs.length){
-				for(var i = 0; i< saveData.village.jobs.length; i++){
+				for (var i = saveData.village.jobs.length - 1; i >= 0; i--) {
 					var savedJob = saveData.village.jobs[i];
 
 					var job = this.getJob(savedJob.name);
@@ -349,7 +349,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
-		for (var i = 0; i < resources.length; i++){
+		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
 				happiness += 10;
 			}
@@ -441,12 +441,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			unicorns: 0
 		};
 
-		for( var i = 0; i< squads; i++ ){
+		for (var i = squads - 1; i >= 0; i--) {
 			var squadYield = this.sendHuntersInternal();
 			totalYield.furs += squadYield.furs;
 			totalYield.ivory += squadYield.ivory;
 			totalYield.gold += squadYield.gold;
-			if (squadYield.isUnicorn) { totalYield.unicorns++; }
+			if (squadYield.isUnicorn) {
+				totalYield.unicorns++;
+			}
 		}
 		if (totalYield.unicorns){
 			this.game.msg("You got " + totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!");
@@ -523,8 +525,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	getTrait: function(name){
-		for (var i = 0; i< this.traits; i++){
-			if (this.traits[i].name == name){
+		for (var i = this.traits - 1; i >= 0; i--) {
+			if (this.traits[i].name === name){
 				return this.trait[i];
 			}
 		}
@@ -582,7 +584,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		var learnRatio = this.game.bld.getEffect("learnRatio");
 		var skillRatio = 0.01 + 0.01 * learnRatio;
 
-		for (var i = 0; i< this.kittens.length; i++){
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
 
 			//special hack that migrates kittens to the global exp
@@ -620,8 +622,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	addKitten: function(amount){
-		if (!amount) { amount = 1 };
-		for (var i = 0; i < amount; i ++){
+		if (!amount) {
+			amount = 1;
+		}
+		for (var i = amount - 1; i >= 0; i--) {
 			var kitten = new com.nuclearunicorn.game.village.Kitten();
 			this.kittens.push(kitten);
 		}
@@ -657,7 +661,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	 */
 	assignJob: function(job){
 		var freeKittens = [];
-		for (var i = 0; i< this.kittens.length; i++){
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
 			if (!kitten.job){
 				var val = kitten.skills[job] ? kitten.skills[job] : 0;
@@ -680,13 +684,13 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	 */
 	removeJob: function(job){
 		var jobKittens = [];
-        for (var i = 0; i< this.kittens.length; i++){
-            var kitten = this.kittens[i];
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
+			var kitten = this.kittens[i];
             if (kitten.job == job){
                 var val = kitten.skills[job] ? kitten.skills[job] : 0;
                 jobKittens.push({"id": i, "val": val});
             }
-        }
+		}
         jobKittens.sort(function(a, b){return a.val-b.val});
 
         if (jobKittens.length){
@@ -699,7 +703,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	clearJobs: function(){
-		for (var i = 0; i< this.kittens.length; i++){
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			this.kittens[i].job = null;
 		}
 	}
@@ -759,7 +763,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}
 
 		job.value -= amt;
-		for (var i = 0; i<amt ; i++){
+		for (var i = amt - 1; i >= 0; i--) {
 			this.game.village.sim.removeJob(job.name);
 		}
 		this.update();
@@ -767,7 +771,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	assignJobs: function(amt){
 		var job = this.getJob();
-		for (var i = 0; i<amt ; i++){
+		for (var i = amt - 1; i >= 0; i--) {
 			this.game.village.assignJob(job);
 		}
 		this.update();
@@ -936,7 +940,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var councilDiv = dojo.create("div", null, governmentDiv);
 		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
 
-		for (var i = 0; i< this.game.village.senators.length; i++){
+		for (var i = this.game.village.senators.length - 1; i >= 0; i--) {
 			var senator = this.game.village.senators[i];
 
 			var title = senator.trait.title == "None" ? "No trait" : senator.trait.title + " rank " + senator.rank;
@@ -962,7 +966,6 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.render();
 			}, this.game, i));
 		}
-
 
 		var navbar = dojo.create("div", { style: {
 			height: "24px"
@@ -991,7 +994,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var kittensLimit = 0;
 
 		var sim = this.game.village.sim;
-		for (var i = 0; i < sim.kittens.length && kittensLimit < 10; i++){
+		for (var i = sim.kittens.length - 1; i >= 0; i--) {
+
 
 			var kitten = sim.kittens[i];
 
@@ -1400,95 +1404,100 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
-		if (kittens > 300){//You really should put a switch here. ~Ædx
+		switch (true) {
+		case kittens > 300:
 			return "Imperium";
-		} else if (kittens > 200){
+		case kittens > 200:
 			return "Metropolis";
-		} if (kittens > 150){
+		case kittens > 150:
 			return "City";
-		} else if (kittens > 100){
+		case kittens > 100:
 			return "Town";
-		} else if (kittens > 50){
+		case kittens > 50:
 			return "Small town";
-		} else if (kittens > 30){
+		case kittens > 30:
 			return "Settlement";
-		} else if (kittens > 15){
+		case kittens > 15:
 			return "Village";
-		} else if (kittens > 0){
+		case kittens > 0:
 			return "Small Village";
-		} else {
+		default:
 			return "Outpost";
 		}
 	},
 
 	skillToText: function(value){
-		if (value < 100 ){//And here.
+		switch (true) {
+		case value < 100:
 			return "Dabbling";
-		} else if (value < 500){
+		case value < 500:
 			return "Novice";
-		} else if (value < 1200){
+		case value < 1200:
 			return "Adequate";
-		} else if (value < 2500){
+		case value < 2500:
 			return "Competent";
-		} else if (value < 5000){
+		case value < 5000:
 			return "Skilled";
-		} else if (value < 9000){
+		case value < 9000:
 			return "Proficient";
-		} else {
+		default:
 			return "Master";
 		}
 	},
 
 	getNextSkillExp: function(value){
-		if (value < 100){//And here.
+		switch (true) {
+		case value < 100:
 			return 100;
-		} else if (value < 500){
+		case value < 500:
 			return 500;
-		} else if (value < 2500){
+		case value < 2500:
 			return 2500;
-		} else if (value < 5000){
+		case value < 5000:
 			return 5000;
-		} else if (value < 9000){
+		case value < 9000:
 			return 9000
-		} else if (value < 20000){
+		case value < 20000:
 			return 20000;
-		} else {
+		default:
 			return Number.MAX_VALUE;
 		}
 	},
 
 	getPrevSkillExp: function(value){
-		if (value > 9000){//You probably get the point by now.
+		switch (true) {
+		case value > 9000:
 			return 9000;
-		} else if (value > 5000){
+		case value > 5000:
 			return 5000;
-		} else if (value > 2500){
+		case value > 2500:
 			return 2500;
-		} else if (value > 1200){
+		case value > 1200:
 			return 1200;
-		} else if (value > 500){
+		case value > 500:
 			return 500;
-		} else if (value > 100){
+		case value > 100:
 			return 100;
-		} else {
+		default:
 			return 0;
 		}
 	},
 
 	getValueModifierPerSkill: function(value){
-		if (value < 100 ){//Possibly.
+		switch (true) {
+		case value < 100:
 			return 1.0;
-		} else if (value < 500){
+		case value < 500:
 			return 1.05;	//5%
-		} else if (value < 1200){
+		case value < 1200:
 			return 1.10;
-		} else if (value < 2500){
+		case value < 2500:
 			return 1.18;
-		} else if (value < 5000){
+		case value < 5000:
 			return 1.30;
-		} else if (value < 9000){
+		case value < 9000:
 			return 1.50;
-		} else {
+		default:
 			return 1.75;
 		}
 	},

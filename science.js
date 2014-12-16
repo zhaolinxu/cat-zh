@@ -702,7 +702,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 
 	get: function(techName){
-		for( var i = 0; i< this.techs.length; i++){
+		for (var i = this.techs.length - 1; i >= 0; i--) {
 			if (this.techs[i].name == techName){
 				return this.techs[i];
 			}
@@ -725,7 +725,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			var techs = saveData.science.techs;
 
 			if (saveData.science.techs.length){
-				for(var i = 0; i< saveData.science.techs.length; i++){
+				for (var i = saveData.science.techs.length - 1; i >= 0; i--) {
 					var savedTech = saveData.science.techs[i];
 
 					if (savedTech != null){
@@ -744,11 +744,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 
 		//re-unlock technologies in case we have modified something
-		for (var i = 0; i< this.techs.length; i++ ){
+		for (var i = this.techs.length - 1; i >= 0; i--) {
 			var tech = this.techs[i];
 
 			if (tech.researched && tech.unlocks && tech.unlocks.length){
-				for (var j = 0; j < tech.unlocks.length; j++){
+				for (var j = tech.unlocks.length - 1; j >= 0; j--) {
 					var newTech = this.get(tech.unlocks[j]);
 					newTech.unlocked = true;
 				}
@@ -756,9 +756,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 
 	},
-	
+
 	unlockAll: function(){
-		for (var i = 0; i< this.techs.length; i++ ){
+		for (var i = this.techs.length - 1; i >= 0; i--) {
 			var tech = this.techs[i];
 			tech.researched = true;
 			tech.unlocked = true;
@@ -968,7 +968,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 				tech.researched = true;
 
 				if (tech.unlocks && tech.unlocks.length){
-					for (var i = 0; i < tech.unlocks.length; i++){
+					for (var i = tech.unlocks.length - 1; i >= 0; i--) {
 						var newTech = btn.getTechByName(tech.unlocks[i]);
 						newTech.unlocked = true;
 					}

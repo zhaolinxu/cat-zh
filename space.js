@@ -294,7 +294,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked", "researched"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
-				for( var k = 0; k < prices.length; k++){
+				for (var k = prices.length - 1; k >= 0; k--) {
 					var price = prices[k];
 					for (var j = 0; j < loadedElem.val; j++){
 						price.val = price.val * loadedElem.priceRatio;
@@ -302,7 +302,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			});
 		}
-		for (var i = 0; i< this.programs.length; i++){
+		for (var i = this.programs.length - 1; i >= 0; i--) {
 			if (this.programs[i].handler && this.programs[i].researched){
 				this.programs[i].handler(this.game, this.programs[i]);
 			}
@@ -310,7 +310,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	update: function(){
-		for (var i = 0; i < this.programs.length; i++){
+		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
 			if (program.action && program.val > 0){
 				program.action(this.game, program);
@@ -369,8 +369,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 		var prices = dojo.clone(program.prices);
 		if (program.upgradable){
-			for (var i = 0; i < program.val; i++) {
-				for(var j = 0; j < prices.length; j++) {
+			for (var i = program.val - 1; i >= 0; i--) {
+				for (var j = prices.length - 1; j >= 0; j--){
 					//Hack to avoid increase in rocket or fuel price:
 					if (prices[j].name !== "oil" && prices[j].name !== "rocket") {
 						prices[j].val = prices[j].val * ratio;
@@ -378,7 +378,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				}
 			}
 		}
-		for(var i = 0; i < prices.length; i++) {
+		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "oil"){
 				var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
 				prices[i].val *= (1 - reductionRatio);
@@ -391,7 +391,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	updateVisible: function(){
 		var program = this.getProgram();
 		if (program.requiredTech){
-			for (var i = 0; i< program.requiredTech.length; i++){
+			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
 				var tech = this.game.science.get(program.requiredTech[i]);
 				if (!tech.researched){
 					this.setVisible(false);
@@ -421,7 +421,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 				var refundRatio = (this.game.rand(30) + 40) / 100;
 				var prices = this.getPrices();
-				for( var i = 0; i < prices.length; i++){
+				for (var i = prices.length - 1; i >= 0; i--) {
 					if (prices[i].name != "oil" && prices[i].name != "rocket" && prices[i].name != "science"){
 						var res = this.game.resPool.get(prices[i].name);
 						res.value += prices[i].val * refundRatio;
