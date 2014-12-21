@@ -1329,6 +1329,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	effectsBase: {
 		"scienceMax" : 0
 	},
+	
+	metaCache: null,
 
 	constructor: function(game){
 		this.game = game;
@@ -1338,11 +1340,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
+		
+		this.metaCache = {};
 	},
 
 	get: function(upgradeName){
+		var upgrade = this.metaCache[upgradeName];
+		if (upgrade){
+			return upgrade;
+		}
+		
 		for (var i = this.upgrades.length - 1; i >= 0; i--) {
 			if (this.upgrades[i].name === upgradeName){
+				this.metaCache[upgrade] = this.upgrades[i];
 				return this.upgrades[i];
 			}
 		}

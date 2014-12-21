@@ -588,7 +588,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.rate : res.perTickUI;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			 
-			var perTickValue = perTick ? "(" + this.game.getDisplayValue(perTick, true) + postfix + ")" : "";
+			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 			row.resTick.innerHTML = perTickValue;
 
 			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";

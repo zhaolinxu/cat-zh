@@ -694,16 +694,24 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		handler: function(game){
 			game.workshop.get("stasisChambers").unlocked = true;
 		}
-	}
-	],
+	}],
+	
+	metaCache: null,
 
 	constructor: function(game){
 		this.game = game;
+		this.metaCache = {};
 	},
 
 	get: function(techName){
+		var tech = this.metaCache[techName];
+		if (tech){
+			return tech;
+		}
+		
 		for (var i = this.techs.length - 1; i >= 0; i--) {
 			if (this.techs[i].name == techName){
+				this.metaCache[techName] = this.techs[i];
 				return this.techs[i];
 			}
 		}
