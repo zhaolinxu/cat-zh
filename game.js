@@ -458,6 +458,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		this.opts = {
 			usePerSecondValues: true,
+			usePercentageResourceValues: false,
 			highlightUnavailable: false,
 			hideSell: false
 		};
@@ -644,11 +645,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("#schemeToggle").val(this.colorScheme);
 		$("body").attr("class", "scheme_"+this.colorScheme);
 		
-		$("#workersToggle")[0].checked = this.useWorkers;
-		$("#forceHighPrecision")[0].checked	= this.forceHighPrecision;
-		$("#usePerSecondValues")[0].checked	= this.opts.usePerSecondValues;
-		$("#highlightUnavailable")[0].checked	= this.opts.highlightUnavailable;
-		$("#hideSell")[0].checked	= this.opts.hideSell;
+		$("#workersToggle")[0].checked 			= this.useWorkers;
+		$("#forceHighPrecision")[0].checked		= this.forceHighPrecision;
+		$("#usePerSecondValues")[0].checked		= this.opts.usePerSecondValues;
+		$("#usePercentageResourceValues")[0].checked 	= this.opts.usePercentageResourceValues;
+		$("#highlightUnavailable")[0].checked		= this.opts.highlightUnavailable;
+		$("#hideSell")[0].checked			= this.opts.hideSell;
 		
 	},
 	
