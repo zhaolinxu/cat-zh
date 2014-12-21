@@ -949,7 +949,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 		//--------------- job filter -----------------
 		
-		console.log("filter job:", this.filterJob);
+		//console.log("filter job:", this.filterJob);
 
 		var jobSelect = dojo.create("select", { style: {float: "right" }}, navbar);
 

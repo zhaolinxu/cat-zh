@@ -35,6 +35,14 @@ dojo.declare("classes.managers.Achievements", null, {
 		},
 		unlocked: false
 	},{
+		name: "deadSpace",
+		title: "Dead Space",
+		description: "In space no one can hear you meow.",
+		condition: function(){
+			return ( this.game.resPool.get("necrocorn").value > 0 );
+		},
+		unlocked: false
+	},{
 		name: "ironWill",
 		title: "Iron Will",
 		description: "You truly deserved this",

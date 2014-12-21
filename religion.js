@@ -586,6 +586,35 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunico
 	}
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+
+	onClick: function(){
+		this.animate();
+
+		if (this.enabled && this.hasResources()){
+			
+			if (this.game.sorrow >= this.game.nerfs){
+				this.game.msg("Nothing happens");
+				return;
+			}
+			
+			this.payPrice();
+			this.refine();
+		}
+	},
+
+	refine: function(){
+		if (this.game.sorrow < this.game.nerfs){
+			this.game.sorrow++;
+		}
+	},
+
+	updateVisible: function(){
+		this.setVisible(this.game.religion.getZU("blackPyramid").unlocked);
+	}
+});
+
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
 	sacrificeBtn : null,
@@ -626,6 +655,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
+			
+			var refineBtn = new com.nuclearunicorn.game.ui.RefineTearsBtn({
+				name: "Refine Tears",
+				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
+				prices: [{ name: "tears", val: 10000}]
+			}, this.game);
+			refineBtn.updateVisible();
+			refineBtn.render(content);
+			this.refineBtn = refineBtn; 
+			
+			
+			
+			
+			
 
 			//TODO: all the dark miracles there
 
@@ -708,6 +751,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (this.sacrificeAlicornsBtn){
 			this.sacrificeAlicornsBtn.update();
+		}
+		
+		if (this.refineBtn){
+			this.refineBtn.update();
 		}
 
 		var faith = this.game.religion.faith;

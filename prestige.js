@@ -240,6 +240,19 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			this.setEnabled(false);
 		}
 	},
+	
+	updateVisible: function(){
+		var perk = this.getPerk();
+		if (!perk.unlocked){
+			this.setVisible(false);
+		}else{
+			this.setVisible(true);
+		}
+
+		if (perk.researched && this.game.science.hideResearched){
+			this.setVisible(false);
+		}
+	},
 
 	onClick: function(){
 		this.animate();
