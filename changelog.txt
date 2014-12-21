@@ -2,7 +2,7 @@ v 1.0.5.5 (13 dec)
 
 Price reduction effects will start to have diminishing return on 75% of total possible reduction
 Space and Achievements tabs were swapped
-Drill efffects are sliightly nerferd
+Drill effects are slightly nerfed
 Proportion, Feline and Renaissance effects a very slightly nerfed
 
 Fixed duplicate senators being displayed on the game import
@@ -15,8 +15,8 @@ Slightly increased prestige upgrade prices and slightly reduced certain effects
 Anachronomancy should be working now
 Diplomacy should affect emissaries and increase standing by 10
 Megalomania should unlock Marker and Black Pyramid
-Chronomancy should boost meteor and star events frequencey by 10%
-Alicornomancy should boost unicorn rifts and ivory meteors frequencey by 10%
+Chronomancy should boost meteor and star events frequency by 10%
+Alicornomancy should boost unicorn rifts and ivory meteors frequency by 10%
 
 Vitruvian Feline and Renaissance (more price upgrades)
 
@@ -62,7 +62,7 @@ Exogeology
 
 v 1.0.2.2 (7 nov)
 
-Changes by Ćdx:
+Changes by Aedx:
 ___
 	Fixed space program purchases not highlighting oil and rockets (http://redd.it/2lm044)
 	Fixed incorrect grassy theme layout
@@ -79,7 +79,7 @@ ___
 	Resource tooltips no longer show multipliers that don't apply
 	Fixed religion effects
 	Fixed weather ratio in resource tooltips
-	Bio Lab bonuses no longer get turned off
+	Biolab bonuses no longer get turned off
 	Faith/Magnetos/Reactors/Paragon now affect titanium from Smelters
 
 Storage upgrades in Workshop will no longer affect Accelerators
@@ -95,9 +95,9 @@ v 1.0.2.0 (4 nov)
 
 First race arrives 15 years earlier after a reset
 Moon base should give correct population bonus
-Bio Lab will be togglable once Biofuel is researched
+Biolab will be togglable once Biofuel is researched
 Building type missions will display effects
-Lots of typo fixes by Ćdx
+Lots of typo fixes by Aedx
 
 Unobtainium
 Moon Outpost
@@ -114,7 +114,7 @@ Hubble Telescope
 v 1.0.0.1 (31 oct)
 
 Fixed astrolabe not giving correct bonus to observatory
-Fixed biofuel not affecting oil
+Fixed Biofuel not affecting oil
 
 Added two more planets
 
@@ -142,7 +142,7 @@ Village, Science and Workshop panels will retain collapsible status
 Changes by xranti:
 ___
 
-	The x100 refine catnip link now respects the wood refine ratio (bonus from bio labs and lumber mills in iron will). (http://redd.it/2i5jzp)
+	The x100 refine catnip link now respects the wood refine ratio (bonus from Biolabs and lumber mills in iron will). (http://redd.it/2i5jzp)
 	The reactor bonus now displays in the resource tooltips correctly. (http://redd.it/2idy8s)
 	The solar revolution bonus now displays as a single percentage on the religion tab. (http://redd.it/2igc4g)
 	Enriched uranium effects are now reflected in the resource table. (http://redd.it/2ij88k)
@@ -196,7 +196,7 @@ ___
 	The game will now render when new buildings are unlocked (http://redd.it/2hnj5z)
 	Removed render hacks from gather and refine catnip buttons (see above fix)
 	Fixed Super Unethical Climax achievement
-	Added Bio Lab bonus to the refine catnip button
+	Added Biolab bonus to the refine catnip button
 	Fixed coal rate display with Steel Plants upgrade (http://redd.it/2hh7it)
 	Hide 0 effects in building tooltips
 	Prevent crafting blueprints before researching physics (http://redd.it/2h4s74)
@@ -234,7 +234,7 @@ v 0.9.6.8 (20 sep)
 
 Slightly reduced gear prices of Steamworks and SW upgrades.
 Slightly reduced blueprint prices of pre-electronics  technologies.
-Buffed Bio Lab effect to 10%
+Buffed Biolab effect to 10%
 
 Village jobs can now display /sec values.
 Fixed incorrect "+" values for blueprints and wood
@@ -506,7 +506,7 @@ Titanium Saw
 Alloy Saw
 
 Magneto
-Bio Lab
+Biolab
 
 Industrialization
 
