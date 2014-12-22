@@ -661,9 +661,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 
 				var ratio = game.bld.getEffect("craftRatio");
+				// Cap automation at 90% of resource cap to prevent trying to craft more than you have
+				var automationRate = Math.min(baseAutomationRate + baseAutomationRate * self.on, 0.9);
 
 				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
-					var autoWood = wood.value * ( baseAutomationRate + baseAutomationRate * self.on);
+					var autoWood = wood.value * (automationRate);
 					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
 						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
@@ -671,7 +673,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					}
 				}
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
-					var autoMinerals = minerals.value * ( baseAutomationRate + baseAutomationRate * self.on);
+					var autoMinerals = minerals.value * (automationRate);
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
 						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
@@ -680,7 +682,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
-					var autoIron = iron.value * ( baseAutomationRate + baseAutomationRate * self.on);
+					var autoIron = iron.value * (automationRate);
 
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);

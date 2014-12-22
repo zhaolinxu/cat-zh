@@ -740,8 +740,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			var gJob = game.village.getJob("geologist");
-			gJob.modifiers["coal"] = 0.0225;	//instead of 0.015
+			gJob.modifiers["coal"] += 0.0075;	//instead of 0.015
 			gJob.modifiers["gold"] = 0.0008;
+			if (game.workshop.get("miningDrill").researched){
+				gJob.modifiers["gold"] += 0.0005;
+			}
+			if (game.workshop.get("unobtainiumDrill").researched){
+				gJob.modifiers["gold"] += 0.0005;
+			}
 		},
 		flavor: "Gold sniffing cats"
 	},
@@ -762,7 +768,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			var gJob = game.village.getJob("geologist");
 			gJob.modifiers["coal"] += 0.010;
-			gJob.modifiers["gold"] += 0.0005;
+			if (game.workshop.get("geodesy").researched){
+				gJob.modifiers["gold"] += 0.0005;
+			}
 		}
 	},{
 		name: "unobtainiumDrill",
@@ -780,7 +788,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			var gJob = game.village.getJob("geologist");
 			gJob.modifiers["coal"] += 0.015;
-			gJob.modifiers["gold"] += 0.0005;
+			if (game.workshop.get("geodesy").researched){
+				gJob.modifiers["gold"] += 0.0005;
+			}
 		}
 	},
 	//--------------------- coal upgrades ----------------------
