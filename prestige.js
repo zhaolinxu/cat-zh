@@ -1,5 +1,5 @@
 dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabManager, {
-	
+
 	constructor: function(game){
 		this.game = game;
 
@@ -10,7 +10,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			return 0;
 		}});*/
 	},
-    
+
     perks:[{
 		name: "engeneering",
 		title: "Engineering",
@@ -39,7 +39,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "goldenRatio",
 		title: "Golden Ratio",
-		description: "Reduce all price ratios by 1.5%",
+		description: "Reduce all price ratios by ~1.618%",
 		paragon: 50,
 		unlocked: false,
 		researched: false,
@@ -47,7 +47,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.015
+			"priceRatio" : -(1 + Math.sqrt(5)) / 2	//Calculates the Golden Ratio
 		}
 	},{
 		name: "divineProportion",
@@ -140,7 +140,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	}],
 
 	game: null,
-	
+
 	constructor: function(game){
 		this.game = game;
 	},
@@ -170,7 +170,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-	
+
 	},
 
 	getEffect: function(name){
@@ -184,11 +184,11 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			}
 		}});
 	},
-	
+
 	getPerk: function(name){
 		return this.getMeta(name, this.perks);
 	},
-	
+
 	getSpentParagon: function(){
 		var paragon = 0;
 		for (var i = 0; i < this.perks.length; i++){
@@ -202,29 +202,29 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 });
 
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-	
+
 	perk: null,
-	
+
 	constructor: function(opts, game) {
 	},
-	
+
 	getPerk: function(id){
 		if (!this.perk){
 			this.perk = this.game.prestige.getPerk(this.id);
 		}
 		return this.perk;
 	},
-	
+
 	//what a disgrace
 	getBuilding: function(){
 		return this.getPerk();
 	},
-	
+
 	getPrices: function(){
 		var price = [{ name: "paragon", val: this.getPerk().paragon}];
 		return price;
 	},
-	
+
 	getName: function(){
 		var perk = this.getPerk();
 		if (perk.researched){
@@ -233,14 +233,14 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			return perk.title;
 		}
 	},
-	
+
 	updateEnabled: function(){
 		this.inherited(arguments);
 		if (this.getPerk().researched){
 			this.setEnabled(false);
 		}
 	},
-	
+
 	updateVisible: function(){
 		var perk = this.getPerk();
 		if (!perk.unlocked){
@@ -260,7 +260,7 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 		if (this.enabled && this.hasResources()){
 			this.payPrice();
 			this.game.paragonPoints -= perk.paragon;
-			
+
 			perk.researched = true;
 			if (perk.handler){
 				perk.handler(this.game, perk);
@@ -272,15 +272,15 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 });
 
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
-	
+
 	game: null,
-	
+
 	constructor: function(){
 	},
-	
+
     render: function(container){
 		var content = this.inherited(arguments);
-		
+
 		var self = this;
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new classes.ui.PrestigeBtn({
@@ -292,5 +292,5 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 			self.addChild(button);
 		});
 	}
-	
+
 });
