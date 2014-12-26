@@ -1,3 +1,21 @@
+v 1.0.5.7
+
+*** can be correctly spent on ***
+Classic mode
+
+Changes by Aedx:
+___
+
+Buffed Golden Ratio effectiventes from 1.5 to ~1.61803398875
+
+Changes by xranti:
+___
+
+Added option for displaying resource production values as percentages (http://redd.it/2pysri)
+Fixed geodesy bug when buying it after drills (http://redd.it/2puejh)
+Fixed workshop automation breaking with more than 50 steamworks (http://redd.it/2prnk9)
+
+
 v 1.0.5.6 (21 dec)
 
 Performance
