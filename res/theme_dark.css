@@ -2,32 +2,33 @@
  *			Dark Theme
  */
 
-.scheme_dark, .scheme_dark .help{
-	background-color: #201F1D;
+.scheme_dark,
+.scheme_dark .help {
 	color: #DCDCDC;
+	background-color: #201F1D;
 }
 
-.scheme_darl #autosaveTooltip{
+.scheme_dark #autosaveTooltip {
 	color: #DCDCDC;
 }
 
 .scheme_dark .btn {
-	border: solid 1px #DE8D47;
 	color: #DCDCDC;
+	border: solid 1px #DE8D47;
 }
 
-.scheme_dark .highlited{
+.scheme_dark .highlited {
 	background-color: #403F3D;
 }
 
 .scheme_dark a {
-	color: #868685
+	color: #868685;
 }
 .scheme_dark div {
 	color: #DCDCDC;
 }
 .scheme_dark .disabled div {
-	color: #565655
+	color: #565655;
 }
 
 .scheme_dark .button_tooltip div {
@@ -43,8 +44,8 @@
 }
 
 .scheme_dark .button_tooltip {
-	background-color: #201F1D;
 	color: #565655;
+	background-color: #201F1D;
 }
 
 .scheme_dark .maxRes {
@@ -60,8 +61,8 @@
 }
 
 .scheme_dark .btn.modern a {
-	background-color: #212121;
 	color: gray;
+	background-color: #212121;
 }
 
 .scheme_dark table.craftTable tr:hover td {
