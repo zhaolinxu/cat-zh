@@ -47,7 +47,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -(1 + Math.sqrt(5)) / 2	//Calculates the Golden Ratio
+			"priceRatio" : -(1 + Math.sqrt(5)) / 200	//Calculates the Golden Ratio
 		}
 	},{
 		name: "divineProportion",

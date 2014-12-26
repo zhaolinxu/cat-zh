@@ -1,4 +1,4 @@
-v 1.0.5.7
+v 1.0.5.7 (26 dec)
 
 *** can be correctly spent on ***
 Classic mode
