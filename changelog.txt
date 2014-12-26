@@ -1,3 +1,14 @@
+v 1.0.5.6 (21 dec)
+
+Performance
+Promote/Senate/Leader commands should not redraw the UI and reset job filter anymore
+Resource panel should be displayed corectly on higher screen size
+Resouce panel will correctly format perTick values
+Log panel should not be truncated on lower screen size anymore
+
+*** refinement
+
+
 v 1.0.5.5 (13 dec)
 
 Price reduction effects will start to have diminishing return on 75% of total possible reduction
