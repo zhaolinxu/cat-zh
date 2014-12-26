@@ -720,6 +720,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			if (this.sorrow){
 				$("#sorrowTooltip").html("BLS: " + this.sorrow + "%");
+				this.resPool.get("sorrow").value = this.sorrow;
 			}
 			//-------------------------------------------
 			

@@ -149,6 +149,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		color: "#14CD61"
+	},{
+		name : "sorrow",
+		type : "common",
+		visible: false,
+		color: "black"
 	},
 	
 	//=========================================

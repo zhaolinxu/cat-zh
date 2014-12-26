@@ -372,6 +372,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		 }
 	     return prices;
 	 },
+	 
+	 payPrice: function(){
+		this.inherited(arguments);
+		
+		//TODO: fix it somehow
+		if (this.getBuilding().name == "blackPyramid"){
+			this.game.sorrow = this.game.resPool.get("sorrow").value;
+			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
+		}
+	 },
 
 	 getTooltipHTML: function(btn){
 
@@ -606,6 +616,8 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.gam
 	refine: function(){
 		if (this.game.sorrow < this.game.nerfs){
 			this.game.sorrow++;
+			this.game.resPool.get("sorrow").value = this.game.sorrow;
+			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
 		}
 	},
 
