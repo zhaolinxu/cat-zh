@@ -495,8 +495,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly", "Jasper",
-			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha" ],
-	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch"],
+			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha", "Tami", "Plato" ],
+	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow"],
 
 	traits: [{
 		name: "scientist",
@@ -1461,8 +1461,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
 		switch (true) {
+		case kittens > 500:
+			return "Hegemony";
+		case kittens > 400:
+			return "Dominion";
 		case kittens > 300:
 			return "Imperium";
+		case kittens > 250:
+			return "Empire";
 		case kittens > 200:
 			return "Metropolis";
 		case kittens > 150:
