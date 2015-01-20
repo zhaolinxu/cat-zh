@@ -997,9 +997,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		
-		//works very wrong on catnip
-		var useHypHack = (res.name != "catnip") ? true : false;
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyp reduction
+		//var useHypHack = (res.name != "catnip") ? true : false; //Works fine after the rework of diminished returns
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);	//use hyp reduction
 		
 		perTick += resConsumption;
 		
@@ -1159,8 +1158,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		
-		var useHypHack = (res.name != "catnip") ? true : false;		//	TODO: ************ WTF!?? ***************
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);
+		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
 		
 		stack.push({
 			name: "Demand",
