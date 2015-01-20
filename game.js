@@ -997,9 +997,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		
-		//works very wrong on catnip
-		var useHypHack = (res.name != "catnip") ? true : false;
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);	//use hyp reduction
+		//var useHypHack = (res.name != "catnip") ? true : false; //Works fine after the rework of diminished returns
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);	//use hyp reduction
 		
 		perTick += resConsumption;
 		
@@ -1159,8 +1158,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		
-		var useHypHack = (res.name != "catnip") ? true : false;		//	TODO: ************ WTF!?? ***************
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", useHypHack);
+		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
 		
 		stack.push({
 			name: "Demand",
@@ -1442,13 +1441,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	toDisplaySeconds : function (secondsRaw) {
-	    var sec_num = parseInt(secondsRaw, 10); // don't forget the second param
-	    var hours   = Math.floor(sec_num / 3600);
-	    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-	    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+	    var sec_num = parseInt(secondsRaw, 10); // don't forget the second param	    
+	    var days    = Math.floor(sec_num / 86400);
+	    var hours   = Math.floor((sec_num-(days * 86400)) / 3600);  
+	    var minutes = Math.floor((sec_num - (days * 86400 + hours * 3600)) / 60);
+	    var seconds = sec_num - (days * 86400) - (hours * 3600) - (minutes * 60);
 
 	    var timeFormated = "";
-	    if ( hours ) {  timeFormated = hours + "h " }
+	    if ( days ) { timeFormated = days + "d "}
+	    if ( hours ) {  timeFormated += hours + "h " }
 	    if ( minutes) { timeFormated += minutes + "m " }
 	    if ( seconds ) { timeFormated += seconds + "s " }
 

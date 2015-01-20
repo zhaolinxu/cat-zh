@@ -1482,7 +1482,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
-			this.game.resPool.get(res).value += craftAmt;
+			this.game.resPool.addResAmt(res,craftAmt);
 		}else{
 			console.log("not enough resources for", prices);
 		}
