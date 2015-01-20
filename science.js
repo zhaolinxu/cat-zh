@@ -613,6 +613,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: ["exogeology"],
 		handler: function(game){
 			game.workshop.get("hubbleTelescope").unlocked = true;
+			game.workshop.get("astrophysicists").unlocked = true;
 		}
 	},{
 		name: "exogeology",

@@ -530,14 +530,26 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
+		var self = this;
 
+		this.all = this.addLink("all",
+			function(){
+				this.animate();
+				
+				var amt = Math.floor(self.game.resPool.get("unicorns").value / prices[0].val);
+				self.game.resPool.get("unicorns").value -= amt * prices[0].val;
+				
+				this.sacrifice(amt);
+				this.update();
+			}, false
+		);
+		
 		this.x10 = this.addLink("x10",
 			function(){
 				this.animate();
-
-				for (var i = 0; i<10; i++){
-					this.payPrice();	//this is so lame
-				}
+				
+				self.game.resPool.get("unicorns").value -= 10 * prices[0].val;
+				
 				this.sacrifice(10);
 				this.update();
 			}, false
@@ -547,6 +559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
 
 		dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
+		dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
 	},
 
 	update: function(){
@@ -557,6 +570,9 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 
 		if (this.x10){
 			dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
+		}
+		if (this.all){
+			dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
 		}
 	},
 

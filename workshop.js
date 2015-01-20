@@ -1194,6 +1194,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 
 		}
+	},
+	{
+		name: "astrophysicists",
+		title: "Astrophysicists",
+		description: "Each scientist will now generate  starcharts",
+		effects: {
+		},
+		prices:[
+			{ name : "unobtainium", val: 350 },
+			{ name : "science",  val: 250000 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			var sJob = game.village.getJob("scientist");
+			sJob.modifiers["starchart"] = 0.0005;	//i'm not entirely sure if it is too little or too much
+		}
 	}
 	],
 
