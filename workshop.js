@@ -1208,7 +1208,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			var sJob = game.village.getJob("scientist");
+			var sJob = game.village.getJob("scholar");
 			sJob.modifiers["starchart"] = 0.0005;	//i'm not entirely sure if it is too little or too much
 		}
 	}
