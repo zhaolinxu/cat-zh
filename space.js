@@ -162,6 +162,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
 				uranium.value += self.effects["uraniumPerTick"] * self.on;
 				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
+			} else {
+			    self.on--;
 			}
 		}
 	},{
