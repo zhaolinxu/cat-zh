@@ -74,6 +74,19 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (this.game.resPool.get("faith").value > 0){
 			this.game.religionTab.visible = true;
 		}
+		
+		var alicorns = this.game.resPool.get("alicorn");
+		if (alicorns.value > 0){
+			this.corruption += this.getEffect("corruptionRatio");
+			
+			if (this.corruption > 1){
+				this.corruption = 0;
+				alicorns.value--;
+				this.game.resPool.get("necrocorn").value++;
+			}
+		} else {
+			this.corruption = 0;
+		}
 	},
 
 	zigguratUpgrades: [{
@@ -147,7 +160,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"corruptionRatio" : 0.001
+			"corruptionRatio" : 0.00001
 		},
 		val: 0,
 		unlocked: false
@@ -350,21 +363,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.faith += faith.value +
 			faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1; //starting up from 100% ratio will work surprisingly bad
 		faith.value = 0.01;	//have a nice autoclicking
-	},
-	
-	update: function(){
-		var alicorns = this.game.resPool.get("alicorn");
-		if (alicorns.value > 0){
-			this.corruption += this.getEffect("corruptionRatio");
-			
-			if (this.corruption > 1){
-				this.corruption = 0;
-				alicorns.value--;
-				this.game.resPool.get("necrocorn").value++;
-			}
-		} else {
-			this.corruption = 0;
-		}
 	}
 
 });
