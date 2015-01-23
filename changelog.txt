@@ -13,6 +13,7 @@ ___
 Sacrifice all for unicorns
 Collapse/expand all for trade
 Net gain value in +% res tooltip
+Building S.Stations will now terminate IW
 
 Carnivals
 Astrophysicists

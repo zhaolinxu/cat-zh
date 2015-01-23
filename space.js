@@ -97,6 +97,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		val: 0,
 		upgradable: true,
 		handler: function(game, self){
+			game.ironWill = false;			//sorry folks
 		},
 		effects: {
 			"scienceRatio": 0.5,
