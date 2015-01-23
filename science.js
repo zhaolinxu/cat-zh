@@ -113,7 +113,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: ["currency"]	//currency
+		unlocks: ["currency"],	//currency
+		flavor: "Specialists in Herding Cats"
 	},{
 		name: "math",
 		title: "Mathematics",
@@ -190,7 +191,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: ["theology"],
 		handler: function(game){
 			game.workshop.getCraft("compedium").unlocked = true;
-		}
+		},
+		flavor: "I purr, therefore I am"
 	},{
 		name: "machinery",
 		title: "Machinery",
@@ -295,7 +297,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: ["acoustics"],
 		handler: function(game){
 
-		}
+		},
+		flavor: "Bigger, better cat towers!"
 	},{
 		name: "physics",
 		title: "Physics",
@@ -406,7 +409,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: ["industrialization"],
 		handler: function(game){
-		}
+		},
+		flavor: "Who knew running around on the carpet could generate such power?"
 	},{
 		name: "biology",
 		title: "Biology",

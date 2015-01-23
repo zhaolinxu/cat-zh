@@ -522,7 +522,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			game.bld.get("warehouse").effects["catnipMax"] = 750;
 			game.workshop.get("titaniumWarehouses").unlocked = true;
-		}
+		},
+		flavor: "With carpeting and climbing holds of course"
 	},{
 		name: "refrigeration",
 		title: "Refrigeration",
@@ -821,7 +822,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 5000 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Yummy Canaries!"
 	},{
 		name: "pyrolysis",
 		title: "Pyrolysis",
