@@ -943,6 +943,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	panelDiv: null,
 
 	children: null,
+	
+	//------ collapse ------
+	
+	toggle: null,
+	contentDiv: null,
 
 	constructor: function(name, tabManager){
 		this.name = name;
@@ -966,7 +971,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 		},
 		container);
 
-		var toggle = dojo.create("div", {
+		this.toggle = dojo.create("div", {
 			innerHTML: this.collapsed ? "+" : "-",
 			className: "toggle",
 			style: {
@@ -979,25 +984,29 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 			className: "title"
 		}, panel);
 
-		var contentDiv = dojo.create("div", {
+		this.contentDiv = dojo.create("div", {
 			className: "container",
 			style: {
 				display: this.collapsed ? "none" : ""
 			}
 		}, panel);
 
-		dojo.connect(toggle, "onclick", this, dojo.partial(function(contentDiv, toggle){
-			this.collapsed = !this.collapsed;
-
-			$(contentDiv).toggle();
-			toggle.innerHTML = this.collapsed ? "+" : "-";
-
-			this.onToggle(this.collapsed);
-		}, contentDiv, toggle));
+		dojo.connect(this.toggle, "onclick", this, function(){
+			this.collapse(!this.collapsed);
+		});
 
 		this.panelDiv = panel;
 
-		return contentDiv;
+		return this.contentDiv;
+	},
+	
+	collapse: function(isCollapsed){
+		this.collapsed = isCollapsed;
+
+		$(this.contentDiv).toggle();
+		this.toggle.innerHTML = this.collapsed ? "+" : "-";
+
+		this.onToggle(this.collapsed);
 	},
 
 	onToggle: function(isCollapsed){

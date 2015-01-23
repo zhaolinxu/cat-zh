@@ -524,7 +524,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		}
 
 		var self = this;
+		
+		// expand all / collapse all panels
+		
+		var expandDiv = dojo.create("div", { style: {
+			float: "right",
+			marginTop: "-15px"
+		} }, tabContainer);
 
+		
+		
+		var expandAll = dojo.create("a", { innerHTML: "Expand all", href: "#" }, expandDiv);
+		dojo.create("span", { innerHTML: " | " }, expandDiv );
+		var collapseAll = dojo.create("a", { innerHTML: "Collapse all", href: "#" }, expandDiv);
+		
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){
@@ -591,6 +604,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
 		}
+		
+		//-----------------	race panels must be created fist -------------
+		dojo.connect(collapseAll, "onclick", this, function(){ 
+			for (i in this.racePanels) { 
+				this.racePanels[i].collapse(true); 
+			}
+		});
+		dojo.connect(expandAll, "onclick", this, function(){
+			for (i in this.racePanels) { 
+				this.racePanels[i].collapse(false); 
+			} 
+		});
 
 		//------------------------------------
 

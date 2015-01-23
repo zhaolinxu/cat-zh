@@ -8,6 +8,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	faith: 0,
 
 	faithRatio : 0,
+	
+	corruption: 0,
 
 	constructor: function(game){
 		this.game = game;
@@ -29,6 +31,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	save: function(saveData){
 		saveData.religion = {
 			faith: this.faith,
+			corruption: this.corruption,
 			faithRatio: this.faithRatio,
 			zu: this.zigguratUpgrades,
 			ru: this.religionUpgrades
@@ -41,6 +44,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		this.faith = saveData.religion.faith || 0;
+		this.corruption = saveData.religion.corruption || 0;
 		this.faithRatio = saveData.religion.faithRatio || 0;
 
 		if (saveData.religion.zu){
@@ -143,6 +147,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
+			"corruptionRatio" : 0.001
 		},
 		val: 0,
 		unlocked: false
@@ -345,6 +350,21 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.faith += faith.value +
 			faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1; //starting up from 100% ratio will work surprisingly bad
 		faith.value = 0.01;	//have a nice autoclicking
+	},
+	
+	update: function(){
+		var alicorns = this.game.resPool.get("alicorn");
+		if (alicorns.value > 0){
+			this.corruption += this.getEffect("corruptionRatio");
+			
+			if (this.corruption > 1){
+				this.corruption = 0;
+				alicorns.value--;
+				this.game.resPool.get("necrocorn").value++;
+			}
+		} else {
+			this.corruption = 0;
+		}
 	}
 
 });
