@@ -1569,7 +1569,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	holdFestival: function(){
-		this.game.calendar.festivalDays = 400;	//nope, they don't stack
+		if (this.game.getPerk("carnivals").researched){
+			this.game.calendar.festivalDays += 400;
+		} else {
+			this.game.calendar.festivalDays = 400;
+		}
 		this.game.msg("The cultural festival has started");
 		//TODO: some fun message like Molly Chalk is making a play 'blah blah'
 	},

@@ -25,7 +25,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		effects:{
 			"priceRatio" : -0.01
 		}
-	},{
+	},
+	{
 		name: "megalomania",
 		title: "Megalomania",
 		description: "Unlocks additional megastructures.",
@@ -136,6 +137,36 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		handler: function(game, self){
+		}
+	},{
+		name: "carnivals",
+		title: "Carnivals",
+		description: "Festivals can now stack",
+		paragon: 25,
+		unlocked: false,
+		researched: false,
+		handler: function(game, self){
+			game.prestige.getPerk("numerology").unlocked = true;
+		}
+	},{
+		name: "numerology",
+		title: "Numerology",
+		description: "Festivals will have special effects depending on year (TBD)",
+		paragon: 50,
+		unlocked: false,
+		researched: false,
+		handler: function(game, self){
+			game.prestige.getPerk("numeromancy").unlocked = true;
+		}
+	},{
+		name: "numeromancy",
+		title: "Numeromancy",
+		description: "Certain years will have special effects (TBD)",
+		paragon: 500,
+		unlocked: false,
+		researched: false,
+		handler: function(game, self){
+			//game.prestige.getPerk("numeromancy").unlocked = true;
 		}
 	}],
 
