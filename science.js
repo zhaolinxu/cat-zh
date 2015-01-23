@@ -688,7 +688,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "chronophysics",
 		title: "Chronophysics",
 		description: "Chronophysics studies the nature of time and possibilities of temporal manipulations",
-		effectDesc: "Unlocks Chronospheres (TBD) and Stasis Chambers",
+		effectDesc: "Unlocks Chronospheres and Stasis Chambers",
 		unlocked: false,
 		researched: false,
 		prices: [

@@ -67,7 +67,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "megastructures",
 		title: "Mega Structures",
-		buildings: ["ziggurat"]
+		buildings: ["ziggurat", "chronosphere"]
 	}
 	],
 
@@ -1145,6 +1145,30 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		val: 0,
 		requiredTech: ["construction"],
+		canUpgrade: true
+	},{
+		name: "chronosphere",
+		label: "Chronosphere",
+		description: "Relocates small amount of resources through the time. (TBD) Can be upgraded further. Every chronosphere increase the chance of Temporal Paradox.",
+		unlocked: false,
+		ignorePriceCheck: true,
+		prices: [
+			{ name : "unobtainium", val: 5000 },
+			{ name : "timeCrystal", val: 5 },
+			{ name : "blueprint", 	val: 250 },
+			{ name : "science", 	val: 250000 }
+		],
+		effects: {
+			"resStasisRatio": 0.02	//2% of resources will be preserved
+			
+			/** TODO: cryochambers upgrade for kittens migration */
+		},
+		priceRatio: 1.20,
+		handler: function(btn){
+			
+		},
+		val: 0,
+		requiredTech: ["chronophysics"],
 		canUpgrade: true
 	}
 
