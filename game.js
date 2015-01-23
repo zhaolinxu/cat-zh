@@ -1379,6 +1379,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resStack = this.getResourcePerTickStack(res.name);
 
 		resString = this.processResourcePerTickStack(resStack, 0);
+		
+		if (this.opts.usePercentageResourceValues){
+			resString += "<br> Net gain: " + this.getDisplayValueExt(res.perTickUI, true, true);
+		}
 
 		if (res.perTickUI < 0) {
 			var toZero = res.value / (-res.perTickUI * this.rate);

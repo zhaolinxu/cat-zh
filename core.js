@@ -1004,9 +1004,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 		this.collapsed = isCollapsed;
 
 		$(this.contentDiv).toggle();
-		this.toggle.innerHTML = this.collapsed ? "+" : "-";
+		this.toggle.innerHTML = isCollapsed ? "+" : "-";
 
-		this.onToggle(this.collapsed);
+		this.onToggle(isCollapsed);
 	},
 
 	onToggle: function(isCollapsed){

@@ -10,12 +10,14 @@ And with the addition of things like renaissance, you can now go above 100% catn
 
 ___
 
-Carnivals
 Sacrifice all for unicorns
 Collapse/expand all for trade
-Astrophysicists
-*** can now be now ***
+Net gain value in +% res tooltip
 
+Carnivals
+Astrophysicists
+
+*** can now be now ***
 
 v 1.0.5.8 (29 dec)
 
