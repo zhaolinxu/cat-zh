@@ -1159,7 +1159,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "science", 	val: 250000 }
 		],
 		effects: {
-			"resStasisRatio": 0.02	//2% of resources will be preserved
+			"resStasisRatio": 0.015		//1.5% of resources will be preserved
 			
 			/** TODO: cryochambers upgrade for kittens migration */
 		},

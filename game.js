@@ -1683,6 +1683,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: 		0
 		});
 		
+		//------------ we can now carry some of the resources through reset ------------
+		var newResources = [];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorns", "tears", "furs", "ivory", "spice", "paragon", "karma", "rocket"];
+		
+		var saveRatio = this.bld.getEffect("resStasisRatio");
+		for (var i in this.resPool.resources){
+			var res = this.resPool.resources[i];
+			
+			if (dojo.indexOf(ignoreResources, res.name) >= 0) {
+				continue;
+			} else if (res.name == "timeCrystal"){
+				if (this.prestige.getPerk("anachronomancy").researched){
+					newResources.push(res);
+				}
+			} else {
+				var newRes = this.resPool.createResource(res.name, res.type);
+				newRes.value = res.value * saveRatio;
+				newResources.push(newRes);
+			}
+		}
+		
 		var saveData = {
 			game : lsData.game,
 			achievements: lsData.achievements,
@@ -1693,18 +1714,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks	//never resets
 			},
 			science: { techs: [] },
-			resources: []
+			resources: newResources
 		};
-		
-		//cary rare time-related stuff and techs over reset
-		if (this.prestige.getPerk("anachronomancy").researched){
-			
-			saveData.science.techs.push(this.science.get("chronophysics"));
-			saveData.resources.push(this.resPool.get("timeCrystal"));
-
-		}
-		
-		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		// Hack to prevent an autosave from occurring before the reload completes

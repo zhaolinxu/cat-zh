@@ -266,23 +266,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 		
 		//if no resource found, register new
-		return this.addResource(name, "common");
+		return this.addResource(name);
 	},
 	
-	addResource: function(name, type){
-		
+	createResource: function(name){
 		var res = {
-				name: name,
-				title: "",
-				value: 0,
-				perTick: 0,	
-				type: "common"
+			name: name,
+			value: 0,
+			perTick: 0
 		};
-		
-		if (type){
-			res.type = type;
-		}
-
+		return res;
+	},
+	
+	addResource: function(name){
+		var res = this.createResource(name);
 		this.resources.push(res);
 		
 		return res;

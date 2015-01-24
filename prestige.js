@@ -143,7 +143,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		title: "Carnivals",
 		description: "Festivals can now stack",
 		paragon: 25,
-		unlocked: false,
+		unlocked: true,
 		researched: false,
 		handler: function(game, self){
 			game.prestige.getPerk("numerology").unlocked = true;

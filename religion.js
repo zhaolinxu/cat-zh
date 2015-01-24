@@ -79,6 +79,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (alicorns.value > 0){
 			this.corruption += this.getEffect("corruptionRatio");
 			
+			if (this.game.rand(100) > 35){
+				return;
+			}
+			
 			if (this.corruption > 1){
 				this.corruption = 0;
 				alicorns.value--;
