@@ -134,7 +134,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "necrocorn",
 		title: "necrocorns",
 		type : "rare",			//todo: some special FX
-		visible: true
+		visible: true,
+		color: "darkRed"
 	},{
 		name : "tears",
 		type : "rare",

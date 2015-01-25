@@ -1569,7 +1569,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	holdFestival: function(){
-		if (this.game.getPerk("carnivals").researched){
+		if (this.game.prestige.getPerk("carnivals").researched){
 			this.game.calendar.festivalDays += 400;
 		} else {
 			this.game.calendar.festivalDays = 400;

@@ -79,7 +79,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (alicorns.value > 0){
 			this.corruption += this.getEffect("corruptionRatio");
 			
-			if (this.game.rand(100) > 35){
+			if (this.game.rand(100) > 25){
 				return;
 			}
 			
@@ -164,7 +164,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"corruptionRatio" : 0.00001
+			"corruptionRatio" : 0.000001
 		},
 		val: 0,
 		unlocked: false

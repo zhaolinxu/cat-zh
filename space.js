@@ -274,6 +274,28 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			game.space.getProgram("heliosMission").unlocked = true;
 		}
 	}],
+	
+	planets:[{
+		name: "moon",
+		title: "Moon",
+		unlocked: false
+	},{
+		name: "dune",
+		title: "Dune",
+		unlocked: false
+	},{
+		name: "piscine",
+		title: "Piscine",
+		unlocked: false
+	},{
+		name: "helios",		//technically it is a planet from the game point of view
+		title: "Helios",
+		unlocked: false
+	},{
+		name: "terminus",
+		title: "T-Minus",
+		unlocked: false
+	}],
 
 	constructor: function(game){
 		this.game = game;
@@ -323,6 +345,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	getProgram: function(name){
 		return this.getMeta(name, this.programs);
+	},
+	
+	getPlanet: function(name){
+		return this.getMeta(name, this.planets);
 	},
 
 	getEffect: function(name){
