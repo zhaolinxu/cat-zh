@@ -1344,6 +1344,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false
 	},{
+		name: "tanker",
+		title: "Tanker",
+		description: "Increase maximum oil capacity by 500",
+		prices:[
+			{ name: "ship", 		val: 250 },
+			{ name: "alloy",    	val: 1250 },
+			{ name: "blueprint", 	val: 5 }
+		],
+		unlocked: false
+	},{
 		name: "megalith",
 		title: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",
@@ -1515,6 +1525,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	update: function(){
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
+		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 	}
 });
 
@@ -1712,6 +1723,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		this.craftBtns = [];
 		this.buttons = [];
+		
+		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
+		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.bld.getEffect("craftRatio") * 100) + "%" }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

@@ -754,34 +754,59 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 		for( var i = 0; i < prices.length; i++){
 			var price = prices[i];
-			var priceItemNode = dojo.create("div", {
-					style : {
-						overflow: "hidden"
-					}
-				}, tooltip);
+			var span = this._renderPriceLine(tooltip, price, simpleUI);
 
 			var res = this.game.resPool.get(price.name);
-			var hasRes = (res.value >= prices[i].val);
-
-			var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
-
-			var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
-
-			var priceSpan = dojo.create("span", {
-				innerHTML: hasRes || simpleUI ?
-					this.game.getDisplayValueExt(price.val) :
-					this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val) + asterisk,
-				className: hasRes ? "" : "noRes",
-				style: {
-					float: "right"
+			var hasRes = (res.value >= price.val);
+			//unroll prices to the raw resources
+			if (!hasRes && res.craftable && !simpleUI){
+				
+				span.name.innerHTML = "+ " + span.name.innerHTML;
+				
+				var components = this.game.workshop.getCraft(res.name).prices;
+				for (var j in components){
+					
+					var diff = price.val - res.value;
+					var comp = {name: components[j].name, val: Math.floor(components[j].val * diff)};
+					
+					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
+					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 				}
-			}, priceItemNode );
-
-			if (!hasRes && res.perTickUI > 0 && !simpleUI){
-				var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
-				priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
 			}
 		}
+	},
+	
+	_renderPriceLine: function(tooltip, price, simpleUI){
+		var priceItemNode = dojo.create("div", {
+				style : {
+					overflow: "hidden"
+				}
+			}, tooltip);
+
+		var res = this.game.resPool.get(price.name);
+		var hasRes = (res.value >= price.val);
+
+		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
+
+		var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
+
+		var priceSpan = dojo.create("span", {
+			innerHTML: hasRes || simpleUI ?
+				this.game.getDisplayValueExt(price.val) :
+				this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val) + asterisk,
+			className: hasRes ? "" : "noRes",
+			style: {
+				float: "right"
+			}
+		}, priceItemNode );
+
+		if (!hasRes && res.perTickUI > 0 && !simpleUI){
+			var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
+			priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
+		}
+		
+		return {name: nameSpan, price: priceSpan};
 	},
 
 	renderEffects: function(tooltip, effectsList, hideTitle){
