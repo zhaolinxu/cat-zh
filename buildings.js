@@ -1991,7 +1991,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 	getTooltipHTML : function(btn){
 
 		var tooltip = dojo.create("div", { style: {
-			width: "280px",
+			minWidth: "280px",
 			minHeight:"150px"
 		}}, null);
 
@@ -2010,7 +2010,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 			innerHTML: this.description,
 			style: {
 				textAlign: "center",
-				width: "100%",
+				maxWidth: "280px",
 				borderBottom: "1px solid gray",
 				paddingBottom: "4px",
 				fontSize: "15px",
@@ -2031,7 +2031,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 			className: "flavor",
 			style: {
 				display: "inline-block",
-				paddingTop: "10px",
+				paddingTop: "20px",
 				float: "right",
 				fontSize: "12px",
 				fontStyle: "italic"

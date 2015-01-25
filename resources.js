@@ -210,6 +210,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#FF7F50"
 	},{
+		name : "tanker",
+		type : "common",
+		craftable: true,
+		color: "#CF4F20"
+	},{
 		name : "parchment",
 		type : "common",
 		craftable: true,

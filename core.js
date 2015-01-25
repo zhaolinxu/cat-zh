@@ -734,6 +734,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			style: {
 				textAlign: "center",
 				width: "100%",
+				maxWidth: "280px",
 				paddingBottom: "4px",
 				fontSize: "15px",
 				color: "gray"
@@ -793,7 +794,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		var res = this.game.resPool.get(price.name);
 		var hasRes = (res.value >= price.val);
 
-		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
+		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
 
 		var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
 
