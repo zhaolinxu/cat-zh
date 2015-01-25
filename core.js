@@ -761,6 +761,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			//unroll prices to the raw resources
 			if (!hasRes && res.craftable && !simpleUI){
 				
+				if (res.name == "wood"){
+					continue;
+				}
+				
 				span.name.innerHTML = "+ " + span.name.innerHTML;
 				
 				var components = this.game.workshop.getCraft(res.name).prices;
