@@ -7,8 +7,12 @@ Changes by Zusias:
 And with the addition of things like renaissance, you can now go above 100% catnip reduction if diminished returns aren't used.
 * You can no longer pause the game in order to craft wood above the maximum
 * Outposts will now turn off at a rate of one per tick if there is not enough uranium 
-
 ___
+
+Changes by Aikoku:
+
+* Added days to "To cap" and "To zero" section.
+__
 
 Sacrifice all for unicorns
 Collapse/expand all for trade
