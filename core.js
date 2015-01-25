@@ -748,6 +748,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	},
 
 	renderPrices: function(tooltip, simpleUI){
+		var craftRatio = this.game.bld.getEffect("craftRatio");
+		
 		var prices = this.getPrices();
 		if (!prices.length){
 			return;
@@ -771,7 +773,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				for (var j in components){
 					
 					var diff = price.val - res.value;
-					var comp = {name: components[j].name, val: Math.floor(components[j].val * diff)};
+					var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
 					
 					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
 					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;

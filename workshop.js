@@ -1725,7 +1725,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 		
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.bld.getEffect("craftRatio") * 100) + "%" }, div);
+		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.bld.getEffect("craftRatio") * 100).toFixed() + "%" }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);
