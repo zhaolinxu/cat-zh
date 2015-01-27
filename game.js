@@ -1667,6 +1667,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.resPool.get("zebras").value > 0 ){
 			this.karmaZebras += bonusZebras;
 		}
+
 		//------------------------------------------------------------------------------------------------------
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
@@ -1688,8 +1689,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorns", "tears", "furs", "ivory", "spice", "paragon", "karma", "rocket"];
 		
 		var saveRatio = this.bld.getEffect("resStasisRatio");
+		
+		var fluxCondensator = this.workshop.get("fluxCondensator");
 		for (var i in this.resPool.resources){
 			var res = this.resPool.resources[i];
+			
+			if (res.craftable && res.name != "wood" && !fluxCondensator.researched){
+				continue;	//>:
+			}
 			
 			if (dojo.indexOf(ignoreResources, res.name) >= 0) {
 				continue;
@@ -1716,6 +1723,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			science: { techs: [] },
 			resources: newResources
 		};
+		
+		if (this.prestige.getPerk("anachronomancy").researched){
+			saveData.science.techs.push(this.science.get("chronophysics"));
+		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		// Hack to prevent an autosave from occurring before the reload completes

@@ -689,7 +689,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "chronophysics",
 		title: "Chronophysics",
 		description: "Chronophysics studies the nature of time and possibilities of temporal manipulations",
-		effectDesc: "Unlocks Chronospheres and Stasis Chambers",
+		effectDesc: "Unlocks Chronospheres, Flux Reactors and Stasis Chambers",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -699,6 +699,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: [],
 		handler: function(game){
 			game.workshop.get("stasisChambers").unlocked = true;
+			game.workshop.get("fluxCondensator").unlocked = true;
 		}
 	}],
 	

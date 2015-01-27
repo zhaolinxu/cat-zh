@@ -1,3 +1,9 @@
+v 1.0.7.1 (27 jan)
+
+Significanlty reduced Chronospheres price
+Chronospheres will no longer affect craftable resources unless Flux Condenator is researched
+Fixed Anachronomancy not working correcrly
+
 v 1.0.7.0 (25 jan)
 
 Tankers

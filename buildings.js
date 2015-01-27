@@ -1149,13 +1149,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
-		description: "Relocates small amount of resources through the time. (TBD) Can be upgraded further. Every chronosphere increase the chance of Temporal Paradox.",
+		description: "Relocates small amount of resources through the time. Can be upgraded further. Every chronosphere increase the chance of Temporal Paradox.",
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
-			{ name : "unobtainium", val: 5000 },
-			{ name : "timeCrystal", val: 5 },
-			{ name : "blueprint", 	val: 250 },
+			{ name : "unobtainium", val: 2500 },
+			{ name : "timeCrystal", val: 1 },
+			{ name : "blueprint", 	val: 100 },
 			{ name : "science", 	val: 250000 }
 		],
 		effects: {
@@ -1163,7 +1163,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			
 			/** TODO: cryochambers upgrade for kittens migration */
 		},
-		priceRatio: 1.20,
+		priceRatio: 1.25,
 		handler: function(btn){
 			
 		},

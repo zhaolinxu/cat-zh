@@ -392,6 +392,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 		}
 	},{
+		name: "fluxCondensator",
+		title: "Flux Condensator",
+		description: "Chronosphere will now affect craftable resources.",
+		effects: {
+		},
+		prices:[
+			{ name : "alloy", 	val: 	 250 },
+			{ name : "unobtainium", val: 5000 },
+			{ name : "timeCrystal", val: 10 }
+		],
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
 		name: "lhc",
 		title: "LHC",
 		description: "Every accelerator will provide a bonus to the maximum science",
