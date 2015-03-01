@@ -370,6 +370,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	program: null,
+	simplePrices: false,
 
 	constructor: function(opts, game) {
 
@@ -488,41 +489,9 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return program.description + "<br>Success chance: " + program.chance + "%";
 	},
 
-	getTooltipHTML: function(btn){
-
-		var tooltip = dojo.create("div", {style: {
-			width: "280px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		dojo.create("div", {
-			innerHTML: this.getDescription(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		this.renderPrices(tooltip);
-
+	getEffects: function(){
 		var program = this.getProgram();
-		if (program.effects){
-			this.renderEffects(tooltip, program.effects);
-		}
-
-		return tooltip.outerHTML;
+		return program.effects;
 	}
 });
 

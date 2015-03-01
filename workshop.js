@@ -1546,6 +1546,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	upgradeName: null,
+	simplePrices: false,
 
 	constructor: function(opts, game){
 		this.upgradeName = opts.upgrade;
@@ -1590,79 +1591,16 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}
 	},
 
-	getTooltipHTML: function(){
+	getFlavor: function(){
+		var bld = this.getUpgrade();
+		return bld.flavor;
+	},
 
-		var upgrade = this.getUpgrade();
-		var tooltip = dojo.create("div", { style: {
-				width: "280px",
-				minHeight:"150px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		//----------- description -------
-
-		dojo.create("div", {
-			innerHTML: this.description,
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		//--------------- prices ----------------
-		this.renderPrices(tooltip);
-		//---------- effects-------------
-
-		dojo.create("div", {
-			innerHTML: "Effects:",
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				marginBottom: "8px"
-		}}, tooltip);
-
-		//-----------------------------------------
-
-		for (effectName in upgrade.effects){
-			var nameSpan = dojo.create("div", { innerHTML: effectName + ": " + this.game.getDisplayValueExt(upgrade.effects[effectName]),
-				style: {
-					float: "left",
-					fontSize: "14px",
-					color: "gray",
-					clear: "both"
-			}}, tooltip );
-		}
-
-		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-
-		//-------------- flavor stuff -------------
-
-		dojo.create("div", {
-			innerHTML: upgrade.flavor || "flavor text",
-			className: "flavor",
-			style: {
-				position: "absolute",
-				bottom: "2px",
-				right: "4px",
-				fontSize: "12px",
-				fontStyle: "italic"
-		}}, tooltip);
-
-		return tooltip.outerHTML;
+	getEffects: function(){
+		var bld = this.getUpgrade();
+		return bld.effects;
 	}
+
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -1685,39 +1623,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}else{
 			this.setVisible(false);
 		}
-	},
-
-	getTooltipHTML: function(btn){
-
-		var tooltip = dojo.create("div", { style: {
-			width: "200px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		dojo.create("div", {
-			innerHTML: this.description,
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		this.renderPrices(tooltip, true);	//simple prices
-
-		return tooltip.outerHTML;
-	 }
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.ui.tab, {

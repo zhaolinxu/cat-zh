@@ -1765,30 +1765,8 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 			dojo.setStyle(this.x100Href, "display", catnipVal < (catnipCost * 100) ? "none" : "");
 		}
 
-	},
+	}
 
-	getTooltipHTML: function(btn){
-
-		var tooltip = dojo.create("div", { style: {
-			width: "200px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.description,
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		this.renderPrices(tooltip, true);	//simple prices
-
-		return tooltip.outerHTML;
-	 }
 });
 
 
@@ -1973,6 +1951,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
+	simplePrices: false,
 
 	afterRender: function(){
 		dojo.addClass(this.domNode, "modern");
@@ -1988,60 +1967,18 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
 	},
 
-	getTooltipHTML : function(btn){
-
-		var tooltip = dojo.create("div", { style: {
-			minWidth: "280px",
-			minHeight:"150px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		//----------- description -------
-
-		dojo.create("div", {
-			innerHTML: this.description,
-			style: {
-				textAlign: "center",
-				maxWidth: "280px",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		//--------------- prices ----------------
-		this.renderPrices(tooltip);
-		//---------- effects-------------
-
-		var bld = this.getBuilding();
-		this.renderEffects(tooltip, bld.effects);
-
-		//-------------- flavour stuff -------------
-
-		dojo.create("div", {
-			innerHTML: bld.flavor || "flavour text",
-			className: "flavor",
-			style: {
-				display: "inline-block",
-				paddingTop: "20px",
-				float: "right",
-				fontSize: "12px",
-				fontStyle: "italic"
-		}}, tooltip);
-
-		return tooltip.outerHTML;
+	getDescription: function(){
+		return this.description;
 	},
 
-	getDescription: function(){
-		return "";
+	getFlavor: function(){
+		var bld = this.getBuilding();
+		return bld.flavor;
+	},
+
+	getEffects: function(){
+		var bld = this.getBuilding();
+		return bld.effects;
 	}
 });
 
