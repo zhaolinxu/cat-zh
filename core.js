@@ -802,7 +802,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 	
-	_renderPriceLine: function(tooltip, price, simpleUI){
+	_renderPriceLine: function(tooltip, price, simpleUI, indent){
 		var priceItemNode = dojo.create("div", {
 				style : {
 					overflow: "hidden"
@@ -840,14 +840,20 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 			nameSpan.innerHTML = "+ " + nameSpan.innerHTML;
 
+			if (!indent) {
+				indent = 1;
+			}
+
 			var components = this.game.workshop.getCraft(res.name).prices;
 			for (var j in components){
 
 				var diff = price.val - res.value;
 				var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
 
-				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
-				compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
+				for (var k = 0; k < indent; ++k) {
+					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+				}
 				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 			}
 		}
