@@ -375,6 +375,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
  * A button for ziggurat upgrade
  */
 dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	tooltipName: true,
 
 	getBuilding: function(){
 		return this.game.religion.getZU(this.id);
@@ -403,38 +404,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 			this.game.sorrow = this.game.resPool.get("sorrow").value;
 			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
 		}
-	 },
-
-	 getTooltipHTML: function(btn){
-
-		var tooltip = dojo.create("div", { style: {
-			width: "200px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		dojo.create("div", {
-			innerHTML: this.getDescription(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		this.renderPrices(tooltip, true);	//simple prices
-
-		return tooltip.outerHTML;
 	 }
 });
 
@@ -445,6 +414,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 	ruCached: null,
 	transcendence: null,
+	tooltipName: true,
 
 	constructor: function(opts, game) {
 		this.transcendence = this.game.religion.getRU("transcendence");
@@ -501,39 +471,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 			return this.name + " (" + upgrade.val + ")";
 		}
 		return this.name;
-	},
-
-	getTooltipHTML: function(btn){
-
-		var tooltip = dojo.create("div", { style: {
-			width: "180px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		dojo.create("div", {
-			innerHTML: this.getDescription(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		this.renderPrices(tooltip, true);	//use simple prices
-
-		return tooltip.outerHTML;
-	 }
+	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {

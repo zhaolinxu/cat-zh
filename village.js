@@ -733,6 +733,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	unassignHref: null,
 	plus25: null,
 	minus25: null,
+	tooltipName: true,
 
 	getJob: function(){
 		return this.game.village.getJob(this.jobName);
@@ -879,44 +880,13 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}*/
 	},
 
-	getTooltipHTML: function(btn){
+	getEffects: function() {
 		var job = this.getJob();
-
-		var tooltip = dojo.create("div", { style: {
-			width: "280px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		//---------- effects-------------
-
-		this.renderEffects(tooltip, job.modifiers, true);	//hide title
-
-
-		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-
-		//-------------- flavor stuff -------------
-
-		dojo.create("div", {
-			innerHTML: job.flavour || "flavor text",
-			className: "flavor",
-			style: {
-				position: "absolute",
-				bottom: "2px",
-				right: "4px",
-				fontSize: "12px",
-				fontStyle: "italic"
-		}}, tooltip);
-
-		return tooltip.outerHTML;
+		return job.modifiers;
+	},
+	getFlavor: function() {
+		var job = this.getJob();
+		return job.flavour;
 	}
 });
 
