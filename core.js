@@ -707,6 +707,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
  */
 
 dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
+	simplePrices: true,
+
 	afterRender: function(){
 		dojo.addClass(this.domNode, "modern");
 
@@ -721,13 +723,34 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		return this.description;
 	},
 
+	getFlavor: function(){
+		return undefined;
+	},
+
+	getEffects: function(){
+		return undefined;
+	},
+
 	getTooltipHTML: function(btn){
 		//throw "ButtonModern::getTooltipHTML must be implemented";
 
 		var tooltip = dojo.create("div", { style: {
-			width: "200px",
+			width: "280px",
 			minHeight:"50px"
 		}}, null);
+
+
+		if (this.tooltipName) {
+			dojo.create("div", {
+				innerHTML: this.getName(),
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px"
+			}}, tooltip);
+		}
+
 
 		var descDiv = dojo.create("div", {
 			innerHTML: this.getDescription(),
@@ -742,7 +765,27 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (this.prices){
 			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-			this.renderPrices(tooltip, true);	//simple prices
+			this.renderPrices(tooltip, this.simplePrices);	//simple prices
+		}
+
+		effects = this.getEffects();
+		if (effects){
+			this.renderEffects(tooltip, effects);
+		}
+
+		//-------------- flavor stuff -------------
+		flavor = this.getFlavor();
+		if (flavor) {
+			dojo.create("div", {
+				innerHTML: flavor,
+				className: "flavor",
+				style: {
+					display: "inline-block",
+					paddingTop: "20px",
+					float: "right",
+					fontSize: "12px",
+					fontStyle: "italic"
+			}}, tooltip);
 		}
 
 		return tooltip.outerHTML;
@@ -904,7 +947,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		//do nothing, implement me
 	}
 });
-
 
 dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {
 
