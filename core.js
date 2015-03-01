@@ -792,8 +792,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	},
 
 	renderPrices: function(tooltip, simpleUI){
-		var craftRatio = this.game.bld.getEffect("craftRatio");
-		
 		var prices = this.getPrices();
 		if (!prices.length){
 			return;
@@ -801,29 +799,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		for( var i = 0; i < prices.length; i++){
 			var price = prices[i];
 			var span = this._renderPriceLine(tooltip, price, simpleUI);
-
-			var res = this.game.resPool.get(price.name);
-			var hasRes = (res.value >= price.val);
-			//unroll prices to the raw resources
-			if (!hasRes && res.craftable && !simpleUI){
-				
-				if (res.name == "wood"){
-					continue;
-				}
-				
-				span.name.innerHTML = "+ " + span.name.innerHTML;
-				
-				var components = this.game.workshop.getCraft(res.name).prices;
-				for (var j in components){
-					
-					var diff = price.val - res.value;
-					var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
-					
-					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
-					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
-					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
-				}
-			}
 		}
 	},
 	
@@ -836,6 +811,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		var res = this.game.resPool.get(price.name);
 		var hasRes = (res.value >= price.val);
+
 
 		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
 
@@ -855,7 +831,27 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
 			priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
 		}
-		
+
+
+		//unroll prices to the raw resources
+		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
+
+			var craftRatio = this.game.bld.getEffect("craftRatio");
+
+			nameSpan.innerHTML = "+ " + nameSpan.innerHTML;
+
+			var components = this.game.workshop.getCraft(res.name).prices;
+			for (var j in components){
+
+				var diff = price.val - res.value;
+				var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
+
+				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
+				compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
+			}
+		}
+
 		return {name: nameSpan, price: priceSpan};
 	},
 
