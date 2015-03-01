@@ -835,6 +835,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		midColumn.scrollTop = scrollPosition;
+
+		// Once we have rendered the page immidiately update it in order to
+		// reduce flicker
+		this.update();
 	},
 	
 	/**
