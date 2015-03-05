@@ -752,7 +752,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (religion.getRU("solarRevolution").researched){
 			var bonus = religion.getProductionBonus();
 
-			this.faithCount.innerHTML += ( " (+" + bonus.toFixed(2) + "% bonus)" );
+			this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% bonus)" );
 		}
 
 		if (religion.getRU("apocripha").researched){

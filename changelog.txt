@@ -1,3 +1,13 @@
+v 1.0.7.2 (4 mar)
+
+Changes by klusark:
+
+Option to not confrim when clearing all jobs (gamePage.opts.noConfirm)
+Numerous UI fixes/optizisations
+__
+Some bizzare version of the responsive ux.
+
+
 v 1.0.7.1 (27 jan)
 
 Significanlty reduced Chronospheres price
