@@ -9,7 +9,6 @@
 
 		<!-- I only use jquery ironically -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
 
 		<script src="core.js?v=1.0.7.1" 		type="text/javascript"></script>
@@ -37,7 +36,64 @@
 			ga('send', 'pageview');
 		</script>
 
-		<!--link rel="stylesheet" href="res/default.css" type="text/css"-->
+		<link rel="stylesheet" href="res/default.css" type="text/css">
+		
+		<style>
+			#leftColumnPin {
+				width: 40px;
+				border-right: 1px solid gray;
+			}
+			
+			@media (max-width: 48em) {
+				#game a {
+					font-size: 20px;
+				}
+				
+				#tooltip {
+					margin-top: 90px;
+				}
+				
+				#leftColumn {
+					display: none;
+					font-size: 20px;
+				}
+				#rightColumn {
+					display: none;
+				}
+				
+				#leftColumn.sticky {
+					display: inline-block;
+				}
+				
+				#leftColumnPin {
+					display: inline-block;
+				}
+				
+				.btn.modern {
+					font-size: 20px;
+					color: rgb(102,102,102);
+					padding-top: 8px;
+					padding-bottom: 8px;
+					margin-top: 20px;
+					border-radius: 12px;
+				}
+				
+				.btn.modern a {
+					margin: -18px 0;
+					padding: 18px !important;
+				}
+				.btn.modern a:last-of-type {
+					border-top-right-radius: 12px;
+					border-bottom-right-radius: 12px;
+				}
+			}
+			
+			@media (min-width: 48em) {
+				#leftColumnPin {
+					display: none;
+				}
+			}
+		</style>
 
 
 		<!--link rel="stylesheet" href="res/theme_dark.css" type="text/css"-->
@@ -83,14 +139,6 @@
 		</script>
 
 		<title>Kittens Game - a Dark Souls of incremental gaming</title>
-		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-		
-		<!--[if lte IE 8]>
-			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
-		<![endif]-->
-		<!--[if gt IE 8]><!-->
-			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-		<!--<![endif]-->
 	</head>
 
 
@@ -160,8 +208,10 @@
 
 			<div id="game" class="pure-g">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
+				
+				
 				<!-- LEFT -->
-				<div id="leftColumn" class="column pure-u-1 pure-u-lg-1-5 pure-u-md-1-3" style="vertical-align: top;">
+				<div id="leftColumn" class="column" style="vertical-align: top;">
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
 					</div>
 
@@ -177,8 +227,12 @@
 					<div id="craftContainer" style="padding-top: 10px; width: 100%">
 					</div>
 				</div>
+				<div id="leftColumnPin" class="column" style="vertical-align: top; cursor: pointer;" onclick="$('#leftColumn').toggleClass('sticky');">
+					&lt;-&gt;
+				</div>
+				
 				<!-- MID -->
-				<div id="midColumn" style="vertical-align: top;" class="column pure-u-lg-2-5 pure-u-md-2-3">
+				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="gameContainerId" style="border: 1px solid gray;">
 						Oops, something went wrong. It seems like the game is not working, but don't worry.<br>
 						<ul>
@@ -190,7 +244,7 @@
 					</div>
 				</div>
 				<!-- RIGHT -->
-				<div id="rightColumn" style="vertical-align: top; padding-left: 20px; padding-top: 15px;" class="column pure-u-1 pure-u-lg-1-5">
+				<div id="rightColumn" style="vertical-align: top; padding-left: 20px; padding-top: 15px;" class="column">
 					<div>
 						<span id="calendarDiv">Calendar :V</span>
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
