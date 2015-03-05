@@ -1282,7 +1282,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name:"Clear",
 			description: "Clear all jobs",
 			handler: dojo.hitch(this, function(){
-				if (confirm("Are you sure?")){
+				if (this.game.opts.noConfirm || confirm("Are you sure?")){
 					this.game.village.clearJobs();
 				}
 			})

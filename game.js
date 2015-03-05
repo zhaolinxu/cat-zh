@@ -460,7 +460,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			usePercentageResourceValues: false,
 			highlightUnavailable: false,
-			hideSell: false
+			hideSell: false,
+			noConfirm: false
 		};
 		
 		this.console = new com.nuclearunicorn.game.log.Console();
@@ -651,6 +652,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("#usePercentageResourceValues")[0].checked 	= this.opts.usePercentageResourceValues;
 		$("#highlightUnavailable")[0].checked		= this.opts.highlightUnavailable;
 		$("#hideSell")[0].checked			= this.opts.hideSell;
+		$("#noConfirm")[0].checked			= this.opts.noConfirm;
 		
 	},
 	
@@ -835,6 +837,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		midColumn.scrollTop = scrollPosition;
+
+		// Once we have rendered the page immidiately update it in order to
+		// reduce flicker
+		this.update();
 	},
 	
 	/**
