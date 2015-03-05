@@ -78,6 +78,10 @@
 					border-radius: 12px;
 				}
 				
+				.btn.modern.disabled {
+					color: rgb(180,180,180);
+				}
+				
 				.btn.modern a {
 					margin: -18px 0;
 					padding: 18px !important;
@@ -345,10 +349,11 @@
 					Hide 'sell' buttons
 				<br>
 				<!-- looks like a to niche option to occupy entire setting slot -->
-				<!--input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					Do not confrim when clearing all jobs
-				<br-->
-
+				<div style="display:none">
+					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
+						Do not confrim when clearing all jobs
+					<br>
+				</div>
 
 				<br>
 				<br>
