@@ -363,7 +363,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 500}
 		],
 		unlocks: ["genetics"],
-		unlockUpgrade: ["biofuel"]
+		unlockUpgrades: ["biofuel"]
 	},{
 		name: "genetics",
 		title: "Genetics",
@@ -388,7 +388,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 25}
 		],
 		unlocks: ["mechanization", "metalurgy", "combustion"],
-		unlockUpgrade: ["barges", "advancedAutomation"]
+		unlockUpgrades: ["barges", "advancedAutomation"]
 	},{
 		name: "mechanization",
 		title: "Mechanization",
