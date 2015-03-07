@@ -132,11 +132,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"manpowerMax": 75
 		},
 		priceRatio: 2.5,
-		handler: 	function(btn){
+		breakIronWill: true, //har har har
+		unlocks: {
 			//unlock village tab
-
-			btn.game.villageTab.visible = true;
-			btn.game.ironWill = false;	//har har har
+			tabs: ["village"]
 		},
 
 		val: 0,
@@ -154,9 +153,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		requiredTech: ["construction"],
-		handler: 	function(btn){
-			btn.game.ironWill = false;
-		},
+		breakIronWill: true,
 		val: 0,
 		flavor : "The Cabin in the Woods"
 	},{
@@ -172,9 +169,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["architecture"],
-		handler: 	function(btn){
-			btn.game.ironWill = false;
-		},
+		breakIronWill: true,
 		val: 0,
 		flavor: "The best shipping container available"
 	},
@@ -191,9 +186,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"cultureMax" : 10
 		},
 		priceRatio: 1.15,
-		handler: 	function(btn){
-			btn.game.libraryTab.visible = true;
-			btn.game.village.getJob("scholar").unlocked = true;
+		unlocks: {
+			tabs: ["science"],
+			jobs: ["scholar"]
 		},
 		action: function(self, game){
 			var libraryRatio = game.workshop.getEffect("libraryRatio");
@@ -389,8 +384,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
-		handler: function(btn){
-			btn.game.village.getJob("miner").unlocked = true;
+
+		unlocks: {
+			jobs: ["miner"]
 		},
 		val: 0,
 		action: function(self, game){
@@ -761,8 +757,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"craftRatio" : 0.06	//6% for craft output
 		},
 		priceRatio: 1.15,
-		handler: function(btn){
-			btn.game.workshopTab.visible = true;
+		unlocks: {
+			tabs: ["workshop"]
 		},
 		val: 0,
 		flavor: "Free toys for workers"
@@ -1432,11 +1428,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			this.handler(this);
-
-			this.payPrice();
+			if (this.handler) {
+				this.handler(this);
+			}
 
 			var building = this.getBuilding();
+
+			this.game.unlock(building.unlocks);
+
+			if (building.breakIronWill) {
+				this.game.ironWill = false;
+			}
+
+			//this.payPrice();
+
 
 			if (building){
 				building.val++;

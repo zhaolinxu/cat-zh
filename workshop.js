@@ -19,7 +19,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: true,
 		researched: false,
-		unlocks: ["ironHoes"]
+		unlocks: {
+			upgrades: ["ironHoes"]
+		}
 	},{
 		name: "ironHoes",
 		title: "Iron Hoes",
@@ -33,7 +35,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: true,
 		researched: false,
-		unlocks: []
 	},
 	//--------------------- wood upgrades ----------------------
 	{
@@ -49,7 +50,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: true,
 		researched: false,
-		unlocks: ["ironAxes"]
+		unlocks: {
+			upgrades: ["ironAxes"]
+		}
 	},{
 		name: "ironAxes",
 		title: "Iron Axe",
@@ -89,8 +92,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.workshop.get("titaniumSaw").unlocked = true;
+		unlocks: {
+			upgrades: ["titaniumSaw"]
 		}
 	},{
 		name: "titaniumSaw",
@@ -105,8 +108,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.workshop.get("alloySaw").unlocked = true;
+		unlocks: {
+			upgrades: ["alloySaw"]
 		}
 	},{
 		name: "alloySaw",
@@ -208,8 +211,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: true,
 		researched: false,
-		handler: function(game){
-			game.workshop.get("titaniumBarns").unlocked = true;
+		unlocks: {
+			upgrades: ["titaniumBarns"]
 		}
 	},{
 		name: "reinforcedWarehouses",
@@ -226,8 +229,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.workshop.get("ironwood").unlocked = true;
+		unlocks: {
+			upgrades: ["ironwood"]
 		}
 	},{
 		name: "titaniumBarns",
@@ -415,8 +418,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-		}
 	},{
 		name: "ironwood",
 		title: "Ironwood Huts",
@@ -431,8 +432,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.workshop.get("silos").unlocked = true;
+		unlocks: {
+			upgrades: ["silos"]
 		}
 	},{
 		name: "concreteHuts",
@@ -476,9 +477,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false,
+		unlocks: {
+			upgrades: ["titaniumWarehouses"]
+		},
 		handler: function(game){
 			game.bld.get("warehouse").effects["catnipMax"] = 750;
-			game.workshop.get("titaniumWarehouses").unlocked = true;
 		},
 		flavor: "With carpeting and climbing holds of course"
 	},{
@@ -648,8 +651,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		handler: function(game){
-			game.workshop.get("geodesy").unlocked = true;
+		unlocks: {
+			upgrades: ["geodesy"]
 		},
 		unlocked: false,
 		researched: false,
@@ -1333,8 +1336,13 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 							upgrade.unlocked = savedUpgrade.unlocked;
 							upgrade.researched = savedUpgrade.researched;
 
-							if (upgrade.researched && upgrade.handler){
-								upgrade.handler(this.game);	//just in case update workshop upgrade effects
+							if (upgrade.researched){
+								if (upgrade.handler) {
+									upgrade.handler(this.game);	//just in case update workshop upgrade effects
+								}
+								if (upgrade.unlocks) {
+									this.game.unlock(upgrade.unlocks);
+								}
 							}
 						}
 					}
@@ -1638,6 +1646,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 				if (upgrade.handler){
 					upgrade.handler(self.game);
+				}
+
+				if (upgrade.unlocks) {
+					this.game.unlock(upgrade.unlocks);
 				}
 			},
 			prices: upgrade.prices,
