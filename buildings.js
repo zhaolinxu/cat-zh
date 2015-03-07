@@ -89,8 +89,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipPerTickBase": 0.125
 		},
 		priceRatio: 1.12,
-		handler: function(btn){
-		},
 		val: 0,
 		flavor : "'Nip as far as the eye can see."
 	},
@@ -105,8 +103,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		requiredTech: ["animal"],
 		priceRatio: 1.15,
-		handler: function(btn){
-		},
 		val: 0,
 		flavor: "Take a pint o' milk, Sir!"
 	},{
@@ -121,9 +117,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.12,
 		requiredTech: ["engineering"],
-		handler: function(btn){
-
-		},
 		val: 0,
 		flavor : "No Swimming"
 	},
@@ -224,8 +217,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		requiredTech: ["math"],
-		handler: function(btn){
-		},
 		val: 0,
 		flavor: "Curiosity is the basis of science. Our cats died nobly"
 	},{
@@ -250,8 +241,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["astronomy"],
-		handler: function(btn){
-		},
 		action: function(self, game){
 
 			self.effects["scienceMax"] = 1000;
@@ -283,8 +272,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["biology"],
-		handler: function(btn){
-		},
 		action: function(self, game){
 
 			if (game.workshop.get("biofuel").researched){
@@ -322,8 +309,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
-		handler: 	function(btn){
-		},
 		val: 0
 	},
 	{
@@ -343,8 +328,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["construction"],
-		handler: function(btn){
-		},
 		val: 0
 	},
 	{
@@ -365,8 +348,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["navigation"],
-		handler: 	function(btn){
-		},
 		action: function(self, game){
 
 			self.effects["coalMax"] = 100;
@@ -436,8 +417,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		requiredTech: ["archeology"],
-		handler: function(btn){
-		},
 		val: 0,
 		flavor : "Its full of mice! Wait, wrong 'quarry'"
 	},
@@ -453,9 +432,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
-		handler: function(btn){
-
-		},
 		effects: {
 			"woodPerTick" : -0.05,
 			"mineralsPerTick" : -0.1,
@@ -531,9 +507,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["chemistry"],
-		handler: function(btn){
-
-		},
 		effects: {
 			"mineralsPerTick" : -1.5,
 			"ironPerTick" : 0.15,
@@ -610,9 +583,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
 		requiredTech: ["machinery"],
-		handler: function(btn){
-
-		},
 		effects: {
 			"coalRatioGlobal" : -0.8,	//to be revisited later
 			"magnetoBoostRatio" : 0.15
@@ -711,9 +681,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
 		requiredTech: ["electricity"],
-		handler: function(btn){
-
-		},
 		effects: {
 			"oilPerTick" : -0.05,
 			"magnetoRatio": 0.02
@@ -746,7 +713,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"woodRatio" : 0.1
 		},
 		priceRatio: 1.15,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["construction"],
 		canUpgrade: true,
@@ -772,7 +738,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["chemistry"],
 		canUpgrade: true,
@@ -816,8 +781,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"craftRatio" : 0.05
 		},
 		priceRatio: 1.15,
-		handler: function(btn){
-		},
 		val: 0,
 		requiredTech: ["mechanization"],
 	},{
@@ -841,8 +804,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"uraniumMax" : 250
 		},
 		priceRatio: 1.15,
-		handler: function(btn){
-		},
 		val: 0,
 		requiredTech: ["nuclearFission"],
 		action: function(self, game){
@@ -875,8 +836,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"uraniumPerTick" : 0.0025,
 		},
 		priceRatio: 1.15,
-		handler: function(btn){
-		},
 		val: 0,
 		requiredTech: ["particlePhysics"],
 		action: function(self, game){
@@ -927,7 +886,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"tradeRatio" : 0.015
 		},
 		priceRatio: 1.15,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["currency"],
 		action: function(self, game){
@@ -956,7 +914,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"goldPerTick" : -0.005		//~5 smelters
 		},
 		priceRatio: 1.15,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["architecture"],
 		ignorePriceCheck: true,
@@ -1005,7 +962,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["writing"],
 		action: function(self, game){
@@ -1029,7 +985,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["acoustics"],
 		action: function(self, game){
@@ -1053,7 +1008,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		handler: function(btn){},
 		val: 0,
 		requiredTech: ["philosophy"],
 		action: function(self, game){
@@ -1116,9 +1070,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"unicornsPerTickBase" : 0.001
 		},
 		priceRatio: 1.75,
-		handler: function(btn){
-			//btn.game.resPool.get("unicorns").perTick += 0.001;
-		},
 		val: 0,
 		requiredTech: ["animal"],
 		canUpgrade: true,
@@ -1141,8 +1092,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.25,
 		unlockRatio: 0.05,	//5% of resources required to unlock building instead of default 30
-		handler: function(btn){
-		},
 		val: 0,
 		requiredTech: ["construction"],
 		canUpgrade: true
@@ -1164,9 +1113,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			/** TODO: cryochambers upgrade for kittens migration */
 		},
 		priceRatio: 1.25,
-		handler: function(btn){
-			
-		},
 		val: 0,
 		requiredTech: ["chronophysics"],
 		canUpgrade: true
