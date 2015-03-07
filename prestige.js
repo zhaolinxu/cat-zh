@@ -18,7 +18,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 5,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("megalomania").unlocked = true;
 			game.prestige.getPerk("goldenRatio").unlocked = true;
 		},
@@ -33,7 +33,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.religion.getZU("marker").unlocked = true;
 			game.religion.getZU("blackPyramid").unlocked = true;
 		}
@@ -44,7 +44,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
@@ -57,7 +57,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 100,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("vitruvianFeline").unlocked = true;
 		},
 		effects:{
@@ -70,7 +70,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 250,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("renaissance").unlocked = true;
 		},
 		effects:{
@@ -94,7 +94,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 5,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("zebraDiplomacy").unlocked = true;
 		}
 	},{
@@ -111,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("anachronomancy").unlocked = true;
 			game.prestige.getPerk("unicornmancy").unlocked = true;
 		}
@@ -137,7 +137,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("numerology").unlocked = true;
 		}
 	},{
@@ -147,7 +147,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
 		}
 	},{
@@ -157,7 +157,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 500,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			//game.prestige.getPerk("numeromancy").unlocked = true;
 		}
 	}],
@@ -187,7 +187,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 		for (var i = 0; i< this.perks.length; i++){
 			if (this.perks[i].handler && this.perks[i].researched){
-				this.perks[i].handler(this.game, this.perks[i]);
+				this.perks[i].handler(this.game);
 			}
 		}
 	},
@@ -286,7 +286,7 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 			perk.researched = true;
 			if (perk.handler){
-				perk.handler(this.game, perk);
+				perk.handler(this.game);
 			}
 
 			this.update();
