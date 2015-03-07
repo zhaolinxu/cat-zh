@@ -83,8 +83,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 750,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		},
 		effects:{
 			"priceRatio" : -0.025
 		}
@@ -106,8 +104,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		}
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
@@ -126,8 +122,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
-		}
 	},
 	{
 		name: "anachronomancy",
@@ -136,8 +130,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		}
 	},{
 		name: "carnivals",
 		title: "Carnivals",
