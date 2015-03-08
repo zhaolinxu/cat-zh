@@ -1440,7 +1440,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.game.ironWill = false;
 			}
 
-			//this.payPrice();
+			this.payPrice();
 
 
 			if (building){
