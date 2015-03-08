@@ -1766,5 +1766,49 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	getTriValue: function(value, stripe){
 		return (Math.sqrt(1+8 * value / stripe)-1)/2;
+	},
+
+	getTab: function(name) {
+		switch(name) {
+			case "science":
+				return this.libraryTab;
+			case "village":
+				return this.villageTab;
+			case "workshop":
+				return this.workshopTab;
+			case "space":
+				return this.spaceTab;
+		}
+	},
+
+	getUnlockByName: function(name, type){
+		switch(type) {
+			case "tech":
+				return this.science.get(name);
+			case "jobs":
+				return this.village.getJob(name);
+			case "crafts":
+				return this.workshop.getCraft(name);
+			case "upgrades":
+				return this.workshop.get(name);
+			case "tabs":
+				return this.getTab(name);
+		}
+	},
+
+	unlock: function(list){
+		for (type in list) {
+			if (list[type].length == 0) {
+				return;
+			}
+			for (var i = list[type].length - 1; i >= 0; i--) {
+				var newTech = this.getUnlockByName(list[type][i], type);
+				if (type == "tabs") {
+					newTech.visible = true
+				} else {
+					newTech.unlocked = true;
+				}
+			}
+		}
 	}
 });
