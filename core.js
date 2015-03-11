@@ -848,7 +848,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			for (var j in components){
 
 				var diff = price.val - res.value;
-				var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
+
+				// Round up to the nearest craftable amount
+				var val = Math.floor(components[j].val * diff / (1 + craftRatio));
+				var remainder = val % components[j].val;
+				if (remainder != 0) {
+					val += components[j].val - remainder;
+				}
+
+				var comp = {name: components[j].name, val: val};
 
 				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
 				for (var k = 0; k < indent; ++k) {
