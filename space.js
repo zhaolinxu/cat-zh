@@ -44,7 +44,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable:true,
 		priceRatio: 1.15,
 		prices: [
-			{name: "titanium", val: 12000},
+			{name: "titanium", val: 7500},
 			{name: "science", val: 125000},
 			{name: "unobtainium", val: 75},
 		],
@@ -404,6 +404,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 					//Hack to avoid increase in rocket or fuel price:
 					if (prices[j].name !== "oil" && prices[j].name !== "rocket") {
 						prices[j].val = prices[j].val * ratio;
+					} else if (prices[j].name === "oil") {
+						prices[j].val = prices[j].val * 1.05;			//5% oil increase
 					}
 				}
 			}

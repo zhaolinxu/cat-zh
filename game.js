@@ -1712,7 +1712,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			} else {
 				var newRes = this.resPool.createResource(res.name, res.type);
-				newRes.value = res.value * saveRatio;
+				
+				
+				if (!res.craftable){
+					newRes.value = res.value * saveRatio;
+				} else if (res.value > 0) {
+					newRes.value = Math.sqrt(res.value) * saveRatio * 100;
+				}
+				
 				newResources.push(newRes);
 			}
 		}

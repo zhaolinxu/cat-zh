@@ -385,7 +385,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 235000 },
 			{ name : "alloy", val: 	 250 },
 			{ name : "uranium", val: 2500 },
-			{ name : "timeCrystal", val: 5 }
+			{ name : "timeCrystal", val: 1 }
 		],
 		unlocked: false,
 		researched: false,
@@ -400,7 +400,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "alloy", 	val: 	 250 },
 			{ name : "unobtainium", val: 5000 },
-			{ name : "timeCrystal", val: 10 }
+			{ name : "timeCrystal", val: 5 }
 		],
 		unlocked: false,
 		researched: false,
