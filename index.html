@@ -8,8 +8,10 @@
 		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
 
 		<!-- I only use jquery ironically -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.0/dojo/dojo.js"></script>
+		
+		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN --> 
+		<script src="lib/jQuery.js"></script>
+		<script src="lib/dojo.js"></script>
 
 		<script src="core.js?v=1.0.7.1" 		type="text/javascript"></script>
 		<script src="resources.js?v=1.0.7.1" 	type="text/javascript"></script>
@@ -39,9 +41,10 @@
 		<link rel="stylesheet" href="res/default.css" type="text/css">
 		
 		<style>
-			#leftColumnPin {
-				width: 40px;
+			.columnPin {
+				width: 26px;
 				border-right: 1px solid gray;
+				background-color: #FFF;
 			}
 			
 			@media (max-width: 48em) {
@@ -63,10 +66,34 @@
 				
 				#leftColumn.sticky {
 					display: inline-block;
+					position: absolute;
+					width: 320px;
+					background-color:#FFF;
+					z-index: 9999;
 				}
 				
-				#leftColumnPin {
+				#rightColumn.sticky {
 					display: inline-block;
+					position: absolute;
+					width: 180px;
+					right: 0px;
+					background-color:#FFF;
+					z-index: 9999;
+				}
+				
+				.columnPin {
+					display: inline-block;
+					
+				}
+				
+				#leftColumnPin.sticky {
+					position: absolute;
+					left: 340px;
+				}
+				
+				#rightColumnPin.sticky {
+					position: absolute;
+					right:200px;
 				}
 				
 				.btn.modern {
@@ -93,7 +120,7 @@
 			}
 			
 			@media (min-width: 48em) {
-				#leftColumnPin {
+				.columnPin {
 					display: none;
 				}
 			}
@@ -231,8 +258,9 @@
 					<div id="craftContainer" style="padding-top: 10px; width: 100%">
 					</div>
 				</div>
-				<div id="leftColumnPin" class="column" style="vertical-align: top; cursor: pointer;" onclick="$('#leftColumn').toggleClass('sticky');">
-					&lt;-&gt;
+				<div id="leftColumnPin" class="column columnPin" style="vertical-align: top; cursor: pointer; padding:10px;" 
+					onclick="$('#leftColumn').toggleClass('sticky'); $('#leftColumnPin').toggleClass('sticky');">
+					&lt;=&gt;
 				</div>
 				
 				<!-- MID -->
@@ -248,6 +276,10 @@
 					</div>
 				</div>
 				<!-- RIGHT -->
+				<div id="rightColumnPin" class="column columnPin" style="vertical-align: top; cursor: pointer; padding:10px;" 
+					onclick="$('#rightColumn').toggleClass('sticky'); $('#rightColumnPin').toggleClass('sticky');">
+					&lt;=&gt;
+				</div>
 				<div id="rightColumn" style="vertical-align: top; padding-left: 20px; padding-top: 15px;" class="column">
 					<div>
 						<span id="calendarDiv">Calendar :V</span>
