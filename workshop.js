@@ -1437,6 +1437,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	upgradeName: null,
 	simplePrices: false,
+	hasResourceHover: true,
 
 	constructor: function(opts, game){
 		this.upgradeName = opts.upgrade;
@@ -1489,12 +1490,17 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 	getEffects: function(){
 		var bld = this.getUpgrade();
 		return bld.effects;
+	},
+
+	getSelectedObject: function(){
+		return this.getUpgrade();
 	}
 
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	craftName: null,
+	hasResourceHover: true,
 
 	constructor: function(opts, game){
 		this.craftName = opts.craft;
@@ -1513,6 +1519,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}else{
 			this.setVisible(false);
 		}
+	},
+
+	getSelectedObject: function(){
+		return this.game.workshop.getCraft(this.craftName);
 	}
 });
 

@@ -723,6 +723,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 	techName: null,
 	tooltipName: true,
 	simplePrices: false,
+	hasResourceHover: true,
 
 	constructor: function(opts, game){
 		this.techName = opts.tech;
@@ -779,6 +780,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		if (tech.researched && this.game.science.hideResearched){
 			this.setVisible(false);
 		}
+	},
+
+	getSelectedObject: function(){
+		return this.getTech();
 	}
 
 });
