@@ -51,8 +51,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
 		chance: 100,	//see comment above
-		handler: function(game, self){
-		},
 		effects: {
 			"oilReductionRatio": 0.05,
 		}
@@ -73,8 +71,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		requiredTech: ["sattelites"],
 		val: 0,
 		upgradable: true,
-		handler: function(game, self){
-		},
 		effects: {
 			"observatoryRatio": 0.05,
 			"starchartPerTickBase": 0.001
@@ -199,8 +195,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		togglable: 	false,
 		tunable: 	false,
 		val: 0,
-		handler: function(game, self){
-		}
 	},{
 		name: "duneMission",
 		title: "Dune Mission",

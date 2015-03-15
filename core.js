@@ -708,6 +708,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
 	simplePrices: true,
+	hasResourceHover: false,
 
 	afterRender: function(){
 		dojo.addClass(this.domNode, "modern");
@@ -717,6 +718,17 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
+
+		if (this.hasResourceHover) {
+			dojo.connect(this.domNode, "onmouseover", this,
+				dojo.hitch( this, function(){
+					this.game.setSelectedObject(this.getSelectedObject());
+				}));
+			dojo.connect(this.domNode, "onmouseout", this,
+				dojo.hitch( this, function(){
+					this.game.clearSelectedObject();
+				}));
+		}
 	},
 
 	getDescription: function(){
@@ -848,7 +860,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			for (var j in components){
 
 				var diff = price.val - res.value;
-				var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
+
+				// Round up to the nearest craftable amount
+				var val = Math.floor(components[j].val * diff / (1 + craftRatio));
+				var remainder = val % components[j].val;
+				if (remainder != 0) {
+					val += components[j].val - remainder;
+				}
+
+				var comp = {name: components[j].name, val: val};
 
 				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
 				for (var k = 0; k < indent; ++k) {
@@ -947,6 +967,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	renderLinks: function(){
 		//do nothing, implement me
+	},
+
+	getSelectedObject: function(){
+		return null;
 	}
 });
 

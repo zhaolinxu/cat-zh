@@ -18,7 +18,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: true,
 		researched: false,
 		cost: 30,	//cos in WCS (weird cat science)
-		unlocks: ["agriculture"]
+		unlocks: {
+			tech: ["agriculture"]
+		}
 
 	},{
 		name: "agriculture",
@@ -30,9 +32,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 100,
-		unlocks: ["mining", "archery"],
-		handler: function(game){
-			game.village.getJob("farmer").unlocked = true;
+		unlocks: {
+			tech: ["mining", "archery"],
+			jobs: ["farmer"]
 		}
 	},{
 		name: "archery",
@@ -44,9 +46,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 300,
-		unlocks: ["animal"],
-		handler: function(game){
-			game.village.getJob("hunter").unlocked = true;
+		unlocks: {
+			tech: ["animal"],
+			jobs: ["hunter"]
 		}
 	},{
 		name: "mining",
@@ -58,10 +60,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 600,
-		handler: function(game){
-			game.workshop.get("bolas").unlocked = true;
-		},
-		unlocks: ["metal"]
+		unlocks: {
+			tech: ["metal"],
+			upgrades: ["bolas"]
+		}
 	},{
 		name: "metal",
 		title: "Metal working",
@@ -72,8 +74,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 800,
-		handler: function(game){
-			game.workshop.get("huntingArmor").unlocked = true;
+		unlocks: {
+			upgrades: ["huntingArmor"]
 		}
 	},
 	{
@@ -85,11 +87,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 500,	//mostly does nothing, so price is lower
-		unlocks: ["civil", "math", "construction", "brewery"],
-		handler: function(game){
-			//game.workshop.getCraft("leather").unlocked = true;
+		unlocks: {
+			tech: ["civil", "math", "construction", "brewery"]
+			//crafts: ["leather"]
 		}
-
 	},{
 		name: "brewery",
 		title: "Brewery",
@@ -100,9 +101,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1200,
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("advancedRefinement").unlocked = true;
+		unlocks: {
+			upgrades: ["advancedRefinement"]
 		}
 	},{
 		name: "civil",
@@ -113,7 +113,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: ["currency"],	//currency
+		unlocks: {
+			tech: ["currency"]	//currency
+		},
 		flavor: "Specialists in Herding Cats"
 	},{
 		name: "math",
@@ -124,9 +126,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1000,
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("celestialMechanics").unlocked = true;
+		unlocks: {
+			upgrades: ["celestialMechanics"]
 		}
 	},{
 		name: "construction",
@@ -137,9 +138,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1300,
-		unlocks: ["engineering"],
-		handler: function(game){
-			game.workshop.get("compositeBow").unlocked = true;
+		unlocks: {
+			tech: ["engineering"],
+			upgrades: ["compositeBow"]
 		}
 	},{
 		name: "engineering",
@@ -150,8 +151,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1500,
-		unlocks: ["writing"],
-		handler: function(game){
+		unlocks: {
+			tech: ["writing"]
 		}
 	},{
 		name: "currency",
@@ -162,9 +163,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 2200,
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("goldOre").unlocked = true;
+		unlocks: {
+			upgrades: ["goldOre"]
 		}
 	},{
 		name: "writing",
@@ -175,9 +175,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 3600,
-		unlocks: ["philosophy", "machinery", "steel"],
-		handler: function(game){
-			game.workshop.getCraft("parchment").unlocked = true;
+		unlocks: {
+			tech: ["philosophy", "machinery", "steel"],
+			crafts: ["parchment"]
 		}
 	},{
 		name: "philosophy",
@@ -188,9 +188,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 9500,
-		unlocks: ["theology"],
-		handler: function(game){
-			game.workshop.getCraft("compedium").unlocked = true;
+		unlocks: {
+			tech: ["theology"],
+			crafts: ["compedium"]
 		},
 		flavor: "I purr, therefore I am"
 	},{
@@ -202,11 +202,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 15000,
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("printingPress").unlocked = true;
-			game.workshop.get("factoryAutomation").unlocked = true;
-			game.workshop.get("crossbow").unlocked = true;
+		unlocks: {
+			upgrades: ["printingPress", "factoryAutomation", "crossbow"]
 		}
 	},{
 		name: "steel",
@@ -217,17 +214,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 12000,
-		unlocks: [],
-		handler: function(game){
-
-			game.workshop.getCraft("steel").unlocked = true;
-
-			game.workshop.get("deepMining").unlocked = true;
-			game.workshop.get("coalFurnace").unlocked = true;
-			game.workshop.get("combustionEngine").unlocked = true;
-			game.workshop.get("reinforcedWarehouses").unlocked = true;
-			game.workshop.get("steelAxe").unlocked = true;
-			game.workshop.get("steelArmor").unlocked = true;
+		unlocks: {
+			upgrades: ["deepMining", "coalFurnace", "combustionEngine",
+						"reinforcedWarehouses", "steelAxe", "steelArmor"],
+			crafts: ["steel"]
 		}
 	},{
 		name: "theology",
@@ -241,9 +231,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 20000},
 			{name: 	"manuscript", val: 35}
 		],
-		unlocks: ["astronomy"],
-		handler: function(game){
-			game.village.getJob("priest").unlocked = true;
+		unlocks: {
+			tech: ["astronomy"],
+			jobs: ["priest"]
 		}
 	},{
 		name: "astronomy",
@@ -257,8 +247,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 28000},
 			{name: 	"manuscript", val: 65}
 		],
-		unlocks: ["navigation"],
-		handler: function(game){
+		unlocks: {
+			tech: ["navigation"]
 		}
 	},{
 		name: "navigation",
@@ -272,16 +262,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 35000},
 			{name: 	"manuscript", val: 100}
 		],
-		unlocks: ["physics", "archeology", "architecture"],
-		handler: function(game){
-			game.workshop.getCraft("ship").unlocked = true;
-
-			game.workshop.get("caravanserai").unlocked = true;
-			game.workshop.get("cargoShips").unlocked = true;
-
-			game.workshop.get("astrolabe").unlocked = true;
-			game.workshop.get("titaniumMirrors").unlocked = true;
-			game.workshop.get("titaniumAxe").unlocked = true;
+		unlocks: {
+			tech: ["physics", "archeology", "architecture"],
+			crafts: ["ship"],
+			upgrades: ["caravanserai", "cargoShips", "astrolabe",
+						"titaniumMirrors", "titaniumAxe"]
 		}
 	},{
 		name: "architecture",
@@ -294,9 +279,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 42000},
 			{name: 	"compedium", val: 10}
 		],
-		unlocks: ["acoustics"],
-		handler: function(game){
-
+		unlocks: {
+			tech: ["acoustics"]
 		},
 		flavor: "Bigger, better cat towers!"
 	},{
@@ -310,12 +294,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 50000},
 			{name: 	"compedium", val: 35}
 		],
-		unlocks: ["chemistry", "electricity", "metaphysics"],
-		handler: function(game){
-			game.workshop.get("pneumaticPress").unlocked = true;
-			game.workshop.get("pyrolysis").unlocked = true;
-			game.workshop.get("steelSaw").unlocked = true;
-			game.workshop.getCraft("blueprint").unlocked = true;
+		unlocks: {
+			tech: ["chemistry", "electricity", "metaphysics"],
+			crafts: ["blueprint"],
+			upgrades: ["pneumaticPress", "pyrolysis", "steelSaw"]
 		}
 	},{
 		name: "metaphysics",
@@ -328,9 +310,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 55000},
 			{name: 	"unobtainium", val: 5}
 		],
-		unlocks: [],
-		handler: function(game){
-		}
 	},{
 		name: "chemistry",
 		title: "Chemistry",
@@ -342,13 +321,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 60000},
 			{name: 	"compedium", val: 50}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.getCraft("alloy").unlocked = true;
-			game.workshop.get("alloyAxe").unlocked = true;
-			game.workshop.get("alloyBarns").unlocked = true;
-			game.workshop.get("alloyWarehouses").unlocked = true;
-			game.workshop.get("alloyArmor").unlocked = true;
+		unlocks: {
+			upgrades: ["alloyAxe", "alloyArmor", "alloyWarehouses", "alloyBarns"],
+			crafts: ["alloy"]
 		}
 	},{
 		name: "acoustics",
@@ -361,9 +336,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 65000},
 			{name: 	"compedium", val: 65}
 		],
-		unlocks: ["drama"],
-		handler: function(game){
-
+		unlocks: {
+			tech: ["drama"]
 		}
 	},{
 		name: "drama",
@@ -376,10 +350,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 90000},
 			{name: 	"parchment", val: 5000}
 		],
-		unlocks: [],
-		handler: function(game){
-
-		}
 	},{
 		name: "archeology",
 		title: "Geology",
@@ -391,9 +361,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 70000},
 			{name: 	"compedium", val: 75}
 		],
-		unlocks: ["biology"],
-		handler: function(game){
-			game.village.getJob("geologist").unlocked = true;
+		unlocks: {
+			tech: ["biology"],
+			jobs: ["geologist"]
 		},
 		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal."
 	},{
@@ -407,8 +377,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 75000},
 			{name: 	"compedium", val: 85}
 		],
-		unlocks: ["industrialization"],
-		handler: function(game){
+		unlocks: {
+			tech: ["industrialization"]
 		},
 		flavor: "Who knew running around on the carpet could generate such power?"
 	},{
@@ -422,8 +392,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 85000},
 			{name: 	"compedium", val: 100}
 		],
-		unlocks: ["biochemistry"],
-		handler: function(game){
+		unlocks: {
+			tech: ["biochemistry"]
 		}
 	},{
 		name: "biochemistry",
@@ -436,9 +406,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 145000},
 			{name: 	"compedium", val: 500}
 		],
-		unlocks: ["genetics"],
-		handler: function(game){
-			game.workshop.get("biofuel").unlocked = true;
+		unlocks: {
+			tech: ["genetics"],
+			upgrades: ["biofuel"]
 		}
 	},{
 		name: "genetics",
@@ -451,9 +421,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 190000},
 			{name: 	"compedium", val: 1500}
 		],
-		unlocks: [],
-		handler: function(game){
-		}
 	},{
 		name: "industrialization",
 		title: "Industrialization",
@@ -465,10 +432,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 100000},
 			{name: 	"blueprint", val: 25}
 		],
-		unlocks: ["mechanization", "metalurgy", "combustion"],
-		handler: function(game){
-			game.workshop.get("barges").unlocked = true;
-			game.workshop.get("advancedAutomation").unlocked = true;
+		unlocks: {
+			tech: ["mechanization", "metalurgy", "combustion"],
+			upgrades: ["barges", "advancedAutomation"]
 		}
 	},{
 		name: "mechanization",
@@ -481,15 +447,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 115000},
 			{name: 	"blueprint", val: 45}
 		],
-		unlocks: ["electronics"],
-		handler: function(game){
-			game.workshop.get("pumpjack").unlocked = true;
-			game.workshop.getCraft("concrate").unlocked = true;
-
-			//TODO: move to the separate tech?
-			game.workshop.get("concreteWarehouses").unlocked = true;
-			game.workshop.get("concreteBarns").unlocked = true;
-			game.workshop.get("concreteHuts").unlocked = true;
+		unlocks: {
+			tech: ["electronics"],
+			crafts: ["concrate"],
+			upgrades: ["pumpjack",
+						//TODO: move to the separate tech?
+						"concreteWarehouses", "concreteBarns", "concreteHuts"]
 		}
 	},{
 		name: "metalurgy",
@@ -502,11 +465,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 125000},
 			{name: 	"blueprint", val: 60}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("electrolyticSmelting").unlocked = true;
-			game.workshop.get("oxidation").unlocked = true;
-			game.workshop.get("miningDrill").unlocked = true;
+		unlocks: {
+			upgrades: ["electrolyticSmelting", "oxidation", "miningDrill"]
 		}
 	},{
 		name: "combustion",
@@ -519,11 +479,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 120000},
 			{name: 	"blueprint", val: 50}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("offsetPress").unlocked = true;
-			game.workshop.get("fuelInjectors").unlocked = true;
-			game.workshop.get("oilRefinery").unlocked = true;
+		unlocks: {
+			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"]
 		}
 	},{
 		name: "electronics",
@@ -536,11 +493,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 135000},
 			{name: 	"blueprint", val: 70}
 		],
-		unlocks: ["nuclearFission", "rocketry", "robotics"],
-		handler: function(game){
-			game.workshop.get("cadSystems").unlocked = true;
-			game.workshop.get("refrigeration").unlocked = true;
-			game.workshop.get("seti").unlocked = true;
+		unlocks: {
+			tech: ["nuclearFission", "rocketry", "robotics"],
+			upgrades: ["cadSystems", "refrigeration", "seti"]
 		}
 	},{
 		name: "robotics",
@@ -553,11 +508,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 140000},
 			{name: 	"blueprint", val: 80}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("steelPlants").unlocked = true;
-			game.workshop.get("rotaryKiln").unlocked = true;
-			game.workshop.getCraft("tanker").unlocked = true;
+		unlocks: {
+			upgrades: ["steelPlants", "rotaryKiln"],
+			crafts: ["tanker"]
 		}
 	},{
 		name: "nuclearFission",
@@ -570,10 +523,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 150000},
 			{name: 	"blueprint", val: 100}
 		],
-		unlocks: ["nanotechnology", "particlePhysics"],
-		handler: function(game){
-			game.workshop.get("reactorVessel").unlocked = true;
-			game.workshop.get("nuclearSmelters").unlocked = true;
+		unlocks: {
+			tech: ["nanotechnology", "particlePhysics"],
+			upgrades: ["reactorVessel", "nuclearSmelters"]
 		}
 	},{
 		name: "rocketry",
@@ -586,9 +538,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 175000},
 			{name: 	"blueprint", val: 125}
 		],
-		unlocks: ["sattelites"],
-		handler: function(game){
-			game.spaceTab.visible = true;
+		unlocks: {
+			tech: ["sattelites"],
+			tabs: ["space"]
 		}
 	},{
 		name: "sattelites",
@@ -601,8 +553,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 190000},
 			{name: 	"blueprint", val: 125}
 		],
-		unlocks: ["orbitalEngineering"],
-		handler: function(game){
+		unlocks: {
+			tech: ["orbitalEngineering"]
 		}
 	},{
 		name: "orbitalEngineering",
@@ -615,10 +567,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 250000},
 			{name: 	"blueprint", val: 250}
 		],
-		unlocks: ["exogeology"],
-		handler: function(game){
-			game.workshop.get("hubbleTelescope").unlocked = true;
-			game.workshop.get("astrophysicists").unlocked = true;
+		unlocks: {
+			tech: ["exogeology"],
+			upgrades: ["hubbleTelescope", "astrophysicists"]
 		}
 	},{
 		name: "exogeology",
@@ -631,11 +582,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 275000},
 			{name: 	"blueprint", val: 250}
 		],
-		unlocks: ["exogeology"],
-		handler: function(game){
-			game.workshop.get("unobtainiumReflectors").unlocked = true;
-			game.workshop.get("unobtainiumHuts").unlocked = true;
-			game.workshop.get("unobtainiumDrill").unlocked = true;
+		unlocks: {
+			tech: ["exogeology"],
+			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill"]
 		}
 	},
 	{
@@ -649,10 +598,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 200000},
 			{name: 	"blueprint", val: 150}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("augumentation").unlocked = true;
-			game.workshop.get("nanosuits").unlocked = true;
+		unlocks: {
+			upgrades: ["augumentation", "nanosuits"]
 		}
 	},{
 		name: "particlePhysics",
@@ -665,10 +612,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 185000},
 			{name: 	"blueprint", val: 135}
 		],
-		unlocks: ["chronophysics", "dimensionalPhysics"],
-		handler: function(game){
-			game.workshop.get("enrichedUranium").unlocked = true;
-			game.workshop.get("railgun").unlocked = true;
+		unlocks: {
+			tech: ["chronophysics", "dimensionalPhysics"],
+			upgrades: ["enrichedUranium", "railgun"]
 		}
 	},{
 		name: "dimensionalPhysics",
@@ -680,10 +626,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 235000}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("energyRifts").unlocked = true;
-			game.workshop.get("lhc").unlocked = true;
+		unlocks: {
+			upgrades: ["energyRifts", "lhc"]
 		}
 	},{
 		name: "chronophysics",
@@ -696,10 +640,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 250000},
 			{name: 	"timeCrystal", val: 5}
 		],
-		unlocks: [],
-		handler: function(game){
-			game.workshop.get("stasisChambers").unlocked = true;
-			game.workshop.get("fluxCondensator").unlocked = true;
+		unlocks: {
+			upgrades: ["stasisChambers", "fluxCondensator"]
 		}
 	}],
 	
@@ -748,10 +690,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 						if (tech){
 							tech.unlocked = savedTech.unlocked;
 							tech.researched = savedTech.researched;
-
-							if (tech.researched && tech.handler){
-								tech.handler(this.game);	//update tech effects to keep saves consistent
-							}
 						}
 					}
 				}
@@ -761,13 +699,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		//re-unlock technologies in case we have modified something
 		for (var i = this.techs.length - 1; i >= 0; i--) {
 			var tech = this.techs[i];
-
-			if (tech.researched && tech.unlocks && tech.unlocks.length){
-				for (var j = tech.unlocks.length - 1; j >= 0; j--) {
-					var newTech = this.get(tech.unlocks[j]);
-					newTech.unlocked = true;
-				}
+			if (!tech.researched) {
+				continue;
 			}
+
+			this.game.unlock(tech.unlocks);
 		}
 
 	},
@@ -787,6 +723,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 	techName: null,
 	tooltipName: true,
 	simplePrices: false,
+	hasResourceHover: true,
 
 	constructor: function(opts, game){
 		this.techName = opts.tech;
@@ -843,6 +780,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 		if (tech.researched && this.game.science.hideResearched){
 			this.setVisible(false);
 		}
+	},
+
+	getSelectedObject: function(){
+		return this.getTech();
 	}
 
 });
@@ -943,16 +884,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			handler: dojo.partial(function(tech, game, btn){
 				tech.researched = true;
 
-				if (tech.unlocks && tech.unlocks.length){
-					for (var i = tech.unlocks.length - 1; i >= 0; i--) {
-						var newTech = btn.getTechByName(tech.unlocks[i]);
-						newTech.unlocked = true;
-					}
-				}
-
-				if (tech.handler){
-					tech.handler(game);
-				}
+				this.game.unlock(tech.unlocks);
 
 			}, tech, self.game),
 			prices: tech.prices ? tech.prices : [{
