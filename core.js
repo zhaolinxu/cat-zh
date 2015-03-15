@@ -708,6 +708,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
 	simplePrices: true,
+	hasResourceHover: false,
 
 	afterRender: function(){
 		dojo.addClass(this.domNode, "modern");
@@ -717,6 +718,17 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
+
+		if (this.hasResourceHover) {
+			dojo.connect(this.domNode, "onmouseover", this,
+				dojo.hitch( this, function(){
+					this.game.setSelectedObject(this.getSelectedObject());
+				}));
+			dojo.connect(this.domNode, "onmouseout", this,
+				dojo.hitch( this, function(){
+					this.game.clearSelectedObject();
+				}));
+		}
 	},
 
 	getDescription: function(){
@@ -955,6 +967,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	renderLinks: function(){
 		//do nothing, implement me
+	},
+
+	getSelectedObject: function(){
+		return null;
 	}
 });
 

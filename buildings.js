@@ -1492,15 +1492,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 	},
 
-	afterRender: function(){
-		this.inherited(arguments);
-
-		this.renderLinks();
-
-		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = this.getBuilding(); }));
-		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
-	},
-
 	hasSellLink: function(){
 		return true && !this.game.opts.hideSell;
 	},
@@ -1903,20 +1894,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
 	simplePrices: false,
-
-	afterRender: function(){
-		dojo.addClass(this.domNode, "modern");
-
-		this.renderLinks();
-
-		dojo.connect(this.domNode, "onmouseover", this, dojo.hitch( this, function(){ this.game.selectedBuilding = this.getBuilding(); }));
-		dojo.connect(this.domNode, "onmouseout", this, dojo.hitch( this, function(){  this.game.selectedBuilding = null; }));
-
-		/*this.game.attachTooltip(this.domNode, dojo.partial( function(btn){
-
-		}, this));*/
-		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
-	},
+	hasResourceHover: true,
 
 	getDescription: function(){
 		return this.description;
@@ -1930,6 +1908,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.
 	getEffects: function(){
 		var bld = this.getBuilding();
 		return bld.effects;
+	},
+
+	getSelectedObject: function(){
+		return this.getBuilding();
 	}
 });
 
