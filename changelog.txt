@@ -4,6 +4,7 @@ Changes by klusark:
 
 Option to not confrim when clearing all jobs (gamePage.opts.noConfirm)
 Numerous UI fixes/optizisations
+Code refactoring
 __
 Some bizzare version of the responsive UI.
 
