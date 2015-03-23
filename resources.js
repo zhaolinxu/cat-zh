@@ -675,6 +675,44 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		return this.game.getResCraftRatio(res);
 	},
 
+	createCraftButton: function(tr, recipe, craftRatio, res, num){
+		var td = dojo.create("td", { style: {width: "20px"}}, tr);
+		var a = dojo.create("a", {
+				href: "#",
+				innerHTML : "+" + (num * (1+craftRatio)).toFixed(),
+				style: {
+					display: this.game.resPool.hasRes(recipe.prices, num) ? "" : "none"
+				}
+			}, td);
+
+		dojo.connect(a, "onclick", this, dojo.partial(function(res, event){
+				this.game.craft(res.name, num);
+				event.preventDefault();
+			}, res));
+
+		this.attachTooltip(td, dojo.partial( function(recipe){
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+				for (var i = 0; i < recipe.prices.length; i++){
+					var price = recipe.prices[i];
+
+					var priceItemNode = dojo.create("div", null, tooltip);
+
+					var nameSpan = dojo.create("span", {
+							innerHTML: price.name,
+							style: { float: "left"}
+						}, priceItemNode );
+
+					var priceSpan = dojo.create("span", {
+							innerHTML: this.game.getDisplayValueExt(price.val * num),
+							style: {float: "right", paddingLeft: "6px" }
+						}, priceItemNode );
+				}
+				return tooltip.outerHTML;
+			}, recipe));
+
+		return a;
+	},
+
 	render: function(){
 		if (!this.containerId) { throw "container id is undefined for res table"; }
 		dojo.empty(this.containerId);
@@ -723,56 +761,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- + ----------------------
-			
-			
-			var td = dojo.create("td", { style: {width: "20px", cursor: "pointer"}}, tr);
-				var a1 = dojo.create("a", { 
-					href: "#", 
-					innerHTML : "+" + (1 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 1) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a1, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 1); event.preventDefault(); }, res));
-			this.attachTooltip(td, dojo.partial( function(recipe){
-				
-				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-				
-				for( var i = 0; i < recipe.prices.length; i++){
-					var price = recipe.prices[i];
-					
-					var priceItemNode = dojo.create("div", null, tooltip); 
-					
-					var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-					var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right", paddingLeft: "6px" } }, priceItemNode );
-				}
-				return tooltip.outerHTML;
-			
-			}, recipe));	
-			
-			//	---------------- +25 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a25 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (25 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 25) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a25, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 25); event.preventDefault(); }, res));
 
-			//	---------------- +100 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a100 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (100 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 100) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a100, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 100); event.preventDefault(); }, res));
+			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1);
+			var a25 = this.createCraftButton(tr, recipe, craftRatio, res, 25);
+			var a100 = this.createCraftButton(tr, recipe, craftRatio, res, 100);
 
-			
 			//	---------------- +all ----------------------
 			var td = dojo.create("td", { }, tr);
 			
