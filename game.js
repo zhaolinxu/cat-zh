@@ -545,7 +545,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.village.updateResourceProduction(); 
 		}), 10);	//every 2 seconds
 		
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
 		this.timer.addEvent(dojo.hitch(this, function(){ 
 			
 			this.bld.invalidateCachedEffects();
@@ -1288,13 +1287,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	updateCraftResources: function(){
-		//do nothing, outdated
-	},
-	
 	craft: function(resName, value){
 		this.workshop.craft(resName, value);
-		this.updateCraftResources();
 		this.updateResources();
 	},
 	
@@ -1308,7 +1302,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		this.workshop.craftAll(resName);
-		this.updateCraftResources();
 		this.updateResources();
 	},
 	
