@@ -557,6 +557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	 * This section is performance-critical. Using non vanilla js here is a very *BAD* idea.
 	 */ 
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -571,8 +572,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			//  highlight resources for selected building
 			//--------------------------------------------
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";
@@ -817,6 +817,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 	},
 	
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -836,8 +837,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//--------------------------------------------
 			var className;
 			
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";

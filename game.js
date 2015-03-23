@@ -899,12 +899,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getResourcePerTick: function(resName, calcAutomatedEffect, season){
 		
 		//STRUCTURES PRODUCTION
-		var res = null;
-		for (var i = 0; i < this.resPool.resources.length; i++){
-			if (this.resPool.resources[i].name == resName){
-				res = this.resPool.resources[i];
-			}
-		}
+		var res = this.resPool.get(resName);
 
 		var weatherMod = 0;		
 		//SEASON MODIFIERS
@@ -1335,19 +1330,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	},
 	
-	//TODO: freaking slow, use damn dictionaries
-	isResRequired: function(bld, resName){
-		if (!bld.prices){
-			return false;
-		}
-		for (var i = 0; i < bld.prices.length; i++){
-			if (bld.prices[i].name == resName){
-				return true;
+	getRequiredResources: function(bld){
+		var res = [];
+		if (bld && bld.prices) {
+			for (var i = 0; i < bld.prices.length; i++){
+				res.push(bld.prices[i].name);
 			}
 		}
-		return false;
+		return res;
 	},
-	
+
 	/**
 	 * Attaches onMouseOver/onMouseOut events to a given DOM node in order to display tooltip.
 	 * All tooltips will reuse the same container.
