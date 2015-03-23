@@ -419,23 +419,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	/**
 	 * Returns true if user has enough resources to construct AMT building with given price
-	 */ 
+	 */
 	hasRes: function(prices, amt){
-		if (amt){
-			prices = dojo.clone(prices);
-		
-			for (var i = 0; i< prices.length; i++){
-				prices[i].val *= amt;
-			}
+		if (!amt){
+			amt = 1;
 		}
-		
+
 		var hasRes = true;
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-				
+
 				var res = this.get(price.name);
-				if (res.value < price.val){
+				if (res.value < (price.val * amt)){
 					hasRes = false;
 					break;
 				}
