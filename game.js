@@ -896,7 +896,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return perTick;
 	}, */
 	 
-	getResourcePerTick: function(resName, calcAutomatedEffect, season){
+	calcResourcePerTick: function(resName, season){
 		
 		//STRUCTURES PRODUCTION
 		var res = this.resPool.get(resName);
@@ -991,13 +991,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 		
-		//AUTOMATED STRUCTURES EFFECTS
-		if (calcAutomatedEffect){
-			var resRatioTick = this.getEffect(res.name + "PerTick");
-			if (resRatioTick){
-				perTick += resRatioTick;
-			}
-		}
+
 
 		//---------  RESOURCE CONSUMPTION -------------
 	
@@ -1278,10 +1272,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		*/ 
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickUI = this.getResourcePerTick(res.name, true);
+			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
+			//AUTOMATED STRUCTURES EFFECTS
+			var resRatioTick = this.getEffect(res.name + "PerTick");
+			res.perTickUI = res.perTickNoAutomate + resRatioTick;
 		}
 	},
-	
+
+	getResourcePerTick: function(resName, calcAutomatedEffect){
+		var res = this.resPool.get(resName);
+		if (calcAutomatedEffect) {
+			return res.perTickUI;
+		} else {
+			return res.perTickNoAutomate;
+		}
+	},
+
 	updateCraftResources: function(){
 		//do nothing, outdated
 	},
@@ -1320,7 +1326,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			winterDays = 100 - this.calendar.day;
 		}
 
-		var catnipPerTick = this.getResourcePerTick("catnip", false, { modifiers:{
+		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
 	
