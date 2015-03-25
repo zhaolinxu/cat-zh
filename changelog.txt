@@ -3,7 +3,7 @@ v 1.0.7.2 (4 mar)
 Changes by klusark:
 
 Option to not confrim when clearing all jobs (gamePage.opts.noConfirm)
-Numerous UI fixes/optizisations
+Numerous UI fixes/optimizations
 Code refactoring and overhaul
 __
 
