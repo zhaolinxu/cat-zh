@@ -22,7 +22,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"wood" : 0.015
 		},
 		value: 0,
-		unlocked: true
+		unlocked: true,
+        flavor: "Must. Not. Scratch."
 	},{
 		name: "farmer",
 		title: "Farmer",
@@ -52,7 +53,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"manpower" : 0.06
 		},
 		value: 0,
-		unlocked: false
+		unlocked: false,
+        flavor: "We're so cute we purr at our prey until it dies"
 	},{
 		name: "miner",
 		title: "Miner",
@@ -62,7 +64,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"minerals" : 0.05
 		},
 		value: 0,
-		unlocked: false
+		unlocked: false,
+        flavor: "I don't really understand how can I hold a pick with my paws"
 	},{
 		name: "priest",
 		title: "Priest",

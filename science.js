@@ -20,7 +20,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: {
 			tech: ["agriculture"]
-		}
+		},
+        flavor: "What day is it again?"
 
 	},{
 		name: "agriculture",
@@ -35,7 +36,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["mining", "archery"],
 			jobs: ["farmer"]
-		}
+		},
+        flavor: "Best thing since sliced bread!"
 	},{
 		name: "archery",
 		title: "Archery",
@@ -234,7 +236,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["astronomy"],
 			jobs: ["priest"]
-		}
+		},
+        flavor: "What is that flaming ball in the sky anyway?"
 	},{
 		name: "astronomy",
 		title: "Astronomy",

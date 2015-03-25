@@ -585,7 +585,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", val: 750 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+        flavor: "At least they are wearing something..."
 	},{
 		name: "steelArmor",
 		title: "Steel Armour",

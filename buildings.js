@@ -304,7 +304,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
-		val: 0
+		val: 0,
+        flavor: "Rats ain't a problem for us!"
 	},
 	{
 		name: "warehouse",
@@ -323,7 +324,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["construction"],
-		val: 0
+		val: 0,
+        flavor: "All our stocks are scratched"
 	},
 	{
 		name: "harbor",
@@ -484,7 +486,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		},
-		val: 0
+		val: 0,
+        flavor: "Hot!"
 	},{
 		name: "calciner",
 		label: "Calciner",
@@ -658,7 +661,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		},
-		val: 0
+		val: 0,
+        flavor: "I just nap here and it looks like I'm working"
 	},{
 		name: "magneto",
 		label: "Magneto",
