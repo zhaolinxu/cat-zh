@@ -1448,17 +1448,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	toDisplaySeconds : function (secondsRaw) {
-	    var sec_num = parseInt(secondsRaw, 10); // don't forget the second param	    
-	    var days    = Math.floor(sec_num / 86400);
-	    var hours   = Math.floor((sec_num-(days * 86400)) / 3600);  
-	    var minutes = Math.floor((sec_num - (days * 86400 + hours * 3600)) / 60);
-	    var seconds = sec_num - (days * 86400) - (hours * 3600) - (minutes * 60);
+	    var sec_num = parseInt(secondsRaw, 10); // don't forget the second param	
+        
+        var year_secs = 86400 * 365;
+           
+        var years   = Math.floor(sec_num / year_secs);
+	    var days    = Math.floor((sec_num - (years * year_secs)) / 86400);
+	    var hours   = Math.floor((sec_num - (years * year_secs) - (days * 86400)) / 3600);  
+	    var minutes = Math.floor((sec_num - (years * year_secs) - (days * 86400 + hours * 3600)) / 60);
+	    var seconds = sec_num - (years * year_secs) - (days * 86400) - (hours * 3600) - (minutes * 60);
+        
+        if (years > 0){
+            years = this.getDisplayValueExt(years);
+        }
 
 	    var timeFormated = "";
-	    if ( days ) { timeFormated = days + "d "}
-	    if ( hours ) {  timeFormated += hours + "h " }
-	    if ( minutes) { timeFormated += minutes + "m " }
-	    if ( seconds ) { timeFormated += seconds + "s " }
+        if ( years ) { timeFormated = years + "y "}
+	    if ( days ) { timeFormated += days + "d "}
+        if ( !years ){
+            if ( hours ) {  timeFormated += hours + "h " }
+            if ( minutes) { timeFormated += minutes + "m " }
+            if ( seconds ) { timeFormated += seconds + "s " }
+        }
 
 	    return timeFormated;
 	},
