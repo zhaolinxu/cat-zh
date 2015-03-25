@@ -6,13 +6,13 @@ Option to not confrim when clearing all jobs (gamePage.opts.noConfirm)
 Numerous UI fixes/optizisations
 Code refactoring and overhaul
 __
-Some bizzare version of the responsive UI.
 
 Price of stasis chambers was reduced from 5 time crystals to 1
 Flux condensator price and effect were both significantly reduced
 Titanium price of space elevators was reduced.
 All upgradale space missions will now have oil ratio of 5%.
 
+Void Energy
 
 v 1.0.7.1 (27 jan)
 

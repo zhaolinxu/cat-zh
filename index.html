@@ -42,83 +42,7 @@
 		
 		<style>
 			.columnPin {
-				width: 26px;
-				border-right: 1px solid gray;
-				background-color: #FFF;
-			}
-			
-			@media (max-width: 48em) {
-				#game a {
-					font-size: 20px;
-				}
-				
-				#tooltip {
-					margin-top: 90px;
-				}
-				
-				#leftColumn {
-					display: none;
-					font-size: 20px;
-				}
-				#rightColumn {
-					display: none;
-				}
-				
-				#leftColumn.sticky {
-					display: inline-block;
-					width: 320px;
-					background-color:#FFF;
-					/*position: absolute;
-					z-index: 9999;*/
-				}
-				
-				#rightColumn.sticky {
-					display: inline-block;
-					position: absolute;
-					width: 180px;
-					right: 0px;
-					background-color:#FFF;
-					z-index: 9999;
-				}
-				
-				.columnPin {
-					display: inline-block;
-					background-color:#FFF;
-				}
-
-				
-				#rightColumnPin.sticky {
-					position: absolute;
-					right:200px;
-				}
-				
-				.btn.modern {
-					font-size: 16px;
-					color: rgb(102,102,102);
-					padding-top: 8px;
-					padding-bottom: 8px;
-					margin-top: 20px;
-					border-radius: 12px;
-				}
-				
-				.btn.modern.disabled {
-					color: rgb(180,180,180);
-				}
-				
-				.btn.modern a {
-					margin: -16px 0;
-					padding: 14px !important;
-				}
-				.btn.modern a:last-of-type {
-					border-top-right-radius: 12px;
-					border-bottom-right-radius: 12px;
-				}
-			}
-			
-			@media (min-width: 48em) {
-				.columnPin {
-					display: none;
-				}
+				display: none;
 			}
 		</style>
 
@@ -128,6 +52,8 @@
 
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
+				$("#tooltip").hide();
+				
 				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
 				
 				gamePage.nerfs = 5;

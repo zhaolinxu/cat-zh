@@ -342,9 +342,27 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		prices:[
 			{ name : "science", val: 235000 },
-			{ name : "alloy", val: 	 250 },
-			{ name : "uranium", val: 2500 },
+			{ name : "alloy", val: 	 200 },
+			{ name : "uranium", val: 2000 },
 			{ name : "timeCrystal", val: 1 }
+		],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["voidEnergy"]
+		}
+	},{
+		name: "voidEnergy",
+		title: "Void Energy",
+		description: "Energy Rifts are even more effective",
+		effects: {
+			"acceleratorRatio" : 0.50
+		},
+		prices:[
+			{ name : "science",     val: 275000 },
+			{ name : "alloy",       val: 250 },
+			{ name : "uranium",     val: 2500 },
+			{ name : "timeCrystal", val: 2 }
 		],
 		unlocked: false,
 		researched: false

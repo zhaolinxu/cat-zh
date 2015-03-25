@@ -138,7 +138,37 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"winter": 1
 			}}
 		]
-	}],
+	},{
+        name: "leviathans",
+		hidden: true,
+		title: "Leviathans",
+		attitude: "neutral",
+		standing: 0.15,
+		unlocked: false,
+		buys: [
+			{name: "unobtainium", val: 5000}
+		],
+		sells:[
+			{name: "timeCrystal", value: 1, chance: 98, delta: 0.25, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}},
+			{name: "sorrow", value: 1, chance: 15, delta: 0.1, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}},
+            {name: "starchart", value: 125, chance: 35, delta: 0.8, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}}
+		]
+    }],
 
 	constructor: function(game){
 		this.game = game;
