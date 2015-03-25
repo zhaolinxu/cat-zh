@@ -419,23 +419,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	/**
 	 * Returns true if user has enough resources to construct AMT building with given price
-	 */ 
+	 */
 	hasRes: function(prices, amt){
-		if (amt){
-			prices = dojo.clone(prices);
-		
-			for (var i = 0; i< prices.length; i++){
-				prices[i].val *= amt;
-			}
+		if (!amt){
+			amt = 1;
 		}
-		
+
 		var hasRes = true;
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-				
+
 				var res = this.get(price.name);
-				if (res.value < price.val){
+				if (res.value < (price.val * amt)){
 					hasRes = false;
 					break;
 				}
@@ -557,6 +553,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	 * This section is performance-critical. Using non vanilla js here is a very *BAD* idea.
 	 */ 
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -571,8 +568,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			//  highlight resources for selected building
 			//--------------------------------------------
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";
@@ -675,6 +671,44 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		return this.game.getResCraftRatio(res);
 	},
 
+	createCraftButton: function(tr, recipe, craftRatio, res, num){
+		var td = dojo.create("td", { style: {width: "20px"}}, tr);
+		var a = dojo.create("a", {
+				href: "#",
+				innerHTML : "+" + (num * (1+craftRatio)).toFixed(),
+				style: {
+					display: this.game.resPool.hasRes(recipe.prices, num) ? "" : "none"
+				}
+			}, td);
+
+		dojo.connect(a, "onclick", this, dojo.partial(function(res, event){
+				this.game.craft(res.name, num);
+				event.preventDefault();
+			}, res));
+
+		this.attachTooltip(td, dojo.partial( function(recipe){
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+				for (var i = 0; i < recipe.prices.length; i++){
+					var price = recipe.prices[i];
+
+					var priceItemNode = dojo.create("div", null, tooltip);
+
+					var nameSpan = dojo.create("span", {
+							innerHTML: price.name,
+							style: { float: "left"}
+						}, priceItemNode );
+
+					var priceSpan = dojo.create("span", {
+							innerHTML: this.game.getDisplayValueExt(price.val * num),
+							style: {float: "right", paddingLeft: "6px" }
+						}, priceItemNode );
+				}
+				return tooltip.outerHTML;
+			}, recipe));
+
+		return a;
+	},
+
 	render: function(){
 		if (!this.containerId) { throw "container id is undefined for res table"; }
 		dojo.empty(this.containerId);
@@ -723,56 +757,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- + ----------------------
-			
-			
-			var td = dojo.create("td", { style: {width: "20px", cursor: "pointer"}}, tr);
-				var a1 = dojo.create("a", { 
-					href: "#", 
-					innerHTML : "+" + (1 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 1) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a1, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 1); event.preventDefault(); }, res));
-			this.attachTooltip(td, dojo.partial( function(recipe){
-				
-				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-				
-				for( var i = 0; i < recipe.prices.length; i++){
-					var price = recipe.prices[i];
-					
-					var priceItemNode = dojo.create("div", null, tooltip); 
-					
-					var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-					var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right", paddingLeft: "6px" } }, priceItemNode );
-				}
-				return tooltip.outerHTML;
-			
-			}, recipe));	
-			
-			//	---------------- +25 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a25 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (25 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 25) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a25, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 25); event.preventDefault(); }, res));
 
-			//	---------------- +100 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a100 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (100 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 100) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a100, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 100); event.preventDefault(); }, res));
+			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1);
+			var a25 = this.createCraftButton(tr, recipe, craftRatio, res, 25);
+			var a100 = this.createCraftButton(tr, recipe, craftRatio, res, 100);
 
-			
 			//	---------------- +all ----------------------
 			var td = dojo.create("td", { }, tr);
 			
@@ -817,6 +806,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 	},
 	
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -836,8 +826,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//--------------------------------------------
 			var className;
 			
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";

@@ -1502,33 +1502,21 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	renderLinks: function(){
 		var building = this.getBuilding();
 
-		//TODO: rewrite this with addLink
 		if (building && building.val && this.hasSellLink()){
 			if (!this.sellHref){
-				this.sellHref = dojo.create("a", { href: "#", innerHTML: "sell",
-						title: "Sell building for 50% of its price",
-						style:{
-							paddingLeft: "2px",
-							float: "right",
-							cursor: "pointer"}
-						}, null);
+				this.sellHref = this.addLink("sell",
+					function(){
+						building.val--;
 
-				dojo.connect(this.sellHref, "onclick", this, dojo.partial(function(building, event){
-					event.stopPropagation();
-					event.preventDefault();
+						if (building.on > building.val){
+							building.on = building.val;
+						}
 
-					building.val--;
+						this.refund(0.5);
 
-					if (building.on > building.val){
-						building.on = building.val;
-					}
-
-					this.refund(0.5);
-
-					this.prices = this.getPrices();
-					this.game.render();
-				}, building));
-				dojo.place(this.sellHref, this.buttonContent);
+						this.prices = this.getPrices();
+						this.game.render();
+					});
 			}
 		}
 
@@ -1615,7 +1603,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			// -------------- sell ----------------
 			if (this.sellHref){
-				dojo.setStyle(this.sellHref, "display", (building.val > 0) ? "" : "none");
+				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
 			}
 
 			//--------------- toggle ------------
@@ -1678,33 +1666,25 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 	    // -------------- x100 ----------------
 
 		if (!this.x100Href){
-			this.x100Href = dojo.create("a", { href: "#", innerHTML: "x100", style:{
-					paddingLeft: "4px",
-					float: "right",
-					cursor: "default",
-					display: catnipVal < (catnipCost * 100) ? "none" : ""
-				}}, null);
+			this.x100Href = this.addLink("x100",
+				function(){
 
-			dojo.connect(this.x100Href, "onclick", this, dojo.hitch(this, function(event){
-				event.stopPropagation();
+					var catnipVal = this.game.resPool.get("catnip").value;
 
-				var catnipVal = this.game.resPool.get("catnip").value;
+					if (catnipVal < (catnipCost * 100)){
+						this.game.msg("not enough catnip!");
+					}
 
-				if (catnipVal < (catnipCost * 100)){
-					this.game.msg("not enough catnip!");
-				}
+					this.game.resPool.get("catnip").value -= (catnipCost * 100);
 
-				this.game.resPool.get("catnip").value -= (catnipCost * 100);
+					var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
+					this.game.resPool.get("wood").value += 100 * craftRatio;
 
-				var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-				this.game.resPool.get("wood").value += 100 * craftRatio;
+					this.update();
+				});
 
-				this.update();
-			}));
-
-			dojo.place(this.x100Href, this.buttonContent);
 		} else {
-			dojo.setStyle(this.x100Href, "display", catnipVal < (catnipCost * 100) ? "none" : "");
+			dojo.setStyle(this.x100Href.link, "display", catnipVal < (catnipCost * 100) ? "none" : "");
 		}
 
 	}

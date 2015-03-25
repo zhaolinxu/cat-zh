@@ -545,7 +545,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.village.updateResourceProduction(); 
 		}), 10);	//every 2 seconds
 		
-		this.timer.addEvent(dojo.hitch(this, function(){ this.updateCraftResources(); }), 5);	//once per 5 ticks
 		this.timer.addEvent(dojo.hitch(this, function(){ 
 			
 			this.bld.invalidateCachedEffects();
@@ -896,15 +895,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return perTick;
 	}, */
 	 
-	getResourcePerTick: function(resName, calcAutomatedEffect, season){
+	calcResourcePerTick: function(resName, season){
 		
 		//STRUCTURES PRODUCTION
-		var res = null;
-		for (var i = 0; i < this.resPool.resources.length; i++){
-			if (this.resPool.resources[i].name == resName){
-				res = this.resPool.resources[i];
-			}
-		}
+		var res = this.resPool.get(resName);
 
 		var weatherMod = 0;		
 		//SEASON MODIFIERS
@@ -996,13 +990,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 		
-		//AUTOMATED STRUCTURES EFFECTS
-		if (calcAutomatedEffect){
-			var resRatioTick = this.getEffect(res.name + "PerTick");
-			if (resRatioTick){
-				perTick += resRatioTick;
-			}
-		}
+
 
 		//---------  RESOURCE CONSUMPTION -------------
 	
@@ -1283,17 +1271,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		*/ 
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickUI = this.getResourcePerTick(res.name, true);
+			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
+			//AUTOMATED STRUCTURES EFFECTS
+			var resRatioTick = this.getEffect(res.name + "PerTick");
+			res.perTickUI = res.perTickNoAutomate + resRatioTick;
 		}
 	},
-	
-	updateCraftResources: function(){
-		//do nothing, outdated
+
+	getResourcePerTick: function(resName, calcAutomatedEffect){
+		var res = this.resPool.get(resName);
+		if (calcAutomatedEffect) {
+			return res.perTickUI;
+		} else {
+			return res.perTickNoAutomate;
+		}
 	},
-	
+
 	craft: function(resName, value){
 		this.workshop.craft(resName, value);
-		this.updateCraftResources();
 		this.updateResources();
 	},
 	
@@ -1307,7 +1302,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		
 		this.workshop.craftAll(resName);
-		this.updateCraftResources();
 		this.updateResources();
 	},
 	
@@ -1325,7 +1319,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			winterDays = 100 - this.calendar.day;
 		}
 
-		var catnipPerTick = this.getResourcePerTick("catnip", false, { modifiers:{
+		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
 	
@@ -1335,19 +1329,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	},
 	
-	//TODO: freaking slow, use damn dictionaries
-	isResRequired: function(bld, resName){
-		if (!bld.prices){
-			return false;
-		}
-		for (var i = 0; i < bld.prices.length; i++){
-			if (bld.prices[i].name == resName){
-				return true;
+	getRequiredResources: function(bld){
+		var res = [];
+		if (bld && bld.prices) {
+			for (var i = 0; i < bld.prices.length; i++){
+				res.push(bld.prices[i].name);
 			}
 		}
-		return false;
+		return res;
 	},
-	
+
 	/**
 	 * Attaches onMouseOver/onMouseOut events to a given DOM node in order to display tooltip.
 	 * All tooltips will reuse the same container.
