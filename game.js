@@ -1561,7 +1561,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			
 		} else {
-			calendarDiv.innerHTML = this.calendar.seasons[this.calendar.season].title
+			calendarDiv.textContent = this.calendar.seasons[this.calendar.season].title
 		}
 
 	},

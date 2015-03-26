@@ -1626,7 +1626,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			}
 
 			if (this.toggle){
-				this.toggle.link.innerHTML = building.enabled ? "off" : "on";
+				this.toggle.link.textContent = building.enabled ? "off" : "on";
 			}
 
 			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));

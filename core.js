@@ -841,7 +841,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (!hasRes && res.perTickUI > 0 && !simpleUI){
 			var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
-			priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
+			priceSpan.textContent += " (" + this.game.toDisplaySeconds(eta)  + ")";
 		}
 
 
@@ -850,7 +850,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 			var craftRatio = this.game.bld.getEffect("craftRatio");
 
-			nameSpan.innerHTML = "+ " + nameSpan.innerHTML;
+			nameSpan.textContent = "+ " + nameSpan.textContent;
 
 			if (!indent) {
 				indent = 1;

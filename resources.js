@@ -525,11 +525,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
-			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- max ----------------------
 			var tdMax = dojo.create("td", { className: "maxRes" }, tr);
-			tdMax.innerHTML = this.game.getDisplayValueExt(res.maxValueUI);
+			tdMax.textContent = this.game.getDisplayValueExt(res.maxValueUI);
 			
 			//	---------------- +tick ----------------------
 			var tdPerTick = dojo.create("td", null, tr);
@@ -579,7 +579,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			
 			//---------------------------------------------
 
-			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			if (res.value > res.maxValue * 0.95){
 				//rowClass += " resLimitNotice";
@@ -592,7 +592,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
-			row.resMax.innerHTML  = maxResValue;
+			row.resMax.textContent  = maxResValue;
 
 			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.rate : res.perTickUI;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
@@ -602,7 +602,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}
 			
 			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
-			row.resTick.innerHTML = perTickValue;
+			row.resTick.textContent = perTickValue;
 
 			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
 			
@@ -611,7 +611,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			if (season.modifiers[res.name] && res.perTickUI != 0 ){
 					
 				var modifer = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
-				row.resWMod.innerHTML = modifer ? "[" + modifer.toFixed() + "%]" : "";
+				row.resWMod.textContent = modifer ? "[" + modifer.toFixed() + "%]" : "";
 
 				if (modifer > 0){
 					dojo.setStyle(row.resWMod, "color", "green");
@@ -754,7 +754,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
-			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- + ----------------------
 
@@ -837,7 +837,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
-			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, 1) ? "" : "none");
 			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, 25) ? "" : "none");
