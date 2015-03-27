@@ -780,13 +780,13 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			this.renderPrices(tooltip, this.simplePrices);	//simple prices
 		}
 
-		effects = this.getEffects();
+		var effects = this.getEffects();
 		if (effects){
 			this.renderEffects(tooltip, effects);
 		}
 
 		//-------------- flavor stuff -------------
-		flavor = this.getFlavor();
+		var flavor = this.getFlavor();
 		if (flavor) {
 			dojo.create("div", {
 				innerHTML: flavor,
@@ -897,7 +897,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		//-----------------------------------------
 
-		for (effectName in effectsList){
+		for (var effectName in effectsList){
 			var effectValue = effectsList[effectName];
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
