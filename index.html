@@ -41,16 +41,6 @@
 		<link rel="stylesheet" href="res/default.css" type="text/css">
 		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
         <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
-        
-		<style>
-			.columnPin {
-				display: none;
-			}
-		</style>
-
-
-		<!--link rel="stylesheet" href="res/theme_dark.css" type="text/css"-->
-		<!--link rel="stylesheet" href="res/theme_grassy.css" type="text/css"-->
 
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
@@ -99,7 +89,7 @@
 
 
 	<body>
-		<div id="gamePageContainer" class="">
+		<div id="gamePageContainer">
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
@@ -183,10 +173,6 @@
 					<div id="craftContainer" style="padding-top: 10px; width: 100%">
 					</div>
 				</div>
-				<div id="leftColumnPin" class="column columnPin" style="vertical-align: top; cursor: pointer; padding:10px;" 
-					onclick="$('#leftColumn').toggleClass('sticky'); $('#leftColumnPin').toggleClass('sticky');">
-					&lt;=&gt;
-				</div>
 				
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
@@ -201,10 +187,6 @@
 					</div>
 				</div>
 				<!-- RIGHT -->
-				<div id="rightColumnPin" class="column columnPin" style="vertical-align: top; cursor: pointer; padding:10px;" 
-					onclick="$('#rightColumn').toggleClass('sticky'); $('#rightColumnPin').toggleClass('sticky');">
-					&lt;=&gt;
-				</div>
 				<div id="rightColumn" style="vertical-align: top; padding-left: 20px; padding-top: 15px;" class="column">
 					<div>
 						<span id="calendarDiv">Calendar :V</span>

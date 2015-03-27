@@ -1,303 +1,307 @@
 html, body {
-	height: 100%;
-	overflow-y: hidden;
+    height: 100%;
+    overflow-y: hidden;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
 }
 
 #gamePageContainer {
-	border: 0 none;
-	font: inherit;
-	margin: 0;
-	padding: 0;
-	vertical-align: baseline;
+    border: 0 none;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
 
-	overflow: auto;
+    overflow: auto;
+    width: 1300px;
 }
 
 #topBar {
-	position:absolute;
-	top: 2px;
-	left: 0px;
-	height: 26px;
-	width: 100%;
-	border-bottom: 1px solid gray;
+    position:absolute;
+    top: 2px;
+    left: 0px;
+    height: 26px;
+    width: 100%;
+    border-bottom: 1px solid gray;
 
-	box-shadow: 1px 0px 2px #888;
+    box-shadow: 1px 0px 2px #888;
+    min-width: 1300px;
 }
 
 #game {
-	position:absolute;
-	bottom: 0;
-	top: 26px;
+    position:absolute;
+    bottom: 0;
+    top: 26px;
 
-	width: 100%;
+    width: 100%;
+    min-width: 1280px;
 
-	margin: 0 auto;
-	height: auto;
-	
-	white-space: nowrap;	/* to prevent log column from wrapping */
+    margin: 0 auto;
+    height: auto;
+    
+    white-space: nowrap;	/* to prevent log column from wrapping */
 }
 
 #game * {
-	white-space: normal;
+    white-space: normal;
 }
 
 .column {
-	min-height: 100%;
-	height: 100%;
+    min-height: 100%;
+    height: 100%;
 
-	display: inline-block;
-	margin-top: 4px;
+    display: inline-block;
+    margin-top: 4px;
 }
 
 #leftColumn {
-	width: 25%;
-	max-width: 400px;
-	padding-right: 20px;
+    width: 25%;
+    max-width: 400px;
+    min-width: 300px;
+    padding-right: 20px;
 
-	overflow-y: scroll;
-	overflow-x: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #midColumn {
-	width: 620px;
-	overflow-y: scroll;
-	overflow-x: hidden;
-	margin-top: 30px;
+    width: 620px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 30px;
 }
 
 #rightColumn {
-	width: 300px;
+    width: 300px;
 }
 
 .tabsContainer {
-	padding-bottom: 15px;
-	position:absolute;
-	top: 5px;
+    padding-bottom: 15px;
+    position:absolute;
+    top: 5px;
 }
 
 div#gameLog {
 }
 
 #footerLinks {
-	position: absolute;
-	bottom: 10px;
-	right: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
 }
 
 .activeTab {
-	text-decoration: none;
-	color: black;
+    text-decoration: none;
+    color: black;
 }
 
 .resourceRow {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .nosel {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .btn {
-	border: 1px solid black;
-	padding: 5px;
-	cursor: default;
-	width: 170px;
-	text-align: center;
-	margin-bottom:10px;
+    border: 1px solid black;
+    padding: 5px;
+    cursor: default;
+    width: 170px;
+    text-align: center;
+    margin-bottom:10px;
 }
 
 .btn.bldEnabled div.btnContent {
-	padding: 4px;
-	border: 1px solid green;
+    padding: 4px;
+    border: 1px solid green;
 }
 
 .btn a:hover {
-	color: orange;
-	text-shadow: 1px 0px 10px coral;
+    color: orange;
+    text-shadow: 1px 0px 10px coral;
 }
 
 .btn .noRes {
-	color: #FF3030;
+    color: #FF3030;
 }
 
 .spacer {
-	border-bottom: 1px solid gray;
-	margin-bottom: 12px;
+    border-bottom: 1px solid gray;
+    margin-bottom: 12px;
 }
 
 .highlited {
-	background-color: #EEE;
+    background-color: #EEE;
 }
 
 .help {
-	position: absolute;
-	border: 1px solid black;
-	width: 600px;
-	height: 300px;
+    position: absolute;
+    border: 1px solid black;
+    width: 600px;
+    height: 300px;
 
-	left: 50%;
-	top: 50%;
+    left: 50%;
+    top: 50%;
 
-	margin-top: -150px;
-	margin-left: -300px;
+    margin-top: -150px;
+    margin-left: -300px;
 
-	background-color: #FFF;
-	padding: 20px;
+    background-color: #FFF;
+    padding: 20px;
 }
 
 .disabled {
-	color: #999
+    color: #999
 }
 
 .tipr_content {
-	border: 1px solid black;
-	background-color: #F6F6F6;
-	padding: 3px;
-	margin: 2px;
+    border: 1px solid black;
+    background-color: #F6F6F6;
+    padding: 3px;
+    margin: 2px;
 }
 
 .button_tooltip {
-	background-color: #FFF;
-	color: black;
-	z-index: 9000;
+    background-color: #FFF;
+    color: black;
+    z-index: 9000;
 }
 
 .panelContainer {
-	border: 1px solid black;
-	min-height: 30px;
-	margin-top: 8px;
+    border: 1px solid black;
+    min-height: 30px;
+    margin-top: 8px;
 }
 
 .panelContainer .title {
-	padding: 4px;
-	padding-left: 10px;
+    padding: 4px;
+    padding-left: 10px;
 }
 
 .panelContainer .toggle {
-	border: 1px solid black;
-	margin: 4px;
-	padding-left:  6px;
-	padding-right: 6px;
-	cursor: pointer;
+    border: 1px solid black;
+    margin: 4px;
+    padding-left:  6px;
+    padding-right: 6px;
+    cursor: pointer;
 }
 
 .panelContainer .container {
-	padding: 10px;
+    padding: 10px;
 }
 
 .maxRes {
-	color: #AAA;
+    color: #AAA;
 }
 
 .achievement {
-	display: block;
-	margin-bottom: 10px;
-	padding: 5px;
-	padding-left: 10px;
-	border: 1px solid gray;
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    border: 1px solid gray;
 }
 
 .achievement.unethical {
-	border-color: red;
+    border-color: red;
 }
 
 td.resLimitNotice {
-	color: orange;
+    color: orange;
 }
 
 td.resLimitWarn {
-	color: coral;
-	opacity: 0.75;
+    color: coral;
+    opacity: 0.75;
 }
 
 .tooltipExt {
-	position: absolute;
-	border: 1px solid gray;
-	padding: 5px;
-	pointer-events: none;
+    position: absolute;
+    border: 1px solid gray;
+    padding: 5px;
+    pointer-events: none;
 }
 
 .msg {
-	display: inline-block;
+    display: inline-block;
 }
 
 .msg.type_notice {
-	color: #01A9DB;
+    color: #01A9DB;
 }
 
 .msg.type_important {
-	color: coral;
+    color: coral;
 }
 
 #gameContainerId {
-	padding: 10px;
-	padding-top: 10px;
+    padding: 10px;
+    padding-top: 10px;
 }
 
 .bldGroupContainer {
-	padding-top: 15px;
-	border-top: 1px solid gray;
-	margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid gray;
+    margin-top: 10px;
 }
 
 .btn.modern {
-	font-family: Helvetica;
-	font-size: 14px;
-	border-radius: 3px;
-	border: 1px solid #888;
-	padding: 0;
-	width: 264px;
+    font-family: Helvetica;
+    font-size: 14px;
+    border-radius: 3px;
+    border: 1px solid #888;
+    padding: 0;
+    width: 264px;
 }
 
 .modern .btnContent {
-	padding: 10px 0 10px 10px;
+    padding: 10px 0 10px 10px;
 }
 .btn.modern a {
-	background-color: #EEE;
-	border-left: 1px solid #888;
-	padding: 10px !important;
-	margin: -10px 0;
-	min-width: 20px;
-	text-decoration: none;
+    background-color: #EEE;
+    border-left: 1px solid #888;
+    padding: 10px !important;
+    margin: -10px 0;
+    min-width: 20px;
+    text-decoration: none;
 }
 
 .btn.bldEnabled.modern div.btnContent {
-	border-width: 0 0 0 8px;
-	padding: 10px 0px 10px 10px;
+    border-width: 0 0 0 8px;
+    padding: 10px 0px 10px 10px;
 }
 
 .btn.modern .linkBreak{
-	display: none;
+    display: none;
 }
 
 .button_tooltip .noRes, .limited {
-	color: #FF3030;
+    color: #FF3030;
 }
 
 .tabInner {
-	padding: 20px;
-	border: 1px solid gray;
+    padding: 20px;
+    border: 1px solid gray;
 }
 
 table.craftTable tr:hover td {
-	background-color: rgba(155, 200, 155, 0.8);
+    background-color: rgba(155, 200, 155, 0.8);
 }
 
 .craftTable {
-	padding-bottom: 50px;
+    padding-bottom: 50px;
 }
 
 #devPanel div {
-	display: inline-block;
+    display: inline-block;
 }
