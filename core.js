@@ -862,7 +862,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				var diff = price.val - res.value;
 
 				// Round up to the nearest craftable amount
-				var val = Math.floor(components[j].val * diff / (1 + craftRatio));
+				var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
 				var remainder = val % components[j].val;
 				if (remainder != 0) {
 					val += components[j].val - remainder;
