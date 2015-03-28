@@ -458,7 +458,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.value = res.maxValue;
 			}
 		}
-	}
+	},
+    
+    convert: function( nameFrom, amtFrom, nameTo, amtTo){
+    }
 });
 
 

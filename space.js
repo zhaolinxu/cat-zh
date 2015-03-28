@@ -119,7 +119,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			game.space.getProgram("moonOutpost").unlocked = true;
 			game.space.getProgram("duneMission").unlocked = true;
 			game.space.getProgram("piscineMission").unlocked = true;
-		}
+		},
+        unlocks: {
+            planet: "moon"
+        }
 	},{
 		name: "moonOutpost",
 		title: "Lunar Outpost",
@@ -230,7 +233,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("terminusMission").unlocked = true;
-		}
+		},
+        unlocks: {
+            planet: "piscine"
+        }
 	},{
 		name: "heliosMission",
 		title: "Helios Mission",
@@ -248,7 +254,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
-		}
+		},
+        unlocks: {
+            planet: "helios"
+        }
 	},{
 		name: "terminusMission",
 		title: "T-minus Mission",
@@ -266,7 +275,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
-		}
+		},
+        unlocks: {
+            planet: "terminus"
+        }
 	}],
 	
 	planets:[{
@@ -276,7 +288,30 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "dune",
 		title: "Dune",
-		unlocked: false
+		unlocked: false,
+        buildings: [/*{
+            name: "duneMiningStation",
+            title: "Mining Station",
+            description: "Deploy a nuclear powered mining outpost on Dune",
+            unlocked: false,
+            fuel: 80000,
+            priceRatio: 1.12,
+            prices: [
+                {name: "starchart", val: 1000},
+                {name: "uranium",  val: 1000},
+                {name: "oil", val: 50000},
+                {name: "rocket", val: 1}
+            ],
+            chance: 85,
+
+            upgradable: true,
+            togglable: 	true,
+            tunable: 	true,
+            val:  0,
+            on:	  0,
+            action: function(game, self){
+            }
+        }*/]
 	},{
 		name: "piscine",
 		title: "Piscine",
@@ -322,9 +357,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			});
 		}
 		for (var i = this.programs.length - 1; i >= 0; i--) {
-			if (this.programs[i].handler && this.programs[i].researched){
-				this.programs[i].handler(this.game, this.programs[i]);
+            var program = this.programs[i];
+			if (program.researched){
+                if (program.handler) {
+                    program.handler(this.game, program);
+                }
+                
+                if (program.unlocks){
+                    if (program.unlocks.planet){
+                        this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+                    }
+                }
 			}
+            
 		}
 	},
 
@@ -462,6 +507,12 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			}
 
 			this.handler(this);
+            
+            if (program.unlocks){
+                if (program.unlocks.planet){
+                    this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+                }
+            }
 
 
 			this.update();
@@ -540,11 +591,27 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 		}, this.game);
 		buildRocketBtn.render(content);
 		this.buildRocketBtn = buildRocketBtn;
+        
+        //------------ space space I'm in space -------------
+        this.planetPanels = [];
+        dojo.forEach(this.game.space.planets, function(planet, i){
+            if (planet.unlocked){
+                var planetPanel = new com.nuclearunicorn.game.ui.Panel(planet.title, self.game.space);
+                var content = planetPanel.render(container);
+            
+                self.planetPanels.push(planetPanel);
+            }
+        });
+            
 	},
 
 	update: function(){
 		this.GCPanel.update();
 
 		this.buildRocketBtn.update();
+        
+        dojo.forEach(this.planetPanels, function(panel, i){
+            panel.update();
+        });
 	}
 });

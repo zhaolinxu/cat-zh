@@ -77,7 +77,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
-			this.corruption += this.getEffect("corruptionRatio");
+			this.corruption += this.getEffect("corruptionRatio") 
+                * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
 			
 			if (this.game.rand(100) > 25){
 				return;

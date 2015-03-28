@@ -1393,7 +1393,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			bld.val = 0;
 			bld.on = 0;
 		}
-	}
+	},
+    
+    //============ dev =============
+    devAddStorage: function(){
+        this.getBuilding("warehouse").val += 10;
+        this.getBuilding("barn").val += 10;
+        this.getBuilding("harbor").val += 10;
+    }
 });
 
 
