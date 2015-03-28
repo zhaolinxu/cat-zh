@@ -569,6 +569,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				row.rowRef.style.display = "";
 			}
 
+			var className;
 			//  highlight resources for selected building
 			//--------------------------------------------
 			if (reqRes.indexOf(res.name) >= 0){

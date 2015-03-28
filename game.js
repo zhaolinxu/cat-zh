@@ -489,7 +489,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             { id: "prestige",       class:  "PrestigeManager"   }
         ];
         
-        for (i in managers){
+        for (var i in managers){
             var manager = managers[i];
             this[manager.id] = new window["classes"]["managers"][manager.class](this);
             
@@ -675,7 +675,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.village.load(saveData);
 				this.calendar.load(saveData);
                 
-                for (i in this.managers){
+                for (var i in this.managers){
                     this.managers[i].load(saveData);
                 }
 			}
@@ -734,7 +734,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			// ora ora
 			if (data.opts){
-				for (opt in data.opts){
+				for (var opt in data.opts){
 					this.opts[opt] = data.opts[opt];
 				}
 			}
@@ -1812,7 +1812,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	unlock: function(list){
-		for (type in list) {
+		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
 			}
