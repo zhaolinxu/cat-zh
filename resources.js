@@ -309,40 +309,45 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Iterates resources and updates their values with per tick increment
 	 */
 	update: function(){
-		
-		var barn = this.game.bld.get("barn");
-		var warehouse = this.game.bld.get("warehouse");
-		var harbor = this.game.bld.get("harbor");
-		var oilWell = this.game.bld.get("oilWell");
-		
+
+		var buildingResMax = {};
 		//----------------- get +MAX effect per building --------------------
-		for (var i = 0; i< this.resources.length; i++){
-			var res = this.resources[i];
-			
-			
-			//var maxValue = this.game.bld.getEffect(res.name + "Max");
-			var maxValue = (this.game.bld.effectsBase[res.name + "Max"] || 0);
-			for (var j = 0; j < this.game.bld.buildingsData.length; j++){
-				var bld = this.game.bld.buildingsData[j];
-				if (bld.name != "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
-					maxValue += bld.effects[res.name + "Max"] * bld.val || 0;
+		for (var i = 0; i < this.game.bld.buildingsData.length; i++){
+			var bld = this.game.bld.buildingsData[i];
+			if (bld.name == "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
+				continue;
+			}
+			for (var effect in bld.effects) {
+				var maxIndex = effect.indexOf("Max");
+				if (maxIndex != -1) {
+					var resource = effect.substr(0, maxIndex);
+					var resMax = buildingResMax[resource] || 0
+					buildingResMax[resource] = resMax + bld.effects[effect] * bld.val;
 				}
 			}
-			
+		}
+
+		for (var i = 0; i < this.resources.length; i++){
+			var res = this.resources[i];
+
+			var maxValue = buildingResMax[res.name] || 0;
+
+			maxValue += (this.game.bld.effectsBase[res.name + "Max"] || 0);
+
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
-			
+
 			if (res.name == "catnip" && this.game.workshop.get("silos").researched){
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio") * 0.25;
 			}
-			
-			if (res.name == "wood" || 
-				res.name == "minerals" || 
-				res.name == "iron" || 
-				res.name == "steel" || 
-				res.name == "coal" || 
-				res.name == "gold" || 
+
+			if (res.name == "wood" ||
+				res.name == "minerals" ||
+				res.name == "iron" ||
+				res.name == "steel" ||
+				res.name == "coal" ||
+				res.name == "gold" ||
 				res.name == "titanium"){
 				if (this.game.workshop.getEffect("warehouseRatio")){
 					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
@@ -350,36 +355,34 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 			//------ + fixed resource bonus from accelerator and similar structures
 			maxValue += (this.game.bld.get("accelerator").effects[res.name + "Max"] * this.game.bld.get("accelerator").val) || 0;
-		
+
 			//----------------------- once we calculated total building bonus, apply global multipliers -----------------
-			
+
 			// fixed bonus
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			maxValue += this.game.space.getEffect(res.name + "Max");
-			
+
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
-			
+
 			var paragon = this.game.resPool.get("paragon").value;
 			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
-			
-			
-			if (maxValue > 0 ){
-				res.maxValue = maxValue;
+
+
+			if (maxValue < 0 ){
+				maxValue = 0;
 			}
-			
-			if (res.value < 0){
-				res.value = 0;	//can't be negative
-			}
-			
+
+			res.maxValue = maxValue;
+
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-			
+
 			res.value = res.value + resPerTick;
 			if (res.maxValue && res.value > res.maxValue){
 				res.value = res.maxValue;
 			}
-			
-			if (isNaN(res.value)){
+
+			if (isNaN(res.value) || res.value < 0){
 				res.value = 0;	//safe switch
 			}
 		}
