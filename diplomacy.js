@@ -145,6 +145,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		attitude: "neutral",
 		standing: 0.15,
 		unlocked: false,
+        duration: 0,
 		buys: [
 			{name: "unobtainium", val: 5000}
 		],
@@ -293,7 +294,26 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 			this.game.msg("An emissary of " + race.title + " comes to your village", "notice");
 		}
-	}
+	},
+    //------------ IDK, silly gimmickish stuff -----------
+    unlockElders : function(){
+        var elders = this.get("leviathans");
+        elders.unlocked = true;
+        elders.duration += 400 * 3;
+        
+        this.game.msg("Elder gods have arrived", "notice");
+    },
+    
+    onNewDay: function(){
+        var elders = this.get("leviathans");
+        if (elders.duration > 0){
+            elders.duration--;
+            if (!elders.duration){
+                elders.unlocked = false;
+                this.game.msg("Elder gods have departed", "notice");
+            }
+        }
+    }
 
 });
 

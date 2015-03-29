@@ -154,7 +154,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){
 				this.sim.killKittens(starvedKittens);
-				this.game.msg(starvedKittens + starvedKittens === 1 ? " kitten " : " kittens " + "starved to death");
+				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
 
 				this.game.deadKittens += starvedKittens;
 			}

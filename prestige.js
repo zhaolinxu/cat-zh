@@ -100,7 +100,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "zebraDiplomacy",
 		title: "Zebra Diplomacy",
-		description: "Some zebras hunters will stay in the village.(TBD)",
+		description: "Some zebras hunters will stay in the village.",
 		paragon: 50,
 		unlocked: false,
 		researched: false,

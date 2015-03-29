@@ -114,14 +114,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		chance: 75,
 		upgradable: false,
-		handler: function(game, self){
-			game.space.getProgram("moonBase").unlocked = true;
-			game.space.getProgram("moonOutpost").unlocked = true;
-			game.space.getProgram("duneMission").unlocked = true;
-			game.space.getProgram("piscineMission").unlocked = true;
-		},
         unlocks: {
-            planet: "moon"
+            planet: "moon",
+            programs: ["moonBase", "moonOutpost", "duneMission", "piscineMission"]
         }
 	},{
 		name: "moonOutpost",
@@ -289,7 +284,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "dune",
 		title: "Dune",
 		unlocked: false,
-        buildings: [/*{
+        buildings: [{
             name: "duneMiningStation",
             title: "Mining Station",
             description: "Deploy a nuclear powered mining outpost on Dune",
@@ -311,7 +306,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             on:	  0,
             action: function(game, self){
             }
-        }*/]
+        }]
 	},{
 		name: "piscine",
 		title: "Piscine",
@@ -364,8 +359,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 }
                 
                 if (program.unlocks){
+                    //TODO: move to some common method?
                     if (program.unlocks.planet){
                         this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+                    }
+                    if (program.unlocks.programs){
+                        dojo.forEach(program.unlocks.programs, function(uprogram, i){
+                            self.game.space.getProgram(uprogram).unlocked = true;
+                        });
                     }
                 }
 			}
@@ -511,6 +512,11 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
             if (program.unlocks){
                 if (program.unlocks.planet){
                     this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+                }
+                if (program.unlocks.programs){
+                    dojo.forEach(program.unlocks.programs, function(uprogram, i){
+                        self.game.space.getProgram(uprogram).unlocked = true;
+                    });
                 }
             }
 
