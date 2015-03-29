@@ -752,7 +752,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var is_chrome = /*window.chrome*/ true;
 		if (is_chrome){
 			$("#exportDiv").show();
-			$("#exportData").val(btoa(data));
+			$("#exportData").val(LZString.compressToBase64(data));
 			$("#exportData").select();
 		} else {
 			window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data)); 
@@ -764,8 +764,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 		var data = $("#importData").val();
-		if (data){
-			LCstorage["com.nuclearunicorn.kittengame.savedata"] = atob(data);
+
+		var decompress = LZString.decompressFromBase64(data);
+		var json;
+		if (decompress) {
+			json = decompress;
+		} else {
+			json = atob(data);
+		}
+
+		if (json){
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 			this.load();
 			this.msg("Save import successful!");
 			this.render();
