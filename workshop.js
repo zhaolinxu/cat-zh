@@ -1045,6 +1045,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
     },
+     {
+        name: "gmo",
+        title: "GM Catnip",
+        description: "Genetically modified catnip that will improve biolab oil yeld by 60%",
+        effects: {
+            "biofuelRatio": 0.6
+        },
+        prices:[
+			{ name : "titanium", val: 1500 },
+            { name : "catnip",   val: 1000000 },
+			{ name : "science",  val: 175000 }
+		],
+		unlocked: false,
+		researched: false
+    },
 	//------------------- blueprints ----------------
 	{
 		name: "cadSystems",

@@ -310,7 +310,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["oilPerTick"] = 0.02;
 
 				game.resPool.get("catnip").value += self.effects["catnipPerTick"] * self.on;
-				game.resPool.get("oil").value += self.effects["oilPerTick"] * self.on;
+				game.resPool.get("oil").value += self.effects["oilPerTick"] * 
+                    (1+ game.workshop.getEffect("biofuelRatio")) * self.on;
 
 
 			}
@@ -2191,7 +2192,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			handler: 	function(btn){
 							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
 							btn.game.resPool.get("wood").value += 1 * craftRatio;
-							//self.game.resPool.get("oil").value += 1; //no oil until chemistry
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }]

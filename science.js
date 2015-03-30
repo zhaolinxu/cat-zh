@@ -424,7 +424,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 190000},
 			{name: 	"compedium", val: 1500}
 		],
-        upgrades: ["unicornSelection"]
+        upgrades: ["unicornSelection", "gmo"]
 	},{
 		name: "industrialization",
 		title: "Industrialization",
