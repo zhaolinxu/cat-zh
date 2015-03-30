@@ -1,3 +1,19 @@
+v 1.0.7.3 (28 mar)
+
+Changes by klusark:
+
+Performance optimisation
+Zip compression for save files
+Fixed bug with coal calculation
+
+<3
+__
+
+Automatic Apocripha trigger upon reset
+Some gimmick secret stuff
+Slightly reduced price upgrades
+Shift+click will construct max possible buildings.
+
 v 1.0.7.2 (4 mar)
 
 Changes by klusark:

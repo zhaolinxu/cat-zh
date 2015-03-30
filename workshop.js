@@ -1031,6 +1031,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+    {
+        name: "unicornSelection",
+        title: "Unicorn Selection",
+        description: "Improves unicorn pastures effectiveness by 25%",
+        effects: {
+            "unicornsRatio": 0.25
+        },
+        prices:[
+			{ name : "titanium", val: 1500 },
+			{ name : "science",  val: 175000 }
+		],
+		unlocked: false,
+		researched: false
+    },
 	//------------------- blueprints ----------------
 	{
 		name: "cadSystems",

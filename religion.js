@@ -768,7 +768,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 
 	resetFaith: function(event){
-
 		event.preventDefault()
 
 		if (!this.game.religion.getRU("apocripha").researched){
@@ -779,7 +778,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;
 		}
 
-		this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
+		this.resetFaithInternal();
+	},
+    
+    resetFaithInternal: function(){
+        this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
 		this.game.religion.faith = 0.01;
-	}
+    }
 });

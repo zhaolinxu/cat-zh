@@ -1,16 +1,49 @@
+dojo.declare("classes.Building", null, {
+    bld: null,
+    
+    constructor: function(bld){
+        if (!bld){
+            throw "Building metadata must be provided for classes.Building instance";
+        }
+        this.bld = bld;
+    },
+
+    getBuilding: function(){
+        var bld = this.bld;
+        if (bld.upgradable){
+             return dojo.mixin(
+                dojo.clone(bld), bld.stages[bld.stage]);
+        }
+        return bld;
+    },
+    
+    getMeta: function(){
+        return this.getBuilding();
+    },
+    
+    set: function(attr, val){
+        this.bld[attr] = val;
+    }
+});
+
 dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
+    
+    metaCache: null,
 
 	groupBuildings: false,
 	twoRows: false,
 
 	constructor: function(game){
 		this.game = game;
+        
+        this.metaCache = {};
 
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
+                var bld = new classes.Building(bld).getBuilding();
 
 				// Need a better way to do this...
 				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
@@ -1059,21 +1092,29 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	{
 		name: "unicornPasture",
-		label: "Unic. Pasture",
-		description: "Allows the taming of unicorns.\nReduces catnip consumption by 0.15%",
-		unlocked: false,
-		prices: [
-			{ name : "unicorns", val: 2 }
-		],
-		effects: {
-			"catnipDemandRatio": -0.0015,
-			"unicornsPerTickBase" : 0.001
-		},
-		priceRatio: 1.75,
-		val: 0,
-		requiredTech: ["animal"],
-		canUpgrade: true,
-		flavor: "We glue horns on horses"
+        upgradable: true,
+        unlocked: false,
+        stage: 0,
+        val: 0,
+        upgradePrices:{
+            1: 100  //100 buildings
+        },
+        stages: {
+            0:{
+                label: "Unic. Pasture",
+                description: "Allows the taming of unicorns.\nReduces catnip consumption by 0.15%",
+                prices: [
+                    { name : "unicorns", val: 2 }
+                ],
+                effects: {
+                    "catnipDemandRatio": -0.0015,
+                    "unicornsPerTickBase" : 0.001
+                },
+                priceRatio: 1.75,
+                requiredTech: ["animal"],
+                flavor: "We glue horns on horses"
+            }
+        }
 	},
 
 	//----------------------------------- Wonders ----------------------------------------
@@ -1093,8 +1134,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.25,
 		unlockRatio: 0.05,	//5% of resources required to unlock building instead of default 30
 		val: 0,
-		requiredTech: ["construction"],
-		canUpgrade: true
+		requiredTech: ["construction"]
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
@@ -1114,10 +1154,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.25,
 		val: 0,
-		requiredTech: ["chronophysics"],
-		canUpgrade: true
+		requiredTech: ["chronophysics"]
 	}
-
 	],
 
 	effectsBase: {
@@ -1135,16 +1173,39 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return this.getBuilding(name);
 	},
 
+    //deprecated, use getBuildingExt
 	getBuilding: function(name){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
-
 			if (bld.name == name){
+                
+                //deprecated, remove me later
+                if (bld.upgradable){
+                   return new classes.Building(bld).getBuilding();
+                }
 				return bld;
 			}
 		}
 		console.error("Could not find building data for '" + name + "'");
 	},
+    
+    /**
+     * Returns a class wrapper around the building metadata
+     */ 
+    getBuildingExt: function(name){
+        var bldExt = this.metaCache[name];
+        if (bldExt){
+            return bldExt;
+        }
+        for (var i = 0; i < this.buildingsData.length; i++){
+			var bld = this.buildingsData[i];
+			if (bld.name == name){
+                var bldExt = new classes.Building(bld);
+                this.metaCache[name] = bldExt;
+                return bldExt;
+            }
+        }
+    },
 
 	getAutoProductionRatio: function(disableReactors){
 		var autoProdRatio = 1;
@@ -1305,6 +1366,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	isConstructionEnabled: function(building){
 		var isEnabled = true;
+        
+        //TODO: FIX ME ASAP
+        building = new classes.Building(building).getBuilding();
 
 		if (building.prices.length && !building.ignorePriceCheck){
 			for( var i = 0; i < building.prices.length; i++){
@@ -1363,21 +1427,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					var savedBld = saveData.buildings[i];
 
 					if (savedBld != null){
-						var bld = this.game.bld.getBuilding(savedBld.name);
+						var bld = this.game.bld.getBuildingExt(savedBld.name);
 						if (!bld) { continue; }
 
-						bld.val = savedBld.val;
+						bld.set("val", savedBld.val);
+                        bld.set("unlocked", savedBld.unlocked);
 						bld.unlocked = savedBld.unlocked;
 						if(savedBld.on != undefined){
-							bld.on = savedBld.on;
+                            bld.set("on", savedBld.on);
 						}
 
 						if (savedBld.jammed != undefined){
-							bld.jammed = savedBld.jammed;
+                            bld.set("jammed", savedBld.jammed);
 						}
-
-						bld.enabled = savedBld.enabled;
-
+                        bld.set("enabled", savedBld.enabled);
 					}
 			}
 		}
@@ -1435,7 +1498,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.prices;
 	},
 
-	onClick: function(){
+	onClick: function(event){
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
@@ -1443,7 +1506,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.handler(this);
 			}
 
-			var building = this.getBuilding();
+			var building = this.game.bld.getBuildingExt(this.buildingName);
 
 			this.game.unlock(building.unlocks);
 
@@ -1451,32 +1514,53 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.game.ironWill = false;
 			}
 
-			this.payPrice();
+            if (event.shiftKey){
+                if (confirm("Are you sure you want to construct all buildings?")){
+                    this.buildAll(building);
+                }
+            } else {
+                this.build(building);
+            }
 
+            if (building.togglable && (!building.on)) {
+                building.on = 0;
+            }
 
-			if (building){
-				building.val++;
-
-				//to not force player re-click '+' button all the time
-				if (building.on && building.tunable){
-					building.on++;
-				}
-
-				//price check is sorta heavy operation, so we will store the value in the button
-				this.prices = this.getPrices();
-			}
-
-			if (building.togglable && (!building.on)) {
-				building.on = 0;
-			}
-
-			if (!building.tunable && building.enabled){
-				building.on = building.val;
-			}
+            if (!building.tunable && building.enabled){
+                building.on = building.val;
+            }
 
 			this.game.render();
 		}
 	},
+    
+    build: function(bld){
+        this.payPrice();
+        
+        var bldMeta = bld.getMeta();
+        
+        if (bld){
+            bld.set("val", bldMeta.val + 1);
+
+            //to not force player re-click '+' button all the time
+            if (bldMeta.on && bldMeta.tunable){
+                bld.set("on", bldMeta.on + 1);
+            }
+
+            //price check is sorta heavy operation, so we will store the value in the button
+            this.prices = this.getPrices();
+        }
+    },
+    
+    buildAll: function(bld){
+        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
+        var counter = 0;
+        while (this.hasResources()){
+            this.build(bld);
+            counter++;
+        }
+        this.game.msg(bld.getMeta().label + " x"+counter+ " constructed.", "notice");
+    },
 
 	getName: function(){
 		var building = this.getBuilding();
@@ -1812,7 +1896,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.u
 
 			var buildings = this.game.bld.buildingsData;
 			for (var i = 0; i< buildings.length; i++){
-				var bld = buildings[i];
+				var bld = new classes.Building(buildings[i]).getBuilding();
 
 				var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
 					name: 			bld.label,
