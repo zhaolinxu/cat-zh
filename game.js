@@ -594,6 +594,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	save: function(){
+		this.ticksBeforeSave = this.autosaveFrequency;
+
 		var saveData = {
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value"]
@@ -1214,7 +1216,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticksBeforeSave--;
 		
 		if (this.ticksBeforeSave == 0){
-			this.ticksBeforeSave = this.autosaveFrequency;
 			this.save();
 			
 			dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
