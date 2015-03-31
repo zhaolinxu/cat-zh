@@ -848,7 +848,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		//unroll prices to the raw resources
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
 
-			var craftRatio = this.game.bld.getEffect("craftRatio");
+			var craftRatio = this.game.getResCraftRatio(res);
 
 			nameSpan.textContent = "+ " + nameSpan.textContent;
 
