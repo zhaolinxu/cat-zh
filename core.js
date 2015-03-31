@@ -935,10 +935,13 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
+		var btn = this;
 
-		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
-			tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
-
+		dojo.connect(container, "onmouseover", this, function() {
+			this.game.tooltipUpdateFunc = function(){
+				btn.updateTooltip(container, tooltip, htmlProvider);
+			};
+			this.game.tooltipUpdateFunc();
 			var pos = $(container).position();
 
 			//prevent tooltip from leaving the window area
@@ -957,12 +960,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
 
 			dojo.setStyle(tooltip, "display", "");
+		});
 
-	    }, tooltip, htmlProvider));
+		dojo.connect(container, "onmouseout", this, function(){
+			this.game.tooltipUpdateFunc = null;
+			dojo.setStyle(tooltip, "display", "none");
+		});
+	},
 
-		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none");
-		}, tooltip, container));
+	updateTooltip: function(container, tooltip, htmlProvider){
+		tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
 	},
 
 	renderLinks: function(){

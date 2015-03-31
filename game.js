@@ -1263,6 +1263,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				tab.update();
 			}
 		};
+
+		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
+			this.tooltipUpdateFunc();
+		}
 	},
 	
 	huntAll: function(event){
@@ -1608,6 +1612,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var timestampStart = new Date().getTime();
 		
 		this.calendar.tick();
+		this.ticks++;
 		this.update();
 		
 		var timestampEnd = new Date().getTime();
@@ -1615,7 +1620,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			
 			var tsDiff = timestampEnd - timestampStart;
 			this.totalUpdateTime += tsDiff;
-			this.ticks++;
 			
 			var avg = this.totalUpdateTime / this.ticks;
 			
