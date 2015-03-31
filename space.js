@@ -74,7 +74,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		effects: {
 			"observatoryRatio": 0.05,
 			"starchartPerTickBase": 0.001
-		}
+		},
+		upgradesBuildings: ["observatory"]
 	},{
 		name: "spaceStation",
 		title: "Deploy S. Station",
@@ -508,18 +509,21 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			}
 
 			this.handler(this);
-            
-            if (program.unlocks){
-                if (program.unlocks.planet){
-                    this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-                }
-                if (program.unlocks.programs){
-                    dojo.forEach(program.unlocks.programs, function(uprogram, i){
-                        self.game.space.getProgram(uprogram).unlocked = true;
-                    });
-                }
-            }
 
+			if (program.unlocks){
+				if (program.unlocks.planet){
+					this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+				}
+				if (program.unlocks.programs){
+					dojo.forEach(program.unlocks.programs, function(uprogram, i){
+						self.game.space.getProgram(uprogram).unlocked = true;
+					});
+				}
+			}
+
+			if (program.upgradesBuildings){
+				this.game.upgradeBuildings(program.upgradesBuildings);
+			}
 
 			this.update();
 		}

@@ -683,6 +683,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.error("Unable to load game data: ", ex);
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
+
+		// Calculate building effects (needs to be done after all managers are loaded)
+		this.upgradeBuildings(this.bld.buildingsData.map(function(building){
+			return building.name;
+		}));
 		
 		//restore tab visibility
 		
@@ -699,7 +704,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
 
 		this.religionTab.visible = (this.resPool.get("faith").value > 0);
-		
+
 		if (saveData && saveData.game){
 			var data = saveData.game;
 			
@@ -1840,6 +1845,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					newTech.unlocked = true;
 				}
+			}
+		}
+	},
+
+	upgradeBuildings: function(buildings){
+		for(var i = 0; i < buildings.length; i++){
+			var bld = this.bld.getBuildingExt(buildings[i]).getMeta();
+			if (bld.calculateEffects){
+				bld.calculateEffects(bld, this);
 			}
 		}
 	}
