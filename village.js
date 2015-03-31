@@ -84,6 +84,35 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		modifiers:{
 			"coal" : 0.015
 		},
+		calculateEffects: function(self, game){
+			var coal = 0.015;
+			var gold = 0;
+			
+			if (game.workshop.get("miningDrill").researched){
+				coal += 0.010;
+				gold += 0.0005;
+			}
+			if (game.workshop.get("unobtainiumDrill").researched){
+				coal += 0.015;
+				gold += 0.0005;
+			}
+			if (game.workshop.get("geodesy").researched){
+				coal += 0.0075;
+				gold += 0.0008;
+			} else {
+				// Drills don't add gold before geodesy.
+				gold = 0;
+			}
+			
+			var modifiers = {
+				"coal" : coal
+			};
+			if (gold > 0){
+				modifiers["gold"] = gold;
+			}
+			
+			self.modifiers = modifiers;
+		},
 		value: 0,
 		unlocked: false
 	}],
