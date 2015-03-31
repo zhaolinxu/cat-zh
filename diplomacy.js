@@ -488,10 +488,12 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	 */
 	printYieldOutput: function(yieldResTotal){
 		for (var res in yieldResTotal) {
-			if (res != "blueprint" && res != "titanium"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
-			} else {
+			if (res == "blueprint"){
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice");
+			} else if (res == "titanium"){
 				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice");
+			} else {
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
 			}
 		}
 	},
