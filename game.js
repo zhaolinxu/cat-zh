@@ -1707,10 +1707,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.karmaZebras += bonusZebras;
 		}
         
-        //pre-reset faith so people who forgot to do it properly would not be screwed
-        if (this.game.religion.getRU("apocripha").researched){
-            this.game.religion.resetFaithInternal();
-        }
+		//pre-reset faith so people who forgot to do it properly would not be screwed
+		if (this.religion.getRU("apocripha").researched){
+			this.religionTab.resetFaithInternal();
+		}
 		//------------------------------------------------------------------------------------------------------
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
