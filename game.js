@@ -710,8 +710,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}*/
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-
 		this.religionTab.visible = (this.resPool.get("faith").value > 0);
+		this.spaceTab.visible = (this.science.get("rocketry").researched);
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
