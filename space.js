@@ -75,7 +75,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"observatoryRatio": 0.05,
 			"starchartPerTickBase": 0.001
 		},
-		upgradesBuildings: ["observatory"]
+		upgrades: {
+			buildings: ["observatory"]
+		}
 	},{
 		name: "spaceStation",
 		title: "Deploy S. Station",
@@ -521,8 +523,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				}
 			}
 
-			if (program.upgradesBuildings){
-				this.game.upgradeBuildings(program.upgradesBuildings);
+			if (program.upgrades){
+				this.game.upgrade(program.upgrades);
 			}
 
 			this.update();

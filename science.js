@@ -237,7 +237,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["astronomy"],
 			jobs: ["priest"]
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
         flavor: "What is that flaming ball in the sky anyway?"
 	},{
 		name: "astronomy",
@@ -893,8 +895,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 				this.game.unlock(tech.unlocks);
 
-				if (tech.upgradesBuildings){
-					this.game.upgradeBuildings(tech.upgradesBuildings);
+				if (tech.upgrades){
+					this.game.upgrade(tech.upgrades);
 				}
 			}, tech, self.game),
 			prices: tech.prices ? tech.prices : [{

@@ -266,7 +266,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["astronomy"],
-		upgradesBuildings: ["library"],
+		upgrades: {
+			buildings: ["library"]
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"scienceRatio": 0.25,
@@ -872,7 +874,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["nuclearFission"],
-		upgradesBuildings: ["harbor"],
+		upgrades: {
+			buildings: ["harbor"]
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"uraniumPerTick" : -0.001,
@@ -1577,8 +1581,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				building.set("on", buildingMeta.val);
 			}
 
-			if (buildingMeta.upgradesBuildings){
-				this.game.upgradeBuildings(buildingMeta.upgradesBuildings);
+			if (buildingMeta.upgrades){
+				this.game.upgrade(buildingMeta.upgrades);
 			}
 
 			this.game.render();

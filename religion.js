@@ -212,7 +212,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -229,7 +231,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -246,7 +250,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -264,7 +270,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -295,7 +303,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -312,7 +322,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		upgradesBuildings: ["temple"],
+		upgrades: {
+			buildings: ["temple"]
+		},
 		val: 0,
 		upgradable: true,
 		priceRatio: 2.5,
@@ -726,8 +738,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				handler: function(btn){
 					var upgrade = btn.getBuilding()
 					upgrade.researched = true;
-					if (upgrade.upgradesBuildings){
-						this.game.upgradeBuildings(upgrade.upgradesBuildings);
+					if (upgrade.upgrades){
+						this.game.upgrade(upgrade.upgrades);
 					}
 				}
 			}, this.game);

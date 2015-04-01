@@ -39,8 +39,17 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		title: "Scholar",
 		description: "+0.05 science per tick",
 
-		modifiers:{
-			"science" : 0.05
+		modifiers:{},
+		calculateEffects: function(self, game){
+			var modifiers = {
+				"science" : 0.05
+			};
+
+			if (game.workshop.get("astrophysicists").researched){
+				modifiers["starchart"] = 0.0001;	//i'm not entirely sure if it is too little or too much
+			}
+
+			self.modifiers = modifiers;
 		},
 		value: 0,
 		unlocked: false
@@ -81,9 +90,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		title: "Geologist",
 		description: "+0.015 coal per tick",
 
-		modifiers:{
-			"coal" : 0.015
-		},
+		modifiers:{},
 		calculateEffects: function(self, game){
 			var coal = 0.015;
 			var gold = 0;

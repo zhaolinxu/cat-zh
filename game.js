@@ -686,10 +686,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
 
-		// Calculate building effects (needs to be done after all managers are loaded)
-		this.upgradeBuildings(this.bld.buildingsData.map(function(building){
-			return building.name;
-		}));
+		// Calculate effects (needs to be done after all managers are loaded)
+		// TODO: delegate this to managers? Can't be done in load unfortunately.
+		this.upgrade({
+			buildings: this.bld.buildingsData.map(function(building){
+				return building.name;
+			}),
+			jobs: this.village.jobs.map(function(job){
+				return job.name;
+			})
+		});
 		
 		//restore tab visibility
 		
@@ -1831,6 +1837,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.workshop.get(name);
 			case "tabs":
 				return this.getTab(name);
+			case "buildings":
+				return this.bld.get(name);
 		}
 	},
 
@@ -1850,11 +1858,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	upgradeBuildings: function(buildings){
-		for(var i = 0; i < buildings.length; i++){
-			var bld = this.bld.getBuildingExt(buildings[i]).getMeta();
-			if (bld.calculateEffects){
-				bld.calculateEffects(bld, this);
+	upgrade: function(list){
+		for (var type in list) {
+			if (list[type].length == 0) {
+				return;
+			}
+			for (var i = list[type].length - 1; i >= 0; i--) {
+				var item = this.getUnlockByName(list[type][i], type);
+				if (item.calculateEffects){
+					item.calculateEffects(item, this);
+				}
 			}
 		}
 	}
