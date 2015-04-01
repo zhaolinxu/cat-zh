@@ -827,7 +827,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
 
-		var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
+		var asterisk = price.val > res.maxValue && res.maxValue && !indent ? "*" : "";	//mark limit issues with asterisk
 
 		var priceSpan = dojo.create("span", {
 			innerHTML: hasRes || simpleUI ?
