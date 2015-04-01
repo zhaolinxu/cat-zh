@@ -1049,7 +1049,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.village.sim.kittens[i].job = null;
 				game.village.updateResourceProduction();
 				
-				game.village.render();
+				game.render();
 
 			}, this.game, i));
 
