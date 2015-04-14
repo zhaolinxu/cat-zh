@@ -351,9 +351,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "stasisChambers",
 		title: "Stasis Chambers",
-		description: "Energy Rifts are 75% more effective",
+		description: "Energy Rifts are twice as effective",
 		effects: {
-			"acceleratorRatio" : 0.75
+			"acceleratorRatio" : 0.95
 		},
 		prices:[
 			{ name : "science", val: 235000 },
@@ -374,7 +374,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Void Energy",
 		description: "Energy Rifts are even more effective",
 		effects: {
-			"acceleratorRatio" : 0.50
+			"acceleratorRatio" : 0.75
 		},
 		prices:[
 			{ name : "science",     val: 275000 },

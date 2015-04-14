@@ -9,10 +9,22 @@ Fixed bug with coal calculation
 <3
 __
 
+Changes by xranti:
+
+Fixed CAD not affecting resource tooltips
+No asterisks on unrolled proces
+General fixes and tweaks
+
+<3
+___
+
 Automatic Apocripha trigger upon reset
 Some gimmick secret stuff
 Slightly reduced price upgrades
 Shift+click will construct max possible buildings.
+
+Slightly reduced price of Space Elevators
+Slightly buffed effects of Statis Chambers and Void Energy
 
 Unicorn Selection
 GM Catnip

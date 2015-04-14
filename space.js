@@ -44,9 +44,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable:true,
 		priceRatio: 1.15,
 		prices: [
-			{name: "titanium", val: 7500},
-			{name: "science", val: 125000},
-			{name: "unobtainium", val: 75},
+			{name: "titanium", val: 6000},
+			{name: "science", val: 100000},
+			{name: "unobtainium", val: 50},
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
@@ -485,6 +485,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
 	onClick: function(){
+		var self = this;
+		
 		this.animate();
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
