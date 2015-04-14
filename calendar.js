@@ -247,17 +247,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 		}else{
-			if (zebras.value > 0 ){
+			var zTreshold = 0;
+			if (this.game.prestige.getPerk("zebraDiplomacy").researched){
+				//zTreshold = Math.floor((this.game.rand(20) + 5) / 100 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+			}
+			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ? 
                     "Zebra hunters have departed from your village." : 
                     "Zebra hunter has departed from your village."
                 );
-                if (this.game.prestige.getPerk("zebraDiplomacy").unlocked){
-                    zebras.value = Math.floor((this.game.rand(20) + 5)*zebras.value);   //5 - 25% of hunters will stay
-                } else {
-                    zebras.value = 0;
-                }
-                    
+                zebras.value = zTreshold;
 				this.game.render();
 			}
 		}

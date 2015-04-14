@@ -1,3 +1,12 @@
+v 1.0.7.4 (13 apr)
+
+Council and "make senator" links are now hidden
+Rockets were removed from the game
+Oil prices of all space missions are increased by 5K
+Space missions will not have chance of failure anymore
+
+Players can now feed elders
+
 v 1.0.7.3 (28 mar)
 
 Changes by klusark:

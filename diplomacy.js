@@ -142,6 +142,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         name: "leviathans",
 		hidden: true,
 		title: "Leviathans",
+		hunger: 0,
 		attitude: "neutral",
 		standing: 0.15,
 		unlocked: false,
@@ -204,6 +205,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 						var race = this.game.diplomacy.get(savedRace.name);
 
 						race.unlocked = savedRace.unlocked;
+						//elders stuff
+						race.hunger = savedRace.hunger || null;
+						race.duration = savedRace.duration || null;
 					}
 				}
 			}

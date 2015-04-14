@@ -22,10 +22,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
 			{name: "science", val: 100000},
-			{name: "oil", val: 10000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 15000}
 		],
-		chance: 90,	//success chance in %
 		handler: function(game, self){
 			game.space.getProgram("sattelite").unlocked = true;
 			game.space.getProgram("spaceStation").unlocked = true;
@@ -50,7 +48,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
-		chance: 100,	//see comment above
 		effects: {
 			"oilReductionRatio": 0.05,
 		}
@@ -63,10 +60,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 325},
 			{name: "titanium", val: 2500},
 			{name: "science", val: 125000},
-			{name: "oil", val: 10000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 15000}
 		],
-		chance: 80,
 		priceRatio: 1.08,
 		requiredTech: ["sattelites"],
 		val: 0,
@@ -87,10 +82,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 425},
 			{name: "alloy", 	val: 750},
 			{name: "science", val: 150000},
-			{name: "oil", val: 30000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 35000}
 		],
-		chance: 90,
 		priceRatio: 1.12,
 		requiredTech: ["orbitalEngineering"],
 		val: 0,
@@ -112,10 +105,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 500},
 			{name: "titanium", val: 5000},
 			{name: "science", val: 125000},
-			{name: "oil", val: 40000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 45000}
 		],
-		chance: 75,
 		upgradable: false,
         unlocks: {
             planet: "moon",
@@ -134,11 +125,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "alloy",    val: 750},
 			{name: "concrate", val: 150},
 			{name: "science", val: 100000},
-			{name: "oil", val: 50000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 55000}
 		],
-		chance: 90,
-
 		upgradable: true,
 		togglable: 	true,
 		tunable: 	true,
@@ -177,10 +165,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "concrate", val: 250},
 			{name: "science", val: 100000},
 			{name: "unobtainium", val: 50},
-			{name: "oil", val: 65000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 70000}
 		],
-		chance: 90,
 		effects: {
 			"catnipMax" 	: 45000,
 			"woodMax"		: 25000,
@@ -206,10 +192,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
-			{name: "oil", val: 50000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 55000}
 		],
-		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
@@ -224,10 +208,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
-			{name: "oil", val: 65000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 70000}
 		],
-		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("terminusMission").unlocked = true;
@@ -245,10 +227,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
-			{name: "oil", val: 90000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 95000}
 		],
-		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
@@ -266,10 +246,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
-			{name: "oil", val: 75000},
-			{name: "rocket", val: 1}
+			{name: "oil", val: 80000}
 		],
-		chance: 50,
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
@@ -297,10 +275,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "starchart", val: 1000},
                 {name: "uranium",  val: 1000},
-                {name: "oil", val: 50000},
-                {name: "rocket", val: 1}
+                {name: "oil", val: 55000}
             ],
-            chance: 85,
 
             upgradable: true,
             togglable: 	true,
@@ -493,7 +469,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 			this.payPrice();
 
-			if (this.game.rand(100) > program.chance){
+			//NNNO NO MORE SORROW
+			/*if (this.game.rand(100) > program.chance){
 				this.game.msg("Space launch failed catastrophically! >:", "important");
 
 				var refundRatio = (this.game.rand(30) + 40) / 100;
@@ -506,7 +483,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				}
 				this.game.msg("Kittens scavenged back " + (refundRatio*100).toFixed() + "% of resources");
 				return;
-			}
+			}*/
 
 			if (program.upgradable){
 				program.val++;
@@ -547,7 +524,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 	getDescription: function(){
 		var program = this.getProgram();
-		return program.description + "<br>Success chance: " + program.chance + "%";
+		return program.description;
 	},
 
 	getEffects: function(){
@@ -559,7 +536,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.ui.tab, {
 
 	GCPanel: null,
-	engineeringPanel: null,
 
 	constructor: function(){
 
@@ -588,23 +564,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});
-
-		this.engineeringPanel = new com.nuclearunicorn.game.ui.Panel("Engineering", this.game.space);
-		var content = this.engineeringPanel.render(container);
-
-		var buildRocketBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-			name: "Rocket",
-			description: "Construct a rocket",
-			prices: [
-				{name: "alloy", val: 50},
-				{name: "oil", val: 5000}
-			],
-			handler: function(btn){
-				btn.game.resPool.get("rocket").value++;	//TODO: I don't like polluting resource there, let's move this into the space manager variable?
-			}
-		}, this.game);
-		buildRocketBtn.render(content);
-		this.buildRocketBtn = buildRocketBtn;
         
         //------------ space space I'm in space -------------
         this.planetPanels = [];

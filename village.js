@@ -894,31 +894,6 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		);
 	},
 
-	update: function(){
-		//do nothing :V
-
-		this.inherited(arguments);
-
-		/*
-		var freeKittens = this.game.village.getFreeKittens();
-
-		var job = this.getJob();
-		if (job && this.buttonContent && this.unassignLinks.unassign.link){
-			dojo.setStyle(this.unassignLinks.unassign.link, "display", job.value > 0  ? "" : "none");
-		}
-		if (job && this.buttonContent && this.assignLinks.assign.link){
-			dojo.setStyle(this.assignLinks.assign.link, "display", freeKittens > 0  ? "" : "none");
-		}
-
-		if (job && this.buttonContent && this.plus25.link){
-			dojo.setStyle(this.plus25.link, "display", freeKittens >= 25  ? "" : "none");
-		}
-
-		if (job && this.buttonContent && this.minus25.link){
-			dojo.setStyle(this.minus25.link, "display", job.value >= 25  ? "" : "none");
-		}*/
-	},
-
 	getEffects: function() {
 		var job = this.getJob();
 		return job.modifiers;
@@ -1145,7 +1120,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 		dojo.create("div", { innerHTML: "<strong>Leader:</strong> " + leaderName}, governmentDiv);
 
-		var councilDiv = dojo.create("div", null, governmentDiv);
+		/*var councilDiv = dojo.create("div", {}, governmentDiv);
 		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
 
 		for (var i = this.game.village.senators.length - 1; i >= 0; i--) {
@@ -1174,7 +1149,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.render();
 			}, this.game, i));
 			
-		}	//senators
+		}*/	//senators
 
 	},
 
@@ -1196,11 +1171,12 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			}
 			
 			//make senator link
-			if (this.game.village.senators.length == 5 || record.kitten.isSenator){
+			/*if (this.game.village.senators.length == 5 || record.kitten.isSenator){
 				dojo.setStyle(record.senatorHref, "display", "none");
 			} else {
 				dojo.setStyle(record.senatorHref, "display", "block");
-			}
+			}*/
+			dojo.setStyle(record.senatorHref, "display", "none");
 
 			var traitTitle = kitten.trait.title;
 			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";

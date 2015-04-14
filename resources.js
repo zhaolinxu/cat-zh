@@ -94,12 +94,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#9A2EFE"
-	},{
-		name : "rocket",
-		type : "common",
-		transient: true,
-		visible: true,
-		color: "#9A2EFE"
 	},
 	
 	//=========================================

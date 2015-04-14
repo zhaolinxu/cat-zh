@@ -1703,7 +1703,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 		bonusZebras += Math.floor(this.bld.getHyperbolicEffect(totalScience / 10000, 100));
-		if (this.resPool.get("zebras").value > 0 ){
+		if (this.resPool.get("zebras").value > 0 && this.ironWill){
 			this.karmaZebras += bonusZebras;
 		}
         
