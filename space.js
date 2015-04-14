@@ -420,10 +420,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		if (program.upgradable){
 			for (var i = program.val - 1; i >= 0; i--) {
 				for (var j = prices.length - 1; j >= 0; j--){
-					//Hack to avoid increase in rocket or fuel price:
-					if (prices[j].name !== "oil" && prices[j].name !== "rocket") {
+					//Hack to set oil price increase separately:
+					if (prices[j].name !== "oil") {
 						prices[j].val = prices[j].val * ratio;
-					} else if (prices[j].name === "oil") {
+					} else {
 						prices[j].val = prices[j].val * 1.05;			//5% oil increase
 					}
 				}
@@ -580,8 +580,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 	update: function(){
 		this.GCPanel.update();
-
-		this.buildRocketBtn.update();
         
         dojo.forEach(this.planetPanels, function(panel, i){
             panel.update();
