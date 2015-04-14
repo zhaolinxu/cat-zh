@@ -418,9 +418,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["coalMax"] *= ratio;
 				effects["goldMax"] *= ratio;
 				effects["titaniumMax"] *= ratio;
-
-				self.effects = effects;
 			}
+			
+			self.effects = effects;
 		},
 		val: 0,
 		flavor: "Ahoy, landlubbers!"
