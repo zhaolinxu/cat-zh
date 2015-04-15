@@ -1548,9 +1548,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.game.ironWill = false;
 			}
 
-
 			if (event.shiftKey){
-                if (confirm("Are you sure you want to construct all buildings?")){
+                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
                     this.buildAll(building);
                 }
             } else {
