@@ -142,7 +142,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         name: "leviathans",
 		hidden: true,
 		title: "Leviathans",
-		hunger: 0,
+		energy: 0,
 		attitude: "neutral",
 		standing: 0.15,
 		unlocked: false,
@@ -151,7 +151,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "unobtainium", val: 5000}
 		],
 		sells:[
-			{name: "timeCrystal", value: 1, chance: 98, delta: 0.25, seasons:{
+			{name: "timeCrystal", value: 0.25, chance: 98, delta: 0.15, seasons:{
 				"spring": 1,
 				"summer": 1,
 				"autumn": 1,
@@ -206,7 +206,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 						race.unlocked = savedRace.unlocked;
 						//elders stuff
-						race.hunger = savedRace.hunger || null;
+						race.energy = savedRace.energy || null;
 						race.duration = savedRace.duration || null;
 					}
 				}
@@ -310,19 +310,23 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     
     onNewDay: function(){
         var elders = this.get("leviathans");
+        if (elders.duration <= 0  && elders.unlocked){
+			elders.unlocked = false;
+			this.game.msg("Elder gods have departed", "notice");
+			
+			this.game.render();
+			
+			return;
+		}
         if (elders.duration > 0){
             elders.duration--;
-            if (!elders.duration){
-                elders.unlocked = false;
-                this.game.msg("Elder gods have departed", "notice");
-            }
         }
     }
 
 });
 
 
-dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.game.ui.Panel, {
+dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
 
 	update: function(){
@@ -331,6 +335,45 @@ dojo.declare("com.nuclearunicorn.game.diplomacy.RacePanel", com.nuclearunicorn.g
 		}
 	}
 });
+
+dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel, {
+	feedBtn: null,
+	
+	render: function(container){
+		var content = this.inherited(arguments);
+		
+		var self = this;
+		var feedBtn = new com.nuclearunicorn.game.ui.Button({
+				name: "Feed elders",
+				description: "Offer a sacrifice to the elders.",
+				handler: function(){
+					var ncorns = this.game.resPool.get("necrocorns");
+					var elders = this.game.diplomacy.get("leviathans");
+					if (ncorns.value > 0){
+						elders.energy += ncorns.value;
+						ncorns.value = 0;
+						this.game.msg("Elder gods are pleased", "notice");
+					} else {
+						this.game.msg("Elder gods are displeased", "notice");
+						elders.duration = 0;
+					}
+				}
+			}, this.game);
+		feedBtn.render(content)
+		
+		this.feedBtn = feedBtn;
+		return content;
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		if (this.feedBtn){
+			this.feedBtn.update();
+		}
+	}
+});
+
+
 
 dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
 
@@ -602,7 +645,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 			var racePanel = this.racePanels[i];
 			if (!racePanel){
-				racePanel = new com.nuclearunicorn.game.diplomacy.RacePanel(race.title);
+				if (race.name === "leviathans") {
+					racePanel = new classes.diplomacy.ui.EldersPanel(race.title);
+					racePanel.setGame(this.game);
+				} else {
+					racePanel = new classes.diplomacy.ui.RacePanel(race.title);
+				}
 				this.racePanels.push(racePanel);
 			}
 			var content = racePanel.render(tabContainer);
@@ -657,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				prices: tradePrices,
 				race: race
 			}, this.game);
-			tradeBtn.render(content)	//TODO: attach it to the panel and do a lot of update stuff
+			tradeBtn.render(content);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
 		}
 		

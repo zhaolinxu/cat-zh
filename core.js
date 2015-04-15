@@ -1040,19 +1040,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
  * Collapsible panel for a tab
  */
 dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
-
+	game: null,
+	
 	collapsed: false,
-
 	visible: true,
-
 	name: "",
 
 	panelDiv: null,
-
 	children: null,
 	
 	//------ collapse ------
-	
 	toggle: null,
 	contentDiv: null,
 
@@ -1129,6 +1126,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 
 	update: function(){
 		dojo.forEach(this.children, function(e, i){ e.update(); });
+	},
+	
+	setGame: function(game){
+		this.game = game;
 	}
 });
 
