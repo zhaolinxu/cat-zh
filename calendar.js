@@ -113,9 +113,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
-		if (this.game.bld.get("observatory").enabled){
-			chance += this.game.bld.getEffect("starEventChance");
-		}
+		chance += this.game.bld.getEffect("starEventChance");
 		chance *= chanceRatio;
 
 		this.observeHandler = function(event){
