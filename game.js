@@ -666,6 +666,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
+			this.calculateAllEffects();
 			return;
 		}
 		try {
@@ -687,16 +688,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// Calculate effects (needs to be done after all managers are loaded)
-		// TODO: delegate this to managers? Can't be done in load unfortunately.
-		this.upgrade({
-			buildings: this.bld.buildingsData.map(function(building){
-				return building.name;
-			}),
-			jobs: this.village.jobs.map(function(job){
-				return job.name;
-			})
-		});
-		
+		this.calculateAllEffects();
+
 		//restore tab visibility
 		
 		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
@@ -1823,6 +1816,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "space":
 				return this.spaceTab;
 		}
+	},
+
+	calculateAllEffects: function() {
+		// TODO: delegate this to managers? Can't be done in load unfortunately.
+		this.upgrade({
+			buildings: this.bld.buildingsData.map(function(building){
+				return building.name;
+			}),
+			jobs: this.village.jobs.map(function(job){
+				return job.name;
+			})
+		});
 	},
 
 	getUnlockByName: function(name, type){
