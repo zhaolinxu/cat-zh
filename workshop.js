@@ -1775,6 +1775,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				}
 
 				if (upgrade.upgrades) {
+					// Hack so the new upgrade's effects are counted
+					this.game.workshop.invalidateCachedEffects();
 					this.game.upgrade(upgrade.upgrades);
 				}
 			},
