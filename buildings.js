@@ -1564,6 +1564,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				building.on = building.val;
 			}
 
+			if (building.upgrades){
+				this.game.upgrade(building.upgrades);
+			}
+
 			this.game.render();
 		}
 	},
