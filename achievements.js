@@ -166,6 +166,14 @@ dojo.declare("classes.managers.Achievements", null, {
 			return (this.game.village.happiness >= 1.5 && this.game.resPool.get("kittens").value > 35);
 		},
 		unlocked: false
+	},{
+		name: "cathammer",
+		title: "Cathammer 40K",
+		description: "In the grim and dark future of a catkind",
+		condition: function(){
+			return (this.game.calendar.year >= 40000);
+		},
+		unlocked: false
 	}
 	],
 

@@ -112,10 +112,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		
 
-		var chance = 25 * chanceRatio;									//25 OPTK of event per day	(0.25%)
-		if (this.game.bld.get("observatory").enabled){
-			chance += this.game.bld.getEffect("starEventChance");
-		}
+		var chance = 25;									//25 OPTK of event per day	(0.25%)
+		chance += this.game.bld.getEffect("starEventChance");
+		chance *= chanceRatio;
 
 		this.observeHandler = function(event){
 			this.observeClear();
@@ -246,9 +245,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 		}else{
-			if (zebras.value > 0 ){
-				zebras.value = 0;
-				this.game.msg("Zebra hunter has departed from your village.");
+			var zTreshold = 0;
+			if (this.game.prestige.getPerk("zebraDiplomacy").researched){
+				//zTreshold = Math.floor((this.game.rand(20) + 5) / 100 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+			}
+			if (zebras.value > zTreshold ){
+				this.game.msg( zebras.value > 1 ? 
+                    "Zebra hunters have departed from your village." : 
+                    "Zebra hunter has departed from your village."
+                );
+                zebras.value = zTreshold;
 				this.game.render();
 			}
 		}
@@ -278,6 +285,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			this.game.resPool.get("ivory").value += ivory;
 		}
+        
+        this.game.diplomacy.onNewDay();
 	},
 
 	onNewSeason: function(){
@@ -296,28 +305,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
 			this.game.bld.get("steamworks").jammed = false;
 		}
-
-		//-------------------- Ice Age stuff -------------------------
-		/*if (this.iceage == 2 && this.game.village.getKittens() >= 60){
-
-			this.game.msg("The air is freezing cold");
-			this.iceage = 3;
-
-		}else if (this.iceage == 1 && this.game.village.getKittens() >= 55){
-
-			this.game.msg("The weather is getting colder.");
-			this.iceage = 2;
-
-		}else if (this.iceage == 0 && this.game.village.getKittens() >= 50){
-
-			this.game.msg("Days are getting shorter.");
-			this.iceage = 1;
-		}*/
 	},
 
 	onNewYear: function(){
 		if (this.game.bld.get("steamworks").jammed) {
-			//this.game.msg("Workshop automation ready for operation");
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}
 		
@@ -325,18 +316,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.paragonPoints++;
 		}
 
-		/**
-		 * Endgame players will freak out so we will introduce it gradually
-		 */
-		/*if (this.iceage >= 3 && this.iceage < 6){
-			this.iceage++;
-
-			if (this.iceage != 6){
-				this.game.msg("Nights are getting colder");
-			} else {
-				this.game.msg("An ice age has started");
-			}
-		}*/
+		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
+        if ( pyramidVal > 0 ){
+            if (this.game.rand(1000) < 35 * pyramidVal){                               //3.5% per year per BP
+                this.game.diplomacy.unlockElders();
+            }
+        }
 	},
 
 	getWeatherMod: function(){

@@ -707,6 +707,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
  */
 
 dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
+	simplePrices: true,
+	hasResourceHover: false,
+
 	afterRender: function(){
 		dojo.addClass(this.domNode, "modern");
 
@@ -715,19 +718,51 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
+
+		if (this.hasResourceHover) {
+			dojo.connect(this.domNode, "onmouseover", this,
+				dojo.hitch( this, function(){
+					this.game.setSelectedObject(this.getSelectedObject());
+				}));
+			dojo.connect(this.domNode, "onmouseout", this,
+				dojo.hitch( this, function(){
+					this.game.clearSelectedObject();
+				}));
+		}
 	},
 
 	getDescription: function(){
 		return this.description;
 	},
 
+	getFlavor: function(){
+		return undefined;
+	},
+
+	getEffects: function(){
+		return undefined;
+	},
+
 	getTooltipHTML: function(btn){
 		//throw "ButtonModern::getTooltipHTML must be implemented";
 
 		var tooltip = dojo.create("div", { style: {
-			width: "200px",
+			width: "280px",
 			minHeight:"50px"
 		}}, null);
+
+
+		if (this.tooltipName) {
+			dojo.create("div", {
+				innerHTML: this.getName(),
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px"
+			}}, tooltip);
+		}
+
 
 		var descDiv = dojo.create("div", {
 			innerHTML: this.getDescription(),
@@ -742,15 +777,33 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (this.prices){
 			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-			this.renderPrices(tooltip, true);	//simple prices
+			this.renderPrices(tooltip, this.simplePrices);	//simple prices
+		}
+
+		var effects = this.getEffects();
+		if (effects){
+			this.renderEffects(tooltip, effects);
+		}
+
+		//-------------- flavor stuff -------------
+		var flavor = this.getFlavor();
+		if (flavor) {
+			dojo.create("div", {
+				innerHTML: flavor,
+				className: "flavor",
+				style: {
+					display: "inline-block",
+					paddingTop: "20px",
+					float: "right",
+					fontSize: "12px",
+					fontStyle: "italic"
+			}}, tooltip);
 		}
 
 		return tooltip.outerHTML;
 	},
 
 	renderPrices: function(tooltip, simpleUI){
-		var craftRatio = this.game.bld.getEffect("craftRatio");
-		
 		var prices = this.getPrices();
 		if (!prices.length){
 			return;
@@ -758,33 +811,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		for( var i = 0; i < prices.length; i++){
 			var price = prices[i];
 			var span = this._renderPriceLine(tooltip, price, simpleUI);
-
-			var res = this.game.resPool.get(price.name);
-			var hasRes = (res.value >= price.val);
-			//unroll prices to the raw resources
-			if (!hasRes && res.craftable && !simpleUI){
-				
-				if (res.name == "wood"){
-					continue;
-				}
-				
-				span.name.innerHTML = "+ " + span.name.innerHTML;
-				
-				var components = this.game.workshop.getCraft(res.name).prices;
-				for (var j in components){
-					
-					var diff = price.val - res.value;
-					var comp = {name: components[j].name, val: Math.floor(components[j].val * diff / (1 + craftRatio))};
-					
-					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI);
-					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
-					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
-				}
-			}
 		}
 	},
 	
-	_renderPriceLine: function(tooltip, price, simpleUI){
+	_renderPriceLine: function(tooltip, price, simpleUI, indent){
 		var priceItemNode = dojo.create("div", {
 				style : {
 					overflow: "hidden"
@@ -794,9 +824,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		var res = this.game.resPool.get(price.name);
 		var hasRes = (res.value >= price.val);
 
+
 		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
 
-		var asterisk = price.val > res.maxValue && res.maxValue ? "*" : "";	//mark limit issues with asterisk
+		var asterisk = price.val > res.maxValue && res.maxValue && !indent ? "*" : "";	//mark limit issues with asterisk
 
 		var priceSpan = dojo.create("span", {
 			innerHTML: hasRes || simpleUI ?
@@ -810,9 +841,43 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (!hasRes && res.perTickUI > 0 && !simpleUI){
 			var eta = (price.val-res.value) / (res.perTickUI * this.game.rate);
-			priceSpan.innerHTML += " (" + this.game.toDisplaySeconds(eta)  + ")";
+			priceSpan.textContent += " (" + this.game.toDisplaySeconds(eta)  + ")";
 		}
-		
+
+
+		//unroll prices to the raw resources
+		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
+
+			var craftRatio = this.game.getResCraftRatio(res);
+
+			nameSpan.textContent = "+ " + nameSpan.textContent;
+
+			if (!indent) {
+				indent = 1;
+			}
+
+			var components = this.game.workshop.getCraft(res.name).prices;
+			for (var j in components){
+
+				var diff = price.val - res.value;
+
+				// Round up to the nearest craftable amount
+				var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
+				var remainder = val % components[j].val;
+				if (remainder != 0) {
+					val += components[j].val - remainder;
+				}
+
+				var comp = {name: components[j].name, val: val};
+
+				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
+				for (var k = 0; k < indent; ++k) {
+					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+				}
+				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
+			}
+		}
+
 		return {name: nameSpan, price: priceSpan};
 	},
 
@@ -832,7 +897,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		//-----------------------------------------
 
-		for (effectName in effectsList){
+		for (var effectName in effectsList){
 			var effectValue = effectsList[effectName];
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
@@ -870,10 +935,13 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
+		var btn = this;
 
-		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
-			tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
-
+		dojo.connect(container, "onmouseover", this, function() {
+			this.game.tooltipUpdateFunc = function(){
+				btn.updateTooltip(container, tooltip, htmlProvider);
+			};
+			this.game.tooltipUpdateFunc();
 			var pos = $(container).position();
 
 			//prevent tooltip from leaving the window area
@@ -892,19 +960,26 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
 
 			dojo.setStyle(tooltip, "display", "");
+		});
 
-	    }, tooltip, htmlProvider));
+		dojo.connect(container, "onmouseout", this, function(){
+			this.game.tooltipUpdateFunc = null;
+			dojo.setStyle(tooltip, "display", "none");
+		});
+	},
 
-		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none");
-		}, tooltip, container));
+	updateTooltip: function(container, tooltip, htmlProvider){
+		tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
 	},
 
 	renderLinks: function(){
 		//do nothing, implement me
+	},
+
+	getSelectedObject: function(){
+		return null;
 	}
 });
-
 
 dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {
 
@@ -965,19 +1040,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
  * Collapsible panel for a tab
  */
 dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
-
+	game: null,
+	
 	collapsed: false,
-
 	visible: true,
-
 	name: "",
 
 	panelDiv: null,
-
 	children: null,
 	
 	//------ collapse ------
-	
 	toggle: null,
 	contentDiv: null,
 
@@ -1054,6 +1126,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 
 	update: function(){
 		dojo.forEach(this.children, function(e, i){ e.update(); });
+	},
+	
+	setGame: function(game){
+		this.game = game;
 	}
 });
 

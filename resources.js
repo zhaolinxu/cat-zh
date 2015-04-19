@@ -94,12 +94,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#9A2EFE"
-	},{
-		name : "rocket",
-		type : "common",
-		transient: true,
-		visible: true,
-		color: "#9A2EFE"
 	},
 	
 	//=========================================
@@ -309,40 +303,45 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Iterates resources and updates their values with per tick increment
 	 */
 	update: function(){
-		
-		var barn = this.game.bld.get("barn");
-		var warehouse = this.game.bld.get("warehouse");
-		var harbor = this.game.bld.get("harbor");
-		var oilWell = this.game.bld.get("oilWell");
-		
+
+		var buildingResMax = {};
 		//----------------- get +MAX effect per building --------------------
-		for (var i = 0; i< this.resources.length; i++){
-			var res = this.resources[i];
-			
-			
-			//var maxValue = this.game.bld.getEffect(res.name + "Max");
-			var maxValue = (this.game.bld.effectsBase[res.name + "Max"] || 0);
-			for (var j = 0; j < this.game.bld.buildingsData.length; j++){
-				var bld = this.game.bld.buildingsData[j];
-				if (bld.name != "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
-					maxValue += bld.effects[res.name + "Max"] * bld.val || 0;
+		for (var i = 0; i < this.game.bld.buildingsData.length; i++){
+			var bld = this.game.bld.buildingsData[i];
+			if (bld.name == "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
+				continue;
+			}
+			for (var effect in bld.effects) {
+				var maxIndex = effect.indexOf("Max");
+				if (maxIndex != -1) {
+					var resource = effect.substr(0, maxIndex);
+					var resMax = buildingResMax[resource] || 0
+					buildingResMax[resource] = resMax + bld.effects[effect] * bld.val;
 				}
 			}
-			
+		}
+
+		for (var i = 0; i < this.resources.length; i++){
+			var res = this.resources[i];
+
+			var maxValue = buildingResMax[res.name] || 0;
+
+			maxValue += (this.game.bld.effectsBase[res.name + "Max"] || 0);
+
 			if (res.name == "wood" || res.name == "minerals" || res.name == "iron"){	//that starts to look awful
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio");
 			}
-			
+
 			if (res.name == "catnip" && this.game.workshop.get("silos").researched){
 				maxValue = maxValue + maxValue * this.game.workshop.getEffect("barnRatio") * 0.25;
 			}
-			
-			if (res.name == "wood" || 
-				res.name == "minerals" || 
-				res.name == "iron" || 
-				res.name == "steel" || 
-				res.name == "coal" || 
-				res.name == "gold" || 
+
+			if (res.name == "wood" ||
+				res.name == "minerals" ||
+				res.name == "iron" ||
+				res.name == "steel" ||
+				res.name == "coal" ||
+				res.name == "gold" ||
 				res.name == "titanium"){
 				if (this.game.workshop.getEffect("warehouseRatio")){
 					maxValue = maxValue + maxValue * this.game.workshop.getEffect("warehouseRatio");
@@ -350,36 +349,34 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 			//------ + fixed resource bonus from accelerator and similar structures
 			maxValue += (this.game.bld.get("accelerator").effects[res.name + "Max"] * this.game.bld.get("accelerator").val) || 0;
-		
+
 			//----------------------- once we calculated total building bonus, apply global multipliers -----------------
-			
+
 			// fixed bonus
 			maxValue += this.game.workshop.getEffect(res.name + "Max");
 			maxValue += this.game.space.getEffect(res.name + "Max");
-			
+
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
-			
+
 			var paragon = this.game.resPool.get("paragon").value;
 			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
-			
-			
-			if (maxValue > 0 ){
-				res.maxValue = maxValue;
+
+
+			if (maxValue < 0 ){
+				maxValue = 0;
 			}
-			
-			if (res.value < 0){
-				res.value = 0;	//can't be negative
-			}
-			
+
+			res.maxValue = maxValue;
+
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-			
+
 			res.value = res.value + resPerTick;
 			if (res.maxValue && res.value > res.maxValue){
 				res.value = res.maxValue;
 			}
-			
-			if (isNaN(res.value)){
+
+			if (isNaN(res.value) || res.value < 0){
 				res.value = 0;	//safe switch
 			}
 		}
@@ -419,23 +416,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	/**
 	 * Returns true if user has enough resources to construct AMT building with given price
-	 */ 
+	 */
 	hasRes: function(prices, amt){
-		if (amt){
-			prices = dojo.clone(prices);
-		
-			for (var i = 0; i< prices.length; i++){
-				prices[i].val *= amt;
-			}
+		if (!amt){
+			amt = 1;
 		}
-		
+
 		var hasRes = true;
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-				
+
 				var res = this.get(price.name);
-				if (res.value < price.val){
+				if (res.value < (price.val * amt)){
 					hasRes = false;
 					break;
 				}
@@ -462,7 +455,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.value = res.maxValue;
 			}
 		}
-	}
+	},
+    
+    convert: function( nameFrom, amtFrom, nameTo, amtTo){
+    }
 });
 
 
@@ -529,11 +525,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
-			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- max ----------------------
 			var tdMax = dojo.create("td", { className: "maxRes" }, tr);
-			tdMax.innerHTML = this.game.getDisplayValueExt(res.maxValueUI);
+			tdMax.textContent = this.game.getDisplayValueExt(res.maxValueUI);
 			
 			//	---------------- +tick ----------------------
 			var tdPerTick = dojo.create("td", null, tr);
@@ -557,6 +553,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 	 * This section is performance-critical. Using non vanilla js here is a very *BAD* idea.
 	 */ 
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -569,10 +566,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				row.rowRef.style.display = "";
 			}
 
+			var className;
 			//  highlight resources for selected building
 			//--------------------------------------------
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";
@@ -583,7 +580,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			
 			//---------------------------------------------
 
-			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			if (res.value > res.maxValue * 0.95){
 				//rowClass += " resLimitNotice";
@@ -596,7 +593,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
-			row.resMax.innerHTML  = maxResValue;
+			row.resMax.textContent  = maxResValue;
 
 			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.rate : res.perTickUI;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
@@ -606,7 +603,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}
 			
 			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
-			row.resTick.innerHTML = perTickValue;
+			row.resTick.textContent = perTickValue;
 
 			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
 			
@@ -615,7 +612,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			if (season.modifiers[res.name] && res.perTickUI != 0 ){
 					
 				var modifer = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
-				row.resWMod.innerHTML = modifer ? "[" + modifer.toFixed() + "%]" : "";
+				row.resWMod.textContent = modifer ? "[" + modifer.toFixed() + "%]" : "";
 
 				if (modifer > 0){
 					dojo.setStyle(row.resWMod, "color", "green");
@@ -675,6 +672,44 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		return this.game.getResCraftRatio(res);
 	},
 
+	createCraftButton: function(tr, recipe, craftRatio, res, num){
+		var td = dojo.create("td", { style: {width: "20px"}}, tr);
+		var a = dojo.create("a", {
+				href: "#",
+				innerHTML : "+" + (num * (1+craftRatio)).toFixed(),
+				style: {
+					display: this.game.resPool.hasRes(recipe.prices, num) ? "" : "none"
+				}
+			}, td);
+
+		dojo.connect(a, "onclick", this, dojo.partial(function(res, event){
+				this.game.craft(res.name, num);
+				event.preventDefault();
+			}, res));
+
+		this.attachTooltip(td, dojo.partial( function(recipe){
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+				for (var i = 0; i < recipe.prices.length; i++){
+					var price = recipe.prices[i];
+
+					var priceItemNode = dojo.create("div", null, tooltip);
+
+					var nameSpan = dojo.create("span", {
+							innerHTML: price.name,
+							style: { float: "left"}
+						}, priceItemNode );
+
+					var priceSpan = dojo.create("span", {
+							innerHTML: this.game.getDisplayValueExt(price.val * num),
+							style: {float: "right", paddingLeft: "6px" }
+						}, priceItemNode );
+				}
+				return tooltip.outerHTML;
+			}, recipe));
+
+		return a;
+	},
+
 	render: function(){
 		if (!this.containerId) { throw "container id is undefined for res table"; }
 		dojo.empty(this.containerId);
@@ -720,59 +755,14 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
-			tdAmt.innerHTML = this.game.getDisplayValueExt(res.value);
+			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			//	---------------- + ----------------------
-			
-			
-			var td = dojo.create("td", { style: {width: "20px", cursor: "pointer"}}, tr);
-				var a1 = dojo.create("a", { 
-					href: "#", 
-					innerHTML : "+" + (1 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 1) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a1, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 1); event.preventDefault(); }, res));
-			this.attachTooltip(td, dojo.partial( function(recipe){
-				
-				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-				
-				for( var i = 0; i < recipe.prices.length; i++){
-					var price = recipe.prices[i];
-					
-					var priceItemNode = dojo.create("div", null, tooltip); 
-					
-					var nameSpan = dojo.create("span", { innerHTML: price.name, style: { float: "left"} }, priceItemNode );
-					var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right", paddingLeft: "6px" } }, priceItemNode );
-				}
-				return tooltip.outerHTML;
-			
-			}, recipe));	
-			
-			//	---------------- +25 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a25 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (25 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 25) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a25, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 25); event.preventDefault(); }, res));
 
-			//	---------------- +100 ----------------------
-			var td = dojo.create("td", { style: {width: "20px"}}, tr);
-				var a100 = dojo.create("a", {
-					href: "#", 
-					innerHTML : "+" + (100 * (1+craftRatio)).toFixed(),
-					style: {
-						display: this.game.resPool.hasRes(recipe.prices, 100) ? "" : "none"
-					}
-				}, td);
-			dojo.connect(a100, "onclick", this, dojo.partial(function(res, event){ this.game.craft(res.name, 100); event.preventDefault(); }, res));
+			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1);
+			var a25 = this.createCraftButton(tr, recipe, craftRatio, res, 25);
+			var a100 = this.createCraftButton(tr, recipe, craftRatio, res, 100);
 
-			
 			//	---------------- +all ----------------------
 			var td = dojo.create("td", { }, tr);
 			
@@ -817,6 +807,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 	},
 	
 	update: function(){
+		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
 			var row = this.resRows[i];
 			var res = row.resRef;
@@ -836,8 +827,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//--------------------------------------------
 			var className;
 			
-			var selBld = this.game.selectedBuilding;
-			if (selBld && this.game.isResRequired(selBld, res.name)){
+			if (reqRes.indexOf(res.name) >= 0){
 				className = "resourceRow highlited";
 			} else {
 				className = "resourceRow";
@@ -848,7 +838,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//dojo.setStyle(row.rowRef, "display", isVisible ? "" : "none");
 			
-			row.resAmt.innerHTML  = this.game.getDisplayValueExt(res.value);
+			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
 			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, 1) ? "" : "none");
 			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, 25) ? "" : "none");

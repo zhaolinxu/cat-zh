@@ -22,7 +22,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"wood" : 0.015
 		},
 		value: 0,
-		unlocked: true
+		unlocked: true,
+        flavor: "Must. Not. Scratch."
 	},{
 		name: "farmer",
 		title: "Farmer",
@@ -38,8 +39,17 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		title: "Scholar",
 		description: "+0.05 science per tick",
 
-		modifiers:{
-			"science" : 0.05
+		modifiers:{},
+		calculateEffects: function(self, game){
+			var modifiers = {
+				"science" : 0.05
+			};
+
+			if (game.workshop.get("astrophysicists").researched){
+				modifiers["starchart"] = 0.0001;	//i'm not entirely sure if it is too little or too much
+			}
+
+			self.modifiers = modifiers;
 		},
 		value: 0,
 		unlocked: false
@@ -52,7 +62,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"manpower" : 0.06
 		},
 		value: 0,
-		unlocked: false
+		unlocked: false,
+        flavor: "We're so cute we purr at our prey until it dies"
 	},{
 		name: "miner",
 		title: "Miner",
@@ -62,7 +73,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"minerals" : 0.05
 		},
 		value: 0,
-		unlocked: false
+		unlocked: false,
+        flavor: "I don't really understand how can I hold a pick with my paws"
 	},{
 		name: "priest",
 		title: "Priest",
@@ -78,8 +90,35 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		title: "Geologist",
 		description: "+0.015 coal per tick",
 
-		modifiers:{
-			"coal" : 0.015
+		modifiers:{},
+		calculateEffects: function(self, game){
+			var coal = 0.015;
+			var gold = 0;
+			
+			if (game.workshop.get("miningDrill").researched){
+				coal += 0.010;
+				gold += 0.0005;
+			}
+			if (game.workshop.get("unobtainiumDrill").researched){
+				coal += 0.015;
+				gold += 0.0005;
+			}
+			if (game.workshop.get("geodesy").researched){
+				coal += 0.0075;
+				gold += 0.0008;
+			} else {
+				// Drills don't add gold before geodesy.
+				gold = 0;
+			}
+			
+			var modifiers = {
+				"coal" : coal
+			};
+			if (gold > 0){
+				modifiers["gold"] = gold;
+			}
+			
+			self.modifiers = modifiers;
 		},
 		value: 0,
 		unlocked: false
@@ -151,7 +190,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){
 				this.sim.killKittens(starvedKittens);
-				this.game.msg(starvedKittens + starvedKittens === 1 ? " kitten " : " kittens " + "starved to death");
+				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
 
 				this.game.deadKittens += starvedKittens;
 			}
@@ -240,12 +279,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var res = {
 		};
 
-		for (i in this.sim.kittens){
+		for (var i in this.sim.kittens){
 			var kitten = this.sim.kittens[i]
 			if(kitten.job) {
 				var job = this.getJob(kitten.job);
 				if(job) {
-					for (jobResMod in job.modifiers){
+					for (var jobResMod in job.modifiers){
 						// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 						//TODO: move to the village manager
 						var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
@@ -626,7 +665,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.skills[kitten.job] += skillRatio;
 				kitten.exp += skillRatio;
 
-				for (skill in kitten.skills){
+				for (var skill in kitten.skills){
 					if (skill != kitten.job && kitten.skills[skill] > 0 ){
 						kitten.skills[skill] -= 0.001;
 						kitten.exp -= 0.001;
@@ -733,6 +772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 	unassignHref: null,
 	plus25: null,
 	minus25: null,
+	tooltipName: true,
 
 	getJob: function(){
 		return this.game.village.getJob(this.jobName);
@@ -854,69 +894,13 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		);
 	},
 
-	update: function(){
-		//do nothing :V
-
-		this.inherited(arguments);
-
-		/*
-		var freeKittens = this.game.village.getFreeKittens();
-
+	getEffects: function() {
 		var job = this.getJob();
-		if (job && this.buttonContent && this.unassignLinks.unassign.link){
-			dojo.setStyle(this.unassignLinks.unassign.link, "display", job.value > 0  ? "" : "none");
-		}
-		if (job && this.buttonContent && this.assignLinks.assign.link){
-			dojo.setStyle(this.assignLinks.assign.link, "display", freeKittens > 0  ? "" : "none");
-		}
-
-		if (job && this.buttonContent && this.plus25.link){
-			dojo.setStyle(this.plus25.link, "display", freeKittens >= 25  ? "" : "none");
-		}
-
-		if (job && this.buttonContent && this.minus25.link){
-			dojo.setStyle(this.minus25.link, "display", job.value >= 25  ? "" : "none");
-		}*/
+		return job.modifiers;
 	},
-
-	getTooltipHTML: function(btn){
+	getFlavor: function() {
 		var job = this.getJob();
-
-		var tooltip = dojo.create("div", { style: {
-			width: "280px",
-			minHeight:"50px"
-		}}, null);
-
-		dojo.create("div", {
-			innerHTML: this.getName(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				borderBottom: "1px solid gray",
-				paddingBottom: "4px"
-		}}, tooltip);
-
-		//---------- effects-------------
-
-		this.renderEffects(tooltip, job.modifiers, true);	//hide title
-
-
-		dojo.create("div", { style: { minHeight:"20px"} }, tooltip);
-
-		//-------------- flavor stuff -------------
-
-		dojo.create("div", {
-			innerHTML: job.flavour || "flavor text",
-			className: "flavor",
-			style: {
-				position: "absolute",
-				bottom: "2px",
-				right: "4px",
-				fontSize: "12px",
-				fontStyle: "italic"
-		}}, tooltip);
-
-		return tooltip.outerHTML;
+		return job.flavour;
 	}
 });
 
@@ -1047,7 +1031,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.village.sim.kittens[i].job = null;
 				game.village.updateResourceProduction();
 				
-				game.village.render();
+				game.render();
 
 			}, this.game, i));
 
@@ -1136,7 +1120,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 		dojo.create("div", { innerHTML: "<strong>Leader:</strong> " + leaderName}, governmentDiv);
 
-		var councilDiv = dojo.create("div", null, governmentDiv);
+		/*var councilDiv = dojo.create("div", {}, governmentDiv);
 		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
 
 		for (var i = this.game.village.senators.length - 1; i >= 0; i--) {
@@ -1165,7 +1149,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				game.render();
 			}, this.game, i));
 			
-		}	//senators
+		}*/	//senators
 
 	},
 
@@ -1187,11 +1171,12 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			}
 			
 			//make senator link
-			if (this.game.village.senators.length == 5 || record.kitten.isSenator){
+			/*if (this.game.village.senators.length == 5 || record.kitten.isSenator){
 				dojo.setStyle(record.senatorHref, "display", "none");
 			} else {
 				dojo.setStyle(record.senatorHref, "display", "block");
-			}
+			}*/
+			dojo.setStyle(record.senatorHref, "display", "none");
 
 			var traitTitle = kitten.trait.title;
 			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
@@ -1312,7 +1297,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name:"Clear",
 			description: "Clear all jobs",
 			handler: dojo.hitch(this, function(){
-				if (confirm("Are you sure?")){
+				if (this.game.opts.noConfirm || confirm("Are you sure?")){
 					this.game.village.clearJobs();
 				}
 			})

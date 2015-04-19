@@ -18,7 +18,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 5,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("megalomania").unlocked = true;
 			game.prestige.getPerk("goldenRatio").unlocked = true;
 		},
@@ -33,7 +33,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.religion.getZU("marker").unlocked = true;
 			game.religion.getZU("blackPyramid").unlocked = true;
 		}
@@ -44,7 +44,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("divineProportion").unlocked = true;
 		},
 		effects:{
@@ -53,40 +53,38 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "divineProportion",
 		title: "Divine Proportion",
-		description: "Reduce all price ratios by 1.75%",
+		description: "Reduce all price ratios by 1.7%",
 		paragon: 100,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("vitruvianFeline").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.0175
+			"priceRatio" : -0.017
 		}
 	},{
 		name: "vitruvianFeline",
 		title: "Vitruvian Feline",
-		description: "Reduce all price ratios by 2.25%",
+		description: "Reduce all price ratios by 2.2%",
 		paragon: 250,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("renaissance").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.0225
+			"priceRatio" : -0.022
 		}
 	},{
 		name: "renaissance",
 		title: "Renaissance",
-		description: "Reduce all price ratios by 2.5%",
+		description: "Reduce all price ratios by 2.45%",
 		paragon: 750,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		},
 		effects:{
-			"priceRatio" : -0.025
+			"priceRatio" : -0.0245
 		}
 	},
 	{
@@ -96,18 +94,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 5,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("zebraDiplomacy").unlocked = true;
 		}
 	},{
 		name: "zebraDiplomacy",
 		title: "Zebra Diplomacy",
-		description: "Some zebras hunters will stay in the village.(TBD)",
+		description: "Some zebras hunters will stay in the village.",
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		}
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
@@ -115,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("anachronomancy").unlocked = true;
 			game.prestige.getPerk("unicornmancy").unlocked = true;
 		}
@@ -126,8 +122,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
-		}
 	},
 	{
 		name: "anachronomancy",
@@ -136,8 +130,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
-		}
 	},{
 		name: "carnivals",
 		title: "Carnivals",
@@ -145,7 +137,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: true,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("numerology").unlocked = true;
 		}
 	},{
@@ -155,7 +147,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
 		}
 	},{
@@ -165,7 +157,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 500,
 		unlocked: false,
 		researched: false,
-		handler: function(game, self){
+		handler: function(game){
 			//game.prestige.getPerk("numeromancy").unlocked = true;
 		}
 	}],
@@ -195,7 +187,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 		for (var i = 0; i< this.perks.length; i++){
 			if (this.perks[i].handler && this.perks[i].researched){
-				this.perks[i].handler(this.game, this.perks[i]);
+				this.perks[i].handler(this.game);
 			}
 		}
 	},
@@ -294,7 +286,7 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 			perk.researched = true;
 			if (perk.handler){
-				perk.handler(this.game, perk);
+				perk.handler(this.game);
 			}
 
 			this.update();

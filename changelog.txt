@@ -1,3 +1,74 @@
+v 1.0.7.5 (14 apr)
+
+Changes by xranti:
+
+Various fixes related to effects issues
+____
+
+Shift+click will now not display confirm dialog with gamePage.opts.noConfirm
+
+v 1.0.7.4 (13 apr)
+
+Changes by CheezyBob:
+
+Fixed a bug with observatories bonus
+___
+
+Council and "make senator" links are now hidden
+Rockets were removed from the game
+Oil prices of all space missions are increased by 5K
+Space missions will not have chance of failure anymore
+
+Elders proc and TC output were slightly nerfed
+
+
+v 1.0.7.3 (28 mar)
+
+Changes by klusark:
+
+Performance optimisation
+Zip compression for save files
+Fixed bug with coal calculation
+
+<3
+__
+
+Changes by xranti:
+
+Fixed CAD not affecting resource tooltips
+No asterisks on unrolled proces
+General fixes and tweaks
+
+<3
+___
+
+Automatic Apocripha trigger upon reset
+Some gimmick secret stuff
+Slightly reduced price upgrades
+Shift+click will construct max possible buildings.
+
+Slightly reduced price of Space Elevators
+Slightly buffed effects of Statis Chambers and Void Energy
+
+Unicorn Selection
+GM Catnip
+
+v 1.0.7.2 (4 mar)
+
+Changes by klusark:
+
+Option to not confrim when clearing all jobs (gamePage.opts.noConfirm)
+Numerous UI fixes/optimizations
+Code refactoring and overhaul
+__
+
+Price of stasis chambers was reduced from 5 time crystals to 1
+Flux condensator price and effect were both significantly reduced
+Titanium price of space elevators was reduced.
+All upgradale space missions will now have oil ratio of 5%.
+
+Void Energy
+
 v 1.0.7.1 (27 jan)
 
 Significanlty reduced Chronospheres price
