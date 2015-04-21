@@ -1554,12 +1554,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	holdFestival: function(){
+		var festivalWasInProgress = this.game.calendar.festivalDays > 0;
+		
 		if (this.game.prestige.getPerk("carnivals").researched){
 			this.game.calendar.festivalDays += 400;
 		} else {
 			this.game.calendar.festivalDays = 400;
 		}
-		this.game.msg("The cultural festival has started");
+		
+		if (festivalWasInProgress){
+			this.game.msg("The cultural festival has been extended");
+		} else {
+			this.game.msg("The cultural festival has started");
+		}
 		//TODO: some fun message like Molly Chalk is making a play 'blah blah'
 	},
 
