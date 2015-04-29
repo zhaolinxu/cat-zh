@@ -262,18 +262,20 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	buttonTitle: null,
 
 	constructor: function(opts, game){
+		this.game = game;
 
+		this.setOpts(opts);
+		this.init();
+	},
+	
+	setOpts: function(opts){
 		this.id = opts.id;
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
 
-		this.game = game;
-
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
-
-		this.init();
 	},
 
 	//required by BuildingButton

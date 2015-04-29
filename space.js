@@ -197,7 +197,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
-		}
+		},
+		unlocks: {
+            planet: "dune"
+        }
 	},{
 		name: "piscineMission",
 		title: "Piscine Mission",
@@ -257,7 +260,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	}],
 	
-	planets:[{
+	planets: 
+	[{
 		name: "moon",
 		title: "Moon",
 		unlocked: false
@@ -266,16 +270,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Dune",
 		unlocked: false,
         buildings: [{
-            name: "duneMiningStation",
-            title: "Mining Station",
-            description: "Deploy a nuclear powered mining outpost on Dune",
-            unlocked: false,
-            fuel: 80000,
+            name: "planetCracker",
+            title: "Planet Cracker",
+            description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
+            unlocked: true,
             priceRatio: 1.12,
             prices: [
-                {name: "starchart", val: 1000},
-                {name: "uranium",  val: 1000},
-                {name: "oil", val: 55000}
+                {name: "starchart", val: 2500},
+                {name: "alloy",  val: 1000},
+                {name: "oil", val: 100000}
             ],
 
             upgradable: true,
@@ -283,6 +286,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	true,
             val:  0,
             on:	  0,
+            effects: {
+				"uraniumPerTickGlobal": 0.5
+			},
             action: function(game, self){
             }
         }]
@@ -303,7 +309,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	constructor: function(game){
 		this.game = game;
 	},
-
 
 	save: function(saveData){
 		saveData.space = {
@@ -469,22 +474,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 			this.payPrice();
 
-			//NNNO NO MORE SORROW
-			/*if (this.game.rand(100) > program.chance){
-				this.game.msg("Space launch failed catastrophically! >:", "important");
-
-				var refundRatio = (this.game.rand(30) + 40) / 100;
-				var prices = this.getPrices();
-				for (var i = prices.length - 1; i >= 0; i--) {
-					if (prices[i].name != "oil" && prices[i].name != "rocket" && prices[i].name != "science"){
-						var res = this.game.resPool.get(prices[i].name);
-						res.value += prices[i].val * refundRatio;
-					}
-				}
-				this.game.msg("Kittens scavenged back " + (refundRatio*100).toFixed() + "% of resources");
-				return;
-			}*/
-
 			if (program.upgradable){
 				program.val++;
 			}
@@ -533,6 +522,56 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	}
 });
 
+dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
+	planet: null,
+	
+	setOpts: function(opts){
+		this.inherited(arguments);
+		this.planet = opts.planet;
+	},
+	
+	getProgram: function(){
+		var space = this.game.space;
+		if (!this.program){
+			var planet = space.getMeta(this.planet.name, space.planets);
+			this.program = space.getMeta(this.id, this.planet.buildings);
+			
+		}
+		return this.program;
+	}
+});
+
+dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
+	planet: null,
+	
+	render: function(){
+		var content = this.inherited(arguments);
+
+		var self = this;
+
+		dojo.forEach(this.planet.buildings, function(building, i){
+			var button = new classes.ui.space.PlanetBuildingBtn({
+				id: 		building.name,
+				name: 		building.title,
+				description: building.description,
+				prices: building.prices,
+				planet: self.planet,
+				handler: function(btn){
+					var building = btn.getBuilding();
+					
+					building.val++;
+					if (building.handler){
+						building.handler(btn.game, building);
+					}
+				}
+			}, self.game);
+			
+			button.render(content);
+			self.addChild(button);
+		});
+	}
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.ui.tab, {
 
 	GCPanel: null,
@@ -569,7 +608,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
         this.planetPanels = [];
         dojo.forEach(this.game.space.planets, function(planet, i){
             if (planet.unlocked){
-                var planetPanel = new com.nuclearunicorn.game.ui.Panel(planet.title, self.game.space);
+                var planetPanel = new classes.ui.space.PlanetPanel(planet.title, self.game.space);
+                planetPanel.planet = planet;
+                planetPanel.setGame(self.game);
                 var content = planetPanel.render(container);
             
                 self.planetPanels.push(planetPanel);

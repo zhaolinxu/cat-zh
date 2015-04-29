@@ -347,7 +347,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 				name: "Feed elders",
 				description: "Offer a sacrifice to the elders.",
 				handler: function(){
-					var ncorns = this.game.resPool.get("necrocorns");
+					var ncorns = this.game.resPool.get("necrocorn");
 					var elders = this.game.diplomacy.get("leviathans");
 					if (ncorns.value > 0){
 						elders.energy += ncorns.value;
