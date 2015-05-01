@@ -403,7 +403,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "lhc",
 		title: "LHC",
-		description: "Every accelerator will provide a bonus to the maximum science",
+		description: "Every accelerator will provide a bonus to maximum science",
 		effects: {
 		},
 		prices:[
@@ -421,7 +421,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give a 1% bonus to the Harbour capacity",
+		description: "Every ship will give a 1% bonus to Harbour capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -698,7 +698,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "goldOre",
 		title: "Gold Ore",
-		description: "Small percentage of ore will be smelted to the gold",
+		description: "Small percentage of ore will be smelted into gold",
 		effects: {
 		},
 		prices:[
@@ -912,7 +912,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Steamworks convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx
+		description: "Once per year Steamworks will convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx
 		effects: {
 		},
 		prices:[
@@ -1013,7 +1013,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "titaniumMirrors",
 		title: "Titanium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give 2% to the Library effectiveness",
+		description: "Improved telescope reflectors.\nEvery observatory will give 2% to Library effectiveness",
 		effects: {
 			"libraryRatio" : 0.02
 		},
@@ -1032,7 +1032,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "unobtainiumReflectors",
 		title: "Unobtainium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to the Library effectiveness",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
 		effects: {
 			"libraryRatio" : 0.02
 		},
