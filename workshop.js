@@ -1202,6 +1202,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 250000 }
 		],
 		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["satnav"]
+		}
+	},
+	{
+		name: "satnav",
+		title: "Sattelite Navigation",
+		description: "Every sattelite reduce starchart requirement of ships by 1.25%",
+		effects: {
+			"satnavRatio" : 0.0125
+		},
+		prices:[
+			{ name : "alloy", 	 val: 750 },
+			{ name : "science",  val: 200000 }
+		],
+		unlocked: false,
 		researched: false
 	},
 	{
@@ -1218,7 +1235,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			jobs: ["scholar"]
 		},
 		unlocked: false,
-		researched: false,
+		researched: false
 	}
 	],
 
@@ -1357,7 +1374,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Tanker",
 		description: "Increase maximum oil capacity by 500",
 		prices:[
-			{ name: "ship", 		val: 250 },
+			{ name: "ship", 		val: 225 },
 			{ name: "alloy",    	val: 1250 },
 			{ name: "blueprint", 	val: 5 }
 		],
@@ -1414,7 +1431,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.crafts[i];
 			}
 		}
-		console.error("Failed to get craft for id '"+craftName+"'");
+		console.error("Failed to get craft for id '" + craftName + "'");
 		return null;
 	},
 
@@ -1491,7 +1508,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 		return totalEffect + this.getEffectCached(name);
 	},
-
+	
+	getCraftPrice: function(craft){
+		if (craft.name != "ship"){
+			return craft.prices;
+		}
+		
+		//special ship hack
+		var prices = dojo.clone(craft.prices);
+		for (var i = prices.length - 1; i >= 0; i--) {
+			if (prices[i].name == "starchart"){
+				prices[i].val = prices[i].val * 
+					(1 - this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val);
+			}
+		}
+		return prices;
+	},
 
 	craft: function (res, amt){
 
@@ -1499,7 +1531,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var craftRatio = this.game.getResCraftRatio({name:res});
 
 		var craftAmt = amt * (1 + craftRatio);
-		var prices = dojo.clone(craft.prices);
+		var prices = dojo.clone(this.getCraftPrice(craft));
 
 		for (var i = prices.length - 1; i >= 0; i--) {
 			prices[i].val *= amt;
@@ -1521,11 +1553,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craftAll: function(craftName){
 
 		var recipe = this.getCraft(craftName);
+		var prices = this.getCraftPrice(recipe);
 
 		var minAmt = Number.MAX_VALUE;
-		for (var j = recipe.prices.length - 1; j >= 0; j--) {
-			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
-			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+		for (var j = prices.length - 1; j >= 0; j--) {
+			var totalRes = this.game.resPool.get(prices[j].name).value;
+			var allAmt = Math.floor(totalRes / prices[j].val);
 			if (allAmt < minAmt){
 				minAmt = allAmt;
 			}
@@ -1649,7 +1682,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.game = game;
 
 		this.craftBtns = [];
-
 	},
 
 	render: function(tabContainer){
@@ -1714,7 +1746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				name: craft.title,
 				description: craft.description,
 				craft: craft.name,
-				prices: craft.prices,
+				prices: this.game.workshop.getCraftPrice(prices),
 				handler: dojo.partial(function(craft, btn){
 					btn.game.workshop.craft(craft.name, 1);
 				}, craft)

@@ -185,7 +185,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var resDiff = catnipVal + catnipPerTick;
 
-		if (resDiff < 0){
+		if (resDiff < 0 && this.sim.getKittens() > 0){
 
 			var starvedKittens = Math.abs(resDiff.toFixed());
 			if (starvedKittens > 0){

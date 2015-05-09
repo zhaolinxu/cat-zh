@@ -295,7 +295,28 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "piscine",
 		title: "Piscine",
-		unlocked: false
+		unlocked: false,
+		buildings: [{
+            name: "researchVessel",
+            title: "Research Vessel",
+            description: "Mobile research space vessel. (TBD)",
+            unlocked: true,
+            priceRatio: 1.12,
+            prices: [
+                {name: "starchart", val: 750},
+                {name: "alloy",  val: 2500},
+                {name: "oil", val: 125000}
+            ],
+            upgradable: true,
+            togglable: 	true,
+            tunable: 	true,
+            val:  0,
+            on:	  0,
+            effects: {
+			},
+            action: function(game, self){
+            }
+        }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
 		title: "Helios",

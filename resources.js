@@ -689,8 +689,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 		this.attachTooltip(td, dojo.partial( function(recipe){
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-				for (var i = 0; i < recipe.prices.length; i++){
-					var price = recipe.prices[i];
+				var prices = this.game.workshop.getCraftPrice(recipe);
+				
+				for (var i = 0; i < prices.length; i++){
+					var price = prices[i];
 
 					var priceItemNode = dojo.create("div", null, tooltip);
 
