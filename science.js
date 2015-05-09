@@ -83,7 +83,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "animal",
 		title: "Animal husbandry",
-		description: "Domestication allows the access to various animal resources via the pasture.",
+		description: "Domestication allows access to various animal resources via the pasture.",
 		effectDesc: "Unlocks Pastures",
 
 		unlocked: false,
@@ -109,7 +109,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "civil",
 		title: "Civil Service",
-		description: "The creation of the first true state organ provides many benefits related with better organization.",
+		description: "The creation of the first true state organ provides many benefits related to better organization.",
 		effectDesc: "Unlocks detailed information about your population",
 
 		unlocked: false,
@@ -359,7 +359,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "archeology",
 		title: "Geology",
-		description: "Geology is the science comprising the study of Cath, the rocks of which it is composed, and the processes by which they change.",
+		description: "Geology is the science comprising of the study of Cath, the rocks of which it is composed, and the processes by which they change.",
 		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
@@ -448,7 +448,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "mechanization",
 		title: "Mechanization",
-		description: "Mechanisation provides a lot of ways to automate redundant tasks; hence improving craft, oil pumps and construction technologies.",
+		description: "Mechanization provides a lot of ways to automate redundant tasks; hence improving craft, oil pumps and construction technologies.",
 		effectDesc: "Unlocks Factories, Pumpjacks and Concrete",
 		unlocked: false,
 		researched: false,
@@ -628,7 +628,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "dimensionalPhysics",
 		title: "Dimensional Physics",
-		description: "Dimensional Physics explore the concepts of space and time",
+		description: "Dimensional Physics explores the concepts of space and time",
 		effectDesc: "Unlocks Energy Rifts and LHC",
 		unlocked: false,
 		researched: false,
