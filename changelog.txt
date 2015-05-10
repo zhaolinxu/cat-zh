@@ -6,6 +6,7 @@ Research Vessel
 Satnav
 Tanker's ship price was reduced from 250 to 225
 
+Void Order
 
 v 1.0.7.5 (14 apr)
 
@@ -95,11 +96,11 @@ v 1.0.6.0 (24 jan)
 
 Changes by Zusias:
 
-* Pausing the game and selling a building will no longer allow you to go above maximum for a resource. 
-* Catnip demand ratio is no longer bugged after the rework of diminished returns. 
+* Pausing the game and selling a building will no longer allow you to go above maximum for a resource.
+* Catnip demand ratio is no longer bugged after the rework of diminished returns.
 And with the addition of things like renaissance, you can now go above 100% catnip reduction if diminished returns aren't used.
 * You can no longer pause the game in order to craft wood above the maximum
-* Outposts will now turn off at a rate of one per tick if there is not enough uranium 
+* Outposts will now turn off at a rate of one per tick if there is not enough uranium
 ___
 
 Changes by Aikoku:
@@ -122,7 +123,7 @@ Chronospheres
 v 1.0.5.8 (29 dec)
 
 A couple new village titles, kitten names and surnames
-Happy new year!. 
+Happy new year!.
 
 v 1.0.5.7 (26 dec)
 

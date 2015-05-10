@@ -149,6 +149,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
+			game.prestige.getPerk("voidOrder").unlocked = true;
 		}
 	},{
 		name: "numeromancy",
@@ -159,6 +160,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			//game.prestige.getPerk("numeromancy").unlocked = true;
+		}
+	},{
+		name: "voidOrder",
+		title: "Order of Void",
+		description: "Every priest will now give a minor bonus to faith accumulation",
+		paragon: 125,
+		unlocked: false,
+		researched: false,
+		handler: function(game){
 		}
 	}],
 

@@ -92,6 +92,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		} else {
 			this.corruption = 0;
 		}
+		
+		if (this.game.prestige.getPerk("voidOrder").researched){
+			var orderBonus = this.game.village.getJob("priest").value * this.game.resPool.get("faith").value * 0.005;			//0.5% of faith transfer per priest
+			this.faith += orderBonus;
+		}
 	},
 
 	zigguratUpgrades: [{

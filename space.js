@@ -259,8 +259,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             planet: "terminus"
         }
 	}],
-	
-	planets: 
+
+	//============================================================================
+
+	planets:
 	[{
 		name: "moon",
 		title: "Moon",
@@ -327,13 +329,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		unlocked: false
 	}],
 
+	//============================================================================
+
 	constructor: function(game){
 		this.game = game;
 	},
 
 	save: function(saveData){
 		saveData.space = {
-			programs: this.programs
+			programs: this.programs,
+			planets: this.planets
 		}
 	},
 
@@ -356,26 +361,38 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			});
 		}
+		// programs and shit
 		for (var i = this.programs.length - 1; i >= 0; i--) {
-            var program = this.programs[i];
+      var program = this.programs[i];
 			if (program.researched){
-                if (program.handler) {
-                    program.handler(this.game, program);
-                }
-                
-                if (program.unlocks){
-                    //TODO: move to some common method?
-                    if (program.unlocks.planet){
-                        this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-                    }
-                    if (program.unlocks.programs){
-                        dojo.forEach(program.unlocks.programs, function(uprogram, i){
-                            self.game.space.getProgram(uprogram).unlocked = true;
-                        });
-                    }
-                }
+        if (program.handler) {
+            program.handler(this.game, program);
+        }
+
+        if (program.unlocks){
+            //TODO: move to some common method?
+            if (program.unlocks.planet){
+                this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+            }
+            if (program.unlocks.programs){
+                dojo.forEach(program.unlocks.programs, function(uprogram, i){
+                    self.game.space.getProgram(uprogram).unlocked = true;
+                });
+            }
+        }
 			}
-            
+		}
+		//planets
+		if (saveData.space.planets){
+			for (var i in saveData.space.planets){
+				var savePlanet = saveData.space.planets[i];
+				var planet = this.getMeta(savePlanet.name, this.planets);
+
+				if (savePlanet.buildings){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
+					});
+				}
+			}
 		}
 	},
 
@@ -391,7 +408,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	getProgram: function(name){
 		return this.getMeta(name, this.programs);
 	},
-	
+
 	getPlanet: function(name){
 		return this.getMeta(name, this.planets);
 	},
@@ -488,7 +505,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 	onClick: function(){
 		var self = this;
-		
+
 		this.animate();
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
@@ -545,18 +562,18 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
 	planet: null,
-	
+
 	setOpts: function(opts){
 		this.inherited(arguments);
 		this.planet = opts.planet;
 	},
-	
+
 	getProgram: function(){
 		var space = this.game.space;
 		if (!this.program){
 			var planet = space.getMeta(this.planet.name, space.planets);
 			this.program = space.getMeta(this.id, this.planet.buildings);
-			
+
 		}
 		return this.program;
 	}
@@ -564,7 +581,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	planet: null,
-	
+
 	render: function(){
 		var content = this.inherited(arguments);
 
@@ -579,14 +596,14 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 				planet: self.planet,
 				handler: function(btn){
 					var building = btn.getBuilding();
-					
+
 					building.val++;
 					if (building.handler){
 						building.handler(btn.game, building);
 					}
 				}
 			}, self.game);
-			
+
 			button.render(content);
 			self.addChild(button);
 		});
@@ -624,7 +641,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});
-        
+
         //------------ space space I'm in space -------------
         this.planetPanels = [];
         dojo.forEach(this.game.space.planets, function(planet, i){
@@ -633,16 +650,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
                 var content = planetPanel.render(container);
-            
+
                 self.planetPanels.push(planetPanel);
             }
         });
-            
+
 	},
 
 	update: function(){
 		this.GCPanel.update();
-        
+
         dojo.forEach(this.planetPanels, function(panel, i){
             panel.update();
         });

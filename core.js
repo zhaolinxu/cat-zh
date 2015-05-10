@@ -124,6 +124,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	},
 
 	loadMetadata: function(meta, saveMeta, fields, handler){
+		if (!saveMeta){
+			throw "Unable to load save metadata";
+		}
+		
 		for(var i = 0; i< saveMeta.length; i++){
 			var savedMetaElem = saveMeta[i];
 
@@ -267,7 +271,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.setOpts(opts);
 		this.init();
 	},
-	
+
 	setOpts: function(opts){
 		this.id = opts.id;
 		this.name = opts.name;
@@ -321,17 +325,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 	updateEnabled: function(){
 		var isEnabled = true;
-		
+
 		var prices = this.getPrices();
 		if (!this.hasResources(prices)){
 			isEnabled = false;
 		}
 		this.setEnabled(isEnabled);
-		
+
 		if (!this.buttonTitle || !this.game.opts.highlightUnavailable){
 			return;
 		}
-		
+
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
@@ -815,7 +819,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			var span = this._renderPriceLine(tooltip, price, simpleUI);
 		}
 	},
-	
+
 	_renderPriceLine: function(tooltip, price, simpleUI, indent){
 		var priceItemNode = dojo.create("div", {
 				style : {
@@ -1043,14 +1047,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
  */
 dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
 	game: null,
-	
+
 	collapsed: false,
 	visible: true,
 	name: "",
 
 	panelDiv: null,
 	children: null,
-	
+
 	//------ collapse ------
 	toggle: null,
 	contentDiv: null,
@@ -1105,7 +1109,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 
 		return this.contentDiv;
 	},
-	
+
 	collapse: function(isCollapsed){
 		this.collapsed = isCollapsed;
 
@@ -1129,7 +1133,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	update: function(){
 		dojo.forEach(this.children, function(e, i){ e.update(); });
 	},
-	
+
 	setGame: function(game){
 		this.game = game;
 	}

@@ -1746,7 +1746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				name: craft.title,
 				description: craft.description,
 				craft: craft.name,
-				prices: this.game.workshop.getCraftPrice(prices),
+				prices: this.game.workshop.getCraftPrice(craft),
 				handler: dojo.partial(function(craft, btn){
 					btn.game.workshop.craft(craft.name, 1);
 				}, craft)
