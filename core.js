@@ -91,7 +91,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	getMetaEffect: function(name, metadata){
 		var totalEffect = 0;
-
+		if (!metadata.meta){
+			return 0;
+		}
 		for (var i = 0; i < metadata.meta.length; i++){
 			var meta = metadata.meta[i];
 			//

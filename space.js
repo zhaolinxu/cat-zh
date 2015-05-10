@@ -289,9 +289,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"uraniumPerTickGlobal": 0.5
+				"uraniumPerTick": 0.5
 			},
             action: function(game, self){
+				var autoProdRatio = game.bld.getAutoProductionRatio(true);
+				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * this.val * autoProdRatio;
             }
         }]
 	},{
@@ -363,23 +365,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 		// programs and shit
 		for (var i = this.programs.length - 1; i >= 0; i--) {
-      var program = this.programs[i];
+			var program = this.programs[i];
 			if (program.researched){
-        if (program.handler) {
-            program.handler(this.game, program);
-        }
+				if (program.handler) {
+					program.handler(this.game, program);
+				}
 
-        if (program.unlocks){
-            //TODO: move to some common method?
-            if (program.unlocks.planet){
-                this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-            }
-            if (program.unlocks.programs){
-                dojo.forEach(program.unlocks.programs, function(uprogram, i){
-                    self.game.space.getProgram(uprogram).unlocked = true;
-                });
-            }
-        }
+				if (program.unlocks){
+					//TODO: move to some common method?
+					if (program.unlocks.planet){
+						this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
+					}
+					if (program.unlocks.programs){
+						dojo.forEach(program.unlocks.programs, function(uprogram, i){
+							self.game.space.getProgram(uprogram).unlocked = true;
+						});
+					}
+				}
 			}
 		}
 		//planets
@@ -414,7 +416,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	getEffect: function(name){
-		return this.getMetaEffect(name, {meta:this.programs, provider: {
+		var self = this;
+
+		return this.getMetaEffect(name, { meta:this.programs, provider: {
 			getEffect: function(program, effectName){
 				if (!program.effects){
 					return 0;
@@ -424,6 +428,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				return program.upgradable ?
 					program.effects[effectName] * val:
 					program.effects[effectName];
+			}
+		}}) +
+		
+		// i dont know what went wrong
+		this.getMetaEffect(name, { meta:this.planets, provider: {
+			getEffect: function(planet, effectName){
+				return self.getMetaEffect(effectName, {meta: planet.buildings, provider: {
+					getEffect: function(building, effectName){
+						if (!building.effects){
+							return 0;
+						}
+						var val = building.togglable ? building.on: building.val;
+						return building.effects[effectName] * val;
+					}
+				}});
 			}
 		}});
 	}
@@ -576,6 +595,21 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 
 		}
 		return this.program;
+	},
+
+	onClick: function(){
+		var self = this;
+
+		this.animate();
+		var program = this.getProgram();
+		if (this.enabled && this.hasResources()){
+
+			this.payPrice();
+			program.val++;
+			if (program.handler){
+				program.handler(btn.game, program);
+			}
+		}
 	}
 });
 
@@ -593,15 +627,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 				name: 		building.title,
 				description: building.description,
 				prices: building.prices,
-				planet: self.planet,
-				handler: function(btn){
-					var building = btn.getBuilding();
-
-					building.val++;
-					if (building.handler){
-						building.handler(btn.game, building);
-					}
-				}
+				planet: self.planet
 			}, self.game);
 
 			button.render(content);
