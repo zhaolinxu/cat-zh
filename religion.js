@@ -8,7 +8,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	faith: 0,
 
 	faithRatio : 0,
-	
+
 	corruption: 0,
 
 	constructor: function(game){
@@ -74,16 +74,16 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (this.game.resPool.get("faith").value > 0){
 			this.game.religionTab.visible = true;
 		}
-		
+
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
-			this.corruption += this.getEffect("corruptionRatio") 
+			this.corruption += this.getEffect("corruptionRatio")
                 * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
-			
+
 			if (this.game.rand(100) > 25){
 				return;
 			}
-			
+
 			if (this.corruption > 1){
 				this.corruption = 0;
 				alicorns.value--;
@@ -92,9 +92,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		} else {
 			this.corruption = 0;
 		}
-		
+
 		if (this.game.prestige.getPerk("voidOrder").researched){
-			var orderBonus = this.game.village.getJob("priest").value * this.game.resPool.get("faith").value * 0.005;			//0.5% of faith transfer per priest
+			var pjob = this.game.village.getJob("priest");
+			var orderBonus = pjob.value * this.game.resPool.get("faith").perTickUI * 0.15;			//15% of faith transfer per priest
 			this.faith += orderBonus;
 		}
 	},
@@ -419,10 +420,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		 }
 	     return prices;
 	 },
-	 
+
 	 payPrice: function(){
 		this.inherited(arguments);
-		
+
 		//TODO: fix it somehow
 		if (this.getBuilding().name == "blackPyramid"){
 			this.game.sorrow = this.game.resPool.get("sorrow").value;
@@ -519,21 +520,21 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 		this.all = this.addLink("all",
 			function(){
 				this.animate();
-				
+
 				var amt = Math.floor(self.game.resPool.get("unicorns").value / prices[0].val);
 				self.game.resPool.get("unicorns").value -= amt * prices[0].val;
-				
+
 				this.sacrifice(amt);
 				this.update();
 			}, false
 		);
-		
+
 		this.x10 = this.addLink("x10",
 			function(){
 				this.animate();
-				
+
 				self.game.resPool.get("unicorns").value -= 10 * prices[0].val;
-				
+
 				this.sacrifice(10);
 				this.update();
 			}, false
@@ -602,12 +603,12 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.gam
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			
+
 			if (this.game.sorrow >= this.game.nerfs){
 				this.game.msg("Nothing happens");
 				return;
 			}
-			
+
 			this.payPrice();
 			this.refine();
 		}
@@ -667,7 +668,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
-			
+
 			var refineBtn = new com.nuclearunicorn.game.ui.RefineTearsBtn({
 				name: "Refine Tears",
 				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
@@ -675,12 +676,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}, this.game);
 			refineBtn.updateVisible();
 			refineBtn.render(content);
-			this.refineBtn = refineBtn; 
-			
-			
-			
-			
-			
+			this.refineBtn = refineBtn;
+
+
+
+
+
 
 			//TODO: all the dark miracles there
 
@@ -768,7 +769,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (this.sacrificeAlicornsBtn){
 			this.sacrificeAlicornsBtn.update();
 		}
-		
+
 		if (this.refineBtn){
 			this.refineBtn.update();
 		}
@@ -807,7 +808,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		this.resetFaithInternal();
 	},
-    
+
     resetFaithInternal: function(){
         this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
 		this.game.religion.faith = 0.01;

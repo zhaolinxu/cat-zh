@@ -165,7 +165,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "voidOrder",
 		title: "Order of Void",
 		description: "Every priest will now give a minor bonus to faith accumulation",
-		paragon: 125,
+		paragon: 75,
 		unlocked: false,
 		researched: false,
 		handler: function(game){
