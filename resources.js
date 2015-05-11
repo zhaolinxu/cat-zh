@@ -189,6 +189,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: false,
 		color: "gray"
 	},{
+		name : "eludium",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "darkViolet"
+	},{
 		name : "gear",
 		type : "common",
 		craftable: true,

@@ -304,7 +304,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             title: "Research Vessel",
             description: "Mobile research space vessel. (TBD)",
             unlocked: true,
-            priceRatio: 1.12,
+            priceRatio: 1.15,
             prices: [
                 {name: "starchart", val: 750},
                 {name: "alloy",  val: 2500},
@@ -316,6 +316,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
+				"scienceMax": 10000
 			},
             action: function(game, self){
             }
@@ -323,7 +324,29 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
 		title: "Helios",
-		unlocked: false
+		unlocked: false,
+		buildings: [{
+            name: "sunlifter",
+            title: "Sunlifter",
+            description: "Generates antimatter",
+            unlocked: true,
+            priceRatio: 1.15,
+            prices: [
+                {name: "science", val: 500000},
+                {name: "eludium", val: 250},
+                {name: "oil", val: 250000}
+            ],
+            upgradable: true,
+            togglable: 	true,
+            tunable: 	true,
+            val:  0,
+            on:	  0,
+            effects: {
+				"scienceMax": 10000
+			},
+            action: function(game, self){
+            }
+        }]
 	},{
 		name: "terminus",
 		title: "T-Minus",

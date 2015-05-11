@@ -592,8 +592,23 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 250}
 		],
 		unlocks: {
-			tech: ["exogeology"],
+			tech: ["advExogeology"],
 			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill"]
+		}
+	},{
+		name: "advExogeology",
+		title: "Advanced Exogeology",
+		description: "Advanced Exogeology studies new methods of unobtainium processing",
+		effectDesc: "Unlocks Eludium and Eludium upgrades",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 325000},
+			{name: 	"blueprint", val: 350}
+		],
+		unlocks: {
+			/*upgrades: ["hissmeowraMK2", "eludiumDrill", "eludiumReflectors"],*/
+			crafts: ["eludium"]
 		}
 	},
 	{
@@ -650,7 +665,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"timeCrystal", val: 5}
 		],
 		unlocks: {
+			tech: ["tachionTheory"],
 			upgrades: ["stasisChambers", "fluxCondensator"]
+		}
+	},{
+		name: "tachyonTheory",
+		title: "Tachion Theory",
+		description: "Tachyonic particles are hypothetical particles that always moves faster than light.",
+		effectDesc: "Unlocks FTL and Chronoforge",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 500000},
+			{name: 	"timeCrystal", val: 25}
+		],
+		unlocks: {
 		}
 	}],
 	

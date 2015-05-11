@@ -1304,6 +1304,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false
 	},{
+		name: "eludium",
+		title: "Eludium",
+		description: "Extremely rare and expensive alloy of unobtanium and titanium.",
+		prices:[
+			{name: "alloy", val: 2500 },
+			{name: "unobtainium", val: 1000}
+		],
+		unlocked: false
+	},{
 		name: "gear",
 		title: "Gear",
 		description: "An integral part of automated structures.",
