@@ -455,6 +455,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	effectsMgr: null,	
     
     managers: null,
+    
+    keyStates: {
+		shiftKey: false
+	},
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -1496,7 +1500,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
 	 */ 
-	getDisplayValueExt: function(value, prefix, usePetTickHack){
+	getDisplayValueExt: function(value, prefix, usePetTickHack, precision){
 		
 		if(!value) { return 0; }
 		
@@ -1530,24 +1534,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for(var i = 0; i < postfixes.length; i++) {
 			var p = postfixes[i];
 			if(value >= p.limit) {
-				return this.getDisplayValueExt(value / p.divisor, prefix) + p.postfix[0];
+				return this.getDisplayValueExt(value / p.divisor, prefix, usePetTickHack, precision) + p.postfix[0];
 			}
 		}
 		
-		return this.getDisplayValue(value, prefix) + (usePetTickHack ? "/s" : "");
+		return this.getDisplayValue(value, prefix, precision) + (usePetTickHack ? "/s" : "");
 	},
 	
 	/**
 	 * Formats float value to x.xx or x if value is integer
 	 */
-	getDisplayValue: function(floatVal, plusPrefix){
+	getDisplayValue: function(floatVal, plusPrefix, precision){
 		
 		var plusSign = "+";
 		if (floatVal <= 0 || !plusPrefix){
 			plusSign = "";
 		}
 		
-		var fixedAmt = this.forceHighPrecision ? 3 : 2;
+		if (precision === undefined){
+			precision = this.forceHighPrecision ? 3 : 2;
+		}
 		
 		if (!floatVal.toFixed){
 			return plusSign + floatVal;
@@ -1556,7 +1562,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (floatVal.toFixed() == floatVal){
 			return plusSign + floatVal.toFixed();
 		} else {
-			return plusSign + floatVal.toFixed(fixedAmt);
+			return plusSign + floatVal.toFixed(precision);
 		}
 	},
 	

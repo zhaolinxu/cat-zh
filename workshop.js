@@ -1549,9 +1549,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	//Crafts maximum possible amount for given recipe name
-	craftAll: function(craftName){
-
+	//returns a total number of resoruces possible to craft for this recipe
+	getCraftAllCount: function(craftName){
 		var recipe = this.getCraft(craftName);
 		var prices = this.getCraftPrice(recipe);
 
@@ -1563,6 +1562,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				minAmt = allAmt;
 			}
 		}
+		return minAmt;
+	},
+
+	//Crafts maximum possible amount for given recipe name
+	craftAll: function(craftName){
+		var minAmt = this.getCraftAllCount(craftName);
 
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
 			var craftRatio = this.game.getResCraftRatio({name:craftName});

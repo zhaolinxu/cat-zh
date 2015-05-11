@@ -1,4 +1,4 @@
-v 1.0.8.5 (8 May)
+v 1.0.8.0 (8 May)
 
 Hissmeowra
 Research Vessel
@@ -7,6 +7,8 @@ Satnav
 Tanker's ship price was reduced from 250 to 225
 
 Void Order
+
+Craft +1/+25/+100 will be replaced with +1%/+5%/+10% if possible
 
 v 1.0.7.5 (14 apr)
 

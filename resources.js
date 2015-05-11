@@ -672,7 +672,12 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		return this.game.getResCraftRatio(res);
 	},
 
-	createCraftButton: function(tr, recipe, craftRatio, res, num){
+	/**
+	 * 
+	 * min amount to craft
+	 * %to craft
+	 **/
+	createCraftButton: function(tr, recipe, craftRatio, res, num, ratio){
 		var td = dojo.create("td", { style: {width: "20px"}}, tr);
 		var a = dojo.create("a", {
 				href: "#",
@@ -683,6 +688,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			}, td);
 
 		dojo.connect(a, "onclick", this, dojo.partial(function(res, event){
+				var allCount = this.game.workshop.getCraftAllCount(res.name);
+				if (num < allCount*ratio){
+					num = allCount*ratio;
+				}
 				this.game.craft(res.name, num);
 				event.preventDefault();
 			}, res));
@@ -690,6 +699,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		this.attachTooltip(td, dojo.partial( function(recipe){
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 				var prices = this.game.workshop.getCraftPrice(recipe);
+				
+				var allCount = this.game.workshop.getCraftAllCount(recipe.name);
+				if (num < allCount*ratio){
+					num = allCount*ratio;
+				}
 				
 				for (var i = 0; i < prices.length; i++){
 					var price = prices[i];
@@ -761,9 +775,9 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			
 			//	---------------- + ----------------------
 
-			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1);
-			var a25 = this.createCraftButton(tr, recipe, craftRatio, res, 25);
-			var a100 = this.createCraftButton(tr, recipe, craftRatio, res, 100);
+			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1, 0.01);
+			var a25 = this.createCraftButton(tr, recipe, craftRatio, res, 25, 0.05);
+			var a100 = this.createCraftButton(tr, recipe, craftRatio, res, 100, 0.1);
 
 			//	---------------- +all ----------------------
 			var td = dojo.create("td", { }, tr);
@@ -842,10 +856,35 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			
 			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 			
-			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, 1) ? "" : "none");
-			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, 25) ? "" : "none");
-			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(row.recipeRef.prices, 100) ? "" : "none");
-			
+			//==================== super confusing % craft logic ===================
+			var allCount = this.game.workshop.getCraftAllCount(res.name);
+			var craftRatio = this.getResourceCraftRatio(res);
+			// 1/1%
+			var craftRowAmt = 1;
+			if (1 < allCount * 0.01 ){
+				craftRowAmt = Math.floor(allCount * 0.01);
+				dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+
+
+				row.a1.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
+			}
+			// 25/5%
+			if (25 < allCount * 0.05 ){
+				craftRowAmt = Math.floor(allCount * 0.05);
+				dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+
+
+				row.a25.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
+			}
+			// 100/10%
+			if (100 < allCount * 0.1 ){
+				craftRowAmt = Math.floor(allCount * 0.1);
+				dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+
+
+				row.a100.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
+			}
+			//=======================================================================
 			dojo.setStyle(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");
 		}
 	}
