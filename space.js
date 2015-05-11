@@ -276,10 +276,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             title: "Planet Cracker",
             description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
             unlocked: true,
-            priceRatio: 1.12,
+            priceRatio: 1.15,
             prices: [
                 {name: "starchart", val: 2500},
-                {name: "alloy",  val: 1000},
+                {name: "alloy",  val: 1250},
                 {name: "oil", val: 100000}
             ],
 
@@ -292,8 +292,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumPerTick": 0.5
 			},
             action: function(game, self){
-				var autoProdRatio = game.bld.getAutoProductionRatio(true);
-				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * this.val * autoProdRatio;
+				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * this.val;
             }
         }]
 	},{
@@ -403,6 +402,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			var program = this.programs[i];
 			if (program.action && program.val > 0){
 				program.action(this.game, program);
+			}
+		}
+		for (var i in this.planets){
+			var planet = this.planets[i];
+			for (var j in planet.buildings){
+				var bld = planet.buildings[j];
+				if (bld.action && bld.val > 0){
+					bld.action(this.game, bld);
+				}
 			}
 		}
 	},
