@@ -1210,7 +1210,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "satnav",
 		title: "Sattelite Navigation",
-		description: "Every sattelite reduce starchart requirement of ships by 1.25%",
+		description: "Every satellite reduce starchart requirement of ships by 1.25%",
 		effects: {
 			"satnavRatio" : 0.0125
 		},
@@ -1519,7 +1519,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val * 
-					(1 - this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val);
+					(1 - this.game.bld.getHyperbolicEffect(
+						this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
+						0.75));
 			}
 		}
 		return prices;
