@@ -1,3 +1,22 @@
+v 1.0.8.1 (11 May)
+
+Price upgrades were slightly nerfed (again)
+Most of the hut price upgrades were slightly nerfed
+
+Planet Cracker will now cost more science and alloy
+Planet Cracker output was nerfed from 0.5 to 0.35
+
+Everything is nerfed, Dave.
+
+BLS value on UI will be now rounded
+
+Eludium Huts
+Eludium Reflectors
+Eludium Cracker (TBD)
+
+Fixed That Issue with the +all craft
+Fixed the with faith reset
+
 v 1.0.8.0 (8 May)
 
 Hissmeowra

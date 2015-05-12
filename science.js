@@ -607,7 +607,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 350}
 		],
 		unlocks: {
-			/*upgrades: ["hissmeowraMK2", "eludiumDrill", "eludiumReflectors"],*/
+			upgrades: ["eludiumCracker", "eludiumReflectors", "eludiumHuts" /*, "eludiumDrill"*/],
 			crafts: ["eludium"]
 		}
 	},
@@ -665,12 +665,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"timeCrystal", val: 5}
 		],
 		unlocks: {
-			tech: ["tachionTheory"],
+			tech: ["tachyonTheory"],
 			upgrades: ["stasisChambers", "fluxCondensator"]
 		}
 	},{
 		name: "tachyonTheory",
-		title: "Tachion Theory",
+		title: "Tachyon Theory",
 		description: "Tachyonic particles are hypothetical particles that always moves faster than light.",
 		effectDesc: "Unlocks FTL and Chronoforge",
 		unlocked: false,

@@ -74,6 +74,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (this.game.resPool.get("faith").value > 0){
 			this.game.religionTab.visible = true;
 		}
+		
+		//safe switch for a certain type of pesky bugs with conversion
+		if (isNaN(this.faith)){
+			this.faith = 0;
+		}
 
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
@@ -94,8 +99,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched){
-			var pjob = this.game.village.getJob("priest");
-			var orderBonus = pjob.value * this.game.resPool.get("faith").perTickUI * 0.15;			//15% of faith transfer per priest
+			var orderBonus = this.game.calcResourcePerTick("faith") * 0.15;			//15% of faith transfer per priest
 			this.faith += orderBonus;
 		}
 	},
@@ -390,7 +394,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value +
-			faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1; //starting up from 100% ratio will work surprisingly bad
+			(faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1); //starting up from 100% ratio will work surprisingly bad
 		faith.value = 0.01;	//have a nice autoclicking
 	}
 

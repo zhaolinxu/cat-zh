@@ -736,7 +736,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.msg("Black rain is falling over the village");
 			}
 			if (this.sorrow){
-				$("#sorrowTooltip").html("BLS: " + this.sorrow + "%");
+				$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
 				this.resPool.get("sorrow").value = this.sorrow;
 			}
 			//-------------------------------------------

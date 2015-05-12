@@ -489,9 +489,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "concreteHuts",
 		title: "Concrete Huts",
-		description: "Hut price ratio reduced by 35%",
+		description: "Hut price ratio reduced by 30%",
 		effects: {
-			"hutPriceRatio" : -0.35
+			"hutPriceRatio" : -0.30
 		},
 		prices:[
 			{ name : "science", val: 125000 },
@@ -503,14 +503,27 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "unobtainiumHuts",
 		title: "Unobtainium Huts",
-		description: "Hut price ratio reduced by 30%",
+		description: "Hut price ratio reduced by 25%",
 		effects: {
-			"hutPriceRatio" : -0.30
+			"hutPriceRatio" : -0.25
 		},
 		prices:[
 			{ name : "science", val: 200000 },
 			{ name : "unobtainium", val: 500 },
 			{ name : "titanium", val: 15000 },
+		],
+		unlocked: false,
+		researched: false,
+	},{
+		name: "eludiumHuts",
+		title: "Eludium Huts",
+		description: "Hut price ratio reduced by 10%",
+		effects: {
+			"hutPriceRatio" : -0.1
+		},
+		prices:[
+			{ name : "science", val: 275000 },
+			{ name : "eludium", val: 125 }
 		],
 		unlocked: false,
 		researched: false,
@@ -1233,6 +1246,31 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		upgrades: {
 			jobs: ["scholar"]
+		},
+		unlocked: false,
+		researched: false
+	},{
+		name: "eludiumCracker",
+		title: "Eludium Cracker",
+		description: "Hissmeowras output is twice as effective (TBD)",
+		effects: {
+		},
+		prices:[
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "eludiumReflectors",
+		title: "Eludium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "eludium", val: 15 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
 		},
 		unlocked: false,
 		researched: false

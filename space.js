@@ -279,8 +279,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             priceRatio: 1.15,
             prices: [
                 {name: "starchart", val: 2500},
-                {name: "alloy",  val: 1250},
-                {name: "oil", val: 100000}
+                {name: "alloy",  val: 1750},
+                {name: "oil", val: 125000}
             ],
 
             upgradable: true,
@@ -289,10 +289,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"uraniumPerTick": 0.5
+				"uraniumPerTick": 0.35
 			},
             action: function(game, self){
-				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * this.val;
+				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * self.val;
             }
         }]
 	},{
@@ -308,7 +308,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "starchart", val: 750},
                 {name: "alloy",  val: 2500},
-                {name: "oil", val: 125000}
+                {name: "oil", val: 150000}
             ],
             upgradable: true,
             togglable: 	true,
