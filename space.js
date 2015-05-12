@@ -293,7 +293,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumMax" : 1750
 			},
             action: function(game, self){
-				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * self.val;
+				game.resPool.get("uranium").value += self.effects["uraniumPerTick"] * 
+					self.val * (1 + game.workshop.getEffect("crackerRatio"));
             }
         }]
 	},{

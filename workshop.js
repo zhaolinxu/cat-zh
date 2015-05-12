@@ -1251,11 +1251,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "eludiumCracker",
-		title: "Eludium Cracker",
-		description: "Hissmeowras output is twice as effective (TBD)",
+		title: "Planet Busters",
+		description: "Hissmeowras output is twice as effective.",
 		effects: {
+			"crackerRatio" : 1.0
 		},
 		prices:[
+			{ name : "eludium", val: 250 },
+			{ name : "science",  val: 275000 }
 		],
 		unlocked: false,
 		researched: false
