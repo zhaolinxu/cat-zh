@@ -276,7 +276,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             title: "Planet Cracker",
             description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
             unlocked: true,
-            priceRatio: 1.15,
+            priceRatio: 1.18,
             prices: [
                 {name: "starchart", val: 2500},
                 {name: "alloy",  val: 1750},
@@ -289,7 +289,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"uraniumPerTick": 0.35
+				"uraniumPerTick": 0.3
 			},
             action: function(game, self){
 				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * self.val;
