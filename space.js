@@ -289,7 +289,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"uraniumPerTick": 0.3
+				"uraniumPerTick" : 0.3,
+				"uraniumMax" : 1750
 			},
             action: function(game, self){
 				game.resPool.get("uranium").val += self.effects["uraniumPerTick"] * self.val;

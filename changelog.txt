@@ -1,3 +1,8 @@
+v 1.0.8.2
+
+Faith pool value will now have a correct suffix
+Hissmeowra will now give bonus to the uranium storage
+
 v 1.0.8.1 (11 May)
 
 Price upgrades were slightly nerfed (again)
@@ -9,6 +14,8 @@ Planet Cracker output was nerfed from 0.5 to 0.35
 Everything is nerfed, Dave.
 
 BLS value on UI will be now rounded
+
+Advanced Exogeology
 
 Eludium Huts
 Eludium Reflectors
