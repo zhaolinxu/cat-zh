@@ -346,7 +346,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"scienceMax": 10000
 			},
             action: function(game, self){
             }
