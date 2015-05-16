@@ -810,11 +810,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;
 		}
 
-		this.resetFaithInternal();
+		this.resetFaithInternal(1.01);
 	},
 
-    resetFaithInternal: function(){
-        this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1;
+    resetFaithInternal: function(bonusRatio){
+        this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1 * bonusRatio;
 		this.game.religion.faith = 0.01;
     }
 });

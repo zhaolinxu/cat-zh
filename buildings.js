@@ -1001,7 +1001,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"mintEffect" : 0.007,
 			"manpowerPerTick" : -0.75,
-			"goldPerTick" : -0.005		//~5 smelters
+			"goldPerTick" : -0.005,		//~5 smelters
+			"goldMax": 100
 		},
 		priceRatio: 1.15,
 		val: 0,

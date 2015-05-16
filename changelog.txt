@@ -1,7 +1,16 @@
 v 1.0.8.2
 
-Faith pool value will now have a correct suffix
+Faith pool value will now have a correct suffix format
 Hissmeowra will now give bonus to the uranium storage
+
+Unobtainium huts price was reduced
+Concrete huts price waqs slightly reduced
+
+HM will now be capped by science. (But not much)
+Science Vessel will now be capped by titanium.
+
+Manual faith reset will now give a 1% bonus.
+Mints will now give a very cosmetic bonus for a gold capacity.
 
 v 1.0.8.1 (11 May)
 

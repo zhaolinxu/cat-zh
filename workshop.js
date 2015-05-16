@@ -495,7 +495,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		prices:[
 			{ name : "science", val: 125000 },
-			{ name : "concrate", val: 50 },
+			{ name : "concrate", val: 45 },
 			{ name : "titanium", val: 3000 },
 		],
 		unlocked: false,
@@ -509,7 +509,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		prices:[
 			{ name : "science", val: 200000 },
-			{ name : "unobtainium", val: 500 },
+			{ name : "unobtainium", val: 350 },
 			{ name : "titanium", val: 15000 },
 		],
 		unlocked: false,

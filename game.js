@@ -1708,7 +1708,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         
 		//pre-reset faith so people who forgot to do it properly would not be screwed
 		if (this.religion.getRU("apocripha").researched){
-			this.religionTab.resetFaithInternal();
+			this.religionTab.resetFaithInternal(1);
 		}
 		//------------------------------------------------------------------------------------------------------
 

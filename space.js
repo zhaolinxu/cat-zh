@@ -280,6 +280,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "starchart", val: 2500},
                 {name: "alloy",  val: 1750},
+                {name: "science", val: 125000},
                 {name: "oil", val: 125000}
             ],
 
@@ -310,6 +311,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "starchart", val: 750},
                 {name: "alloy",  val: 2500},
+                {name: "titanium", val: 12500},
                 {name: "oil", val: 150000}
             ],
             upgradable: true,
@@ -330,7 +332,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		buildings: [{
             name: "sunlifter",
             title: "Sunlifter",
-            description: "Generates antimatter",
+            description: "Generates antimatter (TBD)",
             unlocked: true,
             priceRatio: 1.15,
             prices: [
