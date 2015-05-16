@@ -671,7 +671,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "tachyonTheory",
 		title: "Tachyon Theory",
-		description: "Tachyonic particles are hypothetical particles that always moves faster than light.",
+		description: "Tachyonic particles are hypothetical particles that always moves faster than light. (TBD!)",
 		effectDesc: "Unlocks FTL and Chronoforge",
 		unlocked: false,
 		researched: false,
