@@ -126,14 +126,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "anachronomancy",
 		title: "Anachronomancy",
-		description: "Time crystals and chronophisics will be saved across resets.",
+		description: "Time crystals and chronophysics will be saved across resets.",
 		paragon: 125,
 		unlocked: false,
 		researched: false,
 	},{
 		name: "carnivals",
 		title: "Carnivals",
-		description: "Festivals can now stack",
+		description: "Festivals can now stack in duration.",
 		paragon: 25,
 		unlocked: true,
 		researched: false,
@@ -143,7 +143,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "numerology",
 		title: "Numerology",
-		description: "Festivals will have special effects depending on year (TBD)",
+		description: "Festivals will have special effects depending on year (TBD).",
 		paragon: 50,
 		unlocked: false,
 		researched: false,
@@ -154,7 +154,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "numeromancy",
 		title: "Numeromancy",
-		description: "Certain years will have special effects (TBD)",
+		description: "Certain years will have special effects (TBD).",
 		paragon: 500,
 		unlocked: false,
 		researched: false,
@@ -164,7 +164,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "voidOrder",
 		title: "Order of Void",
-		description: "Every priest will now give a minor bonus to faith accumulation",
+		description: "Every priest will now give a minor bonus to faith accumulation.",
 		paragon: 75,
 		unlocked: false,
 		researched: false,
