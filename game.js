@@ -459,6 +459,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     keyStates: {
 		shiftKey: false
 	},
+	
+	dropBoxClient: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -568,6 +570,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 	
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager();
+		
+		//--------------------------
+		var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
+		var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+		dropBoxClient.authDriver(driver);
+		
+		this.dropBoxClient = dropBoxClient;
 	},
 	
 	getEffectMeta: function(effectName) {
@@ -789,6 +798,65 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.msg("Save import successful!");
 			this.render();
 		}
+	},
+	
+	saveExportDropbox: function(){
+		this.save();
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		var lzdata = LZString.compressToBase64(data);
+		
+		var game = this;
+		
+		//cached authentification
+		this.dropBoxClient.authenticate({interactive:false});
+		if (this.dropBoxClient.isAuthenticated()){
+			game.dropBoxClient.writeFile('kittens.save', lzdata, function (){
+				game.msg("Save export successful!");
+				$('#exportDiv').hide();
+				$('#optionsDiv').hide();
+			});
+			return;
+		}
+		
+		//interactive authentification
+		this.dropBoxClient.authenticate(function (error, client) {
+			client.writeFile('kittens.save', lzdata, function (){
+				game.msg("Save export successful!");
+				$('#exportDiv').hide();
+				$('#optionsDiv').hide();
+			});
+		});
+	},
+	
+	saveImportDropbox: function(){
+		if (!window.confirm("Are your sure? This will overwrite your save!")){
+			return;
+		}
+		
+		var game = this;
+		this.dropBoxClient.authenticate({interactive:false});
+		if (this.dropBoxClient.isAuthenticated()){
+			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
+				var json = LZString.decompressFromBase64(lzdata);
+				game.load();
+				game.msg("Save import successful!");
+				game.render();
+				$('#importDiv').hide();
+				$('#optionsDiv').hide();
+			});
+			return;
+		};
+		
+		this.dropBoxClient.authenticate(function (error, client) {
+			client.readFile('kittens.save', {}, function (error, lzdata){
+				var json = LZString.decompressFromBase64(lzdata);
+				game.load();
+				game.msg("Save import successful!");
+				game.render();
+				$('#importDiv').hide();
+				$('#optionsDiv').hide();
+			});
+		});
 	},
 	
 	render: function(){

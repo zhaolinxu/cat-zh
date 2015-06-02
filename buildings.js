@@ -252,7 +252,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of astronomical events by 0.5%\nTurning off observatories will only disable event bonus.",
+		description: "Increases the chance of astronomical events by 0.5%",
 		unlocked: false,
 		enabled: false,
 		togglable: true,

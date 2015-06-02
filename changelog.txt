@@ -1,3 +1,7 @@
+v 1.0.8.3
+
+Dropbox integration for save import/export
+
 v 1.0.8.2
 
 Faith pool value will now have a correct suffix format
