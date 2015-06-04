@@ -1404,10 +1404,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var advDiv = dojo.byId("advisorsContainer");
 		dojo.empty(advDiv);
 		
-		var winterDays = 100;
-		if (this.calendar.season == "winter"){
-			winterDays = 100 - this.calendar.day;
-		}
+		var winterDays = this.calendar.daysPerSeason -
+			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0) + 1;
 
 		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
 			"catnip" : 0.25
