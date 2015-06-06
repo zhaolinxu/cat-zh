@@ -317,8 +317,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
+		var markerVal = this.game.religion.getZU("marker").val;
         if ( pyramidVal > 0 ){
-            if (this.game.rand(1000) < 35 * pyramidVal){                               //3.5% per year per BP
+            if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
                 this.game.diplomacy.unlockElders();
             }
         }

@@ -745,8 +745,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.msg("Black rain is falling over the village");
 			}
 			if (this.sorrow){
-				$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
-				this.resPool.get("sorrow").value = this.sorrow;
+				this.updateSorrow();
 			}
 			//-------------------------------------------
 			
@@ -1954,5 +1953,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		filtersDiv.toggle();
 		
 		$("#filterIcon")[0].innerHTML = filtersDiv.is(':visible') ? "-" : "+";
+	},
+	
+	updateSorrow: function(){
+		if (this.sorrow > this.nerfs){
+			this.sorrow = this.nerfs;
+		}
+		
+		$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
+		this.resPool.get("sorrow").value = this.sorrow;
 	}
 });

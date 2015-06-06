@@ -1,4 +1,4 @@
-v 1.0.8.4
+v 1.0.9.0
 Changes by mtncat:
 
 Fixed incorrect food advisor message logic
@@ -9,6 +9,11 @@ Fixed zebra catpower bonus being incorrectly calculated with >1 zebras
 
 Sky Palace and Unicorn Utopia will now boost the effect of ivory meteors
 Certain log messages can be now filtered out
+
+BLS from elders should now correctly stack with BLS pool
+Fixed some cases with BLS getting outside of the maximum value
+
+Every Marker will improve effect of Black Pyramide by 10%
 
 v 1.0.8.3
 
