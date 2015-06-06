@@ -178,7 +178,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 /**
  * Simple class from a right-sided console in the game UI
  */
-dojo.declare("classes.log.Console", null, {
+dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 
 		spans: [],

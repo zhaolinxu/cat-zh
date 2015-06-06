@@ -476,7 +476,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false
 		};
 		
-		this.console = new classes.log.Console();
+		this.console = new com.nuclearunicorn.game.log.Console();
 		
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this);

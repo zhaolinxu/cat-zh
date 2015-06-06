@@ -399,7 +399,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		prices:[
 			{ name : "science",     val: 350000 },
-			{ name : "eludium",       val: 100 },
+			{ name : "eludium",       val: 75 },
 			{ name : "timeCrystal", val: 3 }
 		],
 		upgrades: {
