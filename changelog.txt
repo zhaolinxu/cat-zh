@@ -14,6 +14,7 @@ BLS from elders should now correctly stack with BLS pool
 Fixed some cases with BLS getting outside of the maximum value
 
 Every Marker will improve effect of Black Pyramide by 10%
+Void Order will now have a 75% bonus from the Apocrypha
 
 v 1.0.8.3
 
