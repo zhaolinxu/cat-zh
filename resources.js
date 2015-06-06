@@ -47,7 +47,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "unobtainium",
 		type : "common",
 		visible: true,
-		color: "darkRed"
+		color: "#A00000"
 	},
 	
 	//=========================================
@@ -94,6 +94,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#9A2EFE"
+	},{
+		name : "antimatter",
+		type : "common",
+		transient: true,
+		visible: true,
+		color: "#5A0EDE"
 	},
 	
 	//=========================================
@@ -129,7 +135,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: "necrocorns",
 		type : "rare",			//todo: some special FX
 		visible: true,
-		color: "darkRed"
+		color: "#E00000"
 	},{
 		name : "tears",
 		type : "rare",

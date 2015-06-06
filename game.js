@@ -476,7 +476,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false
 		};
 		
-		this.console = new com.nuclearunicorn.game.log.Console();
+		this.console = new classes.log.Console();
 		
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this);
@@ -592,14 +592,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-	msg: function(message, type){
+	msg: function(message, type, tag){
 		var hasCalendarTech = this.science.get("calendar").researched;
 		
 		if (hasCalendarTech){
 			message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
 		}
 		
-		return this.console.static.msg(message, type);
+		return this.console.static.msg(message, type, tag);
 	},
 	
 	clearLog: function(){
@@ -1947,5 +1947,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
+	},
+	
+	toggleFilters: function(){
+		var filtersDiv = $("#logFilters");
+		filtersDiv.toggle();
+		
+		$("#filterIcon")[0].innerHTML = filtersDiv.is(':visible') ? "-" : "+";
 	}
 });

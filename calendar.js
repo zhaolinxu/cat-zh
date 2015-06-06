@@ -210,7 +210,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 
-			this.game.msg("A meteor fell near the village, +"+ mineralsAmt.toFixed() +" minerals!");
+			this.game.msg("A meteor fell near the village, +" + mineralsAmt.toFixed() +" minerals!", null, "meteor");
 
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
@@ -264,7 +264,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var riftChance = this.game.religion.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
-			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice");
+			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice", "unicornRift");
 
 			this.game.resPool.get("unicorns").value += 500;
 		}
@@ -280,8 +280,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var meteorChance = 0 + this.game.religion.getEffect("ivoryMeteorChance");	//5 OPTK
 		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
 
-			var ivory = 250 + this.game.rand(1500);
-			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice");
+			var ivory = (250 + this.game.rand(1500) * (1 + this.game.religion.getEffect("ivoryMeteorRatio")));
+			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice", "ivoryMeteor");
 
 			this.game.resPool.get("ivory").value += ivory;
 		}

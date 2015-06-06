@@ -159,7 +159,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatio" : 0.5,
-			"alicornChance" : 2
+			"alicornChance" : 2,
+			"ivoryMeteorRatio" : 0.05
 		},
 		val: 0,
 		unlocked: true
@@ -174,7 +175,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatio" : 2.5,
-			"alicornChance" : 10
+			"alicornChance" : 10,
+			"ivoryMeteorRatio" : 0.15
 		},
 		val: 0,
 		unlocked: true

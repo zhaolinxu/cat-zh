@@ -178,14 +178,36 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 /**
  * Simple class from a right-sided console in the game UI
  */
-dojo.declare("com.nuclearunicorn.game.log.Console", null, {
+dojo.declare("classes.log.Console", null, {
 	static: {
 
 		spans: [],
+		
+		filters: {
+			"meteor": {
+				title: "Meteors",
+				enabled: true,
+				unlocked: true
+			},
+			"ivoryMeteor": {
+				title: "Ivory Meteors",
+				enabled: true,
+				unlocked: true
+			}, 
+			"unicornRift": {
+				title: "Unicorn Rifts",
+				enabled: true,
+				unlocked: true
+			}
+		},
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */
-		msg : function(message, type){
+		msg : function(message, type, tag){
+			if (tag && this.filters[tag] && !this.filters[tag].enabled){
+				return;
+			}
+
 			var gameLog = dojo.byId("gameLog");
 
 			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
@@ -198,7 +220,6 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			if (type){
 				dojo.addClass(span, "type_"+type);
 			}
-
 
 			var spans = this.spans;
 			spans.push(span);
@@ -229,6 +250,30 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				this.spans.push(event);
 				dojo.place(event, gameLog, "first");
 			}
+		},
+		
+		rederFilters: function(){
+			var filters = dojo.byId("logFilters");
+			dojo.empty(filters);
+			
+			for (var fId in this.filters){
+				this._createFilter(fId, filters);
+			}
+		},
+		
+		_createFilter: function(fId, filters){
+			var checkbox = dojo.create("input", { 
+					type: "checkbox",
+					checked: this.filters[fId].enabled
+			}, filters);
+			dojo.connect(checkbox, "onclick", this, function(){
+				this.filters[fId].enabled = checkbox.checked;
+			});
+				
+			dojo.create("span", { 
+				innerHTML: this.filters[fId].title
+			}, filters);
+			dojo.create("br", null, filters);
 		}
 	}
 });

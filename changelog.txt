@@ -7,6 +7,9 @@ Unicorn Utopia
 Dark Energy
 Fixed zebra catpower bonus being incorrectly calculated with >1 zebras
 
+Sky Palace and Unicorn Utopia will now boost the effect of ivory meteors
+Certain log messages can be now filtered out
+
 v 1.0.8.3
 
 Dropbox integration for save import/export

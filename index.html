@@ -55,7 +55,8 @@
 
 				gamePage.updateKarma();
 
-				gamePage.render()
+				gamePage.render();
+				gamePage.console.static.rederFilters();
 				gamePage.start();
 				
 				/*$(document).keydown(function (e) {
@@ -216,6 +217,12 @@
 					</div>
 					<div id="gameLog" style="overflow-y: scroll; padding-top: 15px;">
 						<!-- Log goes there -->
+					</div>
+					
+					<div id="logFiltersBlock" style="padding-top:20px">
+						<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
+						<div id="logFilters" style="display:none">
+						</div>
 					</div>
 				</div>
 			</div>
