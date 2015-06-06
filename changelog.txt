@@ -1,3 +1,12 @@
+v 1.0.8.4
+Changes by mtncat:
+
+Fixed incorrect food advisor message logic
+__
+Unicorn Utopia
+Dark Energy
+Fixed zebra catpower bonus being incorrectly calculated with >1 zebras
+
 v 1.0.8.3
 
 Dropbox integration for save import/export

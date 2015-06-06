@@ -386,6 +386,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["accelerator"]
 		},
 		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["darkEnergy"]
+		}
+	},{
+		name: "darkEnergy",
+		title: "Dark Energy",
+		description: "Energy Rifts are 2.5 times as effective",
+		effects: {
+			"acceleratorRatio" : 2.5	//TODO: ratio is a subject of change
+		},
+		prices:[
+			{ name : "science",     val: 350000 },
+			{ name : "eludium",       val: 25 },
+			{ name : "timeCrystal", val: 3 }
+		],
+		upgrades: {
+			buildings: ["accelerator"]
+		},
+		unlocked: false,
 		researched: false
 	},{
 		name: "fluxCondensator",

@@ -164,6 +164,21 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: true
 	},{
+		name: "unicornUtopia",
+		label: "Unicorn Utopia",
+		description: "Improves your unicorns generation by 250%.\n Increase Alicorn summon chance by 0.1% per day",
+		prices: [
+			{ name : "ivory", val: 1750000 },
+			{ name : "tears", val: 100000 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"unicornsRatio" : 2.5,
+			"alicornChance" : 10
+		},
+		val: 0,
+		unlocked: true
+	},{
 		name: "marker",
 		label: "Marker",
 		description: "A strange structure made of unknown metal and serving unidentified purpose.",
