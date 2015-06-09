@@ -479,7 +479,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console();
 		
 		this.resPool = new classes.managers.ResourceManager(this);
-		this.calendar = new com.nuclearunicorn.game.Calendar(this);
+		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
 		
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
@@ -1325,7 +1325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
 
-		this.updateCalendar();
+		this.calendar.update();
 		this.updateAdvisors();
 		
 		this.timer.update();
@@ -1629,30 +1629,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else {
 			return plusSign + floatVal.toFixed(precision);
 		}
-	},
-	
-	updateCalendar: function(){
-		var hasCalendarTech = this.science.get("calendar").researched;
-		
-		var calendarDiv = dojo.byId("calendarDiv");
-		if (hasCalendarTech){
-			
-			var mod = "";
-			if (this.calendar.weather){
-				mod = " (" + this.calendar.weather + ") ";
-			}
-
-			calendarDiv.innerHTML = "Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title + mod + ", day " + this.calendar.day.toFixed();
-			document.title = "Kittens Game - Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ", d. " + this.calendar.day.toFixed();
-			
-			if (this.ironWill && this.calendar.observeBtn){
-				document.title = "[EVENT!]" + document.title;
-			}
-			
-		} else {
-			calendarDiv.textContent = this.calendar.seasons[this.calendar.season].title
-		}
-
 	},
 	
 	addTab: function(tab){
