@@ -67,6 +67,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.displayElement = displayElement;
 	},
 
+	/* Return the whole number of days elapsed in the season, correcting for
+	   possible floating-point errors.
+	*/
+	integerDay: function () {
+		return Math.floor(this.day + 0.5 * this.dayPerTick);
+	},
+
 	update: function() {
 		var hasCalendarTech = this.game.science.get("calendar").researched;
 
@@ -78,8 +85,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mod = " (" + this.weather + ") ";
 			}
 
-			calendarDiv.innerHTML = "Year " + this.year + " - " + this.seasons[this.season].title + mod + ", day " + this.day.toFixed();
-			document.title = "Kittens Game - Year " + this.year + ", " + this.seasons[this.season].title + ", d. " + this.day.toFixed();
+			calendarDiv.innerHTML = "Year " + this.year + " - " +
+				this.seasons[this.season].title + mod + ", day " + this.integerDay();
+			document.title = "Kittens Game - Year " + this.year + ", " +
+				this.seasons[this.season].title + ", d. " + this.integerDay();
 
 			if (this.game.ironWill && this.observeBtn) {
 				document.title = "[EVENT!]" + document.title;
@@ -92,25 +101,42 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	tick: function(){
 
-		var nextDay = this.day + this.dayPerTick;
-		if ( nextDay.toFixed() > this.day.toFixed()){
-			this.onNewDay();
-		}
-
 		this.day += this.dayPerTick;
 
-		if (this.day > this.daysPerSeason){
-			this.day = 0;
+		var intday = this.integerDay();
+		    newseason = false,
+		    newyear = false;
 
-			this.season++;
-			this.onNewSeason();
+		if (Math.abs(this.day - intday) < 0.5 * this.dayPerTick) {
+			this.day = intday; /* minimize floating point error */
 
-			if (this.season > 3){
-				this.season = 0;
-				this.year++;
+			if (this.day >= this.daysPerSeason) {
+				this.day = 0;
+				this.season += 1;
+				newseason = true;
 
-				this.onNewYear();
+				if (this.season >= this.seasons.length) {
+					this.season = 0;
+					this.year += 1;
+					newyear = true;
+				}
 			}
+
+			/*The new date must be fully computed before any of the individual onNew functions are called
+			   to ensure the onNew functions have a consistent view of what the current date is.
+			*/
+			this.onNewDay();
+			if (newseason) {
+				this.onNewSeason();
+				if (newyear) {
+					this.onNewYear();
+				}
+			}
+
+			/* The update function must be called after the onNew functions, which may make changes
+			   that need to be visible (e.g. showing events in the document title)
+			*/
+			this.update();
 		}
 	},
 
