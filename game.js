@@ -932,6 +932,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
 		this.update();
+		this.calendar.update();
 	},
 	
 	/**
@@ -1325,7 +1326,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
 
-		this.calendar.update();
 		this.updateAdvisors();
 		
 		this.timer.update();
@@ -1663,9 +1663,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var timestampStart = new Date().getTime();
 		
+		this.update();
 		this.calendar.tick();
 		this.ticks++;
-		this.update();
 		
 		var timestampEnd = new Date().getTime();
 		if (window.location.protocol == "file:") {
