@@ -1404,13 +1404,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(advDiv);
 		
 		var winterDays = this.calendar.daysPerSeason -
-			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0) + 1;
+			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0);
 
 		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
 	
-		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick * 10 ) <= 0 ){
+		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick / this.calendar.dayPerTick ) <= 0 ){
 			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>"
 		}
 
