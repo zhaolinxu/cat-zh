@@ -479,7 +479,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console();
 		
 		this.resPool = new classes.managers.ResourceManager(this);
-		this.calendar = new com.nuclearunicorn.game.Calendar(this);
+		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
 		
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
@@ -932,6 +932,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
 		this.update();
+		this.calendar.update();
 	},
 	
 	/**
@@ -1325,7 +1326,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
 
-		this.updateCalendar();
 		this.updateAdvisors();
 		
 		this.timer.update();
@@ -1404,13 +1404,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(advDiv);
 		
 		var winterDays = this.calendar.daysPerSeason -
-			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0) + 1;
+			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0);
 
 		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
 			"catnip" : 0.25
 		}});	//calculate estimate winter per tick for catnip;
 	
-		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick * 10 ) <= 0 ){
+		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick / this.calendar.dayPerTick ) <= 0 ){
 			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>"
 		}
 
@@ -1631,30 +1631,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	
-	updateCalendar: function(){
-		var hasCalendarTech = this.science.get("calendar").researched;
-		
-		var calendarDiv = dojo.byId("calendarDiv");
-		if (hasCalendarTech){
-			
-			var mod = "";
-			if (this.calendar.weather){
-				mod = " (" + this.calendar.weather + ") ";
-			}
-
-			calendarDiv.innerHTML = "Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title + mod + ", day " + this.calendar.day.toFixed();
-			document.title = "Kittens Game - Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ", d. " + this.calendar.day.toFixed();
-			
-			if (this.ironWill && this.calendar.observeBtn){
-				document.title = "[EVENT!]" + document.title;
-			}
-			
-		} else {
-			calendarDiv.textContent = this.calendar.seasons[this.calendar.season].title
-		}
-
-	},
-	
 	addTab: function(tab){
 		this.tabs.push(tab);
 		tab.game = this;
@@ -1687,9 +1663,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		var timestampStart = new Date().getTime();
 		
+		this.update();
 		this.calendar.tick();
 		this.ticks++;
-		this.update();
 		
 		var timestampEnd = new Date().getTime();
 		if (window.location.protocol == "file:") {
