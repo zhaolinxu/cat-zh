@@ -343,7 +343,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             title: "Orbital Array",
             description: "Provide a 2% production bonus to all space structures",
             unlocked: true,
-            priceRatio: 1.15,
+            priceRatio: 1.18,
             prices: [
                 {name: "eludium",  val: 100},
                 {name: "science", val: 250000},
