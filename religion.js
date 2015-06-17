@@ -168,15 +168,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%.\n Increase Alicorn summon chance by 0.1% per day",
+		description: "Improves your unicorns generation by 250%.\n Increase alicorn summon chance.",
 		prices: [
 			{ name : "ivory", val: 1750000 },
 			{ name : "tears", val: 100000 }
 		],
-		priceRatio: 1.15,
+		priceRatio: 1.18,
 		effects: {
 			"unicornsRatio" : 2.5,
-			"alicornChance" : 10,
+			"alicornChance" : 5,
 			"ivoryMeteorRatio" : 0.15
 		},
 		val: 0,

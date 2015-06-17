@@ -1,3 +1,19 @@
+v 1.0.9.1
+
+Changes by mtncat:
+
+Numerous fixes in the calendar logic
+____
+
+Resetting with Chronospheres will disable IW
+UU bonus to aliconrs was reduced from 0.1% to 0.05%
+UU price ratio was increased from 1.15 to 1.18
+
+Research Vessel will now cost more oil and less starchartgs
+Research Vessel will now give a minor bonus to starchart production
+
+Orbital Arrays
+
 v 1.0.9.0
 Changes by mtncat:
 

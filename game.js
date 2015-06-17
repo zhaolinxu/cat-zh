@@ -1781,13 +1781,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!lsData){
 			lsData = {game: {}};
 		}
+
+		var saveRatio = this.bld.getEffect("resStasisRatio");
 		dojo.mixin(lsData.game, { 
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,
 			paragonPoints: 		this.paragonPoints,
 			nerfs: 				this.nerfs,
 			sorrow: 			this.sorrow,
-			ironWill : 			true,
+			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
 			deadKittens: 		0
 		});
 		
@@ -1795,7 +1797,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var newResources = [];
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorns", "tears", "furs", "ivory", "spice", "paragon", "karma", "rocket"];
 		
-		var saveRatio = this.bld.getEffect("resStasisRatio");
+		
 		
 		var fluxCondensator = this.workshop.get("fluxCondensator");
 		for (var i in this.resPool.resources){

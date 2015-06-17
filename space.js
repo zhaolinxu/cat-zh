@@ -72,7 +72,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		upgrades: {
 			buildings: ["observatory"]
+		},
+		action: function(game, self){
+			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
 		}
+			
 	},{
 		name: "spaceStation",
 		title: "Deploy S. Station",
@@ -142,12 +146,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"unobtainiumPerTick": 0.007
 		},
 		action: function(game, self){
+			
+			self.effects["unobtainiumPerTick"] = 0.007 * self.on * (1+ game.space.getEffect("spaceRatio"));
+			self.effects["uraniumPerTick"] = -0.35 * self.on;
 
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
-			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
-				uranium.value += self.effects["uraniumPerTick"] * self.on;
-				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
+			if (uranium.value >= -self.effects["uraniumPerTick"]){
+				uranium.value += self.effects["uraniumPerTick"];
+				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"];
 			} else {
 			    self.on--;
 			}
@@ -285,8 +292,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             ],
 
             upgradable: true,
-            togglable: 	true,
-            tunable: 	true,
+            togglable: 	false,
+            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
@@ -294,8 +301,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumMax" : 1750
 			},
             action: function(game, self){
-				game.resPool.get("uranium").value += self.effects["uraniumPerTick"] * 
-					self.val * (1 + game.workshop.getEffect("crackerRatio"));
+				
+				self.effects["uraniumPerTick"] = 0.3 * 
+					self.val 
+					* (1 + game.workshop.getEffect("crackerRatio")) 
+					* (1+ game.space.getEffect("spaceRatio"));
+				
+				//TODO: use calculateEffects method
+				game.resPool.get("uranium").value += self.effects["uraniumPerTick"];
             }
         }]
 	},{
@@ -305,22 +318,44 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		buildings: [{
             name: "researchVessel",
             title: "Research Vessel",
-            description: "Mobile research space vessel. (TBD)",
+            description: "Mobile research space vessel.",
             unlocked: true,
             priceRatio: 1.15,
             prices: [
-                {name: "starchart", val: 750},
+                {name: "starchart", val: 500},
                 {name: "alloy",  val: 2500},
                 {name: "titanium", val: 12500},
-                {name: "oil", val: 150000}
+                {name: "oil", val: 175000}
             ],
             upgradable: true,
-            togglable: 	true,
-            tunable: 	true,
+            togglable: 	false,
+            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
-				"scienceMax": 10000
+				"scienceMax": 10000,
+				"starchartPerTickBase": 0.01
+			},
+            action: function(game, self){
+            }
+        },{
+            name: "orbitalArray",
+            title: "Orbital Array",
+            description: "Provide a 2% production bonus to all space structures",
+            unlocked: true,
+            priceRatio: 1.15,
+            prices: [
+                {name: "eludium",  val: 100},
+                {name: "science", val: 250000},
+                {name: "oil", val: 200000}
+            ],
+            upgradable: true,
+            togglable: 	false,
+            tunable: 	false,
+            val:  0,
+            on:	  0,
+            effects: {
+				"spaceRatio": 0.02
 			},
             action: function(game, self){
             }
@@ -341,8 +376,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "oil", val: 250000}
             ],
             upgradable: true,
-            togglable: 	true,
-            tunable: 	true,
+            togglable: 	false,
+            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
