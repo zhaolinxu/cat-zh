@@ -659,7 +659,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	togglePause: function(){
 		var pauseBtn = dojo.byId("pauseBtn");
 		this.isPaused = !this.isPaused;
-		pauseBtn.innerHTML = this.isPaused ? "unpause" : "pause";
+		pauseBtn.innerHTML = this.isPaused ? "unpawse" : "pawse";
 	},
 	
 	updateOptionsUI: function(){

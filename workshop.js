@@ -441,7 +441,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give a 1% bonus to Harbour capacity",
+		description: "Every ship will give a 1% bonus to Harbor capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -458,7 +458,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "barges",
 		title: "Barges",
-		description: "Harbours store more coal",
+		description: "Harbors store more coal",
 		effects: {
 			"harborCoalRatio" : 0.5
 		},
@@ -1117,7 +1117,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "unicornSelection",
 		title: "Unicorn Selection",
-		description: "Improves unicorn pastures effectiveness by 25%",
+		description: "Improves Unicorn Pasture effectiveness by 25%",
 		effects: {
 			"unicornsGlobalRatio": 0.25
 		},
@@ -1131,7 +1131,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "gmo",
 		title: "GM Catnip",
-		description: "Genetically modified catnip that will improve biolab oil yeld by 60%",
+		description: "Genetically modified catnip that will improve biolab oil yield by 60%",
 		effects: {
 			"biofuelRatio": 0.6
 		},
@@ -1242,7 +1242,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "satnav",
-		title: "Sattelite Navigation",
+		title: "Satellite Navigation",
 		description: "Every satellite reduce starchart requirement of ships by 1.25%",
 		effects: {
 			"satnavRatio" : 0.0125
@@ -1257,7 +1257,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "astrophysicists",
 		title: "Astrophysicists",
-		description: "Each scientist will now generate  starcharts",
+		description: "Each scholar will now generate starcharts.",
 		effects: {
 		},
 		prices:[
@@ -1272,7 +1272,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "eludiumCracker",
 		title: "Planet Busters",
-		description: "Hissmeowras output is twice as effective.",
+		description: "Hissmeowra's output is twice as effective.",
 		effects: {
 			"crackerRatio" : 1.0
 		},
@@ -1645,7 +1645,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			var craftRatio = this.game.getResCraftRatio({name:craftName});
 			var bonus = minAmt * craftRatio;
 
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");
+			var res = this.game.resPool.get(craftName);
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + (res.title || craftName) + " crafted");
 			this.craft(craftName, minAmt);
 		}
 	},

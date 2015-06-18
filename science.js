@@ -65,7 +65,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["metal"],
 			upgrades: ["bolas"]
-		}
+		},
+		flavor: "Pickaxes are easier to hold with opposable thumbs"
 	},{
 		name: "metal",
 		title: "Metal working",
@@ -130,7 +131,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 1000,
 		unlocks: {
 			upgrades: ["celestialMechanics"]
-		}
+		},
+		flavor: "Purr equals Meow times Paw to the square"
 	},{
 		name: "construction",
 		title: "Construction",
@@ -159,7 +161,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "currency",
 		title: "Currency",
-		description: "Currency represent a certain amount of wealth",
+		description: "Currency represents a certain amount of wealth",
 		effectDesc: "Unlocks gold and trade",
 
 		unlocked: false,
@@ -260,7 +262,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "navigation",
 		title: "Navigation",
 		description: "Navigation allows serious advancements in sailing and shipbuilding technology.",
-		effectDesc: "Unlocks the construction of Trade Ships and oversea trade",
+		effectDesc: "Unlocks the construction of Trade Ships and overseas trade.",
 
 		unlocked: false,
 		researched: false,
@@ -391,7 +393,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "biology",
 		title: "Biology",
 		description: "Biology deals with living organisms, their characteristics and their use in our society.",
-		effectDesc: "Unlocks Biolabs",
+		effectDesc: "Unlocks Bio Labs",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -434,7 +436,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "industrialization",
 		title: "Industrialization",
 		description: "Industrialization represents the concept of mass-producing materials, from food products to machine parts.",
-		effectDesc: "Unlocks Advanced Automation and Bargets",
+		effectDesc: "Unlocks Advanced Automation and Barges",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -564,7 +566,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["orbitalEngineering"]
-		}
+		},
+		flavor: "Spreading cat videos at the speed of light"
 	},{
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
@@ -671,7 +674,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "tachyonTheory",
 		title: "Tachyon Theory",
-		description: "Tachyonic particles are hypothetical particles that always moves faster than light. (TBD!)",
+		description: "Tachyonic particles are hypothetical particles that always move faster than light. (TBD!)",
 		effectDesc: "Unlocks FTL and Chronoforge",
 		unlocked: false,
 		researched: false,

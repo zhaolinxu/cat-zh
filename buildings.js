@@ -952,7 +952,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				titanium.value += self.effects["titaniumPerTick"] * self.on;
 				uranium.value  += self.effects["uraniumPerTick"] * self.on;
 			}
-		}
+		},
+		flavor: "Large Catron Collider"
 	},
 	{
 		name: "tradepost",
@@ -987,7 +988,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "mint",
 		label: "Mint",
-		description: "Produce luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
+		description: "Produces luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
 		unlocked: false,
 		togglable: true,
 		tunable: true,
@@ -1041,7 +1042,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "amphitheatre",
 		label: "Amphitheatre",
-		description: "Reduces negative effects of overpopulation by 5%. Produce culture.",
+		description: "Reduces negative effects of overpopulation by 5%. Produces culture.",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 200 },
@@ -1180,7 +1181,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
-		description: "Relocates small amount of resources through the time. Can be upgraded further. Every chronosphere increase the chance of Temporal Paradox.",
+		description: "Relocates small amount of resources through the time. Can be upgraded further. Every chronosphere increases the chance of Temporal Paradox.",
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
