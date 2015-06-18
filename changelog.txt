@@ -1,3 +1,9 @@
+v 1.0.9.2
+
+Fixed incorrect space structures production tooltips
+Research Vessel starcharts production will now proc from Orbital Arrays
+Fixed Void Order effect being reduced to 25% if player have alicorns
+
 v 1.0.9.1
 
 Changes by mtncat:

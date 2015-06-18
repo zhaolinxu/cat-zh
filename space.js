@@ -147,14 +147,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		action: function(game, self){
 			
-			self.effects["unobtainiumPerTick"] = 0.007 * self.on * (1+ game.space.getEffect("spaceRatio"));
+			self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
 			self.effects["uraniumPerTick"] = -0.35 * self.on;
 
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
 			if (uranium.value >= -self.effects["uraniumPerTick"]){
 				uranium.value += self.effects["uraniumPerTick"];
-				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"];
+				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
 			} else {
 			    self.on--;
 			}
@@ -302,13 +302,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
             action: function(game, self){
 				
-				self.effects["uraniumPerTick"] = 0.3 * 
-					self.val 
+				self.effects["uraniumPerTick"] = 0.3 
 					* (1 + game.workshop.getEffect("crackerRatio")) 
 					* (1+ game.space.getEffect("spaceRatio"));
 				
 				//TODO: use calculateEffects method
-				game.resPool.get("uranium").value += self.effects["uraniumPerTick"];
+				game.resPool.get("uranium").value += self.effects["uraniumPerTick"] * self.val;
             }
         }]
 	},{
@@ -337,13 +336,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"starchartPerTickBase": 0.01
 			},
             action: function(game, self){
+				self.effects["starchartPerTickBase"] = 0.01 * (1+ game.space.getEffect("spaceRatio"));
             }
         },{
             name: "orbitalArray",
             title: "Orbital Array",
             description: "Provide a 2% production bonus to all space structures",
             unlocked: true,
-            priceRatio: 1.18,
+            priceRatio: 1.15,
             prices: [
                 {name: "eludium",  val: 100},
                 {name: "science", val: 250000},
