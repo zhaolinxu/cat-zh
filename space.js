@@ -148,7 +148,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		action: function(game, self){
 			
 			self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
-			self.effects["uraniumPerTick"] = -0.35 * self.on;
 
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
