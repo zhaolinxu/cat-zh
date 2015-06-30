@@ -364,7 +364,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			}
 		} else {
 			if (this.enabled){
-				this.domNode.className += " disabled";
+				dojo.addClass(this.domNode, "disabled")
 			}
 		}
 		this.enabled = enabled;

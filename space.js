@@ -151,11 +151,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 			//TODO: move to resPool.convert(a, b)
 			var uranium = game.resPool.get("uranium");
-			if (uranium.value >= -self.effects["uraniumPerTick"]){
-				uranium.value += self.effects["uraniumPerTick"];
+			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
+				uranium.value += self.effects["uraniumPerTick"] * self.on;
 				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
 			} else {
-			    self.on--;
+				if (self.on > 0){
+					self.on--;
+				} else {
+					self.on = 0;	//TODO: fix remove this later once actions are fixed correctly.
+				}
 			}
 		}
 	},{
