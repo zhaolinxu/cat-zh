@@ -16,6 +16,7 @@
 		<script src="lib/dropbox.js"></script>
 
 		<script src="core.js?v=1.0.9.2" 		type="text/javascript"></script>
+		<script src="toolbar.js?v=1.0.9.2" 		type="text/javascript"></script>
 		<script src="resources.js?v=1.0.9.2" 	type="text/javascript"></script>
 		<script src="calendar.js?v=1.0.9.2" 	type="text/javascript"></script>
 		<script src="buildings.js?v=1.0.9.2" 	type="text/javascript"></script>
@@ -39,6 +40,14 @@
 			ga('create', 'UA-29812134-1', 'bloodrizer.ru');
 			ga('send', 'pageview');
 		</script>
+
+		<style type="text/css">
+			.toolbarIcon {
+				padding-right: 15px; 
+				font-size: 12px;
+				cursor: default;
+			}
+		</style>
 
 		<link rel="stylesheet" href="res/default.css" type="text/css">
 		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
@@ -128,6 +137,10 @@
 				</div>
 				<div id="headerLinks" style="position: absolute; top: 0; right: 10px; float: right;" >
 
+					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
+						<!-- toolbar panel goes there -->
+					</div>
+					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="Energy"></span>
 					<span id="sorrowTooltip" style="padding-right: 15px; font-size: 12px;" title="Black liquid sorrow"></span>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
 

@@ -564,7 +564,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"mineralsPerTick" : -1.5,
 			"ironPerTick" : 0.15,
 			"titaniumPerTick" : 0.0005,
-			"oilPerTick" : -0.024	//base + 0.01
+			"oilPerTick" : -0.024,	//base + 0.01
+			"energyConsumption" : 1
 		},
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
@@ -643,6 +644,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"coalRatioGlobal" : -0.8,	//to be revisited later
 				"magnetoBoostRatio" : 0.15,
+				"energyProduction" : 1
 			};
 
 			if (game.workshop.get("printingPress").researched){
@@ -747,7 +749,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["electricity"],
 		effects: {
 			"oilPerTick" : -0.05,
-			"magnetoRatio": 0.02
+			"magnetoRatio": 0.02,
+			"energyProduction" : 10
 		},
 		action: function(self, game){
 			if (self.on < 1){
@@ -809,7 +812,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"oilMax" : 1500,
-				"oilPerTickBase" : 0.02
+				"oilPerTickBase" : 0.02,
+				"energyConsumption" : 1
 			};
 
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
@@ -850,7 +854,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "concrate", val: 15}
 		],
 		effects: {
-			"craftRatio" : 0.05
+			"craftRatio" : 0.05,
+			"energyConsumption" : 1
 		},
 		priceRatio: 1.15,
 		val: 0,
@@ -920,6 +925,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"titaniumPerTick" : -0.015,
 				"uraniumPerTick" : 0.0025,
+				"energyConsumption" : 2
 			};
 
 			if (game.workshop.get("lhc").researched){
@@ -1191,7 +1197,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "science", 	val: 250000 }
 		],
 		effects: {
-			"resStasisRatio": 0.015		//1.5% of resources will be preserved
+			"resStasisRatio": 0.015,		//1.5% of resources will be preserved
+			"energyConsumption" : 20
 			
 			/** TODO: cryochambers upgrade for kittens migration */
 		},

@@ -385,6 +385,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	
 	console: null,
 	
+	toolbar: null,
+	
 	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 	
@@ -477,6 +479,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		};
 		
 		this.console = new com.nuclearunicorn.game.log.Console();
+		
+		this.toolbar = new classes.ui.Toolbar(this);
 		
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -867,8 +871,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(container);
 
 		var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
-
 		
+		//TODO: remove hardcoded id?
+		this.toolbar.render(dojo.byId("headerToolbar"));
+
 		this.resTable.render();
 		this.craftTable.render();
 
@@ -1343,6 +1349,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
 			this.tooltipUpdateFunc();
 		}
+		
+		this.toolbar.update();
 	},
 	
 	huntAll: function(event){
@@ -1429,6 +1437,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Attaches onMouseOver/onMouseOut events to a given DOM node in order to display tooltip.
 	 * All tooltips will reuse the same container.
+	 * 
 	 */ 
 	attachTooltip: function(container, resRef){
 		

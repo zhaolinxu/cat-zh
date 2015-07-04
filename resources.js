@@ -251,10 +251,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	}],
 	
 	resources: null,
-	
 	village: null,
-	
 	game: null,
+	
+	energyProd: 0,
+	energyCons: 0,
 	
 	constructor: function(game){
 		this.game = game;
@@ -392,8 +393,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.value = 0;	//safe switch
 			}
 		}
+		
+		//--------
+		this.energyProd = this.game.getEffect("energyProduction");
+		this.energyCons = this.game.getEffect("energyConsumption");
 	},
-	
+
 	setVillage: function(village){
 		this.village = village;
 	},

@@ -50,6 +50,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		val: 0,
 		effects: {
 			"oilReductionRatio": 0.05,
+			"energyConsumption" : 5
 		}
 	},{
 		name: "sattelite",
@@ -358,7 +359,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"spaceRatio": 0.02
+				"spaceRatio": 0.02,
+				"energyConsumption" : 10
 			},
             action: function(game, self){
             }

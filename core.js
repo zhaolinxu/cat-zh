@@ -285,25 +285,17 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 
 	game: null,
-
 	name: "",
-
 	description: "",
-
 	visible: true,
-
 	enabled: true,
-
 	handler: null,
-
 	prices: null,
-
 	priceRatio: null,
 
 	//nodes
 
 	domNode: null,
-
 	container: null,
 
 	tab: null,
