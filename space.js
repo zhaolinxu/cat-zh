@@ -538,7 +538,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return this.program;
 	},
 
-	getBuilding: function(){
+	getMetadata: function(){
 		return this.getProgram();
 	},
 

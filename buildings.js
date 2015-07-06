@@ -1,15 +1,29 @@
-dojo.declare("classes.Building", null, {
-    bld: null,
+/**
+ * Metadata wrapper, move to the core?
+ **/
+dojo.declare("classes.Metadata", null, {
+	meta: null,
     
-    constructor: function(bld){
-        if (!bld){
+    constructor: function(meta){
+        if (!meta){
             throw "Building metadata must be provided for classes.Building instance";
         }
-        this.bld = bld;
+        this.meta = meta;
     },
+    
+    getMeta: function(){
+		return this.meta;
+	},
+	
+	set: function(attr, val){
+        this.meta[attr] = val;
+    }
+});
 
-    getBuilding: function(){
-        var bld = this.bld;
+dojo.declare("classes.BuildingMeta", classes.Metadata, {
+
+    getMeta: function(){
+        var bld = this.meta;
         if (bld.upgradable){
              return dojo.mixin(
                 dojo.clone(bld), bld.stages[bld.stage]);
@@ -17,13 +31,20 @@ dojo.declare("classes.Building", null, {
         return bld;
     },
     
-    getMeta: function(){
-        return this.getBuilding();
-    },
-    
-    set: function(attr, val){
-        this.bld[attr] = val;
-    }
+    set: function(attr, value){
+		var bld = this.meta;
+		if (bld.upgradable){
+			var stage = bld.stages[bld.stage];
+			
+			//try to set stage attribute if defined in metadata
+			if (stage[attr] != undefined) {
+				//throw "Invalid attribute '" + attr + "'";
+				stage[attr] = val;
+				return;
+			}
+		}
+		this.meta[attr] = value;
+	}
 });
 
 dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabManager, {
@@ -43,7 +64,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
-                var bld = new classes.Building(bld).getBuilding();
+                var bld = new classes.BuildingMeta(bld).getMeta();
 
 				// Need a better way to do this...
 				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
@@ -127,17 +148,33 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 	{
 		name: "pasture",
-		label: "Pasture",
-		description: "Provides an alternative source of food, which reduces catnip consumption.",
+		upgradable: true,
 		unlocked: false,
-		prices: [{ name : "catnip", val: 100 }, { name : "wood", val: 10 }],
-		effects: {
-			"catnipDemandRatio": -0.005
-		},
-		requiredTech: ["animal"],
-		priceRatio: 1.15,
-		val: 0,
-		flavor: "Take a pint o' milk, Sir!"
+		stages: [
+			{
+				label: "Pasture",
+				description: "Provides an alternative source of food, which reduces catnip consumption.",
+				prices: [{ name : "catnip", val: 100 }, { name : "wood", val: 10 }],
+				effects: {
+					"catnipDemandRatio": -0.005
+				},
+				requiredTech: ["animal"],
+				priceRatio: 1.15,
+				flavor: "Take a pint o' milk, Sir!"
+			},
+			{
+				label: "Solar Farm",
+				description: "Provides an additional source of energy.",
+				prices: [{ name : "titanium", val: 1000 }],
+				effects: {
+					"energyProduction": 2
+				},
+				requiredTech: ["electronics"],
+				priceRatio: 1.15,
+			}
+		],
+		stage: 0,
+		val: 0
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
@@ -307,7 +344,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"scienceRatio": 0.35,
 				"refineRatio" : 0.1,
-				"scienceMax"  : 1500
+				"scienceMax"  : 1500,
+				"energyProduction" : 1
 			};
 
 			if (game.workshop.get("biofuel").researched){
@@ -750,7 +788,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"oilPerTick" : -0.05,
 			"magnetoRatio": 0.02,
-			"energyProduction" : 10
+			"energyProduction" : 5
 		},
 		action: function(self, game){
 			if (self.on < 1){
@@ -886,7 +924,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"uraniumPerTick" : -0.001,
 				"productionRatio": 0.05,
-				"uraniumMax" : 250
+				"uraniumMax" : 250,
+				"energyProduction" : 10
 			};
 
 			effects["uraniumPerTick"] *= (1 - game.workshop.getEffect("uraniumRatio"));
@@ -1245,7 +1284,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 			if (bld.name == name){
-                var bldExt = new classes.Building(bld);
+                var bldExt = new classes.BuildingMeta(bld);
                 this.metaCache[name] = bldExt;
                 return bldExt;
             }
@@ -1283,7 +1322,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * All direct calls to bld.price ratio should be considered deprecated
 	 */
 	getPriceRatio: function(bldName){
-		var bld = this.get(bldName);
+		var bld = this.getBuildingExt(bldName).getMeta();
 		var ratio = bld.priceRatio;
 		
 		var ratioBase = ratio - 1;
@@ -1301,7 +1340,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * It only took a couple of months. TODO: potential performance impact?
 	 */
 	 getPrices: function(bldName) {
-		var bld = this.get(bldName);
+		var bld = this.getBuildingExt(bldName).getMeta();
 		var ratio = this.getPriceRatio(bldName);
 
 		var prices = dojo.clone(bld.prices);
@@ -1364,10 +1403,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		return effect < 0 ? -totalEffect : totalEffect;
 	},
 
-	lerp: function (v0, v1, t){
-		return v0 + t*(v1-v0);
-	},
-
 	update: function(){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
@@ -1411,6 +1446,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	isConstructionEnabled: function(building){
 		var isEnabled = true;
+		
+		var building = new classes.BuildingMeta(building).getMeta();
 
 		if (building.prices.length && !building.ignorePriceCheck){
 			for( var i = 0; i < building.prices.length; i++){
@@ -1509,6 +1546,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 });
 
 
+
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	sellHref: null,
 	toggleHref: null,
@@ -1525,13 +1563,19 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		this.prices = this.getPrices();
 	},
 
-	//TODO: remove to getBtnMeta?
-	getBuilding: function(){
+	getMetadata: function(){
 		if (this.buildingName){
-			var bld = this.game.bld.getBuilding(this.buildingName);
-			return bld;
+			var meta = this.game.bld.getBuilding(this.buildingName);
+			return meta;
 		}
 		return null;
+	},
+	
+	/**
+	 * Ugly hack'
+	 */ 
+	getMetadataRaw: function(){
+		return this.getMetadata();
 	},
 
 	getPrices: function(){
@@ -1550,7 +1594,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.handler(this);
 			}
 
-			var building = this.getBuilding();
+			var building = this.getMetadataRaw();
 			this.game.unlock(building.unlocks);
 
 			if (building.breakIronWill) {
@@ -1565,6 +1609,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
                 this.build(building);
             }
 
+			//TODO: fix this mess vvvvvvvvvvv
 			if (building.togglable && (!building.on)) {
 				building.on = 0;
 			}
@@ -1572,6 +1617,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (!building.tunable && building.enabled){
 				building.on = building.val;
 			}
+			//TODO: fix this mess ^^^^^^^^^^^
 
 			if (building.upgrades){
 				this.game.upgrade(building.upgrades);
@@ -1609,12 +1655,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
     },
 
 	getName: function(){
-		var building = this.getBuilding();
+		var building = this.getMetadata();
 		if (building){
 			if (building.togglable) {
 				var name = this.name;
 
-				var postfix = building.tunable ? ( "|" +building.on ) : "";
+				var postfix = building.gettunable ? ( "|" +building.on ) : "";
 				return name + " ("+ building.val + postfix + ")";
 			} else {
 				var name = this.name;
@@ -1625,7 +1671,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	getDescription: function(){
-		var building = this.getBuilding();
+		var building = this.getMetadata();
 		if (!building || (building && !building.jammed)){
 			return this.description;
 		} else {
@@ -1641,7 +1687,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var building = this.getBuilding();
+		var building = this.getMetadata();
 
 		if (building && building.val && this.hasSellLink()){
 			if (!this.sellHref){
@@ -1674,7 +1720,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					id: "off1",
 					title: "-",
 					handler: function(){
-						var building = this.getBuilding();
+						var building = this.getMetadata();
 						if (building.on){
 							building.on--;
 						}
@@ -1683,7 +1729,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					id: "offAll",
 					title: "-all",
 					handler: function(){
-						var building = this.getBuilding();
+						var building = this.getMetadata();
 						building.on = 0;
 					}
 				   }]
@@ -1695,7 +1741,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					id: "add1",
 					title: "+",
 					handler: function(){
-						var building = this.getBuilding();
+						var building = this.getMetadata();
 						if (building.on < building.val){
 							building.on++;
 						}
@@ -1704,7 +1750,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					id: "add",
 					title: "+all",
 					handler: function(){
-						var building = this.getBuilding();
+						var building = this.getMetadata();
 						building.on = building.val;
 					}
 				   }]
@@ -1739,7 +1785,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
-		var building = this.getBuilding();
+		var building = this.getMetadata();
 		if (building && building.val){
 
 			// -------------- sell ----------------
@@ -1776,7 +1822,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 	updateVisible: function(){
 		this.inherited(arguments);
-		var building = this.getBuilding();
+		var building = this.getMetadata();
 
 		if (!building){
 			return;
@@ -1832,216 +1878,93 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 
 });
 
-
-
-dojo.declare("com.nuclearunicorn.game.ui.tab.Bonfire", com.nuclearunicorn.game.ui.tab, {
-
-	constructor: function(tabName){
-
-	},
-
-	render: function(content){
-
-		this.buttons = [];
-
-
-		var topContainer = content;
-		this.twoRows = this.game.bld.twoRows;
-
-		if (!this.game.bld.groupBuildings){
-			topContainer = dojo.create("div", {
-				style: {
-					paddingBottom : "5px",
-					marginBottom: "15px",
-					borderBottom: "1px solid gray"
-				}
-			}, content);
-			this.initRenderer(content);
-		}
-
-		var div = dojo.create("div", { style: { float: "right"}}, topContainer);
-		var groupCheckbox = dojo.create("input", {
-			type: "checkbox",
-			checked: this.game.bld.groupBuildings
-		}, div);
-
-		dojo.connect(groupCheckbox, "onclick", this, function(){
-			this.game.bld.groupBuildings = !this.game.bld.groupBuildings;
-
-			dojo.empty(content);
-			this.render(content);
-		});
-
-		dojo.create("span", { innerHTML: "Group buildings", style: { paddingRight: "10px" }}, div);
-		//---------------------------------------------------------------
-		var twoRowsCheckbox = dojo.create("input", {
-			type: "checkbox",
-			checked: this.game.bld.twoRows
-		}, div);
-		dojo.connect(twoRowsCheckbox, "onclick", this, function(){
-			this.game.bld.twoRows = !this.game.bld.twoRows;
-
-			dojo.empty(content);
-			this.render(content);
-		});
-		dojo.create("span", { innerHTML: "Two rows"}, div);
-		//---------------------------------------------------------------
-		var div = dojo.create("div", { style: { marginTop: "25px"}}, content);
-
-
-		if (this.game.bld.groupBuildings){
-			var groups = this.game.bld.buildingGroups;
-			for (var i = 0; i< groups.length; i++){
-
-				var hasVisibleBldngs = false;
-				for (var j = 0; j< groups[i].buildings.length; j++){
-					var bld = this.game.bld.get(groups[i].buildings[j]);
-					if (bld.unlocked){
-						hasVisibleBldngs = true;
-					}
-				}
-				if (!hasVisibleBldngs && i != 0){
-					continue;
-				}
-
-				var groupPanel = new com.nuclearunicorn.game.ui.Panel(groups[i].title);
-				var panelContent = groupPanel.render(content);
-
-				//shitty hack
-				if (i == 0){
-					this.renderCoreBtns(panelContent);
-				}
-
-				groupPanel.twoRows = this.twoRows;
-				groupPanel.initRenderer(panelContent);
-
-				for (var j = 0; j< groups[i].buildings.length; j++){
-					var bld = this.game.bld.get(groups[i].buildings[j]);
-
-					var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
-						name: 			bld.label,
-						description: 	bld.description,
-						building: 		bld.name,
-						handler: 		bld.handler
-					}, this.game);
-
-					/*btn.visible = bld.unlocked;
-
-					var prices = this.game.bld.getPrices(bld.name);
-					btn.enabled = this.game.resPool.hasRes(prices, 1);*/
-
-					this.addButton(btn);
-
-					btn.update();
-					btn.render(groupPanel.getElementContainer(j));
-				}
-			}
-		}else{
-
-			this.renderCoreBtns(topContainer);
-
-			var buildings = this.game.bld.buildingsData;
-			for (var i = 0; i< buildings.length; i++){
-				var bld = new classes.Building(buildings[i]).getBuilding();
-
-				var btn = new com.nuclearunicorn.game.ui.BuildingBtn({
-					name: 			bld.label,
-					description: 	bld.description,
-					building: 		bld.name,
-					handler: 		bld.handler
-				}, this.game);
-
-				btn.visible = bld.unlocked;
-
-				this.addButton(btn);
-				btn.update();
-				btn.render(this.getElementContainer(i + 2));	//where 2 is a size of core buttons, do not forget to change it
-			}
-		}
-	},
-
-	renderCoreBtns: function(container){
-		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
-			name:	 "Gather catnip",
-			handler: function(){
-						clearTimeout(self.game.gatherTimeoutHandler);
-						self.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 2500);	//2.5 sec
-
-						self.game.gatherClicks++;
-						if (self.game.gatherClicks >= 2500 && !self.game.ironWill){
-							//alert("You are so tired");
-							self.game.gatherClicks = 0;
-							self.game.cheatMode = true;
-						}
-
-						self.game.resPool.get("catnip").value++;
-						self.game.updateResources();
-					 },
-			description: "Gather some catnip in the wood"
-		}, this.game);
-		this.addButton(btn);
-		btn.render(container);
-
-		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
-			name: 		"Refine catnip",
-			handler: 	function(){
-							//self.game.resPool.get("catnip").value -= 100;
-							var isEnriched = self.game.workshop.get("advancedRefinement").researched;
-							if (!isEnriched){
-								self.game.resPool.get("wood").value += 1;
-							} else {
-								self.game.resPool.get("wood").value += 2;
-								//self.game.resPool.get("oil").value += 1; //no oil until chemistry
-							}
-
-							self.game.updateResources();
-						},
-			description: "Refine catnip into catnip wood",
-			prices: [ { name : "catnip", val: 100 }]
-		}, this.game);
-		this.addButton(btn);
-		btn.render(container);
-	},
-
-	update: function(){
-		this.inherited(arguments);
-	}
-});
-
-//---------------------- ab ovo? --------------------
-
-
-
-dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
 	simplePrices: false,
 	hasResourceHover: true,
+	
+	getMetadata: function(){
+		if (this.buildingName){
+			var bld = this.game.bld.getBuildingExt(this.buildingName).getMeta();
+			return bld;
+		}
+		return null;
+	},
+	
+	/**
+	 * Ugly hack 
+	 **/
+	getMetadataRaw: function(){
+		if (this.buildingName){
+			var bld = this.game.bld.getBuilding(this.buildingName);
+			return bld;
+		}
+		return null;
+	},
 
 	getDescription: function(){
 		return this.description;
 	},
 
 	getFlavor: function(){
-		var bld = this.getBuilding();
+		var bld = this.getMetadata();
 		return bld.flavor;
 	},
 
 	getEffects: function(){
-		var bld = this.getBuilding();
+		var bld = this.getMetadata();
 		return bld.effects;
 	},
 
 	getSelectedObject: function(){
-		return this.getBuilding();
+		return this.getMetadata();
 	}
 });
 
 //-------------------    special stagable bld exclusive button ------------------------------------------------
-dojo.declare("com.nuclearunicorn.game.ui.StagingBldBtn", com.nuclearunicorn.game.ui.BuildingBtnModern, {
+dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
+	stageLinks: null,
+	
+	constructor: function(){
+		this.stageLinks = [];
+	},
+	
+	renderLinks: function(){
+		this.inherited(arguments);
+		var bldExt = this.game.bld.getBuildingExt(this.buildingName);
 
+		var stages = bldExt.getMeta().stages.length;
+		var stage = bldExt.getMeta().stage;
+		
+		if (this.stageLinks.length > 0){
+			return;
+		}
+		for (var i = 1; i < stages; i++){
+			if (i <= stage){
+				//downgrade
+				this.stageLinks.push(
+					this.addLink("&#9733;",function(){
+						if (confirm('Do you want to downgrade building?')){
+							bldExt.meta.stage--;
+							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							this.game.render();
+						}
+					})
+				);
+			} else {
+				//upgrade
+				this.stageLinks.push(
+					this.addLink("&#9734;",function(){
+						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){
+							bldExt.meta.stage++;
+							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							this.game.render();
+						}
+					})
+				);
+			} //if
+		}
+	}
 });
-
-
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicorn.game.ui.tab, {
 
@@ -2173,16 +2096,23 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 
 			for (var j = 0; j< group.buildings.length; j++){
-				var bldName = group.buildings[j];
-				var bld = this.game.bld.get(bldName);
+				var bldMetaRaw = this.game.bld.get(group.buildings[j]);
+				var bld = new classes.BuildingMeta(bldMetaRaw).getMeta();
 
-				var btn = new com.nuclearunicorn.game.ui.BuildingBtnModern({
+				var opts = {
 					name: 			bld.label,
 					description: 	bld.description,
 					building: 		bld.name,
 					handler: 		bld.handler
-				}, this.game);
-
+				};
+				
+				var btn = null;
+				if (bld.upgradable){
+					var btn = new classes.ui.btn.StagingBldBtn(opts, this.game);
+				} else {
+					var btn = new classes.ui.btn.BuildingBtnModern(opts, this.game);
+				}
+				
 				if (this.activeGroup == "allEnabled"){
 					if (!btn.hasResources()){
 						continue;

@@ -507,12 +507,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 		//very sloppy design, could we just use an array for tab managers?
-		var bonfireTab = new com.nuclearunicorn.game.ui.tab.Bonfire("Bonfire(Old)", this);
-		this.addTab(bonfireTab);
-		bonfireTab.visible = false;	//deprecated, but you can still use it
-		
-		this.bonfireTab = bonfireTab;
-		
 		var bldTabV2 = new com.nuclearunicorn.game.ui.tab.BuildingsModern("Bonfire", this);
 		this.addTab(bldTabV2);
 		

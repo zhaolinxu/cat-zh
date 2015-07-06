@@ -420,13 +420,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	tooltipName: true,
 
-	getBuilding: function(){
+	getMetadata: function(){
 		return this.game.religion.getZU(this.id);
 	},
 
 	getPrices: function(bldName) {
 
-		 var bld = this.getBuilding();
+		 var bld = this.getMetadata();
 		 var ratio = bld.priceRatio;
 
 		 var prices = dojo.clone(bld.prices);
@@ -443,7 +443,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 
 		//TODO: fix it somehow
-		if (this.getBuilding().name == "blackPyramid"){
+		if (this.getMetadata().name == "blackPyramid"){
 			this.game.sorrow = this.game.resPool.get("sorrow").value;
 			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
 		}
@@ -463,7 +463,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		this.transcendence = this.game.religion.getRU("transcendence");
 	},
 
-	getBuilding: function(){
+	getMetadata: function(){
 		if (!this.ruCached){
 			this.ruCached = this.game.religion.getRU(this.id);
 		}
@@ -475,7 +475,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	getRU: function(){
-		return this.getBuilding(this.id);
+		return this.getMetadata(this.id);
 	},
 
 	getPrices: function(){
@@ -489,7 +489,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	updateVisible: function(){
-		var upgrade = this.getBuilding();
+		var upgrade = this.getMetadata();
 		var isVisible = ( this.game.religion.faith >= upgrade.faith );
 
 		this.setVisible(isVisible);
@@ -498,7 +498,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	updateEnabled: function(){
 		this.inherited(arguments);
 
-		var upgrade = this.getBuilding();
+		var upgrade = this.getMetadata();
 		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
 			this.setEnabled(false);
 		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){
@@ -507,7 +507,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	getName: function(){
-		var upgrade = this.getBuilding();
+		var upgrade = this.getMetadata();
 		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
 			return this.name + " (complete)";
 		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){	//TODO: cache this too
@@ -760,7 +760,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				description: upgr.description,
 				prices: upgr.prices,
 				handler: function(btn){
-					var upgrade = btn.getBuilding()
+					var upgrade = btn.getMetadata()
 					upgrade.researched = true;
 					if (upgrade.upgrades){
 						this.game.upgrade(upgrade.upgrades);

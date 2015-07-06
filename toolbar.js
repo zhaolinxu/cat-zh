@@ -16,6 +16,8 @@ dojo.declare("classes.ui.Toolbar", null, {
 	},
 	
 	render: function(container){
+		dojo.empty(container);
+		
 		for (i in this.icons){
 			var iconContainer = this.icons[i].render(container);
 			this.attachToolbarTooltip(iconContainer, this.icons[i]);
@@ -109,7 +111,10 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 	getTooltip(){
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons; 
+		
+		var penalty = energy > 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-75%</span>";
+		
 		return "Production: " +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt" +
-			   "<br>Consumption: " +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt";
+			   "<br>Consumption: " +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt" + penalty;
 	}
 });

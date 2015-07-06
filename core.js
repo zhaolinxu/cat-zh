@@ -279,7 +279,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 });
 
 /**
- * A base class for game button. Inventing the wheels since 2014
+ * A base class for game button. Inventing the wheel since 2014
  */
 
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
