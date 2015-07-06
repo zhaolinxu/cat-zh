@@ -1942,7 +1942,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 			if (i <= stage){
 				//downgrade
 				this.stageLinks.push(
-					this.addLink("&#9733;",function(){
+					this.addLink("V",function(){
 						if (confirm('Do you want to downgrade building?')){
 							bldExt.meta.stage--;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
@@ -1953,7 +1953,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 			} else {
 				//upgrade
 				this.stageLinks.push(
-					this.addLink("&#9734;",function(){
+					this.addLink("^",function(){
 						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){
 							bldExt.meta.stage++;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
