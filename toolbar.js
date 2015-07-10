@@ -41,16 +41,13 @@ dojo.declare("classes.ui.Toolbar", null, {
 				tooltip.innerHTML = icon.getTooltip();
 			 };
 			 this.game.tooltipUpdateFunc();
-			 
-			 console.log("EVENT", event);
+
 			 var target = event.originalTarget || event.toElement;
 			 var pos = $(target).offset();
 			 if (!pos){
 				 return;
 			 }
-			 
-			 console.log("POS:", pos);
-			 
+
 			 dojo.setStyle(tooltip, "left", pos.left + "px");
 			 dojo.setStyle(tooltip, "top",  pos.top + "px");
 			
@@ -91,7 +88,7 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 	update: function(){
 	},
 	
-	getTooltip(){
+	getTooltip: function(){
 		return "Unimplemented";
 	}
 });
@@ -108,13 +105,13 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 			$(this.container).css("color", "red");
 		}
 	},
-	getTooltip(){
+	getTooltip: function(){
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons; 
 		
 		var penalty = energy > 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-75%</span>";
 		
-		return "Production: " +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt" +
-			   "<br>Consumption: " +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt" + penalty;
+		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
+			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
 	}
 });

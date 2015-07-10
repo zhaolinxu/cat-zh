@@ -375,6 +375,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Spice Demand Ratio",
 				resName: "spice",
 				type: "ratio"
+			},
+
+			// energy
+
+			"energyProduction": {
+				title: "Energy Production"
+			},
+			"energyConsumption": {
+				title: "Energy Consumption"
 			}
 		}
 	}

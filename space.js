@@ -69,7 +69,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: true,
 		effects: {
 			"observatoryRatio": 0.05,
-			"starchartPerTickBase": 0.001
+			"starchartPerTickBase": 0.001,
+			"energyConsumption": 1
 		},
 		upgrades: {
 			buildings: ["observatory"]

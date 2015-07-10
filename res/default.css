@@ -305,3 +305,9 @@ table.craftTable tr:hover td {
 #devPanel div {
     display: inline-block;
 }
+
+.toolbarIcon {
+    padding-right: 15px;
+    font-size: 12px;
+    cursor: default;
+}

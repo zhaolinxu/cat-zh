@@ -170,7 +170,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{
 				label: "Solar Farm",
 				description: "Provides an additional source of energy.",
-				prices: [{ name : "titanium", val: 1000 }],
+				prices: [{ name : "titanium", val: 250 }],
 				effects: {
 					"energyProduction": 2
 				},
@@ -1313,7 +1313,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		// paragon (25%)
 		var paragonRatio = this.game.resPool.get("paragon").value * 0.01;
 		paragonRatio = this.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
-
 			autoProdRatio *= (1 + paragonRatio * 0.25);
 
 		// reactors
@@ -1380,6 +1379,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		if(isHyperbolic && totalEffect < 0) {
 		  totalEffect = this.getHyperbolicEffect(totalEffect, 1.0);
 		}
+
+		//probably not the best place to handle this mechanics
+		//----------- move to separate part? -----------
+		if (
+			(name == "productionRatio" || name == "magnetoRatio")
+			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
+			//amazing 75% penalty for global production
+			totalEffect = totalEffect * 0.25;
+		}
+
 
 		return totalEffect ? totalEffect : 0;
 	},
