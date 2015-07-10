@@ -419,6 +419,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
  */
 dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	tooltipName: true,
+	simplePrices: false,
 
 	getMetadata: function(){
 		return this.game.religion.getZU(this.id);
@@ -458,6 +459,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	ruCached: null,
 	transcendence: null,
 	tooltipName: true,
+	simplePrices: false,
 
 	constructor: function(opts, game) {
 		this.transcendence = this.game.religion.getRU("transcendence");
