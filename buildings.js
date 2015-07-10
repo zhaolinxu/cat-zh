@@ -20,6 +20,10 @@ dojo.declare("classes.Metadata", null, {
     }
 });
 
+/**
+ * On a second thought, using meta wrappers/adapters does not seems like a such good idea.
+ * We probably should have an model class governed by a metadata, not an adapter
+ */
 dojo.declare("classes.BuildingMeta", classes.Metadata, {
 
     getMeta: function(){
@@ -160,7 +164,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				},
 				requiredTech: ["animal"],
 				priceRatio: 1.15,
-				flavor: "Take a pint o' milk, Sir!"
+				flavor: "Take a pint o' milk, Sir!",
+				stageUnlocked : true
 			},
 			{
 				label: "Solar Farm",
@@ -171,6 +176,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				},
 				requiredTech: ["electronics"],
 				priceRatio: 1.15,
+				stageUnlocked : false
 			}
 		],
 		stage: 0,
@@ -333,7 +339,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocked: false,
 		prices: [{ name : "slab", val: 100 },
 				 { name : "alloy", val: 25 },
-				 { name : "science", val: 1500 },
+				 { name : "science", val: 1500 }
 		],
 		enabled: true,
 		effects: {},
@@ -897,7 +903,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["mechanization"],
+		requiredTech: ["mechanization"]
 	},{
 		name: "reactor",
 		label: "Reactor",
@@ -911,7 +917,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "titanium",    val: 3500 },
 			{ name : "plate", 		val: 5000},
 			{ name : "concrate",    val: 50},
-			{ name : "blueprint",   val: 25},
+			{ name : "blueprint",   val: 25}
 		],
 		effects: {},
 		priceRatio: 1.15,
@@ -954,7 +960,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "titanium",    val: 7500 },
 			{ name : "concrate",    val: 125  },
-			{ name : "uranium",   	val: 25   },
+			{ name : "uranium",   	val: 25   }
 		],
 		effects: {},
 		priceRatio: 1.15,
@@ -1123,7 +1129,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
-		requiredTech: ["acoustics"],
+		requiredTech: ["acoustics"]
 	},
 	{
 		name: "temple",
@@ -1185,7 +1191,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-		}
+		},
+		flavor: "All praise Ceiling Cat!"
 	},
 	{
 		name: "unicornPasture",
@@ -1952,6 +1959,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				);
 			} else {
 				//upgrade
+				if (!bldExt.getMeta().stages[i].stageUnlocked){
+					continue;
+				}
 				this.stageLinks.push(
 					this.addLink("^",function(){
 						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){

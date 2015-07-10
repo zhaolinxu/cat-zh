@@ -483,17 +483,34 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "combustion",
 		title: "Combustion",
 		description: "Combustion provides a number of ways to improve old coal-based automation technologies, such as Steamworks.",
-		effectDesc: "Unlocks Offset Printing and Fuel Injection",
+		effectDesc: "Unlocks Offset Printing, Oil Refinery and Fuel Injection",
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 120000},
-			{name: 	"blueprint", val: 50}
+			{name : "science", val: 115000},
+			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
-			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"]
+			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"],
+			tech: ["ecology"]
 		}
-	},{
+	},
+	{
+		name: "ecology",
+		title: "Ecology",
+		description: "Description TBD",
+		effectDesc: "Unlocks Solar Plants",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 125000},
+			{name: 	"blueprint", val: 55}
+		],
+		unlocks: {
+			stages: [{bld:"pasture",stage:1}]
+		}
+	},
+	{
 		name: "electronics",
 		title: "Electronics",
 		description: "Electronics unlocks some high level upgrades mainly related to science",

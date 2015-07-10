@@ -357,6 +357,24 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"unhappinessRatio": {
 				title: "Happiness bonus",
 				type: "ratio"
+			},
+			
+			"fursDemandRatio" : {
+				title: "Furs Demand Ratio",
+				resName: "furs",
+				type: "ratio"
+			},
+			
+			"ivoryDemandRatio" : {
+				title: "Ivory Demand Ratio",
+				resName: "ivory",
+				type: "ratio"
+			},
+			
+			"spiceDemandRatio" : {
+				title: "Spice Demand Ratio",
+				resName: "spice",
+				type: "ratio"
 			}
 		}
 	}
@@ -1882,20 +1900,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		});
 	},
 
-	getUnlockByName: function(name, type){
+	getUnlockByName: function(unlockId, type){
 		switch(type) {
 			case "tech":
-				return this.science.get(name);
+				return this.science.get(unlockId);
 			case "jobs":
-				return this.village.getJob(name);
+				return this.village.getJob(unlockId);
 			case "crafts":
-				return this.workshop.getCraft(name);
+				return this.workshop.getCraft(unlockId);
 			case "upgrades":
-				return this.workshop.get(name);
+				return this.workshop.get(unlockId);
 			case "tabs":
-				return this.getTab(name);
+				return this.getTab(unlockId);
 			case "buildings":
-				return this.bld.get(name);
+				return this.bld.get(unlockId);
+			case "stages":
+				return this.bld.get(unlockId.bld);
 		}
 	},
 
@@ -1905,11 +1925,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return;
 			}
 			for (var i = list[type].length - 1; i >= 0; i--) {
-				var newTech = this.getUnlockByName(list[type][i], type);
+				var unlockId = list[type][i];
+				var newUnlock = this.getUnlockByName(unlockId, type);
 				if (type == "tabs") {
-					newTech.visible = true
+					newUnlock.visible = true
+				} else if (type == "stages") {
+					newUnlock.stages[unlockId.stage].stageUnlocked = true;
 				} else {
-					newTech.unlocked = true;
+					newUnlock.unlocked = true;
 				}
 			}
 		}
