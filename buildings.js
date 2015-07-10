@@ -1785,7 +1785,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if(building.val > 10) {
+		if(building.val > 9) {
 			//Steamworks specifically can be too large
 			dojo.setStyle(this.domNode,"font-size","90%");
 		}

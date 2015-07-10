@@ -641,7 +641,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "huntingArmor",
-		title: "Hunting Armor",
+		title: "Hunting Armour",
 		description: "Hunters are 4 times as effective",
 		effects: {
 			"hunterRatio" : 2
