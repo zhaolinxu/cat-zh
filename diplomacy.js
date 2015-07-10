@@ -407,14 +407,14 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
-				this.game.msg( race.title + " hate you for no reason");
+				this.game.msg( race.title + " hate you for no reason", null, "trade");
 			}
 			return;
 		}
 
 		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 			if (!suppressMessages){
-				this.game.msg( race.title + " think your kittens are adorable");
+				this.game.msg( race.title + " think your kittens are adorable", null, "trade");
 			}
 			tradeRatioAttitude = 0.25;
 		}
@@ -502,7 +502,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		//---------- calculate yield -----------------
 
-		this.game.msg("You have sent " + amt + " trade caravans");
+		this.game.msg("You have sent " + amt + " trade caravans", null, "trade");
 
 		var yieldResTotal = {};
 		for (var i = 0; i<amt; i++){
@@ -544,11 +544,11 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	printYieldOutput: function(yieldResTotal){
 		for (var res in yieldResTotal) {
 			if (res == "blueprint"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice");
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice", "trade");
 			} else if (res == "titanium"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice");
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice", "trade");
 			} else {
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res, null, "trade");
 			}
 		}
 	},
