@@ -630,7 +630,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	clearLog: function(){
 		this.console.static.clear();
 	},
-	
+
+	saveUI: function(){
+		this.save();
+
+		dojo.style(dojo.byId("saveTooltip"), "opacity", "1");
+		dojo.animateProperty({
+			node:"saveTooltip",
+			properties: {
+				opacity: 0
+			},
+			duration: 1200,
+		}).play();
+	},
+
 	save: function(){
 		this.ticksBeforeSave = this.autosaveFrequency;
 
@@ -884,7 +897,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	render: function(){
-
 		var midColumn = dojo.byId("midColumn");
 		var scrollPosition = midColumn.scrollTop;
 		

@@ -479,6 +479,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
+		unlockRatio: 0.15,
 
 		unlocks: {
 			jobs: ["miner"]
@@ -1227,7 +1228,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 		},
 		priceRatio: 1.25,
-		unlockRatio: 0.05,	//5% of resources required to unlock building instead of default 30
+		unlockRatio: 0.01,	//1% of resources required to unlock building instead of default 30
 		val: 0,
 		requiredTech: ["construction"]
 	},{

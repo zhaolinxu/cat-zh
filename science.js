@@ -61,7 +61,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 600,
+		cost: 500,
 		unlocks: {
 			tech: ["metal"],
 			upgrades: ["bolas"]
@@ -69,21 +69,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		flavor: "Pickaxes are easier to hold with opposable thumbs"
 	},{
 		name: "metal",
-		title: "Metal working",
+		title: "Metal Working",
 
 		description: "The first metal-working technology that provides your civilisation with sturdy, durable tools.",
 		effectDesc: "You can construct Smelters that convert ore into metal",
 
 		unlocked: false,
 		researched: false,
-		cost: 800,
+		cost: 900,
 		unlocks: {
 			upgrades: ["huntingArmor"]
 		}
 	},
 	{
 		name: "animal",
-		title: "Animal husbandry",
+		title: "Animal Husbandry",
 		description: "Domestication allows access to various animal resources via the pasture.",
 		effectDesc: "Unlocks Pastures",
 
@@ -96,9 +96,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	},{
 		name: "brewery",
-		title: "Brewery",
+		title: "Catnip Processing",
 
-		description: "Brewery is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
+		description: "Catnip Processing is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
 		effectDesc: "Unlocks Catnip Enrichment.",
 
 		unlocked: false,

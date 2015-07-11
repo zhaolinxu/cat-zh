@@ -1,3 +1,28 @@
+v 1.1.0.1
+
+Changes by coderpatsy:
+
+Show time for resources on Religion tooltips
+Fix display issues with exactly 10 of a tunable building
+Filter meteors' +science messages too
+Equal chance of warm and cold seasons
+Update BLS in tradeMultiple() like it does in trade() (better safe than sorry)
+Fixed armor/armour inconsistency
+Added tags to hunt and trade messages, so scripters can easily add filters for them
+____
+
+Village tab will display kittens in free/total format
+Base yeld of hunters was very slightly increased
+Hunt button will now display ETA
+
+Unlock Ratio for mines was reduced from 30% to 15%
+Unlock Ratio for ziggurats was reduced from 5% to 1%
+Save button will now display a confirmation message
+
+Pawse button will now have a description tooltip for confused players
+Brewery was renamed to Catnip Processing
+Metal Working and Mining prices were rebalanced
+
 v 1.1.0.0 (beta)
 Mechanics:
 	Staging
