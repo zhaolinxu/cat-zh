@@ -435,12 +435,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var furs = this.game.resPool.get("furs");
 
 		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		huntingRes.furs = this.rand(65) + this.rand(65 * hunterRatio);
+		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
 		furs.value += huntingRes.furs;
 
 		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
 			var ivory = this.game.resPool.get("ivory");
-			huntingRes.ivory = this.rand(40) + this.rand(40 * hunterRatio);
+			huntingRes.ivory = this.rand(50) + this.rand(40 * hunterRatio);
 
 			ivory.value += huntingRes.ivory;
 		}
@@ -1227,11 +1227,14 @@ dojo.declare("com.nuclearunicorn.game.ui.CensusPanel", com.nuclearunicorn.game.u
 		this.census.update();
 	}
 });
-//com.nuclearunicorn.game.ui.village.Census
+
+dojo.declare("classes.village.ui.HuntButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	simplePrices: false
+});
+
 /**
  * Village tab to manage jobs
  */
-
 dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.ui.tab, {
 
 	tdTop: null,
@@ -1334,9 +1337,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 
 		var tr = dojo.create("tr", {}, advVillageTable);
-		var statsTd = dojo.create("td", {}, tr);
+		var statsTd = dojo.create("td", { style: "cursor:pointer"}, tr);
 
-		statsTd.title = "Happiness will boost your workers' production. \n Rare resources will increase this value whilst over-population will reduce it";
+		statsTd.title = "Happiness affects your workers' production. \nRare resources will increase this value whilst over-population will reduce it";
 
 		this.happinessStats = statsTd;
 
@@ -1344,7 +1347,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//hunt
 
-		var huntBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		var huntBtn = new classes.village.ui.HuntButton({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
 				handler: dojo.hitch(this, function(){
@@ -1390,7 +1393,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 
 		if (this.tdTop){
-			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens();
+			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens() + " / " + this.game.resPool.get("kittens").value;
 		}
 
 		if (this.happinessStats){

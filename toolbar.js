@@ -95,6 +95,13 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 	update: function(){
+
+		if (!this.game.science.get("electricity").researched){
+			dojo.style(this.container, "display", "none");
+		} else {
+			dojo.style(this.container, "display", "");
+		}
+
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons; 
 		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(energy) + "Wt";
