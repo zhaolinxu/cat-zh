@@ -30,7 +30,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
         var bld = this.meta;
         if (bld.upgradable){
              return dojo.mixin(
-                dojo.clone(bld), bld.stages[bld.stage]);
+                dojo.clone(bld), bld.stages[bld.stage || 0]);
         }
         return bld;
     },
@@ -68,8 +68,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
-                var bld = new classes.BuildingMeta(bld).getMeta();
-
+				var bld = new classes.BuildingMeta(bld).getMeta();
 				// Need a better way to do this...
 				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
@@ -1685,7 +1684,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             this.build(bld);
             counter++;
         }
-        this.game.msg(bld.label + " x"+counter+ " constructed.", "notice");
+        this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x"+counter+ " constructed.", "notice");
     },
 
 	getName: function(){
@@ -1722,15 +1721,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	 */
 	renderLinks: function(){
 		var building = this.getMetadata();
+		var bldMeta = this.getMetadataRaw();
 
-		if (building && building.val && this.hasSellLink()){
+		if (bldMeta && bldMeta.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
 					function(){
-						building.val--;
+						bldMeta.val--;
 
-						if (building.on > building.val){
-							building.on = building.val;
+						if (bldMeta.on > bldMeta.val){
+							building.on = bldMeta.val;
 						}
 
 						this.refund(0.5);
@@ -1747,6 +1747,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
+		//TODO: is this even supposed to work?
 		if (building.tunable){
 			if (!this.remLinks){
 				this.remLinks = this.addLinkList([
