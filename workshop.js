@@ -437,6 +437,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	//----------- energy stuff ---------
+	{
+		name: "photovoltaic",
+		title: "Photovoltaic Cells",
+		description: "Solar Farms are 50% more effective",
+		prices:[
+			{ name : "science", val: 75000 },
+			{ name : "titanium", val: 5000 }
+		],
+		unlocked: false,
+		researched: false
+	},
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",

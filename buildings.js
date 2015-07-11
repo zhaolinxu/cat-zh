@@ -180,7 +180,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		],
 		stage: 0,
-		val: 0
+		val: 0,
+
+		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
+			if (self.stage == 0){
+				//do nothing
+			} else if (self.stage == 1){
+				var effects = {
+					"energyProduction": 2
+				};
+				if (game.workshop.get("photovoltaic").researched){
+					effects.energyProduction *= 1.5;	//TODO: get actual effect
+				}
+				stageMeta.effects = effects;
+			}
+		}
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
@@ -1504,7 +1519,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1514,7 +1529,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	load: function(saveData){
-
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings: false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 
@@ -1528,7 +1542,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					bld.set("val", savedBld.val);
 					bld.set("unlocked", savedBld.unlocked);
-					bld.unlocked = savedBld.unlocked;
+
 					if(savedBld.on != undefined){
 						bld.set("on", savedBld.on);
 					}
@@ -1537,6 +1551,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						bld.set("jammed", savedBld.jammed);
 					}
 					bld.set("enabled", savedBld.enabled);
+					if (bld.meta.upgradable){
+						bld.set("stage", savedBld.stage);
+					}
 				}
 			}
 		}
