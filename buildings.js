@@ -1677,7 +1677,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable) {
 				var name = this.name;
 
-				var postfix = building.gettunable ? ( "|" +building.on ) : "";
+				var postfix = building.tunable ? ( "|" +building.on ) : "";
 				return name + " ("+ building.val + postfix + ")";
 			} else {
 				var name = this.name;
