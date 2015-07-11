@@ -265,7 +265,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
 				this.game.resPool.addResAmt("science", sciBonus);
-				this.game.msg("+" + sciBonus.toFixed() + " science!");
+				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
 
 			minerals.value += mineralsAmt;
@@ -343,7 +343,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.eventChance = 0;
 
 		if (this.game.rand(100) < 35 && this.year > 3){
-			if (this.game.rand(100) > 50){
+			if (this.game.rand(100) < 50){
 				this.weather = "warm";
 			} else {
 				this.weather = "cold";

@@ -467,7 +467,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	sendHunters: function(){
 		var huntingRes = this.sendHuntersInternal();
 		if (huntingRes.isUnicorn){
-			this.game.msg("You got a unicorn!", "important");
+			this.game.msg("You got a unicorn!", "important", "hunt");
 		}
 		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
 		if (huntingRes.ivory){
@@ -476,7 +476,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (huntingRes.gold){
 			msg += ", +" + huntingRes.gold + " gold";
 		}
-		this.game.msg( msg );
+		this.game.msg( msg, null, "hunt" );
 	},
 
 	huntAll: function(){
@@ -505,7 +505,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 		if (totalYield.unicorns){
-			this.game.msg("You got " + totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!");
+			this.game.msg("You got " + totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!", null, "hunt");
 		}
 		var msg = "Your hunters have returned";
 		if (squads > 1) {
@@ -518,7 +518,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (totalYield.gold){
 			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " gold";
 		}
-		this.game.msg( msg );
+		this.game.msg( msg, null, "hunt" );
 
 	},
 
