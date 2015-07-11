@@ -351,7 +351,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"scienceRatio": 0.35,
 				"refineRatio" : 0.1,
 				"scienceMax"  : 1500,
-				"energyProduction" : 1
+				"energyConsumption" : 1
 			};
 
 			if (game.workshop.get("biofuel").researched){
@@ -900,7 +900,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		effects: {
 			"craftRatio" : 0.05,
-			"energyConsumption" : 1
+			"energyConsumption" : 2
 		},
 		priceRatio: 1.15,
 		val: 0,

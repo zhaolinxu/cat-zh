@@ -99,7 +99,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		effects: {
 			"scienceRatio": 0.5,
-			"maxKittens": 2
+			"maxKittens": 2,
+			"energyConsumption": 10
 		}
 	},{
 		name: "moonMission",
@@ -145,7 +146,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		on:	  0,
 		effects: {
 			"uraniumPerTick": -0.35,
-			"unobtainiumPerTick": 0.007
+			"unobtainiumPerTick": 0.007,
+			"energyConsumption": 5
 		},
 		action: function(game, self){
 			
@@ -188,7 +190,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"goldMax"		: 500,
 			"titaniumMax"	: 1250,
 			"oilMax"		: 3500,
-			"unobtainiumMax": 150
+			"unobtainiumMax": 150,
+			"energyConsumption": 10
 		},
 		upgradable: true,
 		togglable: 	false,
@@ -361,7 +364,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             on:	  0,
             effects: {
 				"spaceRatio": 0.02,
-				"energyConsumption" : 10
+				"energyConsumption" : 20
 			},
             action: function(game, self){
             }
