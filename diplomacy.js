@@ -383,6 +383,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	trade100Href: null,
 	tradeAllHref: null,
 
+	simplePrices: false,
+
 	constructor: function(opts, game){
 		this.race = opts.race;
 
@@ -591,6 +593,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	}
 });
 
+dojo.declare("classes.trade.ui.SendExplorersButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	simplePrices: false
+});
+
 //==================================================================================
 //									DIPLOMACY
 //==================================================================================
@@ -735,7 +741,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "15px"
 		} }, tabContainer);
 
-		var exploreBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		var exploreBtn = new classes.trade.ui.SendExplorersButton({
 			name: "Send explorers",
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],

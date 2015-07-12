@@ -2,6 +2,10 @@ v 1.1.1.1
 Census UI cleanup
 Census kittens will be now automatically sort by their experience
 
+Trade button and Send Explorers button will now display ETA
+Unlocked upgrades will not display ETA anymore
+
+
 v 1.1.1.0
 Superconductors
 Photovoltaic Cells

@@ -1717,6 +1717,11 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}
 	},
 
+	getSimplePrices: function(){
+		var upgrade = this.getUpgrade();
+		return this.simplePrices && !upgrade.researhed;
+	},
+
 	getFlavor: function(){
 		var bld = this.getUpgrade();
 		return bld.flavor;

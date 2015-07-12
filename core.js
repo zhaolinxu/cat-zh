@@ -822,7 +822,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (this.prices){
 			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-			this.renderPrices(tooltip, this.simplePrices);	//simple prices
+			this.renderPrices(tooltip, this.getSimplePrices());	//simple prices
 		}
 
 		var effects = this.getEffects();
@@ -846,6 +846,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 
 		return tooltip.outerHTML;
+	},
+	getSimplePrices: function() {
+		return this.simplePrices;
 	},
 
 	renderPrices: function(tooltip, simpleUI){
