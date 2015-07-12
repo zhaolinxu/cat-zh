@@ -1102,7 +1102,11 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 	},
 
 	sortKittensByExp: function(kittens){
-		kittens.sort(function(a,b){return a.exp - b.exp});
+		var v = this.game.village;
+		kittens.sort(function(a,b){
+			return (a.rank ? v.getRankExp(a.rank) : 0 + a.exp)
+				 - (b.rank ? v.getRankExp(b.rank) : 0 + b.exp);
+		});
 	},
 
 
@@ -1119,6 +1123,31 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		}
 
 		this.leaderDiv = dojo.create("div", null, governmentDiv);
+		//------------------------------------
+		var leader = this.game.village.leader;
+		if (leader) {
+			var expToPromote = this.game.village.getRankExp(leader.rank);
+			this.promoteLeaderHref = dojo.create("a", {
+				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp)",
+				style: {
+					display: leader.exp < expToPromote ? "none" : "block"
+				}
+			}, this.governmentDiv);
+
+			dojo.connect(this.promoteLeaderHref, "onclick", this, dojo.partial(function(census, leader, event){
+				event.preventDefault();
+				var game = census.game;
+
+				if (leader.exp >= game.village.getRankExp(leader.rank)){
+					leader.exp -= game.village.getRankExp(leader.rank);
+					leader.rank++;
+				}
+				census.renderGovernment(census.container);
+				census.update();
+
+			}, this, leader));
+		}
+		//------------------------------------
 
 		/*var councilDiv = dojo.create("div", {}, governmentDiv);
 		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
@@ -1159,9 +1188,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var leaderInfo = "N/A";
 		var leader = this.game.village.leader;
 		if (leader){
-			var title = leader.trait.title == "None" ? "No trait :(" : leader.trait.title + " rank " + leader.rank;
+			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " rank " + leader.rank;
+			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
+
 			leaderInfo = leader.name + " " + leader.surname + " (" + title +")" +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
+
+			if( nextRank > leader.exp) {
+				leaderInfo += " (" + Math.floor(leader.exp / nextRank * 100 ) + "%)";
+			}
 		}
 		//TODO: promote leader link
 
