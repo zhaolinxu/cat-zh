@@ -30,7 +30,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
         var bld = this.meta;
         if (bld.upgradable){
              return dojo.mixin(
-                dojo.clone(bld), bld.stages[bld.stage]);
+                dojo.clone(bld), bld.stages[bld.stage || 0]);
         }
         return bld;
     },
@@ -38,7 +38,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
     set: function(attr, value){
 		var bld = this.meta;
 		if (bld.upgradable){
-			var stage = bld.stages[bld.stage];
+			var stage = bld.stages[bld.stage || 0];
 			
 			//try to set stage attribute if defined in metadata
 			if (stage[attr] != undefined) {
@@ -68,8 +68,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
-                var bld = new classes.BuildingMeta(bld).getMeta();
-
+				var bld = new classes.BuildingMeta(bld).getMeta();
 				// Need a better way to do this...
 				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
@@ -180,7 +179,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		],
 		stage: 0,
-		val: 0
+		val: 0,
+
+		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
+			if (self.stage == 0){
+				//do nothing
+			} else if (self.stage == 1){
+				var effects = {
+					"energyProduction": 2
+				};
+				if (game.workshop.get("photovoltaic").researched){
+					effects.energyProduction *= 1.5;	//TODO: get actual effect
+				}
+				stageMeta.effects = effects;
+			}
+		}
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
@@ -351,7 +365,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"scienceRatio": 0.35,
 				"refineRatio" : 0.1,
 				"scienceMax"  : 1500,
-				"energyProduction" : 1
+				"energyConsumption" : 1
 			};
 
 			if (game.workshop.get("biofuel").researched){
@@ -852,6 +866,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
+		on: 0,
 		requiredTech: ["chemistry"],
 		canUpgrade: true,
 		calculateEffects: function(self, game){
@@ -866,7 +881,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = effects;
 		},
-		flavor: "Rise early, work hard, strike oil."
+		flavor: "Rise early, work hard, strike oil.",
+		togglable: true,
+		tunable: true,
+		action: function(self, game){
+
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
@@ -900,10 +920,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		effects: {
 			"craftRatio" : 0.05,
-			"energyConsumption" : 1
+			"energyConsumption" : 2
 		},
 		priceRatio: 1.15,
 		val: 0,
+		on: 0,
+		togglable: true,
+		tunable: true,
+		action: function(self, game){
+
+		},
 		requiredTech: ["mechanization"]
 	},{
 		name: "reactor",
@@ -1504,7 +1530,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1514,7 +1540,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	load: function(saveData){
-
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings: false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 
@@ -1528,7 +1553,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					bld.set("val", savedBld.val);
 					bld.set("unlocked", savedBld.unlocked);
-					bld.unlocked = savedBld.unlocked;
+
 					if(savedBld.on != undefined){
 						bld.set("on", savedBld.on);
 					}
@@ -1537,6 +1562,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						bld.set("jammed", savedBld.jammed);
 					}
 					bld.set("enabled", savedBld.enabled);
+					if (bld.meta.upgradable){
+						bld.set("stage", savedBld.stage);
+					}
 				}
 			}
 		}
@@ -1668,7 +1696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             this.build(bld);
             counter++;
         }
-        this.game.msg(bld.label + " x"+counter+ " constructed.", "notice");
+        this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x"+counter+ " constructed.", "notice");
     },
 
 	getName: function(){
@@ -1705,15 +1733,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	 */
 	renderLinks: function(){
 		var building = this.getMetadata();
+		var bldMeta = this.getMetadataRaw();
 
-		if (building && building.val && this.hasSellLink()){
+		if (bldMeta && bldMeta.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
 					function(){
-						building.val--;
+						bldMeta.val--;
 
-						if (building.on > building.val){
-							building.on = building.val;
+						if (bldMeta.on > bldMeta.val){
+							building.on = bldMeta.val;
 						}
 
 						this.refund(0.5);
@@ -1730,6 +1759,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
+		//TODO: is this even supposed to work?
 		if (building.tunable){
 			if (!this.remLinks){
 				this.remLinks = this.addLinkList([
@@ -1738,7 +1768,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					title: "-",
 					handler: function(){
 						var building = this.getMetadata();
-						if (building.on){
+						if (bldMeta.on){
 							building.on--;
 						}
 					}
@@ -1778,7 +1808,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!this.toggle && !building.tunable){
 			this.toggle = this.addLink( building.enabled ? "off" : "on",
 				function(){
-					var building = this.getBuilding();
+					var building = this.getMetadataRaw();
 					building.enabled = !building.enabled;
 
 					building.on = building.enabled ? building.val : 0;	//legacy safe switch
@@ -1950,8 +1980,8 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 		var bldExt = this.game.bld.getBuildingExt(this.buildingName);
 
 		var stages = bldExt.getMeta().stages.length;
-		var stage = bldExt.getMeta().stage;
-		
+		var stage = bldExt.meta.stage || 0;
+
 		if (this.stageLinks.length > 0){
 			return;
 		}
@@ -1961,7 +1991,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				this.stageLinks.push(
 					this.addLink("V",function(){
 						if (confirm('Do you want to downgrade building?')){
-							bldExt.meta.stage--;
+							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
 							this.game.render();
 						}
@@ -1975,7 +2005,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				this.stageLinks.push(
 					this.addLink("^",function(){
 						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){
-							bldExt.meta.stage++;
+							bldExt.meta.stage = bldExt.meta.stage + 1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
 							this.game.render();
 						}

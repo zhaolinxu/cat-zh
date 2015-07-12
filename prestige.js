@@ -241,6 +241,10 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	constructor: function(opts, game) {
 	},
 
+	getMetadata: function(){
+		return this.getPerk(this.perk);
+	},
+
 	getPerk: function(id){
 		if (!this.perk){
 			this.perk = this.game.prestige.getPerk(this.id);

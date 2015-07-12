@@ -955,6 +955,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var kittensLimit = 0;
 
 		var sim = this.game.village.sim;
+		this.sortKittensByExp(sim.kittens);
+
 		for (var i = sim.kittens.length - 1; i >= 0 && kittensLimit < 10; i--) {
 
 			var kitten = sim.kittens[i];
@@ -1000,10 +1002,12 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			}, linksDiv);
 
 			var leaderHref = dojo.create("a", {
-				href: "#", innerHTML: "Make Leader",
+				href: "#", innerHTML: "&#9734;",	//star-shaped link to reduce visual noise
 				style: {
-					display: kitten.isLeader || kitten.isSenator ? "none" : "block"
-				}
+					display: kitten.isLeader || kitten.isSenator ? "none" : "block",
+					float: "right"
+				},
+				title: "Make a leader"
 			}, linksDiv);
 
 			var senatorHref = dojo.create("a", {
@@ -1013,13 +1017,13 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, linksDiv);
 
-			var expToPromote = this.game.village.getRankExp(kitten.rank+1);
+			/*var expToPromote = this.game.village.getRankExp(kitten.rank+1);
 			var promoteHref = dojo.create("a", {
 				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp)",
 				style: {
 					display: kitten.exp < expToPromote ? "none" : "block"
 				}
-			}, linksDiv);
+			}, linksDiv);*/
 
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
@@ -1049,7 +1053,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				census.update();
 			}, this, i));
 
-			dojo.connect(promoteHref, "onclick", this, dojo.partial(function(census, i, event){
+			/*dojo.connect(promoteHref, "onclick", this, dojo.partial(function(census, i, event){
 				event.preventDefault();
 				var game = census.game;
 
@@ -1061,7 +1065,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				census.renderGovernment(census.container);
 				census.update();
 
-			}, this, i));
+			}, this, i));*/
 
 			//rankExp
 
@@ -1096,6 +1100,16 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			});
 		}
 	},
+
+	sortKittensByExp: function(kittens){
+		var v = this.game.village;
+		kittens.sort(function(a,b){
+			return (a.rank ? v.getRankExp(a.rank) : 0 + a.exp)
+				 - (b.rank ? v.getRankExp(b.rank) : 0 + b.exp);
+		});
+	},
+
+
 	
 	renderGovernment: function(container){
 		var governmentDiv = this.governmentDiv;
@@ -1107,17 +1121,33 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		} else {
 			dojo.empty(governmentDiv);
 		}
-		
 
-		var leaderName = "N/A";
+		this.leaderDiv = dojo.create("div", null, governmentDiv);
+		//------------------------------------
 		var leader = this.game.village.leader;
-		if (leader){
-			var title = leader.trait.title == "None" ? "No trait :(" : leader.trait.title + " rank " + leader.rank;
-			leaderName = leader.name + " " + leader.surname + " (" + title +")";
-		}
-		//TODO: promote leader link
+		if (leader) {
+			var expToPromote = this.game.village.getRankExp(leader.rank);
+			this.promoteLeaderHref = dojo.create("a", {
+				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp)",
+				style: {
+					display: leader.exp < expToPromote ? "none" : "block"
+				}
+			}, this.governmentDiv);
 
-		dojo.create("div", { innerHTML: "<strong>Leader:</strong> " + leaderName}, governmentDiv);
+			dojo.connect(this.promoteLeaderHref, "onclick", this, dojo.partial(function(census, leader, event){
+				event.preventDefault();
+				var game = census.game;
+
+				if (leader.exp >= game.village.getRankExp(leader.rank)){
+					leader.exp -= game.village.getRankExp(leader.rank);
+					leader.rank++;
+				}
+				census.renderGovernment(census.container);
+				census.update();
+
+			}, this, leader));
+		}
+		//------------------------------------
 
 		/*var councilDiv = dojo.create("div", {}, governmentDiv);
 		var councilList = dojo.create("div", { innerHTML: "<strong>Council:</strong>"}, councilDiv);
@@ -1153,7 +1183,26 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 	},
 
 	update: function(){
-		
+
+		//update leader stats
+		var leaderInfo = "N/A";
+		var leader = this.game.village.leader;
+		if (leader){
+			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " rank " + leader.rank;
+			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
+
+			leaderInfo = leader.name + " " + leader.surname + " (" + title +")" +
+				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
+
+			if( nextRank > leader.exp) {
+				leaderInfo += " (" + Math.floor(leader.exp / nextRank * 100 ) + "%)";
+			}
+		}
+		//TODO: promote leader link
+
+		this.leaderDiv.innerHTML = "<strong>Leader:</strong>" + leaderInfo;
+
+
 		//TODO: update senators
 		
 		for (var i = 0; i < this.records.length; i++){
@@ -1177,13 +1226,13 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			}*/
 			dojo.setStyle(record.senatorHref, "display", "none");
 
-			var traitTitle = kitten.trait.title;
+			/*var traitTitle = kitten.trait.title;
 			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
-			var rank = kitten.rank ? " rank " + kitten.rank : "";
+			var rank = kitten.rank ? " rank " + kitten.rank : "";*/
 
 			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job  +
-				trait + rank + "<br>" +
-				"age: " + kitten.age + ", exp: " + this.game.getDisplayValueExt(kitten.exp) ;
+				/*trait + rank +*/ "<br>" +
+				"age: " + kitten.age /*+ ", exp: " + this.game.getDisplayValueExt(kitten.exp) */;
 
 			//--------------- skills ----------------
 			var skillsArr = this.game.village.sim.getSkillsSorted(kitten.skills);

@@ -635,7 +635,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanosuits and Augmentations",
+		effectDesc: "Unlocks Nanosuits, Augmentations and PVC",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -643,7 +643,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["augumentation", "nanosuits"]
+			tech: ["superconductors"],
+			upgrades: ["augumentation", "nanosuits", "photovoltaic"]
+		}
+	},{
+		name: "superconductors",
+		title: "Superconductors",
+		description: "TBD",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 225000},
+			{name: 	"blueprint", val: 175}
+		],
+		unlocks: {
 		}
 	},{
 		name: "particlePhysics",

@@ -437,6 +437,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	//----------- energy stuff ---------
+	{
+		name: "photovoltaic",
+		title: "Photovoltaic Cells",
+		description: "Solar Farms are 50% more effective",
+		prices:[
+			{ name : "science", val: 75000 },
+			{ name : "titanium", val: 5000 }
+		],
+		unlocked: false,
+		researched: false
+	},
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
@@ -1703,6 +1715,11 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		if (upgrade.researched && this.game.workshop.hideResearched){
 			this.setVisible(false);
 		}
+	},
+
+	getSimplePrices: function(){
+		var upgrade = this.getUpgrade();
+		return this.simplePrices && !upgrade.researhed;
 	},
 
 	getFlavor: function(){

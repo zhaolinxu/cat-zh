@@ -46,15 +46,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "science", val: 100000},
 			{name: "unobtainium", val: 50},
 		],
+		togglable: true,
+		tunable: true,
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
+		on: 0,
 		effects: {
 			"oilReductionRatio": 0.05,
 			"energyConsumption" : 5
+		},
+		action: function(self, game){
+
 		}
 	},{
 		name: "sattelite",
-		title: "Deploy Satellite",
+		title: "Satellite",
 		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
 		prices: [
@@ -66,7 +72,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		priceRatio: 1.08,
 		requiredTech: ["sattelites"],
 		val: 0,
+		on: 0,
 		upgradable: true,
+		togglable: true,
+		tunable: true,
 		effects: {
 			"observatoryRatio": 0.05,
 			"starchartPerTickBase": 0.001,
@@ -81,7 +90,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			
 	},{
 		name: "spaceStation",
-		title: "Deploy S. Station",
+		title: "Space Station",
 		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
 		prices: [
@@ -93,13 +102,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		priceRatio: 1.12,
 		requiredTech: ["orbitalEngineering"],
 		val: 0,
+		on: 0,
+		togglable: true,
+		tunable: true,
 		upgradable: true,
 		handler: function(game, self){
 			game.ironWill = false;			//sorry folks
 		},
 		effects: {
 			"scienceRatio": 0.5,
-			"maxKittens": 2
+			"maxKittens": 2,
+			"energyConsumption": 10
 		}
 	},{
 		name: "moonMission",
@@ -145,7 +158,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		on:	  0,
 		effects: {
 			"uraniumPerTick": -0.35,
-			"unobtainiumPerTick": 0.007
+			"unobtainiumPerTick": 0.007,
+			"energyConsumption": 5
 		},
 		action: function(game, self){
 			
@@ -188,12 +202,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"goldMax"		: 500,
 			"titaniumMax"	: 1250,
 			"oilMax"		: 3500,
-			"unobtainiumMax": 150
+			"unobtainiumMax": 150,
+			"energyConsumption": 10
+		},
+		action: function(game, self){
+
 		},
 		upgradable: true,
-		togglable: 	false,
-		tunable: 	false,
-		val: 0,
+		togglable: 	true,
+		tunable: 	true,
+		on: 0,
+		val: 0
 	},{
 		name: "duneMission",
 		title: "Dune Mission",
@@ -361,10 +380,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             on:	  0,
             effects: {
 				"spaceRatio": 0.02,
-				"energyConsumption" : 10
+				"energyConsumption" : 20
 			},
             action: function(game, self){
-            }
+            },
+			togglable: true,
+			tunable: true
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
