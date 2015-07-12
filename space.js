@@ -514,7 +514,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	getEffect: function(name){
 		var self = this;
 
-		return this.getMetaEffect(name, { meta:this.programs, provider: {
+		var totalEffect =  this.getMetaEffect(name, { meta:this.programs, provider: {
 			getEffect: function(program, effectName){
 				if (!program.effects){
 					return 0;
@@ -541,6 +541,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}});
 			}
 		}});
+
+		if ((name == "spaceRatio")
+			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
+			totalEffect = totalEffect * 0.25;
+		}
+		return totalEffect;
 	}
 });
 
