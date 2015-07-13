@@ -1813,7 +1813,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorns", "tears", "furs", "ivory", "spice", "paragon", "karma", "rocket"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn"];
 		
 		
 		
