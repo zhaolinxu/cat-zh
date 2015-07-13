@@ -1244,6 +1244,10 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 				var exp = skillsArr[j].val;
 
+				if (exp <= 0){
+					break;
+				}
+
 				var nextExp = this.game.villageTab.getNextSkillExp(exp);	//UGLY
 				var prevExp = this.game.villageTab.getPrevSkillExp(exp);	//UGLY
 
