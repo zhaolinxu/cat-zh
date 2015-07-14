@@ -116,7 +116,7 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons; 
 		
-		var penalty = energy > 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-75%</span>";
+		var penalty = energy >= 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-75%</span>";
 		
 		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
 			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;

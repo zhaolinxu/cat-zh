@@ -1215,7 +1215,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		}
 		//TODO: promote leader link
 
-		this.leaderDiv.innerHTML = "<strong>Leader:</strong>" + leaderInfo;
+		this.leaderDiv.innerHTML = "<strong>Leader:</strong> " + leaderInfo;
 
 
 		//TODO: update senators
