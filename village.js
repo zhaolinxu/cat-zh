@@ -291,7 +291,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod-1) * productionRatio);
 
 						if (diff > 0 ){
-							diff  = diff * this.happiness;	//alter positive resource production from jobs
+							if (kitten.isLeader){
+								diff *= this.getLeaderBonus(kitten.rank);
+							}
+							diff *= this.happiness;	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
@@ -304,6 +307,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 		this.resourceProduction = res;
+	},
+
+	getLeaderBonus: function(rank){
+		return rank == 0 ? 1.0 : (rank + 1) / 1.4;
 	},
 
 	/**
@@ -1125,12 +1132,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		this.leaderDiv = dojo.create("div", null, governmentDiv);
 		//------------------------------------
 		var leader = this.game.village.leader;
+		var gold = this.game.resPool.get("gold");
 		if (leader) {
 			var expToPromote = this.game.village.getRankExp(leader.rank);
+			var goldToPromote = 25 * (leader.rank + 1);
 			this.promoteLeaderHref = dojo.create("a", {
-				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp)",
+				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp, " + goldToPromote + " gold)",
 				style: {
-					display: leader.exp < expToPromote ? "none" : "block"
+					display:
+						(leader.exp < expToPromote || gold.value < goldToPromote) ? "none" : "block"
 				}
 			}, this.governmentDiv);
 
@@ -1138,8 +1148,9 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				event.preventDefault();
 				var game = census.game;
 
-				if (leader.exp >= game.village.getRankExp(leader.rank)){
+				if (leader.exp >= game.village.getRankExp(leader.rank) && gold.value > goldToPromote){
 					leader.exp -= game.village.getRankExp(leader.rank);
+					gold.value -= goldToPromote;
 					leader.rank++;
 				}
 				census.renderGovernment(census.container);
@@ -1196,6 +1207,10 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 			if( nextRank > leader.exp) {
 				leaderInfo += " (" + Math.floor(leader.exp / nextRank * 100 ) + "%)";
+			}
+
+			if (leader.rank > 0){
+				leaderInfo += "<br><br>Job bonus: x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" + leader.job + ")";
 			}
 		}
 		//TODO: promote leader link
