@@ -109,6 +109,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		handler: function(game, self){
 			game.ironWill = false;			//sorry folks
 		},
+		action: function(self, game){
+
+		},
 		effects: {
 			"scienceRatio": 0.5,
 			"maxKittens": 2,
