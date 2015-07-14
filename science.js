@@ -371,7 +371,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["biology"],
-			jobs: ["geologist"]
+			jobs: ["geologist"],
+			upgrades:["geodesy"]
 		},
 		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal."
 	},{

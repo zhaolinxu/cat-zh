@@ -751,9 +751,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		unlocks: {
-			upgrades: ["geodesy"]
-		},
 		unlocked: false,
 		researched: false,
 		flavor: "Shiny!"
