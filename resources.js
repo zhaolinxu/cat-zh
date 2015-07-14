@@ -628,12 +628,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var season = this.game.calendar.getCurSeason();
 			if (season.modifiers[res.name] && res.perTickUI != 0 ){
 					
-				var modifer = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
-				row.resWMod.textContent = modifer ? "[" + modifer.toFixed() + "%]" : "";
+				var modifier = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
+				row.resWMod.textContent = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
-				if (modifer > 0){
+				if (modifier > 0){
 					dojo.setStyle(row.resWMod, "color", "green");
-				}else if (modifer < 0){
+				}else if (modifier < 0){
 					dojo.setStyle(row.resWMod, "color", "red");
 				} else {
 					if (row.resWMod.style.color != "black"){

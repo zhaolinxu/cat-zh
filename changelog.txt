@@ -1,4 +1,19 @@
-v 1.1.1.1
+v 1.1.1.3 (13 jul)
+Production bonus for leader based on rank
+Promotion will now require gold
+
+v 1.1.1.2 (13 jul)
+Changes by coderpatsy:
+
+Chronospheres ignore Alicorns and Necrocorns (thanks /u/underpantscannon)
+External links open in a new tab/window
+Don't show a kitten's skill level if <= 0
+______
+
+Geodesy will now require Archeology as a prereq
+
+
+v 1.1.1.1 (12 jul)
 Census UI cleanup
 Census kittens will be now automatically sort by their experience
 
@@ -6,11 +21,11 @@ Trade button and Send Explorers button will now display ETA
 Unlocked upgrades will not display ETA anymore
 
 
-v 1.1.1.0
+v 1.1.1.0 (12 jul)
 Superconductors
 Photovoltaic Cells
 
-v 1.1.0.1
+v 1.1.0.1 (11 jul)
 
 Changes by coderpatsy:
 
@@ -35,7 +50,7 @@ Pawse button will now have a description tooltip for confused players
 Brewery was renamed to Catnip Processing
 Metal Working and Mining prices were rebalanced
 
-v 1.1.0.0 (beta)
+v 1.1.0.0 (beta) (11 jul)
 Mechanics:
 	Staging
 	Energy
