@@ -97,6 +97,13 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	update: function(){
+
+		if (!this.game.village.getKittens() <= 5){
+			dojo.style(this.container, "display", "none");
+		} else {
+			dojo.style(this.container, "display", "");
+		}
+
 		this.container.innerHTML = "&#128568;&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
 		$(this.container).css("color", "Coral");
 	},
