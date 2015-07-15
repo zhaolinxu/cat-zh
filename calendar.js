@@ -153,10 +153,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			var calendarSignSpan = dojo.byId("calendarSign");
 			var cycle = this.cycles[this.cycle];
-
-			calendarSignSpan.innerHTML = cycle.glyph;
-			calendarSignSpan.title = cycle.title + " (Year "+this.cycleYear+")";
-
+			if (cycle){
+				calendarSignSpan.innerHTML = cycle.glyph;
+				calendarSignSpan.title = cycle.title + " (Year "+this.cycleYear+")";
+			}
 		} else {
 			calendarDiv.textContent = this.seasons[this.season].title
 		}

@@ -98,7 +98,7 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	update: function(){
 
-		if (!this.game.village.getKittens() <= 5){
+		if (this.game.village.getKittens() <= 5){
 			dojo.style(this.container, "display", "none");
 		} else {
 			dojo.style(this.container, "display", "");
