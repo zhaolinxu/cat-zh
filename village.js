@@ -428,6 +428,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			happiness = 25;
 		}
 
+		var overpopulation = this.getKittens() - this.maxKittens;
+		if (overpopulation > 0){
+			happiness -= overpopulation * 2;	//overpopulation penalty
+		}
+
 		this.happiness = happiness/100;
 	},
 
@@ -1471,7 +1476,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var festivalDays = this.game.calendar.festivalDays;
 		if (festivalDays){
-			this.happinessStats.innerHTML += " ("+festivalDays+" days)";
+			this.happinessStats.innerHTML += " ("+ this.game.getDisplayValueExt(festivalDays) + " days)";
 		}
 
 		if (this.statisticsPanel){
