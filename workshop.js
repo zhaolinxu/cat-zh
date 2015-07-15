@@ -661,7 +661,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "wood", val: 50 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Weaponized yarn"
 	},{
 		name: "huntingArmor",
 		title: "Hunting Armour",

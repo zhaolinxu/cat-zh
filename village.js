@@ -423,14 +423,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var karma = this.game.resPool.get("karma");
 		happiness += karma.value;	//+1% to the production per karma point
 
-
-		if (happiness < 25){
-			happiness = 25;
-		}
-
 		var overpopulation = this.getKittens() - this.maxKittens;
 		if (overpopulation > 0){
 			happiness -= overpopulation * 2;	//overpopulation penalty
+		}
+
+		if (happiness < 25){
+			happiness = 25;
 		}
 
 		this.happiness = happiness/100;

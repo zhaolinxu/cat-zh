@@ -183,7 +183,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["philosophy", "machinery", "steel"],
 			crafts: ["parchment"]
-		}
+		},
+		flavor: "Writing uses less ink than pawprints"
 	},{
 		name: "philosophy",
 		title: "Philosophy",
