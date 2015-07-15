@@ -46,17 +46,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "science", val: 100000},
 			{name: "unobtainium", val: 50},
 		],
-		togglable: true,
-		tunable: true,
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
-		on: 0,
 		effects: {
-			"oilReductionRatio": 0.05,
-			"energyConsumption" : 5
+			"oilReductionRatio": 0.05
 		},
 		action: function(self, game){
-
+			self.on = self.val;
 		}
 	},{
 		name: "sattelite",
@@ -86,6 +82,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		action: function(game, self){
 			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
+			//this is a kind of hack and we probably should disable consumption for satellites at all
+			if (game.workshop.get("solarSatellites").researched){
+				self.effects["energyConsumption"] = 0;
+				self.effects["energyProduction"] = 1;
+
+				self.on = self.val;
+				self.togglable = false;
+				self.tunable = false;
+			}
 		}
 			
 	},{
@@ -411,6 +416,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
+				"energyProduction" : 25
 			},
             action: function(game, self){
             }
