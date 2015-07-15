@@ -7,7 +7,9 @@ dojo.declare("classes.ui.Toolbar", null, {
 		this.game = game;
 		
 		this.icons= [];
-		
+
+
+		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
 	},	
 	
@@ -90,6 +92,27 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 	
 	getTooltip: function(){
 		return "Unimplemented";
+	}
+});
+
+dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
+	update: function(){
+
+		if (this.game.village.getKittens() <= 5){
+			dojo.style(this.container, "display", "none");
+		} else {
+			dojo.style(this.container, "display", "");
+		}
+
+		this.container.innerHTML = "&#128568;&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
+		$(this.container).css("color", "Coral");
+	},
+
+	getTooltip: function(){
+		var base = this.game.bld.getEffect("happiness");
+		//var population = this.game.village.getKittens() *  2;
+		return "Base: 100%<br>" +
+			   "Buildings: +" + (Math.floor(base)) + "%<br>";
 	}
 });
 

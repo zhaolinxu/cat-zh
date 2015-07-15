@@ -38,7 +38,64 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	}],
 
+	//Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
+	cycles: [
+		{
+			name: "charon",
+			title: "Charon",
+			glyph: "&#9049;"
+		},
+		{
+			name: "umbra",
+			title: "Umbra",
+			glyph: "&#9062;"
+		},
+		{
+			name: "yarn",
+			title: "Yarn",
+			glyph: "&#9063;"
+		},
+		{
+			name: "helios",
+			title: "Helios",
+			glyph: "&#8978;"
+		},
+		{
+			name: "cath",
+			title: "Cath",
+			glyph: "&#9022;"
+		},
+		{
+			name: "redmoon",
+			title: "Redmoon",
+			glyph: "&#9052;"
+		},
+		{
+			name: "dune",
+			title: "Dune",
+			glyph: "&#9067;"
+		},
+		{
+			name: "piscine",
+			title: "Dune",
+			glyph: "&#9096;"
+		},
+		{
+			name: "terminus",
+			title: "Terminus",
+			glyph: "&#9053;"
+		},
+		{
+			name: "kairo",
+			title: "Kairo",
+			glyph: "&#8483;"
+		}
+	],
+
 	season: 0,
+	cycle: 0,
+	cycleYear: 0,
+	yearsPerCycle: 5,
 
 	daysPerSeason: 100,
 	day: 0,
@@ -94,6 +151,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				document.title = "[EVENT!]" + document.title;
 			}
 
+			var calendarSignSpan = dojo.byId("calendarSign");
+			var cycle = this.cycles[this.cycle];
+			if (cycle){
+				calendarSignSpan.innerHTML = cycle.glyph;
+				calendarSignSpan.title = cycle.title + " (Year "+this.cycleYear+")";
+			}
 		} else {
 			calendarDiv.textContent = this.seasons[this.season].title
 		}
@@ -373,6 +436,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
                 this.game.diplomacy.unlockElders();
             }
         }
+
+		this.cycleYear++;
+		if (this.cycleYear > this.yearsPerCycle){
+			this.cycleYear = 0;
+			this.cycle++;
+			if (this.cycle >= this.cycles.length){
+				this.cycle == 0;
+			}
+		}
 	},
 
 	getWeatherMod: function(){
@@ -409,7 +481,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			season: this.season,
 			weather: this.weather,
 			iceage: this.iceage,
-			festivalDays: this.festivalDays
+			festivalDays: this.festivalDays,
+			cycle: this.cycle,
+			cycleYear: this.cycleYear
 		};
 	},
 
@@ -420,6 +494,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.season  = saveData.calendar.season;
 			this.weather = saveData.calendar.weather;
 			this.festivalDays = saveData.calendar.festivalDays || 0;
+			this.cycle = saveData.calendar.cycle || 0;
+			this.cycleYear = saveData.calendar.cycleYear || 0;
 		}
 	}
 

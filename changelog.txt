@@ -1,3 +1,20 @@
+v 1.1.1.5 (14 jul)
+Changes by coderpatsy:
+
+Only display production penalty in tooltip if total energy is < 0
+Added a space between "Leader:" and the leader's name
+___
+
+Solar Satellites
+Energy requirement for Space Elevators removed
+Happiness toolbar icon
+Overpopulation
+
+Fixed bug where player had to upgrade pastures twice.
+
+v 1.1.1.4 (13 jul)
+Planetary cycles
+
 v 1.1.1.3 (13 jul)
 Production bonus for leader based on rank
 Promotion will now require gold

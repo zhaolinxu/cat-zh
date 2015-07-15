@@ -449,6 +449,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "solarSatellites",
+		title: "Solar Satellites",
+		description: "Satellites will now generate energy instead of consuming it",
+		prices:[
+			{ name : "science", val: 225000 },
+			{ name : "alloy", 	val: 750 }
+		],
+		unlocked: false,
+		researched: false
+	},
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
@@ -650,7 +661,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "wood", val: 50 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Weaponized yarn"
 	},{
 		name: "huntingArmor",
 		title: "Hunting Armour",

@@ -145,7 +145,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["engineering"],
 			upgrades: ["compositeBow"]
-		}
+		},
+		flavor: "Making pillow forts smart!"
 	},{
 		name: "engineering",
 		title: "Engineering",
@@ -182,7 +183,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["philosophy", "machinery", "steel"],
 			crafts: ["parchment"]
-		}
+		},
+		flavor: "Writing uses less ink than pawprints"
 	},{
 		name: "philosophy",
 		title: "Philosophy",
@@ -599,7 +601,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology"],
-			upgrades: ["hubbleTelescope", "astrophysicists"]
+			upgrades: ["hubbleTelescope", "astrophysicists", "solarSatellites"]
 		}
 	},{
 		name: "exogeology",

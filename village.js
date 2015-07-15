@@ -423,6 +423,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var karma = this.game.resPool.get("karma");
 		happiness += karma.value;	//+1% to the production per karma point
 
+		var overpopulation = this.getKittens() - this.maxKittens;
+		if (overpopulation > 0){
+			happiness -= overpopulation * 2;	//overpopulation penalty
+		}
 
 		if (happiness < 25){
 			happiness = 25;
@@ -1111,8 +1115,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 	sortKittensByExp: function(kittens){
 		var v = this.game.village;
 		kittens.sort(function(a,b){
-			return (a.rank ? v.getRankExp(a.rank) : 0 + a.exp)
-				 - (b.rank ? v.getRankExp(b.rank) : 0 + b.exp);
+			return ((a.rank ? v.getRankExp(a.rank) : 0) + a.exp)
+				 - ((b.rank ? v.getRankExp(b.rank) : 0) + b.exp);
 		});
 	},
 
@@ -1471,7 +1475,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var festivalDays = this.game.calendar.festivalDays;
 		if (festivalDays){
-			this.happinessStats.innerHTML += " ("+festivalDays+" days)";
+			this.happinessStats.innerHTML += " ("+ this.game.getDisplayValueExt(festivalDays) + " days)";
 		}
 
 		if (this.statisticsPanel){
