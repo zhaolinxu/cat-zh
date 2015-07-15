@@ -2005,7 +2005,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				this.stageLinks.push(
 					this.addLink("^",function(){
 						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){
-							bldExt.meta.stage = bldExt.meta.stage + 1 || 0;
+							bldExt.meta.stage = bldExt.meta.stage || 0;
+							bldExt.meta.stage++;
+
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
 							this.game.render();
 						}

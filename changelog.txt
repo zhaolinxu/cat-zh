@@ -10,6 +10,8 @@ Energy requirement for Space Elevators removed
 Happiness toolbar icon
 Overpopulation
 
+Fixed bug where player had to upgrade pastures twice.
+
 v 1.1.1.4 (13 jul)
 Planetary cycles
 
