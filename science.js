@@ -145,7 +145,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["engineering"],
 			upgrades: ["compositeBow"]
-		}
+		},
+		flavor: "Making pillow forts smart!"
 	},{
 		name: "engineering",
 		title: "Engineering",
