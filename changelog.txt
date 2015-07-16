@@ -1,5 +1,5 @@
 v 1.1.1.6 (15 jul)
-Energy requirements of Oil Wells were removed
+Oil Well will require energy only if Pumpjack is researched
 
 v 1.1.1.5 (14 jul)
 Changes by coderpatsy:

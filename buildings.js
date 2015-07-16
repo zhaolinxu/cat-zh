@@ -878,11 +878,19 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
 			effects["oilPerTickBase"] *= ratio;
 
+
+			if (gamePage.workshop.get("pumpjack").researched){
+				effects["energyConsumption"] = 1;
+				self.toggleble = true;
+				self.tunable = true;
+			}
 			self.effects = effects;
 		},
 		flavor: "Rise early, work hard, strike oil.",
 		togglable: false,
-		tunable: false
+		tunable: false,
+		action: function(self, game){
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
