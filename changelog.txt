@@ -1,5 +1,10 @@
 v 1.1.1.6 (15 jul)
+Changes by coderpatsy:
+
+Game page tab titles will be now correctly updated
+______
 Oil Well will require energy only if Pumpjack is researched
+Fixed an issue with dropbox import
 
 v 1.1.1.5 (14 jul)
 Changes by coderpatsy:

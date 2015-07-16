@@ -875,6 +875,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.dropBoxClient.isAuthenticated()){
 			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
 				var json = LZString.decompressFromBase64(lzdata);
+				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+
 				game.load();
 				game.msg("Save import successful!");
 				game.render();
@@ -887,6 +889,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.dropBoxClient.authenticate(function (error, client) {
 			client.readFile('kittens.save', {}, function (error, lzdata){
 				var json = LZString.decompressFromBase64(lzdata);
+				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+
 				game.load();
 				game.msg("Save import successful!");
 				game.render();
