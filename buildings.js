@@ -881,7 +881,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (gamePage.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
-				self.toggleble = true;
+				self.togglable = true;
 				self.tunable = true;
 			}
 			self.effects = effects;
