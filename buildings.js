@@ -872,8 +872,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"oilMax" : 1500,
-				"oilPerTickBase" : 0.02,
-				"energyConsumption" : 1
+				"oilPerTickBase" : 0.02
 			};
 
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
@@ -882,11 +881,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects = effects;
 		},
 		flavor: "Rise early, work hard, strike oil.",
-		togglable: true,
-		tunable: true,
-		action: function(self, game){
-
-		}
+		togglable: false,
+		tunable: false
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
