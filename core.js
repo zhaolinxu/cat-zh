@@ -1191,6 +1191,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 
 	tabId: 		null,
 	tabName: 	null,
+	domNode:  null,
 	visible: 	true,
 
 	constructor: function(tabName, game){
@@ -1217,6 +1218,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 			var button = this.buttons[i];
 			button.update();
 		}
+	},
+
+	updateTab: function(){
 	},
 
 	addButton:function(button){
