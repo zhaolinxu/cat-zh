@@ -915,6 +915,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		
 		for (var i = 0; i<this.tabs.length; i++){
 			var tab = this.tabs[i];
+			tab.domNode = null;
 			if (tab.visible){
 				visibleTabs.push(tab);
 			}
@@ -923,6 +924,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i<visibleTabs.length; i++){
 			var tab = visibleTabs[i];
 
+			tab.updateTab();
 			var tabLink = dojo.create("a", {
 				href:"#",
 				innerHTML: tab.tabName,
@@ -931,6 +933,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					whiteSpace: "nowrap"
 				}
 			}, tabNavigationDiv);
+			tab.domNode = tabLink;
 			
 			if (this.activeTabId == tab.tabId){
 				dojo.addClass(tabLink, "activeTab");

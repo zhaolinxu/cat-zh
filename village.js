@@ -694,6 +694,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			var kitten = new com.nuclearunicorn.game.village.Kitten();
 			this.kittens.push(kitten);
 		}
+		this.game.villageTab.updateTab();
 	},
 
 	//just truncate array, I am too lazy to write splice
@@ -702,6 +703,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			amount = this.kittens.length;
 		}
 		this.kittens.length -= amount;
+		this.game.villageTab.updateTab();
 	},
 
 	getKittens: function(){
@@ -1507,13 +1509,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 
 		//this.updateCensus();
+		this.updateTab();
+	},
 
+	updateTab: function(){
 		//-------- update tab title -------
 		var freeKittens = this.game.village.getFreeKittens();
 		if (freeKittens){
 			this.tabName = this.getVillageTitle() + " (" + freeKittens + ")";
 		} else {
 			this.tabName = this.getVillageTitle();
+		}
+		if (this.domNode) {
+			this.domNode.innerHTML = this.tabName;
 		}
 	},
 
