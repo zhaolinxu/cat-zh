@@ -51,9 +51,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		effects: {
 			"oilReductionRatio": 0.05
 		},
-		action: function(self, game){
-			self.on = self.val;
-		}
+		togglable: false,
+		tunable: false
 	},{
 		name: "sattelite",
 		title: "Satellite",

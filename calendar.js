@@ -442,7 +442,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.cycleYear = 0;
 			this.cycle++;
 			if (this.cycle >= this.cycles.length){
-				this.cycle == 0;
+				this.cycle = 0;
 			}
 		}
 	},

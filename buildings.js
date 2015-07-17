@@ -198,17 +198,38 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
-		description: "+3% to catnip production",
+		upgradable: true,
 		unlocked: false,
-		prices: [
-			{ name : "minerals", val: 75 }],
-		effects: {
-			"catnipRatio" : 0.03
-		},
-		priceRatio: 1.12,
 		requiredTech: ["engineering"],
-		val: 0,
-		flavor : "No Swimming"
+		stages: [
+			{
+				label: "Aqueduct",
+				description: "+3% to catnip production",
+				prices: [
+					{ name : "minerals", val: 75 }],
+				effects: {
+					"catnipRatio" : 0.03
+				},
+				priceRatio: 1.12,
+				flavor : "No Swimming",
+				stageUnlocked : true
+			},
+			{
+				label: "Hydro Plant",
+				description: "A modern source of power production",
+				priceRatio: 1.15,
+				prices: [
+					{ name : "concrate", val: 100 },
+					{ name : "titanium", val: 2500 }
+				],
+				effects: {
+					"energyProduction" : 10
+				},
+				stageUnlocked : false
+			}
+		],
+		stage: 0,
+		val: 0
 	},
 	//----------------------------------- Population ----------------------------------------
 	{
@@ -872,20 +893,24 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			var effects = {
 				"oilMax" : 1500,
-				"oilPerTickBase" : 0.02,
-				"energyConsumption" : 1
+				"oilPerTickBase" : 0.02
 			};
 
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
 			effects["oilPerTickBase"] *= ratio;
 
+
+			if (gamePage.workshop.get("pumpjack").researched){
+				effects["energyConsumption"] = 1;
+				self.togglable = true;
+				self.tunable = true;
+			}
 			self.effects = effects;
 		},
 		flavor: "Rise early, work hard, strike oil.",
-		togglable: true,
-		tunable: true,
+		togglable: false,
+		tunable: false,
 		action: function(self, game){
-
 		}
 	},
 	//----------------------------------- Other ----------------------------------------
