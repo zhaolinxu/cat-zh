@@ -198,17 +198,38 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "aqueduct",
 		label: "Aqueduct",
-		description: "+3% to catnip production",
+		upgradable: true,
 		unlocked: false,
-		prices: [
-			{ name : "minerals", val: 75 }],
-		effects: {
-			"catnipRatio" : 0.03
-		},
-		priceRatio: 1.12,
 		requiredTech: ["engineering"],
-		val: 0,
-		flavor : "No Swimming"
+		stages: [
+			{
+				label: "Aqueduct",
+				description: "+3% to catnip production",
+				prices: [
+					{ name : "minerals", val: 75 }],
+				effects: {
+					"catnipRatio" : 0.03
+				},
+				priceRatio: 1.12,
+				flavor : "No Swimming",
+				stageUnlocked : true
+			},
+			{
+				label: "Hydro Plant",
+				description: "A modern source of power production",
+				priceRatio: 1.15,
+				prices: [
+					{ name : "concrate", val: 100 },
+					{ name : "titanium", val: 2500 }
+				],
+				effects: {
+					"energyProduction" : 10
+				},
+				stageUnlocked : false
+			}
+		],
+		stage: 0,
+		val: 0
 	},
 	//----------------------------------- Population ----------------------------------------
 	{

@@ -532,7 +532,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "robotics",
 		title: "Robotics",
 		description: "Robotics improves automated structures like Calciners",
-		effectDesc: "Unlocks Steel Plants, Tankers and Rotary Kilns",
+		effectDesc: "Unlocks Steel Plants, Hydro Plants, Tankers and Rotary Kilns",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -541,7 +541,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["steelPlants", "rotaryKiln"],
-			crafts: ["tanker"]
+			crafts: ["tanker"],
+			stages: [{bld:"aqueduct",stage:1}]
 		}
 	},{
 		name: "nuclearFission",
