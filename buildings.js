@@ -29,7 +29,11 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
     getMeta: function(){
         var bld = this.meta;
         if (bld.upgradable){
-             return dojo.mixin(
+			//some specific hack for stagable buildings
+			if (bld.stage >= bld.stages.length){
+				bld.stage = bld.stages.length-1;
+			}
+			return dojo.mixin(
                 dojo.clone(bld), bld.stages[bld.stage || 0]);
         }
         return bld;
