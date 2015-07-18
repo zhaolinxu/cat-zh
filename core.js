@@ -895,34 +895,35 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		//unroll prices to the raw resources
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
+			var craft = this.game.workshop.getCraft(res.name);
+			if (craft.unlocked) {
+				var craftRatio = this.game.getResCraftRatio(res);
+				nameSpan.textContent = "+ " + nameSpan.textContent;
 
-			var craftRatio = this.game.getResCraftRatio(res);
-
-			nameSpan.textContent = "+ " + nameSpan.textContent;
-
-			if (!indent) {
-				indent = 1;
-			}
-
-			var components = this.game.workshop.getCraft(res.name).prices;
-			for (var j in components){
-
-				var diff = price.val - res.value;
-
-				// Round up to the nearest craftable amount
-				var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
-				var remainder = val % components[j].val;
-				if (remainder != 0) {
-					val += components[j].val - remainder;
+				if (!indent) {
+					indent = 1;
 				}
 
-				var comp = {name: components[j].name, val: val};
+				var components = craft.prices;
+				for (var j in components) {
 
-				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
-				for (var k = 0; k < indent; ++k) {
-					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+					var diff = price.val - res.value;
+
+					// Round up to the nearest craftable amount
+					var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
+					var remainder = val % components[j].val;
+					if (remainder != 0) {
+						val += components[j].val - remainder;
+					}
+
+					var comp = {name: components[j].name, val: val};
+
+					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
+					for (var k = 0; k < indent; ++k) {
+						compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+					}
+					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 				}
-				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 			}
 		}
 
