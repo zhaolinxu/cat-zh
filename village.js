@@ -208,12 +208,15 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.fastHuntContainer = $("#fastHuntContainer")[0];
 		}
 
-		var showFastHunt = (this.game.resPool.get("manpower").value >= 100);
+		var catpower = this.game.resPool.get("manpower");
+		var showFastHunt = (catpower.value >= 100);
 		//blazing fast vanilla toggle
 		if (showFastHunt){
 			if (this.fastHuntContainer.style.visibility == "hidden"){
 				this.fastHuntContainer.style.visibility = "visible";
 			}
+			var huntCount = Math.floor(catpower.value / 100);
+			$("#fastHuntContainerCount")[0].innerHTML = huntCount;
 		} else {
 			if (this.fastHuntContainer.style.visibility == "visible"){
 				this.fastHuntContainer.style.visibility = "hidden";
