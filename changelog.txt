@@ -1,3 +1,15 @@
+v 1.1.2.1 (19 jul)
+Changes by coderpatsy:
+
+Fix trade messages saying timeCrystal
+Format numbers when sacrificing unicorns
+Fix mixing ":"s in left-hand crafting menu
+__
+Hydro Plants production was reduced from 10 to 5
+Sunlifters energy production was slightly increased
+
+
+
 v 1.1.2.0 (16 jul)
 Changes by irxground:
 

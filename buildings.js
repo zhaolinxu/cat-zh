@@ -227,7 +227,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					{ name : "titanium", val: 2500 }
 				],
 				effects: {
-					"energyProduction" : 10
+					"energyProduction" : 5
 				},
 				stageUnlocked : false
 			}
