@@ -550,7 +550,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			} else if (res == "titanium"){
 				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice", "trade");
 			} else {
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res, null, "trade");
+				var resPool = this.game.resPool.get(res);
+				var name = resPool.title || res;
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + name, null, "trade");
 			}
 		}
 	},
