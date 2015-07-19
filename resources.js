@@ -777,7 +777,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 			
 			var tdResName = dojo.create("td", { 
-					innerHTML: res.title || res.name + ":",
+					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
 					}
