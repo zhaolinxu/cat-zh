@@ -587,7 +587,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 		var unicornCount = 2500 * amt;
 		var zigguratCount = this.game.bld.get("ziggurat").val;
 
-		this.game.msg(unicornCount + " unicorns sacrificed. You've got " + zigguratCount * amt + " unicorn tears!");
+		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(zigguratCount * amt) + " unicorn tears!");
 		this.game.resPool.get("tears").value += 1 * zigguratCount * amt;
 	}
 });
