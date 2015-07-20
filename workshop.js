@@ -1423,7 +1423,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowledge of the catkind\nEvery compendium will give +10 to max science",
+		description: "A sum of all modern knowledge of the catkind. Every compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
@@ -1485,7 +1485,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	effectsBase: {
 		"scienceMax" : 0
 	},
-	
+
 	metaCache: null,
 
 	constructor: function(game){
@@ -1496,7 +1496,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
-		
+
 		this.metaCache = {};
 	},
 
@@ -1505,7 +1505,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (upgrade){
 			return upgrade;
 		}
-		
+
 		for (var i = this.upgrades.length - 1; i >= 0; i--) {
 			if (this.upgrades[i].name === upgradeName){
 				this.metaCache[upgrade] = this.upgrades[i];
@@ -1599,17 +1599,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 		return totalEffect + this.getEffectCached(name);
 	},
-	
+
 	getCraftPrice: function(craft){
 		if (craft.name != "ship"){
 			return craft.prices;
 		}
-		
+
 		//special ship hack
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart"){
-				prices[i].val = prices[i].val * 
+				prices[i].val = prices[i].val *
 					(1 - this.game.bld.getHyperbolicEffect(
 						this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
 						0.75));
@@ -1792,7 +1792,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		this.craftBtns = [];
 		this.buttons = [];
-		
+
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
 		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.bld.getEffect("craftRatio") * 100).toFixed() + "%" }, div);
 
