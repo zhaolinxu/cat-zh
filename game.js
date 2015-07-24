@@ -77,7 +77,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"catnipRatio" : {
 				title: "Catnip Ratio",
-				resName: "catnip"
+				resName: "catnip",
+				type: "ratio"
 			},
 			"catnipMax" : {
 				title: "Max Catnip",
@@ -301,13 +302,29 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			//faith
 
+			"faithMax" : {
+				title: "Max Faith",
+				resName: "faith"
+			},
+
 			"faith" : {
 				title: "faith",
 				resName: "faith",
 				type: "perTick"
 			},
 
+			"faithPerTickBase" : {
+				title: "faith",
+				resName: "faith",
+				type: "perTick"
+			},
+
 			//uranium
+
+			"uraniumMax" : {
+				title: "Max Uranium",
+				resName: "uranium"
+			},
 
 			"uraniumPerTick": {
 				title: "Uranium production",
@@ -316,6 +333,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			//unobtainium
+
+			"unobtainiumMax" : {
+				title: "Max Unobtainium",
+				resName: "unobtainium"
+			},
 
 			"unobtainiumPerTick": {
 				title: "Unobtainium production",
@@ -349,6 +371,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			//miscellaneous
 
+			"refineRatio": {
+				title: "Catnip refine bonus",
+				type: "ratio"
+			},
+
 			"craftRatio": {
 				title: "Craft bonus",
 				type: "ratio"
@@ -365,10 +392,22 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
+			"fursPerTick": {
+				title: "Furs production",
+				resType: "furs",
+				type: "perTick"
+			},
+
 			"ivoryDemandRatio" : {
 				title: "Ivory Demand Ratio",
 				resName: "ivory",
 				type: "ratio"
+			},
+
+			"ivoryPerTick": {
+				title: "Ivory production",
+				resType: "ivory",
+				type: "perTick"
 			},
 
 			"spiceDemandRatio" : {
@@ -884,7 +923,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				$('#optionsDiv').hide();
 			});
 			return;
-		};
+		}
 
 		this.dropBoxClient.authenticate(function (error, client) {
 			client.readFile('kittens.save', {}, function (error, lzdata){
@@ -1384,7 +1423,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (tab.tabId == this.activeTabId){
 				tab.update();
 			}
-		};
+		}
 
 		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
 			this.tooltipUpdateFunc();
@@ -1459,7 +1498,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}});	//calculate estimate winter per tick for catnip;
 
 		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick / this.calendar.dayPerTick ) <= 0 ){
-			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>"
+			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>";
 		}
 
 	},
@@ -1599,12 +1638,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 	    var timeFormated = "";
-        if ( years ) { timeFormated = years + "y "}
-	    if ( days ) { timeFormated += days + "d "}
+        if ( years ) { timeFormated = years + "y "; }
+	    if ( days ) { timeFormated += days + "d "; }
         if ( !years ){
-            if ( hours ) {  timeFormated += hours + "h " }
-            if ( minutes) { timeFormated += minutes + "m " }
-            if ( seconds ) { timeFormated += seconds + "s " }
+            if ( hours ) {  timeFormated += hours + "h "; }
+            if ( minutes) { timeFormated += minutes + "m "; }
+            if ( seconds ) { timeFormated += seconds + "s "; }
         }
 
 	    return timeFormated;
@@ -1744,28 +1783,29 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		if (this.resPool.get("kittens").value > 35){
-			this.karmaKittens += (this.resPool.get("kittens").value - 35);
+		var kittens = this.resPool.get("kittens").value;
+		if (kittens > 35){
+			this.karmaKittens += (kittens - 35);
 		}
 
-		if (this.resPool.get("kittens").value > 60){
-			this.karmaKittens += (this.resPool.get("kittens").value - 60) * 3;
+		if (kittens > 60){
+			this.karmaKittens += (kittens - 60) * 3;
 		}
 
-		if (this.resPool.get("kittens").value > 100){
-			this.karmaKittens += (this.resPool.get("kittens").value - 100) * 4;
+		if (kittens > 100){
+			this.karmaKittens += (kittens - 100) * 4;
 		}
 
-		if (this.resPool.get("kittens").value > 150){
-			this.karmaKittens += (this.resPool.get("kittens").value - 150) * 5;
+		if (kittens > 150){
+			this.karmaKittens += (kittens - 150) * 5;
 		}
 
-		if (this.resPool.get("kittens").value > 300){
-			this.karmaKittens += (this.resPool.get("kittens").value - 300) * 10;
+		if (kittens > 300){
+			this.karmaKittens += (kittens - 300) * 10;
 		}
 
-		if (this.resPool.get("kittens").value > 70){
-			this.paragonPoints += (this.resPool.get("kittens").value - 70);
+		if (kittens > 70){
+			this.paragonPoints += (kittens - 70);
 		}
 
 		this.karmaZebras = parseInt(this.karmaZebras);	//hack
@@ -1956,7 +1996,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var unlockId = list[type][i];
 				var newUnlock = this.getUnlockByName(unlockId, type);
 				if (type == "tabs") {
-					newUnlock.visible = true
+					newUnlock.visible = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
 				} else {
