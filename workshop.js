@@ -964,6 +964,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "internet",
+		title: "The Internet",
+		description: "Printing press is 4 times as effective at printing cat videos",
+		effects: {
+		},
+		prices:[
+			{ name : "alloy", 	 val: 1250 },
+			{ name : "oil", 	 val: 50000 },
+			{ name : "uranium",  val: 250 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["steamworks"]
+		},
+		unlocked: false,
+		researched: false
+	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
 		description: "Once per year Steamworks will convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx

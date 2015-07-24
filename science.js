@@ -586,7 +586,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
-			tech: ["orbitalEngineering"]
+			tech: ["orbitalEngineering" ],
+			upgrades: [ "internet" ]
 		},
 		flavor: "Spreading cat videos at the speed of light"
 	},{
