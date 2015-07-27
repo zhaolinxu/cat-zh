@@ -737,6 +737,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
 				}
+				if (game.workshop.get("internet").researched){
+					amt *= 4;
+				}
 				effects["manuscriptPerTick"] = amt;
 			}
 
