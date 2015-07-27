@@ -328,8 +328,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             var effects = [];
             if (!bld.upgradable){
                 effects = bld.effects;
-            }else{
-                effects = bld.stages[bld.stage].effects;
+            }else {
+                var stage = bld.stage || 0;
+                effects = bld.stages[stage].effects;
             }
 			for (var effect in effects) {
 				var maxIndex = effect.indexOf("Max");
