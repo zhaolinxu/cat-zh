@@ -1249,8 +1249,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         effects: {
         },
         prices:[
-            { name : "uranium", val: 7500 },
-            { name : "unobtainium",  val: 2500 },
+            { name : "eludium",  val: 25 },
             { name : "science",  val: 200000 }
         ],
         upgrades: {
@@ -1309,7 +1308,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
-	},
+	},{
+        name: "satelliteRadio",
+        title: "Satellite Radio",
+        description: "Every satellite will boost the effect of Broadcast Towers by 0.5%",
+        effects: {
+            "broadcastTowerRatio" : 0.005
+        },
+        prices:[
+            { name : "alloy", 	 val: 5000 },
+            { name : "science",  val: 225000 }
+        ],
+        unlocked: false,
+        researched: false
+    },
 	{
 		name: "astrophysicists",
 		title: "Astrophysicists",

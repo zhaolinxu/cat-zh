@@ -604,7 +604,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology"],
-			upgrades: ["hubbleTelescope", "astrophysicists", "solarSatellites"]
+			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites"]
 		}
 	},{
 		name: "exogeology",

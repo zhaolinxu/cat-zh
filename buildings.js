@@ -1196,16 +1196,23 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         action: function(self, game){
            //very ugly and crappy stuff
 
+            var btower = self.stages[1];
+            btower.effects["happiness"] = 5;
+
             var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
             if (energyRatio > 1){
                 if (energyRatio > 1.75){
                     energyRatio = 1.75;
                 }
-                var btower = self.stages[1];
                 btower.effects["cultureMax"] = Math.floor(500 * energyRatio);
                 btower.effects["happiness"] = Math.floor(5 * energyRatio);
                 btower.effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
             }
+
+            var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
+            var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
+
+            btower.effects["happiness"] *= ( 1 + totalRatio);
         }
 	},
 	{
