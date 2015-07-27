@@ -1148,24 +1148,43 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//-------------------------- Culture -------------------------------
 	{
 		name: "amphitheatre",
-		label: "Amphitheatre",
-		description: "Reduces negative effects of overpopulation by 5%. Produces culture.",
 		unlocked: false,
-		prices: [
-			{ name : "wood", val: 200 },
-			{ name : "minerals", val: 1200 },
-			{ name : "parchment", val: 3 }
+		upgradable: true,
+		stages: [
+			{
+				label: "Amphitheatre",
+				description: "Reduces negative effects of overpopulation by 5%. Produces culture.",
+				prices: [
+					{ name : "wood", val: 200 },
+					{ name : "minerals", val: 1200 },
+					{ name : "parchment", val: 3 }
+				],
+				effects: {
+					"unhappinessRatio" : -0.048,
+					"culturePerTickBase" : 0.005,
+					"cultureMax" : 50
+				},
+				priceRatio: 1.15,
+				flavor: "Daily 'All Dogs Go to Heaven' showings"
+			},
+			{
+				label : "Broadcast Tower",
+				description: "Generates culture. More effective with high energy production.",
+				prices: [
+					{ name : "iron", val: 1000 },
+					{ name : "titanium", val: 50 }
+				],
+				effects: {
+					"culturePerTickBase" : 1.0,
+					"cultureMax" : 250
+				},
+				priceRatio: 1.15
+			}
 		],
-		effects: {
-			"unhappinessRatio" : -0.048,
-			"culturePerTickBase" : 0.005,
-			"cultureMax" : 50
-		},
-		priceRatio: 1.15,
+
 		ignorePriceCheck: true,
 		val: 0,
-		requiredTech: ["writing"],
-		flavor: "Daily 'All Dogs Go to Heaven' showings"
+		requiredTech: ["writing"]
 	},
 	{
 		name: "chapel",

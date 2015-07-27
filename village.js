@@ -216,7 +216,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				this.fastHuntContainer.style.visibility = "visible";
 			}
 			var huntCount = Math.floor(catpower.value / 100);
-			$("#fastHuntContainerCount")[0].innerHTML = huntCount;
+			$("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0);
 		} else {
 			if (this.fastHuntContainer.style.visibility == "visible"){
 				this.fastHuntContainer.style.visibility = "hidden";
