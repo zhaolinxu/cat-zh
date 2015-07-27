@@ -324,12 +324,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			if (bld.name == "accelerator"){	//TODO: move all endgame storage stuff there, probably store a list somewhere
 				continue;
 			}
-			for (var effect in bld.effects) {
+
+            var effects = [];
+            if (!bld.upgradable){
+                effects = bld.effects;
+            }else{
+                effects = bld.stages[bld.stage].effects;
+            }
+			for (var effect in effects) {
 				var maxIndex = effect.indexOf("Max");
 				if (maxIndex != -1) {
 					var resource = effect.substr(0, maxIndex);
 					var resMax = buildingResMax[resource] || 0
-					buildingResMax[resource] = resMax + bld.effects[effect] * bld.val;
+					buildingResMax[resource] = resMax + effects[effect] * bld.val;
 				}
 			}
 		}
