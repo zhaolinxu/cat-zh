@@ -1241,7 +1241,25 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		researched: false
-	},{
+	},
+    {
+        name: "coldFusion",
+        title: "Cold Fusion",
+        description: "Increase Reactors energy output by 50%",
+        effects: {
+        },
+        prices:[
+            { name : "uranium", val: 7500 },
+            { name : "unobtainium",  val: 2500 },
+            { name : "science",  val: 200000 }
+        ],
+        upgrades: {
+            buildings: ["reactor"]
+        },
+        unlocked: false,
+        researched: false
+    },
+    {
 		name: "oilRefinery",
 		title: "Oil Refinery",
 		description: "Improves effectiveness of oil wells by 35%",
