@@ -1245,8 +1245,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     {
         name: "coldFusion",
         title: "Cold Fusion",
-        description: "Increase Reactors energy output by 50%",
+        description: "Increase Reactors energy output by 25%",
         effects: {
+            "reactorEnergyRatio": 0.25
         },
         prices:[
             { name : "eludium",  val: 25 },

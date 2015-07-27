@@ -486,6 +486,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
     },
 
     getEnergyDelta: function(){
+        if (this.game.opts.noEnergyPenalty){
+            return 1.0;
+        }
+
         var delta = this.energyProd / this.energyCons;
         if (delta < 0.25){
             delta = 0.25;

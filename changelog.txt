@@ -3,6 +3,7 @@ Cold Fusion
 Satellite Radio
 
 Production penalty will be now proportional to energy delta
+Production penalty can be completely disabled in the options
 
 v 1.1.3.0 (25 jul)
 Changes by cgyllensvrd:

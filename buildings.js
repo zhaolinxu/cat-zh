@@ -994,10 +994,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 
 			effects["uraniumPerTick"] *= (1 - game.workshop.getEffect("uraniumRatio"));
-
-            if (game.workshop.get("coldFusion").researched){
-                effects["energyProduction"] = 15;
-            }
+            effects["energyProduction"] *= ( 1+ game.workshop.getEffect("reactorEnergyRatio"));
 
 			self.effects = effects;
 		},

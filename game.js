@@ -545,7 +545,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePercentageResourceValues: false,
 			highlightUnavailable: false,
 			hideSell: false,
-			noConfirm: false
+			noConfirm: false,
+            noEnergyPenalty: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
