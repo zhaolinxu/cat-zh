@@ -553,7 +553,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		if ((name == "spaceRatio")
 			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
-			totalEffect = totalEffect * 0.25;
+			totalEffect = totalEffect * this.game.resPool.getEnergyDelta();
 		}
 		return totalEffect;
 	}
