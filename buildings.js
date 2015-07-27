@@ -1172,7 +1172,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 			{
 				label : "Broadcast Tower",
-				description: "Generates culture an happiness. More effective with high energy production.",
+				description: "Generates culture and happiness. More effective with high energy production.",
 				prices: [
 					{ name : "iron", val: 1000 },
 					{ name : "titanium", val: 50 }

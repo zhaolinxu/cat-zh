@@ -314,7 +314,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"faithPerTickBase" : {
-				title: "faith",
+				title: "Faith",
 				resName: "faith",
 				type: "perTick"
 			},
@@ -414,6 +414,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Spice Demand Ratio",
 				resName: "spice",
 				type: "ratio"
+			},
+
+			"happiness": {
+				title: "Happiness"
 			},
 
 			// energy

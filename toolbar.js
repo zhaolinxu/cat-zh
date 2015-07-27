@@ -117,7 +117,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
         var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
         var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio", true);
 
-        tooltip += "Population: -" + unhappiness + "%<br>";
+        tooltip += "Population: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
 
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
