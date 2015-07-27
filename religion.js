@@ -808,7 +808,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			dojo.style(this.faithResetBtn, "display", "");
 
 			var ratio = this.game.getTriValue(this.game.religion.faithRatio, 0.1)*0.1;
-			this.faithCount.innerHTML += " [+" + (ratio*100).toFixed() + "%]";
+			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(ratio*100, true, false, 1) + "%]";
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });

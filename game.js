@@ -1112,11 +1112,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * resRatio;
 		}
 
-		//let's mess a bit with a ice age
-		if (resName == "catnip"){
-			perTick += perTick * this.calendar.getIceageMod();
-		}
-
 		//UPGRADE EFFECTS FOR COAL (HACK, TO BE FIXED)
 		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
 		if (workshopResRatio && res.name == "coal"){

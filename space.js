@@ -415,7 +415,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val:  0,
             on:	  0,
             effects: {
-				"energyProduction" : 30
+				"energyProduction" : 30,
+                "antimatterProduction": 1
 			},
             action: function(game, self){
             }

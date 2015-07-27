@@ -737,7 +737,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
 				}
-				if (game.workshop.get("internet").researched){
+				if (game.workshop.get("photolithography").researched){
 					amt *= 4;
 				}
 				effects["manuscriptPerTick"] = amt;
@@ -1172,22 +1172,36 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 			{
 				label : "Broadcast Tower",
-				description: "Generates culture. More effective with high energy production.",
+				description: "Generates culture an happiness. More effective with high energy production.",
 				prices: [
 					{ name : "iron", val: 1000 },
 					{ name : "titanium", val: 50 }
 				],
 				effects: {
-					"culturePerTickBase" : 1.0,
-					"cultureMax" : 250
+					"culturePerTickBase" : 1,
+                    "happiness": 5,
+					"cultureMax" : 500
 				},
 				priceRatio: 1.15
 			}
 		],
-
 		ignorePriceCheck: true,
 		val: 0,
-		requiredTech: ["writing"]
+		requiredTech: ["writing"],
+        action: function(self, game){
+           //very ugly and crappy stuff
+
+            var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
+            if (energyRatio > 1){
+                if (energyRatio > 1.75){
+                    energyRatio = 1.75;
+                }
+                var btower = self.stages[1];
+                btower.effects["cultureMax"] = Math.floor(500 * energyRatio);
+                btower.effects["happiness"] = Math.floor(5 * energyRatio);
+                btower.effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
+            }
+        }
 	},
 	{
 		name: "chapel",

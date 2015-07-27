@@ -111,9 +111,21 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var base = this.game.bld.getEffect("happiness");
 		//var population = this.game.village.getKittens() *  2;
-		return "Base: 100%<br>" +
+		var tooltip = "Base: 100%<br>" +
 			   "Buildings: +" + (Math.floor(base)) + "%<br>";
-	}
+
+        var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
+        var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio", true);
+
+        tooltip += "Population: -" + unhappiness + "%<br>";
+
+        var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
+        if (overpopulation > 0){
+            tooltip += "Overpopulation: -" + overpopulation*2 + "%<br>";
+        }
+
+        return tooltip;
+    }
 });
 
 dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {

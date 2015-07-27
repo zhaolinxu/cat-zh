@@ -517,7 +517,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "electronics",
 		title: "Electronics",
 		description: "Electronics unlocks some high level upgrades mainly related to science",
-		effectDesc: "Unlocks CAD Systems, Refrigeration and SETI",
+		effectDesc: "Unlocks Broadcast Towers, CAD Systems, Refrigeration and SETI",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -526,7 +526,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti"]
+			upgrades: ["cadSystems", "refrigeration", "seti"],
+            stages: [{bld:"amphitheatre",stage:1}]
 		}
 	},{
 		name: "robotics",
@@ -587,7 +588,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["orbitalEngineering" ],
-			upgrades: [ "internet" ]
+			upgrades: [ "photolithography" ]
 		},
 		flavor: "Spreading cat videos at the speed of light"
 	},{

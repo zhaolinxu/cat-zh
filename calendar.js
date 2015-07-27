@@ -445,6 +445,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.cycle = 0;
 			}
 		}
+
+        this.game.resPool.get("antimatter").value += this.game.space.getEffect("antimatterProduction");
 	},
 
 	getWeatherMod: function(){
@@ -453,19 +455,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			mod =  0.15;
 		} else if (this.weather == "cold"){
 			mod = -0.15
-		}
-		return mod;
-	},
-
-	getIceageMod: function(){
-		var mod = 0;
-		//the end is neigh
-		if (this.iceage >= 5){
-			mod -= 0.5;
-		}else if (this.iceage >=4){
-			mod -= 0.35;
-		}else if (this.iceage == 3){
-			mod -= 0.15;
 		}
 		return mod;
 	},

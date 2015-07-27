@@ -964,9 +964,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
-		name: "internet",
-		title: "The Internet",
-		description: "Printing press is 4 times as effective at printing cat videos",
+		name: "photolithography",
+		title: "Photolithography",
+		description: "Printing press is 4 times as effective",
 		effects: {
 		},
 		prices:[
