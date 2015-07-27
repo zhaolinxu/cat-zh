@@ -150,8 +150,9 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons; 
-		
-		var penalty = energy >= 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-75%</span>";
+
+        var delta = this.game.resPool.getEnergyDelta();
+		var penalty = energy >= 0 ? "" :"<br><br>Production modifier: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
 		
 		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
 			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;

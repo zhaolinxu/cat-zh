@@ -483,6 +483,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
     
     convert: function( nameFrom, amtFrom, nameTo, amtTo){
+    },
+
+    getEnergyDelta: function(){
+        var delta = this.energyProd / this.energyCons;
+        if (delta < 0.25){
+            delta = 0.25;
+        }
+        return delta;
     }
 });
 

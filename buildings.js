@@ -1478,8 +1478,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		if (
 			(name == "productionRatio" || name == "magnetoRatio")
 			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
-			//amazing 75% penalty for global production
-			totalEffect = totalEffect * 0.25;
+
+            var delta = this.game.resPool.getEnergyDelta();
+			totalEffect = totalEffect * 0.75;
 		}
 
 
