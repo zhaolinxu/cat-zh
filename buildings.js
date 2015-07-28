@@ -1188,7 +1188,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					{ name : "titanium", val: 50 }
 				],
 				effects: {
-                    "energyConsumption": 1,
 					"culturePerTickBase" : 1,
                     "happiness": 5,
 					"cultureMax" : 500
