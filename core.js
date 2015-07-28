@@ -129,7 +129,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		if (!saveMeta){
 			throw "Unable to load save metadata";
 		}
-		
+
 		for(var i = 0; i< saveMeta.length; i++){
 			var savedMetaElem = saveMeta[i];
 
@@ -182,7 +182,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 
 		spans: [],
-		
+
 		filters: {
 			"meteor": {
 				title: "Meteors",
@@ -193,7 +193,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: "Ivory Meteors",
 				enabled: true,
 				unlocked: true
-			}, 
+			},
 			"unicornRift": {
 				title: "Unicorn Rifts",
 				enabled: true,
@@ -251,26 +251,26 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				dojo.place(event, gameLog, "first");
 			}
 		},
-		
+
 		rederFilters: function(){
 			var filters = dojo.byId("logFilters");
 			dojo.empty(filters);
-			
+
 			for (var fId in this.filters){
 				this._createFilter(fId, filters);
 			}
 		},
-		
+
 		_createFilter: function(fId, filters){
-			var checkbox = dojo.create("input", { 
+			var checkbox = dojo.create("input", {
 					type: "checkbox",
 					checked: this.filters[fId].enabled
 			}, filters);
 			dojo.connect(checkbox, "onclick", this, function(){
 				this.filters[fId].enabled = checkbox.checked;
 			});
-				
-			dojo.create("span", { 
+
+			dojo.create("span", {
 				innerHTML: this.filters[fId].title
 			}, filters);
 			dojo.create("br", null, filters);
@@ -356,7 +356,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			}
 		} else {
 			if (this.enabled){
-				dojo.addClass(this.domNode, "disabled")
+				dojo.addClass(this.domNode, "disabled");
 			}
 		}
 		this.enabled = enabled;
@@ -524,7 +524,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		}, 70, function(){
 			btnNode.animate({
 				opacity: 1.0
-			}, 70)
+			}, 70);
 		});
 	},
 
@@ -958,6 +958,12 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 				if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
+				}
+
+				//display resMax values with global ratios like Refrigeration and Paragon
+				if (effectName.substr(-3) === "Max") {
+					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
+					effectValue += effectValue * (this.game.resPool.get("paragon").value / 1000);
 				}
 
 				var displayEffectValue;
