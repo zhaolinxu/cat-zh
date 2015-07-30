@@ -4,12 +4,12 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
+
 		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
 
 		<!-- I only use jquery ironically -->
-		
-		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN --> 
+
+		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
 		<script src="lib/dojo.js"></script>
 		<script src="lib/lz-string.js"></script>
@@ -48,9 +48,9 @@
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-				
+
 				gamePage = new com.nuclearunicorn.game.ui.GamePage("gameContainerId");
-				
+
 				gamePage.nerfs = 9;
 				gamePage.load();
 
@@ -85,7 +85,7 @@
 			}
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
-	 
+
 		</script>
 
 		<title>Kittens Game - a Dark Souls of incremental gaming</title>
@@ -163,8 +163,8 @@
 
 			<div id="game" class="pure-g">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
-				
-				
+
+
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
@@ -182,7 +182,7 @@
 					<div id="craftContainer" style="padding-top: 10px; width: 100%">
 					</div>
 				</div>
-				
+
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="gameContainerId" style="border: 1px solid gray;">
@@ -309,7 +309,7 @@
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-						Do not confrim when clearing all jobs
+						Do not confirm when clearing all jobs
 					<br>
                     <input id="noEnergyPenalty" type="checkbox" onclick="gamePage.opts.noEnergyPenalty = $('#noEnergyPenalty')[0].checked;">
                         No energy penalty
@@ -344,7 +344,7 @@
 				<br>
 				<input type="button" value="OK" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
-				
+
 			</div>
 
 			<div id="footerLinks">

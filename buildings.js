@@ -3,18 +3,18 @@
  **/
 dojo.declare("classes.Metadata", null, {
 	meta: null,
-    
+
     constructor: function(meta){
         if (!meta){
             throw "Building metadata must be provided for classes.Building instance";
         }
         this.meta = meta;
     },
-    
+
     getMeta: function(){
 		return this.meta;
 	},
-	
+
 	set: function(attr, val){
         this.meta[attr] = val;
     }
@@ -38,12 +38,12 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
         }
         return bld;
     },
-    
+
     set: function(attr, value){
 		var bld = this.meta;
 		if (bld.upgradable){
 			var stage = bld.stages[bld.stage || 0];
-			
+
 			//try to set stage attribute if defined in metadata
 			if (stage[attr] != undefined) {
 				//throw "Invalid attribute '" + attr + "'";
@@ -58,7 +58,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabManager, {
 
 	game: null,
-    
+
     metaCache: null,
 
 	groupBuildings: false,
@@ -66,7 +66,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	constructor: function(game){
 		this.game = game;
-        
+
         this.metaCache = {};
 
 		this.registerMeta(this.buildingsData, {
@@ -76,7 +76,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				// Need a better way to do this...
 				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
-                    
+
 					if (bld.tunable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
@@ -432,17 +432,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a space to store your resources.",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
-		effects: {
-			"catnipMax" 	: 5000,
-			"woodMax"	: 200,
-			"mineralsMax"	: 250,
-			"ironMax"	: 50,
-			"coalMax"	: 60,
-			"goldMax"	: 10,
-			"titaniumMax"	: 2
-		},
+		effects: {},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
+		calculateEffects: function (self, game){
+			var effects = {
+				"catnipMax" 	: 5000,
+				"woodMax"	: 200,
+				"mineralsMax"	: 250,
+				"ironMax"	: 50,
+				"coalMax"	: 60,
+				"goldMax"	: 10,
+				"titaniumMax"	: 2
+			};
+
+			self.effects = game.resPool.addBarnWarehouseRatio(effects);
+		},
 		val: 0,
 		flavor: "Rats ain't a problem for us!"
 	},
@@ -458,6 +463,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["construction"],
 		calculateEffects: function(self, game){
 			var effects = {
+				"catnipMax"	: 0, //for tooltip order
 				"woodMax"	: 150,
 				"mineralsMax"	: 200,
 				"ironMax"	: 25,
@@ -470,7 +476,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["catnipMax"] = 750;
 			}
 
-			self.effects = effects;
+			self.effects = game.resPool.addBarnWarehouseRatio(effects);
 		},
 		val: 0,
 		flavor: "All our stocks are scratched"
@@ -514,8 +520,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["goldMax"] *= ratio;
 				effects["titaniumMax"] *= ratio;
 			}
-			
-			self.effects = effects;
+
+			self.effects = game.resPool.addBarnWarehouseRatio(effects);
 		},
 		val: 0,
 		flavor: "Ahoy, landlubbers!"
@@ -1122,15 +1128,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 200 },
 			{ name : "gold", val: 500 }
 		],
-		effects: {
-			"mintEffect" : 0.007,
-			"manpowerPerTick" : -0.75,
-			"goldPerTick" : -0.005,		//~5 smelters
-			"goldMax": 100
-		},
+		effects: {},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["architecture"],
+		calculateEffects: function (self, game){
+			self.effects = {
+				"mintEffect" : 0.007,
+				"manpowerPerTick" : -0.75,
+				"goldPerTick" : -0.005,		//~5 smelters
+				"goldMax": 100 * (1 + game.workshop.getEffect("warehouseRatio"))
+			};
+		},
 		ignorePriceCheck: true,
 		action: function(self, game){
 			// TODO: How to integrate max manpower with calculateEffects?
@@ -1355,7 +1364,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"resStasisRatio": 0.015,		//1.5% of resources will be preserved
 			"energyConsumption" : 20
-			
+
 			/** TODO: cryochambers upgrade for kittens migration */
 		},
 		priceRatio: 1.25,
@@ -1389,10 +1398,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		}
 		console.error("Could not find building data for '" + name + "'");
 	},
-    
+
     /**
      * Returns a class wrapper around the building metadata
-     */ 
+     */
     getBuildingExt: function(name){
         var bldExt = this.metaCache[name];
         if (bldExt){
@@ -1440,14 +1449,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	getPriceRatio: function(bldName){
 		var bld = this.getBuildingExt(bldName).getMeta();
 		var ratio = bld.priceRatio;
-		
+
 		var ratioBase = ratio - 1;
 
 		var ratioDiff = this.game.workshop.getEffect(bldName + "PriceRatio") || 0;
 		ratioDiff += this.game.prestige.getEffect("priceRatio") || 0;
-		
+
 		ratioDiff = this.getHyperbolicEffect(ratioDiff, ratioBase);
-		
+
 		return ratio + ratioDiff;
 	},
 
@@ -1573,7 +1582,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	isConstructionEnabled: function(building){
 		var isEnabled = true;
-		
+
 		var building = new classes.BuildingMeta(building).getMeta();
 
 		if (building.prices.length && !building.ignorePriceCheck){
@@ -1665,7 +1674,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			bld.on = 0;
 		}
 	},
-    
+
     //============ dev =============
     devAddStorage: function(){
         this.getBuilding("warehouse").val += 10;
@@ -1699,10 +1708,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 		return null;
 	},
-	
+
 	/**
 	 * Ugly hack'
-	 */ 
+	 */
 	getMetadataRaw: function(){
 		return this.getMetadata();
 	},
@@ -1756,7 +1765,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 	},
 
-    
+
     build: function(bld){
         this.payPrice();
 
@@ -1772,7 +1781,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             this.prices = this.getPrices();
         }
     },
-    
+
     buildAll: function(bld){
         //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
         var counter = 0;
@@ -2012,7 +2021,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
 	simplePrices: false,
 	hasResourceHover: true,
-	
+
 	getMetadata: function(){
 		if (this.buildingName){
 			var bld = this.game.bld.getBuildingExt(this.buildingName).getMeta();
@@ -2020,9 +2029,9 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		}
 		return null;
 	},
-	
+
 	/**
-	 * Ugly hack 
+	 * Ugly hack
 	 **/
 	getMetadataRaw: function(){
 		if (this.buildingName){
@@ -2054,11 +2063,11 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 //-------------------    special stagable bld exclusive button ------------------------------------------------
 dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 	stageLinks: null,
-	
+
 	constructor: function(){
 		this.stageLinks = [];
 	},
-	
+
 	renderLinks: function(){
 		this.inherited(arguments);
 		var bldExt = this.game.bld.getBuildingExt(this.buildingName);
@@ -2241,14 +2250,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					building: 		bld.name,
 					handler: 		bld.handler
 				};
-				
+
 				var btn = null;
 				if (bld.upgradable){
 					var btn = new classes.ui.btn.StagingBldBtn(opts, this.game);
 				} else {
 					var btn = new classes.ui.btn.BuildingBtnModern(opts, this.game);
 				}
-				
+
 				if (this.activeGroup == "allEnabled"){
 					if (!btn.hasResources()){
 						continue;
