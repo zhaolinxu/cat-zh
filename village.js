@@ -1545,6 +1545,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
 		switch (true) {
+        case kittens > 1000:        //you gotta be kidding me
+            return "???";
+        case kittens > 900:
+            return "Civilisation";
+        case kittens > 800:
+            return "Society";  //all rights reserved, yada yada.
+        case kittens > 700:
+            return "Reich";
+        case kittens > 600:
+            return "Federation";
 		case kittens > 500:
 			return "Hegemony";
 		case kittens > 400:

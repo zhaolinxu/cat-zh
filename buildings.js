@@ -1113,7 +1113,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-		}
+		},
+        flavor: "I hope they have yarn"
 	},{
 		name: "mint",
 		label: "Mint",

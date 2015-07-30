@@ -1035,7 +1035,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		},
 		unlocked: false,
-		researched: false
+		researched: false,
+        flavor: "A better mousetrap"
 	},{
 		name: "fuelInjectors",
 		title: "Fuel Injectors",
