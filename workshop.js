@@ -1118,6 +1118,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+    {
+        name: "hydroPlantTurbines",
+        title: "Hydro Plant Turbines",
+        description: "Unobtainium-based turbines. Hydro plants are 15% more effective.",
+        effects: {
+            "hydroPlantRatio": 0.15
+        },
+        prices: [
+            {name: "unobtainium", val: 125},
+            {name: "science", val: 250000},
+        ],
+        upgrades: {
+            buildings: ["aqueduct"]
+        },
+        unlocked: false,
+        researched: false
+    },
 	//---------------------- oil ---------------
 	{
 		name: "pumpjack",

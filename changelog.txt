@@ -1,3 +1,10 @@
+v 1.1.3.2 (29 jul)
+Hydro Plant Turbines.
+Broadcast Towers will no longer affect happiness.
+
+Broadcast tower price and ratio were slightly increased
+Broadcast tower culture bonus was reduced from 500 to 300
+
 v 1.1.3.1 (26 jul)
 Cold Fusion
 Satellite Radio

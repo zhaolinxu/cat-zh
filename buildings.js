@@ -232,6 +232,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				stageUnlocked : false
 			}
 		],
+        calculateEffects: function(self, game){
+            var stageMeta = self.stages[self.stage];
+            if (self.stage == 0){
+                //do nothing
+            } else if (self.stage == 1){
+                var effects = {
+                    "energyProduction": 5
+                };
+                effects.energyProduction *= 1 + game.workshop.getEffect("hydroPlantRatio");
+                stageMeta.effects = effects;
+            }
+        },
 		stage: 0,
 		val: 0
 	},
@@ -1175,15 +1187,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				label : "Broadcast Tower",
 				description: "Generates culture and happiness. More effective with high energy production.",
 				prices: [
-					{ name : "iron", val: 1000 },
-					{ name : "titanium", val: 50 }
+					{ name : "iron", val: 1250 },
+					{ name : "titanium", val: 75 }
 				],
 				effects: {
 					"culturePerTickBase" : 1,
-                    "happiness": 5,
-					"cultureMax" : 500
+                    "unhappinessRatio" : -0.75,
+					"cultureMax" : 300
 				},
-				priceRatio: 1.15
+				priceRatio: 1.18
 			}
 		],
 		ignorePriceCheck: true,
@@ -1191,24 +1203,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["writing"],
         action: function(self, game){
            //very ugly and crappy stuff
-
             var btower = self.stages[1];
-            btower.effects["happiness"] = 5;
 
             var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
             if (energyRatio > 1){
                 if (energyRatio > 1.75){
                     energyRatio = 1.75;
                 }
-                btower.effects["cultureMax"] = Math.floor(500 * energyRatio);
-                btower.effects["happiness"] = Math.floor(5 * energyRatio);
+                btower.effects["cultureMax"] = Math.floor(300 * energyRatio);
                 btower.effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
             }
 
             var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
             var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
 
-            btower.effects["happiness"] *= ( 1 + totalRatio);
+            btower.effects["cultureMax"] *= ( 1 + totalRatio);
+            btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
         }
 	},
 	{

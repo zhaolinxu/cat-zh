@@ -619,7 +619,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["advExogeology"],
-			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill"]
+			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill","hydroPlantTurbines"]
 		}
 	},{
 		name: "advExogeology",
