@@ -1215,6 +1215,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
            //very ugly and crappy stuff
             var btower = self.stages[1];
 
+            btower.effects["cultureMax"] = 300;
+            btower.effects["culturePerTickBase"] = 1;
+
             var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
             if (energyRatio > 1){
                 if (energyRatio > 1.75){
