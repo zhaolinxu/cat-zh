@@ -1126,7 +1126,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				content: content,
 				kitten: kitten,
 				unassignHref: unassignHref,
-				senatorHref: senatorHref
+                senatorHref: senatorHref,
+                leaderHref: leaderHref
 			});
 		}
 	},
@@ -1243,60 +1244,64 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 		//TODO: update senators
 
-		for (var i = 0; i < this.records.length; i++){
-			var record = this.records[i];
-			var kitten = record.kitten;
+		for (var i = 0; i < this.records.length; i++) {
+            var record = this.records[i];
+            var kitten = record.kitten;
 
-			//unassign link
-			var job = "";
-			if (kitten.job){
-				job = " - " + kitten.job;
-				dojo.setStyle(record.unassignHref, "display", "block");
-			} else {
-				dojo.setStyle(record.unassignHref, "display", "none");
-			}
+            //unassign link
+            var job = "";
+            if (kitten.job) {
+                job = " - " + kitten.job;
+                dojo.setStyle(record.unassignHref, "display", "block");
+            } else {
+                dojo.setStyle(record.unassignHref, "display", "none");
+            }
 
-			//make senator link
-			/*if (this.game.village.senators.length == 5 || record.kitten.isSenator){
-				dojo.setStyle(record.senatorHref, "display", "none");
-			} else {
-				dojo.setStyle(record.senatorHref, "display", "block");
-			}*/
-			dojo.setStyle(record.senatorHref, "display", "none");
+            //make senator link
+            /*if (this.game.village.senators.length == 5 || record.kitten.isSenator){
+             dojo.setStyle(record.senatorHref, "display", "none");
+             } else {
+             dojo.setStyle(record.senatorHref, "display", "block");
+             }*/
+            dojo.setStyle(record.senatorHref, "display", "none");
 
-			/*var traitTitle = kitten.trait.title;
-			var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
-			var rank = kitten.rank ? " rank " + kitten.rank : "";*/
+            /*var traitTitle = kitten.trait.title;
+             var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
+             var rank = kitten.rank ? " rank " + kitten.rank : "";*/
 
-			record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job  +
-				/*trait + rank +*/ "<br>" +
-				"age: " + kitten.age /*+ ", exp: " + this.game.getDisplayValueExt(kitten.exp) */;
+            record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job +
+                    /*trait + rank +*/ "<br>" +
+                "age: " + kitten.age /*+ ", exp: " + this.game.getDisplayValueExt(kitten.exp) */;
 
-			//--------------- skills ----------------
-			var skillsArr = this.game.village.sim.getSkillsSorted(kitten.skills);
+            //--------------- skills ----------------
+            var skillsArr = this.game.village.sim.getSkillsSorted(kitten.skills);
 
-			for (var j = 0 ; j < skillsArr.length; j++){
-				if (j > 1){
-					break;
-				}
+            for (var j = 0; j < skillsArr.length; j++) {
+                if (j > 1) {
+                    break;
+                }
 
-				var exp = skillsArr[j].val;
+                var exp = skillsArr[j].val;
 
-				if (exp <= 0){
-					break;
-				}
+                if (exp <= 0) {
+                    break;
+                }
 
-				var nextExp = this.game.villageTab.getNextSkillExp(exp);	//UGLY
-				var prevExp = this.game.villageTab.getPrevSkillExp(exp);	//UGLY
+                var nextExp = this.game.villageTab.getNextSkillExp(exp);	//UGLY
+                var prevExp = this.game.villageTab.getPrevSkillExp(exp);	//UGLY
 
-				var expDiff = exp - prevExp;
-				var expRequried = nextExp - prevExp;
+                var expDiff = exp - prevExp;
+                var expRequried = nextExp - prevExp;
 
-				var expPercent = (expDiff / expRequried) * 100;
+                var expPercent = (expDiff / expRequried) * 100;
 
-				record.content.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) +
-					"'>" +this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed()  + "%)" + "</span> " + skillsArr[j].name;
-			}
+                record.content.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) +
+                    "'>" + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%)" + "</span> " + skillsArr[j].name;
+            }
+
+            if (record.leaderHref && kitten.rank) {
+                record.leaderHref.innerHTML = "&#9734;(" + kitten.rank + ")";
+            }
 		}
 	}
 

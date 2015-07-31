@@ -1,3 +1,6 @@
+v 1.1.3.3 (30 jul)
+Leader ranks in the promote link
+
 v 1.1.3.2 (29 jul)
 Hydro Plant Turbines.
 Broadcast Towers will no longer affect happiness.
