@@ -74,7 +74,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				var effect = 0;
 				var bld = new classes.BuildingMeta(bld).getMeta();
 				// Need a better way to do this...
-				if (bld.togglable && bld.name != "observatory" && effectName.indexOf("Max", effectName.length - 3) === -1 &&
+				if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 
 					if (bld.tunable){
@@ -349,8 +349,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Increases the chance of astronomical events by 0.5%",
 		unlocked: false,
 		enabled: false,
-		togglable: true,
-		on: 0,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
@@ -1210,29 +1208,37 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		ignorePriceCheck: true,
 		val: 0,
+		stage: 0,
 		requiredTech: ["writing"],
-        action: function(self, game){
-           //very ugly and crappy stuff
-            var btower = self.stages[1];
+		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
+			if (self.stage == 0){
+				//do nothing
+			} else if (self.stage == 1){
+				//very ugly and crappy stuff
+				var effects = {
+					"culturePerTickBase" : 1,
+					"unhappinessRatio" : -0.75,
+					"cultureMax" : 300
+				};
 
-            btower.effects["cultureMax"] = 300;
-            btower.effects["culturePerTickBase"] = 1;
+				var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
+				if (energyRatio > 1){
+					if (energyRatio > 1.75){
+						energyRatio = 1.75;
+					}
+					effects["cultureMax"] = Math.floor(300 * energyRatio);
+					effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
+				}
 
-            var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
-            if (energyRatio > 1){
-                if (energyRatio > 1.75){
-                    energyRatio = 1.75;
-                }
-                btower.effects["cultureMax"] = Math.floor(300 * energyRatio);
-                btower.effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
-            }
+				var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
+				var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
 
-            var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
-            var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
-
-            btower.effects["cultureMax"] *= ( 1 + totalRatio);
-            btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
-        }
+				effects["cultureMax"] *= ( 1 + totalRatio);
+				effects["culturePerTickBase"] *= ( 1 + totalRatio);
+				stageMeta.effects = effects;
+			}
+		}
 	},
 	{
 		name: "chapel",
@@ -1958,7 +1964,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
 
-			if(building.val > 10) {
+			if(building.val > 9) {
 				dojo.setStyle(this.domNode,"font-size","90%");
 			}
 		}

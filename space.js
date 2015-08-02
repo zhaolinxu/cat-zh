@@ -91,7 +91,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.tunable = false;
 			}
 		}
-			
+
 	},{
 		name: "spaceStation",
 		title: "Space Station",
@@ -169,7 +169,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"energyConsumption": 5
 		},
 		action: function(game, self){
-			
+
 			self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
 
 			//TODO: move to resPool.convert(a, b)
@@ -332,11 +332,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumMax" : 1750
 			},
             action: function(game, self){
-				
-				self.effects["uraniumPerTick"] = 0.3 
-					* (1 + game.workshop.getEffect("crackerRatio")) 
+
+				self.effects["uraniumPerTick"] = 0.3
+					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1+ game.space.getEffect("spaceRatio"));
-				
+
 				//TODO: use calculateEffects method
 				game.resPool.get("uranium").value += self.effects["uraniumPerTick"] * self.val;
             }
@@ -437,7 +437,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		saveData.space = {
 			programs: this.programs,
 			planets: this.planets
-		}
+		};
 	},
 
 	load: function(saveData){
@@ -535,7 +535,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					program.effects[effectName];
 			}
 		}}) +
-		
+
 		// i dont know what went wrong
 		this.getMetaEffect(name, { meta:this.planets, provider: {
 			getEffect: function(planet, effectName){
@@ -563,6 +563,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 	program: null,
 	simplePrices: false,
+	hasResourceHover: true,
 
 	constructor: function(opts, game) {
 
@@ -687,6 +688,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	getEffects: function(){
 		var program = this.getProgram();
 		return program.effects;
+	},
+
+	getSelectedObject: function(){
+		return this.getMetadata();
 	}
 });
 

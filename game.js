@@ -1190,6 +1190,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			if (this.resPool.resources[i].name == resName){
 				res = this.resPool.resources[i];
+				break;
 			}
 		}
 

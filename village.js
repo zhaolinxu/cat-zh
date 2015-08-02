@@ -1324,8 +1324,13 @@ dojo.declare("com.nuclearunicorn.game.ui.CensusPanel", com.nuclearunicorn.game.u
 	}
 });
 
-dojo.declare("classes.village.ui.HuntButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	simplePrices: false
+dojo.declare("classes.village.ui.VillageButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	simplePrices: false,
+	hasResourceHover: true,
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	}
 });
 
 /**
@@ -1443,7 +1448,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//hunt
 
-		var huntBtn = new classes.village.ui.HuntButton({
+		var huntBtn = new classes.village.ui.VillageButton({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
 				handler: dojo.hitch(this, function(){
@@ -1455,7 +1460,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		huntBtn.setVisible(this.game.science.get("archery").researched);
 		this.huntBtn = huntBtn;
 
-		var festivalBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		var festivalBtn = new classes.village.ui.VillageButton({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
 				handler: dojo.hitch(this, function(){

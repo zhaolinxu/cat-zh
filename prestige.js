@@ -174,14 +174,10 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	game: null,
 
-	constructor: function(game){
-		this.game = game;
-	},
-
 	save: function(saveData){
 		saveData.prestige = {
 			perks: this.perks
-		}
+		};
 	},
 
 	load: function(saveData){
@@ -237,6 +233,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	perk: null,
+	hasResourceHover: true,
 
 	constructor: function(opts, game) {
 	},
@@ -306,6 +303,10 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			this.update();
 		}
 	},
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	}
 });
 
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
