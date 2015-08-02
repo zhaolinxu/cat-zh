@@ -640,7 +640,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			event.stopPropagation();
 			event.preventDefault();
 
-			dojo.hitch(this, handler)();
+			dojo.hitch(this, handler, event)();
 
 			this.update();
 		}, handler));

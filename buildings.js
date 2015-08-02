@@ -1841,16 +1841,24 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (bldMeta && bldMeta.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
-					function(){
-						bldMeta.val--;
+					function(event){
+						var end = bldMeta.val - 1;
+						if (end > 0 && event.shiftKey) { //no need to confirm if selling just 1
+							if (this.game.opts.noConfirm || confirm("Are you sure you want to sell all?")) {
+								end = 0;
+							}
+						}
+						while (bldMeta.val > end && this.hasSellLink() ) { //religion upgrades can't sell past 1
+							bldMeta.val--;
+
+							this.refund(0.5);
+
+							this.prices = this.getPrices();
+						}
 
 						if (bldMeta.on > bldMeta.val){
 							building.on = bldMeta.val;
 						}
-
-						this.refund(0.5);
-
-						this.prices = this.getPrices();
 						this.game.render();
 					});
 			}

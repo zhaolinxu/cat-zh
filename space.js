@@ -634,18 +634,20 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 	},
 
-	onClick: function(){
+	onClick: function(event){
 		var self = this;
 
 		this.animate();
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
 
-			this.payPrice();
-
-			if (program.upgradable){
-				program.val++;
-			}
+			if (program.upgradable && event.shiftKey){
+                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
+                    this.buildAll(program);
+                }
+            } else {
+                this.build(program);
+            }
 
 			this.handler(this);
 
@@ -667,6 +669,32 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			this.update();
 		}
 	},
+
+    build: function(bld){
+        this.payPrice();
+
+        if (bld && bld.upgradable){
+            bld.val++;
+
+            //to not force player re-click '+' button all the time
+            if (bld.on && bld.tunable){
+                bld.on++;
+            }
+
+            //price check is sorta heavy operation, so we will store the value in the button
+            this.prices = this.getPrices();
+        }
+    },
+
+    buildAll: function(bld){
+        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
+        var counter = 0;
+        while (this.hasResources()){
+            this.build(bld);
+            counter++;
+        }
+        this.game.msg(bld.title + " x"+counter+ " constructed.", "notice");
+    },
 
 
 	getName: function(){
@@ -720,8 +748,13 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
 
-			this.payPrice();
-			program.val++;
+			if (program.upgradable && event.shiftKey){
+                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
+                    this.buildAll(program);
+                }
+            } else {
+                this.build(program);
+            }
 			if (program.handler){
 				program.handler(btn.game, program);
 			}
