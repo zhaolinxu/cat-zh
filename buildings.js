@@ -1579,6 +1579,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
 		 * There may be some microperf tweaks, but let's keep it simple
 		 */
+		this.game.bld.effectsBase["manpowerMax"] = 100;
 		 if (this.game.ironWill){
 			 if (this.game.workshop.get("huntingArmor").researched){
 				 this.game.bld.effectsBase["manpowerMax"] = 1000;
