@@ -343,8 +343,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 65000},
-			{name: 	"compedium", val: 65}
+			{name : "science", val: 60000},
+			{name: 	"compedium", val: 60}
 		],
 		unlocks: {
 			tech: ["drama"]
@@ -368,8 +368,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 70000},
-			{name: 	"compedium", val: 75}
+			{name : "science", val: 65000},
+			{name: 	"compedium", val: 65}
 		],
 		unlocks: {
 			tech: ["biology"],
