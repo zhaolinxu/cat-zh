@@ -1,3 +1,11 @@
+v 1.1.3.4 (2 aug)
+Changes by coderpatsy:
+
+Shift-click for buy all space buildings and sell all
+Resource hover highlights
+___
+Prices of Acoustics and Geology were slightly reduced
+
 v 1.1.3.3 (30 jul)
 Leader ranks in the promote link
 
