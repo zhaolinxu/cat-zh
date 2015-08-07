@@ -1365,9 +1365,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "alloy", 	 val: 5000 },
             { name : "science",  val: 225000 }
         ],
-		upgrades: {
-			buildings: ["amphitheatre"]
-		},
         unlocked: false,
         researched: false
     },

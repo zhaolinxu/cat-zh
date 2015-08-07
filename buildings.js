@@ -1210,35 +1210,28 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		val: 0,
 		stage: 0,
 		requiredTech: ["writing"],
-		calculateEffects: function(self, game){
-			var stageMeta = self.stages[self.stage];
-			if (self.stage == 0){
-				//do nothing
-			} else if (self.stage == 1){
-				//very ugly and crappy stuff
-				var effects = {
-					"culturePerTickBase" : 1,
-					"unhappinessRatio" : -0.75,
-					"cultureMax" : 300
-				};
+        action: function(self, game){
+           //very ugly and crappy stuff
+            var btower = self.stages[1];
 
-				var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
-				if (energyRatio > 1){
-					if (energyRatio > 1.75){
-						energyRatio = 1.75;
-					}
-					effects["cultureMax"] = Math.floor(300 * energyRatio);
-					effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
-				}
+            btower.effects["cultureMax"] = 300;
+            btower.effects["culturePerTickBase"] = 1;
 
-				var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
-				var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
+            var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
+            if (energyRatio > 1){
+                if (energyRatio > 1.75){
+                    energyRatio = 1.75;
+                }
+                btower.effects["cultureMax"] = Math.floor(300 * energyRatio);
+                btower.effects["culturePerTickBase"] = Math.floor(1 * energyRatio);
+            }
 
-				effects["cultureMax"] *= ( 1 + totalRatio);
-				effects["culturePerTickBase"] *= ( 1 + totalRatio);
-				stageMeta.effects = effects;
-			}
-		}
+            var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
+            var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
+
+            btower.effects["cultureMax"] *= ( 1 + totalRatio);
+            btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
+        }
 	},
 	{
 		name: "chapel",

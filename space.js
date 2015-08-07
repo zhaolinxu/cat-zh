@@ -77,7 +77,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			"energyConsumption": 1
 		},
 		upgrades: {
-			buildings: ["observatory", "amphitheatre"]
+			buildings: ["observatory"]
 		},
 		action: function(game, self){
 			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
