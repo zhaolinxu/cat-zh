@@ -206,6 +206,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 750 },
 			{ name : "iron", val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false
 	},{
@@ -221,6 +224,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "slab", val: 10 },
 			{ name : "iron", val: 100 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false,
 		unlocks: {
@@ -239,6 +245,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel", val: 50 },
 			{ name : "scaffold", val: 25 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -257,6 +266,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 200 },
 			{ name : "scaffold", val: 250 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -271,6 +283,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", val: 20 },
 			{ name : "plate",    val: 750 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -285,6 +300,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "concrate", val: 45 },
 			{ name : "titanium",    val: 2000 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -300,6 +318,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 500 },
 			{ name : "scaffold", val: 500 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -314,6 +335,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 750 },
 			{ name : "alloy",    val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -328,6 +352,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 1250 },
 			{ name : "concrate", val: 35 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -1338,6 +1365,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "alloy", 	 val: 5000 },
             { name : "science",  val: 225000 }
         ],
+		upgrades: {
+			buildings: ["amphitheatre"]
+		},
         unlocked: false,
         researched: false
     },

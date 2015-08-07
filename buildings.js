@@ -1516,7 +1516,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
 
             var delta = this.game.resPool.getEnergyDelta();
-			totalEffect = totalEffect * 0.75;
+			totalEffect = totalEffect * delta;
 		}
 
 
