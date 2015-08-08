@@ -81,15 +81,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		action: function(game, self){
 			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
-			//this is a kind of hack and we probably should disable consumption for satellites at all
-			if (game.workshop.get("solarSatellites").researched){
-				self.effects["energyConsumption"] = 0;
-				self.effects["energyProduction"] = 1;
-
-				self.on = self.val;
-				self.togglable = false;
-				self.tunable = false;
-			}
 		}
 
 	},{
@@ -381,8 +372,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "oil", val: 200000}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
+            togglable: 	true,
+            tunable: 	true,
             val:  0,
             on:	  0,
             effects: {
@@ -390,9 +381,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 20
 			},
             action: function(game, self){
-            },
-			togglable: true,
-			tunable: true
+            }
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
@@ -585,7 +574,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
 	getPrices: function(){
-		var prices = dojo.clone(this.getProgram().prices);
 
 		var program = this.getProgram();
 		var ratio = program.priceRatio || 1.15;
@@ -741,7 +729,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		return this.program;
 	},
 
-	onClick: function(){
+	onClick: function(event){
 		var self = this;
 
 		this.animate();

@@ -473,6 +473,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 75000 },
 			{ name : "titanium", val: 5000 }
 		],
+		effects: {
+			"solarFarmRatio" : 0.5
+		},
+		upgrades: {
+			buildings: ["pasture"]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -484,6 +490,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 225000 },
 			{ name : "alloy", 	val: 750 }
 		],
+		handler: function(game){
+			//this is a kind of hack and we probably should disable consumption for satellites at all
+			var program = game.space.getProgram("sattelite");
+			program.effects["energyConsumption"] = 0;
+			program.effects["energyProduction"] = 1;
+			program.togglable = false;
+			program.tunable = false;
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -1627,7 +1641,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		saveData.workshop = {
 			upgrades: upgrades,
 			crafts:   crafts
-		}
+		};
 		saveData.workshop.hideResearched = this.hideResearched;
 	},
 

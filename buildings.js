@@ -190,13 +190,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.stage == 0){
 				//do nothing
 			} else if (self.stage == 1){
-				var effects = {
-					"energyProduction": 2
-				};
-				if (game.workshop.get("photovoltaic").researched){
-					effects.energyProduction *= 1.5;	//TODO: get actual effect
-				}
-				stageMeta.effects = effects;
+                var effects = {
+                    "energyProduction": 2
+                };
+                effects.energyProduction *= 1 + game.workshop.getEffect("solarFarmRatio");
+                stageMeta.effects = effects;
 			}
 		}
 	},{
