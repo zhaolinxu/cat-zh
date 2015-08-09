@@ -723,7 +723,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 		}
 	}],
-	
+
 	metaCache: null,
 
 	constructor: function(game){
@@ -736,7 +736,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		if (tech){
 			return tech;
 		}
-		
+
 		for (var i = this.techs.length - 1; i >= 0; i--) {
 			if (this.techs[i].name == techName){
 				this.metaCache[techName] = this.techs[i];
@@ -750,7 +750,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
-		}
+		};
 		saveData.science.hideResearched = this.hideResearched;
 	},
 
@@ -792,6 +792,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			var tech = this.techs[i];
 			tech.researched = true;
 			tech.unlocked = true;
+			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
 	}
@@ -910,7 +911,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table)
+		var tr = dojo.create("tr", null, table);
 
 		var tdLeft = dojo.create("td", null, tr);
 		var tdRight = dojo.create("td", null, tr);
@@ -936,7 +937,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		if (this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0){
 			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics");
 			metaphysicsPanel.game = this.game;
-			
+
 			var content = metaphysicsPanel.render(tabContainer);
 
 			this.metaphysicsPanel = metaphysicsPanel;

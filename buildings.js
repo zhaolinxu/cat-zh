@@ -412,7 +412,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects = effects;
 		},
 		action: function(self, game){
-			if (self.effects["catnipPerTick"]){
+			if (game.resPool.get("catnip").value > -self.effects["catnipPerTick"] * self.on){
 				game.resPool.get("catnip").value += self.effects["catnipPerTick"] * self.on;
 				game.resPool.get("oil").value += self.effects["oilPerTick"] * self.on;
 			}
@@ -1530,7 +1530,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var diminishedPortion = absEffect - maxUndiminished;
 
-		var delta = .25*limit; //Lower values will approach 1 more quickly.
+		var delta = 0.25*limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
 		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25*limit;
