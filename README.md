@@ -20,6 +20,10 @@
 * Features
     TBD
 
+* Portability
+    * Render/Update loops should be decoupled from the Game class.
+    * Most of the logic in the button handlers should be moved to the corresponding manager methods
+
 Please feel free to add other suggestions.
 
 ### Contribution guidelines ###
