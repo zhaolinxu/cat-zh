@@ -8,14 +8,14 @@
 ### Roadmap ###
 
 * UI
- * Log filters settings should be carried over the saved game
- * Log options should not be visible by default at least one of the related event occures
+    * Log filters settings should be carried over the saved game
+    * Log options should not be visible by default at least one of the related event occures
 
 * QOL/Other
- * Ziggurat upgrades should be hidden by default and unlocked one by one
+    * Ziggurat upgrades should be hidden by default and unlocked one by one
 
 * Features
- TBD
+    TBD
 
 ### Contribution guidelines ###
 
