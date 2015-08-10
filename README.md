@@ -20,6 +20,8 @@
 * Features
     TBD
 
+Please feel free to add other suggestions.
+
 ### Contribution guidelines ###
 
 TBD
