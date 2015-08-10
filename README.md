@@ -22,6 +22,7 @@
 
 * Portability
     * Render/Update loops should be decoupled from the Game class.
+        *  Game should be probably splitted into GameCore and GameClient with the option to provide arbitrary implementation of the GameClient
     * Most of the logic in the button handlers should be moved to the corresponding manager methods
 
 Please feel free to add other suggestions.
