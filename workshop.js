@@ -1340,7 +1340,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "hubbleTelescope",
 		title: "Hubble Space Telescope",
-		description: "Improves effectiveness of satellites by by 30%",
+		description: "Improves starchart production by 30%",
 		effects: {
 			"starchartGlobalRatio" : 0.30
 		},

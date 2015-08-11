@@ -1533,7 +1533,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var delta = 0.25*limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*.25*limit;
+		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*0.25*limit;
 
 		var totalEffect = maxUndiminished+diminishedEffect;
 
@@ -1851,6 +1851,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						if (bldMeta.on > bldMeta.val){
 							building.on = bldMeta.val;
 						}
+						this.game.upgrade(building.upgrades);
 						this.game.render();
 					});
 			}
@@ -1871,8 +1872,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					title: "-",
 					handler: function(){
 						var building = this.getMetadata();
-						if (bldMeta.on){
+						if (building.on){
 							building.on--;
+							this.game.upgrade(building.upgrades);
 						}
 					}
 				   },{
@@ -1880,7 +1882,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					title: "-all",
 					handler: function(){
 						var building = this.getMetadata();
-						building.on = 0;
+						if (building.on) {
+							building.on = 0;
+							this.game.upgrade(building.upgrades);
+						}
 					}
 				   }]
 				);
@@ -1894,6 +1899,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						var building = this.getMetadata();
 						if (building.on < building.val){
 							building.on++;
+							this.game.upgrade(building.upgrades);
 						}
 					}
 				   },{
@@ -1901,7 +1907,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					title: "+all",
 					handler: function(){
 						var building = this.getMetadata();
-						building.on = building.val;
+						if (building.on < building.val) {
+							building.on = building.val;
+							this.game.upgrade(building.upgrades);
+						}
 					}
 				   }]
 				);
@@ -1915,6 +1924,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					building.enabled = !building.enabled;
 
 					building.on = building.enabled ? building.val : 0;	//legacy safe switch
+					this.game.upgrade(building.upgrades);
 				}, true	//use | break
 			);
 		}
