@@ -1160,6 +1160,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "eludiumReflectors",
+		title: "Eludium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "eludium", val: 15 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		},
+		unlocked: false,
+		researched: false
+	},
     {
         name: "hydroPlantTurbines",
         title: "Hydro Plant Turbines",
@@ -1408,21 +1425,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "eludium", val: 250 },
 			{ name : "science",  val: 275000 }
 		],
-		unlocked: false,
-		researched: false
-	},{
-		name: "eludiumReflectors",
-		title: "Eludium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
-		effects: {
-			"libraryRatio" : 0.02
-		},
-		prices:[
-			{ name : "eludium", val: 15 },
-			{ name : "science",  val: 250000 }
-		],
-		upgrades: {
-		},
 		unlocked: false,
 		researched: false
 	}
