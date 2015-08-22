@@ -412,10 +412,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects = effects;
 		},
 		action: function(self, game){
-			if (game.resPool.get("catnip").value > -self.effects["catnipPerTick"] * self.on){
-				game.resPool.get("catnip").value += self.effects["catnipPerTick"] * self.on;
-				game.resPool.get("oil").value += self.effects["oilPerTick"] * self.on;
-			}
+			game.resPool.convert(
+				[{res: "catnip", amt: -self.effects["catnipPerTick"]}],
+				[{res: "oil", amt: self.effects["oilPerTick"]}],
+				self.on
+			);
 		},
 		val: 0,
 		on: 0,
@@ -592,10 +593,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			var wood = game.resPool.get("wood");
-			var minerals = game.resPool.get("minerals");
-			var gold = game.resPool.get("gold");
-			var coal = game.resPool.get("coal");
 			var iron = game.resPool.get("iron");
 
 			//safe switch for IW to save precious resources, as per players request
@@ -612,31 +609,27 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
 			self.effects["ironPerTick"] = 0.02 * smelterRatio * autoProdRatio;
 
-			if (wood.value > self.on * -self.effects["woodPerTick"] &&
-				minerals.value > self.on * -self.effects["mineralsPerTick"]
-			){
-				wood.value -= self.on * -self.effects["woodPerTick"];
-				minerals.value -= self.on * -self.effects["mineralsPerTick"];
-
-				iron.value += self.effects["ironPerTick"] * self.on;
-
-				if (game.workshop.get("goldOre").researched){
-					self.effects["goldPerTick"] = 0.001 * autoProdRatio;
-					gold.value += self.effects["goldPerTick"] * self.on;
-				}
-
-				if (game.workshop.get("coalFurnace").researched){
-					self.effects["coalPerTick"] = 0.005 * smelterRatio * autoProdRatio;
-					coal.value += self.effects["coalPerTick"] * self.on;
-				}
-
-				if (game.workshop.get("nuclearSmelters").researched){
-					self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
-
-					var titanium = game.resPool.get("titanium");
-					titanium.value += self.effects["titaniumPerTick"] * self.on ;
-				}
+			if (game.workshop.get("goldOre").researched){
+				self.effects["goldPerTick"] = 0.001 * autoProdRatio;
 			}
+
+			if (game.workshop.get("coalFurnace").researched){
+				self.effects["coalPerTick"] = 0.005 * smelterRatio * autoProdRatio;
+			}
+
+			if (game.workshop.get("nuclearSmelters").researched){
+				self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
+			}
+
+			game.resPool.convert(
+				[{res: "wood", amt: -self.effects["woodPerTick"]},
+				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
+				[{res: "iron", amt: self.effects["ironPerTick"]},
+				 {res: "gold", amt: self.effects["goldPerTick"]},
+				 {res: "coal", amt: self.effects["coalPerTick"]},
+				 {res: "titanium", amt: self.effects["titaniumPerTick"]}],
+				self.on
+			);
 		},
 		val: 0,
 		flavor: "Hot!"
@@ -675,48 +668,39 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["coalPerTick"] = 0;
 			self.effects["steelPerTick"] = 0;
 
-			var oil = game.resPool.get("oil");
-			var minerals = game.resPool.get("minerals");
+			//--------------------------- hack hack hack hack --------------------------------
+			var autoProdRatio = game.bld.getAutoProductionRatio();
+			//--------------------------------------------------------------------------------
 
-			if (oil.value > self.on * -self.effects["oilPerTick"] &&
-				minerals.value > self.on * -self.effects["mineralsPerTick"]
-			){
-				oil.value -= self.on * -self.effects["oilPerTick"];
-				minerals.value -= self.on * -self.effects["mineralsPerTick"];
+			var calcinerRatio = game.workshop.getEffect("calcinerRatio");
+			self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
+			self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
 
-				//--------------------------- hack hack hack hack --------------------------------
-				var autoProdRatio = game.bld.getAutoProductionRatio();
-				//--------------------------------------------------------------------------------
+			gamePage.resPool.convert(
+				[{res: "oil", amt: -self.effects["oilPerTick"]},
+				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
+				[{res: "iron", amt: self.effects["ironPerTick"]},
+				 {res: "titanium", amt: self.effects["titaniumPerTick"]}],
+				self.on
+			);
 
-				var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
+			var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
 
-				var calcinerRatio = game.workshop.getEffect("calcinerRatio");
-				self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
-				self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
+			if (steelRatio) {
+				// Second conversion of some of the iron that was just created, to steel
+				var newiron = self.effects["ironPerTick"] * (1 - steelRatio);
+				var difference = self.effects["ironPerTick"] - newiron;
+				self.effects["ironPerTick"] = newiron;
+				self.effects["coalPerTick"] = -difference;
+				self.effects["steelPerTick"] = difference / 100;
 
-				var iron = game.resPool.get("iron");
-				var coal = game.resPool.get("coal");
-				var steel = game.resPool.get("steel");
-
-				// we have iron to steel upgrade and enough coal for 1:1 conversion
-				if (steelRatio && coal.value >= self.effects["ironPerTick"] * self.on * steelRatio) {
-
-					//display the effect of the steel conversion
-					self.effects["ironPerTick"] = self.effects["ironPerTick"] * (1 - steelRatio);
-					self.effects["coalPerTick"] = -self.effects["ironPerTick"] * steelRatio;
-					self.effects["steelPerTick"] = self.effects["ironPerTick"] * steelRatio / 100;
-
-					iron.value += self.effects["ironPerTick"] * self.on;
-					coal.value += self.effects["coalPerTick"] * self.on;
-					steel.value += self.effects["steelPerTick"] * self.on;
-				} else {
-					iron.value += self.effects["ironPerTick"] * self.on;
-				}
-
-				var titanium = game.resPool.get("titanium");
-				titanium.value += self.effects["titaniumPerTick"] * self.on ;
+				game.resPool.convert(
+					[{res: "iron", amt: difference},
+					 {res: "coal", amt: -self.effects["coalPerTick"]}],
+					[{res: "steel", amt: self.effects["steelPerTick"]}],
+					self.on
+				);
 			}
-
 		},
 		val: 0
 	},
@@ -768,7 +752,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			if (self.effects["manuscriptPerTick"]){
-				game.resPool.get("manuscript").value += self.effects["manuscriptPerTick"] * self.on;
+				game.resPool.addResAmt("manuscript", self.effects["manuscriptPerTick"] * self.on);
 			}
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
@@ -857,9 +841,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.on < 1){
 				return;
 			}
-			var oil = game.resPool.get("oil");
-			oil.value += self.effects["oilPerTick"] * self.on;
+			game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.on);
 
+			var oil = game.resPool.get("oil");
 			if (oil.value <= 0){
 				self.on--;//Turn off one per tick until oil flow is sufficient
 			}
@@ -931,8 +915,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		flavor: "Rise early, work hard, strike oil.",
 		togglable: false,
 		tunable: false,
-		action: function(self, game){
-		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
@@ -973,9 +955,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		on: 0,
 		togglable: true,
 		tunable: true,
-		action: function(self, game){
-
-		},
 		requiredTech: ["mechanization"]
 	},{
 		name: "reactor",
@@ -1015,7 +994,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
 
-			uranium.value += self.on * self.effects["uraniumPerTick"];
+			game.resPool.addResAmt("uranium", self.on * self.effects["uraniumPerTick"]);
 
 			if (uranium.value <= 0){
 				self.on = 0;
@@ -1067,16 +1046,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
 
-			var uranium = game.resPool.get("uranium");
-			var titanium = game.resPool.get("titanium");
-
 			var autoProdRatio = game.bld.getAutoProductionRatio(true);
 			self.effects["uraniumPerTick"] = 0.0025 * autoProdRatio;
 
-			if (titanium.value > -self.effects["titaniumPerTick"] * self.on){
-				titanium.value += self.effects["titaniumPerTick"] * self.on;
-				uranium.value  += self.effects["uraniumPerTick"] * self.on;
-			}
+			game.resPool.convert(
+				[{res: "titanium", amt: -self.effects["titaniumPerTick"]}],
+				[{res: "uranium", amt: self.effects["uraniumPerTick"]}],
+				self.on
+			);
 		},
 		flavor: "Large Catron Collider"
 	},
@@ -1145,26 +1122,19 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			var mpower = game.resPool.get("manpower");
-			var gold = game.resPool.get("gold");
+			var manpower = game.resPool.get("manpower");
+			var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
 
+			self.effects["fursPerTick"]  = mpratio * 1.25;	//2
+			self.effects["ivoryPerTick"] = mpratio * 0.3;	//1.5
 
-			if (mpower.value > self.on * -self.effects["manpowerPerTick"] &&
-				gold.value > self.on * -self.effects["goldPerTick"]
-			){
-				mpower.value -= self.on * -self.effects["manpowerPerTick"];
-				gold.value -= self.on * -self.effects["goldPerTick"];
-
-
-				var manpower = game.resPool.get("manpower");
-				var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
-
-				self.effects["fursPerTick"]  = mpratio * 1.25;	//2
-				self.effects["ivoryPerTick"] = mpratio * 0.3;	//1.5
-
-				game.resPool.addResAmt("furs", self.effects["fursPerTick"] * self.on);
-				game.resPool.addResAmt("ivory", self.effects["ivoryPerTick"] * self.on);
-			}
+			game.resPool.convert(
+				[{res: "manpower", amt: -self.effects["manpowerPerTick"]},
+				 {res: "gold", amt: -self.effects["goldPerTick"]}],
+				[{res: "furs", amt: self.effects["fursPerTick"]},
+				 {res: "ivory", amt: self.effects["ivoryPerTick"]}],
+				self.on
+			);
 		}
 	},
 	//-------------------------- Culture -------------------------------

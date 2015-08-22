@@ -313,6 +313,36 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	/**
+	 * Format of from and to:
+	 * [ {res: "res1", amt: x1}, {res: "res2", amt: x2} ]
+	 * amt in the from and to arrays sets ratios between resources
+	 * The third amt parameter is the number of times to convert
+	 */
+	convert: function(from, to, amt){
+		// Convert once by default
+		amt = amt || 1;
+
+		// Cap amt based on available resources
+		for (var i = 0, length = from.length; i < length; i++){
+			var res = this.get(from[i].res);
+			var needed = from[i].amt * amt;
+			if (res.value < needed){
+				amt = Math.floor(res.value / from[i].amt);
+			}
+		}
+
+		// Remove from resources
+		for (var i = 0, length = from.length; i < length; i++){
+			this.addResAmt(from[i].res, -from[i].amt * amt);
+		}
+
+		// Add to resources
+		for (var i = 0, length = to.length; i < length; i++){
+			this.addResAmt(to[i].res, to[i].amt * amt);
+		}
+	},
+
+	/**
 	 * Iterates resources and updates their values with per tick increment
 	 */
 	update: function(){
@@ -462,9 +492,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 	},
-
-    convert: function( nameFrom, amtFrom, nameTo, amtTo){
-    },
 
     getEnergyDelta: function(){
         if (this.game.opts.noEnergyPenalty){
