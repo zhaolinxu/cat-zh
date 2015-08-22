@@ -923,7 +923,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			effects["oilPerTickBase"] *= ratio;
 
 
-			if (gamePage.workshop.get("pumpjack").researched){
+			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
 				self.togglable = true;
 				self.tunable = true;
