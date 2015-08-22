@@ -573,33 +573,29 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return false;
 	},
 
-	getPrices: function(){
+    getPrices: function() {
+        var program = this.getProgram();
+        var ratio = program.priceRatio || 1.15;
 
-		var program = this.getProgram();
-		var ratio = program.priceRatio || 1.15;
+        var prices = dojo.clone(program.prices);
+        if (program.upgradable){
+            for (var i = 0; i< prices.length; i++){
+                if (prices[i].name !== "oil") {
+                    prices[i].val = prices[i].val * Math.pow(ratio, program.val);
+                 } else {
+                    prices[i].val = prices[i].val * Math.pow(1.05, program.val);
+                 }
+            }
+        }
+        for (var i = 0; i < prices.length; i++){
+            if (prices[i].name == "oil"){
+                var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
+                prices[i].val *= (1 - reductionRatio);
+            }
+        }
 
-		var prices = dojo.clone(program.prices);
-		if (program.upgradable){
-			for (var i = program.val - 1; i >= 0; i--) {
-				for (var j = prices.length - 1; j >= 0; j--){
-					//Hack to set oil price increase separately:
-					if (prices[j].name !== "oil") {
-						prices[j].val = prices[j].val * ratio;
-					} else {
-						prices[j].val = prices[j].val * 1.05;			//5% oil increase
-					}
-				}
-			}
-		}
-		for (var i = prices.length - 1; i >= 0; i--) {
-			if (prices[i].name == "oil"){
-				var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
-				prices[i].val *= (1 - reductionRatio);
-			}
-		}
-
-		return prices;
-	},
+        return prices;
+    },
 
 	updateVisible: function(){
 		var program = this.getProgram();
