@@ -187,9 +187,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		if (resDiff < 0 && this.sim.getKittens() > 0){
 
-			var starvedKittens = Math.abs(resDiff.toFixed());
+			var starvedKittens = Math.abs(Math.round(resDiff));
 			if (starvedKittens > 0){
-				this.sim.killKittens(starvedKittens);
+				starvedKittens = this.sim.killKittens(starvedKittens);
 				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
 
 				this.game.deadKittens += starvedKittens;
@@ -216,7 +216,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				this.fastHuntContainer.style.visibility = "visible";
 			}
 			var huntCount = Math.floor(catpower.value / 100);
-			$("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0);
+			$("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
+				+ (huntCount === 1 ? " time" : " times");
 		} else {
 			if (this.fastHuntContainer.style.visibility == "visible"){
 				this.fastHuntContainer.style.visibility = "hidden";
@@ -658,7 +659,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			//special hack that migrates kittens to the global exp
 			if (!kitten.exp){
 				kitten.exp = 0;
-				for (skill in kitten.skills){
+				for (var skill in kitten.skills){
 					kitten.exp += kitten.skills[skill];
 				}
 			}
@@ -721,6 +722,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			}
 		}
 		this.game.villageTab.updateTab();
+		this.game.village.updateResourceProduction();
+		this.game.updateResources();
+		return killed.length;
 	},
 
 	getKittens: function(){
@@ -733,10 +737,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 	getSkillsSorted: function(skillsDict){
 		var skills = [];
-		for (skill in skillsDict){
+		for (var skill in skillsDict){
 			skills.push({ "name": skill, "val": skillsDict[skill]});
 		}
-		skills.sort(function(a, b){return b.val-a.val});
+		skills.sort(function(a, b){return b.val-a.val;});
 		return skills;
 	},
 
@@ -752,7 +756,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				freeKittens.push({"id": i, "val": val});
 			}
 		}
-		freeKittens.sort(function(a, b){return b.val-a.val});
+		freeKittens.sort(function(a, b){return b.val-a.val;});
 
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].job = job;
@@ -775,7 +779,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
                 jobKittens.push({"id": i, "val": val});
             }
 		}
-        jobKittens.sort(function(a, b){return a.val-b.val});
+        jobKittens.sort(function(a, b){return a.val-b.val;});
 
         if (jobKittens.length){
             this.kittens[jobKittens[0].id].job = null;

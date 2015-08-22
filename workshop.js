@@ -206,6 +206,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 750 },
 			{ name : "iron", val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false
 	},{
@@ -221,6 +224,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "slab", val: 10 },
 			{ name : "iron", val: 100 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false,
 		unlocks: {
@@ -239,6 +245,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel", val: 50 },
 			{ name : "scaffold", val: 25 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -257,6 +266,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 200 },
 			{ name : "scaffold", val: 250 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -271,6 +283,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", val: 20 },
 			{ name : "plate",    val: 750 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -285,6 +300,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "concrate", val: 45 },
 			{ name : "titanium",    val: 2000 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -300,6 +318,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 500 },
 			{ name : "scaffold", val: 500 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -314,6 +335,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 750 },
 			{ name : "alloy",    val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -328,6 +352,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 1250 },
 			{ name : "concrate", val: 35 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -446,6 +473,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 75000 },
 			{ name : "titanium", val: 5000 }
 		],
+		effects: {
+			"solarFarmRatio" : 0.5
+		},
+		upgrades: {
+			buildings: ["pasture"]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -457,6 +490,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 225000 },
 			{ name : "alloy", 	val: 750 }
 		],
+		handler: function(game){
+			//this is a kind of hack and we probably should disable consumption for satellites at all
+			var program = game.space.getProgram("sattelite");
+			program.effects["energyConsumption"] = 0;
+			program.effects["energyProduction"] = 1;
+			program.togglable = false;
+			program.tunable = false;
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -1119,6 +1160,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "eludiumReflectors",
+		title: "Eludium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "eludium", val: 15 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		},
+		unlocked: false,
+		researched: false
+	},
     {
         name: "hydroPlantTurbines",
         title: "Hydro Plant Turbines",
@@ -1299,7 +1357,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "hubbleTelescope",
 		title: "Hubble Space Telescope",
-		description: "Improves effectiveness of satellites by by 30%",
+		description: "Improves starchart production by 30%",
 		effects: {
 			"starchartGlobalRatio" : 0.30
 		},
@@ -1367,21 +1425,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "eludium", val: 250 },
 			{ name : "science",  val: 275000 }
 		],
-		unlocked: false,
-		researched: false
-	},{
-		name: "eludiumReflectors",
-		title: "Eludium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
-		effects: {
-			"libraryRatio" : 0.02
-		},
-		prices:[
-			{ name : "eludium", val: 15 },
-			{ name : "science",  val: 250000 }
-		],
-		upgrades: {
-		},
 		unlocked: false,
 		researched: false
 	}
@@ -1600,7 +1643,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		saveData.workshop = {
 			upgrades: upgrades,
 			crafts:   crafts
-		}
+		};
 		saveData.workshop.hideResearched = this.hideResearched;
 	},
 

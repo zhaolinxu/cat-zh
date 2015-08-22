@@ -81,15 +81,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		},
 		action: function(game, self){
 			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
-			//this is a kind of hack and we probably should disable consumption for satellites at all
-			if (game.workshop.get("solarSatellites").researched){
-				self.effects["energyConsumption"] = 0;
-				self.effects["energyProduction"] = 1;
-
-				self.on = self.val;
-				self.togglable = false;
-				self.tunable = false;
-			}
 		}
 
 	},{
@@ -172,18 +163,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 			self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
 
-			//TODO: move to resPool.convert(a, b)
-			var uranium = game.resPool.get("uranium");
-			if (uranium.value >= -self.effects["uraniumPerTick"] * self.on){
-				uranium.value += self.effects["uraniumPerTick"] * self.on;
-				game.resPool.get("unobtainium").value += self.effects["unobtainiumPerTick"] * self.on;
-			} else {
-				if (self.on > 0){
-					self.on--;
-				} else {
-					self.on = 0;	//TODO: fix remove this later once actions are fixed correctly.
-				}
-			}
+			game.resPool.convert(
+				[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
+				[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
+				self.on
+			);
 		}
 	},{
 		name: "moonBase",
@@ -338,7 +322,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					* (1+ game.space.getEffect("spaceRatio"));
 
 				//TODO: use calculateEffects method
-				game.resPool.get("uranium").value += self.effects["uraniumPerTick"] * self.val;
+				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         }]
 	},{
@@ -381,8 +365,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "oil", val: 200000}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
+            togglable: 	true,
+            tunable: 	true,
             val:  0,
             on:	  0,
             effects: {
@@ -390,9 +374,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 20
 			},
             action: function(game, self){
-            },
-			togglable: true,
-			tunable: true
+            }
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
@@ -584,34 +566,29 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return false;
 	},
 
-	getPrices: function(){
-		var prices = dojo.clone(this.getProgram().prices);
+    getPrices: function() {
+        var program = this.getProgram();
+        var ratio = program.priceRatio || 1.15;
 
-		var program = this.getProgram();
-		var ratio = program.priceRatio || 1.15;
+        var prices = dojo.clone(program.prices);
+        if (program.upgradable){
+            for (var i = 0; i< prices.length; i++){
+                if (prices[i].name !== "oil") {
+                    prices[i].val = prices[i].val * Math.pow(ratio, program.val);
+                 } else {
+                    prices[i].val = prices[i].val * Math.pow(1.05, program.val);
+                 }
+            }
+        }
+        for (var i = 0; i < prices.length; i++){
+            if (prices[i].name == "oil"){
+                var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
+                prices[i].val *= (1 - reductionRatio);
+            }
+        }
 
-		var prices = dojo.clone(program.prices);
-		if (program.upgradable){
-			for (var i = program.val - 1; i >= 0; i--) {
-				for (var j = prices.length - 1; j >= 0; j--){
-					//Hack to set oil price increase separately:
-					if (prices[j].name !== "oil") {
-						prices[j].val = prices[j].val * ratio;
-					} else {
-						prices[j].val = prices[j].val * 1.05;			//5% oil increase
-					}
-				}
-			}
-		}
-		for (var i = prices.length - 1; i >= 0; i--) {
-			if (prices[i].name == "oil"){
-				var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
-				prices[i].val *= (1 - reductionRatio);
-			}
-		}
-
-		return prices;
-	},
+        return prices;
+    },
 
 	updateVisible: function(){
 		var program = this.getProgram();
@@ -741,7 +718,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		return this.program;
 	},
 
-	onClick: function(){
+	onClick: function(event){
 		var self = this;
 
 		this.animate();
