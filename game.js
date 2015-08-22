@@ -455,8 +455,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	console: null,
 
-	toolbar: null,
-
 	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 
@@ -533,6 +531,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	dropBoxClient: null,
+    
+    //ui communication layer
+    ui: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -550,8 +551,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
-
-		this.toolbar = new classes.ui.Toolbar(this);
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -943,81 +942,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		});
 	},
+    
+    setUI: function(ui){
+        this.ui = ui;
+        ui.setGame(this);
+    },
 
 	render: function(){
-		var midColumn = dojo.byId("midColumn");
-		var scrollPosition = midColumn.scrollTop;
-
-		var container = dojo.byId(this.id);
-		dojo.empty(container);
-
-		var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
-
-		//TODO: remove hardcoded id?
-		this.toolbar.render(dojo.byId("headerToolbar"));
-
-		this.resTable.render();
-		this.craftTable.render();
-
-		var visibleTabs = [];
-
-		for (var i = 0; i<this.tabs.length; i++){
-			var tab = this.tabs[i];
-			tab.domNode = null;
-			if (tab.visible){
-				visibleTabs.push(tab);
-			}
-		}
-
-		for (var i = 0; i<visibleTabs.length; i++){
-			var tab = visibleTabs[i];
-
-			tab.updateTab();
-			var tabLink = dojo.create("a", {
-				href:"#",
-				innerHTML: tab.tabName,
-				className: "tab",
-				style : {
-					whiteSpace: "nowrap"
-				}
-			}, tabNavigationDiv);
-			tab.domNode = tabLink;
-
-			if (this.activeTabId == tab.tabId){
-				dojo.addClass(tabLink, "activeTab");
-			}
-
-
-			dojo.connect(tabLink, "onclick", this,
-				dojo.partial(
-					function(tab){
-						this.activeTabId = tab.tabId;
-						this.render();
-					}, tab)
-			);
-
-			if (i < visibleTabs.length-1){
-				dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
-			}
-		}
-
-
-		for (var i = 0; i < this.tabs.length; i++){
-			var tab = this.tabs[i];
-
-			if (this.activeTabId == tab.tabId){
-
-				var divContainer = dojo.create("div", {
-					className: "tabInner"
-				}, container);
-
-				tab.render(divContainer);
-
-				break;
-			}
-		}
-
-		midColumn.scrollTop = scrollPosition;
+        if (!this.ui){
+            throw "Unable to render game state, no UI manager";
+        }
+        
+        this.ui.render();
 
 		// Once we have rendered the page immidiately update it in order to
 		// reduce flicker
@@ -1430,7 +1366,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.tooltipUpdateFunc();
 		}
 
-		this.toolbar.update();
+        //--------------------
+        //  Update UI state
+        //--------------------
+        this.ui.update();
 	},
 
 	huntAll: function(event){

@@ -203,28 +203,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		//calculate production and happiness modifiers
 		this.updateHappines();
 
-		//--------------------------------------------------------------------
-		if (!this.fastHuntContainer){
-			this.fastHuntContainer = $("#fastHuntContainer")[0];
-		}
-
-		var catpower = this.game.resPool.get("manpower");
-		var showFastHunt = (catpower.value >= 100);
-		//blazing fast vanilla toggle
-		if (showFastHunt){
-			if (this.fastHuntContainer.style.visibility == "hidden"){
-				this.fastHuntContainer.style.visibility = "visible";
-			}
-			var huntCount = Math.floor(catpower.value / 100);
-			$("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-				+ (huntCount === 1 ? " time" : " times");
-		} else {
-			if (this.fastHuntContainer.style.visibility == "visible"){
-				this.fastHuntContainer.style.visibility = "hidden";
-			}
-		}
-
-		//$("#fastHuntContainer").css("visibility", showFastHunt ? "visible" : "hidden");
+        //XXX FW7: add some messeging system? Get rid of direct UI update calls completely?
+        //this.game.ui.updateFastHunt();
 	},
 
 	getFreeKittens: function(){
