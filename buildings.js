@@ -676,7 +676,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
 			self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
 
-			gamePage.resPool.convert(
+			game.resPool.convert(
 				[{res: "oil", amt: -self.effects["oilPerTick"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
 				[{res: "iron", amt: self.effects["ironPerTick"]},
