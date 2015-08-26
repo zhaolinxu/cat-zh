@@ -177,7 +177,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects: {
 					"energyProduction": 2
 				},
-				requiredTech: ["electronics"],
+				requiredTech: ["ecology"],
 				priceRatio: 1.15,
 				stageUnlocked : false
 			}
@@ -2076,6 +2076,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 						if (confirm('Do you want to downgrade building?')){
 							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							if (bldExt.meta.calculateEffects){
+								bldExt.meta.calculateEffects(bldExt.meta, this.game);
+							}
 							this.game.render();
 						}
 					})
@@ -2092,6 +2095,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							bldExt.meta.stage++;
 
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							if (bldExt.meta.calculateEffects){
+								bldExt.meta.calculateEffects(bldExt.meta, this.game);
+							}
 							this.game.render();
 						}
 					})

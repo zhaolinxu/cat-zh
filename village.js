@@ -1564,7 +1564,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		case kittens > 100:
 			return "Town";
 		case kittens > 50:
-			return "Small town";
+			return "Small Town";
 		case kittens > 30:
 			return "Settlement";
 		case kittens > 15:
