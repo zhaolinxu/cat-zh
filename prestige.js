@@ -176,7 +176,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	save: function(saveData){
 		saveData.prestige = {
-			perks: this.perks
+			perks: this.filterMetadata(this.perks, ["name", "unlocked", "researched"])
 		};
 	},
 

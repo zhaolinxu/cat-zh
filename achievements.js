@@ -210,7 +210,7 @@ dojo.declare("classes.managers.Achievements", null, {
 	},
 
 	save: function(saveData){
-		saveData.achievements = this.achievements;
+		saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked"]);
 	},
 
 	load: function(saveData){

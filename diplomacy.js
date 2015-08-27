@@ -188,7 +188,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	save: function(saveData){
 		saveData.diplomacy = {
-			races: this.races
+			races: this.game.bld.filterMetadata(this.races, ["name", "unlocked", "energy", "duration"])
 		};
 	},
 
