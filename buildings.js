@@ -1829,7 +1829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 		//--------------- toggle ------------
 
-		if (!building.action || !building.togglable){
+		if (!building.tunable && !building.togglable){
 			return;
 		}
 
