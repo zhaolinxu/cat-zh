@@ -531,7 +531,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	dropBoxClient: null,
-    
+
     //ui communication layer
     ui: null,
 
@@ -698,8 +698,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.village.save(saveData);
 		this.calendar.save(saveData);
+		this.console.static.save(saveData);
 
-        for (i in this.managers){
+        for (var i in this.managers){
             this.managers[i].save(saveData);
         }
 
@@ -771,6 +772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.resPool.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
+				this.console.static.load(saveData);
 
                 for (var i in this.managers){
                     this.managers[i].load(saveData);
@@ -942,7 +944,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		});
 	},
-    
+
     setUI: function(ui){
         this.ui = ui;
         ui.setGame(this);
@@ -952,7 +954,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         if (!this.ui){
             throw "Unable to render game state, no UI manager";
         }
-        
+
         this.ui.render();
 
 		// Once we have rendered the page immidiately update it in order to
@@ -1763,7 +1765,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if( tech.cost){
 					totalScience += tech.cost;
 				}else{
-					for (j in tech.prices){
+					for (var j in tech.prices){
 						if (tech.prices[j].name == "science"){
 							totalScience += tech.prices[j].val;
 						}
