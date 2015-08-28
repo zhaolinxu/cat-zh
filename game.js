@@ -762,6 +762,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
 			this.calculateAllEffects();
+			this.updateOptionsUI();
 			return;
 		}
 		try {
@@ -1843,7 +1844,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			prestige: {
 				perks: this.prestige.perks	//never resets
 			},
-			science: { techs: [] },
+			science: { techs: [], hideResearched: false },
 			resources: newResources
 		};
 

@@ -21,7 +21,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 1.05
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "sharks",
 		title: "Sharks",
@@ -37,7 +38,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 1.45
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "griffins",
 		title: "Griffins",
@@ -54,7 +56,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.35,
 				"winter": 0.80
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "nagas",
 		title: "Nagas",
@@ -71,7 +74,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 0.65,
 				"winter": 0.95
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "zebras",
 		hidden: true,
@@ -101,7 +105,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "spiders",
 		hidden: true,
@@ -119,7 +124,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 0.95
 			}},
-		]
+		],
+		collapsed: false
 	},{
 		name: "dragons",
 		hidden: true,
@@ -169,7 +175,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
     }],
 
 	constructor: function(game){
@@ -188,7 +195,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	save: function(saveData){
 		saveData.diplomacy = {
-			races: this.game.bld.filterMetadata(this.races, ["name", "unlocked", "energy", "duration"])
+			races: this.game.bld.filterMetadata(this.races, ["name", "unlocked", "energy", "duration", "collapsed"])
 		};
 	},
 
@@ -205,6 +212,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 						var race = this.game.diplomacy.get(savedRace.name);
 
 						race.unlocked = savedRace.unlocked;
+						race.collapsed = savedRace.collapsed || false;
 						//elders stuff
 						race.energy = savedRace.energy || null;
 						race.duration = savedRace.duration || null;
@@ -328,6 +336,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
+
+	onToggle: function(isToggled){
+		this.race.collapsed = isToggled;
+	},
 
 	update: function(){
 		if (this.tradeBtn){
@@ -727,6 +739,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}, this.game);
 			tradeBtn.render(content);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
+			racePanel.race = race;
+			racePanel.collapse(race.collapsed);
 		}
 
 		//-----------------	race panels must be created fist -------------
