@@ -385,7 +385,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		if (enabled){
 			if (!this.enabled){
-				this.domNode.className = this.domNode.className.replace("disabled","");
+				dojo.removeClass(this.domNode, "disabled");
 			}
 		} else {
 			if (this.enabled){
