@@ -416,9 +416,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	save: function(saveData){
+
+		var planets = this.filterMetadata(this.planets, ["name", "buildings"]);
+
+		for (var i = 0; i < planets.length; i++) {
+			var planet = planets[i];
+			if (planet.buildings) {
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"])
+			}
+		}
+
 		saveData.space = {
-			programs: this.programs,
-			planets: this.planets
+			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked", "researched"]),
+			planets: planets
 		};
 	},
 

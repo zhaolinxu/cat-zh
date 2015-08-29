@@ -26,15 +26,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}});
 	},
 
-	//TODO: save certain keys only like in load method below
-
 	save: function(saveData){
 		saveData.religion = {
 			faith: this.faith,
 			corruption: this.corruption,
 			faithRatio: this.faithRatio,
-			zu: this.zigguratUpgrades,
-			ru: this.religionUpgrades
+			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked"]),
+			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "researched"])
 		};
 	},
 

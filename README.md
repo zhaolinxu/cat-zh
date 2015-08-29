@@ -8,9 +8,6 @@
 ### Roadmap ###
 
 * UI
-    * Log
-        * Log filters settings should be carried over the saved game
-        * Log options should not be visible by default at least one of the related event occures
     * Resources
         * Edit icon for craft table to show/hide individual craft recipes
 
