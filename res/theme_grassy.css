@@ -74,10 +74,6 @@ body.scheme_grassy {
 }
 
 .scheme_grassy #advisorsContainer {
-	position: absolute;
-	top: -36px;
-	left: 348px;
-
 	border: none;
 	background: none;
 }
