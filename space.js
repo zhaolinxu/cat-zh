@@ -127,83 +127,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
         unlocks: {
             planet: "moon",
-            programs: ["moonBase", "moonOutpost", "duneMission", "piscineMission"]
+            programs: ["duneMission", "piscineMission"]
         }
-	},{
-		name: "moonOutpost",
-		title: "Lunar Outpost",
-		description: "Deploy a nuclear powered mining outpost on Redmoon",
-		unlocked: false,
-		fuel: 50000,
-		priceRatio: 1.12,
-		prices: [
-			{name: "starchart", val: 650},
-			{name: "uranium",  val: 500},
-			{name: "alloy",    val: 750},
-			{name: "concrate", val: 150},
-			{name: "science", val: 100000},
-			{name: "oil", val: 55000}
-		],
-		upgradable: true,
-		togglable: 	true,
-		tunable: 	true,
-
-		handler: function(game, self){
-			//game.workshop.get("unobtainiumAxe").unlocked = true;
-			//game.workshop.get("unobtainiumSaw").unlocked = true;
-		},
-		val:  0,
-		on:	  0,
-		effects: {
-			"uraniumPerTick": -0.35,
-			"unobtainiumPerTick": 0.007,
-			"energyConsumption": 5
-		},
-		action: function(game, self){
-
-			self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
-
-			game.resPool.convert(
-				[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
-				[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
-				self.on
-			);
-		}
-	},{
-		name: "moonBase",
-		title: "Moon base",
-		description: "Establish a base on a surface of Redmoon",
-		unlocked: false,
-		researched: false,
-		priceRatio: 1.12,
-		prices: [
-			{name: "starchart", val: 700},
-			{name: "titanium", val: 9500},
-			{name: "concrate", val: 250},
-			{name: "science", val: 100000},
-			{name: "unobtainium", val: 50},
-			{name: "oil", val: 70000}
-		],
-		effects: {
-			"catnipMax" 	: 45000,
-			"woodMax"		: 25000,
-			"mineralsMax"	: 30000,
-			"ironMax"		: 9000,
-			"coalMax"		: 3500,
-			"goldMax"		: 500,
-			"titaniumMax"	: 1250,
-			"oilMax"		: 3500,
-			"unobtainiumMax": 150,
-			"energyConsumption": 10
-		},
-		action: function(game, self){
-
-		},
-		upgradable: true,
-		togglable: 	true,
-		tunable: 	true,
-		on: 0,
-		val: 0
 	},{
 		name: "duneMission",
 		title: "Dune Mission",
@@ -288,7 +213,81 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	[{
 		name: "moon",
 		title: "Moon",
-		unlocked: false
+		unlocked: false,
+		buildings: [{
+			name: "moonOutpost",
+			title: "Lunar Outpost",
+			description: "Deploy a nuclear powered mining outpost on Redmoon",
+			unlocked: true,
+			priceRatio: 1.12,
+			prices: [
+				{name: "starchart", val: 650},
+				{name: "uranium",  val: 500},
+				{name: "alloy",    val: 750},
+				{name: "concrate", val: 150},
+				{name: "science", val: 100000},
+				{name: "oil", val: 55000}
+			],
+			upgradable: true,
+			togglable: 	true,
+			tunable: 	true,
+
+			handler: function(game, self){
+				//game.workshop.get("unobtainiumAxe").unlocked = true;
+				//game.workshop.get("unobtainiumSaw").unlocked = true;
+			},
+			val:  0,
+			on:	  0,
+			effects: {
+				"uraniumPerTick": -0.35,
+				"unobtainiumPerTick": 0.007,
+				"energyConsumption": 5
+			},
+			action: function(game, self){
+
+				self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
+
+				game.resPool.convert(
+					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
+					[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
+					self.on
+				);
+			}
+		},{
+			name: "moonBase",
+			title: "Moon base",
+			description: "Establish a base on a surface of Redmoon",
+			unlocked: true,
+			priceRatio: 1.12,
+			prices: [
+				{name: "starchart", val: 700},
+				{name: "titanium", val: 9500},
+				{name: "concrate", val: 250},
+				{name: "science", val: 100000},
+				{name: "unobtainium", val: 50},
+				{name: "oil", val: 70000}
+			],
+			effects: {
+				"catnipMax" 	: 45000,
+				"woodMax"		: 25000,
+				"mineralsMax"	: 30000,
+				"ironMax"		: 9000,
+				"coalMax"		: 3500,
+				"goldMax"		: 500,
+				"titaniumMax"	: 1250,
+				"oilMax"		: 3500,
+				"unobtainiumMax": 150,
+				"energyConsumption": 10
+			},
+			action: function(game, self){
+
+			},
+			upgradable: true,
+			togglable: 	true,
+			tunable: 	true,
+			on: 0,
+			val: 0
+		}]
 	},{
 		name: "dune",
 		title: "Dune",
