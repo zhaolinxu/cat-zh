@@ -963,20 +963,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 1) {
 			// Move Lunar Outpost and Moon Base from programs to moon planet
-			var buildings = [];
-			for (var i = 0; i < save.space.programs.length; i++) {
-				var program = save.space.programs[i];
-				if (program.name == "moonOutpost" || program.name == "moonBase") {
-					buildings.push(program);
-					save.space.programs.splice(i, 1);
-					// Next element has moved back into current index because of splice
-					i--;
+			if (save.space && save.space.programs && save.space.planets) {
+				var buildings = [];
+				for (var i = 0; i < save.space.programs.length; i++) {
+					var program = save.space.programs[i];
+					if (program.name == "moonOutpost" || program.name == "moonBase") {
+						buildings.push(program);
+						save.space.programs.splice(i, 1);
+						// Next element has moved back into current index because of splice
+						i--;
+					}
 				}
-			}
-			for (var i = 0; i < save.space.planets.length; i++) {
-				if (save.space.planets[i].name == "moon") {
-					save.space.planets[i].buildings = buildings;
-					break;
+				for (var i = 0; i < save.space.planets.length; i++) {
+					if (save.space.planets[i].name == "moon") {
+						save.space.planets[i].buildings = buildings;
+						break;
+					}
 				}
 			}
 
