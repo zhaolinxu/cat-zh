@@ -1789,6 +1789,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		//------------------------------------------------------------------------------------------------------
 
+		// Trigger a save to make sure we're working with most recent data
+		this.save();
+
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		if (!lsData){
 			lsData = {game: {}};
