@@ -784,6 +784,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
 
+		this.bld.invalidateCachedEffects();
+		this.workshop.invalidateCachedEffects();
+		this.religion.invalidateCachedEffects();
+
 		// Calculate effects (needs to be done after all managers are loaded)
 		this.calculateAllEffects();
 
