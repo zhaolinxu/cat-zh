@@ -509,6 +509,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
+	saveVersion: 2,
+
 	//FINALLY
 	opts: null,
 
@@ -719,7 +721,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			nerfs: this.nerfs,
 			sorrow: this.sorrow,
 
-			opts : this.opts
+			opts : this.opts,
+
+			saveVersion: this.saveVersion
 		};
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
@@ -770,6 +774,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
+				this.migrateSave(saveData);
+
 				this.resPool.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
@@ -948,6 +954,38 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				$('#optionsDiv').hide();
 			});
 		});
+	},
+
+	migrateSave: function(save) {
+		if (save.saveVersion === undefined) {
+			save.saveVersion = 1;
+		}
+
+		if (save.saveVersion == 1) {
+			// Move Lunar Outpost and Moon Base from programs to moon planet
+			if (save.space && save.space.programs && save.space.planets) {
+				var buildings = [];
+				for (var i = 0; i < save.space.programs.length; i++) {
+					var program = save.space.programs[i];
+					if (program.name == "moonOutpost" || program.name == "moonBase") {
+						buildings.push(program);
+						save.space.programs.splice(i, 1);
+						// Next element has moved back into current index because of splice
+						i--;
+					}
+				}
+				for (var i = 0; i < save.space.planets.length; i++) {
+					if (save.space.planets[i].name == "moon") {
+						save.space.planets[i].buildings = buildings;
+						break;
+					}
+				}
+			}
+
+			save.saveVersion = 2;
+		}
+
+		return save;
 	},
 
     setUI: function(ui){
