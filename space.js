@@ -421,7 +421,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++) {
 			var planet = planets[i];
 			if (planet.buildings) {
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"])
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
 			}
 		}
 
@@ -742,7 +742,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
                 this.build(program);
             }
 			if (program.handler){
-				program.handler(btn.game, program);
+				program.handler(this.game, program);
 			}
 		}
 	}

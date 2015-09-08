@@ -693,6 +693,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticksBeforeSave = this.autosaveFrequency;
 
 		var saveData = {
+			saveVersion: this.saveVersion,
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value"]
 			)
@@ -721,9 +722,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			nerfs: this.nerfs,
 			sorrow: this.sorrow,
 
-			opts : this.opts,
-
-			saveVersion: this.saveVersion
+			opts : this.opts
 		};
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
