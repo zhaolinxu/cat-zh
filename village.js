@@ -270,7 +270,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					for (var jobResMod in job.modifiers){
 						// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 						//TODO: move to the village manager
-						var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+						var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
 
 						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod-1) * productionRatio);
 
@@ -324,7 +324,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		saveData.village = {
 			kittens : this.sim.kittens,
 			maxKittens: this.maxKittens,
-			jobs: this.jobs
+			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"])
 		};
 	},
 
