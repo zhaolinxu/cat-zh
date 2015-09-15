@@ -54,14 +54,13 @@
 
                 try {
                     gamePage = new com.nuclearunicorn.game.ui.GamePage();
+                    gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
                     gamePage.nerfs = 9;
                     gamePage.load();
 
                     gamePage.updateKarma();
-
-                    gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
-
+                    
                     gamePage.render();
                     gamePage.console.static.rederFilters();
                     gamePage.start();

@@ -9,17 +9,16 @@ dojo.declare("classes.ui.UISystem", null, {
     },
     
     render: function(){
-        
     },
     
     update: function(){
+    },
+    
+    updateOptions: function(){
+    },
+    
+    displayAutosave: function(){
         
-    }
-});
-
-dojo.declare("classes.ui.FW7UI", classes.ui.UISystem, {
-    render: function(){
-        //do nothing?
     }
 });
 
@@ -120,7 +119,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     
     //---------------------------------------------------------------
     update: function(){
+        //TODO: use ui managers?
         this.updateFastHunt();
+        this.updateCalendar();
         
         this.toolbar.update();
     },
@@ -146,5 +147,65 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 this.fastHuntContainer.style.visibility = "hidden";
             }
         }
+    },
+    
+    updateCalendar: function(){
+        var calendar = this.game.calendar;
+        var hasCalendarTech = this.game.science.get("calendar").researched;
+
+        var calendarDiv = calendar.displayElement;
+        if (hasCalendarTech){
+
+            var mod = "";
+            if (this.weather){
+                mod = " (" + this.weather + ") ";
+            }
+
+            calendarDiv.innerHTML = "Year " + this.year + " - " +
+                calendar.seasons[calendar.season].title + mod + ", day " + calendar.integerDay();
+            document.title = "Kittens Game - Year " + calendar.year + ", " +
+                calendar.seasons[calendar.season].title + ", d. " + calendar.integerDay();
+
+            if (this.game.ironWill && calendar.observeBtn) {
+                document.title = "[EVENT!]" + document.title;
+            }
+
+            var calendarSignSpan = dojo.byId("calendarSign");
+            var cycle = calendar.cycles[calendar.cycle];
+            if (cycle){
+                calendarSignSpan.innerHTML = cycle.glyph;
+                calendarSignSpan.title = cycle.title + " (Year "+calendar.cycleYear+")";
+            }
+        } else {
+            calendarDiv.textContent = calendar.seasons[calendar.season].title;
+        }
+    },
+    //--------------------------------------------
+    
+    updateOptions: function() {
+        var game = this.game;
+        
+        $("#schemeToggle").val(game.colorScheme);
+        $("body").attr("class", "scheme_" + game.colorScheme);
+
+        $("#workersToggle")[0].checked = game.useWorkers;
+        $("#forceHighPrecision")[0].checked = game.forceHighPrecision;
+        $("#usePerSecondValues")[0].checked = game.opts.usePerSecondValues;
+        $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
+        $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
+        $("#hideSell")[0].checked = game.opts.hideSell;
+        $("#noConfirm")[0].checked = game.opts.noConfirm;
+    },
+    
+    displayAutosave: function(){
+        dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
+        dojo.animateProperty({
+            node:"autosaveTooltip",
+            properties: {
+                opacity: 0
+            },
+            duration: 1200,
+        }).play();
     }
+
 });

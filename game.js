@@ -744,17 +744,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	updateOptionsUI: function(){
-		$("#schemeToggle").val(this.colorScheme);
-		$("body").attr("class", "scheme_"+this.colorScheme);
-
-		$("#workersToggle")[0].checked 			= this.useWorkers;
-		$("#forceHighPrecision")[0].checked		= this.forceHighPrecision;
-		$("#usePerSecondValues")[0].checked		= this.opts.usePerSecondValues;
-		$("#usePercentageResourceValues")[0].checked 	= this.opts.usePercentageResourceValues;
-		$("#highlightUnavailable")[0].checked		= this.opts.highlightUnavailable;
-		$("#hideSell")[0].checked			= this.opts.hideSell;
-		$("#noConfirm")[0].checked			= this.opts.noConfirm;
-
+		this.ui.updateOptions();
 	},
 
 	load: function(){
@@ -1311,14 +1301,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.ticksBeforeSave == 0){
 			this.save();
 
-			dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
-			dojo.animateProperty({
-			  node:"autosaveTooltip",
-			  properties: {
-				  opacity: 0
-			  },
-			  duration: 1200,
-			}).play();
+			this.ui.displayAutosave();
 		}
 
 		this.bld.update();
@@ -1704,7 +1687,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg = this.totalUpdateTime / this.ticks;
 
 			if (tsDiff < 10) {tsDiff = 10;}
-			$("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
+            if ($("#devPanelFPS")[0]) {
+                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
+            }
 		}
 	},
 

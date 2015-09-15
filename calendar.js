@@ -132,34 +132,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	update: function() {
-		var hasCalendarTech = this.game.science.get("calendar").researched;
-
-		var calendarDiv = this.displayElement;
-		if (hasCalendarTech){
-
-			var mod = "";
-			if (this.weather){
-				mod = " (" + this.weather + ") ";
-			}
-
-			calendarDiv.innerHTML = "Year " + this.year + " - " +
-				this.seasons[this.season].title + mod + ", day " + this.integerDay();
-			document.title = "Kittens Game - Year " + this.year + ", " +
-				this.seasons[this.season].title + ", d. " + this.integerDay();
-
-			if (this.game.ironWill && this.observeBtn) {
-				document.title = "[EVENT!]" + document.title;
-			}
-
-			var calendarSignSpan = dojo.byId("calendarSign");
-			var cycle = this.cycles[this.cycle];
-			if (cycle){
-				calendarSignSpan.innerHTML = cycle.glyph;
-				calendarSignSpan.title = cycle.title + " (Year "+this.cycleYear+")";
-			}
-		} else {
-			calendarDiv.textContent = this.seasons[this.season].title
-		}
+		
 	},
 
 	tick: function(){
