@@ -509,6 +509,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
+	saveVersion: 2,
+
 	//FINALLY
 	opts: null,
 
@@ -531,7 +533,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	dropBoxClient: null,
-    
+
     //ui communication layer
     ui: null,
 
@@ -691,6 +693,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticksBeforeSave = this.autosaveFrequency;
 
 		var saveData = {
+			saveVersion: this.saveVersion,
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value"]
 			)
@@ -698,8 +701,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.village.save(saveData);
 		this.calendar.save(saveData);
+		this.console.static.save(saveData);
 
-        for (i in this.managers){
+        for (var i in this.managers){
             this.managers[i].save(saveData);
         }
 
@@ -751,6 +755,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
 			this.calculateAllEffects();
+			this.updateOptionsUI();
 			return;
 		}
 		try {
@@ -758,9 +763,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
+				this.migrateSave(saveData);
+
 				this.resPool.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
+				this.console.static.load(saveData);
 
                 for (var i in this.managers){
                     this.managers[i].load(saveData);
@@ -770,6 +778,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.error("Unable to load game data: ", ex);
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
+
+		this.bld.invalidateCachedEffects();
+		this.workshop.invalidateCachedEffects();
+		this.religion.invalidateCachedEffects();
 
 		// Calculate effects (needs to be done after all managers are loaded)
 		this.calculateAllEffects();
@@ -932,7 +944,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		});
 	},
-    
+
+	migrateSave: function(save) {
+		if (save.saveVersion === undefined) {
+			save.saveVersion = 1;
+		}
+
+		if (save.saveVersion == 1) {
+			// Move Lunar Outpost and Moon Base from programs to moon planet
+			if (save.space && save.space.programs && save.space.planets) {
+				var buildings = [];
+				for (var i = 0; i < save.space.programs.length; i++) {
+					var program = save.space.programs[i];
+					if (program.name == "moonOutpost" || program.name == "moonBase") {
+						buildings.push(program);
+						save.space.programs.splice(i, 1);
+						// Next element has moved back into current index because of splice
+						i--;
+					}
+				}
+				for (var i = 0; i < save.space.planets.length; i++) {
+					if (save.space.planets[i].name == "moon") {
+						save.space.planets[i].buildings = buildings;
+						break;
+					}
+				}
+			}
+
+			save.saveVersion = 2;
+		}
+
+		return save;
+	},
+
     setUI: function(ui){
         this.ui = ui;
         ui.setGame(this);
@@ -942,7 +986,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         if (!this.ui){
             throw "Unable to render game state, no UI manager";
         }
-        
+
         this.ui.render();
 
 		// Once we have rendered the page immidiately update it in order to
@@ -1748,7 +1792,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if( tech.cost){
 					totalScience += tech.cost;
 				}else{
-					for (j in tech.prices){
+					for (var j in tech.prices){
 						if (tech.prices[j].name == "science"){
 							totalScience += tech.prices[j].val;
 						}
@@ -1766,6 +1810,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.religionTab.resetFaithInternal(1);
 		}
 		//------------------------------------------------------------------------------------------------------
+
+		// Trigger a save to make sure we're working with most recent data
+		this.save();
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		if (!lsData){
@@ -1826,7 +1873,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			prestige: {
 				perks: this.prestige.perks	//never resets
 			},
-			science: { techs: [] },
+			science: { techs: [], hideResearched: false },
 			resources: newResources
 		};
 

@@ -187,25 +187,32 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			"meteor": {
 				title: "Meteors",
 				enabled: true,
-				unlocked: true
+				unlocked: false
 			},
 			"ivoryMeteor": {
 				title: "Ivory Meteors",
 				enabled: true,
-				unlocked: true
+				unlocked: false
 			},
 			"unicornRift": {
 				title: "Unicorn Rifts",
 				enabled: true,
-				unlocked: true
+				unlocked: false
 			}
 		},
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */
 		msg : function(message, type, tag){
-			if (tag && this.filters[tag] && !this.filters[tag].enabled){
-				return;
+			if (tag && this.filters[tag]){
+				var filter = this.filters[tag];
+
+				if (!filter.unlocked){
+					filter.unlocked = true;
+					this.rederFilters();
+				} else if (!filter.enabled){
+					return;
+				}
 			}
 
 			var gameLog = dojo.byId("gameLog");
@@ -255,10 +262,15 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		rederFilters: function(){
 			var filters = dojo.byId("logFilters");
 			dojo.empty(filters);
+			var show = false;
 
 			for (var fId in this.filters){
-				this._createFilter(fId, filters);
+				if (this.filters[fId].unlocked) {
+					this._createFilter(fId, filters);
+					show = true;
+				}
 			}
+			$("#logFiltersBlock").toggle(show);
 		},
 
 		_createFilter: function(fId, filters){
@@ -274,6 +286,27 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				innerHTML: this.filters[fId].title
 			}, filters);
 			dojo.create("br", null, filters);
+		},
+
+		save: function(saveData){
+			saveData.console = {
+				filters: this.filters
+			};
+		},
+
+		load: function(saveData){
+			if (saveData.console && saveData.console.filters){
+				for (var fId in saveData.console.filters){
+					var savedFilter = saveData.console.filters[fId];
+
+					if (this.filters[fId]) {
+						this.filters[fId].unlocked = savedFilter.unlocked;
+						this.filters[fId].enabled = savedFilter.enabled;
+					}
+				}
+
+				this.rederFilters();
+			}
 		}
 	}
 });
@@ -352,7 +385,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		if (enabled){
 			if (!this.enabled){
-				this.domNode.className = this.domNode.className.replace("disabled","");
+				dojo.removeClass(this.domNode, "disabled");
 			}
 		} else {
 			if (this.enabled){

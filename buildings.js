@@ -177,7 +177,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects: {
 					"energyProduction": 2
 				},
-				requiredTech: ["electronics"],
+				requiredTech: ["ecology"],
 				priceRatio: 1.15,
 				stageUnlocked : false
 			}
@@ -676,7 +676,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTick"] = 0.0005 * ( 1 + calcinerRatio*3 ) * autoProdRatio;
 			self.effects["ironPerTick"] = 0.15 * ( 1 + calcinerRatio ) * autoProdRatio;
 
-			gamePage.resPool.convert(
+			game.resPool.convert(
 				[{res: "oil", amt: -self.effects["oilPerTick"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
 				[{res: "iron", amt: self.effects["ironPerTick"]},
@@ -1829,7 +1829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 		//--------------- toggle ------------
 
-		if (!building.action || !building.togglable){
+		if (!building.tunable && !building.togglable){
 			return;
 		}
 
@@ -2076,6 +2076,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 						if (confirm('Do you want to downgrade building?')){
 							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							if (bldExt.meta.calculateEffects){
+								bldExt.meta.calculateEffects(bldExt.meta, this.game);
+							}
 							this.game.render();
 						}
 					})
@@ -2092,6 +2095,9 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							bldExt.meta.stage++;
 
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							if (bldExt.meta.calculateEffects){
+								bldExt.meta.calculateEffects(bldExt.meta, this.game);
+							}
 							this.game.render();
 						}
 					})
