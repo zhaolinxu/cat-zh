@@ -247,13 +247,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
 
-				if (self.on > 0) {
-					game.resPool.convert(
-						[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
-						[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
-						self.on
-					);
-				}
+				game.resPool.convert(
+					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
+					[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
+					self.on
+				);
 			}
 		},{
 			name: "moonBase",
