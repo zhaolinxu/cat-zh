@@ -1,3 +1,24 @@
+v 1.1.4.0 (16 sep)
+Changes by coderpatsy:
+
+Fix Steamworks not saving jammed flag and stray jammed flag on magnetos
+Fix kittens briefly producing at master skill when starting a job
+Trigger a save right before resetting to make sure nothing gets lost
+Fix tankers not reducing storage upon crafting
+Remember trade race collapsed status
+Save/load message filters
+Call calculateEffects when up/downgrading buildings
+
+Lots and lots of other fixes
+___
+Changes by xranti:
+
+Implemented save state migration system and moved Lunar Outpost and Moon Base to the moon planet.
+Clear cached effects on load (fixes https://redd.it/3jzexn).
+
+___
+Some minor changes to decouple game logic from UI (may be useful for future mobile ports/custom clients)
+
 v 1.1.3.5 (8 aug)
 Changes by coderpatsy:
 
