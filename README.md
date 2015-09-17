@@ -15,7 +15,8 @@
     * ~~Ziggurat upgrades should be hidden by default and unlocked one by one~~
 
 * Features
-    TBD
+    * Leaders should give a special minor bonus based on trait (and rank)
+    * Planetary cycles should give cosmetic gameplay bonuses/penalties
 
 * Portability
     * ~~Render/Update loops should be decoupled from the Game class.~~
