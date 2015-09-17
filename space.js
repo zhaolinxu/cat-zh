@@ -421,7 +421,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++) {
 			var planet = planets[i];
 			if (planet.buildings) {
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on"]);
 			}
 		}
 
@@ -478,7 +478,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
 				if (savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on"], function(loadedElem){
 					});
 				}
 			}
