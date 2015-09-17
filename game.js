@@ -957,6 +957,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				for (var i = 0; i < save.space.programs.length; i++) {
 					var program = save.space.programs[i];
 					if (program.name == "moonOutpost" || program.name == "moonBase") {
+						program.unlocked = true;
 						buildings.push(program);
 						save.space.programs.splice(i, 1);
 						// Next element has moved back into current index because of splice
@@ -1620,14 +1621,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
 	 */
-	getDisplayValueExt: function(value, prefix, usePetTickHack, precision){
+	getDisplayValueExt: function(value, prefix, usePerTickHack, precision){
 
-		if(!value) { return 0; }
+		if(!value){ return 0; }
 
-		if (usePetTickHack){
-			usePetTickHack = this.opts.usePerSecondValues;
+		if (usePerTickHack){
+			usePerTickHack = this.opts.usePerSecondValues;
 		}
-		if (usePetTickHack){
+		if (usePerTickHack){
 			value = value * this.rate;
 		}
 
@@ -1651,14 +1652,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']}, //WHAT
 		];
 
+		var postfix = "";
+		var absValue = Math.abs(value);
 		for(var i = 0; i < postfixes.length; i++) {
 			var p = postfixes[i];
-			if(value >= p.limit) {
-				return this.getDisplayValueExt(value / p.divisor, prefix, usePetTickHack, precision) + p.postfix[0];
+			if(absValue >= p.limit){
+				value = value / p.divisor;
+				postfix = p.postfix[0];
+				break;
 			}
 		}
 
-		return this.getDisplayValue(value, prefix, precision) + (usePetTickHack ? "/s" : "");
+		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? "/s" : "");
 	},
 
 	/**
