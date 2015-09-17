@@ -319,9 +319,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * The third amt parameter is the number of times to convert
 	 */
 	convert: function(from, to, amt){
-		// Convert once by default
-		amt = amt || 1;
-
+		if (amt == 0) {
+			return;
+		}
+		
 		// Cap amt based on available resources
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
