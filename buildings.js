@@ -823,7 +823,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		togglable: true,
 		tunable: true,
 		on: 0,
-		jammed: false,
 		prices: [
 			{ name : "alloy", val: 10 },
 			{ name : "gear",  val: 5 },
@@ -1595,7 +1594,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage", "jammed"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};

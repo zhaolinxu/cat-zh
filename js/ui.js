@@ -157,11 +157,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         if (hasCalendarTech){
 
             var mod = "";
-            if (this.weather){
-                mod = " (" + this.weather + ") ";
+            if (calendar.weather){
+                mod = " (" + calendar.weather + ") ";
             }
 
-            calendarDiv.innerHTML = "Year " + this.year + " - " +
+            calendarDiv.innerHTML = "Year " + calendar.year + " - " +
                 calendar.seasons[calendar.season].title + mod + ", day " + calendar.integerDay();
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 calendar.seasons[calendar.season].title + ", d. " + calendar.integerDay();

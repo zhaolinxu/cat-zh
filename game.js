@@ -1865,6 +1865,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var saveData = {
+			saveVersion: this.saveVersion,
 			game : lsData.game,
 			achievements: lsData.achievements,
 			religion: {
