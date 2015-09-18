@@ -1,3 +1,18 @@
+v 1.1.4.1 (16 sep)
+
+Changes by coderpatsy:
+
+Fix lunar outposts converting uranium even when all are off (https://redd.it/3lbrj3)
+Make sure moon programs are unlocked when converting saves
+Fix negative numbers not getting postfixed
+Fix postfixed numbers displaying postfix after "/s"
+Fix typoed variable name (RIP usePetTickHack)
+
+Changes by xranti:
+
+Additional fix to lunar outpost
+Removed default amount from resPool.convert function.
+
 v 1.1.4.0 (16 sep)
 Changes by coderpatsy:
 
