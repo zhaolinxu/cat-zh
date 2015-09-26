@@ -624,7 +624,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "blueprint", val: 5 }
 		],
 		upgrades: {
-			buildings: ["warehouse"]
+			buildings: ["barn", "warehouse", "harbor"]
 		},
 		unlocked: false,
 		researched: false,

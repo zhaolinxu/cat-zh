@@ -1,3 +1,11 @@
+v 1.1.4.2 (26 sep)
+
+Changes by coderpatsy:
+
+Fix buildings not always showing that they are on
+Fix active tabs not highlighting their link
+Fix catnip max not being recalculated properly when buying Silos
+
 v 1.1.4.1 (16 sep)
 
 Changes by coderpatsy:

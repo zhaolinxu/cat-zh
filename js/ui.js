@@ -80,7 +80,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }, tabNavigationDiv);
             tab.domNode = tabLink;
 
-            if (this.activeTabId == tab.tabId){
+            if (game.activeTabId == tab.tabId){
                 dojo.addClass(tabLink, "activeTab");
             }
 
