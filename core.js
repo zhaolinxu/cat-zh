@@ -189,6 +189,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"workshopAutomation": {
+				title: "Workshop Automation",
+				enabled: true,
+				unlocked: false
+			},
 			"ivoryMeteor": {
 				title: "Ivory Meteors",
 				enabled: true,

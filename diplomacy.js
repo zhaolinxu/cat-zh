@@ -143,7 +143,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
 	},{
         name: "leviathans",
 		hidden: true,

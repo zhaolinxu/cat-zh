@@ -346,7 +346,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Observatory",
 		description: "Increases the chance of astronomical events by 0.5%",
 		unlocked: false,
-		enabled: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
@@ -774,7 +773,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					(game.workshop.get("pneumaticPress").researched &&
 						iron.value >= iron.maxValue * (1 - baseAutomationRate))
 				){
-					game.msg("Activating workshop automation");
+					game.msg("Activating workshop automation", null, "workshopAutomation");
 					self.jammed = true;				//Jam until next year
 				} else {
 					return;
@@ -789,7 +788,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
 						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!");
+						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!", null, "workshopAutomation");
 					}
 				}
 				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
@@ -797,7 +796,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
 						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!");
+						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!", null, "workshopAutomation");
 					}
 				}
 
@@ -807,7 +806,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
 						game.workshop.craft("plate", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!");
+						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!", null, "workshopAutomation");
 					}
 				}
 			}
