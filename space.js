@@ -58,6 +58,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Satellite",
 		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
+		researched: false,
 		prices: [
 			{name: "starchart", val: 325},
 			{name: "titanium", val: 2500},
@@ -88,6 +89,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Space Station",
 		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
+		researched: false,
 		prices: [
 			{name: "starchart", val: 425},
 			{name: "alloy", 	val: 750},
