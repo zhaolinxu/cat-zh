@@ -532,10 +532,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		shiftKey: false
 	},
 
-	dropBoxClient: null,
-
     //ui communication layer
     ui: null,
+
+    //==========    external API's ========
+    dropBoxClient: null,
+
+    kongregate: null,
 
 	constructor: function(containerId){
 		this.id = containerId;
@@ -2012,5 +2015,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
 		this.resPool.get("sorrow").value = this.sorrow;
-	}
+	},
+    
+    //-----------------------------------------------------------------
+
+    initKongregateApi: function(){
+        var self = this;
+        kongregateAPI.loadAPI(function(){
+            self.kongregate = kongregateAPI.getAPI();
+            
+            console.log("Kongregate API initialized successfully");
+        });
+    }
 });

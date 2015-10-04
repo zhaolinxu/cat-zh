@@ -34,6 +34,8 @@
         <script src="js/toolbar.js?v=1.1.4.2" 	    type="text/javascript"></script>
         <script src="js/ui.js?v=1.1.4.2"                  type="text/javascript"></script>
 
+        <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script>
+
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -55,6 +57,9 @@
                 try {
                     gamePage = new com.nuclearunicorn.game.ui.GamePage();
                     gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+                    //TODO: disable for production
+                    gamePage.initKongregateApi();
 
                     gamePage.nerfs = 9;
                     gamePage.load();
