@@ -28,7 +28,7 @@
 		<script src="space.js?v=1.1.4.2" 		type="text/javascript"></script>
 		<script src="prestige.js?v=1.1.4.2" 	type="text/javascript"></script>
 
-		<script src="game.js?v=1.1.4.2d" 		type="text/javascript"></script>
+		<script src="game.js?v=1.1.4.2e" 		type="text/javascript"></script>
 
         <!-- --------------------------------------------------------------- -->
         <script src="js/toolbar.js?v=1.1.4.2" 	    type="text/javascript"></script>
@@ -68,10 +68,10 @@
                     gamePage.start();
 
                     //TODO: disable for production
-                    if ($.url.param("kongregate_host")) {
+                    //if ($.url.param("kongregate_host")) {
                         console.log("loading Kongregate API...");
                         gamePage.initKongregateApi();
-                    }
+                    //}
 
                 } catch (ex){
                     console.error(ex);

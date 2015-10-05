@@ -2024,8 +2024,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             
             console.log("Kongregate API initialized successfully, updating stats...");
 
-            self.kongregate.stats.submit("paragon", this.paragonPoints);
-            self.kongregate.stats.submit("karma", this.karmaKittens);
+            self.kongregate.stats.submit("paragon", self.paragonPoints);
+            self.kongregate.stats.submit("karma", self.karmaKittens);
             
             self.achievements.updateStatistics();
         });
