@@ -214,7 +214,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 				if (!filter.unlocked){
 					filter.unlocked = true;
-					this.rederFilters();
+					this.renderFilters();
 				} else if (!filter.enabled){
 					return;
 				}
@@ -264,7 +264,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			}
 		},
 
-		rederFilters: function(){
+		renderFilters: function(){
 			var filters = dojo.byId("logFilters");
 			dojo.empty(filters);
 			var show = false;
@@ -310,7 +310,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 					}
 				}
 
-				this.rederFilters();
+				this.renderFilters();
 			}
 		}
 	}

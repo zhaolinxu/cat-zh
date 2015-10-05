@@ -1836,11 +1836,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: 		0
 		});
 
-        if (this.kongregate){
-            this.kongregate.stats.submit("paragon", this.paragonPoints);
-            this.kongregate.stats.submit("karma", this.karmaKittens);
-        }
-
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn"];
@@ -2027,7 +2022,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         kongregateAPI.loadAPI(function(){
             self.kongregate = kongregateAPI.getAPI();
             
-            console.log("Kongregate API initialized successfully");
+            console.log("Kongregate API initialized successfully, updating stats...");
+
+            self.kongregate.stats.submit("paragon", this.paragonPoints);
+            self.kongregate.stats.submit("karma", this.karmaKittens);
+            
+            self.achievements.updateStatistics();
         });
     }
 });

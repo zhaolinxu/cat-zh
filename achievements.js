@@ -205,13 +205,28 @@ dojo.declare("classes.managers.Achievements", null, {
 				ach.unlocked = true;
 				this.game.msg("Achievement unlocked: " + ach.title + "!");
 				this.game.achievementTab.visible = true;
-
-                if (this.game.kongregate){
-                    this.game.kongregate.stats.submit("achievements", 1);
-                }
+                
+                this.updateStatistics();
 			}
 		}
 	},
+    
+    updateStatistics: function(){
+        if (this.game.kongregate){
+            
+            var achievementsCount = 0;
+            for (var i = 0; i< this.achievements.length; i++){
+                var ach = this.achievements[i];
+                if (ach.unlocked){
+                    achievementsCount++;
+
+                    this.game.kongregate.stats.submit("achievement_" + ach.name, 1);
+                }
+            }
+
+            this.game.kongregate.stats.submit("achievements", achievementsCount);
+        }
+    },
 
 	save: function(saveData){
 		saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked"]);
@@ -228,6 +243,10 @@ dojo.declare("classes.managers.Achievements", null, {
 			var a = this.get(savedAch.name);
 			a.unlocked = savedAch.unlocked;
 		}
+        
+        
+        //TODO: this would not actually work
+        //this.updateStatistics();
 	}
 });
 
