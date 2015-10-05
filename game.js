@@ -1836,9 +1836,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: 		0
 		});
 
-        if (this.game.kongregate){
-            this.game.kongregate.stats.submit("paragon", this.paragonPoints);
-            this.game.kongregate.stats.submit("karma", this.karmaKittens);
+        if (this.kongregate){
+            this.kongregate.stats.submit("paragon", this.paragonPoints);
+            this.kongregate.stats.submit("karma", this.karmaKittens);
         }
 
 		//------------ we can now carry some of the resources through reset ------------
