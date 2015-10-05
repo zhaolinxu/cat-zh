@@ -1836,6 +1836,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			deadKittens: 		0
 		});
 
+        if (this.game.kongregate){
+            this.game.kongregate.stats.submit("paragon", this.paragonPoints);
+            this.game.kongregate.stats.submit("karma", this.karmaKittens);
+        }
+
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn"];

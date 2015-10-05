@@ -205,6 +205,10 @@ dojo.declare("classes.managers.Achievements", null, {
 				ach.unlocked = true;
 				this.game.msg("Achievement unlocked: " + ach.title + "!");
 				this.game.achievementTab.visible = true;
+
+                if (this.game.kongregate){
+                    this.game.kongregate.stats.submit("achievements", 1);
+                }
 			}
 		}
 	},

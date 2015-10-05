@@ -679,6 +679,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			this.kittens.push(kitten);
 		}
 		this.game.villageTab.updateTab();
+        
+        if (this.game.kongregate){
+            this.game.kongregate.stats.submit("kittens", this.kittens.length);
+        }
 	},
 
 	killKittens: function(amount){
