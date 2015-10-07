@@ -220,7 +220,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		craftable: true,
 		color: "#CF4F20"
-	},{
+	}, {
 		name : "parchment",
 		type : "common",
 		craftable: true,
@@ -248,7 +248,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		craftable: true,
 		color: "gray"
-	}],
+	},{
+        name: "kerosene",
+        type: "common",
+        craftable: true,
+        color: "darkYellow"
+    }
+    ],
 
 	resources: null,
 	village: null,

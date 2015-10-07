@@ -1583,6 +1583,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false
 	},{
+        name: "kerosene",
+        title: "Kerosene",
+        description: "A rocket fuel processed from oil",
+        prices:[
+            { name: "oil", val: 10000 }
+        ],
+        unlocked: true
+    },{
 		name: "megalith",
 		title: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",

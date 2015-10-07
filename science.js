@@ -564,7 +564,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "rocketry",
 		title: "Rocketry",
 		description: "Required for space exploration",
-		effectDesc: "Unlocks construction of spaceships",
+		effectDesc: "Unlocks construction of spaceships and oil processing",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -572,26 +572,42 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
-			tech: ["sattelites"],
+			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"]
 		}
-	},{
-		name: "sattelites",
-		title: "Satellites",
-		description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
-		effectDesc: "Unlocks deployment of satellites",
-		unlocked: false,
-		researched: false,
-		prices: [
-			{name : "science", val: 190000},
-			{name: 	"blueprint", val: 125}
-		],
-		unlocks: {
-			tech: ["orbitalEngineering" ],
-			upgrades: [ "photolithography" ]
-		},
-		flavor: "Spreading cat videos at the speed of light"
-	},{
+	}, {
+        name: "oilProcessing",
+        title: "Oil Processing",
+        description: "Unlocks advanced options of oil processing",
+        effectDesc: "Unlocks kerosene and factory processing(TBD)",
+        unlocked: false,
+        researched: false,
+        prices: [],
+        prices: [
+            {name : "science", val: 215000},
+            {name: 	"blueprint", val: 150}
+        ],
+        unlocks: {
+            crafts: ["kerosene"]
+            /*, upgrades: [ "factoryProcessing" ] TBD: bonus to kerosene refinement from factories*/
+        }
+    },{
+        name: "sattelites",
+        title: "Satellites",
+        description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
+        effectDesc: "Unlocks deployment of satellites",
+        unlocked: false,
+        researched: false,
+        prices: [
+            {name : "science", val: 190000},
+            {name: 	"blueprint", val: 125}
+        ],
+        unlocks: {
+            tech: ["orbitalEngineering" ],
+            upgrades: [ "photolithography" ]
+        },
+        flavor: "Spreading cat videos at the speed of light"
+    },{
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
 		description: "Orbital Engineering allows kitten civilization to develop advanced space projects.",

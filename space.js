@@ -325,6 +325,27 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				//TODO: use calculateEffects method
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
+        },{
+            name: "hydrofracturer",
+            title: "Hydraulic Fracturer",
+            description: "Produces a high-pressure stream of oil",
+            unlocked: true,
+            priceRatio: 1.18,
+            prices: [
+                {name: "starchart", val: 750},
+                {name: "alloy",  val: 1025},
+                {name: "science", val: 150000},
+                {name: "oil", val: 75000}
+            ],
+
+            upgradable: true,
+            togglable: 	false,
+            tunable: 	false,
+            val:  0,
+            on:	  0,
+            effects: {
+                "oilPerTick": 0.5
+            }
         }]
 	},{
 		name: "piscine",
@@ -407,7 +428,36 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "terminus",
 		title: "T-Minus",
-		unlocked: false
+		unlocked: false,
+        buildings:[{
+            name: "cryostation",
+            title: "Cryostation",
+            description: "A vast storage facility complex",
+            unlocked: true,
+            priceRatio: 1.12,
+            prices: [
+                {name: "eludium", val: 25       },
+                {name: "concrate", val: 1500    },
+                {name: "science", val: 200000   },
+                {name: "kerosene", val: 200000   }
+            ],
+            effects: {
+                "woodMax"		: 100000,
+                "mineralsMax"	: 100000,
+                "ironMax"		: 50000,
+                "coalMax"		: 10000,
+                "goldMax"		: 2500,
+                "titaniumMax"	: 5000,
+                "oilMax"		: 25000,
+                "unobtainiumMax": 750
+            },
+            action: function(game, self){
+
+            },
+            upgradable: true,
+            val: 0
+        }
+        ]
 	}],
 
 	//============================================================================
