@@ -1001,7 +1001,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
 					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
-					effectValue += effectValue * (this.game.resPool.get("paragon").value / 1000);
+					effectValue += effectValue * (this.game.resPool.get("paragon").value / 1000) * this.game.prestige.getParagonRatio();
 				}
 
 				var displayEffectValue;
