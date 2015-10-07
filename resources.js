@@ -371,7 +371,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
 
 			var paragon = this.game.resPool.get("paragon").value;
-			maxValue += maxValue * (paragon/1000);	//every 100 paragon will give a 10% bonus to the storage capacity
+			maxValue += maxValue * (paragon/1000) * this.game.prestige.getParagonRatio();	//every 100 paragon will give a 10% bonus to the storage capacity
 
 
 			if (maxValue < 0 ){

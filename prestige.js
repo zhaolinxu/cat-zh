@@ -155,13 +155,56 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "numeromancy",
 		title: "Numeromancy",
 		description: "Certain years will have special effects (TBD)",
-		paragon: 500,
+		paragon: 250,
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//game.prestige.getPerk("numeromancy").unlocked = true;
+            game.prestige.getPerk("malkuth").unlocked = true;
 		}
-	},{
+	},
+    //---------------------------------------------------
+    {
+        name: "malkuth",
+        title: "Malkuth",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 500,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("yesod").unlocked = true;
+        }
+    },{
+        name: "yesod",
+        title: "Yesod",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 750,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("hod").unlocked = true;
+        }
+    },{
+        name: "hod",
+        title: "Hod",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 1000,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            //game.prestige.getPerk("netzach").unlocked = true;
+        }
+    },
+    //---------------------------------------------------
+    {
 		name: "voidOrder",
 		title: "Order of Void",
 		description: "Every priest will now give a minor bonus to faith accumulation",
@@ -227,7 +270,11 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		return paragon;
-	}
+	},
+
+    getParagonRatio: function(){
+        return 1.0 + this.getEffect("paragonRatio");
+    }
 });
 
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {

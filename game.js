@@ -1132,8 +1132,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//---------  PARAGON BONUS ------------
-		var paragonRatio = this.resPool.get("paragon").value * 0.01;
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		var paragonRatio = this.resPool.get("paragon").value * 0.01 * this.prestige.getParagonRatio();
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2 * this.prestige.getParagonRatio());	//well, 200 paragon is probably the END OF THE LINE
 		perTick += perTick * paragonRatio;
 
 		//---------  FAITH BONUS --------------
