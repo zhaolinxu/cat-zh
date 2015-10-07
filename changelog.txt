@@ -1,3 +1,8 @@
+v 1.1.4.3 (6 oct)
+
+Added support for crafting undo (more options coming)
+Kongregate API integration
+
 v 1.1.4.2 (26 sep)
 
 Changes by coderpatsy:

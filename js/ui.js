@@ -122,6 +122,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: use ui managers?
         this.updateFastHunt();
         this.updateCalendar();
+        this.updateUndoButton();
         
         this.toolbar.update();
     },
@@ -181,6 +182,15 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
     //--------------------------------------------
+
+    updateUndoButton: function(){
+        var isVisible = (this.game.undoChange !== null);
+        $("#undoBtn").toggle(isVisible);
+        
+        if (isVisible) {
+            $("#undoBtn").html("undo (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "s)");
+        }
+    },
     
     updateOptions: function() {
         var game = this.game;

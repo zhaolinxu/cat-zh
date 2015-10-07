@@ -15,24 +15,24 @@
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox.js"></script>
 
-		<script src="core.js?v=1.1.4.2b" 		type="text/javascript"></script>
-		<script src="resources.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="calendar.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="buildings.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="village.js?v=1.1.4.2b" 		type="text/javascript"></script>
-		<script src="science.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="workshop.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="diplomacy.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="religion.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="achievements.js?v=1.1.4.2d" type="text/javascript"></script>
-		<script src="space.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="prestige.js?v=1.1.4.2" 	type="text/javascript"></script>
+		<script src="core.js?v=1.1.4.3" 		type="text/javascript"></script>
+		<script src="resources.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="calendar.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="buildings.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="village.js?v=1.1.4.3" 		type="text/javascript"></script>
+		<script src="science.js?v=1.1.4.3" 		type="text/javascript"></script>
+		<script src="workshop.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="diplomacy.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="religion.js?v=1.1.4.3" 	type="text/javascript"></script>
+		<script src="achievements.js?v=1.1.4.3" type="text/javascript"></script>
+		<script src="space.js?v=1.1.4.3" 		type="text/javascript"></script>
+		<script src="prestige.js?v=1.1.4.3" 	type="text/javascript"></script>
 
-		<script src="game.js?v=1.1.4.2e" 		type="text/javascript"></script>
+		<script src="game.js?v=1.1.4.3" 		type="text/javascript"></script>
 
         <!-- --------------------------------------------------------------- -->
-        <script src="js/toolbar.js?v=1.1.4.2" 	    type="text/javascript"></script>
-        <script src="js/ui.js?v=1.1.4.2"                  type="text/javascript"></script>
+        <script src="js/toolbar.js?v=1.1.4.3" 	    type="text/javascript"></script>
+        <script src="js/ui.js?v=1.1.4.3"                  type="text/javascript"></script>
 
         <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script>
 
@@ -69,9 +69,13 @@
 
                     //TODO: disable for production
                     //if ($.url.param("kongregate_host")) {
-                        console.log("loading Kongregate API...");
-                        gamePage.initKongregateApi();
+                       /* console.log("loading Kongregate API...");
+                        gamePage.initKongregateApi(); */
                     //}
+
+                    if (window.location.protocol != "file:"){
+                        $("#devModeButton").show();
+                    }
 
                 } catch (ex){
                     console.error(ex);
@@ -147,10 +151,10 @@
 					<a href="#" onclick="gamePage.saveUI();">Save</a> |
 					<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 					<a href="#" onclick="gamePage.reset();">Reset</a> |
-					<!-- <a href="#" id="devBtn" onclick="dev();">#</a> | -->
+					<div id="devModeButton" style="display: inline-block;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</div> 
 					<a href="#" onclick="wipe();">Wipe</a> |
 
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.4.2</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.4.3</a>
 
 				</div>
 			</div>
@@ -170,8 +174,8 @@
 					Minor 4:
 						QOL/Fixes
 
-					Rev: 2
-						-
+					Rev: 3
+						<span style="color:orange;text-shadow: 1px 0px 10px Coral;">Undo</span>
 
 
 				</pre>
@@ -217,7 +221,10 @@
 					<div>
 						<span id="calendarSign" style="cursor:pointer;"></span></span><span id="calendarDiv">Calendar :V</span>
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
-						<a id="pauseBtn" style="font-size: 12px; float: right;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
+                        <div style="float: right;">
+						    <a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
+                            <a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
+                        </div>
 					</div>
 					<div style="padding-top: 10px; border-top: 1px solid gray;">
 						You are a kitten in a catnip forest.
@@ -366,7 +373,7 @@
 
 			<div id="footerLinks">
 				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a href="wiki/" target="_blank">wiki</a> |
+				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<a href="#" onclick="$('#helpDiv').toggle();">help</a> |
 				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |

@@ -43,6 +43,31 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	}
 });
 
+/**
+ * Undo Change state. Represents a change in one or multiple 
+ */
+dojo.declare("classes.game.UndoChange", null, {
+    _static:{
+        DEFAULT_TTL : 20
+    },
+    ttl: 0,
+    events: null,
+    
+    constructor: function(){
+        this.events = [];
+    },
+    
+    addEvent: function(managerId, metaId, value){
+        var event = {
+            managerId: managerId,
+            metaId: metaId,
+            value: value
+        }
+        
+        this.events.push(event);
+    }
+});
+
 /*
  * Effects metadata manager
  */
@@ -531,6 +556,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     keyStates: {
 		shiftKey: false
 	},
+    
+    //TODO: this can potentially be an array
+    undoChange: null,
 
     //ui communication layer
     ui: null,
@@ -1397,6 +1425,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.tooltipUpdateFunc();
 		}
 
+        if (this.undoChange){
+            this.undoChange.ttl--;
+            
+            if (this.undoChange.ttl <= 0){
+                this.undoChange = null;
+            }
+        }
+
         //--------------------
         //  Update UI state
         //--------------------
@@ -2014,6 +2050,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
 		this.resPool.get("sorrow").value = this.sorrow;
 	},
+    
+    registerUndoChange: function(){
+        var undoChange = new classes.game.UndoChange();
+        undoChange.ttl = undoChange._static.DEFAULT_TTL * this.rate;
+        
+        this.undoChange = undoChange;
+        
+        return undoChange;
+    },
+    
+    undo: function(){
+        if (!this.undoChange) { 
+            return;
+        }
+
+        /**
+         * I am too tired to write proper logic, let it be simple hashmap of references
+         */
+        var managers = {
+           "workshop": this.workshop
+        };
+
+        for (var i in this.undoChange.events){
+            var event = this.undoChange.events[i];
+            var mgr = managers[event.managerId];
+ 
+            if (mgr && mgr.undo){
+                mgr.undo(event.metaId, event.value);
+            }
+        }
+
+        this.undoChange = null;
+    },
     
     //-----------------------------------------------------------------
 
