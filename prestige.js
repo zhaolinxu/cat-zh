@@ -193,7 +193,20 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         name: "hod",
         title: "Hod",
         description: "Improves paragon effect and scaling by 5%",
-        paragon: 1000,
+        paragon: 1250,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("netzach").unlocked = true;
+        }
+    },{
+        name: "netzach",
+        title: "Netzach",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 1750,
         unlocked: false,
         researched: false,
         effects:{

@@ -335,7 +335,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "starchart", val: 750},
                 {name: "alloy",  val: 1025},
                 {name: "science", val: 150000},
-                {name: "oil", val: 75000}
+                {name: "kerosene", val: 100}
             ],
 
             upgradable: true,
@@ -439,7 +439,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "eludium", val: 25       },
                 {name: "concrate", val: 1500    },
                 {name: "science", val: 200000   },
-                {name: "kerosene", val: 200000   }
+                {name: "kerosene", val: 20000   }
             ],
             effects: {
                 "woodMax"		: 100000,

@@ -448,11 +448,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			// energy
 
 			"energyProduction": {
-				title: "Energy Production"
+				title: "Energy production"
 			},
 			"energyConsumption": {
-				title: "Energy Consumption"
-			}
+				title: "Energy consumption"
+            },
+            
+            "productionRatio" : {
+                title: "Production bonus",
+                type: "ratio"
+            }
 		}
 	}
 });
@@ -1364,8 +1369,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			return ratio + scienceBldAmt * bpRatio;
 		}
-
-		return this.bld.getEffect("craftRatio");
+        
+        //get resource specific craft ratio (like factory bonus)
+        var resCraftRatio = this.bld.getEffect(res.name + "CraftRatio") || 0;
+        
+		return this.bld.getEffect("craftRatio") + resCraftRatio;
 	},
 
 	/**

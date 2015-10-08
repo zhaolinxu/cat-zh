@@ -1427,8 +1427,38 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
-	}
-	],
+	},
+	//------------------- oil --------------------------
+    {
+        name: "oilDestilation",
+        title: "Oil Destilation",
+        description: "Oil output is improved by 75%.",
+        effects: {
+            "oilRatio" : 0.75
+        },
+        prices:[
+            { name : "titanium", val: 5000 },
+            { name : "science",  val: 175000 }
+        ],
+        unlocked: false,
+        researched: false
+        
+    }, {
+        name: "factoryProcessing",
+        title: "Factory Processing",
+        description: "Every factory will increase oil refinement effectiveness by 5%.",
+        effects: {
+            "factoryRefineRatio" : 0.05
+        },
+        prices:[
+            { name : "titanium", val: 7500   },
+            { name : "concrate", val: 125    },
+            { name : "science",  val: 195000 }
+        ],
+        unlocked: false,
+        researched: false
+        }
+    ],
 
 	//=============================================================
 	//					     CRAFT RECIPES
@@ -1587,7 +1617,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         title: "Kerosene",
         description: "A rocket fuel processed from oil",
         prices:[
-            { name: "oil", val: 10000 }
+            { name: "oil", val: 7500 }
         ],
         unlocked: true
     },{
