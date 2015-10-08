@@ -44,7 +44,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 });
 
 /**
- * Undo Change state. Represents a change in one or multiple 
+ * Undo Change state. Represents a change in one or multiple
  */
 dojo.declare("classes.game.UndoChange", null, {
     _static:{
@@ -52,18 +52,18 @@ dojo.declare("classes.game.UndoChange", null, {
     },
     ttl: 0,
     events: null,
-    
+
     constructor: function(){
         this.events = [];
     },
-    
+
     addEvent: function(managerId, metaId, value){
         var event = {
             managerId: managerId,
             metaId: metaId,
             value: value
         }
-        
+
         this.events.push(event);
     }
 });
@@ -561,7 +561,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     keyStates: {
 		shiftKey: false
 	},
-    
+
     //TODO: this can potentially be an array
     undoChange: null,
 
@@ -1280,8 +1280,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.religion.getEffect(res.name + "Ratio")
 		});
 
-		var paragonRatio = this.resPool.get("paragon").value * 0.01;
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
+		var paragonRatio = this.resPool.get("paragon").value * 0.01 * this.prestige.getParagonRatio();
+		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2 * this.prestige.getParagonRatio());	//well, 200 paragon is probably the END OF THE LINE
 		stack.push({
 			name: "Paragon",
 			type: "ratio",
@@ -1435,7 +1435,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         if (this.undoChange){
             this.undoChange.ttl--;
-            
+
             if (this.undoChange.ttl <= 0){
                 this.undoChange = null;
             }
@@ -2058,18 +2058,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
 		this.resPool.get("sorrow").value = this.sorrow;
 	},
-    
+
     registerUndoChange: function(){
         var undoChange = new classes.game.UndoChange();
         undoChange.ttl = undoChange._static.DEFAULT_TTL * this.rate;
-        
+
         this.undoChange = undoChange;
-        
+
         return undoChange;
     },
-    
+
     undo: function(){
-        if (!this.undoChange) { 
+        if (!this.undoChange) {
             return;
         }
 
@@ -2083,7 +2083,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         for (var i in this.undoChange.events){
             var event = this.undoChange.events[i];
             var mgr = managers[event.managerId];
- 
+
             if (mgr && mgr.undo){
                 mgr.undo(event.metaId, event.value);
             }
@@ -2091,19 +2091,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         this.undoChange = null;
     },
-    
+
     //-----------------------------------------------------------------
 
     initKongregateApi: function(){
         var self = this;
         kongregateAPI.loadAPI(function(){
             self.kongregate = kongregateAPI.getAPI();
-            
+
             console.log("Kongregate API initialized successfully, updating stats...");
 
             self.kongregate.stats.submit("paragon", self.paragonPoints);
             self.kongregate.stats.submit("karma", self.karmaKittens);
-            
+
             self.achievements.updateStatistics();
         });
     }

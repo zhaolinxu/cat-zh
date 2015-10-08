@@ -1619,7 +1619,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         prices:[
             { name: "oil", val: 7500 }
         ],
-        unlocked: true
+        unlocked: false
     },{
 		name: "megalith",
 		title: "Megalith",
@@ -1787,18 +1787,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}
-            
+
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
-                undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/ 
+                undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
                     res, amt);
             }
-            
+
 		}else{
 			console.log("not enough resources for", prices);
 		}
 	},
-    
+
     undo: function(metaId, val){
         console.log("refunding ", val, metaId );
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
