@@ -453,7 +453,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"energyConsumption": {
 				title: "Energy consumption"
             },
-            
+
             "productionRatio" : {
                 title: "Production bonus",
                 type: "ratio"
@@ -1138,9 +1138,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//---------  PARAGON BONUS ------------
-		var paragonRatio = this.resPool.get("paragon").value * 0.01 * this.prestige.getParagonRatio();
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2 * this.prestige.getParagonRatio());	//well, 200 paragon is probably the END OF THE LINE
-		perTick += perTick * paragonRatio;
+		perTick += perTick * this.prestige.getParagonProductionRatio();
 
 		//---------  FAITH BONUS --------------
 		if (this.religion.getRU("solarRevolution").researched){
@@ -1281,12 +1279,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.religion.getEffect(res.name + "Ratio")
 		});
 
-		var paragonRatio = this.resPool.get("paragon").value * 0.01 * this.prestige.getParagonRatio();
-		paragonRatio = this.bld.getHyperbolicEffect(paragonRatio, 2 * this.prestige.getParagonRatio());	//well, 200 paragon is probably the END OF THE LINE
 		stack.push({
 			name: "Paragon",
 			type: "ratio",
-			value: paragonRatio
+			value: this.prestige.getParagonProductionRatio()
 		});
 
 		if (this.religion.getRU("solarRevolution").researched){
@@ -1370,10 +1366,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			return ratio + scienceBldAmt * bpRatio;
 		}
-        
+
         //get resource specific craft ratio (like factory bonus)
         var resCraftRatio = this.bld.getEffect(res.name + "CraftRatio") || 0;
-        
+
 		return this.bld.getEffect("craftRatio") + resCraftRatio;
 	},
 

@@ -287,7 +287,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     getParagonRatio: function(){
         return 1.0 + this.getEffect("paragonRatio");
-    }
+    },
+
+	getParagonProductionRatio: function(){
+		var paragonRatio = this.game.resPool.get("paragon").value * 0.01 * this.getParagonRatio();
+		return this.game.bld.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
+	},
+
+	getParagonStorageRatio: function(){
+		return (this.game.resPool.get("paragon").value / 1000) * this.getParagonRatio();	//every 100 paragon will give a 10% bonus to the storage capacity
+	}
 });
 
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {

@@ -925,7 +925,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "minerals", val: 400 }
 		],
 		effects: {
-			
+
 		},
         calculateEffects: function(self, game){
             var effects = {
@@ -1406,9 +1406,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
 
 		// paragon (25%)
-		var paragonRatio = this.game.resPool.get("paragon").value * 0.01;
-		paragonRatio = this.getHyperbolicEffect(paragonRatio, 2);	//well, 200 paragon is probably the END OF THE LINE
-			autoProdRatio *= (1 + paragonRatio * 0.25);
+			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
 
 		// reactors
 		if (!disableReactors){
