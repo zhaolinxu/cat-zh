@@ -812,6 +812,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
+            console.trace();
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
 
