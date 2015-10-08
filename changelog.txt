@@ -1,8 +1,11 @@
-v 1.1.5.0 (6 oct)
+v 1.1.5.0 (7 oct)
 
 Oil processing
 Kerosene
-_
+
+Oil Distillation
+Factory Processing
+
 Hydro Fracturer
 Cryostation
 _

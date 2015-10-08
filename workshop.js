@@ -1430,8 +1430,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	//------------------- oil --------------------------
     {
-        name: "oilDestilation",
-        title: "Oil Destilation",
+        name: "oilDistillation",
+        title: "Oil Distillation",
         description: "Oil output is improved by 75%.",
         effects: {
             "oilRatio" : 0.75

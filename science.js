@@ -574,7 +574,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
-            upgrades: ["oilDestilation", "factoryProcessing"]
+            upgrades: ["oilDistillation", "factoryProcessing"]
 		}
 	}, {
         name: "oilProcessing",
