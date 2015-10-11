@@ -650,7 +650,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 350}
 		],
 		unlocks: {
-			upgrades: ["eludiumCracker", "eludiumReflectors", "eludiumHuts" /*, "eludiumDrill"*/],
+			upgrades: ["eludiumCracker", "eludiumReflectors", "eludiumHuts", "mWReactor" /*, "eludiumDrill"*/],
 			crafts: ["eludium"]
 		}
 	},

@@ -122,9 +122,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		researched: false,
 		prices: [
 			{name: "starchart", val: 500},
-			{name: "titanium", val: 5000},
-			{name: "science", val: 125000},
-			{name: "oil", val: 45000}
+			{name: "titanium", 	val: 5000},
+			{name: "science", 	val: 125000},
+			{name: "oil", 		val: 45000}
 		],
 		upgradable: false,
         unlocks: {
@@ -160,7 +160,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
-			{name: "kerosene", val: 100}
+			{name: "kerosene", val: 250}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -179,7 +179,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
-			{name: "kerosene", val: 750}
+			{name: "kerosene", val: 1250}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -198,7 +198,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
-			{name: "kerosene", val: 500}
+			{name: "kerosene", val: 750}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -246,8 +246,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 5
 			},
 			action: function(game, self){
-
-				self.effects["unobtainiumPerTick"] = 0.007 * (1+ game.space.getEffect("spaceRatio"));
+				self.effects["unobtainiumPerTick"] = 0.007 
+					* (1+ game.space.getEffect("spaceRatio")) 
+					* (1+ game.workshop.getEffect("lunarOutpostRatio"));
 
 				game.resPool.convert(
 					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
@@ -262,24 +263,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			unlocked: true,
 			priceRatio: 1.12,
 			prices: [
-				{name: "starchart", val: 700},
-				{name: "titanium", val: 9500},
-				{name: "concrate", val: 250},
-				{name: "science", val: 100000},
-				{name: "unobtainium", val: 50},
-				{name: "oil", val: 70000}
+				{name: "starchart", 	val: 700},
+				{name: "titanium", 		val: 9500},
+				{name: "concrate", 		val: 250},
+				{name: "science", 		val: 100000},
+				{name: "unobtainium", 	val: 50},
+				{name: "oil", 			val: 70000}
 			],
 			effects: {
-				"catnipMax" 	: 45000,
-				"woodMax"		: 25000,
-				"mineralsMax"	: 30000,
-				"ironMax"		: 9000,
-				"coalMax"		: 3500,
-				"goldMax"		: 500,
-				"titaniumMax"	: 1250,
-				"oilMax"		: 3500,
-				"unobtainiumMax": 150,
-				"energyConsumption": 10
+				"catnipMax" 		: 45000,
+				"woodMax"			: 25000,
+				"mineralsMax"		: 30000,
+				"ironMax"			: 9000,
+				"coalMax"			: 3500,
+				"titaniumMax"		: 1250,
+				"oilMax"			: 3500,
+				"unobtainiumMax"	: 150,
+				"energyConsumption"	: 10
 			},
 			action: function(game, self){
 
@@ -446,7 +446,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 "mineralsMax"	: 200000,
                 "ironMax"		: 50000,
                 "coalMax"		: 25000,
-                "goldMax"		: 2500,
+                "uraniumMax"	: 5000,
                 "titaniumMax"	: 7500,
                 "oilMax"		: 25000,
                 "unobtainiumMax": 750

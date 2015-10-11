@@ -1415,6 +1415,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "mWReactor",
+		title: "Microwarp Reactors",
+		description: "A new eludium-based reactors for Lunar Outposts. Unobtainium production is 75% more effective.",
+		effects: {
+			"lunarOutpostRatio" : 0.75
+		},
+		prices:[
+			{ name : "eludium", val: 50 },
+			{ name : "science",  val: 150000 }
+		],
+		unlocked: false,
+		researched: false
+	},
+	{
 		name: "eludiumCracker",
 		title: "Planet Busters",
 		description: "Hissmeowra's output is twice as effective.",

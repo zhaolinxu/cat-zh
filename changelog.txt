@@ -1,3 +1,9 @@
+v 1.1.5.1 (11 oct)
+Microwarp reactors
+
+Slightly boosted cryostorage
+Kerosene prices of space missions were increased
+
 v 1.1.5.1 (10 oct)
 
 Basic statistic for the game
