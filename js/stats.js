@@ -29,7 +29,9 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
     ],
     
     load: function(saveData){
-        this.loadMetadata(this.stats, saveData.stats, ["val"]);
+        if (saveData.stats) {
+            this.loadMetadata(this.stats, saveData.stats, ["val"]);
+        }
     },
     
     save: function(saveData){
