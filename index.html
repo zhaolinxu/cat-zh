@@ -74,7 +74,7 @@
                             gamePage.initKongregateApi();
                         });
                     }
-                    if (window.location.protocol != "file:"){
+                    if (window.location.protocol == "file:"){
                         $("#devModeButton").show();
                     }
 
@@ -152,7 +152,7 @@
 					<a href="#" onclick="gamePage.saveUI();">Save</a> |
 					<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 					<a href="#" onclick="gamePage.reset();">Reset</a> |
-					<div id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</div> 
+					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span> 
 					<a href="#" onclick="wipe();">Wipe</a> |
 
 					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.5.1</a>
