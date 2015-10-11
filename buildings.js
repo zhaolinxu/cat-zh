@@ -249,7 +249,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "hut",
 		label: "Hut",
-		description: "Build a hut (each has a space for 2 kittens)",
+		description: "Build a hut (each has a space for 2 kittens). Kittens need catnip to eat, or they will die.<br>Every kitten consumes about 4 catnip/s",
 		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
@@ -920,6 +920,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Workshop",
 		description: "Provides a vast variety of upgrades.\nImproves craft effectiveness by 6%",
 		unlocked: false,
+        ignorePriceCheck: true,
 		prices: [
 			{ name : "wood", val: 100 },
 			{ name : "minerals", val: 400 }
@@ -1757,6 +1758,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             //price check is sorta heavy operation, so we will store the value in the button
             this.prices = this.getPrices();
         }
+        var undo = this.game.registerUndoChange();
+        undo.addEvent("bld", bld.name, 1);
     },
 
     buildAll: function(bld){
@@ -1767,6 +1770,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             counter++;
         }
         this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x"+counter+ " constructed.", "notice");
+        var undo = this.game.registerUndoChange();
+        undo.addEvent("bld", bld.name, counter);
+    },
+
+    undo: function(metaId, val){
+        if (console && console.warn) {
+            console.warn("Not implemented yet!");
+        }
     },
 
 	getName: function(){

@@ -141,7 +141,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
-			{name: "oil", val: 55000}
+			{name: "kerosene", val: 75}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -160,7 +160,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
-			{name: "oil", val: 70000}
+			{name: "kerosene", val: 100}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -179,7 +179,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
-			{name: "oil", val: 95000}
+			{name: "kerosene", val: 750}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -198,7 +198,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
-			{name: "oil", val: 80000}
+			{name: "kerosene", val: 500}
 		],
 		upgradable: false,
 		handler: function(game, self){
@@ -304,7 +304,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "starchart", val: 2500},
                 {name: "alloy",  val: 1750},
                 {name: "science", val: 125000},
-                {name: "oil", val: 125000}
+                {name: "kerosene", val: 50}
             ],
 
             upgradable: true,
@@ -361,7 +361,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "starchart", val: 500},
                 {name: "alloy",  val: 2500},
                 {name: "titanium", val: 12500},
-                {name: "oil", val: 175000}
+                {name: "kerosene", val: 250}
             ],
             upgradable: true,
             togglable: 	false,
@@ -384,7 +384,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "eludium",  val: 100},
                 {name: "science", val: 250000},
-                {name: "oil", val: 200000}
+                {name: "kerosene", val: 500}
             ],
             upgradable: true,
             togglable: 	true,
@@ -411,7 +411,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             prices: [
                 {name: "science", val: 500000},
                 {name: "eludium", val: 250},
-                {name: "oil", val: 250000}
+                {name: "kerosene", val: 2500}
             ],
             upgradable: true,
             togglable: 	false,
@@ -439,15 +439,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "eludium", val: 25       },
                 {name: "concrate", val: 1500    },
                 {name: "science", val: 200000   },
-                {name: "kerosene", val: 20000   }
+                {name: "kerosene", val: 500   }
             ],
             effects: {
-                "woodMax"		: 100000,
-                "mineralsMax"	: 100000,
+                "woodMax"		: 200000,
+                "mineralsMax"	: 200000,
                 "ironMax"		: 50000,
-                "coalMax"		: 10000,
+                "coalMax"		: 25000,
                 "goldMax"		: 2500,
-                "titaniumMax"	: 5000,
+                "titaniumMax"	: 7500,
                 "oilMax"		: 25000,
                 "unobtainiumMax": 750
             },

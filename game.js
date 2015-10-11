@@ -561,7 +561,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     keyStates: {
 		shiftKey: false
 	},
-
+    
     //TODO: this can potentially be an array
     undoChange: null,
 
@@ -604,7 +604,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             { id: "achievements",   class:  "Achievements"      },
             { id: "religion",       class:  "ReligionManager"   },
             { id: "space",          class:  "SpaceManager"      },
-            { id: "prestige",       class:  "PrestigeManager"   }
+            { id: "prestige",       class:  "PrestigeManager"   },
+            { id: "stats",       class:  "StatsManager"      }
         ];
 
         for (var i in managers){
@@ -645,6 +646,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
 		this.achievementTab.visible = false;
 		this.addTab(this.achievementTab);
+
+        this.statsTab = new classes.tab.StatsTab("Stats", this);
+        this.statsTab.visible = false;
+        this.addTab(this.statsTab);
 
 		//vvvv do not forget to toggle tab visibility below
 
@@ -758,7 +763,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			nerfs: this.nerfs,
 			sorrow: this.sorrow,
 
-			opts : this.opts
+			opts : this.opts,
+
+            stats: this.stats
 		};
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
@@ -829,6 +836,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
 		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
+        this.statsTab.visible = (this.science.get("math").researched);
 
 		//Nice try, probably someday
 		/*if (this.science.get("currency").researched){

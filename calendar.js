@@ -240,6 +240,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			var observeTimeout = function(){
 
+                this.game.stats.getStat("eventsObserved").val++;
+
 				this.observeClear();
 
 				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
@@ -394,6 +396,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	onNewYear: function(){
+
+        var ty = this.game.stats.getStat("totalYears");
+        this.game.stats.getStat("totalYears").val++;
+        if (ty.val < this.year){
+            ty.val = this.year;
+        }
+        
+        
 		if (this.game.bld.get("steamworks").jammed) {
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}

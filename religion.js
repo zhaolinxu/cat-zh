@@ -598,6 +598,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 
 		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(zigguratCount * amt) + " unicorn tears!");
 		this.game.resPool.get("tears").value += 1 * zigguratCount * amt;
+        
+        this.game.stats.getStat("unicornsSacrificed").val+= amt;
 	},
 
 	getSelectedObject: function(){

@@ -683,6 +683,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         if (this.game.kongregate){
             this.game.kongregate.stats.submit("kittens", this.kittens.length);
         }
+
+        this.stats.getStat("totalKittens").val += amount;
 	},
 
 	killKittens: function(amount){
