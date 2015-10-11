@@ -54,7 +54,6 @@
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-
                 try {
                     gamePage = new com.nuclearunicorn.game.ui.GamePage();
                     gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
@@ -68,12 +67,13 @@
                     gamePage.console.static.renderFilters();
                     gamePage.start();
 
-                    //TODO: disable for production
-                    //if ($.url.param("kongregate_host")) {
-                       /* console.log("loading Kongregate API...");
-                        gamePage.initKongregateApi(); */
-                    //}
-
+                    var host = window.location.hostname;
+                    if (host.indexOf("kongregate") > -1){
+                        $.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
+                            console.log("loading Kongregate API...");
+                            gamePage.initKongregateApi();
+                        });
+                    }
                     if (window.location.protocol != "file:"){
                         $("#devModeButton").show();
                     }
