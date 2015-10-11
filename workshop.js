@@ -1440,9 +1440,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "titanium", val: 5000 },
             { name : "science",  val: 175000 }
         ],
+        upgrades: {
+            buildings: ["oilWell"]
+        },
         unlocked: false,
         researched: false
-        
+
     }, {
         name: "factoryProcessing",
         title: "Factory Processing",
@@ -1455,6 +1458,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "concrate", val: 125    },
             { name : "science",  val: 195000 }
         ],
+        upgrades: {
+            buildings: ["workshop"]
+        },
         unlocked: false,
         researched: false
         }
