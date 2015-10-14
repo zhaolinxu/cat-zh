@@ -416,13 +416,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
-		var limited = false;
-		for (var i = 0; i< prices.length; i++){
-			var res = this.game.resPool.get(prices[i].name);
-			if (res.maxValue && prices[i].val > res.maxValue){
-				limited = true;
-			}
-		}
+		var limited = !this.game.resPool.hasStorageCapacity(prices);
 		//---- now highlight some stuff in vanilla js way ---
 		if (limited){
 			if (this.buttonTitle.className != "limited"){
@@ -913,7 +907,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
 
-		var asterisk = price.val > res.maxValue && res.maxValue && !indent ? "*" : "";	//mark limit issues with asterisk
+		var asterisk = res.maxValue && ((price.val > res.maxValue && !indent) || price.baseVal > res.maxValue) ? "*" : "";	//mark limit issues with asterisk
 
 		var priceSpan = dojo.create("span", {
 			innerHTML: hasRes || simpleUI ?
@@ -954,7 +948,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 						val += components[j].val - remainder;
 					}
 
-					var comp = {name: components[j].name, val: val};
+					var comp = {name: components[j].name, val: val, baseVal: components[j].val};
 
 					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
 					for (var k = 0; k < indent; ++k) {

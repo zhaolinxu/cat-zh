@@ -328,7 +328,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (amt == 0) {
 			return;
 		}
-		
+
 		// Cap amt based on available resources
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
@@ -477,6 +477,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		return hasRes;
+	},
+
+	/**
+	 * Returns false if any price is limited by maxValue
+	 * Loops through craftable resources to check if you can craft at least once
+	 */
+	hasStorageCapacity: function(prices){
+		if (prices.length){
+			for (var i = 0; i < prices.length; i++){
+				var price = prices[i];
+
+				var res = this.get(price.name);
+				if (
+					(res.maxValue && price.val > res.maxValue)
+					|| (res.craftable && res.value < price.val //account for chronosphere resets etc
+					&& !this.hasStorageCapacity(this.game.workshop.getCraftPrice(this.game.workshop.getCraft(res.name))))){ //ugh ugly
+					return false;
+				}
+			}
+			return true;
+		}
 	},
 
 	payPrices: function(prices){
