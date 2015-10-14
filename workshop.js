@@ -1417,7 +1417,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "mWReactor",
 		title: "Microwarp Reactors",
-		description: "A new eludium-based reactors for Lunar Outposts. Unobtainium production is 75% more effective.",
+		description: "A new eludium-based reactor for Lunar Outposts. Unobtainium production is 75% more effective.",
 		effects: {
 			"lunarOutpostRatio" : 0.75
 		},
