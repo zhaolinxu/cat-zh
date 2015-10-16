@@ -410,6 +410,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		
 		if ( this.year % 1000 === 0 ){
 			this.game.paragonPoints++;
+			this.game.updateKarma();
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;

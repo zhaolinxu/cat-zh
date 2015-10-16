@@ -574,7 +574,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
-            upgrades: ["oilDistillation", "factoryProcessing"]
+            upgrades: ["oilDistillation"]
 		}
 	}, {
         name: "oilProcessing",
@@ -589,8 +589,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name: 	"blueprint", val: 150}
         ],
         unlocks: {
-            crafts: ["kerosene"]
-            /*, upgrades: [ "factoryProcessing" ] TBD: bonus to kerosene refinement from factories*/
+            crafts: ["kerosene"],
+            upgrades: [ "factoryProcessing" ]
         }
     },{
         name: "sattelites",

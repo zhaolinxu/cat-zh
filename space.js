@@ -322,7 +322,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1+ game.space.getEffect("spaceRatio"));
 
-				//TODO: use calculateEffects method
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         },{
@@ -345,6 +344,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             on:	  0,
             effects: {
                 "oilPerTick": 0.5
+            },
+            action: function(game, self){
+
+				self.effects["oilPerTick"] = 0.5
+					* (1+ game.space.getEffect("spaceRatio"));
+
+				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
         }]
 	},{
