@@ -196,7 +196,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "stoneBarns",
 		title: "Expanded Barns",
-		description: "Barns store 75% more wood and iron",
+		description: "75% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.75
 		},
@@ -214,7 +214,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "reinforcedBarns",
 		title: "Reinforced Barns",
-		description: "Barns store 80% more wood and iron",
+		description: "80% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.80
 		},
@@ -235,7 +235,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "reinforcedWarehouses",
 		title: "Reinforced Warehouses",
-		description: "Warehouses store 25% more resources",
+		description: "Storage facilities store 25% more resources",
 		effects: {
 			"warehouseRatio" : 0.25
 		},
@@ -256,7 +256,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "titaniumBarns",
 		title: "Titanium Barns",
-		description: "Barns store twice as many resources",
+		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
 		},
@@ -274,7 +274,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "alloyBarns",
 		title: "Alloy Barns",
-		description: "Barns store twice as many resources",
+		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
 		},
@@ -291,7 +291,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "concreteBarns",
 		title: "Concrete Barns",
-		description: "Barns store 75% more resources",
+		description: "Storage facilities store 75% more resources",
 		effects: {
 			"barnRatio" : 0.75
 		},
@@ -308,7 +308,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "titaniumWarehouses",
 		title: "Titanium Warehouses",
-		description: "Warehouses store 50% more resources",
+		description: "Storage facilities store 50% more resources",
 		effects: {
 			"warehouseRatio" : 0.5
 		},
@@ -326,7 +326,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "alloyWarehouses",
 		title: "Alloy Warehouses",
-		description: "Warehouses store 45% more resources",
+		description: "Storage facilities store 45% more resources",
 		effects: {
 			"warehouseRatio" : 0.45
 		},
@@ -343,7 +343,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "concreteWarehouses",
 		title: "Concrete Warehouses",
-		description: "Warehouses store 35% more resources",
+		description: "Storage facilities store 35% more resources",
 		effects: {
 			"warehouseRatio" : 0.35
 		},
@@ -1024,7 +1024,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Once per year Steamworks will convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx
+		description: "Once per year Steamworks will refine small quantities of craftable resources when they are at the limit",
 		effects: {
 		},
 		prices:[
@@ -1110,7 +1110,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "astrolabe",
 		title: "Astrolabe",
-		description: "Improves Observatory effectiveness by 50%",
+		description: "Improves Observatory's max science bonus by 50%",
 		effects: {},
 		prices:[
 			{ name : "titanium", val: 5 },
