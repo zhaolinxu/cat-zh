@@ -1981,6 +1981,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.workshopTab;
 			case "space":
 				return this.spaceTab;
+			case "stats":
+				return this.statsTab;
 		}
 	},
 

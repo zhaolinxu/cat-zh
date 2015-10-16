@@ -130,7 +130,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 1000,
 		unlocks: {
-			upgrades: ["celestialMechanics"]
+			upgrades: ["celestialMechanics"],
+			tabs: ["stats"]
 		},
 		flavor: "Purr equals Meow times Paw to the square"
 	},{
