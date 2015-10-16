@@ -1006,7 +1006,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.on = 0;
 				self.enabled = false;
 			}
-		}
+		}, 
+		flavor: "Glowing mice are much easier to catch!"
 	},{
 		name: "accelerator",
 		label: "Accelerator",

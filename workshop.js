@@ -1003,7 +1003,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		},
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Paper goes in, cat pictures come out."
 	},{
 		name: "photolithography",
 		title: "Photolithography",
