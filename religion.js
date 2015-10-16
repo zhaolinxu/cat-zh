@@ -87,6 +87,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				this.corruption = 0;
 				alicorns.value--;
 				this.game.resPool.get("necrocorn").value++;
+				this.game.msg("Your alicorn was corrupted by the markers!", "important");
 			}
 		} else {
 			this.corruption = 0;
