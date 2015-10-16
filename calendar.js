@@ -398,7 +398,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewYear: function(){
 
         var ty = this.game.stats.getStat("totalYears");
-        this.game.stats.getStat("totalYears").val++;
+        
         if (ty.val < this.year){
             ty.val = this.year;
         }
