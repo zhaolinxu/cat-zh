@@ -14,6 +14,10 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             title: "Total years played",
             val: 0
         }, {
+            name: "totalResets",
+            title: "Resets made",
+            val: 0
+        },{
             name: "totalParagon",
             title: "Total paragon",
             val: 0

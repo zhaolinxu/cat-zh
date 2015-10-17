@@ -1152,7 +1152,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		stages: [
 			{
 				label: "Amphitheatre",
-				description: "Reduces negative effects of overpopulation by 5%. Produces culture.",
+				description: "Reduces negative effects of overpopulation by 5%. This effect stacks but has diminishing return. Produces culture.",
 				prices: [
 					{ name : "wood", val: 200 },
 					{ name : "minerals", val: 1200 },

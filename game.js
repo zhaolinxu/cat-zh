@@ -407,7 +407,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"unhappinessRatio": {
-				title: "Happiness bonus",
+				title: "Unhappiness reduction",
 				type: "ratio"
 			},
 
@@ -1835,6 +1835,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
 
+		this.stats.getStat("totalResets").val++;
+		
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var totalScience = 0;
 		var bonusZebras = 0;
@@ -1923,6 +1925,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
 			achievements: lsData.achievements,
+			stats: lsData.stats,
 			religion: {
 				faithRatio: this.religion.faithRatio
 			},
