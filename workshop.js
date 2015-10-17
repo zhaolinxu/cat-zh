@@ -1038,7 +1038,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "advancedAutomation",
 		title: "Advanced Automation",
-		description: "Reduce Steamworks' maintainance cycle by 50%",
+		description: "Workshop Automation will be activated twice per year.",
 		effects: {
 		},
 		prices:[
