@@ -2,6 +2,10 @@ v 1.1.5.4 (17 oct)
 Changes by xranti:
 
 Another fix for village stats.
+__
+Changes by Unihedron 0:
+
+Better achievement tooltipts.
 ___
 Happiness icon was changed to cute ascii-art.
 Better happiness tooltip.
