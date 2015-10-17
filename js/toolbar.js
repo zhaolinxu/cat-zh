@@ -104,7 +104,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 			dojo.style(this.container, "display", "");
 		}
 
-		this.container.innerHTML = "&#128568;&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
+		this.container.innerHTML = "(:3)&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
 		$(this.container).css("color", "Coral");
 	},
 
@@ -114,15 +114,42 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		var tooltip = "Base: 100%<br>" +
 			   "Buildings: +" + (Math.floor(base)) + "%<br>";
 
-        var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
-        var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio", true);
+		//----------------------
+		var resHappiness = 0;
+		var resources = this.game.resPool.resources;
+		for (var i = resources.length - 1; i >= 0; i--) {
+			if (resources[i].type != "common" && resources[i].value > 0){
+				resHappiness += 10;
+			}
+		}
+		tooltip += "Rare resources: +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
+		//---------------------
+		var karma = this.game.resPool.get("karma");
+		if (karma.value > 0){
+			tooltip += "Karma: +" + this.game.getDisplayValueExt(karma.value, false, false, 0) + "%<br>";
+		}
 
-        tooltip += "Population: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
+        var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
+        var unhappiness = unhappiness;
+
+		var unhappinessReduction = unhappiness * this.game.bld.getEffect("unhappinessRatio", true);
+		tooltip += "Population penalty: -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
+
+        tooltip += "* Penalty base: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
+		tooltip += "* Penalty mitigated: " + -this.game.getDisplayValueExt(unhappinessReduction, false, false, 0) + "%<br>";
+
+		/*var amphitheatre = this.game.bld.getBuilding("amphitheatre");
+		if (amphitheatre.unlocked){
+			tooltip += "*&nbsp;Amphitheaters:" + */
+
+		
 
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
             tooltip += "Overpopulation: -" + overpopulation*2 + "%<br>";
         }
+		
+		
 
         return tooltip;
     }

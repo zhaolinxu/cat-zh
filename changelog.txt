@@ -1,3 +1,12 @@
+v 1.1.5.4 (17 oct)
+Changes by xranti:
+
+Another fix for village stats.
+___
+Happiness icon was changed to cute ascii-art.
+Better happiness tooltip.
+Fixed stats being lost upon resetting.
+
 v 1.1.5.3 (15 oct)
 Changes by coderpatsy:
 
