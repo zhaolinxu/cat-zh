@@ -1794,13 +1794,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	reset: function(){
 
-		var msg = "Are you sure that you want to reset? You will save your achievements and karma points.";
+		var msg = "Are you sure that you want to reset? You will get bonus points for happiness. You will also save your achievements and bonus points";
 		if (this.resPool.get("kittens").value > 70){
-			msg = "Are you sure that you want to reset? You will receive extra karma and paragon points.";
+			msg = "Are you sure that you want to reset? You will receive extra happiness and bonus to production.";
 		}else if (this.resPool.get("kittens").value > 60){
-			msg = "Are you sure that you want to reset? You will receive extra karma points.";
+			msg = "Are you sure that you want to reset? You will receive extra happiness bonus.";
 		}else if (this.resPool.get("kittens").value <= 35){
-			msg = "Are you sure that you want to reset? You will receive NO KARMA POINTS. You will save old karma points and achievements.";
+			msg = "Are you sure that you want to reset? You will receive NO BONUS points. You will save old bonus points and achievements.";
 		}
 
 		if (!confirm(msg)){
