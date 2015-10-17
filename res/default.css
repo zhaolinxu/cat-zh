@@ -216,13 +216,15 @@ div#gameLog {
     border-color: red;
 }
 
-.achievement[title]::after{
+@media screen {
+  .achievement[title]::after{
     content: ' ' attr(title);
     transition: opacity 0.25s;
     opacity: 0;
-}
-.achievement[title]:hover::after{
-    opacity:0.6;
+  }
+  .achievement[title]:hover::after{
+    opacity: 0.6;
+  }
 }
 
 td.resLimitNotice {
