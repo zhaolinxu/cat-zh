@@ -1789,10 +1789,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		return prices;
 	},
 
-	craft: function (resName, amt, suppressUndo){
+	craft: function (res, amt, suppressUndo){
 
-		var craft = this.getCraft(resName);
-		var craftRatio = this.game.getResCraftRatio({name:resName});
+		var craft = this.getCraft(res);
+		var craftRatio = this.game.getResCraftRatio({name:res});
 
 		var craftAmt = amt * (1 + craftRatio);
 		var prices = dojo.clone(this.getCraftPrice(craft));
@@ -1803,13 +1803,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 
 		if (this.game.resPool.hasRes(prices)){
-			var res = this.game.resPool.get(resName);
-			if (!suppressUndo) {
-				this.game.msg("+" + this.game.getDisplayValueExt(craftAmt) + " " + (res.title || resName) + " crafted", null, "craft");
-			}
-			
 			this.game.resPool.payPrices(prices);
-			this.game.resPool.addResAmt(resName, craftAmt);
+			this.game.resPool.addResAmt(res,craftAmt);
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}
@@ -1817,7 +1812,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
                 undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
-					resName, amt);
+                    res, amt);
             }
 
 		}else{
@@ -1826,9 +1821,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
     undo: function(metaId, val){
-
 		var craftRatio = this.game.getResCraftRatio({name:metaId});
-		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded", null, "craft");
+		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded");
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
     },
 
@@ -1852,7 +1846,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craftAll: function(craftName){
 		var minAmt = this.getCraftAllCount(craftName);
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
+			var craftRatio = this.game.getResCraftRatio({name:craftName});
+			var bonus = minAmt * craftRatio;
+
 			var res = this.game.resPool.get(craftName);
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + (res.title || craftName) + " crafted", null, "craft");
 			this.craft(craftName, minAmt);
 		}
 	},
