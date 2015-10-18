@@ -1804,7 +1804,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.game.resPool.hasRes(prices)){
 			var res = this.game.resPool.get(resName);
-			this.game.msg( "+" + this.game.getDisplayValueExt(craftAmt) + " " + (res.title || resName) + " crafted", null, "craft");
+			if (!suppressUndo) {
+				this.game.msg("+" + this.game.getDisplayValueExt(craftAmt) + " " + (res.title || resName) + " crafted", null, "craft");
+			}
 			
 			this.game.resPool.payPrices(prices);
 			this.game.resPool.addResAmt(resName, craftAmt);
@@ -1824,7 +1826,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
     undo: function(metaId, val){
-        console.log("refunding ", val, metaId );
+
+		var craftRatio = this.game.getResCraftRatio({name:metaId});
+		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded", null, "craft");
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
     },
 
