@@ -91,10 +91,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 500,	//mostly does nothing, so price is lower
 		unlocks: {
-			tech: ["civil", "math", "construction", "brewery"]
+			tech: ["civil", "math", "construction"]
 			//crafts: ["leather"]
 		}
 	},{
+		/*==============	NOT USED ANYMORE   ============*/	
 		name: "brewery",
 		title: "Catnip Processing",
 
@@ -103,10 +104,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1200,
-		unlocks: {
-			upgrades: ["advancedRefinement"]
-		}
+		cost: 1200
 	},{
 		name: "civil",
 		title: "Civil Service",
@@ -145,7 +143,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 1300,
 		unlocks: {
 			tech: ["engineering"],
-			upgrades: ["compositeBow"]
+			upgrades: ["compositeBow", "advancedRefinement"]
 		},
 		flavor: "Making pillow forts smart!"
 	},{

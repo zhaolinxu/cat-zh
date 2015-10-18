@@ -6,6 +6,8 @@ Stats panel will be unlocked by default after the reset
 UI should be now able to fit 1200 screen.
 Added zoom in/out links for the left panel
 
+Catnip Processing was removed from the game. Catnip Enrichment will now be unlocked with Construction.
+
 v 1.1.5.4 (17 oct)
 Changes by xranti:
 
