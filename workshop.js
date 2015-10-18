@@ -1789,10 +1789,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		return prices;
 	},
 
-	craft: function (res, amt, suppressUndo){
+	craft: function (resName, amt, suppressUndo){
 
-		var craft = this.getCraft(res);
-		var craftRatio = this.game.getResCraftRatio({name:res});
+		var craft = this.getCraft(resName);
+		var craftRatio = this.game.getResCraftRatio({name:resName});
 
 		var craftAmt = amt * (1 + craftRatio);
 		var prices = dojo.clone(this.getCraftPrice(craft));
@@ -1803,8 +1803,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 
 		if (this.game.resPool.hasRes(prices)){
+			var res = this.game.resPool.get(resName);
+			this.game.msg( "+" + this.game.getDisplayValueExt(craftAmt) + " " + (res.title || resName) + " crafted", null, "craft");
+			
 			this.game.resPool.payPrices(prices);
-			this.game.resPool.addResAmt(res,craftAmt);
+			this.game.resPool.addResAmt(resName, craftAmt);
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}
@@ -1812,7 +1815,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
                 undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
-                    res, amt);
+					resName, amt);
             }
 
 		}else{
@@ -1844,13 +1847,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//Crafts maximum possible amount for given recipe name
 	craftAll: function(craftName){
 		var minAmt = this.getCraftAllCount(craftName);
-
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
-			var craftRatio = this.game.getResCraftRatio({name:craftName});
-			var bonus = minAmt * craftRatio;
-
 			var res = this.game.resPool.get(craftName);
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + (res.title || craftName) + " crafted", null, "craft");
 			this.craft(craftName, minAmt);
 		}
 	},

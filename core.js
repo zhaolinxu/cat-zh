@@ -184,13 +184,18 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		spans: [],
 
 		filters: {
-			"meteor": {
-				title: "Meteors",
+			"craft": {
+				title: "Craft",
 				enabled: true,
 				unlocked: false
 			},
 			"workshopAutomation": {
 				title: "Workshop Automation",
+				enabled: true,
+				unlocked: false
+			},
+			"meteor": {
+				title: "Meteors",
 				enabled: true,
 				unlocked: false
 			},

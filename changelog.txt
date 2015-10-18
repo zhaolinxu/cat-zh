@@ -10,6 +10,7 @@ ___
 Happiness icon was changed to cute ascii-art.
 Better happiness tooltip.
 Fixed stats being lost upon resetting.
+More reliable crafting messages and craft filter
 
 v 1.1.5.3 (15 oct)
 Changes by coderpatsy:
