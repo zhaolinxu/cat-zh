@@ -4,31 +4,38 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         [{
             name: "totalKittens",
             title: "Total kittens",
-            val: 0
+            val: 0,
+            unlocked: true
         },{
             name: "kittensDead",
             title: "Kittens dead",
-            val: 0
+            val: 0,
+            unlocked: true
         },{
             name: "totalYears",
             title: "Total years played",
-            val: 0
+            val: 0,
+            unlocked: true
         }, {
             name: "totalResets",
             title: "Resets made",
-            val: 0
+            val: 0,
+            unlocked: false
         },{
             name: "totalParagon",
             title: "Total paragon",
-            val: 0
+            val: 0,
+            unlocked: false
         }, {
             name: "eventsObserved",
             title: "Rare events observed",
-            val: 0
+            val: 0,
+            unlocked: false
         }, {
             name: "unicornsSacrificed",
             title: "Unicorns sacrificed",
-            val: 0
+            val: 0,
+            unlocked: false
         }
     ],
     
@@ -70,15 +77,21 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
         var table = dojo.create("table", null, this.container);
         
         for (var i in stats){
+            var stat = stats[i];
+            
+            if (stat.val > 0){
+                stat.unlocked = true;
+            }
+            
             var tr = dojo.create("tr", null, table);
             dojo.create("td", {
-                innerHTML: stats[i].title
+                innerHTML: stat.unlocked ? stat.title : "???"
             }, tr);
             dojo.create("td", {
                 style: {
                   paddingLeft: "20px"  
                 },
-                innerHTML: stats[i].val
+                innerHTML: stat.unlocked ? stat.val : ""
             }, tr);
         }    
     }
