@@ -605,7 +605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             { id: "religion",       class:  "ReligionManager"   },
             { id: "space",          class:  "SpaceManager"      },
             { id: "prestige",       class:  "PrestigeManager"   },
-            { id: "stats",       class:  "StatsManager"      }
+            { id: "stats",       	class:  "StatsManager"      }
         ];
 
         for (var i in managers){
@@ -830,23 +830,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Calculate effects (needs to be done after all managers are loaded)
 		this.calculateAllEffects();
 
-		//restore tab visibility
-
-		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
-		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
-		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
-		this.achievementTab.visible = (this.achievements.hasUnlocked());
-        this.statsTab.visible = (this.science.get("math").researched);
-
-		//Nice try, probably someday
-		/*if (this.science.get("currency").researched){
-			this.economyTab.visible = true;
-		}*/
-
-		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").value > 0);
-		this.spaceTab.visible = (this.science.get("rocketry").researched);
-
 		if (saveData && saveData.game){
 			var data = saveData.game;
 
@@ -887,6 +870,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.updateOptionsUI();
 		}
+		//------------------------------------
+		
+		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
+		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
+		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
+		this.achievementTab.visible = (this.achievements.hasUnlocked());
+
+		if (this.karmaKittens > 0 || this.science.get("math").researched ) {
+			this.statsTab.visible = true;
+		}
+
+		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
+		this.religionTab.visible = (this.resPool.get("faith").value > 0);
+		this.spaceTab.visible = (this.science.get("rocketry").researched);
 	},
 
 	//btw, ie11 is horrible crap and should not exist
@@ -1828,13 +1825,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.karmaKittens += (kittens - 300) * 10;
 		}
 
+		var paragonPoints = 0;
 		if (kittens > 70){
-			this.paragonPoints += (kittens - 70);
+			paragonPoints = (kittens - 70);
 		}
-
+		
+		this.paragonPoints += paragonPoints;
 		this.karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
 
+		this.stats.getStat("totalParagon").val += paragonPoints;
 		this.stats.getStat("totalResets").val++;
 		
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
