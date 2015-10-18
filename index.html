@@ -98,8 +98,10 @@
 			}
 
 			function wipe(){
-				if (confirm("Save data will be wiped, are you sure?")){
-					gamePage.wipe();
+				if (confirm("All save data will be DESTROYED, are you sure?")){
+					if (confirm("Are you ABSOLUTELY sure?")) {
+						gamePage.wipe();
+					}
 				}
 			}
 			// we don't need no css, let the dynamic height be. be, dynamic height, be.
