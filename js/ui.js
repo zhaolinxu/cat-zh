@@ -29,6 +29,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
     
+    fontSize: 16,
+    
     constructor: function(containerId){
         this.containerId = containerId;
     },
@@ -216,6 +218,18 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             },
             duration: 1200,
         }).play();
+    },
+    
+    zoomUp: function(){
+        this.fontSize++;
+        this.updateFontSize();
+    },
+    zoomDown: function(){
+        this.fontSize--;
+        this.updateFontSize();
+    },
+    updateFontSize: function(){
+        $("#leftColumn").css("font-size", this.fontSize+"px");
     }
 
 });
