@@ -767,12 +767,27 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],
 			handler: function(btn){
-				var race = btn.game.diplomacy.unlockRandomRace();
+				var dip = btn.game.diplomacy;
+				var race = dip.unlockRandomRace();
 
 				if (race){
 					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
-					btn.game.msg("Your explorers failed to find anyone.");
+					
+					var hint = "";
+					if (!dip.get("nagas").unlocked){
+						hint = "Maybe you are not cultural enough.";
+					} else if (!dip.get("zebras").unlocked){
+						hint = "Maybe you should try to reach another continents.";
+					} else if (!dip.get("spiders").unlocked){
+						hint = "Maybe you are not scientific enough.";
+					} else if (!dip.get("dragons").unlocked){
+						hint = "Maybe you should be more technologically advanced.";
+					} else {
+						hint = "Maybe there are no more civilizations left?";	//AHAHA NO	
+					}
+					
+					btn.game.msg("Your explorers failed to find anyone. *** " + hint + " ***");
 					var res = btn.game.resPool.get("manpower");
 					res.value += 950;
 				}
