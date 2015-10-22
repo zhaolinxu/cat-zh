@@ -765,9 +765,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	save: function(saveData){
 		saveData.science = {
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
+			hideResearched: this.hideResearched
 		};
-		saveData.science.hideResearched = this.hideResearched;
 	},
 
 	load: function(saveData){

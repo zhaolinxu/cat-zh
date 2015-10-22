@@ -12,6 +12,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	game: null,
 
+	hideResearched: false,
+
 	programs: [{
 		name: "orbitalLaunch",
 		title: "Orbital Launch",
@@ -183,7 +185,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		upgradable: false,
 		handler: function(game, self){
-			game.space.getProgram("heliosMission").unlocked = true;
+			game.space.getProgram("yarnMission").unlocked = true;
 		},
         unlocks: {
             planet: "helios"
@@ -203,10 +205,66 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		upgradable: false,
 		handler: function(game, self){
 			game.space.getProgram("heliosMission").unlocked = true;
+			game.space.getProgram("kairoMission").unlocked = true;
 		},
         unlocks: {
             planet: "terminus"
         }
+	},{
+		name: "kairoMission",
+		title: "Kairo Mission",
+		description: "Kairo is a dwarf planet in the far end of the Cath solar system.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 5000},
+			{name: "titanium", 	val: 20000},
+			{name: "science", 	val: 300000},
+			{name: "kerosene", 	val: 7500}
+		],
+		upgradable: false,
+		handler: function(game, self){
+			game.space.getProgram("rorschachMission").unlocked = true;
+		},
+		unlocks: {
+			planet: "kairo"
+		}
+	},{
+		name: "rorschachMission",
+		title: "???",
+		description: "???",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 15000},
+			{name: "titanium", 	val: 80000},
+			{name: "science", 	val: 500000},
+			{name: "kerosene", 	val: 25000}
+		],
+		upgradable: false,
+		handler: function(game, self){
+		},
+		unlocks: {
+		}
+	},{
+		name: "yarnMission",
+		title: "Yarn Mission",
+		description: "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name: "starchart", val: 7500},
+			{name: "titanium", 	val: 35000},
+			{name: "science", 	val: 350000},
+			{name: "kerosene", 	val: 12000}
+		],
+		upgradable: false,
+		handler: function(game, self){
+			//game.space.getProgram("heliosMission").unlocked = true;
+		},
+		unlocks: {
+			planet: "yarn"
+		}
 	}],
 
 	//============================================================================
@@ -464,6 +522,18 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             val: 0
         }
         ]
+	},{
+		name: "kairo",
+		title: "Kairo",
+		unlocked: false,
+		buildings:[
+		]
+	},{
+		name: "yarn",
+		title: "Yarn",
+		unlocked: false,
+		buildings:[
+		]
 	}],
 
 	//============================================================================
@@ -485,7 +555,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		saveData.space = {
 			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked", "researched"]),
-			planets: planets
+			planets: planets,
+			hideResearched: this.hideResearched
 		};
 	},
 
@@ -495,6 +566,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 
 		var self = this;
+
+		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
 			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked", "researched"], function(loadedElem){
@@ -668,6 +741,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				}
 			}
 		}
+		if (program.researched && !program.upgradable && this.game.space.hideResearched){
+			this.setVisible(false);
+			return;
+		}
 		this.setVisible(this.getProgram().unlocked);
 	},
 
@@ -839,6 +916,28 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 	render: function(container) {
 		var self = this;
+
+		//--------------------------------------------------------------------
+		var div = dojo.create("div", { style: { float: "right"}}, container);
+		var groupCheckbox = dojo.create("input", {
+			id : "toggleResearched",
+			type: "checkbox",
+			checked: this.game.space.hideResearched
+		}, div);
+
+		dojo.connect(groupCheckbox, "onclick", this, function(){
+			this.game.space.hideResearched = !this.game.space.hideResearched;
+
+			dojo.empty(container);
+			this.render(container);
+		});
+
+		dojo.create("label", { innerHTML: "Hide complete missions", for: "toggleResearched"}, div);
+		//---------------------------------------------------------------------
+
+		//padding div to preserve markup
+		dojo.create("div", { style: { height: "20px"}}, container);
+
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel("Ground Control", this.game.space);
 		var content = this.GCPanel.render(container);
 
