@@ -525,7 +525,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti"],
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics"],
             stages: [{bld:"amphitheatre",stage:1}]
 		}
 	},{
@@ -635,7 +635,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["advExogeology"],
-			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill","hydroPlantTurbines"]
+			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill", "hydroPlantTurbines", "storageBunkers"]
 		}
 	},{
 		name: "advExogeology",

@@ -357,6 +357,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		researched: false
+	},{
+		name: "storageBunkers",
+		title: "Storage Bunkers",
+		description: "Storage facilities store 20% more resources",
+		effects: {
+			"warehouseRatio" : 0.20
+		},
+		prices:[
+			{ name : "science", 	val: 25000 },
+			{ name : "unobtainium", val: 500 },
+			{ name : "concrate", 	val: 1250 }
+		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
+		unlocked: false,
+		researched: false
 	},
 	//==================== accelerators ==============
 	{
@@ -1093,6 +1110,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		upgrades: {
 			buildings: ["steamworks"]
+		},
+		unlocked: false,
+		researched: false
+	},
+	{
+		name: "factoryLogistics",
+		title: "Factory Logistics",
+		description: "Factories are providing bigger bonus to craft effectiveness. (TBD)",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 250 },
+			{ name : "titanium", val: 2000 },
+			{ name : "science",  val: 100000 }
+		],
+		upgrades: {
+			buildings: ["factory"]
 		},
 		unlocked: false,
 		researched: false
