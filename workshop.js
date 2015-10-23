@@ -1199,7 +1199,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "pumpjack",
 		title: "Pumpjack",
-		description: "Improves effectiveness of oil wells by 45%",
+		description: "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
 		effects: {
 			"oilRatio" : 0.45
 		},

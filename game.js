@@ -684,7 +684,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//--------------------------
 		var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
-		var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+		/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
+		var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "/dropboxauth.html"});
 		dropBoxClient.authDriver(driver);
 
 		this.dropBoxClient = dropBoxClient;
