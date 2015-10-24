@@ -216,6 +216,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
             //game.prestige.getPerk("netzach").unlocked = true;
         }
     },
+		//2500, 5000, 7500, 15000
     //---------------------------------------------------
     {
 		name: "voidOrder",

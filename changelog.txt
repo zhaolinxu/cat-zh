@@ -1,3 +1,10 @@
+v 1.1.6.0 (23 oct)
+
+CH40K is split into a two achievements
+Storage Bunkers
+
+Some cosmetic placeholder stuff
+
 v 1.1.5.5 (17 oct ?)
 
 Some stats are hidden by default
