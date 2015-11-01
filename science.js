@@ -426,7 +426,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "genetics",
 		title: "Genetics",
-		description: "Technology that further improves on biology and chemistry. Affects your food industry.",
+		description: "Technology that further improves upon biology and chemistry. Affects your food industry.",
 		effectDesc: "Unlocks genetic engineering(?)",
 		unlocked: false,
 		researched: false,
@@ -503,7 +503,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "ecology",
 		title: "Ecology",
-		description: "Ecology is a technology primary focused on a search for new cheap and safe energy sources.",
+		description: "Ecology is a technology primary focused on the search for new cheap and safe energy sources.",
 		effectDesc: "Unlocks Solar Plants",
 		unlocked: false,
 		researched: false,
