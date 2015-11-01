@@ -38,7 +38,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		//===================================================
 		name: "spaceElevator",
 		title: "Space Elevator",
-		description: "Every S. Elevator reduces oil requirements for space missions by 5%",
+		description: "Every S. Elevator reduces oil requirements for space missions by 5% and transfers 2% of your terrestrial production modifiers",
 		researched: false,
 		unlocked: false,
 		upgradable:true,
@@ -46,12 +46,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		prices: [
 			{name: "titanium", val: 6000},
 			{name: "science", val: 100000},
-			{name: "unobtainium", val: 50},
+			{name: "unobtainium", val: 75},
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
 		effects: {
-			"oilReductionRatio": 0.05
+			"oilReductionRatio": 0.05,
+            "energyConsumption": 2,
+			"prodTransferBonus": 0.02
 		},
 		togglable: false,
 		tunable: false
@@ -64,7 +66,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		prices: [
 			{name: "starchart", val: 325},
 			{name: "titanium", val: 2500},
-			{name: "science", val: 125000},
+			{name: "science", val: 100000},
 			{name: "oil", val: 15000}
 		],
 		priceRatio: 1.08,
@@ -83,7 +85,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			buildings: ["observatory"]
 		},
 		action: function(game, self){
-			self.effects["starchartPerTickBase"] = 0.001 * (1+ game.space.getEffect("spaceRatio"));
+			self.effects["starchartPerTickBase"] = 0.001 * game.space.getAutoProductionRatio();
 		}
 
 	},{
@@ -304,8 +306,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 5
 			},
 			action: function(game, self){
-				self.effects["unobtainiumPerTick"] = 0.007 
-					* (1+ game.space.getEffect("spaceRatio")) 
+				self.effects["unobtainiumPerTick"] = 0.007
+					* game.space.getAutoProductionRatio()
 					* (1+ game.workshop.getEffect("lunarOutpostRatio"));
 
 				game.resPool.convert(
@@ -378,7 +380,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				self.effects["uraniumPerTick"] = 0.3
 					* (1 + game.workshop.getEffect("crackerRatio"))
-					* (1+ game.space.getEffect("spaceRatio"));
+					* game.space.getAutoProductionRatio();
 
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
@@ -406,7 +408,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             action: function(game, self){
 
 				self.effects["oilPerTick"] = 0.5
-					* (1+ game.space.getEffect("spaceRatio"));
+					* game.space.getAutoProductionRatio();
 
 				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
@@ -437,7 +439,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"starchartPerTickBase": 0.01
 			},
             action: function(game, self){
-				self.effects["starchartPerTickBase"] = 0.01 * (1+ game.space.getEffect("spaceRatio"));
+				self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
             }
         },{
             name: "orbitalArray",
@@ -678,6 +680,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			totalEffect = totalEffect * this.game.resPool.getEnergyDelta();
 		}
 		return totalEffect;
+	},
+
+	/**
+	 * This method is probably slow as hell, revisit it
+	 */
+	getAutoProductionRatio: function(){
+		return (1+ this.getEffect("spaceRatio")) * (this.game.bld.getAutoProductionRatio() * this.getEffect("prodTransferBonus"));
 	}
 });
 
