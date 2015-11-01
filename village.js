@@ -1548,24 +1548,33 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	getVillageTitle: function(){
 		var kittens = this.game.village.getKittens();
 		switch (true) {
-        case kittens > 1000:        //you gotta be kidding me
-            return "???";
+			//you gotta be kitten me
+		case kittens > 5000:
+			return "Elders";
+		case kittens > 2000:
+			return "Galactic Union";
+		case kittens > 1500:
+			return "Planetary Council";		
+		case kittens > 1200:        
+			return "Consortium";
+        case kittens > 1000:
+            return "Civilisation";	//all rights reserved, yada yada.
         case kittens > 900:
-            return "Civilisation";
+            return "Society";
         case kittens > 800:
-            return "Society";  //all rights reserved, yada yada.
+            return "Reich";  
         case kittens > 700:
-            return "Reich";
-        case kittens > 600:
             return "Federation";
+        case kittens > 600:
+            return "Hegemony";
 		case kittens > 500:
-			return "Hegemony";
-		case kittens > 400:
 			return "Dominion";
-		case kittens > 300:
+		case kittens > 400:
 			return "Imperium";
-		case kittens > 250:
+		case kittens > 300:
 			return "Empire";
+		case kittens > 250:
+			return "Megapolis";
 		case kittens > 200:
 			return "Metropolis";
 		case kittens > 150:

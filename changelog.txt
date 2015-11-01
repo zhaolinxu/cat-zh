@@ -1,3 +1,14 @@
+v 1.1.6.1 (1 nov)
+
+Changes by rossalansmith:
+
+Restricts power consumption of Bio Labs to only after Biofuel Processing has been researched
+____
+
+Space elevators rebalanced
+Most of the technologies now have better description and some hints of possible uses
+
+
 v 1.1.6.0 (23 oct)
 
 CH40K is split into a two achievements
