@@ -196,7 +196,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "stoneBarns",
 		title: "Expanded Barns",
-		description: "Barns store 75% more wood and iron",
+		description: "75% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.75
 		},
@@ -206,12 +206,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 750 },
 			{ name : "iron", val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false
 	},{
 		name: "reinforcedBarns",
 		title: "Reinforced Barns",
-		description: "Barns store 80% more wood and iron",
+		description: "80% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.80
 		},
@@ -221,6 +224,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "slab", val: 10 },
 			{ name : "iron", val: 100 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: true,
 		researched: false,
 		unlocks: {
@@ -229,7 +235,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "reinforcedWarehouses",
 		title: "Reinforced Warehouses",
-		description: "Warehouses store 25% more resources",
+		description: "Storage facilities store 25% more resources",
 		effects: {
 			"warehouseRatio" : 0.25
 		},
@@ -239,6 +245,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel", val: 50 },
 			{ name : "scaffold", val: 25 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -247,7 +256,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "titaniumBarns",
 		title: "Titanium Barns",
-		description: "Barns store twice as many resources",
+		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
 		},
@@ -257,12 +266,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 200 },
 			{ name : "scaffold", val: 250 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
 		name: "alloyBarns",
 		title: "Alloy Barns",
-		description: "Barns store twice as many resources",
+		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
 		},
@@ -271,12 +283,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", val: 20 },
 			{ name : "plate",    val: 750 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
 		name: "concreteBarns",
 		title: "Concrete Barns",
-		description: "Barns store 75% more resources",
+		description: "Storage facilities store 75% more resources",
 		effects: {
 			"barnRatio" : 0.75
 		},
@@ -285,12 +300,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "concrate", val: 45 },
 			{ name : "titanium",    val: 2000 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor"]
+		},
 		unlocked: false,
 		researched: false
 	},{
 		name: "titaniumWarehouses",
 		title: "Titanium Warehouses",
-		description: "Warehouses store 50% more resources",
+		description: "Storage facilities store 50% more resources",
 		effects: {
 			"warehouseRatio" : 0.5
 		},
@@ -300,12 +318,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "steel",    val: 500 },
 			{ name : "scaffold", val: 500 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
 		name: "alloyWarehouses",
 		title: "Alloy Warehouses",
-		description: "Warehouses store 45% more resources",
+		description: "Storage facilities store 45% more resources",
 		effects: {
 			"warehouseRatio" : 0.45
 		},
@@ -314,12 +335,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 750 },
 			{ name : "alloy",    val: 50 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},{
 		name: "concreteWarehouses",
 		title: "Concrete Warehouses",
-		description: "Warehouses store 35% more resources",
+		description: "Storage facilities store 35% more resources",
 		effects: {
 			"warehouseRatio" : 0.35
 		},
@@ -328,6 +352,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 1250 },
 			{ name : "concrate", val: 35 }
 		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
+		unlocked: false,
+		researched: false
+	},{
+		name: "storageBunkers",
+		title: "Storage Bunkers",
+		description: "Storage facilities store 20% more resources",
+		effects: {
+			"warehouseRatio" : 0.20
+		},
+		prices:[
+			{ name : "science", 	val: 25000 },
+			{ name : "unobtainium", val: 500 },
+			{ name : "concrate", 	val: 1250 }
+		],
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -386,6 +430,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["accelerator"]
 		},
 		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["darkEnergy"]
+		}
+	},{
+		name: "darkEnergy",
+		title: "Dark Energy",
+		description: "Energy Rifts are 2.5 times as effective",
+		effects: {
+			"acceleratorRatio" : 2.5	//TODO: ratio is a subject of change
+		},
+		prices:[
+			{ name : "science",     val: 350000 },
+			{ name : "eludium",       val: 75 },
+			{ name : "timeCrystal", val: 3 }
+		],
+		upgrades: {
+			buildings: ["accelerator"]
+		},
+		unlocked: false,
 		researched: false
 	},{
 		name: "fluxCondensator",
@@ -403,7 +467,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "lhc",
 		title: "LHC",
-		description: "Every accelerator will provide a bonus to the maximum science",
+		description: "Every accelerator will provide a bonus to maximum science",
 		effects: {
 		},
 		prices:[
@@ -417,11 +481,48 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	//----------- energy stuff ---------
+	{
+		name: "photovoltaic",
+		title: "Photovoltaic Cells",
+		description: "Solar Farms are 50% more effective",
+		prices:[
+			{ name : "science", val: 75000 },
+			{ name : "titanium", val: 5000 }
+		],
+		effects: {
+			"solarFarmRatio" : 0.5
+		},
+		upgrades: {
+			buildings: ["pasture"]
+		},
+		unlocked: false,
+		researched: false
+	},
+	{
+		name: "solarSatellites",
+		title: "Solar Satellites",
+		description: "Satellites will now generate energy instead of consuming it",
+		prices:[
+			{ name : "science", val: 225000 },
+			{ name : "alloy", 	val: 750 }
+		],
+		handler: function(game){
+			//this is a kind of hack and we probably should disable consumption for satellites at all
+			var program = game.space.getProgram("sattelite");
+			program.effects["energyConsumption"] = 0;
+			program.effects["energyProduction"] = 1;
+			program.togglable = false;
+			program.tunable = false;
+		},
+		unlocked: false,
+		researched: false
+	},
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
 		title: "Cargo Ships",
-		description: "Every ship will give a 1% bonus to the Harbour capacity",
+		description: "Every ship will give a 1% bonus to Harbor capacity",
 		effects: {
 			"harborRatio" : 0.01
 		},
@@ -438,7 +539,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "barges",
 		title: "Barges",
-		description: "Harbours store more coal",
+		description: "Harbors store more coal",
 		effects: {
 			"harborCoalRatio" : 0.5
 		},
@@ -489,13 +590,13 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "concreteHuts",
 		title: "Concrete Huts",
-		description: "Hut price ratio reduced by 35%",
+		description: "Hut price ratio reduced by 30%",
 		effects: {
-			"hutPriceRatio" : -0.35
+			"hutPriceRatio" : -0.30
 		},
 		prices:[
 			{ name : "science", val: 125000 },
-			{ name : "concrate", val: 50 },
+			{ name : "concrate", val: 45 },
 			{ name : "titanium", val: 3000 },
 		],
 		unlocked: false,
@@ -503,14 +604,27 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "unobtainiumHuts",
 		title: "Unobtainium Huts",
-		description: "Hut price ratio reduced by 30%",
+		description: "Hut price ratio reduced by 25%",
 		effects: {
-			"hutPriceRatio" : -0.30
+			"hutPriceRatio" : -0.25
 		},
 		prices:[
 			{ name : "science", val: 200000 },
-			{ name : "unobtainium", val: 500 },
+			{ name : "unobtainium", val: 350 },
 			{ name : "titanium", val: 15000 },
+		],
+		unlocked: false,
+		researched: false,
+	},{
+		name: "eludiumHuts",
+		title: "Eludium Huts",
+		description: "Hut price ratio reduced by 10%",
+		effects: {
+			"hutPriceRatio" : -0.1
+		},
+		prices:[
+			{ name : "science", val: 275000 },
+			{ name : "eludium", val: 125 }
 		],
 		unlocked: false,
 		researched: false,
@@ -527,7 +641,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "blueprint", val: 5 }
 		],
 		upgrades: {
-			buildings: ["warehouse"]
+			buildings: ["barn", "warehouse", "harbor"]
 		},
 		unlocked: false,
 		researched: false,
@@ -605,10 +719,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "wood", val: 50 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		flavor: "Weaponized yarn"
 	},{
 		name: "huntingArmor",
-		title: "Hunting Armor",
+		title: "Hunting Armour",
 		description: "Hunters are 4 times as effective",
 		effects: {
 			"hunterRatio" : 2
@@ -698,7 +813,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "goldOre",
 		title: "Gold Ore",
-		description: "Small percentage of ore will be smelted to the gold",
+		description: "Small percentage of ore will be smelted into gold",
 		effects: {
 		},
 		prices:[
@@ -706,9 +821,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		unlocks: {
-			upgrades: ["geodesy"]
-		},
 		unlocked: false,
 		researched: false,
 		flavor: "Shiny!"
@@ -908,11 +1020,29 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		},
 		unlocked: false,
+		researched: false,
+		flavor: "Paper goes in, cat pictures come out."
+	},{
+		name: "photolithography",
+		title: "Photolithography",
+		description: "Printing press is 4 times as effective",
+		effects: {
+		},
+		prices:[
+			{ name : "alloy", 	 val: 1250 },
+			{ name : "oil", 	 val: 50000 },
+			{ name : "uranium",  val: 250 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["steamworks"]
+		},
+		unlocked: false,
 		researched: false
 	},{
 		name: "factoryAutomation",
 		title: "Workshop Automation",
-		description: "Steamworks convert small quantities of craftable resources to materials when they are at the limit",//Better name than "materials"? "Craftable tools" doesn't make sense either. ~Ædx
+		description: "Once per year Steamworks will refine small quantities of craftable resources when they are at the limit",
 		effects: {
 		},
 		prices:[
@@ -925,7 +1055,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "advancedAutomation",
 		title: "Advanced Automation",
-		description: "Reduce Steamworks' maintainance cycle by 50%",
+		description: "Workshop Automation will be activated twice per year.",
 		effects: {
 		},
 		prices:[
@@ -964,7 +1094,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		},
 		unlocked: false,
-		researched: false
+		researched: false,
+        flavor: "A better mousetrap"
 	},{
 		name: "fuelInjectors",
 		title: "Fuel Injectors",
@@ -983,6 +1114,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "factoryLogistics",
+		title: "Factory Logistics",
+		description: "Factories are providing bigger bonus to craft effectiveness. (TBD)",
+		effects: {
+		},
+		prices:[
+			{ name : "gear", 	 val: 250 },
+			{ name : "titanium", val: 2000 },
+			{ name : "science",  val: 100000 }
+		],
+		upgrades: {
+			buildings: ["factory"]
+		},
+		unlocked: false,
+		researched: false
+	},
 	//--------------------- science upgrades ----------------------
 	{
 		name: "celestialMechanics",
@@ -997,7 +1145,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "astrolabe",
 		title: "Astrolabe",
-		description: "Improves Observatory effectiveness by 50%",
+		description: "Improves Observatory's max science bonus by 50%",
 		effects: {},
 		prices:[
 			{ name : "titanium", val: 5 },
@@ -1013,7 +1161,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "titaniumMirrors",
 		title: "Titanium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give 2% to the Library effectiveness",
+		description: "Improved telescope reflectors.\nEvery observatory will give 2% to Library effectiveness",
 		effects: {
 			"libraryRatio" : 0.02
 		},
@@ -1032,7 +1180,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "unobtainiumReflectors",
 		title: "Unobtainium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to the Library effectiveness",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
 		effects: {
 			"libraryRatio" : 0.02
 		},
@@ -1047,11 +1195,45 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "eludiumReflectors",
+		title: "Eludium Reflectors",
+		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		effects: {
+			"libraryRatio" : 0.02
+		},
+		prices:[
+			{ name : "eludium", val: 15 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		},
+		unlocked: false,
+		researched: false
+	},
+    {
+        name: "hydroPlantTurbines",
+        title: "Hydro Plant Turbines",
+        description: "Unobtainium-based turbines. Hydro plants are 15% more effective.",
+        effects: {
+            "hydroPlantRatio": 0.15
+        },
+        prices: [
+            {name: "unobtainium", val: 125},
+            {name: "science", val: 250000},
+        ],
+        upgrades: {
+            buildings: ["aqueduct"]
+        },
+        unlocked: false,
+        researched: false
+    },
 	//---------------------- oil ---------------
 	{
 		name: "pumpjack",
 		title: "Pumpjack",
-		description: "Improves effectiveness of oil wells by 45%",
+		description: "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
 		effects: {
 			"oilRatio" : 0.45
 		},
@@ -1084,7 +1266,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "unicornSelection",
 		title: "Unicorn Selection",
-		description: "Improves unicorn pastures effectiveness by 25%",
+		description: "Improves Unicorn Pasture effectiveness by 25%",
 		effects: {
 			"unicornsGlobalRatio": 0.25
 		},
@@ -1098,7 +1280,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "gmo",
 		title: "GM Catnip",
-		description: "Genetically modified catnip that will improve biolab oil yeld by 60%",
+		description: "Genetically modified catnip that will improve biolab oil yield by 60%",
 		effects: {
 			"biofuelRatio": 0.6
 		},
@@ -1170,7 +1352,25 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		researched: false
-	},{
+	},
+    {
+        name: "coldFusion",
+        title: "Cold Fusion",
+        description: "Increase Reactors energy output by 25%",
+        effects: {
+            "reactorEnergyRatio": 0.25
+        },
+        prices:[
+            { name : "eludium",  val: 25 },
+            { name : "science",  val: 200000 }
+        ],
+        upgrades: {
+            buildings: ["reactor"]
+        },
+        unlocked: false,
+        researched: false
+    },
+    {
 		name: "oilRefinery",
 		title: "Oil Refinery",
 		description: "Improves effectiveness of oil wells by 35%",
@@ -1192,7 +1392,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "hubbleTelescope",
 		title: "Hubble Space Telescope",
-		description: "Improves effectiveness of satellites by by 30%",
+		description: "Improves starchart production by 30%",
 		effects: {
 			"starchartGlobalRatio" : 0.30
 		},
@@ -1202,12 +1402,42 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 250000 }
 		],
 		unlocked: false,
-		researched: false
+		researched: false,
+		unlocks: {
+			upgrades: ["satnav"]
+		}
 	},
+	{
+		name: "satnav",
+		title: "Satellite Navigation",
+		description: "Every satellite reduce starchart requirement of ships by 1.25%",
+		effects: {
+			"satnavRatio" : 0.0125
+		},
+		prices:[
+			{ name : "alloy", 	 val: 750 },
+			{ name : "science",  val: 200000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+        name: "satelliteRadio",
+        title: "Satellite Radio",
+        description: "Every satellite will boost the effect of Broadcast Towers by 0.5%",
+        effects: {
+            "broadcastTowerRatio" : 0.005
+        },
+        prices:[
+            { name : "alloy", 	 val: 5000 },
+            { name : "science",  val: 225000 }
+        ],
+        unlocked: false,
+        researched: false
+    },
 	{
 		name: "astrophysicists",
 		title: "Astrophysicists",
-		description: "Each scientist will now generate  starcharts",
+		description: "Each scholar will now generate starcharts.",
 		effects: {
 		},
 		prices:[
@@ -1218,9 +1448,72 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			jobs: ["scholar"]
 		},
 		unlocked: false,
-		researched: false,
-	}
-	],
+		researched: false
+	},{
+		name: "mWReactor",
+		title: "Microwarp Reactors",
+		description: "A new eludium-based reactor for Lunar Outposts. Unobtainium production is 75% more effective.",
+		effects: {
+			"lunarOutpostRatio" : 0.75
+		},
+		prices:[
+			{ name : "eludium", val: 50 },
+			{ name : "science",  val: 150000 }
+		],
+		unlocked: false,
+		researched: false
+	},
+	{
+		name: "eludiumCracker",
+		title: "Planet Busters",
+		description: "Hissmeowra's output is twice as effective.",
+		effects: {
+			"crackerRatio" : 1.0
+		},
+		prices:[
+			{ name : "eludium", val: 250 },
+			{ name : "science",  val: 275000 }
+		],
+		unlocked: false,
+		researched: false
+	},
+	//------------------- oil --------------------------
+    {
+        name: "oilDistillation",
+        title: "Oil Distillation",
+        description: "Oil output is improved by 75%.",
+        effects: {
+            "oilRatio" : 0.75
+        },
+        prices:[
+            { name : "titanium", val: 5000 },
+            { name : "science",  val: 175000 }
+        ],
+        upgrades: {
+            buildings: ["oilWell"]
+        },
+        unlocked: false,
+        researched: false
+
+    }, {
+        name: "factoryProcessing",
+        title: "Factory Processing",
+        description: "Every factory will increase oil refinement effectiveness by 5%.",
+        effects: {
+            "factoryRefineRatio" : 0.05
+        },
+        prices:[
+            { name : "titanium", val: 7500   },
+            { name : "concrate", val: 125    },
+            { name : "science",  val: 195000 }
+        ],
+        upgrades: {
+            buildings: ["workshop"]
+        },
+        unlocked: false,
+        researched: false
+        }
+    ],
 
 	//=============================================================
 	//					     CRAFT RECIPES
@@ -1287,6 +1580,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false
 	},{
+		name: "eludium",
+		title: "Eludium",
+		description: "Extremely rare and expensive alloy of unobtanium and titanium.",
+		prices:[
+			{name: "alloy", val: 2500 },
+			{name: "unobtainium", val: 1000}
+		],
+		unlocked: false
+	},{
 		name: "gear",
 		title: "Gear",
 		description: "An integral part of automated structures.",
@@ -1315,7 +1617,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowledge of the catkind\nEvery compendium will give +10 to max science",
+		description: "A sum of all modern knowledge of the catkind. Every compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
@@ -1357,12 +1659,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Tanker",
 		description: "Increase maximum oil capacity by 500",
 		prices:[
-			{ name: "ship", 		val: 250 },
+			{ name: "ship", 		val: 225 },
 			{ name: "alloy",    	val: 1250 },
 			{ name: "blueprint", 	val: 5 }
 		],
+		upgrades: {
+			buildings: ["harbor"]
+		},
 		unlocked: false
 	},{
+        name: "kerosene",
+        title: "Kerosene",
+        description: "A rocket fuel processed from oil",
+        prices:[
+            { name: "oil", val: 7500 }
+        ],
+        unlocked: false
+    },{
 		name: "megalith",
 		title: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",
@@ -1377,7 +1690,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	effectsBase: {
 		"scienceMax" : 0
 	},
-	
+
 	metaCache: null,
 
 	constructor: function(game){
@@ -1388,7 +1701,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
-		
+
 		this.metaCache = {};
 	},
 
@@ -1397,7 +1710,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (upgrade){
 			return upgrade;
 		}
-		
+
 		for (var i = this.upgrades.length - 1; i >= 0; i--) {
 			if (this.upgrades[i].name === upgradeName){
 				this.metaCache[upgrade] = this.upgrades[i];
@@ -1414,7 +1727,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.crafts[i];
 			}
 		}
-		console.error("Failed to get craft for id '"+craftName+"'");
+		console.error("Failed to get craft for id '" + craftName + "'");
 		return null;
 	},
 
@@ -1426,7 +1739,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		saveData.workshop = {
 			upgrades: upgrades,
 			crafts:   crafts
-		}
+		};
 		saveData.workshop.hideResearched = this.hideResearched;
 	},
 
@@ -1492,14 +1805,31 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		return totalEffect + this.getEffectCached(name);
 	},
 
+	getCraftPrice: function(craft){
+		if (craft.name != "ship"){
+			return craft.prices;
+		}
 
-	craft: function (res, amt){
+		//special ship hack
+		var prices = dojo.clone(craft.prices);
+		for (var i = prices.length - 1; i >= 0; i--) {
+			if (prices[i].name == "starchart"){
+				prices[i].val = prices[i].val *
+					(1 - this.game.bld.getHyperbolicEffect(
+						this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
+						0.75));
+			}
+		}
+		return prices;
+	},
+
+	craft: function (res, amt, suppressUndo){
 
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio({name:res});
 
 		var craftAmt = amt * (1 + craftRatio);
-		var prices = dojo.clone(craft.prices);
+		var prices = dojo.clone(this.getCraftPrice(craft));
 
 		for (var i = prices.length - 1; i >= 0; i--) {
 			prices[i].val *= amt;
@@ -1512,30 +1842,49 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}
+
+            if (!suppressUndo) {
+                var undo = this.game.registerUndoChange();
+                undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
+                    res, amt);
+            }
+
 		}else{
 			console.log("not enough resources for", prices);
 		}
 	},
 
-	//Crafts maximum possible amount for given recipe name
-	craftAll: function(craftName){
+    undo: function(metaId, val){
+		var craftRatio = this.game.getResCraftRatio({name:metaId});
+		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded");
+        this.craft(metaId, -val, true /*do not create cyclic undo*/);
+    },
 
+	//returns a total number of resoruces possible to craft for this recipe
+	getCraftAllCount: function(craftName){
 		var recipe = this.getCraft(craftName);
+		var prices = this.getCraftPrice(recipe);
 
 		var minAmt = Number.MAX_VALUE;
-		for (var j = recipe.prices.length - 1; j >= 0; j--) {
-			var totalRes = this.game.resPool.get(recipe.prices[j].name).value;
-			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+		for (var j = prices.length - 1; j >= 0; j--) {
+			var totalRes = this.game.resPool.get(prices[j].name).value;
+			var allAmt = Math.floor(totalRes / prices[j].val);
 			if (allAmt < minAmt){
 				minAmt = allAmt;
 			}
 		}
+		return minAmt;
+	},
 
+	//Crafts maximum possible amount for given recipe name
+	craftAll: function(craftName){
+		var minAmt = this.getCraftAllCount(craftName);
 		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
 			var craftRatio = this.game.getResCraftRatio({name:craftName});
 			var bonus = minAmt * craftRatio;
 
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + craftName + " crafted");
+			var res = this.game.resPool.get(craftName);
+			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + (res.title || craftName) + " crafted", null, "craft");
 			this.craft(craftName, minAmt);
 		}
 	},
@@ -1594,6 +1943,11 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}
 	},
 
+	getSimplePrices: function(){
+		var upgrade = this.getUpgrade();
+		return this.simplePrices && !upgrade.researhed;
+	},
+
 	getFlavor: function(){
 		var bld = this.getUpgrade();
 		return bld.flavor;
@@ -1649,14 +2003,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.game = game;
 
 		this.craftBtns = [];
-
 	},
 
 	render: function(tabContainer){
 
 		this.craftBtns = [];
 		this.buttons = [];
-		
+
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
 		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.bld.getEffect("craftRatio") * 100).toFixed() + "%" }, div);
 
@@ -1714,7 +2067,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				name: craft.title,
 				description: craft.description,
 				craft: craft.name,
-				prices: craft.prices,
+				prices: this.game.workshop.getCraftPrice(craft),
 				handler: dojo.partial(function(craft, btn){
 					btn.game.workshop.craft(craft.name, 1);
 				}, craft)

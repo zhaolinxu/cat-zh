@@ -91,7 +91,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	getMetaEffect: function(name, metadata){
 		var totalEffect = 0;
-
+		if (!metadata.meta){
+			return 0;
+		}
 		for (var i = 0; i < metadata.meta.length; i++){
 			var meta = metadata.meta[i];
 			//
@@ -124,6 +126,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	},
 
 	loadMetadata: function(meta, saveMeta, fields, handler){
+		if (!saveMeta){
+			throw "Unable to load save metadata";
+		}
+
 		for(var i = 0; i< saveMeta.length; i++){
 			var savedMetaElem = saveMeta[i];
 
@@ -176,10 +182,49 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
 
 		spans: [],
+
+		filters: {
+			"craft": {
+				title: "Craft",
+				enabled: true,
+				unlocked: false
+			},
+			"workshopAutomation": {
+				title: "Workshop Automation",
+				enabled: true,
+				unlocked: false
+			},
+			"meteor": {
+				title: "Meteors",
+				enabled: true,
+				unlocked: false
+			},
+			"ivoryMeteor": {
+				title: "Ivory Meteors",
+				enabled: true,
+				unlocked: false
+			},
+			"unicornRift": {
+				title: "Unicorn Rifts",
+				enabled: true,
+				unlocked: false
+			}
+		},
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */
-		msg : function(message, type){
+		msg : function(message, type, tag){
+			if (tag && this.filters[tag]){
+				var filter = this.filters[tag];
+
+				if (!filter.unlocked){
+					filter.unlocked = true;
+					this.renderFilters();
+				} else if (!filter.enabled){
+					return;
+				}
+			}
+
 			var gameLog = dojo.byId("gameLog");
 
 			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
@@ -192,7 +237,6 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			if (type){
 				dojo.addClass(span, "type_"+type);
 			}
-
 
 			var spans = this.spans;
 			spans.push(span);
@@ -223,36 +267,78 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				this.spans.push(event);
 				dojo.place(event, gameLog, "first");
 			}
+		},
+
+		renderFilters: function(){
+			var filters = dojo.byId("logFilters");
+			dojo.empty(filters);
+			var show = false;
+
+			for (var fId in this.filters){
+				if (this.filters[fId].unlocked) {
+					this._createFilter(fId, filters);
+					show = true;
+				}
+			}
+			$("#logFiltersBlock").toggle(show);
+		},
+
+		_createFilter: function(fId, filters){
+			var checkbox = dojo.create("input", {
+					type: "checkbox",
+					checked: this.filters[fId].enabled
+			}, filters);
+			dojo.connect(checkbox, "onclick", this, function(){
+				this.filters[fId].enabled = checkbox.checked;
+			});
+
+			dojo.create("span", {
+				innerHTML: this.filters[fId].title
+			}, filters);
+			dojo.create("br", null, filters);
+		},
+
+		save: function(saveData){
+			saveData.console = {
+				filters: this.filters
+			};
+		},
+
+		load: function(saveData){
+			if (saveData.console && saveData.console.filters){
+				for (var fId in saveData.console.filters){
+					var savedFilter = saveData.console.filters[fId];
+
+					if (this.filters[fId]) {
+						this.filters[fId].unlocked = savedFilter.unlocked;
+						this.filters[fId].enabled = savedFilter.enabled;
+					}
+				}
+
+				this.renderFilters();
+			}
 		}
 	}
 });
 
 /**
- * A base class for game button. Inventing the wheels since 2014
+ * A base class for game button. Inventing the wheel since 2014
  */
 
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 
 	game: null,
-
 	name: "",
-
 	description: "",
-
 	visible: true,
-
 	enabled: true,
-
 	handler: null,
-
 	prices: null,
-
 	priceRatio: null,
 
 	//nodes
 
 	domNode: null,
-
 	container: null,
 
 	tab: null,
@@ -262,18 +348,20 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	buttonTitle: null,
 
 	constructor: function(opts, game){
+		this.game = game;
 
+		this.setOpts(opts);
+		this.init();
+	},
+
+	setOpts: function(opts){
 		this.id = opts.id;
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
 
-		this.game = game;
-
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
-
-		this.init();
 	},
 
 	//required by BuildingButton
@@ -307,11 +395,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		if (enabled){
 			if (!this.enabled){
-				this.domNode.className = this.domNode.className.replace("disabled","");
+				dojo.removeClass(this.domNode, "disabled");
 			}
 		} else {
 			if (this.enabled){
-				this.domNode.className += " disabled";
+				dojo.addClass(this.domNode, "disabled");
 			}
 		}
 		this.enabled = enabled;
@@ -319,17 +407,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 	updateEnabled: function(){
 		var isEnabled = true;
-		
+
 		var prices = this.getPrices();
 		if (!this.hasResources(prices)){
 			isEnabled = false;
 		}
 		this.setEnabled(isEnabled);
-		
+
 		if (!this.buttonTitle || !this.game.opts.highlightUnavailable){
 			return;
 		}
-		
+
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
@@ -479,7 +567,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		}, 70, function(){
 			btnNode.animate({
 				opacity: 1.0
-			}, 70)
+			}, 70);
 		});
 	},
 
@@ -595,7 +683,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			event.stopPropagation();
 			event.preventDefault();
 
-			dojo.hitch(this, handler)();
+			dojo.hitch(this, handler, event)();
 
 			this.update();
 		}, handler));
@@ -777,7 +865,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		if (this.prices){
 			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-			this.renderPrices(tooltip, this.simplePrices);	//simple prices
+			this.renderPrices(tooltip, this.getSimplePrices());	//simple prices
 		}
 
 		var effects = this.getEffects();
@@ -802,6 +890,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		return tooltip.outerHTML;
 	},
+	getSimplePrices: function() {
+		return this.simplePrices;
+	},
 
 	renderPrices: function(tooltip, simpleUI){
 		var prices = this.getPrices();
@@ -813,7 +904,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			var span = this._renderPriceLine(tooltip, price, simpleUI);
 		}
 	},
-	
+
 	_renderPriceLine: function(tooltip, price, simpleUI, indent){
 		var priceItemNode = dojo.create("div", {
 				style : {
@@ -847,34 +938,35 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		//unroll prices to the raw resources
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
+			var craft = this.game.workshop.getCraft(res.name);
+			if (craft.unlocked) {
+				var craftRatio = this.game.getResCraftRatio(res);
+				nameSpan.textContent = "+ " + nameSpan.textContent;
 
-			var craftRatio = this.game.getResCraftRatio(res);
-
-			nameSpan.textContent = "+ " + nameSpan.textContent;
-
-			if (!indent) {
-				indent = 1;
-			}
-
-			var components = this.game.workshop.getCraft(res.name).prices;
-			for (var j in components){
-
-				var diff = price.val - res.value;
-
-				// Round up to the nearest craftable amount
-				var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
-				var remainder = val % components[j].val;
-				if (remainder != 0) {
-					val += components[j].val - remainder;
+				if (!indent) {
+					indent = 1;
 				}
 
-				var comp = {name: components[j].name, val: val};
+				var components = craft.prices;
+				for (var j in components) {
 
-				var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
-				for (var k = 0; k < indent; ++k) {
-					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+					var diff = price.val - res.value;
+
+					// Round up to the nearest craftable amount
+					var val = Math.ceil(components[j].val * diff / (1 + craftRatio));
+					var remainder = val % components[j].val;
+					if (remainder != 0) {
+						val += components[j].val - remainder;
+					}
+
+					var comp = {name: components[j].name, val: val};
+
+					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
+					for (var k = 0; k < indent; ++k) {
+						compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+					}
+					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 				}
-				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
 			}
 		}
 
@@ -909,6 +1001,12 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 				if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
+				}
+
+				//display resMax values with global ratios like Refrigeration and Paragon
+				if (effectName.substr(-3) === "Max") {
+					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
+					effectValue += effectValue * this.game.prestige.getParagonStorageRatio();
 				}
 
 				var displayEffectValue;
@@ -1041,14 +1139,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
  */
 dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
 	game: null,
-	
+
 	collapsed: false,
 	visible: true,
 	name: "",
 
 	panelDiv: null,
 	children: null,
-	
+
 	//------ collapse ------
 	toggle: null,
 	contentDiv: null,
@@ -1103,7 +1201,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 
 		return this.contentDiv;
 	},
-	
+
 	collapse: function(isCollapsed){
 		this.collapsed = isCollapsed;
 
@@ -1127,7 +1225,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	update: function(){
 		dojo.forEach(this.children, function(e, i){ e.update(); });
 	},
-	
+
 	setGame: function(game){
 		this.game = game;
 	}
@@ -1143,6 +1241,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 
 	tabId: 		null,
 	tabName: 	null,
+	domNode:  null,
 	visible: 	true,
 
 	constructor: function(tabName, game){
@@ -1169,6 +1268,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 			var button = this.buttons[i];
 			button.update();
 		}
+	},
+
+	updateTab: function(){
 	},
 
 	addButton:function(button){

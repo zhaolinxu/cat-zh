@@ -66,7 +66,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "vitruvianFeline",
 		title: "Vitruvian Feline",
-		description: "Reduce all price ratios by 2.2%",
+		description: "Reduce all price ratios by 2%",
 		paragon: 250,
 		unlocked: false,
 		researched: false,
@@ -74,17 +74,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("renaissance").unlocked = true;
 		},
 		effects:{
-			"priceRatio" : -0.022
+			"priceRatio" : -0.02
 		}
 	},{
 		name: "renaissance",
 		title: "Renaissance",
-		description: "Reduce all price ratios by 2.45%",
+		description: "Reduce all price ratios by 2.25%",
 		paragon: 750,
 		unlocked: false,
 		researched: false,
 		effects:{
-			"priceRatio" : -0.0245
+			"priceRatio" : -0.0225
 		}
 	},
 	{
@@ -149,29 +149,92 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
+			game.prestige.getPerk("voidOrder").unlocked = true;
 		}
 	},{
 		name: "numeromancy",
 		title: "Numeromancy",
 		description: "Certain years will have special effects (TBD)",
-		paragon: 500,
+		paragon: 250,
 		unlocked: false,
 		researched: false,
 		handler: function(game){
-			//game.prestige.getPerk("numeromancy").unlocked = true;
+            game.prestige.getPerk("malkuth").unlocked = true;
+		}
+	},
+    //---------------------------------------------------
+    {
+        name: "malkuth",
+        title: "Malkuth",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 500,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("yesod").unlocked = true;
+        }
+    },{
+        name: "yesod",
+        title: "Yesod",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 750,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("hod").unlocked = true;
+        }
+    },{
+        name: "hod",
+        title: "Hod",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 1250,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            game.prestige.getPerk("netzach").unlocked = true;
+        }
+    },{
+        name: "netzach",
+        title: "Netzach",
+        description: "Improves paragon effect and scaling by 5%",
+        paragon: 1750,
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+        handler: function(game){
+            //game.prestige.getPerk("netzach").unlocked = true;
+        }
+    },
+		//2500, 5000, 7500, 15000
+    //---------------------------------------------------
+    {
+		name: "voidOrder",
+		title: "Order of Void",
+		description: "Every priest will now give a minor bonus to faith accumulation",
+		paragon: 75,
+		unlocked: false,
+		researched: false,
+		handler: function(game){
 		}
 	}],
 
 	game: null,
 
-	constructor: function(game){
-		this.game = game;
-	},
-
 	save: function(saveData){
 		saveData.prestige = {
-			perks: this.perks
-		}
+			perks: this.filterMetadata(this.perks, ["name", "unlocked", "researched"])
+		};
 	},
 
 	load: function(saveData){
@@ -221,14 +284,32 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		return paragon;
+	},
+
+    getParagonRatio: function(){
+        return 1.0 + this.getEffect("paragonRatio");
+    },
+
+	getParagonProductionRatio: function(){
+		var paragonRatio = this.game.resPool.get("paragon").value * 0.01 * this.getParagonRatio();
+		return this.game.bld.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
+	},
+
+	getParagonStorageRatio: function(){
+		return (this.game.resPool.get("paragon").value / 1000) * this.getParagonRatio();	//every 100 paragon will give a 10% bonus to the storage capacity
 	}
 });
 
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	perk: null,
+	hasResourceHover: true,
 
 	constructor: function(opts, game) {
+	},
+
+	getMetadata: function(){
+		return this.getPerk(this.perk);
 	},
 
 	getPerk: function(id){
@@ -292,6 +373,10 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			this.update();
 		}
 	},
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	}
 });
 
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {

@@ -29,7 +29,7 @@ body {
     border-bottom: 1px solid gray;
 
     box-shadow: 1px 0px 2px #888;
-    min-width: 1300px;
+    min-width: 1180px;
 }
 
 #game {
@@ -38,7 +38,7 @@ body {
     top: 26px;
 
     width: 100%;
-    min-width: 1280px;
+    min-width: 1180px;
 
     margin: 0 auto;
     height: auto;
@@ -69,14 +69,14 @@ body {
 }
 
 #midColumn {
-    width: 620px;
+    width: 600px;
     overflow-y: scroll;
     overflow-x: hidden;
     margin-top: 30px;
 }
 
 #rightColumn {
-    width: 300px;
+    width: 250px;
 }
 
 .tabsContainer {
@@ -216,6 +216,17 @@ div#gameLog {
     border-color: red;
 }
 
+@media screen {
+  .achievement[title]::after{
+    content: ' ' attr(title);
+    transition: opacity 0.25s;
+    opacity: 0;
+  }
+  .achievement[title]:hover::after{
+    opacity: 0.6;
+  }
+}
+
 td.resLimitNotice {
     color: orange;
 }
@@ -245,8 +256,8 @@ td.resLimitWarn {
 }
 
 #gameContainerId {
-    padding: 10px;
-    padding-top: 10px;
+    border: 0px solid white !important;
+    padding: 0px;
 }
 
 .bldGroupContainer {
@@ -290,7 +301,7 @@ td.resLimitWarn {
 }
 
 .tabInner {
-    padding: 20px;
+    padding: 15px;
     border: 1px solid gray;
 }
 
@@ -304,4 +315,10 @@ table.craftTable tr:hover td {
 
 #devPanel div {
     display: inline-block;
+}
+
+.toolbarIcon {
+    padding-right: 15px;
+    font-size: 12px;
+    cursor: default;
 }

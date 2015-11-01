@@ -1,4 +1,4 @@
-dojo.declare("classes.managers.Achievements", null, {
+dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager, {
 	game: null,
 
 	achievements: [
@@ -169,13 +169,18 @@ dojo.declare("classes.managers.Achievements", null, {
 	},{
 		name: "cathammer",
 		title: "Cathammer 40K",
-		description: "In the grim and dark future of a catkind",
+		description: "In the grim and dark future of a catkind", 
+		starDescription: "In the grim and dark future of a catkind there are no resets",
 		condition: function(){
+			return (this.game.stats.getStat("totalYears").val >= 40000);
+		},
+		starCondition: function(){
 			return (this.game.calendar.year >= 40000);
 		},
-		unlocked: false
-	}
-	],
+		unlocked: false,
+		hasStar: true,	
+		starUnlocked: false
+	}],
 
 	constructor: function(game){
 		this.game = game;
@@ -205,24 +210,45 @@ dojo.declare("classes.managers.Achievements", null, {
 				ach.unlocked = true;
 				this.game.msg("Achievement unlocked: " + ach.title + "!");
 				this.game.achievementTab.visible = true;
+                
+                this.updateStatistics();
+			}
+			if (ach.hasStar && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
+				ach.unlocked = true;
+				this.game.msg("Achievement star unlocked: " + ach.title + "!");
+				this.game.achievementTab.visible = true;
+
+				this.updateStatistics();
 			}
 		}
 	},
+    
+    updateStatistics: function(){
+        if (this.game.kongregate){
+            
+            var achievementsCount = 0;
+            for (var i = 0; i< this.achievements.length; i++){
+                var ach = this.achievements[i];
+                if (ach.unlocked){
+                    achievementsCount++;
+
+                    this.game.kongregate.stats.submit("achievement_" + ach.name, 1);
+                }
+            }
+
+            this.game.kongregate.stats.submit("achievements", achievementsCount);
+        }
+    },
 
 	save: function(saveData){
-		saveData.achievements = this.achievements;
+		saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
 	},
 
 	load: function(saveData){
 		var ach = saveData.achievements;
-		if (!ach || !ach.length){
-			return;
-		}
-		for(var i = 0; i< ach.length; i++){
-			var savedAch = ach[i];
 
-			var a = this.get(savedAch.name);
-			a.unlocked = savedAch.unlocked;
+		if (ach) {
+			this.loadMetadata(this.achievements, ach, ["unlocked", "starUnlocked"]);
 		}
 	}
 });
@@ -232,14 +258,35 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 		var div = dojo.create("div", { }, content);
 
 		div.innerHTML = "";
-		for (var i = 0; i< this.game.achievements.achievements.length; i++){
+		for (var i in this.game.achievements.achievements){
 			var ach = this.game.achievements.achievements[i];
-			if (ach.unlocked){
-				var unethicalClass = ach.unethical ? "unethical" : "";
-				div.innerHTML += "<span class='achievement " + unethicalClass + "' style='cursor:pointer' title= '" + ach.description + "'>" + ach.title + "</span>";
-			} else {
-				div.innerHTML += "<span class='achievement' style='cursor:pointer' title= '???'>???</span>";
+			
+			var unethicalClass = ach.unlocked && ach.unethical ? "unethical" : "";
+			var span = dojo.create("span", {
+				className: "achievement " + unethicalClass,
+				style: {
+					cursor: "pointer",
+				},
+				title: ach.unlocked ? ach.description : "???",
+				innerHTML : ach.unlocked ? ach.title : "???"
+			}, div);
+
+			if (!ach.hasStar) {
+				continue;
 			}
+
+			var star = dojo.create("div", {
+				style: {
+					float: "right",
+					paddingRight: "0px",
+					marginTop: "-4px",
+					fontSize: "18px",
+					color: "orange",
+					textShadow: ach.starUnlocked ? "1px 0px 10px Coral" : ""
+				},
+				innerHTML: ach.starUnlocked ? "&#9733;" : "&#9734;",
+				title: ach.starUnlocked ? ach.starDescription : "???"
+			}, span);
 		}
 	}
 });

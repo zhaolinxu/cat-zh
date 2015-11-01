@@ -1,3 +1,370 @@
+v 1.1.6.0 (23 oct)
+
+CH40K is split into a two achievements
+Storage Bunkers
+
+Some cosmetic placeholder stuff
+
+v 1.1.5.5 (17 oct ?)
+
+Some stats are hidden by default
+Stats panel will be unlocked by default after the reset
+
+UI should be now able to fit 1200 screen.
+Added zoom in/out links for the left panel
+
+Catnip Processing was removed from the game. Catnip Enrichment will now be unlocked with Construction.
+Failed exploration will give vague hint about the unlock requirements.
+
+v 1.1.5.4 (17 oct)
+Changes by xranti:
+
+Another fix for village stats.
+__
+Changes by Unihedron 0:
+
+Better achievement tooltipts.
+___
+Happiness icon was changed to cute ascii-art.
+Better happiness tooltip.
+Fixed stats being lost upon resetting.
+More reliable crafting messages and craft filter
+
+v 1.1.5.3 (15 oct)
+Changes by coderpatsy:
+
+- Fix Hydraulic Fracturer not producing oil
+- Factory Processing unlocks with Oil Processing
+- Update paragon count on new millenium
+- Grammar
+- Also highlight buttons as limited if you don't have enough of a craftable resource and insufficient storage to craft more (https://redd.it/3ol29r)
+- Add asterisk in tooltip price lines if a craftable's sub-price is limited
+
+v 1.1.5.2 (11 oct)
+Microwarp reactors
+
+Slightly boosted cryostorage
+Kerosene prices of space missions were increased
+
+v 1.1.5.1 (10 oct)
+
+Basic statistic for the game
+Rebalancing kerosene prices
+
+v 1.1.5.0 (7 oct)
+
+Oil processing
+Kerosene
+
+Oil Distillation
+Factory Processing
+
+Hydro Fracturer
+Cryostation
+_
+Sefirot tree (3/11)
+
+v 1.1.4.3 (6 oct)
+
+Added support for crafting undo (more options coming)
+Kongregate API integration
+
+Changes by coderpatsy:
+
+Add Workshop Automation log filter
+
+v 1.1.4.2 (26 sep)
+
+Changes by coderpatsy:
+
+Fix buildings not always showing that they are on
+Fix active tabs not highlighting their link
+Fix catnip max not being recalculated properly when buying Silos
+
+v 1.1.4.1 (16 sep)
+
+Changes by coderpatsy:
+
+Fix lunar outposts converting uranium even when all are off (https://redd.it/3lbrj3)
+Make sure moon programs are unlocked when converting saves
+Fix negative numbers not getting postfixed
+Fix postfixed numbers displaying postfix after "/s"
+Fix typoed variable name (RIP usePetTickHack)
+
+Changes by xranti:
+
+Additional fix to lunar outpost
+Removed default amount from resPool.convert function.
+
+v 1.1.4.0 (16 sep)
+Changes by coderpatsy:
+
+Fix Steamworks not saving jammed flag and stray jammed flag on magnetos
+Fix kittens briefly producing at master skill when starting a job
+Trigger a save right before resetting to make sure nothing gets lost
+Fix tankers not reducing storage upon crafting
+Remember trade race collapsed status
+Save/load message filters
+Call calculateEffects when up/downgrading buildings
+
+Lots and lots of other fixes
+___
+Changes by xranti:
+
+Implemented save state migration system and moved Lunar Outpost and Moon Base to the moon planet.
+Clear cached effects on load (fixes https://redd.it/3jzexn).
+
+___
+Some minor changes to decouple game logic from UI (may be useful for future mobile ports/custom clients)
+
+v 1.1.3.5 (8 aug)
+Changes by coderpatsy:
+
+Fixes for buildings and energy penalty
+___
+v 1.1.3.4 (2 aug)
+Changes by coderpatsy:
+
+Shift-click for buy all space buildings and sell all
+Resource hover highlights
+___
+Prices of Acoustics and Geology were slightly reduced
+
+v 1.1.3.3 (30 jul)
+Leader ranks in the promote link
+
+v 1.1.3.2 (29 jul)
+Changes by coderpatsy:
+
+Storage increase in tooltips now accurate
+___
+Hydro Plant Turbines.
+Broadcast Towers will no longer affect happiness.
+
+Broadcast tower price and ratio were slightly increased
+Broadcast tower culture bonus was reduced from 500 to 300
+
+A bit of new flavors and village names
+
+v 1.1.3.1 (26 jul)
+Cold Fusion
+Satellite Radio
+
+Production penalty will be now proportional to energy delta
+Production penalty can be completely disabled in the options
+
+v 1.1.3.0 (25 jul)
+Changes by cgyllensvrd:
+
+Internet/Photolithography
+___
+Radio Towers
+Correct formatting for Apocrypha bonus
+Happiness tooltip will be more informative
+Sunlifters will generate antimatter once per year
+
+
+v 1.1.2.1 (19 jul)
+Changes by coderpatsy:
+
+Fix trade messages saying timeCrystal
+Format numbers when sacrificing unicorns
+Fix mixing ":"s in left-hand crafting menu
+__
+Hydro Plants production was reduced from 10 to 5
+Sunlifters energy production was slightly increased
+
+
+v 1.1.2.0 (16 jul)
+Changes by irxground:
+
+Fixed census sorting
+______
+Hydro Plants
+
+v 1.1.1.6 (15 jul)
+Changes by coderpatsy:
+
+Game page tab titles will be now correctly updated
+______
+Oil Well will require energy only if Pumpjack is researched
+Fixed an issue with dropbox import
+
+v 1.1.1.5 (14 jul)
+Changes by coderpatsy:
+
+Only display production penalty in tooltip if total energy is < 0
+Added a space between "Leader:" and the leader's name
+___
+
+Solar Satellites
+Energy requirement for Space Elevators removed
+Happiness toolbar icon
+Overpopulation
+
+Fixed bug where player had to upgrade pastures twice.
+
+v 1.1.1.4 (13 jul)
+Planetary cycles
+
+v 1.1.1.3 (13 jul)
+Production bonus for leader based on rank
+Promotion will now require gold
+
+v 1.1.1.2 (13 jul)
+Changes by coderpatsy:
+
+Chronospheres ignore Alicorns and Necrocorns (thanks /u/underpantscannon)
+External links open in a new tab/window
+Don't show a kitten's skill level if <= 0
+______
+
+Geodesy will now require Archeology as a prereq
+
+
+v 1.1.1.1 (12 jul)
+Census UI cleanup
+Census kittens will be now automatically sort by their experience
+
+Trade button and Send Explorers button will now display ETA
+Unlocked upgrades will not display ETA anymore
+
+
+v 1.1.1.0 (12 jul)
+Superconductors
+Photovoltaic Cells
+
+v 1.1.0.1 (11 jul)
+
+Changes by coderpatsy:
+
+Show time for resources on Religion tooltips
+Fix display issues with exactly 10 of a tunable building
+Filter meteors' +science messages too
+Equal chance of warm and cold seasons
+Update BLS in tradeMultiple() like it does in trade() (better safe than sorry)
+Fixed armor/armour inconsistency
+Added tags to hunt and trade messages, so scripters can easily add filters for them
+____
+
+Village tab will display kittens in free/total format
+Base yeld of hunters was very slightly increased
+Hunt button will now display ETA
+
+Unlock Ratio for mines was reduced from 30% to 15%
+Unlock Ratio for ziggurats was reduced from 5% to 1%
+Save button will now display a confirmation message
+
+Pawse button will now have a description tooltip for confused players
+Brewery was renamed to Catnip Processing
+Metal Working and Mining prices were rebalanced
+
+v 1.1.0.0 (beta) (11 jul)
+Mechanics:
+	Staging
+	Energy
+
+Techs:
+	Ecology
+
+Buildings:
+	Solar Farms
+
+Slightly reduced price of Combustion tech
+
+v 1.0.9.2
+
+Fixed incorrect space structures production tooltips
+Research Vessel starcharts production will now proc from Orbital Arrays
+Fixed Void Order effect being reduced to 25% if player have alicorns
+
+Pause/Unpause was renamed to Pawse/Unpawse
+
+v 1.0.9.1
+
+Changes by mtncat:
+
+Numerous fixes in the calendar logic
+____
+
+Resetting with Chronospheres will disable IW
+UU bonus to aliconrs was reduced from 0.1% to 0.05%
+UU price ratio was increased from 1.15 to 1.18
+
+Research Vessel will now cost more oil and less starchartgs
+Research Vessel will now give a minor bonus to starchart production
+
+Orbital Arrays
+
+v 1.0.9.0
+Changes by mtncat:
+
+Fixed incorrect food advisor message logic
+__
+Unicorn Utopia
+Dark Energy
+Fixed zebra catpower bonus being incorrectly calculated with >1 zebras
+
+Sky Palace and Unicorn Utopia will now boost the effect of ivory meteors
+Certain log messages can be now filtered out
+
+BLS from elders should now correctly stack with BLS pool
+Fixed some cases with BLS getting outside of the maximum value
+
+Every Marker will improve effect of Black Pyramide by 10%
+Void Order will now have a 75% bonus from the Apocrypha
+
+v 1.0.8.3
+
+Dropbox integration for save import/export
+
+v 1.0.8.2
+
+Faith pool value will now have a correct suffix format
+Hissmeowra will now give bonus to the uranium storage
+
+Unobtainium huts price was reduced
+Concrete huts price waqs slightly reduced
+
+HM will now be capped by science. (But not much)
+Science Vessel will now be capped by titanium.
+
+Manual faith reset will now give a 1% bonus.
+Mints will now give a very cosmetic bonus for a gold capacity.
+
+v 1.0.8.1 (11 May)
+
+Price upgrades were slightly nerfed (again)
+Most of the hut price upgrades were slightly nerfed
+
+Planet Cracker will now cost more science and alloy
+Planet Cracker output was nerfed from 0.5 to 0.35
+
+Everything is nerfed, Dave.
+
+BLS value on UI will be now rounded
+
+Advanced Exogeology
+
+Eludium Huts
+Eludium Reflectors
+Eludium Cracker (TBD)
+
+Fixed That Issue with the +all craft
+Fixed the with faith reset
+
+v 1.0.8.0 (8 May)
+
+Hissmeowra
+Research Vessel
+
+Satnav
+Tanker's ship price was reduced from 250 to 225
+
+Void Order
+
+Craft +1/+25/+100 will be replaced with +1%/+5%/+10% if possible
+
 v 1.0.7.5 (14 apr)
 
 Changes by xranti:
@@ -86,11 +453,11 @@ v 1.0.6.0 (24 jan)
 
 Changes by Zusias:
 
-* Pausing the game and selling a building will no longer allow you to go above maximum for a resource. 
-* Catnip demand ratio is no longer bugged after the rework of diminished returns. 
+* Pausing the game and selling a building will no longer allow you to go above maximum for a resource.
+* Catnip demand ratio is no longer bugged after the rework of diminished returns.
 And with the addition of things like renaissance, you can now go above 100% catnip reduction if diminished returns aren't used.
 * You can no longer pause the game in order to craft wood above the maximum
-* Outposts will now turn off at a rate of one per tick if there is not enough uranium 
+* Outposts will now turn off at a rate of one per tick if there is not enough uranium
 ___
 
 Changes by Aikoku:
@@ -113,7 +480,7 @@ Chronospheres
 v 1.0.5.8 (29 dec)
 
 A couple new village titles, kitten names and surnames
-Happy new year!. 
+Happy new year!.
 
 v 1.0.5.7 (26 dec)
 
