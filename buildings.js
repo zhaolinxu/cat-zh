@@ -396,8 +396,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"scienceRatio": 0.35,
 				"refineRatio" : 0.1,
-				"scienceMax"  : 1500,
-				"energyConsumption" : 1
+				"scienceMax"  : 1500
 			};
 
 			if (game.workshop.get("biofuel").researched){
@@ -411,6 +410,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects = effects;
 		},
 		action: function(self, game){
+			if (game.workshop.get("biofuel").researched){
+				self.effects["energyConsumption"] = 1;
+			}
+			
 			game.resPool.convert(
 				[{res: "catnip", amt: -self.effects["catnipPerTick"]}],
 				[{res: "oil", amt: self.effects["oilPerTick"]}],
