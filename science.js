@@ -27,7 +27,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "agriculture",
 		title: "Agriculture",
 
-		description: "The basis of all civilised life, Agriculture allows the working of land for food.",
+		description: "The basis of all civilised life, Agriculture allows the working of land for food. Agriculture can significantly improve your food production.",
 		effectDesc: "Unlocks Farmers and Barns",
 
 		unlocked: false,
@@ -84,7 +84,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "animal",
 		title: "Animal Husbandry",
-		description: "Domestication allows access to various animal resources via the pasture.",
+		description: "Domestication allows access to various animal resources via the pasture. Improves your food production.",
 		effectDesc: "Unlocks Pastures",
 
 		unlocked: false,
@@ -105,10 +105,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		cost: 1200
-	},{
+	},
+	//--------------------------------------------------
+	{
 		name: "civil",
 		title: "Civil Service",
-		description: "The creation of the first true state organ provides many benefits related to better organization.",
+		description: "The creation of the first true state organ provides many benefits related to better management of your population.",
 		effectDesc: "Unlocks detailed information about your population",
 
 		unlocked: false,
@@ -121,7 +123,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "math",
 		title: "Mathematics",
-		description: "Mathematics is the most basic building block upon which all physical science is based.",
+		description: "Mathematics is the most basic building block upon which all physical science is based. Improves scientific development.",
 		effectDesc: "Allows construction of Academies, very efficient research buildings",
 
 		unlocked: false,
@@ -135,7 +137,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "construction",
 		title: "Construction",
-		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox.",
+		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox. Benefits hunting and base infrastructure.",
 		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks Composite Bows",
 
 		unlocked: false,
@@ -161,7 +163,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "currency",
 		title: "Currency",
-		description: "Currency represents a certain amount of wealth",
+		description: "Currency represents a certain amount of wealth. Can significantly boost your development in indirect ways.",
 		effectDesc: "Unlocks gold and trade",
 
 		unlocked: false,
@@ -173,7 +175,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "writing",
 		title: "Writing",
-		description: "Writing is the art of recording information on material.",
+		description: "Writing is the art of recording information on material. Writing can influence general happiness and cultural progress of your civilization.",
 		effectDesc: "Unlocks Amphitheatres",
 
 		unlocked: false,
@@ -187,7 +189,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "philosophy",
 		title: "Philosophy",
-		description: "Philosophy is the first abstract science developed by catkind.",
+		description: "Philosophy is the first abstract science developed by catkind. Philosophy is a basis of spiritual and cultural progress.",
 		effectDesc: "Unlocks Temples",
 
 		unlocked: false,
@@ -201,7 +203,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "machinery",
 		title: "Machinery",
-		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
+		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.\n" +
+			"Machinery introduces a concept of automation which reduces routine operations",
 		effectDesc: "Unlocks Steamworks, Crossbows, Printing press and Factory automation.",
 
 		unlocked: false,
@@ -213,7 +216,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "steel",
 		title: "Steel",
-		description: "Development of the new Steel alloy advances further metal working.",
+		description: "Development of the new Steel alloy advances further metal working. Benefits most of the aspects of development.",
 		effectDesc: "Unlocks Coal and Steel production",
 
 		unlocked: false,
@@ -227,7 +230,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "theology",
 		title: "Theology",
-		description: "Theology is the study of religion",
+		description: "Theology is the study of religion. Religion is a key concept affecting cultural, scientific and industrial development.",
 		effectDesc: "Unlocks religion",
 
 		unlocked: false,
@@ -247,7 +250,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "astronomy",
 		title: "Astronomy",
-		description: "Astronomy is the study of objects in space.",
+		description: "Astronomy is the study of objects in space. Improves scientific development.",
 		effectDesc: "Unlocks Observatory and Star charts",
 
 		unlocked: false,
@@ -262,7 +265,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "navigation",
 		title: "Navigation",
-		description: "Navigation allows serious advancements in sailing and shipbuilding technology.",
+		description: "Navigation allows serious advancements in sailing and shipbuilding technology. It should benefit economical development and can lead to discovery of new civilizations.",
 		effectDesc: "Unlocks the construction of Trade Ships and overseas trade.",
 
 		unlocked: false,
@@ -295,7 +298,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "physics",
 		title: "Physics",
-		description: "Physics is a study of laws of nature.",
+		description: "Physics is a study of laws of nature. Mostly improves your machinery effectiveness.",
 		effectDesc: "Unlocks some useful upgrades.",
 		unlocked: false,
 		researched: false,
@@ -337,7 +340,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "acoustics",
 		title: "Acoustics",
-		description: "Acoustics is the study of sound.",
+		description: "Acoustics is the study of sound. Though not obviously useful, in a long run it may benefit civilizations thriving for cultural and religious development.",
 		effectDesc: "Unlocks Chapels",
 		unlocked: false,
 		researched: false,
@@ -351,8 +354,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "drama",
 		title: "Drama and Poetry",
-		description: "Drama and poetry are both forms of artistic expression.\nThe former expressed through the use of visual performance, the latter through the written word.",
-		effectDesc: "Unlocks Festivals and Cultural artefacts(TBD)",
+		description: "Drama and poetry are both forms of artistic expression.\nImproves cultural progress.",
+		effectDesc: "Unlocks Festivals and Cultural artifacts (TBD)",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -362,7 +365,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "archeology",
 		title: "Geology",
-		description: "Geology is the science comprising of the study of Cath, the rocks of which it is composed, and the processes by which they change.",
+		description: "Geology is the science comprising of the study of Cath, the rocks of which it is composed, and the processes by which they change. Can potentially benefit your mining industry.",
 		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
@@ -394,7 +397,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "biology",
 		title: "Biology",
-		description: "Biology deals with living organisms, their characteristics and their use in our society.",
+		description: "Biology deals with living organisms, their characteristics and their use in our society. Improves science and chemistry industry.",
 		effectDesc: "Unlocks Bio Labs",
 		unlocked: false,
 		researched: false,
@@ -408,7 +411,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "biochemistry",
 		title: "Biochemistry",
-		description: "TBD.",
+		description: "Improves your chemistry and biology-related technologies.",
 		effectDesc: "Unlocks biofuel processing",
 		unlocked: false,
 		researched: false,
@@ -423,7 +426,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "genetics",
 		title: "Genetics",
-		description: "TBD.",
+		description: "Technology that further improves on biology and chemistry. Affects your food industry.",
 		effectDesc: "Unlocks genetic engineering(?)",
 		unlocked: false,
 		researched: false,
@@ -500,7 +503,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "ecology",
 		title: "Ecology",
-		description: "Description TBD",
+		description: "Ecology is a technology primary focused on a search for new cheap and safe energy sources.",
 		effectDesc: "Unlocks Solar Plants",
 		unlocked: false,
 		researched: false,
