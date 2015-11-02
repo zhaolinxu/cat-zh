@@ -33,12 +33,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			game.space.getProgram("moonMission").unlocked = true;
 		}
 	},{
-		//===================================================
-		//		TODO: move this to the engineeering section
-		//===================================================
 		name: "spaceElevator",
 		title: "Space Elevator",
-		description: "Every S. Elevator reduces oil requirements for space missions by 5% and transfers 2% of your terrestrial production modifiers",
+		description: "Every S. Elevator reduces oil requirements for space missions by 5%",
 		researched: false,
 		unlocked: false,
 		upgradable:true,
@@ -46,14 +43,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		prices: [
 			{name: "titanium", val: 6000},
 			{name: "science", val: 100000},
-			{name: "unobtainium", val: 75},
+			{name: "unobtainium", val: 50},
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
 		effects: {
-			"oilReductionRatio": 0.05,
-            "energyConsumption": 2,
-			"prodTransferBonus": 0.02
+			"oilReductionRatio": 0.05
 		},
 		togglable: false,
 		tunable: false
@@ -686,7 +681,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	 * This method is probably slow as hell, revisit it
 	 */
 	getAutoProductionRatio: function(){
-		return (1+ this.getEffect("spaceRatio")) * (this.game.bld.getAutoProductionRatio() * this.getEffect("prodTransferBonus"));
+        return ( 1 + this.getEffect("spaceRatio")) *
+            ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * this.getEffect("prodTransferBonus")));
 	}
 });
 

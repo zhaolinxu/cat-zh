@@ -1398,8 +1398,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         }
     },
 
-	getAutoProductionRatio: function(disableReactors){
+	getAutoProductionRatio: function(disableReactors, paragonRatio){
 		var autoProdRatio = 1;
+		paragonRatio = paragonRatio || 0.25;
 
 		//	faith
 		if (this.game.religion.getRU("solarRevolution").researched){
@@ -1411,7 +1412,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
 
 		// paragon (25%)
-			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
+			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * paragonRatio);
 
 		// reactors
 		if (!disableReactors){
