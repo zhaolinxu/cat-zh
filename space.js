@@ -35,20 +35,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "spaceElevator",
 		title: "Space Elevator",
-		description: "Every S. Elevator reduces oil requirements for space missions by 5%",
+		description: "Every S. Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
 		researched: false,
 		unlocked: false,
 		upgradable:true,
 		priceRatio: 1.15,
 		prices: [
 			{name: "titanium", val: 6000},
-			{name: "science", val: 100000},
+			{name: "science", val: 75000},
 			{name: "unobtainium", val: 50},
 		],
 		requiredTech: ["orbitalEngineering", "nanotechnology"],
 		val: 0,
 		effects: {
-			"oilReductionRatio": 0.05
+			"oilReductionRatio": 0.05,
+            "spaceRatio": 0.1
 		},
 		togglable: false,
 		tunable: false
