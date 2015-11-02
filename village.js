@@ -1128,8 +1128,13 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 	sortKittensByExp: function(kittens){
 		var v = this.game.village;
 		kittens.sort(function(a,b){
-			return ((a.rank ? v.getRankExp(a.rank) : 0) + a.exp)
-				 - ((b.rank ? v.getRankExp(b.rank) : 0) + b.exp);
+		        if (a.rank > b.rank){
+				 return 1;
+			} else if (a.rank < b.rank){
+				 return -1;
+			} else {
+				 return a.exp - b.exp;
+			}
 		});
 	},
 
