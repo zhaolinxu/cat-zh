@@ -1179,6 +1179,31 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				census.update();
 
 			}, this, leader));
+
+			this.unassignLeaderJobHref = dojo.create("a", {
+				href: "#", innerHTML: "Unassign Leader Job",
+				style: {
+					display:
+						(leader.job) ? "block" : "none"
+				}
+			}, this.governmentDiv);
+
+			dojo.connect(this.unassignLeaderJobHref, "onclick", this, dojo.partial(function(census, leader, event){
+				event.preventDefault();
+				var game = census.game;
+
+				if(leader.job){
+					game.village.getJob(leader.job).value--;
+
+					leader.job = null;
+					game.village.updateResourceProduction();
+
+					census.renderGovernment(census.container);
+					census.update();
+					game.render();
+				}
+
+			}, this, leader));
 		}
 		//------------------------------------
 
@@ -1234,6 +1259,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			if (leader.rank > 0){
 				leaderInfo += "<br><br>Job bonus: x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" + leader.job + ")";
 			}
+
+			this.unassignLeaderJobHref.style.display = leader.job ? "block" : "none";
 		}
 		//TODO: promote leader link
 
