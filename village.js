@@ -679,7 +679,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			this.kittens.push(kitten);
 		}
 		this.game.villageTab.updateTab();
-        
+
         if (this.game.kongregate){
             this.game.kongregate.stats.submit("kittens", this.kittens.length);
         }
@@ -689,11 +689,12 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 	killKittens: function(amount){
 
-        this.game.stats.getStat("kittensDead").val += amount;
-        
 		if (amount > this.kittens.length) {
 			amount = this.kittens.length;
 		}
+
+        this.game.stats.getStat("kittensDead").val += amount;
+
 		var killed = this.kittens.splice(this.kittens.length - amount, amount);
 		var village = this.game.village;
 
@@ -1586,15 +1587,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		case kittens > 2000:
 			return "Galactic Union";
 		case kittens > 1500:
-			return "Planetary Council";		
-		case kittens > 1200:        
+			return "Planetary Council";
+		case kittens > 1200:
 			return "Consortium";
         case kittens > 1000:
             return "Civilisation";	//all rights reserved, yada yada.
         case kittens > 900:
             return "Society";
         case kittens > 800:
-            return "Reich";  
+            return "Reich";
         case kittens > 700:
             return "Federation";
         case kittens > 600:

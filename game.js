@@ -388,6 +388,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			//starchart
 
+			"starchart" : {
+				title: "starchart",
+				resName: "starchart",
+				type: "perTick"
+			},
+
 			"starchartPerTickBase": {
 				title: "Starchart production",
 				resType: "starchart",
@@ -561,7 +567,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     keyStates: {
 		shiftKey: false
 	},
-    
+
     //TODO: this can potentially be an array
     undoChange: null,
 
@@ -872,7 +878,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateOptionsUI();
 		}
 		//------------------------------------
-		
+
 		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
 		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
 		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
@@ -1830,14 +1836,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (kittens > 70){
 			paragonPoints = (kittens - 70);
 		}
-		
+
 		this.paragonPoints += paragonPoints;
 		this.karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
 
 		this.stats.getStat("totalParagon").val += paragonPoints;
 		this.stats.getStat("totalResets").val++;
-		
+
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var totalScience = 0;
 		var bonusZebras = 0;

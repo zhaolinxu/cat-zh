@@ -132,7 +132,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	update: function() {
-		
+
 	},
 
 	tick: function(){
@@ -185,18 +185,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.festivalDays){
 			this.festivalDays--;
 		}
-		
+
 		var chanceRatio = 1;
 		var unicornChanceRatio = 1;
-		
+
 		if (this.game.prestige.getPerk("chronomancy").researched){
 			chanceRatio = 1.1;
 		}
 		if (this.game.prestige.getPerk("unicornmancy").researched){
 			unicornChanceRatio = 1.1;
 		}
-		
-		
+
+
 
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
 		chance += this.game.bld.getEffect("starEventChance");
@@ -204,6 +204,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		this.observeHandler = function(event){
 			this.observeClear();
+			this.game.stats.getStat("eventsObserved").val++;
 
 			var isSilent = false;
 			if (this.game.workshop.get("seti").researched){
@@ -255,7 +256,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 
 			}//observeTimeout
-			
+
 			if (this.observeBtn){
 				dojo.hitch(this, observeTimeout)();
 			}
@@ -339,8 +340,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
 			}
 			if (zebras.value > zTreshold ){
-				this.game.msg( zebras.value > 1 ? 
-                    "Zebra hunters have departed from your village." : 
+				this.game.msg( zebras.value > 1 ?
+                    "Zebra hunters have departed from your village." :
                     "Zebra hunter has departed from your village."
                 );
                 zebras.value = zTreshold;
@@ -373,7 +374,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			this.game.resPool.get("ivory").value += ivory;
 		}
-        
+
         this.game.diplomacy.onNewDay();
 	},
 
@@ -398,16 +399,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewYear: function(){
 
         var ty = this.game.stats.getStat("totalYears");
-        
+
         if (ty.val < this.year){
             ty.val = this.year;
         }
-        
-        
+
+
 		if (this.game.bld.get("steamworks").jammed) {
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}
-		
+
 		if ( this.year % 1000 === 0 ){
 			this.game.paragonPoints++;
 			this.game.updateKarma();

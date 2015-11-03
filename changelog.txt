@@ -45,8 +45,6 @@ Changes by coderpatsy:
 - Factory Processing unlocks with Oil Processing
 - Update paragon count on new millenium
 - Grammar
-- Also highlight buttons as limited if you don't have enough of a craftable resource and insufficient storage to craft more (https://redd.it/3ol29r)
-- Add asterisk in tooltip price lines if a craftable's sub-price is limited
 
 v 1.1.5.2 (11 oct)
 Microwarp reactors
