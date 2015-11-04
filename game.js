@@ -1967,7 +1967,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var paragon = milleniums - this.prestige.getSpentParagon();
 		if (this.paragonPoints < paragon){
 			this.paragonPoints = parseInt(paragon);
-			this.stats.getStat("totalParagon").val += paragon - this.paragonPoints;
 		}
 
 		this.resPool.get("karma").value = karma;

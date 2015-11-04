@@ -49,7 +49,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		val: 0,
 		effects: {
 			"oilReductionRatio": 0.05,
-            "spaceRatio": 0.1
+            "spaceRatio": 0.01
 		},
 		togglable: false,
 		tunable: false
