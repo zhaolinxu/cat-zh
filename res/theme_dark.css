@@ -19,16 +19,16 @@
 
 .scheme_dark .btn:hover {
 	border: solid 1px orange;
-	cursor: pointer;
-}
-
-.scheme_dark .btn.disabled:hover {
-	border: solid 1px inherit;
-	cursor: inherit;
+	background: inherit;
 }
 
 .scheme_dark .btn.disabled {
 	border: solid 1px #805326;
+}
+
+.scheme_dark .btn.disabled:hover {
+	border: solid 1px #805326;
+	cursor: inherit;
 }
 
 .scheme_dark .limited {
@@ -45,6 +45,7 @@
 
 .scheme_dark a:hover {
 	color: #969696;
+	opacity: 1.0;
 }
 
 .scheme_dark div {
