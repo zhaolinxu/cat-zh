@@ -17,6 +17,16 @@
 	border: solid 1px #DE8D47;
 }
 
+.scheme_dark .btn:hover {
+	border: solid 1px orange;
+	cursor: pointer;
+}
+
+.scheme_dark .btn.disabled:hover {
+	border: solid 1px #DE8D47;
+	cursor: inherit;
+}
+
 .scheme_dark .highlited {
 	background-color: #403F3D;
 }
@@ -24,6 +34,11 @@
 .scheme_dark a {
 	color: #868685;
 }
+
+.scheme_dark a:hover {
+	color: #969696;
+}
+
 .scheme_dark div {
 	color: #DCDCDC;
 }
