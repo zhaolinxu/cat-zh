@@ -1,0 +1,4 @@
+*.txt -lf
+*.js -lf
+*.css -lf
+*.html -lf
