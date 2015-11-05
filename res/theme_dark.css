@@ -23,8 +23,16 @@
 }
 
 .scheme_dark .btn.disabled:hover {
-	border: solid 1px #DE8D47;
+	border: solid 1px inherit;
 	cursor: inherit;
+}
+
+.scheme_dark .btn.disabled {
+	border: solid 1px #805326;
+}
+
+.scheme_dark .limited {
+	color: #b32222;
 }
 
 .scheme_dark .highlited {
