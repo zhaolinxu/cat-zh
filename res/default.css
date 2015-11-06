@@ -121,6 +121,14 @@ div#gameLog {
     margin-bottom:10px;
 }
 
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn.disabled:hover {
+    cursor: inherit;
+}
+
 .btn.bldEnabled div.btnContent {
     padding: 4px;
     border: 1px solid green;
@@ -273,6 +281,20 @@ td.resLimitWarn {
     border: 1px solid #888;
     padding: 0;
     width: 264px;
+}
+
+.btn.modern:hover {
+    border-color: #777;
+    background: #F9F9F9;
+}
+
+.btn.modern.disabled {
+    border-color: #aaa;
+}
+
+.btn.modern.disabled:hover {
+    border-color: #aaa;
+    background: inherit;
 }
 
 .modern .btnContent {

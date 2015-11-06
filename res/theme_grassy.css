@@ -53,10 +53,23 @@ body.scheme_grassy {
 			box-shadow: 0 0 5px 5px rgba(223, 255, 225, 0.7);
 }
 
+.scheme_grassy .btn:hover {
+	background: inherit;
+}
+
+.scheme_grassy .btn.disabled:hover {
+	background: rgba(255, 255, 255, 0.2);
+	cursor: inherit;
+}
+
 .scheme_grassy a {
 	text-decoration: none;
 
 	color: #930;
+}
+
+.scheme_grassy a:hover {
+	color: #cc4100;
 }
 
 .scheme_grassy #gameLog {
