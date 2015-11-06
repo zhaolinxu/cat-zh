@@ -797,6 +797,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		}, this.game);
 		exploreBtn.render(tabContainer);
 		this.exploreBtn = exploreBtn;
+
+		this.update();
 	},
 
 

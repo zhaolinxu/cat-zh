@@ -961,6 +961,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
+
+		this.update();
 	},
 
 	update: function(){

@@ -688,7 +688,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.rUpgradeButtons = [];
 	},
 
-	render : function(container) {
+	render: function(container) {
 
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
@@ -802,6 +802,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			button.render(content);
 			this.rUpgradeButtons.push(button);
 		}
+
+		this.update();
 	},
 
 	update: function(){

@@ -598,6 +598,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				resWMod: tdWeatherMod
 			});
 		}
+
+		this.update();
 	},
 
 	/**
@@ -858,6 +860,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				aAll: aAll
 			});
 		}
+
+		this.update();
 	},
 
 	hasMinAmt: function(recipe){
