@@ -1,13 +1,17 @@
 v 1.1.6.2 (5 nov)
 
 Changes by ArcanisCz:
-Hover effects and styling for buttons
-Unassign button for leaders
+
+- Hover effects and styling for buttons
+- Unassign button for leaders
 
 Changes by Unihedron 0:
-fix stats not updating paragons earned from playing for milleniums
 
-Fixes by Roman Chang:
+- fix stats not updating paragons earned from playing for milleniums
+
+Changes by Roman Chang:
+
+- Census sorts kittens primarily by rank and secondarily by exp 
 
 Changes by coderpatsy:
 

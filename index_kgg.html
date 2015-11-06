@@ -15,24 +15,25 @@
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox.js"></script>
 
-		<script src="core.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="resources.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="calendar.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="buildings.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="village.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="science.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="workshop.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="diplomacy.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="religion.js?v=1.1.4.2" 	type="text/javascript"></script>
-		<script src="achievements.js?v=1.1.4.2" type="text/javascript"></script>
-		<script src="space.js?v=1.1.4.2" 		type="text/javascript"></script>
-		<script src="prestige.js?v=1.1.4.2" 	type="text/javascript"></script>
+		<script src="core.js?v=1.1.6.2" 		type="text/javascript"></script>
+		<script src="resources.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="calendar.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="buildings.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="village.js?v=1.1.6.2" 		type="text/javascript"></script>
+		<script src="science.js?v=1.1.6.2" 		type="text/javascript"></script>
+		<script src="workshop.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="diplomacy.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="religion.js?v=1.1.6.2" 	type="text/javascript"></script>
+		<script src="achievements.js?v=1.1.6.2" type="text/javascript"></script>
+		<script src="space.js?v=1.1.6.2" 		type="text/javascript"></script>
+		<script src="prestige.js?v=1.1.6.2" 	type="text/javascript"></script>
 
-		<script src="game.js?v=1.1.4.2" 		type="text/javascript"></script>
+		<script src="game.js?v=1.1.6.2" 		type="text/javascript"></script>
 
         <!-- --------------------------------------------------------------- -->
-        <script src="js/toolbar.js?v=1.1.4.2" 	type="text/javascript"></script>
-        <script src="js/ui.js?v=1.1.4.2"        type="text/javascript"></script>
+        <script src="js/toolbar.js?v=1.1.6.2" 	    type="text/javascript"></script>
+        <script src="js/ui.js?v=1.1.6.2"            type="text/javascript"></script>
+        <script src="js/stats.js?v=1.1.6.2"         type="text/javascript"></script>
 
         <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script>
 
@@ -47,52 +48,18 @@
 
 		</script>
 
-		<link rel="stylesheet" href="res/default.css" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
-        <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
-        
-        <!-- kongregate-specific styles -->
-        
-		<style>
-		
-			#topBar {
-				min-width: 1200px;
-			}
-			
-			#gameContainerId {
-				border: 0px solid white !important;
-				padding: 0px;
-			}
-			
-			.tabInner {
-				padding: 15px;
-			}
-			
-			#midColumn {
-				width: 600px;
-			}
-			
-			#rightColumn {
-				width: 250px;
-			}
-			
-			#game {
-				min-width: 1200px;
-			}
-		
-		</style>
-        
-        <!-------------------------------->
+		<link rel="stylesheet" href="res/default.css?v=1.1.6.2" type="text/css">
+		<link rel="stylesheet" href="res/theme_dark.css?v=1.1.6.2" type="text/css">
+        <link rel="stylesheet" href="res/theme_grassy.css?v=1.1.6.2" type="text/css">
 
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-
                 try {
                     gamePage = new com.nuclearunicorn.game.ui.GamePage();
                     gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
-                    gamePage.nerfs = 9;
+                    gamePage.nerfs = 10;
 
                     gamePage.load();
                     gamePage.updateKarma();
@@ -101,11 +68,16 @@
                     gamePage.console.static.renderFilters();
                     gamePage.start();
 
-                    //TODO: disable for production
-                    //if ($.url.param("kongregate_host")) {
-                       console.log("loading Kongregate API...");
-                       gamePage.initKongregateApi();
-                    //}
+                    var host = window.location.hostname;
+                    if (host.indexOf("kongregate") > -1){
+                        $.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
+                            console.log("loading Kongregate API...");
+                            gamePage.initKongregateApi();
+                        });
+                    }
+                    if (window.location.protocol == "file:"){
+                        $("#devModeButton").show();
+                    }
 
                 } catch (ex){
                     console.error(ex);
@@ -127,8 +99,10 @@
 			}
 
 			function wipe(){
-				if (confirm("Save data will be wiped, are you sure?")){
-					gamePage.wipe();
+				if (confirm("All save data will be DESTROYED, are you sure?")){
+					if (confirm("Are you ABSOLUTELY sure?")) {
+						gamePage.wipe();
+					}
 				}
 			}
 			// we don't need no css, let the dynamic height be. be, dynamic height, be.
@@ -181,10 +155,10 @@
 					<a href="#" onclick="gamePage.saveUI();">Save</a> |
 					<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 					<a href="#" onclick="gamePage.reset();">Reset</a> |
-					<!--<div id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</div> -->
+					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span> 
 					<a href="#" onclick="wipe();">Wipe</a> |
 
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.4.2</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.6.2</a>
 
 				</div>
 			</div>
@@ -199,13 +173,16 @@
 
 					Major: 1
 						Energy
+						Staging
 
-					Minor 4:
-						-
+					Minor 6:
+						Oil processing
+						Kerosene
+						Sefirot tree
 
 					Rev: 2
-						-
-
+						Fixes
+						
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -214,9 +191,10 @@
 			<div id="game" class="pure-g">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
 
-
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
+					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
+
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
 					</div>
 
@@ -246,13 +224,13 @@
 					</div>
 				</div>
 				<!-- RIGHT -->
-				<div id="rightColumn" style="vertical-align: top; padding-left: 20px; padding-top: 15px;" class="column">
+				<div id="rightColumn" style="vertical-align: top; padding-left: 8px; padding-top: 15px; position: relative;" class="column">
 					<div>
 						<span id="calendarSign" style="cursor:pointer;"></span></span><span id="calendarDiv">Calendar :V</span>
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
                         <div style="float: right;">
 						    <a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
-                            <!--<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>-->
+                            <a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
                         </div>
 					</div>
 					<div style="padding-top: 10px; border-top: 1px solid gray;">
@@ -269,7 +247,7 @@
 						<div id="logFilters" style="display:none">
 						</div>
 					</div>
-					<div id="gameLog" style="overflow-y: scroll; padding-top: 20px;">
+					<div id="gameLog" style="overflow-y: scroll; padding-top: 20px; height: 100%; min-height:100%;">
 						<!-- Log goes there -->
 					</div>
 				</div>
@@ -413,3 +391,4 @@
 
 	</body>
 </html>
+
