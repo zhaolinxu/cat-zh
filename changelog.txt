@@ -1,3 +1,20 @@
+v 1.1.6.2 (5 nov)
+
+Changes by ArcanisCz:
+Hover effects and styling for buttons
+Unassign button for leaders
+
+Changes by Unihedron 0:
+fix stats not updating paragons earned from playing for milleniums
+
+Fixes by Roman Chang:
+
+Changes by coderpatsy:
+
+- Events observed stat increments on manual and SETI observations as well
+- Fix Dead kittens stat recording more deaths than kittens
+- Add effectMeta for scholar starcharts
+
 v 1.1.6.1 (1 nov)
 
 Changes by rossalansmith:
