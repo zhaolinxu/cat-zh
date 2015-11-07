@@ -557,7 +557,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
 	printYieldOutput: function(yieldResTotal){
-		for (var res in yieldResTotal) {
+		var output = false;
+		for (var res in yieldResTotal){
 			if (res == "blueprint"){
 				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice", "trade");
 			} else if (res == "titanium"){
@@ -567,6 +568,11 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 				var name = resPool.title || res;
 				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + name, null, "trade");
 			}
+			output = true;
+		}
+
+		if (yieldResTotal && !output){
+			this.game.msg("Your kittens return empty-pawed", null, "trade");
 		}
 	},
 
@@ -773,7 +779,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				if (race){
 					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
-					
+
 					var hint = "";
 					if (!dip.get("nagas").unlocked){
 						hint = "Maybe you are not cultural enough.";
@@ -784,9 +790,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					} else if (!dip.get("dragons").unlocked){
 						hint = "Maybe you should be more technologically advanced.";
 					} else {
-						hint = "Maybe there are no more civilizations left?";	//AHAHA NO	
+						hint = "Maybe there are no more civilizations left?";	//AHAHA NO
 					}
-					
+
 					btn.game.msg("Your explorers failed to find anyone. *** " + hint + " ***");
 					var res = btn.game.resPool.get("manpower");
 					res.value += 950;

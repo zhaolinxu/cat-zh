@@ -1,5 +1,5 @@
 dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager, {
-    
+
     stats:
         [{
             name: "totalKittens",
@@ -38,18 +38,18 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             unlocked: false
         }
     ],
-    
+
     load: function(saveData){
         if (saveData.stats) {
             this.loadMetadata(this.stats, saveData.stats, ["val"]);
         }
     },
-    
+
     save: function(saveData){
         saveData.stats = this.filterMetadata(this.stats, ["name", "val"]);
 
     },
-    
+
     getStat: function(name){
         return this.getMeta(name, this.stats);
     }
@@ -68,31 +68,31 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
     },
 
     update: function(){
-        
+
         /*console.log(this.game, this.game.stats);*/
 
         var stats = this.game.stats.stats;
-        
+
         dojo.empty(this.container);
         var table = dojo.create("table", null, this.container);
-        
+
         for (var i in stats){
             var stat = stats[i];
-            
+
             if (stat.val > 0){
                 stat.unlocked = true;
             }
-            
+
             var tr = dojo.create("tr", null, table);
             dojo.create("td", {
                 innerHTML: stat.unlocked ? stat.title : "???"
             }, tr);
             dojo.create("td", {
                 style: {
-                  paddingLeft: "20px"  
+                  paddingLeft: "20px"
                 },
-                innerHTML: stat.unlocked ? stat.val : ""
+                innerHTML: stat.unlocked ? this.game.getDisplayValueExt(stat.val) : ""
             }, tr);
-        }    
+        }
     }
 });
