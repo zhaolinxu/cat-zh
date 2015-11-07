@@ -477,7 +477,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	hasSellLink: function(){
-		return this.ruCached.upgradable && this.ruCached.val > 1 && this.transcendence.researched;
+		return !this.game.opts.hideSell && this.ruCached.upgradable && this.ruCached.val > 1 && this.transcendence.researched;
 	},
 
 	getRU: function(){
