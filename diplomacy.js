@@ -711,6 +711,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			dojo.addClass(rightColumn, "right");
 			dojo.addClass(clear, "clear");
 
+			if(racePanel.feedBtn){
+				dojo.place(racePanel.feedBtn.domNode, rightColumn, "first");
+			}
+
 			var buys = race.buys[0];
 			dojo.create("div", {
 				innerHTML: "<span class='buys'>Buys: </span>" + buys.name + " <span class='ammount'>" + buys.val + "</span>"
