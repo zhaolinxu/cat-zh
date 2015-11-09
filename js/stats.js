@@ -65,6 +65,8 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
 
     render: function(content){
         this.container = content;
+
+        this.update();
     },
 
     update: function(){

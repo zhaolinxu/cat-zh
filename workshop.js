@@ -2087,6 +2087,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		if (!this.game.science.get("construction").researched){
 			craftPanel.setVisible(false);
 		}
+
+		this.update();
 	},
 
 	renderResources: function(container){

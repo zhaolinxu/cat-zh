@@ -979,6 +979,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
             }
         });
 
+		this.update();
 	},
 
 	update: function(){

@@ -2230,6 +2230,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		this.groupContainer = groupContainer;
 
 		this.renderActiveGroup(groupContainer);
+
+		this.update();
 	},
 
 	renderActiveGroup: function(groupContainer){

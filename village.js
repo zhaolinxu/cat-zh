@@ -1514,6 +1514,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 
 		this.censusPanelContainer = this.censusPanel.render(tabContainer);
+
+		this.update();
 	},
 
 	update: function(){
