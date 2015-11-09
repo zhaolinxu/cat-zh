@@ -134,6 +134,10 @@ div#gameLog {
     border: 1px solid green;
 }
 
+.btn.small-text span {
+    font-size: 90%;
+}
+
 .btn a:hover {
     color: orange;
     text-shadow: 1px 0px 10px coral;
