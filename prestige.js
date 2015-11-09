@@ -126,7 +126,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "anachronomancy",
 		title: "Anachronomancy",
-		description: "Time crystals and chronophisics will be saved across resets.",
+		description: "Time crystals and chronophysics will be saved across resets.",
 		paragon: 125,
 		unlocked: false,
 		researched: false,
