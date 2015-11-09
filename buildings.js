@@ -1918,9 +1918,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if(building.val > 9) {
-			//Steamworks specifically can be too large
-			dojo.setStyle(this.domNode,"font-size","90%");
+		if(building.val > 9 && this.hasSellLink()) {
+			//Steamworks and accelerator specifically can be too large when sell button is on
+			//(tested to support max 99 bld count)
+			dojo.addClass(this.domNode, "small-text");
 		}
 	},
 
