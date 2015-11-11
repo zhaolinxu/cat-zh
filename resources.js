@@ -328,7 +328,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (amt == 0) {
 			return;
 		}
-		
+
 		// Cap amt based on available resources
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
@@ -477,6 +477,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		return hasRes;
+	},
+
+	/**
+	 * Returns true if any price is limited by maxValue
+	 */
+	isStorageLimited: function(prices){
+		if (prices && prices.length){
+			for (var i = 0; i < prices.length; i++){
+				var price = prices[i];
+
+				var res = this.get(price.name);
+				if (res.maxValue > 0 && price.val > res.maxValue){
+					return true;
+				}
+				if (res.craftable && price.val > res.value){ //account for chronosphere resets etc
+					var craft = this.game.workshop.getCraft(res.name);
+					if (craft.unlocked && craft.isLimited){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	},
 
 	payPrices: function(prices){

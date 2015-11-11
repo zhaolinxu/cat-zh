@@ -1892,6 +1892,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	update: function(){
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
+
+		for (var i = 0; i < this.crafts.length; i++){
+			var craft = this.crafts[i];
+			var prices = this.getCraftPrice(craft);
+
+			//check and cache if you can't craft even once due to storage limits
+			craft.isLimited = this.game.resPool.isStorageLimited(prices);
+		}
 	}
 });
 
