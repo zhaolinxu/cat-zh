@@ -344,7 +344,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "observatory",
 		label: "Observatory",
-		description: "Increases the chance of astronomical events by 0.5%",
+		description: "Increases the chance of astronomical events by 0.2%",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
