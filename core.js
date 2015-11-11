@@ -416,7 +416,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
-		var limited = !this.game.resPool.hasStorageCapacity(prices);
+		var limited = this.game.resPool.isStorageLimited(prices);
 		//---- now highlight some stuff in vanilla js way ---
 		if (limited){
 			if (this.buttonTitle.className != "limited"){
