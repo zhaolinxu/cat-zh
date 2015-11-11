@@ -103,6 +103,11 @@ div#gameLog {
     white-space: nowrap;
 }
 
+.clear {
+    clear: both;
+    float: none;
+}
+
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -347,4 +352,56 @@ table.craftTable tr:hover td {
     padding-right: 15px;
     font-size: 12px;
     cursor: default;
+}
+
+.attitude {
+    color: #777;
+    font-size: 90%;
+}
+
+.attitude:before {
+    content: "(";
+}
+
+.attitude:after {
+    content: ")";
+}
+
+.trade-race > .left {
+    width: 50%;
+    float: left;
+}
+
+.trade-race > .right {
+    width: 50%;
+    float: right;
+}
+
+.trade-race .buys {
+    color: #01A9DB;
+    width: 40px;
+    display: inline-block;
+}
+
+.trade-race .sells {
+    color: green;
+    width: 40px;
+    display: inline-block;
+}
+
+.trade-race .ammount {
+    color: #777;
+}
+
+.trade-race .ammount:before {
+    content: "(";
+}
+
+.trade-race .ammount:after {
+    content: ")";
+}
+
+.btn.explore {
+    float: right;
+    margin-right: 9px;
 }

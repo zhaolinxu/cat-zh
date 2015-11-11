@@ -404,6 +404,11 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		this.handler = this.trade;	//weird hack
 	},
 
+	afterRender: function(){
+		this.inherited(arguments);
+		dojo.addClass(this.domNode, "trade");
+	},
+
 	tradeInternal: function(suppressMessages){
 		var race = this.race;
 
@@ -615,7 +620,13 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 });
 
 dojo.declare("classes.trade.ui.SendExplorersButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	simplePrices: false
+	simplePrices: false,
+
+	afterRender: function(){
+		this.inherited(arguments);
+
+		dojo.addClass(this.domNode, "explore");
+	}
 });
 
 //==================================================================================
@@ -681,25 +692,33 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var racePanel = this.racePanels[i];
 			if (!racePanel){
 				if (race.name === "leviathans") {
-					racePanel = new classes.diplomacy.ui.EldersPanel(race.title);
+					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
 					racePanel.setGame(this.game);
 				} else {
-					racePanel = new classes.diplomacy.ui.RacePanel(race.title);
+					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
 				}
 				this.racePanels.push(racePanel);
 			}
 			var content = racePanel.render(tabContainer);
+			dojo.addClass(content, "trade-race");
 
 			//---------- render stuff there -------------
 
-			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
-				marginBottom: "5px"
-			} }, content);
+			var leftColumn = dojo.create("div", {}, content);
+			var rightColumn = dojo.create("div",{}, content);
+			var clear = dojo.create("div",{}, content);
+			dojo.addClass(leftColumn, "left");
+			dojo.addClass(rightColumn, "right");
+			dojo.addClass(clear, "clear");
+
+			if(racePanel.feedBtn){
+				dojo.place(racePanel.feedBtn.domNode, rightColumn, "first");
+			}
 
 			var buys = race.buys[0];
 			dojo.create("div", {
-				innerHTML: "<span style='color: #01A9DB'>Buys: </span>" + buys.name + " (" + buys.val + ")"
-			}, content);
+				innerHTML: "<span class='buys'>Buys: </span>" + buys.name + " <span class='ammount'>" + buys.val + "</span>"
+			}, leftColumn);
 
 			for (var j =0; j< race.sells.length; j++){
 				//if (race.sells[j].chance == 100){
@@ -722,16 +741,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						max = val * sratio + val * sratio * s.delta/2;
 					}
 
-					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
+					var prefix = ( j == 0) ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
 					var div = dojo.create("div", {
-							innerHTML: prefix + s.name + " ("
+							innerHTML: prefix + s.name + " <span class='ammount'>"
 								+ this.game.getDisplayValueExt(min, false, false, 0) + " - "
-								+ this.game.getDisplayValueExt(max, false, false, 0) + ")"
-						}, content);
-					if (j == (race.sells.length - 1)){
-						dojo.style(div, "marginBottom", "15px");
-					}
-
+								+ this.game.getDisplayValueExt(max, false, false, 0) + "</span>"
+						}, leftColumn);
 				//}
 			}
 
@@ -744,7 +759,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				prices: tradePrices,
 				race: race
 			}, this.game);
-			tradeBtn.render(content);	//TODO: attach it to the panel and do a lot of update stuff
+			tradeBtn.render(rightColumn);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
 			racePanel.race = race;
 			racePanel.collapse(race.collapsed);
@@ -801,8 +816,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				btn.game.render();
 			}
 		}, this.game);
-		exploreBtn.render(tabContainer);
+		var btn = exploreBtn.render(tabContainer);
 		this.exploreBtn = exploreBtn;
+
+		var clear1 = dojo.create("div",{}, tabContainer);
+		dojo.addClass(clear1, "clear");
 
 		this.update();
 	},
