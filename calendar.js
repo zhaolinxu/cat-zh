@@ -197,7 +197,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 
-
+		//------------------------- astronomical events -------------------------
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
 		chance += this.game.bld.getEffect("starEventChance");
 		chance *= chanceRatio;
@@ -241,8 +241,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			var observeTimeout = function(){
 
-                this.game.stats.getStat("eventsObserved").val++;
-
 				this.observeClear();
 
 				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
@@ -283,6 +281,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 
+		//------------------------- meteors -------------------------
 		var iwChance = 0;
 		if (this.game.ironWill){
 			iwChance = 40;	// +0.4 additional chance of falling meteors
