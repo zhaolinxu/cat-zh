@@ -410,16 +410,16 @@ table.craftTable tr:hover td {
     margin-right: 9px;
 }
 
-#optionsDiv label {
+label {
     cursor: pointer;
 }
 
-#optionsDiv label i {
+label i {
     font-size: 90%;
     color: grey;
 }
 
-#optionsDiv label:hover {
+label:hover {
     opacity: 0.7;
 }
 
