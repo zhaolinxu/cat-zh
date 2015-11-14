@@ -109,7 +109,15 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 		title: "Jupiter Ascending",
 		description: "Get to the space on a first year",
 		condition: function(){
-			return ( this.game.space.getProgram("moonMission").researched && this.game.calendar.year <= 1);
+			return ( this.game.space.getProgram("orbitalLaunch").researched && this.game.calendar.year <= 1);
+		},
+		unlocked: false
+	},{
+		name: "shadowOfTheColossus",
+		title: "Shadow Of The Colossus",
+		description: "Build a Ziggurat having only one kitten",
+		condition: function(){
+			return ( this.game.bld.get("ziggurat").val > 0 && this.game.village.maxKittens == 1);
 		},
 		unlocked: false
 	},{
