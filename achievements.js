@@ -93,9 +93,23 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 	},{
 		name: "spaceOddity",
 		title: "Space Oddity",
-		description: "Complete a Moon Program in Iron Will mode",
+		description: "Complete a Moon Program in Iron Will mode", 
+		starDescription: "Get Moon Program in IW without any paragon points",
 		condition: function(){
 			return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched );
+		},
+		starCondition: function(){
+			return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched && this.game.paragonPoints == 0);
+		},
+		unlocked: false,
+		hasStar: true,
+		starUnlocked: false
+	},{
+		name: "jupiterAscending",
+		title: "Jupiter Ascending",
+		description: "Get to the space on a first year",
+		condition: function(){
+			return ( this.game.space.getProgram("moonMission").researched && this.game.calendar.year <= 1);
 		},
 		unlocked: false
 	},{
@@ -113,7 +127,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 		condition: function(){
 			return (this.game.resPool.get("zebras").value > 1);
 		},
-		unlocked: false,
+		unlocked: false
 	},{
 		name: "winterIsComing",
 		title: "Winter Is Coming",
