@@ -694,7 +694,9 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	hasResourceHover: true,
 
 	constructor: function(opts, game) {
-
+		if(opts.onClickComplete){
+			this.onClickComplete = opts.onClickComplete;
+		}
 	},
 
 	getProgram: function(){
@@ -792,9 +794,13 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			if (program.upgrades){
 				this.game.upgrade(program.upgrades);
 			}
-
+			this.onClickComplete();
 			this.update();
 		}
+	},
+
+	onClickComplete: function(){
+
 	},
 
     build: function(bld){
@@ -960,6 +966,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 					if (program.handler){
 						program.handler(btn.game, program);
 					}
+				},
+				onClickComplete: function(){
+					dojo.empty(container);
+					self.render(container);
 				}
 			}, self.game);
 			button.render(content);
