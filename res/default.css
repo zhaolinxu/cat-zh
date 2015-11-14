@@ -108,6 +108,10 @@ div#gameLog {
     float: none;
 }
 
+input[type="button"] {
+    cursor: pointer;
+}
+
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -405,3 +409,17 @@ table.craftTable tr:hover td {
     float: right;
     margin-right: 9px;
 }
+
+#optionsDiv label {
+    cursor: pointer;
+}
+
+#optionsDiv label i {
+    font-size: 90%;
+    color: grey;
+}
+
+#optionsDiv label:hover {
+    opacity: 0.7;
+}
+

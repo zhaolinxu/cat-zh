@@ -304,7 +304,8 @@
 			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="help">
 				<a href="#" onclick="$('#optionsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				Color scheme: <!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
+				<label for="schemeToggle">Color scheme:</label>
+				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
 					<option value="">Classic</option>
 					<option value="dark">Inverted</option>
@@ -314,24 +315,24 @@
 				<br>
 
 				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
-					Use web worker (game works correctly in background tab, may cause performance issues)
+				<label for="workersToggle">Use web worker <i>(game works correctly in background tab, may cause performance issues)</i></label>
 				<br>
 
 				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
-					Use high precision for resource values
+				<label for="forceHighPrecision">Use high precision for resource values</label>
 				<br>
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
-					Use per second values (per tick otherwise)
+				<label for="usePerSecondValues">Use per second values <i>(per tick otherwise)</i></label>
 				<br>
 				<input id="usePercentageResourceValues" type="checkbox" onclick="gamePage.opts.usePercentageResourceValues = $('#usePercentageResourceValues')[0].checked;">
-					Use percentage resource production values
+				<label for="usePercentageResourceValues">Use percentage resource production values</label>
 				<br>
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
-					Highlight buildings limited by storage space
+				<label for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
-					Hide 'sell' buttons
+				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
                 <br>
 
@@ -339,10 +340,10 @@
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-						Do not confirm when clearing all jobs
+					<label for="noConfirm">Do not confirm when clearing all jobs</label>
 					<br>
                     <input id="noEnergyPenalty" type="checkbox" onclick="gamePage.opts.noEnergyPenalty = $('#noEnergyPenalty')[0].checked;">
-                        No energy penalty
+                    <label for="noEnergyPenalty">No energy penalty</label>
                     <br>
 				</div>
 
