@@ -770,9 +770,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			nerfs: this.nerfs,
 			sorrow: this.sorrow,
 
-			opts : this.opts,
-
-            stats: this.stats
+			opts : this.opts
 		};
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);

@@ -284,7 +284,10 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		},
 
 		_createFilter: function(fId, filters){
+			var id = "filter-" + fId;
+
 			var checkbox = dojo.create("input", {
+					id: id,
 					type: "checkbox",
 					checked: this.filters[fId].enabled
 			}, filters);
@@ -292,7 +295,8 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				this.filters[fId].enabled = checkbox.checked;
 			});
 
-			dojo.create("span", {
+			dojo.create("label", {
+				"for": id,
 				innerHTML: this.filters[fId].title
 			}, filters);
 			dojo.create("br", null, filters);

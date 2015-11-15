@@ -138,6 +138,10 @@ input[type="button"] {
     cursor: inherit;
 }
 
+.btn.disabled div.btnContent {
+    cursor: default;
+}
+
 .btn.bldEnabled div.btnContent {
     padding: 4px;
     border: 1px solid green;
