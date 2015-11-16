@@ -39,6 +39,8 @@ Space Beacons
 Space Manufacturing
 AM Reactors
 
+Couple of new achievements
+
 v 1.1.6.2 (5 nov)
 
 Changes by ArcanisCz:
