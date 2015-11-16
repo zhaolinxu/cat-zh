@@ -1,3 +1,44 @@
+v 1.1.7.0 (15 nov)
+
+Changes by coderpatsy:
+
+- #38 Photovoltaic cells not active until refresh
+- Fix display bug with Solar Satellites and 0 Satellites
+- Fix Bio Labs converting non-existent catnip into oil
+- Update production when kittens die, preventing unnecessary deaths
+- Log actual number of dying kittens
+- Plural fix for hunt all button
+- Devmode function fix
+- Eludium Reflectors fix and grouping
+
+- Add a message for completely unsuccessful trades (besides the existing single-trade hostile race messsage)
+- Increment totalYears stat again
+- Record unicorns sacrificed instead of sacrifice events
+- Format stat values
+
+- Remove erroneous eventsObserved increment
+- Labels for log filters + disabled btn cursor
+
+Changes by xranti:
+
+- Changed automated buildings to use resPool.convert rather than modifying values directly.
+
+Changes by ArcanisCz:
+
+- Fixed brief flash of non-updated tabs after click 
+- Religion sell buttons respect global "hide sell buttons" settings 
+- #45 - fixed font scaling when bld.count > 9
+- trade-race panel redesign 
+- Proper space tab refresh after mission 
+- Input labels and cosmetic stuff in Options 
+- All labels visual improvement 
+
+(Probably something else that I missed)
+__
+Space Beacons
+Space Manufacturing
+AM Reactors
+
 v 1.1.6.2 (5 nov)
 
 Changes by ArcanisCz:
