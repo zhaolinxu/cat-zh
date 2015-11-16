@@ -525,6 +525,28 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Kairo",
 		unlocked: false,
 		buildings:[
+			{
+				name: "spaceBeacon",
+				title: "Space Beacon",
+				description: "An AM-powered space station used for science research and space navigation.",
+				unlocked: true,
+				priceRatio: 1.15,
+				prices: [
+					{name: "starchart", 	val: 25000 },
+					{name: "antimatter", 	val: 250 },
+					{name: "alloy", 		val: 25000 },
+					{name: "kerosene", 		val: 7500   }
+				],
+				effects: {
+					"scienceMax": 25000,
+					"starchartPerTickBase": 0.025
+				},
+				action: function(game, self){
+					self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
+				},
+				upgradable: true,
+				val: 0
+			}
 		]
 	},{
 		name: "yarn",
