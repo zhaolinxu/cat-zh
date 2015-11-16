@@ -528,7 +528,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{
 				name: "spaceBeacon",
 				title: "Space Beacon",
-				description: "An AM-powered space station used for science research and space navigation.",
+				description: "An AM-powered space station used for research and interstellar navigation.",
 				unlocked: true,
 				priceRatio: 1.15,
 				prices: [
