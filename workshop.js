@@ -1131,6 +1131,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "spaceManufacturing",
+		title: "Space Manufacturing",
+		description: "Factories are providing bonus to Space Elevators and Orbital Arrays",
+		effects: {
+		},
+		prices:[
+			{ name : "titanium", val: 125000 },
+			{ name : "science",  val: 250000 }
+		],
+		upgrades: {
+			buildings: ["factory"]
+		},
+		unlocked: false,
+		researched: false
+	},
 	//--------------------- science upgrades ----------------------
 	{
 		name: "celestialMechanics",
@@ -1221,14 +1237,30 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         },
         prices: [
             {name: "unobtainium", val: 125},
-            {name: "science", val: 250000},
+            {name: "science", val: 250000}
         ],
         upgrades: {
             buildings: ["aqueduct"]
         },
         unlocked: false,
         researched: false
-    },
+    },{
+		name: "amReactors",
+		title: "Antimatter Reactors",
+		description: "Your Research Vessels and Space Beacons are twice as effective",
+		effects: {
+			"spaceScienceRatio": 0.95
+		},
+		prices: [
+			{name: "eludium", val: 50},
+			{name: "antimatter", val: 2500}
+		],
+		upgrades: {
+			buildings: ["aqueduct"]
+		},
+		unlocked: false,
+		researched: false
+	},
 	//---------------------- oil ---------------
 	{
 		name: "pumpjack",

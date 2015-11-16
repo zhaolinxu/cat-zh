@@ -674,8 +674,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "superconductors",
 		title: "Superconductors",
-		description: "TBD",
-		effectDesc: "TBD",
+		description: "Superconductors are exotic materials that help to optimize energy efficiency of different technologies",
+		effectDesc: "Unlocks Cold Fusion and Space Manufacturing",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -683,7 +683,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion"]
+            upgrades: ["coldFusion", "spaceManufacturing"],
+			tech: ["antimatter"]
+		}
+	},{
+		name: "antimatter",
+		title: "Antimatter",
+		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 500000}
+		],
+		unlocks: {
+			upgrades: ["amReactors"]
 		}
 	},{
 		name: "particlePhysics",
@@ -736,8 +750,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 500000},
-			{name: 	"timeCrystal", val: 25}
+			{name : "science", val: 750000},
+			{name: 	"timeCrystal", val: 25},
+			{name : "relic",   val: 5}
 		],
 		unlocks: {
 		}

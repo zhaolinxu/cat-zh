@@ -237,6 +237,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#01A9DB"
 	},{
+		name : "relic",
+		title: "relic",
+		type : "exotic",
+		craftable: false,
+		visible: true,
+		color: "#5A0EDE",
+		style: {
+			"textShadow": "1px 0px 10px #9A2EFE",
+			"animation": "neon1 1.5s ease-in-out infinite alternate"
+		}
+	},{
 		name : "blueprint",
 		type : "common",
 		transient: true,
@@ -595,6 +606,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}
 			if (res.color){
 				dojo.setStyle(tdResName, "color", res.color);
+			}
+			if (res.style){
+				for (styleKey in res.style){
+					dojo.setStyle(tdResName, styleKey, res.style[styleKey]);
+				}
 			}
 
 			//	---------------- amt ----------------------

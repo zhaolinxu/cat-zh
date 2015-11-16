@@ -436,6 +436,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
             action: function(game, self){
 				self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
+				self.effects["scienceMax"] = 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
             }
         },{
             name: "orbitalArray",
@@ -543,6 +544,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				},
 				action: function(game, self){
 					self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
+					self.effects["scienceMax"] = 25000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
 				},
 				upgradable: true,
 				val: 0
@@ -704,8 +706,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	 * This method is probably slow as hell, revisit it
 	 */
 	getAutoProductionRatio: function(){
-        return ( 1 + this.getEffect("spaceRatio")) *
+        var ratio = ( 1 + this.getEffect("spaceRatio")) *
             ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * this.getEffect("prodTransferBonus")));
+		
+		if (this.game.workshop.get("spaceManufacturing").researched){
+			var factory = this.game.bld.get("factory");
+			ratio *= (1 + factory.on * factory.effects["craftRatio"]);
+		}
+		return ratio;
 	}
 });
 
