@@ -48,7 +48,7 @@ In a grim and dark future of the catkind no one can hear you scream.
 * Think how things will scale at later stages. You have a rare resource that cost 1M unobtainium? 
 Someone will be able to farm trillions of them.
 
-* Try to introduce some varieties in mechanic but stay withing establish rule system.
+* Try to introduce some varieties in mechanic but stay withing established rule system.
     * For example, hunt require catpower, grants you various resource and have a chance of giving you something rare
     * Similarly trade require catpower, grants you various resource and have a chance of giving you something rare.
         * Everyone are really comfortable with trade mechanic because it speaks in familiar terms that players have learned already.
