@@ -43,7 +43,7 @@ In a grim and dark future of the catkind no one can hear you scream.
 * Every solution to a problem should create a new problem
 
 * Design things difficult first and address them with upgrades later
-    * For gods sake never ever nerf anything
+    * For god's sake never ever nerf anything
 
 * Think how things will scale at later stages. You have a rare resource that cost 1M unobtainium? 
 Someone will be able to farm trillions of them.
@@ -51,7 +51,7 @@ Someone will be able to farm trillions of them.
 * Try to introduce some varieties in mechanic but stay withing establish rule system.
     * For example, hunt require catpower, grants you various resource and have a chance of giving you something rare
     * Similarly trade require catpower, grants you various resource and have a chance of giving you something rare.
-        * Everyone are really comfortable with trade mechanic, because it seeks in familiar terms that players have learned already.
+        * Everyone are really comfortable with trade mechanic because it speaks in familiar terms that players have learned already.
 
 * Don't use %reduction effects. For every problem it may solve, a trillion new issues will appear.
 * Don't use price reduction effects. If you do, be extremely careful.
