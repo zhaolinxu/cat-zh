@@ -31,8 +31,8 @@ Please feel free to add other suggestions.
 
 In a grim and dark future of the catkind no one can hear you scream.
 
-Good: mythical monsters, elder artifacts, arcane technologies, lost civilizations
-Bad: elves, fairies, robots, owls
+* Good: mythical monsters, elder artifacts, arcane technologies, lost civilizations
+* Bad: elves, fairies, robots, owls
 
 ## General Design Principles ##
 
