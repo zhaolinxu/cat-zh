@@ -468,7 +468,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		buildings: [{
             name: "sunlifter",
             title: "Sunlifter",
-            description: "Generates antimatter (TBD)",
+            description: "Generates antimatter once per year.",
             unlocked: true,
             priceRatio: 1.15,
             prices: [
@@ -711,7 +711,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		
 		if (this.game.workshop.get("spaceManufacturing").researched){
 			var factory = this.game.bld.get("factory");
-			ratio *= (1 + factory.on * factory.effects["craftRatio"]);
+			ratio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
 		}
 		return ratio;
 	}

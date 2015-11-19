@@ -1640,7 +1640,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "manuscript",
 		title: "Manuscript",
-		description: "Written document required for technological advancement.",
+		description: "Written document required for technological advancement.Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 400}
@@ -1923,7 +1923,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	update: function(){
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
-		//this.effectsBase["cultureMax"] = Math.floor(this.game.resPool.get("manuscript").value * 0.1);
+		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
+		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 
 		for (var i = 0; i < this.crafts.length; i++){

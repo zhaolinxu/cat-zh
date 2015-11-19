@@ -1,3 +1,9 @@
+v 1.1.7.1 (18 nov)
+
+Every manuscript will now give a small amount of maximum culture.
+Insane Space Oddity will now let you complete it with <10 paragon points
+Space manufacturing effect was reduced from 100% to 75%
+
 v 1.1.7.0 (15 nov)
 
 Changes by coderpatsy:
