@@ -694,7 +694,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 500000}
+			{name : "science", val: 500000},
+			{name : "relic",   val: 1}
 		],
 		unlocks: {
 			upgrades: ["amReactors"]

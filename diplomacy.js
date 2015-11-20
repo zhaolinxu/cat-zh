@@ -170,7 +170,13 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}},
-            {name: "starchart", value: 125, chance: 35, delta: 0.8, seasons:{
+            {name: "starchart", value: 250, chance: 50, delta: 0.8, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}},
+			{name: "relic", value: 1, chance: 30, delta: 0, seasons:{
 				"spring": 1,
 				"summer": 1,
 				"autumn": 1,
@@ -312,7 +318,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     unlockElders : function(){
         var elders = this.get("leviathans");
         elders.unlocked = true;
-        elders.duration += 400 * 3;
+        elders.duration += 400 *  50  + 25 * elders.energy  /*50 years + 25 per energy unit*/;
 
         this.game.msg("Elder gods have arrived", "notice");
     },

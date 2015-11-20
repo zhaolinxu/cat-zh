@@ -452,6 +452,34 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "chronoforge",
+		title: "Chronoforge",
+		description: "An alien technology related to time manipulation. (TBD)",
+		prices:[
+			{ name : "science",     val: 500000 },
+			{ name : "relic",     	val: 5 },
+			{ name : "timeCrystal", val: 10 }
+		],
+		unlocked: false,
+		researched: false
+	},{
+		name: "tachyonAccelerators",
+		title: "Tachyon Accelerators",
+		description: "Energy Rifts are 5 times as effective",
+		effects: {
+			"acceleratorRatio" : 5
+		},
+		prices:[
+			{ name : "science",     val: 500000 },
+			{ name : "eludium",     val: 125 },
+			{ name : "timeCrystal", val: 10 }
+		],
+		upgrades: {
+			buildings: ["accelerator"]
+		},
+		unlocked: false,
+		researched: false
+	},{
 		name: "fluxCondensator",
 		title: "Flux Condensator",
 		description: "Chronosphere will now affect craftable resources.",

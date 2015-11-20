@@ -1,3 +1,10 @@
+v 1.1.7.2 (19 nov)
+
+Elders will now stay for 50 years instead of 3. Every sacrificed necrocorn will extend this value by 25. 
+Elders trade will give more starcharts and have a small chance of giving an Relic
+Unicorn Utopia price was significantly reduced
+Tachyon Accelerators
+
 v 1.1.7.1 (18 nov)
 
 Every manuscript will now give a small amount of maximum culture.
