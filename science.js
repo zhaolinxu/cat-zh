@@ -753,9 +753,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 750000},
 			{name: 	"timeCrystal", val: 25},
-			{name : "relic",   val: 5}
+			{name : "relic",   val: 1}
 		],
 		unlocks: {
+			upgrades: ["tachyonAccelerators", "chronoforge"]
 		}
 	}],
 
