@@ -184,6 +184,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		spans: [],
 
 		filters: {
+			"hunt": {
+				title: "Hunts",
+				enabled: true,
+				unlocked: false
+			},
 			"craft": {
 				title: "Craft",
 				enabled: true,
