@@ -996,7 +996,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "automatedPlants",
 		title: "Automated Plants",
-		description: "Steel Plants are boosted by 25% of your automate production",
+		description: "Steel Plants are boosted by 25% of your craft ratio",
 		effects: {
 			"calcinerSteelCraftRatio" : 0.25
 		},
