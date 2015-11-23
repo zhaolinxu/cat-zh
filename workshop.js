@@ -1296,12 +1296,25 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"spaceScienceRatio": 0.95
 		},
 		prices: [
-			{name: "eludium", val: 50},
+			{name: "eludium", val: 35},
+			{name: "antimatter", val: 750}
+		],
+		unlocks: {
+			upgrades: ["amReactorsMK2"]
+		},
+		unlocked: false,
+		researched: false
+	},{
+		name: "amReactorsMK2",
+		title: "Advanced AM Reactors",
+		description: "Your Research Vessels and Space Beacons are 75% as effective",
+		effects: {
+			"spaceScienceRatio": 0.75
+		},
+		prices: [
+			{name: "eludium", val: 70},
 			{name: "antimatter", val: 2500}
 		],
-		upgrades: {
-			buildings: ["aqueduct"]
-		},
 		unlocked: false,
 		researched: false
 	},

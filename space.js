@@ -534,7 +534,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				priceRatio: 1.15,
 				prices: [
 					{name: "starchart", 	val: 25000 },
-					{name: "antimatter", 	val: 250 },
+					{name: "antimatter", 	val: 50 },
 					{name: "alloy", 		val: 25000 },
 					{name: "kerosene", 		val: 7500   }
 				],
