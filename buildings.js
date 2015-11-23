@@ -696,10 +696,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["coalPerTick"] = -difference;
 				self.effects["steelPerTick"] = difference / 100;
 
+
 				game.resPool.convert(
 					[{res: "iron", amt: difference},
 					 {res: "coal", amt: -self.effects["coalPerTick"]}],
-					[{res: "steel", amt: self.effects["steelPerTick"]}],
+					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on
 				);
 			}

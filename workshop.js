@@ -988,6 +988,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "gear", 	 val: 750 },
 			{ name : "science",  val: 140000 }
 		],
+		unlocks: {
+			upgrades: ["automatedPlants"]
+		},
+		unlocked: false,
+		researched: false
+	},{
+		name: "automatedPlants",
+		title: "Automated Plants",
+		description: "Steel Plants are boosted by 25% of your automate production",
+		effects: {
+			"calcinerSteelCraftRatio" : 0.25
+		},
+		prices:[
+			{ name : "alloy", val: 750 },
+			{ name : "science",  val: 200000 }
+		],
 		unlocked: false,
 		researched: false
 	},{
