@@ -1,3 +1,15 @@
+v 1.1.7.4 (24 nov)
+
+Fixed star achievements not being unlocked correctly
+Fluidized Reactors
+Trade tab will be highlighted if elders have arrived
+
+v 1.1.7.3 (22 nov)
+
+AM Reactors and Beacons will now require less antimatter.
+AM Reactors MK2
+Automated Plants
+
 v 1.1.7.2 (19 nov)
 
 Elders will now stay for 50 years instead of 3. Every sacrificed necrocorn will extend this value by 25. 

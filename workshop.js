@@ -1020,7 +1020,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
-	},{
+	},
+	{
+		name: "fluidizedReactors",
+		title: "Fluidized Reactors",
+		description: "Calciners are twice as effective",
+		effects: {
+			"calcinerRatio": 1
+		},
+		prices:[
+			{ name : "alloy", val: 200 },
+			{ name : "science", val: 175000 }
+		],
+		unlocked: false,
+		researched: false
+	},
+	{
 		name: "nuclearSmelters",
 		title: "Nuclear Smelters",
 		description: "Smelters can now produce titanium",

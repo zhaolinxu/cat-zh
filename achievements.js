@@ -236,7 +236,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 this.updateStatistics();
 			}
 			if (ach.hasStar && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
-				ach.unlocked = true;
+				ach.starUnlocked = true;
 				this.game.msg("Achievement star unlocked: " + ach.title + "!");
 				this.game.achievementTab.visible = true;
 
