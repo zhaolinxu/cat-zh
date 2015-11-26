@@ -1376,6 +1376,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			return ratio + scienceBldAmt * bpRatio;
 		}
+		
+		if (res.name == "oil"){
+			var fRatio = this.workshop.getEffect("factoryRefineRatio");
+			
+			var amt = this.bld.get("factory").val;
+			var ratio = this.bld.getEffect("craftRatio");
+
+			return ratio * (1 + amt * fRatio);
+		}
 
         //get resource specific craft ratio (like factory bonus)
         var resCraftRatio = this.bld.getEffect(res.name + "CraftRatio") || 0;

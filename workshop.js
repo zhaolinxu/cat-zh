@@ -1322,7 +1322,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "amReactorsMK2",
 		title: "Advanced AM Reactors",
-		description: "Your Research Vessels and Space Beacons are 75% as effective",
+		description: "Your Research Vessels and Space Beacons are 75% more effective",
 		effects: {
 			"spaceScienceRatio": 0.75
 		},
@@ -1763,7 +1763,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Tanker",
 		description: "Increase maximum oil capacity by 500",
 		prices:[
-			{ name: "ship", 		val: 225 },
+			{ name: "ship", 		val: 200 },
 			{ name: "alloy",    	val: 1250 },
 			{ name: "blueprint", 	val: 5 }
 		],

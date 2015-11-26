@@ -1,3 +1,10 @@
+v 1.1.7.5 (25 nov)
+
+Factory Processing will now have effect on oil
+Price of tankers was reduced from 225 ships to 200
+Alicorn summon chance was increased for Sky Palace and UU
+Space Elevators will now boost H. Fractures by 0.1% of global production ratio
+
 v 1.1.7.4 (24 nov)
 
 Fixed star achievements not being unlocked correctly

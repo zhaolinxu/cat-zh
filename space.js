@@ -49,7 +49,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		val: 0,
 		effects: {
 			"oilReductionRatio": 0.05,
-            "spaceRatio": 0.01
+            "spaceRatio": 0.01,
+			"prodTransferBonus" : 0.1
 		},
 		togglable: false,
 		tunable: false
@@ -383,7 +384,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         },{
             name: "hydrofracturer",
             title: "Hydraulic Fracturer",
-            description: "Produces a high-pressure stream of oil",
+            description: "Produces a high-pressure stream of oil. Every Space Elevator will boost this production by 0.1% of the global production multiplier.",
             unlocked: true,
             priceRatio: 1.18,
             prices: [
@@ -404,7 +405,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             action: function(game, self){
 
 				self.effects["oilPerTick"] = 0.5
-					* game.space.getAutoProductionRatio();
+					* game.space.getAutoProductionRatio(true /* use transfer bonus*/);
 
 				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
@@ -705,10 +706,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	/**
 	 * This method is probably slow as hell, revisit it
 	 */
-	getAutoProductionRatio: function(){
-        var ratio = ( 1 + this.getEffect("spaceRatio")) *
-            ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * this.getEffect("prodTransferBonus")));
-		
+	getAutoProductionRatio: function(useTransferBonus){
+        var ratio = ( 1 + this.getEffect("spaceRatio"));
+		if (useTransferBonus){
+			ratio *= ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * (this.getEffect("prodTransferBonus") / 100)));
+		}
+
 		if (this.game.workshop.get("spaceManufacturing").researched){
 			var factory = this.game.bld.get("factory");
 			ratio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
