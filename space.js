@@ -546,7 +546,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"starchartPerTickBase": 0.025
 				},
 				action: function(game, self){
-					self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
+					self.effects["starchartPerTickBase"] = 0.025 * game.space.getAutoProductionRatio();
 					self.effects["scienceMax"] = 25000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
 				},
 				upgradable: true,

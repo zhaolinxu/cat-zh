@@ -722,13 +722,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}
 
 			var buys = race.buys[0];
+			var res = this.game.resPool.get(buys.name);
 			dojo.create("div", {
-				innerHTML: "<span class='buys'>Buys: </span>" + buys.name + " <span class='ammount'>" + buys.val + "</span>"
+				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='ammount'>" + buys.val + "</span>"
 			}, leftColumn);
 
 			for (var j =0; j< race.sells.length; j++){
 				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
+					res = this.game.resPool.get(s.name);
 					var min = 0;
 					var max = 0;
 
@@ -749,7 +751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 					var prefix = ( j == 0) ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
 					var div = dojo.create("div", {
-							innerHTML: prefix + s.name + " <span class='ammount'>"
+							innerHTML: prefix + (res.title || res.name) + " <span class='ammount'>"
 								+ this.game.getDisplayValueExt(min, false, false, 0) + " - "
 								+ this.game.getDisplayValueExt(max, false, false, 0) + "</span>"
 						}, leftColumn);
