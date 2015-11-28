@@ -1,5 +1,14 @@
 v 1.1.7.6 (26 nov)
 
+Changes by coderpatsy:
+
+- Fix space beacons producing less starcharts than they should
+- Fix display of trade race buy/sell resource names
+
+Changes by ArcanisCz:
+
+-Header toolbar initial render-update
+
 Space Manufacturing ratio was reduced from 100% to 75%
 Space Manufacturing will not have effect on Planet Crackers anymore
 Antimatter Bases
