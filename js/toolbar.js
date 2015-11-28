@@ -24,6 +24,8 @@ dojo.declare("classes.ui.Toolbar", null, {
 			var iconContainer = this.icons[i].render(container);
 			this.attachToolbarTooltip(iconContainer, this.icons[i]);
 		}
+
+		this.update();
 	},
 	
 	update: function(){
