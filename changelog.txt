@@ -1,3 +1,9 @@
+v 1.1.7.6 (26 nov)
+
+Space Manufacturing ratio was reduced from 100% to 75%
+Space Manufacturing will not have effect on Planet Crackers anymore
+Antimatter Bases
+
 v 1.1.7.5 (25 nov)
 
 Factory Processing will now have effect on oil

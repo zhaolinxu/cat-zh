@@ -1304,6 +1304,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         unlocked: false,
         researched: false
     },{
+		name: "amBases",
+		title: "Antimatter Bases",
+		description: "Reduce energy consumption for Lunar Bases by 50%",
+		prices: [
+			{name: "eludium", val: 15},
+			{name: "antimatter", val: 250}
+		],
+		unlocked: false,
+		researched: false
+	},{
 		name: "amReactors",
 		title: "Antimatter Reactors",
 		description: "Your Research Vessels and Space Beacons are twice as effective",

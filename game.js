@@ -1383,7 +1383,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var amt = this.bld.get("factory").val;
 			var ratio = this.bld.getEffect("craftRatio");
 
-			return ratio * (1 + amt * fRatio);
+			return ratio * (1 + amt * fRatio * 0.75);	//25% penalty
 		}
 
         //get resource specific craft ratio (like factory bonus)

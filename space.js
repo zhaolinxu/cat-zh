@@ -339,7 +339,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption"	: 10
 			},
 			action: function(game, self){
-
+				if (game.workshop.get("amBases").researched){
+					self.effects["energyConsumption"] = 5;
+				}
 			},
 			upgradable: true,
 			togglable: 	true,
@@ -377,7 +379,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				self.effects["uraniumPerTick"] = 0.3
 					* (1 + game.workshop.getEffect("crackerRatio"))
-					* game.space.getAutoProductionRatio();
+					* (1 + game.space.getEffect("spaceRatio"));
 
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }

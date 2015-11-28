@@ -698,7 +698,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
-			upgrades: ["amReactors"]
+			upgrades: ["amReactors", "amBases"]
 		}
 	},{
 		name: "particlePhysics",
