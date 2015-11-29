@@ -318,7 +318,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     unlockElders : function(){
         var elders = this.get("leviathans");
         elders.unlocked = true;
-        elders.duration += 400 *  50  + 25 * elders.energy  /*50 years + 25 per energy unit*/;
+        elders.duration += 400 *  (10  + 1 * elders.energy )  /*50 years + 25 per energy unit*/;
 
         this.game.msg("Elder gods have arrived", "notice");
     },
