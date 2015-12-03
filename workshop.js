@@ -2091,6 +2091,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	craftName: null,
 	hasResourceHover: true,
+	simplePrices: false,
 
 	constructor: function(opts, game){
 		this.craftName = opts.craft;

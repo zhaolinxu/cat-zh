@@ -952,7 +952,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					indent = 1;
 				}
 
-				var components = craft.prices;
+				var components = this.game.workshop.getCraftPrice(craft);
 				for (var j in components) {
 
 					var diff = price.val - res.value;

@@ -411,7 +411,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if ( this.year % 1000 === 0 ){
 			this.game.paragonPoints++;
-			this.stats.getStat("totalParagon").val++;
+			this.game.stats.getStat("totalParagon").val++;
 			this.game.updateKarma();
 		}
 
