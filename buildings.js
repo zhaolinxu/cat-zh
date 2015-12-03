@@ -936,7 +936,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             var effects = {
                 "craftRatio" : 0.06	//6% for craft output
             };
-            effects["keroseneCraftRatio"] = game.workshop.getEffect("factoryRefineRatio");
             self.effects = effects;
         },
 		priceRatio: 1.15,

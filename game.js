@@ -1377,7 +1377,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return ratio + scienceBldAmt * bpRatio;
 		}
 		
-		if (res.name == "oil"){
+		if (res.name == "kerosene"){
 			var fRatio = this.workshop.getEffect("factoryRefineRatio");
 			
 			var amt = this.bld.get("factory").val;
