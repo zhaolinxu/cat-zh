@@ -96,6 +96,11 @@
 .scheme_sleek,
 .scheme_sleek .help {
     background-color: #1C1917;
+    /*background-image: url(https://googledrive.com/host/0B0udZcj7g1TzX0lpV2J1OU1jMnM);*/
+    /*background-image: url(grass.jpg);*/
+    background-size: cover;
+    background-position: 75% 50%;
+    background-repeat: none;
     overflow: hidden;
 }
 
@@ -148,10 +153,17 @@
     padding-top: 7px;
     z-index: 1;
     overflow: hidden;
+    background: -moz-linear-gradient(top, #1c1917 0%, #131210 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #1c1917 0%, #131210 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #1c1917 0%, #131210 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1c1917', endColorstr='#131210', GradientType=0); /* IE6-9 */
+
 }
 
 
 
+
+/*1C1917*/
 
 
 .scheme_sleek #headerLinks {
@@ -172,7 +184,12 @@
     min-width: initial;
     max-width: initial;
     overflow-y: auto;
-    /*background-color: rgba(0, 128, 0, 0.59);*/
+    background: #1c1917; /* Old browsers */
+    background: -moz-linear-gradient(left, #0d0d0d 0%, #1c1917 70%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #0d0d0d 0%, #1c1917 70%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #0d0d0d 0%, #1c1917 70%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d0d0d', endColorstr='#1c1917', GradientType=1); /* IE6-9 */
+
 }
 
 .scheme_sleek #leftColumn div:first-child {
@@ -216,6 +233,11 @@
     /*background-color: rgba(0, 0, 255, 0.77);*/
     overflow-y: auto;
     display: block;
+    background: #1c1917; /* Old browsers */
+    background: -moz-linear-gradient(left, #1c1917 0%, #0d0d0d 70%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #1c1917 0%, #0d0d0d 70%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #1c1917 0%, #121212 70%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1c1917', endColorstr='#0d0d0d', GradientType=1); /* IE6-9 */
 }
 
 .scheme_sleek #gameLog {
@@ -251,6 +273,7 @@
     bottom: 50px;
     right: 20px;
     background-color: #131210;
+    box-shadow: 0 2px 5px 0 rgb(0, 0, 0), 0 2px 10px 0 rgb(0, 0, 0) !important;
 }
 
 .scheme_sleek .bldGroupContainer {
@@ -279,7 +302,7 @@
     border-radius: 1px !important;
     outline: 0 !important;
     text-transform: uppercase !important;
-    box-shadow: 0 2px 5px 0 rgba(37, 37, 37, 0.22), 0 2px 10px 0 rgba(47, 47, 47, 0.32) !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
     width: 262px !important;
 }
 
@@ -301,7 +324,7 @@
 }
 
 .scheme_sleek .btn.modern.disabled {
-    background-color: rgba(41, 44, 55, 0.64) !important;
+    background-color: rgba(41, 44, 55, 0.69) !important;
 }
 
 .scheme_sleek .btn.modern:not(.disabled):hover {
@@ -452,3 +475,14 @@
     text-underline: none;
 }
 
+.scheme_sleek select {
+    background-color: #292c37;
+    color: white;
+    padding: 4px 10px;
+}
+
+.scheme_sleek select>option {
+    background-color: #292c37;
+    color: white;
+    padding: 4px 10px;
+}
