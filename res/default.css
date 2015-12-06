@@ -64,13 +64,13 @@ body {
     min-width: 300px;
     padding-right: 20px;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 #midColumn {
     width: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
 }

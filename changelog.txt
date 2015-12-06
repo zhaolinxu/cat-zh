@@ -3,12 +3,14 @@ v 1.1.7.7 (6 dec)
 Changes by Kida:
 
 - Added Sleek Theme (In Beta) v0.1
-- Features:
-    - Tooltip is now fixed to bottom-right of screen.
-    - Interface is more 'flexable'
-    - Improved window layout for larger screens.
-    - Improved scrollbars.
-    - Fixed various rendering errors.
+Features:
+- Updated to a cleaner web-font. (Roboto) - Tooltip is now fixed to bottom-right of screen.
+- Interface is more 'flexible'
+- Improved window layout for larger screens. - Scrollbars on visible when needed now.
+- New CSS styled scrollbars.
+- Fixed various rendering errors.
+- Updated button styles; and color. Flashes on Clicks. - Updated tab text
+- Resolved log messages wrapping errors.
 Notes: CSS is a hodgepodge of spaghetti-coding right now. Anyone is welcome to refine.
 
 v 1.1.7.7 (27 nov)
