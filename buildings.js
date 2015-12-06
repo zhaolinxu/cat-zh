@@ -1760,6 +1760,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
             //price check is sorta heavy operation, so we will store the value in the button
             this.prices = this.getPrices();
+
+			//update stats
+			this.game.stats.getStat("buildingsConstructed").val += 1;
         }
         var undo = this.game.registerUndoChange();
         undo.addEvent("bld", bld.name, 1);
