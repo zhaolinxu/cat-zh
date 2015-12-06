@@ -64,13 +64,13 @@ body {
     min-width: 300px;
     padding-right: 20px;
 
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
 
 #midColumn {
     width: 600px;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     margin-top: 30px;
 }
@@ -85,8 +85,7 @@ body {
     top: 5px;
 }
 
-#gameLog {
-    overflow-y: auto !important;
+div#gameLog {
 }
 
 #footerLinks {
