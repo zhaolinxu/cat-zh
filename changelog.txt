@@ -10,6 +10,9 @@ Stats and Achievements:
 - Added Star-Achievements to: utopiaProject
 - Added Achievement Header
 
+Styling/Refactoring
+- Updated and Refactored many of the 'inline' styles to use 'classes'.
+- Updated default css for previous inline styles.
 
 Interface Changes by Kida:
 

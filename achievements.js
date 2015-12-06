@@ -280,9 +280,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 		var div = dojo.create("div", { }, content);
 
 		div.innerHTML = "";
+        var divHeader = dojo.create("div", {}, div);
+        var totalAchievements = this.game.achievements.achievements.length;
+        var completedAchievements = 0;
 		for (var i in this.game.achievements.achievements){
 			var ach = this.game.achievements.achievements[i];
-
+            if (ach.unlocked) { completedAchievements++; }
             var className = "achievement";
             if (ach.unlocked && ach.unethical) className += " unethical";
             if (ach.unlocked) className += " unlocked";
@@ -303,5 +306,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 				title: ach.starUnlocked ? ach.starDescription : "???"
 			}, span);
 		}
+        divHeader.innerHTML = "Achievements: " + completedAchievements + " of " + totalAchievements;
 	}
 });
