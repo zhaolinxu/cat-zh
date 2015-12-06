@@ -282,13 +282,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 		div.innerHTML = "";
 		for (var i in this.game.achievements.achievements){
 			var ach = this.game.achievements.achievements[i];
-			
-			var unethicalClass = ach.unlocked && ach.unethical ? "unethical" : "";
+
+            var className = "achievement";
+            if (ach.unlocked && ach.unethical) className += " unethical";
+            if (ach.unlocked) className += " unlocked";
+            if (ach.starUnlocked) className += " starUnlocked";
 			var span = dojo.create("span", {
-				className: "achievement " + unethicalClass,
-				style: {
-					cursor: "pointer",
-				},
+				className: className,
 				title: ach.unlocked ? ach.description : "???",
 				innerHTML : ach.unlocked ? ach.title : "???"
 			}, div);
@@ -298,14 +298,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			}
 
 			var star = dojo.create("div", {
-				style: {
-					float: "right",
-					paddingRight: "0px",
-					marginTop: "-4px",
-					fontSize: "18px",
-					color: "orange",
-					textShadow: ach.starUnlocked ? "1px 0px 10px Coral" : ""
-				},
+                className: 'star',
 				innerHTML: ach.starUnlocked ? "&#9733;" : "&#9734;",
 				title: ach.starUnlocked ? ach.starDescription : "???"
 			}, span);
