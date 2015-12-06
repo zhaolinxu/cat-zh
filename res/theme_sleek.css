@@ -314,9 +314,21 @@
     font-weight: normal !important;
 }
 
+.scheme_sleek h1 {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.31);
+    text-transform: uppercase;
+    margin-top: 30px;
+    font-weight: normal;
+}
+
+.scheme_sleek h1:first-child {
+    margin-top: 0px;
+}
+
 .scheme_sleek #tooltip {
     /*position: inherit !important;*/
-    position: fixed !important;
+    position: absolute !important;
     /*margin: 0px;*/
     /*padding: 0px 10px;*/
     min-height: initial !important;
@@ -325,12 +337,12 @@
     max-width: initial !important;
     height: auto !important;
     overflow: visible !important;
-    left: auto !important;
-    top: auto !important;
-    bottom: 50px;
-    right: 20px;
+    right: auto !important;
+    bottom: auto !important;
+    top: 50px !important;
+    left: 20px !important;
     background-color: #0e0d0b;
-    box-shadow: 0 2px 5px 0 rgb(0, 0, 0), 0 2px 10px 0 rgb(0, 0, 0);
+    box-shadow: 0 2px 5px 0 rgb(0, 0, 0), 0 2px 10px 0 rgb(0, 0, 0), 0 2px 10px 0 rgb(0, 0, 0);
     padding: 20px !important;
 }
 
