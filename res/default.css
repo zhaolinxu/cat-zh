@@ -269,7 +269,7 @@ td.resLimitWarn {
 }
 
 .msg {
-    display: inline-block;
+    display: block;
 }
 
 .msg.type_notice {
