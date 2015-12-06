@@ -86,6 +86,7 @@ body {
 }
 
 div#gameLog {
+    overflow-y: auto !important;
 }
 
 #footerLinks {
