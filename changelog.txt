@@ -1,3 +1,16 @@
+v 1.1.7.7 (6 dec)
+
+Changes by Kida:
+
+- Added Sleek Theme (In Beta) v0.1
+- Features:
+    - Tooltip is now fixed to bottom-right of screen.
+    - Interface is more 'flexable'
+    - Improved window layout for larger screens.
+    - Improved scrollbars.
+    - Fixed various rendering errors.
+Notes: CSS is a hodgepodge of spaghetti-coding right now. Anyone is welcome to refine.
+
 v 1.1.7.7 (27 nov)
 
 Elders duration and energy bonus slightly

@@ -1,0 +1,454 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+/**
+ *			Sleek 0.1 Beta Theme © Kida
+ */
+
+
+
+/*Theme-Dark Import*/
+.scheme_sleek #autosaveTooltip {
+    color: #DCDCDC;
+}
+
+.scheme_sleek .btn {
+    color: #DCDCDC;
+    border: solid 1px #DE8D47;
+}
+
+.scheme_sleek .btn:hover {
+    border: solid 1px orange;
+    background: inherit;
+}
+
+.scheme_sleek .btn.disabled {
+    border: solid 1px #805326;
+}
+
+.scheme_sleek .btn.disabled:hover {
+    border: solid 1px #805326;
+    cursor: inherit;
+}
+
+.scheme_sleek .limited {
+    color: #b32222;
+}
+
+.scheme_sleek .highlited {
+    background-color: #403F3D;
+}
+
+.scheme_sleek a {
+    color: #868685;
+}
+
+.scheme_sleek a:hover {
+    color: #969696;
+    opacity: 1.0;
+}
+
+.scheme_sleek div {
+    color: #DCDCDC;
+}
+
+.scheme_sleek .disabled div {
+    color: #565655;
+}
+
+.scheme_sleek .button_tooltip div {
+    color: #DCDCDC;
+}
+
+.scheme_sleek table {
+    color: #DCDCDC;
+}
+
+.scheme_sleek .activeTab {
+    color: #DCDCDC;
+}
+
+.scheme_sleek .button_tooltip {
+    color: white;
+    background-color: #201F1D;
+}
+
+.scheme_sleek .maxRes {
+    color: #555;
+}
+
+.scheme_sleek .btn .noRes {
+    color: #CF6060;
+}
+
+.scheme_sleek .btn.modern a {
+    color: gray;
+    background-color: #212121;
+}
+
+.scheme_sleek  #gamePageContainer,
+.scheme_sleek .btn,
+.scheme_sleek  .modern,
+.scheme_sleek .btn.modern {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.scheme_sleek,
+.scheme_sleek .help {
+    background-color: #1C1917;
+    overflow: hidden;
+}
+
+
+.scheme_sleek #gamePageContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    min-width: 1180px;
+    width: auto !important;
+    overflow: hidden;
+}
+
+.scheme_sleek .tabsContainer {
+    position: inherit;
+    padding: 10px;
+}
+
+.scheme_sleek #footerLinks {
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+    text-align: right;
+}
+
+.scheme_sleek #game {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    height: auto;
+    width: auto !important;
+    margin: 0px !important;
+    min-height: initial;
+    max-height: initial;
+    min-width: initial;
+    max-width: initial;
+    overflow: hidden;
+}
+
+.scheme_sleek #topBar {
+    position: absolute !important;
+    background-color: #131210;
+    padding: 0px;
+    border: none;
+    height: 25px;
+    padding-top: 7px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+
+
+
+
+.scheme_sleek #headerLinks {
+    top: 7px !important;
+}
+
+.scheme_sleek #leftColumn {
+    position: absolute !important;
+    margin: 0px;
+    padding: 0px 10px;
+    top: 36px;
+    width: 24%;
+    left: 0px;
+    bottom: 00px;
+    height: auto;
+    min-height: initial;
+    max-height: initial;
+    min-width: initial;
+    max-width: initial;
+    overflow-y: auto;
+    /*background-color: rgba(0, 128, 0, 0.59);*/
+}
+
+.scheme_sleek #leftColumn div:first-child {
+    margin-right: 0px !important;
+}
+
+
+
+.scheme_sleek #midColumn {
+    position: absolute !important;
+    top: 36px;
+    margin: auto;
+    padding: 0px;
+    left: 25%;
+    right: 26%;
+    bottom: 0px;
+    width: auto;
+    max-width: 800px;
+    overflow-y: auto;
+    min-height: initial;
+    max-height: initial;
+    min-width: initial;
+    height: auto;
+    /*background-color: rgba(255, 0, 0, 0.7);*/
+}
+
+.scheme_sleek #rightColumn {
+    position: absolute !important;
+    margin: 0px;
+    padding: 0px 10px;
+    top: 36px;
+    width: 24%;
+    right: 0px;
+    bottom: 0px;
+    left: initial;
+    min-height: initial;
+    max-height: initial;
+    min-width: initial;
+    max-width: initial;
+    height: auto;
+    /*background-color: rgba(0, 0, 255, 0.77);*/
+    overflow-y: auto;
+    display: block;
+}
+
+.scheme_sleek #gameLog {
+    /*position: inherit !important;*/
+    position: absolute !important;
+    margin: 0px;
+    padding: 0px 10px;
+    min-height: initial !important;
+    max-height: initial !important;
+    min-width: initial !important;
+    max-width: initial !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+.scheme_sleek #gameLog span {
+    display: block !important;
+}
+
+.scheme_sleek #tooltip {
+    /*position: inherit !important;*/
+    position: fixed !important;
+    /*margin: 0px;*/
+    /*padding: 0px 10px;*/
+    min-height: initial !important;
+    max-height: initial !important;
+    min-width: initial !important;
+    max-width: initial !important;
+    height: auto !important;
+    overflow: visible !important;
+    left: auto !important;
+    top: auto !important;
+    bottom: 50px;
+    right: 20px;
+    background-color: #131210;
+}
+
+.scheme_sleek .bldGroupContainer {
+    border: none;
+}
+
+.scheme_sleek .tabInner > div:first-child {
+    border: none !important;
+}
+
+.scheme_sleek .bldGroupContainer > table > tr > td > .btn {
+    margin: 10px auto 10px auto !important;
+}
+
+.scheme_sleek .btn.modern
+{
+    box-sizing: inherit !important;
+    -webkit-user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    vertical-align: middle !important;
+    transition: all .3s ease-out !important;
+    text-decoration: none !important;
+    letter-spacing: .1px;
+    text-align: center !important;
+    border: none !important;
+    border-radius: 1px !important;
+    outline: 0 !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 2px 5px 0 rgba(37, 37, 37, 0.22), 0 2px 10px 0 rgba(47, 47, 47, 0.32) !important;
+    width: 262px !important;
+}
+
+.scheme_sleek .btn a:hover {
+    text-shadow: 1px 0px 10px white;
+}
+.scheme_sleek .btn.modern:not(.disabled) {
+    background-color: #292c37 !important;
+    cursor: pointer !important;
+}
+
+.scheme_sleek .btn.modern:not(.disabled):hover {
+    background-color: #374f73 !important;
+    cursor: pointer !important;
+}
+
+.scheme_sleek .btn.modern:not(.disabled):active {
+    background-color: #63ff4e !important;
+}
+
+.scheme_sleek .btn.modern.disabled {
+    background-color: rgba(41, 44, 55, 0.64) !important;
+}
+
+.scheme_sleek .btn.modern:not(.disabled):hover {
+    box-shadow: 0 5px 5px 0 rgba(43, 43, 43, 0.16), 0 5px 10px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.scheme_sleek .limited {
+    color: #A2482E;
+}
+
+.scheme_sleek tr.highlited {
+    background-color: #333745 !important;
+    border-color: #333745 !important;
+}
+
+.panelContainer {
+    background-color: rgba(0, 0, 0, 0.16) !important;
+    border-color: rgba(0, 0, 0, 0.38) !important;
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+}
+
+
+.scheme_sleek table.craftTable tr:hover td {
+    background-color: #333745;
+}
+
+.scheme_sleek .btn.modern a {
+    background-color: transparent !important;
+    border-color: #333745 !important;
+}
+
+.scheme_sleek td {
+    padding: 2px 5px 2px 5px;
+}
+
+.scheme_sleek tr.resourceRow:hover {
+    background-color: rgba(0, 0, 0, 0.11);
+}
+
+.scheme_sleek td.resLimitNotice {
+    color: #374f73;
+}
+
+.scheme_sleek td.resLimitWarn {
+    color: #4aa5d7;
+}
+
+
+.scheme_sleek .tabInner {
+    border: none;
+}
+
+.scheme_sleek a {
+    text-decoration: none;
+}
+
+.scheme_sleek a:hover {
+    color: white;
+}
+
+.scheme_sleek .linkContent {
+    margin-top: 25px !important;
+    background-color: #333745;
+    width: auto !important;
+}
+
+.scheme_sleek .linkContent a {
+    color: white;
+    width: 40px !important;
+    white-space: nowrap;
+}
+
+.linkContent a {
+    margin-top: 2px !important;
+    margin-bottom: 1px !important;
+}
+
+.scheme_sleek a.tab,
+.scheme_sleek .tabInner>div:first-child>a {
+    border-bottom: solid 2px #374f73;
+    padding-bottom: 2px !important;
+    padding-top: 4px !important;
+    margin-bottom: 5px;
+    text-decoration: none;
+    box-sizing: inherit;
+    display: inline-block;
+}
+
+.scheme_sleek a.tab:hover,
+.scheme_sleek .tabInner > div:first-child > a:hover {
+    border-bottom: solid 2px #374f73;
+    color: ivory;
+}
+
+.scheme_sleek a.activeTab {
+    border-bottom: solid 2px #ffab00 !important;
+    padding-bottom: 0px !important;
+    margin-bottom: 2px;
+}
+
+.scheme_sleek ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.scheme_sleek ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+.scheme_sleek ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.31);
+    border: 0px none #393939;
+    border-radius: 40px;
+}
+
+.scheme_sleek ::-webkit-scrollbar-thumb:hover {
+    background: #565656;
+}
+
+.scheme_sleek ::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+
+.scheme_sleek ::-webkit-scrollbar-track {
+    background: rgba(102, 102, 102, 0.43);
+    border: 0px none #565656;
+    border-radius: 50px;
+}
+
+.scheme_sleek ::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+
+.scheme_sleek ::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+
+.scheme_sleek ::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.scheme_sleek #topBar>div:first-child>span:first-child:after {
+    color: #dd8825;
+    content: ' Theme by Kida.';
+    text-decoration: none;
+    text-underline: none;
+}
+
