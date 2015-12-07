@@ -1621,9 +1621,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "concrate", val: 125    },
             { name : "science",  val: 195000 }
         ],
-        upgrades: {
-            buildings: ["workshop"]
-        },
         unlocked: false,
         researched: false
         }
