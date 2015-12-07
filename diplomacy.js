@@ -682,10 +682,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		// expand all / collapse all panels
 
-		var expandDiv = dojo.create("div", { style: {
-			float: "right",
-			marginTop: "-15px"
-		} }, tabContainer);
+		var expandDiv = dojo.create("div", { class: "expandAllBar" }, tabContainer);
 
 
 
