@@ -184,12 +184,12 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             name: "utopiaProject",
             title: "Utopia Project",
             description: "Get a total happiness of over 150%",
-            starDescription: "Get a total happiness of over 300%",
+            starDescription: "Get a total happiness of over 500%",
             condition: function () {
                 return (this.game.village.happiness >= 1.5 && this.game.resPool.get("kittens").value > 35);
             },
             starCondition: function () {
-                return (this.game.village.happiness >= 3 && this.game.resPool.get("kittens").value > 35);
+                return (this.game.village.happiness >= 5 && this.game.resPool.get("kittens").value > 35);
             },
             unlocked: false,
             hasStar: true,

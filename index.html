@@ -68,13 +68,7 @@
                     gamePage.render();
                     gamePage.console.static.renderFilters();
                     gamePage.start();
-
-					//Record-Clicks
-					//NOTE: Note sure where this should go (Dojo is not my preferred framework.) Feel free to move where needed.
-					$('html').click(function () {
-						gamePage.stats.getStat("totalClicks").val += 1;
-					});
-					//-Kida
+					
 
                     var host = window.location.hostname;
                     if (host.indexOf("kongregate") > -1){

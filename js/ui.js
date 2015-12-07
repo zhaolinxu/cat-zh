@@ -33,6 +33,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     
     constructor: function(containerId){
         this.containerId = containerId;
+
+        dojo.connect($("html")[0],"onclick", this, function() {
+            this.game.stats.getStat("totalClicks").val += 1;
+        });
     },
     
     setGame: function(game){
@@ -43,7 +47,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     
     render: function(){
         var game = this.game;
-        
+
         var midColumn = dojo.byId("midColumn");
         var scrollPosition = midColumn.scrollTop;
 
