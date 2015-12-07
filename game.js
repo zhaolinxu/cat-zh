@@ -733,7 +733,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			properties: {
 				opacity: 0
 			},
-			duration: 1200,
+			duration: 1200
 		}).play();
 	},
 
@@ -1848,6 +1848,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.stats.getStat("totalParagon").val += paragonPoints;
 		this.stats.getStat("totalResets").val++;
+
+		//Reset current game stats
+		this.stats.resetStatsCurrent();
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var totalScience = 0;

@@ -9,6 +9,11 @@ Sorrow fixes
 - Updated credit link, synched credits to kong index
 - Some misc cleanup
 
+Changes by Kida:
+- Fixed Sleek themeing issues.
+- Stat clean up, and additions.
+- Current game stats now save.
+- Current game stats now reset on reset.
 
 v 1.1.7.8 (7 dec)
 
