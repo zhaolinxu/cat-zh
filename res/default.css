@@ -64,13 +64,13 @@ body {
     min-width: 300px;
     padding-right: 20px;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 #midColumn {
     width: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
 }
@@ -86,6 +86,7 @@ body {
 }
 
 div#gameLog {
+    overflow-y: auto !important;
 }
 
 #footerLinks {
@@ -427,3 +428,19 @@ label:hover {
     opacity: 0.7;
 }
 
+/*New Styles*/
+.achievement {
+    cursor: default;
+}
+
+.achievement .star {
+    float: right;
+    padding-right: 0px;
+    margin-top: -4px;
+    font-size: 18px;
+    color: orange;
+}
+
+.achievement.starUnlocked .star {
+    textShadow: 1px 0px 10px Coral;
+}

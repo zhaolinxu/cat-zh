@@ -1,14 +1,33 @@
-v 1.1.7.7 (6 dec)
+v 1.1.7.8 (7 dec)
 
-Changes by Kida:
+Coding Changes by Kida:
+
+Stats and Achievements:
+- Added New Stats: Total Clicks, Buildings Constructed, and Avg. Kittens Born (Per Century)
+- Created Stat Groups: All-Time and Current Game
+- Fixed some grammatical preferences for Stats.
+- 2 new super cool achievements added; with bonus stars.
+- Added Star-Achievements to: utopiaProject
+- Added Achievement Header
+
+Styling/Refactoring
+- Updated and Refactored many of the 'inline' styles to use 'classes'.
+- Updated default css for previous inline styles.
+
+Interface Changes by Kida:
 
 - Added Sleek Theme (In Beta) v0.1
-- Features:
-    - Tooltip is now fixed to bottom-right of screen.
-    - Interface is more 'flexable'
-    - Improved window layout for larger screens.
-    - Improved scrollbars.
-    - Fixed various rendering errors.
+Features:
+- Updated to a cleaner web-font. (Roboto) - Tooltip is now fixed to bottom-right of screen.
+- Interface is more 'flexible'
+- Improved window layout for larger screens. - Scrollbars on visible when needed now.
+- New CSS styled scrollbars.
+- Fixed various rendering errors.
+- Updated button styles; and color. Flashes on Clicks. - Updated tab text
+- Resolved log messages wrapping errors.
+- Select Boxes and Import/Export Buttons updated to reflect theme.
+- Dialog styles and sizes updated.
+- Achievements style updated.
 Notes: CSS is a hodgepodge of spaghetti-coding right now. Anyone is welcome to refine.
 
 v 1.1.7.7 (27 nov)
