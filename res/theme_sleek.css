@@ -368,7 +368,7 @@
     -webkit-user-select: none !important;
     -webkit-tap-highlight-color: transparent !important;
     vertical-align: middle !important;
-    transition: all .3s ease-out !important;
+    transition: all .1s ease-out !important;
     text-decoration: none !important;
     letter-spacing: .1px;
     text-align: center !important;
@@ -488,9 +488,6 @@
     color: white;
     width: 40px !important;
     white-space: nowrap;
-}
-
-.scheme_sleek .linkContent a {
     margin-top: 2px !important;
     margin-bottom: 1px !important;
 }
