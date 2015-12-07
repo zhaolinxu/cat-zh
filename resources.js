@@ -614,7 +614,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}
 
 			//	---------------- amt ----------------------
-			var tdAmt = dojo.create("td", null, tr);
+			var tdAmt = dojo.create("td", {className: "resAmount"}, tr);
 			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 
 			//	---------------- max ----------------------
@@ -622,7 +622,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			tdMax.textContent = this.game.getDisplayValueExt(res.maxValueUI);
 
 			//	---------------- +tick ----------------------
-			var tdPerTick = dojo.create("td", null, tr);
+			var tdPerTick = dojo.create("td", {className: "resPerTick"}, tr);
 
 			this.game.attachTooltip(tdPerTick, res);
 
@@ -674,13 +674,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 
-			if (res.value > res.maxValue * 0.95){
+			if (res.value > res.maxValue * 0.95 && res.perTickUI > 0 && res.maxValue > 0){
 				//rowClass += " resLimitNotice";
-				row.resAmt.className = "resLimitNotice";
-			} else if (res.value > res.maxValue * 0.75){
-				row.resAmt.className = "resLimitWarn";
+				row.resAmt.className = "resAmount resLimitNotice";
+			} else if (res.value > res.maxValue * 0.75 && res.perTickUI > 0 && res.maxValue > 0){
+				row.resAmt.className = "resAmount resLimitWarn";
 			} else if (row.resAmt.className){
-				row.resAmt.className = "";
+				row.resAmt.className = "resAmount";
 			}
 
 

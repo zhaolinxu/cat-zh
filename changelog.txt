@@ -14,6 +14,9 @@ Changes by Kida:
 - Stat clean up, and additions.
 - Current game stats now save.
 - Current game stats now reset on reset.
+- Resources now only warn on values that can be maxed; and can tick.
+- Did some odd vudo magic on the game log; and grouping by dates...
+(Hope this does not mess things up....)
 
 v 1.1.7.8 (7 dec)
 
