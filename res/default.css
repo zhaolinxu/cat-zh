@@ -444,3 +444,11 @@ label:hover {
 .achievement.starUnlocked .star {
     textShadow: 1px 0px 10px Coral;
 }
+
+h1 {
+    font-size: 12px;
+    color: Coral;
+    text-transform: uppercase;
+    margin-top: 30px;
+    font-weight: normal;
+}
