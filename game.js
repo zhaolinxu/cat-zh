@@ -860,9 +860,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.sorrow++;
 				this.msg("Black rain is falling over the village");
 			}
-			if (this.sorrow){
-				this.updateSorrow();
-			}
+			this.updateSorrow();
 			//-------------------------------------------
 
 
@@ -1376,10 +1374,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			return ratio + scienceBldAmt * bpRatio;
 		}
-		
+
 		if (res.name == "kerosene"){
 			var fRatio = this.workshop.getEffect("factoryRefineRatio");
-			
+
 			var amt = this.bld.get("factory").val;
 			var ratio = this.bld.getEffect("craftRatio");
 
@@ -2079,7 +2077,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.sorrow = this.nerfs;
 		}
 
-		$("#sorrowTooltip").html("BLS: " + this.sorrow.toFixed() + "%");
+		$("#sorrowTooltip").html(this.sorrow ?
+			"BLS: " + this.sorrow.toFixed() + "%" :
+			""
+		);
 		this.resPool.get("sorrow").value = this.sorrow;
 	},
 
