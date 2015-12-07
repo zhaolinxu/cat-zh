@@ -68,13 +68,7 @@
                     gamePage.render();
                     gamePage.console.static.renderFilters();
                     gamePage.start();
-
-					//Record-Clicks
-					//NOTE: Note sure where this should go (Dojo is not my preferred framework.) Feel free to move where needed.
-					$('html').click(function () {
-						gamePage.stats.getStat("totalClicks").val += 1;
-					});
-					//-Kida
+					
 
                     var host = window.location.hostname;
                     if (host.indexOf("kongregate") > -1){
@@ -262,7 +256,7 @@
 				</div>
 			</div>
 
-			<div id="helpDiv" style="display: none" class="help">
+			<div id="helpDiv" style="display: none" class="dialog help">
 				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 				<ul>
 					<li>Q: The game is not working!</li>
@@ -279,7 +273,7 @@
 				</ul>
 			</div>
 
-			<div id="creditsDiv" style="display: none" class="help">
+			<div id="creditsDiv" style="display: none" class="dialog credits">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				Sleek CSS theme by Kida, Grassy CSS theme by <a href="http://www.reddit.com/user/shrx" target="_blank">shrx</a> <br/>
@@ -294,6 +288,7 @@
                     <li><a href="http://www.reddit.com/user/klusark" target="_blank">klusark</a></li>
 					<li><a href="https://www.reddit.com/user/animperfectpatsy" target="_blank">coderpatsy</a></li>
 					<li>ArcanisCz</li>
+					<li>Kida</li>
 					
 				</ul>
 
@@ -312,7 +307,7 @@
 			</div>
 
 
-			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="help">
+			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="dialog help">
 				<a href="#" onclick="$('#optionsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="schemeToggle">Color scheme:</label>
@@ -368,7 +363,7 @@
 				<br>
 			</div>
 
-			<div id="exportDiv" style="display: none" class="help">
+			<div id="exportDiv" style="display: none" class="dialog help">
 				<span>Please keep this data somewhere safe</span>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;"></textarea>
@@ -378,7 +373,7 @@
 				<input type="button" value="OK" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
-			<div id="importDiv" style="display: none" class="help">
+			<div id="importDiv" style="display: none" class="dialog help">
 				<span>Warning! Importing data will overwrite your save.</span>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;"></textarea>
