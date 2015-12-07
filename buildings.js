@@ -413,7 +413,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 			}
-			
+
 			game.resPool.convert(
 				[{res: "catnip", amt: -self.effects["catnipPerTick"]}],
 				[{res: "oil", amt: self.effects["oilPerTick"]}],
@@ -930,14 +930,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "minerals", val: 400 }
 		],
 		effects: {
-
+			"craftRatio" : 0.06	//6% for craft output
 		},
-        calculateEffects: function(self, game){
-            var effects = {
-                "craftRatio" : 0.06	//6% for craft output
-            };
-            self.effects = effects;
-        },
 		priceRatio: 1.15,
 		unlocks: {
 			tabs: ["workshop"]
@@ -1009,7 +1003,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.on = 0;
 				self.enabled = false;
 			}
-		}, 
+		},
 		flavor: "Glowing mice are much easier to catch!"
 	},{
 		name: "accelerator",

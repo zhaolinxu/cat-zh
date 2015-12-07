@@ -445,7 +445,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		//TODO: fix it somehow
 		if (this.getMetadata().name == "blackPyramid"){
 			this.game.sorrow = this.game.resPool.get("sorrow").value;
-			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
+			this.game.updateSorrow();
 		}
 	 },
 
@@ -659,8 +659,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.gam
 	refine: function(){
 		if (this.game.sorrow < this.game.nerfs){
 			this.game.sorrow++;
-			this.game.resPool.get("sorrow").value = this.game.sorrow;
-			$("#sorrowTooltip").html("BLS: " + this.game.sorrow + "%");
+			this.game.updateSorrow();
 		}
 	},
 
