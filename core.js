@@ -252,7 +252,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			}
 			//if (type=='date')  //remove previous date
 			spans.push(span);
-			if (spans.length > 200){
+			if (spans.length > 40){
 				dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
 			}
 
