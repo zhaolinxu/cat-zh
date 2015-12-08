@@ -232,12 +232,12 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			var gameLog = dojo.byId("gameLog");
 
-			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
-				if (i>25) {
-					var opacity = dojo.getStyle(entry, "opacity");
-					dojo.setStyle(entry, "opacity", opacity - 0.033);
-				}
-			});
+			//dojo.forEach(dojo.query("*", gameLog), function(entry, i){
+			//	if (i>25) {
+			//		var opacity = dojo.getStyle(entry, "opacity");
+			//		dojo.setStyle(entry, "opacity", opacity - 0.033);
+			//	}
+			//});
 
 			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
 
@@ -252,7 +252,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			}
 			//if (type=='date')  //remove previous date
 			spans.push(span);
-			if (spans.length > 40){
+			if (spans.length > 200){
 				dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
 			}
 

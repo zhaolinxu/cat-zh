@@ -1785,25 +1785,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		var timestampStart = new Date().getTime();
+		//var timestampStart = new Date().getTime();
 
 		this.update();
 		this.calendar.tick();
 		this.ticks++;
 
-		var timestampEnd = new Date().getTime();
-		if (window.location.protocol == "file:") {
+		//var timestampEnd = new Date().getTime();
 
-			var tsDiff = timestampEnd - timestampStart;
-			this.totalUpdateTime += tsDiff;
-
-			var avg = this.totalUpdateTime / this.ticks;
-
-			if (tsDiff < 10) {tsDiff = 10;}
-            if ($("#devPanelFPS")[0]) {
-                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
-            }
-		}
 	},
 
 	reset: function(){
