@@ -4,12 +4,14 @@
 var unsafeWindow = window;
 var GM_setValue = function (key, value) {
     //console.log('setValue', key, value);
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
 };
 var GM_getValue = function (key, value) {
     var ret = localStorage.getItem(key);
     //console.log('getValue', key, ret);
-    if (!ret) { ret = value; }
+    if (!ret) { ret = JSON.parse(value); }
+    if (ret == "true") ret = true;
+    if (ret == "false") ret = false;
     return ret;
 };
 //-----------------------
@@ -76,6 +78,7 @@ var kittenBot = function () {
         var refreshCnt = 0;
 
         var popMode = GM_getValue('popMode', true);
+
         //how often to check for population buildings in popMode
         var popBuildInt = 6 * 2;
         var popBuildCnt = popBuildInt;
@@ -223,6 +226,22 @@ var kittenBot = function () {
                 smartCraftClearRequest(buildType);
             }
 
+            //Scaffold
+            buildValues = [];
+            buildValue = 0;
+            buildType = 'scaffold';
+            if (gp.workshop.getCraft(buildType).unlocked) {
+                if (myRes['beam'].value > (myRes[buildType].value + 1) * 3) buildValues.push((myRes['beam'].value - (myRes[buildType].value + 1) * 3) / 50);
+                //TODO: Build If CraftDemand.
+                buildValue = getMax(buildValues);
+                if (buildValue * 50 > myRes['beam'].value) buildValue = parseInt((myRes['beam'].value / 50)) - 1;
+
+                if (buildValue > 0) {
+                    gp.craft(buildType, buildValue, true);
+                    craftMsgs.push(buildValue + " Scaffolds");
+                }
+                smartCraftClearRequest(buildType);
+            }
 
             //Slab
             buildValues = [];
@@ -256,6 +275,7 @@ var kittenBot = function () {
             if (gp.workshop.getCraft(buildType).unlocked && myRes['coal'].value > myRes['coal'].maxValue * maxRatio) {
                 if (myRes['coal'].value > myRes[buildType].value * 100) buildValues.push(parseInt((myRes['coal'].value - (myRes[buildType].value * 100)) / 100));
                 if (myRes['coal'].value > (myRes['coal'].maxValue - (myRes['coal'].perTickUI * 5 * 11))) buildValues.push(((myRes['coal'].perTickUI * 5 * 120) / 100) + 1);
+                //TODO: Build If CraftDemand.
                 buildValue = getMax(buildValues);
                 if (buildValue * 100 > myRes['coal'].value) buildValue = parseInt((myRes['coal'].value / 100)) - 1;
                 if (buildValue * 100 > myRes['iron'].value) buildValue = parseInt((myRes['iron'].value / 100)) - 1;
@@ -275,6 +295,7 @@ var kittenBot = function () {
             if (gp.workshop.getCraft(buildType).unlocked && myRes['iron'].value > myRes['iron'].maxValue * maxRatio) {
                 if (myRes['iron'].value > myRes[buildType].value * 125) buildValues.push((myRes['iron'].value - (myRes[buildType].value * 125)) / 125);
                 if (myRes['iron'].value > (myRes['iron'].maxValue - (myRes['iron'].perTickUI * 5 * 11))) buildValues.push(((myRes['iron'].perTickUI * 5 * 120) / 125) + 1);
+                //TODO: Build If CraftDemand.
                 buildValue = getMax(buildValues);
                 if (buildValue * 125 > myRes['iron'].value) buildValue = parseInt((myRes['iron'].value / 125)) - 1;
                 minBuild(buildValue, "iron", 100)
@@ -296,12 +317,12 @@ var kittenBot = function () {
                     buildValues.push((myRes['steel'].value - (myRes['gold'].maxValue * 1.5)) / 15);
                 }
                 if (smartCraftRequest['gear'] && myRes[buildType].value < smartCraftRequest[buildType]) {
-                    buildValues.push((smartCraftRequest[buildType] - myRes[buildType].value) / gearRatio)
+                    buildValues.push(Math.ceil((smartCraftRequest[buildType] - myRes[buildType].value) / gearRatio))
                 }
                 buildValue = getMax(buildValues);
                 var bonus = 0;
                 if (smartCraftRequest['steel']) bonus += smartCraftRequest['steel'];
-                if (buildValue * 15 > myRes['steel'].value + bonus) buildValue = parseInt(((myRes['steel'].value - bonus) / 15)) - 1;
+                if (buildValue * 15 > myRes['steel'].value + bonus) buildValue = Math.floor(((myRes['steel'].value - bonus) / 15));
 
                 if (buildValue > 0) {
                     gp.craft(buildType, buildValue, true);
@@ -314,10 +335,11 @@ var kittenBot = function () {
             buildValues = [];
             buildValue = 0;
             buildType = 'parchment';
+            //TODO: Build If CraftDemand.
             if (gp.workshop.getCraft(buildType).unlocked && myRes['furs'].value > myRes['wood'].maxValue) {
                 if (myRes['furs'].value > (myRes['wood'].maxValue)) buildValues.push((myRes['furs'].value - myRes['wood'].maxValue) / 175);
                 buildValue = getMax(buildValues);
-                if (buildValue * 175 > myRes['furs'].value) buildValue = parseInt((myRes['furs'].value / 175)) - 1;
+                if (buildValue * 175 > myRes['furs'].value) buildValue = Math.floor((myRes['furs'].value / 175));
 
                 if (buildValue > 0) {
                     gp.craft(buildType, buildValue, true);
@@ -332,10 +354,11 @@ var kittenBot = function () {
             buildType = 'manuscript';
             if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50) {
                 var manuscriptRatio = gp.getResCraftRatio({name: buildType});
+                //TODO: Build If CraftDemand.
                 if (myRes['parchment'].value > (myRes[buildType].value * 2)) buildValues.push((myRes['parchment'].value - (myRes[buildType].value * 2)) / 25);
                 buildValue = getMax(buildValues);
-                if (buildValue * 25 > myRes['parchment'].value) buildValue = parseInt((myRes['parchment'].value / 25)) - 1;
-                if (buildValue * 400 > myRes['culture'].value) buildValue = parseInt((myRes['culture'].value / 400)) - 1;
+                if (buildValue * 25 > myRes['parchment'].value) buildValue = Math.floor((myRes['parchment'].value / 25));
+                if (buildValue * 400 > myRes['culture'].value) buildValue = Math.floor((myRes['culture'].value / 400));
                 if (buildValue > 0) {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Manuscripts");
@@ -343,7 +366,63 @@ var kittenBot = function () {
                 smartCraftClearRequest(buildType);
             }
 
+            //compendium
+            buildValues = [];
+            buildValue = 0;
+            buildBase = 50;
+            buildType = 'compedium';
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 10000 && myRes['manuscript'].value > buildBase) {
+                var compediumRatio = gp.getResCraftRatio({name: buildType});
+                //TODO: Build If CraftDemand.
 
+                //TODO: Require last of (manuscript) sciences is researched. (i.e. it won't need manuscripts any more)
+                if (myRes['manuscript'].value > (myRes[buildType].value * 2)) buildValues.push((myRes['manuscript'].value - (myRes[buildType].value * 2)) / buildBase);
+                if (myRes['manuscript'].value > 10000 && (myRes['manuscript'].value * 10) - 10000 < myRes[buildType].value) buildValues.push((((myRes['manuscript'].value * 10) - 10000) - myRes[buildType].value) / compediumRatio);
+                buildValue = getMax(buildValues);
+                if (buildValue * buildBase > myRes['manuscript'].value) buildValue = Math.floor((myRes['manuscript'].value / buildBase));
+                if (buildValue * 10000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 10000));
+
+                //Build If CraftDemand is Not Manuscript.
+                var bonus = 0;
+                if (smartCraftRequest['manuscript']) bonus += smartCraftRequest['manuscript'];
+                if (buildValue * buildBase > myRes['manuscript'].value + bonus) buildValue = Math.floor(((myRes['manuscript'].value - bonus) / buildBase));
+
+                if (buildValue > 0) {
+                    gp.craft(buildType, buildValue, true);
+                    craftMsgs.push(buildValue + " Compendiums");
+                }
+                smartCraftClearRequest(buildType);
+            }
+
+
+            //manuscript
+            buildValues = [];
+            buildValue = 0;
+            buildBase = 25;
+            buildType = 'blueprint';
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 25000 && myRes['compedium'].value > buildBase) {
+                var blueprintRatio = gp.getResCraftRatio({name: buildType});
+                //TODO: Build If CraftDemand.
+                //TODO: Require last of (compedium) sciences is researched. (i.e. it won't need compediums any more)
+                if (myRes['compedium'].value > ((myRes[buildType].value + 1) * 10) && myRes[buildType].value < 10000) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 10)) / buildBase);
+                buildValue = getMax(buildValues);
+                if (buildValue * buildBase > myRes['compedium'].value) buildValue = Math.floor((myRes['compedium'].value / buildBase));
+                if (buildValue * 25000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 25000));
+
+                //Build If CraftDemand is Not Manuscript.
+                var bonus = 0;
+                if (smartCraftRequest['compedium']) bonus += smartCraftRequest['compedium'];
+                if (buildValue * buildBase > myRes['compedium'].value + bonus) buildValue = Math.floor(((myRes['compedium'].value - bonus) / buildBase));
+
+                if (buildValue > 0) {
+                    gp.craft(buildType, buildValue, true);
+                    craftMsgs.push(buildValue + " Compendiums");
+                }
+                smartCraftClearRequest(buildType);
+            }
+
+
+            //Write Crafts to log.
             if (craftMsgs.length > 0) smartLog(craftMsgs.join(", "), "Craft");
 
         };
@@ -559,7 +638,7 @@ var kittenBot = function () {
 
         var smartTrade = function () {
 
-            if (tradeLevel < 4 || myRes['catpower'].value < 50) return false
+            if (tradeLevel < 4 || myRes['catpower'].value < 50 || gamePage.activeTabId != 'Bonfire') return false
             var perGold = parseInt(myRes['gold'].perTickUI * 5);
             //console.log('smartTrade', myRes['catpower'].value, gp.resPool.get('manpower').value)
             if (gp.diplomacyTab.visible && myRes['gold'].value > 15 && myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 5))) {
@@ -570,7 +649,7 @@ var kittenBot = function () {
                     gamePage.render();
                     tradeAmt = parseInt((perGold * 20) / 15);
                     if (myRes['slab'].value < tradeAmt * 200) tradeAmt = parseInt(myRes['slab'].value / 200) - 1
-                    if (myRes['catpower'].value < tradeAmt * 50) tradeAmt = parseInt(myRes['catpower'].value / 50) -1
+                    if (myRes['catpower'].value < tradeAmt * 50) tradeAmt = parseInt(myRes['catpower'].value / 50) - 1
                     if (tradeAmt < 1) tradeAmt = 1;
                     console.log('Trade count: ', tradeAmt, myRes['catpower'].value)
                     for (var i = 0; i < tradeAmt; i++) {
@@ -593,7 +672,7 @@ var kittenBot = function () {
                     gamePage.activeTabId = 'Bonfire';
                     gamePage.render();
 
-                }
+                } //else if (blueprints low; trade with others....
             }
             return false;
         }
@@ -1272,7 +1351,6 @@ var kittenBot = function () {
             popMode = !popMode
             $('.togglePop').text((popMode) ? ' - P: ON ' : ' - P: OFF ')
             GM_setValue('popMode', popMode)
-
         })
 
         $("#topBar>div:eq(0)>span:eq(0)").append($('<span style="opacity: .8; font-size: 8pt">').html(' - PPC: <span class="ppc" style="color: lightblue; opacity: .9">0</span> | ' +
@@ -1281,6 +1359,7 @@ var kittenBot = function () {
                 'PPH: <span class="pph" style="color: lightblue; opacity: .9">0</span> | ' +
                 '(<span class="dpmp" style="color: lightblue; opacity: .9">100%</span>, <span class="dpmpl" style="color: lightblue; opacity: .9">100%</span>) ')
             .append(toggleScript, toggleFaith, togglePop))
+
 
         var refreshFn = function () {
             $("#headerLinks>a:contains('Save')").click();
@@ -2294,47 +2373,47 @@ var kittenBot = function () {
                 //}
 
                 //compendium
-                if (gamePage.workshop.getCraft('compedium').unlocked &&
-                    myRes['manuscript'].value > 100 &&
-                    (myRes['manuscript'].value > myRes['compendium'].value * 10 || (popMode && myRes['manuscript'].value > myRes['gold'].maxValue)) &&
-                    myRes['science'].value > (myRes['science'].maxValue * .9) && myRes['science'].value > 10000) {
-
-                    var amt = parseInt((myRes['manuscript'].value - (myRes['compendium'].value * 10)) / 50)
-                    if (popMode) {
-                        amt = parseInt((myRes['manuscript'].value - 100) / 50)
-                    }
-
-                    var amtC = parseInt(myRes['science'].value / 10001) - 2
-                    if (amtC < amt) amt = amtC;
-                    if (amt < 1) amt = 1;
-
-                    gp.craft('compedium', amt, true);
-                    craftMsg.push(amt + " compedium")
-                }
+                //if (gamePage.workshop.getCraft('compedium').unlocked &&
+                //    myRes['manuscript'].value > 100 &&
+                //    (myRes['manuscript'].value > myRes['compendium'].value * 10 || (popMode && myRes['manuscript'].value > myRes['gold'].maxValue)) &&
+                //    myRes['science'].value > (myRes['science'].maxValue * .9) && myRes['science'].value > 10000) {
+                //
+                //    var amt = parseInt((myRes['manuscript'].value - (myRes['compendium'].value * 10)) / 50)
+                //    if (popMode) {
+                //        amt = parseInt((myRes['manuscript'].value - 100) / 50)
+                //    }
+                //
+                //    var amtC = parseInt(myRes['science'].value / 10001) - 2
+                //    if (amtC < amt) amt = amtC;
+                //    if (amt < 1) amt = 1;
+                //
+                //    gp.craft('compedium', amt, true);
+                //    craftMsg.push(amt + " compedium")
+                //}
 
                 //blueprint
-                var blueAmt = parseInt(myRes['blueprint'].value / 150)
-                if (blueAmt < 3) blueAmt = 3;
-
-
-                if (!popMode && gamePage.workshop.getCraft('blueprint').unlocked &&
-                    myRes['compendium'].value > 200 &&
-                    myRes['compendium'].value > myRes['blueprint'].value * blueAmt &&
-                    myRes['blueprint'].value < myRes['gold'].maxValue &&
-                    myRes['blueprint'].value < myRes['titanium'].maxValue / 100 &&
-                    myRes['compendium'].value > myRes['uranium'].maxValue &&
-                    myRes['science'].value > (myRes['science'].maxValue * .9) && myRes['science'].value > 25000) {
-
-
-                    var amt = parseInt((myRes['compendium'].value - (myRes['blueprint'].value * 3)) / 25)
-                    var amtC = parseInt(myRes['science'].value / 25000) - 1
-                    if (amtC < amt) amt = amtC;
-                    if (amt < 1) amt = 1;
-
-                    gp.craft('blueprint', amt, true);
-                    craftMsg.push(amt + " blueprint")
-
-                }
+                //var blueAmt = parseInt(myRes['blueprint'].value / 150)
+                //if (blueAmt < 3) blueAmt = 3;
+                //
+                //
+                //if (!popMode && gamePage.workshop.getCraft('blueprint').unlocked &&
+                //    myRes['compendium'].value > 200 &&
+                //    myRes['compendium'].value > myRes['blueprint'].value * blueAmt &&
+                //    myRes['blueprint'].value < myRes['gold'].maxValue &&
+                //    myRes['blueprint'].value < myRes['titanium'].maxValue / 100 &&
+                //    myRes['compendium'].value > myRes['uranium'].maxValue &&
+                //    myRes['science'].value > (myRes['science'].maxValue * .9) && myRes['science'].value > 25000) {
+                //
+                //
+                //    var amt = parseInt((myRes['compendium'].value - (myRes['blueprint'].value * 3)) / 25)
+                //    var amtC = parseInt(myRes['science'].value / 25000) - 1
+                //    if (amtC < amt) amt = amtC;
+                //    if (amt < 1) amt = 1;
+                //
+                //    gp.craft('blueprint', amt, true);
+                //    craftMsg.push(amt + " blueprint")
+                //
+                //}
 
                 //plate
                 //if (myRes['iron'].value > (myRes['iron'].maxValue * .999) && myRes['iron'].value > 125) {
@@ -2398,13 +2477,13 @@ var kittenBot = function () {
                 // }
 
                 //scaffold
-                if (gamePage.workshop.getCraft('scaffold').unlocked &&
-                    myRes['beam'].value > (myRes['gold'].maxValue * 1.2) + 50 &&
-                    myRes['beam'].value > (myRes['scaffold'].value + 1) * 3) {
-                    var amt = parseInt((myRes['beam'].value - (myRes['gold'].maxValue * 1.2)) / 175) + 1;
-                    gp.craft('scaffold', amt, true);
-                    craftMsg.push(amt + " scaffold")
-                }
+                //if (gamePage.workshop.getCraft('scaffold').unlocked &&
+                //    myRes['beam'].value > (myRes['gold'].maxValue * 1.2) + 50 &&
+                //    myRes['beam'].value > (myRes['scaffold'].value + 1) * 3) {
+                //    var amt = parseInt((myRes['beam'].value - (myRes['gold'].maxValue * 1.2)) / 175) + 1;
+                //    gp.craft('scaffold', amt, true);
+                //    craftMsg.push(amt + " scaffold")
+                //}
 
                 //ship
                 if (gamePage.workshop.getCraft('ship').unlocked &&
