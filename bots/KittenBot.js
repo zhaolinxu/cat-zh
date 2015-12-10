@@ -48,17 +48,21 @@ var kittenBot = function () {
                 myRes[myResIdx[i].title] = myResIdx[i];
                 myRes[myResIdx[i].name] = myResIdx[i];
                 if (myResIdx[i].title) myRes[myResIdx[i].title.toLowerCase()] = myResIdx[i];
-                if (myResIdx[i].name) myRes[myResIdx[i].name.toUpperCase()] = myResIdx[i];
+                if (myResIdx[i].name) myRes[myResIdx[i].name.toLowerCase()] = myResIdx[i];
             }
         };
 
         getResources();
 
+
+
         if (gp.resPool.energyProd && gp.resPool.energyCons) {
             myRes['energy'] = {value: gp.resPool.energyProd - gp.resPool.energyCons, maxValue: gp.resPool.energyProd}
         }
 
-        //console.log(myRes)
+
+
+
         var scriptEnabled = GM_getValue('scriptEnabled', true);
 
         var crafts = $("#craftContainer .craftTable .resourceRow");
@@ -68,7 +72,7 @@ var kittenBot = function () {
         var sciMaxTime = new Date();
 
         var noTopSci = false;
-        var isDevel = true;
+        var isDevel = false;
 
         var eludiumDate = new Date();
         var eludiumDelay = 60000;
@@ -140,17 +144,27 @@ var kittenBot = function () {
             if (!smartCraftRequest[item]) smartCraftRequest[item] = amt;
             if (smartCraftRequest[item] < amt) smartCraftRequest[item] = amt;
         }
-        var smartCraftClearRequest = function (item) { //add a requet and it will be granted.
+        var smartCraftClearRequest = function (item, amt) { //add a requet and it will be granted.
             //console.log(item, myRes[item].value, smartCraftRequest[item])
-            if (smartCraftRequest[item] && myRes[item].value >= smartCraftRequest[item]) {
+            if (!amt) amt = 0;
+            if (smartCraftRequest[item] && myRes[item].value >= smartCraftRequest[item] && smartCraftRequest[item] <= amt + 1) {
                 smartCraftRequest[item] = 0;
             }
+        }
+
+        for (key in myRes) {
+            console.log(key, myRes[key].value, myRes[key].visible, myRes[key].maxValue)
         }
 
         var smartCraftTime = 5000
         var smartCraft = function () {
 
             if (!scriptEnabled) return;
+
+
+            for (key in myRes) {
+                console.log(key, myRes[key].value, myRes[key].visible)
+            }
 
             var craftMsgs = [];
             //console.log(c)
@@ -166,13 +180,13 @@ var kittenBot = function () {
             var buildValues;
             var buildValue;
             var buildType;
-            var maxRatio = .9999;
+            var maxRatio = .99;
             var smartCraft = false;
             var smartCraftWait = false;
 
             var minBuild = function (buildValue, resName, resDefalt) {
                 if (buildValue < 1 && myRes[resName].value >= myRes[resName].maxValue - 1) {
-                    console.log(myRes[resName].perTickUI, (smartCraftTime / 200), resDefalt)
+                    //console.log(myRes[resName].perTickUI, (smartCraftTime / 200), resDefalt)
                     buildValue = parseInt(myRes[resName].perTickUI * (smartCraftTime / 200) / resDefalt);
                     if (buildValue < 1) buildValue = 1;
                 }
@@ -183,7 +197,7 @@ var kittenBot = function () {
             buildValues = [];
             buildValue = 0;
             buildType = 'wood';
-            if (myRes['catnip'].value > myRes['catnip'].maxValue * maxRatio) {
+            if (myRes['catnip'].value >= myRes['catnip'].maxValue * maxRatio) {
                 if (myRes['catnip'].value > (myRes['catnip'].maxValue - (myRes['catnip'].perTickUI * 5 * 11))) buildValues.push(((myRes['catnip'].perTickUI * 5 * 120) / 100) + 1);
                 buildValue = getMax(buildValues)
                 if (buildValue * 100 > myRes['catnip'].value) buildValue = parseInt((myRes['catnip'].value / 100)) - 1;
@@ -198,7 +212,7 @@ var kittenBot = function () {
             buildValues = [];
             buildValue = 0;
             buildType = 'beam';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['wood'].value > myRes['wood'].maxValue * maxRatio) {
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['wood'].value >= myRes['wood'].maxValue * maxRatio) {
 
                 smartCraft = false;
                 smartCraftWait = false;
@@ -223,7 +237,7 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Beams")
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //Scaffold
@@ -240,14 +254,14 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Scaffolds");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //Slab
             buildValues = [];
             buildValue = 0;
             buildType = 'slab';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['minerals'].value > myRes['minerals'].maxValue * maxRatio) {
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['minerals'].value >= (myRes['minerals'].maxValue - 1) * maxRatio) {
                 smartCraft = false;
                 smartCraftWait = false;
                 if (smartCraftRequest[buildType] && myRes[buildType].value < smartCraftRequest[buildType]) smartCraft = true;
@@ -265,14 +279,14 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Slabs");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //Steel
             buildValues = [];
             buildValue = 0;
             buildType = 'steel';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['coal'].value > myRes['coal'].maxValue * maxRatio) {
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['coal'].value >= myRes['coal'].maxValue * maxRatio) {
                 if (myRes['coal'].value > myRes[buildType].value * 100) buildValues.push(parseInt((myRes['coal'].value - (myRes[buildType].value * 100)) / 100));
                 if (myRes['coal'].value > (myRes['coal'].maxValue - (myRes['coal'].perTickUI * 5 * 11))) buildValues.push(((myRes['coal'].perTickUI * 5 * 120) / 100) + 1);
                 //TODO: Build If CraftDemand.
@@ -284,27 +298,64 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Steel");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
+            }
+
+            //Alloy //75 s, 10 t
+            buildValues = [];
+            buildValue = 0;
+            buildType = 'alloy';
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['steel'].value > 75 && myRes['titanium'].value > 10) {
+                var alloyRatio = gp.getResCraftRatio({name: buildType});
+                if (myRes['steel'].value > myRes['gold'].maxValue * 1.5 && myRes['steel'].value > ((myRes[buildType].value + 1) * 20)) {
+                    buildValues.push((myRes['steel'].value - ((myRes[buildType].value + 1) * 20)) / 75);
+                }
+                if (smartCraftRequest['alloy'] && myRes[buildType].value < smartCraftRequest[buildType]) {
+                    buildValues.push(Math.ceil((smartCraftRequest[buildType] - myRes[buildType].value) / alloyRatio))
+                }
+                buildValue = getMax(buildValues);
+                var bonus = 0;
+                if (smartCraftRequest['steel']) bonus += smartCraftRequest['steel'];
+                if (buildValue * 75 > myRes['steel'].value + bonus) buildValue = Math.floor(((myRes['steel'].value - bonus) / 75));
+                if (buildValue * 10 > myRes['titanium'].value) buildValue = Math.floor(((myRes['titanium'].value) / 10));
+                if (buildValue > 0) {
+                    gp.craft(buildType, buildValue, true);
+                    craftMsgs.push(buildValue + " Gears");
+                }
+                //smartCraftClearRequest(buildType);
             }
 
 
             //Plate
-            buildValues = [];
-            buildValue = 0;
-            buildType = 'plate';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['iron'].value > myRes['iron'].maxValue * maxRatio) {
-                if (myRes['iron'].value > myRes[buildType].value * 125) buildValues.push((myRes['iron'].value - (myRes[buildType].value * 125)) / 125);
-                if (myRes['iron'].value > (myRes['iron'].maxValue - (myRes['iron'].perTickUI * 5 * 11))) buildValues.push(((myRes['iron'].perTickUI * 5 * 120) / 125) + 1);
-                //TODO: Build If CraftDemand.
-                buildValue = getMax(buildValues);
-                if (buildValue * 125 > myRes['iron'].value) buildValue = parseInt((myRes['iron'].value / 125)) - 1;
-                minBuild(buildValue, "iron", 100)
-                if (buildValue > 0) {
-                    gp.craft(buildType, buildValue, true);
-                    craftMsgs.push(buildValue + " Plates");
+            var craftPlate = function () {
+                buildValues = [];
+                buildValue = 0;
+                buildType = 'plate';
+                //console.log(myRes['iron'].value >= myRes['iron'].maxValue * maxRatio, myRes['iron'].maxValue * maxRatio, myRes['iron'].value)
+                if (gp.workshop.getCraft(buildType).unlocked && myRes['iron'].value > 125 && (myRes['iron'].value >= (myRes['iron'].maxValue - 1) * maxRatio || smartCraftRequest[buildType])) {
+
+                    smartCraft = false;
+                    smartCraftWait = false;
+                    if (smartCraftRequest[buildType] && myRes[buildType].value < smartCraftRequest[buildType]) smartCraft = true;
+                    if ((!smartCraftRequest[buildType] || smartCraftRequest[buildType]<=0) && myRes['iron'].value < smartCraftRequest['iron']) smartCraftWait = true;
+                    if (!smartCraftWait && myRes['iron'].value > myRes[buildType].value * 125) buildValues.push((myRes['iron'].value - (myRes[buildType].value * 125)) / 125);
+                    if (!smartCraftWait && myRes['iron'].value > (myRes['iron'].maxValue - (myRes['iron'].perTickUI * 5 * 11))) buildValues.push(((myRes['iron'].perTickUI * 5 * 120) / 125) + 1);
+                    if (!smartCraftWait && smartCraft) buildValues.push(smartCraftRequest[buildType] - myRes[buildType].value);
+
+                    //TODO: Build If CraftDemand.
+                    buildValue = getMax(buildValues);
+                    if (buildValue * 125 > myRes['iron'].value) buildValue = parseInt((myRes['iron'].value / 125)) - 1;
+                    if (buildValue * 125 > myRes['coal'].value) buildValue = parseInt((myRes['coal'].value / 125)) - 1; //Keep pase with coal for steel. :)
+                    buildValue = minBuild(buildValue, "iron", 125)
+
+                    if (buildValue > 0) {
+                        gp.craft(buildType, buildValue, true);
+                        craftMsgs.push(buildValue + " Plates");
+                    }
+                    //smartCraftClearRequest(buildType);
                 }
-                smartCraftClearRequest(buildType);
             }
+            craftPlate();
 
             //Gear
             buildValues = [];
@@ -314,7 +365,6 @@ var kittenBot = function () {
                 var gearRatio = gp.getResCraftRatio({name: buildType});
                 if (myRes['steel'].value > myRes['gold'].maxValue * 1.5 && myRes['steel'].value > (myRes[buildType].value * 30) + 15) {
                     buildValues.push((myRes['steel'].value - (myRes[buildType].value * 30)) / 15);
-                    buildValues.push((myRes['steel'].value - (myRes['gold'].maxValue * 1.5)) / 15);
                 }
                 if (smartCraftRequest['gear'] && myRes[buildType].value < smartCraftRequest[buildType]) {
                     buildValues.push(Math.ceil((smartCraftRequest[buildType] - myRes[buildType].value) / gearRatio))
@@ -328,7 +378,7 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Gears");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //Parchment
@@ -336,8 +386,9 @@ var kittenBot = function () {
             buildValue = 0;
             buildType = 'parchment';
             //TODO: Build If CraftDemand.
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['furs'].value > myRes['wood'].maxValue) {
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['furs'].value > myRes['wood'].maxValue || myRes['furs'].value > 100000) {
                 if (myRes['furs'].value > (myRes['wood'].maxValue)) buildValues.push((myRes['furs'].value - myRes['wood'].maxValue) / 175);
+                if (myRes['furs'].value > 100000) buildValues.push((myRes['furs'].value - 100000) / 175);
                 buildValue = getMax(buildValues);
                 if (buildValue * 175 > myRes['furs'].value) buildValue = Math.floor((myRes['furs'].value / 175));
 
@@ -345,17 +396,19 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Parchment");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //manuscript
             buildValues = [];
             buildValue = 0;
             buildType = 'manuscript';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50) {
-                var manuscriptRatio = gp.getResCraftRatio({name: buildType});
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50 &&
+                !(tradeLevel < 4 && myRes['culture'].maxValue > 1500)) { //Insure we've unlock trade.
                 //TODO: Build If CraftDemand.
+                var manuscriptRatio = gp.getResCraftRatio({name: buildType});
                 if (myRes['parchment'].value > (myRes[buildType].value * 2)) buildValues.push((myRes['parchment'].value - (myRes[buildType].value * 2)) / 25);
+                if (myRes['parchment'].value > (myRes['culture'].value * 1.2)) buildValues.push((myRes['parchment'].value - (myRes['culture'].value * 1.2)) / 25);
                 buildValue = getMax(buildValues);
                 if (buildValue * 25 > myRes['parchment'].value) buildValue = Math.floor((myRes['parchment'].value / 25));
                 if (buildValue * 400 > myRes['culture'].value) buildValue = Math.floor((myRes['culture'].value / 400));
@@ -363,7 +416,7 @@ var kittenBot = function () {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Manuscripts");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
             //compendium
@@ -371,13 +424,15 @@ var kittenBot = function () {
             buildValue = 0;
             buildBase = 50;
             buildType = 'compedium';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 10000 && myRes['manuscript'].value > buildBase) {
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 10000 && myRes['manuscript'].value > buildBase &&
+                myRes['compedium'].value < (myRes['blueprint'].value + 1) * 100) {
                 var compediumRatio = gp.getResCraftRatio({name: buildType});
                 //TODO: Build If CraftDemand.
 
                 //TODO: Require last of (manuscript) sciences is researched. (i.e. it won't need manuscripts any more)
                 if (myRes['manuscript'].value > (myRes[buildType].value * 2)) buildValues.push((myRes['manuscript'].value - (myRes[buildType].value * 2)) / buildBase);
-                if (myRes['manuscript'].value > 10000 && (myRes['manuscript'].value * 10) - 10000 < myRes[buildType].value) buildValues.push((((myRes['manuscript'].value * 10) - 10000) - myRes[buildType].value) / compediumRatio);
+                //console.log((myRes['manuscript'].value * 10) - 10000);
+                if (myRes['manuscript'].value > 10000 && (myRes['manuscript'].value * 10) - 10000 > myRes[buildType].value) buildValues.push((((myRes['manuscript'].value * 10) - 10000) - myRes[buildType].value) / compediumRatio);
                 buildValue = getMax(buildValues);
                 if (buildValue * buildBase > myRes['manuscript'].value) buildValue = Math.floor((myRes['manuscript'].value / buildBase));
                 if (buildValue * 10000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 10000));
@@ -385,41 +440,64 @@ var kittenBot = function () {
                 //Build If CraftDemand is Not Manuscript.
                 var bonus = 0;
                 if (smartCraftRequest['manuscript']) bonus += smartCraftRequest['manuscript'];
+                //console.log(bonus, myRes['manuscript'].value - bonus, Math.floor(((myRes['manuscript'].value - bonus) / buildBase)))
                 if (buildValue * buildBase > myRes['manuscript'].value + bonus) buildValue = Math.floor(((myRes['manuscript'].value - bonus) / buildBase));
 
                 if (buildValue > 0) {
                     gp.craft(buildType, buildValue, true);
                     craftMsgs.push(buildValue + " Compendiums");
                 }
-                smartCraftClearRequest(buildType);
+                //smartCraftClearRequest(buildType);
             }
 
 
-            //manuscript
-            buildValues = [];
-            buildValue = 0;
-            buildBase = 25;
-            buildType = 'blueprint';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 25000 && myRes['compedium'].value > buildBase) {
-                var blueprintRatio = gp.getResCraftRatio({name: buildType});
-                //TODO: Build If CraftDemand.
-                //TODO: Require last of (compedium) sciences is researched. (i.e. it won't need compediums any more)
-                if (myRes['compedium'].value > ((myRes[buildType].value + 1) * 10) && myRes[buildType].value < 10000) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 10)) / buildBase);
-                buildValue = getMax(buildValues);
-                if (buildValue * buildBase > myRes['compedium'].value) buildValue = Math.floor((myRes['compedium'].value / buildBase));
-                if (buildValue * 25000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 25000));
+            //blueprint
+            var craftBlueprint = function () {
+                buildValues = [];
+                buildValue = 0;
+                buildBase = 25;
+                buildType = 'blueprint';
+                if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 25000 && myRes['compedium'].value > buildBase) {
+                    var blueprintRatio = gp.getResCraftRatio({name: buildType});
+                    //TODO: Build If CraftDemand.
+                    //TODO: Require last of (compedium) sciences is researched. (i.e. it won't need compediums any more)
+                    if (myRes['compedium'].value > ((myRes[buildType].value + 1) * 10) && myRes[buildType].value < 10000) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 10)) / buildBase);
+                    if (myRes['compedium'].value > ((myRes[buildType].value + 1) * 100)) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 100)) / buildBase);
+                    buildValue = getMax(buildValues);
+                    if (buildValue * buildBase > myRes['compedium'].value) buildValue = Math.floor((myRes['compedium'].value / buildBase));
+                    if (buildValue * 25000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 25000));
 
-                //Build If CraftDemand is Not Manuscript.
-                var bonus = 0;
-                if (smartCraftRequest['compedium']) bonus += smartCraftRequest['compedium'];
-                if (buildValue * buildBase > myRes['compedium'].value + bonus) buildValue = Math.floor(((myRes['compedium'].value - bonus) / buildBase));
+                    //Build If CraftDemand is Not Manuscript.
+                    var bonus = 0;
+                    if (smartCraftRequest['compedium']) bonus += smartCraftRequest['compedium'];
+                    if (buildValue * buildBase > myRes['compedium'].value + bonus) buildValue = Math.floor(((myRes['compedium'].value - bonus) / buildBase));
 
-                if (buildValue > 0) {
-                    gp.craft(buildType, buildValue, true);
-                    craftMsgs.push(buildValue + " Compendiums");
+                    if (buildValue > 0) {
+                        gp.craft(buildType, buildValue, true);
+                        craftMsgs.push(buildValue + " Blueprints");
+                    }
                 }
-                smartCraftClearRequest(buildType);
             }
+            craftBlueprint();
+
+            //kerosene
+            var craftKerosene = function () {
+                buildValues = [];
+                buildValue = 0;
+                buildType = 'kerosene';
+                if (gp.workshop.getCraft(buildType).unlocked && myRes['oil'].value > 7500) {
+                    if (myRes['oil'].value > myRes['oil'].maxValue * .99) buildValues.push(((myRes['oil'].perTickUI * 5 * 120) / 7500) + 1);
+                    //TODO: Build If CraftDemand.
+                    buildValue = getMax(buildValues);
+                    if (buildValue * 7500 > myRes['oil'].value) buildValue = Math.floor(myRes['oil'].value / 7500);
+
+                    if (buildValue > 0) {
+                        gp.craft(buildType, buildValue, true);
+                        craftMsgs.push(buildValue + " Kerosene");
+                    }
+                }
+            }
+            craftKerosene();
 
 
             //Write Crafts to log.
@@ -478,12 +556,15 @@ var kittenBot = function () {
             return false;
         }
 
-        var faithRate = .99;
+        var faithRate = .1;
+        var faithAmt = 100;
         var smartFaith = function () {
-
+            if (myRes['faith'].value < faithAmt && faithAmt < myRes['faith'].maxValue - 1) return false
+            if (gamePage.activeTabId != 'Bonfire') return false
             if (gp.religionTab.visible) {
 
                 var canReseach = function () {
+
                     gamePage.activeTabId = 'Religion';
                     gamePage.render();
 
@@ -500,10 +581,6 @@ var kittenBot = function () {
                         $(".btnContent:contains('Scholasticism')"),//9
                         $(".btnContent:contains('Stained Glass')")//10
                     ]
-
-                    for (i in faithBtns) {
-
-                    }
 
                     var isEnabled = function (btn) {
                         if (btn && (btn.parent().css('display') == "none" || btn.parent().hasClass('disabled'))) { return false }
@@ -552,31 +629,26 @@ var kittenBot = function () {
                         smartLog(faithBtns[8].text(), "Sci");
                     } //Apocrypha
 
-                    if (isEnabled(faithBtns[0])) { faithBtns[0].click(); } //Praise
-                    //console.log(JSON.stringify(faithBtns))
-                    gamePage.activeTabId = 'Bonfire';
-                    gamePage.render();
-
                     var hasBtn = false
                     for (i in faithBtns) {
-                        if (i != 0 && faithBtns[i] && faithBtns[i].text().indexOf("(Comp") < 1 && faithBtns[i].parent().css('display') != "none" && !faithBtns[i].hasClass('limited')) {
+                        if (i != 0 && faithBtns[i] && faithBtns[i].text().indexOf("(comp") < 1 && faithBtns[i].parent().css('display') != "none" && !faithBtns[i].find("span").hasClass('limited')) {
                             hasBtn = true
+                            //console.log('is enabled', i, faithBtns[i].text(), faithBtns[i].attr('class'), faithBtns[i].text().indexOf("(comp"), faithBtns[i].parent().css('display'), faithBtns[i].find("span").hasClass('limited'))
                         }
                     }
 
+                    if (hasBtn) { faithAmt += Math.ceil(myRes['faith'].maxValue / 20); } else { faithAmt = myRes['faith'].maxValue * faithRate; }
+                    if (!hasBtn && isEnabled(faithBtns[0])) {
+                        faithBtns[0].click();
+                    } //Praise
+                    //console.log('run faith', hasBtn, faithAmt, isEnabled(faithBtns[0]))
+                    gamePage.activeTabId = 'Bonfire';
+                    gamePage.render();
                     return hasBtn;
                 }
-                var fResearch = [];
+                var fResearch = false;
+                fResearch = canReseach();
 
-                if (faithRate >= .2 && myRes['faith'].value > myRes['faith'].maxValue - (myRes['faith'].perTickUI * 5 * 10)) {
-                    fResearch = canReseach();
-                    //After research set faith rate to .1
-                    if (!fResearch) faithRate = .1;
-                } else if (myRes['faith'].value > myRes['faith'].maxValue * faithRate) {
-                    //If can research set faith rate to 1
-                    fResearch = canReseach();
-                    if (fResearch) faithRate = .9;
-                }
             }
             return false;
         }
@@ -637,14 +709,22 @@ var kittenBot = function () {
         };
 
         var smartTrade = function () {
-
             if (tradeLevel < 4 || myRes['catpower'].value < 50 || gamePage.activeTabId != 'Bonfire') return false
-            var perGold = parseInt(myRes['gold'].perTickUI * 5);
+            var perGold = Math.ceil(myRes['gold'].perTickUI * 5);
             //console.log('smartTrade', myRes['catpower'].value, gp.resPool.get('manpower').value)
             if (gp.diplomacyTab.visible && myRes['gold'].value > 15 && myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 5))) {
+
                 var tradeAmt = 1;
-                //console.log('Trade', tradeLevel)
-                if (tradeLevel > 4 && myRes['slab'].value > 200 && myRes['titanium'].value < myRes['titanium'].maxValue - 100) { ////Zebras
+
+                if (tradeLevel >= 6 && myRes['uranium'].value < 50 && myRes['titanium'].value > 500) { //Dragons
+
+                    gamePage.activeTabId = 'Trade';
+                    gamePage.render();
+                    gamePage.diplomacyTab.racePanels[6].tradeBtn.tradeMultiple(1);
+                    gamePage.activeTabId = 'Bonfire';
+                    gamePage.render();
+
+                } else if (tradeLevel > 4 && myRes['slab'].value > 200 && myRes['titanium'].value < myRes['titanium'].maxValue - 100) { ////Zebras
                     gamePage.activeTabId = 'Trade';
                     gamePage.render();
                     tradeAmt = parseInt((perGold * 20) / 15);
@@ -659,6 +739,7 @@ var kittenBot = function () {
                     gamePage.activeTabId = 'Bonfire';
                     gamePage.render();
                 } else if (tradeLevel >= 4 && myRes['ivory'].value > (myRes['gold'].maxValue) + 1200 && myRes['gold'].value) { //Nagas
+                    if (myRes['furs'] < 10000 || gp.getResCraftRatio({name: 'manuscript'}) > 6.7) return false;
                     gamePage.activeTabId = 'Trade';
                     gamePage.render();
                     tradeAmt = parseInt((perGold * 20) / 15);
@@ -756,6 +837,8 @@ var kittenBot = function () {
             ['Workshop', 'titaniumMirrors'],
             ['Science', 'architecture'],
             ['Science', 'physics'],
+            ['Workshop', 'steelSaw'],
+            ['Workshop', 'pyrolysis'],
             ['Science', 'chemistry'],
             ['Science', 'acoustics'],
             ['Science', 'archeology'],
@@ -788,10 +871,68 @@ var kittenBot = function () {
             ['Science', 'electronics'],//Electronics
             ['Workshop', 'seti'],//SETI
             ['Workshop', 'cadSystems'],//CAD System
+            ['Workshop', 'pneumaticPress'],
             ['Workshop', 'offsetPress'],//Offset Press
             ['Workshop', 'oilRefinery'],//Oil Refinery
             ['Workshop', 'combustionEngine'],
-            ['Science', 'robotics']//Robotics
+            ['Science', 'robotics'],//Robotics,
+            ['Workshop', 'steelPlants'],//
+            ['Workshop', 'rotaryKiln'],//
+            ['Science', 'nuclearFission'],//,Nuckear Fission
+            ['Workshop', 'nuclearSmelters'],//
+            ['Workshop', 'reactorVessel'],//
+            ['Science', 'particlePhysics'],//,Particle Physics
+            ['Workshop', 'enrichedUranium'],//
+            ['Workshop', 'railgun'],//
+            ['Science', 'rocketry'],//,Rocketry
+            ['Workshop', 'oilDistillation'],//
+            ['Workshop', 'refrigeration'],//CAD System
+            ['Science', 'nanotechnology'],//,Nanotech
+            ['Workshop', 'augumentation'],//
+            ['Workshop', 'nanosuits'],//
+            ['Workshop', 'photovoltaic'],//
+            ['Workshop', 'fluidizedReactors'],//
+            ['Science', 'sattelites'],//,Satellites
+            ['Workshop', 'photolithography'],//
+            ['Science', 'oilProcessing'],//,Oil Processing
+            ['Workshop', 'factoryProcessing'],//
+            ['Science', 'orbitalEngineering'],//,Orbital Engineering
+            ['Workshop', 'hubbleTelescope'],//
+            ['Workshop', 'satelliteRadio'],//
+            ['Workshop', 'astrophysicists'],//
+            ['Workshop', 'solarSatellites'],//
+            ['Science', 'metaphysics'],//,Metaphysics
+            ['Science', 'exogeology'],//,Exogeology
+            ['Workshop', 'unobtainiumReflectors'],//
+            ['Workshop', 'unobtainiumHuts'],//
+            ['Workshop', 'unobtainiumDrill'],//
+            ['Workshop', 'hydroPlantTurbines'],//
+            ['Workshop', 'storageBunkers'],//
+            ['Science', 'genetics'],//,Genetics
+            ['Workshop', 'unicornSelection'],//
+            ['Workshop', 'gmo'],//
+            ['Workshop', 'factoryLogistics'],//
+            ['Science', 'advExogeology'],//,Advanced Exogeology
+            ['Workshop', 'eludiumCracker'],//
+            ['Workshop', 'eludiumReflectors'],//
+            ['Workshop', 'eludiumHuts'],//
+            ['Workshop', 'mWReactor'],//
+            ['Science', 'superconductors'],//,Superconductors
+            ['Workshop', 'coldFusion'],//
+            ['Workshop', 'spaceManufacturing'],//
+            ['Science', 'dimensionalPhysics'],//,Dimension Physics
+            ['Workshop', 'energyRifts'],//
+            ['Workshop', 'lhc'],//
+            ['Science', 'chronophysics'],//Chronophysics,
+            ['Workshop', 'stasisChambers'],//
+            ['Workshop', 'fluxCondensator'],//
+            ['Science', 'antimatter'],//Antimatter,
+            ['Workshop', 'amReactors'],//
+            ['Workshop', 'amBases'],//
+            ['Science', 'tachyonTheory']//tachyonTheory,
+            ['Workshop', 'tachyonAccelerators'],//
+            ['Workshop', 'chronoforge'],//
+            // , , , , , , , , , , , , Chronophysics
         ]
         var smartSci = function (idx) {
 
@@ -828,7 +969,11 @@ var kittenBot = function () {
                     //console.log(btn);
                     if (btn && btn.enabled && btn.visible && btn.handler) {
                         smartLog(tech.title, "Sci");
+                        for (iType in prices) {
+                            smartCraftClearRequest(prices[iType].name, prices[iType].val)
+                        }
                         $(".btnContent:contains('" + tech.title + "')").click();
+
                         smartSciOrders.shift();
                     }
                     gamePage.activeTabId = 'Bonfire';
@@ -978,9 +1123,17 @@ var kittenBot = function () {
         };
 
         var bioLabCheck = function (bld, prices) {
+            if (bld.val > 100) return [false, true]
             return priceCheck(bld, prices, {
                 'slab': parseInt(prices[0].val * 1.5),
                 'alloy': parseInt(prices[1].val * 1.5)
+            })
+        };
+
+        var broadcastTowerCheck = function (bld, prices) {
+            if (bld.val < 40) return [true, false]
+            return priceCheck(bld, prices, {
+                'iron': parseInt(prices[0].val * 10),
             })
         };
 
@@ -1029,45 +1182,49 @@ var kittenBot = function () {
         var buildDex = 1; //GM_getValue('buildDex', 1);
 
         var lastBuildOrders = [
-            ['space', 'spaceElevator', 10000],
-            ['space', 'sattelite', 10000],
-            ['space', 'spaceStation', 10000],
-            ['space', 'moonOutpost', 10000],
-            ['space', 'planetCracker', 10000],
-            ['space', 'hydrofracturer', 10000],
-            ['space', 'researchVessel', 10000],
-            ['space', 'orbitalArray', 10000],
-            ['space', 'sunlifter', 10000],
-            ['space', 'cryostation', 10000],
-            ['space', 'spaceBeacon', 10000],
+            ['space', 'kairo', 'spaceBeacon', 10000, [popModeCheck]],
+            ['space', 'piscine', 'orbitalArray', 10000, [popModeCheck]],
+            ['space', 'piscine', 'researchVessel', 10000, [popModeCheck]],
+            ['space', 'moon', 'moonBase', 10000, [popModeCheck]],
+            ['space', 'dune', 'hydrofracturer', 10000, [popModeCheck]],
+            ['space', 'dune', 'planetCracker', 10000, [popModeCheck]],
+            ['space', 'moon', 'moonOutpost', 10000, [popModeCheck]],
+            ['space', 'helios', 'sunlifter', 10000],
+            ['space', 'terminus', 'cryostation', 10000],
+            ['space', 'program', 'sattelite', 10000, [popModeCheck]],
+            ['space', 'program', 'spaceElevator', 10000],
+            ['space', 'program', 'spaceStation', 10000],
             ['chronosphere', 10000, [primaryBldEnabledCheck]],
             ['ziggurat', 10000, [primaryBldEnabledCheck]],
             ['unicornPasture', 10000],
-            ['amphitheatre', 10000, [primaryBldEnabledCheck]],
-            ['mint', 10000],
-            ['tradepost', 10000],
+            ['amphitheatre', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['broadcastTower', 10000, [broadcastTowerCheck, popModeCheck, primaryBldEnabledCheck]],
+            ['mint', 10000, [popModeCheck]],
+            ['tradepost', 10000, [popModeCheck]],
             ['accelerator', 10000],
-            ['oilWell', 10000, [primaryBldEnabledCheck]],
-            ['lumberMill', 10000, [primaryBldEnabledCheck]],
+            ['oilWell', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['lumberMill', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['magneto', 10000, [bluePrintCheck]],
             ['reactor', 10000, [bluePrintCheck]],
-            ['steamworks', 10000, [bluePrintCheck, primaryBldEnabledCheck]],
-            ['calciner', 10000, [bluePrintCheck, primaryBldEnabledCheck]],
-            ['smelter', 10000, [primaryBldEnabledCheck]],
-            ['quarry', 10000, [primaryBldEnabledCheck]],
-            ['mine', 10000, [primaryBldEnabledCheck]],
-            ['harbor', 10000],
+            ['steamworks', 10000, [popModeCheck, bluePrintCheck, primaryBldEnabledCheck]],
+            ['calciner', 10000, [popModeCheck, bluePrintCheck, primaryBldEnabledCheck]],
+            ['smelter', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['quarry', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['mine', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['harbor', 10000, [popModeCheck]],
             ['warehouse', 10000, [primaryBldEnabledCheck, warehouseCheck]],
             ['barn', 10000],
-            ['biolab', 10000, [bioLabCheck, primaryBldEnabledCheck]],
-            ['observatory', 10000, [primaryBldEnabledCheck]],
-            ['academy', 10000, [primaryBldEnabledCheck]],
-            ['library', 10000, [primaryBldEnabledCheck]],
+            ['biolab', 10000, [popModeCheck, bioLabCheck, primaryBldEnabledCheck]],
+            ['observatory', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['academy', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['library', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['aqueduct', 10000],
+            ['hydroPlant', 10000],
             ['pasture', 10000],
+            ['solarFarm', 10000],
             ['field', 10000],
-            ['temple', 10000],
-            ['chapel', 10000],
+            ['temple', 10000, [popModeCheck]],
+            ['chapel', 10000, [popModeCheck]],
             ['mansion', 10000, [makePriority, craftBldEnabledCheck]],
             ['logHouse', 10000, [makePriority, craftBldEnabledCheck]],
             ['hut', 10000, [makePriority, craftBldEnabledCheck]],
@@ -1075,8 +1232,9 @@ var kittenBot = function () {
             ['workshop', 10000, [makePriority]]
         ];
         //lastBuildOrders = [
-        //    ['workshop', 10000, [makePriority]]
+        //    ['broadcastTower', 10000, [popModeCheck, primaryBldEnabledCheck]]
         //]
+
         var smartBuildOrders = [ //-1 means build until other condition are met.
             [['hut', -1], ['field', 20], ['hut', 1]], //1
             [['library', 1], ['hut', 2]], //2
@@ -1166,6 +1324,11 @@ var kittenBot = function () {
             for (iI = smartBuildOrders[0].length - 1; iI >= 0; iI--) {
                 var buildId = smartBuildOrders[0][iI];
                 var bldName = buildId[0];
+                var buildCnt = buildId[1];
+                var buildCheck = null;
+                if (buildId[2]) buildCheck = buildId[2]
+                var bldArea = "home";
+
 
                 if (bldName == "Science") {
                     var techName = buildId[1];
@@ -1175,14 +1338,25 @@ var kittenBot = function () {
                         runAgain = true;
                     }
                     //Find and Try and Build Resources for 'Tech'
-                } else if (bldName == "space") {
-                    //Handle space buildings.
-
-                    //Remove Space Buildings
-                    smartBuildOrders[0].splice(iI, 1);
-                    runAgain = true;
                 } else {
-                    var meta = gp.bld.getBuilding(bldName);
+
+                    var isSpace = false;
+                    //console.log('try', bldName);
+                    if (bldName == "space") {
+                        //Handle space buildings.
+                        if (gp.spaceTab.visible) {
+                            bldArea = buildId[1]
+                            bldName = buildId[2]
+                            buildCnt = buildId[3]
+                            if (buildId[4]) { buildCheck = buildId[4] } else { buildCheck = null }
+                            isSpace = true;
+                            //console.log(JSON.stringify(smartBuildOrders[0][iI]));
+
+                        } else {
+                            runAgain = true;
+                            break; //Move on no space yet.
+                        }
+                    }
 
                     //Check if it is in stage 2
                     if ((bldName == 'aqueduct' || bldName == 'amphitheatre' || bldName == 'pasture') && meta.stage > 0) {
@@ -1191,86 +1365,179 @@ var kittenBot = function () {
                         break;
                     }
 
-                    var buildCnt = buildId[1];
-                    if (buildCnt == -1) {
-                        buildCnt = 0; //Skip; unless
-                        for (iA = smartBuildOrders[0].length - 1; iA >= 0; iA--) {
+                    if (bldName == 'broadcastTower') bldName = 'amphitheatre';
+                    if (bldName == 'solarFarm') bldName = 'pasture';
+                    if (bldName == 'hydroPlant') bldName = 'aqueduct';
 
-                            if (smartBuildOrders[0][iA][1] != -1) {
-                                buildCnt = 10000; //Build to whenever.
-                                break;
-                            }
-                        }
-                    }
-                    //console.log(bldName, buildCnt)
-                    if (meta.unlocked && meta.val < buildCnt) {
-                        var prices = gp.bld.getPrices(bldName);
+                    var meta = null;
+                    //var btn = null;
 
-                        var canBuild = false
-                        var cB = true;
-                        var iM = false;
-                        //Run checks.
-                        if (buildId[2]) {//Has + resources.
+                    if (isSpace) {
+                        //Loop Programs
+                        if (bldArea == "program") {
+                            meta = gp.space.getProgram(bldName)
+                        } else {
+                            //console.log('try', bldArea, bldName)
+                            var bldss = gp.space.getPlanet(bldArea).buildings;
 
-                            for (fnI in buildId[2]) {
-                                var check = buildId[2][fnI](meta, prices);
-                                if (!check[0] && cB) cB = false;
-                                if (check[1] && !iM) iM = true;
-                            }
-
-                        }
-
-
-                        if (cB) canBuild = gp.resPool.hasRes(prices);
-
-
-                        var isMaxLimited = iM;
-
-                        //if (bldName == 'warehouse') {
-                        //console.log(canBuild, isMaxLimited, 'yes', JSON.stringify(warehouseCheck(meta, prices)))
-                        //}
-                        if (canBuild) {
-                            var label;
-                            if (meta.stages) {
-                                label = meta.stages[meta.stage].label
-                            } else {
-                                label = meta.label
-                            }
-                            var button = smartGetButton('Bonfire', label)
-                            //console.log(bldName, button)
-                            if (button && button.enabled && button.visible) {
-                                smartLog(label, "Build");
-                                //clear request
-                                for (iType in prices) {
-                                    smartCraftClearRequest(prices[iType].name)
+                            for (iBld in bldss) {
+                                if (bldss[iBld].name == bldName) {
+                                    meta = bldss[iBld];
+                                    break;
                                 }
-                                $(".btnContent:contains('" + label + "')").click();
-                                if (bldName == "smelter") {
-                                    if ($(".btnContent:contains('" + label + "')").text().indexOf("0/1")) {
+                            }
+                            //console.log('here', JSON.stringify(meta))
+                        }
 
-                                        var building = meta;
-                                        if (building.on < building.val) {
-                                            building.on++;
-                                            gp.upgrade(building.upgrades);
+                        //Loop Planets
+                        //Loop Buildings
+                    } else {
+                        meta = gp.bld.getBuilding(bldName);
+                    }
+
+
+                    if (meta) {
+                        if (buildCnt == -1) {
+                            buildCnt = 0; //Skip; unless
+                            for (iA = smartBuildOrders[0].length - 1; iA >= 0; iA--) {
+
+                                if (smartBuildOrders[0][iA][1] != -1) {
+                                    buildCnt = 10000; //Build to whenever.
+                                    break;
+                                }
+                            }
+                        }
+                        //console.log(bldName, buildCnt)
+                        if (meta.unlocked && meta.val < buildCnt) {
+                            var prices = {}
+                            if (isSpace) {
+                                var spaceGetPrices = function (program) {
+                                    //var program = meta;
+                                    var ratio = program.priceRatio || 1.15;
+
+                                    var prices = dojo.clone(program.prices);
+                                    if (program.upgradable) {
+                                        for (var i = 0; i < prices.length; i++) {
+                                            if (prices[i].name !== "oil") {
+                                                prices[i].val = prices[i].val * Math.pow(ratio, program.val);
+                                            } else {
+                                                prices[i].val = prices[i].val * Math.pow(1.05, program.val);
+                                            }
                                         }
                                     }
-                                }
-                                //button.onClick({shiftKey: false});
-                            }
-                        } else {
-                            //Check if Limited by max
-                            var isLimited = gp.resPool.isStorageLimited(prices);
+                                    for (var i = 0; i < prices.length; i++) {
+                                        if (prices[i].name == "oil") {
+                                            var reductionRatio = gp.bld.getHyperbolicEffect(gp.space.getEffect("oilReductionRatio"), 0.75);
+                                            prices[i].val *= (1 - reductionRatio);
+                                        }
+                                    }
 
-                            if (isMaxLimited || isLimited || bldName == 'unicornPasture') {
-                                buildCnt = 0; //Built to Max.
+                                    return prices;
+                                }
+
+                                prices = spaceGetPrices(meta);
+                                //console.log(meta.title, JSON.stringify(prices));
+                            } else {
+                                prices = gp.bld.getPrices(bldName);
                             }
+
+//console.log('try build', JSON.stringify(new Date().toString()), 'hi');
+                            var canBuild = false
+                            var cB = true;
+                            var iM = false;
+                            //Run checks.
+
+
+                            if (buildCheck) {//Has + resources.
+
+                                for (fnI in buildCheck) {
+                                    var check = buildCheck[fnI](meta, prices);
+                                    if (!check[0] && cB) cB = false;
+                                    if (check[1] && !iM) iM = true;
+                                }
+
+                            }
+
+
+                            if (cB) canBuild = gp.resPool.hasRes(prices);
+
+
+                            var isMaxLimited = iM;
+
+                            //if (bldName == 'warehouse') {
+                            //console.log(canBuild, isMaxLimited, 'yes', JSON.stringify(warehouseCheck(meta, prices)))
+                            //}
+                            if (canBuild) {
+                                var label;
+                                if (meta.stages) {
+                                    console.log(bldName)
+                                    var stageC = (meta.stage) ? meta.stage : 0;
+                                    label = meta.stages[meta.stage].label
+                                } else {
+                                    if (meta.label) label = meta.label
+                                    if (meta.title) label = meta.title
+                                }
+                                var button = null;
+                                if (isSpace) {
+                                    console.log('goto space', bldName)
+                                    if (gamePage.activeTabId != 'Space') {
+                                        gamePage.activeTabId = 'Space';
+                                        gamePage.render();
+                                    }
+
+                                    var uiButton = $(".btnContent:contains('" + label + "')");
+                                    button = {enabled: true, visible: true}
+                                    if (!uiButton) button = {enabled: false, visible: false}
+                                    if (button.enabled && uiButton.find("span").hasClass('limited')) button.enabled = false;
+                                    if (button.enabled && uiButton.parent().hasClass('disabled')) button.enabled = false;
+                                    if (button.visible && uiButton.parent().css('display') == "none") button.visible = false;
+                                    //if (isSpace) console.log(meta.title, JSON.stringify(prices), buildCheck, canBuild, button);
+                                } else {
+                                    button = smartGetButton('Bonfire', label)
+                                }
+
+                                //console.log(bldName, button)
+                                if (button && button.enabled && button.visible) {
+                                    smartLog(label, "Build");
+                                    //clear request
+                                    for (iType in prices) {
+                                        smartCraftClearRequest(prices[iType].name, prices[iType].val)
+                                    }
+                                    $(".btnContent:contains('" + label + "')").click();
+                                    if (bldName == "smelter") {
+                                        if ($(".btnContent:contains('" + label + "')").text().indexOf("0/1")) {
+
+                                            var building = meta;
+                                            if (building.on < building.val) {
+                                                building.on++;
+                                                gp.upgrade(building.upgrades);
+                                            }
+                                        }
+                                    }
+                                    //button.onClick({shiftKey: false});
+                                }
+                            } else {
+                                //Check if Limited by max
+                                var isLimited = gp.resPool.isStorageLimited(prices);
+
+                                if (isMaxLimited || isLimited || bldName == 'unicornPasture') {
+                                    buildCnt = 0; //Built to Max.
+                                }
+                            }
+
+
+                        }
+                        if (meta.val >= buildCnt) {
+                            if (!endBuild) smartBuildOrders[0].splice(iI, 1);
+                            runAgain = true;
                         }
                     }
-                    if (meta.val >= buildCnt) {
-                        if (!endBuild) smartBuildOrders[0].splice(iI, 1);
-                        runAgain = true;
-                    }
                 }
+            }
+
+            if (isSpace && gamePage.activeTabId != 'Bonfire') {
+                gamePage.activeTabId = 'Bonfire';
+                gamePage.render();
             }
 
             if (smartBuildOrders.length > 0) {
@@ -1299,7 +1566,11 @@ var kittenBot = function () {
                 return true;
             }
 
-            if (runAgain && smartBuildOrders.length > 1 && !endBuild) smartBuild();
+
+            if (runAgain && smartBuildOrders.length > 1 && !endBuild) {
+                //console.log('try again')
+                smartBuild();
+            }
 
             if (myRes['kittens'].value < gp.village.maxKittens) {
                 smartPopTmrDelay = 500;
@@ -1448,9 +1719,10 @@ var kittenBot = function () {
             $(".pph").text(pph.toFixed(1));
 
             //Handle Refreah for bad proformance:
-            if ((activeDays > 100 && dpmpl < 95) || activeDays > 1000) {
+            if ((activeDays > 100 && dpmpl < 95) || activeDays > 3000) {
                 refreshCount++;
                 console.log('refresh', refreshCount);
+                $("#headerLinks>a:contains('Save')").click();
                 if (refreshCount > 2) refreshFn();
             }
 
@@ -1465,23 +1737,23 @@ var kittenBot = function () {
 
             if (!scriptEnabled) return;
 
-            console.log('auto')
+            //console.log('auto')
             //Auto Refresh....
-            if (refreshCnt == refreshInt) {
-                //Save
-                $("#headerLinks>a:contains('Save')").click();
-                console.log('save')
-            }
+            //if (refreshCnt == refreshInt) {
+            //    //Save
+            //    $("#headerLinks>a:contains('Save')").click();
+            //    console.log('save')
+            //}
 
-            if (refreshCnt > refreshInt) {
-                //Refresh
-                console.log('refresh', location.href)
-
-
-                refreshCnt = parseInt(refreshCnt * .5);
-            }
-
-            refreshCnt++;
+            //if (refreshCnt > refreshInt) {
+            //    //Refresh
+            //    console.log('refresh', location.href)
+            //
+            //
+            //    refreshCnt = parseInt(refreshCnt * .5);
+            //}
+            //
+            //refreshCnt++;
 
             //$('#clearLogHref').click();
 
@@ -1529,814 +1801,814 @@ var kittenBot = function () {
 
             //Population Mode:
 
-            popBuildCnt++
-            if (popMode && gamePage.activeTabId == "Bonfire" && popBuildCnt > popBuildInt) {
-                //console.log('try build')
-                popBuildCnt = 0;
-                var blds = {};
-                var bldsCnt = 0;
-                var getBlds = function () {
-                    blds = {};
-                    bldsCnt = 0;
-                    $('.tabInner .btnContent').each(function (idx, obj) {
-                        var inner = $(obj).text();
-                        var key = inner.split(' ')[0];
-                        var objNo = $(obj).parent().hasClass('disabled');
-                        if (!objNo) {
-                            blds[key] = $(obj)
-                            bldsCnt++;
-                        }
-                    })
-                }
-                getBlds();
-                if (blds['Hut']) {
-                    blds['Hut'].click();
-                    gp.msg("Built (popMode): Hut.", "notice")
-                    console.log("Built (popMode): Workshop.", "notice");
-                    return true;
-                }
+            //popBuildCnt++
+            //if (popMode && gamePage.activeTabId == "Bonfire" && popBuildCnt > popBuildInt) {
+            //    //console.log('try build')
+            //    popBuildCnt = 0;
+            //    //var blds = {};
+            //    //var bldsCnt = 0;
+            //    //var getBlds = function () {
+            //    //    blds = {};
+            //    //    bldsCnt = 0;
+            //    //    $('.tabInner .btnContent').each(function (idx, obj) {
+            //    //        var inner = $(obj).text();
+            //    //        var key = inner.split(' ')[0];
+            //    //        var objNo = $(obj).parent().hasClass('disabled');
+            //    //        if (!objNo) {
+            //    //            blds[key] = $(obj)
+            //    //            bldsCnt++;
+            //    //        }
+            //    //    })
+            //    //}
+            //    //getBlds();
+            //    //if (blds['Hut']) {
+            //    //    blds['Hut'].click();
+            //    //    gp.msg("Built (popMode): Hut.", "notice")
+            //    //    console.log("Built (popMode): Workshop.", "notice");
+            //    //    return true;
+            //    //}
+            //    //
+            //    //if (blds['Log']) {
+            //    //    blds['Log'].click();
+            //    //    gp.msg("Built (popMode): Log.", "notice")
+            //    //    console.log("Built (popMode): Log.", "notice");
+            //    //    return true;
+            //    //}
+            //    //
+            //    //if (blds['Mansion']) {
+            //    //    blds['Mansion'].click();
+            //    //    gp.msg("Built (popMode): Mansion", "notice")
+            //    //    console.log("Built (popMode): Mansion.", "notice");
+            //    //    return true;
+            //    //}
+            //
+            //    //if (myRes['unobtainium'].maxValue > 5000) {
+            //    //    gamePage.activeTabId = 'Space';
+            //    //    gamePage.render();
+            //    //
+            //    //    var spaceBlds = {};
+            //    //    var spaceBldsCnt = 0;
+            //    //
+            //    //    var getSpaceBlds = function () {
+            //    //        blds = {};
+            //    //        bldsCnt = 0;
+            //    //        $('.tabInner .btnContent').each(function (idx, obj) {
+            //    //            var inner = $(obj).text();
+            //    //            var key = inner.split(' (')[0].replace(' ', '');
+            //    //            var objNo = $(obj).parent().hasClass('disabled');
+            //    //            if (!objNo) {
+            //    //                spaceBlds[key] = $(obj)
+            //    //                spaceBldsCnt++;
+            //    //            }
+            //    //        })
+            //    //    }
+            //    //
+            //    //    getSpaceBlds()
+            //    //
+            //    //    var buildSpace = function () {
+            //    //
+            //    //
+            //    //        if (spaceBlds['SpaceStation'] && myRes['energy'].value > 10) {
+            //    //            spaceBlds['SpaceStation'].click();
+            //    //            gp.msg("Built: SpaceStation", "notice")
+            //    //            console.log("Built: SpaceStation.", "notice");
+            //    //            return true;
+            //    //        }
+            //    //
+            //    //        if (spaceBlds['SpaceElevator']) {
+            //    //            spaceBlds['SpaceElevator'].click();
+            //    //            gp.msg("Built: SpaceElevator", "notice")
+            //    //            console.log("Built: SpaceElevator.", "notice");
+            //    //            return true;
+            //    //        }
+            //    //
+            //    //        console.log(myRes['energy'].value,
+            //    //            myRes['alloy'].value,
+            //    //            myRes['unobtainium'].value);
+            //    //        if (myRes['energy'].value < 20 || (myRes['alloy'].value > myRes['science'].maxValue / 140 &&
+            //    //            myRes['unobtainium'].value > myRes['unobtainium'].maxValue - 100)) {
+            //    //
+            //    //            //eludium
+            //    //
+            //    //            if (gamePage.workshop.getCraft('eludium').unlocked) {
+            //    //
+            //    //                var amt = parseInt(myRes['unobtainium'].value / 1000) - 1
+            //    //                var amtC = parseInt(myRes['alloy'].value / 2500) - 1
+            //    //                if (amtC < amt) amt = amtC;
+            //    //                gp.craft('eludium', amt, true);
+            //    //
+            //    //            }
+            //    //
+            //    //            if (spaceBlds['Sunlifter'] && myRes['energy'].value < 20) {
+            //    //                spaceBlds['Sunlifter'].click();
+            //    //                gp.msg("Built: Sunlifter", "notice")
+            //    //                console.log("Built: Sunlifter.", "notice");
+            //    //                return true;
+            //    //            }
+            //    //
+            //    //        }
+            //    //    }
+            //    //    buildSpace();
+            //    //    gamePage.activeTabId = 'Bonfire';
+            //    //    gamePage.render();
+            //    //}
+            //}
 
-                if (blds['Log']) {
-                    blds['Log'].click();
-                    gp.msg("Built (popMode): Log.", "notice")
-                    console.log("Built (popMode): Log.", "notice");
-                    return true;
-                }
 
-                if (blds['Mansion']) {
-                    blds['Mansion'].click();
-                    gp.msg("Built (popMode): Mansion", "notice")
-                    console.log("Built (popMode): Mansion.", "notice");
-                    return true;
-                }
-
-                if (myRes['unobtainium'].maxValue > 5000) {
-                    gamePage.activeTabId = 'Space';
-                    gamePage.render();
-
-                    var spaceBlds = {};
-                    var spaceBldsCnt = 0;
-
-                    var getSpaceBlds = function () {
-                        blds = {};
-                        bldsCnt = 0;
-                        $('.tabInner .btnContent').each(function (idx, obj) {
-                            var inner = $(obj).text();
-                            var key = inner.split(' (')[0].replace(' ', '');
-                            var objNo = $(obj).parent().hasClass('disabled');
-                            if (!objNo) {
-                                spaceBlds[key] = $(obj)
-                                spaceBldsCnt++;
-                            }
-                        })
-                    }
-
-                    getSpaceBlds()
-
-                    var buildSpace = function () {
-
-
-                        if (spaceBlds['SpaceStation'] && myRes['energy'].value > 10) {
-                            spaceBlds['SpaceStation'].click();
-                            gp.msg("Built: SpaceStation", "notice")
-                            console.log("Built: SpaceStation.", "notice");
-                            return true;
-                        }
-
-                        if (spaceBlds['SpaceElevator']) {
-                            spaceBlds['SpaceElevator'].click();
-                            gp.msg("Built: SpaceElevator", "notice")
-                            console.log("Built: SpaceElevator.", "notice");
-                            return true;
-                        }
-
-                        console.log(myRes['energy'].value,
-                            myRes['alloy'].value,
-                            myRes['unobtainium'].value);
-                        if (myRes['energy'].value < 20 || (myRes['alloy'].value > myRes['science'].maxValue / 140 &&
-                            myRes['unobtainium'].value > myRes['unobtainium'].maxValue - 100)) {
-
-                            //eludium
-
-                            if (gamePage.workshop.getCraft('eludium').unlocked) {
-
-                                var amt = parseInt(myRes['unobtainium'].value / 1000) - 1
-                                var amtC = parseInt(myRes['alloy'].value / 2500) - 1
-                                if (amtC < amt) amt = amtC;
-                                gp.craft('eludium', amt, true);
-
-                            }
-
-                            if (spaceBlds['Sunlifter'] && myRes['energy'].value < 20) {
-                                spaceBlds['Sunlifter'].click();
-                                gp.msg("Built: Sunlifter", "notice")
-                                console.log("Built: Sunlifter.", "notice");
-                                return true;
-                            }
-
-                        }
-                    }
-                    buildSpace();
-                    gamePage.activeTabId = 'Bonfire';
-                    gamePage.render();
-                }
-            }
-
-
-            if (myRes['science'].value < (myRes['science'].maxValue - 100)) {
-                //Not at Max.
-                sciMaxTime = new Date();
-
-            }
+            //if (myRes['science'].value < (myRes['science'].maxValue - 100)) {
+            //    //Not at Max.
+            //    sciMaxTime = new Date();
+            //
+            //}
 
 
             //console.log(!noTopSci, !popMode, myRes['science'].value > (myRes['science'].maxValue - 100))
             //Science
-            if (!noTopSci && !popMode && myRes['science'].value > (myRes['science'].maxValue - 100)) {
-                //Try Science Tap
-
-                var newTime = new Date();
-
-                //console.log('sci', newTime - sciTime, sciDelay, newTime - sciMaxTime);
-                //console.log('Max Time', newTime - sciMaxTime)
-
-                if (newTime - sciTime > sciDelay && newTime - sciMaxTime > 60000) {
-                    console.log('Try Science', (newTime - sciTime) / 1000);
-                    sciTime = newTime;
-                    var origTab = gamePage.activeTabId;
-                    gamePage.activeTabId = 'Science';
-                    gamePage.render();
-
-                    var scis = [];
-                    var scisCnt = 0;
-                    var getScis = function () {
-                        scis = [];
-                        scisCnt = 0;
-                        $('.tabInner>table .btnContent').each(function (idx, obj) {
-                            var inner = $(obj).text();
-                            var key = inner;
-                            var objNo = $(obj).parent().hasClass('disabled');
-                            if (!objNo) objNo = ($(obj).parent().css('display') != "block");
-                            if (!objNo) objNo = (key == "Drama and Poetry");
-                            if (!objNo) objNo = (key == "Acoustics");
-                            if (!objNo) {
-
-                                //scis[key] = $(obj)
-                                scis.push([key, $(obj)])
-                                scisCnt++;
-                            }
-                        })
-                    }
-                    getScis();
-
-                    //console.log(scis);
-
-                    if (scis && scis.length > 0 && scis[0] && scis[0][1]) {
-                        console.log("Researched: " + scis[0][0]);
-                        gp.msg("Researched: " + scis[0][0], "notice")
-                        scis[0][1].click();
-                        sciDelay = 360000;
-                    } else {
-                        //Try 'Workshop'
-                        var works = [];
-                        var worksCnt = 0;
-                        gamePage.activeTabId = 'Workshop';
-                        gamePage.render();
-                        var getWorks = function () {
-                            works = [];
-                            worksCnt = 0;
-                            $('.tabInner .panelContainer:first .btnContent').each(function (idx, obj) {
-                                var inner = $(obj).text();
-                                var key = inner;
-                                var objNo = $(obj).parent().hasClass('disabled');
-                                if (!objNo) objNo = ($(obj).parent().css('display') != "block");
-                                if (!objNo) objNo = (key == "Barges");
-                                if (!objNo) objNo = (key == "Silos");
-                                if (!objNo) objNo = (key == "Refrigeration");
-                                if (!objNo) objNo = (key == "Caravanserai");
-                                if (!objNo) objNo = (key == "Printing Press");
-                                if (!objNo) objNo = (key == "Offset Press");
-                                if (!objNo) objNo = (key == "Photolithography");
-                                if (!objNo) objNo = (key == "Workshop Automation");
-                                if (!objNo) objNo = (key == "Advanced Automation");
-                                if (!objNo) objNo = (key == "Pneumatic Press");
-                                if (!objNo) objNo = (key == "High Pressure Engine");
-                                if (!objNo) objNo = (key == "Fuel Injectors");
-                                if (!objNo) objNo = (key == "Factory Logistics");
-                                if (!objNo) objNo = (key == "Celestial Mechanics");
-                                if (!objNo) {
-
-                                    //scis[key] = $(obj)
-                                    works.push([key, $(obj)])
-                                    worksCnt++;
-                                }
-                            })
-                        }
-                        getWorks();
-
-                        if (works && works.length > 0 && works[0] && works[0][1]) {
-
-                            console.log("Researched (Workshop): " + works[0][0]);
-                            gp.msg("Researched (Workshop): " + works[0][0], "notice")
-                            works[0][1].click();
-                            sciDelay = 360000;
-
-                        } else {
-                            sciDelay = sciDelay + 300000;
-                            if (sciDelay > (1000 * 60 * 60)) sciDelay = (1000 * 60 * 60);
-                        }
-
-                    }
-
-                    //console.log(scis)
-                    if (gamePage.activeTabId != origTab) {
-                        gamePage.activeTabId = origTab;
-                        gamePage.render();
-                    }
-                }
-
-            }
-
+            //if (!noTopSci && !popMode && myRes['science'].value > (myRes['science'].maxValue - 100)) {
+            //    //Try Science Tap
+            //
+            //    var newTime = new Date();
+            //
+            //    //console.log('sci', newTime - sciTime, sciDelay, newTime - sciMaxTime);
+            //    //console.log('Max Time', newTime - sciMaxTime)
+            //
+            //    if (newTime - sciTime > sciDelay && newTime - sciMaxTime > 60000) {
+            //        console.log('Try Science', (newTime - sciTime) / 1000);
+            //        sciTime = newTime;
+            //        var origTab = gamePage.activeTabId;
+            //        gamePage.activeTabId = 'Science';
+            //        gamePage.render();
+            //
+            //        var scis = [];
+            //        var scisCnt = 0;
+            //        var getScis = function () {
+            //            scis = [];
+            //            scisCnt = 0;
+            //            $('.tabInner>table .btnContent').each(function (idx, obj) {
+            //                var inner = $(obj).text();
+            //                var key = inner;
+            //                var objNo = $(obj).parent().hasClass('disabled');
+            //                if (!objNo) objNo = ($(obj).parent().css('display') != "block");
+            //                if (!objNo) objNo = (key == "Drama and Poetry");
+            //                if (!objNo) objNo = (key == "Acoustics");
+            //                if (!objNo) {
+            //
+            //                    //scis[key] = $(obj)
+            //                    scis.push([key, $(obj)])
+            //                    scisCnt++;
+            //                }
+            //            })
+            //        }
+            //        getScis();
+            //
+            //        //console.log(scis);
+            //
+            //        if (scis && scis.length > 0 && scis[0] && scis[0][1]) {
+            //            console.log("Researched: " + scis[0][0]);
+            //            gp.msg("Researched: " + scis[0][0], "notice")
+            //            scis[0][1].click();
+            //            sciDelay = 360000;
+            //        } else {
+            //            //Try 'Workshop'
+            //            var works = [];
+            //            var worksCnt = 0;
+            //            gamePage.activeTabId = 'Workshop';
+            //            gamePage.render();
+            //            var getWorks = function () {
+            //                works = [];
+            //                worksCnt = 0;
+            //                $('.tabInner .panelContainer:first .btnContent').each(function (idx, obj) {
+            //                    var inner = $(obj).text();
+            //                    var key = inner;
+            //                    var objNo = $(obj).parent().hasClass('disabled');
+            //                    if (!objNo) objNo = ($(obj).parent().css('display') != "block");
+            //                    if (!objNo) objNo = (key == "Barges");
+            //                    if (!objNo) objNo = (key == "Silos");
+            //                    if (!objNo) objNo = (key == "Refrigeration");
+            //                    if (!objNo) objNo = (key == "Caravanserai");
+            //                    if (!objNo) objNo = (key == "Printing Press");
+            //                    if (!objNo) objNo = (key == "Offset Press");
+            //                    if (!objNo) objNo = (key == "Photolithography");
+            //                    if (!objNo) objNo = (key == "Workshop Automation");
+            //                    if (!objNo) objNo = (key == "Advanced Automation");
+            //                    if (!objNo) objNo = (key == "Pneumatic Press");
+            //                    if (!objNo) objNo = (key == "High Pressure Engine");
+            //                    if (!objNo) objNo = (key == "Fuel Injectors");
+            //                    if (!objNo) objNo = (key == "Factory Logistics");
+            //                    if (!objNo) objNo = (key == "Celestial Mechanics");
+            //                    if (!objNo) {
+            //
+            //                        //scis[key] = $(obj)
+            //                        works.push([key, $(obj)])
+            //                        worksCnt++;
+            //                    }
+            //                })
+            //            }
+            //            getWorks();
+            //
+            //            if (works && works.length > 0 && works[0] && works[0][1]) {
+            //
+            //                console.log("Researched (Workshop): " + works[0][0]);
+            //                gp.msg("Researched (Workshop): " + works[0][0], "notice")
+            //                works[0][1].click();
+            //                sciDelay = 360000;
+            //
+            //            } else {
+            //                sciDelay = sciDelay + 300000;
+            //                if (sciDelay > (1000 * 60 * 60)) sciDelay = (1000 * 60 * 60);
+            //            }
+            //
+            //        }
+            //
+            //        //console.log(scis)
+            //        if (gamePage.activeTabId != origTab) {
+            //            gamePage.activeTabId = origTab;
+            //            gamePage.render();
+            //        }
+            //    }
+            //
+            //}
+            //
 
             //Building
 
-            if (!popMode && smartBuildOrders.length == 0 && gamePage.activeTabId == "Bonfire" &&
-                (myRes['wood'].value > (myRes['wood'].maxValue * .7) || myRes['minerals'].value > (myRes['minerals'].maxValue * .7)) &&
-                (myRes['gold'].maxValue < 500 || myRes['slab'].value > (myRes['gold'].maxValue * 1.5)) &&
-                (myRes['gold'].maxValue < 500 || myRes['beam'].value > (myRes['gold'].maxValue * 1.5))) {
-                var blds = {};
-                var bldsCnt = 0;
-
-
-                var getBlds = function () {
-                    blds = {};
-                    bldsCnt = 0;
-                    $('.tabInner .btnContent').each(function (idx, obj) {
-                        var inner = $(obj).text();
-                        var key = inner.split(' ')[0];
-
-                        var objNo = $(obj).parent().hasClass('disabled');
-                        if (!objNo) {
-                            blds[key] = $(obj)
-                            bldsCnt++;
-                        }
-                    })
-                }
-
-                console.log('Run build...');
-
-                var buildBld = function () {
-                    //gamePage.activeTabId = "Bonfire"; gamePage.render();
-
-                    getBlds();
-                    var goldMax = myRes['gold'].maxValue
-
-                    if (bldsCnt > 2) {
-                        if (blds['Workshop']) {
-                            blds['Workshop'].click();
-                            gp.msg("Built: Workshop.", "notice")
-                            console.log("Built: Workshop.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Hut']) {
-                            blds['Hut'].click();
-                            gp.msg("Built: Hut.", "notice")
-                            console.log("Built: Hut.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Log']) {
-                            blds['Log'].click();
-                            gp.msg("Built: Log.", "notice")
-                            console.log("Built: Log.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Catnip'] && myRes['catnip'].perTickUI > 0 && myRes['gold'] > 90) {
-                            blds['Catnip'].click();
-                            gp.msg("Built: Catnip.", "notice")
-                            console.log("Built: Catnip.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Pasture'] && myRes['catnip'].perTickUI > 0 && myRes['gold'] > 90) {
-                            blds['Pasture'].click();
-                            gp.msg("Built: Pasture.", "notice")
-                            console.log("Built: Pasture.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Mine']) {
-                            blds['Mine'].click();
-                            gp.msg("Built: Mine.", "notice")
-                            console.log("Built: Mine.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Smelter'] && myRes['wood'].perTickUI > 10 && myRes['minerals'].perTickUI > 10) {
-                            blds['Smelter'].click();
-                            gp.msg("Built: Smelter.", "notice")
-                            console.log("Built: Smelter.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Barn']) {
-                            blds['Barn'].click();
-                            gp.msg("Built: Barn.", "notice")
-                            console.log("Built: Barn.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Academy'] && myRes['science'].value > (myRes['science'].maxValue * .9)) {
-                            blds['Academy'].click();
-                            gp.msg("Built: Academy.", "notice")
-                            console.log("Built: Academy.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Library']) {
-                            blds['Library'].click();
-                            gp.msg("Built: Library.", "notice")
-                            console.log("Built: Library.", "notice");
-                            return true;
-                        }
-
-
-                        if (blds['Unic.']) {
-                            blds['Unic.'].click();
-                            gp.msg("Built: Unic.", "notice")
-                            console.log("Built: Unic.", "notice");
-                            return true;
-                        }
-
-
-                        if (blds['Lumber'] && myRes['iron'].value > myRes['iron'].maxValue * .6 && myRes['plate'].value > myRes['gold'].maxValue * 2) {
-                            blds['Lumber'].click();
-                            gp.msg("Built: Lumber", "notice")
-                            console.log("Built: Lumber.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Amphitheatre'] && myRes['parchment'].value > goldMax * .9) {
-                            var count = parseInt(blds['Amphitheatre'].text().split('(')[1].split(')')[0])
-                            if (count < 20) {
-                                blds['Amphitheatre'].click();
-                                gp.msg("Built: Amphitheatre", "notice")
-                                console.log("Built: Amphitheatre.", "notice");
-                                return true;
-                            } else {
-                                if (myRes['parchment'].value > myRes['gold'].maxValue && myRes['manuscript'].value > myRes['gold'].maxValue && myRes['compendium'].value > myRes['gold'].maxValue / 10) {
-                                    blds['Amphitheatre'].click();
-                                    gp.msg("Built: Amphitheatre", "notice")
-                                    console.log("Built: Amphitheatre.", "notice");
-                                    return true;
-                                }
-                            }
-                        }
-
-                        if (blds['Mansion']) {
-                            var count = parseInt(blds['Mansion'].text().split('(')[1].split(')')[0])
-                            var slab = 185 * Math.pow(1.15, count);
-                            var steel = 75 * Math.pow(1.15, count);
-                            var titanium = 25 * Math.pow(1.15, count);
-
-                            if ((myRes['titanium'].value > titanium * 4 || myRes['titanium'].value > myRes['titanium'].maxValue * .9) && myRes['slab'].value > (slab * 2) + goldMax && myRes['steel'].value > (steel * 2) + goldMax &&
-                                myRes['titanium'].value > myRes['titanium'].maxValue * .7) {
-                                blds['Mansion'].click();
-                                gp.msg("Built: Mansion", "notice")
-                                console.log("Built: Mansion.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Harbour']) {
-                            var count = parseInt(blds['Harbour'].text().split('(')[1].split(')')[0])
-                            var scaffold = 5 * Math.pow(1.15, count);
-                            var slab = 50 * Math.pow(1.15, count);
-                            var plate = 75 * Math.pow(1.15, count);
-                            //console.log('Harbour', myRes['scaffold'].value, scaffold * 5, myRes['slab'].value,slab * 3,myRes['plate'].value,plate * 2)
-                            if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['slab'].value > (slab * 2) + goldMax && myRes['plate'].value > (plate * 2) + goldMax) {
-                                blds['Harbour'].click();
-                                gp.msg("Built: Harbour", "notice")
-                                console.log("Built: Harbour.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Observatory'] && myRes['iron'].value > myRes['iron'].maxValue * .8) {
-                            var count = parseInt(blds['Observatory'].text().split('(')[1].split(')')[0])
-                            var scaffold = 50 * Math.pow(1.10, count);
-                            var slab = 35 * Math.pow(1.10, count);
-                            //var iron = 750 * Math.pow(1.10, count);
-                            if (myRes['scaffold'].value > (scaffold * 2) + goldMax && myRes['slab'].value > (slab * 2) + goldMax) {
-                                blds['Observatory'].click();
-                                gp.msg("Built: Observatory", "notice")
-                                console.log("Built: Observatory.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Quarry'] && myRes['iron'].value > myRes['iron'].maxValue * .8) {
-                            var count = parseInt(blds['Quarry'].text().split('(')[1].split(')')[0])
-                            var scaffold = 50 * Math.pow(1.15, count);
-                            var slab = 1000 * Math.pow(1.15, count);
-                            var steel = 150 * Math.pow(1.15, count);
-                            //var iron = 750 * Math.pow(1.10, count);
-                            if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['slab'].value > (slab * 2) + goldMax && myRes['steel'].value > (steel * 2) + goldMax) {
-                                blds['Quarry'].click();
-                                gp.msg("Built: Quarry", "notice")
-                                console.log("Built: Quarry.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Oil']) {
-                            var count = parseInt(blds['Oil'].text().split('(')[1].split(')')[0])
-                            var scaffold = 25 * Math.pow(1.15, count);
-                            var gear = 25 * Math.pow(1.15, count);
-                            var steel = 50 * Math.pow(1.15, count);
-                            //var iron = 750 * Math.pow(1.10, count);
-                            if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['gear'].value > (gear * 3) && myRes['steel'].value > (steel * 2) + goldMax) {
-                                blds['Oil'].click();
-                                gp.msg("Built: Oil", "notice")
-                                console.log("Built: Oil.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Warehouse']) {
-                            var count = parseInt(blds['Warehouse'].text().split('(')[1].split(')')[0])
-                            var beam = 1.5 * Math.pow(1.15, count);
-                            var slab = 2 * Math.pow(1.15, count);
-                            if (myRes['beam'].value > (beam * 2) + (goldMax * 4) && myRes['slab'].value > (slab * 2) + (goldMax * 4)) {
-                                blds['Warehouse'].click();
-                                gp.msg("Built: Warehouse", "notice")
-                                console.log("Built: Warehouse.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Temple']) {
-                            var count = parseInt(blds['Temple'].text().split('(')[1].split(')')[0])
-                            var gold = 50 * Math.pow(1.15, count);
-                            var slab = 25 * Math.pow(1.15, count);
-                            var plate = 15 * Math.pow(1.15, count);
-                            var manuscript = 10 * Math.pow(1.15, count);
-                            if (myRes['gold'].value > goldMax - 50 && myRes['gold'].value > gold * 4 && myRes['manuscript'].value > manuscript * 4 && myRes['plate'].value > plate * 4 && myRes['slab'].value > slab * 5) {
-                                blds['Temple'].click();
-                                gp.msg("Built: Temple", "notice")
-                                console.log("Built: Temple.", "notice");
-                                return true;
-                            }
-                        }
-
-                        if (blds['Calciner'] && myRes['energy'].value > 1) {
-                            var count = parseInt(blds['Calciner'].text().split('(')[1].split(')')[0])
-                            var steel = 120 * Math.pow(1.15, count);
-                            var titanium = 15 * Math.pow(1.15, count);
-                            var blueprint = 5 * Math.pow(1.15, count);
-                            var oil = 500 * Math.pow(1.15, count);
-                            if (myRes['oil'].perTickUI > .3 && myRes['steel'].value > steel * 3 && myRes['titanium'].value > titanium * 3 && myRes['blueprint'].value > blueprint * 5 && myRes['oil'].value > oil) {
-                                blds['Calciner'].click();
-                                gp.msg("Built: Calciner", "notice")
-                                console.log("Built: Calciner.", "notice");
-                                return true;
-                            }
-                        }
-
-
-                        if (blds['Aqueduct']) {
-                            blds['Aqueduct'].click();
-                            gp.msg("Built: Aqueduct.", "notice")
-                            console.log("Built: Aqueduct.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Factory'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15 && myRes['plate'].value > myRes['titanium'].maxValue && myRes['energy'].value > 2) {
-                            blds['Factory'].click();
-                            gp.msg("Built: Factory", "notice")
-                            console.log("Built: Factory.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Magneto']) {
-                            blds['Magneto'].click();
-                            gp.msg("Built: Magneto", "notice")
-                            console.log("Built: Magneto.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Solar'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15) {
-                            blds['Solar'].click();
-                            gp.msg("Built: Solar", "notice")
-                            console.log("Built: Solar.", "notice");
-                            return true;
-                        }
-
-                        if (blds['Hydro'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15) {
-                            var count = parseInt(blds['Hydro'].text().split('(')[1].split(')')[0])
-                            var conc = 100 * Math.pow(1.15, count);
-                            if (myRes['concrete'].value > conc * 3) {
-                                blds['Hydro'].click();
-                                gp.msg("Built: Hydro", "notice")
-                                console.log("Built: Hydro.", "notice");
-                                return true;
-                            }
-                        }
-
-                        //end game builds
-                        if (myRes['unobtainium'].value > 555 &&
-                            myRes['uranium'].value > myRes['uranium'].maxValue * .8) {
-
-                            var passPlate = myRes['plate'].value > myRes['coal'].maxValue
-                            var passConc = myRes['concrete'].value > myRes['unobtainium'].maxValue * 2
-                            var passBlue = myRes['blueprint'].value > myRes['unobtainium'].maxValue
-                            var passTita = myRes['titanium'].value > myRes['titanium'].maxValue * .8
-                            var passGold = myRes['gold'].value > myRes['gold'].maxValue * .8
-                            var passAlloy = myRes['alloy'].value > myRes['uranium'].maxValue / 2
-
-
-                            if (blds['Mansion'] && passTita) {
-                                blds['Mansion'].click();
-                                gp.msg("Built: Mansion", "notice")
-                                console.log("Built Adv: Mansion.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Calciner'] && passTita && passBlue && myRes['energy'].value > 1) {
-                                blds['Calciner'].click();
-                                gp.msg("Built: Calciner", "notice")
-                                console.log("Built Adv: Calciner.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Reactor'] && passTita && passPlate && passConc && passBlue) {
-                                blds['Reactor'].click();
-                                gp.msg("Built: Reactor", "notice")
-                                console.log("Built Adv: Reactor.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Accelerator'] && passTita && passConc && myRes['energy'].value > 2) {
-                                blds['Accelerator'].click();
-                                gp.msg("Built: Accelerator", "notice")
-                                console.log("Built Adv: Accelerator.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Steamworks'] && passBlue) {
-                                blds['Steamworks'].click();
-                                gp.msg("Built: Steamworks", "notice")
-                                console.log("Built Adv: Steamworks.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Oil']) {
-                                blds['Oil'].click();
-                                gp.msg("Built: Oil", "notice")
-                                console.log("Built Adv: Oil.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Harbour'] && passPlate) {
-                                blds['Harbour'].click();
-                                gp.msg("Built: Harbour", "notice")
-                                console.log("Built Adv: Harbour.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Quarry']) {
-                                blds['Quarry'].click();
-                                gp.msg("Built: Quarry", "notice")
-                                console.log("Built Adv: Quarry.", "notice");
-                                return true;
-                            }
-
-
-                            if (blds['Chapel']) {
-                                blds['Chapel'].click();
-                                gp.msg("Built: Chapel", "notice")
-                                console.log("Built Adv: Chapel.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Temple'] && passPlate && passGold && passTita) {
-                                blds['Temple'].click();
-                                gp.msg("Built: Temple", "notice")
-                                console.log("Built Adv: Temple.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Bio'] && passAlloy) {
-                                blds['Bio'].click();
-                                gp.msg("Built: Bio", "notice")
-                                console.log("Built Adv: Bio.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Tradepost'] && passGold && passTita) {
-                                blds['Tradepost'].click();
-                                gp.msg("Built: Tradepost", "notice")
-                                console.log("Built Adv: Tradepost.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Broadcast'] && passTita && passPlate) {
-                                blds['Broadcast'].click();
-                                gp.msg("Built: Broadcast", "notice")
-                                console.log("Built Adv: Broadcast.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Mint'] && passPlate && passGold && passTita) {
-                                blds['Mint'].click();
-                                gp.msg("Built: Mint", "notice")
-                                console.log("Built Adv: Mint.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Catnip']) {
-                                blds['Catnip'].click();
-                                gp.msg("Built: Catnip", "notice")
-                                console.log("Built Adv: Catnip.", "notice");
-                                return true;
-                            }
-
-                            if (blds['Hydro'] && passConc && myRes['titanium'].value > myRes['titanium'].maxValue - 100) {
-                                blds['Hydro'].click();
-                                gp.msg("Built: Hydro", "notice")
-                                console.log("Built Adv: Hydro.", "notice");
-                                return true;
-                            }
-
-                            //if (blds['Ziggurat']) {
-                            //blds['Ziggurat'].click();
-                            //gp.msg("Built: Ziggurat", "notice")
-                            //console.log("Built: Ziggurat.", "notice");
-                            //return true;
-                            //}
-
-
-                        }
-
-
-                    } else {
-                        return false;
-                    }
-
-                    return false;
-
-                }
-
-                var bulidTimer = function () {
-                    if (buildBld()) {
-                        setTimeout(bulidTimer, 1000)
-                    }
-                }
-
-                bulidTimer();
-
-
-            }
+            //if (!popMode && smartBuildOrders.length == 0 && gamePage.activeTabId == "Bonfire" &&
+            //    (myRes['wood'].value > (myRes['wood'].maxValue * .7) || myRes['minerals'].value > (myRes['minerals'].maxValue * .7)) &&
+            //    (myRes['gold'].maxValue < 500 || myRes['slab'].value > (myRes['gold'].maxValue * 1.5)) &&
+            //    (myRes['gold'].maxValue < 500 || myRes['beam'].value > (myRes['gold'].maxValue * 1.5))) {
+            //    var blds = {};
+            //    var bldsCnt = 0;
+            //
+            //
+            //    var getBlds = function () {
+            //        blds = {};
+            //        bldsCnt = 0;
+            //        $('.tabInner .btnContent').each(function (idx, obj) {
+            //            var inner = $(obj).text();
+            //            var key = inner.split(' ')[0];
+            //
+            //            var objNo = $(obj).parent().hasClass('disabled');
+            //            if (!objNo) {
+            //                blds[key] = $(obj)
+            //                bldsCnt++;
+            //            }
+            //        })
+            //    }
+            //
+            //    console.log('Run build...');
+            //
+            //    var buildBld = function () {
+            //        //gamePage.activeTabId = "Bonfire"; gamePage.render();
+            //
+            //        getBlds();
+            //        var goldMax = myRes['gold'].maxValue
+            //
+            //        if (bldsCnt > 2) {
+            //            if (blds['Workshop']) {
+            //                blds['Workshop'].click();
+            //                gp.msg("Built: Workshop.", "notice")
+            //                console.log("Built: Workshop.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Hut']) {
+            //                blds['Hut'].click();
+            //                gp.msg("Built: Hut.", "notice")
+            //                console.log("Built: Hut.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Log']) {
+            //                blds['Log'].click();
+            //                gp.msg("Built: Log.", "notice")
+            //                console.log("Built: Log.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Catnip'] && myRes['catnip'].perTickUI > 0 && myRes['gold'] > 90) {
+            //                blds['Catnip'].click();
+            //                gp.msg("Built: Catnip.", "notice")
+            //                console.log("Built: Catnip.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Pasture'] && myRes['catnip'].perTickUI > 0 && myRes['gold'] > 90) {
+            //                blds['Pasture'].click();
+            //                gp.msg("Built: Pasture.", "notice")
+            //                console.log("Built: Pasture.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Mine']) {
+            //                blds['Mine'].click();
+            //                gp.msg("Built: Mine.", "notice")
+            //                console.log("Built: Mine.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Smelter'] && myRes['wood'].perTickUI > 10 && myRes['minerals'].perTickUI > 10) {
+            //                blds['Smelter'].click();
+            //                gp.msg("Built: Smelter.", "notice")
+            //                console.log("Built: Smelter.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Barn']) {
+            //                blds['Barn'].click();
+            //                gp.msg("Built: Barn.", "notice")
+            //                console.log("Built: Barn.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Academy'] && myRes['science'].value > (myRes['science'].maxValue * .9)) {
+            //                blds['Academy'].click();
+            //                gp.msg("Built: Academy.", "notice")
+            //                console.log("Built: Academy.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Library']) {
+            //                blds['Library'].click();
+            //                gp.msg("Built: Library.", "notice")
+            //                console.log("Built: Library.", "notice");
+            //                return true;
+            //            }
+            //
+            //
+            //            if (blds['Unic.']) {
+            //                blds['Unic.'].click();
+            //                gp.msg("Built: Unic.", "notice")
+            //                console.log("Built: Unic.", "notice");
+            //                return true;
+            //            }
+            //
+            //
+            //            if (blds['Lumber'] && myRes['iron'].value > myRes['iron'].maxValue * .6 && myRes['plate'].value > myRes['gold'].maxValue * 2) {
+            //                blds['Lumber'].click();
+            //                gp.msg("Built: Lumber", "notice")
+            //                console.log("Built: Lumber.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Amphitheatre'] && myRes['parchment'].value > goldMax * .9) {
+            //                var count = parseInt(blds['Amphitheatre'].text().split('(')[1].split(')')[0])
+            //                if (count < 20) {
+            //                    blds['Amphitheatre'].click();
+            //                    gp.msg("Built: Amphitheatre", "notice")
+            //                    console.log("Built: Amphitheatre.", "notice");
+            //                    return true;
+            //                } else {
+            //                    if (myRes['parchment'].value > myRes['gold'].maxValue && myRes['manuscript'].value > myRes['gold'].maxValue && myRes['compendium'].value > myRes['gold'].maxValue / 10) {
+            //                        blds['Amphitheatre'].click();
+            //                        gp.msg("Built: Amphitheatre", "notice")
+            //                        console.log("Built: Amphitheatre.", "notice");
+            //                        return true;
+            //                    }
+            //                }
+            //            }
+            //
+            //            if (blds['Mansion']) {
+            //                var count = parseInt(blds['Mansion'].text().split('(')[1].split(')')[0])
+            //                var slab = 185 * Math.pow(1.15, count);
+            //                var steel = 75 * Math.pow(1.15, count);
+            //                var titanium = 25 * Math.pow(1.15, count);
+            //
+            //                if ((myRes['titanium'].value > titanium * 4 || myRes['titanium'].value > myRes['titanium'].maxValue * .9) && myRes['slab'].value > (slab * 2) + goldMax && myRes['steel'].value > (steel * 2) + goldMax &&
+            //                    myRes['titanium'].value > myRes['titanium'].maxValue * .7) {
+            //                    blds['Mansion'].click();
+            //                    gp.msg("Built: Mansion", "notice")
+            //                    console.log("Built: Mansion.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Harbour']) {
+            //                var count = parseInt(blds['Harbour'].text().split('(')[1].split(')')[0])
+            //                var scaffold = 5 * Math.pow(1.15, count);
+            //                var slab = 50 * Math.pow(1.15, count);
+            //                var plate = 75 * Math.pow(1.15, count);
+            //                //console.log('Harbour', myRes['scaffold'].value, scaffold * 5, myRes['slab'].value,slab * 3,myRes['plate'].value,plate * 2)
+            //                if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['slab'].value > (slab * 2) + goldMax && myRes['plate'].value > (plate * 2) + goldMax) {
+            //                    blds['Harbour'].click();
+            //                    gp.msg("Built: Harbour", "notice")
+            //                    console.log("Built: Harbour.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Observatory'] && myRes['iron'].value > myRes['iron'].maxValue * .8) {
+            //                var count = parseInt(blds['Observatory'].text().split('(')[1].split(')')[0])
+            //                var scaffold = 50 * Math.pow(1.10, count);
+            //                var slab = 35 * Math.pow(1.10, count);
+            //                //var iron = 750 * Math.pow(1.10, count);
+            //                if (myRes['scaffold'].value > (scaffold * 2) + goldMax && myRes['slab'].value > (slab * 2) + goldMax) {
+            //                    blds['Observatory'].click();
+            //                    gp.msg("Built: Observatory", "notice")
+            //                    console.log("Built: Observatory.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Quarry'] && myRes['iron'].value > myRes['iron'].maxValue * .8) {
+            //                var count = parseInt(blds['Quarry'].text().split('(')[1].split(')')[0])
+            //                var scaffold = 50 * Math.pow(1.15, count);
+            //                var slab = 1000 * Math.pow(1.15, count);
+            //                var steel = 150 * Math.pow(1.15, count);
+            //                //var iron = 750 * Math.pow(1.10, count);
+            //                if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['slab'].value > (slab * 2) + goldMax && myRes['steel'].value > (steel * 2) + goldMax) {
+            //                    blds['Quarry'].click();
+            //                    gp.msg("Built: Quarry", "notice")
+            //                    console.log("Built: Quarry.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Oil']) {
+            //                var count = parseInt(blds['Oil'].text().split('(')[1].split(')')[0])
+            //                var scaffold = 25 * Math.pow(1.15, count);
+            //                var gear = 25 * Math.pow(1.15, count);
+            //                var steel = 50 * Math.pow(1.15, count);
+            //                //var iron = 750 * Math.pow(1.10, count);
+            //                if (myRes['scaffold'].value > (scaffold * 3) + goldMax && myRes['gear'].value > (gear * 3) && myRes['steel'].value > (steel * 2) + goldMax) {
+            //                    blds['Oil'].click();
+            //                    gp.msg("Built: Oil", "notice")
+            //                    console.log("Built: Oil.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Warehouse']) {
+            //                var count = parseInt(blds['Warehouse'].text().split('(')[1].split(')')[0])
+            //                var beam = 1.5 * Math.pow(1.15, count);
+            //                var slab = 2 * Math.pow(1.15, count);
+            //                if (myRes['beam'].value > (beam * 2) + (goldMax * 4) && myRes['slab'].value > (slab * 2) + (goldMax * 4)) {
+            //                    blds['Warehouse'].click();
+            //                    gp.msg("Built: Warehouse", "notice")
+            //                    console.log("Built: Warehouse.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Temple']) {
+            //                var count = parseInt(blds['Temple'].text().split('(')[1].split(')')[0])
+            //                var gold = 50 * Math.pow(1.15, count);
+            //                var slab = 25 * Math.pow(1.15, count);
+            //                var plate = 15 * Math.pow(1.15, count);
+            //                var manuscript = 10 * Math.pow(1.15, count);
+            //                if (myRes['gold'].value > goldMax - 50 && myRes['gold'].value > gold * 4 && myRes['manuscript'].value > manuscript * 4 && myRes['plate'].value > plate * 4 && myRes['slab'].value > slab * 5) {
+            //                    blds['Temple'].click();
+            //                    gp.msg("Built: Temple", "notice")
+            //                    console.log("Built: Temple.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            if (blds['Calciner'] && myRes['energy'].value > 1) {
+            //                var count = parseInt(blds['Calciner'].text().split('(')[1].split(')')[0])
+            //                var steel = 120 * Math.pow(1.15, count);
+            //                var titanium = 15 * Math.pow(1.15, count);
+            //                var blueprint = 5 * Math.pow(1.15, count);
+            //                var oil = 500 * Math.pow(1.15, count);
+            //                if (myRes['oil'].perTickUI > .3 && myRes['steel'].value > steel * 3 && myRes['titanium'].value > titanium * 3 && myRes['blueprint'].value > blueprint * 5 && myRes['oil'].value > oil) {
+            //                    blds['Calciner'].click();
+            //                    gp.msg("Built: Calciner", "notice")
+            //                    console.log("Built: Calciner.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //
+            //            if (blds['Aqueduct']) {
+            //                blds['Aqueduct'].click();
+            //                gp.msg("Built: Aqueduct.", "notice")
+            //                console.log("Built: Aqueduct.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Factory'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15 && myRes['plate'].value > myRes['titanium'].maxValue && myRes['energy'].value > 2) {
+            //                blds['Factory'].click();
+            //                gp.msg("Built: Factory", "notice")
+            //                console.log("Built: Factory.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Magneto']) {
+            //                blds['Magneto'].click();
+            //                gp.msg("Built: Magneto", "notice")
+            //                console.log("Built: Magneto.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Solar'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15) {
+            //                blds['Solar'].click();
+            //                gp.msg("Built: Solar", "notice")
+            //                console.log("Built: Solar.", "notice");
+            //                return true;
+            //            }
+            //
+            //            if (blds['Hydro'] && myRes['titanium'].value > myRes['titanium'].maxValue - 15) {
+            //                var count = parseInt(blds['Hydro'].text().split('(')[1].split(')')[0])
+            //                var conc = 100 * Math.pow(1.15, count);
+            //                if (myRes['concrete'].value > conc * 3) {
+            //                    blds['Hydro'].click();
+            //                    gp.msg("Built: Hydro", "notice")
+            //                    console.log("Built: Hydro.", "notice");
+            //                    return true;
+            //                }
+            //            }
+            //
+            //            //end game builds
+            //            if (myRes['unobtainium'].value > 555 &&
+            //                myRes['uranium'].value > myRes['uranium'].maxValue * .8) {
+            //
+            //                var passPlate = myRes['plate'].value > myRes['coal'].maxValue
+            //                var passConc = myRes['concrete'].value > myRes['unobtainium'].maxValue * 2
+            //                var passBlue = myRes['blueprint'].value > myRes['unobtainium'].maxValue
+            //                var passTita = myRes['titanium'].value > myRes['titanium'].maxValue * .8
+            //                var passGold = myRes['gold'].value > myRes['gold'].maxValue * .8
+            //                var passAlloy = myRes['alloy'].value > myRes['uranium'].maxValue / 2
+            //
+            //
+            //                if (blds['Mansion'] && passTita) {
+            //                    blds['Mansion'].click();
+            //                    gp.msg("Built: Mansion", "notice")
+            //                    console.log("Built Adv: Mansion.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Calciner'] && passTita && passBlue && myRes['energy'].value > 1) {
+            //                    blds['Calciner'].click();
+            //                    gp.msg("Built: Calciner", "notice")
+            //                    console.log("Built Adv: Calciner.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Reactor'] && passTita && passPlate && passConc && passBlue) {
+            //                    blds['Reactor'].click();
+            //                    gp.msg("Built: Reactor", "notice")
+            //                    console.log("Built Adv: Reactor.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Accelerator'] && passTita && passConc && myRes['energy'].value > 2) {
+            //                    blds['Accelerator'].click();
+            //                    gp.msg("Built: Accelerator", "notice")
+            //                    console.log("Built Adv: Accelerator.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Steamworks'] && passBlue) {
+            //                    blds['Steamworks'].click();
+            //                    gp.msg("Built: Steamworks", "notice")
+            //                    console.log("Built Adv: Steamworks.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Oil']) {
+            //                    blds['Oil'].click();
+            //                    gp.msg("Built: Oil", "notice")
+            //                    console.log("Built Adv: Oil.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Harbour'] && passPlate) {
+            //                    blds['Harbour'].click();
+            //                    gp.msg("Built: Harbour", "notice")
+            //                    console.log("Built Adv: Harbour.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Quarry']) {
+            //                    blds['Quarry'].click();
+            //                    gp.msg("Built: Quarry", "notice")
+            //                    console.log("Built Adv: Quarry.", "notice");
+            //                    return true;
+            //                }
+            //
+            //
+            //                if (blds['Chapel']) {
+            //                    blds['Chapel'].click();
+            //                    gp.msg("Built: Chapel", "notice")
+            //                    console.log("Built Adv: Chapel.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Temple'] && passPlate && passGold && passTita) {
+            //                    blds['Temple'].click();
+            //                    gp.msg("Built: Temple", "notice")
+            //                    console.log("Built Adv: Temple.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Bio'] && passAlloy) {
+            //                    blds['Bio'].click();
+            //                    gp.msg("Built: Bio", "notice")
+            //                    console.log("Built Adv: Bio.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Tradepost'] && passGold && passTita) {
+            //                    blds['Tradepost'].click();
+            //                    gp.msg("Built: Tradepost", "notice")
+            //                    console.log("Built Adv: Tradepost.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Broadcast'] && passTita && passPlate) {
+            //                    blds['Broadcast'].click();
+            //                    gp.msg("Built: Broadcast", "notice")
+            //                    console.log("Built Adv: Broadcast.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Mint'] && passPlate && passGold && passTita) {
+            //                    blds['Mint'].click();
+            //                    gp.msg("Built: Mint", "notice")
+            //                    console.log("Built Adv: Mint.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Catnip']) {
+            //                    blds['Catnip'].click();
+            //                    gp.msg("Built: Catnip", "notice")
+            //                    console.log("Built Adv: Catnip.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                if (blds['Hydro'] && passConc && myRes['titanium'].value > myRes['titanium'].maxValue - 100) {
+            //                    blds['Hydro'].click();
+            //                    gp.msg("Built: Hydro", "notice")
+            //                    console.log("Built Adv: Hydro.", "notice");
+            //                    return true;
+            //                }
+            //
+            //                //if (blds['Ziggurat']) {
+            //                //blds['Ziggurat'].click();
+            //                //gp.msg("Built: Ziggurat", "notice")
+            //                //console.log("Built: Ziggurat.", "notice");
+            //                //return true;
+            //                //}
+            //
+            //
+            //            }
+            //
+            //
+            //        } else {
+            //            return false;
+            //        }
+            //
+            //        return false;
+            //
+            //    }
+            //
+            //    var bulidTimer = function () {
+            //        if (buildBld()) {
+            //            setTimeout(bulidTimer, 1000)
+            //        }
+            //    }
+            //
+            //    bulidTimer();
+            //
+            //
+            //}
 
             //Space Building
             //If starchart>unobtainiumMax
 
-            if (!popMode && gamePage.activeTabId == "Bonfire" && myRes['unobtainium'].value > 10 && myRes['unobtainium'].value > myRes['unobtainium'].maxValue * .8 && myRes['starchart'].value > myRes['unobtainium'].maxValue * 2) {
-
-                var spaceFunc = function () {
-
-
-                    var spaceBlds = {};
-                    var spaceBldsCnt = 0;
-
-                    var getSpaceBlds = function () {
-                        blds = {};
-                        bldsCnt = 0;
-                        $('.tabInner .btnContent').each(function (idx, obj) {
-                            var inner = $(obj).text();
-                            var key = inner.split(' (')[0].replace(' ', '');
-                            var objNo = $(obj).parent().hasClass('disabled');
-                            if (!objNo) {
-                                spaceBlds[key] = $(obj)
-                                spaceBldsCnt++;
-                            }
-                        })
-                    }
-                    getSpaceBlds()
-
-                    if (spaceBlds['T-minusMission']) {
-                        spaceBlds['T-minusMission'].click();
-                        gp.msg("Built: T-minusMission", "notice")
-                        console.log("Built: T-minusMission.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['HeliosMission']) {
-                        spaceBlds['HeliosMission'].click();
-                        gp.msg("Built: HeliosMission", "notice")
-                        console.log("Built: HeliosMission.", "notice");
-                        return true;
-                    }
-
-
-                    if (spaceBlds['ResearchVessel']) {
-                        spaceBlds['ResearchVessel'].click();
-                        gp.msg("Built: ResearchVessel", "notice")
-                        console.log("Built: ResearchVessel.", "notice");
-                        return true;
-                    }
-
-
-                    if (spaceBlds['LunarOutpost'] && myRes['energy'].value > 5 && (myRes['uranium'].perTickUI * 5) > 1.8) {
-                        spaceBlds['LunarOutpost'].click();
-                        gp.msg("Built: LunarOutpost", "notice")
-                        console.log("Built: LunarOutpost.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['PlanetCracker']) {
-                        spaceBlds['PlanetCracker'].click();
-                        gp.msg("Built: PlanetCracker", "notice")
-                        console.log("Built: PlanetCracker.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['Moonbase'] && myRes['energy'].value > 10) {
-                        spaceBlds['Moonbase'].click();
-                        gp.msg("Built: Moonbase", "notice")
-                        console.log("Built: Moonbase.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['SpaceElevator'] & myRes['unobtainium'].value > myRes['unobtainium'].maxValue - 5) {
-                        spaceBlds['SpaceElevator'].click();
-                        gp.msg("Built: SpaceElevator", "notice")
-                        console.log("Built: SpaceElevator.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['Satellite']) {
-                        spaceBlds['Satellite'].click();
-                        gp.msg("Built: Satellite", "notice")
-                        console.log("Built: Satellite.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['HydraulicFracturer']) {
-                        spaceBlds['HydraulicFracturer'].click();
-                        gp.msg("Built: HydraulicFracturer", "notice")
-                        console.log("Built: HydraulicFracturer.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['OrbitalArray'] && myRes['energy'].value > 20) {
-                        spaceBlds['OrbitalArray'].click();
-                        gp.msg("Built: OrbitalArray", "notice")
-                        console.log("Built: OrbitalArray.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['SpaceElevator']) {
-                        spaceBlds['SpaceElevator'].click();
-                        gp.msg("Built: SpaceElevator", "notice")
-                        console.log("Built: SpaceElevator.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['Cryostation']) {
-                        spaceBlds['Cryostation'].click();
-                        gp.msg("Built: Cryostation", "notice")
-                        console.log("Built: Cryostation.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['SpaceStation'] && myRes['energy'].value > 10) {
-                        spaceBlds['SpaceStation'].click();
-                        gp.msg("Built: SpaceStation", "notice")
-                        console.log("Built: SpaceStation.", "notice");
-                        return true;
-                    }
-
-                    if (spaceBlds['Sunlifter']) {
-                        spaceBlds['Sunlifter'].click();
-                        gp.msg("Built: Sunlifter", "notice")
-                        console.log("Built: Sunlifter.", "notice");
-                        return true;
-                    }
-
-
-                    //console.log(spaceBlds)
-                }
-
-                gamePage.activeTabId = 'Space';
-                gamePage.render();
-                spaceFunc();
-                gamePage.activeTabId = 'Bonfire';
-                gamePage.render();
-
-            }
+            //if (!popMode && gamePage.activeTabId == "Bonfire" && myRes['unobtainium'].value > 10 && myRes['unobtainium'].value > myRes['unobtainium'].maxValue * .8 && myRes['starchart'].value > myRes['unobtainium'].maxValue * 2) {
+            //
+            //    var spaceFunc = function () {
+            //
+            //
+            //        var spaceBlds = {};
+            //        var spaceBldsCnt = 0;
+            //
+            //        var getSpaceBlds = function () {
+            //            blds = {};
+            //            bldsCnt = 0;
+            //            $('.tabInner .btnContent').each(function (idx, obj) {
+            //                var inner = $(obj).text();
+            //                var key = inner.split(' (')[0].replace(' ', '');
+            //                var objNo = $(obj).parent().hasClass('disabled');
+            //                if (!objNo) {
+            //                    spaceBlds[key] = $(obj)
+            //                    spaceBldsCnt++;
+            //                }
+            //            })
+            //        }
+            //        getSpaceBlds()
+            //
+            //        //if (spaceBlds['T-minusMission']) {
+            //        //    spaceBlds['T-minusMission'].click();
+            //        //    gp.msg("Built: T-minusMission", "notice")
+            //        //    console.log("Built: T-minusMission.", "notice");
+            //        //    return true;
+            //        //}
+            //
+            //        //if (spaceBlds['HeliosMission']) {
+            //        //    spaceBlds['HeliosMission'].click();
+            //        //    gp.msg("Built: HeliosMission", "notice")
+            //        //    console.log("Built: HeliosMission.", "notice");
+            //        //    return true;
+            //        //}
+            //
+            //
+            //        if (spaceBlds['ResearchVessel']) {
+            //            spaceBlds['ResearchVessel'].click();
+            //            gp.msg("Built: ResearchVessel", "notice")
+            //            console.log("Built: ResearchVessel.", "notice");
+            //            return true;
+            //        }
+            //
+            //
+            //        if (spaceBlds['LunarOutpost'] && myRes['energy'].value > 5 && (myRes['uranium'].perTickUI * 5) > 1.8) {
+            //            spaceBlds['LunarOutpost'].click();
+            //            gp.msg("Built: LunarOutpost", "notice")
+            //            console.log("Built: LunarOutpost.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['PlanetCracker']) {
+            //            spaceBlds['PlanetCracker'].click();
+            //            gp.msg("Built: PlanetCracker", "notice")
+            //            console.log("Built: PlanetCracker.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['Moonbase'] && myRes['energy'].value > 10) {
+            //            spaceBlds['Moonbase'].click();
+            //            gp.msg("Built: Moonbase", "notice")
+            //            console.log("Built: Moonbase.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['SpaceElevator'] & myRes['unobtainium'].value > myRes['unobtainium'].maxValue - 5) {
+            //            spaceBlds['SpaceElevator'].click();
+            //            gp.msg("Built: SpaceElevator", "notice")
+            //            console.log("Built: SpaceElevator.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['Satellite']) {
+            //            spaceBlds['Satellite'].click();
+            //            gp.msg("Built: Satellite", "notice")
+            //            console.log("Built: Satellite.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['HydraulicFracturer']) {
+            //            spaceBlds['HydraulicFracturer'].click();
+            //            gp.msg("Built: HydraulicFracturer", "notice")
+            //            console.log("Built: HydraulicFracturer.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['OrbitalArray'] && myRes['energy'].value > 20) {
+            //            spaceBlds['OrbitalArray'].click();
+            //            gp.msg("Built: OrbitalArray", "notice")
+            //            console.log("Built: OrbitalArray.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['SpaceElevator']) {
+            //            spaceBlds['SpaceElevator'].click();
+            //            gp.msg("Built: SpaceElevator", "notice")
+            //            console.log("Built: SpaceElevator.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['Cryostation']) {
+            //            spaceBlds['Cryostation'].click();
+            //            gp.msg("Built: Cryostation", "notice")
+            //            console.log("Built: Cryostation.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['SpaceStation'] && myRes['energy'].value > 10) {
+            //            spaceBlds['SpaceStation'].click();
+            //            gp.msg("Built: SpaceStation", "notice")
+            //            console.log("Built: SpaceStation.", "notice");
+            //            return true;
+            //        }
+            //
+            //        if (spaceBlds['Sunlifter']) {
+            //            spaceBlds['Sunlifter'].click();
+            //            gp.msg("Built: Sunlifter", "notice")
+            //            console.log("Built: Sunlifter.", "notice");
+            //            return true;
+            //        }
+            //
+            //
+            //        //console.log(spaceBlds)
+            //    }
+            //
+            //    gamePage.activeTabId = 'Space';
+            //    gamePage.render();
+            //    spaceFunc();
+            //    gamePage.activeTabId = 'Bonfire';
+            //    gamePage.render();
+            //
+            //}
 
             var craftFn = function () {
 
@@ -2435,21 +2707,21 @@ var kittenBot = function () {
                 //}
 
                 //alloy
-                if (gamePage.workshop.getCraft('alloy').unlocked &&
-                    myRes['titanium'].value > (myRes['titanium'].maxValue * .8) &&
-                    myRes['steel'].value > myRes['gold'].maxValue * 1.5 &&
-                    myRes['steel'].value > (myRes['alloy'].value + 1) * 20) {
-                    var amt = 1;
-                    if (myRes['steel'].value > 2500 && myRes['titanium'].value > 500) amt = 2;
-                    if (myRes['steel'].value > 10000 && myRes['titanium'].value > 2000) amt = 8;
-                    if (myRes['steel'].value > 20000 && myRes['titanium'].value > 4000) amt = 16;
-                    if (myRes['steel'].value > 40000 && myRes['titanium'].value > 8000) amt = 32;
-                    if (myRes['steel'].value > 80000 && myRes['titanium'].value > 16000) amt = 64;
-                    if (myRes['steel'].value > 160000 && myRes['titanium'].value > 32000) amt = 128;
-                    if (myRes['steel'].value > 320000 && myRes['titanium'].value > 64000) amt = 256;
-                    gp.craft('alloy', amt, true);
-                    craftMsg.push(amt + " alloy")
-                }
+                //if (gamePage.workshop.getCraft('alloy').unlocked &&
+                //    myRes['titanium'].value > (myRes['titanium'].maxValue * .8) &&
+                //    myRes['steel'].value > myRes['gold'].maxValue * 1.5 &&
+                //    myRes['steel'].value > (myRes['alloy'].value + 1) * 20) {
+                //    var amt = 1;
+                //    if (myRes['steel'].value > 2500 && myRes['titanium'].value > 500) amt = 2;
+                //    if (myRes['steel'].value > 10000 && myRes['titanium'].value > 2000) amt = 8;
+                //    if (myRes['steel'].value > 20000 && myRes['titanium'].value > 4000) amt = 16;
+                //    if (myRes['steel'].value > 40000 && myRes['titanium'].value > 8000) amt = 32;
+                //    if (myRes['steel'].value > 80000 && myRes['titanium'].value > 16000) amt = 64;
+                //    if (myRes['steel'].value > 160000 && myRes['titanium'].value > 32000) amt = 128;
+                //    if (myRes['steel'].value > 320000 && myRes['titanium'].value > 64000) amt = 256;
+                //    gp.craft('alloy', amt, true);
+                //    craftMsg.push(amt + " alloy")
+                //}
 
                 //gear
                 //if (!popMode && gamePage.workshop.getCraft('gear').unlocked &&
@@ -2539,15 +2811,15 @@ var kittenBot = function () {
 
 
                 //kerosene
-                if (gamePage.workshop.getCraft('kerosene').unlocked &&
-                    myRes['oil'].value > myRes['oil'].maxValue * .99 &&
-                    myRes['oil'].value > 7500) {
-                    var amt = 1;
-                    if (myRes['oil'].value > 500000) amt = 3;
-                    if (myRes['oil'].value > 900000) amt = 6;
-                    gp.craft('kerosene', amt, true);
-                    craftMsg.push(amt + " kerosene")
-                }
+                //if (gamePage.workshop.getCraft('kerosene').unlocked &&
+                //    myRes['oil'].value > myRes['oil'].maxValue * .99 &&
+                //    myRes['oil'].value > 7500) {
+                //    var amt = 1;
+                //    if (myRes['oil'].value > 500000) amt = 3;
+                //    if (myRes['oil'].value > 900000) amt = 6;
+                //    gp.craft('kerosene', amt, true);
+                //    craftMsg.push(amt + " kerosene")
+                //}
 
                 //megalith
                 if (!popMode && gamePage.workshop.getCraft('megalith').unlocked &&
@@ -2610,99 +2882,99 @@ var kittenBot = function () {
             //    gamePage.render();
             //}
 
-            //handle Trade (low Food)
-            if ((myRes['catnip'].value < (myRes['catnip'].maxValue - 60000) || myRes['catnip'].value < (myRes['catnip'].maxValue * .5))
-                && myRes['gold'].value > 15 && myRes['iron'].value > 125 && myRes['catpower'].value > 50 && myRes['catnip'].value < myRes['catnip'].maxValue * .8
-                && myRes['catnip'].value < 400000) {
-                var origTab = gamePage.activeTabId;
-                gamePage.activeTabId = 'Trade';
-                gamePage.render();
-                if (gamePage.diplomacyTab.racePanels.length > 2) {
-                    gp.msg("Catnip low, traded for food.", "notice");
-                    gamePage.diplomacyTab.racePanels[1].tradeBtn.tradeMultiple(1); // foods
-
-                }
-                if (gamePage.activeTabId != origTab) {
-                    gamePage.activeTabId = origTab;
-                    gamePage.render();
-                }
-            }
-
-            //handle
-            var perGold = parseInt(myRes['gold'].perTickUI * 5) + 1;
-            if (myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 15)) && myRes['gold'].value > 15) {
-
-                var tradeIdx = -1;
-                var origTab = gamePage.activeTabId;
-                var tradeAmt = 1;
-
-                // tradeAmt = parseInt(myRes['gold'].value / 1500)
-                tradeAmt = parseInt(perGold);
-                //console.log(parseInt(perGold),myRes['gold'].perTickUI*5, tradeAmt)
-                if (tradeAmt < 1) tradeAmt = 1;
-
-
-                //slab for rares.
-
-                //if (myRes['slab'].value > 200 &&
-                //    myRes['catpower'].value > 50 &&
-                //    myRes['titanium'].value < myRes['titanium'].maxValue - 100) {
-                //
-                //    gamePage.activeTabId = 'Trade';
-                //    gamePage.render();
-                //    if (gamePage.diplomacyTab.racePanels.length > 4) {
-                //        tradeIdx = 4;
-                //        gp.msg("Trade " + tradeAmt + " with Zibras", "notice")
-                //    }
-                //}
-
-
-                //ivory
-                //if (tradeIdx < 0) {
-                //    if (myRes['ivory'].value > (myRes['gold'].maxValue * 4) + 600 &&
-                //        myRes['catpower'].value > 50 && myRes['gold'].value < 20000) {
-                //        gamePage.activeTabId = 'Trade';
-                //        gamePage.render();
-                //        if (gamePage.diplomacyTab.racePanels.length > 3) {
-                //            tradeIdx = 3;
-                //            gp.msg("Trade with Nagas", "notice")
-                //        }
-                //
-                //    }
-                //}
-
-                //food for wood.
-                if (tradeIdx < 0) {
-                    if (myRes['catnip'].value > (myRes['catnip'].maxValue * .5) && myRes['catnip'].value > 5000 && myRes['catnip'].perTickUI > 0 &&
-                        myRes['iron'].value > 125 && myRes['catpower'].value > 50 &&
-                        myRes['catnip'].value < 150000 && myRes['gold'].value < 20000) {
-                        gamePage.activeTabId = 'Trade';
-                        gamePage.render();
-                        if (gamePage.diplomacyTab.racePanels.length > 1) {
-                            gp.craftAll('wood');
-                            tradeIdx = 1;
-                            gp.msg("Trade with Sharks. Sell All Wood.", "notice")
-                        }
-
-                    }
-                }
-
-                if (tradeIdx > -1) {
-
-                    for (var i = 0; i < tradeAmt; i++) {
-                        gamePage.diplomacyTab.racePanels[tradeIdx].tradeBtn.tradeMultiple(1);
-                        //if (tradeIdx == 4 && myRes['titanium'].value >= myRes['titanium'].maxValue - 1) break;
-                    }// foods
-                    if (tradeAmt > 10) {
-                        gp.msg(tradeAmt + " Trades completed.", "notice")
-                    }
-                }
-
-                if (gamePage.activeTabId != origTab) {
-                    gamePage.activeTabId = origTab;
-                    gamePage.render();
-                }
-            }
+            ////handle Trade (low Food)
+            //if ((myRes['catnip'].value < (myRes['catnip'].maxValue - 60000) || myRes['catnip'].value < (myRes['catnip'].maxValue * .5))
+            //    && myRes['gold'].value > 15 && myRes['iron'].value > 125 && myRes['catpower'].value > 50 && myRes['catnip'].value < myRes['catnip'].maxValue * .8
+            //    && myRes['catnip'].value < 400000) {
+            //    var origTab = gamePage.activeTabId;
+            //    gamePage.activeTabId = 'Trade';
+            //    gamePage.render();
+            //    if (gamePage.diplomacyTab.racePanels.length > 2) {
+            //        gp.msg("Catnip low, traded for food.", "notice");
+            //        gamePage.diplomacyTab.racePanels[1].tradeBtn.tradeMultiple(1); // foods
+            //
+            //    }
+            //    if (gamePage.activeTabId != origTab) {
+            //        gamePage.activeTabId = origTab;
+            //        gamePage.render();
+            //    }
+            //}
+            //
+            ////handle
+            //var perGold = parseInt(myRes['gold'].perTickUI * 5) + 1;
+            //if (myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 15)) && myRes['gold'].value > 15) {
+            //
+            //    var tradeIdx = -1;
+            //    var origTab = gamePage.activeTabId;
+            //    var tradeAmt = 1;
+            //
+            //    // tradeAmt = parseInt(myRes['gold'].value / 1500)
+            //    tradeAmt = parseInt(perGold);
+            //    //console.log(parseInt(perGold),myRes['gold'].perTickUI*5, tradeAmt)
+            //    if (tradeAmt < 1) tradeAmt = 1;
+            //
+            //
+            //    //slab for rares.
+            //
+            //    //if (myRes['slab'].value > 200 &&
+            //    //    myRes['catpower'].value > 50 &&
+            //    //    myRes['titanium'].value < myRes['titanium'].maxValue - 100) {
+            //    //
+            //    //    gamePage.activeTabId = 'Trade';
+            //    //    gamePage.render();
+            //    //    if (gamePage.diplomacyTab.racePanels.length > 4) {
+            //    //        tradeIdx = 4;
+            //    //        gp.msg("Trade " + tradeAmt + " with Zibras", "notice")
+            //    //    }
+            //    //}
+            //
+            //
+            //    //ivory
+            //    //if (tradeIdx < 0) {
+            //    //    if (myRes['ivory'].value > (myRes['gold'].maxValue * 4) + 600 &&
+            //    //        myRes['catpower'].value > 50 && myRes['gold'].value < 20000) {
+            //    //        gamePage.activeTabId = 'Trade';
+            //    //        gamePage.render();
+            //    //        if (gamePage.diplomacyTab.racePanels.length > 3) {
+            //    //            tradeIdx = 3;
+            //    //            gp.msg("Trade with Nagas", "notice")
+            //    //        }
+            //    //
+            //    //    }
+            //    //}
+            //
+            //    //food for wood.
+            //    if (tradeIdx < 0) {
+            //        if (myRes['catnip'].value > (myRes['catnip'].maxValue * .5) && myRes['catnip'].value > 5000 && myRes['catnip'].perTickUI > 0 &&
+            //            myRes['iron'].value > 125 && myRes['catpower'].value > 50 &&
+            //            myRes['catnip'].value < 150000 && myRes['gold'].value < 20000) {
+            //            gamePage.activeTabId = 'Trade';
+            //            gamePage.render();
+            //            if (gamePage.diplomacyTab.racePanels.length > 1) {
+            //                gp.craftAll('wood');
+            //                tradeIdx = 1;
+            //                gp.msg("Trade with Sharks. Sell All Wood.", "notice")
+            //            }
+            //
+            //        }
+            //    }
+            //
+            //    if (tradeIdx > -1) {
+            //
+            //        for (var i = 0; i < tradeAmt; i++) {
+            //            gamePage.diplomacyTab.racePanels[tradeIdx].tradeBtn.tradeMultiple(1);
+            //            //if (tradeIdx == 4 && myRes['titanium'].value >= myRes['titanium'].maxValue - 1) break;
+            //        }// foods
+            //        if (tradeAmt > 10) {
+            //            gp.msg(tradeAmt + " Trades completed.", "notice")
+            //        }
+            //    }
+            //
+            //    if (gamePage.activeTabId != origTab) {
+            //        gamePage.activeTabId = origTab;
+            //        gamePage.render();
+            //    }
+            //}
 
             ////wood
             //if (myRes['catnip'].value > (myRes['catnip'].maxValue * .9999)) {
