@@ -59,7 +59,9 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             name: "averageKittens",
             title: "Avg. Kittens Born (Per Century)",
             val: 0,
-            calculate: function (game) { return parseInt(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100)); },
+            calculate: function(game){ 
+                return parseInt(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100)); 
+            },
             unlocked: false
         }
     ],
@@ -78,14 +80,27 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         name: "averageKittens",
         title: "Avg. Kittens Born (Per Century)",
         val: 0,
-        calculate: function (game) { return parseInt(game.resPool.get("kittens").value / (game.calendar.year / 100)); },
+        calculate: function(game){ 
+            return parseInt(game.resPool.get("kittens").value / (game.calendar.year / 100)); 
+        },
         unlocked: false
     }],
 
-    //TODO: calculate function should use this.game; not have game passed in. If someone wants to update that.
+    statGroups: [],
 
-    constructor: function (game) {
+    constructor: function(game){
         this.game = game;
+
+        this.statGroups = [
+            {
+                group: this.stats.stats,
+                title: 'All-Time Stats'
+            },
+            {
+                group: this.stats.statsCurrent,
+                title: 'Current Game Stats'
+            }
+        ]
     },
 
     load: function(saveData){
@@ -136,31 +151,16 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
 
     update: function(){
 
-        /*console.log(this.game, this.game.stats);*/
-
-        //var stats = this.game.stats.stats;
-
-
         dojo.empty(this.container);
 
 
-        //TODO: This should really be moved to classes.managers.StatsManager; and use a getMeta option.
-        //I'm just lazy. - Kida
-        var statGroups = [
-            {
-                group: this.game.stats.stats,
-                title: 'All-Time Stats'
-            },
-            {
-                group: this.game.stats.statsCurrent,
-                title: 'Current Game Stats'
-            }
-        ];
-
-
-        for (idx in statGroups) {
-            var statGroup = statGroups[idx];
-            dojo.create("h1", null, this.container).innerHTML = statGroup.title;
+        for (idx in this.game.stats.statGroups) {
+            var statGroup = this.game.stats.statGroups[idx];
+            
+            dojo.create("h1", {
+                innerHTML: statGroup.title
+            }, this.container);
+            
             var stats = statGroup.group;
             var table = dojo.create("table", {class: 'statTable'}, this.container);
 
