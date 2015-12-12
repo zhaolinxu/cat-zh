@@ -1,5 +1,5 @@
 dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager, {
-
+    game: null,
 
     stats:
         [{
@@ -47,34 +47,59 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             title: "Total Clicks",
             val: 0,
             unlocked: false
+        },{
+            name: "totalTrades",
+            title: "Trades Completed",
+            val: 0,unlocked: false
+        },{
+            name: "totalCrafts",
+            title: "Crafting Times",
+            val: 0,unlocked: false
+        },{
+            name: "averageKittens",
+            title: "Avg. Kittens Born (Per Century)",
+            val: 0,
+            calculate: function (game) { return parseInt(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100)); },
+            unlocked: false
         }
     ],
 
-    calcStatsAllTime: [{
+    statsCurrent: [{
+        name: "totalTrades",
+        title: "Trades Completed",
+        val: 0,
+        unlocked: false
+    },{
+        name: "totalCrafts",
+        title: "Crafting Times",
+        val: 0,
+        unlocked: false
+    },{
         name: "averageKittens",
         title: "Avg. Kittens Born (Per Century)",
         val: 0,
-        calculate: function (game) { return parseInt(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100)) },
+        calculate: function (game) { return parseInt(game.resPool.get("kittens").value / (game.calendar.year / 100)); },
         unlocked: false
     }],
 
-    calcStatsCurrent: [{
-        name: "averageKittens",
-        title: "Avg. Kittens Born (Per Century)",
-        val: 0,
-        calculate: function (game) { return parseInt(game.resPool.get("kittens").value / (game.calendar.year / 100)) },
-        unlocked: false
-    }],
+    //TODO: calculate function should use this.game; not have game passed in. If someone wants to update that.
+
+    constructor: function (game) {
+        this.game = game;
+    },
 
     load: function(saveData){
         if (saveData.stats) {
             this.loadMetadata(this.stats, saveData.stats, ["val"]);
         }
+        if (saveData.statsCurrent) {
+            this.loadMetadata(this.statsCurrent, saveData.statsCurrent, ["val"]);
+        }
     },
 
     save: function(saveData){
         saveData.stats = this.filterMetadata(this.stats, ["name", "val"]);
-
+        saveData.statsCurrent = this.filterMetadata(this.statsCurrent, ["name", "val"]);
     },
 
     getStat: function(name){
@@ -82,16 +107,17 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
     },
 
     getStatCurrent: function (name) {
-        var stat = this.getMeta(name, this.calcStatsCurrent);
-        if (stat.calculate) stat.val = stat.calculate(gamePage);
+        var stat = this.getMeta(name, this.statsCurrent);
+        if (stat.calculate) stat.val = stat.calculate(this.game);
         return stat;
     },
 
-    getStatAllTime: function (name) {
-        var stat = this.getMeta(name, this.calcStatsAllTime);
-        if (stat.calculate) stat.val = stat.calculate(gamePage);
-        return stat;
+    resetStatsCurrent: function () {
+        for (i in this.statsCurrent) {
+            this.statsCurrent[i].val = 0;
+        }
     }
+
 });
 
 dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
@@ -117,26 +143,26 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
 
         dojo.empty(this.container);
 
+
+        //TODO: This should really be moved to classes.managers.StatsManager; and use a getMeta option.
+        //I'm just lazy. - Kida
         var statGroups = [
             {
                 group: this.game.stats.stats,
-                title: 'General Stats'
-            },
-            {
-                group: this.game.stats.calcStatsCurrent,
-                title: 'Current Game Stats'
-            },
-            {
-                group: this.game.stats.calcStatsAllTime,
                 title: 'All-Time Stats'
+            },
+            {
+                group: this.game.stats.statsCurrent,
+                title: 'Current Game Stats'
             }
         ];
+
 
         for (idx in statGroups) {
             var statGroup = statGroups[idx];
             dojo.create("h1", null, this.container).innerHTML = statGroup.title;
             var stats = statGroup.group;
-            var table = dojo.create("table", null, this.container);
+            var table = dojo.create("table", {class: 'statTable'}, this.container);
 
             for (var i in stats) {
                 var stat = stats[i];
@@ -154,41 +180,11 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
                     innerHTML: stat.unlocked ? stat.title : "???"
                 }, tr);
                 dojo.create("td", {
-                    style: {
-                        paddingLeft: "20px"
-                    },
                     innerHTML: stat.unlocked ? this.game.getDisplayValueExt(stat.val) : ""
                 }, tr);
             }
         }
-        //Add Calculate Stats
-        //dojo.create("h1", null, this.container).innerHTML = "Current Game Stats";
-        //
-        //dojo.create("h1", null, this.container).innerHTML = "All-Time Stats";
-        //var calcStats = this.game.stats.calcStatsAllTime;
-        //var table = dojo.create("table", null, this.container);
-        //
-        //for (var i in calcStats) {
-        //    var stat = calcStats[i];
-        //
-        //    stat.val = stat.calculate(this.game);
-        //
-        //
-        //    if (stat.val > 0) {
-        //        stat.unlocked = true;
-        //    }
-        //
-        //    var tr = dojo.create("tr", null, table);
-        //    dojo.create("td", {
-        //        innerHTML: stat.unlocked ? stat.title : "???"
-        //    }, tr);
-        //    dojo.create("td", {
-        //        style: {
-        //            paddingLeft: "20px"
-        //        },
-        //        innerHTML: stat.unlocked ? this.game.getDisplayValueExt(stat.val) : ""
-        //    }, tr);
-        //}
+
 
 
     }

@@ -713,11 +713,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	msg: function(message, type, tag){
 		var hasCalendarTech = this.science.get("calendar").researched;
 
+
+		var original = this.console.static.msg(message, type, tag);
+
 		if (hasCalendarTech){
-			message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
+			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title, "date", null);
+			//message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
 		}
 
-		return this.console.static.msg(message, type, tag);
+		//return this.console.static.msg(message, type, tag);
+		return original
 	},
 
 	clearLog: function(){
@@ -733,7 +738,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			properties: {
 				opacity: 0
 			},
-			duration: 1200,
+			duration: 1200
 		}).play();
 	},
 
@@ -1848,6 +1853,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.stats.getStat("totalParagon").val += paragonPoints;
 		this.stats.getStat("totalResets").val++;
+
+		//Reset current game stats
+		this.stats.resetStatsCurrent();
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var totalScience = 0;

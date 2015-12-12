@@ -1954,6 +1954,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				this.game.upgrade(craft.upgrades);
 			}
 
+			this.game.stats.getStat("totalCrafts").val += 1;
+			this.game.stats.getStatCurrent("totalCrafts").val += 1;
+
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
                 undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/

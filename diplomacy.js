@@ -501,6 +501,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
 		}
 
+		//Update Trade Stats
+		this.game.stats.getStat("totalTrades").val += 1;
+		this.game.stats.getStatCurrent("totalTrades").val += 1;
+
 		return tradeRes;
 	},
 
@@ -678,10 +682,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		// expand all / collapse all panels
 
-		var expandDiv = dojo.create("div", { style: {
-			float: "right",
-			marginTop: "-15px"
-		} }, tabContainer);
+		var expandDiv = dojo.create("div", { class: "expandAllBar" }, tabContainer);
 
 
 
