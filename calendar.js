@@ -77,7 +77,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "piscine",
-			title: "Dune",
+			title: "Piscine",
 			glyph: "&#9096;"
 		},
 		{

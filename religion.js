@@ -147,7 +147,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "skyPalace",
 		label: "Sky Palace",
-		description: "Improves your unicorns generation by 50%.\nThere was a legend of ancient and mysterious beings inhabitings this place long ago.",
+		description: "Improves your unicorns generation by 50%. There was a legend of ancient and mysterious beings inhabitings this place long ago.",
 		prices: [
 			{ name : "ivory", val: 250000 },
 			{ name : "tears", val: 500 }
@@ -163,7 +163,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%.\n Increase alicorn summon chance.",
+		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance.",
 		prices: [
 			{ name : "ivory", val: 1250000 },
 			{ name : "tears", val: 65000 }
@@ -699,7 +699,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 			var sacrificeBtn = new com.nuclearunicorn.game.ui.SacrificeBtn({
 				name: "Sacrifice Unicorns",
-				description: "Return the unicorns to the Unicorn Dimension.\nYou will receive one Unicorn Tear for every ziggurat you have.",
+				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
 				prices: [{ name: "unicorns", val: 2500}]
 			}, this.game);
 			sacrificeBtn.render(content);
@@ -707,7 +707,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 			var sacrificeAlicornsBtn = new com.nuclearunicorn.game.ui.SacrificeAlicornsBtn({
 				name: "Sacrifice Alicorns",
-				description: "Banish the alicorns to the Bloodmoon.\nYou will recieve a Time Crystal.",
+				description: "Banish the alicorns to the Bloodmoon. You will recieve a Time Crystal.",
 				prices: [{ name: "alicorn", val: 25}]
 			}, this.game);
 			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
