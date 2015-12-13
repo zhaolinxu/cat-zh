@@ -1236,7 +1236,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "titaniumMirrors",
 		title: "Titanium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give 2% to Library effectiveness",
+		description: "Improved telescope reflectors. Every observatory will give 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
 		},
@@ -1255,7 +1255,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "unobtainiumReflectors",
 		title: "Unobtainium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		description: "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
 		},
@@ -1273,7 +1273,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "eludiumReflectors",
 		title: "Eludium Reflectors",
-		description: "Improved telescope reflectors.\nEvery observatory will give additional 2% to Library effectiveness",
+		description: "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
 		},

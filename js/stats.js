@@ -59,8 +59,8 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             name: "averageKittens",
             title: "Avg. Kittens Born (Per Century)",
             val: 0,
-            calculate: function(game){ 
-                return parseInt(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100)); 
+            calculate: function(game){
+                return Math.floor(game.stats.getStat("totalKittens").val / (game.stats.getStat("totalYears").val / 100));
             },
             unlocked: false
         }
@@ -80,27 +80,27 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         name: "averageKittens",
         title: "Avg. Kittens Born (Per Century)",
         val: 0,
-        calculate: function(game){ 
-            return parseInt(game.resPool.get("kittens").value / (game.calendar.year / 100)); 
+        calculate: function(game){
+            return Math.floor(game.resPool.get("kittens").value / (game.calendar.year / 100));
         },
         unlocked: false
     }],
 
-    statGroups: [],
+    statGroups: null,
 
     constructor: function(game){
         this.game = game;
 
         this.statGroups = [
             {
-                group: this.stats.stats,
+                group: this.stats,
                 title: 'All-Time Stats'
             },
             {
-                group: this.stats.statsCurrent,
+                group: this.statsCurrent,
                 title: 'Current Game Stats'
             }
-        ]
+        ];
     },
 
     load: function(saveData){
@@ -128,7 +128,7 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
     },
 
     resetStatsCurrent: function () {
-        for (i in this.statsCurrent) {
+        for (var i in this.statsCurrent) {
             this.statsCurrent[i].val = 0;
         }
     }
@@ -154,13 +154,13 @@ dojo.declare("classes.tab.StatsTab", com.nuclearunicorn.game.ui.tab, {
         dojo.empty(this.container);
 
 
-        for (idx in this.game.stats.statGroups) {
+        for (var idx in this.game.stats.statGroups) {
             var statGroup = this.game.stats.statGroups[idx];
-            
+
             dojo.create("h1", {
                 innerHTML: statGroup.title
             }, this.container);
-            
+
             var stats = statGroup.group;
             var table = dojo.create("table", {class: 'statTable'}, this.container);
 

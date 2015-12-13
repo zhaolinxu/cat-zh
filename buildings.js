@@ -142,7 +142,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "field",
 		label: "Catnip field",
-		description: "Plant some catnip to grow in the village.\n"+
+		description: "Plant some catnip to grow in the village. "+
 			"Fields have +50% production in Spring and -75% production in Winter",
 		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
@@ -302,7 +302,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge.\nEach upgrade level improves your science output by 8%",
+		description: "Build a library to store sacred catkind knowledge. Each upgrade level improves your science output by 8%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {},
@@ -326,7 +326,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "academy",
 		label: "Academy",
-		description: "Improves your research ratio and the speed of your kitten skills growth.\nEach upgrade level improves your science output by 20%",
+		description: "Improves your research ratio and the speed of your kitten skills growth. Each upgrade level improves your science output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
@@ -529,7 +529,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "mine",
 		label: "Mine",
-		description: "Unlocks the miner job.\nEach upgrade level improves your mineral output by 20%",
+		description: "Unlocks the miner job. Each upgrade level improves your mineral output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {},
@@ -638,7 +638,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "calciner",
 		label: "Calciner",
-		description: "A highly effective source of metal.\nConsumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
+		description: "A highly effective source of metal. Consumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
 		on: 0,
@@ -922,7 +922,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "workshop",
 		label: "Workshop",
-		description: "Provides a vast variety of upgrades.\nImproves craft effectiveness by 6%",
+		description: "Provides a vast variety of upgrades. Improves craft effectiveness by 6%",
 		unlocked: false,
         ignorePriceCheck: true,
 		prices: [
@@ -1064,7 +1064,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "tradepost",
 		label: "Tradepost",
-		description: "The heart of your trading empire.\nImproves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
+		description: "The heart of your trading empire. Improves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
 		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
@@ -1291,7 +1291,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "unicornPasture",
 		label: "Unic. Pasture",
-		description: "Allows the taming of unicorns.\nReduces catnip consumption by 0.15%",
+		description: "Allows the taming of unicorns. Reduces catnip consumption by 0.15%",
 		unlocked: false,
 		prices: [
 			{ name : "unicorns", val: 2 }
@@ -1311,7 +1311,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "ziggurat",
 		label: "Ziggurat",
-		description: "The dark legacy of the lost race.\n May have special usage once Theology is researched.",
+		description: "The dark legacy of the lost race. May have special usage once Theology is researched.",
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
@@ -1801,7 +1801,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!building || (building && !building.jammed)){
 			return this.description;
 		} else {
-			return this.description + "\n" + "***Maintenance***";
+			return this.description + "<br>" + "***Maintenance***";
 		}
 	},
 
