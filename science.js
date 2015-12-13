@@ -95,7 +95,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			//crafts: ["leather"]
 		}
 	},{
-		/*==============	NOT USED ANYMORE   ============*/	
+		/*==============	NOT USED ANYMORE   ============*/
 		name: "brewery",
 		title: "Catnip Processing",
 
@@ -152,7 +152,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "engineering",
 		title: "Engineering",
 		description: "Engineering is the science (or art perhaps) of designing complex materials, structures, devices, and systems.",
-		effectDesc: "Unlocks aqueducts",
+		effectDesc: "Unlocks Aqueducts",
 
 		unlocked: false,
 		researched: false,
@@ -203,9 +203,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "machinery",
 		title: "Machinery",
-		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.\n" +
+		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts. " +
 			"Machinery introduces a concept of automation which reduces routine operations",
-		effectDesc: "Unlocks Steamworks, Crossbows, Printing press and Factory automation.",
+		effectDesc: "Unlocks Steamworks, Crossbows, Printing Press and Factory Automation.",
 
 		unlocked: false,
 		researched: false,
@@ -314,7 +314,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "metaphysics",
 		title: "Metaphysics",
-		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.\nAbsolutely useless.",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it. Absolutely useless.",
 		effectDesc: "Does nothing.",
 		unlocked: false,
 		researched: false,
@@ -354,7 +354,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "drama",
 		title: "Drama and Poetry",
-		description: "Drama and poetry are both forms of artistic expression.\nImproves cultural progress.",
+		description: "Drama and poetry are both forms of artistic expression. Improves cultural progress.",
 		effectDesc: "Unlocks Festivals and Cultural artifacts (TBD)",
 		unlocked: false,
 		researched: false,
@@ -412,7 +412,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "biochemistry",
 		title: "Biochemistry",
 		description: "Improves your chemistry and biology-related technologies.",
-		effectDesc: "Unlocks biofuel processing",
+		effectDesc: "Unlocks Biofuel Processing",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -598,7 +598,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         name: "sattelites",
         title: "Satellites",
         description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
-        effectDesc: "Unlocks deployment of satellites",
+        effectDesc: "Unlocks deployment of Satellites",
         unlocked: false,
         researched: false,
         prices: [

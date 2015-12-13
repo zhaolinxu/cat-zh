@@ -35,7 +35,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "spaceElevator",
 		title: "Space Elevator",
-		description: "Every S. Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
+		description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
 		researched: false,
 		unlocked: false,
 		upgradable:true,
@@ -57,7 +57,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "sattelite",
 		title: "Satellite",
-		description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
+		description: "Deploy a Satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -88,7 +88,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "spaceStation",
 		title: "Space Station",
-		description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
+		description: "Deploy a Space Station. Each station generates science and provide a space for 2 astronauts",
 		unlocked: false,
 		researched: false,
 		prices: [
