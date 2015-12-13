@@ -403,7 +403,6 @@ body.scheme_sleek  {
     -webkit-user-select: none !important;
     -webkit-tap-highlight-color: transparent !important;
     vertical-align: middle !important;
-    transition: all .1s ease-out !important;
     text-decoration: none !important;
     letter-spacing: .1px;
     text-align: center !important;
@@ -420,6 +419,7 @@ body.scheme_sleek  {
 }
 .scheme_sleek .btn.modern:not(.disabled) {
     background-color: #292c37 !important;
+    transition: background-color .1s ease-out !important;
     cursor: pointer !important;
 }
 
