@@ -461,11 +461,11 @@ var kittenBot = function () {
                     } else if (myRes[buildType].value < 1000 && myRes['scaffold'].value > myRes[buildType].value * 100) { //Less then 1000
                         buildValues.push(Math.floor((myRes['scaffold'].value - (myRes[buildType].value * 100)) / 100));
                     } else if (myRes['scaffold'].value > myRes[buildType].value * 2 * 100 && myRes['plate'].value > myRes[buildType].value * 2 * 150 && myRes['starchart'].value > myRes[buildType].value * 25) {
-                        buildValues.push(Math.floor((myRes['starchart'].value-(myRes[buildType].value * 25)) / 25));
+                        buildValues.push(Math.floor((myRes['starchart'].value - (myRes[buildType].value * 25)) / 25));
                     }
                     buildValue = getMax(buildValues);
                     var bonus = 0;
-                    if (smartCraftRequest['starchart'] && smartCraftRequest['starchart']!=25 && myRes[buildType].value > 10) bonus += smartCraftRequest['starchart'];
+                    if (smartCraftRequest['starchart'] && smartCraftRequest['starchart'] != 25 && myRes[buildType].value > 10) bonus += smartCraftRequest['starchart'];
                     if (buildValue * 25 > myRes['starchart'].value - bonus) buildValue = Math.floor(((myRes['starchart'].value - bonus) / 25));
                     if (buildValue * 100 > myRes['scaffold'].value) buildValue = Math.floor(((myRes['scaffold'].value) / 100));
                     if (buildValue * 150 > myRes['plate'].value) buildValue = Math.floor(((myRes['plate'].value) / 150));
@@ -886,8 +886,8 @@ var kittenBot = function () {
             var perGold = Math.ceil(myRes['gold'].perTickUI * 5);
             //console.log('smartTrade', myRes['catpower'].value, gp.resPool.get('manpower').value)
             var uraniumPass = (myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 5)))
-            if (tradeLevel>6 && myRes['uranium'].value<50) { uraniumPass = true; }
-            if (tradeLevel>4 && smartCraftRequest['titanium'] && myRes['titanium'].value<smartCraftRequest['titanium'] && myRes['titanium'].maxValue > smartCraftRequest['titanium']) { uraniumPass = true; }
+            if (tradeLevel > 6 && myRes['uranium'].value < 50) { uraniumPass = true; }
+            if (tradeLevel > 4 && smartCraftRequest['titanium'] && myRes['titanium'].value < smartCraftRequest['titanium'] && myRes['titanium'].maxValue > smartCraftRequest['titanium']) { uraniumPass = true; }
             if (gp.diplomacyTab.visible && myRes['gold'].value > 15 && uraniumPass) {
 
                 var tradeAmt = 1;
@@ -954,7 +954,7 @@ var kittenBot = function () {
 
         var smartShip = function () {
             var shipCraft = gp.workshop.getCraft('ship')
-            if (myRes['starchart'].value >= 25 && shipCraft.unlocked && myRes['ship'].value<2) {
+            if (myRes['starchart'].value >= 25 && shipCraft.unlocked && myRes['ship'].value < 2) {
                 //console.log('try ship', JSON.stringify(shipCraft), JSON.stringify(shipCraft.prices))
                 for (iType in shipCraft.prices) {
                     //console.log(shipCraft.prices[iType].name, Math.ceil(shipCraft.prices[iType].val))
@@ -1263,11 +1263,11 @@ var kittenBot = function () {
                 var popAssign = 0;
 
                 //run simulation
-                var kittensSim = [0, 0, 0, 0, 0, 0, 0]
-                var kittensCnt = myRes['kittens'].value
-                var hasKitten = false
+                var kittensSim = [0, 0, 0, 0, 0, 0, 0];
+                var kittensCnt = myRes['kittens'].value;
+                var hasKitten = false;
                 do {
-                    hasKitten = false
+                    hasKitten = false;
                     for (i = 0; i < kittensSim.length; i++) {
                         if (kittensSim[i] < amtKittens[i]) {
                             kittensSim[i]++
@@ -1275,7 +1275,7 @@ var kittenBot = function () {
                             hasKitten = true;
                         }
                     }
-                } while (kittensCnt > 0 && hasKitten)
+                } while (kittensCnt > 0 && hasKitten);
 
                 amtKittens = kittensSim;
 
@@ -1283,8 +1283,8 @@ var kittenBot = function () {
 
                     if (smartPopOrdersLast + 1 > amtKittens.length - 1) smartPopOrdersLast = -1;
                     for (var i = smartPopOrdersLast + 1; i < amtKittens.length; i++) {
-                        var desire = amtKittens[i]
-                        var current = gp.village.jobs[i].value
+                        var desire = amtKittens[i];
+                        var current = gp.village.jobs[i].value;
 
                         if (desire > current) {
                             //console.log('add: ' + gp.village.jobs[i].title)
@@ -1303,14 +1303,14 @@ var kittenBot = function () {
 
                 var next = true
                 for (var i = 0; i < amtKittens.length; i++) {
-                    var desire = amtKittens[i]
-                    var current = gp.village.jobs[i].value
+                    var desire = amtKittens[i];
+                    var current = gp.village.jobs[i].value;
                     if (desire > current) {
                         next = false;
                     }
                 }
 
-                if (next) smartPopOrders.shift()
+                if (next) smartPopOrders.shift();
                 if (freeKittens > 0) { smartPop() } //Try again.
 
                 gamePage.activeTabId = 'Bonfire';
@@ -1358,6 +1358,7 @@ var kittenBot = function () {
         }
 
         var warehouseCheck = function (bld, prices) {
+            if (bld.val < 5) return [true, false];
             return priceCheck(bld, prices, {
                 'beam': (prices[0].val) + 25,
                 'slab': (prices[1].val) + 10
@@ -1460,7 +1461,10 @@ var kittenBot = function () {
             if (smartCraftRequest['eludium'] && myRes['eludium'].value - smartCraftRequest['eludium'] > 1) {
                 var priceName = priceToKey(prices);
                 if (priceName['eludium'] == smartCraftRequest['eludium']) { return [true, false] }
+            } else if (!smartCraftRequest['eludium']) {
+                return [true, false]
             }
+
             return [false, false]
         }
 
@@ -1680,8 +1684,10 @@ var kittenBot = function () {
             //console.log(JSON.stringify(smartBuildOrders[0]))
             if (gamePage.activeTabId != 'Bonfire') return;
 
-            if (smartBuildOrders.length == 0 || (smartBuildOrders.length == 1 && buildDex > smartBuildOrders.length)) {
+
+            if (!endBuild && smartBuildOrders.length == 0 || (smartBuildOrders.length == 1 && buildDex > smartBuildOrders.length)) {
                 var cln = $.extend(true, [], lastBuildOrders);
+                smartBuildOrders = [];
                 smartBuildOrders.push(cln);
                 endBuild = true;
                 //clearInterval(smartBuildTmr);
@@ -1690,14 +1696,14 @@ var kittenBot = function () {
 
             var runAgain = false;
             //console.log('-----------------');
+            //console.log(JSON.stringify(smartBuildOrders));
             for (iI = smartBuildOrders[0].length - 1; iI >= 0; iI--) {
                 var buildId = smartBuildOrders[0][iI];
                 var bldName = buildId[0];
                 var buildCnt = buildId[1];
                 var buildCheck = null;
-                if (buildId[2]) buildCheck = buildId[2]
+                if (buildId[2]) buildCheck = buildId[2];
                 var bldArea = "home";
-
 
                 if (bldName == "Science") {
                     var techName = buildId[1];
@@ -1708,15 +1714,16 @@ var kittenBot = function () {
                     }
                     //Find and Try and Build Resources for 'Tech'
                 } else {
-
+                    //console.log('try build', bldName)
                     var isSpace = false;
                     //console.log('try', bldName);
                     if (bldName == "space") {
                         //Handle space buildings.
+
                         if (gp.spaceTab.visible) {
-                            bldArea = buildId[1]
-                            bldName = buildId[2]
-                            buildCnt = buildId[3]
+                            bldArea = buildId[1];
+                            bldName = buildId[2];
+                            buildCnt = buildId[3];
                             if (buildId[4]) { buildCheck = buildId[4] } else { buildCheck = null }
                             isSpace = true;
                             //console.log(JSON.stringify(smartBuildOrders[0][iI]));
@@ -1728,7 +1735,6 @@ var kittenBot = function () {
                     }
 
                     //Check if it is in stage 2
-
 
 
                     var originalBldName = bldName;
@@ -1756,6 +1762,7 @@ var kittenBot = function () {
                                 }
                             }
                             //console.log('here', JSON.stringify(meta))
+
                         }
 
                         //Loop Planets
@@ -1771,155 +1778,158 @@ var kittenBot = function () {
 
 
                     if (meta) {
-                        if (originalBldName == bldName && (bldName == 'aqueduct' || bldName == 'amphitheatre' || bldName == 'pasture') && meta.stage > 0) {
-                            smartBuildOrders[0].splice(iI, 1);
-                            runAgain = true;
-                            break;
-                        }
 
-                        if (buildCnt == -1) {
-                            buildCnt = 0; //Skip; unless
-                            for (iA = smartBuildOrders[0].length - 1; iA >= 0; iA--) {
+                        var isObs = (originalBldName == bldName && (bldName == 'aqueduct' || bldName == 'amphitheatre' || bldName == 'pasture') && meta.stage > 0)
 
-                                if (smartBuildOrders[0][iA][1] != -1) {
-                                    buildCnt = 10000; //Build to whenever.
-                                    break;
+                        if (!isObs) {
+
+                            if (buildCnt == -1) {
+                                buildCnt = 0; //Skip; unless
+                                for (iA = smartBuildOrders[0].length - 1; iA >= 0; iA--) {
+
+                                    if (smartBuildOrders[0][iA][1] != -1) {
+                                        buildCnt = 10000; //Build to whenever.
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
 
+                            if (meta.unlocked && (meta.on || meta.on === 0) && meta.on < meta.val) {
+                                meta.on = meta.val;
+                                gp.upgrade(meta.upgrades);
+                            }
+                            //console.log(bldName, buildCnt)
+                            if (meta.unlocked && meta.val < buildCnt) {
 
-                        if (meta.unlocked && (meta.on || meta.on===0) && meta.on < meta.val) {
-                            meta.on = meta.val;
-                            gp.upgrade(meta.upgrades);
-                        }
-                        //console.log(bldName, buildCnt)
-                        if (meta.unlocked && meta.val < buildCnt) {
-                            var prices = {}
-                            if (isSpace) {
-                                var spaceGetPrices = function (program) {
-                                    //var program = meta;
-                                    var ratio = program.priceRatio || 1.15;
+                                var prices = {};
+                                if (isSpace) {
+                                    var spaceGetPrices = function (program) {
+                                        //var program = meta;
+                                        var ratio = program.priceRatio || 1.15;
 
-                                    var prices = dojo.clone(program.prices);
-                                    if (program.upgradable) {
-                                        for (var i = 0; i < prices.length; i++) {
-                                            if (prices[i].name !== "oil") {
-                                                prices[i].val = prices[i].val * Math.pow(ratio, program.val);
-                                            } else {
-                                                prices[i].val = prices[i].val * Math.pow(1.05, program.val);
+                                        var prices = dojo.clone(program.prices);
+                                        if (program.upgradable) {
+                                            for (var i = 0; i < prices.length; i++) {
+                                                if (prices[i].name !== "oil") {
+                                                    prices[i].val = prices[i].val * Math.pow(ratio, program.val);
+                                                } else {
+                                                    prices[i].val = prices[i].val * Math.pow(1.05, program.val);
+                                                }
                                             }
                                         }
-                                    }
-                                    for (var i = 0; i < prices.length; i++) {
-                                        if (prices[i].name == "oil") {
-                                            var reductionRatio = gp.bld.getHyperbolicEffect(gp.space.getEffect("oilReductionRatio"), 0.75);
-                                            prices[i].val *= (1 - reductionRatio);
+                                        for (var i = 0; i < prices.length; i++) {
+                                            if (prices[i].name == "oil") {
+                                                var reductionRatio = gp.bld.getHyperbolicEffect(gp.space.getEffect("oilReductionRatio"), 0.75);
+                                                prices[i].val *= (1 - reductionRatio);
+                                            }
                                         }
+
+                                        return prices;
                                     }
 
-                                    return prices;
-                                }
+                                    prices = spaceGetPrices(meta);
 
-                                prices = spaceGetPrices(meta);
-                                //console.log(meta.title, JSON.stringify(prices));
-                            } else {
-                                prices = gp.bld.getPrices(bldName);
-                            }
+                                    //console.log(meta.title, JSON.stringify(prices));
+                                } else {
+                                    prices = gp.bld.getPrices(bldName);
+                                }
 
 //console.log('try build', JSON.stringify(new Date().toString()), 'hi');
-                            var canBuild = false
-                            var cB = true;
-                            var iM = false;
-                            //Run checks.
+                                var canBuild = false
+                                var cB = true;
+                                var iM = false;
+                                //Run checks.
 
 
-                            if (buildCheck) {//Has + resources.
+                                if (buildCheck) {//Has + resources.
 
-                                for (fnI in buildCheck) {
-                                    var check = buildCheck[fnI](meta, prices);
-                                    if (bldName == "aqueduct") {
-                                        //console.log('in check', check[0])
+                                    for (fnI in buildCheck) {
+                                        var check = buildCheck[fnI](meta, prices);
+                                            if (!check[0] && cB) cB = false;
+                                        if (check[1] && !iM) iM = true;
                                     }
-                                    if (!check[0] && cB) cB = false;
-                                    if (check[1] && !iM) iM = true;
+
                                 }
+                                //if (bldName == 'library') console.log('try lib', meta, canBuild, cB)
+                                if (cB) { canBuild = gp.resPool.hasRes(prices); } else { canBuild = false; }
+                                //if (bldName == "aqueduct") {
+                                //    console.log('out check', cB, canBuild, originalBldName)
+                                //}
+
+                                //if (bldName == 'cryostation') console.log('try build cryostation', cB, canBuild, bldName, JSON.stringify(meta), JSON.stringify(prices));
+
+                                var isMaxLimited = iM;
+
+                                //if (bldName == 'warehouse') {
+                                //console.log(canBuild, isMaxLimited, 'yes', JSON.stringify(warehouseCheck(meta, prices)))
+                                //}
+                                if (canBuild) {
+                                    var label;
+                                    if (meta.stages) {
+                                        console.log(bldName)
+                                        var stageC = (meta.stage) ? meta.stage : 0;
+                                        label = meta.stages[meta.stage].label
+                                    } else {
+                                        if (meta.label) label = meta.label
+                                        if (meta.title) label = meta.title
+                                    }
+                                    var button = null;
+                                    if (isSpace) {
+                                        console.log('goto space', bldName)
+                                        if (gamePage.activeTabId != 'Space') {
+                                            gamePage.activeTabId = 'Space';
+                                            gamePage.render();
+                                        }
+
+                                        var uiButton = $(".btnContent:contains('" + label + "')");
+                                        button = {enabled: true, visible: true}
+                                        if (!uiButton) button = {enabled: false, visible: false}
+                                        if (button.enabled && uiButton.find("span").hasClass('limited')) button.enabled = false;
+                                        if (button.enabled && uiButton.parent().hasClass('disabled')) button.enabled = false;
+                                        if (button.visible && uiButton.parent().css('display') == "none") button.visible = false;
+                                        //if (isSpace) console.log(meta.title, JSON.stringify(prices), buildCheck, canBuild, button);
+                                    } else {
+                                        button = smartGetButton('Bonfire', label)
+                                    }
+
+                                    //console.log(bldName, button)
+                                    if (button && button.enabled && button.visible) {
+                                        smartLog(label, "Build");
+                                        //clear request
+                                        for (iType in prices) {
+                                            smartCraftClearRequest(prices[iType].name, prices[iType].val)
+                                        }
+                                        $(".btnContent:contains('" + label + "')").click();
+
+                                        if (meta.unlocked && (meta.on || meta.on === 0) && meta.on < meta.val) {
+                                            meta.on = meta.val;
+                                            gp.upgrade(meta.upgrades);
+                                        }
+                                        //if (bldName == "smelter" || bldName == "magneto" || bldName == "calciner") {
+                                        //    if ($(".btnContent:contains('" + label + "')").text().indexOf("0/1")) {
+                                        //
+                                        //        var building = meta;
+
+                                        //    }
+                                        //}
+                                        //button.onClick({shiftKey: false});
+                                    }
+                                } else {
+                                    //Check if Limited by max
+                                    var isLimited = gp.resPool.isStorageLimited(prices);
+
+                                    if (isMaxLimited || isLimited || bldName == 'unicornPasture') {
+                                        buildCnt = 0; //Built to Max.
+                                    }
+                                }
+
 
                             }
-
-                            //if (bldName == 'library') console.log('try lib', meta, canBuild, cB)
-                            if (cB) { canBuild = gp.resPool.hasRes(prices); } else { canBuild = false; }
-
-                            //if (bldName == "aqueduct") {
-                            //    console.log('out check', cB, canBuild, originalBldName)
-                            //}
-
-                            var isMaxLimited = iM;
-
-                            //if (bldName == 'warehouse') {
-                            //console.log(canBuild, isMaxLimited, 'yes', JSON.stringify(warehouseCheck(meta, prices)))
-                            //}
-                            if (canBuild) {
-                                var label;
-                                if (meta.stages) {
-                                    console.log(bldName)
-                                    var stageC = (meta.stage) ? meta.stage : 0;
-                                    label = meta.stages[meta.stage].label
-                                } else {
-                                    if (meta.label) label = meta.label
-                                    if (meta.title) label = meta.title
-                                }
-                                var button = null;
-                                if (isSpace) {
-                                    console.log('goto space', bldName)
-                                    if (gamePage.activeTabId != 'Space') {
-                                        gamePage.activeTabId = 'Space';
-                                        gamePage.render();
-                                    }
-
-                                    var uiButton = $(".btnContent:contains('" + label + "')");
-                                    button = {enabled: true, visible: true}
-                                    if (!uiButton) button = {enabled: false, visible: false}
-                                    if (button.enabled && uiButton.find("span").hasClass('limited')) button.enabled = false;
-                                    if (button.enabled && uiButton.parent().hasClass('disabled')) button.enabled = false;
-                                    if (button.visible && uiButton.parent().css('display') == "none") button.visible = false;
-                                    //if (isSpace) console.log(meta.title, JSON.stringify(prices), buildCheck, canBuild, button);
-                                } else {
-                                    button = smartGetButton('Bonfire', label)
-                                }
-
-                                //console.log(bldName, button)
-                                if (button && button.enabled && button.visible) {
-                                    smartLog(label, "Build");
-                                    //clear request
-                                    for (iType in prices) {
-                                        smartCraftClearRequest(prices[iType].name, prices[iType].val)
-                                    }
-                                    $(".btnContent:contains('" + label + "')").click();
-                                    //if (bldName == "smelter" || bldName == "magneto" || bldName == "calciner") {
-                                    //    if ($(".btnContent:contains('" + label + "')").text().indexOf("0/1")) {
-                                    //
-                                    //        var building = meta;
-
-                                    //    }
-                                    //}
-                                    //button.onClick({shiftKey: false});
-                                }
-                            } else {
-                                //Check if Limited by max
-                                var isLimited = gp.resPool.isStorageLimited(prices);
-
-                                if (isMaxLimited || isLimited || bldName == 'unicornPasture') {
-                                    buildCnt = 0; //Built to Max.
-                                }
+                            if (meta.val >= buildCnt) {
+                                if (!endBuild) smartBuildOrders[0].splice(iI, 1);
+                                runAgain = true;
                             }
-
-
-                        }
-                        if (meta.val >= buildCnt) {
-                            if (!endBuild) smartBuildOrders[0].splice(iI, 1);
-                            runAgain = true;
                         }
                     }
                 }
@@ -1971,11 +1981,11 @@ var kittenBot = function () {
 
         }
         var smartBuildTmr;
-        smartBuildTmr = setInterval(smartBuild, 2000)
+        smartBuildTmr = setInterval(smartBuild, 2000);
 
 
 //Smart Cat-Nip + Inital Wood
-        var smartCipMax = 40000 //STop clicking catnip at
+        var smartCipMax = 40000; //STop clicking catnip at
         var smartCatnipTmr;
 
         var smartCatnip = function () {
@@ -2149,8 +2159,6 @@ var kittenBot = function () {
             }
 
             if (gamePage.activeTabId == "Bonfire" && (popMode || myRes['parchment'].value > 200000)) { autoFestival() }
-            ;
-
 
 
         };
