@@ -1242,22 +1242,175 @@ var kittenBot = function () {
         var smartPopOrdersLast = 0;
         var smartPopTmr
         var smartPopTmrDelay = 1000;
-
+        var smartPopIsAssign = false;
+        var smartPopRefresh = {};
+        if (myRes['kittens'].value > 100) smartPopRefresh[100] = true;
+        if (myRes['kittens'].value > 200) smartPopRefresh[200] = true;
+        if (myRes['kittens'].value > 300) smartPopRefresh[300] = true;
+        if (myRes['kittens'].value > 400) smartPopRefresh[400] = true;
+        if (myRes['kittens'].value > 500) smartPopRefresh[500] = true;
         var smartPop = function () {
 
             //console.log('try kittens', smartPopTmrDelay);
-            if (!scriptEnabled || gamePage.activeTabId != 'Bonfire') {
+            if (!scriptEnabled || (gamePage.activeTabId != 'Bonfire' && !smartPopIsAssign)) {
                 clearTimeout(smartPopTmr);
                 smartPopTmr = setTimeout(smartPop, 5000);
                 return;
             }
-            ;
 
-            var freeKittens = gp.village.getFreeKittens()
+            //ASsign all kittens, then go back to Bonfire
+
+            var freeKittens = gp.village.getFreeKittens();
 
             if (freeKittens > 0) {
+                smartPopIsAssign = true;
                 gamePage.activeTabId = 'Small village';
                 gamePage.render();
+
+                var getBtn = function (idx) {
+                    if (gp.villageTab.buttons[idx].visible) {
+                        return gp.villageTab.buttons[idx];
+                        //gp.villageTab.buttons[i].handler();
+                        //smartLog("Kittens Assigned: " + gp.village.jobs[i].title)
+                    }
+                };
+
+                var isNext = false;
+                var assignKitten = function (idx) {
+                    if (gp.villageTab.buttons[idx].visible) {
+                        gp.villageTab.buttons[idx].handler();
+                        smartLog("Kittens Assigned: " + gp.village.jobs[idx].title, "Sci")
+                    }
+                };
+
+                var wood = getBtn(0);
+                var woodCnt = gp.village.jobs[0].value;
+                var miner = getBtn(4);
+                var minerCnt = gp.village.jobs[4].value;
+                var farmer = getBtn(1);
+                var farmerCnt = gp.village.jobs[1].value;
+                var priest = getBtn(5);
+                var priestCnt = gp.village.jobs[5].value;
+                var scholar = getBtn(2);
+                var scholarCnt = gp.village.jobs[2].value;
+                var hunter = getBtn(3);
+                var hunterCnt = gp.village.jobs[3].value;
+                if (!priest) priestCnt = 100;
+                var geo = getBtn(6);
+                var geoCnt = gp.village.jobs[6].value;
+                var maxWoodTick = (myRes['wood'].maxValue / 5) / 120;
+                var maxMinerTick = (myRes['minerals'].maxValue / 5) / 120;
+                var maxGeoCoalTick = (myRes['coal'].maxValue / 5) / 5;
+                var maxGeoGoldTick = (myRes['gold'].maxValue / 5) / 5;
+                var maxSciTick = (myRes['science'].maxValue / 5) / 900;
+                var geoToPriestRatio = 1.3;
+                var ironToCoalRatio = .8;
+                var catToMineralRatio = .6;
+                var maxScholar = 2;
+                if (geoCnt > 70) geoToPriestRatio = 1;
+                if (geoCnt > 100) geoToPriestRatio = .7;
+                var maxFarmer = 1;
+                if (myRes['kittens'].value > 10) {
+                    maxFarmer = 2;
+                    maxScholar = 3;
+                }
+                if (myRes['kittens'].value > 100) {
+                    maxWoodTick = maxWoodTick * 2;
+                    maxMinerTick = maxMinerTick * 2;
+                    maxScholar = 6;
+                    catToMineralRatio = 1;
+                }
+                if (myRes['kittens'].value > 200) {
+                    maxWoodTick = maxWoodTick * 2;
+                    maxMinerTick = maxMinerTick * 2;
+                    maxScholar = 10;
+                    ironToCoalRatio = .6;
+                }
+                if (myRes['kittens'].value > 400) {
+                    maxWoodTick = maxWoodTick * 1.5;
+                    maxMinerTick = maxMinerTick * 1.5;
+                    maxScholar = 15;
+                    ironToCoalRatio = .6;
+                }
+
+                var checkRefresh = function (num) {
+                    if (!smartPopRefresh[num] && myRes['kittens'].value > num) {
+                        gp.village.clearJobs();
+                        smartPopRefresh[num] = true;
+                    }
+                };
+
+                checkRefresh(100);
+                checkRefresh(200);
+                checkRefresh(300);
+                checkRefresh(400);
+                checkRefresh(500);
+
+
+                //console.log(maxWoodTick, maxMinerTick, maxGeoCoalTick, maxGeoGoldTick);
+
+                if (hunter && //hunter
+                    (hunterCnt < woodCnt / 4) &&
+                    (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI)) {
+                    assignKitten(3);
+                } else if (myRes['wood'].perTickUI <= maxWoodTick && myRes['wood'].perTickUI < myRes['minerals'].perTickUI) {
+                    assignKitten(0);
+                } else if (farmer && //farmer
+                    (farmerCnt < maxFarmer)) {
+                    assignKitten(1);
+                } else if (scholar && //scholar
+                    (myRes['science'].perTickUI < maxSciTick && scholarCnt < maxScholar) && woodCnt > scholarCnt) {
+                    assignKitten(2);
+                } else if (priest && //priest
+                    (priestCnt < minerCnt && priestCnt < geoCnt / 2)) {
+                    assignKitten(5);
+                } else if (geo && //Geo
+                    (myRes['coal'].perTickUI <= myRes['minerals'].perTickUI * .05) &&
+                    (myRes['minerals'].perTickUI > maxMinerTick * .5) &&
+                    (geoCnt <= priestCnt * .7)) {
+                    assignKitten(6);
+                } else if (hunter && //hunter
+                    (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI * catToMineralRatio) &&
+                    (woodCnt > hunterCnt || geoCnt > hunterCnt) && minerCnt > 1) {
+                    assignKitten(3);
+                } else if (miner && //Miner
+                    myRes['minerals'].perTickUI <= maxMinerTick) {
+                    assignKitten(4);
+                } else if (geo && //Geo
+                    (myRes['coal'].perTickUI <= maxGeoCoalTick || myRes['gold'].perTickUI <= maxGeoGoldTick) &&
+                    (myRes['coal'].perTickUI <= myRes['iron'].perTickUI * ironToCoalRatio) &&
+                    (geoCnt <= priestCnt * geoToPriestRatio)) {
+                    assignKitten(6);
+                } else {
+                    //assign priest; or woodcutter if not unlocked.
+                    if (priest) { assignKitten(5); } else {
+                        if (miner) { assignKitten(4); } else {
+                            assignKitten(0); //woodcutter.
+                        }
+                    }
+                    //priest
+                }
+
+                //console.log(wood, maxWoodTick)
+
+            } else {
+                if (smartPopIsAssign && gamePage.activeTabId == 'Small village') {
+                    gamePage.activeTabId = 'Bonfire';
+                    gamePage.render();
+                }
+                smartPopIsAssign = false;
+
+            }
+
+            smartPopTmrDelay += 100;
+            if (smartPopTmrDelay > 30000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 30000;
+            if (freeKittens > 0 && smartPopTmrDelay > 300) smartPopTmrDelay = 300;
+            clearTimeout(smartPopTmr);
+            smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
+
+            return;
+            if (freeKittens > 0) {
+
                 var amtKittens = smartPopOrders[0];
 
                 var popAssign = 0;
@@ -1317,8 +1470,7 @@ var kittenBot = function () {
                 gamePage.render();
             }
 
-            smartPopTmrDelay += 100
-
+            smartPopTmrDelay += 100;
             if (smartPopTmrDelay > 30000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 30000;
             if (freeKittens > 0 && smartPopTmrDelay > 1000) smartPopTmrDelay = 1000;
             clearTimeout(smartPopTmr);
@@ -1326,7 +1478,7 @@ var kittenBot = function () {
 
         }
 
-        smartPopTmr = setTimeout(smartPop, smartPopTmrDelay)
+        smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
 
 //Smart-Build
         var priceToKey = function (prices) {
@@ -1604,14 +1756,14 @@ var kittenBot = function () {
                 [['field', 30], ['library', 3], ['hut', 3]],//3
                 [['field', 40], ['library', 4], ['hut', 4]],//4
                 [['library', -1], ['hut', -1], ['field', -1], ['Science', 'mining']],//5 (//Mining)
-                [['field', 50], ['mine', 1]], //6
-                [['field', 50], ['mine', 2], ['workshop', 1], ['barn', 3], ['library', 8]], //7
-                [['field', 60], ['library', 10], ['hut', 6]], //8
-                [['workshop', -1], ['mine', -1], ['field', -1], ['Science', 'animal']], //Wait for mineral hoe, axe, bola, make more mines. //9 (Hunters)
-                [['smelter', 1], ['workshop', 2], ['field', 90], ['library', 12], ['pasture', 4], ['mine', 5], ['barn', 4]],
+                [['hut', -1], ['field', 50], ['mine', 1]], //6
+                [['mine', -1], ['hut', -1], ['field', 50], ['mine', 2], ['workshop', 1], ['barn', 3], ['library', 8]], //7
+                [['hut', -1], ['field', 60], ['library', 10], ['hut', 6]], //8
+                [['hut', -1], ['workshop', -1], ['mine', -1], ['field', -1], ['Science', 'animal']], //Wait for mineral hoe, axe, bola, make more mines. //9 (Hunters)
+                [['hut', -1], ['smelter', 1], ['workshop', 2], ['field', 90], ['library', 12], ['pasture', 4], ['mine', 5], ['barn', 4]],
                 [['mine', 7], ['hut', 10000], ['unicornPasture', 10000]],
-                [['field', -1], ['logHouse', 5], ['unicornPasture', 10000]], //12
-                [['field', -1], ['logHouse', -1], ['aqueduct', -1], ['academy', -1], ['workshop', -1], ['logHouse', 8], ['lumberMill', 2]]//,
+                [['hut', -1], ['field', -1], ['smelter', 2], ['logHouse', 5], ['unicornPasture', 10000]], //12
+                [['hut', -1], ['field', -1], ['logHouse', -1], ['aqueduct', -1], ['academy', -1], ['workshop', -1], ['logHouse', 8], ['lumberMill', 2]]//,
                 //[['workshop', -1], ['hut', -1], ['logHouse', -1], ['field', -1],
                 //    ['mine', -1], ['warehouse', -1, [warehouseCheck]], ['barn', -1], ['library', -1], ['hut', 10000], ['workshop', 10000], ['unicornPasture', 10000]],
                 //[['workshop', -1], ['hut', -1], ['logHouse', -1], ['field', -1],
@@ -1846,7 +1998,7 @@ var kittenBot = function () {
 
                                     for (fnI in buildCheck) {
                                         var check = buildCheck[fnI](meta, prices);
-                                            if (!check[0] && cB) cB = false;
+                                        if (!check[0] && cB) cB = false;
                                         if (check[1] && !iM) iM = true;
                                     }
 
