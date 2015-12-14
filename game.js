@@ -925,11 +925,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (json){
+			this.isPaused = true;
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-			this.load();
-			this.msg("Save import successful!");
-			this.render();
+			//this.load();
+			//this.msg("Save import successful!");
+			window.location.reload();
+			//this.render();
 		}
+
+
+
 	},
 
 	saveExportDropbox: function(){
