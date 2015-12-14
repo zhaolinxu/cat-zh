@@ -10,6 +10,7 @@ Sorrow fixes
 - Some misc cleanup
 
 Changes by Kida:
+- Bug Fix: Cleaned 'leaks' when importing saves. (i.e. extra titanium or techs.)
 - Fixed Sleek themeing issues.
 - Stat clean up, and additions.
 - Current game stats now save.
