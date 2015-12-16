@@ -314,6 +314,15 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			dojo.create("br", null, filters);
 		},
 
+		resetState: function (){
+			for (var fId in this.filters){
+				var filter = this.filters[fId];
+				filter.unlocked = filter.defaultUnlocked || false;
+				filter.enabled = true;
+			}
+			this.renderFilters();
+		},
+
 		save: function(saveData){
 			saveData.console = {
 				filters: this.filters

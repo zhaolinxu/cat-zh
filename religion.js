@@ -26,6 +26,24 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}});
 	},
 
+	resetState: function(){
+		this.faith = 0;
+		this.corruption = 0;
+		this.faithRatio = 0;
+
+		for (var i = 0; i < this.zigguratUpgrades.length; i++){
+			var zu = this.zigguratUpgrades[i];
+			zu.val = 0;
+			zu.unlocked = zu.defaultUnlocked || false;
+		}
+
+		for (i = 0; i < this.religionUpgrades.length; i++){
+			var ru = this.religionUpgrades[i];
+			ru.val = 0;
+			ru.researched = false;
+		}
+	},
+
 	save: function(saveData){
 		saveData.religion = {
 			faith: this.faith,
@@ -113,7 +131,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"unicornsRatio" : 0.05
 		},
 		val: 0,
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "ivoryTower",
 		label: "Ivory Tower",
@@ -128,7 +147,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"riftChance" : 5	//
 		},
 		val: 0,
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "ivoryCitadel",
 		label: "Ivory Citadel",
@@ -143,7 +163,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"ivoryMeteorChance" : 5
 		},
 		val: 0,
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "skyPalace",
 		label: "Sky Palace",
@@ -159,7 +180,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"ivoryMeteorRatio" : 0.05
 		},
 		val: 0,
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
@@ -175,7 +197,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"ivoryMeteorRatio" : 0.15
 		},
 		val: 0,
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "marker",
 		label: "Marker",

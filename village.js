@@ -23,6 +23,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: true,
+		defaultUnlocked: true,
         flavor: "Must. Not. Scratch."
 	},{
 		name: "farmer",
@@ -313,11 +314,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return res;
 	},
 
-	reset: function(){
-		this.kittens = 0;
+	resetState: function(){
 		this.maxKittens = 0;
+		this.sim.maxKittens = 0;
+		this.leader = null;
+		this.senators = [];
+		this.sim.kittens = [];
 
-		this.clearJobs();
+		for (var i = 0; i < this.jobs.length; i++){
+			var job = this.jobs[i];
+			job.value = 0;
+			job.unlocked = job.defaultUnlocked || false;
+		}
 	},
 
 	save: function(saveData){

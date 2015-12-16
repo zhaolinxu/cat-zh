@@ -1,13 +1,11 @@
 v 1.1.7.9 (?)
 Changes by coderpatsy:
-
-Sorrow fixes
-
 - Fix tear refining being able to exceed sorrow limit slightly (sorry folks)
 - Properly update when spending/refining for sorrow
 - Fix display when spending all sorrow/importing a save with no sorrow over a save with sorrow
 - Updated credit link, synched credits to kong index
-- Some misc cleanup
+- Text fixes
+- Fix various bugs when importing saves
 
 Changes by Kida:
 - Fixed Sleek themeing issues.

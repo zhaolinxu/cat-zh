@@ -282,7 +282,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i< this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
-			res.perTick = 0;
 			this.resources.push(res);
 		}
 	},
@@ -443,14 +442,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.resources = [];
 	},
 
-	load: function(saveData){
-		//erase old resources (is there better way to handle it?
-		for(var i = 0; i< this.resources.length; i++){
+	resetState: function(){
+		for (var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			res.value = 0;
 			res.maxValue = 0;
+			res.perTickNoAutomate = 0;
+			res.perTickUI = 0;
 		}
+	},
 
+	load: function(saveData){
 		if (saveData.resources){
 			var resources = saveData.resources;
 			if (resources.length){
@@ -460,7 +462,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 					if (savedRes != null){
 						var res = this.get(savedRes.name);
 						res.value = savedRes.value;
-						res.perTick = savedRes.perTick;
 					}
 				}
 			}
