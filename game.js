@@ -62,7 +62,7 @@ dojo.declare("classes.game.UndoChange", null, {
             managerId: managerId,
             metaId: metaId,
             value: value
-        }
+        };
 
         this.events.push(event);
     }
@@ -722,7 +722,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//return this.console.static.msg(message, type, tag);
-		return original
+		return original;
 	},
 
 	clearLog: function(){
@@ -740,6 +740,53 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			duration: 1200
 		}).play();
+	},
+
+	resetState: function(){
+		this.forceShowLimits = false;
+		this.forceHighPrecision = false;
+		this.useWorkers = false;
+		this.colorScheme = "";
+		this.karmaKittens = 0;
+		this.karmaZebras = 0;
+		this.paragonPoints = 0;
+		this.ironWill = true;
+		this.deadKittens = 0;
+		this.cheatMode = false;
+
+		this.sorrow = 0;
+
+		this.opts = {
+			usePerSecondValues: true,
+			usePercentageResourceValues: false,
+			highlightUnavailable: false,
+			hideSell: false,
+			noConfirm: false,
+            noEnergyPenalty: false
+		};
+
+		this.resPool.resetState();
+		this.village.resetState();
+		this.calendar.resetState();
+		this.console.static.resetState();
+
+		for (var i in this.managers){
+			this.managers[i].resetState();
+		}
+
+		this.villageTab.visible = false;
+		this.libraryTab.visible = false;
+		this.workshopTab.visible = false;
+		this.achievementTab.visible = false;
+		this.statsTab.visible = false;
+		this.diplomacyTab.visible = false;
+		this.religionTab.visible = false;
+		this.spaceTab.visible = false;
+
+		this.bld.invalidateCachedEffects();
+		this.workshop.invalidateCachedEffects();
+		this.religion.invalidateCachedEffects();
+		this.village.invalidateCachedEffects();
 	},
 
 	save: function(){
@@ -811,6 +858,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateOptionsUI();
 			return;
 		}
+
+		this.resetState();
 		try {
 			var saveData = JSON.parse(data);
 
@@ -832,10 +881,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             console.trace();
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 		}
-
-		this.bld.invalidateCachedEffects();
-		this.workshop.invalidateCachedEffects();
-		this.religion.invalidateCachedEffects();
 
 		// Calculate effects (needs to be done after all managers are loaded)
 		this.calculateAllEffects();
@@ -925,9 +970,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (json){
+			var isPaused = this.isPaused;
+			this.isPaused = true;
+
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 			this.load();
 			this.msg("Save import successful!");
+
+			this.isPaused = isPaused;
 			this.render();
 		}
 	},
@@ -971,9 +1021,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
 				var json = LZString.decompressFromBase64(lzdata);
 				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+				var isPaused = game.isPaused;
+				game.isPaused = true;
 
 				game.load();
 				game.msg("Save import successful!");
+
+				game.isPaused = isPaused;
 				game.render();
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
@@ -985,9 +1039,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			client.readFile('kittens.save', {}, function (error, lzdata){
 				var json = LZString.decompressFromBase64(lzdata);
 				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+				var isPaused = game.isPaused;
+				game.isPaused = true;
 
 				game.load();
 				game.msg("Save import successful!");
+
+				game.isPaused = isPaused;
 				game.render();
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();

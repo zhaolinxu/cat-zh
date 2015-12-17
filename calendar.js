@@ -108,8 +108,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	festivalDays: 0,
 
-	iceage: 0,	//Ice Age apocalypse level
-
 	observeBtn: null,
 	observeHandler: null,
 	observeTimeout: null,
@@ -449,13 +447,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return this.seasons[this.season];
 	},
 
+	resetState: function(){
+		this.year = 0;
+		this.day = 0;
+		this.season = 0;
+		this.weather = null;
+		this.festivalDays = 0;
+		this.cycle = 0;
+		this.cycleYear = 0;
+		this.observeClear();
+	},
+
 	save: function(saveData){
 		saveData.calendar = {
 			year : this.year,
 			day: this.day,
 			season: this.season,
 			weather: this.weather,
-			iceage: this.iceage,
 			festivalDays: this.festivalDays,
 			cycle: this.cycle,
 			cycleYear: this.cycleYear

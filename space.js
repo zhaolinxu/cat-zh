@@ -20,6 +20,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		description: "Launch a rocket to a space.",
 		researched: false,
 		unlocked: true,
+		defaultUnlocked: true,
 		prices: [
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
@@ -339,6 +340,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption"	: 10
 			},
 			action: function(game, self){
+				self.effects["energyConsumption"] = 10;
 				if (game.workshop.get("amBases").researched){
 					self.effects["energyConsumption"] = 5;
 				}
@@ -567,13 +569,53 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.game = game;
 	},
 
+	resetState: function(){
+		for (var i = 0; i < this.programs.length; i++){
+			var program = this.programs[i];
+
+			program.unlocked = program.defaultUnlocked || false;
+			program.researched = false;
+
+			if (program.upgradable){
+				program.val = 0;
+				if (program.on != undefined){
+					program.on = 0;
+				}
+			}
+		}
+
+		for (i = 0; i < this.planets.length; i++){
+			var planet = this.planets[i];
+			planet.unlocked = false;
+
+			if (planet.buildings){
+				for (var j = 0; j < planet.buildings.length; j++){
+					var program = planet.buildings[j];
+					program.val = 0;
+					if (program.on != undefined){
+						program.on = 0;
+					}
+				}
+			}
+		}
+
+		//ugh
+		var program = this.getProgram("sattelite");
+		program.effects["energyConsumption"] = 1;
+		program.effects["energyProduction"] = 0;
+		program.togglable = true;
+		program.tunable = true;
+
+		this.hideResearched = false;
+	},
+
 	save: function(saveData){
 
 		var planets = this.filterMetadata(this.planets, ["name", "buildings"]);
 
-		for (var i = 0; i < planets.length; i++) {
+		for (var i = 0; i < planets.length; i++){
 			var planet = planets[i];
-			if (planet.buildings) {
+			if (planet.buildings){
 				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on"]);
 			}
 		}

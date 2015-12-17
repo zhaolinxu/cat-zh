@@ -200,6 +200,16 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		return null;
 	},
 
+	resetState: function(){
+		for (var i = 0; i < this.races.length; i++){
+			var race = this.races[i];
+			race.unlocked = false;
+			race.collapsed = false;
+			race.energy = null;
+			race.duration = null;
+		}
+	},
+
 	save: function(saveData){
 		saveData.diplomacy = {
 			races: this.game.bld.filterMetadata(this.races, ["name", "unlocked", "energy", "duration", "collapsed"])
