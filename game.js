@@ -557,7 +557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 2,
+	saveVersion: 3,
 
 	//FINALLY
 	opts: null,
@@ -1084,6 +1084,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 2;
+		}
+
+		if (save.saveVersion == 2) {
+			// Move upgradable programs from programs to cath planet
+			if (save.space && save.space.programs && save.space.planets) {
+				var buildings = [];
+				for (var i = 0; i < save.space.programs.length; i++) {
+					var program = save.space.programs[i];
+					if (program.name == "spaceElevator" || program.name == "sattelite" || program.name == "spaceStation") {
+						program.unlocked = true;
+						buildings.push(program);
+						save.space.programs.splice(i, 1);
+						// Next element has moved back into current index because of splice
+						i--;
+					}
+				}
+				save.space.planets.push({name: "cath", buildings: buildings})
+			}
+
+			save.saveVersion = 3;
 		}
 
 		return save;
