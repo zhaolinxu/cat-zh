@@ -22,6 +22,7 @@ if (document.all && !window.localStorage) {
  */
 dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 	handlers: [],
+	scheduledHandlers: [],
 
 	addEvent: function(handler, frequency){
 		this.handlers.push({
@@ -40,6 +41,17 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 				h.handler();
 			}
 		}
+	},
+	
+	scheduleEvent: function(handler){
+		this.scheduledHandlers.push(handler)
+	},
+	
+	updateScheduledEvents: function(){
+		for (var i in this.scheduledHandlers){
+			this.scheduledHandlers[i]();
+		}
+		this.scheduledHandlers = [];
 	}
 });
 
@@ -774,14 +786,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.managers[i].resetState();
 		}
 
-		this.villageTab.visible = false;
-		this.libraryTab.visible = false;
-		this.workshopTab.visible = false;
-		this.achievementTab.visible = false;
-		this.statsTab.visible = false;
-		this.diplomacyTab.visible = false;
-		this.religionTab.visible = false;
-		this.spaceTab.visible = false;
+		for (var i in this.tabs){
+			if (this.tabs[i].tabId != "Bonfire"){
+				this.tabs[i].visible = false;
+			}
+		}
 
 		this.bld.invalidateCachedEffects();
 		this.workshop.invalidateCachedEffects();
@@ -969,17 +978,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			json = atob(data);
 		}
 
-		if (json){
-			var isPaused = this.isPaused;
-			this.isPaused = true;
-
+		if (!json) {
+			return;
+		}
+		this.timer.scheduleEvent(dojo.hitch(this, function(){
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 			this.load();
 			this.msg("Save import successful!");
 
-			this.isPaused = isPaused;
 			this.render();
-		}
+		}));
+		$('#exportDiv').hide();
+		$('#optionsDiv').hide();
 	},
 
 	saveExportDropbox: function(){
@@ -1019,16 +1029,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.dropBoxClient.authenticate({interactive:false});
 		if (this.dropBoxClient.isAuthenticated()){
 			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
-				var json = LZString.decompressFromBase64(lzdata);
-				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-				var isPaused = game.isPaused;
-				game.isPaused = true;
-
-				game.load();
-				game.msg("Save import successful!");
-
-				game.isPaused = isPaused;
-				game.render();
+				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});
@@ -1037,20 +1038,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.dropBoxClient.authenticate(function (error, client) {
 			client.readFile('kittens.save', {}, function (error, lzdata){
-				var json = LZString.decompressFromBase64(lzdata);
-				LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-				var isPaused = game.isPaused;
-				game.isPaused = true;
-
-				game.load();
-				game.msg("Save import successful!");
-
-				game.isPaused = isPaused;
-				game.render();
+				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});
 		});
+	},
+	
+	//TODO: add some additional checks and stuff?
+	_loadSaveJson: function(json){
+		var json = LZString.decompressFromBase64(lzdata);
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+
+		game.load();
+		game.msg("Save import successful!");
+		
+		game.render();
 	},
 
 	migrateSave: function(save) {
@@ -1838,7 +1841,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	tick: function(){
-
+		/**
+		 * Even if the game is paused, scheduler should still be able to obtain a focus to handle cases like save/load/reset
+		 */
+		this.timer.updateScheduledEvents();
+		
 		if (this.isPaused){
 			return;
 		}
