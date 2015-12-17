@@ -562,10 +562,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		]
 	}],
 
+	metaCache: null,
+
 	//============================================================================
 
 	constructor: function(game){
 		this.game = game;
+		this.metaCache = {};
 	},
 
 	resetState: function(){
@@ -674,7 +677,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var savePlanet = saveData.space.planets[i];
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
-				if (savePlanet.buildings){
+				if (planet && planet.buildings && savePlanet.buildings){
 					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on"], function(loadedElem){
 					});
 				}
@@ -701,7 +704,30 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	getProgram: function(name){
-		return this.getMeta(name, this.programs);
+		if (this.metaCache[name]){
+			return this.metaCache[name];
+		}
+
+		for (var i = this.programs.length - 1; i >= 0; i--){
+			var program = this.programs[i];
+			if (program.name == name){
+				this.metaCache[name] = program;
+				return program;
+			}
+		}
+
+		for (i = this.planets.length - 1; i >= 0; i--){
+			var planet = this.planets[i];
+			if (planet.buildings){
+				for (var j = planet.buildings.length - 1; j >= 0; j--){
+					var bld = planet.buildings[j];
+					if (bld.name == name){
+						this.metaCache[name] = bld;
+						return bld;
+					}
+				}
+			}
+		}
 	},
 
 	getPlanet: function(name){
