@@ -27,95 +27,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "science", val: 100000},
 			{name: "oil", val: 15000}
 		],
-		handler: function(game, self){
-			game.space.getProgram("sattelite").unlocked = true;
-			game.space.getProgram("spaceStation").unlocked = true;
-			game.space.getProgram("spaceElevator").unlocked = true;
-			game.space.getProgram("moonMission").unlocked = true;
-		}
-	},{
-		name: "spaceElevator",
-		title: "Space Elevator",
-		description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
-		researched: false,
-		unlocked: false,
-		upgradable:true,
-		priceRatio: 1.15,
-		prices: [
-			{name: "titanium", val: 6000},
-			{name: "science", val: 75000},
-			{name: "unobtainium", val: 50},
-		],
-		requiredTech: ["orbitalEngineering", "nanotechnology"],
-		val: 0,
-		effects: {
-			"oilReductionRatio": 0.05,
-            "spaceRatio": 0.01,
-			"prodTransferBonus" : 0.1
-		},
-		togglable: false,
-		tunable: false
-	},{
-		name: "sattelite",
-		title: "Satellite",
-		description: "Deploy a Satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
-		unlocked: false,
-		researched: false,
-		prices: [
-			{name: "starchart", val: 325},
-			{name: "titanium", val: 2500},
-			{name: "science", val: 100000},
-			{name: "oil", val: 15000}
-		],
-		priceRatio: 1.08,
-		requiredTech: ["sattelites"],
-		val: 0,
-		on: 0,
-		upgradable: true,
-		togglable: true,
-		tunable: true,
-		effects: {
-			"observatoryRatio": 0.05,
-			"starchartPerTickBase": 0.001,
-			"energyConsumption": 1
-		},
-		upgrades: {
-			buildings: ["observatory"]
-		},
-		action: function(game, self){
-			self.effects["starchartPerTickBase"] = 0.001 * game.space.getAutoProductionRatio();
-		}
-
-	},{
-		name: "spaceStation",
-		title: "Space Station",
-		description: "Deploy a Space Station. Each station generates science and provide a space for 2 astronauts",
-		unlocked: false,
-		researched: false,
-		prices: [
-			{name: "starchart", val: 425},
-			{name: "alloy", 	val: 750},
-			{name: "science", val: 150000},
-			{name: "oil", val: 35000}
-		],
-		priceRatio: 1.12,
-		requiredTech: ["orbitalEngineering"],
-		val: 0,
-		on: 0,
-		togglable: true,
-		tunable: true,
-		upgradable: true,
-		handler: function(game, self){
-			game.ironWill = false;			//sorry folks
-		},
-		action: function(self, game){
-
-		},
-		effects: {
-			"scienceRatio": 0.5,
-			"maxKittens": 2,
-			"energyConsumption": 10
-		}
+        unlocks: {
+            planet: "cath",
+            programs: ["moonMission"]
+        }
 	},{
 		name: "moonMission",
 		title: "Moon Mission",
@@ -271,6 +186,90 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	planets:
 	[{
+		name: "cath",
+		title: "Cath",
+		unlocked: false,
+		buildings: [{
+			name: "spaceElevator",
+			title: "Space Elevator",
+			description: "Every S. Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
+			unlocked: true,
+			upgradable:true,
+			priceRatio: 1.15,
+			prices: [
+				{name: "titanium", val: 6000},
+				{name: "science", val: 75000},
+				{name: "unobtainium", val: 50},
+			],
+			requiredTech: ["orbitalEngineering", "nanotechnology"],
+			val: 0,
+			effects: {
+				"oilReductionRatio": 0.05,
+				"spaceRatio": 0.01,
+				"prodTransferBonus" : 0.1
+			},
+			togglable: false,
+			tunable: false
+		},{
+			name: "sattelite",
+			title: "Satellite",
+			description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
+			unlocked: true,
+			prices: [
+				{name: "starchart", val: 325},
+				{name: "titanium", val: 2500},
+				{name: "science", val: 100000},
+				{name: "oil", val: 15000}
+			],
+			priceRatio: 1.08,
+			requiredTech: ["sattelites"],
+			val: 0,
+			on: 0,
+			upgradable: true,
+			togglable: true,
+			tunable: true,
+			effects: {
+				"observatoryRatio": 0.05,
+				"starchartPerTickBase": 0.001,
+				"energyConsumption": 1
+			},
+			upgrades: {
+				buildings: ["observatory"]
+			},
+			action: function(game, self){
+				self.effects["starchartPerTickBase"] = 0.001 * game.space.getAutoProductionRatio();
+			}
+		},{
+			name: "spaceStation",
+			title: "Space Station",
+			description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
+			unlocked: true,
+			prices: [
+				{name: "starchart", val: 425},
+				{name: "alloy", 	val: 750},
+				{name: "science", val: 150000},
+				{name: "oil", val: 35000}
+			],
+			priceRatio: 1.12,
+			requiredTech: ["orbitalEngineering"],
+			val: 0,
+			on: 0,
+			togglable: true,
+			tunable: true,
+			upgradable: true,
+			handler: function(game, self){
+				game.ironWill = false;			//sorry folks
+			},
+			action: function(self, game){
+
+			},
+			effects: {
+				"scienceRatio": 0.5,
+				"maxKittens": 2,
+				"energyConsumption": 10
+			}
+		}]
+	},{
 		name: "moon",
 		title: "Moon",
 		unlocked: false,
@@ -951,6 +950,20 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		return this.program;
 	},
 
+	updateVisible: function(){
+		var program = this.getProgram();
+		if (program.requiredTech){
+			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
+				var tech = this.game.science.get(program.requiredTech[i]);
+				if (!tech.researched){
+					this.setVisible(false);
+					return;
+				}
+			}
+		}
+		this.setVisible(this.getProgram().unlocked);
+	},
+
 	onClick: function(event){
 		var self = this;
 
@@ -967,6 +980,9 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
             }
 			if (program.handler){
 				program.handler(this.game, program);
+			}
+			if (program.upgrades){
+				this.game.upgrade(program.upgrades);
 			}
 		}
 	}
