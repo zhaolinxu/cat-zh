@@ -17,6 +17,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Reduce all price ratios by 1%. Unlocks more price upgrades.",
 		paragon: 5,
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("megalomania").unlocked = true;
@@ -93,6 +94,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
 		paragon: 5,
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("zebraDiplomacy").unlocked = true;
@@ -110,6 +112,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Meteor and star events will happen faster.",
 		paragon: 25,
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("anachronomancy").unlocked = true;
@@ -121,6 +124,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Unicorn rifts and ivory meteors are more frequent.",
 		paragon: 125,
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 	},
 	{
@@ -136,6 +140,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Festivals can now stack",
 		paragon: 25,
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("numerology").unlocked = true;
@@ -230,6 +235,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	}],
 
 	game: null,
+
+	resetState: function(){
+		for (var i = 0; i < this.perks.length; i++){
+			var perk = this.perks[i];
+			perk.unlocked = perk.defaultUnlocked || false;
+			perk.researched = false;
+		}
+	},
 
 	save: function(saveData){
 		saveData.prestige = {

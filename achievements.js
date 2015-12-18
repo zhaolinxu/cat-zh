@@ -296,6 +296,16 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         }
     },
 
+	resetState: function(){
+		for (var i = 0; i < this.achievements.length; i++){
+			var ach = this.achievements[i];
+			ach.unlocked = false;
+			if (ach.hasStar){
+				ach.starUnlocked = false;
+			}
+		}
+	},
+
     save: function (saveData) {
         saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
     },

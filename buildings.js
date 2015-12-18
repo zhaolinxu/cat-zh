@@ -399,6 +399,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"scienceMax"  : 1500
 			};
 
+			self.togglable = false;
+			self.tunable = false;
 			if (game.workshop.get("biofuel").researched){
 				self.togglable = true;
 				self.tunable = true;
@@ -906,7 +908,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
 			effects["oilPerTickBase"] *= ratio;
 
-
+			self.togglable = false;
+			self.tunable = false;
 			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
 				self.togglable = true;
@@ -1161,7 +1164,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"cultureMax" : 50
 				},
 				priceRatio: 1.15,
-				flavor: "Daily 'All Dogs Go to Heaven' showings"
+				flavor: "Daily 'All Dogs Go to Heaven' showings",
+				stageUnlocked : true
 			},
 			{
 				label : "Broadcast Tower",
@@ -1175,7 +1179,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                     "unhappinessRatio" : -0.75,
 					"cultureMax" : 300
 				},
-				priceRatio: 1.18
+				priceRatio: 1.18,
+				stageUnlocked : false
 			}
 		],
 		ignorePriceCheck: true,
@@ -1640,13 +1645,30 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.invalidateCachedEffects();
 	},
 
-	//TODO: do we need it?
-	reset: function(){
+	resetState: function(){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 
 			bld.val = 0;
-			bld.on = 0;
+			bld.unlocked = false;
+
+			if (bld.enabled != undefined){
+				bld.enabled = false;
+			}
+			if (bld.on != undefined){
+				bld.on = 0;
+			}
+
+			if (bld.upgradable){
+				bld.stage = 0;
+				for (var j = 1; j < bld.stages.length; j++){ //stages[0] should always be unlocked
+					bld.stages[j].stageUnlocked = false;
+				}
+			}
+
+			if (bld.jammed != undefined){
+				bld.jammed = false;
+			}
 		}
 	},
 

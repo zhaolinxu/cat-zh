@@ -1,13 +1,11 @@
 v 1.1.7.9 (?)
 Changes by coderpatsy:
-
-Sorrow fixes
-
 - Fix tear refining being able to exceed sorrow limit slightly (sorry folks)
 - Properly update when spending/refining for sorrow
 - Fix display when spending all sorrow/importing a save with no sorrow over a save with sorrow
 - Updated credit link, synched credits to kong index
-- Some misc cleanup
+- Text fixes
+- Fix various bugs when importing saves
 
 Changes by Kida:
 - Bug Fix: Cleaned 'leaks' when importing saves. (i.e. extra titanium or techs.)
@@ -18,6 +16,14 @@ Changes by Kida:
 - Resources now only warn on values that can be maxed; and can tick.
 - Did some odd vudo magic on the game log; and grouping by dates...
 (Hope this does not mess things up....)
+
+___
+
+Fixed a problem with leaked resources upon reset (?)
+Resetting with 750+ kittens will give additional karma bonus
+Trading with elders will now reduce their duration counter
+Relic drop chance is reduced from 30% to 5%
+Option to unlock all or individual upgrades in dev mode
 
 v 1.1.7.8 (7 dec)
 

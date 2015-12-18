@@ -480,3 +480,9 @@ h1 {
     float: right;
     margin-top: -15px;
 }
+
+#gameLog span.msg:not(.type_date)  {
+    display: list-item;
+    margin-left: 1.0em;
+    list-style-type: circle;
+}

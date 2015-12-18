@@ -46,7 +46,7 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
                 try {
-                    gamePage = new com.nuclearunicorn.game.ui.GamePage();
+                    gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
                     gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 
@@ -338,9 +338,11 @@
 
 				<br>
 				<br>
-
-				<input type="button" value="Export" onclick="gamePage.saveExport();">
+				<input id="googleDrive" type="button" value="Login to sync Google Drive">
+				<div style="display: none;">Game is being Sync'd to you Google Drive account.</div>
 				<br>
+				<input type="button" value="Export" onclick="gamePage.saveExport();">
+
 				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
 				<br>
 			</div>
@@ -377,5 +379,7 @@
 			</div>
 		</div>
 
+		<script src="js/driveapi.js" type="text/javascript"></script>
+		<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 	</body>
 </html>
