@@ -6,17 +6,20 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             name: "totalKittens",
             title: "Total Kittens",
             val: 0,
-            unlocked: true
+            unlocked: true,
+			defaultUnlocked: true
         },{
             name: "kittensDead",
             title: "Kittens Dead",
             val: 0,
-            unlocked: true
+            unlocked: true,
+			defaultUnlocked: true
         },{
             name: "totalYears",
             title: "Total Years Played",
             val: 0,
-            unlocked: true
+            unlocked: true,
+			defaultUnlocked: true
         }, {
             name: "totalResets",
             title: "Resets Made",
@@ -102,6 +105,20 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             }
         ];
     },
+
+	resetState: function(){
+		for (var i = 0; i < this.stats.length; i++){
+			var stat = this.stats[i];
+			stat.val = 0;
+			stat.unlocked = stat.defaultUnlocked || false;
+		}
+
+		for (i = 0; i < this.statsCurrent.length; i++){
+			var stat = this.statsCurrent[i];
+			stat.val = 0;
+			stat.unlocked = stat.defaultUnlocked || false;
+		}
+	},
 
     load: function(saveData){
         if (saveData.stats) {

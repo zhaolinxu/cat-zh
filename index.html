@@ -55,7 +55,7 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
                 try {
-                    gamePage = new com.nuclearunicorn.game.ui.GamePage();
+                    gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
                     gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 
@@ -89,11 +89,14 @@
 			});
 
 			function dev(){
-				if (window.location.protocol != "file:" || !confirm("You are about to enter developer mode, proceed?")) {
+				if (window.location.protocol != "file:") {
 					return;
 				} else {
 					$("#dev_boostCalendar").html("&gt;&gt;&gt;");
 					$("#devPanelCheats").show();
+					
+					gamePage.devMode = true;
+					gamePage.render();
 				}
 			}
 
@@ -139,6 +142,7 @@
 						</div>
 						<div id="devPanelCheats" style="display:none">
 							<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
+							<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
 							<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
                             <a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
 						</div>

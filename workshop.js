@@ -18,6 +18,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 275 }
 		],
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
 			upgrades: ["ironHoes"]
@@ -34,6 +35,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", val: 25 }
 		],
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 	},
 	//--------------------- wood upgrades ----------------------
@@ -49,6 +51,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 500 }
 		],
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
 			upgrades: ["ironAxes"]
@@ -65,6 +68,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", val: 50 }
 		],
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false
 	},{
 		name: "steelAxe",
@@ -210,6 +214,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["barn", "warehouse", "harbor"]
 		},
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false
 	},{
 		name: "reinforcedBarns",
@@ -228,6 +233,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["barn", "warehouse", "harbor"]
 		},
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
 			upgrades: ["titaniumBarns"]
@@ -1638,6 +1644,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "catnip", val: 100}
 		],
 		unlocked: true,
+		defaultUnlocked: true,
 		ignoreBonuses: true,
 	},{
 		name: "beam",
@@ -1646,7 +1653,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "wood", val: 175}
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "slab",
 		title: "Stone Slab",
@@ -1654,7 +1662,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "minerals", val: 250}
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "concrate",
 		title: "Concrete",
@@ -1671,7 +1680,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "iron", val: 125}
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "steel",
 		title: "Steel",
@@ -1706,7 +1716,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "steel", val: 15}
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "parchment",
 		title: "Parchment",
@@ -1724,7 +1735,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "parchment", val: 25},
 			{name: "culture", val: 400}
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "compedium",
 		title: "Compendium",
@@ -1751,7 +1763,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name: "beam", val: 50 }
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	},{
 		name: "ship",
 		title: "Trade Ship",
@@ -1795,7 +1808,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "beam", val: 35 },
 			{ name: "plate", val: 5 }
 		],
-		unlocked: true
+		unlocked: true,
+		defaultUnlocked: true
 	}],
 
 	effectsBase: {
@@ -1840,6 +1854,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 		console.error("Failed to get craft for id '" + craftName + "'");
 		return null;
+	},
+
+	resetState: function(){
+		for (var i = 0; i < this.upgrades.length; i++){
+			var upgrade = this.upgrades[i];
+			upgrade.unlocked = upgrade.defaultUnlocked || false;
+			upgrade.researched = false;
+		}
+
+		for (i = 0; i < this.crafts.length; i++){
+			this.crafts[i].unlocked = this.crafts[i].defaultUnlocked || false;
+		}
+
+		//ugh
+		this.getCraft("wood").prices = [{name: "catnip", val: 100}];
+
+		this.hideResearched = false;
 	},
 
 	save: function(saveData){
@@ -2016,6 +2047,30 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 		}
+	},
+	
+	unlock: function(upgrade){
+		upgrade.researched = true;
+
+		if (upgrade.handler){
+			upgrade.handler(self.game);
+		}
+
+		if (upgrade.unlocks) {
+			this.game.unlock(upgrade.unlocks);
+		}
+
+		if (upgrade.upgrades) {
+			// Hack so the new upgrade's effects are counted
+			this.game.workshop.invalidateCachedEffects();
+			this.game.upgrade(upgrade.upgrades);
+		}
+	},
+	
+	unlockAll: function(){
+		for (var i in this.upgrades){
+			this.unlock(this.upgrades[i]);
+		}	
 	}
 });
 
@@ -2084,6 +2139,17 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 
 	getSelectedObject: function(){
 		return this.getUpgrade();
+	},
+
+	renderLinks: function(){
+		if (this.game.devMode && !this.devUnlockHref){
+			this.devUnlockHref = this.addLink("[+]", this.unlock);
+		}
+	},
+	
+	unlock: function() {
+		var upgrade = this.getUpgrade();
+		this.game.workshop.unlock(upgrade);
 	}
 
 });
@@ -2244,21 +2310,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
 			name : upgrade.title,
 			handler: function(btn){
-				upgrade.researched = true;
-
-				if (upgrade.handler){
-					upgrade.handler(self.game);
-				}
-
-				if (upgrade.unlocks) {
-					this.game.unlock(upgrade.unlocks);
-				}
-
-				if (upgrade.upgrades) {
-					// Hack so the new upgrade's effects are counted
-					this.game.workshop.invalidateCachedEffects();
-					this.game.upgrade(upgrade.upgrades);
-				}
+				btn.unlock();
 			},
 			prices: upgrade.prices,
 			description: upgrade.description,

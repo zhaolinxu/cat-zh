@@ -16,6 +16,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: "Calendar provides a way of more precise time tracking",
 
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: {
@@ -781,6 +782,16 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 		console.error("Failed to get tech for tech name '"+techName+"'");
 		return null;
+	},
+
+	resetState: function(){
+		for (var i = 0; i < this.techs.length; i++){
+			var tech = this.techs[i];
+			tech.unlocked = tech.defaultUnlocked || false;
+			tech.researched = false;
+		}
+
+		this.hideResearched = false;
 	},
 
 	save: function(saveData){
