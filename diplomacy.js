@@ -328,7 +328,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     unlockElders : function(){
         var elders = this.get("leviathans");
         elders.unlocked = true;
-        elders.duration += 400 *  (10  + 1 * elders.energy )  /*50 years + 25 per energy unit*/;
+        elders.duration += 400 *  (10  + 1 * elders.energy )  /*10 years + 1 per energy unit*/;
 
         this.game.msg("Elder gods have arrived", "notice");
     },
@@ -453,6 +453,14 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 				this.game.msg( race.title + " think your kittens are adorable", null, "trade");
 			}
 			tradeRatioAttitude = 0.25;
+		}
+
+		if (race.name == "leviathans"){
+			//reset energy to default limit
+			var duration = (400 + 100 * race.energy);
+			if (race.duration > duration){
+				race.duration = duration;
+			}
 		}
 
 		for (var j =0; j< race.sells.length; j++){

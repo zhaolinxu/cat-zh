@@ -1930,6 +1930,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.karmaKittens += (kittens - 300) * 10;
 		}
 
+		if (kittens > 750){
+			this.karmaKittens += (kittens - 750) * 15;
+		}
+
 		var paragonPoints = 0;
 		if (kittens > 70){
 			paragonPoints = (kittens - 70);
