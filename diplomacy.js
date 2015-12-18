@@ -176,7 +176,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}},
-			{name: "relic", value: 1, chance: 30, delta: 0, seasons:{
+			{name: "relic", value: 1, chance: 5, delta: 0, seasons:{
 				"spring": 1,
 				"summer": 1,
 				"autumn": 1,
