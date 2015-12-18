@@ -2047,6 +2047,30 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 		}
+	},
+	
+	unlock: function(upgrade){
+		upgrade.researched = true;
+
+		if (upgrade.handler){
+			upgrade.handler(self.game);
+		}
+
+		if (upgrade.unlocks) {
+			this.game.unlock(upgrade.unlocks);
+		}
+
+		if (upgrade.upgrades) {
+			// Hack so the new upgrade's effects are counted
+			this.game.workshop.invalidateCachedEffects();
+			this.game.upgrade(upgrade.upgrades);
+		}
+	},
+	
+	unlockAll: function(){
+		for (var i in this.upgrades){
+			this.unlock(this.upgrades[i]);
+		}	
 	}
 });
 
@@ -2115,6 +2139,17 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 
 	getSelectedObject: function(){
 		return this.getUpgrade();
+	},
+
+	renderLinks: function(){
+		if (this.game.devMode && !this.devUnlockHref){
+			this.devUnlockHref = this.addLink("[+]", this.unlock);
+		}
+	},
+	
+	unlock: function() {
+		var upgrade = this.getUpgrade();
+		this.game.workshop.unlock(upgrade);
 	}
 
 });
@@ -2275,21 +2310,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
 			name : upgrade.title,
 			handler: function(btn){
-				upgrade.researched = true;
-
-				if (upgrade.handler){
-					upgrade.handler(self.game);
-				}
-
-				if (upgrade.unlocks) {
-					this.game.unlock(upgrade.unlocks);
-				}
-
-				if (upgrade.upgrades) {
-					// Hack so the new upgrade's effects are counted
-					this.game.workshop.invalidateCachedEffects();
-					this.game.upgrade(upgrade.upgrades);
-				}
+				btn.unlock();
 			},
 			prices: upgrade.prices,
 			description: upgrade.description,

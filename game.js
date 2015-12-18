@@ -591,6 +591,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     kongregate: null,
 
+	/*
+		Whether the game is in developer mode or no
+	 */
+	devMode: false,
+
 	constructor: function(containerId){
 		this.id = containerId;
 

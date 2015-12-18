@@ -16,6 +16,14 @@ Changes by Kida:
 - Did some odd vudo magic on the game log; and grouping by dates...
 (Hope this does not mess things up....)
 
+___
+
+Fixed a problem with leaked resources upon reset (?)
+Resetting with 750+ kittens will give additional karma bonus
+Trading with elders will now reduce their duration counter
+Relic drop chance is reduced from 30% to 5%
+Option to unlock all or individual upgrades in dev mode
+
 v 1.1.7.8 (7 dec)
 
 Coding Changes by Kida:
