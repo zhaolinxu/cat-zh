@@ -1892,7 +1892,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	reset: function(){
-
 		var msg = "Are you sure that you want to reset? You will get bonus points for happiness. You will also save your achievements and bonus points";
 		if (this.resPool.get("kittens").value > 70){
 			msg = "Are you sure that you want to reset? You will receive extra happiness and bonus to production.";
@@ -1905,7 +1904,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!confirm(msg)){
 			return;
 		}
-
+		
+		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
+	},
+	
+	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
 			this.karmaKittens += (kittens - 35);
