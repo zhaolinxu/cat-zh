@@ -924,14 +924,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			json = atob(data);
 		}
 
-		if (json){
-			this.isPaused = true;
-			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-			//this.load();
-			//this.msg("Save import successful!");
-			window.location.reload();
-			//this.render();
+		if (!json) {
+			return;
 		}
+		this.timer.scheduleEvent(dojo.hitch(this, function () {
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+			this.load();
+			this.msg("Save import successful!");
+
+				this.render();
+
+		}));
+		$('#exportDiv').hide();
+		$('#optionsDiv').hide();
 
 
 
