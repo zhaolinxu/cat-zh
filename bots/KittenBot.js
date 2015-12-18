@@ -54,7 +54,7 @@ var kittenBot = function () {
 
         getResources();
 
-
+        myRes['energy'] = {value: 0, maxValue: 0};
         if (gp.resPool.energyProd && gp.resPool.energyCons) {
             myRes['energy'] = {value: gp.resPool.energyProd - gp.resPool.energyCons, maxValue: gp.resPool.energyProd}
         }
@@ -152,7 +152,7 @@ var kittenBot = function () {
         }
 
 
-        var smartCraftTime = 5000
+        var smartCraftTime = 5000;
         var smartCraft = function () {
 
             if (!scriptEnabled) return;
@@ -325,6 +325,9 @@ var kittenBot = function () {
                     if (smartCraftRequest['alloy'] && myRes[buildType].value < smartCraftRequest[buildType]) {
                         buildValues.push(Math.ceil((smartCraftRequest[buildType] - myRes[buildType].value) / alloyRatio))
                     }
+                    //if (myRes['steel'].value > myRes[buildType].value * 75) {
+                    //    buildValues.push((myRes['steel'].value - (myRes[buildType].value * 75)) / 75);
+                    //}
                     buildValue = getMax(buildValues);
                     var bonus = 0;
                     var bonusTita = 0;
@@ -334,7 +337,7 @@ var kittenBot = function () {
                     if (buildValue * 10 > myRes['titanium'].value - bonusTita) buildValue = Math.floor(((myRes['titanium'].value - bonusTita) / 10));
                     if (buildValue > 0) {
                         gp.craft(buildType, buildValue, true);
-                        craftMsgs.push(buildValue + " Gears");
+                        craftMsgs.push(buildValue + " Alloy");
                     }
                 }
             }
@@ -372,7 +375,9 @@ var kittenBot = function () {
                 if (gp.workshop.getCraft(buildType).unlocked && myRes['slab'].value > 2500 && myRes['steel'].value > 25) {
                     var concrateRatio = gp.getResCraftRatio({name: buildType});
 
-
+                    smartCraft = false;
+                    smartCraftWait = false;
+                    if (smartCraftRequest[buildType] && myRes[buildType].value < smartCraftRequest[buildType]) smartCraft = true;
                     if (myRes['slab'].value > myRes[buildType].value * 2500) {
                         buildValues.push(Math.floor((myRes['slab'].value - (myRes[buildType].value * 2500)) / 2500));
                     }
@@ -380,6 +385,7 @@ var kittenBot = function () {
                     if (myRes['slab'].value > myRes[buildType].value * 100 && myRes['slab'].value > 100000000) { //GReater then 100 mil.
                         buildValues.push(Math.floor((myRes['slab'].value - (myRes[buildType].value * 100) - 100000000) / 2500));
                     }
+                    if (!smartCraftWait && smartCraft) buildValues.push(Math.ceil(smartCraftRequest[buildType] - myRes[buildType].value));
 
                     buildValue = getMax(buildValues);
 
@@ -458,11 +464,15 @@ var kittenBot = function () {
                         buildValues.push(1);
                     } else if (myRes[buildType].value < 100) { //Less then 100 rules
                         buildValues.push(Math.floor(myRes['starchart'].value / 25));
-                    } else if (myRes[buildType].value < 1000 && myRes['scaffold'].value > myRes[buildType].value * 100) { //Less then 1000
-                        buildValues.push(Math.floor((myRes['scaffold'].value - (myRes[buildType].value * 100)) / 100));
+                    } else if (myRes[buildType].value < 1000) { //Less then 1000
+                        if (myRes['scaffold'].value > myRes[buildType].value * 100) buildValues.push(Math.floor((myRes['scaffold'].value - (myRes[buildType].value * 100)) / 100));
+                        if (myRes['starchart'].value > myRes[buildType].value * 3) buildValues.push(Math.floor((myRes['starchart'].value - (myRes[buildType].value * 3)) / 25));
                     } else if (myRes['scaffold'].value > myRes[buildType].value * 2 * 100 && myRes['plate'].value > myRes[buildType].value * 2 * 150 && myRes['starchart'].value > myRes[buildType].value * 25) {
                         buildValues.push(Math.floor((myRes['starchart'].value - (myRes[buildType].value * 25)) / 25));
+                    } else {
+                        if (myRes['starchart'].value > 100 + (myRes[buildType].value / 10) && myRes['titanium'].value < myRes['titanium'].maxValue * .2) { buildValues.push(1); }
                     }
+
                     buildValue = getMax(buildValues);
                     var bonus = 0;
                     if (smartCraftRequest['starchart'] && smartCraftRequest['starchart'] != 25 && myRes[buildType].value > 10) bonus += smartCraftRequest['starchart'];
@@ -554,8 +564,10 @@ var kittenBot = function () {
             buildValues = [];
             buildValue = 0;
             buildType = 'manuscript';
-            if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50 && !(tradeLevel < 4 && myRes['culture'].maxValue > 1500)) { //Insure we've unlock trade.
+            if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50 && !(tradeLevel < 4 &&
+                myRes['culture'].maxValue > 1500) && (myRes['culture'].value > myRes['culture'].perTickUI * 5 * 30 || myRes['culture'].value > myRes['culture'].maxValue * .9)) { //Insure we've unlock trade.
                 //TODO: Build If CraftDemand.
+
                 var manuscriptRatio = gp.getResCraftRatio({name: buildType});
                 if (myRes['parchment'].value > (myRes[buildType].value * 2)) buildValues.push((myRes['parchment'].value - (myRes[buildType].value * 2)) / 25);
                 if (myRes['parchment'].value > (myRes['culture'].value * 1.2)) buildValues.push((myRes['parchment'].value - (myRes['culture'].value * 1.2)) / 25);
@@ -575,7 +587,7 @@ var kittenBot = function () {
                 buildValue = 0;
                 buildBase = 50;
                 buildType = 'compedium';
-                if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 10000 && myRes['manuscript'].value > buildBase &&
+                if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > myRes['science'].maxValue * .1 && myRes['science'].value > 10000 && myRes['manuscript'].value > buildBase &&
                     myRes['compedium'].value < (myRes['blueprint'].value + 1) * 100) {
                     var compediumRatio = gp.getResCraftRatio({name: buildType});
                     //TODO: Build If CraftDemand.
@@ -611,22 +623,27 @@ var kittenBot = function () {
                 buildValue = 0;
                 buildBase = 25;
                 buildType = 'blueprint';
-                if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > 25000 && myRes['compedium'].value > buildBase) {
+                if (gp.workshop.getCraft(buildType).unlocked && myRes['science'].value > myRes['science'].maxValue * .1 && myRes['science'].value > 25000 && myRes['compedium'].value > buildBase) {
                     var blueprintRatio = gp.getResCraftRatio({name: buildType});
                     //TODO: Build If CraftDemand.
                     smartCraftWait = false;
                     if ((!smartCraftRequest[buildType] || smartCraftRequest[buildType] <= 0) && myRes['science'].value < smartCraftRequest['science']) smartCraftWait = true;
+                    if (smartCraftRequest['science'] + 25000 > myRes['science'].value) smartCraftWait = true;
                     //TODO: Require last of (compedium) sciences is researched. (i.e. it won't need compediums any more)
                     if (!smartCraftWait && myRes['compedium'].value > ((myRes[buildType].value + 1) * 10) && myRes[buildType].value < 10000) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 10)) / buildBase);
                     if (!smartCraftWait && myRes['compedium'].value > ((myRes[buildType].value + 1) * 100)) buildValues.push((myRes['compedium'].value - ((myRes[buildType].value + 1) * 100)) / buildBase);
                     buildValue = getMax(buildValues);
                     if (buildValue * buildBase > myRes['compedium'].value) buildValue = Math.floor((myRes['compedium'].value / buildBase));
-                    if (buildValue * 25000 > myRes['science'].value) buildValue = Math.floor((myRes['science'].value / 25000));
+
 
                     //Build If CraftDemand is Not Manuscript.
                     var bonus = 0;
+                    var bonusSci = 0;
+                    if (smartCraftWait && smartCraftRequest['science'] > myRes['science'].value) bonusSci = smartCraftRequest['science'];
                     if (smartCraftRequest['compedium']) bonus += smartCraftRequest['compedium'];
                     if (buildValue * buildBase > myRes['compedium'].value - bonus) buildValue = Math.floor(((myRes['compedium'].value - bonus) / buildBase));
+
+                    if (buildValue * 25000 > myRes['science'].value + bonusSci) buildValue = Math.floor(((myRes['science'].value - bonusSci) / 25000));
 
                     if (buildValue > 0) {
                         gp.craft(buildType, buildValue, true);
@@ -715,9 +732,9 @@ var kittenBot = function () {
         var faithRate = .1;
         var faithAmt = 100;
         var smartFaith = function () {
-            if (myRes['faith'].value < faithAmt && faithAmt < myRes['faith'].maxValue - 1) return false
-            if (myRes['gold'].value < myRes['gold'].maxValue * .5 && myRes['faith'].value < myRes['faith'].maxValue - 1) return false
-            if (gamePage.activeTabId != 'Bonfire') return false
+            if (myRes['faith'].value < faithAmt && faithAmt < myRes['faith'].maxValue - 1) return false;
+            if (myRes['gold'].value < myRes['gold'].maxValue * .5 && myRes['faith'].value < myRes['faith'].maxValue - 10) return false;
+            if (gamePage.activeTabId != 'Bonfire') return false;
             if (gp.religionTab.visible) {
 
 
@@ -913,9 +930,9 @@ var kittenBot = function () {
                     gamePage.activeTabId = 'Trade';
                     gamePage.render();
                     try {
-                        tradeAmt = parseInt((perGold * 20) / 15);
-                        if (myRes['slab'].value < tradeAmt * 200) tradeAmt = parseInt(myRes['slab'].value / 200) - 1
-                        if (myRes['catpower'].value < tradeAmt * 50) tradeAmt = parseInt(myRes['catpower'].value / 50) - 1
+                        tradeAmt = Math.ceil((myRes['gold'].value * .5) / 15);
+                        if (myRes['slab'].value < tradeAmt * 200) tradeAmt = parseInt(myRes['slab'].value / 200) - 1;
+                        if (myRes['catpower'].value < tradeAmt * 50) tradeAmt = parseInt(myRes['catpower'].value / 50) - 1;
                         if (tradeAmt < 1) tradeAmt = 1;
                         //console.log('Trade count: ', tradeAmt, myRes['catpower'].value)
                         btn = getTradeBtn(4);
@@ -953,7 +970,7 @@ var kittenBot = function () {
         }
 
         var smartShip = function () {
-            var shipCraft = gp.workshop.getCraft('ship')
+            var shipCraft = gp.workshop.getCraft('ship');
             if (myRes['starchart'].value >= 25 && shipCraft.unlocked && myRes['ship'].value < 2) {
                 //console.log('try ship', JSON.stringify(shipCraft), JSON.stringify(shipCraft.prices))
                 for (iType in shipCraft.prices) {
@@ -1007,7 +1024,7 @@ var kittenBot = function () {
 
         }
         var smartEventTmr;
-        smartEventTmr = setInterval(smartEvent, 1000)
+        smartEventTmr = setInterval(smartEvent, 3000);
 
 //Smart-Sci
         var smartSciOrders = [
@@ -1016,11 +1033,11 @@ var kittenBot = function () {
             ['Science', 'mining'],
             ['Science', 'archery'],
             ['Science', 'metal'],
-            ['Workshop', 'mineralAxes'],
+            ['Workshop', 'mineralAxes', true],
             ['Workshop', 'mineralHoes'],
             ['Workshop', 'bolas'],
             ['Science', 'animal'],
-            ['Workshop', 'ironAxes', ['Science', 'math']],
+            ['Workshop', 'ironAxes'],
             ['Workshop', 'stoneBarns'],
             ['Workshop', 'ironHoes'],
             ['Science', 'construction'],
@@ -1098,14 +1115,14 @@ var kittenBot = function () {
             ['Workshop', 'combustionEngine'],
             ['Science', 'robotics'],//Robotics,
             ['Workshop', 'steelPlants'],//
-            ['Workshop', 'rotaryKiln'],//
             ['Science', 'nuclearFission'],//,Nuckear Fission
+            ['Science', 'rocketry'],//,Rocketry
             ['Science', 'particlePhysics'],//,Particle Physics
+            ['Workshop', 'rotaryKiln'],//
             ['Workshop', 'nuclearSmelters'],//
             ['Workshop', 'reactorVessel'],//
             ['Workshop', 'enrichedUranium'],//
             ['Workshop', 'railgun'],//
-            ['Science', 'rocketry'],//,Rocketry
             ['Workshop', 'oilDistillation'],//
             ['Workshop', 'refrigeration'],//CAD System
             ['Science', 'nanotechnology'],//,Nanotech
@@ -1114,16 +1131,16 @@ var kittenBot = function () {
             ['Workshop', 'photovoltaic'],//
             ['Workshop', 'fluidizedReactors'],//
             ['Science', 'sattelites'],//,Satellites
-            ['Workshop', 'photolithography'],//
             ['Science', 'oilProcessing'],//,Oil Processing
             ['Workshop', 'factoryProcessing'],//
             ['Science', 'orbitalEngineering'],//,Orbital Engineering
             ['Workshop', 'hubbleTelescope'],//
-            ['Workshop', 'satelliteRadio'],//
-            ['Workshop', 'barges'],//
             ['Workshop', 'solarSatellites'],//
             ['Workshop', 'satnav'],//
+            ['Workshop', 'barges'],//
             ['Workshop', 'automatedPlants'],//
+            ['Workshop', 'photolithography'],//
+            ['Workshop', 'satelliteRadio'],//
             ['Science', 'genetics'],//,Genetics
             ['Science', 'exogeology'],//,Exogeology
             ['Science', 'superconductors'],//,Superconductors
@@ -1139,8 +1156,8 @@ var kittenBot = function () {
             ['Workshop', 'storageBunkers'],//
             ['Workshop', 'factoryLogistics'],//
             ['Workshop', 'mWReactor'],//
-            ['Workshop', 'eludiumReflectors'],//
             ['Workshop', 'spaceManufacturing'],//
+            ['Workshop', 'eludiumReflectors'],//
             ['Workshop', 'coldFusion'],//
             ['Workshop', 'eludiumHuts'],//
             ['Workshop', 'eludiumCracker'],//
@@ -1155,29 +1172,32 @@ var kittenBot = function () {
             ['Workshop', 'amBases'],//
             ['Science', 'tachyonTheory'],//tachyonTheory,
             ['Workshop', 'tachyonAccelerators'],//
-            ['Workshop', 'chronoforge'],//
+            ['Workshop', 'chronoforge']//
             // , , , , , , , , , , , , Chronophysics
         ]
         var smartSci = function (idx) {
 
             if (!scriptEnabled) return;
             if (smartSciOrders.length < 1) return;
-
-
-            var sciOrder = smartSciOrders[0];
+            if (smartSciOrders.length <= idx) return;
+            idx = idx || 0;
+            var sciOrder = smartSciOrders[idx];
             var techName = sciOrder[1];
             var tech;
+
             if (sciOrder[0] == "Science") {
                 tech = gp.science.get(techName);
             } else {
                 tech = gp.workshop.get(techName);
             }
 
-            //console.log(JSON.stringify(tech))
+            //console.log(idx, JSON.stringify(tech.title));
 
             if (tech.researched) {
-                smartSciOrders.shift();
-                smartSci();
+                //console.log('delete', smartSciOrders[0][1], smartSciOrders[idx][1]);
+                smartSciOrders.splice(idx, 1);
+                //console.log('is first', smartSciOrders[0][1]);
+                if (idx==0) smartSci();
                 return;
             }
 
@@ -1191,7 +1211,7 @@ var kittenBot = function () {
                 if (canGet) {
                     gamePage.activeTabId = sciOrder[0];
                     gamePage.render();
-                    var btn = smartGetButton(sciOrder[0], tech.title)
+                    var btn = smartGetButton(sciOrder[0], tech.title);
                     //console.log(btn);
                     if (btn && btn.enabled && btn.visible && btn.handler) {
                         smartLog(tech.title, "Sci");
@@ -1200,19 +1220,28 @@ var kittenBot = function () {
                         }
                         $(".btnContent:contains('" + tech.title + "')").click();
 
-                        smartSciOrders.shift();
+                        smartSciOrders.splice(idx, 1);
                     }
                     gamePage.activeTabId = 'Bonfire';
                     gamePage.render();
                 } else {
                     //Let's ask for resources
-                    $("#devSci").text('Science: ' + tech.title);
-                    for (iType in prices) {
-                        smartCraftAddRequest(prices[iType].name, prices[iType].val)
+                    if (idx == 0) {
+                        $("#devSci").text('Science: ' + tech.title);
+                        for (iType in prices) {
+                            smartCraftAddRequest(prices[iType].name, prices[iType].val)
+                        }
+                    }
+
+                    //Try next Science; until reached unlock.
+                    if (sciOrder.length < 3 || !sciOrder[2]) {
+                        if (idx < 6) {
+                            smartSci(idx + 1);
+                        }
                     }
                 }
             } else {
-                console.log('Not unolocked', tech.title, tech.name)
+                //console.log('Not unolocked', tech.title, tech.name)
             }
 
             //console.log(btn && btn.enabled && btn.visible)
@@ -1240,7 +1269,7 @@ var kittenBot = function () {
             [60, 2, 25, 100, 18, 1000, 100]
         ];
         var smartPopOrdersLast = 0;
-        var smartPopTmr
+        var smartPopTmr;
         var smartPopTmrDelay = 1000;
         var smartPopIsAssign = false;
         var smartPopRefresh = {};
@@ -1248,6 +1277,8 @@ var kittenBot = function () {
         if (myRes['kittens'].value > 200) smartPopRefresh[200] = true;
         if (myRes['kittens'].value > 300) smartPopRefresh[300] = true;
         if (myRes['kittens'].value > 400) smartPopRefresh[400] = true;
+        if (myRes['kittens'].value > 450) smartPopRefresh[450] = true;
+        if (myRes['kittens'].value > 475) smartPopRefresh[475] = true;
         if (myRes['kittens'].value > 500) smartPopRefresh[500] = true;
         var smartPop = function () {
 
@@ -1329,7 +1360,7 @@ var kittenBot = function () {
                 if (myRes['kittens'].value > 400) {
                     maxWoodTick = maxWoodTick * 1.5;
                     maxMinerTick = maxMinerTick * 1.5;
-                    maxScholar = 15;
+                    maxScholar = 20;
                     ironToCoalRatio = .6;
                 }
 
@@ -1344,12 +1375,21 @@ var kittenBot = function () {
                 checkRefresh(200);
                 checkRefresh(300);
                 checkRefresh(400);
+                checkRefresh(450);
+                checkRefresh(475);
                 checkRefresh(500);
 
 
                 //console.log(maxWoodTick, maxMinerTick, maxGeoCoalTick, maxGeoGoldTick);
 
-                if (hunter && //hunter
+                if (geo && //geo
+                    (geoCnt < minerCnt) ||
+                    (hunterCnt > 50 && geoCnt < hunterCnt)) {
+                    assignKitten(6);
+                } else if (priest && //priest
+                    (priestCnt < Math.floor(minerCnt * .66))) {
+                    assignKitten(5);
+                } else if (hunter && //hunter
                     (hunterCnt < woodCnt / 4) &&
                     (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI)) {
                     assignKitten(3);
@@ -1403,80 +1443,80 @@ var kittenBot = function () {
             }
 
             smartPopTmrDelay += 100;
-            if (smartPopTmrDelay > 30000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 30000;
+            if (smartPopTmrDelay > 10000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 10000;
             if (freeKittens > 0 && smartPopTmrDelay > 300) smartPopTmrDelay = 300;
             clearTimeout(smartPopTmr);
             smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
 
-            return;
-            if (freeKittens > 0) {
+            //return;
+            //if (freeKittens > 0) {
+            //
+            //    var amtKittens = smartPopOrders[0];
+            //
+            //    var popAssign = 0;
+            //
+            //    //run simulation
+            //    var kittensSim = [0, 0, 0, 0, 0, 0, 0];
+            //    var kittensCnt = myRes['kittens'].value;
+            //    var hasKitten = false;
+            //    do {
+            //        hasKitten = false;
+            //        for (i = 0; i < kittensSim.length; i++) {
+            //            if (kittensSim[i] < amtKittens[i]) {
+            //                kittensSim[i]++
+            //                kittensCnt--;
+            //                hasKitten = true;
+            //            }
+            //        }
+            //    } while (kittensCnt > 0 && hasKitten);
+            //
+            //    amtKittens = kittensSim;
+            //
+            //    do {
+            //
+            //        if (smartPopOrdersLast + 1 > amtKittens.length - 1) smartPopOrdersLast = -1;
+            //        for (var i = smartPopOrdersLast + 1; i < amtKittens.length; i++) {
+            //            var desire = amtKittens[i];
+            //            var current = gp.village.jobs[i].value;
+            //
+            //            if (desire > current) {
+            //                //console.log('add: ' + gp.village.jobs[i].title)
+            //                if (gp.villageTab.buttons[i].visible) {
+            //                    gp.villageTab.buttons[i].handler();
+            //                    smartLog("Kittens Assigned: " + gp.village.jobs[i].title)
+            //                }
+            //                freeKittens--;
+            //            }
+            //
+            //            smartPopOrdersLast = i;
+            //            GM_setValue('smartPopOrdersLast', smartPopOrdersLast);
+            //        }
+            //        popAssign++;
+            //    } while (freeKittens > 0 && popAssign < 100)
+            //
+            //    var next = true
+            //    for (var i = 0; i < amtKittens.length; i++) {
+            //        var desire = amtKittens[i];
+            //        var current = gp.village.jobs[i].value;
+            //        if (desire > current) {
+            //            next = false;
+            //        }
+            //    }
+            //
+            //    if (next) smartPopOrders.shift();
+            //    if (freeKittens > 0) { smartPop() } //Try again.
+            //
+            //    gamePage.activeTabId = 'Bonfire';
+            //    gamePage.render();
+            //}
+            //
+            //smartPopTmrDelay += 100;
+            //if (smartPopTmrDelay > 30000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 30000;
+            //if (freeKittens > 0 && smartPopTmrDelay > 1000) smartPopTmrDelay = 1000;
+            //clearTimeout(smartPopTmr);
+            //smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
 
-                var amtKittens = smartPopOrders[0];
-
-                var popAssign = 0;
-
-                //run simulation
-                var kittensSim = [0, 0, 0, 0, 0, 0, 0];
-                var kittensCnt = myRes['kittens'].value;
-                var hasKitten = false;
-                do {
-                    hasKitten = false;
-                    for (i = 0; i < kittensSim.length; i++) {
-                        if (kittensSim[i] < amtKittens[i]) {
-                            kittensSim[i]++
-                            kittensCnt--;
-                            hasKitten = true;
-                        }
-                    }
-                } while (kittensCnt > 0 && hasKitten);
-
-                amtKittens = kittensSim;
-
-                do {
-
-                    if (smartPopOrdersLast + 1 > amtKittens.length - 1) smartPopOrdersLast = -1;
-                    for (var i = smartPopOrdersLast + 1; i < amtKittens.length; i++) {
-                        var desire = amtKittens[i];
-                        var current = gp.village.jobs[i].value;
-
-                        if (desire > current) {
-                            //console.log('add: ' + gp.village.jobs[i].title)
-                            if (gp.villageTab.buttons[i].visible) {
-                                gp.villageTab.buttons[i].handler();
-                                smartLog("Kittens Assigned: " + gp.village.jobs[i].title)
-                            }
-                            freeKittens--;
-                        }
-
-                        smartPopOrdersLast = i;
-                        GM_setValue('smartPopOrdersLast', smartPopOrdersLast);
-                    }
-                    popAssign++;
-                } while (freeKittens > 0 && popAssign < 100)
-
-                var next = true
-                for (var i = 0; i < amtKittens.length; i++) {
-                    var desire = amtKittens[i];
-                    var current = gp.village.jobs[i].value;
-                    if (desire > current) {
-                        next = false;
-                    }
-                }
-
-                if (next) smartPopOrders.shift();
-                if (freeKittens > 0) { smartPop() } //Try again.
-
-                gamePage.activeTabId = 'Bonfire';
-                gamePage.render();
-            }
-
-            smartPopTmrDelay += 100;
-            if (smartPopTmrDelay > 30000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 30000;
-            if (freeKittens > 0 && smartPopTmrDelay > 1000) smartPopTmrDelay = 1000;
-            clearTimeout(smartPopTmr);
-            smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
-
-        }
+        };
 
         smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
 
@@ -1533,9 +1573,9 @@ var kittenBot = function () {
         };
 
         var broadcastTowerCheck = function (bld, prices) {
-            if (bld.val < 40) return [true, false]
+            if (bld.val < myRes['kittens'].value / 7 && (myRes['titanium'].value > myRes['titanium'].maxValue * .9 || myRes['titanium'].value > prices[1].val * 2)) return [true, false];
             return priceCheck(bld, prices, {
-                'iron': parseInt(prices[0].val * 10),
+                'iron': parseInt(prices[0].val * 10)
             })
         };
 
@@ -1643,24 +1683,36 @@ var kittenBot = function () {
         }
 
         var buildCheckElectric = function (bld, prices) {
-            if (myRes['energy'].value < 10.1)  return [false, true] //Has reached end of build cycle.
+            if (myRes['energy'].value < 10.1)  return [false, true]; //Has reached end of build cycle.
             return [true, false]
         }
+
+        var buildCheckElectricSmall = function (bld, prices) { //OilWell
+            if (bld.val > 10 && myRes['energy'].value < 2.1)  return [false, true]; //Has reached end of build cycle.
+            return [true, false]
+        };
 
         var buildCheckAqueduct = function (bld, prices) {
             if (bld.val > 100)  return [false, true] //Has reached end of build cycle.
             return [true, false]
-        }
+        };
+
+        var buildCheckSolarFarm = function (bld, prices) {
+            if ((!smartCraftRequest['titanium'] || smartCraftRequest['titanium'] < 1) && myRes['titanium'].value > myRes['titanium'].maxValue - 1) return [true, false];
+            if ((smartCraftRequest['titanium'] > 0 && myRes['energy'].value > 5) || myRes['energy'].value > 100) return [false, false]; //Don't build to much power.
+            if (myRes['titanium'].value > myRes['titanium'].maxValue * .9 || myRes['energy'].value < 5) return [true, false];
+            return [false, false]
+        };
 
         var buildCheckTradepost = function (bld, prices) {
-            if (bld.val < 20 && (myRes['gold'].value < myRes['gold'].maxValue - 1 || myRes['gold'].value < prices[2].val * 11)) return [false, false]
+            if (bld.val < 20 && (myRes['gold'].value < myRes['gold'].maxValue - 1 || myRes['gold'].value < prices[2].val * 11)) return [false, false];
             return [true, false]
-        }
+        };
 
         var buildCheckTemple = function (bld, prices) {
-            if (bld.val > 10 && myRes['ship'].value < 1 && gamePage.workshop.getCraft('ship').unlocked) return [false, false] //Let ships build first
+            if (bld.val > 10 && myRes['ship'].value < 1 && gamePage.workshop.getCraft('ship').unlocked) return [false, false]; //Let ships build first
             return [true, false]
-        }
+        };
 //This makes sure all Improtant buildings are ('MAXED')
         var primaryBldEnabledCheck = function (bld, prices) {
 
@@ -1712,10 +1764,10 @@ var kittenBot = function () {
             ['unicornPasture', 10000],
             ['amphitheatre', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['broadcastTower', 10000, [broadcastTowerCheck, popModeCheck, primaryBldEnabledCheck]],
-            ['mint', 10000, [popModeCheck, buildCheckGoldTrade]],
+            //['mint', 10000, [popModeCheck, buildCheckGoldTrade]],
             ['tradepost', 10000, [popModeCheck, buildCheckGoldTrade, buildCheckTradepost]],
             ['accelerator', 10000, [buildCheckElectric]],
-            ['oilWell', 10000, [popModeCheck, primaryBldEnabledCheck]],
+            ['oilWell', 10000, [popModeCheck, primaryBldEnabledCheck, buildCheckElectricSmall]],
             ['lumberMill', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['magneto', 10000, [bluePrintCheck]],
             ['reactor', 10000, [bluePrintCheck]],
@@ -1732,9 +1784,9 @@ var kittenBot = function () {
             ['academy', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['library', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['aqueduct', 10000, [popModeCheck, buildCheckAqueduct, primaryBldEnabledCheck]],
-            ['hydroPlant', 10000],
+            ['hydroPlant', 10000, [buildCheckSolarFarm]],
             ['pasture', 10000, [popModeCheck, buildCheckPasture, primaryBldEnabledCheck]],
-            ['solarFarm', 10000],
+            ['solarFarm', 10000, [buildCheckSolarFarm]],
             ['field', 10000],
             ['temple', 10000, [popModeCheck, buildCheckGoldTrade, buildCheckTemple]],
             ['chapel', 10000, [popModeCheck]],
@@ -1757,12 +1809,13 @@ var kittenBot = function () {
                 [['field', 40], ['library', 4], ['hut', 4]],//4
                 [['library', -1], ['hut', -1], ['field', -1], ['Science', 'mining']],//5 (//Mining)
                 [['hut', -1], ['field', 50], ['mine', 1]], //6
+                [['hut', -1], ['hut', 5]], //6
                 [['mine', -1], ['hut', -1], ['field', 50], ['mine', 2], ['workshop', 1], ['barn', 3], ['library', 8]], //7
                 [['hut', -1], ['field', 60], ['library', 10], ['hut', 6]], //8
                 [['hut', -1], ['workshop', -1], ['mine', -1], ['field', -1], ['Science', 'animal']], //Wait for mineral hoe, axe, bola, make more mines. //9 (Hunters)
                 [['hut', -1], ['smelter', 1], ['workshop', 2], ['field', 90], ['library', 12], ['pasture', 4], ['mine', 5], ['barn', 4]],
-                [['mine', 7], ['hut', 10000], ['unicornPasture', 10000]],
-                [['hut', -1], ['field', -1], ['smelter', 2], ['logHouse', 5], ['unicornPasture', 10000]], //12
+                [['mine', 7], ['hut', 10000]],
+                [['hut', -1], ['field', -1], ['smelter', 2], ['logHouse', 5]], //12
                 [['hut', -1], ['field', -1], ['logHouse', -1], ['aqueduct', -1], ['academy', -1], ['workshop', -1], ['logHouse', 8], ['lumberMill', 2]]//,
                 //[['workshop', -1], ['hut', -1], ['logHouse', -1], ['field', -1],
                 //    ['mine', -1], ['warehouse', -1, [warehouseCheck]], ['barn', -1], ['library', -1], ['hut', 10000], ['workshop', 10000], ['unicornPasture', 10000]],
@@ -1905,16 +1958,20 @@ var kittenBot = function () {
                             meta = gp.space.getProgram(bldName)
                         } else {
                             //console.log('try', bldArea, bldName)
-                            var bldss = gp.space.getPlanet(bldArea).buildings;
+                            var area = gp.space.getPlanet(bldArea);
+                            var bldss = area.buildings;
 
-                            for (iBld in bldss) {
-                                if (bldss[iBld].name == bldName) {
-                                    meta = bldss[iBld];
-                                    break;
+                            if (area.unlocked) {
+                                for (iBld in bldss) {
+                                    if (bldss[iBld].name == bldName) {
+                                        meta = bldss[iBld];
+                                        break;
+                                    }
                                 }
                             }
-                            //console.log('here', JSON.stringify(meta))
 
+                            //console.log('here', JSON.stringify(meta));
+//console.log(JSON.stringify(gp.space.getPlanet(bldArea)));
                         }
 
                         //Loop Planets
@@ -1931,7 +1988,28 @@ var kittenBot = function () {
 
                     if (meta) {
 
-                        var isObs = (originalBldName == bldName && (bldName == 'aqueduct' || bldName == 'amphitheatre' || bldName == 'pasture') && meta.stage > 0)
+                        //check upgrade
+                        if (meta.upgradable && meta.stage == 0 && meta.stages[1].stageUnlocked) {
+                            meta.stage = meta.stage || 0;
+                            meta.stage++;
+
+                            meta.val = 0;
+                            if (meta.calculateEffects) {
+                                meta.calculateEffects(meta, gp);
+                            }
+                            gp.render();
+                            console.log('upgrade', bldName);
+                        }
+
+                        //check on
+                        if (bldName == 'steamworks' && meta.togglable && !meta.enabled && meta.val > 10) {
+                            meta.enabled = !meta.enabled;
+                            meta.on = meta.enabled ? meta.val : 0;
+                            gp.upgrade(meta.upgrades);
+                            console.log('turn on', bldName)
+                        }
+
+                        var isObs = (originalBldName == bldName && (bldName == 'aqueduct' || bldName == 'amphitheatre' || bldName == 'pasture') && meta.stage > 0);
 
                         if (!isObs) {
 
@@ -1988,7 +2066,7 @@ var kittenBot = function () {
                                 }
 
 //console.log('try build', JSON.stringify(new Date().toString()), 'hi');
-                                var canBuild = false
+                                var canBuild = false;
                                 var cB = true;
                                 var iM = false;
                                 //Run checks.
@@ -2019,7 +2097,7 @@ var kittenBot = function () {
                                 if (canBuild) {
                                     var label;
                                     if (meta.stages) {
-                                        console.log(bldName)
+                                        //console.log(bldName)
                                         var stageC = (meta.stage) ? meta.stage : 0;
                                         label = meta.stages[meta.stage].label
                                     } else {
@@ -2028,7 +2106,7 @@ var kittenBot = function () {
                                     }
                                     var button = null;
                                     if (isSpace) {
-                                        console.log('goto space', bldName)
+                                        //console.log('goto space', bldName)
                                         if (gamePage.activeTabId != 'Space') {
                                             gamePage.activeTabId = 'Space';
                                             gamePage.render();
