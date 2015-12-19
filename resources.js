@@ -366,8 +366,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		var effectsBase = this.addBarnWarehouseRatio(this.game.bld.effectsBase);
 
-		for (var i = 0; i < this.resources.length; i++){
+		for (var i in this.resources){
 			var res = this.resources[i];
+			if (res.name == "sorrow"){
+				continue;
+			}
 
 			var maxValue = this.game.bld.getEffectCached(res.name + "Max") || 0;
 
