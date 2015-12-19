@@ -357,7 +357,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//----------------------------------------------
 		var aliChance = this.game.religion.getEffect("alicornChance");	//0.2 OPTK
 		if (this.game.rand(100000) < aliChance){
-			this.game.msg("An Alicorn has descended from the sky!", "important");
+			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
 
 			this.game.resPool.get("alicorn").value += 1;
 		}
