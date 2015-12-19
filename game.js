@@ -591,6 +591,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     kongregate: null,
 
+	/*
+		Whether the game is in developer mode or no
+	 */
+	devMode: false,
+
 	constructor: function(containerId){
 		this.id = containerId;
 
@@ -1892,7 +1897,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	reset: function(){
-
 		var msg = "Are you sure that you want to reset? You will get bonus points for happiness. You will also save your achievements and bonus points";
 		if (this.resPool.get("kittens").value > 70){
 			msg = "Are you sure that you want to reset? You will receive extra happiness and bonus to production.";
@@ -1905,7 +1909,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!confirm(msg)){
 			return;
 		}
-
+		
+		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
+	},
+	
+	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
 			this.karmaKittens += (kittens - 35);
@@ -1925,6 +1933,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (kittens > 300){
 			this.karmaKittens += (kittens - 300) * 10;
+		}
+
+		if (kittens > 750){
+			this.karmaKittens += (kittens - 750) * 15;
 		}
 
 		var paragonPoints = 0;
@@ -2175,6 +2187,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			""
 		);
 		this.resPool.get("sorrow").value = this.sorrow;
+		this.resPool.get("sorrow").maxValue = this.nerfs;
 	},
 
     registerUndoChange: function(){

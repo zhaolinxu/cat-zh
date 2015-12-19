@@ -366,8 +366,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		var effectsBase = this.addBarnWarehouseRatio(this.game.bld.effectsBase);
 
-		for (var i = 0; i < this.resources.length; i++){
+		for (var i in this.resources){
 			var res = this.resources[i];
+			if (res.name == "sorrow"){
+				continue;
+			}
 
 			var maxValue = this.game.bld.getEffectCached(res.name + "Max") || 0;
 
@@ -675,13 +678,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 
+			className = "resAmount";
 			if (res.value > res.maxValue * 0.95 && res.perTickUI > 0 && res.maxValue > 0){
-				//rowClass += " resLimitNotice";
-				row.resAmt.className = "resAmount resLimitNotice";
+				className = "resAmount resLimitNotice";
 			} else if (res.value > res.maxValue * 0.75 && res.perTickUI > 0 && res.maxValue > 0){
-				row.resAmt.className = "resAmount resLimitWarn";
-			} else if (row.resAmt.className){
-				row.resAmt.className = "resAmount";
+				className = "resAmount resLimitWarn";
+			}
+			if (row.resAmt.className != className){
+				row.resAmt.className = className;
 			}
 
 
