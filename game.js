@@ -2187,6 +2187,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			""
 		);
 		this.resPool.get("sorrow").value = this.sorrow;
+		this.resPool.get("sorrow").maxValue = this.nerfs;
 	},
 
     registerUndoChange: function(){

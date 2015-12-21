@@ -213,6 +213,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: "Unicorn Rifts",
 				enabled: true,
 				unlocked: false
+			},
+			"alicornRift": {
+				title: "Alicorn Rifts",
+				enabled: true,
+				unlocked: false
 			}
 		},
 		/**
