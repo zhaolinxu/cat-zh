@@ -1,4 +1,4 @@
-v 1.1.7.9 (?)
+v 1.1.7.9 (?) (19 dec)
 Changes by coderpatsy:
 - Fix tear refining being able to exceed sorrow limit slightly (sorry folks)
 - Properly update when spending/refining for sorrow
@@ -24,6 +24,7 @@ Resetting with 750+ kittens will give additional karma bonus
 Trading with elders will now reduce their duration counter
 Relic drop chance is reduced from 30% to 5%
 Option to unlock all or individual upgrades in dev mode
+Sorrow max limit on UI will be now affected by BLS cap
 
 v 1.1.7.8 (7 dec)
 
