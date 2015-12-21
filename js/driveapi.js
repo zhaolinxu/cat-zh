@@ -26,6 +26,51 @@ function handleClientLoad() {
 
 }
 
+function insertFileInApplicationDataFolder(fileData, callback) {
+    const boundary = '-------314159265358979323846';
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const close_delim = "\r\n--" + boundary + "--";
+
+    var reader = new FileReader();
+    reader.readAsBinaryString(fileData);
+    reader.onload = function (e) {
+        var contentType = fileData.type || 'application/octet-stream';
+        var metadata = {
+            'title': fileData.fileName,
+            'mimeType': contentType,
+            'parents': [{'id': 'appfolder'}]
+        };
+
+        var base64Data = btoa(reader.result);
+        var multipartRequestBody =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' +
+            'Content-Transfer-Encoding: base64\r\n' +
+            '\r\n' +
+            base64Data +
+            close_delim;
+
+        var request = gapi.client.request({
+            'path': '/upload/drive/v2/files',
+            'method': 'POST',
+            'params': {'uploadType': 'multipart'},
+            'headers': {
+                'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+            },
+            'body': multipartRequestBody
+        });
+        if (!callback) {
+            callback = function (file) {
+                console.log(file)
+            };
+        }
+        request.execute(callback);
+    }
+}
+
 function handleAuthResult(authResult) {
     if (authResult && !authResult.error) {
         // Access token has been successfully retrieved, requests can be sent to the API
@@ -38,6 +83,13 @@ function handleAuthResult(authResult) {
                 console.log('Id: ' + resp.id);
                 console.log('Title: ' + resp.title);
             });
+
+            //Try and load a file;
+
+            //Try and save a file;
+            insertFileInApplicationDataFolder("hello word", function(err) {
+                console.log('saved', JSON.stringify(err))
+            })
         });
 
     } else {
