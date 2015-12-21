@@ -828,7 +828,7 @@ var kittenBot = function () {
 
                             if ((i == 8 || i == 7 || i == 6 || i == 9 || i == 1 || i == 3 || i == 4 || i == 10) && !canBuildSecondary) {
                             } else {
-                                if (myRes['gold'].value > myRes['gold'].maxValue * .5) {
+                                if (myRes['gold'].value > 500) {
                                     hasBtn = true;
                                 }
                             }
@@ -1404,7 +1404,7 @@ var kittenBot = function () {
                 var geoToPriestRatio = 1.3;
                 var scholarToPriestRatio = .1;
                 var ironToCoalRatio = .8;
-                var catToMineralRatio = .4;
+                var catToMineralRatio = .1;
                 var maxScholar = 2;
                 var maxHunter = 100;
                 var maxGeo = 100;
@@ -1412,14 +1412,15 @@ var kittenBot = function () {
                 if (geoCnt > 100) geoToPriestRatio = .7;
                 var maxFarmer = 1;
                 if (myRes['kittens'].value > 10) {
-                    maxFarmer = 2;
+                    if (myRes['paragon'].value < 200) maxFarmer = 4;
+                    if (myRes['paragon'].value < 600) maxFarmer = 2;
                     maxScholar = 3;
                 }
                 if (myRes['kittens'].value > 100) {
                     maxWoodTick = maxWoodTick * 2;
                     maxMinerTick = maxMinerTick * 2;
                     maxScholar = 6;
-                    catToMineralRatio = .6;
+                    catToMineralRatio = .1;
                 }
                 if (myRes['kittens'].value > 200) {
                     maxWoodTick = maxWoodTick * 2;
@@ -1478,6 +1479,7 @@ var kittenBot = function () {
                 } else if (hunter && hunterCnt < maxHunter && //hunter
                     (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI * catToMineralRatio) &&
                     (woodCnt > hunterCnt || geoCnt > hunterCnt) && minerCnt > 1 &&
+                    (!priest || hunterCnt < priestCnt*2) &&
                     (!geo || geoCnt > hunterCnt-1)) {
                     assignKitten(3);
                 } else if (miner && //Miner
@@ -1781,7 +1783,8 @@ var kittenBot = function () {
 
         var buildCheckTradepost = function (bld, prices) {
             if (bld.val < 20 && (myRes['gold'].value < myRes['gold'].maxValue - 1 || myRes['gold'].value < prices[2].val * 11)) return [false, false];
-            if (smartCraftRequest['gold']) return [false, false]; //Let get the gold first...
+            if (bld.val > 10 && (myRes['ship'].value < 10)) return [false, false];
+            if (smartCraftRequest['gold'] && myRes['gold'].value < myRes['gold'].maxValue - 10) return [false, false]; //Let get the gold first...
             return [true, false]
         };
         var buildCheckHydra = function (bld, prices) {
@@ -1811,7 +1814,11 @@ var kittenBot = function () {
 
         var buildCheckTemple = function (bld, prices) {
             if (bld.val > 10 && myRes['ship'].value < 1 && gamePage.workshop.getCraft('ship').unlocked) return [false, false]; //Let ships build first
-            if (smartCraftRequest['gold']) return [false, false]; //Let get the gold first...
+            if (smartCraftRequest['gold'] && myRes['gold'].value - prices[2].val < smartCraftRequest['gold'] * 1.1) return [false, false]; //Let get the gold first...
+            return [true, false]
+        };
+        var buildCheckHarbour = function (bld, prices) {
+            if (bld.val > 0 && myRes['ship'].value < 1 && gamePage.workshop.getCraft('ship').unlocked) return [false, false]; //Let ships build first
             return [true, false]
         };
 //This makes sure all Improtant buildings are ('MAXED')
@@ -1877,7 +1884,7 @@ var kittenBot = function () {
             ['smelter', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['quarry', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['mine', 10000, [popModeCheck, primaryBldEnabledCheck]],
-            ['harbor', 10000, [popModeCheck]],
+            ['harbor', 10000, [popModeCheck, buildCheckHarbour]],
             ['warehouse', 10000, [primaryBldEnabledCheck, warehouseCheck]],
             ['barn', 10000],
             ['biolab', 10000, [popModeCheck, bioLabCheck, primaryBldEnabledCheck]],
