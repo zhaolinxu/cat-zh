@@ -152,7 +152,7 @@ var kittenBot = function () {
         }
 
 
-        var smartCraftTime = 5000;
+        var smartCraftTime = 2500;
         var smartCraft = function () {
 
             if (!scriptEnabled) return;
@@ -319,8 +319,12 @@ var kittenBot = function () {
                 buildType = 'alloy';
                 if (gp.workshop.getCraft(buildType).unlocked && myRes['steel'].value > 75 && myRes['titanium'].value > 10) {
                     var alloyRatio = gp.getResCraftRatio({name: buildType});
-                    if (myRes['steel'].value > myRes['gold'].maxValue * 1.5 && myRes['steel'].value > ((myRes[buildType].value + 1) * 20)) {
-                        buildValues.push((myRes['steel'].value - ((myRes[buildType].value + 1) * 20)) / 75);
+                    var toSteelRatio = 20;
+                    if (myRes['steel'].value>10000000) toSteelRatio = 10;
+                    if (myRes['steel'].value>50000000) toSteelRatio = 5;
+                    if (myRes['steel'].value>100000000) toSteelRatio = 3;
+                    if (myRes['steel'].value > myRes['gold'].maxValue * 1.5 && myRes['steel'].value > ((myRes[buildType].value + 1) * toSteelRatio)) {
+                        buildValues.push((myRes['steel'].value - ((myRes[buildType].value + 1) * toSteelRatio)) / 75);
                     }
                     if (smartCraftRequest['alloy'] && myRes[buildType].value < smartCraftRequest[buildType]) {
                         buildValues.push(Math.ceil((smartCraftRequest[buildType] - myRes[buildType].value) / alloyRatio))
@@ -471,6 +475,7 @@ var kittenBot = function () {
                         buildValues.push(Math.floor((myRes['starchart'].value - (myRes[buildType].value * 25)) / 25));
                     } else {
                         if (myRes['starchart'].value > 100 + (myRes[buildType].value / 10) && myRes['titanium'].value < myRes['titanium'].maxValue * .2) { buildValues.push(1); }
+                        if (myRes[buildType].value > 20000 && myRes['starchart'].value > myRes[buildType].value * 5) { buildValues.push((myRes['starchart'].value - (myRes[buildType].value * 5)) / 25); }
                     }
 
                     buildValue = getMax(buildValues);
@@ -484,7 +489,7 @@ var kittenBot = function () {
                         craftMsgs.push(buildValue + " Ships");
                     }
                 }
-            }
+            };
             craftShip();
 
             //Plate
@@ -565,7 +570,7 @@ var kittenBot = function () {
             buildValue = 0;
             buildType = 'manuscript';
             if (gp.workshop.getCraft(buildType).unlocked && myRes['culture'].value > 400 && myRes['parchment'].value > 50 && !(tradeLevel < 4 &&
-                myRes['culture'].maxValue > 1500) && (myRes['culture'].value > myRes['culture'].perTickUI * 5 * 30 || myRes['culture'].value > myRes['culture'].maxValue * .9)) { //Insure we've unlock trade.
+                myRes['culture'].maxValue > 1500) && (myRes['culture'].value > myRes['culture'].perTickUI * 5 * 30 || myRes['culture'].value > 100000 || myRes['culture'].value > myRes['culture'].maxValue * .9)) { //Insure we've unlock trade.
                 //TODO: Build If CraftDemand.
 
                 var manuscriptRatio = gp.getResCraftRatio({name: buildType});
@@ -719,7 +724,7 @@ var kittenBot = function () {
 
         var smartHunt = function () {
             //hunters
-            if (myRes['catpower'].value > (myRes['catpower'].maxValue * .8) && myRes['catpower'].value > 100) {
+            if ((myRes['catpower'].value > (myRes['catpower'].maxValue * .8) || (myRes['furs'].value < 10)) && myRes['catpower'].value > 100) {
                 $("#fastHuntContainer a").click();
             }
             if (myRes['catpower'].value > 10000 && myRes['catpower'].perTickUI > 200) {
@@ -733,7 +738,7 @@ var kittenBot = function () {
         var faithAmt = 100;
         var smartFaith = function () {
             if (myRes['faith'].value < faithAmt && faithAmt < myRes['faith'].maxValue - 1) return false;
-            if (myRes['gold'].value < myRes['gold'].maxValue * .5 && myRes['faith'].value < myRes['faith'].maxValue - 10) return false;
+
             if (gamePage.activeTabId != 'Bonfire') return false;
             if (gp.religionTab.visible) {
 
@@ -742,6 +747,7 @@ var kittenBot = function () {
 
                     gamePage.activeTabId = 'Religion';
                     gamePage.render();
+
 
                     var faithBtns = [
                         $(".btnContent:contains('Praise the sun')"), //0
@@ -755,12 +761,20 @@ var kittenBot = function () {
                         $(".btnContent:contains('Apocrypha')"),//8
                         $(".btnContent:contains('Transcendence')"),//9
                         $(".btnContent:contains('Stained Glass')")//10
-                    ]
+                    ];
+
+                    //if (myRes['gold'].value < 7500 && myRes['faith'].value < (myRes['faith'].maxValue - 10) * .95) {
+                    //    return false;
+                    //}
+
+                    if (faithBtns[0].text().indexOf('(') > 0) {
+                        faithHasSolar = true;
+                    }
 
                     var isEnabled = function (btn) {
                         if (btn && (btn.parent().css('display') == "none" || btn.parent().hasClass('disabled'))) { return false }
                         return true;
-                    }
+                    };
 
 
                     var canBuildSecondary = (myRes['faith'].maxValue > 10000 && myRes['gold'].maxValue > 8000 && myRes['gold'].value > myRes['gold'].maxValue * .5);
@@ -807,7 +821,7 @@ var kittenBot = function () {
                         smartLog(faithBtns[8].text(), "Sci");
                     } //Apocrypha
 
-                    var hasBtn = false
+                    var hasBtn = false;
                     for (i in faithBtns) {
                         if (i != 0 && faithBtns[i] && faithBtns[i].text().indexOf("(comp") < 1 && faithBtns[i].parent().css('display') != "none" && !faithBtns[i].find("span").hasClass('limited')) {
 
@@ -899,13 +913,15 @@ var kittenBot = function () {
         };
 
         var smartTrade = function () {
-            if (tradeLevel < 4 || myRes['catpower'].value < 50 || gamePage.activeTabId != 'Bonfire') return false
+            if (tradeLevel < 4 || myRes['catpower'].value < 50 || gamePage.activeTabId != 'Bonfire') return false;
             var perGold = Math.ceil(myRes['gold'].perTickUI * 5);
             //console.log('smartTrade', myRes['catpower'].value, gp.resPool.get('manpower').value)
-            var uraniumPass = (myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 5)))
+            var uraniumPass = (myRes['gold'].value > (myRes['gold'].maxValue - (perGold * 5)));
             if (tradeLevel > 6 && myRes['uranium'].value < 50) { uraniumPass = true; }
             if (tradeLevel > 4 && smartCraftRequest['titanium'] && myRes['titanium'].value < smartCraftRequest['titanium'] && myRes['titanium'].maxValue > smartCraftRequest['titanium']) { uraniumPass = true; }
-            if (gp.diplomacyTab.visible && myRes['gold'].value > 15 && uraniumPass) {
+            var goldBase = 15;
+            if (smartCraftRequest['gold']) { goldBase += smartCraftRequest['gold']; }
+            if (gp.diplomacyTab.visible && myRes['gold'].value > goldBase && uraniumPass) {
 
                 var tradeAmt = 1;
 
@@ -946,15 +962,15 @@ var kittenBot = function () {
                     } catch (er) {}
                     gamePage.activeTabId = 'Bonfire';
                     gamePage.render();
-                } else if (tradeLevel >= 4 && myRes['ivory'].value > (myRes['gold'].maxValue) + 1200 && myRes['gold'].value) { //Nagas
+                } else if (tradeLevel >= 4 && myRes['ivory'].value > (myRes['gold'].maxValue) + 1200 && myRes['gold'].value > myRes['gold'].maxValue * .5) { //Nagas
                     if (myRes['furs'] < 10000 || gp.getResCraftRatio({name: 'manuscript'}) > 6.7) return false;
                     gamePage.activeTabId = 'Trade';
                     gamePage.render();
                     tradeAmt = parseInt((perGold * 20) / 15);
-                    if (myRes['ivory'].value < tradeAmt * 500) tradeAmt = parseInt(myRes['ivory'].value / 500) - 1
-                    if (myRes['catpower'].value < tradeAmt * 100) tradeAmt = parseInt(myRes['catpower'].value / 100) - 1
+                    if (myRes['ivory'].value < tradeAmt * 500) tradeAmt = parseInt(myRes['ivory'].value / 500) - 1;
+                    if (myRes['catpower'].value < tradeAmt * 100) tradeAmt = parseInt(myRes['catpower'].value / 100) - 1;
                     if (tradeAmt < 1) tradeAmt = 1;
-                    console.log('Trade count: ', tradeAmt, myRes['catpower'].value)
+                    console.log('Trade count: ', tradeAmt, myRes['catpower'].value);
                     btn = getTradeBtn(3);
                     if (btn) {
                         for (var i = 0; i < tradeAmt; i++) {
@@ -990,7 +1006,54 @@ var kittenBot = function () {
                 return true;
             }
             return false;
-        }
+        };
+
+        var faithHasSolar = false;
+        var smartStartFaith = function () {
+
+            if (faithHasSolar || myRes['faith'].maxValue>10000) {
+                if (smartCraftRequest['gold'] && smartCraftRequest['gold'] == 500) {
+                    smartCraftRequest['gold'] = 0;
+                }
+                return true;
+            }
+            if (myRes['ship'].value >= 1 && gp.religionTab.visible) {
+                if (myRes['faith'].value > 750 && myRes['gold'].value > 500) {
+
+                    gamePage.activeTabId = 'Religion';
+                    gamePage.render();
+                    var solar = $(".btnContent:contains('Solar Revolution')");
+
+                    if (solar.text().indexOf('(')>0) {
+                        if (smartCraftRequest['gold'] && smartCraftRequest['gold'] == 500) {
+                            smartCraftRequest['gold'] = 0;
+                        }
+                        gamePage.activeTabId = 'Bonfire';
+                        gamePage.render();
+                        faithHasSolar = true;
+                        return true;
+                    }
+                    if (!solar.parent().hasClass('disabled')) {
+                        smartCraftClearRequest('gold', 500);
+                        solar.click();
+                        smartLog(solar.text(), "Sci");
+                        faithHasSolar = true;
+                        gamePage.activeTabId = 'Bonfire';
+                        gamePage.render();
+                        return true;
+                    } else {
+                        $(".btnContent:contains('Praise the sun')").click();
+                    }
+                    gamePage.activeTabId = 'Bonfire';
+                    gamePage.render();
+                } else {
+
+                    if (!faithHasSolar) { smartCraftAddRequest('gold', 500); }
+                }
+            }
+            return false;
+        };
+
 
         var smartEvents = [
             function () { return smartFaith() },
@@ -999,6 +1062,7 @@ var kittenBot = function () {
             function () { return smartObserveAstro() },
             function () { return smartTradeUnlock() },
             function () { return smartShip() },
+            function () { return smartStartFaith() },
             function () { return smartSpaceMissions('orbitalLaunch') },
             function () { return smartSpaceMissions('moonMission') },
             function () { return smartSpaceMissions('duneMission') },
@@ -1197,7 +1261,7 @@ var kittenBot = function () {
                 //console.log('delete', smartSciOrders[0][1], smartSciOrders[idx][1]);
                 smartSciOrders.splice(idx, 1);
                 //console.log('is first', smartSciOrders[0][1]);
-                if (idx==0) smartSci();
+                if (idx == 0) smartSci();
                 return;
             }
 
@@ -1280,8 +1344,11 @@ var kittenBot = function () {
         if (myRes['kittens'].value > 450) smartPopRefresh[450] = true;
         if (myRes['kittens'].value > 475) smartPopRefresh[475] = true;
         if (myRes['kittens'].value > 500) smartPopRefresh[500] = true;
+        if (myRes['kittens'].value > 550) smartPopRefresh[550] = true;
+        if (myRes['kittens'].value > 600) smartPopRefresh[600] = true;
+        if (myRes['kittens'].value > 700) smartPopRefresh[700] = true;
         var smartPop = function () {
-
+            //console.log('pop');
             //console.log('try kittens', smartPopTmrDelay);
             if (!scriptEnabled || (gamePage.activeTabId != 'Bonfire' && !smartPopIsAssign)) {
                 clearTimeout(smartPopTmr);
@@ -1333,11 +1400,14 @@ var kittenBot = function () {
                 var maxMinerTick = (myRes['minerals'].maxValue / 5) / 120;
                 var maxGeoCoalTick = (myRes['coal'].maxValue / 5) / 5;
                 var maxGeoGoldTick = (myRes['gold'].maxValue / 5) / 5;
-                var maxSciTick = (myRes['science'].maxValue / 5) / 900;
+                var maxSciTick = (myRes['science'].maxValue / 5) / 600;
                 var geoToPriestRatio = 1.3;
+                var scholarToPriestRatio = .1;
                 var ironToCoalRatio = .8;
-                var catToMineralRatio = .6;
+                var catToMineralRatio = .4;
                 var maxScholar = 2;
+                var maxHunter = 100;
+                var maxGeo = 100;
                 if (geoCnt > 70) geoToPriestRatio = 1;
                 if (geoCnt > 100) geoToPriestRatio = .7;
                 var maxFarmer = 1;
@@ -1349,7 +1419,7 @@ var kittenBot = function () {
                     maxWoodTick = maxWoodTick * 2;
                     maxMinerTick = maxMinerTick * 2;
                     maxScholar = 6;
-                    catToMineralRatio = 1;
+                    catToMineralRatio = .6;
                 }
                 if (myRes['kittens'].value > 200) {
                     maxWoodTick = maxWoodTick * 2;
@@ -1359,9 +1429,10 @@ var kittenBot = function () {
                 }
                 if (myRes['kittens'].value > 400) {
                     maxWoodTick = maxWoodTick * 1.5;
-                    maxMinerTick = maxMinerTick * 1.5;
+                    maxMinerTick = maxMinerTick * .9;
                     maxScholar = 20;
                     ironToCoalRatio = .6;
+                    scholarToPriestRatio = .07;
                 }
 
                 var checkRefresh = function (num) {
@@ -1378,50 +1449,50 @@ var kittenBot = function () {
                 checkRefresh(450);
                 checkRefresh(475);
                 checkRefresh(500);
-
+                checkRefresh(550);
+                checkRefresh(600);
+                checkRefresh(700);
 
                 //console.log(maxWoodTick, maxMinerTick, maxGeoCoalTick, maxGeoGoldTick);
-
-                if (geo && //geo
-                    (geoCnt < minerCnt) ||
-                    (hunterCnt > 50 && geoCnt < hunterCnt)) {
-                    assignKitten(6);
-                } else if (priest && //priest
-                    (priestCnt < Math.floor(minerCnt * .66))) {
-                    assignKitten(5);
-                } else if (hunter && //hunter
-                    (hunterCnt < woodCnt / 4) &&
-                    (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI)) {
-                    assignKitten(3);
-                } else if (myRes['wood'].perTickUI <= maxWoodTick && myRes['wood'].perTickUI < myRes['minerals'].perTickUI) {
+                if (scholar && myRes['manuscript'].value > myRes['compendium'].value / 8 && scholarCnt < geoCnt / 3) {
+                    assignKitten(2);
+                }
+                else if (myRes['wood'].perTickUI <= maxWoodTick && myRes['wood'].perTickUI < myRes['minerals'].perTickUI) {
                     assignKitten(0);
                 } else if (farmer && //farmer
                     (farmerCnt < maxFarmer)) {
                     assignKitten(1);
                 } else if (scholar && //scholar
-                    (myRes['science'].perTickUI < maxSciTick && scholarCnt < maxScholar) && woodCnt > scholarCnt) {
+                    (((myRes['science'].perTickUI < maxSciTick && scholarCnt < maxScholar) && woodCnt > scholarCnt)
+                    || (priest && scholarCnt < priestCnt * scholarToPriestRatio))) {
                     assignKitten(2);
                 } else if (priest && //priest
                     (priestCnt < minerCnt && priestCnt < geoCnt / 2)) {
                     assignKitten(5);
-                } else if (geo && //Geo
+                } else if (geo && geoCnt < maxGeo && //Geo
                     (myRes['coal'].perTickUI <= myRes['minerals'].perTickUI * .05) &&
                     (myRes['minerals'].perTickUI > maxMinerTick * .5) &&
+                    (geoCnt < hunterCnt + 1) &&
                     (geoCnt <= priestCnt * .7)) {
                     assignKitten(6);
-                } else if (hunter && //hunter
+                } else if (hunter && hunterCnt < maxHunter && //hunter
                     (myRes['catpower'].perTickUI < myRes['minerals'].perTickUI * catToMineralRatio) &&
-                    (woodCnt > hunterCnt || geoCnt > hunterCnt) && minerCnt > 1) {
+                    (woodCnt > hunterCnt || geoCnt > hunterCnt) && minerCnt > 1 &&
+                    (!geo || geoCnt > hunterCnt-1)) {
                     assignKitten(3);
                 } else if (miner && //Miner
-                    myRes['minerals'].perTickUI <= maxMinerTick) {
+                    myRes['minerals'].perTickUI <= maxMinerTick &&
+                    (minerCnt * .6 < priestCnt || !priest) &&
+                    (geoCnt > hunterCnt-1 || !geo)) {
                     assignKitten(4);
-                } else if (geo && //Geo
+                } else if (geo && geoCnt < maxGeo && //Geo
                     (myRes['coal'].perTickUI <= maxGeoCoalTick || myRes['gold'].perTickUI <= maxGeoGoldTick) &&
                     (myRes['coal'].perTickUI <= myRes['iron'].perTickUI * ironToCoalRatio) &&
+                    (geoCnt < hunterCnt + 1) &&
                     (geoCnt <= priestCnt * geoToPriestRatio)) {
                     assignKitten(6);
                 } else {
+
                     //assign priest; or woodcutter if not unlocked.
                     if (priest) { assignKitten(5); } else {
                         if (miner) { assignKitten(4); } else {
@@ -1444,7 +1515,7 @@ var kittenBot = function () {
 
             smartPopTmrDelay += 100;
             if (smartPopTmrDelay > 10000 || myRes['kittens'].value == gp.village.maxKittens) smartPopTmrDelay = 10000;
-            if (freeKittens > 0 && smartPopTmrDelay > 300) smartPopTmrDelay = 300;
+            if (freeKittens > 0 && smartPopTmrDelay > 50) smartPopTmrDelay = 50;
             clearTimeout(smartPopTmr);
             smartPopTmr = setTimeout(smartPop, smartPopTmrDelay);
 
@@ -1574,8 +1645,9 @@ var kittenBot = function () {
 
         var broadcastTowerCheck = function (bld, prices) {
             if (bld.val < myRes['kittens'].value / 7 && (myRes['titanium'].value > myRes['titanium'].maxValue * .9 || myRes['titanium'].value > prices[1].val * 2)) return [true, false];
+            if (myRes['plate'].value > myRes['titanium'].maxValue * 10) return [true, false];
             return priceCheck(bld, prices, {
-                'iron': parseInt(prices[0].val * 10)
+                'iron': parseInt(prices[0].val * 5)
             })
         };
 
@@ -1678,9 +1750,10 @@ var kittenBot = function () {
         }
 
         var buildCheckPasture = function (bld, prices) {
-            if (bld.val > 50)  return [false, true] //Has reached end of build cycle.
+            if (bld.val > 50)  return [false, true]; //Has reached end of build cycle.
+            if (myRes['wood'].perTickUI < bld.val / 10)  return [false, true]; //Has reached end of build cycle.
             return [true, false]
-        }
+        };
 
         var buildCheckElectric = function (bld, prices) {
             if (myRes['energy'].value < 10.1)  return [false, true]; //Has reached end of build cycle.
@@ -1693,7 +1766,9 @@ var kittenBot = function () {
         };
 
         var buildCheckAqueduct = function (bld, prices) {
-            if (bld.val > 100)  return [false, true] //Has reached end of build cycle.
+
+            if (bld.val > 100)  return [false, true]; //Has reached end of build cycle.
+            if (myRes['minerals'].perTickUI < bld.val)  return [false, true]; //Has reached end of build cycle.
             return [true, false]
         };
 
@@ -1706,11 +1781,37 @@ var kittenBot = function () {
 
         var buildCheckTradepost = function (bld, prices) {
             if (bld.val < 20 && (myRes['gold'].value < myRes['gold'].maxValue - 1 || myRes['gold'].value < prices[2].val * 11)) return [false, false];
+            if (smartCraftRequest['gold']) return [false, false]; //Let get the gold first...
+            return [true, false]
+        };
+        var buildCheckHydra = function (bld, prices) {
+            if (bld.val > 10 && myRes['kerosene'].value > 1000000) return [false, false];
+            return [true, false]
+        };
+
+
+        var buildCheckOil = function (bld, prices) {
+            if (bld.val > 100 && myRes['oil'].perTickUI > myRes['culture'].perTickUI / 1.7) return [false, false];
+            return [true, false]
+        };
+        var buildCheckCalciner = function (bld, prices) {
+            if (myRes['iron'].perTickUI > myRes['coal'].perTickUI * 4) return [false, false];
+            return [true, false]
+        };
+
+        var buildCheckCracker = function (bld, prices) {
+            if (myRes['uranium'].perTickUI > 50) return [false, false];
+            return [true, false]
+        };
+
+        var buildCheckMoonBase = function (bld, prices) {
+            //if (bld.val > 30) return [false, false];
             return [true, false]
         };
 
         var buildCheckTemple = function (bld, prices) {
             if (bld.val > 10 && myRes['ship'].value < 1 && gamePage.workshop.getCraft('ship').unlocked) return [false, false]; //Let ships build first
+            if (smartCraftRequest['gold']) return [false, false]; //Let get the gold first...
             return [true, false]
         };
 //This makes sure all Improtant buildings are ('MAXED')
@@ -1725,9 +1826,9 @@ var kittenBot = function () {
 
         var bluePrintCheck = function (bld, prices) {
             var pricesKey = priceToKey(prices);
-            if (pricesKey['blueprint'] && pricesKey['blueprint'] * 5 < myRes['blueprint'].value) return [true, false]
+            if (pricesKey['blueprint'] && pricesKey['blueprint'] * 5 < myRes['blueprint'].value) return [true, false];
             return priceCheck(bld, prices, {
-                'blueprint': 1000,
+                'blueprint': 1000
             })
         };
 
@@ -1750,29 +1851,29 @@ var kittenBot = function () {
             ['space', 'kairo', 'spaceBeacon', 10000, [popModeCheck, buildCheckElectric]],
             ['space', 'piscine', 'orbitalArray', 10000, [popModeCheck, buildCheckElectric, buildCraftEludiumReq]],
             ['space', 'piscine', 'researchVessel', 10000, [popModeCheck]],
-            ['space', 'moon', 'moonBase', 10000, [popModeCheck, buildCheckElectric]],
-            ['space', 'dune', 'hydrofracturer', 10000, [popModeCheck]],
-            ['space', 'dune', 'planetCracker', 10000, [popModeCheck]],
+            ['space', 'moon', 'moonBase', 10000, [popModeCheck, buildCheckElectric, buildCheckMoonBase]],
+            ['space', 'dune', 'hydrofracturer', 10000, [popModeCheck, buildCheckHydra]],
+            ['space', 'dune', 'planetCracker', 10000, [popModeCheck, buildCheckCracker]],
             ['space', 'moon', 'moonOutpost', 10000, [popModeCheck, buildCheckElectric]],
             ['space', 'helios', 'sunlifter', 10000, [buildCraftEludiumReq]],
             ['space', 'terminus', 'cryostation', 10000, [buildCraftEludiumReq]],
-            ['space', 'program', 'sattelite', 10000, [popModeCheck]],
-            ['space', 'program', 'spaceElevator', 10000],
-            ['space', 'program', 'spaceStation', 10000],
+            ['space', 'cath', 'sattelite', 10000, [popModeCheck]],
+            ['space', 'cath', 'spaceElevator', 10000],
+            ['space', 'cath', 'spaceStation', 10000],
             ['chronosphere', 10000, [primaryBldEnabledCheck]],
             ['ziggurat', 10000, [bluePrintCheck, primaryBldEnabledCheck]],
             ['unicornPasture', 10000],
             ['amphitheatre', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['broadcastTower', 10000, [broadcastTowerCheck, popModeCheck, primaryBldEnabledCheck]],
-            //['mint', 10000, [popModeCheck, buildCheckGoldTrade]],
+            ['mint', 10000, [popModeCheck, buildCheckGoldTrade]],
             ['tradepost', 10000, [popModeCheck, buildCheckGoldTrade, buildCheckTradepost]],
             ['accelerator', 10000, [buildCheckElectric]],
-            ['oilWell', 10000, [popModeCheck, primaryBldEnabledCheck, buildCheckElectricSmall]],
+            ['oilWell', 10000, [popModeCheck, primaryBldEnabledCheck, buildCheckElectricSmall, buildCheckOil]],
             ['lumberMill', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['magneto', 10000, [bluePrintCheck]],
             ['reactor', 10000, [bluePrintCheck]],
             ['steamworks', 10000, [popModeCheck, bluePrintCheck, primaryBldEnabledCheck]],
-            ['calciner', 10000, [popModeCheck, bluePrintCheck, primaryBldEnabledCheck, buildCheckElectric]],
+            ['calciner', 10000, [popModeCheck, bluePrintCheck, primaryBldEnabledCheck, buildCheckElectric, buildCheckCalciner]],
             ['smelter', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['quarry', 10000, [popModeCheck, primaryBldEnabledCheck]],
             ['mine', 10000, [popModeCheck, primaryBldEnabledCheck]],
@@ -1814,7 +1915,7 @@ var kittenBot = function () {
                 [['hut', -1], ['field', 60], ['library', 10], ['hut', 6]], //8
                 [['hut', -1], ['workshop', -1], ['mine', -1], ['field', -1], ['Science', 'animal']], //Wait for mineral hoe, axe, bola, make more mines. //9 (Hunters)
                 [['hut', -1], ['smelter', 1], ['workshop', 2], ['field', 90], ['library', 12], ['pasture', 4], ['mine', 5], ['barn', 4]],
-                [['mine', 7], ['hut', 10000]],
+                [['mine', 7], ['hut', 7]],
                 [['hut', -1], ['field', -1], ['smelter', 2], ['logHouse', 5]], //12
                 [['hut', -1], ['field', -1], ['logHouse', -1], ['aqueduct', -1], ['academy', -1], ['workshop', -1], ['logHouse', 8], ['lumberMill', 2]]//,
                 //[['workshop', -1], ['hut', -1], ['logHouse', -1], ['field', -1],
@@ -2303,9 +2404,11 @@ var kittenBot = function () {
         var statFn = function () {
             //paragon per year
             //Kittens-70 / Year
-            var cDay = ((gp.calendar.year * 400) + ((gp.calendar.season - 1) * 100) + gp.calendar.day)
+            var cDay = ((gp.calendar.year * 400) + ((gp.calendar.season - 1) * 100) + gp.calendar.day);
             var ppy = (parseInt(myRes['kittens'].value - 70) / (cDay / 400));
+            if (ppy<0) ppy = 0;
             var ppc = ppy * 100;
+
             $(".ppy").text(ppy.toFixed(3));
             $(".ppc").text(ppc.toFixed(1));
 
@@ -2313,14 +2416,14 @@ var kittenBot = function () {
             //Days per minute
 
             //cDay = 1 //Year * 400 + Day.
-            if (days.length >= 14) days.pop()
-            days.unshift([cDay, new Date()])
+            if (days.length >= 14) days.pop();
+            days.unshift([cDay, new Date()]);
 
-            if (!dayLng) dayLng = [cDay, new Date()]
+            if (!dayLng) dayLng = [cDay, new Date()];
 
-            var avgTime = days[0][1] - days[days.length - 1][1]
-            var avgDays = days[0][0] - days[days.length - 1][0]
-            var dpm = 60 / ((avgTime / 1000) / avgDays)
+            var avgTime = days[0][1] - days[days.length - 1][1];
+            var avgDays = days[0][0] - days[days.length - 1][0];
+            var dpm = 60 / ((avgTime / 1000) / avgDays);
             dayCnt += avgDays;
             if (!dpm) dpm = 30;
             //console.log(avgTime, avgDays , dpm, days[0][0], days[days.length-1][0], days)
@@ -2328,17 +2431,17 @@ var kittenBot = function () {
             //Day per minute %
             //100% = 30
             //(dpm / 30) * 100
-            var dpmp = (dpm / 30) * 100
+            var dpmp = (dpm / 30) * 100;
             $(".dpmp").text(dpmp.toFixed(1) + '%');
 
-            var dpmpl = ((60 / (((days[0][1] - dayLng[1]) / 1000) / (days[0][0] - dayLng[0]))) / 30) * 100
+            var dpmpl = ((60 / (((days[0][1] - dayLng[1]) / 1000) / (days[0][0] - dayLng[0]))) / 30) * 100;
             if (!dpmpl) dpmpl = 100;
-            var activeDays = (days[0][0] - dayLng[0]).toFixed(0)
+            var activeDays = (days[0][0] - dayLng[0]).toFixed(0);
             $(".dpmpl").text(dpmpl.toFixed(1) + '% / ' + activeDays);
 
             //minutes per yer
             //400 / dpm
-            var mpy = (400 / dpm)
+            var mpy = (400 / dpm);
             $(".mpy").text(mpy.toFixed(1));
 
             ////pargon per hour (real time)
