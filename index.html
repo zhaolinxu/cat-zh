@@ -68,6 +68,15 @@
                     gamePage.render();
                     gamePage.console.static.renderFilters();
                     gamePage.start();
+					
+					//---------------------------------
+					//	remove me once x-mass is over
+					//---------------------------------
+					if (gamePage.resPool.get("elderBox").value == 0){
+						gamePage.resPool.get("elderBox").value++;
+						gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
+					}
+					//---------------------------------
 
 
                     var host = window.location.hostname;
