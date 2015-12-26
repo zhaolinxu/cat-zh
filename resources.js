@@ -248,6 +248,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		}
 	},{
+		name : "elderBox",
+		title: "present box", 
+		description: "Merry Eldermass!",
+		type : "exotic",
+		craftable: false,
+		visible: true,
+		color: "#FA0EDE",
+		style: {
+			"textShadow": "1px 0px 10px #FA2E9E",
+			"animation": "neon1 1.5s ease-in-out infinite alternate"
+		}
+	},{
 		name : "blueprint",
 		type : "common",
 		transient: true,
@@ -599,7 +611,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 
-			var tdResName = dojo.create("td", { innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} }, tr);
+			var tdResName = dojo.create("td", {
+				class: "resource-name",
+				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
+			}, tr);
+			
+			UIUtils.attachTooltip(this.game, tdResName, dojo.hitch(this, function(res){
+				return res.description || "";
+			}, res));
 
 			if (res.type == "uncommon"){
 				dojo.setStyle(tdResName, "color", "Coral");
