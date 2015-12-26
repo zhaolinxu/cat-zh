@@ -60,6 +60,15 @@
                     gamePage.render();
                     gamePage.console.static.renderFilters();
                     gamePage.start();
+					
+					//---------------------------------
+					//	remove me once x-mass is over
+					//---------------------------------
+					if (gamePage.resPool.get("elderBox").value == 0){
+						gamePage.resPool.get("elderBox").value++;
+						gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
+					}
+					//---------------------------------
 
 
 //                    var host = window.location.hostname;
@@ -339,9 +348,6 @@
 
 				<br>
 				<br>
-				<input id="googleDrive" type="button" value="Login to sync Google Drive">
-				<div style="display: none;">Game is being Sync'd to you Google Drive account.</div>
-				<br>
 				<input type="button" value="Export" onclick="gamePage.saveExport();">
 
 				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
@@ -349,23 +355,28 @@
 			</div>
 
 			<div id="exportDiv" style="display: none" class="dialog help">
-				<span>Please keep this data somewhere safe</span>
+				<h1>Export To:</h1>
+				<input type="button" value="Google Drive">
+				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+				<br>
+				<h1>Text Export:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;"></textarea>
 				<br>
-				<a href="#" onclick="gamePage.saveExportDropbox()">export to Dropbox (beta)</a>
-				<br>
-				<input type="button" value="OK" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
-				<span>Warning! Importing data will overwrite your save.</span>
+				<div>Warning! Importing data will overwrite your current game data.</div>
+				<h1>Import Form:</h1>
+				<input type="button" value="Google Drive">
+				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
+				<br>
+				<h1>Text Import:</h1>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;"></textarea>
 				<br>
-				<a href="#" onclick="gamePage.saveImportDropbox()">import from Dropbox (beta)</a>
-				<br>
-				<input type="button" value="OK" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>

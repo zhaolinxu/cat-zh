@@ -104,6 +104,10 @@ div#gameLog {
     white-space: nowrap;
 }
 
+.resourceRow .resource-name {
+    cursor: pointer;
+}
+
 .clear {
     clear: both;
     float: none;

@@ -1305,3 +1305,52 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 		this.buttons.push(button);
 	}
 });
+
+/**
+ * TODO: Please deprecate zillion of other instances of this method
+ * TODO2: return offset from a htmlProvider.
+ * Ideally it should be some structure like 
+ * {
+ * 	x,
+ * 	y,
+ * 	html
+ * }
+ */
+UIUtils = {
+	attachTooltip: function(game, container, htmlProvider){
+		var tooltip = dojo.byId("tooltip");
+		var btn = this;
+
+		dojo.connect(container, "onmouseover", this, function() {
+			game.tooltipUpdateFunc = function(){
+				tooltip.innerHTML = dojo.hitch(game, htmlProvider)();
+			};
+			game.tooltipUpdateFunc();
+			var pos = $(container).position();
+
+			//prevent tooltip from leaving the window area
+			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
+			var scrollRight = $(window).scrollLeft() + $(window).width() - 25;	//25px padding-bottom
+
+			if (pos.top + $(tooltip).height() >= scrollBottom){
+				pos.top = scrollBottom - $(tooltip).height();
+			}
+
+			if (pos.left + $(tooltip).width() + 320 >= scrollRight){
+				pos.left = scrollRight - $(tooltip).width() - 320;
+			}
+
+			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+
+			if (tooltip.innerHTML) {
+				dojo.setStyle(tooltip, "display", "");
+			}
+		});
+
+		dojo.connect(container, "onmouseout", this, function(){
+			game.tooltipUpdateFunc = null;
+			dojo.setStyle(tooltip, "display", "none");
+		});
+	}
+}
