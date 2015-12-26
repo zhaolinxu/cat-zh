@@ -22,7 +22,7 @@ var gDrive = (function() {
 }());
 
 function handleClientLoad() {
-    gDrive.checkAuth();
+    //gDrive.checkAuth();
 
 }
 
@@ -87,9 +87,9 @@ function handleAuthResult(authResult) {
             //Try and load a file;
 
             //Try and save a file;
-            insertFileInApplicationDataFolder("hello word", function(err) {
-                console.log('saved', JSON.stringify(err))
-            })
+            //insertFileInApplicationDataFolder("hello word", function(err) {
+                //console.log('saved', JSON.stringify(err))
+            //})
         });
 
     } else {
