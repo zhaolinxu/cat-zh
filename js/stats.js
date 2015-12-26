@@ -97,9 +97,17 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 			else{
 				return Math.floor(game.resPool.get("kittens").value / centuries);
 			}
+        }},{
+        name: "timePlayed",
+        title: "Time Played (Hours)",
+        val: 0,
+        calculate: function (game) {
+            var cDay = ((game.calendar.year * 400) + ((game.calendar.season - 1) * 100) + game.calendar.day);
+            return Math.round(cDay / 1800 * 10) / 10
         },
         unlocked: false
-    }],
+    }
+    ],
 
     statGroups: null,
 
