@@ -1798,7 +1798,7 @@ var kittenBot = function () {
             return [true, false]
         };
         var buildCheckCalciner = function (bld, prices) {
-            if (myRes['iron'].perTickUI > myRes['coal'].perTickUI * 4) return [false, false];
+            if (bld.val > 50 && myRes['iron'].perTickUI > myRes['coal'].perTickUI * 4) return [false, false];
             return [true, false]
         };
 
