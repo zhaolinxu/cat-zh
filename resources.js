@@ -698,9 +698,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			row.resAmt.textContent = this.game.getDisplayValueExt(res.value);
 
 			className = "resAmount";
-			if (res.value > res.maxValue * 0.95 && res.perTickUI > 0 && res.maxValue > 0){
+			if (res.value > res.maxValue * 0.95 && res.maxValue > 0){
 				className = "resAmount resLimitNotice";
-			} else if (res.value > res.maxValue * 0.75 && res.perTickUI > 0 && res.maxValue > 0){
+			} else if (res.value > res.maxValue * 0.75 && res.maxValue > 0){
 				className = "resAmount resLimitWarn";
 			}
 			if (row.resAmt.className != className){
