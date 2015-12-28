@@ -1048,7 +1048,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	//TODO: add some additional checks and stuff?
-	_loadSaveJson: function(json){
+	_loadSaveJson: function(lzdata){
 		var json = LZString.decompressFromBase64(lzdata);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 
