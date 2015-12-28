@@ -1031,7 +1031,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.dropBoxClient.authenticate({interactive:false});
 		if (this.dropBoxClient.isAuthenticated()){
 			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
-				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
+				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});
@@ -1040,7 +1040,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.dropBoxClient.authenticate(function (error, client) {
 			client.readFile('kittens.save', {}, function (error, lzdata){
-				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
+				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});

@@ -1,6 +1,7 @@
 v 1.1.7.9 (27 dec)
 
 Fixed an issue with log filtering
+Fixed dropbox import
 
 v 1.1.7.9 (?) (19 dec)
 Changes by coderpatsy:
