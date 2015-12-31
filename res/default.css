@@ -380,6 +380,10 @@ table.craftTable tr:hover td {
     padding-bottom: 50px;
 }
 
+#devPanel div {
+    display: inline-block;
+}
+
 .toolbarIcon {
     padding-right: 15px;
     font-size: 12px;
