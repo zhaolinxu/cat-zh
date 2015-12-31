@@ -1,9 +1,8 @@
 v 1.1.8.0 (1 Jan, Happy New Year)
 
 Changes by Kida:
-
-Caption Changes:
--Updated descriptions on voidEnergy / darkEnery to be more clear it affects storage.
+- Added Total Hours played for Current Game to Stats.
+- Updated descriptions on voidEnergy / darkEnery to be more clear it affects storage.
 
 Kitten Arrival Mechanics (Kitten Per Tick)
 - Kittens will now arrive twice as fast during festivals.
@@ -26,7 +25,6 @@ Changes by coderpatsy:
 - Fix various bugs when importing saves
 
 Changes by Kida:
-- Bug Fix: Cleaned 'leaks' when importing saves. (i.e. extra titanium or techs.)
 - Fixed Sleek themeing issues.
 - Stat clean up, and additions.
 - Current game stats now save.
