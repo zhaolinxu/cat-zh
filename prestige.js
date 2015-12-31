@@ -105,7 +105,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Some zebras hunters will stay in the village.",
 		paragon: 50,
 		unlocked: false,
-		researched: false,
+		researched: false
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
@@ -125,7 +125,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: true,
 		defaultUnlocked: true,
-		researched: false,
+		researched: false
 	},
 	{
 		name: "anachronomancy",
@@ -133,11 +133,11 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Time crystals and chronophysics will be saved across resets.",
 		paragon: 125,
 		unlocked: false,
-		researched: false,
+		researched: false
 	},{
 		name: "carnivals",
 		title: "Carnivals",
-		description: "Festivals can now stack",
+		description: "Festivals can now stack.",
 		paragon: 25,
 		unlocked: true,
 		defaultUnlocked: true,
@@ -145,7 +145,60 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			game.prestige.getPerk("numerology").unlocked = true;
 		}
-	},{
+	}
+        //---------------------Kitten Growth Rate------------------------------
+        , {
+            name: "kittenGrowth1",
+            title: "Kitten Fertility",
+            description: "Kittens will arrive 5 times as fast.",
+            paragon: 50,
+            unlocked: true,
+            defaultUnlocked: true,
+            researched: false,
+            handler: function (game) {
+                game.prestige.getPerk("kittenGrowth2").unlocked = true;
+            },
+            effects: {
+                "kittenGrowthRatio": 0.04
+            }
+        }, {
+            name: "kittenGrowth2",
+            title: "Venus of Willenfluff",
+            description: "Kittens will arrive even faster.",
+            paragon: 100,
+            unlocked: false,
+            researched: false,
+            handler: function (game) {
+                game.prestige.getPerk("kittenGrowth3").unlocked = true;
+            },
+            effects: {
+                "kittenGrowthRatio": 0.05
+            }
+        }, {
+            name: "kittenGrowth3",
+            title: "Purrodite",
+            description: "Kittens will arrive much faster.",
+            paragon: 200,
+            unlocked: false,
+            researched: false,
+            handler: function (game) {
+                game.prestige.getPerk("kittenImmortals").unlocked = true;
+            },
+            effects: {
+                "kittenGrowthRatio": .4 //1 per tick.
+            }
+        }, {
+            name: "kittenImmortals",
+            title: "Immortal Kittens",
+            description: "Kittens arrive insanely fast and can no longer die.",
+            paragon: 400,
+            unlocked: false,
+            researched: false,
+            effects: {
+                "kittenGrowthRatio": 1.50
+            }
+        }
+		,{
 		name: "numerology",
 		title: "Numerology",
 		description: "Festivals will have special effects depending on year (TBD)",
