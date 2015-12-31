@@ -3,6 +3,7 @@ v 1.1.8.0 (1 Jan, Happy New Year)
 Changes by Kida:
 - Added Total Hours played for Current Game to Stats.
 - Updated descriptions on voidEnergy / darkEnery to be more clear it affects storage.
+- Dialog UI Changes/Fixes
 
 Kitten Arrival Mechanics (Kitten Per Tick)
 - Kittens will now arrive twice as fast during festivals.

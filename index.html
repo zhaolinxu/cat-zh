@@ -371,31 +371,33 @@
 
 				<br>
 				<br>
-
 				<input type="button" value="Export" onclick="gamePage.saveExport();">
-				<br>
+
 				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
 				<br>
 			</div>
 
 			<div id="exportDiv" style="display: none" class="dialog help">
-				<span>Please keep this data somewhere safe</span>
+				<h1>Export To:</h1>
+				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+				<br>
+				<h1>Text Export:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;"></textarea>
 				<br>
-				<a href="#" onclick="gamePage.saveExportDropbox()">export to Dropbox (beta)</a>
-				<br>
-				<input type="button" value="OK" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
-				<span>Warning! Importing data will overwrite your save.</span>
+				<div>Warning! Importing data will overwrite your current game data.</div>
+				<h1>Import Form:</h1>
+				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
+				<br>
+				<h1>Text Import:</h1>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;"></textarea>
 				<br>
-				<a href="#" onclick="gamePage.saveImportDropbox()">import from Dropbox (beta)</a>
-				<br>
-				<input type="button" value="OK" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
