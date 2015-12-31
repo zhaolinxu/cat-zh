@@ -1,3 +1,16 @@
+v 1.1.8.0 (1 Jan, Happy New Year)
+
+Changes by Kida:
+
+Caption Changes:
+-Updated descriptions on voidEnergy / darkEnery to be more clear it affects storage.
+
+Kitten Arrival Mechanics (Kitten Per Tick)
+- Kittens will now arrive twice as fast during festivals.
+- New paragon tree: (Kitten Fertility > Venus of Willenfluff > Purrodite > Immortal Kittens)
+- Each paragon tech increases the rate kittens arrive.
+- Immortal Kittens also makes them immortal (can no longer die / starve.)
+
 v 1.1.7.9 (27 dec)
 
 Fixed an issue with log filtering
