@@ -151,7 +151,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
             name: "kittenGrowth1",
             title: "Kitten Fertility",
             description: "Kittens will arrive 5 times as fast.",
-            paragon: 50,
+            paragon: 100,
             unlocked: true,
             defaultUnlocked: true,
             researched: false,
@@ -165,7 +165,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
             name: "kittenGrowth2",
             title: "Venus of Willenfluff",
             description: "Kittens will arrive even faster.",
-            paragon: 100,
+            paragon: 300,
             unlocked: false,
             researched: false,
             handler: function (game) {
@@ -178,7 +178,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
             name: "kittenGrowth3",
             title: "Purrodite",
             description: "Kittens will arrive much faster.",
-            paragon: 200,
+            paragon: 500,
             unlocked: false,
             researched: false,
             handler: function (game) {
@@ -191,7 +191,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
             name: "kittenImmortals",
             title: "Immortal Kittens",
             description: "Kittens arrive insanely fast and can no longer die.",
-            paragon: 400,
+            paragon: 1000,
             unlocked: false,
             researched: false,
             effects: {
