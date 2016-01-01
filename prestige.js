@@ -159,7 +159,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
                 game.prestige.getPerk("kittenGrowth2").unlocked = true;
             },
             effects: {
-                "kittenGrowthRatio": 0.04
+                "kittenGrowthRatio": 0.02
             }
         }, {
             name: "kittenGrowth2",
@@ -172,7 +172,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
                 game.prestige.getPerk("kittenGrowth3").unlocked = true;
             },
             effects: {
-                "kittenGrowthRatio": 0.05
+                "kittenGrowthRatio": 0.04
             }
         }, {
             name: "kittenGrowth3",
@@ -185,7 +185,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
                 game.prestige.getPerk("kittenImmortals").unlocked = true;
             },
             effects: {
-                "kittenGrowthRatio": .4 //1 per tick.
+                "kittenGrowthRatio": 0.2 //1 per tick.
             }
         }, {
             name: "kittenImmortals",
