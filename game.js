@@ -2003,7 +2003,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn", "elderBox"];
 
 
 
@@ -2021,6 +2021,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (this.prestige.getPerk("anachronomancy").researched){
 					newResources.push(res);
 				}
+			} else if (res.name == "elderBox"){
+				newResources.push(res);
 			} else {
 				var newRes = this.resPool.createResource(res.name, res.type);
 
