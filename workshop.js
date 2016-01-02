@@ -422,7 +422,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "voidEnergy",
 		title: "Void Energy",
-		description: "Energy Rifts are even more effective",
+		description: "Energy Rifts are even more effective at storing resources.",
 		effects: {
 			"acceleratorRatio" : 0.75
 		},
@@ -443,7 +443,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "darkEnergy",
 		title: "Dark Energy",
-		description: "Energy Rifts are 2.5 times as effective",
+		description: "Energy Rifts are 2.5 times as effective at storing resources.",
 		effects: {
 			"acceleratorRatio" : 2.5	//TODO: ratio is a subject of change
 		},

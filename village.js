@@ -177,6 +177,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
 
+
+		//Apply Paragon effects to kitten growth rate
+		if (this.game.prestige.getPerk("kittenGrowth1").researched) {
+			var kittenGrowthRate = this.game.prestige.getEffect("kittenGrowthRatio");
+			kittensPerTick = kittensPerTick + kittenGrowthRate;
+		}
+
+		//Allow festivals to double birth rate.
+		if (this.game.calendar.festivalDays > 0) {
+			kittensPerTick = kittensPerTick * 2;
+		}
+
 		this.sim.maxKittens = this.maxKittens;
 		this.sim.update(kittensPerTick);
 
@@ -190,10 +202,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			var starvedKittens = Math.abs(Math.round(resDiff));
 			if (starvedKittens > 0){
-				starvedKittens = this.sim.killKittens(starvedKittens);
-				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
+				var immortalKittens = this.game.prestige.getPerk("kittenImmortals").researched;
+				if (!immortalKittens) {
+					starvedKittens = this.sim.killKittens(starvedKittens);
+					this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
+					this.game.deadKittens += starvedKittens;
+				}
 
-				this.game.deadKittens += starvedKittens;
 			}
 		}
 
@@ -629,14 +644,23 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	update: function(kittensPerTick){
-		this.nextKittenProgress += kittensPerTick;
-		if (this.nextKittenProgress >= 1){
-			this.nextKittenProgress = 0;
 
-			if (this.kittens.length < this.maxKittens){
-				this.addKitten();
+		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
+			this.nextKittenProgress += kittensPerTick;
+			if (this.nextKittenProgress >= 1) {
+				var kittensToAdd = Math.floor(this.nextKittenProgress);
+				this.nextKittenProgress = 0;
+
+				for (var iCat = 0; iCat < kittensToAdd; iCat++) {
+					if (this.kittens.length < this.maxKittens) {
+						this.addKitten();
+					}
+				}
+
+
 			}
 		}
+
 
 		var learnRatio = this.game.bld.getEffect("learnRatio");
 		var skillRatio = 0.01 + 0.01 * learnRatio;
