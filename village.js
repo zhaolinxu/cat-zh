@@ -174,15 +174,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	update: function(){
 
 		//calculate kittens
-
-		var kittensPerTick = this.kittensPerTick + this.kittensPerTickBase;
-
-
-		//Apply Paragon effects to kitten growth rate
-		if (this.game.prestige.getPerk("kittenGrowth1").researched) {
-			var kittenGrowthRate = this.game.prestige.getEffect("kittenGrowthRatio");
-			kittensPerTick = kittensPerTick + kittenGrowthRate;
-		}
+		var kittensPerTick = this.kittensPerTick + 
+			this.kittensPerTickBase * (1 + this.game.prestige.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -202,13 +195,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			var starvedKittens = Math.abs(Math.round(resDiff));
 			if (starvedKittens > 0){
-				var immortalKittens = this.game.prestige.getPerk("kittenImmortals").researched;
-				if (!immortalKittens) {
-					starvedKittens = this.sim.killKittens(starvedKittens);
-					this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
-					this.game.deadKittens += starvedKittens;
-				}
-
+				starvedKittens = this.sim.killKittens(starvedKittens);
+				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
+				this.game.deadKittens += starvedKittens;
 			}
 		}
 

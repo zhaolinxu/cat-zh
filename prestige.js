@@ -145,60 +145,19 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			game.prestige.getPerk("numerology").unlocked = true;
 		}
-	}
-        //---------------------Kitten Growth Rate------------------------------
-        , {
-            name: "kittenGrowth1",
-            title: "Kitten Fertility",
-            description: "Kittens will arrive 5 times as fast.",
-            paragon: 100,
-            unlocked: true,
-            defaultUnlocked: true,
-            researched: false,
-            handler: function (game) {
-                game.prestige.getPerk("kittenGrowth2").unlocked = true;
-            },
-            effects: {
-                "kittenGrowthRatio": 0.01
-            }
-        }, {
-            name: "kittenGrowth2",
-            title: "Venus of Willenfluff",
-            description: "Kittens will arrive even faster.",
-            paragon: 300,
-            unlocked: false,
-            researched: false,
-            handler: function (game) {
-                game.prestige.getPerk("kittenGrowth3").unlocked = true;
-            },
-            effects: {
-                "kittenGrowthRatio": 0.02
-            }
-        }, {
-            name: "kittenGrowth3",
-            title: "Purrodite",
-            description: "Kittens will arrive much faster.",
-            paragon: 500,
-            unlocked: false,
-            researched: false,
-            handler: function (game) {
-                game.prestige.getPerk("kittenImmortals").unlocked = true;
-            },
-            effects: {
-                "kittenGrowthRatio": 0.08 //1 per tick.
-            }
-        }, {
-            name: "kittenImmortals",
-            title: "Immortal Kittens",
-            description: "Kittens arrive insanely fast and can no longer die.",
-            paragon: 1000,
-            unlocked: false,
-            researched: false,
-            effects: {
-                "kittenGrowthRatio": 1.50
-            }
-        }
-		,{
+	},{
+		name: "willenfluff",
+		title: "Venus of Willenfluff",
+		description: "Kittens will arrive 75% faster.",
+		paragon: 150,
+		unlocked: false,
+		researched: false,
+		handler: function (game) {
+		},
+		effects: {
+			"kittenGrowthRatio": 0.75
+		}
+     },{
 		name: "numerology",
 		title: "Numerology",
 		description: "Festivals will have special effects depending on year (TBD)",
@@ -207,6 +166,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
+			game.prestige.getPerk("willenfluff").unlocked = true;
 			game.prestige.getPerk("voidOrder").unlocked = true;
 		}
 	},{
