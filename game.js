@@ -731,15 +731,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var hasCalendarTech = this.science.get("calendar").researched;
 
 
-		var original = this.console.static.msg(message, type, tag);
-
-		if (hasCalendarTech){
+		var messageLine = this.console.static.msg(message, type, tag);
+		if (messageLine && hasCalendarTech){
 			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title, "date", null);
-			//message = "Year " + this.calendar.year + ", " + this.calendar.seasons[this.calendar.season].title + ": " + message;
 		}
 
-		//return this.console.static.msg(message, type, tag);
-		return original;
+		return messageLine;
 	},
 
 	clearLog: function(){
@@ -1034,7 +1031,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.dropBoxClient.authenticate({interactive:false});
 		if (this.dropBoxClient.isAuthenticated()){
 			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
-				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
+				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson, lzdata));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});
@@ -1043,7 +1040,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.dropBoxClient.authenticate(function (error, client) {
 			client.readFile('kittens.save', {}, function (error, lzdata){
-				this.timer.scheduleEvent(dojo.hitch(game, this._loadSaveJson));
+				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson, lzdata));
 				$('#importDiv').hide();
 				$('#optionsDiv').hide();
 			});
@@ -1051,7 +1048,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	
 	//TODO: add some additional checks and stuff?
-	_loadSaveJson: function(json){
+	_loadSaveJson: function(lzdata){
 		var json = LZString.decompressFromBase64(lzdata);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 
@@ -2237,5 +2234,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             self.achievements.updateStatistics();
         });
-    }
+    },
+
+	redeemGift: function(){
+		//TODO: give a bonus based on the current researched technologis
+		//i.e. 25tc with lte game time tech
+		// 5tc with mid game tech
+		// unobtainium with pre time tech
+		// titanium with pre-space tech
+		// something else?
+	}
 });
