@@ -69,7 +69,7 @@ body {
 }
 
 #midColumn {
-    width: 600px;
+    width: 630px;
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
@@ -187,7 +187,7 @@ input[type="button"] {
 
 .help {
     width: 600px;
-    height: 300px;
+    /*height: 300px;*/
 
     margin-top: -150px;
     margin-left: -300px;

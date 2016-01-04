@@ -105,7 +105,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Some zebras hunters will stay in the village.",
 		paragon: 50,
 		unlocked: false,
-		researched: false,
+		researched: false
 	},{
 		name: "chronomancy",
 		title: "Chronomancy",
@@ -125,7 +125,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 125,
 		unlocked: true,
 		defaultUnlocked: true,
-		researched: false,
+		researched: false
 	},
 	{
 		name: "anachronomancy",
@@ -133,11 +133,11 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Time crystals and chronophysics will be saved across resets.",
 		paragon: 125,
 		unlocked: false,
-		researched: false,
+		researched: false
 	},{
 		name: "carnivals",
 		title: "Carnivals",
-		description: "Festivals can now stack",
+		description: "Festivals can now stack.",
 		paragon: 25,
 		unlocked: true,
 		defaultUnlocked: true,
@@ -146,6 +146,18 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			game.prestige.getPerk("numerology").unlocked = true;
 		}
 	},{
+		name: "willenfluff",
+		title: "Venus of Willenfluff",
+		description: "Kittens will arrive 75% faster.",
+		paragon: 150,
+		unlocked: false,
+		researched: false,
+		handler: function (game) {
+		},
+		effects: {
+			"kittenGrowthRatio": 0.75
+		}
+     },{
 		name: "numerology",
 		title: "Numerology",
 		description: "Festivals will have special effects depending on year (TBD)",
@@ -154,6 +166,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 			game.prestige.getPerk("numeromancy").unlocked = true;
+			game.prestige.getPerk("willenfluff").unlocked = true;
 			game.prestige.getPerk("voidOrder").unlocked = true;
 		}
 	},{
