@@ -335,10 +335,10 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	},
 
 	getMetadata: function(){
-		return this.getPerk(this.perk);
+		return this.getPerk();
 	},
 
-	getPerk: function(id){
+	getPerk: function(){
 		if (!this.perk){
 			this.perk = this.game.prestige.getPerk(this.id);
 		}
@@ -373,7 +373,7 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	updateVisible: function(){
 		var perk = this.getPerk();
-		if (!perk.unlocked){
+		if (!perk.unlocked || (!perk.researched && !this.game.science.get("metaphysics").researched)){
 			this.setVisible(false);
 		}else{
 			this.setVisible(true);
@@ -387,7 +387,7 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	onClick: function(){
 		this.animate();
 		var perk = this.getPerk();
-		if (this.enabled && this.hasResources()){
+		if (this.enabled && this.game.science.get("metaphysics").researched && this.hasResources()){
 			this.payPrice();
 			this.game.paragonPoints -= perk.paragon;
 

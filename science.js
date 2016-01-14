@@ -981,8 +981,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 
 		//------------ metaphysics ----------------
-		if (this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0){
-			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics");
+		this.metaphysicsPanel = null;
+
+		var showMetaphysics = this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0;
+		if (!showMetaphysics){
+			for (var i = this.game.prestige.perks.length - 1; i >= 0; i--){
+				var perk = this.game.prestige.perks[i];
+				if (perk.researched){
+					showMetaphysics = true;
+					break;
+				}
+			}
+		}
+
+		if (showMetaphysics){
+			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics", this.game.prestige);
 			metaphysicsPanel.game = this.game;
 
 			var content = metaphysicsPanel.render(tabContainer);
