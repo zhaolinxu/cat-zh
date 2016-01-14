@@ -460,7 +460,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "chronoforge",
 		title: "Chronoforge",
-		description: "An alien technology related to time manipulation. (TBD)",
+		description: "An alien technology related to time manipulation.",
 		prices:[
 			{ name : "science",     val: 500000 },
 			{ name : "relic",     	val: 5 },

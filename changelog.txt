@@ -1,3 +1,13 @@
+v 1.1.8.2 (13 jan)
+
+Added placeholder time/CF panels
+You can now refine TC into relics
+Entering DEV mode will now display all buildings regarding of unlock status
+Clicking building in DEV mode will always buy it ragardless of current active resources
+
+Elders base chance and NCC bonus were reduced by ~50%
+Marker button will now display NC corruption progress
+
 v 1.1.8.1 (2 jan)
 
 Streamlined fertility tree

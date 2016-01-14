@@ -1726,7 +1726,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	onClick: function(event){
 
 		this.animate();
-		if (this.enabled && this.hasResources()){
+		if ((this.enabled && this.hasResources()) || this.game.devMode){
+
 			if (this.handler) {
 				this.handler(this);
 			}
@@ -1804,16 +1805,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
         }
     },
 
+	getBuildingName: function(){
+		return this.name;
+	},
+
 	getName: function(){
 		var building = this.getMetadata();
 		if (building){
 			if (building.togglable) {
-				var name = this.name;
+				var name = this.getBuildingName();
 
 				var prefix = building.tunable ? ( building.on + "/" ) : "";
 				return name + " ("+ prefix + building.val + ")";
 			} else {
-				var name = this.name;
+				var name = this.getBuildingName();
 				return name + " (" + building.val + ")";
 			}
 		}
@@ -1999,7 +2004,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
-		if (!building.unlocked){
+		if (!building.unlocked && !this.game.devMode){
 			this.setVisible(false);
 		}else{
 			this.setVisible(true);

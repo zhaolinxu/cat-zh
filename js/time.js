@@ -27,8 +27,9 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
         var timePanel = new com.nuclearunicorn.game.ui.Panel("Time");
         this.addChild(timePanel);
 
-        var cfPanel = new com.nuclearunicorn.game.ui.Panel("Chronoforge");
-        this.addChild(cfPanel);
+        this.cfPanel = new com.nuclearunicorn.game.ui.Panel("Chronoforge");
+        this.cfPanel.setVisible(false);
+        this.addChild(this.cfPanel);
     },
 
     render: function(content){
@@ -40,5 +41,10 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
 
     update: function(){
         this.inherited(arguments);
+        
+        var hasCF = this.game.workshop.get("chronoforge").researched;
+        if (hasCF){
+            this.cfPanel.setVisible(true);
+        }
     }
 });
