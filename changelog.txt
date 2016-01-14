@@ -1,4 +1,11 @@
 v 1.1.8.2 (13 jan)
+Changes by coderpatsy:
+
+Metaphysics fixes
+- Show purchased metaphysics perks even if you don't have metaphysics tech
+- Remember metaphysics panel's collapsed state - fixes issue #21
+
+____
 
 Added placeholder time/CF panels
 You can now refine TC into relics

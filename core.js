@@ -1164,6 +1164,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
 	}
 });
 
+dojo.declare("mixin.IGameAware", null, {
+	game: null,
+
+	setGame: function(game){
+		this.game = game;
+	}
+});
+
 dojo.declare("mixin.IChildrenAware", null, {
 	children: null,
 
@@ -1172,6 +1180,9 @@ dojo.declare("mixin.IChildrenAware", null, {
 	},
 
 	addChild: function (child) {
+		if (!child) {
+			throw "Child can't be null";
+		}
 		this.children.push(child);
 	},
 
@@ -1247,7 +1258,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 		/*
 		 *	Render all children, probably not a best thing from architectual point of view
 		 */
-		//this.inherited(this.contentDiv);
+		this.inherited(arguments, [this.contentDiv] /* dojo majic */);
 
 		return this.contentDiv;
 	},
