@@ -625,6 +625,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 			}
 
+			//console.log("SELF:", self, self.on);
+
 			game.resPool.convert(
 				[{res: "wood", amt: -self.effects["woodPerTick"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],

@@ -627,6 +627,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             { id: "achievements",   class:  "Achievements"      },
             { id: "religion",       class:  "ReligionManager"   },
             { id: "space",          class:  "SpaceManager"      },
+			{ id: "time",           class:  "TimeManager"       },
             { id: "prestige",       class:  "PrestigeManager"   },
             { id: "stats",       	class:  "StatsManager"      }
         ];
@@ -665,6 +666,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.spaceTab = new com.nuclearunicorn.game.ui.tab.SpaceTab("Space", this);
 		this.spaceTab.visible = false;
 		this.addTab(this.spaceTab);
+
+		this.timeTab = new classes.tab.TimeTab("Time", this);
+		this.timeTab.visible = true;
+		this.addTab(this.timeTab);
 
 		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
 		this.achievementTab.visible = false;
@@ -948,6 +953,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
 		this.religionTab.visible = (this.resPool.get("faith").value > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
+		this.timeTab.visible = (this.science.get("calendar").researched);
 	},
 
 	//btw, ie11 is horrible crap and should not exist

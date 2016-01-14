@@ -1164,11 +1164,31 @@ dojo.declare("com.nuclearunicorn.game.ui.ContentRowRenderer", null, {
 	}
 });
 
+dojo.declare("mixin.IChildrenAware", null, {
+	children: null,
 
+	constructor: function(){
+		this.children = [];
+	},
+
+	addChild: function (child) {
+		this.children.push(child);
+	},
+
+	render: function(container){
+		dojo.forEach(this.children, function(e, i){
+			e.render(container);
+		});
+	},
+
+	update: function(){
+		dojo.forEach(this.children, function(e, i){ e.update(); });
+	}
+});
 /**
  * Collapsible panel for a tab
  */
-dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.ContentRowRenderer, {
+dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.ContentRowRenderer, mixin.IChildrenAware], {
 	game: null,
 
 	collapsed: false,
@@ -1176,7 +1196,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	name: "",
 
 	panelDiv: null,
-	children: null,
+
 
 	//------ collapse ------
 	toggle: null,
@@ -1187,12 +1207,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 		if (tabManager){
 			tabManager.registerPanel(name, this);
 		}
-
-		this.children = [];
-	},
-
-	addChild: function(child){
-		this.children.push(child);
 	},
 
 	render: function(container){
@@ -1230,6 +1244,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 
 		this.panelDiv = panel;
 
+		/*
+		 *	Render all children, probably not a best thing from architectual point of view
+		 */
+		//this.inherited(this.contentDiv);
+
 		return this.contentDiv;
 	},
 
@@ -1254,7 +1273,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 	},
 
 	update: function(){
-		dojo.forEach(this.children, function(e, i){ e.update(); });
+		this.inherited(arguments);
 	},
 
 	setGame: function(game){
@@ -1265,7 +1284,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", com.nuclearunicorn.game.ui.Cont
 /**
  * Tab
 */
-dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.ContentRowRenderer, {
+dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.ContentRowRenderer, mixin.IChildrenAware], {
 
 	game: 		null,
 	buttons: 	null,
@@ -1284,17 +1303,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	},
 
 	render: function(tabContainer){
+		this.inherited(arguments);
 		this.initRenderer(tabContainer);
-
-		for (var i = 0; i<this.buttons.length; i++){
-			var button = this.buttons[i];
-
-			var btnContainer = this.getElementContainer(i);
-			button.render(btnContainer);
-		}
 	},
 
 	update: function(){
+		this.inherited(arguments);
+
+		/*--------------------------
+		Todo: this stuff is really deprecated, move it to the BLDv2 tab?
+		---------------------------*/
 		for (var i = 0; i<this.buttons.length; i++){
 			var button = this.buttons[i];
 			button.update();
@@ -1304,6 +1322,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", com.nuclearunicorn.game.ui.Conten
 	updateTab: function(){
 	},
 
+	/*--------------------------
+	 This stuff is deprecated to
+	 ---------------------------*/
 	addButton:function(button){
 		button.game = this.game;
 		button.tab = this;
