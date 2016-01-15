@@ -1,4 +1,4 @@
-‡/**
+/**
  * Behold the bringer of light!
  */
 dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager, {
