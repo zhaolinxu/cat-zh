@@ -1182,7 +1182,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "factoryLogistics",
 		title: "Factory Logistics",
-		description: "Factories are providing bigger bonus to craft effectiveness. (TBD)",
+		description: "Factories are providing bigger bonus to craft effectiveness",
 		effects: {
 		},
 		prices:[
