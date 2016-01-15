@@ -946,7 +946,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "factory",
 		label: "Factory",
-		description: "Improves craft effectiveness by 5%",
+		description: "Improves craft effectiveness",
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
@@ -954,9 +954,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 2500},
 			{ name : "concrate", val: 15}
 		],
-		effects: {
-			"craftRatio" : 0.05,
-			"energyConsumption" : 2
+		effects: {},
+		calculateEffects: function(self, game){
+			var effects = {
+				"energyConsumption" : 2
+			};
+			
+			effects["craftRatio"] = game.workshop.get("factoryLogistics").researched ? 0.06 : 0.05;
+			
+			self.effects = effects;
 		},
 		priceRatio: 1.15,
 		val: 0,
