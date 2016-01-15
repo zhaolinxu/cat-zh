@@ -707,6 +707,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.bld.getEffect("craftRatio") * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on
 				);
+						
 			}
 		},
 		val: 0
@@ -956,11 +957,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		effects: {},
 		calculateEffects: function(self, game){
-			var effects = {
-				"energyConsumption" : 2
-			};
+			var effects = {};
 			
 			effects["craftRatio"] = game.workshop.get("factoryLogistics").researched ? 0.06 : 0.05;
+			effects["energyConsumption"] = 2;
 			
 			self.effects = effects;
 		},

@@ -108,7 +108,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"catnipDemandRatio" : {
-				title: "Catnip Demand Ratio",
+				title: "Catnip demand reduction",
 				resName: "catnip",
 				type: "ratio"
 			},
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"woodRatio" : {
-				title: "Wood Bonus",
+				title: "Wood bonus",
 				resName: "wood",
 				type: "ratio"
 			},
@@ -162,7 +162,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"mineralsRatio" : {
-				title: "Minerals Bonus",
+				title: "Minerals bonus",
 				resName: "minerals",
 				type: "ratio"
 			},
@@ -214,7 +214,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"coalRatioGlobal" : {
-				title: "Coal Production penalty",
+				title: "Coal production penalty",
 				resName: "coal",
 				type: "ratio"
 			},
@@ -225,6 +225,13 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//steel
+			
+			"steelPerTick" : {
+				title: "Steel production",
+				type : "perTick"
+			},
+			
 			//gold
 
 			"goldMax" : {
@@ -251,6 +258,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//oil
+			
+			"oilReductionRatio" : {
+				title: "Oil consumption reduction",
+				type: "ratio"
+			},
+			
+			
+			
 			//kittens
 
 			"maxKittens" : {
@@ -277,7 +293,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"manpowerPerTick" : {
-				title: "catpower",
+				title: "Catpower",
 				resName: "manpower",
 				type: "perTick"
 			},
@@ -288,17 +304,26 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Science bonus",
 				type: "ratio"
 			},
+			
 			"scienceMax" : {
 				title: "Max Science"
 			},
-			"learnRatio" : {},
-
+			
+			"learnRatio" : {
+				title: "Learn Ratio"
+			},
+			
 			"science" : {
 				title: "science",
 				resName: "science",
 				type: "perTick"
 			},
-
+			
+			"observatoryRatio" : {
+                title: "Observatory's Science ratio",
+                type: "ratio"
+            },
+			
 			//culture
 
 			"cultureMax" : {
@@ -315,7 +340,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//oil
 
 			"magnetoBoostRatio" : {
-				title: "Magneto Boost",
+				title: "Magneto boost",
 				resName: "oil",				//this is sort of hack to prevent early spoiler on magnetos
 				type: "ratio"
 			},
@@ -382,6 +407,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//antimatter
+			"antimatterProduction": {
+				title: "Antimatter production"
+			},
+			
 			//unicorns
 
 			"unicornsPerTickBase": {
@@ -424,13 +454,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"unhappinessRatio": {
-				title: "Unhappiness reduction",
-				type: "ratio"
-			},
-
 			"fursDemandRatio" : {
-				title: "Furs Demand Ratio",
+				title: "Furs demand reduction",
 				resName: "furs",
 				type: "ratio"
 			},
@@ -442,7 +467,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ivoryDemandRatio" : {
-				title: "Ivory Demand Ratio",
+				title: "Ivory demand reduction",
 				resName: "ivory",
 				type: "ratio"
 			},
@@ -454,13 +479,37 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"spiceDemandRatio" : {
-				title: "Spice Demand Ratio",
+				title: "Spice demand reduction",
 				resName: "spice",
 				type: "ratio"
 			},
-
+			
 			"happiness": {
 				title: "Happiness"
+			},
+			
+			"unhappinessRatio": {
+				title: "Unhappiness reduction",
+				type: "ratio"
+			},
+			
+			"mintEffect": {
+				title: "Mint effect",
+			},
+			
+			"tradeRatio": {
+				title: "Trade ratio",
+				type: "ratio"
+			},
+			
+			"standingRatio": {
+				title: "Standing ratio",
+				type: "ratio"
+			},
+			
+			"resStasisRatio": {
+				title: "Res-Stasis ratio",
+				type: "ratio"
 			},
 
 			// energy
@@ -471,11 +520,38 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"energyConsumption": {
 				title: "Energy consumption"
             },
-
+			
+			//production
+			
             "productionRatio" : {
                 title: "Production bonus",
                 type: "ratio"
-            }
+            },
+            
+            "magnetoRatio" : {
+                title: "Production bonus",
+                type: "ratio"
+            },
+            
+            "spaceRatio" : {
+				title: "Space production bonus",
+				type: "ratio"
+			},
+			
+			"prodTransferBonus": {
+				title: "Production transfer bonus",
+			},
+            
+            //starEvent
+            
+            "starEventChance" : {
+                title: "StarEvent chance"
+            },
+            
+            "starAutoSuccessChance" : {
+                title: "Auto StarEvent chance"
+            },
+            
 		}
 	}
 });
