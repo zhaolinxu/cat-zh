@@ -63,13 +63,7 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
             title: "Avg. Kittens Born (Per Century)",
             val: 0,
             calculate: function(game){
-				var centuries = Math.floor(game.stats.getStat("totalYears").val / 100);
-				if(centuries == 0){
-					return game.stats.getStat("totalKittens").val;
-				}
-				else{
-					return Math.floor(game.stats.getStat("totalKittens").val / centuries);
-				}
+				game.stats.getStat("totalYears").val != 0 ? game.stats.getStat("totalKittens").val / Math.ceil(game.stats.getStat("totalYears").val / 100) : 0;
             },
             unlocked: false
         }
@@ -90,13 +84,7 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         title: "Avg. Kittens Born (Per Century)",
         val: 0,
         calculate: function(game){
-			var centuries = Math.floor(game.calendar.year / 100);
-			if(centuries == 0){
-				return game.resPool.get("kittens").value;
-			}
-			else{
-				return Math.floor(game.resPool.get("kittens").value / centuries);
-			}
+        	game.calendar.year != 0 ? game.resPool.get("kittens").value / Math.ceil(game.calendar.year / 100) : 0;
         }},{
         name: "timePlayed",
         title: "Time Played (Hours)",
