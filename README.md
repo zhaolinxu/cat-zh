@@ -7,22 +7,7 @@
 
 ### Roadmap ###
 
-* UI
-    * Resources
-        * Edit icon for craft table to show/hide individual craft recipes
-
-* QOL/Other
-    * ~~Ziggurat upgrades should be hidden by default and unlocked one by one~~
-
-* Features
-    * Leaders should give a special minor bonus based on trait (and rank)
-    * Planetary cycles should give cosmetic gameplay bonuses/penalties
-
-* Portability
-    * ~~Render/Update loops should be decoupled from the Game class.~~
-        *  ~~Game should be probably splitted into GameCore and GameClient with the option to provide arbitrary implementation of the GameClient~~
-    * Most of the logic in the button handlers should be moved to the corresponding manager methods
-
+Most recent roadmap: https://trello.com/b/cecIwqp2/kittens-game-roadmap
 Please feel free to add other suggestions.
 
 ### Contribution guidelines ###

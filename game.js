@@ -113,7 +113,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 			"catnipRatio" : {
-				title: "Catnip Ratio",
+				title: "Catnip bonus",
 				resName: "catnip",
 				type: "ratio"
 			},
@@ -192,14 +192,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
-			//gold
-
-			"goldPerTick" : {
-				title: "Gold production",
-				resName: "gold",
-				type: "perTick"
-			},
-
 			//coal
 
 			"coalMax" : {
@@ -241,6 +233,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"gold" : {
 				title: "gold",
+				resName: "gold",
+				type: "perTick"
+			},
+			
+			"goldPerTick" : {
+				title: "Gold production",
 				resName: "gold",
 				type: "perTick"
 			},
@@ -310,7 +308,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"learnRatio" : {
-				title: "Learn Ratio"
+				title: "Learn ratio"
 			},
 			
 			"science" : {
@@ -320,7 +318,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			
 			"observatoryRatio" : {
-                title: "Observatory's Science ratio",
+                title: "Observatory's science ratio",
                 type: "ratio"
             },
 			
@@ -550,6 +548,167 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             
             "starAutoSuccessChance" : {
                 title: "Auto StarEvent chance"
+            },
+            
+            //in the tab workshop
+            "lumberMillRatio" : {
+                title: "Lumber Mill bonus",
+                type: "ratio"
+            },
+            
+            "barnRatio" : {
+                title: "Barn expansion",
+                type: "ratio"
+            },
+            
+            "warehouseRatio" : {
+                title: "Warehouse expansion",
+                type: "ratio"
+            },
+            
+            "acceleratorRatio" : {
+                title: "Accelerator expansion",
+                type: "ratio"
+            },
+            
+            "harborRatio" : {
+                title: "Harbor'ship expansion",
+                type: "ratio"
+            },
+            
+            "harborCoalRatio" : {
+                title: "Harbor coal expansion",
+                type: "ratio"
+            },
+            
+            "catnipMaxRatio" : {
+                title: "Catnip storage expansion",
+                type: "ratio"
+            },
+            
+            "hunterRatio" : {
+                title: "Hunter know-how",
+                type: "ratio"
+            },
+            
+            "solarFarmRatio" : {
+                title: "Solar Farm bonus",
+                type: "ratio"
+            },
+            
+            "shipLimit" : {
+                title: "Ship limit effect",
+                type: "ratio"
+            },
+            
+            "hutPriceRatio" : {
+                title: "Hut price reduction",
+                type: "ratio"
+            },
+            
+            "coalRatio" : {
+                title: "Coal bonus",
+                type: "ratio"
+            },
+            
+            "smelterRatio" : {
+                title: "Smelter bonus",
+                type: "ratio"
+            },
+            
+            "calcinerRatio" : {
+                title: "Calciner bonus",
+                type: "ratio"
+            },
+            
+            "calcinerSteelRatio" : {
+                title: "Calciner steel production",
+                type: "ratio"
+            },
+            
+            "calcinerSteelCraftRatio" : {
+                title: "Calciner steel production bonus",
+                type: "ratio"
+            },
+            
+            "libraryRatio" : {
+                title: "Library bonus",
+                type: "ratio"
+            },
+            
+            "hydroPlantRatio" : {
+                title: "Hydro Plant bonus",
+                type: "ratio"
+            },
+            
+            "spaceScienceRatio" : {
+                title: "Space science bonus",
+                type: "ratio"
+            },
+            
+            "oilRatio" : {
+                title: "Oil bonus",
+                type: "ratio"
+            },
+            
+            "unicornsGlobalRatio" : {
+                title: "Unicorns bonus",
+                type: "ratio"
+            },
+            
+            "biofuelRatio" : {
+                title: "Bio Fuel bonus",
+                type: "ratio"
+            },
+            
+            "blueprintCraftRatio" : {
+                title: "Blueprint craft bonus",
+                type: "ratio"
+            },
+            
+            "skillMultiplier" : {
+                title: "Kitten's skill effect",
+                type: "ratio"
+            },
+            
+            "uraniumRatio" : {
+                title: "Uranium savings",
+                type: "ratio"
+            },
+            
+            "reactorEnergyRatio" : {
+                title: "Reactor energy bonus",
+                type: "ratio"
+            },
+            
+            "starchartGlobalRatio" : {
+                title: "Starchart bonus",
+                type: "ratio"
+            },
+            
+            "satnavRatio" : {
+                title: "Ship's cost savings",
+                type: "ratio"
+            },
+            
+            "broadcastTowerRatio" : {
+                title: "Broadcast Tower bonus",
+                type: "ratio"
+            },
+            
+            "lunarOutpostRatio" : {
+                title: "Lunar Outpost bonus",
+                type: "ratio"
+            },
+            
+            "crackerRatio" : {
+                title: "Cracker bonus",
+                type: "ratio"
+            },
+            
+            "factoryRefineRatio" : {
+                title: "Factory refine bonus",
+                type: "ratio"
             },
             
 		}
