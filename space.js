@@ -382,12 +382,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1 + game.space.getEffect("spaceRatio"));
 				
-				var effects_keys = Object.keys(self.effects);
-				for (i = 0; i < effects_keys.length; i++) {
-					effect = effects_keys[i];
-					self.effects[effect] *= game.calendar.cycleEffects(self.name, effect);
-				}
-
+				game.calendar.cycleEffects(self.effects, self.name);
+				
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         },{

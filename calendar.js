@@ -163,10 +163,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	cycleEffects: function(building_name, building_effect){
+	cycleEffects: function(effects, building_name){
+		
 		var list_effects_cycle = this.cycles[this.cycle].effects;
-		var current_id = building_name + "-" + building_effect;
-		return list_effects_cycle[current_id] ? list_effects_cycle[current_id] : 1;
+		
+		var effects_keys = Object.keys(effects);
+		for (i = 0; i < effects_keys.length; i++) {
+			var effect = effects_keys[i];
+			
+			var effect_cycle_id = building_name + "-" + effect;
+			var ratio = list_effects_cycle[effect_cycle_id] ? list_effects_cycle[effect_cycle_id] : 1;
+			effects[effect] *= ratio;
+			
+		}
+
+		return effects;
 	},
 
 	tick: function(){
