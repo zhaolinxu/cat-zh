@@ -208,6 +208,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"spaceRatio": 0.01,
 				"prodTransferBonus" : 0.1
 			},
+			action: function(game, self){
+				game.calendar.cycleEffects(self.effects, self.name);
+			},
 			togglable: false,
 			tunable: false
 		},{
@@ -261,13 +264,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			handler: function(game, self){
 				game.ironWill = false;			//sorry folks
 			},
-			action: function(self, game){
-				
-			},
 			effects: {
 				"scienceRatio": 0.5,
 				"maxKittens": 2,
 				"energyConsumption": 10
+			},
+			action: function(game, self){
+				game.calendar.cycleEffects(self.effects, self.name);
 			}
 		}]
 	},{
