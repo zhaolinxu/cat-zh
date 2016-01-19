@@ -381,6 +381,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects["uraniumPerTick"] = 0.3
 					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1 + game.space.getEffect("spaceRatio"));
+				
+				self.effects["uraniumPerTick"] = self.effects["uraniumPerTick"] * game.calendar.cycleEffects(self.name, "uraniumPerTick");
+				self.effects["uraniumMax"] = self.effects["uraniumMax"] * game.calendar.cycleEffects(self.name, "uraniumMax");
 
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
