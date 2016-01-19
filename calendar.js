@@ -44,37 +44,49 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "charon",
 			title: "Charon",
 			glyph: "&#9049;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "umbra",
 			title: "Umbra",
 			glyph: "&#9062;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "yarn",
 			title: "Yarn",
 			glyph: "&#9063;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "helios",
 			title: "Helios",
 			glyph: "&#8978;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "cath",
 			title: "Cath",
 			glyph: "&#9022;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "redmoon",
 			title: "Redmoon",
 			glyph: "&#9052;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "dune",
@@ -88,19 +100,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "piscine",
 			title: "Piscine",
 			glyph: "&#9096;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "terminus",
 			title: "Terminus",
 			glyph: "&#9053;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		},
 		{
 			name: "kairo",
 			title: "Kairo",
 			glyph: "&#8483;",
-			effects: [[, ,]]
+			effects: {
+				
+			}
 		}
 	],
 
