@@ -77,6 +77,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Cath",
 			glyph: "&#9022;",
 			effects: {
+				"spaceElevator-prodTransferBonus": 0.5,
 				"sattelite-starchartPerTickBase": 2,
 				"sattelite-observatoryRatio": 2,
 				"spaceStation-energyConsumption": 1.2
