@@ -108,12 +108,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"catnipDemandRatio" : {
-				title: "Catnip Demand Ratio",
+				title: "Catnip demand reduction",
 				resName: "catnip",
 				type: "ratio"
 			},
 			"catnipRatio" : {
-				title: "Catnip Ratio",
+				title: "Catnip bonus",
 				resName: "catnip",
 				type: "ratio"
 			},
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"woodRatio" : {
-				title: "Wood Bonus",
+				title: "Wood bonus",
 				resName: "wood",
 				type: "ratio"
 			},
@@ -162,7 +162,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"mineralsRatio" : {
-				title: "Minerals Bonus",
+				title: "Minerals bonus",
 				resName: "minerals",
 				type: "ratio"
 			},
@@ -192,14 +192,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
-			//gold
-
-			"goldPerTick" : {
-				title: "Gold production",
-				resName: "gold",
-				type: "perTick"
-			},
-
 			//coal
 
 			"coalMax" : {
@@ -214,7 +206,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"coalRatioGlobal" : {
-				title: "Coal Production penalty",
+				title: "Coal production penalty",
 				resName: "coal",
 				type: "ratio"
 			},
@@ -225,6 +217,13 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//steel
+			
+			"steelPerTick" : {
+				title: "Steel production",
+				type : "perTick"
+			},
+			
 			//gold
 
 			"goldMax" : {
@@ -234,6 +233,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"gold" : {
 				title: "gold",
+				resName: "gold",
+				type: "perTick"
+			},
+			
+			"goldPerTick" : {
+				title: "Gold production",
 				resName: "gold",
 				type: "perTick"
 			},
@@ -251,6 +256,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//oil
+			
+			"oilReductionRatio" : {
+				title: "Oil consumption reduction",
+				type: "ratio"
+			},
+			
+			
+			
 			//kittens
 
 			"maxKittens" : {
@@ -277,7 +291,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"manpowerPerTick" : {
-				title: "catpower",
+				title: "Catpower",
 				resName: "manpower",
 				type: "perTick"
 			},
@@ -288,17 +302,26 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Science bonus",
 				type: "ratio"
 			},
+			
 			"scienceMax" : {
 				title: "Max Science"
 			},
-			"learnRatio" : {},
-
+			
+			"learnRatio" : {
+				title: "Learn ratio"
+			},
+			
 			"science" : {
 				title: "science",
 				resName: "science",
 				type: "perTick"
 			},
-
+			
+			"observatoryRatio" : {
+                title: "Observatory's science ratio",
+                type: "ratio"
+            },
+			
 			//culture
 
 			"cultureMax" : {
@@ -315,7 +338,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//oil
 
 			"magnetoBoostRatio" : {
-				title: "Magneto Boost",
+				title: "Magneto boost",
 				resName: "oil",				//this is sort of hack to prevent early spoiler on magnetos
 				type: "ratio"
 			},
@@ -382,6 +405,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			//antimatter
+			"antimatterProduction": {
+				title: "Antimatter production"
+			},
+			
 			//unicorns
 
 			"unicornsPerTickBase": {
@@ -424,13 +452,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"unhappinessRatio": {
-				title: "Unhappiness reduction",
-				type: "ratio"
-			},
-
 			"fursDemandRatio" : {
-				title: "Furs Demand Ratio",
+				title: "Furs demand reduction",
 				resName: "furs",
 				type: "ratio"
 			},
@@ -442,7 +465,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ivoryDemandRatio" : {
-				title: "Ivory Demand Ratio",
+				title: "Ivory demand reduction",
 				resName: "ivory",
 				type: "ratio"
 			},
@@ -454,13 +477,37 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"spiceDemandRatio" : {
-				title: "Spice Demand Ratio",
+				title: "Spice demand reduction",
 				resName: "spice",
 				type: "ratio"
 			},
-
+			
 			"happiness": {
 				title: "Happiness"
+			},
+			
+			"unhappinessRatio": {
+				title: "Unhappiness reduction",
+				type: "ratio"
+			},
+			
+			"mintEffect": {
+				title: "Mint effect",
+			},
+			
+			"tradeRatio": {
+				title: "Trade ratio",
+				type: "ratio"
+			},
+			
+			"standingRatio": {
+				title: "Standing ratio",
+				type: "ratio"
+			},
+			
+			"resStasisRatio": {
+				title: "Res-Stasis ratio",
+				type: "ratio"
 			},
 
 			// energy
@@ -471,11 +518,199 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"energyConsumption": {
 				title: "Energy consumption"
             },
-
+			
+			//production
+			
             "productionRatio" : {
                 title: "Production bonus",
                 type: "ratio"
-            }
+            },
+            
+            "magnetoRatio" : {
+                title: "Production bonus",
+                type: "ratio"
+            },
+            
+            "spaceRatio" : {
+				title: "Space production bonus",
+				type: "ratio"
+			},
+			
+			"prodTransferBonus": {
+				title: "Production transfer bonus",
+			},
+            
+            //starEvent
+            
+            "starEventChance" : {
+                title: "StarEvent chance"
+            },
+            
+            "starAutoSuccessChance" : {
+                title: "Auto StarEvent chance"
+            },
+            
+            //in the tab workshop
+            "lumberMillRatio" : {
+                title: "Lumber Mill bonus",
+                type: "ratio"
+            },
+            
+            "barnRatio" : {
+                title: "Barn expansion",
+                type: "ratio"
+            },
+            
+            "warehouseRatio" : {
+                title: "Warehouse expansion",
+                type: "ratio"
+            },
+            
+            "acceleratorRatio" : {
+                title: "Accelerator expansion",
+                type: "ratio"
+            },
+            
+            "harborRatio" : {
+                title: "Harbor'ship expansion",
+                type: "ratio"
+            },
+            
+            "harborCoalRatio" : {
+                title: "Harbor coal expansion",
+                type: "ratio"
+            },
+            
+            "catnipMaxRatio" : {
+                title: "Catnip storage expansion",
+                type: "ratio"
+            },
+            
+            "hunterRatio" : {
+                title: "Hunter know-how",
+                type: "ratio"
+            },
+            
+            "solarFarmRatio" : {
+                title: "Solar Farm bonus",
+                type: "ratio"
+            },
+            
+            "shipLimit" : {
+                title: "Ship limit effect",
+                type: "ratio"
+            },
+            
+            "hutPriceRatio" : {
+                title: "Hut price reduction",
+                type: "ratio"
+            },
+            
+            "coalRatio" : {
+                title: "Coal bonus",
+                type: "ratio"
+            },
+            
+            "smelterRatio" : {
+                title: "Smelter bonus",
+                type: "ratio"
+            },
+            
+            "calcinerRatio" : {
+                title: "Calciner bonus",
+                type: "ratio"
+            },
+            
+            "calcinerSteelRatio" : {
+                title: "Calciner steel production",
+                type: "ratio"
+            },
+            
+            "calcinerSteelCraftRatio" : {
+                title: "Calciner steel production bonus",
+                type: "ratio"
+            },
+            
+            "libraryRatio" : {
+                title: "Library bonus",
+                type: "ratio"
+            },
+            
+            "hydroPlantRatio" : {
+                title: "Hydro Plant bonus",
+                type: "ratio"
+            },
+            
+            "spaceScienceRatio" : {
+                title: "Space science bonus",
+                type: "ratio"
+            },
+            
+            "oilRatio" : {
+                title: "Oil bonus",
+                type: "ratio"
+            },
+            
+            "unicornsGlobalRatio" : {
+                title: "Unicorns bonus",
+                type: "ratio"
+            },
+            
+            "biofuelRatio" : {
+                title: "Bio Fuel bonus",
+                type: "ratio"
+            },
+            
+            "blueprintCraftRatio" : {
+                title: "Blueprint craft bonus",
+                type: "ratio"
+            },
+            
+            "skillMultiplier" : {
+                title: "Kitten's skill effect",
+                type: "ratio"
+            },
+            
+            "uraniumRatio" : {
+                title: "Uranium savings",
+                type: "ratio"
+            },
+            
+            "reactorEnergyRatio" : {
+                title: "Reactor energy bonus",
+                type: "ratio"
+            },
+            
+            "starchartGlobalRatio" : {
+                title: "Starchart bonus",
+                type: "ratio"
+            },
+            
+            "satnavRatio" : {
+                title: "Ship's cost savings",
+                type: "ratio"
+            },
+            
+            "broadcastTowerRatio" : {
+                title: "Broadcast Tower bonus",
+                type: "ratio"
+            },
+            
+            "lunarOutpostRatio" : {
+                title: "Lunar Outpost bonus",
+                type: "ratio"
+            },
+            
+            "crackerRatio" : {
+                title: "Cracker bonus",
+                type: "ratio"
+            },
+            
+            "factoryRefineRatio" : {
+                title: "Factory refine bonus",
+                type: "ratio"
+            },
+            
 		}
 	}
 });
