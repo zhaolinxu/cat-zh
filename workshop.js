@@ -542,12 +542,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", 	val: 750 }
 		],
 		handler: function(game){
-			//this is a kind of hack and we probably should disable consumption for satellites at all
-			var program = game.space.getProgram("sattelite");
-			program.effects["energyConsumption"] = 0;
-			program.effects["energyProduction"] = 1;
-			program.togglable = false;
-			program.tunable = false;
+			
 		},
 		unlocked: false,
 		researched: false

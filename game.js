@@ -711,6 +711,27 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
             
+            // cycleEffects
+            "prodTransferBonus_cycleEffect" : {
+                title: "Production transfer bonus Zodiac effect",
+                type: "ratio"
+            },
+            "starchartPerTickBase_cycleEffect" : {
+                title: "Starchart production Zodiac effect",
+                type: "ratio"
+            },
+            "observatoryRatio_cycleEffect" : {
+                title: "Observatory's science ratio Zodiac effect",
+                type: "ratio"
+            },
+            "energyConsumption_cycleEffect" : {
+                title: "Energy consumption Zodiac effect",
+                type: "ratio"
+            },
+            "uraniumPerTick_cycleEffect" : {
+                title: "Uranium production Zodiac effect",
+                type: "ratio"
+            },
 		}
 	}
 });

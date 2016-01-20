@@ -77,7 +77,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Cath",
 			glyph: "&#9022;",
 			effects: {
-				
+				"spaceElevator-prodTransferBonus": 0.5,
+				"sattelite-starchartPerTickBase": 2,
+				"sattelite-observatoryRatio": 2,
+				"spaceStation-energyConsumption": 1.2
 			}
 		},
 		{
@@ -101,7 +104,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Piscine",
 			glyph: "&#9096;",
 			effects: {
-				
+
 			}
 		},
 		{
@@ -171,10 +174,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		for (i = 0; i < effects_keys.length; i++) {
 			var effect = effects_keys[i];
 			
-			var effect_cycle_id = building_name + "-" + effect;
-			var ratio = list_effects_cycle[effect_cycle_id] ? list_effects_cycle[effect_cycle_id] : 1;
-			effects[effect] *= ratio;
-			
+			var effect_cycle = building_name + "-" + effect;
+			if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
+				var ratio = list_effects_cycle[effect_cycle];
+				effects[effect] *= ratio;
+				effects[effect + "_cycleEffect"] = ratio;
+			}
 		}
 
 		return effects;
