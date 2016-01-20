@@ -1511,6 +1511,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacy.update();
 		this.religion.update();
 		this.space.update();
+		this.time.update();
 
         /*for (i in this.managers){
             if (this.managers[i].update){
