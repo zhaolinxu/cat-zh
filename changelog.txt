@@ -1,9 +1,21 @@
+v 1.1.8.3 (19 jan)
+
+Changes by freeroot:
+
+Planetary cycles will now give bonuses to certain structures.
+__
+Added temcon button to the time panel
+
 v 1.1.8.2 (13 jan)
 Changes by coderpatsy:
 
 Metaphysics fixes
 - Show purchased metaphysics perks even if you don't have metaphysics tech
 - Remember metaphysics panel's collapsed state - fixes issue #21
+
+Changes by freeroot:
+
+Fixed Factory Logistics technology
 
 ____
 
@@ -14,8 +26,6 @@ Clicking building in DEV mode will always buy it ragardless of current active re
 
 Elders base chance and NCC bonus were reduced by ~50%
 Marker button will now display NC corruption progress
-
-Fixed Factory Logistics technology
 
 v 1.1.8.1 (2 jan)
 
