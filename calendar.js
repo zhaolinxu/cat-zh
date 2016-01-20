@@ -104,7 +104,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Piscine",
 			glyph: "&#9096;",
 			effects: {
-				
+
 			}
 		},
 		{
