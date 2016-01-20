@@ -307,15 +307,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			val:  0,
 			on:	  0,
-			effects: {
-				"uraniumPerTick": -0.35,
-				"unobtainiumPerTick": 0.007,
-				"energyConsumption": 5
-			},
+			effects: {},
 			action: function(game, self){
+				self.effects["uraniumPerTick"] = -0,35;
 				self.effects["unobtainiumPerTick"] = 0.007
 					* game.space.getAutoProductionRatio()
 					* (1+ game.workshop.getEffect("lunarOutpostRatio"));
+				self.effects["energyConsumption"] = 5;
 
 				game.calendar.cycleEffects(self.effects, self.name);
 
@@ -339,22 +337,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "unobtainium", 	val: 50},
 				{name: "oil", 			val: 70000}
 			],
-			effects: {
-				"catnipMax" 		: 45000,
-				"woodMax"			: 25000,
-				"mineralsMax"		: 30000,
-				"ironMax"			: 9000,
-				"coalMax"			: 3500,
-				"titaniumMax"		: 1250,
-				"oilMax"			: 3500,
-				"unobtainiumMax"	: 150,
-				"energyConsumption"	: 10
-			},
+			effects: {},
 			action: function(game, self){
-				self.effects["energyConsumption"] = 10;
-				if (game.workshop.get("amBases").researched){
-					self.effects["energyConsumption"] = 5;
-				}
+				self.effects["catnipMax"] = 		45000;
+				self.effects["woodMax"] = 			25000;
+				self.effects["mineralsMax"] = 		30000;
+				self.effects["ironMax"] = 			9000;
+				self.effects["coalMax"] = 			3500;
+				self.effects["titaniumMax"] = 		1250;
+				self.effects["oilMax"] = 			3500;
+				self.effects["unobtainiumMax"] = 	150;
+				self.effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
 				
 				game.calendar.cycleEffects(self.effects, self.name);
 			},
@@ -386,15 +379,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-				"uraniumPerTick" : 0.3,
-				"uraniumMax" : 1750
-			},
+            effects: {},
             action: function(game, self){
-
 				self.effects["uraniumPerTick"] = 0.3
 					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1 + game.space.getEffect("spaceRatio"));
+				self.effects["uraniumMax"] = 1750;
 				
 				game.calendar.cycleEffects(self.effects, self.name);
 				
@@ -418,11 +408,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-                "oilPerTick": 0.5
-            },
+            effects: {},
             action: function(game, self){
-
 				self.effects["oilPerTick"] = 0.5
 					* game.space.getAutoProductionRatio(true /* use transfer bonus*/);
 
@@ -452,14 +439,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-				"scienceMax": 10000,
-				"starchartPerTickBase": 0.01
-			},
+            effects: {},
             action: function(game, self){
 				self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
 				self.effects["scienceMax"] = 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
-				
+
 				game.calendar.cycleEffects(self.effects, self.name);
             }
         },{
@@ -478,11 +462,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	true,
             val:  0,
             on:	  0,
-            effects: {
-				"spaceRatio": 0.02,
-				"energyConsumption" : 20
-			},
+            effects: {},
             action: function(game, self){
+            	self.effects["spaceRatio"] = 0.02;
+            	self.effects["energyConsumption"] = 20;
+
             	game.calendar.cycleEffects(self.effects, self.name);
             }
         }]
@@ -506,11 +490,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-                "antimatterProduction": 1,
-                "energyProduction" : 30
-			},
+            effects: {},
             action: function(game, self){
+            	self.effects["antimatterProduction"] = 1;
+            	self.effects["energyProduction"] = 30;
+
             	game.calendar.cycleEffects(self.effects, self.name);
             }
         }]
@@ -530,17 +514,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 200000   },
                 {name: "kerosene", val: 500   }
             ],
-            effects: {
-                "woodMax"		: 200000,
-                "mineralsMax"	: 200000,
-                "ironMax"		: 50000,
-                "coalMax"		: 25000,
-                "uraniumMax"	: 5000,
-                "titaniumMax"	: 7500,
-                "oilMax"		: 25000,
-                "unobtainiumMax": 750
-            },
+            effects: {},
             action: function(game, self){
+            	self.effects["woodMax"] = 		 200000;
+            	self.effects["mineralsMax"] = 	 200000;
+            	self.effects["ironMax"] = 		 50000;
+            	self.effects["coalMax"] = 		 25000;
+            	self.effects["uraniumMax"] = 	 5000;
+            	self.effects["titaniumMax"] = 	 7500;
+            	self.effects["oilMax"] = 		 25000;
+            	self.effects["unobtainiumMax"] = 750;
+            	
 				game.calendar.cycleEffects(self.effects, self.name);
             },
             upgradable: true,
@@ -564,10 +548,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "alloy", 		val: 25000 },
 					{name: "kerosene", 		val: 7500   }
 				],
-				effects: {
-					"scienceMax": 25000,
-					"starchartPerTickBase": 0.025
-				},
+				effects: {},
 				action: function(game, self){
 					self.effects["starchartPerTickBase"] = 0.025 * game.space.getAutoProductionRatio();
 					self.effects["scienceMax"] = 25000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
