@@ -203,12 +203,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
 			val: 0,
-			effects: {
-				"oilReductionRatio": 0.05,
-				"spaceRatio": 0.01,
-				"prodTransferBonus" : 0.1
-			},
+			effects: {},
 			action: function(game, self){
+				self.effects["oilReductionRatio"] = 0.05;
+				self.effects["spaceRatio"] = 0.01;
+				self.effects["prodTransferBonus"] = 0.1;
+				
 				game.calendar.cycleEffects(self.effects, self.name);
 			},
 			togglable: false,
@@ -231,16 +231,22 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			upgradable: true,
 			togglable: true,
 			tunable: true,
-			effects: {
-				"observatoryRatio": 0.05,
-				"starchartPerTickBase": 0.001,
-				"energyConsumption": 1
-			},
+			effects: {},
 			upgrades: {
 				buildings: ["observatory"]
 			},
 			action: function(game, self){
+				self.effects["observatoryRatio"] = 0.05;
 				self.effects["starchartPerTickBase"] = 0.001 * game.space.getAutoProductionRatio();
+				if (game.workshop.get("solarSatellites").researched) {
+					self.effects["energyProduction"] = 1;
+					self.togglable = false;
+					self.tunable = false;
+				}
+				else {
+					self.effects["energyConsumption"] = 1;
+				}
+				
 				game.calendar.cycleEffects(self.effects, self.name);
 			}
 		},{
@@ -264,12 +270,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			handler: function(game, self){
 				game.ironWill = false;			//sorry folks
 			},
-			effects: {
-				"scienceRatio": 0.5,
-				"maxKittens": 2,
-				"energyConsumption": 10
-			},
+			effects: {},
 			action: function(game, self){
+				self.effects["scienceRatio"] = 0.5;
+				self.effects["maxKittens"] = 2;
+				self.effects["energyConsumption"] = 10;
+				
 				game.calendar.cycleEffects(self.effects, self.name);
 			}
 		}]
@@ -618,13 +624,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
-
-		//ugh
-		var program = this.getProgram("sattelite");
-		program.effects["energyConsumption"] = 1;
-		program.effects["energyProduction"] = 0;
-		program.togglable = true;
-		program.tunable = true;
 
 		this.hideResearched = false;
 	},
