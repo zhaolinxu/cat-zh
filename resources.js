@@ -607,7 +607,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             delta = 0.25;
         }
         return delta;
-    }
+    },
+	
+	setDisplayAll: function() {
+		for(var i = 0; i< this.resources.length; i++){
+			this.resources[i].display = true;
+		}
+	}
+
 });
 
 
