@@ -1190,7 +1190,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (data.opts){
 				for (var opt in data.opts){
 					this.opts[opt] = data.opts[opt];
-					if (opt) {$("#" + opt).attr('checked', 'checked');}
 				}
 			}
 
