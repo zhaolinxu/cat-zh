@@ -31,6 +31,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     
     fontSize: 16,
     
+    isDisplayOver: false,
+    
     constructor: function(containerId){
         this.containerId = containerId;
 
@@ -236,6 +238,20 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
     updateFontSize: function(){
         $("#leftColumn").css("font-size", this.fontSize+"px");
-    }
+    },
+
+	gamer_displayOverTrue: function() {
+		this.isDisplayOver = true;
+	},
+	gamer_displayOverFalse: function() {
+		this.isDisplayOver = false;
+	},
+	gamer_display: function(resID, type) {
+		if (type == "res") {var table = gamePage.resTable;}
+		else if (type == "craft") {var table = gamePage.craftTable;}
+		
+		table.resRows[resID].resRef.display = table.resRows[resID].resRef.display ? false : true;
+
+	}
 
 });
