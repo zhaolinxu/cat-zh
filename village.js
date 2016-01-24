@@ -754,6 +754,18 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		skills.sort(function(a, b){return b.val-a.val;});
 		return skills;
 	},
+	
+	getSkillsSortedWithJob: function(skillsDict, job){
+		var skills = [];
+		for (var skill in skillsDict){
+			if (skill != job) {
+				skills.push({ "name": skill, "val": skillsDict[skill]});
+			}
+		}
+		skills.sort(function(a, b){return b.val-a.val;});
+		skills.unshift({ "name": job, "val": skillsDict[job]});
+		return skills;
+	},
 
 	/**
 	 * Assign a job to a free kitten with highest skill level in this job or any free if none
@@ -1039,13 +1051,6 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, div);
 
-			var unassignHref = dojo.create("a", {
-				href: "#", innerHTML: "Unassign Job",
-				style: {
-					display: kitten.job ? "block" : "none"
-				}
-			}, linksDiv);
-
 			var leaderHref = dojo.create("a", {
 				href: "#", innerHTML: "&#9734;",	//star-shaped link to reduce visual noise
 				style: {
@@ -1053,6 +1058,13 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 					float: "right"
 				},
 				title: "Make a leader"
+			}, linksDiv);
+			
+			var unassignHref = dojo.create("a", {
+				href: "#", innerHTML: "Unassign&nbsp;Job",
+				style: {
+					display: kitten.job ? "block" : "none"
+				}
 			}, linksDiv);
 
 			var senatorHref = dojo.create("a", {
@@ -1268,10 +1280,10 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var leaderInfo = "N/A";
 		var leader = this.game.village.leader;
 		if (leader){
-			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " rank " + leader.rank;
+			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " (rank " + leader.rank + ")";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 
-			leaderInfo = leader.name + " " + leader.surname + " (" + title +")" +
+			leaderInfo = leader.name + " " + leader.surname + ", " + title +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if( nextRank > leader.exp) {
@@ -1298,7 +1310,6 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
             //unassign link
             var job = "";
             if (kitten.job) {
-                job = " - " + kitten.job;
                 dojo.setStyle(record.unassignHref, "display", "block");
             } else {
                 dojo.setStyle(record.unassignHref, "display", "none");
@@ -1316,15 +1327,19 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
              var trait = (kitten.trait != "none") ? " - " + traitTitle : "";
              var rank = kitten.rank ? " rank " + kitten.rank : "";*/
 
-            record.content.innerHTML = "[:3] " + kitten.name + " " + kitten.surname + job +
-                    /*trait + rank +*/ "<br>" +
-                "age: " + kitten.age /*+ ", exp: " + this.game.getDisplayValueExt(kitten.exp) */;
+            record.content.innerHTML = 
+            	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " years old, "
+            	+ kitten.trait["title"]
+            	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")")
+            	+ "<br>"
+                 /*+ ", exp: " + this.game.getDisplayValueExt(kitten.exp) */;
 
             //--------------- skills ----------------
-            var skillsArr = this.game.village.sim.getSkillsSorted(kitten.skills);
+            var skillsArr = kitten.job 	? this.game.village.sim.getSkillsSortedWithJob(kitten.skills, kitten.job)
+            							: this.game.village.sim.getSkillsSorted(kitten.skills);
 
             for (var j = 0; j < skillsArr.length; j++) {
-                if (j > 1) {
+                if (j > 2) {
                     break;
                 }
 
@@ -1341,13 +1356,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
                 var expRequried = nextExp - prevExp;
 
                 var expPercent = (expDiff / expRequried) * 100;
-
-                record.content.innerHTML += "<br>" + "<span title='" + exp.toFixed(2) +
-                    "'>" + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%)" + "</span> " + skillsArr[j].name;
+				
+				var style = skillsArr[j].name == kitten.job ? "style='font-weight: bold'": "";
+				
+                record.content.innerHTML += "<span title='" + exp.toFixed(2) + "'" + style + ">"
+                + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%) " + skillsArr[j].name + "</span><br>";
             }
 
             if (record.leaderHref && kitten.rank) {
-                record.leaderHref.innerHTML = "&#9734;(" + kitten.rank + ")";
+                record.leaderHref.innerHTML = "&#9734;";
             }
 		}
 	}
@@ -1653,19 +1670,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	skillToText: function(value){
 		switch (true) {
 		case value < 100:
-			return "Dabbling";
+			return "dabbling";
 		case value < 500:
-			return "Novice";
+			return "novice";
 		case value < 1200:
-			return "Adequate";
+			return "adequate";
 		case value < 2500:
-			return "Competent";
+			return "competent";
 		case value < 5000:
-			return "Skilled";
+			return "skilled";
 		case value < 9000:
-			return "Proficient";
+			return "proficient";
 		default:
-			return "Master";
+			return "master";
 		}
 	},
 
@@ -1684,7 +1701,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		case value < 20000:
 			return 20000;
 		default:
-			return Number.MAX_VALUE;
+			return value;
 		}
 	},
 
