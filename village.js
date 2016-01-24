@@ -1052,9 +1052,8 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			}, div);
 
 			var leaderHref = dojo.create("a", {
-				href: "#", innerHTML: "&#9734;",	//star-shaped link to reduce visual noise
+				href: "#", innerHTML: "",
 				style: {
-					display: kitten.isLeader || kitten.isSenator ? "none" : "block",
 					float: "right"
 				},
 				title: "Make a leader"
@@ -1355,15 +1354,26 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
                 var expPercent = (expDiff / expRequried) * 100;
 				
-				var style = skillsArr[j].name == kitten.job ? "style='font-weight: bold'": "";
-				
+				if (skillsArr[j].name == kitten.job) {
+					var style = "style='font-weight: bold'";
+
+					var productionRatio = 0.25 + this.game.workshop.getEffect("skillMultiplier");
+					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+					var bonus = (mod-1) * productionRatio;
+					bonus = bonus > 0 && kitten.isLeader ? gamePage.village.getLeaderBonus(kitten.rank) * bonus : bonus;
+					bonus = bonus.toFixed(2);
+					bonus = bonus > 0 ? " +" + bonus + "%" : "";
+				}
+				else {var style = ""; var bonus = "";}
+
                 record.content.innerHTML += "<span title='" + exp.toFixed(2) + "'" + style + ">"
-                + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%) " + skillsArr[j].name + "</span><br>";
+                + gamePage.village.getJob(skillsArr[j].name).title + bonus
+                + " [" + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%)]"
+                + "</span><br>";
             }
 
-            if (record.leaderHref && kitten.rank) {
-                record.leaderHref.innerHTML = "&#9734;";
-            }
+            record.leaderHref.innerHTML = kitten.isLeader ? "&#9733;" : "&#9734;"; //star-shaped link to reduce visual noise
+
 		}
 	}
 
