@@ -1338,19 +1338,17 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
             var skillsArr = kitten.job 	? this.game.village.sim.getSkillsSortedWithJob(kitten.skills, kitten.job)
             							: this.game.village.sim.getSkillsSorted(kitten.skills);
 
-            for (var j = 0; j < skillsArr.length; j++) {
-                if (j > 2) {
-                    break;
-                }
+            for (var j = 0; j < Math.min(skillsArr.length,3) ; j++) {
 
                 var exp = skillsArr[j].val;
 
                 if (exp <= 0) {
                     break;
                 }
-
-                var nextExp = this.game.villageTab.getNextSkillExp(exp);	//UGLY
-                var prevExp = this.game.villageTab.getPrevSkillExp(exp);	//UGLY
+                
+				var skillExp = this.game.villageTab.getSkillExpRange(exp);
+                var prevExp = skillExp[0];
+                var nextExp = skillExp[1];
 
                 var expDiff = exp - prevExp;
                 var expRequried = nextExp - prevExp;
@@ -1686,41 +1684,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		}
 	},
 
-	getNextSkillExp: function(value){
+	getSkillExpRange: function(value){
 		switch (true) {
 		case value < 100:
-			return 100;
+			return [0,100];
 		case value < 500:
-			return 500;
+			return [100,500];
 		case value < 2500:
-			return 2500;
+			return [500,2500];
 		case value < 5000:
-			return 5000;
+			return [2500,5000];
 		case value < 9000:
-			return 9000;
+			return [5000,9000];
 		case value < 20000:
-			return 20000;
+			return [9000,20000];
 		default:
-			return value;
-		}
-	},
-
-	getPrevSkillExp: function(value){
-		switch (true) {
-		case value > 9000:
-			return 9000;
-		case value > 5000:
-			return 5000;
-		case value > 2500:
-			return 2500;
-		case value > 1200:
-			return 1200;
-		case value > 500:
-			return 500;
-		case value > 100:
-			return 100;
-		default:
-			return 0;
+			return [20000,value];
 		}
 	},
 
