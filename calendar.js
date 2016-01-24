@@ -47,6 +47,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			effects: {
 				
 			}
+			festivalEffects: {
+			
+			}
 		},
 		{
 			name: "umbra",
@@ -54,6 +57,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9062;",
 			effects: {
 				
+			}
+			festivalEffects: {
+			
 			}
 		},
 		{
@@ -63,6 +69,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			effects: {
 				
 			}
+			festivalEffects: {
+			
+			}
 		},
 		{
 			name: "helios",
@@ -70,6 +79,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8978;",
 			effects: {
 				
+			}
+			festivalEffects: {
+			
 			}
 		},
 		{
@@ -82,6 +94,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sattelite-observatoryRatio": 2,
 				"spaceStation-energyConsumption": 1.2
 			}
+			festivalEffects: {
+			
+			}
 		},
 		{
 			name: "redmoon",
@@ -89,6 +104,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9052;",
 			effects: {
 				
+			}
+			festivalEffects: {
+			
 			}
 		},
 		{
@@ -98,6 +116,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			effects: {
 				"planetCracker-uraniumPerTick": 1.1
 			}
+			festivalEffects: {
+			
+			}
 		},
 		{
 			name: "piscine",
@@ -105,6 +126,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9096;",
 			effects: {
 
+			}
+			festivalEffects: {
+			
 			}
 		},
 		{
@@ -114,6 +138,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			effects: {
 				
 			}
+			festivalEffects: {
+			
+			}
 		},
 		{
 			name: "kairo",
@@ -121,6 +148,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8483;",
 			effects: {
 				
+			}
+			festivalEffects: {
+			
 			}
 		}
 	],
@@ -167,7 +197,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	cycleEffects: function(effects, building_name){
-		if ((this.game.calendar.festivalDays&&game.prestige.getPerk("numerology").researched)||game.prestige.getPerk("numeromancy").researched){
+		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
 			
 			var effects_keys = Object.keys(effects);
@@ -179,6 +209,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					var ratio = list_effects_cycle[effect_cycle];
 					effects[effect] *= ratio;
 					effects[effect + "_cycleEffect"] = ratio;
+				}
+			}
+		
+			if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
+				var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
+				
+				var effects_keys = Object.keys(effects);
+				for (i = 0; i < effects_keys.length; i++) {
+					var effect = effects_keys[i];
+					
+					var effect_cycle = building_name + "-" + effect;
+					if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
+						var ratio = list_festivalEffects_cycle[effect_cycle];
+						effects[effect] *= ratio;
+						effects[effect + "_cycleEffect"] = ratio;
+					}
 				}
 			}
 		}
