@@ -167,18 +167,19 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	cycleEffects: function(effects, building_name){
-		
-		var list_effects_cycle = this.cycles[this.cycle].effects;
-		
-		var effects_keys = Object.keys(effects);
-		for (i = 0; i < effects_keys.length; i++) {
-			var effect = effects_keys[i];
+		if ((this.game.calendar.festivalDays&&game.prestige.getPerk("numerology").researched)||game.prestige.getPerk("numeromancy").researched){
+			var list_effects_cycle = this.cycles[this.cycle].effects;
 			
-			var effect_cycle = building_name + "-" + effect;
-			if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
-				var ratio = list_effects_cycle[effect_cycle];
-				effects[effect] *= ratio;
-				effects[effect + "_cycleEffect"] = ratio;
+			var effects_keys = Object.keys(effects);
+			for (i = 0; i < effects_keys.length; i++) {
+				var effect = effects_keys[i];
+				
+				var effect_cycle = building_name + "-" + effect;
+				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
+					var ratio = list_effects_cycle[effect_cycle];
+					effects[effect] *= ratio;
+					effects[effect + "_cycleEffect"] = ratio;
+				}
 			}
 		}
 

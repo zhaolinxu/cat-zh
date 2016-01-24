@@ -160,7 +160,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
      },{
 		name: "numerology",
 		title: "Numerology",
-		description: "Festivals will have special effects depending on year (TBD)",
+		description: "Festivals will have special effects depending on year.",
 		paragon: 50,
 		unlocked: false,
 		researched: false,
@@ -172,7 +172,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "numeromancy",
 		title: "Numeromancy",
-		description: "Certain years will have special effects (TBD)",
+		description: "Certain years will have special effects.",
 		paragon: 250,
 		unlocked: false,
 		researched: false,
