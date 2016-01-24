@@ -46,7 +46,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9049;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -57,7 +57,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9062;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -68,7 +68,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9063;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -79,7 +79,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8978;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -93,7 +93,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sattelite-starchartPerTickBase": 2,
 				"sattelite-observatoryRatio": 2,
 				"spaceStation-energyConsumption": 1.2
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -104,7 +104,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9052;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -115,7 +115,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9067;",
 			effects: {
 				"planetCracker-uraniumPerTick": 1.1
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -126,7 +126,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9096;",
 			effects: {
 
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9053;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
@@ -148,7 +148,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8483;",
 			effects: {
 				
-			}
+			},
 			festivalEffects: {
 			
 			}
