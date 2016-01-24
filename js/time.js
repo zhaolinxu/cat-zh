@@ -79,7 +79,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     constructor: function(game){
         this.addChild(new classes.ui.time.AccelerateTimeBtn({
             name: "Temporal Control",
-            description: "Accelerate and slow time at your whim",
+            description: "Accelerate and slow time at your whim (+50% acceleration)",
             prices: []
         }, game));
     },

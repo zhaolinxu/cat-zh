@@ -762,9 +762,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 
-	//xN update rate modifier for debug purpose
-	updateRate: 1,
-
 	//I wonder why someone may need this
 	isPaused: false,
 
@@ -1752,6 +1749,55 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.ui.displayAutosave();
 		}
 
+		//hack hack hack
+		this.updateModel();
+		if (this.time.isAccelerated && this.ticks % 2 == 0){
+			this.updateModel();
+		}
+		//hack end
+		this.time.update();
+
+		if (this.undoChange){
+			this.undoChange.ttl--;
+
+			if (this.undoChange.ttl <= 0){
+				this.undoChange = null;
+			}
+		}
+
+		//TODO: move to UI;
+
+		for (var i = 0; i<this.tabs.length; i++){
+			var tab = this.tabs[i];
+
+			if (tab.tabId == this.activeTabId){
+				tab.update();
+			}
+		}
+
+		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
+			this.tooltipUpdateFunc();
+		}
+
+        //--------------------
+        //  Update UI state
+        //--------------------
+        this.ui.update();
+	},
+
+	/**
+	 * How should it be:
+	 *
+	 * a) we need to use smaller tick intervals (10 per second instead of 5 per second)
+	 * b) in accelerated time we will update models more often
+	 * c) but we will keep ui update in a old steady rate
+	 *
+	 * How it works now:
+	 *
+	 * update method can just kick twice in the accelerated mode
+	 *
+	 */
+	updateModel: function(){
 		this.bld.update();
 
 		//business logic goes there
@@ -1767,13 +1813,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacy.update();
 		this.religion.update();
 		this.space.update();
-		this.time.update();
 
-        /*for (i in this.managers){
-            if (this.managers[i].update){
-                this.managers[i].update();
-            }
-        }*/
+		/*for (i in this.managers){
+		 if (this.managers[i].update){
+		 this.managers[i].update();
+		 }
+		 }*/
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -1785,31 +1830,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.update();
 
 		this.resPool.update();
-
-		for (var i = 0; i<this.tabs.length; i++){
-			var tab = this.tabs[i];
-
-			if (tab.tabId == this.activeTabId){
-				tab.update();
-			}
-		}
-
-		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
-			this.tooltipUpdateFunc();
-		}
-
-        if (this.undoChange){
-            this.undoChange.ttl--;
-
-            if (this.undoChange.ttl <= 0){
-                this.undoChange = null;
-            }
-        }
-
-        //--------------------
-        //  Update UI state
-        //--------------------
-        this.ui.update();
 	},
 
 	huntAll: function(event){
