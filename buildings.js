@@ -625,6 +625,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 			}
 
+			//console.log("SELF:", self, self.on);
+
 			game.resPool.convert(
 				[{res: "wood", amt: -self.effects["woodPerTick"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
@@ -705,6 +707,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.bld.getEffect("craftRatio") * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on
 				);
+						
 			}
 		},
 		val: 0
@@ -944,7 +947,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "factory",
 		label: "Factory",
-		description: "Improves craft effectiveness by 5%",
+		description: "Improves craft effectiveness",
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
@@ -952,9 +955,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 2500},
 			{ name : "concrate", val: 15}
 		],
-		effects: {
-			"craftRatio" : 0.05,
-			"energyConsumption" : 2
+		effects: {},
+		calculateEffects: function(self, game){
+			var effects = {};
+			
+			effects["craftRatio"] = game.workshop.get("factoryLogistics").researched ? 0.06 : 0.05;
+			effects["energyConsumption"] = 2;
+			
+			self.effects = effects;
 		},
 		priceRatio: 1.15,
 		val: 0,
@@ -1724,7 +1732,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	onClick: function(event){
 
 		this.animate();
-		if (this.enabled && this.hasResources()){
+		if ((this.enabled && this.hasResources()) || this.game.devMode){
+
 			if (this.handler) {
 				this.handler(this);
 			}
@@ -1802,16 +1811,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
         }
     },
 
+	getBuildingName: function(){
+		return this.name;
+	},
+
 	getName: function(){
 		var building = this.getMetadata();
 		if (building){
 			if (building.togglable) {
-				var name = this.name;
+				var name = this.getBuildingName();
 
 				var prefix = building.tunable ? ( building.on + "/" ) : "";
 				return name + " ("+ prefix + building.val + ")";
 			} else {
-				var name = this.name;
+				var name = this.getBuildingName();
 				return name + " (" + building.val + ")";
 			}
 		}
@@ -1997,7 +2010,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
-		if (!building.unlocked){
+		if (!building.unlocked && !this.game.devMode){
 			this.setVisible(false);
 		}else{
 			this.setVisible(true);

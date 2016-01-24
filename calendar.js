@@ -43,52 +43,85 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		{
 			name: "charon",
 			title: "Charon",
-			glyph: "&#9049;"
+			glyph: "&#9049;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "umbra",
 			title: "Umbra",
-			glyph: "&#9062;"
+			glyph: "&#9062;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "yarn",
 			title: "Yarn",
-			glyph: "&#9063;"
+			glyph: "&#9063;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "helios",
 			title: "Helios",
-			glyph: "&#8978;"
+			glyph: "&#8978;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "cath",
 			title: "Cath",
-			glyph: "&#9022;"
+			glyph: "&#9022;",
+			effects: {
+				"spaceElevator-prodTransferBonus": 0.5,
+				"sattelite-starchartPerTickBase": 2,
+				"sattelite-observatoryRatio": 2,
+				"spaceStation-energyConsumption": 1.2
+			}
 		},
 		{
 			name: "redmoon",
 			title: "Redmoon",
-			glyph: "&#9052;"
+			glyph: "&#9052;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "dune",
 			title: "Dune",
-			glyph: "&#9067;"
+			glyph: "&#9067;",
+			effects: {
+				"planetCracker-uraniumPerTick": 1.1
+			}
 		},
 		{
 			name: "piscine",
 			title: "Piscine",
-			glyph: "&#9096;"
+			glyph: "&#9096;",
+			effects: {
+
+			}
 		},
 		{
 			name: "terminus",
 			title: "Terminus",
-			glyph: "&#9053;"
+			glyph: "&#9053;",
+			effects: {
+				
+			}
 		},
 		{
 			name: "kairo",
 			title: "Kairo",
-			glyph: "&#8483;"
+			glyph: "&#8483;",
+			effects: {
+				
+			}
 		}
 	],
 
@@ -131,6 +164,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	update: function() {
 
+	},
+
+	cycleEffects: function(effects, building_name){
+		
+		var list_effects_cycle = this.cycles[this.cycle].effects;
+		
+		var effects_keys = Object.keys(effects);
+		for (i = 0; i < effects_keys.length; i++) {
+			var effect = effects_keys[i];
+			
+			var effect_cycle = building_name + "-" + effect;
+			if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
+				var ratio = list_effects_cycle[effect_cycle];
+				effects[effect] *= ratio;
+				effects[effect + "_cycleEffect"] = ratio;
+			}
+		}
+
+		return effects;
 	},
 
 	tick: function(){

@@ -460,7 +460,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "chronoforge",
 		title: "Chronoforge",
-		description: "An alien technology related to time manipulation. (TBD)",
+		description: "An alien technology related to time manipulation.",
 		prices:[
 			{ name : "science",     val: 500000 },
 			{ name : "relic",     	val: 5 },
@@ -542,12 +542,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", 	val: 750 }
 		],
 		handler: function(game){
-			//this is a kind of hack and we probably should disable consumption for satellites at all
-			var program = game.space.getProgram("sattelite");
-			program.effects["energyConsumption"] = 0;
-			program.effects["energyProduction"] = 1;
-			program.togglable = false;
-			program.tunable = false;
+			
 		},
 		unlocked: false,
 		researched: false
@@ -1182,7 +1177,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "factoryLogistics",
 		title: "Factory Logistics",
-		description: "Factories are providing bigger bonus to craft effectiveness. (TBD)",
+		description: "Factories are providing bigger bonus to craft effectiveness",
 		effects: {
 		},
 		prices:[

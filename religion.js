@@ -447,6 +447,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		return this.game.religion.getZU(this.id);
 	},
 
+	getBuildingName: function(){
+		//console.log(this.getMetadata());
+		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
+			var progress = Math.round((this.game.religion.corruption / 1 * 100));
+			return this.name + " [" + progress + "%] ";
+		}
+		return this.name;
+	},
+
 	getPrices: function(bldName) {
 
 		 var bld = this.getMetadata();
@@ -550,7 +559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	x10: null,
 	simplePrices: false,
 	hasResourceHover: true,
@@ -632,7 +641,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeBtn", com.nuclearunicorn.game.
 });
 
 
-dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	hasResourceHover: true,
 
 	onClick: function(){
@@ -661,7 +670,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SacrificeAlicornsBtn", com.nuclearunico
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	hasResourceHover: true,
 
 	onClick: function(){
@@ -695,6 +704,30 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineTearsBtn", com.nuclearunicorn.gam
 	}
 });
 
+dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	hasResourceHover: true,
+
+	onClick: function(){
+		this.animate();
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.refine();
+		}
+	},
+
+	refine: function(){
+		this.game.resPool.get("relic").value++;
+	},
+
+	updateVisible: function(){
+		this.setVisible(this.game.resPool.get("timeCrystal").value >= 25);
+	},
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	}
+});
+
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
@@ -720,7 +753,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", this.game.religion);
 			var content = zigguratPanel.render(container);
 
-			var sacrificeBtn = new com.nuclearunicorn.game.ui.SacrificeBtn({
+			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
 				prices: [{ name: "unicorns", val: 2500}]
@@ -728,7 +761,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
 
-			var sacrificeAlicornsBtn = new com.nuclearunicorn.game.ui.SacrificeAlicornsBtn({
+			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeAlicornsBtn({
 				name: "Sacrifice Alicorns",
 				description: "Banish the alicorns to the Bloodmoon. You will recieve a Time Crystal.",
 				prices: [{ name: "alicorn", val: 25}]
@@ -737,7 +770,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
-			var refineBtn = new com.nuclearunicorn.game.ui.RefineTearsBtn({
+			var refineBtn = new classes.ui.religion.RefineTearsBtn({
 				name: "Refine Tears",
 				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
 				prices: [{ name: "tears", val: 10000}]
@@ -746,10 +779,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
 
-
-
-
-
+			var refineTCBtn = new classes.ui.religion.RefineTCBtn({
+				name: "Refine Time Crystals",
+				description: "Refine Time Crystals into the elder relics.",
+				prices: [{ name: "timeCrystal", val: 25}]
+			}, this.game);
+			refineTCBtn.updateVisible();
+			refineTCBtn.render(content);
+			this.refineTCBtn = refineBtn;
 
 			//TODO: all the dark miracles there
 
@@ -842,6 +879,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (this.refineBtn){
 			this.refineBtn.update();
+		}
+
+		if (this.refineTCBtn){
+			this.refineTCBtn.update();
 		}
 
 		var faith = this.game.religion.faith;

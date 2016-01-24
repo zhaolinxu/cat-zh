@@ -203,10 +203,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
 			val: 0,
-			effects: {
-				"oilReductionRatio": 0.05,
-				"spaceRatio": 0.01,
-				"prodTransferBonus" : 0.1
+			effects: {},
+			action: function(game, self){
+				self.effects["oilReductionRatio"] = 0.05;
+				self.effects["spaceRatio"] = 0.01;
+				self.effects["prodTransferBonus"] = 0.1;
+				
+				game.calendar.cycleEffects(self.effects, self.name);
 			},
 			togglable: false,
 			tunable: false
@@ -228,16 +231,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			upgradable: true,
 			togglable: true,
 			tunable: true,
-			effects: {
-				"observatoryRatio": 0.05,
-				"starchartPerTickBase": 0.001,
-				"energyConsumption": 1
-			},
+			effects: {},
 			upgrades: {
 				buildings: ["observatory"]
 			},
 			action: function(game, self){
+				self.effects["observatoryRatio"] = 0.05;
 				self.effects["starchartPerTickBase"] = 0.001 * game.space.getAutoProductionRatio();
+				if (game.workshop.get("solarSatellites").researched) {
+					self.effects["energyProduction"] = 1;
+					self.togglable = false;
+					self.tunable = false;
+				}
+				else {
+					self.effects["energyConsumption"] = 1;
+				}
+				
+				game.calendar.cycleEffects(self.effects, self.name);
 			}
 		},{
 			name: "spaceStation",
@@ -260,13 +270,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			handler: function(game, self){
 				game.ironWill = false;			//sorry folks
 			},
-			action: function(self, game){
-
-			},
-			effects: {
-				"scienceRatio": 0.5,
-				"maxKittens": 2,
-				"energyConsumption": 10
+			effects: {},
+			action: function(game, self){
+				self.effects["scienceRatio"] = 0.5;
+				self.effects["maxKittens"] = 2;
+				self.effects["energyConsumption"] = 10;
+				
+				game.calendar.cycleEffects(self.effects, self.name);
 			}
 		}]
 	},{
@@ -297,15 +307,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			val:  0,
 			on:	  0,
-			effects: {
-				"uraniumPerTick": -0.35,
-				"unobtainiumPerTick": 0.007,
-				"energyConsumption": 5
-			},
+			effects: {},
 			action: function(game, self){
+				self.effects["uraniumPerTick"] = -0,35;
 				self.effects["unobtainiumPerTick"] = 0.007
 					* game.space.getAutoProductionRatio()
 					* (1+ game.workshop.getEffect("lunarOutpostRatio"));
+				self.effects["energyConsumption"] = 5;
+
+				game.calendar.cycleEffects(self.effects, self.name);
 
 				game.resPool.convert(
 					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
@@ -327,22 +337,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "unobtainium", 	val: 50},
 				{name: "oil", 			val: 70000}
 			],
-			effects: {
-				"catnipMax" 		: 45000,
-				"woodMax"			: 25000,
-				"mineralsMax"		: 30000,
-				"ironMax"			: 9000,
-				"coalMax"			: 3500,
-				"titaniumMax"		: 1250,
-				"oilMax"			: 3500,
-				"unobtainiumMax"	: 150,
-				"energyConsumption"	: 10
-			},
+			effects: {},
 			action: function(game, self){
-				self.effects["energyConsumption"] = 10;
-				if (game.workshop.get("amBases").researched){
-					self.effects["energyConsumption"] = 5;
-				}
+				self.effects["catnipMax"] = 		45000;
+				self.effects["woodMax"] = 			25000;
+				self.effects["mineralsMax"] = 		30000;
+				self.effects["ironMax"] = 			9000;
+				self.effects["coalMax"] = 			3500;
+				self.effects["titaniumMax"] = 		1250;
+				self.effects["oilMax"] = 			3500;
+				self.effects["unobtainiumMax"] = 	150;
+				self.effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
+				
+				game.calendar.cycleEffects(self.effects, self.name);
 			},
 			upgradable: true,
 			togglable: 	true,
@@ -372,16 +379,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-				"uraniumPerTick" : 0.3,
-				"uraniumMax" : 1750
-			},
+            effects: {},
             action: function(game, self){
-
 				self.effects["uraniumPerTick"] = 0.3
 					* (1 + game.workshop.getEffect("crackerRatio"))
 					* (1 + game.space.getEffect("spaceRatio"));
-
+				self.effects["uraniumMax"] = 1750;
+				
+				game.calendar.cycleEffects(self.effects, self.name);
+				
 				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         },{
@@ -402,13 +408,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-                "oilPerTick": 0.5
-            },
+            effects: {},
             action: function(game, self){
-
 				self.effects["oilPerTick"] = 0.5
 					* game.space.getAutoProductionRatio(true /* use transfer bonus*/);
+
+				game.calendar.cycleEffects(self.effects, self.name);
 
 				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
@@ -434,13 +439,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-				"scienceMax": 10000,
-				"starchartPerTickBase": 0.01
-			},
+            effects: {},
             action: function(game, self){
 				self.effects["starchartPerTickBase"] = 0.01 * game.space.getAutoProductionRatio();
 				self.effects["scienceMax"] = 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
+
+				game.calendar.cycleEffects(self.effects, self.name);
             }
         },{
             name: "orbitalArray",
@@ -458,11 +462,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	true,
             val:  0,
             on:	  0,
-            effects: {
-				"spaceRatio": 0.02,
-				"energyConsumption" : 20
-			},
+            effects: {},
             action: function(game, self){
+            	self.effects["spaceRatio"] = 0.02;
+            	self.effects["energyConsumption"] = 20;
+
+            	game.calendar.cycleEffects(self.effects, self.name);
             }
         }]
 	},{
@@ -485,11 +490,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {
-				"energyProduction" : 30,
-                "antimatterProduction": 1
-			},
+            effects: {},
             action: function(game, self){
+            	self.effects["antimatterProduction"] = 1;
+            	self.effects["energyProduction"] = 30;
+
+            	game.calendar.cycleEffects(self.effects, self.name);
             }
         }]
 	},{
@@ -508,18 +514,18 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 200000   },
                 {name: "kerosene", val: 500   }
             ],
-            effects: {
-                "woodMax"		: 200000,
-                "mineralsMax"	: 200000,
-                "ironMax"		: 50000,
-                "coalMax"		: 25000,
-                "uraniumMax"	: 5000,
-                "titaniumMax"	: 7500,
-                "oilMax"		: 25000,
-                "unobtainiumMax": 750
-            },
+            effects: {},
             action: function(game, self){
-
+            	self.effects["woodMax"] = 		 200000;
+            	self.effects["mineralsMax"] = 	 200000;
+            	self.effects["ironMax"] = 		 50000;
+            	self.effects["coalMax"] = 		 25000;
+            	self.effects["uraniumMax"] = 	 5000;
+            	self.effects["titaniumMax"] = 	 7500;
+            	self.effects["oilMax"] = 		 25000;
+            	self.effects["unobtainiumMax"] = 750;
+            	
+				game.calendar.cycleEffects(self.effects, self.name);
             },
             upgradable: true,
             val: 0
@@ -542,13 +548,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "alloy", 		val: 25000 },
 					{name: "kerosene", 		val: 7500   }
 				],
-				effects: {
-					"scienceMax": 25000,
-					"starchartPerTickBase": 0.025
-				},
+				effects: {},
 				action: function(game, self){
 					self.effects["starchartPerTickBase"] = 0.025 * game.space.getAutoProductionRatio();
 					self.effects["scienceMax"] = 25000 * (1 + game.workshop.getEffect("spaceScienceRatio"));
+					
+					game.calendar.cycleEffects(self.effects, self.name);
 				},
 				upgradable: true,
 				val: 0
@@ -600,13 +605,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
-
-		//ugh
-		var program = this.getProgram("sattelite");
-		program.effects["energyConsumption"] = 1;
-		program.effects["energyProduction"] = 0;
-		program.togglable = true;
-		program.tunable = true;
 
 		this.hideResearched = false;
 	},

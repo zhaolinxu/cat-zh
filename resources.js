@@ -366,7 +366,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 
 		// Add to resources
-		for (var i = 0, length = to.length; i < length; i++){
+		for (var i in to){
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
 	},
