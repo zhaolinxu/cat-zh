@@ -867,6 +867,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		flavor: "Gold sniffing cats"
+	},{
+		name: "register",
+		title: "Register",
+		description: "Leader manage jobs depending on experience.",
+		effects: {
+		},
+		prices:[
+			{ name : "gold", 	 val: 10 },
+			{ name : "science",  val: 500 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
 	{

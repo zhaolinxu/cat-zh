@@ -184,6 +184,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 3600,
 		unlocks: {
 			tech: ["philosophy", "machinery", "steel"],
+			upgrades: ["register"],
 			crafts: ["parchment"]
 		},
 		flavor: "Writing uses less ink than pawprints"
