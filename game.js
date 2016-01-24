@@ -1754,6 +1754,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.time.isAccelerated && this.ticks % 2 == 0){
 			this.updateModel();
 		}
+
 		//hack end
 		this.time.update();
 
@@ -1783,6 +1784,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //  Update UI state
         //--------------------
         this.ui.update();
+	},
+
+	getRateUI: function(){
+		return this.time.isAccelerated ? this.rate * 1.5 : this.rate;
 	},
 
 	/**
