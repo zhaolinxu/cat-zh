@@ -248,11 +248,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 		this.isDisplayOver = false;
 	},
 	gamer_display: function(resID, type) {
-		if (type == "res") {var table = gamePage.resTable;}
-		else if (type == "craft") {var table = gamePage.craftTable;}
+		if (type == "res") {
+            var table = this.game.resTable;
+        } else if (type == "craft") {
+            var table = this.game.craftTable;
+        }
 		
 		table.resRows[resID].resRef.isHidden = table.resRows[resID].resRef.isHidden ? false : true;
-
 	}
 
 });
