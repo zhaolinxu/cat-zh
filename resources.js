@@ -8,45 +8,55 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	{
 		name : "catnip",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "wood",
 		type : "common",
 		craftable: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "minerals",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "coal",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "iron",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "titanium",
 		type : "common",
 		visible: true,
+		display: true
 	},{
 		name : "gold",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "oil",
 		type : "common",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "uranium",
 		type : "common",
 		visible: true,
+		display: true,
 		color: "#4EA24E"
 	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
+		display: true,
 		color: "#A00000"
 	},
 
@@ -58,47 +68,55 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: "catpower",
 		type : "common",
 		visible: true,
+		display: true,
 		transient: true,		//cant be affected by magneto bonus
 		color: "#DBA901"
 	},{
 		name : "science",
 		type : "common",
 		visible: true,
+		display: true,
 		transient: true,
 		color: "#01A9DB"
 	},{
 		name : "culture",
 		type : "common",
 		visible: true,
+		display: true,
 		transient: true,
 		color: "#DF01D7"
 	},{
 		name : "faith",
 		type : "common",
 		visible: true,
+		display: true,
 		transient: true,
 		color: "gray"
 	},{
 		name : "kittens",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "zebras",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "starchart",
 		type : "common",
 		transient: true,
 		visible: true,
+		display: true,
 		color: "#9A2EFE"
 	},{
 		name : "antimatter",
 		type : "common",
 		transient: true,
 		visible: true,
+		display: true,
 		color: "#5A0EDE"
 	},
 
@@ -109,56 +127,67 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "furs",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "ivory",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "spice",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "unicorns",
 		type : "rare",
 		transient: true,
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "alicorn",
 		title: "alicorns",
 		type : "rare",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "necrocorn",
 		title: "necrocorns",
 		type : "rare",			//todo: some special FX
 		visible: true,
+		display: true,
 		color: "#E00000"
 	},{
 		name : "tears",
 		type : "rare",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "karma",
 		type : "rare",
-		visible: true
+		visible: true,
+		display: true
 	},{
 		name : "paragon",
 		type : "common",
 		visible: true,
+		display: true,
 		color: "#6141CD"
 	},{
 		name : "timeCrystal",
 		title: "time crystal",
 		type : "common",
 		visible: true,
+		display: true,
 		color: "#14CD61"
 	},{
 		name : "sorrow",
 		type : "common",
 		visible: false,
+		display: true,
 		color: "black"
 	},
 
@@ -168,73 +197,87 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	{
 		name : "beam",
 		type : "common",
-		craftable: true
+		craftable: true,
+		display: true
 	},{
 		name : "slab",
 		type : "common",
-		craftable: true
+		craftable: true,
+		display: true
 	},{
 		name : "concrate",
 		title: "concrete",
 		type : "common",
-		craftable: true
+		craftable: true,
+		display: true
 	},{
 		name : "plate",
 		type : "common",
-		craftable: true
+		craftable: true,
+		display: true
 	},{
 		name : "steel",
 		type : "common",
 		craftable: true,
 		visible: false,
+		display: true,
 		color: "gray"
 	},{
 		name : "alloy",
 		type : "common",
 		craftable: true,
 		visible: false,
+		display: true,
 		color: "gray"
 	},{
 		name : "eludium",
 		type : "common",
 		craftable: true,
 		visible: false,
+		display: true,
 		color: "darkViolet"
 	},{
 		name : "gear",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "gray"
 	},{
 		name : "scaffold",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#FF7F50"
 	},{
 		name : "ship",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#FF7F50"
 	},{
 		name : "tanker",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#CF4F20"
 	}, {
 		name : "parchment",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#DF01D7"
 	},{
 		name : "manuscript",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#01A9DB"
 	},{
 		name : "compedium",
 		title: "compendium",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "#01A9DB"
 	},{
 		name : "relic",
@@ -242,6 +285,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "exotic",
 		craftable: false,
 		visible: true,
+		display: true,
 		color: "#5A0EDE",
 		style: {
 			"textShadow": "1px 0px 10px #9A2EFE",
@@ -254,6 +298,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "exotic",
 		craftable: false,
 		visible: true,
+		display: true,
 		color: "#FA0EDE",
 		style: {
 			"textShadow": "1px 0px 10px #FA2E9E",
@@ -264,17 +309,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		transient: true,
 		visible: true,
+		display: true,
 		craftable: true,
 		color: "#01A9DB"
 	},{
 		name : "megalith",
 		type : "common",
 		craftable: true,
+		display: true,
 		color: "gray"
 	},{
         name: "kerosene",
         type: "common",
         craftable: true,
+		display: true,
         color: "darkYellow"
     }
     ],
@@ -559,7 +607,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             delta = 0.25;
         }
         return delta;
-    }
+    },
+	
+	setDisplayAll: function() {
+		for(var i = 0; i< this.resources.length; i++){
+			this.resources[i].display = true;
+		}
+	}
+
 });
 
 
@@ -613,6 +668,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
+				onClick: "gamePage.ui.gamer_display(" + i + ", \"res\")",
+				onmouseover: "gamePage.ui.gamer_displayOverTrue()",
+				onmouseout: "gamePage.ui.gamer_displayOverFalse()",
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
@@ -673,11 +731,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var row = this.resRows[i];
 			var res = row.resRef;
 
+			// Game display
 			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
 			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+			// Gamer display
+			if (res.display) {
+				row.rowRef.style.display = "";
+				row.rowRef.style.opacity = 1;
+			}
+			else {
+				row.rowRef.style.display = "none";
+				row.rowRef.style.opacity = 0.3;
+			}
+			if (gamePage.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 
@@ -876,6 +947,9 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
+					onClick: "gamePage.ui.gamer_display(" + this.resRows.length + ", \"craft\")",
+					onmouseover: "gamePage.ui.gamer_displayOverTrue()",
+					onmouseout: "gamePage.ui.gamer_displayOverFalse()",
 					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
@@ -948,12 +1022,24 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
+			// Game display
 			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.val > 0);
-
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
 			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+			// Gamer display
+			if (res.display) {
+				row.rowRef.style.display = "";
+				row.rowRef.style.opacity = 1;
+			}
+			else {
+				row.rowRef.style.display = "none";
+				row.rowRef.style.opacity = 0.3;
+			}
+			if (gamePage.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 
