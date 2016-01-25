@@ -251,7 +251,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 		if (type == "res") {var table = gamePage.resTable;}
 		else if (type == "craft") {var table = gamePage.craftTable;}
 		
-		table.resRows[resID].resRef.display = table.resRows[resID].resRef.display ? false : true;
+		table.resRows[resID].resRef.isHidden = table.resRows[resID].resRef.isHidden ? false : true;
 
 	}
 
