@@ -541,9 +541,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 225000 },
 			{ name : "alloy", 	val: 750 }
 		],
-		handler: function(game){
-			
-		},
 		unlocked: false,
 		researched: false
 	},
