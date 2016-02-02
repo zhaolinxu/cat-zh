@@ -1,10 +1,24 @@
+v 1.1.8.4 (24 jan)
+
+Changes by freeroot:
+
+- Added option to show and hide specific resources.
+- Census UI tweaks.
+- Fixed some issue with options visibility
+
+Changes by Chris:
+
+- Cycles require Numerology/Numeromancy to take effect.
+- Numerology now triggers cycle effects in general, and Numeromancy adds more effects during festivals.
+
+
 v 1.1.8.3 (19 jan)
 
 Changes by freeroot:
 
-Planetary cycles will now give bonuses to certain structures.
+-Planetary cycles will now give bonuses to certain structures.
 __
-Added temcon button to the time panel
+Added speedwarp button to the time panel (original idea and code by Tom Muller)
 
 v 1.1.8.2 (13 jan)
 Changes by coderpatsy:

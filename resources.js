@@ -29,7 +29,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},{
 		name : "titanium",
 		type : "common",
-		visible: true,
+		visible: true
 	},{
 		name : "gold",
 		type : "common",
@@ -47,6 +47,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "unobtainium",
 		type : "common",
 		visible: true,
+		display: true,
 		color: "#A00000"
 	},
 
@@ -82,12 +83,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "kittens",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "zebras",
 		type : "common",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "starchart",
 		type : "common",
@@ -109,27 +110,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "furs",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "ivory",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "spice",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "unicorns",
 		type : "rare",
 		transient: true,
-		visible: true
+		visible: true,
 	},{
 		name : "alicorn",
 		title: "alicorns",
 		type : "rare",
-		visible: true
+		visible: true,
 	},{
 		name : "necrocorn",
 		title: "necrocorns",
@@ -139,11 +140,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},{
 		name : "tears",
 		type : "rare",
-		visible: true
+		visible: true,
 	},{
 		name : "karma",
 		type : "rare",
-		visible: true
+		visible: true,
 	},{
 		name : "paragon",
 		type : "common",
@@ -314,7 +315,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var res = {
 			name: name,
 			value: 0,
-			perTick: 0
+			perTick: 0,
+
+			//whether resource was marked by user as hidden or visible
+			isHidden: false
 		};
 		return res;
 	},
@@ -559,7 +563,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             delta = 0.25;
         }
         return delta;
-    }
+    },
+	
+	setDisplayAll: function() {
+		for(var i = 0; i< this.resources.length; i++){
+			this.resources[i].isHidden = false;
+		}
+	}
+
 });
 
 
@@ -613,9 +624,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
+				id: "res" + i,
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
+			dojo.connect(tdResName, "onclick", this, function(event){
+				gamePage.ui.gamer_display(event.target.id);
+			});
+			dojo.connect(tdResName, "onmouseover", this, function(event){
+				gamePage.ui.isDisplayOver = true;
+			});
+			dojo.connect(tdResName, "onmouseout", this, function(event){
+				gamePage.ui.isDisplayOver = false;
+			});
+
 			UIUtils.attachTooltip(this.game, tdResName, dojo.hitch(this, function(res){
 				return res.description || "";
 			}, res));
@@ -673,11 +695,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var row = this.resRows[i];
 			var res = row.resRef;
 
+			// Game display
 			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
 			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+			// Gamer display
+			if (!res.isHidden) {
+				row.rowRef.style.display = "";
+				row.rowRef.style.opacity = 1;
+			} else {
+				row.rowRef.style.display = "none";
+				row.rowRef.style.opacity = 0.3;
+			}
+			if (gamePage.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 
@@ -711,7 +745,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.textContent  = maxResValue;
 
-			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.rate : res.perTickUI;
+			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.getRateUI() : res.perTickUI;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
 				perTick = perTick / res.maxValue * 100;
@@ -876,6 +910,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
+					id: "craft" + this.resRows.length,
 					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
@@ -884,6 +919,16 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			if (res.color){
 				dojo.setStyle(tdResName, "color", res.color);
 			}
+
+			dojo.connect(tdResName, "onclick", this, function(event){
+				gamePage.ui.gamer_display(event.target.id);
+			});
+			dojo.connect(tdResName, "onmouseover", this, function(event){
+				gamePage.ui.isDisplayOver = true;
+			});
+			dojo.connect(tdResName, "onmouseout", this, function(event){
+				gamePage.ui.isDisplayOver = false;
+			});
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
@@ -948,12 +993,23 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
+			// Game display
 			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.val > 0);
-
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
 			}else if(isHidden && isVisible){
+				row.rowRef.style.display = "";
+			}
+			// Gamer display
+			if (!res.isHidden) {
+				row.rowRef.style.display = "";
+				row.rowRef.style.opacity = 1;
+			}else {
+				row.rowRef.style.display = "none";
+				row.rowRef.style.opacity = 0.3;
+			}
+			if (gamePage.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 

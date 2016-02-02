@@ -108,7 +108,8 @@ div#gameLog {
     white-space: nowrap;
 }
 
-.resourceRow .resource-name {
+.resourceRow .resource-name,
+.resourceRow > td:first-child {
     cursor: pointer;
 }
 
