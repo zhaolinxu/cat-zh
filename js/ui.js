@@ -241,20 +241,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#leftColumn").css("font-size", this.fontSize+"px");
     },
 
-	gamer_displayOverTrue: function() {
-		this.isDisplayOver = true;
-	},
-	gamer_displayOverFalse: function() {
-		this.isDisplayOver = false;
-	},
-	gamer_display: function(resID, type) {
-		if (type == "res") {
+	gamer_display: function(resourceIdTable) {
+		if (resourceIdTable.substr(0,3) == "res") {
             var table = this.game.resTable;
-        } else if (type == "craft") {
+            var resourceId = resourceIdTable.substr(3);
+        } else if (resourceIdTable.substr(0,5) == "craft") {
             var table = this.game.craftTable;
+            var resourceId = resourceIdTable.substr(5);
         }
-		
-		table.resRows[resID].resRef.isHidden = table.resRows[resID].resRef.isHidden ? false : true;
+
+		table.resRows[resourceId].resRef.isHidden = table.resRows[resourceId].resRef.isHidden ? false : true;
 	}
 
 });

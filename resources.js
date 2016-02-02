@@ -624,12 +624,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
-				onClick: "gamePage.ui.gamer_display(" + i + ", \"res\")",
-				onmouseover: "gamePage.ui.gamer_displayOverTrue()",
-				onmouseout: "gamePage.ui.gamer_displayOverFalse()",
+				id: "res" + i,
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
+			dojo.connect(tdResName, "onclick", this, function(event){
+				gamePage.ui.gamer_display(event.target.id);
+			});
+			dojo.connect(tdResName, "onmouseover", this, function(event){
+				gamePage.ui.isDisplayOver = true;
+			});
+			dojo.connect(tdResName, "onmouseout", this, function(event){
+				gamePage.ui.isDisplayOver = false;
+			});
+
 			UIUtils.attachTooltip(this.game, tdResName, dojo.hitch(this, function(res){
 				return res.description || "";
 			}, res));
@@ -902,9 +910,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
-					onClick: "gamePage.ui.gamer_display(" + this.resRows.length + ", \"craft\")",
-					onmouseover: "gamePage.ui.gamer_displayOverTrue()",
-					onmouseout: "gamePage.ui.gamer_displayOverFalse()",
+					id: "craft" + this.resRows.length,
 					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
@@ -913,6 +919,16 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			if (res.color){
 				dojo.setStyle(tdResName, "color", res.color);
 			}
+
+			dojo.connect(tdResName, "onclick", this, function(event){
+				gamePage.ui.gamer_display(event.target.id);
+			});
+			dojo.connect(tdResName, "onmouseover", this, function(event){
+				gamePage.ui.isDisplayOver = true;
+			});
+			dojo.connect(tdResName, "onmouseout", this, function(event){
+				gamePage.ui.isDisplayOver = false;
+			});
 
 			//	---------------- amt ----------------------
 			var tdAmt = dojo.create("td", null, tr);
