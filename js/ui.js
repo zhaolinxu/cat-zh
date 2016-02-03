@@ -216,6 +216,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#hideSell")[0].checked = game.opts.hideSell;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#noEnergyPenalty")[0].checked = game.opts.noEnergyPenalty;
+        $("#IWSmelter")[0].checked = game.opts.IWSmelter;
     },
     
     displayAutosave: function(){
