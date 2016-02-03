@@ -15,6 +15,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!saveData["time"]){
             return;
         }
+        this.energy = saveData["time"].energy || 0;
 
         if (!this.game.science.get("calendar").researched){
             return;
@@ -31,7 +32,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             this.game.msg("You have recharged " + bonusSeconds + " seconds of temporal energy");
         }
 
-        this.energy = saveData["time"].energy || 0;
         this.energy += bonusSeconds * game.rate;
         if (this.energy > this.maxEnergy){
             this.energy = this.maxEnergy;
