@@ -624,7 +624,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
-				id: "res" + i,
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
@@ -910,7 +909,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
-					id: "craft" + this.resRows.length,
 					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
