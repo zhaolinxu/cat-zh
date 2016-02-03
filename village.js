@@ -531,6 +531,45 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	rand: function(val){
 		return this.game.rand(val);
+	},
+
+	/**
+	 * Optimize distribution of jobs dependings on experiencies
+	 */
+	optimizeJobs: function() {
+
+		var situationJobs = {};
+		for (var i = game.village.sim.kittens.length - 1; i >= 0; i--) {
+			var job = game.village.sim.kittens[i].job;
+			if (job) {
+				if (situationJobs[job] === undefined) {
+					situationJobs[job] = 1;
+				} else {
+					situationJobs[job] = situationJobs[job] + 1;
+				}
+			}
+		}
+
+		if (Object.getOwnPropertyNames(situationJobs).length !== 0) {
+
+			gamePage.village.clearJobs();
+
+			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
+			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
+				for (var job in situationJobs) {
+					this.assignJob(this.getJob(job));
+					if (situationJobs[job] == 1) {
+						delete situationJobs[job];
+					} else {
+						situationJobs[job] = situationJobs[job] - 1;
+					}
+				}
+			}
+
+			this.game.villageTab.updateTab();
+			this.game.village.updateResourceProduction();
+			this.game.updateResources();
+		}
 	}
 });
 
@@ -1519,7 +1558,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var controlsTd = dojo.create("td", {}, tr);
 
 		//hunt
-
 		var huntBtn = new classes.village.ui.VillageButton({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
@@ -1532,6 +1570,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		huntBtn.setVisible(this.game.science.get("archery").researched);
 		this.huntBtn = huntBtn;
 
+		//festival
 		var festivalBtn = new classes.village.ui.VillageButton({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
@@ -1544,13 +1583,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					{ name : "parchment", val: 2500 }
 				]
 		}, this.game);
-
-		if (!this.game.science.get("drama").researched){
-			festivalBtn.setVisible(false);
-		}
-
 		festivalBtn.render(controlsTd);
+		festivalBtn.setVisible(this.game.science.get("drama").researched);
 		this.festivalBtn = festivalBtn;
+
+		//manage
+		var optimizeJobsBtn = new classes.village.ui.VillageButton({
+			name: "Manage Jobs",
+			description: "The leader optimize jobs distribution according to kitten's experiencies",
+			handler: dojo.hitch(this, function(){
+				game.village.optimizeJobs();
+			})
+		}, this.game);
+		optimizeJobsBtn.render(controlsTd);
+		optimizeJobsBtn.setVisible(game.village.leader.isLeader);
+		this.optimizeJobsBtn = optimizeJobsBtn;
 
 		//--------------- bureaucracy ------------------
 		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game.village, this.game);
