@@ -861,7 +861,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-            noEnergyPenalty: false
+            noEnergyPenalty: false,
+			IWSmelter: true
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
@@ -1034,7 +1035,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-            noEnergyPenalty: false
+            noEnergyPenalty: false,
+			IWSmelter: true
 		};
 
 		this.resPool.resetState();

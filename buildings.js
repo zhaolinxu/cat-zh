@@ -600,7 +600,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var iron = game.resPool.get("iron");
 
 			//safe switch for IW to save precious resources, as per players request
-			if (game.ironWill && iron.value > iron.maxValue * 0.95){
+			//only if option is enabled, because Chris says so
+			if (game.ironWill && game.opts.IWSmelter && iron.value > iron.maxValue * 0.95){
 				self.enabled = false;
 				self.on = 0;
 				return;
