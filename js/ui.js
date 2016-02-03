@@ -240,18 +240,5 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
     updateFontSize: function(){
         $("#leftColumn").css("font-size", this.fontSize+"px");
-    },
-
-	gamer_display: function(resourceIdTable) {
-		if (resourceIdTable.substr(0,3) == "res") {
-            var table = this.game.resTable;
-            var resourceId = resourceIdTable.substr(3);
-        } else if (resourceIdTable.substr(0,5) == "craft") {
-            var table = this.game.craftTable;
-            var resourceId = resourceIdTable.substr(5);
-        }
-
-		table.resRows[resourceId].resRef.isHidden = table.resRows[resourceId].resRef.isHidden ? false : true;
-	}
-
+    }
 });

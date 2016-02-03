@@ -628,13 +628,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
-			dojo.connect(tdResName, "onclick", this, function(event){
-				gamePage.ui.gamer_display(event.target.id);
-			});
-			dojo.connect(tdResName, "onmouseover", this, function(event){
+			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
+				res.isHidden = !res.isHidden;
+			}, res));
+			dojo.connect(tdResName, "onmouseover", this, function(){
 				gamePage.ui.isDisplayOver = true;
 			});
-			dojo.connect(tdResName, "onmouseout", this, function(event){
+			dojo.connect(tdResName, "onmouseout", this, function(){
 				gamePage.ui.isDisplayOver = false;
 			});
 
@@ -920,13 +920,13 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				dojo.setStyle(tdResName, "color", res.color);
 			}
 
-			dojo.connect(tdResName, "onclick", this, function(event){
-				gamePage.ui.gamer_display(event.target.id);
-			});
-			dojo.connect(tdResName, "onmouseover", this, function(event){
+			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
+				res.isHidden = !res.isHidden;
+			}, res));
+			dojo.connect(tdResName, "onmouseover", this, function(){
 				gamePage.ui.isDisplayOver = true;
 			});
-			dojo.connect(tdResName, "onmouseout", this, function(event){
+			dojo.connect(tdResName, "onmouseout", this, function(){
 				gamePage.ui.isDisplayOver = false;
 			});
 
