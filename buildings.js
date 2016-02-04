@@ -910,6 +910,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		on: 0,
 		requiredTech: ["chemistry"],
 		canUpgrade: true,
+		togglable: false,
+		tunable: false,
 		calculateEffects: function(self, game){
 			var effects = {
 				"oilPerTickBase" : 0.02,
@@ -920,18 +922,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var ratio = 1 + game.workshop.getEffect("oilRatio");
 			effects["oilPerTickBase"] *= ratio;
 
-			self.togglable = false;
-			self.tunable = false;
 			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
 				self.togglable = true;
 				self.tunable = true;
+			}else {
+				self.on = self.val // Hack to not turn off while pumpjack is researched
 			}
+
 			self.effects = effects;
 		},
-		flavor: "Rise early, work hard, strike oil.",
-		togglable: false,
-		tunable: false,
+		flavor: "Rise early, work hard, strike oil."
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
