@@ -2161,6 +2161,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.updateScheduledEvents();
 
 		if (this.isPaused){
+			game.calendar.observePause(); // Pause the current observeTimeout
 			return;
 		}
 
