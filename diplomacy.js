@@ -383,8 +383,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 					var ncorns = this.game.resPool.get("necrocorn");
 					var elders = this.game.diplomacy.get("leviathans");
 					if (ncorns.value > 0){
-						elders.energy += ncorns.value;
-						ncorns.value = 0;
+						elders.energy++;
+						ncorns.value--;
 						this.game.msg("Elder gods are pleased", "notice");
 					} else {
 						this.game.msg("Elder gods are displeased", "notice");
