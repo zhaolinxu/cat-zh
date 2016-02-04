@@ -261,8 +261,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 */
 	updateResourceProduction: function(){
 
-		var productionRatio = 0.25 +
-			this.game.workshop.getEffect("skillMultiplier");	//fast access snippet for tweaking job proficiency
+		var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 
 		var res = {
 		};
@@ -1357,7 +1356,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				if (skillsArr[j].name == kitten.job) {
 					var style = "style='font-weight: bold'";
 
-					var productionRatio = 0.25 + this.game.workshop.getEffect("skillMultiplier");
+					var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
 					bonus = bonus > 0 && kitten.isLeader ? gamePage.village.getLeaderBonus(kitten.rank) * bonus : bonus;

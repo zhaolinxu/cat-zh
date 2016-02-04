@@ -1436,9 +1436,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "augumentation",
 		title: "Augmentations",
-		description: "Kitten skills are 25% more effective",
+		description: "Kitten skills are 100% more effective",
 		effects: {
-			"skillMultiplier" : 0.25
+			"skillMultiplier" : 1
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
