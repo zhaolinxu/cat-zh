@@ -861,7 +861,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-            noEnergyPenalty: false,
 			IWSmelter: true
 		};
 
@@ -1035,7 +1034,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-            noEnergyPenalty: false,
 			IWSmelter: true
 		};
 
