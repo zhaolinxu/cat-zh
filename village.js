@@ -1605,7 +1605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			})
 		}, this.game);
 		optimizeJobsBtn.render(controlsTd);
-		optimizeJobsBtn.setVisible(game.village.leader.isLeader);
+		optimizeJobsBtn.setVisible(!(game.village.leader == undefined) && game.workshop.get("register").researched);
 		this.optimizeJobsBtn = optimizeJobsBtn;
 
 		//--------------- bureaucracy ------------------
