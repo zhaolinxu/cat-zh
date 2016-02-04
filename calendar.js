@@ -296,7 +296,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//------------------------- astronomical events -------------------------
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
-		chance += this.game.bld.getEffect("starEventChance");
+		chance += (this.game.bld.getEffect("starEventChance") * 10000);
 		chance *= chanceRatio;
 
 		this.observeHandler = function(event){
@@ -340,7 +340,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				this.observeClear();
 
-				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
+				var autoChance = (this.game.bld.getEffect("starAutoSuccessChance") * 100);	//in %
 				var rand = this.game.rand(100);
 
 				if(

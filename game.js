@@ -291,7 +291,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"manpowerPerTick" : {
-				title: "Catpower",
+				title: "Catpower consumption",
 				resName: "manpower",
 				type: "perTick"
 			},
@@ -308,7 +308,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"learnRatio" : {
-				title: "Learn ratio"
+				title: "Skills learning",
+				type: "perTick"
 			},
 
 			"science" : {
@@ -537,17 +538,20 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"prodTransferBonus": {
-				title: "Production transfer bonus",
+				title: "Transfered earth production bonus",
+				type: "ratio"
 			},
 
             //starEvent
 
             "starEventChance" : {
-                title: "StarEvent chance"
+                title: "Astronomical event chance",
+                type: "ratio"
             },
 
             "starAutoSuccessChance" : {
-                title: "Auto StarEvent chance"
+                title: "Auto astronomical event chance",
+                type: "ratio"
             },
 
             //in the tab workshop
