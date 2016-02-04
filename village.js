@@ -806,13 +806,19 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	/**
-	 * Assign a job to a free kitten with highest skill level in this job or any free if none
+	 * Assign a job to a free kitten :
+	 * • With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
+	 * • Else : the first free kitten
 	 */
 	assignJob: function(job){
 		var freeKittens = [];
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
 			if (!kitten.job){
+				if (!game.workshop.get("register").researched || game.village.leader == undefined) {
+					freeKittens.push({"id": i});
+					continue;
+				}
 				var val = kitten.skills[job] ? kitten.skills[job] : 0;
 				freeKittens.push({"id": i, "val": val});
 			}
@@ -829,13 +835,17 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	/**
-	 * Same, but removes the least proficient worker
+	 * Same, but removes the least proficient worker or the first one
 	 */
 	removeJob: function(job){
 		var jobKittens = [];
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
             if (kitten.job == job){
+				if (!game.workshop.get("register").researched || game.village.leader == undefined) {
+					jobKittens.push({"id": i});
+					continue;
+				}
                 var val = kitten.skills[job] ? kitten.skills[job] : 0;
                 jobKittens.push({"id": i, "val": val});
             }
@@ -1595,7 +1605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			})
 		}, this.game);
 		optimizeJobsBtn.render(controlsTd);
-		optimizeJobsBtn.setVisible(game.village.leader.isLeader);
+		optimizeJobsBtn.setVisible(!(game.village.leader == undefined) && game.workshop.get("register").researched);
 		this.optimizeJobsBtn = optimizeJobsBtn;
 
 		//--------------- bureaucracy ------------------
