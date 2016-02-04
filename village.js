@@ -441,6 +441,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var furs = this.game.resPool.get("furs");
 
 		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
+		if (this.village.leader && this.village.leader.trait["name"] == "manager") {
+			hunterRatio += 0.5;
+		}
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
 		furs.value += huntingRes.furs;
 
@@ -585,7 +588,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		name: "scientist",
 		title: "Scientist",//Grr... someone emaciated the evil Scientinst first...
 	},{
-		name: "manager",
+		name: "manager", // hunterRatio bonus
 		title: "Manager"
 	},{
 		name: "engineer",
