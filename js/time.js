@@ -15,7 +15,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!saveData["time"]){
             return;
         }
-        this.energy = saveData["time"].energy || 0;
+		var saveEnergy = saveData["time"].energy || 0;
+        this.energy = saveEnergy;
 
         if (!this.game.science.get("calendar").researched){
             return;
@@ -27,29 +28,35 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
-        var bonusSeconds = Math.round(delta / ( 60 * 1000 ) );    //every 60 seconds
-        if (bonusSeconds){
-            this.game.msg("You have recharged " + bonusSeconds + " seconds of temporal energy");
-        }
-
-        this.energy += bonusSeconds * game.rate;
+		this.energy += Math.round(delta / ( 60 * 1000 ) ) * game.rate;    //every 60 seconds
         if (this.energy > this.maxEnergy){
             this.energy = this.maxEnergy;
         }
+
+		var bonusSeconds = Math.round((this.energy - saveEnergy) / game.rate);
+        if (bonusSeconds > 0){
+            this.game.msg("You have recharged " + bonusSeconds + " second"
+				+ (bonusSeconds > 1 ? "s" : "") + " of temporal energy");
+        }
+
     },
 
     save: function(saveData){
        saveData["time"] = {
            timestamp: Date.now(),
            energy: this.energy
-       }
+       };
     },
-    
+
     resetState: function(){
-        
+		this.energy = 0;
+		this.isAccelerated = false;
     },
 
     update: function(){
+        if (this.energy > this.maxEnergy){ //sanity check
+            this.energy = this.maxEnergy;
+        }
         if (this.isAccelerated && this.energy > 0){
             this.energy--;
         }

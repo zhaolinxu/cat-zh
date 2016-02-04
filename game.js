@@ -42,11 +42,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 			}
 		}
 	},
-	
+
 	scheduleEvent: function(handler){
-		this.scheduledHandlers.push(handler)
+		this.scheduledHandlers.push(handler);
 	},
-	
+
 	updateScheduledEvents: function(){
 		for (var i in this.scheduledHandlers){
 			this.scheduledHandlers[i]();
@@ -218,12 +218,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			//steel
-			
+
 			"steelPerTick" : {
 				title: "Steel production",
 				type : "perTick"
 			},
-			
+
 			//gold
 
 			"goldMax" : {
@@ -236,7 +236,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "gold",
 				type: "perTick"
 			},
-			
+
 			"goldPerTick" : {
 				title: "Gold production",
 				resName: "gold",
@@ -257,14 +257,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			//oil
-			
+
 			"oilReductionRatio" : {
 				title: "Oil consumption reduction",
 				type: "ratio"
 			},
-			
-			
-			
+
+
+
 			//kittens
 
 			"maxKittens" : {
@@ -302,26 +302,26 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Science bonus",
 				type: "ratio"
 			},
-			
+
 			"scienceMax" : {
 				title: "Max Science"
 			},
-			
+
 			"learnRatio" : {
 				title: "Learn ratio"
 			},
-			
+
 			"science" : {
 				title: "science",
 				resName: "science",
 				type: "perTick"
 			},
-			
+
 			"observatoryRatio" : {
                 title: "Observatory's science ratio",
                 type: "ratio"
             },
-			
+
 			//culture
 
 			"cultureMax" : {
@@ -409,7 +409,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"antimatterProduction": {
 				title: "Antimatter production"
 			},
-			
+
 			//unicorns
 
 			"unicornsPerTickBase": {
@@ -481,30 +481,30 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "spice",
 				type: "ratio"
 			},
-			
+
 			"happiness": {
 				title: "Happiness"
 			},
-			
+
 			"unhappinessRatio": {
 				title: "Unhappiness reduction",
 				type: "ratio"
 			},
-			
+
 			"mintEffect": {
 				title: "Mint effect",
 			},
-			
+
 			"tradeRatio": {
 				title: "Trade ratio",
 				type: "ratio"
 			},
-			
+
 			"standingRatio": {
 				title: "Standing ratio",
 				type: "ratio"
 			},
-			
+
 			"resStasisRatio": {
 				title: "Res-Stasis ratio",
 				type: "ratio"
@@ -518,199 +518,199 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"energyConsumption": {
 				title: "Energy consumption"
             },
-			
+
 			//production
-			
+
             "productionRatio" : {
                 title: "Production bonus",
                 type: "ratio"
             },
-            
+
             "magnetoRatio" : {
                 title: "Production bonus",
                 type: "ratio"
             },
-            
+
             "spaceRatio" : {
 				title: "Space production bonus",
 				type: "ratio"
 			},
-			
+
 			"prodTransferBonus": {
 				title: "Production transfer bonus",
 			},
-            
+
             //starEvent
-            
+
             "starEventChance" : {
                 title: "StarEvent chance"
             },
-            
+
             "starAutoSuccessChance" : {
                 title: "Auto StarEvent chance"
             },
-            
+
             //in the tab workshop
             "lumberMillRatio" : {
                 title: "Lumber Mill bonus",
                 type: "ratio"
             },
-            
+
             "barnRatio" : {
                 title: "Barn expansion",
                 type: "ratio"
             },
-            
+
             "warehouseRatio" : {
                 title: "Warehouse expansion",
                 type: "ratio"
             },
-            
+
             "acceleratorRatio" : {
                 title: "Accelerator expansion",
                 type: "ratio"
             },
-            
+
             "harborRatio" : {
                 title: "Harbor'ship expansion",
                 type: "ratio"
             },
-            
+
             "harborCoalRatio" : {
                 title: "Harbor coal expansion",
                 type: "ratio"
             },
-            
+
             "catnipMaxRatio" : {
                 title: "Catnip storage expansion",
                 type: "ratio"
             },
-            
+
             "hunterRatio" : {
                 title: "Hunter know-how",
                 type: "ratio"
             },
-            
+
             "solarFarmRatio" : {
                 title: "Solar Farm bonus",
                 type: "ratio"
             },
-            
+
             "shipLimit" : {
                 title: "Ship limit effect",
                 type: "ratio"
             },
-            
+
             "hutPriceRatio" : {
                 title: "Hut price reduction",
                 type: "ratio"
             },
-            
+
             "coalRatio" : {
                 title: "Coal bonus",
                 type: "ratio"
             },
-            
+
             "smelterRatio" : {
                 title: "Smelter bonus",
                 type: "ratio"
             },
-            
+
             "calcinerRatio" : {
                 title: "Calciner bonus",
                 type: "ratio"
             },
-            
+
             "calcinerSteelRatio" : {
                 title: "Calciner steel production",
                 type: "ratio"
             },
-            
+
             "calcinerSteelCraftRatio" : {
                 title: "Calciner steel production bonus",
                 type: "ratio"
             },
-            
+
             "libraryRatio" : {
                 title: "Library bonus",
                 type: "ratio"
             },
-            
+
             "hydroPlantRatio" : {
                 title: "Hydro Plant bonus",
                 type: "ratio"
             },
-            
+
             "spaceScienceRatio" : {
                 title: "Space science bonus",
                 type: "ratio"
             },
-            
+
             "oilRatio" : {
                 title: "Oil bonus",
                 type: "ratio"
             },
-            
+
             "unicornsGlobalRatio" : {
                 title: "Unicorns bonus",
                 type: "ratio"
             },
-            
+
             "biofuelRatio" : {
                 title: "Bio Fuel bonus",
                 type: "ratio"
             },
-            
+
             "blueprintCraftRatio" : {
                 title: "Blueprint craft bonus",
                 type: "ratio"
             },
-            
+
             "skillMultiplier" : {
                 title: "Kitten's skill effect",
                 type: "ratio"
             },
-            
+
             "uraniumRatio" : {
                 title: "Uranium savings",
                 type: "ratio"
             },
-            
+
             "reactorEnergyRatio" : {
                 title: "Reactor energy bonus",
                 type: "ratio"
             },
-            
+
             "starchartGlobalRatio" : {
                 title: "Starchart bonus",
                 type: "ratio"
             },
-            
+
             "satnavRatio" : {
                 title: "Ship's cost savings",
                 type: "ratio"
             },
-            
+
             "broadcastTowerRatio" : {
                 title: "Broadcast Tower bonus",
                 type: "ratio"
             },
-            
+
             "lunarOutpostRatio" : {
                 title: "Lunar Outpost bonus",
                 type: "ratio"
             },
-            
+
             "crackerRatio" : {
                 title: "Cracker bonus",
                 type: "ratio"
             },
-            
+
             "factoryRefineRatio" : {
                 title: "Factory refine bonus",
                 type: "ratio"
             },
-            
+
             // cycleEffects
             "prodTransferBonus_cycleEffect" : {
                 title: "Zodiac effect Production transfer bonus",
@@ -1305,7 +1305,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		});
 	},
-	
+
 	//TODO: add some additional checks and stuff?
 	_loadSaveJson: function(lzdata){
 		var json = LZString.decompressFromBase64(lzdata);
@@ -1313,7 +1313,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		game.load();
 		game.msg("Save import successful!");
-		
+
 		game.render();
 	},
 
@@ -1361,7 +1361,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						i--;
 					}
 				}
-				save.space.planets.push({name: "cath", buildings: buildings})
+				save.space.planets.push({name: "cath", buildings: buildings});
 			}
 
 			save.saveVersion = 3;
@@ -2155,7 +2155,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 * Even if the game is paused, scheduler should still be able to obtain a focus to handle cases like save/load/reset
 		 */
 		this.timer.updateScheduledEvents();
-		
+
 		if (this.isPaused){
 			return;
 		}
@@ -2194,10 +2194,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!confirm(msg)){
 			return;
 		}
-		
+
 		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
 	},
-	
+
 	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
@@ -2242,11 +2242,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var totalScience = 0;
 		var bonusZebras = 0;
+		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		if (this.science.get("archery").researched && this.karmaZebras < 10){
 			bonusZebras = 1;
 		}
 		for (var i = 0; i < this.science.techs.length; i++){
 			var tech = this.science.techs[i];
+			if (tech.name == "chronophysics" && anachronomancy.researched){
+				continue;
+			}
 			if (tech.researched){
 				if( tech.cost){
 					totalScience += tech.cost;
@@ -2291,7 +2295,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn", "elderBox"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn"];
 
 
 
@@ -2306,7 +2310,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (dojo.indexOf(ignoreResources, res.name) >= 0) {
 				continue;
 			} else if (res.name == "timeCrystal"){
-				if (this.prestige.getPerk("anachronomancy").researched){
+				if (anachronomancy.researched){
 					newResources.push(res);
 				}
 			} else if (res.name == "elderBox"){
@@ -2340,7 +2344,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			resources: newResources
 		};
 
-		if (this.prestige.getPerk("anachronomancy").researched){
+		if (anachronomancy.researched){
 			saveData.science.techs.push(this.science.get("chronophysics"));
 		}
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
