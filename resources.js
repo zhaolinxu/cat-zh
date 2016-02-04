@@ -554,10 +554,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
     getEnergyDelta: function(){
-        if (this.game.opts.noEnergyPenalty){
-            return 1.0;
-        }
-
         var delta = this.energyProd / this.energyCons;
         if (delta < 0.25){
             delta = 0.25;
@@ -624,17 +620,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
-				id: "res" + i,
 				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
 			}, tr);
 			
-			dojo.connect(tdResName, "onclick", this, function(event){
-				gamePage.ui.gamer_display(event.target.id);
-			});
-			dojo.connect(tdResName, "onmouseover", this, function(event){
+			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
+				res.isHidden = !res.isHidden;
+			}, res));
+			dojo.connect(tdResName, "onmouseover", this, function(){
 				gamePage.ui.isDisplayOver = true;
 			});
-			dojo.connect(tdResName, "onmouseout", this, function(event){
+			dojo.connect(tdResName, "onmouseout", this, function(){
 				gamePage.ui.isDisplayOver = false;
 			});
 
@@ -910,7 +905,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
-					id: "craft" + this.resRows.length,
 					innerHTML: (res.title || res.name) + ":",
 					style: {
 						width: "75px"
@@ -920,13 +914,13 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				dojo.setStyle(tdResName, "color", res.color);
 			}
 
-			dojo.connect(tdResName, "onclick", this, function(event){
-				gamePage.ui.gamer_display(event.target.id);
-			});
-			dojo.connect(tdResName, "onmouseover", this, function(event){
+			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
+				res.isHidden = !res.isHidden;
+			}, res));
+			dojo.connect(tdResName, "onmouseover", this, function(){
 				gamePage.ui.isDisplayOver = true;
 			});
-			dojo.connect(tdResName, "onmouseout", this, function(event){
+			dojo.connect(tdResName, "onmouseout", this, function(){
 				gamePage.ui.isDisplayOver = false;
 			});
 

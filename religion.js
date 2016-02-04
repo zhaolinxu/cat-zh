@@ -885,8 +885,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.refineTCBtn.update();
 		}
 
-		var faith = this.game.religion.faith;
-		if (faith && this.faithCount){
+		if (religion.faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + this.game.getDisplayValueExt(religion.faith);
 		}
 		if (religion.getRU("solarRevolution").researched){
@@ -897,8 +896,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (religion.getRU("apocripha").researched){
 			dojo.style(this.faithResetBtn, "display", "");
+		}
 
-			var ratio = this.game.getTriValue(this.game.religion.faithRatio, 0.1)*0.1;
+		if (religion.faithRatio > 0){
+			var ratio = this.game.getTriValue(religion.faithRatio, 0.1)*0.1;
 			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(ratio*100, true, false, 1) + "%]";
 		}
 
@@ -913,7 +914,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;	//trust no one
 		}
 
-		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith conversion per 100K of faith.\n This bonus will carry over through resets.")){
+		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith conversion per 100K of faith.\nThis bonus will carry over through resets.")){
 			return;
 		}
 

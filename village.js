@@ -261,8 +261,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 */
 	updateResourceProduction: function(){
 
-		var productionRatio = 0.25 +
-			this.game.workshop.getEffect("skillMultiplier");	//fast access snippet for tweaking job proficiency
+		var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 
 		var res = {
 		};
@@ -531,6 +530,45 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	rand: function(val){
 		return this.game.rand(val);
+	},
+
+	/**
+	 * Optimize distribution of jobs dependings on experiencies
+	 */
+	optimizeJobs: function() {
+
+		var situationJobs = {};
+		for (var i = game.village.sim.kittens.length - 1; i >= 0; i--) {
+			var job = game.village.sim.kittens[i].job;
+			if (job) {
+				if (situationJobs[job] === undefined) {
+					situationJobs[job] = 1;
+				} else {
+					situationJobs[job] = situationJobs[job] + 1;
+				}
+			}
+		}
+
+		if (Object.getOwnPropertyNames(situationJobs).length !== 0) {
+
+			gamePage.village.clearJobs();
+
+			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
+			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
+				for (var job in situationJobs) {
+					this.assignJob(this.getJob(job));
+					if (situationJobs[job] == 1) {
+						delete situationJobs[job];
+					} else {
+						situationJobs[job] = situationJobs[job] - 1;
+					}
+				}
+			}
+
+			this.game.villageTab.updateTab();
+			this.game.village.updateResourceProduction();
+			this.game.updateResources();
+		}
 	}
 });
 
@@ -768,13 +806,19 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	/**
-	 * Assign a job to a free kitten with highest skill level in this job or any free if none
+	 * Assign a job to a free kitten :
+	 * • With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
+	 * • Else : the first free kitten
 	 */
 	assignJob: function(job){
 		var freeKittens = [];
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
 			if (!kitten.job){
+				if (!game.workshop.get("register").researched || game.village.leader == undefined) {
+					freeKittens.push({"id": i});
+					continue;
+				}
 				var val = kitten.skills[job] ? kitten.skills[job] : 0;
 				freeKittens.push({"id": i, "val": val});
 			}
@@ -791,13 +835,17 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	/**
-	 * Same, but removes the least proficient worker
+	 * Same, but removes the least proficient worker or the first one
 	 */
 	removeJob: function(job){
 		var jobKittens = [];
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
             if (kitten.job == job){
+				if (!game.workshop.get("register").researched || game.village.leader == undefined) {
+					jobKittens.push({"id": i});
+					continue;
+				}
                 var val = kitten.skills[job] ? kitten.skills[job] : 0;
                 jobKittens.push({"id": i, "val": val});
             }
@@ -1357,7 +1405,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				if (skillsArr[j].name == kitten.job) {
 					var style = "style='font-weight: bold'";
 
-					var productionRatio = 0.25 + this.game.workshop.getEffect("skillMultiplier");
+					var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
 					bonus = bonus > 0 && kitten.isLeader ? gamePage.village.getLeaderBonus(kitten.rank) * bonus : bonus;
@@ -1519,7 +1567,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var controlsTd = dojo.create("td", {}, tr);
 
 		//hunt
-
 		var huntBtn = new classes.village.ui.VillageButton({
 				name: "Send hunters",
 				description: "Send hunters to the forest",
@@ -1532,6 +1579,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		huntBtn.setVisible(this.game.science.get("archery").researched);
 		this.huntBtn = huntBtn;
 
+		//festival
 		var festivalBtn = new classes.village.ui.VillageButton({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
@@ -1544,13 +1592,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 					{ name : "parchment", val: 2500 }
 				]
 		}, this.game);
-
-		if (!this.game.science.get("drama").researched){
-			festivalBtn.setVisible(false);
-		}
-
 		festivalBtn.render(controlsTd);
+		festivalBtn.setVisible(this.game.science.get("drama").researched);
 		this.festivalBtn = festivalBtn;
+
+		//manage
+		var optimizeJobsBtn = new classes.village.ui.VillageButton({
+			name: "Manage Jobs",
+			description: "The leader optimize jobs distribution according to kitten's experiencies",
+			handler: dojo.hitch(this, function(){
+				game.village.optimizeJobs();
+			})
+		}, this.game);
+		optimizeJobsBtn.render(controlsTd);
+		optimizeJobsBtn.setVisible(!(game.village.leader == undefined) && game.workshop.get("register").researched);
+		this.optimizeJobsBtn = optimizeJobsBtn;
 
 		//--------------- bureaucracy ------------------
 		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game.village, this.game);

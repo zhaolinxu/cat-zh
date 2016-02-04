@@ -867,6 +867,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		flavor: "Gold sniffing cats"
+	},{
+		name: "register",
+		title: "Register",
+		description: "Leader manage jobs depending on experience.",
+		effects: {
+		},
+		prices:[
+			{ name : "gold", 	 val: 10 },
+			{ name : "science",  val: 500 }
+		],
+		unlocked: false,
+		researched: false
 	},
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
 	{
@@ -1436,9 +1448,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "augumentation",
 		title: "Augmentations",
-		description: "Kitten skills are 25% more effective",
+		description: "Kitten skills are 100% more effective",
 		effects: {
-			"skillMultiplier" : 0.25
+			"skillMultiplier" : 1
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },
