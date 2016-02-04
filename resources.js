@@ -354,17 +354,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * amt in the from and to arrays sets ratios between resources
 	 * The third amt parameter is the number of times to convert
 	 */
-	convert: function(from, to, amt){
+	convert: function(from, to, amt, bldTitle){
 		if (amt == 0) {
 			return;
 		}
 
 		// Cap amt based on available resources
+		lackOfResource = false;
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
+				lackOfResource = true;
 			}
 			//if (from[i].res == "coal") {console.log(-from[i].amt * amt);}
 		}
@@ -375,7 +377,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 
 		// Remove from resources
-		for (var i = 0, length = from.length; i < length; i++){
+		for (var i in from){
 			this.addResAmt(from[i].res, -from[i].amt * amt);
 		}
 
@@ -383,8 +385,22 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in to){
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
-		
+
+		// Display a message in log
+		if (lackOfResource) {
+			if (this.previousMsgConvertDate[bldTitle] === undefined) {
+				this.previousMsgConvertDate[bldTitle] = "";
+			}
+			if (this.previousMsgConvertDate[bldTitle] < (game.calendar.day - game.calendar.dayPerTick * 2)) {
+				this.game.msg("Breakdown of " + bldTitle + "(s)", "important");
+			}
+			this.previousMsgConvertDate[bldTitle] = game.calendar.day;
+		}
+
+		return lackOfResource;
 	},
+
+	previousMsgConvertDate: {},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
