@@ -208,7 +208,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects = {
 					"oilReductionRatio": 0.05,
 					"spaceRatio": 0.01,
-					"prodTransferBonus" : 0.1
+					"prodTransferBonus" : 0.001
 				};
 			},
 			togglable: false,
@@ -238,7 +238,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			calculateEffects: function(game, self){
 				self.effects = {
 					"observatoryRatio": 0.05,
-					"starchartPerTickBase": 0.001 * game.space.getAutoProductionRatio()
+					"starchartPerTickBase": 0.001 * game.space.getAutoProductionRatio(),
+					"energyConsumption": 0,
+					"energyProduction": 0
 				};
 
 				if (game.workshop.get("solarSatellites").researched) {
@@ -274,8 +276,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			effects: {},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"scienceRatio": 0.5,
 					"maxKittens": 2,
+					"scienceRatio": 0.5,
 					"energyConsumption": 10
 				};
 			}
@@ -446,8 +448,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             effects: {},
             calculateEffects: function(game, self){
 				self.effects = {
-					"scienceMax": 10000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
-					"starchartPerTickBase": 0.01 * game.space.getAutoProductionRatio()
+					"starchartPerTickBase": 0.01 * game.space.getAutoProductionRatio(),
+					"scienceMax": 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"))
 				};
             }
         },{
@@ -555,8 +557,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {},
 				calculateEffects: function(game, self){
 					self.effects = {
-						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
-						"starchartPerTickBase": 0.025 * game.space.getAutoProductionRatio()
+						"starchartPerTickBase": 0.025 * game.space.getAutoProductionRatio(),
+						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio"))
 					};
 				},
 				upgradable: true,
@@ -793,7 +795,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	getAutoProductionRatio: function(useTransferBonus){
         var ratio = ( 1 + this.getEffect("spaceRatio"));
 		if (useTransferBonus){
-			ratio *= ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * (this.getEffect("prodTransferBonus") / 100)));
+			ratio *= ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * (this.getEffect("prodTransferBonus"))));
 		}
 
 		if (this.game.workshop.get("spaceManufacturing").researched){
