@@ -179,6 +179,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.observeBtn = null;
 		clearTimeout(this.observeTimeout);
 	},
+	observeRemainingTime: 60,
+	observeStartDate: null,
+	observePause: function() {
+		if (this.observeTimeout != null && this.observeRemainingTime == 60) { // Only at the beginning of the pause
+			this.observeRemainingTime = 60 - Math.ceil((Date.now() - this.observeStartDate) / 1000);
+			this.observeClear();
+		}
+	},
 
 	constructor: function(game, displayElement) {
 		this.game = game;
@@ -334,7 +342,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}//this.observeHandler
 
 		if (this.game.rand(10000) < chance &&
-			this.game.bld.get("library").val > 0){
+			this.game.bld.get("library").val > 0
+			|| this.observeRemainingTime != 60 &&
+			game.isPause == false){ // Unpause the previous observeTimeout if one was displayed
 
 			var observeTimeout = function(){
 
@@ -372,8 +382,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
-				var seconds = 60;
-				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), seconds * 1000);
+				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), this.observeRemainingTime * 1000);
+				this.observeStartDate = Date.now();
+				this.observeRemainingTime = 60;
 			}
 		}
 
