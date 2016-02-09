@@ -1706,6 +1706,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return stack;
 	},
 
+	getCraftRatio: function() {
+		var craftRatio = this.bld.getEffect("craftRatio");
+		if (this.village.leader && this.village.leader.trait["name"] == "engineer") {
+			craftRatio += 0.05;
+		}
+		return craftRatio;
+	},
+
 	getResCraftRatio: function(res){
 		if (res.name == "wood"){
 			var refineRatio = this.bld.getEffect("refineRatio");
@@ -1721,7 +1729,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
 				this.bld.get("observatory").val + this.bld.get("biolab").val;
 
-			var ratio = this.bld.getEffect("craftRatio");
+			var ratio = this.getCraftRatio();
 
 			return ratio + scienceBldAmt * bpRatio;
 		}
@@ -1730,7 +1738,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var fRatio = this.workshop.getEffect("factoryRefineRatio");
 
 			var amt = this.bld.get("factory").val;
-			var ratio = this.bld.getEffect("craftRatio");
+			var ratio = this.getCraftRatio();
 
 			return ratio * (1 + amt * fRatio * 0.75);	//25% penalty
 		}
@@ -1738,7 +1746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //get resource specific craft ratio (like factory bonus)
         var resCraftRatio = this.bld.getEffect(res.name + "CraftRatio") || 0;
 
-		return this.bld.getEffect("craftRatio") + resCraftRatio;
+		return this.getCraftRatio() + resCraftRatio;
 	},
 
 	/**

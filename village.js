@@ -588,7 +588,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		name: "manager",
 		title: "Manager"
 	},{
-		name: "engineer",
+		name: "engineer", // Craft bonus
 		title: "Engineer"
 	},{
 		name: "merchant", // TradeRatio bonus
