@@ -200,6 +200,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		return null;
 	},
 
+	getTradeRatio: function() {
+		var tradeRatio = this.game.bld.getEffect("tradeRatio");
+		if (game.village.leader && game.village.leader.trait["name"] == "merchant") {
+			tradeRatio += 0.030;
+		}
+		return tradeRatio;
+	},
+
 	resetState: function(){
 		for (var i = 0; i < this.races.length; i++){
 			var race = this.races[i];
@@ -479,7 +487,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			var min = s.value * sratio - s.value * sratio * s.delta/2;
 			var amt = min + this.game.rand(s.value * sratio * s.delta);
 
-			var ratio = this.game.bld.getEffect("tradeRatio");
+			var ratio = this.game.diplomacy.getTradeRatio();
 			amt += amt*ratio;
 
 			var resValue = amt + amt*tradeRatioAttitude;
@@ -493,7 +501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		//-------------------- 35% chance to get spice ------------------
 		if (this.game.rand(100) < 35){
 			var spiceVal = this.game.rand(50);
-			var resValue = 25 +  spiceVal + spiceVal * this.game.bld.getEffect("tradeRatio");
+			var resValue = 25 +  spiceVal + spiceVal * this.game.diplomacy.getTradeRatio();
 
 			this.game.resPool.addResAmt("spice", resValue);
 			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
@@ -765,7 +773,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					} else {
 						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 
-						var tratio = self.game.bld.getEffect("tradeRatio");
+						var tratio = self.game.diplomacy.getTradeRatio();
 						var val = s.value + s.value * tratio;
 
 						min = val * sratio - val * sratio * s.delta/2;
