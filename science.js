@@ -785,6 +785,32 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		return null;
 	},
 
+	getPrices: function(tech) {
+
+		var prices = tech.prices ? tech.prices : [{
+				name:"science",
+				val: tech.cost
+			}];
+
+		var prices_result = []; // Create a new array to keep original values
+		for (var j = 0; j < prices.length; j++) {
+			prices_result.push({
+				"name": prices[j].name,
+				"val": prices[j].val
+			});
+		}
+
+		if (game.village.leader && game.village.leader.trait["name"] == "scientist") {
+			for (var i = 0; i < prices_result.length; i++) {
+				if (prices_result[i].name == "science") {
+					prices_result[i].val *= 0.99;
+				}
+			}
+		}
+
+		return prices_result;
+	},
+
 	resetState: function(){
 		for (var i = 0; i < this.techs.length; i++){
 			var tech = this.techs[i];
@@ -1033,10 +1059,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					this.game.upgrade(tech.upgrades);
 				}
 			}, tech, self.game),
-			prices: tech.prices ? tech.prices : [{
-				name:"science",
-				val: tech.cost
-			}],
+			prices: game.science.getPrices(tech),
 			description: tech.description,
 			tech: tech.name
 		}, this.game);

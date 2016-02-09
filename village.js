@@ -582,8 +582,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow"],
 
 	traits: [{
-		name: "scientist",
-		title: "Scientist",//Grr... someone emaciated the evil Scientinst first...
+		name: "scientist", // Science tech reduction science price
+		title: "Scientist",
 	},{
 		name: "manager",
 		title: "Manager"
