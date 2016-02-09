@@ -45,7 +45,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Charon",
 			glyph: "&#9049;",
 			effects: {
-				
+				"moonOutpost-unobtainiumPerTick": 0.9
 			},
 			festivalEffects: {
 			
@@ -56,7 +56,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Umbra",
 			glyph: "&#9062;",
 			effects: {
-				
+				"planetCracker-uraniumPerTick": 0.9,
+				"hydrofracturer-oilPerTick": 0.75
 			},
 			festivalEffects: {
 			
@@ -67,7 +68,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Yarn",
 			glyph: "&#9063;",
 			effects: {
-				
+				"researchVessel-starchartPerTickBase": 0.5
 			},
 			festivalEffects: {
 			
@@ -78,7 +79,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Helios",
 			glyph: "&#8978;",
 			effects: {
-				
+				"sunlifter-energyProduction": 1.5
 			},
 			festivalEffects: {
 			
@@ -89,10 +90,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Cath",
 			glyph: "&#9022;",
 			effects: {
-				"spaceElevator-prodTransferBonus": 0.5,
+				"spaceElevator-prodTransferBonus": 2,
 				"sattelite-starchartPerTickBase": 2,
 				"sattelite-observatoryRatio": 2,
-				"spaceStation-energyConsumption": 1.2
+				"spaceStation-scienceRatio": 1.5,
+				"spaceBeacon-starchartPerTickBase": 0.1
 			},
 			festivalEffects: {
 			
@@ -103,7 +105,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Redmoon",
 			glyph: "&#9052;",
 			effects: {
-				
+				"moonOutpost-unobtainiumPerTick": 1.2
 			},
 			festivalEffects: {
 			
@@ -114,7 +116,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Dune",
 			glyph: "&#9067;",
 			effects: {
-				"planetCracker-uraniumPerTick": 1.1
+				"planetCracker-uraniumPerTick": 1.1,
+				"hydrofracturer-oilPerTick": 1.5
 			},
 			festivalEffects: {
 			
@@ -125,7 +128,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Piscine",
 			glyph: "&#9096;",
 			effects: {
-
+				"researchVessel-starchartPerTickBase": 1.5
 			},
 			festivalEffects: {
 			
@@ -136,7 +139,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Terminus",
 			glyph: "&#9053;",
 			effects: {
-				
+				"sunlifter-energyProduction": 0.5
 			},
 			festivalEffects: {
 			
@@ -147,7 +150,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Kairo",
 			glyph: "&#8483;",
 			effects: {
-				
+				"spaceBeacon-starchartPerTickBase": 5,
+				"spaceElevator-prodTransferBonus": 0.5,
+				"sattelite-starchartPerTickBase": 0.75,
+				"sattelite-observatoryRatio": 0.75,
+				"spaceStation-scienceRatio": 0.75
 			},
 			festivalEffects: {
 			
