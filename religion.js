@@ -887,7 +887,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (religion.faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + this.game.getDisplayValueExt(religion.faith);
+		} else {
+			this.faithCount.innerHTML = "";
 		}
+
 		if (religion.getRU("solarRevolution").researched){
 			var bonus = religion.getProductionBonus();
 
