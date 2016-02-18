@@ -563,7 +563,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.domNode = dojo.create("div", {
 			style: {
 				position: "relative",
-				display: this.visible ? "block" : "none"
+				display: this.visible ? "block" : "none",
+				marginLeft: "auto",
+				marginRight: "auto"
 			}
 		}, btnContainer);
 
