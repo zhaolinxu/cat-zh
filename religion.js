@@ -410,7 +410,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getRU: function(name){ //$$$
 		var meta = this.getMeta(name, this.religionUpgrades);
-		var meta_result = $.extend(true, [], meta); // Create a new array to keep original values
+		/*var meta_result = $.extend(true, [], meta); // Create a new array to keep original values
 
 		if (game.village.leader && game.village.leader.trait["name"] != "wise") {
 			for (var i = 0; i < meta_result.prices.length; i++) {
@@ -420,9 +420,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 					meta_result.prices[i].val = Math.floor(meta_result.prices[i].val * 0.9 * 1000) / 1000;
 				}
 			}
-		}
+		}*/
 
-		return meta_result;
+		return meta;
 	},
 
 	getEffect: function(name){
