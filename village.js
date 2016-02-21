@@ -441,7 +441,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var furs = this.game.resPool.get("furs");
 
 		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		if (this.village.leader && this.village.leader.trait["name"] == "manager") {
+		if (this.leader && this.leader.trait["name"] == "manager") {
 			hunterRatio += 0.5;
 		}
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
