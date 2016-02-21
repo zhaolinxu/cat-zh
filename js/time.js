@@ -113,6 +113,92 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     }
 });
 
+dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+    doShatter: function(amt){
+        amt = amt || 1;
+
+        var game = this.game;
+        var cal = game.calendar;
+        cal.day = 0;
+        cal.season = 0;
+        cal.year+= amt;
+
+        for (var i=0; i< amt; i++) {
+            cal.onNewYear();
+        }
+
+        if (amt == 1) {
+            game.msg("Time crystal destroyed, skipped one year");
+        } else {
+            game.msg("Time crystal destroyed, skipped " + amt + " years");
+        }
+    },
+
+    /**
+     * TODO: this is a horrible pile of copypaste, can we fix it somehow?
+     */
+    renderLinks: function(){
+        var self = this;
+
+        this.x5 = this.addLink("x5",
+            function(){
+                this.animate();
+
+                var prices = this.getPrices();
+                var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+                if (hasRes){
+                    this.game.resPool.get("timeCrystal").value -= prices[0].val * 5;
+                }
+
+                this.doShatter(5);
+                this.update();
+            }, false
+        );
+
+        var prices = this.getPrices();
+        var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+
+        dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
+    },
+
+    update: function(){
+        this.inherited(arguments);
+
+        var prices = this.getPrices();
+        var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+
+        if (this.x5) {
+            dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
+        }
+    },
+});
+
+dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+    constructor: function(game){
+        this.addChild(new classes.ui.time.ShatterTCBtn({
+            name: "Shatter TC",
+            description: "Destroy time crystal and unleash the stored temporal energy.",
+            prices: [{name: "timeCrystal", val: 1}],
+            handler: function(btn){
+
+            }
+        }, game));
+
+
+    },
+
+    render: function(container){
+        var div = dojo.create("div", null, container);
+
+        var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+        this.inherited(arguments, [btnsContainer]);
+    },
+
+    update: function(){
+        this.inherited(arguments);
+    }
+});
+
 
 dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
 
@@ -130,10 +216,14 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
         this.cfPanel.setVisible(false);
         this.addChild(this.cfPanel);
 
+        var cforgeWgt = new classes.ui.ChronoforgeWgt(this.game);
+        cforgeWgt.setGame(this.game);
+        this.cfPanel.addChild(cforgeWgt);
+
         //add CF buttons
 
         //Shater TC
-        //Crystal Hammer (better shattering chance)
+        //Crystal Hammer (better shattering effect)
     },
 
     render: function(content){

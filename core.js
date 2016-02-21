@@ -397,6 +397,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
+
+		//screw this
+		this.opts = opts;
 	},
 
 	//required by BuildingButton
