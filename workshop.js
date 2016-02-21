@@ -2074,7 +2074,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	unlockAll: function(){
 		for (var i in this.upgrades){
 			this.unlock(this.upgrades[i]);
-		}	
+		}
+		this.game.msg("All upgrades are unlocked!");
 	}
 });
 

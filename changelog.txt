@@ -2,6 +2,8 @@ v 1.1.8.5 (20 feb)
 
 Changes by freeroot:
 Leader effects
+___
+Players can break TC in chronoforge
 
 v 1.1.8.4 (24 jan)
 

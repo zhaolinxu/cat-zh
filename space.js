@@ -570,6 +570,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Yarn",
 		unlocked: false,
 		buildings:[
+			/*{
+				name: "terraformingStation",
+				title: "Terraforming Station",
+				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere (TBD)",
+				unlocked: true,
+				priceRatio: 1.25,
+				prices: [
+					{name: "antimatter", val: 50  }
+				],
+				effects: {},
+				calculateEffects: function(game, self){
+				},
+				upgradable: true,
+				val: 0
+			}*/
 		]
 	}],
 
