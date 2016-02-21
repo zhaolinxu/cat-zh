@@ -563,9 +563,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.domNode = dojo.create("div", {
 			style: {
 				position: "relative",
-				display: this.visible ? "block" : "none",
+				display: this.visible ? "block" : "none"/*,
 				marginLeft: "auto",
-				marginRight: "auto"
+				marginRight: "auto"*/
 			}
 		}, btnContainer);
 
@@ -1067,6 +1067,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
+
+		var H_OFFSET = 320;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			this.game.tooltipUpdateFunc = function(){
