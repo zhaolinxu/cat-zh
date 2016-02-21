@@ -114,6 +114,17 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 });
 
 dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	hasResourceHover: true,
+
+	onClick: function(){
+		this.animate();
+
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.doShatter(1);
+		}
+	},
+
     doShatter: function(amt){
         amt = amt || 1;
 
@@ -171,6 +182,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
         }
     },
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	}
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
