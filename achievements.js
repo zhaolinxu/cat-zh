@@ -222,20 +222,6 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             unlocked: false,
             hasStar: true,
             starUnlocked: false
-        },{
-            name: "kittenLove",
-            title: "Love Thy Neighbor",
-            description: "Average 100 kittens born per Century.",
-            starDescription: "Average 200 kittens born per Century.",
-            condition: function () {
-                return (this.game.stats.getStatCurrent("averageKittens").val >= 100);
-            },
-            starCondition: function () {
-                return (this.game.stats.getStatCurrent("averageKittens").val >= 200);
-            },
-            unlocked: false,
-            hasStar: true,
-            starUnlocked: false
         }],
 
     constructor: function (game) {
