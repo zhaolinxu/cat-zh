@@ -184,6 +184,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		spans: [],
 
 		filters: {
+			"astronomicalEvent": {
+				title: "Astronomical Events",
+				enabled: true,
+				unlocked: false
+			},
 			"hunt": {
 				title: "Hunts",
 				enabled: true,
@@ -272,23 +277,23 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		clear: function(){
 			// Hack to save active astronomical events
-			var event;
+			/*var event;
 			var observeBtn = dojo.byId("observeBtn");
 			if (observeBtn) {
 				event = observeBtn.parentNode;
-			}
+			}*/
 
 			this.spans = [];
 
 			var gameLog = dojo.byId("gameLog");
 			dojo.empty(gameLog);
 
-			if (event) {
+			/*if (event) {
 				dojo.setStyle(event, "opacity", 1);
 				dojo.setStyle(observeBtn, "opacity", 1);
 				this.spans.push(event);
 				dojo.place(event, gameLog, "first");
-			}
+			}*/
 		},
 
 		renderFilters: function(){

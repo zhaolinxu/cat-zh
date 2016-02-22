@@ -337,12 +337,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResAmt("science", sciBonus);
 
 			if (!isSilent){
-				this.game.msg("+" + sciBonus.toFixed() + " science!");
+				this.game.msg("+" + sciBonus.toFixed() + " science!", "", "astronomicalEvent");
 			}
 
 			if (this.game.science.get("astronomy").researched){
 				if (!isSilent){
-					this.game.msg("You've made a star chart!");
+					this.game.msg("You've made a star chart!", "", "astronomicalEvent");
 				}
 				starchart.value +=1;
 			}
@@ -379,13 +379,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.observeHandler();
 			}else{
 				var gameLog = dojo.byId("gameLog");
-				var node = this.game.msg("A rare astronomical event occurred in the sky");
+				var msg = this.game.msg("A rare astronomical event occurred in the sky", "", "astronomicalEvent");
+				var node = dojo.byId("observeButton");
 
 				this.observeBtn = dojo.create("input", {
 					id: "observeBtn",
 					type: "button",
-					value: "Observe"
-				}, node);
+					value: "Observe the sky"
+				}, observeButton);
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 

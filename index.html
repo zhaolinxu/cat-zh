@@ -253,23 +253,25 @@
 					</div>
 					<div style="padding-top: 10px; border-top: 1px solid gray;">
 						You are a kitten in a catnip forest.
-						<div style="float: right;">
-						    <a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
-                            <a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
-                        </div>
 					</div>
 					<div id="iceage" style="display: none;">
 						<span>The forest is covered in snow.</span>
 					</div>
-					<div id="clearLog">
-						<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
+					<div>
+						<span id="clearLog">
+							<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
+						</span>
+						<span id="logFiltersBlock" style="padding-top: 5px">
+							<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
+						</span>
+						<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
+						<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
+
+                        <div id="logFilters" style="display:none">
+                        </div>
 					</div>
-					<div id="logFiltersBlock" style="padding-top: 5px">
-						<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
-						<div id="logFilters" style="display:none">
-						</div>
-					</div>
-					<div id="gameLog" style="overflow-y: scroll; padding-top: 20px; height: 100%; min-height:100%;">
+					<div id="observeButton" style="text-align: center; margin-top: 5px;"></div>
+					<div id="gameLog" style="overflow-y: scroll; padding-top: 10px; height: 100%; min-height:100%;">
 						<!-- Log goes there -->
 					</div>
 				</div>
