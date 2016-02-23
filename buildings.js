@@ -47,7 +47,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 			//try to set stage attribute if defined in metadata
 			if (stage[attr] != undefined) {
 				//throw "Invalid attribute '" + attr + "'";
-				stage[attr] = val;
+				stage[attr] = value;
 				return;
 			}
 		}
@@ -714,7 +714,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on
 				);
-						
+
 			}
 		},
 		val: 0
@@ -927,7 +927,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.togglable = true;
 				self.tunable = true;
 			}else {
-				self.on = self.val // Hack to not turn off while pumpjack is researched
+				self.on = self.val; // Hack to not turn off while pumpjack is researched
 			}
 
 			self.effects = effects;
@@ -971,11 +971,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"craftRatio": 0.05,
 				"energyConsumption": 2
 			};
-			
+
 			if (game.workshop.get("factoryLogistics").researched) {
 				effects["craftRatio"] = 0.06;
 			}
-			
+
 			self.effects = effects;
 		},
 		priceRatio: 1.15,
@@ -2380,7 +2380,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
 
 						btn.game.gatherClicks++;
-						if (btn.game.gatherClicks >= 2500 && !self.game.ironWill){
+						if (btn.game.gatherClicks >= 2500 && !this.game.ironWill){
 							btn.game.gatherClicks = 0;
 							btn.game.cheatMode = true;
 						}

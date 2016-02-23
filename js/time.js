@@ -28,12 +28,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
-		this.energy += Math.round(delta / ( 60 * 1000 ) ) * game.rate;    //every 60 seconds
+		this.energy += Math.round(delta / ( 60 * 1000 ) ) * this.game.rate;    //every 60 seconds
         if (this.energy > this.maxEnergy){
             this.energy = this.maxEnergy;
         }
 
-		var bonusSeconds = Math.round((this.energy - saveEnergy) / game.rate);
+		var bonusSeconds = Math.round((this.energy - saveEnergy) / this.game.rate);
         if (bonusSeconds > 0){
             this.game.msg("You have recharged " + bonusSeconds + " second"
 				+ (bonusSeconds > 1 ? "s" : "") + " of temporal energy");
@@ -106,7 +106,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     update: function(){
         this.timeSpan.innerHTML = "Energy: " + this.game.time.energy + "/" + this.game.time.maxEnergy;
         if (this.game.time.energy){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.time.energy / game.rate) + ")";
+            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.time.energy / this.game.rate) + ")";
         }
 
         this.inherited(arguments);

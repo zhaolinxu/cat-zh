@@ -587,7 +587,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effectDesc: "Unlocks kerosene and factory processing(TBD)",
         unlocked: false,
         researched: false,
-        prices: [],
         prices: [
             {name : "science", val: 215000},
             {name: 	"blueprint", val: 150}
@@ -794,7 +793,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
 
-		if (game.village.leader && game.village.leader.trait["name"] == "scientist") {
+		if (this.game.village.leader && this.game.village.leader.trait["name"] == "scientist") {
 			for (var i = 0; i < prices_result.length; i++) {
 				if (prices_result[i].name == "science") {
 					prices_result[i].val *= 0.99;
@@ -1053,7 +1052,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					this.game.upgrade(tech.upgrades);
 				}
 			}, tech, self.game),
-			prices: game.science.getPrices(tech),
+			prices: this.game.science.getPrices(tech),
 			description: tech.description,
 			tech: tech.name
 		}, this.game);

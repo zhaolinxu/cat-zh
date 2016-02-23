@@ -2049,12 +2049,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 		}
 	},
-	
+
 	unlock: function(upgrade){
 		upgrade.researched = true;
 
 		if (upgrade.handler){
-			upgrade.handler(self.game);
+			upgrade.handler(this.game);
 		}
 
 		if (upgrade.unlocks) {
@@ -2067,7 +2067,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			this.game.upgrade(upgrade.upgrades);
 		}
 	},
-	
+
 	unlockAll: function(){
 		for (var i in this.upgrades){
 			this.unlock(this.upgrades[i]);
@@ -2148,7 +2148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 			this.devUnlockHref = this.addLink("[+]", this.unlock);
 		}
 	},
-	
+
 	unlock: function() {
 		var upgrade = this.getUpgrade();
 		this.game.workshop.unlock(upgrade);

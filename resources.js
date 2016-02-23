@@ -250,7 +250,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name : "elderBox",
-		title: "present box", 
+		title: "present box",
 		description: "Merry Eldermass!",
 		type : "exotic",
 		craftable: false,
@@ -560,7 +560,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         }
         return delta;
     },
-	
+
 	setDisplayAll: function() {
 		for(var i = 0; i< this.resources.length; i++){
 			this.resources[i].isHidden = false;
@@ -620,17 +620,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var tdResName = dojo.create("td", {
 				class: "resource-name",
-				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"} 
+				innerHTML: ( res.title || res.name )  + ":", style: { width: "60px"}
 			}, tr);
-			
+
 			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
 				res.isHidden = !res.isHidden;
 			}, res));
 			dojo.connect(tdResName, "onmouseover", this, function(){
-				gamePage.ui.isDisplayOver = true;
+				this.game.ui.isDisplayOver = true;
 			});
 			dojo.connect(tdResName, "onmouseout", this, function(){
-				gamePage.ui.isDisplayOver = false;
+				this.game.ui.isDisplayOver = false;
 			});
 
 			UIUtils.attachTooltip(this.game, tdResName, dojo.hitch(this, function(res){
@@ -648,7 +648,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				dojo.setStyle(tdResName, "color", res.color);
 			}
 			if (res.style){
-				for (styleKey in res.style){
+				for (var styleKey in res.style){
 					dojo.setStyle(tdResName, styleKey, res.style[styleKey]);
 				}
 			}
@@ -706,7 +706,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				row.rowRef.style.display = "none";
 				row.rowRef.style.opacity = 0.3;
 			}
-			if (gamePage.ui.isDisplayOver) {
+			if (this.game.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 
@@ -919,10 +919,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				res.isHidden = !res.isHidden;
 			}, res));
 			dojo.connect(tdResName, "onmouseover", this, function(){
-				gamePage.ui.isDisplayOver = true;
+				this.game.ui.isDisplayOver = true;
 			});
 			dojo.connect(tdResName, "onmouseout", this, function(){
-				gamePage.ui.isDisplayOver = false;
+				this.game.ui.isDisplayOver = false;
 			});
 
 			//	---------------- amt ----------------------
@@ -1004,7 +1004,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				row.rowRef.style.display = "none";
 				row.rowRef.style.opacity = 0.3;
 			}
-			if (gamePage.ui.isDisplayOver) {
+			if (this.game.ui.isDisplayOver) {
 				row.rowRef.style.display = "";
 			}
 

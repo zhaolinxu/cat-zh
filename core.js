@@ -1358,7 +1358,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
 /**
  * TODO: Please deprecate zillion of other instances of this method
  * TODO2: return offset from a htmlProvider.
- * Ideally it should be some structure like 
+ * Ideally it should be some structure like
  * {
  * 	x,
  * 	y,
@@ -1402,4 +1402,4 @@ UIUtils = {
 			dojo.setStyle(tooltip, "display", "none");
 		});
 	}
-}
+};

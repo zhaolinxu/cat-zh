@@ -3,22 +3,22 @@
  */
 dojo.declare("classes.ui.UISystem", null, {
     game: null,
-    
+
     setGame: function(game){
         this.game = game;
     },
-    
+
     render: function(){
     },
-    
+
     update: function(){
     },
-    
+
     updateOptions: function(){
     },
-    
+
     displayAutosave: function(){
-        
+
     }
 });
 
@@ -28,11 +28,11 @@ dojo.declare("classes.ui.UISystem", null, {
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
-    
+
     fontSize: 16,
-    
+
     isDisplayOver: false,
-    
+
     constructor: function(containerId){
         this.containerId = containerId;
 
@@ -40,13 +40,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.game.stats.getStat("totalClicks").val += 1;
         });
     },
-    
+
     setGame: function(game){
         this.game = game;
 
         this.toolbar = new classes.ui.Toolbar(game);
     },
-    
+
     render: function(){
         var game = this.game;
 
@@ -126,17 +126,17 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         this.update();
     },
-    
+
     //---------------------------------------------------------------
     update: function(){
         //TODO: use ui managers?
         this.updateFastHunt();
         this.updateCalendar();
         this.updateUndoButton();
-        
+
         this.toolbar.update();
     },
-    
+
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
             this.fastHuntContainer = $("#fastHuntContainer")[0];
@@ -144,7 +144,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         var catpower = this.game.resPool.get("manpower");
         var showFastHunt = (catpower.value >= 100);
-        
+
         //blazing fast vanilla toggle
         if (showFastHunt){
             if (this.fastHuntContainer.style.visibility == "hidden"){
@@ -159,7 +159,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
         }
     },
-    
+
     updateCalendar: function(){
         var calendar = this.game.calendar;
         var hasCalendarTech = this.game.science.get("calendar").researched;
@@ -196,15 +196,15 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateUndoButton: function(){
         var isVisible = (this.game.undoChange !== null);
         $("#undoBtn").toggle(isVisible);
-        
+
         if (isVisible) {
             $("#undoBtn").html("undo (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "s)");
         }
     },
-    
+
     updateOptions: function() {
         var game = this.game;
-        
+
         $("#schemeToggle").val(game.colorScheme);
         $("body").attr("class", "scheme_" + game.colorScheme);
 
@@ -217,7 +217,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
     },
-    
+
     displayAutosave: function(){
         dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
         dojo.animateProperty({
@@ -228,7 +228,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             duration: 1200,
         }).play();
     },
-    
+
     zoomUp: function(){
         this.fontSize++;
         this.updateFontSize();

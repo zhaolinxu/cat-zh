@@ -1315,10 +1315,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var json = LZString.decompressFromBase64(lzdata);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 
-		game.load();
-		game.msg("Save import successful!");
+		this.load();
+		this.msg("Save import successful!");
 
-		game.render();
+		this.render();
 	},
 
 	migrateSave: function(save) {
@@ -2169,7 +2169,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.updateScheduledEvents();
 
 		if (this.isPaused){
-			game.calendar.observePause(); // Pause the current observeTimeout
+			this.calendar.observePause(); // Pause the current observeTimeout
 			return;
 		}
 

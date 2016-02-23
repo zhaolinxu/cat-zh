@@ -48,7 +48,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 0.9
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -60,7 +60,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 0.75
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -71,7 +71,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 0.5
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -82,7 +82,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 1.5
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -97,7 +97,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceBeacon-starchartPerTickBase": 0.1
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -108,7 +108,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 1.2
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -120,7 +120,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 1.5
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -131,7 +131,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 1.5
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -142,7 +142,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 0.5
 			},
 			festivalEffects: {
-			
+
 			}
 		},
 		{
@@ -157,7 +157,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceStation-scienceRatio": 0.75
 			},
 			festivalEffects: {
-			
+
 			}
 		}
 	],
@@ -214,11 +214,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycleEffects: function(effects, building_name){
 		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
-			
+
 			var effects_keys = Object.keys(effects);
-			for (i = 0; i < effects_keys.length; i++) {
+			for (var i = 0; i < effects_keys.length; i++) {
 				var effect = effects_keys[i];
-				
+
 				var effect_cycle = building_name + "-" + effect;
 				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
 					var ratio = list_effects_cycle[effect_cycle];
@@ -226,14 +226,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					effects[effect + "_cycleEffect"] = ratio;
 				}
 			}
-		
+
 			if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
 				var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
-				
+
 				var effects_keys = Object.keys(effects);
 				for (i = 0; i < effects_keys.length; i++) {
 					var effect = effects_keys[i];
-					
+
 					var effect_cycle = building_name + "-" + effect;
 					if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
 						var ratio = list_festivalEffects_cycle[effect_cycle];
@@ -251,7 +251,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		this.day += this.dayPerTick;
 
-		var intday = this.integerDay();
+		var intday = this.integerDay(),
 		    newseason = false,
 		    newyear = false;
 
@@ -346,12 +346,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 				starchart.value +=1;
 			}
-		}//this.observeHandler
+		};//this.observeHandler
 
 		if (this.game.rand(10000) < chance &&
 			this.game.bld.get("library").val > 0
 			|| this.observeRemainingTime != 60 &&
-			game.isPause == false){ // Unpause the previous observeTimeout if one was displayed
+			this.game.isPaused == false){ // Unpause the previous observeTimeout if one was displayed
 
 			var observeTimeout = function(){
 
@@ -367,7 +367,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 
-			}//observeTimeout
+			};//observeTimeout
 
 			if (this.observeBtn){
 				dojo.hitch(this, observeTimeout)();
@@ -386,7 +386,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					id: "observeBtn",
 					type: "button",
 					value: "Observe the sky"
-				}, observeButton);
+				}, node);
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
@@ -556,7 +556,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.weather == "warm"){
 			mod =  0.15;
 		} else if (this.weather == "cold"){
-			mod = -0.15
+			mod = -0.15;
 		}
 		return mod;
 	},
