@@ -358,7 +358,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		upgrades: {
 			buildings: ["library"]
 		},
-		calculateEffects: function(self, game){
+		action: function(self, game){
 			var effects = {
 				"scienceRatio": 0.25,
 				"starEventChance": 0.002,

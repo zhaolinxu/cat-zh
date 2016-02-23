@@ -1237,9 +1237,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "starchart",  val: 75 },
 			{ name : "science",  val: 25000 },
 		],
-		upgrades: {
-			buildings: ["observatory"]
-		},
 		unlocked: false,
 		researched: false
 	},

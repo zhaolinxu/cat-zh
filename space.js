@@ -232,9 +232,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			togglable: true,
 			tunable: true,
 			effects: {},
-			upgrades: {
-				buildings: ["observatory"]
-			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"observatoryRatio": 0.05,
