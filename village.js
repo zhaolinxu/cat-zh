@@ -1605,7 +1605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//manage
 		var optimizeJobsBtn = new classes.village.ui.VillageButton({
 			name: "Manage Jobs",
-			description: "The leader optimize jobs distribution according to kitten's experiencies",
+			description: "The leader optimizes job distribution according to kittens' experiences",
 			handler: dojo.hitch(this, function(){
 				game.village.optimizeJobs();
 			})

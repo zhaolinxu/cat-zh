@@ -854,9 +854,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 					var price = prices[i];
 
 					var priceItemNode = dojo.create("div", null, tooltip);
+					var res = this.game.resPool.get(price.name);
 
 					var nameSpan = dojo.create("span", {
-							innerHTML: price.name,
+							innerHTML: res.title || res.name,
 							style: { float: "left"}
 						}, priceItemNode );
 

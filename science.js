@@ -506,7 +506,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "ecology",
 		title: "Ecology",
 		description: "Ecology is a technology primary focused on the search for new cheap and safe energy sources.",
-		effectDesc: "Unlocks Solar Plants",
+		effectDesc: "Unlocks Solar Farms",
 		unlocked: false,
 		researched: false,
 		prices: [

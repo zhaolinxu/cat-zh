@@ -538,7 +538,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"prodTransferBonus": {
-				title: "Transfered earth production bonus",
+				title: "Transferred cath production bonus",
 				type: "ratio"
 			},
 
