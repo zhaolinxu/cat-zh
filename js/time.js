@@ -3,6 +3,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     maxEnergy: 0,   /*Time acceleration energy in ticks*/
     energy: 0,
+    /*
+     * Amount of years skipped by CF time jumps
+     */
+    flux: 0,
     isAccelerated: false,   //do not save this flag or else!
 
     constructor: function(game){
@@ -17,6 +21,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 		var saveEnergy = saveData["time"].energy || 0;
         this.energy = saveEnergy;
+        this.flux = saveData["time"].flux || 0;
 
         if (!this.game.science.get("calendar").researched){
             return;
@@ -44,7 +49,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     save: function(saveData){
        saveData["time"] = {
            timestamp: Date.now(),
-           energy: this.energy
+           energy: this.energy,
+           flux: this.flux
        };
     },
 
@@ -143,6 +149,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         } else {
             game.msg("Time crystal destroyed, skipped " + amt + " years");
         }
+
+        game.time.flux += amt;
     },
 
     /**

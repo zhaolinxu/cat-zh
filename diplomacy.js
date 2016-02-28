@@ -213,8 +213,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			var race = this.races[i];
 			race.unlocked = false;
 			race.collapsed = false;
-			race.energy = null;
-			race.duration = null;
+			race.energy = 0;
+			race.duration = 0;
 		}
 	},
 

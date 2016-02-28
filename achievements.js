@@ -200,7 +200,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: "In the grim and dark future of a catkind",
             starDescription: "In the grim and dark future of a catkind there are no resets",
             condition: function () {
-                return (this.game.stats.getStat("totalYears").val >= 40000);
+                return (this.game.stats.getStat("totalYears").val >= 40000 + this.game.time.flux);
             },
             starCondition: function () {
                 return (this.game.calendar.year >= 40000);
