@@ -1635,7 +1635,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		if (this.happinessStats){
 			var happiness = this.game.village.happiness * 100;
-			this.happinessStats.innerHTML = "Happiness: " + happiness.toFixed() + "%";
+			this.happinessStats.innerHTML = "Happiness: " + Math.floor(happiness) + "%";
 		}
 
 		var festivalDays = this.game.calendar.festivalDays;
