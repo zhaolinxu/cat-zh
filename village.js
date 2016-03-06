@@ -598,7 +598,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		title: "Merchant"
 	},{
 		name: "wise", // Religion bonus
-		title: "Wise"
+		title: "Philosoipher"
 	},{
 		name: "none",
 		title: "None"
