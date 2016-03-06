@@ -578,8 +578,8 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			this.payPrice();
 			this.sacrifice(1);
+			this.update();
 		}
 	},
 
@@ -592,31 +592,23 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.all = this.addLink("all",
 			function(){
 				this.animate();
-
-				var amt = Math.floor(self.game.resPool.get("unicorns").value / prices[0].val);
-				self.game.resPool.get("unicorns").value -= amt * prices[0].val;
-
-				this.sacrifice(amt);
-				this.update();
+				if (this.enabled && this.hasResources()) {
+					var prices = this.getPrices();
+					this.sacrifice(Math.floor(this.game.resPool.get("unicorns").value / prices[0].val));
+					this.update();
+				}
 			}, false
 		);
 
 		this.x10 = this.addLink("x10",
 			function(){
 				this.animate();
-
-				self.game.resPool.get("unicorns").value -= 10 * prices[0].val;
-
-				this.sacrifice(10);
-				this.update();
+				if (this.enabled && this.hasResources(10)) {
+					this.sacrifice(10);
+					this.update();
+				}
 			}, false
 		);
-
-		var prices = this.getPrices();
-		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
-
-		dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
-		dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
 	},
 
 	update: function(){
@@ -628,21 +620,25 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		if (this.x10){
 			dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
 		}
-		if (this.all){
-			dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
-		}
 	},
 
 	sacrifice: function(amt){
+		var prices = this.getPrices();
+		amt = amt || 1;
 
-		var amt = amt || 1;
-		var unicornCount = 2500 * amt;
-		var zigguratCount = this.game.bld.get("ziggurat").val;
+		var unicornCount = prices[0].val * amt;
 
-		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(zigguratCount * amt) + " unicorn tears!");
-		this.game.resPool.get("tears").value += 1 * zigguratCount * amt;
+		if (unicornCount > this.game.resPool.get("unicorns").value) {
+			return;
+		}
 
-        this.game.stats.getStat("unicornsSacrificed").val+= 2500 * amt;
+		var tearCount = this.game.bld.get("ziggurat").val * amt;
+
+		this.game.resPool.get("unicorns").value -= unicornCount;
+		this.game.resPool.get("tears").value += tearCount;
+		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
+
+		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
 	},
 
 	getSelectedObject: function(){
@@ -652,23 +648,72 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 
 
 dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	x10: null,
+	simplePrices: false,
 	hasResourceHover: true,
 
 	onClick: function(){
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			this.payPrice();
 			this.sacrifice(1);
+			this.update();
+		}
+	},
+
+	/**
+	 * Render button links like off/on and sell
+	 */
+	renderLinks: function(){
+		var self = this;
+
+		this.all = this.addLink("all",
+			function(){
+				this.animate();
+				if (this.enabled && this.hasResources()) {
+					var prices = this.getPrices();
+					this.sacrifice(Math.floor(this.game.resPool.get("alicorn").value / prices[0].val));
+					this.update();
+				}
+			}, false
+		);
+
+		this.x10 = this.addLink("x10",
+			function(){
+				this.animate();
+				if (this.enabled && this.hasResources(10)) {
+					this.sacrifice(10);
+					this.update();
+				}
+			}, false
+		);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+
+		var prices = this.getPrices();
+		var hasAlicorns = (prices[0].val * 10 <= this.game.resPool.get("alicorn").value);
+
+		if (this.x10){
+			dojo.setStyle(this.x10.link, "display", hasAlicorns ? "" : "none");
 		}
 	},
 
 	sacrifice: function(amt){
-		var amt = amt || 1;
-		var alicornsCount = 25 * amt;
+		var prices = this.getPrices();
+		amt = amt || 1;
+
+		var alicornsCount = prices[0].val * amt;
+
+		if (alicornsCount > this.game.resPool.get("alicorn").value) {
+			return;
+		}
+
+		this.game.resPool.get("alicorn").value -= alicornsCount;
+		this.game.resPool.get("timeCrystal").value += amt;
 
 		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystal" + (amt == 1 ? "" : "s") + "!");
-		this.game.resPool.get("timeCrystal").value += amt;
 	},
 
 	updateVisible: function(){
