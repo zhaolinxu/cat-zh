@@ -410,17 +410,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getRU: function(name){ //$$$
 		var meta = this.getMeta(name, this.religionUpgrades);
-		/*var meta_result = $.extend(true, [], meta); // Create a new array to keep original values
-
-		if (game.village.leader && game.village.leader.trait["name"] != "wise") {
-			for (var i = 0; i < meta_result.prices.length; i++) {
-				if (meta_result.prices[i].name == "faith") {
-					meta_result.prices[i].val = Math.floor(meta_result.prices[i].val / 0.9 * 1000) / 1000;
-				} else if (meta_result.prices[i].name == "gold") {
-					meta_result.prices[i].val = Math.floor(meta_result.prices[i].val * 0.9 * 1000) / 1000;
-				}
-			}
-		}*/
 
 		return meta;
 	},
@@ -535,8 +524,16 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
+			if (game.village.leader && game.village.leader.trait["name"] == "wise") {
+				if (prices[i].name == "faith") {
+					prices[i].val = prices[i].val / 0.9;
+				} else if (prices[i].name == "gold") {
+					prices[i].val = prices[i].val * 0.9;
+				}
+			}
 		}
-	    return ( this.ruCached.upgradable && this.transcendence && this.transcendence.researched ) ? prices : this.ruCached.prices;
+
+	    return prices;
 	},
 
 	updateVisible: function(){
