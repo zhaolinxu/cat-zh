@@ -422,9 +422,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	 * Get a total production bonus unlocked by a Solar Revolution
 	 */
 	getProductionBonus: function(){
-		var stripe = 1000;
-		var rate = (Math.sqrt(1+8 * this.faith / stripe)-1)/2;
-
+		rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
 		return rate;
 	},
 
@@ -901,9 +899,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.faithCount.innerHTML = "";
 		}
 
-		if (religion.getRU("solarRevolution").researched){
-			var bonus = religion.getProductionBonus();
-
+		var bonus = religion.getProductionBonus();
+		if (bonus != 0) {
 			this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% bonus)" );
 		}
 
