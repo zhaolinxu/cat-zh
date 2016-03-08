@@ -28,7 +28,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 
     getMeta: function(){
         var bld = this.meta;
-        if (bld.upgradable){
+        if (bld.upgradable && bld.stages){
 			//some specific hack for stagable buildings
 			if (bld.stage >= bld.stages.length){
 				bld.stage = bld.stages.length-1;
@@ -575,7 +575,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		requiredTech: ["archeology"],
 		val: 0,
-		flavor : "Its full of mice! Wait, wrong 'quarry'"
+		flavor : "It's full of mice! Wait, wrong 'quarry'"
 	},
 	{
 		name: "smelter",
@@ -2380,7 +2380,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
 
 						btn.game.gatherClicks++;
-						if (btn.game.gatherClicks >= 2500 && !this.game.ironWill){
+						if (btn.game.gatherClicks >= 2500 && !btn.game.ironWill){
 							btn.game.gatherClicks = 0;
 							btn.game.cheatMode = true;
 						}

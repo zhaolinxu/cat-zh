@@ -2126,7 +2126,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 
 	getSimplePrices: function(){
 		var upgrade = this.getUpgrade();
-		return this.simplePrices && !upgrade.researhed;
+		return this.simplePrices || upgrade.researched;
 	},
 
 	getFlavor: function(){
