@@ -215,31 +215,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
 
-			var effects_keys = Object.keys(effects);
-			for (var i = 0; i < effects_keys.length; i++) {
-				var effect = effects_keys[i];
-
+			for (effect in effects) {
 				var effect_cycle = building_name + "-" + effect;
 				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
-					var ratio = list_effects_cycle[effect_cycle];
-					effects[effect] *= ratio;
-					effects[effect + "_cycleEffect"] = ratio;
+					effects[effect] *= list_effects_cycle[effect_cycle];
 				}
 			}
+		}
 
-			if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
-				var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
+		if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
+			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
 
-				var effects_keys = Object.keys(effects);
-				for (i = 0; i < effects_keys.length; i++) {
-					var effect = effects_keys[i];
-
-					var effect_cycle = building_name + "-" + effect;
-					if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
-						var ratio = list_festivalEffects_cycle[effect_cycle];
-						effects[effect] *= ratio;
-						effects[effect + "_cycleEffect"] = ratio;
-					}
+			for (effect in effects) {
+				var effect_cycle = building_name + "-" + effect;
+				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
+					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
 				}
 			}
 		}
