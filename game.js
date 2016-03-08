@@ -1630,14 +1630,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.bld.getEffect(res.name + "Ratio")
 		});
 
-		//*** SW coal penalty, affected by workshop upgrades
-		/*if (res.name == "coal"){
-			stack.push({
-				name: "Buildings",
-				type: "ratio",
-				val: this.workshop.getEffect(res.name + "JobRatio")
-			});
-		}*/	//???
+		stack.push({
+			name: "Boost",
+			type: "ratio",
+			value: this.workshop.getEffect(res.name + "SuperRatio")
+		});
 
 		stack.push({
 			name: "Space",
