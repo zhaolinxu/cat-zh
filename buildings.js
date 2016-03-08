@@ -919,7 +919,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyConsumption": 0
 			};
 
-			var ratio = 1 + game.workshop.getEffect("oilRatio");
+			var ratio = 1 + game.workshop.getEffect("oilWellRatio");
 			effects["oilPerTickBase"] *= ratio;
 
 			if (game.workshop.get("pumpjack").researched){

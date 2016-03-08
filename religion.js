@@ -408,7 +408,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.getMeta(name, this.zigguratUpgrades);
 	},
 
-	getRU: function(name){ //$$$
+	getRU: function(name){
 		var meta = this.getMeta(name, this.religionUpgrades);
 
 		return meta;

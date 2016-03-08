@@ -117,6 +117,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "catnip",
 				type: "ratio"
 			},
+			"catnipJobRatio" : {
+				title: "Farmer know-how",
+				resName: "catnip",
+				type: "ratio"
+			},
 			"catnipMax" : {
 				title: "Max Catnip",
 				resName: "catnip"
@@ -138,6 +143,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"woodRatio" : {
 				title: "Wood bonus",
+				resName: "wood",
+				type: "ratio"
+			},
+
+			"woodJobRatio" : {
+				title: "Woodcutter know-how",
 				resName: "wood",
 				type: "ratio"
 			},
@@ -284,8 +295,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
-			"manpowerRatio" : {
-				title: "Catpower bonus",
+			"manpowerJobRatio" : {
+				title: "Hunter know-how",
 				resName: "manpower",
 				type: "ratio"
 			},
@@ -591,7 +602,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "hunterRatio" : {
-                title: "Hunter know-how",
+                title: "Hunts know-how",
                 type: "ratio"
             },
 
@@ -610,7 +621,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-            "coalRatio" : {
+            "coalSuperRatio" : {
                 title: "Coal bonus",
                 type: "ratio"
             },
@@ -650,7 +661,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-            "oilRatio" : {
+            "oilWellRatio" : {
                 title: "Oil bonus",
                 type: "ratio"
             },
@@ -1470,13 +1481,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick += resProduction;
 
-		//UPGRADE EFFECTS GENERAL
-		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
-		if (workshopResRatio && res.name != "coal"){
+		//UPGRADE EFFECTS JOBS
+		var workshopResRatio = this.workshop.getEffect(res.name+"JobRatio");
+		if (workshopResRatio){
 			perTick += resProduction * workshopResRatio;
 		}
+
+		//UPGRADE EFFECTS GLOBAL
 		var workshopResGlobalRatio = this.workshop.getEffect(res.name+"GlobalRatio");
-		perTick *= (1 + workshopResGlobalRatio);
+		if (workshopResGlobalRatio) {
+			perTick *= (1 + workshopResGlobalRatio);
+		}
 
 		//BUILDINGS AND SPACE EFFECTS
 		var resRatio = this.getEffect(res.name + "Ratio");
@@ -1484,9 +1499,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * resRatio;
 		}
 
-		//UPGRADE EFFECTS FOR COAL (HACK, TO BE FIXED)
-		var workshopResRatio = this.workshop.getEffect(res.name+"Ratio");
-		if (workshopResRatio && res.name == "coal"){
+		//UPGRADE EFFECTS SUPER
+		var workshopResRatio = this.workshop.getEffect(res.name+"SuperRatio");
+		if (workshopResRatio){
 			perTick += perTick * workshopResRatio;
 		}
 
@@ -1595,13 +1610,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					value: resMapProduction[res.name] || 0
 				});
 
-				if (res.name != "coal"){
-					villageStack.push({
-						name: "Upgrades",
-						type: "ratio",
-						value: this.workshop.getEffect(res.name + "Ratio")
-					});
-				}
+				villageStack.push({
+					name: "Know-how",
+					type: "ratio",
+					value: this.workshop.getEffect(res.name + "JobRatio")
+				});
 		//<----
 		stack.push(villageStack);
 
@@ -1622,7 +1635,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: "Buildings",
 				type: "ratio",
-				val: this.workshop.getEffect(res.name + "Ratio")
+				val: this.workshop.getEffect(res.name + "JobRatio")
 			});
 		}*/	//???
 
