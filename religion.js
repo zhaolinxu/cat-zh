@@ -519,7 +519,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	getPrices: function(){
-		var ratio = this.getRU().priceRatio;
+		var ratio = this.getRU().priceRatio || 1;
 		var prices = dojo.clone(this.ruCached.prices);
 
 		for (var i = 0; i< prices.length; i++){
