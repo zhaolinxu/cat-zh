@@ -239,7 +239,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	tick: function(){
 
-		this.day += this.dayPerTick;
+		if (this.game.time.isAccelerated) {
+			this.day += this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate);
+		} else {
+			this.day += this.dayPerTick;
+		}
 
 		var intday = this.integerDay(),
 		    newseason = false,
