@@ -1515,9 +1515,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += perTick * this.prestige.getParagonProductionRatio();
 
 		//---------  FAITH BONUS --------------
-		if (this.religion.getRU("solarRevolution").researched){
-			perTick += perTick * (this.religion.getProductionBonus() / 100);
-		}
+		perTick += perTick * this.religion.getProductionBonus() / 100;
 
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){
@@ -1654,13 +1652,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.prestige.getParagonProductionRatio()
 		});
 
-		if (this.religion.getRU("solarRevolution").researched){
-			stack.push({
-				name: "Faith",
-				type: "ratio",
-				value: this.religion.getProductionBonus() / 100
-			});
-		}
+		stack.push({
+			name: "Faith",
+			type: "ratio",
+			value: this.religion.getProductionBonus() / 100
+		});
 
 		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
 		if (!res.transient && this.bld.get("magneto").on > 0){

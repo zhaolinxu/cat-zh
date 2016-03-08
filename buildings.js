@@ -1440,9 +1440,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		paragonRatio = paragonRatio || 0.25;
 
 		//	faith
-		if (this.game.religion.getRU("solarRevolution").researched){
-			autoProdRatio *= ( 1 + (this.game.religion.getProductionBonus() / 100));
-		}
+		autoProdRatio *= ( 1 + this.game.religion.getProductionBonus() / 100);
 		//	SW
 		var steamworks = this.get("steamworks");
 		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
