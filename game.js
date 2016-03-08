@@ -2047,15 +2047,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getStackElemString: function(stackElem){
-		var resString = stackElem.name + ":";
+		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
 		if (stackElem.type == "fixed"){
-			resString += " " + this.getDisplayValueExt(stackElem.value, true, true);
+			resString += this.getDisplayValueExt(stackElem.value, true, true);
 		} else {
-			resString += " " + this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
 		}
 
-		resString += "<br>";
+		resString += "</div><br>";
 
 		return resString;
 	},
@@ -2131,7 +2131,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? "/s" : "");
+		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? "/sec" : "");
 	},
 
 	/**
