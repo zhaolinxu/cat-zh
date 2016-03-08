@@ -330,17 +330,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
+	getResourcePerTickAutomate: [],
+
 	addResAmt: function(name, value){
 		var res = this.get(name);
 
-		if (value){
-			res.value += value;
-		}
-		if (res.maxValue && res.value > res.maxValue){
-			res.value = res.maxValue;
-		}
-		if (res.value < 0){
-			res.value = 0;
+		if (typeof this.getResourcePerTickAutomate[name] == "undefined") {
+			this.getResourcePerTickAutomate[name] = value;
+		} else {
+			this.getResourcePerTickAutomate[name] += value;
 		}
 	},
 
@@ -409,6 +407,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.maxValue = maxValue;
 
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
+			if (typeof this.getResourcePerTickAutomate[res.name] != "undefined") {
+				resPerTick += this.getResourcePerTickAutomate[res.name];
+			}
 
 			res.value = res.value + resPerTick;
 			if (res.maxValue && res.value > res.maxValue){
@@ -423,6 +424,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		//--------
 		this.energyProd = this.game.getEffect("energyProduction");
 		this.energyCons = this.game.getEffect("energyConsumption");
+
+		this.getResourcePerTickAutomate = [];
 	},
 
 	/**
