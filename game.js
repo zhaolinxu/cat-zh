@@ -1716,13 +1716,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: resConsumption
 		});
 
-		if (this.getRateUI() != 5) {
-			stack.push({
-				name: "Time",
-				type: "ratio",
-				value: (this.getRateUI() - this.rate) / this.rate
-			});
-		}
+		stack.push({
+			name: "Time",
+			type: "ratio",
+			value: (this.getRateUI() - this.rate) / this.rate
+		});
 
 		return stack;
 	},
