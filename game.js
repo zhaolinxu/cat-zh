@@ -1703,6 +1703,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: resConsumption
 		});
 
+		if (this.getRateUI() != 5) {
+			stack.push({
+				name: "Time",
+				type: "ratio",
+				value: (this.getRateUI() - this.rate) / this.rate
+			});
+		}
+
 		return stack;
 	},
 
@@ -1980,11 +1988,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (res.perTickUI < 0) {
-			var toZero = res.value / (-res.perTickUI * this.rate);
+			var toZero = res.value / (-res.perTickUI * this.getRateUI());
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
 			if (res.maxValue) {
-				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.rate);
+				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.getRateUI());
 				if (toCap){
 					resString += "<br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
 				}
