@@ -373,6 +373,7 @@ td.resLimitWarn {
 }
 
 .tabInner {
+	margin-bottom: 20px;
     padding: 15px;
     border: 1px solid gray;
 }
