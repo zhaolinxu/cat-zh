@@ -384,7 +384,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		var content = this.inherited(arguments);
 
 		var self = this;
-		var feedBtn = new com.nuclearunicorn.game.ui.Button({
+		var feedBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Feed elders",
 				description: "Offer a sacrifice to the elders.",
 				handler: function(){
