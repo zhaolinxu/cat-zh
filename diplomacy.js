@@ -542,10 +542,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var yieldRes = this.tradeInternal();
 
 		this.printYieldOutput(yieldRes);
-
-		//special workaround for elders
-		this.game.sorrow = this.game.resPool.get("sorrow").value;
-		this.game.updateSorrow();
 	},
 
 	tradeMultiple: function(amt){
@@ -574,10 +570,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		}
 
 		this.printYieldOutput(yieldResTotal);
-
-		//special workaround for elders
-		this.game.sorrow = this.game.resPool.get("sorrow").value;
-		this.game.updateSorrow();
 	},
 
 	tradeAll: function(){

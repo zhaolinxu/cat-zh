@@ -469,12 +469,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 
 	 payPrice: function(){
 		this.inherited(arguments);
-
-		//TODO: fix it somehow
-		if (this.getMetadata().name == "blackPyramid"){
-			this.game.sorrow = this.game.resPool.get("sorrow").value;
-			this.game.updateSorrow();
-		}
 	 },
 
 	getSelectedObject: function(){
@@ -682,7 +676,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.Bu
 
 		if (this.enabled && this.hasResources()){
 
-			if (this.game.sorrow >= this.game.nerfs){
+			if (this.game.resPool.get("sorrow").value >= this.game.resPool.get("sorrow").maxValue){
 				this.game.msg("Nothing happens");
 				return;
 			}
@@ -693,10 +687,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.Bu
 	},
 
 	refine: function(){
-		if (this.game.sorrow < this.game.nerfs){
-			this.game.sorrow++;
-			this.game.updateSorrow();
-		}
+		this.game.resPool.get("sorrow").value++; //resPool.update() force below maxValue
 	},
 
 	updateVisible: function(){

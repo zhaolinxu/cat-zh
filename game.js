@@ -807,13 +807,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	timer: null,
 
-	//===================
-	//	retarded stuff
-	//===================
-
-	nerfs: 0,
-	sorrow: 0,
-
 	//===========================================
 	//game-related flags that will go to the save
 	//===========================================
@@ -1041,8 +1034,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.deadKittens = 0;
 		this.cheatMode = false;
 
-		this.sorrow = 0;
-
 		this.opts = {
 			usePerSecondValues: true,
 			usePercentageResourceValues: false,
@@ -1102,9 +1093,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			ironWill : this.ironWill,
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
-
-			nerfs: this.nerfs,
-			sorrow: this.sorrow,
 
 			opts : this.opts
 		};
@@ -1186,7 +1174,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
 
-			//-------------------------------------------
+			/*-------------------------------------------
+			I don't know how to change it with this.resPool.get("sorrow").maxValue :
+
 			this.sorrow = data.sorrow || 0;
 			var nerfs = data.nerfs || 0;
 
@@ -1194,8 +1184,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.sorrow++;
 				this.msg("Black rain is falling over the village");
 			}
-			this.updateSorrow();
-			//-------------------------------------------
+			-------------------------------------------*/
 
 
 			// ora ora
@@ -2312,8 +2301,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,
 			paragonPoints: 		this.paragonPoints,
-			nerfs: 				this.nerfs,
-			sorrow: 			this.sorrow,
 			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
 			deadKittens: 		0
 		});
@@ -2491,19 +2478,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		filtersDiv.toggle();
 
 		$("#filterIcon")[0].innerHTML = filtersDiv.is(':visible') ? "-" : "+";
-	},
-
-	updateSorrow: function(){
-		if (this.sorrow > this.nerfs){
-			this.sorrow = this.nerfs;
-		}
-
-		$("#sorrowTooltip").html(this.sorrow ?
-			"BLS: " + this.sorrow.toFixed() + "%" :
-			""
-		);
-		this.resPool.get("sorrow").value = this.sorrow;
-		this.resPool.get("sorrow").maxValue = this.nerfs;
 	},
 
     registerUndoChange: function(){
