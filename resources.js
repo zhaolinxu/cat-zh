@@ -330,7 +330,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	getResourcePerTickAutomate: [],
+	getResourcePerTickAutomateThisTick: [],
+
+	addRes: function(res, addedValue) {
+		res.value = res.value + addedValue;
+		if (res.maxValue && res.value > res.maxValue){
+			res.value = res.maxValue;
+		}
+
+		if (isNaN(res.value) || res.value < 0){
+			res.value = 0;	//safe switch
+		}
+	},
 
 	addResAmt: function(name, value){
 		var res = this.get(name);
@@ -341,15 +352,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var name_use = name + "Cons";
 		}
 
-		if (typeof this.getResourcePerTickAutomate[name_use] == "undefined") {
-			this.getResourcePerTickAutomate[name_use] = value;
+		if (typeof this.getResourcePerTickAutomateThisTick[name_use] == "undefined") {
+			this.getResourcePerTickAutomateThisTick[name_use] = value;
 		} else {
-			this.getResourcePerTickAutomate[name_use] += value;
+			this.getResourcePerTickAutomateThisTick[name_use] += value;
 		}
 
-	},
+		this.addRes(res, value);
 
-	previousMsgConvertDate: {},
+	},
 
 	/**
 	 * Format of from and to:
@@ -357,28 +368,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * amt in the from and to arrays sets ratios between resources
 	 * The third amt parameter is the number of times to convert
 	 */
-	convert: function(from, to, amt, bldTitle){
+	convert: function(from, to, amt){
 		if (amt == 0) {
 			return;
 		}
 
 		// Cap amt based on available resources
-		lackOfResource = false;
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
-
-				lackOfResource = true;
-				// Display a message in log
-				if (this.previousMsgConvertDate[bldTitle + res.name] === undefined) {
-					this.previousMsgConvertDate[bldTitle + res.name] = "";
-				}
-				if (this.previousMsgConvertDate[bldTitle + res.name] < (game.calendar.day - 10)) {
-					this.game.msg("Breakdown of " + bldTitle + "(s) because of a lack of " + res.name, "important");
-				}
-				this.previousMsgConvertDate[bldTitle + res.name] = game.calendar.day;
 			}
 		}
 
@@ -392,10 +392,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
 
-		return lackOfResource;
 	},
-
-	previousMsgConvertDate: {},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
@@ -430,16 +427,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			res.maxValue = maxValue;
 
-			var resPerTick = this.game.getResourcePerTick(res.name, true) || 0;
+			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
 
-			res.value = res.value + resPerTick;
-			if (res.maxValue && res.value > res.maxValue){
-				res.value = res.maxValue;
-			}
+			this.addRes(res, resPerTick);
 
-			if (isNaN(res.value) || res.value < 0){
-				res.value = 0;	//safe switch
-			}
 		}
 
 		//--------
