@@ -344,6 +344,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		} else {
 			this.getResourcePerTickAutomate[name_use] += value;
 		}
+		
+		//if (name == "coal") {console.log(name_use + " : " + this.getResourcePerTickAutomate[name_use]);}
 	},
 
 	previousMsgConvertDate: {},
@@ -376,8 +378,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 					this.game.msg("Breakdown of " + bldTitle + "(s) because of a lack of " + res.name, "important");
 				}
 				this.previousMsgConvertDate[bldTitle + res.name] = game.calendar.day;
-
 			}
+			//if (from[i].res == "coal") {console.log(-from[i].amt * amt);}
+		}
+		
+		for (var i = 0, length = to.length; i < length; i++){
+			var res = this.get(to[i].res);
+			//if (to[i].res == "coal") {console.log(to[i].amt * amt);}
 		}
 
 		// Remove from resources
@@ -392,6 +399,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		return lackOfResource;
 	},
+
+	previousMsgConvertDate: {},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
