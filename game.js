@@ -102,7 +102,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			"catnipPerTick" : {
-				title: "Catnip automated production",
+				title: "Catnip conversion",
 				resName: "catnip",
 				type: "perTick"
 			},
@@ -1678,43 +1678,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 		}
-		
-		if (prodNVillage && 
+
+		if (prodNVillage &&
 		   (this.resPool.get(res.name).perTickNoAutomate != this.resPool.get(res.name).perTickUI || res.name == "catnip")
 		) {
 			stack.push({
 				name: "Prod & Village",
 				type: "fixed",
-				//automated: true,
 				value: this.resPool.get(res.name).perTickNoAutomate
 			});
 		}
 
-		var automated = 0;
 		var name_use = res.name + "Prod";
 		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
-			automated += this.resPool.getResourcePerTickAutomate[name_use];
-		}
-		if (automated) {
 			stack.push({
 				name: "Conversion Prod",
 				type: "fixed",
-				//automated: true,
-				value: automated
+				value: this.resPool.getResourcePerTickAutomate[name_use]
 			});
 		}
-		
-		var automated = 0;
+
 		var name_use = res.name + "Cons";
 		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
-			automated += this.resPool.getResourcePerTickAutomate[name_use];
-		}
-		if (automated) {
 			stack.push({
 				name: "Conversion Cons",
 				type: "fixed",
-				//automated: true,
-				value: automated
+				value: this.resPool.getResourcePerTickAutomate[name_use]
 			});
 		}
 

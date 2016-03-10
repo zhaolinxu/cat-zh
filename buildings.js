@@ -716,7 +716,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				var lackOfResource = game.resPool.convert(
 					[{res: "iron", amt: difference},
 					 {res: "coal", amt: -self.effects["coalPerTick"]}],
-					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.bld.getEffect("craftRatio") * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
+					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on,
 					self.label
 				);
