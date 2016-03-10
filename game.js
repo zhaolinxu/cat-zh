@@ -102,7 +102,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			"catnipPerTick" : {
-				title: "Catnip production",
+				title: "Catnip automated production",
 				resName: "catnip",
 				type: "perTick"
 			},
@@ -118,7 +118,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 			"catnipJobRatio" : {
-				title: "Farmer know-how",
+				title: "Farmer tools",
 				resName: "catnip",
 				type: "ratio"
 			},
@@ -148,7 +148,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"woodJobRatio" : {
-				title: "Woodcutter know-how",
+				title: "Woodcutter tools",
 				resName: "wood",
 				type: "ratio"
 			},
@@ -160,7 +160,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"woodPerTick" : {
-				title: "Wood production",
+				title: "Wood conversion",
 				resName: "wood",
 				type: "perTick"
 			},
@@ -179,7 +179,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"mineralsPerTick" : {
-				title: "Minerals production",
+				title: "Minerals conversion",
 				resName: "minerals",
 				type : "perTick"
 			},
@@ -198,7 +198,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ironPerTick" : {
-				title: "Iron production",
+				title: "Iron conversion",
 				resName: "iron",
 				type: "perTick"
 			},
@@ -223,7 +223,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"coalPerTick" : {
-				title: "Coal production",
+				title: "Coal conversion",
 				resName: "coal",
 				type: "perTick"
 			},
@@ -231,7 +231,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//steel
 
 			"steelPerTick" : {
-				title: "Steel production",
+				title: "Steel conversion",
 				type : "perTick"
 			},
 
@@ -249,7 +249,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"goldPerTick" : {
-				title: "Gold production",
+				title: "Gold conversion",
 				resName: "gold",
 				type: "perTick"
 			},
@@ -262,7 +262,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"titaniumPerTick" : {
-				title: "Titanium production",
+				title: "Titanium conversion",
 				resName: "titanium",
 				type: "perTick"
 			},
@@ -296,13 +296,13 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"manpowerJobRatio" : {
-				title: "Hunter know-how",
+				title: "Hunter tools",
 				resName: "manpower",
 				type: "ratio"
 			},
 
 			"manpowerPerTick" : {
-				title: "Catpower consumption",
+				title: "Catpower conversion",
 				resName: "manpower",
 				type: "perTick"
 			},
@@ -367,7 +367,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"oilPerTick" : {
-				resName: "oil",
+				resName: "oil conversion",
 				title: "Oil production",
 				type: "perTick"
 			},
@@ -399,7 +399,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"uraniumPerTick": {
-				title: "Uranium production",
+				title: "Uranium conversion",
 				resType: "uranium",
 				type: "perTick"
 			},
@@ -412,7 +412,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"unobtainiumPerTick": {
-				title: "Unobtainium production",
+				title: "Unobtainium conversion",
 				resType: "unobtainium",
 				type: "perTick"
 			},
@@ -433,7 +433,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//manuscripts
 
 			"manuscriptPerTick": {
-				title: "Manuscript production",
+				title: "Manuscript automated production",
 				resType: "manuscript",
 				type: "perTick"
 			},
@@ -471,7 +471,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"fursPerTick": {
-				title: "Furs production",
+				title: "Furs conversion",
 				resType: "furs",
 				type: "perTick"
 			},
@@ -483,7 +483,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ivoryPerTick": {
-				title: "Ivory production",
+				title: "Ivory conversion",
 				resType: "ivory",
 				type: "perTick"
 			},
@@ -1540,8 +1540,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 
-
-
 		//---------  RESOURCE CONSUMPTION -------------
 
 		var resMapConsumption = this.village.getResConsumption();
@@ -1579,11 +1577,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var stack = [];
 
 		stack.push({
-			name: "Base",
+			name: "Production",
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTickBase")
 		});
-
+		prodNVillage = this.getEffect(res.name + "PerTickBase");
 
 		var weatherMod = this.calendar.getWeatherMod();
 		weatherMod = (season.modifiers[res.name] + weatherMod);
@@ -1607,9 +1605,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					type: "fixed",
 					value: resMapProduction[res.name] || 0
 				});
+				prodNVillage += resMapProduction[res.name] || 0;
 
 				villageStack.push({
-					name: "Know-how",
+					name: "Tools",
 					type: "ratio",
 					value: this.workshop.getEffect(res.name + "JobRatio")
 				});
@@ -1679,13 +1678,45 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 		}
+		
+		if (prodNVillage && 
+		   (this.resPool.get(res.name).perTickNoAutomate != this.resPool.get(res.name).perTickUI || res.name == "catnip")
+		) {
+			stack.push({
+				name: "Prod & Village",
+				type: "fixed",
+				//automated: true,
+				value: this.resPool.get(res.name).perTickNoAutomate
+			});
+		}
 
-		stack.push({
-			name: "Automated",
-			type: "fixed",
-			automated: true,
-			value: this.getEffect(res.name + "PerTick")
-		});
+		var automated = 0;
+		var name_use = res.name + "Prod";
+		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+			automated += this.resPool.getResourcePerTickAutomate[name_use];
+		}
+		if (automated) {
+			stack.push({
+				name: "Conversion Prod",
+				type: "fixed",
+				//automated: true,
+				value: automated
+			});
+		}
+		
+		var automated = 0;
+		var name_use = res.name + "Cons";
+		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+			automated += this.resPool.getResourcePerTickAutomate[name_use];
+		}
+		if (automated) {
+			stack.push({
+				name: "Conversion Cons",
+				type: "fixed",
+				//automated: true,
+				value: automated
+			});
+		}
 
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
@@ -1827,6 +1858,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
+		this.resPool.getResourcePerTickAutomate = [];
 		this.bld.update();
 
 		//business logic goes there
@@ -1877,9 +1909,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
+			res.perTickUI = res.perTickNoAutomate;
 			//AUTOMATED STRUCTURES EFFECTS
-			var resRatioTick = this.getEffect(res.name + "PerTick");
-			res.perTickUI = res.perTickNoAutomate + resRatioTick;
+			if (this.resPool.getResourcePerTickAutomate[res.name + "Prod"] != undefined) {
+				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Prod"];
+			}
+			if (this.resPool.getResourcePerTickAutomate[res.name + "Cons"] != undefined) {
+				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Cons"];
+			}
 		}
 	},
 
@@ -2020,12 +2057,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
+			if (stackElem.value && stackElem.name == "Prod & Village") {
+				resString += "<hr>";
+			}
 			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
 				continue;
 			}
 
 			for (var j = 0; j < depth; j++){
-				resString += "*";
+				resString += "(:3) ";
 			}
 
 			resString += this.getStackElemString(stackElem);
@@ -2118,6 +2158,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for(var i = 0; i < postfixes.length; i++) {
 			var p = postfixes[i];
 			if(absValue >= p.limit){
+				if (usePerTickHack){ // Prevent recursive * this.rate;
+					value = value / this.rate;
+				}
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}

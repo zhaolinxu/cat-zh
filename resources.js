@@ -334,12 +334,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	addResAmt: function(name, value){
 		var res = this.get(name);
-
-		if (typeof this.getResourcePerTickAutomate[name] == "undefined") {
-			this.getResourcePerTickAutomate[name] = value;
+		if (value >= 0) {
+			var name_use = name + "Prod";
 		} else {
-			this.getResourcePerTickAutomate[name] += value;
+			var name_use = name + "Cons";
 		}
+		if (typeof this.getResourcePerTickAutomate[name_use] == "undefined") {
+			this.getResourcePerTickAutomate[name_use] = value;
+		} else {
+			this.getResourcePerTickAutomate[name_use] += value;
+		}
+		
+		//if (name == "coal") {console.log(name_use + " : " + this.getResourcePerTickAutomate[name_use]);}
 	},
 
 	/**
@@ -348,22 +354,40 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * amt in the from and to arrays sets ratios between resources
 	 * The third amt parameter is the number of times to convert
 	 */
-	convert: function(from, to, amt){
+	convert: function(from, to, amt, bldTitle){
 		if (amt == 0) {
 			return;
 		}
 
 		// Cap amt based on available resources
+		lackOfResource = false;
 		for (var i = 0, length = from.length; i < length; i++){
 			var res = this.get(from[i].res);
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
+
+				lackOfResource = true;
+				// Display a message in log
+				if (this.previousMsgConvertDate[bldTitle + res.name] === undefined) {
+					this.previousMsgConvertDate[bldTitle + res.name] = "";
+				}
+				if (this.previousMsgConvertDate[bldTitle + res.name] < (game.calendar.day - game.calendar.dayPerTick * 20)) {
+					this.game.msg("Breakdown of " + bldTitle + "(s) because of a lack of " + res.name, "important");
+				}
+				this.previousMsgConvertDate[bldTitle + res.name] = game.calendar.day;
+
 			}
+			//if (from[i].res == "coal") {console.log(-from[i].amt * amt);}
+		}
+		
+		for (var i = 0, length = to.length; i < length; i++){
+			var res = this.get(to[i].res);
+			//if (to[i].res == "coal") {console.log(to[i].amt * amt);}
 		}
 
 		// Remove from resources
-		for (var i = 0, length = from.length; i < length; i++){
+		for (var i in from){
 			this.addResAmt(from[i].res, -from[i].amt * amt);
 		}
 
@@ -371,7 +395,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in to){
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
+
+		return lackOfResource;
 	},
+
+	previousMsgConvertDate: {},
 
 	/**
 	 * Iterates resources and updates their values with per tick increment
@@ -406,9 +434,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			res.maxValue = maxValue;
 
-			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-			if (typeof this.getResourcePerTickAutomate[res.name] != "undefined") {
-				resPerTick += this.getResourcePerTickAutomate[res.name];
+			var resPerTick = this.game.getResourcePerTick(res.name, true) || 0;
+
+			if (res.name == "coal") {
+				//console.log(this.game.getResourcePerTick(res.name) + " + " + this.getResourcePerTickAutomate[res.name] + " = " + resPerTick);
 			}
 
 			res.value = res.value + resPerTick;
@@ -425,7 +454,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.energyProd = this.game.getEffect("energyProduction");
 		this.energyCons = this.game.getEffect("energyConsumption");
 
-		this.getResourcePerTickAutomate = [];
 	},
 
 	/**
