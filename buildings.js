@@ -633,8 +633,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 			}
 
-			//console.log("SELF:", self, self.on);
-
+			//console.log(self.effects["coalPerTick"]);
 			game.resPool.convert(
 				[{res: "wood", amt: -self.effects["woodPerTick"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTick"]}],
@@ -706,7 +705,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["ironPerTick"] = newiron;
 				self.effects["coalPerTick"] = -difference;
 				self.effects["steelPerTick"] = difference / 100;
-
+				//console.log(self.effects["coalPerTick"]);
 
 				game.resPool.convert(
 					[{res: "iron", amt: difference},

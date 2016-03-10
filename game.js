@@ -102,7 +102,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 			"catnipPerTick" : {
-				title: "Catnip production",
+				title: "Catnip automated production",
 				resName: "catnip",
 				type: "perTick"
 			},
@@ -160,7 +160,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"woodPerTick" : {
-				title: "Wood production",
+				title: "Wood conversion",
 				resName: "wood",
 				type: "perTick"
 			},
@@ -179,7 +179,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"mineralsPerTick" : {
-				title: "Minerals production",
+				title: "Minerals conversion",
 				resName: "minerals",
 				type : "perTick"
 			},
@@ -198,7 +198,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ironPerTick" : {
-				title: "Iron production",
+				title: "Iron conversion",
 				resName: "iron",
 				type: "perTick"
 			},
@@ -223,7 +223,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"coalPerTick" : {
-				title: "Coal production",
+				title: "Coal conversion",
 				resName: "coal",
 				type: "perTick"
 			},
@@ -231,7 +231,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//steel
 
 			"steelPerTick" : {
-				title: "Steel production",
+				title: "Steel conversion",
 				type : "perTick"
 			},
 
@@ -249,7 +249,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"goldPerTick" : {
-				title: "Gold production",
+				title: "Gold conversion",
 				resName: "gold",
 				type: "perTick"
 			},
@@ -262,7 +262,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"titaniumPerTick" : {
-				title: "Titanium production",
+				title: "Titanium conversion",
 				resName: "titanium",
 				type: "perTick"
 			},
@@ -302,7 +302,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"manpowerPerTick" : {
-				title: "Catpower consumption",
+				title: "Catpower conversion",
 				resName: "manpower",
 				type: "perTick"
 			},
@@ -367,7 +367,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"oilPerTick" : {
-				resName: "oil",
+				resName: "oil conversion",
 				title: "Oil production",
 				type: "perTick"
 			},
@@ -399,7 +399,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"uraniumPerTick": {
-				title: "Uranium production",
+				title: "Uranium conversion",
 				resType: "uranium",
 				type: "perTick"
 			},
@@ -412,7 +412,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"unobtainiumPerTick": {
-				title: "Unobtainium production",
+				title: "Unobtainium conversion",
 				resType: "unobtainium",
 				type: "perTick"
 			},
@@ -433,7 +433,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			//manuscripts
 
 			"manuscriptPerTick": {
-				title: "Manuscript production",
+				title: "Manuscript automated production",
 				resType: "manuscript",
 				type: "perTick"
 			},
@@ -471,7 +471,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"fursPerTick": {
-				title: "Furs production",
+				title: "Furs conversion",
 				resType: "furs",
 				type: "perTick"
 			},
@@ -483,7 +483,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"ivoryPerTick": {
-				title: "Ivory production",
+				title: "Ivory conversion",
 				resType: "ivory",
 				type: "perTick"
 			},
@@ -1540,8 +1540,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * swEffectGlobal;
 		}
 
-
-
 		//---------  RESOURCE CONSUMPTION -------------
 
 		var resMapConsumption = this.village.getResConsumption();
@@ -1680,13 +1678,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		}
 
-		stack.push({
-			name: "Automated",
-			type: "fixed",
-			automated: true,
-			value: this.getEffect(res.name + "PerTick")
-		});
-
+		var automated = 0;
+		var name_use = res.name + "Pos";
+		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+			automated += this.resPool.getResourcePerTickAutomate[name_use];
+		}
+		
+		if (automated) {
+			stack.push({
+				name: "Automated Pos",
+				type: "fixed",
+				automated: true,
+				value: automated
+			});
+		}
+		
+		var automated = 0;
+		var name_use = res.name + "Neg";
+		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+			automated += this.resPool.getResourcePerTickAutomate[name_use];
+		}
+		
+		if (automated) {
+			stack.push({
+				name: "Automated Neg",
+				type: "fixed",
+				automated: true,
+				value: automated
+			});
+		}
+		
+		
+		
+		
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal ){
@@ -1827,6 +1851,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
+		this.resPool.getResourcePerTickAutomate = [];
 		this.bld.update();
 
 		//business logic goes there
@@ -1877,9 +1902,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
+			//if (res.name == "coal") {console.log("res.perTickNoAutomate :" + res.perTickNoAutomate);}
+			res.perTickUI = res.perTickNoAutomate;
 			//AUTOMATED STRUCTURES EFFECTS
-			var resRatioTick = this.getEffect(res.name + "PerTick");
-			res.perTickUI = res.perTickNoAutomate + resRatioTick;
+			if (this.resPool.getResourcePerTickAutomate[res.name + "Pos"] != undefined) {
+				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Pos"];
+			}
+			//if (res.name == "coal") {console.log(res.perTickUI);}
+			if (this.resPool.getResourcePerTickAutomate[res.name + "Neg"] != undefined) {
+				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Neg"];
+				/*if (res.name == "coal") {
+					console.log(this.resPool.getResourcePerTickAutomate[res.name + "Neg"]);
+					console.log(res.perTickUI);
+				}*/
+			}
 		}
 	},
 

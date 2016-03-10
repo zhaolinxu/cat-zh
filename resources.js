@@ -334,12 +334,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	addResAmt: function(name, value){
 		var res = this.get(name);
-
-		if (typeof this.getResourcePerTickAutomate[name] == "undefined") {
-			this.getResourcePerTickAutomate[name] = value;
+		if (value >= 0) {
+			var name_use = name + "Pos";
 		} else {
-			this.getResourcePerTickAutomate[name] += value;
+			var name_use = name + "Neg";
 		}
+		if (typeof this.getResourcePerTickAutomate[name_use] == "undefined") {
+			this.getResourcePerTickAutomate[name_use] = value;
+		} else {
+			this.getResourcePerTickAutomate[name_use] += value;
+		}
+		
+		//if (name == "coal") {console.log(name_use + " : " + this.getResourcePerTickAutomate[name_use]);}
 	},
 
 	/**
@@ -360,6 +366,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
 			}
+			//if (from[i].res == "coal") {console.log(-from[i].amt * amt);}
+		}
+		
+		for (var i = 0, length = to.length; i < length; i++){
+			var res = this.get(to[i].res);
+			//if (to[i].res == "coal") {console.log(to[i].amt * amt);}
 		}
 
 		// Remove from resources
@@ -371,6 +383,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in to){
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
+		
 	},
 
 	/**
@@ -406,9 +419,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			res.maxValue = maxValue;
 
-			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-			if (typeof this.getResourcePerTickAutomate[res.name] != "undefined") {
-				resPerTick += this.getResourcePerTickAutomate[res.name];
+			var resPerTick = this.game.getResourcePerTick(res.name, true) || 0;
+			
+			var name_use = res.name + "Pos";
+			if (typeof this.getResourcePerTickAutomate[name_use] != "undefined") {
+				resPerTick += this.getResourcePerTickAutomate[name_use];
+			}
+			
+			var name_use = res.name + "Neg";
+			if (typeof this.getResourcePerTickAutomate[name_use] != "undefined") {
+				resPerTick += this.getResourcePerTickAutomate[name_use];
+			}
+
+			if (res.name == "coal") {
+				//console.log(this.game.getResourcePerTick(res.name) + " + " + this.getResourcePerTickAutomate[res.name] + " = " + resPerTick);
 			}
 
 			res.value = res.value + resPerTick;
@@ -425,7 +449,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.energyProd = this.game.getEffect("energyProduction");
 		this.energyCons = this.game.getEffect("energyConsumption");
 
-		this.getResourcePerTickAutomate = [];
 	},
 
 	/**
