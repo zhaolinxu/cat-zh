@@ -1690,20 +1690,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var name_use = res.name + "Prod";
-		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+		if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
 			stack.push({
 				name: "Conversion Prod",
 				type: "fixed",
-				value: this.resPool.getResourcePerTickAutomate[name_use]
+				value: this.resPool.getResourcePerTickAutomateThisTick[name_use]
 			});
 		}
 
 		var name_use = res.name + "Cons";
-		if (typeof this.resPool.getResourcePerTickAutomate[name_use] != "undefined") {
+		if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
 			stack.push({
 				name: "Conversion Cons",
 				type: "fixed",
-				value: this.resPool.getResourcePerTickAutomate[name_use]
+				value: this.resPool.getResourcePerTickAutomateThisTick[name_use]
 			});
 		}
 
@@ -1847,7 +1847,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
-		this.resPool.getResourcePerTickAutomate = [];
+		this.resPool.getResourcePerTickAutomateThisTick = [];
 		this.bld.update();
 
 		//business logic goes there
@@ -1898,14 +1898,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
-			res.perTickUI = res.perTickNoAutomate;
 			//AUTOMATED STRUCTURES EFFECTS
-			if (this.resPool.getResourcePerTickAutomate[res.name + "Prod"] != undefined) {
-				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Prod"];
-			}
-			if (this.resPool.getResourcePerTickAutomate[res.name + "Cons"] != undefined) {
-				res.perTickUI += this.resPool.getResourcePerTickAutomate[res.name + "Cons"];
-			}
+			var resRatioTick = this.getEffect(res.name + "PerTick");
+			res.perTickUI = res.perTickNoAutomate + resRatioTick;
 		}
 	},
 

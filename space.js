@@ -318,13 +318,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				};
 			},
 			action: function(game, self){
-				var lackOfResource = game.resPool.convert(
+				game.resPool.convert(
 					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
 					[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
-					self.on,
-					self.title
+					self.on
 				);
-				if (self.on != 0 && lackOfResource) {self.on--;}
 			}
 		},{
 			name: "moonBase",
