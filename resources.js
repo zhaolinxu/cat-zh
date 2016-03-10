@@ -334,18 +334,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	addResAmt: function(name, value){
 		var res = this.get(name);
+
 		if (value >= 0) {
 			var name_use = name + "Prod";
 		} else {
 			var name_use = name + "Cons";
 		}
+
 		if (typeof this.getResourcePerTickAutomate[name_use] == "undefined") {
 			this.getResourcePerTickAutomate[name_use] = value;
 		} else {
 			this.getResourcePerTickAutomate[name_use] += value;
 		}
-		
-		//if (name == "coal") {console.log(name_use + " : " + this.getResourcePerTickAutomate[name_use]);}
+
 	},
 
 	previousMsgConvertDate: {},
@@ -379,12 +380,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				}
 				this.previousMsgConvertDate[bldTitle + res.name] = game.calendar.day;
 			}
-			//if (from[i].res == "coal") {console.log(-from[i].amt * amt);}
-		}
-		
-		for (var i = 0, length = to.length; i < length; i++){
-			var res = this.get(to[i].res);
-			//if (to[i].res == "coal") {console.log(to[i].amt * amt);}
 		}
 
 		// Remove from resources
