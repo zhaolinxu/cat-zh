@@ -367,8 +367,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"oilPerTick" : {
-				resName: "oil conversion",
-				title: "Oil production",
+				resName: "oil",
+				title: "Oil conversion",
 				type: "perTick"
 			},
 
@@ -2065,7 +2065,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
 		if (stackElem.name == "Conversion Cons" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
-			resString += "<span style=\"color: red\">";
+			resString += "<span style=\"color: red\">&#8776;";
 		}
 
 		if (stackElem.type == "fixed"){
