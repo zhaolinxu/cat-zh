@@ -379,6 +379,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
+				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
 			}
 		}
 

@@ -2006,7 +2006,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = "";
 		var resStack = this.getResourcePerTickStack(res.name);
 
-		resString = this.processResourcePerTickStack(resStack, 0);
+		resString = this.processResourcePerTickStack(resStack, res, 0);
 
 		if (this.opts.usePercentageResourceValues){
 			resString += "<br> Net gain: " + this.getDisplayValueExt(res.perTickUI, true, true);
@@ -2026,7 +2026,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return resString;
 	},
 
-	processResourcePerTickStack: function(resStack, depth){
+	processResourcePerTickStack: function(resStack, res, depth){
 		var resString = "";
 		var hasFixed = false;
 
@@ -2034,7 +2034,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var stackElem = resStack[i];
 
 			if (stackElem.length){
-				var subStack = this.processResourcePerTickStack(stackElem, depth + 1);
+				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1);
 				if (subStack.length){
 					resString += subStack;
 					hasFixed = true;
@@ -2052,7 +2052,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				resString += "(:3) ";
 			}
 
-			resString += this.getStackElemString(stackElem);
+			resString += this.getStackElemString(stackElem, res);
 			if (stackElem.type == "fixed") {
 				hasFixed = true;
 			}
@@ -2061,13 +2061,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return resString;
 	},
 
-	getStackElemString: function(stackElem){
+	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
+
+		if (stackElem.name == "Conversion Cons" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
+			resString += "<span style=\"color: red\">";
+		}
 
 		if (stackElem.type == "fixed"){
 			resString += this.getDisplayValueExt(stackElem.value, true, true);
 		} else {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		}
+
+		if (stackElem.name == "Conversion Cons" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
+			resString += "</span>";
 		}
 
 		resString += "</div><br>";
