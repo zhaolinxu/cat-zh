@@ -21,7 +21,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 1.05
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "sharks",
 		title: "Sharks",
@@ -37,7 +38,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 1.45
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "griffins",
 		title: "Griffins",
@@ -54,7 +56,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.35,
 				"winter": 0.80
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "nagas",
 		title: "Nagas",
@@ -71,7 +74,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 0.65,
 				"winter": 0.95
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "zebras",
 		hidden: true,
@@ -101,7 +105,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
 	},{
 		name: "spiders",
 		hidden: true,
@@ -119,7 +124,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.15,
 				"winter": 0.95
 			}},
-		]
+		],
+		collapsed: false
 	},{
 		name: "dragons",
 		hidden: true,
@@ -137,7 +143,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
 	},{
         name: "leviathans",
 		hidden: true,
@@ -163,13 +170,20 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1,
 				"winter": 1
 			}},
-            {name: "starchart", value: 125, chance: 35, delta: 0.8, seasons:{
+            {name: "starchart", value: 250, chance: 50, delta: 0.8, seasons:{
+				"spring": 1,
+				"summer": 1,
+				"autumn": 1,
+				"winter": 1
+			}},
+			{name: "relic", value: 1, chance: 5, delta: 0, seasons:{
 				"spring": 1,
 				"summer": 1,
 				"autumn": 1,
 				"winter": 1
 			}}
-		]
+		],
+		collapsed: false
     }],
 
 	constructor: function(game){
@@ -186,10 +200,28 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		return null;
 	},
 
+	getTradeRatio: function() {
+		var tradeRatio = this.game.bld.getEffect("tradeRatio");
+		if (this.game.village.leader && this.game.village.leader.trait["name"] == "merchant") {
+			tradeRatio += 0.030;
+		}
+		return tradeRatio;
+	},
+
+	resetState: function(){
+		for (var i = 0; i < this.races.length; i++){
+			var race = this.races[i];
+			race.unlocked = false;
+			race.collapsed = false;
+			race.energy = 0;
+			race.duration = 0;
+		}
+	},
+
 	save: function(saveData){
 		saveData.diplomacy = {
-			races: this.races
-		}
+			races: this.game.bld.filterMetadata(this.races, ["name", "unlocked", "energy", "duration", "collapsed"])
+		};
 	},
 
 	load: function(saveData){
@@ -205,6 +237,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 						var race = this.game.diplomacy.get(savedRace.name);
 
 						race.unlocked = savedRace.unlocked;
+						race.collapsed = savedRace.collapsed || false;
 						//elders stuff
 						race.energy = savedRace.energy || null;
 						race.duration = savedRace.duration || null;
@@ -302,20 +335,24 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     //------------ IDK, silly gimmickish stuff -----------
     unlockElders : function(){
         var elders = this.get("leviathans");
+		if (elders.duration){	//elder visits do not stack
+			return;
+		}
+
         elders.unlocked = true;
-        elders.duration += 400 * 3;
-        
+        elders.duration += 200 *  (2  + 1 * elders.energy )  /*5 years + 1 per energy unit*/;
+
         this.game.msg("Elder gods have arrived", "notice");
     },
-    
+
     onNewDay: function(){
         var elders = this.get("leviathans");
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
 			this.game.msg("Elder gods have departed", "notice");
-			
+
 			this.game.render();
-			
+
 			return;
 		}
         if (elders.duration > 0){
@@ -329,6 +366,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
 
+	onToggle: function(isToggled){
+		this.race.collapsed = isToggled;
+	},
+
 	update: function(){
 		if (this.tradeBtn){
 			this.tradeBtn.update();
@@ -338,20 +379,20 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 
 dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel, {
 	feedBtn: null,
-	
+
 	render: function(container){
 		var content = this.inherited(arguments);
-		
+
 		var self = this;
-		var feedBtn = new com.nuclearunicorn.game.ui.Button({
+		var feedBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Feed elders",
 				description: "Offer a sacrifice to the elders.",
 				handler: function(){
 					var ncorns = this.game.resPool.get("necrocorn");
 					var elders = this.game.diplomacy.get("leviathans");
 					if (ncorns.value > 0){
-						elders.energy += ncorns.value;
-						ncorns.value = 0;
+						elders.energy++;
+						ncorns.value--;
 						this.game.msg("Elder gods are pleased", "notice");
 					} else {
 						this.game.msg("Elder gods are displeased", "notice");
@@ -359,8 +400,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 					}
 				}
 			}, this.game);
-		feedBtn.render(content)
-		
+		feedBtn.render(content);
+
 		this.feedBtn = feedBtn;
 		return content;
 	},
@@ -383,10 +424,17 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	trade100Href: null,
 	tradeAllHref: null,
 
+	simplePrices: false,
+
 	constructor: function(opts, game){
 		this.race = opts.race;
 
 		this.handler = this.trade;	//weird hack
+	},
+
+	afterRender: function(){
+		this.inherited(arguments);
+		dojo.addClass(this.domNode, "trade");
 	},
 
 	tradeInternal: function(suppressMessages){
@@ -400,23 +448,31 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var attitudeChance = this.game.rand(100);
 		var standingRatio = this.game.bld.getEffect("standingRatio");
 		standingRatio = standingRatio ? standingRatio : 0;
-		
+
 		if (this.game.prestige.getPerk("diplomacy").researched){
 			standingRatio += 10;
 		}
 
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
-				this.game.msg( race.title + " hate you for no reason");
+				this.game.msg( race.title + " hate you for no reason", null, "trade");
 			}
 			return;
 		}
 
 		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 			if (!suppressMessages){
-				this.game.msg( race.title + " think your kittens are adorable");
+				this.game.msg( race.title + " think your kittens are adorable", null, "trade");
 			}
 			tradeRatioAttitude = 0.25;
+		}
+
+		if (race.name == "leviathans"){
+			//reset energy to default limit
+			var duration = (400 + 100 * race.energy);
+			if (race.duration > duration){
+				race.duration = duration;
+			}
 		}
 
 		for (var j =0; j< race.sells.length; j++){
@@ -431,7 +487,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			var min = s.value * sratio - s.value * sratio * s.delta/2;
 			var amt = min + this.game.rand(s.value * sratio * s.delta);
 
-			var ratio = this.game.bld.getEffect("tradeRatio");
+			var ratio = this.game.diplomacy.getTradeRatio();
 			amt += amt*ratio;
 
 			var resValue = amt + amt*tradeRatioAttitude;
@@ -445,7 +501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		//-------------------- 35% chance to get spice ------------------
 		if (this.game.rand(100) < 35){
 			var spiceVal = this.game.rand(50);
-			var resValue = 25 +  spiceVal + spiceVal * this.game.bld.getEffect("tradeRatio");
+			var resValue = 25 +  spiceVal + spiceVal * this.game.diplomacy.getTradeRatio();
 
 			this.game.resPool.addResAmt("spice", resValue);
 			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
@@ -475,6 +531,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
 		}
 
+		//Update Trade Stats
+		this.game.stats.getStat("totalTrades").val += 1;
+		this.game.stats.getStatCurrent("totalTrades").val += 1;
+
 		return tradeRes;
 	},
 
@@ -482,7 +542,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var yieldRes = this.tradeInternal();
 
 		this.printYieldOutput(yieldRes);
-		
+
 		//special workaround for elders
 		this.game.sorrow = this.game.resPool.get("sorrow").value;
 		this.game.updateSorrow();
@@ -502,7 +562,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		//---------- calculate yield -----------------
 
-		this.game.msg("You have sent " + amt + " trade caravans");
+		this.game.msg("You have sent " + amt + " trade caravans", null, "trade");
 
 		var yieldResTotal = {};
 		for (var i = 0; i<amt; i++){
@@ -514,6 +574,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		}
 
 		this.printYieldOutput(yieldResTotal);
+
+		//special workaround for elders
+		this.game.sorrow = this.game.resPool.get("sorrow").value;
+		this.game.updateSorrow();
 	},
 
 	tradeAll: function(){
@@ -538,14 +602,22 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
 	printYieldOutput: function(yieldResTotal){
-		for (var res in yieldResTotal) {
+		var output = false;
+		for (var res in yieldResTotal){
 			if (res == "blueprint"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice");
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice", "trade");
 			} else if (res == "titanium"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice");
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice", "trade");
 			} else {
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res);
+				var resPool = this.game.resPool.get(res);
+				var name = resPool.title || res;
+				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + name, null, "trade");
 			}
+			output = true;
+		}
+
+		if (yieldResTotal && !output){
+			this.game.msg("Your kittens return empty-pawed", null, "trade");
 		}
 	},
 
@@ -584,6 +656,16 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.game.resPool.get("gold").value >= 15 * amt &&
 			this.game.resPool.get(this.race.buys[0].name).value >=
 				this.race.buys[0].val * amt);
+	}
+});
+
+dojo.declare("classes.trade.ui.SendExplorersButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	simplePrices: false,
+
+	afterRender: function(){
+		this.inherited(arguments);
+
+		dojo.addClass(this.domNode, "explore");
 	}
 });
 
@@ -627,20 +709,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		}
 
 		var self = this;
-		
-		// expand all / collapse all panels
-		
-		var expandDiv = dojo.create("div", { style: {
-			float: "right",
-			marginTop: "-15px"
-		} }, tabContainer);
 
-		
-		
+		// expand all / collapse all panels
+
+		var expandDiv = dojo.create("div", { class: "expandAllBar" }, tabContainer);
+
+
+
 		var expandAll = dojo.create("a", { innerHTML: "Expand all", href: "#" }, expandDiv);
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
 		var collapseAll = dojo.create("a", { innerHTML: "Collapse all", href: "#" }, expandDiv);
-		
+
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){
@@ -650,53 +729,63 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var racePanel = this.racePanels[i];
 			if (!racePanel){
 				if (race.name === "leviathans") {
-					racePanel = new classes.diplomacy.ui.EldersPanel(race.title);
+					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
 					racePanel.setGame(this.game);
 				} else {
-					racePanel = new classes.diplomacy.ui.RacePanel(race.title);
+					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
 				}
 				this.racePanels.push(racePanel);
 			}
 			var content = racePanel.render(tabContainer);
+			dojo.addClass(content, "trade-race");
 
 			//---------- render stuff there -------------
 
-			dojo.create("div", { innerHTML: "Attitude: " + race.attitude, style: {
-				marginBottom: "5px"
-			} }, content);
+			var leftColumn = dojo.create("div", {}, content);
+			var rightColumn = dojo.create("div",{}, content);
+			var clear = dojo.create("div",{}, content);
+			dojo.addClass(leftColumn, "left");
+			dojo.addClass(rightColumn, "right");
+			dojo.addClass(clear, "clear");
+
+			if(racePanel.feedBtn){
+				dojo.place(racePanel.feedBtn.domNode, rightColumn, "first");
+			}
 
 			var buys = race.buys[0];
+			var res = this.game.resPool.get(buys.name);
 			dojo.create("div", {
-				innerHTML: "<span style='color: #01A9DB'>Buys: </span>" + buys.name + " (" + buys.val + ")"
-			}, content);
+				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='ammount'>" + buys.val + "</span>"
+			}, leftColumn);
 
 			for (var j =0; j< race.sells.length; j++){
 				//if (race.sells[j].chance == 100){
 					var s = race.sells[j];
+					res = this.game.resPool.get(s.name);
 					var min = 0;
 					var max = 0;
 
 					if (race.name == "zebras" && s.name == "titanium"){
 						var val = 1.5 + (1.5 * this.game.resPool.get("ship").value / 100 * 2);
-						
+
 						min = Math.floor(val);
 						max = Math.ceil(val);
 					} else {
-					var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-						
-					var tratio = self.game.bld.getEffect("tradeRatio");
-					var val = s.value + s.value * tratio;
+						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+
+						var tratio = self.game.diplomacy.getTradeRatio();
+						var val = s.value + s.value * tratio;
 
 						min = val * sratio - val * sratio * s.delta/2;
 						max = val * sratio + val * sratio * s.delta/2;
 					}
 
-					var prefix = ( j == 0) ? "<span style='color: green'>Sells: </span>" : "";
-					var div = dojo.create("div", { innerHTML: prefix + s.name + " (" + min.toFixed() + " - " + max.toFixed() + ")"}, content);
-					if (j == (race.sells.length - 1)){
-						dojo.style(div, "marginBottom", "15px");
-					}
-
+					var prefix = ( j == 0) ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
+					var div = dojo.create("div", {
+							innerHTML: prefix + (res.title || res.name) + " <span class='ammount'>"
+								+ this.game.getDisplayValueExt(min, false, false, 0) + " - "
+								+ this.game.getDisplayValueExt(max, false, false, 0) + "</span>"
+						}, leftColumn);
 				//}
 			}
 
@@ -709,20 +798,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				prices: tradePrices,
 				race: race
 			}, this.game);
-			tradeBtn.render(content);	//TODO: attach it to the panel and do a lot of update stuff
+			tradeBtn.render(rightColumn);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
+			racePanel.race = race;
+			racePanel.collapse(race.collapsed);
 		}
-		
+
 		//-----------------	race panels must be created fist -------------
-		dojo.connect(collapseAll, "onclick", this, function(){ 
-			for (i in this.racePanels) { 
-				this.racePanels[i].collapse(true); 
+		dojo.connect(collapseAll, "onclick", this, function(){
+			for (var i in this.racePanels) {
+				this.racePanels[i].collapse(true);
 			}
 		});
 		dojo.connect(expandAll, "onclick", this, function(){
-			for (i in this.racePanels) { 
-				this.racePanels[i].collapse(false); 
-			} 
+			for (var i in this.racePanels) {
+				this.racePanels[i].collapse(false);
+			}
 		});
 
 		//------------------------------------
@@ -731,17 +822,32 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				marginBottom: "15px"
 		} }, tabContainer);
 
-		var exploreBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		var exploreBtn = new classes.trade.ui.SendExplorersButton({
 			name: "Send explorers",
 			description: "Discover more civilizations",
 			prices: [{ name: "manpower", val: 1000}],
 			handler: function(btn){
-				var race = btn.game.diplomacy.unlockRandomRace();
+				var dip = btn.game.diplomacy;
+				var race = dip.unlockRandomRace();
 
 				if (race){
 					btn.game.msg("You've found a new civilization!", "notice");
 				} else {
-					btn.game.msg("Your explorers failed to find anyone.");
+
+					var hint = "";
+					if (!dip.get("nagas").unlocked){
+						hint = "Maybe you are not cultural enough.";
+					} else if (!dip.get("zebras").unlocked){
+						hint = "Maybe you should try to reach another continents.";
+					} else if (!dip.get("spiders").unlocked){
+						hint = "Maybe you are not scientific enough.";
+					} else if (!dip.get("dragons").unlocked){
+						hint = "Maybe you should be more technologically advanced.";
+					} else {
+						hint = "Maybe there are no more civilizations left?";	//AHAHA NO
+					}
+
+					btn.game.msg("Your explorers failed to find anyone. *** " + hint + " ***");
 					var res = btn.game.resPool.get("manpower");
 					res.value += 950;
 				}
@@ -749,8 +855,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				btn.game.render();
 			}
 		}, this.game);
-		exploreBtn.render(tabContainer);
+		var btn = exploreBtn.render(tabContainer);
 		this.exploreBtn = exploreBtn;
+
+		var clear1 = dojo.create("div",{}, tabContainer);
+		dojo.addClass(clear1, "clear");
+
+		this.update();
 	},
 
 
@@ -763,6 +874,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.exploreBtn){
 			this.exploreBtn.update();
+		}
+		this.updateTab();
+	},
+
+	updateTab: function(){
+		//-------- update tab title -------
+		var elders = this.game.diplomacy.get("leviathans");
+		if (elders.unlocked){
+			this.tabName = "Trade" + " (!)";
+		} else {
+			this.tabName = "Trade";
+		}
+		if (this.domNode) {
+			this.domNode.innerHTML = this.tabName;
 		}
 	},
 

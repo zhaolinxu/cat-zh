@@ -16,6 +16,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: "Calendar provides a way of more precise time tracking",
 
 		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: {
@@ -27,7 +28,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "agriculture",
 		title: "Agriculture",
 
-		description: "The basis of all civilised life, Agriculture allows the working of land for food.",
+		description: "The basis of all civilised life, Agriculture allows the working of land for food. Agriculture can significantly improve your food production.",
 		effectDesc: "Unlocks Farmers and Barns",
 
 		unlocked: false,
@@ -61,7 +62,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 600,
+		cost: 500,
 		unlocks: {
 			tech: ["metal"],
 			upgrades: ["bolas"]
@@ -69,48 +70,48 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		flavor: "Pickaxes are easier to hold with opposable thumbs"
 	},{
 		name: "metal",
-		title: "Metal working",
+		title: "Metal Working",
 
 		description: "The first metal-working technology that provides your civilisation with sturdy, durable tools.",
 		effectDesc: "You can construct Smelters that convert ore into metal",
 
 		unlocked: false,
 		researched: false,
-		cost: 800,
+		cost: 900,
 		unlocks: {
 			upgrades: ["huntingArmor"]
 		}
 	},
 	{
 		name: "animal",
-		title: "Animal husbandry",
-		description: "Domestication allows access to various animal resources via the pasture.",
+		title: "Animal Husbandry",
+		description: "Domestication allows access to various animal resources via the pasture. Improves your food production.",
 		effectDesc: "Unlocks Pastures",
 
 		unlocked: false,
 		researched: false,
 		cost: 500,	//mostly does nothing, so price is lower
 		unlocks: {
-			tech: ["civil", "math", "construction", "brewery"]
+			tech: ["civil", "math", "construction"]
 			//crafts: ["leather"]
 		}
 	},{
+		/*==============	NOT USED ANYMORE   ============*/
 		name: "brewery",
-		title: "Brewery",
+		title: "Catnip Processing",
 
-		description: "Brewery is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
+		description: "Catnip Processing is a non-mandatory technology which improves the process of converting catnip to catnip wood.",
 		effectDesc: "Unlocks Catnip Enrichment.",
 
 		unlocked: false,
 		researched: false,
-		cost: 1200,
-		unlocks: {
-			upgrades: ["advancedRefinement"]
-		}
-	},{
+		cost: 1200
+	},
+	//--------------------------------------------------
+	{
 		name: "civil",
 		title: "Civil Service",
-		description: "The creation of the first true state organ provides many benefits related to better organization.",
+		description: "The creation of the first true state organ provides many benefits related to better management of your population.",
 		effectDesc: "Unlocks detailed information about your population",
 
 		unlocked: false,
@@ -123,20 +124,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "math",
 		title: "Mathematics",
-		description: "Mathematics is the most basic building block upon which all physical science is based.",
+		description: "Mathematics is the most basic building block upon which all physical science is based. Improves scientific development.",
 		effectDesc: "Allows construction of Academies, very efficient research buildings",
 
 		unlocked: false,
 		researched: false,
 		cost: 1000,
 		unlocks: {
-			upgrades: ["celestialMechanics"]
+			upgrades: ["celestialMechanics"],
+			tabs: ["stats"]
 		},
 		flavor: "Purr equals Meow times Paw to the square"
 	},{
 		name: "construction",
 		title: "Construction",
-		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox.",
+		description: "Construction represents the advancement of the study of masonry, primarily by adding iron and other metals to the builder's toolbox. Benefits hunting and base infrastructure.",
 		effectDesc: "Allows your workers to construct the Lumber mill. Unlocks Composite Bows",
 
 		unlocked: false,
@@ -144,13 +146,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 1300,
 		unlocks: {
 			tech: ["engineering"],
-			upgrades: ["compositeBow"]
-		}
+			upgrades: ["compositeBow", "advancedRefinement"]
+		},
+		flavor: "Making pillow forts smart!"
 	},{
 		name: "engineering",
 		title: "Engineering",
 		description: "Engineering is the science (or art perhaps) of designing complex materials, structures, devices, and systems.",
-		effectDesc: "Unlocks aqueducts",
+		effectDesc: "Unlocks Aqueducts",
 
 		unlocked: false,
 		researched: false,
@@ -161,7 +164,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "currency",
 		title: "Currency",
-		description: "Currency represents a certain amount of wealth",
+		description: "Currency represents a certain amount of wealth. Can significantly boost your development in indirect ways.",
 		effectDesc: "Unlocks gold and trade",
 
 		unlocked: false,
@@ -173,7 +176,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "writing",
 		title: "Writing",
-		description: "Writing is the art of recording information on material.",
+		description: "Writing is the art of recording information on material. Writing can influence general happiness and cultural progress of your civilization.",
 		effectDesc: "Unlocks Amphitheatres",
 
 		unlocked: false,
@@ -181,12 +184,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 3600,
 		unlocks: {
 			tech: ["philosophy", "machinery", "steel"],
+			upgrades: ["register"],
 			crafts: ["parchment"]
-		}
+		},
+		flavor: "Writing uses less ink than pawprints"
 	},{
 		name: "philosophy",
 		title: "Philosophy",
-		description: "Philosophy is the first abstract science developed by catkind.",
+		description: "Philosophy is the first abstract science developed by catkind. Philosophy is a basis of spiritual and cultural progress.",
 		effectDesc: "Unlocks Temples",
 
 		unlocked: false,
@@ -200,8 +205,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "machinery",
 		title: "Machinery",
-		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts.",
-		effectDesc: "Unlocks Steamworks, Crossbows, Printing press and Factory automation.",
+		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts. " +
+			"Machinery introduces a concept of automation which reduces routine operations",
+		effectDesc: "Unlocks Steamworks, Crossbows, Printing Press and Factory Automation.",
 
 		unlocked: false,
 		researched: false,
@@ -212,7 +218,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "steel",
 		title: "Steel",
-		description: "Development of the new Steel alloy advances further metal working.",
+		description: "Development of the new Steel alloy advances further metal working. Benefits most of the aspects of development.",
 		effectDesc: "Unlocks Coal and Steel production",
 
 		unlocked: false,
@@ -226,7 +232,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "theology",
 		title: "Theology",
-		description: "Theology is the study of religion",
+		description: "Theology is the study of religion. Religion is a key concept affecting cultural, scientific and industrial development.",
 		effectDesc: "Unlocks religion",
 
 		unlocked: false,
@@ -246,7 +252,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "astronomy",
 		title: "Astronomy",
-		description: "Astronomy is the study of objects in space.",
+		description: "Astronomy is the study of objects in space. Improves scientific development.",
 		effectDesc: "Unlocks Observatory and Star charts",
 
 		unlocked: false,
@@ -261,7 +267,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "navigation",
 		title: "Navigation",
-		description: "Navigation allows serious advancements in sailing and shipbuilding technology.",
+		description: "Navigation allows serious advancements in sailing and shipbuilding technology. It should benefit economical development and can lead to discovery of new civilizations.",
 		effectDesc: "Unlocks the construction of Trade Ships and overseas trade.",
 
 		unlocked: false,
@@ -294,7 +300,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "physics",
 		title: "Physics",
-		description: "Physics is a study of laws of nature.",
+		description: "Physics is a study of laws of nature. Mostly improves your machinery effectiveness.",
 		effectDesc: "Unlocks some useful upgrades.",
 		unlocked: false,
 		researched: false,
@@ -310,7 +316,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "metaphysics",
 		title: "Metaphysics",
-		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it.\nAbsolutely useless.",
+		description: "Metaphysics is a traditional branch of philosophy concerned with explaining the fundamental nature of being and the world that encompasses it. Absolutely useless.",
 		effectDesc: "Does nothing.",
 		unlocked: false,
 		researched: false,
@@ -336,13 +342,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "acoustics",
 		title: "Acoustics",
-		description: "Acoustics is the study of sound.",
+		description: "Acoustics is the study of sound. Though not obviously useful, in a long run it may benefit civilizations thriving for cultural and religious development.",
 		effectDesc: "Unlocks Chapels",
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 65000},
-			{name: 	"compedium", val: 65}
+			{name : "science", val: 60000},
+			{name: 	"compedium", val: 60}
 		],
 		unlocks: {
 			tech: ["drama"]
@@ -350,8 +356,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "drama",
 		title: "Drama and Poetry",
-		description: "Drama and poetry are both forms of artistic expression.\nThe former expressed through the use of visual performance, the latter through the written word.",
-		effectDesc: "Unlocks Festivals and Cultural artefacts(TBD)",
+		description: "Drama and poetry are both forms of artistic expression. Improves cultural progress.",
+		effectDesc: "Unlocks Festivals and Cultural artifacts (TBD)",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -361,17 +367,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "archeology",
 		title: "Geology",
-		description: "Geology is the science comprising of the study of Cath, the rocks of which it is composed, and the processes by which they change.",
+		description: "Geology is the science comprising of the study of Cath, the rocks of which it is composed, and the processes by which they change. Can potentially benefit your mining industry.",
 		effectDesc: "Unlocks Quarries and Geologists",
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 70000},
-			{name: 	"compedium", val: 75}
+			{name : "science", val: 65000},
+			{name: 	"compedium", val: 65}
 		],
 		unlocks: {
 			tech: ["biology"],
-			jobs: ["geologist"]
+			jobs: ["geologist"],
+			upgrades:["geodesy"]
 		},
 		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal."
 	},{
@@ -392,7 +399,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "biology",
 		title: "Biology",
-		description: "Biology deals with living organisms, their characteristics and their use in our society.",
+		description: "Biology deals with living organisms, their characteristics and their use in our society. Improves science and chemistry industry.",
 		effectDesc: "Unlocks Bio Labs",
 		unlocked: false,
 		researched: false,
@@ -406,8 +413,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "biochemistry",
 		title: "Biochemistry",
-		description: "TBD.",
-		effectDesc: "Unlocks biofuel processing",
+		description: "Improves your chemistry and biology-related technologies.",
+		effectDesc: "Unlocks Biofuel Processing",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -421,7 +428,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "genetics",
 		title: "Genetics",
-		description: "TBD.",
+		description: "Technology that further improves upon biology and chemistry. Affects your food industry.",
 		effectDesc: "Unlocks genetic engineering(?)",
 		unlocked: false,
 		researched: false,
@@ -483,21 +490,38 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "combustion",
 		title: "Combustion",
 		description: "Combustion provides a number of ways to improve old coal-based automation technologies, such as Steamworks.",
-		effectDesc: "Unlocks Offset Printing and Fuel Injection",
+		effectDesc: "Unlocks Offset Printing, Oil Refinery and Fuel Injection",
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 120000},
-			{name: 	"blueprint", val: 50}
+			{name : "science", val: 115000},
+			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
-			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"]
+			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"],
+			tech: ["ecology"]
 		}
-	},{
+	},
+	{
+		name: "ecology",
+		title: "Ecology",
+		description: "Ecology is a technology primary focused on the search for new cheap and safe energy sources.",
+		effectDesc: "Unlocks Solar Farms",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 125000},
+			{name: 	"blueprint", val: 55}
+		],
+		unlocks: {
+			stages: [{bld:"pasture",stage:1}]
+		}
+	},
+	{
 		name: "electronics",
 		title: "Electronics",
 		description: "Electronics unlocks some high level upgrades mainly related to science",
-		effectDesc: "Unlocks CAD Systems, Refrigeration and SETI",
+		effectDesc: "Unlocks Broadcast Towers, CAD Systems, Refrigeration and SETI",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -506,13 +530,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti"]
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics"],
+            stages: [{bld:"amphitheatre",stage:1}]
 		}
 	},{
 		name: "robotics",
 		title: "Robotics",
 		description: "Robotics improves automated structures like Calciners",
-		effectDesc: "Unlocks Steel Plants, Tankers and Rotary Kilns",
+		effectDesc: "Unlocks Steel Plants, Hydro Plants, Tankers and Rotary Kilns",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -521,7 +546,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["steelPlants", "rotaryKiln"],
-			crafts: ["tanker"]
+			crafts: ["tanker"],
+			stages: [{bld:"aqueduct",stage:1}]
 		}
 	},{
 		name: "nuclearFission",
@@ -542,7 +568,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "rocketry",
 		title: "Rocketry",
 		description: "Required for space exploration",
-		effectDesc: "Unlocks construction of spaceships",
+		effectDesc: "Unlocks construction of spaceships and oil processing",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -550,25 +576,42 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
-			tech: ["sattelites"],
-			tabs: ["space"]
+			tech: ["sattelites", "oilProcessing"],
+			tabs: ["space"],
+            upgrades: ["oilDistillation"]
 		}
-	},{
-		name: "sattelites",
-		title: "Satellites",
-		description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
-		effectDesc: "Unlocks deployment of satellites",
-		unlocked: false,
-		researched: false,
-		prices: [
-			{name : "science", val: 190000},
-			{name: 	"blueprint", val: 125}
-		],
-		unlocks: {
-			tech: ["orbitalEngineering"]
-		},
-		flavor: "Spreading cat videos at the speed of light"
-	},{
+	}, {
+        name: "oilProcessing",
+        title: "Oil Processing",
+        description: "Unlocks advanced options of oil processing",
+        effectDesc: "Unlocks kerosene and factory processing(TBD)",
+        unlocked: false,
+        researched: false,
+        prices: [
+            {name : "science", val: 215000},
+            {name: 	"blueprint", val: 150}
+        ],
+        unlocks: {
+            crafts: ["kerosene"],
+            upgrades: [ "factoryProcessing" ]
+        }
+    },{
+        name: "sattelites",
+        title: "Satellites",
+        description: "Satellites are machines that permanently orbit the planet outside its atmosphere",
+        effectDesc: "Unlocks deployment of Satellites",
+        unlocked: false,
+        researched: false,
+        prices: [
+            {name : "science", val: 190000},
+            {name: 	"blueprint", val: 125}
+        ],
+        unlocks: {
+            tech: ["orbitalEngineering" ],
+            upgrades: [ "photolithography" ]
+        },
+        flavor: "Spreading cat videos at the speed of light"
+    },{
 		name: "orbitalEngineering",
 		title: "Orbital Engineering",
 		description: "Orbital Engineering allows kitten civilization to develop advanced space projects.",
@@ -581,7 +624,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology"],
-			upgrades: ["hubbleTelescope", "astrophysicists"]
+			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites"]
 		}
 	},{
 		name: "exogeology",
@@ -596,7 +639,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["advExogeology"],
-			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill"]
+			upgrades: ["unobtainiumReflectors", "unobtainiumHuts", "unobtainiumDrill", "hydroPlantTurbines", "storageBunkers"]
 		}
 	},{
 		name: "advExogeology",
@@ -610,7 +653,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 350}
 		],
 		unlocks: {
-			upgrades: ["eludiumCracker", "eludiumReflectors", "eludiumHuts" /*, "eludiumDrill"*/],
+			upgrades: ["eludiumCracker", "eludiumReflectors", "eludiumHuts", "mWReactor" /*, "eludiumDrill"*/],
 			crafts: ["eludium"]
 		}
 	},
@@ -618,7 +661,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "nanotechnology",
 		title: "Nanotechnology",
 		description: "TBD",
-		effectDesc: "Unlocks Nanosuits and Augmentations",
+		effectDesc: "Unlocks Nanosuits, FL Reactors, Augmentations and PVC",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -626,7 +669,37 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["augumentation", "nanosuits"]
+			tech: ["superconductors"],
+			upgrades: ["augumentation", "nanosuits", "photovoltaic", "fluidizedReactors"]
+		}
+	},{
+		name: "superconductors",
+		title: "Superconductors",
+		description: "Superconductors are exotic materials that help to optimize energy efficiency of different technologies",
+		effectDesc: "Unlocks Cold Fusion and Space Manufacturing",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 225000},
+			{name: 	"blueprint", val: 175}
+		],
+		unlocks: {
+            upgrades: ["coldFusion", "spaceManufacturing"],
+			tech: ["antimatter"]
+		}
+	},{
+		name: "antimatter",
+		title: "Antimatter",
+		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
+		effectDesc: "TBD",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 500000},
+			{name : "relic",   val: 1}
+		],
+		unlocks: {
+			upgrades: ["amReactors", "amBases"]
 		}
 	},{
 		name: "particlePhysics",
@@ -679,13 +752,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		researched: false,
 		prices: [
-			{name : "science", val: 500000},
-			{name: 	"timeCrystal", val: 25}
+			{name : "science", val: 750000},
+			{name: 	"timeCrystal", val: 25},
+			{name : "relic",   val: 1}
 		],
 		unlocks: {
+			upgrades: ["tachyonAccelerators", "chronoforge"]
 		}
 	}],
-	
+
 	metaCache: null,
 
 	constructor: function(game){
@@ -698,7 +773,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		if (tech){
 			return tech;
 		}
-		
+
 		for (var i = this.techs.length - 1; i >= 0; i--) {
 			if (this.techs[i].name == techName){
 				this.metaCache[techName] = this.techs[i];
@@ -709,11 +784,41 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		return null;
 	},
 
+	getPrices: function(tech) {
+
+		var prices = tech.prices ? tech.prices : [{
+				name:"science",
+				val: tech.cost
+			}];
+
+		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
+
+		if (this.game.village.leader && this.game.village.leader.trait["name"] == "scientist") {
+			for (var i = 0; i < prices_result.length; i++) {
+				if (prices_result[i].name == "science") {
+					prices_result[i].val *= 0.99;
+				}
+			}
+		}
+
+		return prices_result;
+	},
+
+	resetState: function(){
+		for (var i = 0; i < this.techs.length; i++){
+			var tech = this.techs[i];
+			tech.unlocked = tech.defaultUnlocked || false;
+			tech.researched = false;
+		}
+
+		this.hideResearched = false;
+	},
+
 	save: function(saveData){
 		saveData.science = {
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
-		}
-		saveData.science.hideResearched = this.hideResearched;
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
+			hideResearched: this.hideResearched
+		};
 	},
 
 	load: function(saveData){
@@ -754,6 +859,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			var tech = this.techs[i];
 			tech.researched = true;
 			tech.unlocked = true;
+			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
 	}
@@ -872,7 +978,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table)
+		var tr = dojo.create("tr", null, table);
 
 		var tdLeft = dojo.create("td", null, tr);
 		var tdRight = dojo.create("td", null, tr);
@@ -895,14 +1001,29 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 
 		//------------ metaphysics ----------------
-		if (this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0){
-			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics");
+		this.metaphysicsPanel = null;
+
+		var showMetaphysics = this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0;
+		if (!showMetaphysics){
+			for (var i = this.game.prestige.perks.length - 1; i >= 0; i--){
+				var perk = this.game.prestige.perks[i];
+				if (perk.researched){
+					showMetaphysics = true;
+					break;
+				}
+			}
+		}
+
+		if (showMetaphysics){
+			var metaphysicsPanel = new classes.ui.PrestigePanel("Metaphysics", this.game.prestige);
 			metaphysicsPanel.game = this.game;
-			
+
 			var content = metaphysicsPanel.render(tabContainer);
 
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
+
+		this.update();
 	},
 
 	update: function(){
@@ -931,10 +1052,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 					this.game.upgrade(tech.upgrades);
 				}
 			}, tech, self.game),
-			prices: tech.prices ? tech.prices : [{
-				name:"science",
-				val: tech.cost
-			}],
+			prices: this.game.science.getPrices(tech),
 			description: tech.description,
 			tech: tech.name
 		}, this.game);

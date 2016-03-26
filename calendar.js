@@ -38,7 +38,134 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	}],
 
+	//Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
+	cycles: [
+		{
+			name: "charon",
+			title: "Charon",
+			glyph: "&#9049;",
+			effects: {
+				"moonOutpost-unobtainiumPerTick": 0.9
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "umbra",
+			title: "Umbra",
+			glyph: "&#9062;",
+			effects: {
+				"planetCracker-uraniumPerTick": 0.9,
+				"hydrofracturer-oilPerTick": 0.75
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "yarn",
+			title: "Yarn",
+			glyph: "&#9063;",
+			effects: {
+				"researchVessel-starchartPerTickBase": 0.5
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "helios",
+			title: "Helios",
+			glyph: "&#8978;",
+			effects: {
+				"sunlifter-energyProduction": 1.5
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "cath",
+			title: "Cath",
+			glyph: "&#9022;",
+			effects: {
+				"spaceElevator-prodTransferBonus": 2,
+				"sattelite-starchartPerTickBase": 2,
+				"sattelite-observatoryRatio": 2,
+				"spaceStation-scienceRatio": 1.5,
+				"spaceBeacon-starchartPerTickBase": 0.1
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "redmoon",
+			title: "Redmoon",
+			glyph: "&#9052;",
+			effects: {
+				"moonOutpost-unobtainiumPerTick": 1.2
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "dune",
+			title: "Dune",
+			glyph: "&#9067;",
+			effects: {
+				"planetCracker-uraniumPerTick": 1.1,
+				"hydrofracturer-oilPerTick": 1.5
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "piscine",
+			title: "Piscine",
+			glyph: "&#9096;",
+			effects: {
+				"researchVessel-starchartPerTickBase": 1.5
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "terminus",
+			title: "Terminus",
+			glyph: "&#9053;",
+			effects: {
+				"sunlifter-energyProduction": 0.5
+			},
+			festivalEffects: {
+
+			}
+		},
+		{
+			name: "kairo",
+			title: "Kairo",
+			glyph: "&#8483;",
+			effects: {
+				"spaceBeacon-starchartPerTickBase": 5,
+				"spaceElevator-prodTransferBonus": 0.5,
+				"sattelite-starchartPerTickBase": 0.75,
+				"sattelite-observatoryRatio": 0.75,
+				"spaceStation-scienceRatio": 0.75
+			},
+			festivalEffects: {
+
+			}
+		}
+	],
+
 	season: 0,
+	cycle: 0,
+	cycleYear: 0,
+	yearsPerCycle: 5,
 
 	daysPerSeason: 100,
 	day: 0,
@@ -51,8 +178,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	festivalDays: 0,
 
-	iceage: 0,	//Ice Age apocalypse level
-
 	observeBtn: null,
 	observeHandler: null,
 	observeTimeout: null,
@@ -60,6 +185,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		dojo.destroy(this.observeBtn);
 		this.observeBtn = null;
 		clearTimeout(this.observeTimeout);
+	},
+	observeRemainingTime: 60,
+	observeStartDate: null,
+	observePause: function() {
+		if (this.observeTimeout != null && this.observeRemainingTime == 60) { // Only at the beginning of the pause
+			this.observeRemainingTime = 60 - Math.ceil((Date.now() - this.observeStartDate) / 1000);
+			this.observeClear();
+		}
 	},
 
 	constructor: function(game, displayElement) {
@@ -75,35 +208,47 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	update: function() {
-		var hasCalendarTech = this.game.science.get("calendar").researched;
 
-		var calendarDiv = this.displayElement;
-		if (hasCalendarTech){
+	},
 
-			var mod = "";
-			if (this.weather){
-				mod = " (" + this.weather + ") ";
+	cycleEffects: function(effects, building_name){
+		if (this.game.prestige.getPerk("numerology").researched){
+			var list_effects_cycle = this.cycles[this.cycle].effects;
+
+			for (effect in effects) {
+				var effect_cycle = building_name + "-" + effect;
+				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
+					effects[effect] *= list_effects_cycle[effect_cycle];
+				}
 			}
-
-			calendarDiv.innerHTML = "Year " + this.year + " - " +
-				this.seasons[this.season].title + mod + ", day " + this.integerDay();
-			document.title = "Kittens Game - Year " + this.year + ", " +
-				this.seasons[this.season].title + ", d. " + this.integerDay();
-
-			if (this.game.ironWill && this.observeBtn) {
-				document.title = "[EVENT!]" + document.title;
-			}
-
-		} else {
-			calendarDiv.textContent = this.seasons[this.season].title
 		}
+
+		if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
+			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
+
+			for (effect in effects) {
+				var effect_cycle = building_name + "-" + effect;
+				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
+					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
+				}
+			}
+		}
+
+		return effects;
 	},
 
 	tick: function(){
 
+		/* The behavior is not correct, maybe due to possible float-point.
+		if (this.game.time.isAccelerated) {
+			this.day += this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate);
+		} else {
+			this.day += this.dayPerTick;
+		}*/
+
 		this.day += this.dayPerTick;
 
-		var intday = this.integerDay();
+		var intday = this.integerDay(),
 		    newseason = false,
 		    newyear = false;
 
@@ -149,25 +294,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.festivalDays){
 			this.festivalDays--;
 		}
-		
+
 		var chanceRatio = 1;
 		var unicornChanceRatio = 1;
-		
+
 		if (this.game.prestige.getPerk("chronomancy").researched){
 			chanceRatio = 1.1;
 		}
 		if (this.game.prestige.getPerk("unicornmancy").researched){
 			unicornChanceRatio = 1.1;
 		}
-		
-		
 
+
+		//------------------------- astronomical events -------------------------
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
-		chance += this.game.bld.getEffect("starEventChance");
+		chance += (this.game.bld.getEffect("starEventChance") * 10000);
 		chance *= chanceRatio;
 
 		this.observeHandler = function(event){
 			this.observeClear();
+			this.game.stats.getStat("eventsObserved").val++;
 
 			var isSilent = false;
 			if (this.game.workshop.get("seti").researched){
@@ -188,25 +334,27 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResAmt("science", sciBonus);
 
 			if (!isSilent){
-				this.game.msg("+" + sciBonus.toFixed() + " science!");
+				this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
 			}
 
 			if (this.game.science.get("astronomy").researched){
 				if (!isSilent){
-					this.game.msg("You've made a star chart!");
+					this.game.msg("You've made a star chart!", "", "astronomicalEvent");
 				}
 				starchart.value +=1;
 			}
-		}//this.observeHandler
+		};//this.observeHandler
 
 		if (this.game.rand(10000) < chance &&
-			this.game.bld.get("library").val > 0){
+			this.game.bld.get("library").val > 0
+			|| this.observeRemainingTime != 60 &&
+			this.game.isPaused == false){ // Unpause the previous observeTimeout if one was displayed
 
 			var observeTimeout = function(){
 
 				this.observeClear();
 
-				var autoChance = this.game.bld.getEffect("starAutoSuccessChance");	//in %
+				var autoChance = (this.game.bld.getEffect("starAutoSuccessChance") * 100);	//in %
 				var rand = this.game.rand(100);
 
 				if(
@@ -216,8 +364,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					dojo.hitch(this, this.observeHandler)({}, true);
 				}
 
-			}//observeTimeout
-			
+			};//observeTimeout
+
 			if (this.observeBtn){
 				dojo.hitch(this, observeTimeout)();
 			}
@@ -228,22 +376,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.observeHandler();
 			}else{
 				var gameLog = dojo.byId("gameLog");
-				var node = this.game.msg("A rare astronomical event occurred in the sky");
+				var msg = this.game.msg("A rare astronomical event occurred in the sky", "", "astronomicalEvent");
+				var node = dojo.byId("observeButton");
 
 				this.observeBtn = dojo.create("input", {
 					id: "observeBtn",
 					type: "button",
-					value: "Observe"
+					value: "Observe the sky"
 				}, node);
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
-				var seconds = 60;
-				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), seconds * 1000);
+				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), this.observeRemainingTime * 1000);
+				this.observeStartDate = Date.now();
+				this.observeRemainingTime = 60;
 			}
 		}
 
 
+		//------------------------- meteors -------------------------
 		var iwChance = 0;
 		if (this.game.ironWill){
 			iwChance = 40;	// +0.4 additional chance of falling meteors
@@ -265,7 +416,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
 				this.game.resPool.addResAmt("science", sciBonus);
-				this.game.msg("+" + sciBonus.toFixed() + " science!");
+				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
 
 			minerals.value += mineralsAmt;
@@ -301,8 +452,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
 			}
 			if (zebras.value > zTreshold ){
-				this.game.msg( zebras.value > 1 ? 
-                    "Zebra hunters have departed from your village." : 
+				this.game.msg( zebras.value > 1 ?
+                    "Zebra hunters have departed from your village." :
                     "Zebra hunter has departed from your village."
                 );
                 zebras.value = zTreshold;
@@ -321,7 +472,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//----------------------------------------------
 		var aliChance = this.game.religion.getEffect("alicornChance");	//0.2 OPTK
 		if (this.game.rand(100000) < aliChance){
-			this.game.msg("An Alicorn has descended from the sky!", "important");
+			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
 
 			this.game.resPool.get("alicorn").value += 1;
 		}
@@ -335,7 +486,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			this.game.resPool.get("ivory").value += ivory;
 		}
-        
+
         this.game.diplomacy.onNewDay();
 	},
 
@@ -343,7 +494,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.eventChance = 0;
 
 		if (this.game.rand(100) < 35 && this.year > 3){
-			if (this.game.rand(100) > 50){
+			if (this.game.rand(100) < 50){
 				this.weather = "warm";
 			} else {
 				this.weather = "cold";
@@ -358,12 +509,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	onNewYear: function(){
+
+        var ty = this.game.stats.getStat("totalYears");
+		ty.val++;
+
+        if (ty.val < this.year){
+            ty.val = this.year;
+        }
+
+
 		if (this.game.bld.get("steamworks").jammed) {
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
 		}
-		
+
 		if ( this.year % 1000 === 0 ){
 			this.game.paragonPoints++;
+			this.game.stats.getStat("totalParagon").val++;
+			this.game.updateKarma();
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
@@ -373,6 +535,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
                 this.game.diplomacy.unlockElders();
             }
         }
+
+		this.cycleYear++;
+		if (this.cycleYear > this.yearsPerCycle){
+			this.cycleYear = 0;
+			this.cycle++;
+			if (this.cycle >= this.cycles.length){
+				this.cycle = 0;
+			}
+		}
+
+        this.game.resPool.get("antimatter").value += this.game.space.getEffect("antimatterProduction");
 	},
 
 	getWeatherMod: function(){
@@ -380,20 +553,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.weather == "warm"){
 			mod =  0.15;
 		} else if (this.weather == "cold"){
-			mod = -0.15
-		}
-		return mod;
-	},
-
-	getIceageMod: function(){
-		var mod = 0;
-		//the end is neigh
-		if (this.iceage >= 5){
-			mod -= 0.5;
-		}else if (this.iceage >=4){
-			mod -= 0.35;
-		}else if (this.iceage == 3){
-			mod -= 0.15;
+			mod = -0.15;
 		}
 		return mod;
 	},
@@ -402,14 +562,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return this.seasons[this.season];
 	},
 
+	resetState: function(){
+		this.year = 0;
+		this.day = 0;
+		this.season = 0;
+		this.weather = null;
+		this.festivalDays = 0;
+		this.cycle = 0;
+		this.cycleYear = 0;
+		this.observeClear();
+	},
+
 	save: function(saveData){
 		saveData.calendar = {
 			year : this.year,
 			day: this.day,
 			season: this.season,
 			weather: this.weather,
-			iceage: this.iceage,
-			festivalDays: this.festivalDays
+			festivalDays: this.festivalDays,
+			cycle: this.cycle,
+			cycleYear: this.cycleYear
 		};
 	},
 
@@ -420,6 +592,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.season  = saveData.calendar.season;
 			this.weather = saveData.calendar.weather;
 			this.festivalDays = saveData.calendar.festivalDays || 0;
+			this.cycle = saveData.calendar.cycle || 0;
+			this.cycleYear = saveData.calendar.cycleYear || 0;
 		}
 	}
 

@@ -29,7 +29,7 @@ body {
     border-bottom: 1px solid gray;
 
     box-shadow: 1px 0px 2px #888;
-    min-width: 1300px;
+    min-width: 1180px;
 }
 
 #game {
@@ -38,7 +38,7 @@ body {
     top: 26px;
 
     width: 100%;
-    min-width: 1280px;
+    min-width: 1180px;
 
     margin: 0 auto;
     height: auto;
@@ -64,19 +64,23 @@ body {
     min-width: 300px;
     padding-right: 20px;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
 #midColumn {
-    width: 620px;
-    overflow-y: scroll;
+    width: 630px;
+    overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
 }
 
 #rightColumn {
-    width: 300px;
+    width: 250px;
+    vertical-align: top; 
+    padding-left: 8px; 
+    padding-top: 20px; 
+    position: relative;
 }
 
 .tabsContainer {
@@ -86,6 +90,7 @@ body {
 }
 
 div#gameLog {
+    overflow-y: auto !important;
 }
 
 #footerLinks {
@@ -101,6 +106,20 @@ div#gameLog {
 
 .resourceRow {
     white-space: nowrap;
+}
+
+.resourceRow .resource-name,
+.resourceRow > td:first-child {
+    cursor: pointer;
+}
+
+.clear {
+    clear: both;
+    float: none;
+}
+
+input[type="button"] {
+    cursor: pointer;
 }
 
 .nosel {
@@ -121,9 +140,25 @@ div#gameLog {
     margin-bottom:10px;
 }
 
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn.disabled:hover {
+    cursor: inherit;
+}
+
+.btn.disabled div.btnContent {
+    cursor: default;
+}
+
 .btn.bldEnabled div.btnContent {
     padding: 4px;
     border: 1px solid green;
+}
+
+.btn.small-text span {
+    font-size: 90%;
 }
 
 .btn a:hover {
@@ -144,20 +179,31 @@ div#gameLog {
     background-color: #EEE;
 }
 
-.help {
+.dialog {
     position: absolute;
     border: 1px solid black;
-    width: 600px;
-    height: 300px;
-
+    
     left: 50%;
     top: 50%;
+    
+    background-color: #FFF;
+    padding: 20px;
+}
+
+.help {
+    width: 600px;
+    /*height: 300px;*/
 
     margin-top: -150px;
     margin-left: -300px;
+}
 
-    background-color: #FFF;
-    padding: 20px;
+.credits {
+    width: 600px;
+    height: 400px;
+
+    margin-top: -200px;
+    margin-left: -300px;
 }
 
 .disabled {
@@ -216,6 +262,17 @@ div#gameLog {
     border-color: red;
 }
 
+@media screen {
+  .achievement[title]::after{
+    content: ' ' attr(title);
+    transition: opacity 0.25s;
+    opacity: 0;
+  }
+  .achievement[title]:hover::after{
+    opacity: 0.6;
+  }
+}
+
 td.resLimitNotice {
     color: orange;
 }
@@ -233,7 +290,7 @@ td.resLimitWarn {
 }
 
 .msg {
-    display: inline-block;
+    display: block;
 }
 
 .msg.type_notice {
@@ -244,9 +301,21 @@ td.resLimitWarn {
     color: coral;
 }
 
+.msg.type_date {
+    color: #ff7f50;
+    margin-top: 15px;
+    text-transform: uppercase;
+    font-size: 90%;
+    border-bottom: solid 1px #ff7f50;
+}
+
+.msg.type_date:first-child {
+    margin-top: 0px;
+}
+
 #gameContainerId {
-    padding: 10px;
-    padding-top: 10px;
+    border: 0px solid white !important;
+    padding: 0px;
 }
 
 .bldGroupContainer {
@@ -262,6 +331,20 @@ td.resLimitWarn {
     border: 1px solid #888;
     padding: 0;
     width: 264px;
+}
+
+.btn.modern:hover {
+    border-color: #777;
+    background: #F9F9F9;
+}
+
+.btn.modern.disabled {
+    border-color: #aaa;
+}
+
+.btn.modern.disabled:hover {
+    border-color: #aaa;
+    background: inherit;
 }
 
 .modern .btnContent {
@@ -290,7 +373,8 @@ td.resLimitWarn {
 }
 
 .tabInner {
-    padding: 20px;
+	margin-bottom: 20px;
+    padding: 15px;
     border: 1px solid gray;
 }
 
@@ -304,4 +388,115 @@ table.craftTable tr:hover td {
 
 #devPanel div {
     display: inline-block;
+}
+
+.toolbarIcon {
+    padding-right: 15px;
+    font-size: 12px;
+    cursor: default;
+}
+
+.attitude {
+    color: #777;
+    font-size: 90%;
+}
+
+.attitude:before {
+    content: "(";
+}
+
+.attitude:after {
+    content: ")";
+}
+
+.trade-race > .left {
+    width: 50%;
+    float: left;
+}
+
+.trade-race > .right {
+    width: 50%;
+    float: right;
+}
+
+.trade-race .buys {
+    color: #01A9DB;
+    width: 40px;
+    display: inline-block;
+}
+
+.trade-race .sells {
+    color: green;
+    width: 40px;
+    display: inline-block;
+}
+
+.trade-race .ammount {
+    color: #777;
+}
+
+.trade-race .ammount:before {
+    content: "(";
+}
+
+.trade-race .ammount:after {
+    content: ")";
+}
+
+.btn.explore {
+    float: right;
+    margin-right: 9px;
+}
+
+label {
+    cursor: pointer;
+}
+
+label i {
+    font-size: 90%;
+    color: grey;
+}
+
+label:hover {
+    opacity: 0.7;
+}
+
+/*New Styles*/
+.achievement {
+    cursor: default;
+}
+
+.achievement .star {
+    float: right;
+    padding-right: 0px;
+    margin-top: -4px;
+    font-size: 18px;
+    color: orange;
+}
+
+.achievement.starUnlocked .star {
+    textShadow: 1px 0px 10px Coral;
+}
+
+.statTable tr td:nth-child(2) {
+    padding-left: 20px;
+}
+
+h1 {
+    font-size: 12px;
+    color: Coral;
+    text-transform: uppercase;
+    margin-top: 30px;
+    font-weight: normal;
+}
+
+.expandAllBar {
+    float: right;
+    margin-top: -15px;
+}
+
+#gameLog span.msg:not(.type_date)  {
+    display: list-item;
+    margin-left: 1.0em;
+    list-style-type: circle;
 }

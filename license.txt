@@ -1,7 +1,7 @@
 Kitten game is licensed under a WET PAWS LICENSE.
 
 You are free to make any changes in the code for personal or educational purpose. 
-Using the game code for commertial gain or creation of derivative works is not permitted.
+Using the game code for commercial gain or creation of derivative works is not permitted.
 
-Hosting a translated version of the game is permited as long as the game retains all links. 
+Hosting a translated version of the game is permitted as long as the game retains all links.
 And for god's sake please don't make huge idiotic red logos of your website. (Yes, u77 folks, I am talking about you).

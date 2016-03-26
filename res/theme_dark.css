@@ -17,6 +17,24 @@
 	border: solid 1px #DE8D47;
 }
 
+.scheme_dark .btn:hover {
+	border: solid 1px orange;
+	background: inherit;
+}
+
+.scheme_dark .btn.disabled {
+	border: solid 1px #805326;
+}
+
+.scheme_dark .btn.disabled:hover {
+	border: solid 1px #805326;
+	cursor: inherit;
+}
+
+.scheme_dark .limited {
+	color: #b32222;
+}
+
 .scheme_dark .highlited {
 	background-color: #403F3D;
 }
@@ -24,6 +42,12 @@
 .scheme_dark a {
 	color: #868685;
 }
+
+.scheme_dark a:hover {
+	color: #969696;
+	opacity: 1.0;
+}
+
 .scheme_dark div {
 	color: #DCDCDC;
 }

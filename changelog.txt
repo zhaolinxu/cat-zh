@@ -1,3 +1,533 @@
+v 1.1.8.6 (28 feb)
+Time flux
+
+v 1.1.8.5 (20 feb)
+
+Changes by freeroot:
+Leader effects
+___
+Players can break TC in chronoforge
+
+v 1.1.8.4 (24 jan)
+
+Changes by freeroot:
+
+- Added option to show and hide specific resources.
+- Census UI tweaks.
+- Fixed some issue with options visibility
+
+Changes by Chris:
+
+- Cycles require Numerology/Numeromancy to take effect.
+- Numerology now triggers cycle effects in general, and Numeromancy adds more effects during festivals.
+
+
+v 1.1.8.3 (19 jan)
+
+Changes by freeroot:
+
+-Planetary cycles will now give bonuses to certain structures.
+__
+Added speedwarp button to the time panel (original idea and code by Tom Muller)
+
+v 1.1.8.2 (13 jan)
+Changes by coderpatsy:
+
+Metaphysics fixes
+- Show purchased metaphysics perks even if you don't have metaphysics tech
+- Remember metaphysics panel's collapsed state - fixes issue #21
+
+Changes by freeroot:
+
+Fixed Factory Logistics technology
+
+____
+
+Added placeholder time/CF panels
+You can now refine TC into relics
+Entering DEV mode will now display all buildings regarding of unlock status
+Clicking building in DEV mode will always buy it ragardless of current active resources
+
+Elders base chance and NCC bonus were reduced by ~50%
+Marker button will now display NC corruption progress
+
+v 1.1.8.1 (2 jan)
+
+Streamlined fertility tree
+
+v 1.1.8.0 (1 Jan, Happy New Year)
+
+Changes by Kida:
+- Added Total Hours played for Current Game to Stats.
+- Updated descriptions on voidEnergy / darkEnery to be more clear it affects storage.
+- Dialog UI Changes/Fixes
+
+Kitten Arrival Mechanics (Kitten Per Tick)
+- Kittens will now arrive twice as fast during festivals.
+- New paragon tree: (Kitten Fertility > Venus of Willenfluff > Purrodite > Immortal Kittens)
+- Each paragon tech increases the rate kittens arrive.
+- Immortal Kittens also makes them immortal (can no longer die / starve.)
+
+v 1.1.7.9 (27 dec)
+
+Fixed an issue with log filtering
+Fixed dropbox import
+
+v 1.1.7.9 (?) (19 dec)
+Changes by coderpatsy:
+- Fix tear refining being able to exceed sorrow limit slightly (sorry folks)
+- Properly update when spending/refining for sorrow
+- Fix display when spending all sorrow/importing a save with no sorrow over a save with sorrow
+- Updated credit link, synched credits to kong index
+- Text fixes
+- Fix various bugs when importing saves
+
+Changes by Kida:
+- Fixed Sleek themeing issues.
+- Stat clean up, and additions.
+- Current game stats now save.
+- Current game stats now reset on reset.
+- Resources now only warn on values that can be maxed; and can tick.
+- Did some odd vudo magic on the game log; and grouping by dates...
+(Hope this does not mess things up....)
+
+___
+
+Fixed a problem with leaked resources upon reset (?)
+Resetting with 750+ kittens will give additional karma bonus
+Trading with elders will now reduce their duration counter
+Relic drop chance is reduced from 30% to 5%
+Option to unlock all or individual upgrades in dev mode
+Sorrow max limit on UI will be now affected by BLS cap
+
+v 1.1.7.8 (7 dec)
+
+Coding Changes by Kida:
+
+Stats and Achievements:
+- Added New Stats: Total Clicks, Buildings Constructed, and Avg. Kittens Born (Per Century)
+- Created Stat Groups: All-Time and Current Game
+- Fixed some grammatical preferences for Stats.
+- 2 new super cool achievements added; with bonus stars.
+- Added Star-Achievements to: utopiaProject
+- Added Achievement Header
+
+Styling/Refactoring
+- Updated and Refactored many of the 'inline' styles to use 'classes'.
+- Updated default css for previous inline styles.
+
+Interface Changes by Kida:
+
+- Added Sleek Theme (In Beta) v0.1
+Features:
+- Updated to a cleaner web-font. (Roboto) - Tooltip is now fixed to bottom-right of screen.
+- Interface is more 'flexible'
+- Improved window layout for larger screens. - Scrollbars on visible when needed now.
+- New CSS styled scrollbars.
+- Fixed various rendering errors.
+- Updated button styles; and color. Flashes on Clicks. - Updated tab text
+- Resolved log messages wrapping errors.
+- Select Boxes and Import/Export Buttons updated to reflect theme.
+- Dialog styles and sizes updated.
+- Achievements style updated.
+Notes: CSS is a hodgepodge of spaghetti-coding right now. Anyone is welcome to refine.
+
+v 1.1.7.7 (27 nov)
+
+Elders duration and energy bonus slightly
+Elder energy bonus will be now calculated correctly
+
+v 1.1.7.6 (26 nov)
+
+Changes by coderpatsy:
+
+- Fix space beacons producing less starcharts than they should
+- Fix display of trade race buy/sell resource names
+
+Changes by ArcanisCz:
+
+-Header toolbar initial render-update
+
+Space Manufacturing ratio was reduced from 100% to 75%
+Space Manufacturing will not have effect on Planet Crackers anymore
+Antimatter Bases
+
+v 1.1.7.5 (25 nov)
+
+Factory Processing will now have effect on oil
+Price of tankers was reduced from 225 ships to 200
+Alicorn summon chance was increased for Sky Palace and UU
+Space Elevators will now boost H. Fractures by 0.1% of global production ratio
+
+v 1.1.7.4 (24 nov)
+
+Fixed star achievements not being unlocked correctly
+Fluidized Reactors
+Trade tab will be highlighted if elders have arrived
+
+v 1.1.7.3 (22 nov)
+
+AM Reactors and Beacons will now require less antimatter.
+AM Reactors MK2
+Automated Plants
+
+v 1.1.7.2 (19 nov)
+
+Elders will now stay for 50 years instead of 3. Every sacrificed necrocorn will extend this value by 25. 
+Elders trade will give more starcharts and have a small chance of giving an Relic
+Unicorn Utopia price was significantly reduced
+Tachyon Accelerators
+
+v 1.1.7.1 (18 nov)
+
+Every manuscript will now give a small amount of maximum culture.
+Insane Space Oddity will now let you complete it with <10 paragon points
+Space manufacturing effect was reduced from 100% to 75%
+
+v 1.1.7.0 (15 nov)
+
+Changes by coderpatsy:
+
+- #38 Photovoltaic cells not active until refresh
+- Fix display bug with Solar Satellites and 0 Satellites
+- Fix Bio Labs converting non-existent catnip into oil
+- Update production when kittens die, preventing unnecessary deaths
+- Log actual number of dying kittens
+- Plural fix for hunt all button
+- Devmode function fix
+- Eludium Reflectors fix and grouping
+
+- Add a message for completely unsuccessful trades (besides the existing single-trade hostile race messsage)
+- Increment totalYears stat again
+- Record unicorns sacrificed instead of sacrifice events
+- Format stat values
+
+- Remove erroneous eventsObserved increment
+- Labels for log filters + disabled btn cursor
+
+Changes by xranti:
+
+- Changed automated buildings to use resPool.convert rather than modifying values directly.
+
+Changes by ArcanisCz:
+
+- Fixed brief flash of non-updated tabs after click 
+- Religion sell buttons respect global "hide sell buttons" settings 
+- #45 - fixed font scaling when bld.count > 9
+- trade-race panel redesign 
+- Proper space tab refresh after mission 
+- Input labels and cosmetic stuff in Options 
+- All labels visual improvement 
+
+(Probably something else that I missed)
+__
+Space Beacons
+Space Manufacturing
+AM Reactors
+
+Couple of new achievements
+
+v 1.1.6.2 (5 nov)
+
+Changes by ArcanisCz:
+
+- Hover effects and styling for buttons
+- Unassign button for leaders
+
+Changes by Unihedron 0:
+
+- fix stats not updating paragons earned from playing for milleniums
+
+Changes by Roman Chang:
+
+- Census sorts kittens primarily by rank and secondarily by exp 
+
+Changes by coderpatsy:
+
+- Events observed stat increments on manual and SETI observations as well
+- Fix Dead kittens stat recording more deaths than kittens
+- Add effectMeta for scholar starcharts
+
+v 1.1.6.1 (1 nov)
+
+Changes by rossalansmith:
+
+Restricts power consumption of Bio Labs to only after Biofuel Processing has been researched
+____
+Most of the technologies now have better description and some hints of possible uses
+
+v 1.1.6.0 (23 oct)
+
+CH40K is split into a two achievements
+Storage Bunkers
+
+Some cosmetic placeholder stuff
+
+v 1.1.5.5 (17 oct ?)
+
+Some stats are hidden by default
+Stats panel will be unlocked by default after the reset
+
+UI should be now able to fit 1200 screen.
+Added zoom in/out links for the left panel
+
+Catnip Processing was removed from the game. Catnip Enrichment will now be unlocked with Construction.
+Failed exploration will give vague hint about the unlock requirements.
+
+v 1.1.5.4 (17 oct)
+Changes by xranti:
+
+Another fix for village stats.
+__
+Changes by Unihedron 0:
+
+Better achievement tooltipts.
+___
+Happiness icon was changed to cute ascii-art.
+Better happiness tooltip.
+Fixed stats being lost upon resetting.
+More reliable crafting messages and craft filter
+
+v 1.1.5.3 (15 oct)
+Changes by coderpatsy:
+
+- Fix Hydraulic Fracturer not producing oil
+- Factory Processing unlocks with Oil Processing
+- Update paragon count on new millenium
+- Grammar
+
+v 1.1.5.2 (11 oct)
+Microwarp reactors
+
+Slightly boosted cryostorage
+Kerosene prices of space missions were increased
+
+v 1.1.5.1 (10 oct)
+
+Basic statistic for the game
+Rebalancing kerosene prices
+
+v 1.1.5.0 (7 oct)
+
+Oil processing
+Kerosene
+
+Oil Distillation
+Factory Processing
+
+Hydro Fracturer
+Cryostation
+_
+Sefirot tree (3/11)
+
+v 1.1.4.3 (6 oct)
+
+Added support for crafting undo (more options coming)
+Kongregate API integration
+
+Changes by coderpatsy:
+
+Add Workshop Automation log filter
+
+v 1.1.4.2 (26 sep)
+
+Changes by coderpatsy:
+
+Fix buildings not always showing that they are on
+Fix active tabs not highlighting their link
+Fix catnip max not being recalculated properly when buying Silos
+
+v 1.1.4.1 (16 sep)
+
+Changes by coderpatsy:
+
+Fix lunar outposts converting uranium even when all are off (https://redd.it/3lbrj3)
+Make sure moon programs are unlocked when converting saves
+Fix negative numbers not getting postfixed
+Fix postfixed numbers displaying postfix after "/s"
+Fix typoed variable name (RIP usePetTickHack)
+
+Changes by xranti:
+
+Additional fix to lunar outpost
+Removed default amount from resPool.convert function.
+
+v 1.1.4.0 (16 sep)
+Changes by coderpatsy:
+
+Fix Steamworks not saving jammed flag and stray jammed flag on magnetos
+Fix kittens briefly producing at master skill when starting a job
+Trigger a save right before resetting to make sure nothing gets lost
+Fix tankers not reducing storage upon crafting
+Remember trade race collapsed status
+Save/load message filters
+Call calculateEffects when up/downgrading buildings
+
+Lots and lots of other fixes
+___
+Changes by xranti:
+
+Implemented save state migration system and moved Lunar Outpost and Moon Base to the moon planet.
+Clear cached effects on load (fixes https://redd.it/3jzexn).
+
+___
+Some minor changes to decouple game logic from UI (may be useful for future mobile ports/custom clients)
+
+v 1.1.3.5 (8 aug)
+Changes by coderpatsy:
+
+Fixes for buildings and energy penalty
+___
+v 1.1.3.4 (2 aug)
+Changes by coderpatsy:
+
+Shift-click for buy all space buildings and sell all
+Resource hover highlights
+___
+Prices of Acoustics and Geology were slightly reduced
+
+v 1.1.3.3 (30 jul)
+Leader ranks in the promote link
+
+v 1.1.3.2 (29 jul)
+Changes by coderpatsy:
+
+Storage increase in tooltips now accurate
+___
+Hydro Plant Turbines.
+Broadcast Towers will no longer affect happiness.
+
+Broadcast tower price and ratio were slightly increased
+Broadcast tower culture bonus was reduced from 500 to 300
+
+A bit of new flavors and village names
+
+v 1.1.3.1 (26 jul)
+Cold Fusion
+Satellite Radio
+
+Production penalty will be now proportional to energy delta
+Production penalty can be completely disabled in the options
+
+v 1.1.3.0 (25 jul)
+Changes by cgyllensvrd:
+
+Internet/Photolithography
+___
+Radio Towers
+Correct formatting for Apocrypha bonus
+Happiness tooltip will be more informative
+Sunlifters will generate antimatter once per year
+
+
+v 1.1.2.1 (19 jul)
+Changes by coderpatsy:
+
+Fix trade messages saying timeCrystal
+Format numbers when sacrificing unicorns
+Fix mixing ":"s in left-hand crafting menu
+__
+Hydro Plants production was reduced from 10 to 5
+Sunlifters energy production was slightly increased
+
+
+v 1.1.2.0 (16 jul)
+Changes by irxground:
+
+Fixed census sorting
+______
+Hydro Plants
+
+v 1.1.1.6 (15 jul)
+Changes by coderpatsy:
+
+Game page tab titles will be now correctly updated
+______
+Oil Well will require energy only if Pumpjack is researched
+Fixed an issue with dropbox import
+
+v 1.1.1.5 (14 jul)
+Changes by coderpatsy:
+
+Only display production penalty in tooltip if total energy is < 0
+Added a space between "Leader:" and the leader's name
+___
+
+Solar Satellites
+Energy requirement for Space Elevators removed
+Happiness toolbar icon
+Overpopulation
+
+Fixed bug where player had to upgrade pastures twice.
+
+v 1.1.1.4 (13 jul)
+Planetary cycles
+
+v 1.1.1.3 (13 jul)
+Production bonus for leader based on rank
+Promotion will now require gold
+
+v 1.1.1.2 (13 jul)
+Changes by coderpatsy:
+
+Chronospheres ignore Alicorns and Necrocorns (thanks /u/underpantscannon)
+External links open in a new tab/window
+Don't show a kitten's skill level if <= 0
+______
+
+Geodesy will now require Archeology as a prereq
+
+
+v 1.1.1.1 (12 jul)
+Census UI cleanup
+Census kittens will be now automatically sort by their experience
+
+Trade button and Send Explorers button will now display ETA
+Unlocked upgrades will not display ETA anymore
+
+
+v 1.1.1.0 (12 jul)
+Superconductors
+Photovoltaic Cells
+
+v 1.1.0.1 (11 jul)
+
+Changes by coderpatsy:
+
+Show time for resources on Religion tooltips
+Fix display issues with exactly 10 of a tunable building
+Filter meteors' +science messages too
+Equal chance of warm and cold seasons
+Update BLS in tradeMultiple() like it does in trade() (better safe than sorry)
+Fixed armor/armour inconsistency
+Added tags to hunt and trade messages, so scripters can easily add filters for them
+____
+
+Village tab will display kittens in free/total format
+Base yeld of hunters was very slightly increased
+Hunt button will now display ETA
+
+Unlock Ratio for mines was reduced from 30% to 15%
+Unlock Ratio for ziggurats was reduced from 5% to 1%
+Save button will now display a confirmation message
+
+Pawse button will now have a description tooltip for confused players
+Brewery was renamed to Catnip Processing
+Metal Working and Mining prices were rebalanced
+
+v 1.1.0.0 (beta) (11 jul)
+Mechanics:
+	Staging
+	Energy
+
+Techs:
+	Ecology
+
+Buildings:
+	Solar Farms
+
+Slightly reduced price of Combustion tech
+
 v 1.0.9.2
 
 Fixed incorrect space structures production tooltips
