@@ -333,9 +333,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	getResourcePerTickAutomateThisTick: [],
 
 	addRes: function(res, addedValue) {
-		res.value = res.value + addedValue;
-		if (res.maxValue && res.value > res.maxValue){
-			res.value = res.maxValue;
+		if(res.maxValue) {
+			//if already overcap, allow to remain that way unless removing resources.
+			if(res.value > res.maxValue) {
+				if(addedValue < 0 ) {
+					res.value += addedValue;
+				}
+			} else {
+				res.value += addedValue;
+				if(res.value > res.maxValue) {
+					res.value = res.maxValue;
+				}
+			}
+		} else {
+			res.value += addedValue;
 		}
 
 		if (isNaN(res.value) || res.value < 0){
@@ -534,7 +545,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				var price = prices[i];
 
 				var res = this.get(price.name);
-				if (res.maxValue > 0 && price.val > res.maxValue){
+				if (res.maxValue > 0 && price.val > res.maxValue && price.val > res.value){
 					return true;
 				}
 				if (res.craftable && price.val > res.value){ //account for chronosphere resets etc
