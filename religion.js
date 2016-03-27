@@ -338,7 +338,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "basilica",
 		label: "Basilica",
-		description: "Temples are generating more culture and expanding cultural limits",
+		description: "Temples generate more culture and expand cultural limits",
 		prices: [
 			{ name : "faith", val: 1250 },
 			{ name : "gold",  val: 750 }

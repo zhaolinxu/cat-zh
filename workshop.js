@@ -694,7 +694,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "compositeBow",
 		title: "Composite Bow",
-		description: "An improved version of a bow which provides a permanent +50% boost to the catpower production",
+		description: "An improved version of a bow which provides a permanent +50% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
@@ -708,7 +708,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "crossbow",
 		title: "Crossbow",
-		description: "An improved version of a bow which provides a permanent +25% boost to the catpower production",
+		description: "An improved version of a bow which provides a permanent +25% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
@@ -721,7 +721,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "railgun",
 		title: "Railgun",
-		description: "Deadly electromagnetic weapon. +25% boost to the catpower production",
+		description: "Deadly electromagnetic weapon. +25% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
@@ -1741,7 +1741,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowledge of the catkind. Every compendium will give +10 to max science",
+		description: "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
