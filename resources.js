@@ -160,7 +160,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "sorrow",
 		type : "common",
 		visible: false,
-		color: "black"
+		color: "black",
+		persists: true	//isn't wiped on game reset
 	},
 
 	//=========================================
@@ -259,7 +260,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		style: {
 			"textShadow": "1px 0px 10px #FA2E9E",
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
-		}
+		},
+		persists: true
 	},{
 		name : "blueprint",
 		type : "common",

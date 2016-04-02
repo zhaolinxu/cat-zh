@@ -2360,7 +2360,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (anachronomancy.researched){
 					newResources.push(res);
 				}
-			} else if (res.name == "elderBox"){
+			} else if (res.persists){
 				newResources.push(res);
 			} else {
 				var newRes = this.resPool.createResource(res.name, res.type);

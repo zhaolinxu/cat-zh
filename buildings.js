@@ -614,6 +614,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
+			self.effects = {
+				"woodPerTick": -0.05,
+				"mineralsPerTick": -0.1,
+				"ironPerTick": 0.02,
+				"coalPerTick": 0,
+				"goldPerTick": 0,
+				"titaniumPerTick": 0
+			};
+
 			//--------------------------- hack hack hack hack --------------------------------
 			var autoProdRatio = game.bld.getAutoProductionRatio();
 			//--------------------------------------------------------------------------------
