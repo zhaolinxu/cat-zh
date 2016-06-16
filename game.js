@@ -2425,7 +2425,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.get("paragon").value = parseInt(this.paragonPoints);
 
 		if (this.karmaZebras){
-			this.resPool.get("zebras").maxValue = this.karmaZebras;
+			this.resPool.get("zebras").maxValue = this.karmaZebras+1;
 		}
 	},
 

@@ -442,6 +442,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 
 			res.maxValue = maxValue;
+			this.game.updateKarma();
 
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
 
