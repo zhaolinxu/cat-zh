@@ -48,7 +48,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 0.9
 			},
 			festivalEffects: {
-
+				"catnip": 1.5,
+				"wood": 1.5,
+				"minerals": 1.5
 			}
 		},
 		{
@@ -60,7 +62,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 0.75
 			},
 			festivalEffects: {
-
+				"coal": 1.5,
+				"iron": 1.5,
+				"titanium": 1.5,
+				"gold": 1.5
 			}
 		},
 		{
@@ -71,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 0.5
 			},
 			festivalEffects: {
-
+				"culture": 2
 			}
 		},
 		{
@@ -82,7 +87,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 1.5
 			},
 			festivalEffects: {
-
+				"faith": 2,
+				"unicorns": 1.25
 			}
 		},
 		{
@@ -97,7 +103,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceBeacon-starchartPerTickBase": 0.1
 			},
 			festivalEffects: {
-
+				"manpower": 2
 			}
 		},
 		{
@@ -108,7 +114,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 1.2
 			},
 			festivalEffects: {
-
+				"unobtainium": 2
 			}
 		},
 		{
@@ -120,7 +126,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 1.5
 			},
 			festivalEffects: {
-
+				"uranium": 2
 			}
 		},
 		{
@@ -131,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 1.5
 			},
 			festivalEffects: {
-
+				"science": 2
 			}
 		},
 		{
@@ -142,7 +148,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 0.5
 			},
 			festivalEffects: {
-
+				"oil": 2
 			}
 		},
 		{
@@ -157,7 +163,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceStation-scienceRatio": 0.75
 			},
 			festivalEffects: {
-
+				"starchart": 5
 			}
 		}
 	],
@@ -227,7 +233,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
 
 			for (effect in effects) {
-				var effect_cycle = building_name + "-" + effect;
+				var effect_cycle = effect;
 				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
 					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
 				}
