@@ -1528,6 +1528,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (steamworks.on > 0 && swEffectGlobal ){
 			perTick += perTick * swEffectGlobal;
 		}
+		effects = {};
+		effects[resName] = perTick;
+		this.calendar.cycleEffects(effects);
+		perTick = effects[resName];
 
 		//---------  RESOURCE CONSUMPTION -------------
 
