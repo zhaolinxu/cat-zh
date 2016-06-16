@@ -438,7 +438,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (!zebras.value && archery.researched){
 				zebras.value += 1;
 				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
-			} else if ( zebras.value > 0 && zebras.value < this.game.karmaZebras){
+			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
 				if (this.game.rand(100000) <= 500){
 					zebras.value += 1;
 					this.game.msg("Another zebra hunter joins your village.");
@@ -449,7 +449,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var zTreshold = 0;
 			if (this.game.prestige.getPerk("zebraDiplomacy").researched){
 				//zTreshold = Math.floor((this.game.rand(20) + 5) / 100 * this.game.karmaZebras);   //5 - 25% of hunters will stay
-				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+				zTreshold = Math.floor(0.10 * (this.game.karmaZebras+1));   //5 - 25% of hunters will stay
 			}
 			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ?
