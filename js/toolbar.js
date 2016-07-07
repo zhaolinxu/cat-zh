@@ -32,6 +32,12 @@ dojo.declare("classes.ui.Toolbar", null, {
 		for (var i in this.icons){
 			this.icons[i].update();
 		}
+
+		var sorrow = this.game.resPool.get("sorrow").value;
+		$("#sorrowTooltip").html(sorrow ?
+			"BLS: " + sorrow.toFixed() + "%" :
+			""
+		);
 	},
 
 

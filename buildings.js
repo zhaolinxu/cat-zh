@@ -28,7 +28,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 
     getMeta: function(){
         var bld = this.meta;
-        if (bld.upgradable){
+        if (bld.upgradable && bld.stages){
 			//some specific hack for stagable buildings
 			if (bld.stage >= bld.stages.length){
 				bld.stage = bld.stages.length-1;
@@ -575,7 +575,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		requiredTech: ["archeology"],
 		val: 0,
-		flavor : "Its full of mice! Wait, wrong 'quarry'"
+		flavor : "It's full of mice! Wait, wrong 'quarry'"
 	},
 	{
 		name: "smelter",
@@ -614,6 +614,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
+			self.effects = {
+				"woodPerTick": -0.05,
+				"mineralsPerTick": -0.1,
+				"ironPerTick": 0.02,
+				"coalPerTick": 0,
+				"goldPerTick": 0,
+				"titaniumPerTick": 0
+			};
+
 			//--------------------------- hack hack hack hack --------------------------------
 			var autoProdRatio = game.bld.getAutoProductionRatio();
 			//--------------------------------------------------------------------------------
@@ -632,8 +641,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("nuclearSmelters").researched){
 				self.effects["titaniumPerTick"] = 0.0015 * autoProdRatio;
 			}
-
-			//console.log("SELF:", self, self.on);
 
 			game.resPool.convert(
 				[{res: "wood", amt: -self.effects["woodPerTick"]},
@@ -707,14 +714,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["coalPerTick"] = -difference;
 				self.effects["steelPerTick"] = difference / 100;
 
-
 				game.resPool.convert(
 					[{res: "iron", amt: difference},
 					 {res: "coal", amt: -self.effects["coalPerTick"]}],
 					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
 					self.on
 				);
-
 			}
 		},
 		val: 0
@@ -919,7 +924,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyConsumption": 0
 			};
 
-			var ratio = 1 + game.workshop.getEffect("oilRatio");
+			var ratio = 1 + game.workshop.getEffect("oilWellRatio");
 			effects["oilPerTickBase"] *= ratio;
 
 			if (game.workshop.get("pumpjack").researched){
@@ -1440,9 +1445,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		paragonRatio = paragonRatio || 0.25;
 
 		//	faith
-		if (this.game.religion.getRU("solarRevolution").researched){
-			autoProdRatio *= ( 1 + (this.game.religion.getProductionBonus() / 100));
-		}
+		autoProdRatio *= ( 1 + this.game.religion.getProductionBonus() / 100);
 		//	SW
 		var steamworks = this.get("steamworks");
 		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
@@ -2380,7 +2383,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
 
 						btn.game.gatherClicks++;
-						if (btn.game.gatherClicks >= 2500 && !this.game.ironWill){
+						if (btn.game.gatherClicks >= 2500 && !btn.game.ironWill){
 							btn.game.gatherClicks = 0;
 							btn.game.cheatMode = true;
 						}

@@ -495,8 +495,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		if (this.buttonTitle && this.buttonTitle.innerHTML != this.getName()){
 			this.buttonTitle.innerHTML = this.getName();
 		}
-
-		this.updatePrices();
 	},
 
 	getPrices: function(){
@@ -677,30 +675,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 			this.tooltip = tooltip;
 			this.tooltipPricesNodes = tooltipPricesNodes;
-		}
-	},
-
-	/**
-	 * Basically paints prices in red colour if have not enough resources
-	 * SLOOOOOW LIKE HELL
-	 */
-	updatePrices: function(){
-		var limited = false;
-		if (!this.tooltipPricesNodes) { return; }
-
-		var prices = this.getPrices();
-
-		for (var i = 0; i< prices.length; i++){
-
-			var res = this.game.resPool.get(prices[i].name);
-			var hasRes = (res.value < prices[i].val);
-
-			var priceSpan = this.tooltipPricesNodes[i]["price"];
-			if (hasRes && !priceSpan.className){
-				priceSpan.className = "noRes";
-			}else if (!hasRes && priceSpan.className){
-				priceSpan.className = "";
-			}
 		}
 	},
 

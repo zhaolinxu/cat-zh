@@ -112,9 +112,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched){
-			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;			//10% of faith transfer per priest
-			this.faith += orderBonus +
-				(orderBonus * this.game.getTriValue(this.faithRatio, 0.1) * 0.1 * 0.25);	//25% of the apocypha bonus
+			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
+			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
 	},
 
@@ -339,7 +338,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "basilica",
 		label: "Basilica",
-		description: "Temples are generating more culture and expanding cultural limits",
+		description: "Temples generate more culture and expand cultural limits",
 		prices: [
 			{ name : "faith", val: 1250 },
 			{ name : "gold",  val: 750 }
@@ -408,30 +407,26 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.getMeta(name, this.zigguratUpgrades);
 	},
 
-	getRU: function(name){ //$$$
-		var meta = this.getMeta(name, this.religionUpgrades);
-
-		return meta;
+	getRU: function(name){
+		return this.getMeta(name, this.religionUpgrades);
 	},
 
 	getEffect: function(name){
 		return this.getEffectCached(name);
 	},
 
-	/*
-	 * Get a total production bonus unlocked by a Solar Revolution
-	 */
 	getProductionBonus: function(){
-		var stripe = 1000;
-		var rate = (Math.sqrt(1+8 * this.faith / stripe)-1)/2;
-
+		rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
 		return rate;
+	},
+
+	getFaithBonus: function(){
+		return this.game.getTriValue(this.faithRatio, 0.1)*0.1;
 	},
 
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
-		this.faith += faith.value +
-			(faith.value * this.game.getTriValue(this.faithRatio, 0.1)*0.1); //starting up from 100% ratio will work surprisingly bad
+		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
 		faith.value = 0.01;	//have a nice autoclicking
 	}
 
@@ -450,9 +445,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 	},
 
 	getBuildingName: function(){
-		//console.log(this.getMetadata());
 		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
-			var progress = Math.round((this.game.religion.corruption / 1 * 100));
+			var progress = Math.round((this.game.religion.corruption * 100));
 			return this.name + " [" + progress + "%] ";
 		}
 		return this.name;
@@ -475,12 +469,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 
 	 payPrice: function(){
 		this.inherited(arguments);
-
-		//TODO: fix it somehow
-		if (this.getMetadata().name == "blackPyramid"){
-			this.game.sorrow = this.game.resPool.get("sorrow").value;
-			this.game.updateSorrow();
-		}
 	 },
 
 	getSelectedObject: function(){
@@ -519,7 +507,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	getPrices: function(){
-		var ratio = this.getRU().priceRatio;
+		var ratio = this.getRU().priceRatio || 1;
 		var prices = dojo.clone(this.ruCached.prices);
 
 		for (var i = 0; i< prices.length; i++){
@@ -578,8 +566,8 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			this.payPrice();
 			this.sacrifice(1);
+			this.update();
 		}
 	},
 
@@ -592,31 +580,23 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.all = this.addLink("all",
 			function(){
 				this.animate();
-
-				var amt = Math.floor(self.game.resPool.get("unicorns").value / prices[0].val);
-				self.game.resPool.get("unicorns").value -= amt * prices[0].val;
-
-				this.sacrifice(amt);
-				this.update();
+				if (this.enabled && this.hasResources()) {
+					var prices = this.getPrices();
+					this.sacrifice(Math.floor(this.game.resPool.get("unicorns").value / prices[0].val));
+					this.update();
+				}
 			}, false
 		);
 
 		this.x10 = this.addLink("x10",
 			function(){
 				this.animate();
-
-				self.game.resPool.get("unicorns").value -= 10 * prices[0].val;
-
-				this.sacrifice(10);
-				this.update();
+				if (this.enabled && this.hasResources(10)) {
+					this.sacrifice(10);
+					this.update();
+				}
 			}, false
 		);
-
-		var prices = this.getPrices();
-		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
-
-		dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
-		dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
 	},
 
 	update: function(){
@@ -628,21 +608,25 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		if (this.x10){
 			dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
 		}
-		if (this.all){
-			dojo.setStyle(this.all.link, "display", hasUnicorns ? "" : "none");
-		}
 	},
 
 	sacrifice: function(amt){
+		var prices = this.getPrices();
+		amt = amt || 1;
 
-		var amt = amt || 1;
-		var unicornCount = 2500 * amt;
-		var zigguratCount = this.game.bld.get("ziggurat").val;
+		var unicornCount = prices[0].val * amt;
 
-		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(zigguratCount * amt) + " unicorn tears!");
-		this.game.resPool.get("tears").value += 1 * zigguratCount * amt;
+		if (unicornCount > this.game.resPool.get("unicorns").value) {
+			return;
+		}
 
-        this.game.stats.getStat("unicornsSacrificed").val+= 2500 * amt;
+		var tearCount = this.game.bld.get("ziggurat").val * amt;
+
+		this.game.resPool.get("unicorns").value -= unicornCount;
+		this.game.resPool.get("tears").value += tearCount;
+		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
+
+		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
 	},
 
 	getSelectedObject: function(){
@@ -652,23 +636,72 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 
 
 dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	x10: null,
+	simplePrices: false,
 	hasResourceHover: true,
 
 	onClick: function(){
 		this.animate();
 
 		if (this.enabled && this.hasResources()){
-			this.payPrice();
 			this.sacrifice(1);
+			this.update();
+		}
+	},
+
+	/**
+	 * Render button links like off/on and sell
+	 */
+	renderLinks: function(){
+		var self = this;
+
+		this.all = this.addLink("all",
+			function(){
+				this.animate();
+				if (this.enabled && this.hasResources()) {
+					var prices = this.getPrices();
+					this.sacrifice(Math.floor(this.game.resPool.get("alicorn").value / prices[0].val));
+					this.update();
+				}
+			}, false
+		);
+
+		this.x10 = this.addLink("x10",
+			function(){
+				this.animate();
+				if (this.enabled && this.hasResources(10)) {
+					this.sacrifice(10);
+					this.update();
+				}
+			}, false
+		);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+
+		var prices = this.getPrices();
+		var hasAlicorns = (prices[0].val * 10 <= this.game.resPool.get("alicorn").value);
+
+		if (this.x10){
+			dojo.setStyle(this.x10.link, "display", hasAlicorns ? "" : "none");
 		}
 	},
 
 	sacrifice: function(amt){
-		var amt = amt || 1;
-		var alicornsCount = 25 * amt;
+		var prices = this.getPrices();
+		amt = amt || 1;
+
+		var alicornsCount = prices[0].val * amt;
+
+		if (alicornsCount > this.game.resPool.get("alicorn").value) {
+			return;
+		}
+
+		this.game.resPool.get("alicorn").value -= alicornsCount;
+		this.game.resPool.get("timeCrystal").value += amt;
 
 		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystal" + (amt == 1 ? "" : "s") + "!");
-		this.game.resPool.get("timeCrystal").value += amt;
 	},
 
 	updateVisible: function(){
@@ -688,7 +721,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.Bu
 
 		if (this.enabled && this.hasResources()){
 
-			if (this.game.sorrow >= this.game.nerfs){
+			if (this.game.resPool.get("sorrow").value >= this.game.resPool.get("sorrow").maxValue){
 				this.game.msg("Nothing happens");
 				return;
 			}
@@ -699,10 +732,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.Bu
 	},
 
 	refine: function(){
-		if (this.game.sorrow < this.game.nerfs){
-			this.game.sorrow++;
-			this.game.updateSorrow();
-		}
+		this.game.resPool.get("sorrow").value++; //resPool.update() force below maxValue
 	},
 
 	updateVisible: function(){
@@ -901,9 +931,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.faithCount.innerHTML = "";
 		}
 
-		if (religion.getRU("solarRevolution").researched){
-			var bonus = religion.getProductionBonus();
-
+		var bonus = religion.getProductionBonus();
+		if (bonus != 0) {
 			this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% bonus)" );
 		}
 
@@ -912,8 +941,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 
 		if (religion.faithRatio > 0){
-			var ratio = this.game.getTriValue(religion.faithRatio, 0.1)*0.1;
-			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(ratio*100, true, false, 1) + "%]";
+			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "%]";
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });

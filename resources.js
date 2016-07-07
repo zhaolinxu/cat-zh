@@ -160,7 +160,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "sorrow",
 		type : "common",
 		visible: false,
-		color: "black"
+		color: "black",
+		persists: true	//isn't wiped on game reset
 	},
 
 	//=========================================
@@ -259,7 +260,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		style: {
 			"textShadow": "1px 0px 10px #FA2E9E",
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
-		}
+		},
+		persists: true
 	},{
 		name : "blueprint",
 		type : "common",
@@ -330,18 +332,47 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
+	getResourcePerTickAutomateThisTick: [],
+
+	addRes: function(res, addedValue) {
+		if(res.maxValue) {
+			//if already overcap, allow to remain that way unless removing resources.
+			if(res.value > res.maxValue) {
+				if(addedValue < 0 ) {
+					res.value += addedValue;
+				}
+			} else {
+				res.value += addedValue;
+				if(res.value > res.maxValue) {
+					res.value = res.maxValue;
+				}
+			}
+		} else {
+			res.value += addedValue;
+		}
+
+		if (isNaN(res.value) || res.value < 0){
+			res.value = 0;	//safe switch
+		}
+	},
+
 	addResAmt: function(name, value){
 		var res = this.get(name);
 
-		if (value){
-			res.value += value;
+		if (value >= 0) {
+			var name_use = name + "Prod";
+		} else {
+			var name_use = name + "Cons";
 		}
-		if (res.maxValue && res.value > res.maxValue){
-			res.value = res.maxValue;
+
+		if (typeof this.getResourcePerTickAutomateThisTick[name_use] == "undefined") {
+			this.getResourcePerTickAutomateThisTick[name_use] = value;
+		} else {
+			this.getResourcePerTickAutomateThisTick[name_use] += value;
 		}
-		if (res.value < 0){
-			res.value = 0;
-		}
+
+		this.addRes(res, value);
+
 	},
 
 	/**
@@ -361,11 +392,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				amt = Math.floor(res.value / from[i].amt);
+				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
 			}
 		}
 
 		// Remove from resources
-		for (var i = 0, length = from.length; i < length; i++){
+		for (var i in from){
 			this.addResAmt(from[i].res, -from[i].amt * amt);
 		}
 
@@ -373,6 +405,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in to){
 			this.addResAmt(to[i].res, to[i].amt * amt);
 		}
+
 	},
 
 	/**
@@ -385,6 +418,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
+				res.maxValue = 11;
+				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
 
@@ -407,22 +442,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 
 			res.maxValue = maxValue;
+			this.game.updateKarma();
 
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
 
-			res.value = res.value + resPerTick;
-			if (res.maxValue && res.value > res.maxValue){
-				res.value = res.maxValue;
-			}
+			this.addRes(res, resPerTick);
 
-			if (isNaN(res.value) || res.value < 0){
-				res.value = 0;	//safe switch
-			}
 		}
 
 		//--------
 		this.energyProd = this.game.getEffect("energyProduction");
 		this.energyCons = this.game.getEffect("energyConsumption");
+
 	},
 
 	/**
@@ -519,7 +550,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				var price = prices[i];
 
 				var res = this.get(price.name);
-				if (res.maxValue > 0 && price.val > res.maxValue){
+				if (res.maxValue > 0 && price.val > res.maxValue && price.val > res.value){
 					return true;
 				}
 				if (res.craftable && price.val > res.value){ //account for chronosphere resets etc

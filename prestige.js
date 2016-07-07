@@ -137,7 +137,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "carnivals",
 		title: "Carnivals",
-		description: "Festivals can now stack.",
+		description: "Festivals can now stack in duration.",
 		paragon: 25,
 		unlocked: true,
 		defaultUnlocked: true,
@@ -239,7 +239,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     {
 		name: "voidOrder",
 		title: "Order of Void",
-		description: "Every priest will now give a minor bonus to faith accumulation",
+		description: "Every priest will now give a minor bonus to faith accumulation.",
 		paragon: 75,
 		unlocked: false,
 		researched: false,

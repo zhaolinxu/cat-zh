@@ -48,7 +48,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 0.9
 			},
 			festivalEffects: {
-
+				"catnip": 1.5,
+				"wood": 1.5,
+				"minerals": 1.5
 			}
 		},
 		{
@@ -60,7 +62,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 0.75
 			},
 			festivalEffects: {
-
+				"coal": 1.5,
+				"iron": 1.5,
+				"titanium": 1.5,
+				"gold": 1.5
 			}
 		},
 		{
@@ -71,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 0.5
 			},
 			festivalEffects: {
-
+				"culture": 2
 			}
 		},
 		{
@@ -82,7 +87,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 1.5
 			},
 			festivalEffects: {
-
+				"faith": 2,
+				"unicorns": 1.25
 			}
 		},
 		{
@@ -97,7 +103,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceBeacon-starchartPerTickBase": 0.1
 			},
 			festivalEffects: {
-
+				"manpower": 2
 			}
 		},
 		{
@@ -108,7 +114,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"moonOutpost-unobtainiumPerTick": 1.2
 			},
 			festivalEffects: {
-
+				"unobtainium": 2
 			}
 		},
 		{
@@ -120,7 +126,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"hydrofracturer-oilPerTick": 1.5
 			},
 			festivalEffects: {
-
+				"uranium": 2
 			}
 		},
 		{
@@ -131,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"researchVessel-starchartPerTickBase": 1.5
 			},
 			festivalEffects: {
-
+				"science": 2
 			}
 		},
 		{
@@ -142,7 +148,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"sunlifter-energyProduction": 0.5
 			},
 			festivalEffects: {
-
+				"oil": 2
 			}
 		},
 		{
@@ -157,7 +163,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				"spaceStation-scienceRatio": 0.75
 			},
 			festivalEffects: {
-
+				"starchart": 5
 			}
 		}
 	],
@@ -215,31 +221,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
 
-			var effects_keys = Object.keys(effects);
-			for (var i = 0; i < effects_keys.length; i++) {
-				var effect = effects_keys[i];
-
+			for (effect in effects) {
 				var effect_cycle = building_name + "-" + effect;
 				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
-					var ratio = list_effects_cycle[effect_cycle];
-					effects[effect] *= ratio;
-					effects[effect + "_cycleEffect"] = ratio;
+					effects[effect] *= list_effects_cycle[effect_cycle];
 				}
 			}
+		}
 
-			if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
-				var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
+		if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
+			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
 
-				var effects_keys = Object.keys(effects);
-				for (i = 0; i < effects_keys.length; i++) {
-					var effect = effects_keys[i];
-
-					var effect_cycle = building_name + "-" + effect;
-					if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
-						var ratio = list_festivalEffects_cycle[effect_cycle];
-						effects[effect] *= ratio;
-						effects[effect + "_cycleEffect"] = ratio;
-					}
+			for (effect in effects) {
+				var effect_cycle = effect;
+				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
+					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
 				}
 			}
 		}
@@ -248,6 +244,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	tick: function(){
+
+		/* The behavior is not correct, maybe due to possible float-point.
+		if (this.game.time.isAccelerated) {
+			this.day += this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate);
+		} else {
+			this.day += this.dayPerTick;
+		}*/
 
 		this.day += this.dayPerTick;
 
@@ -441,7 +444,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (!zebras.value && archery.researched){
 				zebras.value += 1;
 				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
-			} else if ( zebras.value > 0 && zebras.value < this.game.karmaZebras){
+			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
 				if (this.game.rand(100000) <= 500){
 					zebras.value += 1;
 					this.game.msg("Another zebra hunter joins your village.");
@@ -452,7 +455,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var zTreshold = 0;
 			if (this.game.prestige.getPerk("zebraDiplomacy").researched){
 				//zTreshold = Math.floor((this.game.rand(20) + 5) / 100 * this.game.karmaZebras);   //5 - 25% of hunters will stay
-				zTreshold = Math.floor(0.10 * this.game.karmaZebras);   //5 - 25% of hunters will stay
+				zTreshold = Math.floor(0.10 * (this.game.karmaZebras+1));   //5 - 25% of hunters will stay
 			}
 			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ?

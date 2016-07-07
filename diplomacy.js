@@ -384,7 +384,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		var content = this.inherited(arguments);
 
 		var self = this;
-		var feedBtn = new com.nuclearunicorn.game.ui.Button({
+		var feedBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Feed elders",
 				description: "Offer a sacrifice to the elders.",
 				handler: function(){
@@ -542,10 +542,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var yieldRes = this.tradeInternal();
 
 		this.printYieldOutput(yieldRes);
-
-		//special workaround for elders
-		this.game.sorrow = this.game.resPool.get("sorrow").value;
-		this.game.updateSorrow();
 	},
 
 	tradeMultiple: function(amt){
@@ -574,10 +570,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		}
 
 		this.printYieldOutput(yieldResTotal);
-
-		//special workaround for elders
-		this.game.sorrow = this.game.resPool.get("sorrow").value;
-		this.game.updateSorrow();
 	},
 
 	tradeAll: function(){

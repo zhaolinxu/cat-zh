@@ -11,7 +11,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Mineral Hoes",
 		description: "Your farmers are 50% more effective",
 		effects: {
-			"catnipRatio" : 0.5
+			"catnipJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 100 },
@@ -28,7 +28,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Iron Hoes",
 		description: "Your farmers are 30% more effective",
 		effects: {
-			"catnipRatio" : 0.3
+			"catnipJobRatio" : 0.3
 		},
 		prices:[
 			{ name : "science", val: 200 },
@@ -44,7 +44,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Mineral Axe",
 		description: "Woodcutters are 70% more effective",
 		effects: {
-			"woodRatio" : 0.7
+			"woodJobRatio" : 0.7
 		},
 		prices:[
 			{ name : "science", val: 100 },
@@ -61,7 +61,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Iron Axe",
 		description: "Woodcutters are 50% more effective",
 		effects: {
-			"woodRatio" : 0.5
+			"woodJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 200 },
@@ -75,7 +75,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Steel Axe",
 		description: "Very sharp and durable axes. Woodcutters are 50% more effective",
 		effects: {
-			"woodRatio" : 0.5
+			"woodJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 20000 },
@@ -142,7 +142,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Titanium Axe",
 		description: "Indestructible axes. Woodcutters are 50% more effective.",
 		effects: {
-			"woodRatio" : 0.5
+			"woodJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 38000 },
@@ -155,7 +155,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Alloy Axe",
 		description: "The more you use them, the sharper they are! Woodcutters are 50% more effective.",
 		effects: {
-			"woodRatio" : 0.5
+			"woodJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 70000 },
@@ -170,7 +170,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Unobtainium Axe",
 		description: "Those axes are literally unobtainable! Woodcutters are 50% more effective.",
 		effects: {
-			"woodRatio" : 0.5
+			"woodJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 125000 },
@@ -694,9 +694,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "compositeBow",
 		title: "Composite Bow",
-		description: "An improved version of a bow which provides a permanent +50% boost to the catpower production",
+		description: "An improved version of a bow which provides a permanent +50% boost to catpower production",
 		effects: {
-			"manpowerRatio" : 0.5
+			"manpowerJobRatio" : 0.5
 		},
 		prices:[
 			{ name : "science", val: 500 },
@@ -708,9 +708,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "crossbow",
 		title: "Crossbow",
-		description: "An improved version of a bow which provides a permanent +25% boost to the catpower production",
+		description: "An improved version of a bow which provides a permanent +25% boost to catpower production",
 		effects: {
-			"manpowerRatio" : 0.25
+			"manpowerJobRatio" : 0.25
 		},
 		prices:[
 			{ name : "science", val: 12000 },
@@ -721,9 +721,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "railgun",
 		title: "Railgun",
-		description: "Deadly electromagnetic weapon. +25% boost to the catpower production",
+		description: "Deadly electromagnetic weapon. +25% boost to catpower production",
 		effects: {
-			"manpowerRatio" : 0.25
+			"manpowerJobRatio" : 0.25
 		},
 		prices:[
 			{ name : "science", val: 150000 },
@@ -952,7 +952,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Pyrolysis",
 		description: "Coal output is boosted by 20%",
 		effects: {
-			"coalRatio": 0.2	//may be buggy
+			"coalSuperRatio": 0.2
 		},
 		prices:[
 			{ name : "compedium", 	 val: 5 },
@@ -1356,7 +1356,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Pumpjack",
 		description: "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
 		effects: {
-			"oilRatio" : 0.45
+			"oilWellRatio" : 0.45
 		},
 		prices:[
 			{ name : "titanium", val: 250 },
@@ -1496,7 +1496,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Oil Refinery",
 		description: "Improves effectiveness of oil wells by 35%",
 		effects: {
-			"oilRatio" : 0.35
+			"oilWellRatio" : 0.35
 		},
 		prices:[
 			{ name : "titanium", val: 1250 },
@@ -1604,7 +1604,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         title: "Oil Distillation",
         description: "Oil output is improved by 75%.",
         effects: {
-            "oilRatio" : 0.75
+            "oilWellRatio" : 0.75
         },
         prices:[
             { name : "titanium", val: 5000 },
@@ -1741,7 +1741,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "compedium",
 		title: "Compendium",
-		description: "A sum of all modern knowledge of the catkind. Every compendium will give +10 to max science",
+		description: "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
@@ -2126,7 +2126,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 
 	getSimplePrices: function(){
 		var upgrade = this.getUpgrade();
-		return this.simplePrices && !upgrade.researhed;
+		return this.simplePrices || upgrade.researched;
 	},
 
 	getFlavor: function(){
