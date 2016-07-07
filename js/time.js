@@ -44,13 +44,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 				+ (bonusSeconds > 1 ? "s" : "") + " of temporal energy");
         }
 
+        if (saveData.time.cfu){
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
+            });
+        }
+
     },
 
     save: function(saveData){
        saveData["time"] = {
            timestamp: Date.now(),
            energy: this.energy,
-           flux: this.flux
+           flux: this.flux,
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched"])
        };
     },
 
@@ -69,7 +75,22 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!this.energy){
             this.isAccelerated = false;
         }
-    }
+    },
+
+    chronoforgeUpgrades: [{
+        name: "temporalBattery",
+        label: "Temporal Battery",
+        description: "Improves your flux energy capacity by 10%",
+        prices: [
+            { name : "timeCrystal", val: 5 }
+        ],
+        priceRatio: 1.15,
+        action: function(){
+
+        },
+        val: 0,
+        unlocked: true
+    }]
 });
 
 dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.ButtonModern, {

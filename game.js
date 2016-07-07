@@ -2386,7 +2386,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			achievements: lsData.achievements,
 			stats: lsData.stats,
 			religion: {
-				faithRatio: this.religion.faithRatio
+				faithRatio: this.religion.faithRatio,
+				tcratio: this.religion.tcratio
 			},
 			prestige: {
 				perks: this.prestige.perks	//never resets
