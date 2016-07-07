@@ -247,8 +247,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $('#rightTabLog').hide();
 
         if (!this.isChatActive){
+            console.log("loading chat");
             var $chat = $('#rightTabChat');
-            swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, 850, 10);
+            swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, 850, 10, "lib/lightirc/expressInstall.swf", params);
         }
         this.isChatActive = true;
     }
