@@ -32,6 +32,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     fontSize: 16,
 
     isDisplayOver: false,
+    isChatActive: false,
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -239,5 +240,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
     updateFontSize: function(){
         $("#leftColumn").css("font-size", this.fontSize+"px");
+    },
+
+    loadChat: function(){
+        $('#rightTabChat').show();
+        $('#rightTabLog').hide();
+
+        if (!this.isChatActive){
+            var $chat = $('#rightTabChat');
+            swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, 850, 10);
+        }
+        this.isChatActive = true;
     }
 });

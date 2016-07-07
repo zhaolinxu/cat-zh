@@ -773,7 +773,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeAlicornsBtn({
 				name: "Sacrifice Alicorns",
-				description: "Banish the alicorns to the Bloodmoon. You will recieve a Time Crystal.",
+				description: "Banish the alicorns to the Bloodmoon. You will receive a Time Crystal.",
 				prices: [{ name: "alicorn", val: 25}]
 			}, this.game);
 			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);

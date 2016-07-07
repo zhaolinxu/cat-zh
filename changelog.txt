@@ -1,3 +1,6 @@
+v 1.1.8.7 (6 jul)
+Embedded IRC chat
+
 v 1.1.8.6 (28 feb)
 Time flux
 

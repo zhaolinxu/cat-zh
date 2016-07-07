@@ -499,3 +499,19 @@ h1 {
     margin-left: 1.0em;
     list-style-type: circle;
 }
+
+#calendarDiv {
+    white-space:nowrap;
+}
+
+.right-tab {
+    border: 1px solid grey;
+}
+
+.right-tab-header {
+    padding: 5px;
+}
+
+.right-tab-header a {
+    padding: 5px;
+}
