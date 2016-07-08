@@ -1,3 +1,10 @@
+v 1.1.8.8 (7 jul)
+IRC chat will not be reinitialized every time user goes to the log.
+Option to turn WS automation on and off
+Toggle building and toggle automation will now have tooltips explaining current status.
+
+Added option to discard accumulated religion bonus
+
 v 1.1.8.7 (6 jul)
 Embedded IRC chat
 

@@ -795,6 +795,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					(game.workshop.get("pneumaticPress").researched &&
 						iron.value >= iron.maxValue * (1 - baseAutomationRate))
 				){
+
+					if (!self.isAutomationEnabled){
+						game.msg("Skipping workshop automation...", null, "workshopAutomation");
+						return;
+					}
+
 					game.msg("Activating workshop automation", null, "workshopAutomation");
 					self.jammed = true;				//Jam until next year
 				} else {
@@ -834,6 +840,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		},
 		val: 0,
+		isAutomationEnabled: true,
 		flavor: "I just nap here and it looks like I'm working"
 	},{
 		name: "magneto",
@@ -1644,7 +1651,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage", "jammed"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1674,6 +1681,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					if (savedBld.jammed != undefined){
 						bld.set("jammed", savedBld.jammed);
+					}
+					if (savedBld.isAutomationEnabled != undefined){
+						bld.set("isAutomationEnabled", savedBld.isAutomationEnabled);
 					}
 					bld.set("enabled", savedBld.enabled);
 					if (bld.meta.upgradable){
@@ -1833,7 +1843,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             this.build(bld);
             counter++;
         }
-        this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x"+counter+ " constructed.", "notice");
+        this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
         var undo = this.game.registerUndoChange();
         undo.addEvent("bld", bld.name, counter);
     },
@@ -1983,6 +1993,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
+		if (!this.toggleAutomation && building.name == "steamworks"){
+			this.toggleAutomation = this.addLink( building.enabled ? "A" : "*",
+				function(){
+					var building = this.getMetadataRaw();
+					building.isAutomationEnabled = !building.isAutomationEnabled;
+				}, true
+			);
+		}
+
 		if(building.val > 9 && this.hasSellLink()) {
 			//Steamworks and accelerator specifically can be too large when sell button is on
 			//(tested to support max 99 bld count)
@@ -2025,6 +2044,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			if (this.toggle){
 				this.toggle.link.textContent = building.enabled ? "off" : "on";
+				this.toggle.link.title = building.isAutomationEnabled ? "Building enabled" : "Building disabled";
+			}
+
+			if (this.toggleAutomation){
+				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
+				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
+
+				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
+				this.isAutomationResearched = true;
+				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
+				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
 			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));

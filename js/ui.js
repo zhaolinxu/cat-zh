@@ -242,15 +242,23 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#leftColumn").css("font-size", this.fontSize+"px");
     },
 
-    loadChat: function(){
-        $('#rightTabChat').show();
-        $('#rightTabLog').hide();
+    hideChat: function(){
+        $("#rightTabLog").show();
+        $("#IRCChatInner").css("visibility", "hidden");
+    },
 
-        if (!this.isChatActive){
-            console.log("loading chat");
-            var $chat = $('#rightTabChat');
-            swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, 850, 10, "lib/lightirc/expressInstall.swf", params);
+    loadChat: function(){
+        $("#rightTabChat").show();
+        $("#rightTabLog").hide();
+
+        $("#IRCChatInner").css("visibility", "visible");
+
+        if (this.isChatActive) {
+            return;
         }
+
+        var $chat = $('#IRCChatInner');
+        swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, 850, 10, "lib/lightirc/expressInstall.swf", params);
         this.isChatActive = true;
     }
 });

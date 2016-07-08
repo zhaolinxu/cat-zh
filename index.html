@@ -254,7 +254,7 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
 					</div>
 					<div class="right-tab-header">
-						<a href="#" onclick="$('#rightTabLog').show();$('#rightTabChat').hide();">Log</a>|
+						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>|
 						<a href="#" onclick="gamePage.ui.loadChat();">Chat</a>
 					</div>
 					<div class="right-tab" id="rightTabLog">
@@ -281,7 +281,7 @@
 						</div>
 					</div>
 					<div class="right-tab" id="rightTabChat" style="display:none;">
-						CHAT GOES THERE
+						<div id="IRCChatInner">CHAT GOES THERE</div>
 					</div>
 				</div>
 			</div>
