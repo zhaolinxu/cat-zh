@@ -262,7 +262,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
 
-			for (effect in effects) {
+			for (var effect in effects) {
 				var effect_cycle = building_name + "-" + effect;
 				if (typeof list_effects_cycle[effect_cycle] !== "undefined") {
 					effects[effect] *= list_effects_cycle[effect_cycle];
@@ -273,7 +273,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
 			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
 
-			for (effect in effects) {
+			for (var effect in effects) {
 				var effect_cycle = effect;
 				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
 					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
@@ -286,21 +286,23 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	tick: function(){
 
-		/* The behavior is not correct, maybe due to possible float-point.
+		/* The behavior is not correct, maybe due to possible float-point. */
+		//TODO: clarify what is exactly wrong
+
 		if (this.game.time.isAccelerated) {
-			this.day += this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate);
+			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	//*.x float point
 		} else {
 			this.day += this.dayPerTick;
-		}*/
+		}
 
-                if(this.observeRemainingTime > 0){
-                  this.observeRemainingTime--;
-                  if(this.observeRemainingTime == 0){
-                    this.observeTimeout();
-                  }
-                }
+		if(this.observeRemainingTime > 0){
+		  this.observeRemainingTime--;
+		  if(this.observeRemainingTime == 0){
+			this.observeTimeout();
+		  }
+		}
 
-		this.day += this.dayPerTick;
+		//this.day += this.dayPerTick;
 
 		var intday = this.integerDay(),
 		    newseason = false,
