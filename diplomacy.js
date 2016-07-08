@@ -467,6 +467,14 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			tradeRatioAttitude = 0.25;
 		}
 
+		if (race.name == "leviathans"){
+			//reset energy to default limit
+			var duration = (400 + 100 * race.energy);
+			if (race.duration > duration){
+				race.duration = duration;
+			}
+		}
+
 		for (var j =0; j< race.sells.length; j++){
 			var s = race.sells[j];
 
