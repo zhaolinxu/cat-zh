@@ -311,6 +311,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			unicornChanceRatio = 1.1;
 		}
 
+		var relicPerDay = this.game.space.getEffect("relicPerDay");
+		if (relicPerDay) {
+			this.game.resPool.get("relic").value += relicPerDay;
+		}
 
 		//------------------------- astronomical events -------------------------
 		var chance = 25;									//25 OPTK of event per day	(0.25%)

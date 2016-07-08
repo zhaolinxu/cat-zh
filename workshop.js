@@ -1349,6 +1349,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "relicStation",
+		title: "Relic Station",
+		description: "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
+		effects: {
+			"beaconRelicsPerTick": 0.01
+		},
+		prices: [
+			{name: "eludium", val: 100},
+			{name: "antimatter", val: 5000}
+		],
+		unlocked: false,
+		researched: false
 	},
 	//---------------------- oil ---------------
 	{
@@ -1630,7 +1643,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         unlocked: false,
         researched: false
-        }
+    }
     ],
 
 	//=============================================================

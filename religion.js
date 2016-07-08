@@ -780,7 +780,6 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 	}
 });
 
-
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
 	sacrificeBtn : null,
@@ -923,10 +922,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.rUpgradeButtons.push(button);
 		}
 
+		var ctPanel = new com.nuclearunicorn.game.ui.Panel("Cryptotheology");
+		this.addChild(ctPanel);
+		this.ctPanel = ctPanel;
+
+		this.inherited(arguments);
 		this.update();
 	},
 
 	update: function(){
+		this.inherited(arguments);
 
 		var religion = this.game.religion;
 
@@ -974,6 +979,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
 		dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
+
+		var hasCT = this.game.science.get("cryptotheology").researched;
+		if (hasCT){
+			this.ctPanel.setVisible(true);
+		}
 	},
 
 	resetFaith: function(event){

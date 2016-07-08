@@ -242,7 +242,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"manuscript", val: 35}
 		],
 		unlocks: {
-			tech: ["astronomy"],
+			tech: ["astronomy", "cryptotheology"],
 			jobs: ["priest"]
 		},
 		upgrades: {
@@ -747,8 +747,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "tachyonTheory",
 		title: "Tachyon Theory",
-		description: "Tachyonic particles are hypothetical particles that always move faster than light. (TBD!)",
-		effectDesc: "Unlocks FTL and Chronoforge",
+		description: "Tachyonic particles are hypothetical particles that always move faster than light.",
+		effectDesc: "Unlocks Tachyon Accelerators and Chronoforge",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -758,6 +758,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["tachyonAccelerators", "chronoforge"]
+		}
+	},{
+		name: "cryptotheology",
+		title: "Cryptotheology",
+		description: "Cryptotheology applies the most arcane and unorthodox methods of the theology in order to answer the fundamental questions of universe and reality.",
+		effectDesc: "Unlocks Relic Station and Cryptotheology tree",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 650000},
+			{name : "relic",   val: 5}
+		],
+		unlocks: {
+			upgrades: ["relicStation"]
 		}
 	}],
 
