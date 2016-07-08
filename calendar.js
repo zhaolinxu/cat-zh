@@ -186,20 +186,61 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	observeBtn: null,
 	observeHandler: null,
-	observeTimeout: null,
+	observeRemainingTime: 0,
 	observeClear: function(){
 		dojo.destroy(this.observeBtn);
 		this.observeBtn = null;
-		clearTimeout(this.observeTimeout);
+		this.observeRemainingTime = 0;
 	},
-	observeRemainingTime: 60,
-	observeStartDate: null,
-	observePause: function() {
-		if (this.observeTimeout != null && this.observeRemainingTime == 60) { // Only at the beginning of the pause
-			this.observeRemainingTime = 60 - Math.ceil((Date.now() - this.observeStartDate) / 1000);
-			this.observeClear();
+	observeHandler: function(){
+		this.observeClear();
+		this.game.stats.getStat("eventsObserved").val++;
+
+		var isSilent = false;
+		if (this.game.workshop.get("seti").researched){
+			isSilent = true;
 		}
-	},
+
+		var starchart = this.game.resPool.get("starchart");
+
+		var celestialBonus = 0;
+		if (this.game.workshop.get("celestialMechanics").researched){
+			celestialBonus = 5;	//20% bonus in the normal mode
+			if (this.game.ironWill){
+				celestialBonus = 15;	//60% in the IW
+			}
+		}
+
+		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
+		this.game.resPool.addResAmt("science", sciBonus);
+
+		if (!isSilent){
+			this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
+		}
+
+		if (this.game.science.get("astronomy").researched){
+			if (!isSilent){
+				this.game.msg("You've made a star chart!", "", "astronomicalEvent");
+			}
+			starchart.value +=1;
+		}
+	},//this.observeHandler
+
+	observeTimeout: function(){
+
+		this.observeClear();
+
+		var autoChance = (this.game.bld.getEffect("starAutoSuccessChance") * 100);	//in %
+		var rand = this.game.rand(100);
+
+		if(
+			(this.game.ironWill && (self.game.rand(100) <= 25)) ||
+			(rand <= autoChance)
+		){
+			this.observeHandler();
+		}
+
+	},//observeTimeout
 
 	constructor: function(game, displayElement) {
 		this.game = game;
@@ -251,6 +292,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		} else {
 			this.day += this.dayPerTick;
 		}*/
+
+                if(this.observeRemainingTime > 0){
+                  this.observeRemainingTime--;
+                  if(this.observeRemainingTime == 0){
+                    this.observeTimeout();
+                  }
+                }
 
 		this.day += this.dayPerTick;
 
@@ -321,63 +369,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		chance += (this.game.bld.getEffect("starEventChance") * 10000);
 		chance *= chanceRatio;
 
-		this.observeHandler = function(event){
-			this.observeClear();
-			this.game.stats.getStat("eventsObserved").val++;
-
-			var isSilent = false;
-			if (this.game.workshop.get("seti").researched){
-				isSilent = true;
-			}
-
-			var starchart = this.game.resPool.get("starchart");
-
-			var celestialBonus = 0;
-			if (this.game.workshop.get("celestialMechanics").researched){
-				celestialBonus = 5;	//20% bonus in the normal mode
-				if (this.game.ironWill){
-					celestialBonus = 15;	//60% in the IW
-				}
-			}
-
-			var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
-			this.game.resPool.addResAmt("science", sciBonus);
-
-			if (!isSilent){
-				this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
-			}
-
-			if (this.game.science.get("astronomy").researched){
-				if (!isSilent){
-					this.game.msg("You've made a star chart!", "", "astronomicalEvent");
-				}
-				starchart.value +=1;
-			}
-		};//this.observeHandler
-
 		if (this.game.rand(10000) < chance &&
-			this.game.bld.get("library").val > 0
-			|| this.observeRemainingTime != 60 &&
-			this.game.isPaused == false){ // Unpause the previous observeTimeout if one was displayed
-
-			var observeTimeout = function(){
-
-				this.observeClear();
-
-				var autoChance = (this.game.bld.getEffect("starAutoSuccessChance") * 100);	//in %
-				var rand = this.game.rand(100);
-
-				if(
-					(this.game.ironWill && (self.game.rand(100) <= 25)) ||
-					(rand <= autoChance)
-				){
-					dojo.hitch(this, this.observeHandler)({}, true);
-				}
-
-			};//observeTimeout
-
-			if (this.observeBtn){
-				dojo.hitch(this, observeTimeout)();
+		this.game.bld.get("library").val > 0){
+			if (this.observeRemainingTime){
+				this.observeTimeout();
 			}
 			this.observeClear();
 
@@ -397,9 +392,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
-				this.observeTimeout = setTimeout(dojo.hitch(this, observeTimeout), this.observeRemainingTime * 1000);
-				this.observeStartDate = Date.now();
-				this.observeRemainingTime = 60;
+				this.observeRemainingTime = 300;
 			}
 		}
 
