@@ -33,6 +33,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
+        this.updateEnergyStats();
+
 		this.energy += Math.round(delta / ( 60 * 1000 ) ) * this.game.rate;    //every 60 seconds
         if (this.energy > this.maxEnergy){
             this.energy = this.maxEnergy;
@@ -66,6 +68,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     update: function(){
+        this.updateEnergyStats();
+
         if (this.energy > this.maxEnergy){ //sanity check
             this.energy = this.maxEnergy;
         }
@@ -77,20 +81,31 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
     },
 
+    updateEnergyStats: function(){
+        this.maxEnergy = Math.round(
+            this.game.rate * 60 * 10
+            * (1 + this.getCFU("temporalBattery").val * 0.25)
+        );
+    },
+
     chronoforgeUpgrades: [{
         name: "temporalBattery",
         label: "Temporal Battery",
-        description: "Improves your flux energy capacity by 10%",
+        description: "Improves your flux energy capacity by 25%",
         prices: [
             { name : "timeCrystal", val: 5 }
         ],
-        priceRatio: 1.15,
+        priceRatio: 1.25,
         action: function(){
 
         },
         val: 0,
         unlocked: true
-    }]
+    }],
+
+    getCFU: function(id){
+        return this.getMeta(id, this.chronoforgeUpgrades);
+    }
 });
 
 dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -217,6 +232,44 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 	}
 });
 
+/**
+ * I wonder if we can get rid of such tremendous amounts of boilerplate code
+ */
+
+dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+    hasResourceHover: true,
+    cache: null,
+
+    onClick: function(event){
+        var self = this;
+
+        this.animate();
+        var meta = this.getMetadata();
+        if (this.enabled && this.hasResources()){
+            meta.val++;
+        }
+    },
+
+    getPrices: function(){
+        var ratio = this.getMetadata().priceRatio || 1;
+        var prices = dojo.clone(this.cache.prices);
+
+        for (var i = 0; i< prices.length; i++){
+            prices[i].val = prices[i].val * Math.pow(ratio, this.cache.val);
+        }
+        return prices;
+    },
+
+    getMetadata: function(){
+        if (!this.cache){
+            var time = this.game.time;
+            var meta = time.getMeta(this.id, time.chronoforgeUpgrades);
+            this.cache = meta;
+        }
+        return this.cache;
+    }
+});
+
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
@@ -228,6 +281,21 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
             }
         }, game));
 
+        for (var i in game.time.chronoforgeUpgrades){
+            var meta = game.time.chronoforgeUpgrades[i];
+
+            console.log("meta:", meta);
+
+            this.addChild(new classes.ui.time.ChronoforgeBtn({
+                id: meta.name,
+                name: meta.label,
+                description: meta.description,
+                prices: meta.prices,
+                handler: function(btn){
+
+                }
+            }, game));
+        }
 
     },
 

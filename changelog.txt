@@ -5,6 +5,8 @@ Toggle building and toggle automation will now have tooltips explaining current 
 
 Added option to discard accumulated religion bonus
 
+Time Battery
+
 v 1.1.8.7 (6 jul)
 Embedded IRC chat
 

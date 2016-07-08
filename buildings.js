@@ -798,6 +798,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					if (!self.isAutomationEnabled){
 						game.msg("Skipping workshop automation...", null, "workshopAutomation");
+						self.jammed = true;
 						return;
 					}
 
