@@ -284,8 +284,6 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
         for (var i in game.time.chronoforgeUpgrades){
             var meta = game.time.chronoforgeUpgrades[i];
 
-            console.log("meta:", meta);
-
             this.addChild(new classes.ui.time.ChronoforgeBtn({
                 id: meta.name,
                 name: meta.label,
