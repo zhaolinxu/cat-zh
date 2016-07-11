@@ -2269,6 +2269,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.paragonPoints = 0;
+		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
 
