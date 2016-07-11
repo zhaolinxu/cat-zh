@@ -2261,6 +2261,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return;
 			}
 		}
+		if (this.ironWill){
+			msg = "Warning! Burning paragon will break your Iron Will mode. Do you want to roceed?";
+			if (!confirm(msg)){
+				return;
+			}
+		}
 
 		this.paragonPoints = 0;
 		//TODO: add some speical hidden effect for this mechanics
