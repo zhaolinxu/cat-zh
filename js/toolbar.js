@@ -33,11 +33,14 @@ dojo.declare("classes.ui.Toolbar", null, {
 			this.icons[i].update();
 		}
 
-		var sorrow = this.game.resPool.get("sorrow").value;
+		var sorrowRes = this.game.resPool.get("sorrow"),
+			sorrow = sorrowRes.value;
 		$("#sorrowTooltip").html(sorrow ?
 			"BLS: " + sorrow.toFixed() + "%" :
 			""
 		);
+		var isMax = (sorrowRes.value == sorrowRes.maxValue);
+		$("#sorrowTooltip").css("color", isMax ? "red" : "black");
 	},
 
 

@@ -17,6 +17,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			return bld.effects[effectName] * bld.val;
 		}});
 
+		this.registerMeta(this.transcendenceUpgrades, { getEffect: function(bld, effectName){
+			return bld.effects[effectName] * bld.val;
+		}});
+
 		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){
 			if (upgrade.researched && upgrade.effects[name]){
 				var ratio = upgrade.upgradable ? upgrade.val : 1;
@@ -42,6 +46,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			ru.val = 0;
 			ru.researched = false;
 		}
+
+		for (i = 0; i < this.transcendenceUpgrades.length; i++){
+			var tu = this.transcendenceUpgrades[i];
+			tu.val = 0;
+		}
 	},
 
 	save: function(saveData){
@@ -51,7 +60,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.faithRatio,
 			tcratio: this.tcratio,
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked"]),
-			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "researched"])
+			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "researched"]),
+			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val"])
 		};
 	},
 
@@ -76,6 +86,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				}
 			});
 		}
+
+		if (saveData.religion.tu){
+			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val"], function(loadedElem){
+				//IDK
+			});
+		}
+
 		if (saveData.religion.ru){
 			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "researched"], function(loadedElem){
 				// Hack to fix old saves
@@ -406,12 +423,35 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	}],
 
+	transcendenceUpgrades: [{
+		name: "blackCore",
+		label: "Black Core",
+		description: "Alter and corrupt the laws of the reality on a minor scale. Every level of Black Core increases BLS limit by 1%.",
+		prices: [
+			{ name : "relic", val: 10000 }
+		],
+		tier: 1,
+		priceRatio: 1.15,
+		effects: {
+			"blsLimit" : 1
+		},
+		val: 0,
+		unlocked: true,
+		flavor: "Built with the bones of kitten sacrifices."
+	}
+		//Holy Genocide
+	],
+
 	getZU: function(name){
 		return this.getMeta(name, this.zigguratUpgrades);
 	},
 
 	getRU: function(name){
 		return this.getMeta(name, this.religionUpgrades);
+	},
+
+	getTU: function(name){
+		return this.getMeta(name, this.transcendenceUpgrades);
 	},
 
 	getEffect: function(name){
@@ -567,6 +607,46 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	getSelectedObject: function(){
 		return this.getMetadata();
 	}
+});
+
+dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	tooltipName: true,
+	simplePrices: false,
+	hasResourceHover: true,
+
+	getMetadata: function(){
+		return this.game.religion.getTU(this.id);
+	},
+
+	getPrices: function(bldName) {
+		var bld = this.getMetadata();
+		var ratio = bld.priceRatio;
+
+		var prices = dojo.clone(bld.prices);
+
+		for (var i = 0; i< bld.val; i++){
+			for( var j = 0; j < prices.length; j++){
+				prices[j].val = prices[j].val * ratio;
+			}
+		}
+		return prices;
+	},
+
+	payPrice: function(){
+		this.inherited(arguments);
+	},
+
+	getSelectedObject: function(){
+		return this.getMetadata();
+	},
+
+	updateVisible: function(){
+		var tier = this.game.religion.getTranscendenceLevel();
+		var upgrade = this.getMetadata();
+
+		var isVisible = ( tier >= upgrade.tier );
+		this.setVisible(isVisible);
+	},
 });
 
 dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -780,6 +860,33 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 	}
 });
 
+dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameAware], {
+	constructor: function(game){
+		var self = this;
+		dojo.forEach(game.religion.transcendenceUpgrades, function(tu, i){
+			var button = new classes.ui.TranscendenceBtn({
+				id: 		tu.name,
+				name: 		tu.label,
+				description: tu.description
+			}, game);
+			self.addChild(button);
+		});
+	},
+
+	render: function(container){
+		var div = dojo.create("div", null, container);
+		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+		this.inherited(arguments, [btnsContainer]);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+	}
+});
+
+dojo.declare("classes.ui.CryptotheologyPanel", com.nuclearunicorn.game.ui.Panel, {
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
 
 	sacrificeBtn : null,
@@ -793,9 +900,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
 
-		var ctPanel = new com.nuclearunicorn.game.ui.Panel("Cryptotheology");
+		var ctPanel = new classes.ui.CryptotheologyPanel("Cryptotheology");
+		ctPanel.game = this.game;
+
 		this.addChild(ctPanel);
 		this.ctPanel = ctPanel;
+
+		var wgt = new classes.ui.CryptotheologyWGT(this.game);
+		wgt.setGame(this.game);
+		ctPanel.addChild(wgt);
 	},
 
 	render: function(container) {
