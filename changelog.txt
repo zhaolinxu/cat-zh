@@ -1,3 +1,9 @@
+v 1.1.9.1 (11 jul)
+Black Core
+BLS limit will be now highlighted
+
+Option to discard paragon bonus completely
+
 v 1.1.9.0 (7 jul)
 Unspeakable amount of updates merged in (freeroot, Chris, probably someone else)
 
