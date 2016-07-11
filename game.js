@@ -2262,7 +2262,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 		if (this.ironWill){
-			msg = "Warning! Burning paragon will break your Iron Will mode. Do you want to roceed?";
+			msg = "Warning! Burning paragon will break your Iron Will mode. Do you want to proceed?";
 			if (!confirm(msg)){
 				return;
 			}
