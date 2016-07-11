@@ -415,6 +415,19 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
     render: function(container){
 		var content = this.inherited(arguments);
 
+		//--------------------------------------------------------------------
+		var div = dojo.create("div", { style: { float: "right"}}, content);
+		var a = dojo.create("a", {
+			id : "burnParagon",
+			href: "#",
+			innerHTML: "Burn paragon points",
+			title: "Discard all paragon points"
+		}, div);
+		dojo.connect(a, "onclick", this, function(){
+			this.game.discardParagon();
+		})
+		//---------------------------------------------------------------------
+
 		var self = this;
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new classes.ui.PrestigeBtn({
@@ -425,6 +438,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 			button.render(content);
 			self.addChild(button);
 		});
+
 	}
 
 });

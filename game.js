@@ -2250,6 +2250,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
 	},
 
+	discardParagon: function(){
+		var msg = "Are you sure that you want to discard all your paragon points? This action can not be undone.";
+		if (!confirm(msg)){
+			return;
+		}
+		if (this.paragonPoints > 100){
+			msg = "You have a lot of paragon points. Are you absolutely sure?";
+			if (!confirm(msg)){
+				return;
+			}
+		}
+
+		this.paragonPoints = 0;
+		//TODO: add some speical hidden effect for this mechanics
+	},
+
 	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
