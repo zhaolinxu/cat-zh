@@ -792,6 +792,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	constructor: function(){
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
+
+		var ctPanel = new com.nuclearunicorn.game.ui.Panel("Cryptotheology");
+		this.addChild(ctPanel);
+		this.ctPanel = ctPanel;
 	},
 
 	render: function(container) {
@@ -921,10 +925,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			button.render(content);
 			this.rUpgradeButtons.push(button);
 		}
-
-		var ctPanel = new com.nuclearunicorn.game.ui.Panel("Cryptotheology");
-		this.addChild(ctPanel);
-		this.ctPanel = ctPanel;
 
 		this.inherited(arguments);
 		this.update();

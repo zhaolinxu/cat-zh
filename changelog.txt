@@ -1,3 +1,9 @@
+v 1.1.9.0 (7 jul)
+Unspeakable amount of updates merged in (freeroot, Chris, probably someone else)
+
+Chronotheology
+Relic Stations
+
 v 1.1.8.8 (7 jul)
 IRC chat will not be reinitialized every time user goes to the log.
 Option to turn WS automation on and off
