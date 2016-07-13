@@ -289,6 +289,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	energyProd: 0,
 	energyCons: 0,
 
+	isLocked: false,
+
 	constructor: function(game){
 		this.game = game;
 
@@ -502,6 +504,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
+	save: function(saveData){
+		saveData.res = {
+			isLocked: this.isLocked
+		};
+	},
+
 	load: function(saveData){
 		if (saveData.resources){
 			var resources = saveData.resources;
@@ -512,9 +520,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 					if (savedRes != null){
 						var res = this.get(savedRes.name);
 						res.value = savedRes.value;
+						res.isHidden = savedRes.isHidden;
 					}
 				}
 			}
+		}
+		if (saveData.res){
+			this.isLocked = saveData.res || false;
 		}
 	},
 
@@ -596,6 +608,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for(var i = 0; i< this.resources.length; i++){
 			this.resources[i].isHidden = false;
 		}
+	},
+
+	toggleLock: function(){
+		this.isLocked = !this.isLocked;
 	}
 
 });
@@ -658,9 +674,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				res.isHidden = !res.isHidden;
 			}, res));
 			dojo.connect(tdResName, "onmouseover", this, function(){
+				if (this.game.resPool.isLocked){
+					return;
+				}
 				this.game.ui.isDisplayOver = true;
 			});
 			dojo.connect(tdResName, "onmouseout", this, function(){
+				if (this.game.resPool.isLocked){
+					return;
+				}
 				this.game.ui.isDisplayOver = false;
 			});
 

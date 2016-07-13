@@ -1070,10 +1070,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var saveData = {
 			saveVersion: this.saveVersion,
 			resources: this.resPool.filterMetadata(
-				this.resPool.resources, ["name", "value"]
+				this.resPool.resources, ["name", "value", "isHidden"]
 			)
 		};
 
+		this.resPool.save(saveData);
 		this.village.save(saveData);
 		this.calendar.save(saveData);
 		this.console.static.save(saveData);

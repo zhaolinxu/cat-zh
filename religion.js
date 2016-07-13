@@ -423,14 +423,30 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	}],
 
-	transcendenceUpgrades: [{
+	transcendenceUpgrades: [
+	{
+		name: "blackNexus",
+		label: "Black Nexus",
+		description: "Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
+		prices: [
+			{ name : "relic", val: 5000 }
+		],
+		tier: 1,
+		priceRatio: 1.15,
+		effects: {
+			"relicRefineRatio" : 1.0
+		},
+		val: 0,
+		unlocked: true,
+		flavor: "Eye in the sky."
+	},{
 		name: "blackCore",
 		label: "Black Core",
 		description: "Alter and corrupt the laws of the reality on a minor scale. Every level of Black Core increases BLS limit by 1%.",
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
-		tier: 1,
+		tier: 5,
 		priceRatio: 1.15,
 		effects: {
 			"blsLimit" : 1
@@ -438,6 +454,21 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: true,
 		flavor: "Built with the bones of kitten sacrifices."
+	},{
+		name: "holyGenocide",
+		label: "Holy Genocide",
+		description: "And tear will not fall down",
+		prices: [
+			{ name : "relic", val: 100000 },
+			{ name : "void", val: 25 }
+		],
+		tier: 25,
+		priceRatio: 1.15,
+		effects: {
+		},
+		val: 0,
+		unlocked: true,
+		flavor: "We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far."
 	}
 		//Holy Genocide
 	],
@@ -848,7 +879,9 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 	},
 
 	refine: function(){
-		this.game.resPool.get("relic").value++;
+		var relicsCount = (1 + this.game.religion.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
+		this.game.resPool.get("relic").value += relicsCount;
+		this.game.msg(relicsCount + " relics crafted");
 	},
 
 	updateVisible: function(){

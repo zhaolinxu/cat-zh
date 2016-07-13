@@ -246,6 +246,7 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
         this.animate();
         var meta = this.getMetadata();
         if (this.enabled && this.hasResources()){
+            this.payPrice();
             meta.val++;
         }
     },
