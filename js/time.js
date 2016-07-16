@@ -33,6 +33,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
+        if (saveData.time.cfu){
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
+            });
+        }
         this.updateEnergyStats();
 
 		this.energy += Math.round(delta / ( 60 * 1000 ) ) * this.game.rate;    //every 60 seconds
@@ -40,17 +44,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             this.energy = this.maxEnergy;
         }
 
-		var bonusSeconds = Math.round((this.energy - saveEnergy) / this.game.rate);
+        var accelerator = this.getCFU("temporalAccelerator"),
+            energyRatio =  1 + (accelerator.val * accelerator.effects["timeRatio"]),
+		    bonusSeconds = Math.round((this.energy - saveEnergy) / this.game.rate * energyRatio);
+
         if (bonusSeconds > 0){
             this.game.msg("You have recharged " + bonusSeconds + " second"
 				+ (bonusSeconds > 1 ? "s" : "") + " of temporal energy");
         }
-
-        if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
-            });
-        }
-
     },
 
     save: function(saveData){
@@ -98,6 +99,23 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.25,
         action: function(){
 
+        },
+        val: 0,
+        unlocked: true
+    },{
+        name: "temporalAccelerator",
+        label: "Temporal Accelerator",
+        description: "Improves the flux energy generation by 5%",
+        prices: [
+            { name : "timeCrystal", val: 10 },
+            { name : "relic", val: 1000 }
+        ],
+        priceRatio: 1.25,
+        action: function(){
+
+        },
+        effects: {
+            "timeRatio" : 0.05
         },
         val: 0,
         unlocked: true

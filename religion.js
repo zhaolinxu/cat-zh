@@ -446,7 +446,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
-		tier: 5,
+		tier: 3,
 		priceRatio: 1.15,
 		effects: {
 			"blsLimit" : 1
@@ -454,6 +454,21 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: true,
 		flavor: "Built with the bones of kitten sacrifices."
+	},{
+		name: "singularity",
+		label: "Singularity",
+		description: "Improve global resource limits by 10%",
+		prices: [
+			{ name : "relic", val: 25000 }
+		],
+		tier: 5,
+		priceRatio: 1.15,
+		effects: {
+			"tcResourceRatio" : 0.10
+		},
+		val: 0,
+		unlocked: true,
+		flavor: "TBD"
 	},{
 		name: "holyGenocide",
 		label: "Holy Genocide",

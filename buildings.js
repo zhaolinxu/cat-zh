@@ -2045,7 +2045,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			if (this.toggle){
 				this.toggle.link.textContent = building.enabled ? "off" : "on";
-				this.toggle.link.title = building.isAutomationEnabled ? "Building enabled" : "Building disabled";
+				this.toggle.link.title = building.enabled ? "Building enabled" : "Building disabled";
 			}
 
 			if (this.toggleAutomation){

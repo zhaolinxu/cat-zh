@@ -438,6 +438,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
 
+			if (!res.craftable && !res.transient){
+				maxValue *= (1+this.game.religion.getEffect("tcResourceRatio"));
+			}
+
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -972,9 +976,15 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				res.isHidden = !res.isHidden;
 			}, res));
 			dojo.connect(tdResName, "onmouseover", this, function(){
+				if (this.game.resPool.isLocked){
+					return;
+				}
 				this.game.ui.isDisplayOver = true;
 			});
 			dojo.connect(tdResName, "onmouseout", this, function(){
+				if (this.game.resPool.isLocked){
+					return;
+				}
 				this.game.ui.isDisplayOver = false;
 			});
 

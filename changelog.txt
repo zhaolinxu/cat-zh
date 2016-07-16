@@ -1,3 +1,12 @@
+v 1.1.9.3 (15 jul)
+IRC height will be fit to window height
+Fixed temporal flux limits not being applied correctly
+Fixed resource lock not being correctly applied to craftable resources
+
+Temporal Accelerator
+Black
+
+
 v 1.1.9.2 (12 jul)
 Black Core tier level changed from 1 to 5
 Black Nexus is now a tier 1 structure
