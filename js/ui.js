@@ -258,10 +258,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var height = $(window.top).height() || 850;
-        console.log("IRC WINDOW HEIGHT:", height);
+        //console.log("IRC WINDOW HEIGHT:", height);
 
         var $chat = $('#IRCChatInner');
-        swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 120, 10, "lib/lightirc/expressInstall.swf", params);
+        swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         this.isChatActive = true;
     }
 });
