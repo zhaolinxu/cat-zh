@@ -438,7 +438,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
 
-			if (!res.craftable && !res.transient){
+			if (!this.isNormalCraftableResource(res) && !res.transient){
 				maxValue *= (1+this.game.religion.getEffect("tcResourceRatio"));
 			}
 
@@ -616,6 +616,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	toggleLock: function(){
 		this.isLocked = !this.isLocked;
+	},
+
+	isNormalCraftableResource: function(res) {
+		return res.craftable && res.name != "wood";
 	}
 
 });
@@ -658,7 +662,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				continue;
 			}
 			//migrate dual resources (e.g. blueprint) to lower table once craft recipe is unlocked
-			if (res.craftable && this.game.workshop.getCraft(res.name).unlocked && res.name != "wood"){
+			if (this.game.resPool.isNormalCraftableResource(res) && this.game.workshop.getCraft(res.name).unlocked){
 				continue;
 			}
 
