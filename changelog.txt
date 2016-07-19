@@ -6,6 +6,9 @@ Fixed resource lock not being correctly applied to craftable resources
 Temporal Accelerator
 Singularity
 
+Made Nexus description more clear
+Added flavors to the T tree
+
 
 v 1.1.9.2 (12 jul)
 Black Core tier level changed from 1 to 5

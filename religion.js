@@ -427,7 +427,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "blackNexus",
 		label: "Black Nexus",
-		description: "Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
+		description: "Improves the rate you refine time crystals into relics.<br>Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
@@ -456,7 +456,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		flavor: "Built with the bones of kitten sacrifices."
 	},{
 		name: "singularity",
-		label: "Singularity",
+		label: "Event Horizon",
 		description: "Improve global resource limits by 10%",
 		prices: [
 			{ name : "relic", val: 25000 }
@@ -468,7 +468,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		val: 0,
 		unlocked: true,
-		flavor: "TBD"
+		flavor: "A gateway... To what?"
 	},{
 		name: "holyGenocide",
 		label: "Holy Genocide",
@@ -693,6 +693,10 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingB
 		var isVisible = ( tier >= upgrade.tier );
 		this.setVisible(isVisible);
 	},
+
+	getFlavor: function(){
+		return this.getMetadata().flavor;
+	}
 });
 
 dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
