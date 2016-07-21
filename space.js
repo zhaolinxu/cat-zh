@@ -582,8 +582,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {},
 				calculateEffects: function(game, self){
 					self.effects = {
-						"maxKittens": 1,
-						"catnipPerTickBase": -100
+						"maxKittens": 1
+						//"catnipPerTickBase": -100
 					};
 				},
 				upgradable: true,
