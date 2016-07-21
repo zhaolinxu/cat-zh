@@ -568,21 +568,46 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		title: "Yarn",
 		unlocked: false,
 		buildings:[
-			/*{
+			{
 				name: "terraformingStation",
 				title: "Terraforming Station",
-				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere (TBD)",
-				unlocked: true,
+				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere",
+				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
-					{name: "antimatter", val: 50  }
+					{name: "antimatter", val: 25  },
+					{name: "uranium", val: 5000  },
+					{name: "kerosene", val: 5000   }
 				],
 				effects: {},
 				calculateEffects: function(game, self){
+					self.effects = {
+						"maxKittens": 1,
+						"catnipPerTickBase": -100
+					};
 				},
 				upgradable: true,
 				val: 0
-			}*/
+			},
+			{
+				name: "hydroponics",
+				title: "Hydroponics",
+				description: "State of the art automated hydroponic system. Increase catnip limit by 10%. Increase catnip production by 2.5%",
+				unlocked: false,
+				priceRatio: 1.15,
+				prices: [
+					{name: "kerosene", val: 500 }
+				],
+				effects: {},
+				calculateEffects: function(game, self){
+					self.effects = {
+						"catnipMaxRatio" : 0.1,
+						"catnipRatio" : 0.025
+					};
+				},
+				upgradable: true,
+				val: 0
+			}
 		]
 	}],
 

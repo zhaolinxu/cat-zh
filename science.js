@@ -691,7 +691,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "antimatter",
 		title: "Antimatter",
 		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
-		effectDesc: "TBD",
+		effectDesc: "Unlocks Antimatte Reactors and Antimatter Bases",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -699,7 +699,37 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
-			upgrades: ["amReactors", "amBases"]
+			upgrades: ["amReactors", "amBases"],
+			tech: ["terraformation"]
+		}
+	},{
+		name: "terraformation",
+		title: "Terraformation",
+		description: "Terraformation technology focuses on use of the antimatter to change the climate of the Cath System exoplanets",
+		effectDesc: "Unlocks Terraforming Stations",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 750000},
+			{name : "relic",   val: 5}
+		],
+		unlocks: {
+			tech: ["hydroponics"],
+			space: [{planet:"yarn", bld: "terraformingStation"}]
+		}
+	},{
+		name: "hydroponics",
+		title: "Hydroponics",
+		description: "A pinnacle of space engineering, hydroponic provides new sources of food supply for our distant colonies.",
+		effectDesc: "Unlocks Yarn Hydroponics",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 1000000},
+			{name : "relic",   val: 25}
+		],
+		unlocks: {
+			space: [{planet:"yarn", bld: "hydroponics"}]
 		}
 	},{
 		name: "particlePhysics",

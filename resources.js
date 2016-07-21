@@ -434,7 +434,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue += this.game.space.getEffect(res.name + "Max");
 
 			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue += maxValue * this.game.workshop.getEffect(res.name + "MaxRatio");
+			maxValue *= ( 1 +
+				this.game.workshop.getEffect(res.name + "MaxRatio") +
+				this.game.space.getEffect(res.name + "MaxRatio")
+			);
 
 			maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
 

@@ -2502,6 +2502,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getTab(unlockId);
 			case "buildings":
 				return this.bld.get(unlockId);
+			case "space":
+				var planet = this.space.getPlanet(unlockId.planet);
+				return this.space.getMeta(unlockId.bld, planet.buildings);
 			case "stages":
 				return this.bld.get(unlockId.bld);
 		}
