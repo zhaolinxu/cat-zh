@@ -19,27 +19,8 @@
 		<script src="lib/swfobject.js"></script>
 		<script src="lib/lightirc/config.js"></script>
 
-
-		<script src="core.js?v=1.1.9.3" 		type="text/javascript"></script>
-		<script src="resources.js?v=1.1.9.3" 	type="text/javascript"></script>
-		<script src="calendar.js?v=1.1.9.3" 	type="text/javascript"></script>
-		<script src="buildings.js?v=1.1.9.3" 	type="text/javascript"></script>
-		<script src="village.js?v=1.1.9.3" 		type="text/javascript"></script>
-		<script src="science.js?v=1.1.9.3" 		type="text/javascript"></script>
-		<script src="workshop.js?v=1.1.9.3" 	type="text/javascript"></script>
-		<script src="diplomacy.js?v=1.1.9.3" 	type="text/javascript"></script>
-		<script src="religion.js?v=1.1.9.3c" 	type="text/javascript"></script>
-		<script src="achievements.js?v=1.1.9.3" type="text/javascript"></script>
-		<script src="space.js?v=1.1.9.3" 		type="text/javascript"></script>
-		<script src="prestige.js?v=1.1.9.3" 	type="text/javascript"></script>
-
-		<script src="game.js?v=1.1.9.3" 		type="text/javascript"></script>
-
-        <!-- --------------------------------------------------------------- -->
-        <script src="js/toolbar.js?v=1.1.9.3" 	    type="text/javascript"></script>
-        <script src="js/ui.js?v=1.1.9.3"            type="text/javascript"></script>
-        <script src="js/stats.js?v=1.1.9.3"         type="text/javascript"></script>
-		<script src="js/time.js?v=1.1.9.3"         type="text/javascript"></script>
+		<!-- friends don't let friends use AMD and require.js -->
+		<script src="lib/system.js"></script>
 
         <!-- <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script> -->
 
@@ -61,50 +42,93 @@
 		<script type="text/javascript">
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-                try {
-                    gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
-                    gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
-                    gamePage.load();
-                    gamePage.updateKarma();
+				SystemJS.config({
+					baseURL: ''
+				});
 
-                    gamePage.render();
-                    gamePage.console.static.renderFilters();
-                    gamePage.start();
-					
-					//---------------------------------
-					//	remove me once x-mass is over
-					//---------------------------------
-					/*if (gamePage.resPool.get("elderBox").value == 0){
-						gamePage.resPool.get("elderBox").value++;
-						gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
-					}*/
-					if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
-						gamePage.resPool.get("elderBox").value = 1;
-						gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+				//I am too tired to write proper chaining code. Feel free to fix it.
+				//Order does matter, so please be carefull with Promise.all
+
+				System.import('core.js')
+				.then(function() {
+					return System.import('resources.js')
+				}).then(function() {
+					return System.import('calendar.js')
+				}).then(function() {
+					return System.import('calendar.js')
+				}).then(function() {
+					return System.import('buildings.js')
+				}).then(function() {
+					return System.import('village.js')
+				}).then(function() {
+					return System.import('science.js')
+				}).then(function() {
+					return System.import('workshop.js')
+				}).then(function() {
+					return System.import('diplomacy.js')
+				}).then(function() {
+					return System.import('religion.js')
+				}).then(function() {
+					return System.import('achievements.js')
+				}).then(function() {
+					return System.import('space.js')
+				}).then(function() {
+					return System.import('js/prestige.js')
+				}).then(function() {
+					return System.import('js/time.js')
+				}).then(function() {
+					return System.import('js/stats.js')
+				}).then(function() {
+					return System.import('game.js')
+				}).then(function() {
+					return System.import('js/toolbar.js')
+				}).then(function() {
+					return System.import('js/ui.js')
+				}).then(function() {
+					try {
+						gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
+						gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+						gamePage.load();
+						gamePage.updateKarma();
+
+						gamePage.render();
+						gamePage.console.static.renderFilters();
+						gamePage.start();
+
+						//---------------------------------
+						//	remove me once x-mass is over
+						//---------------------------------
+						/*if (gamePage.resPool.get("elderBox").value == 0){
+						 gamePage.resPool.get("elderBox").value++;
+						 gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
+						 }*/
+						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
+							gamePage.resPool.get("elderBox").value = 1;
+							gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+						}
+						//TODO: use button to invoke this method
+						//gamePage.redeemGift();
+						//---------------------------------
+
+
+						var host = window.location.hostname;
+						if (host.indexOf("kongregate") > -1){
+							$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
+								console.log("loading Kongregate API...");
+								gamePage.initKongregateApi();
+							});
+						}
+						if (window.location.protocol == "file:"){
+							$("#devModeButton").show();
+						}
+
+					} catch (ex){
+						console.error(ex);
+						console.trace();
 					}
-					//TODO: use button to invoke this method
-					//gamePage.redeemGift();
-					//---------------------------------
-
-
-                    var host = window.location.hostname;
-                    if (host.indexOf("kongregate") > -1){
-                        $.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
-                            console.log("loading Kongregate API...");
-                            gamePage.initKongregateApi();
-                        });
-                    }
-                    if (window.location.protocol == "file:"){
-                        $("#devModeButton").show();
-                    }
-
-                } catch (ex){
-                    console.error(ex);
-                    console.trace();
-                }
-
-
+				});
 			});
 
 			function dev(){

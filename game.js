@@ -895,6 +895,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
         for (var i in managers){
             var manager = managers[i];
+			if (!window["classes"]["managers"][manager.class]){
+				throw "Unable to load tab manager '" + manager.class + "'";
+			}
+
             this[manager.id] = new window["classes"]["managers"][manager.class](this);
 
             this.managers.push(this[manager.id]);
