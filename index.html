@@ -43,48 +43,76 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
 
+				var version = "1.1.9.4c";
+
 				SystemJS.config({
 					baseURL: ''
 				});
 
 				//I am too tired to write proper chaining code. Feel free to fix it.
-				//Order does matter, so please be carefull with Promise.all
+				//Order does matter, so please be careful with Promise.all and such
+
+				/*var modules = [
+					"resources",
+					"calendar",
+					"buildings",
+					"js/village",
+					"science",
+					"workshop",
+					"diplomacy",
+					"religion",
+					"achievements",
+					"space",
+					"js/prestige",
+					"js/time",
+					"js/stats",
+					"game",
+					"js/ui",
+					"js/toolbar"
+				];
+				var def = System.import('core.js');
+
+				for (var i in modules){
+					def = def.then(function(){
+						return System.import(modules[i] + ".js?v=" + version);
+					})
+				}*/
 
 				System.import('core.js')
 				.then(function() {
-					return System.import('resources.js')
+					return System.import('resources.js?v=' + version);
 				}).then(function() {
-					return System.import('calendar.js')
+					return System.import('calendar.js?v=' + version);
 				}).then(function() {
-					return System.import('calendar.js')
+					return System.import('calendar.js?v=' + version)
 				}).then(function() {
-					return System.import('buildings.js')
+					return System.import('buildings.js?v=' + version)
 				}).then(function() {
-					return System.import('village.js')
+					return System.import('js/village.js?v=' + version)
 				}).then(function() {
-					return System.import('science.js')
+					return System.import('science.js?v=' + version)
 				}).then(function() {
-					return System.import('workshop.js')
+					return System.import('workshop.js?v=' + version)
 				}).then(function() {
-					return System.import('diplomacy.js')
+					return System.import('diplomacy.js?v=' + version)
 				}).then(function() {
-					return System.import('religion.js')
+					return System.import('religion.js?v=' + version)
 				}).then(function() {
-					return System.import('achievements.js')
+					return System.import('achievements.js?v=' + version)
 				}).then(function() {
-					return System.import('space.js')
+					return System.import('space.js?v=' + version)
 				}).then(function() {
-					return System.import('js/prestige.js')
+					return System.import('js/prestige.js?v=' + version)
 				}).then(function() {
-					return System.import('js/time.js')
+					return System.import('js/time.js?v=' + version)
 				}).then(function() {
-					return System.import('js/stats.js')
+					return System.import('js/stats.js?v=' + version)
 				}).then(function() {
-					return System.import('game.js')
+					return System.import('game.js?v=' + version)
 				}).then(function() {
-					return System.import('js/toolbar.js')
+					return System.import('js/toolbar.js?v=' + version)
 				}).then(function() {
-					return System.import('js/ui.js')
+					return System.import('js/ui.js?v=' + version)
 				}).then(function() {
 					try {
 						gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
@@ -208,7 +236,7 @@
 					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
 					<a href="#" onclick="wipe();">Wipe</a> |
 
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.9.3</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.1.9.4</a>
 
 				</div>
 			</div>
@@ -229,9 +257,8 @@
 						Cryptotheology
 						Relic Stations
 
-					Rev: 3
-						Singularity
-						Time Accelerator
+					Rev: 4
+						Sunspire
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -265,7 +292,9 @@
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="gameContainerId" style="border: 1px solid gray;">
-						Oops, something went wrong. It seems like the game is not working, but don't worry.<br>
+						Loading...<br>
+						<br>
+						If this takes to much time, most likely it is not working. But don't worry.<br>
 						<ul>
 							<li>Try to refresh the game by pressing Ctrl+F5.</li>
 							<li>Try to reload the game in about 10-15 minutes.</li>

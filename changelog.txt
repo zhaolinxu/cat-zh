@@ -1,3 +1,11 @@
+v 1.1.9.4 (20 jul)
+
+UU was split into two upgrades
+UU price was reduced from 65K tears to 5K tears.
+
+UU and Sunspire will now increase alicorn to tc refine ratio by 10% and 25%
+
+
 v 1.1.9.3 (15 jul)
 IRC height will be fit to window height
 Fixed temporal flux limits not being applied correctly

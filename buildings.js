@@ -1774,7 +1774,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	onClick: function(event){
-
 		this.animate();
 		if ((this.enabled && this.hasResources()) || this.game.devMode){
 

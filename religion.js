@@ -151,7 +151,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		val: 0,
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		handler: function(btn){
+			btn.game.religion.getZU("ivoryTower").unlocked = true;
+		}
 	},{
 		name: "ivoryTower",
 		label: "Ivory Tower",
@@ -166,8 +169,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"riftChance" : 5	//
 		},
 		val: 0,
-		unlocked: true,
-		defaultUnlocked: true
+		unlocked: false,
+		defaultUnlocked: false,
+		handler: function(btn){
+			btn.game.religion.getZU("ivoryCitadel").unlocked = true;
+		}
 	},{
 		name: "ivoryCitadel",
 		label: "Ivory Citadel",
@@ -182,8 +188,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"ivoryMeteorChance" : 5
 		},
 		val: 0,
-		unlocked: true,
-		defaultUnlocked: true
+		unlocked: false,
+		defaultUnlocked: false,
+		handler: function(btn){
+			btn.game.religion.getZU("skyPalace").unlocked = true;
+		}
 	},{
 		name: "skyPalace",
 		label: "Sky Palace",
@@ -199,25 +208,52 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"ivoryMeteorRatio" : 0.05
 		},
 		val: 0,
-		unlocked: true,
-		defaultUnlocked: true
+		unlocked: false,
+		defaultUnlocked: false,
+		handler: function(btn){
+			btn.game.religion.getZU("unicornUtopia").unlocked = true;
+		}
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance.",
+		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 10%",
 		prices: [
-			{ name : "ivory", val: 1250000 },
-			{ name : "tears", val: 65000 }
+			{ name : "ivory", val: 1000000 },
+			{ name : "tears", val: 5000 }
 		],
-		priceRatio: 1.18,
+		priceRatio: 1.15,
 		effects: {
 			"unicornsRatio" : 2.5,
 			"alicornChance" : 15,
-			"ivoryMeteorRatio" : 0.15
+			"ivoryMeteorRatio" : 0.15,
+			"tcRefineRatio" : 0.1
 		},
 		val: 0,
-		unlocked: true,
-		defaultUnlocked: true
+		unlocked: false,
+		defaultUnlocked: false,
+		handler: function(btn){
+			btn.game.religion.getZU("sunspire").unlocked = true;
+		}
+	},{
+		name: "sunspire",
+		label: "Sunspire",
+
+		//TODO: make SSPIRE make something really interesting
+		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 25%",
+		prices: [
+			{ name : "ivory", val: 1500000 },
+			{ name : "tears", val: 25000 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"unicornsRatio" : 5,
+			"alicornChance" : 30,
+			"tcRefineRatio": 0.25,
+			"ivoryMeteorRatio" : 0.5
+		},
+		val: 0,
+		unlocked: false,
+		defaultUnlocked: false
 	},{
 		name: "marker",
 		label: "Marker",
@@ -840,10 +876,12 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 			return;
 		}
 
-		this.game.resPool.get("alicorn").value -= alicornsCount;
-		this.game.resPool.get("timeCrystal").value += amt;
+		var tcAmt = amt * (1 + this.game.getEffect("tcRefineRatio"));
 
-		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystal" + (amt == 1 ? "" : "s") + "!");
+		this.game.resPool.get("alicorn").value -= alicornsCount;
+		this.game.resPool.get("timeCrystal").value += tcAmt;
+
+		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
 
 	updateVisible: function(){
@@ -964,6 +1002,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 
 	render: function(container) {
+		var self = this;
 
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
@@ -1019,8 +1058,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					name: upgr.label,
 					description: upgr.description,
 					prices: upgr.prices,
-					handler: function(btn){
-					}
+					handler: upgr.handler
 				}, this.game);
 
 				button.updateVisible();

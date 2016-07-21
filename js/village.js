@@ -587,18 +587,31 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	traits: [{
 		name: "scientist", // Science tech reduction science price
 		title: "Scientist",
+		unlocked: true
 	},{
 		name: "manager", // hunterRatio bonus
-		title: "Manager"
+		title: "Manager",
+		unlocked: true
 	},{
 		name: "engineer", // Craft bonus
-		title: "Engineer"
+		title: "Engineer",
+		unlocked: true
 	},{
 		name: "merchant", // TradeRatio bonus
-		title: "Merchant"
+		title: "Merchant",
+		unlocked: true
 	},{
 		name: "wise", // Religion bonus
-		title: "Philosopher"
+		title: "Philosopher",
+		unlocked: false
+	},{
+		name: "metallurgist",
+		title: "Metallurgist",
+		unlocked: false
+	},{
+		name: "chemist",
+		title: "Chemist",
+		unlocked: false
 	},{
 		name: "none",
 		title: "None"
