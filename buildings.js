@@ -704,9 +704,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.on
 			);
 
+
+
 			var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
 
-			if (steelRatio) {
+			if (steelRatio && self.isAutomationEnabled){
+
 				// Second conversion of some of the iron that was just created, to steel
 				var newiron = self.effects["ironPerTick"] * (1 - steelRatio);
 				var difference = self.effects["ironPerTick"] - newiron;
@@ -722,6 +725,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 			}
 		},
+		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */
 		val: 0
 	},
 	{
@@ -1993,7 +1997,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if (!this.toggleAutomation && building.name == "steamworks"){
+		if (!this.toggleAutomation &&
+			(building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell)))
+		{
 			this.toggleAutomation = this.addLink( building.enabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();

@@ -2,6 +2,7 @@ v 1.2.0.0 (20 jul)
 
 Terraformation
 Hydroponics
+Steel plants can be now toggled on and off (Button only visible if "sale" links are disabled)
 
 v 1.1.9.4 (20 jul)
 
