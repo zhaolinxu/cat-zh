@@ -1,3 +1,8 @@
+v 1.2.0.0b (23 jul)
+
+changes by bzbarsky:
+Make the time crystal refining effects of Unicorn Utopia and Sunspire actually work.
+
 v 1.2.0.0 (20 jul)
 
 Terraformation
