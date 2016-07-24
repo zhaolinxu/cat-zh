@@ -43,7 +43,7 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
 
-				var version = "1.1.2.0g";
+				var version = "1.1.2.0k";
 
 				SystemJS.config({
 					baseURL: ''
@@ -80,27 +80,25 @@
 
 				System.import('core.js')
 				.then(function() {
-					return System.import('resources.js?v=' + version);
+					return System.import('js/resources.js?v=' + version);
 				}).then(function() {
-					return System.import('calendar.js?v=' + version);
+					return System.import('js/calendar.js?v=' + version)
 				}).then(function() {
-					return System.import('calendar.js?v=' + version)
-				}).then(function() {
-					return System.import('buildings.js?v=' + version)
+					return System.import('js/buildings.js?v=' + version)
 				}).then(function() {
 					return System.import('js/village.js?v=' + version)
 				}).then(function() {
-					return System.import('science.js?v=' + version)
+					return System.import('js/science.js?v=' + version)
 				}).then(function() {
-					return System.import('workshop.js?v=' + version)
+					return System.import('js/workshop.js?v=' + version)
 				}).then(function() {
-					return System.import('diplomacy.js?v=' + version)
+					return System.import('js/diplomacy.js?v=' + version)
 				}).then(function() {
-					return System.import('religion.js?v=' + version)
+					return System.import('js/religion.js?v=' + version)
 				}).then(function() {
-					return System.import('achievements.js?v=' + version)
+					return System.import('js/achievements.js?v=' + version)
 				}).then(function() {
-					return System.import('space.js?v=' + version)
+					return System.import('js/space.js?v=' + version)
 				}).then(function() {
 					return System.import('js/prestige.js?v=' + version)
 				}).then(function() {

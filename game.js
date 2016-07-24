@@ -1548,6 +1548,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		perTick += resConsumption;
 
+		perTick -= this.space.getEffect(res.name + "Consumption");
+
 		if (isNaN(perTick)){
 			return 0;
 		}
