@@ -881,7 +881,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 		this.game.resPool.get("alicorn").value -= alicornsCount;
 		this.game.resPool.get("timeCrystal").value += tcAmt;
 
-		this.game.msg(alicornsCount + " alicorns banished. You've got " + amt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		this.game.msg(alicornsCount + " alicorns banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
 
 	updateVisible: function(){
