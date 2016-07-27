@@ -1428,14 +1428,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
 					bonus = bonus > 0 && kitten.isLeader ? this.game.village.getLeaderBonus(kitten.rank) * bonus : bonus;
-					bonus = bonus.toFixed(2);
+					bonus = bonus * 100;
+					bonus = bonus.toFixed(0);
 					bonus = bonus > 0 ? " +" + bonus + "%" : "";
 				}
 				else {var style = ""; var bonus = "";}
 
                 record.content.innerHTML += "<span title='" + exp.toFixed(2) + "'" + style + ">"
                 + this.game.village.getJob(skillsArr[j].name).title + bonus
-                + " [" + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%)]"
+                + " (" + this.game.villageTab.skillToText(exp) + " " + expPercent.toFixed() + "%)"
                 + "</span><br>";
             }
 
