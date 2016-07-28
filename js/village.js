@@ -1427,7 +1427,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 					var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
-					bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) - 1 : bonus;
+					bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
 					bonus = bonus * 100;
 					bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 				}
