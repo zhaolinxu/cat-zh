@@ -1900,7 +1900,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var res = this.resPool.resources[i];
 			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
 			//AUTOMATED STRUCTURES EFFECTS
-			var resRatioTick = this.getEffect(res.name + "PerTick");
+			var resRatioTick = 0;
+			var name_use = res.name + "Prod";
+			if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
+				resRatioTick += this.resPool.getResourcePerTickAutomateThisTick[name_use];
+			}
+			var name_use = res.name + "Cons";
+			if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
+				resRatioTick += this.resPool.getResourcePerTickAutomateThisTick[name_use];
+			}
 			res.perTickUI = res.perTickNoAutomate + resRatioTick;
 		}
 	},
