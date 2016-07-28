@@ -40,7 +40,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
-		$("#sorrowTooltip").css("color", isMax ? "red" : "black");
+		$("#sorrowTooltip").css("color", isMax ? "red" : "");
 	},
 
 
