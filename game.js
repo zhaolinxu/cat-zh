@@ -126,6 +126,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Max Catnip",
 				resName: "catnip"
 			},
+			"catnipConsumption" : {
+				title: "Catnip Demand",
+				resName: "catnip"
+			},
 
 			/* Worker pseudoeffect */
 			"catnip" : {
@@ -204,6 +208,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			//coal
+
+			"coal" : {
+				title: "coal",
+				resName: "coal",
+				type: "perTick"
+			},
 
 			"coalMax" : {
 				title: "Max Coal",
@@ -520,6 +530,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"resStasisRatio": {
 				title: "Res-Stasis ratio",
 				type: "ratio"
+			},
+
+			"beaconRelicsPerTick": {
+				title: "Relics production",
+				type: "perTick"
 			},
 
 			// energy
