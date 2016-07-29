@@ -512,3 +512,7 @@ h1 {
 .right-tab-header a {
     padding: 5px;
 }
+
+#sorrowTooltip {
+	color: black;
+}
