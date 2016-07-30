@@ -369,7 +369,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	addResEvent: function(name, value){
 		var res = this.get(name);
-
 		this.addRes(res, value);
 	},
 
@@ -400,9 +399,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		// Remove from resources
-		for (var i in from){
-			this.addRes(this.get(from[i].res), -from[i].amt * amt);
+		if (this.game.calendar.day >= 0) {
+			// Remove from resources
+			for (var i in from){
+				this.addRes(this.get(from[i].res), -from[i].amt * amt);
+			}
 		}
 
 		// Return the percentage to decrease the productivity
