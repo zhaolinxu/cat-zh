@@ -532,9 +532,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"beaconRelicsPerTick": {
-				title: "Relics production",
-				type: "perTick"
+			"beaconRelicsPerDay": {
+				title: "Relic production",
+				type: "perDay"
+			},
+
+			"relicPerDay": {
+				title: "Relic production",
+				type: "perDay"
 			},
 
 			// energy

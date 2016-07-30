@@ -1354,7 +1354,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Relic Station",
 		description: "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
 		effects: {
-			"beaconRelicsPerTick": 0.01
+			"beaconRelicsPerDay": 0.01
 		},
 		prices: [
 			{name: "eludium", val: 100},
