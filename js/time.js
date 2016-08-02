@@ -192,9 +192,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         var cal = game.calendar;
         cal.day = 0;
         cal.season = 0;
-        cal.year+= amt;
 
         for (var i=0; i< amt; i++) {
+            cal.year+= 1;
             cal.onNewYear();
         }
 
