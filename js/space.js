@@ -556,7 +556,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					self.effects = {
 						"starchartPerTickBase": 0.025 * game.space.getAutoProductionRatio(),
 						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
-						"relicPerDay": game.workshop.getEffect("beaconRelicsPerTick")
+						"relicPerDay": game.workshop.getEffect("beaconRelicsPerDay")
 					};
 				},
 				upgradable: true,
