@@ -1469,7 +1469,57 @@ dojo.declare("classes.village.ui.VillageButton", com.nuclearunicorn.game.ui.Butt
 
 	getSelectedObject: function(){
 		return {"prices": this.getPrices()};
+	},
+});
+
+dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButton, {
+	x10: null,
+	simplePrices: false,
+	hasResourceHover: true,
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	},
+
+	renderLinks: function(){
+		var self = this;
+
+		this.x10 = this.addLink("x10",
+			function(){
+				this.animate();
+				gamePage.villageTab.holdFestival(10);
+				this.update();
+			}, false
+		);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+
+		if (this.game.prestige.getPerk("carnivals").researched){
+			var isEnabled = true;
+			var prices = this.getPrices();
+			if (!this.hasMultipleResources(10)){
+				isEnabled = false;
+			}
+		}
+		else {
+			isEnabled = false;
+		}
+
+		if (this.x10){
+			dojo.setStyle(this.x10.link, "display", isEnabled ? "" : "none");
+		}
+	},
+
+	hasMultipleResources: function(amt){
+		return (
+			this.game.resPool.get("manpower").value >= 1500 * amt &&
+			this.game.resPool.get("gold").value >= 5000 * amt &&
+			this.game.resPool.get("gold").value >= 2500 * amt
+		);
 	}
+
 });
 
 /**
@@ -1599,11 +1649,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.huntBtn = huntBtn;
 
 		//festival
-		var festivalBtn = new classes.village.ui.VillageButton({
+		var festivalBtn = new classes.village.ui.FestivalButton({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
 				handler: dojo.hitch(this, function(){
-					this.holdFestival();
+					this.holdFestival(1);
 				}),
 				prices: [
 					{ name : "manpower", val: 1500 },
@@ -1811,11 +1861,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.village.sendHunters();
 	},
 
-	holdFestival: function(){
+	holdFestival: function(amt){
 		var festivalWasInProgress = this.game.calendar.festivalDays > 0;
 
 		if (this.game.prestige.getPerk("carnivals").researched){
-			this.game.calendar.festivalDays += 400;
+			this.game.calendar.festivalDays += (400 * amt);
 		} else {
 			this.game.calendar.festivalDays = 400;
 		}
