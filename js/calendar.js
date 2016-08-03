@@ -290,7 +290,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//TODO: clarify what is exactly wrong
 
 		if (this.game.time.isAccelerated) {
-			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	//*.x float point
+			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	// *.x float point
 		} else {
 			this.day += this.dayPerTick;
 		}
