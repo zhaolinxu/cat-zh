@@ -1022,7 +1022,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				if (effectName.substr(-3) === "Max") {
 					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
 					effectValue += effectValue * this.game.prestige.getParagonStorageRatio();
-					effectValue += effectValue * this.game.religion.getEffect("tcResourceRatio");
+
+					var res = this.game.resPool.get(effectMeta.resName || effectName.substr(0, -3));
+					if (!this.game.resPool.isNormalCraftableResource(res) && !res.transient){
+						effectValue += effectValue * this.game.religion.getEffect("tcResourceRatio");
+					}
 				}
 
 				var displayEffectValue;
