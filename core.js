@@ -1023,7 +1023,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
 					effectValue += effectValue * this.game.prestige.getParagonStorageRatio();
 
-					var res = this.game.resPool.get(effectMeta.resName || effectName.substr(0, -3));
+					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
 					if (!this.game.resPool.isNormalCraftableResource(res) && !res.transient){
 						effectValue += effectValue * this.game.religion.getEffect("tcResourceRatio");
 					}
