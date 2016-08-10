@@ -691,7 +691,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "antimatter",
 		title: "Antimatter",
 		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
-		effectDesc: "Unlocks Antimatte Reactors and Antimatter Bases",
+		effectDesc: "Unlocks Antimatter Reactors and Antimatter Bases",
 		unlocked: false,
 		researched: false,
 		prices: [

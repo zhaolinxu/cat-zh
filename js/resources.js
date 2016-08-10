@@ -502,6 +502,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	resetState: function(){
+		this.isLocked = false;
 		for (var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			res.value = 0;
@@ -533,7 +534,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 		if (saveData.res){
-			this.isLocked = saveData.res || false;
+			this.isLocked = Boolean(saveData.res.isLocked);
 		}
 	},
 

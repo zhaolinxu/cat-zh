@@ -1744,7 +1744,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "manuscript",
 		title: "Manuscript",
-		description: "Written document required for technological advancement.Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
+		description: "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 400}

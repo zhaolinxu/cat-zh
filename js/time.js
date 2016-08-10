@@ -105,7 +105,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "temporalAccelerator",
         label: "Temporal Accelerator",
-        description: "Improves the flux energy generation by 5%",
+        description: "Improves flux energy generation by 5%",
         prices: [
             { name : "timeCrystal", val: 10 },
             { name : "relic", val: 1000 }
