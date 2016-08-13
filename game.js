@@ -1485,6 +1485,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var perTick = this.getEffect(res.name + "PerTickBase");		//per tick accumulator
 
+		//SPACE STUFF
+		//Would put this at the bottom with Cycles, but Starcharts are a special case
+
+                var perTickBaseSpace = this.getEffect(res.name + "PerTickBaseSpace");
+		var perTickSpace = this.getEffect(res.name + "PerTickSpace");
+		var perTickAutoprodSpace = this.getEffect(res.name + "PerTickAutoprodSpace");
+		var spaceRatio = 1 + this.getEffect("spaceRatio");
+		if (this.workshop.get("spaceManufacturing").researched&&res.name!="uranium"){
+			var factory = this.bld.get("factory");
+			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
+		}
+		perTickBaseSpace*=spaceRatio;
+		perTickSpace*=spaceRatio;
+		perTickAutoprodSpace*=spaceRatio;
+
+		perTick+=perTickBaseSpace;
+
 		if (season.modifiers[res.name]){
 			perTick = perTick * weatherMod;
 		}
@@ -1526,34 +1543,53 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTick += perTick * relResEffect;
 		}
 
-		//---------  PARAGON BONUS ------------
-		perTick += perTick * this.prestige.getParagonProductionRatio();
-
-		//---------  FAITH BONUS --------------
-		perTick += perTick * this.religion.getProductionBonus() / 100;
-
-		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
-		if (!res.transient && this.bld.get("magneto").on > 0){
-
-			if (res.name != "oil"){
-				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
-				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
-			}
-
-		}
-
-		//--------- GENERAL PRODUCTION RATIO --------------
-		if (!res.transient){
-			perTick += perTick * this.bld.getEffect("productionRatio");
-		}
-
 		//SPECIAL STEAMWORKS HACK FOR COAL
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
 		if (steamworks.on > 0 && swEffectGlobal ){
 			perTick += perTick * swEffectGlobal;
 		}
+
+		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
+
+		//---------  PARAGON BONUS ------------
+		perTick += perTick * this.prestige.getParagonProductionRatio();
+		perTickAutoprod += perTickAutoprod * this.prestige.getParagonProductionRatio() * 0.25;
+		var perTickAutoprodSpaceRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+
+		perTick+=perTickAutoprod;
+
+		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
+		if (!res.transient && this.bld.get("magneto").on > 0){
+
+			var steamworks = this.bld.get("steamworks");
+			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
+			if (res.name != "oil"){
+				perTick += perTick * this.bld.getEffect("magnetoRatio") * swRatio;
+			}
+			perTickAutoprodSpaceRatio += perTickAutoprodSpaceRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
+
+		}
+
+		//---------  FAITH BONUS --------------
+		perTick += perTick * this.religion.getProductionBonus() / 100;
+		perTickAutoprodSpaceRatio += perTickAutoprodSpaceRatio * this.religion.getProductionBonus() / 100;
+
+		//--------- GENERAL PRODUCTION RATIO --------------
+		if (!res.transient && res.name != "uranium"){
+			perTick += perTick * this.bld.getEffect("productionRatio");
+			perTickAutoprodSpaceRatio += perTickAutoprodSpaceRatio * this.bld.getEffect("productionRatio");
+		}
+
+		perTick += this.getEffect(res.name + "PerTickProd");
+		perTick += perTickAutoprodSpace * (1 + (perTickAutoprodSpaceRatio-1) * this.getEffect("prodTransferBonus"));
+		perTick += perTickSpace;
+
+		//CYCLE EFFECTS
+		//Building dependent, will be a pain to move over. I'll do it later.
+
+		//CYCLE FESTIVAL EFFECTS
+
 		effects = {};
 		effects[resName] = perTick;
 		this.calendar.cycleEffects(effects);
@@ -1570,6 +1606,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += resConsumption;
 
 		perTick -= this.space.getEffect(res.name + "Consumption");
+
+		perTick += this.getEffect(res.name + "PerTick");
 
 		if (isNaN(perTick)){
 			return 0;
@@ -1602,7 +1640,30 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTickBase")
 		});
-		prodNVillage = this.getEffect(res.name + "PerTickBase");
+		if (this.workshop.get("spaceManufacturing").researched&&res.name!="uranium"){
+			var factory = this.bld.get("factory");
+			var spaceManufacturing = (1 + factory.on * factory.effects["craftRatio"] * 0.75);
+		}
+		var spaceStack = [];
+		//---->
+				spaceStack.push({
+					name: "Space Production",
+					type: "fixed",
+					value: this.getEffect(res.name + "PerTickBaseSpace")
+				});
+				spaceStack.push({
+					name: "Space Ratio",
+					type: "ratio",
+					value: this.getEffect("spaceRatio")
+				});
+				spaceStack.push({
+					name: "Space Manufacturing",
+					type: "ratio",
+					value: spaceManufacturing
+				});
+		//<----
+		stack.push(spaceStack);		
+		prodNVillage = this.getEffect(res.name + "PerTickBase")+this.getEffect(res.name + "PerTickBaseSpace");
 
 		var weatherMod = this.calendar.getWeatherMod();
 		weatherMod = (season.modifiers[res.name] + weatherMod);
@@ -1667,6 +1728,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		});
 
 		stack.push({
+			name: "Conversion Prod",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickAutoprod")
+		});
+
+		var spaceProdStack = [];
+		//---->
+				spaceProdStack.push({
+					name: "Space Conversion Production",
+					type: "fixed",
+					value: this.getEffect(res.name + "PerTickAutoprodSpace")
+				});
+				spaceProdStack.push({
+					name: "Space Ratio",
+					type: "ratio",
+					value: this.getEffect("spaceRatio")
+				});
+				spaceProdStack.push({
+					name: "Space Manufacturing",
+					type: "ratio",
+					value: spaceManufacturing
+				});
+		//<----
+		stack.push(spaceProdStack);	
+
+		stack.push({
 			name: "Paragon",
 			type: "ratio",
 			value: this.prestige.getParagonProductionRatio()
@@ -1692,7 +1779,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		if (!res.transient) {
+		if (!res.transient && res.name != "uranium") {
 			stack.push({
 				name: "Reactors",
 				type: "ratio",
@@ -1700,31 +1787,62 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		}
 
+		var spaceProd2Stack = [];
+		//---->
+				spaceProd2Stack.push({
+					name: "Space Conversion Production",
+					type: "fixed",
+					value: this.getEffect(res.name + "PerTickSpace")
+				});
+				spaceProd2Stack.push({
+					name: "Space Ratio",
+					type: "ratio",
+					value: this.getEffect("spaceRatio")
+				});
+				spaceProd2Stack.push({
+					name: "Space Manufacturing",
+					type: "ratio",
+					value: spaceManufacturing
+				});
+		//<----
+		stack.push(spaceProd2Stack);
+
+		var effects = {};
+		effects[res.name] = 1;
+		this.calendar.cycleEffects(effects);
+		cycleEffect = effects[resName]-1;
+
+		stack.push({
+			name: "Cycle Festival Effect",
+			type: "ratio",
+			value: cycleEffect
+		});
+
 		if (prodNVillage &&
-		   (this.resPool.get(res.name).perTickNoAutomate != this.resPool.get(res.name).perTickUI || res.name == "catnip")
+		   (this.getEffect(res.name + "PerTick") || res.name == "catnip")
 		) {
 			stack.push({
 				name: "Prod & Village",
 				type: "fixed",
-				value: this.resPool.get(res.name).perTickNoAutomate
+				value: this.resPool.get(res.name).perTickUI - this.getEffect(res.name + "PerTick")
 			});
 		}
 
-		var name_use = res.name + "Prod";
-		if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
+		perTick = this.getEffect(res.name + "PerTick");
+
+		if (perTick>0) {
 			stack.push({
 				name: "Conversion Prod",
 				type: "fixed",
-				value: this.resPool.getResourcePerTickAutomateThisTick[name_use]
+				value: perTick
 			});
 		}
 
-		var name_use = res.name + "Cons";
-		if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
+		if (perTick<0) {
 			stack.push({
 				name: "Conversion Cons",
 				type: "fixed",
-				value: this.resPool.getResourcePerTickAutomateThisTick[name_use]
+				value: perTick
 			});
 		}
 
@@ -1918,28 +2036,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		*/
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickNoAutomate = this.calcResourcePerTick(res.name);
-			//AUTOMATED STRUCTURES EFFECTS
-			var resRatioTick = 0;
-			var name_use = res.name + "Prod";
-			if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
-				resRatioTick += this.resPool.getResourcePerTickAutomateThisTick[name_use];
-			}
-			var name_use = res.name + "Cons";
-			if (typeof this.resPool.getResourcePerTickAutomateThisTick[name_use] != "undefined") {
-				resRatioTick += this.resPool.getResourcePerTickAutomateThisTick[name_use];
-			}
-			res.perTickUI = res.perTickNoAutomate + resRatioTick;
+			res.perTickUI = this.calcResourcePerTick(res.name);
 		}
 	},
 
 	getResourcePerTick: function(resName, calcAutomatedEffect){
 		var res = this.resPool.get(resName);
-		if (calcAutomatedEffect) {
-			return res.perTickUI;
-		} else {
-			return res.perTickNoAutomate;
-		}
+		return res.perTickUI;
 	},
 
 	craft: function(resName, value){
