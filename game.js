@@ -1828,23 +1828,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		}
 
-		perTick = this.getEffect(res.name + "PerTick");
+		stack.push({
+			name: "Conversion Prod",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickProd")
+		});
 
-		if (perTick>0) {
-			stack.push({
-				name: "Conversion Prod",
-				type: "fixed",
-				value: perTick
-			});
-		}
-
-		if (perTick<0) {
-			stack.push({
-				name: "Conversion Cons",
-				type: "fixed",
-				value: perTick
-			});
-		}
+		stack.push({
+			name: "Conversion Cons",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTick")
+		});
 
 		var steamworks = this.bld.get("steamworks");
 		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
