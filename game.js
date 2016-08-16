@@ -1699,6 +1699,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 		}
+		
+		var resMapConsumption = this.village.getResConsumption();
+		var resConsumption = resMapConsumption[res.name] || 0;
+
+		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
+
+		stack.push({
+			name: "(:3) Demand",
+			type: "fixed",
+			value: resConsumption
+		});
 
 		if (prodNVillage &&
 		   (this.resPool.get(res.name).perTickNoAutomate != this.resPool.get(res.name).perTickUI || res.name == "catnip")
@@ -1737,18 +1749,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: swEffectGlobal
 			});
 		}
-
-		var resMapConsumption = this.village.getResConsumption();
-		var resConsumption = resMapConsumption[res.name] || 0;
-
-		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
-
-		stack.push({
-			name: "Demand",
-			type: "fixed",
-			value: resConsumption
-		});
 
 		stack.push({
 			name: "Time",
