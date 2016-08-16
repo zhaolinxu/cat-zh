@@ -1704,7 +1704,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 
 		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true) - this.space.getEffect(res.name + "Consumption");
 
 		stack.push({
 			name: "(:3) Demand",
