@@ -128,7 +128,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"catnipConsumption" : {
 				title: "Catnip Demand",
-				resName: "catnip"
+				resName: "catnip",
+				type: "perTick"
 			},
 
 			/* Worker pseudoeffect */
