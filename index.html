@@ -162,6 +162,7 @@
 					return;
 				} else {
 					$("#dev_boostCalendar").html("&gt;&gt;&gt;");
+					$("#dev_boostCalendar").attr("onclick", "dev_boostCalendar();")
 					$("#devPanelCheats").show();
 					
 					gamePage.devMode = true;
@@ -304,7 +305,7 @@
 				<div id="rightColumn" class="column">
 					<div>
 						<span id="calendarSign" style="cursor:pointer;"></span></span><span id="calendarDiv">Calendar :V</span>
-						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
+						<a id="dev_boostCalendar" href="#" style="text-decoration: none; position: relative; left: 5px;"></a>
 					</div>
 					<div class="right-tab-header">
 						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
