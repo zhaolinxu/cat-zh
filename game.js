@@ -1011,9 +1011,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TODO: store all managers in a single array and handle them in the common way
 	getEffect: function(effectName){
-		return this.bld.getEffect(effectName) +
-			this.religion.getEffect(effectName) +
+		var effect = this.bld.getEffect(effectName) +
 			this.space.getEffect(effectName);
+            
+        if ( effectName == "tcRefineRatio"){
+			effect += this.religion.getEffect(effectName);   
+        }
+        return effect;
 	},
 
 	/**
