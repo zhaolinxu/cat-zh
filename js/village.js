@@ -1488,6 +1488,9 @@ dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButt
 			function(){
 				this.animate();
 				gamePage.villageTab.holdFestival(10);
+				this.game.resPool.addResAmt("manpower", -1500 * 10);
+				this.game.resPool.addResAmt("culture", -5000 * 10);
+				this.game.resPool.addResAmt("parchment", -2500  *10);
 				this.update();
 			}, false
 		);
@@ -1515,8 +1518,8 @@ dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButt
 	hasMultipleResources: function(amt){
 		return (
 			this.game.resPool.get("manpower").value >= 1500 * amt &&
-			this.game.resPool.get("gold").value >= 5000 * amt &&
-			this.game.resPool.get("gold").value >= 2500 * amt
+			this.game.resPool.get("culture").value >= 5000 * amt &&
+			this.game.resPool.get("parchment").value >= 2500 * amt
 		);
 	}
 
