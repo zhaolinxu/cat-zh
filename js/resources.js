@@ -1099,6 +1099,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//==================== super confusing % craft logic ===================
 			var allCount = this.game.workshop.getCraftAllCount(res.name);
 			var craftRatio = this.getResourceCraftRatio(res);
+			var craftPrices = (res.name == "ship") ? this.game.workshop.getCraftPrice(recipe) : row.recipeRef.prices;
 			// 1/1%
 			var craftRowAmt = 1;
 			if (1 < allCount * 0.01 ){
@@ -1106,7 +1107,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			} else {
 				craftRowAmt = 1;
 			}
-			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a1.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 
 			// 25/5%
@@ -1115,7 +1116,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			}else {
 				craftRowAmt = 25;
 			}
-			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a25.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 
 			// 100/10%
@@ -1124,7 +1125,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			} else {
 				craftRowAmt = 100;
 			}
-			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a100.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 			//=======================================================================
 			dojo.setStyle(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");
