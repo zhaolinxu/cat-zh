@@ -1015,6 +1015,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 200000 }
 		],
 		unlocked: false,
+		researched: false,
+        unlocks: {
+			upgrades: ["nuclearPlants"]
+		},
+	},{
+		name: "nuclearPlants",
+		title: "Nuclear Plants",
+		description: "Steel Plants are additionally boosted by 2% of your craft ratio per Reactor",
+		effects: {
+			"calcinerSteelReactorBonus" : 0.02
+		},
+		prices:[
+			{ name : "uranium", val: 10000 },
+			{ name : "science",  val: 250000 }
+		],
+		unlocked: false,
 		researched: false
 	},{
 		name: "rotaryKiln",

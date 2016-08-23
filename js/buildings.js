@@ -720,7 +720,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				game.resPool.convert(
 					[{res: "iron", amt: difference},
 					 {res: "coal", amt: -self.effects["coalPerTick"]}],
-					[{res: "steel", amt: self.effects["steelPerTick"] * (1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio"))}],
+					[{res: "steel", amt: self.effects["steelPerTick"] 
+                        * (1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + 
+                        game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")
+                        )
+                    }],
 					self.on
 				);
 			}
