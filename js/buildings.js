@@ -415,7 +415,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 
-			var amt = game.resPool.convert(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
 				self.on
 			);
@@ -637,7 +637,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["titaniumPerTickAutoprod"] = 0.0015;
 			}
 
-			var amt = game.resPool.convert(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "wood", amt: -self.effects["woodPerTickCon"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTickCon"]}],
 				self.on
@@ -689,7 +689,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio*3 );
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 
-			amt = game.resPool.convert(
+			amt = game.resPool.getAmtDependsOnStock(
 				[{res: "oil", amt: -self.effects["oilPerTickCon"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTickCon"]}],
 				self.on
@@ -711,7 +711,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["coalPerTickCon"] = -difference;
 				self.effects["steelPerTickProd"] = difference / 100;
 
-				amt = game.resPool.convert(
+				amt = game.resPool.getAmtDependsOnStock(
 					[{res: "iron", amt: -self.effects["ironPerTickCon"]},
 					 {res: "coal", amt: -self.effects["coalPerTickCon"]}],
 					self.on
@@ -1098,7 +1098,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["uraniumPerTickAutoprod"] = 0.0025;
 
-			var amt = game.resPool.convert(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "titanium", amt: -self.effects["titaniumPerTickCon"]}],
 				self.on
 			);
@@ -1181,7 +1181,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 
-			var amt = game.resPool.convert(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "manpower", amt: -self.effects["manpowerPerTickCon"]},
 				 {res: "gold", amt: -self.effects["goldPerTickCon"]}],
 				self.on

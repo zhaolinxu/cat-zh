@@ -389,12 +389,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	/**
-	 * Format of from and to:
+	 * Format of from:
 	 * [ {res: "res1", amt: x1}, {res: "res2", amt: x2} ]
-	 * amt in the from and to arrays sets ratios between resources
-	 * The third amt parameter is the number of times to convert
+	 * amt in the from array sets ratios between resources
+	 * The second amt parameter is the maximum number of times to convert
 	 */
-	convert: function(from, amt){
+	getAmtDependsOnStock: function(from, amt){
 		if (amt == 0) {
 			return 0;
 		}

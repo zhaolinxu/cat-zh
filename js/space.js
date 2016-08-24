@@ -316,7 +316,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			action: function(game, self){
 				self.effects["uraniumPerTickCon"] = -0.35;
 				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
-				var amt = game.resPool.convert(
+				var amt = game.resPool.getAmtDependsOnStock(
 					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
 				);
