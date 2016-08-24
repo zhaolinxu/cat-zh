@@ -801,9 +801,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//I wonder why someone may need this
 	isPaused: false,
 
-	//current selected game tab
-	activeTabId: "Bonfire",
-
 	ticksBeforeSave: 400,	//40 seconds ~
 
 	//in ticks
@@ -1946,16 +1943,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			if (this.undoChange.ttl <= 0){
 				this.undoChange = null;
-			}
-		}
-
-		//TODO: move to UI;
-
-		for (var i = 0; i<this.tabs.length; i++){
-			var tab = this.tabs[i];
-
-			if (tab.tabId == this.activeTabId){
-				tab.update();
 			}
 		}
 
