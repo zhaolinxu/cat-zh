@@ -201,11 +201,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	getTradeRatio: function() {
-		var tradeRatio = this.game.bld.getEffect("tradeRatio");
-		if (this.game.village.leader && this.game.village.leader.trait["name"] == "merchant") {
-			tradeRatio += 0.030;
-		}
-		return tradeRatio;
+		return this.game.bld.getEffect("tradeRatio") + this.game.village.getEffectLeader("merchant", 0);
 	},
 
 	resetState: function(){

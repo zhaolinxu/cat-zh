@@ -662,14 +662,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
-			if (this.game.village.leader && this.game.village.leader.trait["name"] == "wise") {
-				if (prices[i].name == "faith") {
-					prices[i].val = prices[i].val / 0.9;
-				} else if (prices[i].name == "gold") {
-					prices[i].val = prices[i].val * 0.9;
-				}
-			}
 		}
+
+		prices = this.game.village.getEffectLeader("wise", prices);
 
 	    return prices;
 	},

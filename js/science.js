@@ -834,14 +834,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			}];
 
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
-
-		if (this.game.village.leader && this.game.village.leader.trait["name"] == "scientist") {
-			for (var i = 0; i < prices_result.length; i++) {
-				if (prices_result[i].name == "science") {
-					prices_result[i].val *= 0.99;
-				}
-			}
-		}
+		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
 
 		return prices_result;
 	},
