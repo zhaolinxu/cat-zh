@@ -250,6 +250,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		}
 	},{
+		name : "void",
+		title: "void",
+		type : "exotic",
+		craftable: false,
+		visible: false,
+		color: "#5A0EDE",
+		style: {
+			"textShadow": "1px 0px 10px #9A2EFE",
+			"animation": "neon1 1.5s ease-in-out infinite alternate"
+		}
+	},{
 		name : "elderBox",
 		title: "present box",
 		description: "Merry Eldermass!",
@@ -311,8 +322,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		//if no resource found, register new
-		return this.addResource(name);
+		//if no resource found, return false
+		return false;
 	},
 
 	createResource: function(name){
@@ -527,8 +538,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 					if (savedRes != null){
 						var res = this.get(savedRes.name);
-						res.value = savedRes.value;
-						res.isHidden = savedRes.isHidden;
+						if (res != false) {
+							res.value = savedRes.value;
+							res.isHidden = savedRes.isHidden;
+						}
 					}
 				}
 			}
