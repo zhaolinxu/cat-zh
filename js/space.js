@@ -235,7 +235,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			calculateEffects: function(game, self){
 				self.effects = {
 					"observatoryRatio": 0.05,
-					"starchartPerTickBase": 0.001 * game.space.getAutoProductionRatio(),
+					"starchartPerTickBaseSpace": 0.001,
 					"energyConsumption": 0,
 					"energyProduction": 0
 				};
@@ -310,19 +310,18 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			effects: {},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"uraniumPerTick": -0.35,
-					"unobtainiumPerTick": 0.007
-						* game.space.getAutoProductionRatio()
-						* (1+ game.workshop.getEffect("lunarOutpostRatio")),
 					"energyConsumption": 5
 				};
 			},
 			action: function(game, self){
-				game.resPool.convert(
-					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
-					[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
+				self.effects["uraniumPerTickCon"] = -0.35;
+				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
+				var amt = game.resPool.convert(
+					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
 				);
+				self.effects["uraniumPerTickCon"]*=amt;
+				self.effects["unobtainiumPerTickSpace"]*=amt;
 			}
 		},{
 			name: "moonBase",
@@ -383,14 +382,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             effects: {},
 			calculateEffects: function (game, self){
 				self.effects = {
-					"uraniumPerTick" : 0.3
-						* (1 + game.workshop.getEffect("crackerRatio"))
-						* (1 + game.space.getEffect("spaceRatio")),
+					"uraniumPerTickSpace" : 0.3
+						* (1 + game.workshop.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
 			},
             action: function(game, self){
-				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         },{
             name: "hydrofracturer",
@@ -413,12 +410,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             effects: {},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"oilPerTick": 0.5
-						* game.space.getAutoProductionRatio(true /* use transfer bonus*/)
+					"oilPerTickAutoprodSpace": 0.5
 				};
 			},
             action: function(game, self){
-				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
         }]
 	},{
@@ -445,7 +440,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             effects: {},
             calculateEffects: function(game, self){
 				self.effects = {
-					"starchartPerTickBase": 0.01 * game.space.getAutoProductionRatio(),
+					"starchartPerTickBaseSpace": 0.01,
 					"scienceMax": 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"))
 				};
             }
@@ -554,7 +549,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {},
 				calculateEffects: function(game, self){
 					self.effects = {
-						"starchartPerTickBase": 0.025 * game.space.getAutoProductionRatio(),
+						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
 						"relicPerDay": game.workshop.getEffect("beaconRelicsPerDay")
 					};

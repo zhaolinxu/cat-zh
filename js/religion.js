@@ -550,8 +550,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getFaithBonus: function(){
                 var bonus = this._getFaithBonus(this.faithRatio);
                 //100% Bonus per Transcendence Level
-                if(this.game.religion.getRU("transcendence").researched)
-                  bonus*=(1+getTranscendenceLevel());
+                if (this.game.religion.getRU("transcendence").researched) {
+					bonus *= (1 + this.getTranscendenceLevel());
+                }
                 return bonus;
 	},
 
@@ -567,16 +568,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getTranscendenceLevel: function(){
 		var bonus = this._getFaithBonus(this.tcratio) * 100;
-		bonus =  Math.round(Math.log(bonus));
-                if(bonus<0)
-                  bonus = 0;
-                return bonus;
+		bonus = Math.round(Math.log(bonus));
+			if (bonus < 0) {
+				bonus = 0;
+			}
+		return bonus;
 	},
 
-        getTranscendenceRatio: function(level){
-                var bonus = Math.exp(level);
-                return (pow(bonus/5+1,2)-1)/80;
-        }
+    getTranscendenceRatio: function(level){
+            var bonus = Math.exp(level);
+            return (pow(bonus/5+1,2)-1)/80;
+    }
 
 });
 

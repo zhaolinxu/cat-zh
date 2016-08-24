@@ -383,9 +383,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * amt in the from and to arrays sets ratios between resources
 	 * The third amt parameter is the number of times to convert
 	 */
-	convert: function(from, to, amt){
+	convert: function(from, amt){
 		if (amt == 0) {
-			return;
+			return 0;
 		}
 
 		// Cap amt based on available resources
@@ -393,21 +393,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = this.get(from[i].res);
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
-				amt = Math.floor(res.value / from[i].amt);
+				var newAmt = Math.floor(res.value / from[i].amt) / amt;
 				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
+			}
+			else{
+				var newAmt = 1;
 			}
 		}
 
 		// Remove from resources
 		for (var i in from){
-			this.addResAmt(from[i].res, -from[i].amt * amt);
+			this.addRes(this.get(from[i].res), -from[i].amt * newAmt * amt);
 		}
 
-		// Add to resources
-		for (var i in to){
-			this.addResAmt(to[i].res, to[i].amt * amt);
-		}
-
+		return newAmt;
 	},
 
 	/**
