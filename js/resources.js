@@ -393,15 +393,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = this.get(from[i].res);
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
-				amt = Math.floor(res.value / from[i].amt) / amt;
+				var newAmt = Math.floor(res.value / from[i].amt) / amt;
 				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
 			}
 			else{
-				amt = 1;
+				var newAmt = 1;
 			}
 		}
 
-		return amt;
+		// Remove from resources
+		for (var i in from){
+			this.addRes(this.get(from[i].res), -from[i].amt * newAmt * amt);
+		}
+
+		return newAmt;
 	},
 
 	/**

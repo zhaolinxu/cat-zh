@@ -1837,7 +1837,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Conversion Cons",
 			type: "fixed",
-			value: this.getEffect(res.name + "PerTick")
+			value: this.getEffect(res.name + "PerTick") + this.getEffect(res.name + "PerTickCon")
 		});
 
 		var steamworks = this.bld.get("steamworks");

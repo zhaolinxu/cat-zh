@@ -314,13 +314,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				};
 			},
 			action: function(game, self){
-				self.effects["uraniumPerTick"] = -0.35;
+				self.effects["uraniumPerTickCon"] = -0.35;
 				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
 				var amt = game.resPool.convert(
-					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
+					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
 				);
-				self.effects["uraniumPerTick"]*=amt;
+				self.effects["uraniumPerTickCon"]*=amt;
 				self.effects["unobtainiumPerTickSpace"]*=amt;
 			}
 		},{
