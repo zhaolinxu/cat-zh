@@ -128,7 +128,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"catnipConsumption" : {
 				title: "Catnip Demand",
-				resName: "catnip"
+				resName: "catnip",
+				type: "perTick"
 			},
 
 			/* Worker pseudoeffect */
@@ -1010,9 +1011,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TODO: store all managers in a single array and handle them in the common way
 	getEffect: function(effectName){
-		return this.bld.getEffect(effectName) +
-			this.religion.getEffect(effectName) +
+		var effect = this.bld.getEffect(effectName) +
 			this.space.getEffect(effectName);
+            
+        if ( effectName == "tcRefineRatio"){
+			effect += this.religion.getEffect(effectName);   
+        }
+        return effect;
 	},
 
 	/**
@@ -1786,6 +1791,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 		}
+		
+		var resMapConsumption = this.village.getResConsumption();
+		var resConsumption = resMapConsumption[res.name] || 0;
+
+		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
+		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true) - this.space.getEffect(res.name + "Consumption");
+
+		stack.push({
+			name: "(:3) Demand",
+			type: "fixed",
+			value: resConsumption
+		});
 
 		var spaceProd2Stack = [];
 		//---->
@@ -1849,18 +1866,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: swEffectGlobal
 			});
 		}
-
-		var resMapConsumption = this.village.getResConsumption();
-		var resConsumption = resMapConsumption[res.name] || 0;
-
-		//var useHypHack = (res.name != "catnip") ? true : false;		//	Catnip has been fine for a while now
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true);
-
-		stack.push({
-			name: "Demand",
-			type: "fixed",
-			value: resConsumption
-		});
 
 		stack.push({
 			name: "Time",
@@ -2542,7 +2547,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stats: lsData.stats,
 			religion: {
 				faithRatio: this.religion.faithRatio,
-				tcratio: this.religion.tcratio
+				tcratio: this.religion.tcratio,
+				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val"])
 			},
 			prestige: {
 				perks: this.prestige.perks	//never resets

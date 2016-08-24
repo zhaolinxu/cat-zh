@@ -718,7 +718,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 				self.effects["ironPerTickCon"]*=amt;
 				self.effects["coalPerTickCon"]*=amt;
-				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio")))
+				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")))
 			}
 		},
 		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */

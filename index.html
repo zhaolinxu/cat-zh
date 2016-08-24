@@ -43,7 +43,7 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
 
-				var version = "1.1.2.0k";
+				var version = "1.2.0.1_" + Date.now();
 
 				SystemJS.config({
 					baseURL: ''
@@ -162,6 +162,7 @@
 					return;
 				} else {
 					$("#dev_boostCalendar").html("&gt;&gt;&gt;");
+					$("#dev_boostCalendar").attr("onclick", "dev_boostCalendar();")
 					$("#devPanelCheats").show();
 					
 					gamePage.devMode = true;
@@ -234,7 +235,7 @@
 					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
 					<a href="#" onclick="wipe();">Wipe</a> |
 
-					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.2.0.0</a>
+					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.2.0.1</a>
 
 				</div>
 			</div>
@@ -254,8 +255,8 @@
 					Minor 0:
 						-
 
-					Rev: 0
-						-
+					Rev: 1
+						Nuclear Plants
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -304,7 +305,7 @@
 				<div id="rightColumn" class="column">
 					<div>
 						<span id="calendarSign" style="cursor:pointer;"></span></span><span id="calendarDiv">Calendar :V</span>
-						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="text-decoration: none; position: relative; left: 5px;"></a>
+						<a id="dev_boostCalendar" href="#" style="text-decoration: none; position: relative; left: 5px;"></a>
 					</div>
 					<div class="right-tab-header">
 						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
