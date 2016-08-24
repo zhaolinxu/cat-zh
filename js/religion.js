@@ -542,11 +542,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getProductionBonus: function(){
 		rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
+                //Solar Revolution capped to 10000% so it doesn't become game-breaking
+                rate = this.game.bld.getHyperbolicEffect(rate, 100);
 		return rate;
 	},
 
 	getFaithBonus: function(){
-		return this._getFaithBonus(this.faithRatio);
+                var bonus = this._getFaithBonus(this.faithRatio);
+                //100% Bonus per Transcendence Level
+                if(this.game.religion.getRU("transcendence").researched)
+                  bonus*=(1+getTranscendenceLevel());
+                return bonus;
 	},
 
 	_getFaithBonus: function(ratio){
@@ -561,8 +567,16 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getTranscendenceLevel: function(){
 		var bonus = this._getFaithBonus(this.tcratio) * 100;
-		return Math.round(Math.log(bonus));
-	}
+		bonus =  Math.round(Math.log(bonus));
+                if(bonus<0)
+                  bonus = 0;
+                return bonus;
+	},
+
+        getTranscendenceRatio: function(level){
+                var bonus = Math.exp(level);
+                return (pow(bonus/5+1,2)-1)/80;
+        }
 
 });
 
@@ -1209,7 +1223,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!this.game.religion.getRU("transcendence").researched){
 			return;	//:3
 		}
-		if (!confirm("CLICKING THIS BUTTON WILL COMPLETELY ERASE YOUR FAITH BONUS.\nYou will receive special transcendence levels in proportion of sacrificed faith bonus." +
+		if (!confirm("CLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.\nYou will receive special transcendence levels in proportion of sacrificed faith bonus." +
 				" Every level require proportionally more faith to be sacrificed. This bonus will stack and carry over through resets.")){
 			return;
 		}
@@ -1217,12 +1231,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!confirm("Are you sure you want to discard your faith bonus and transcend the mortal limits?")){
 			return;
 		}
-		this.resetFaithInternal(0);
 
+                //Don't require Apocrypha trigger
 
 		var religion = this.game.religion;
-		var ratio = religion.faithRatio;
-		religion.faithRatio = 0;
+                //Transcend one Level at a time
+                var tclevel = religion.getTranscendenceLevel();
+		var ratio = religion.getTranscendenceRatio(tclevel+1)-religion.getTranscendenceRatio(tclevel);
+		religion.faithRatio -= ratio;
 		religion.tcratio += ratio;
 		religion.tclevel = religion.getTranscendenceLevel();
 	},
