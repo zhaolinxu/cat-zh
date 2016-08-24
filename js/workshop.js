@@ -84,6 +84,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "reinforcedSaw",
+		title: "Reinforced Saw",
+		description: "Improve Lumber Mill efficiency by 20%",
+		effects: {
+			"lumberMillRatio" : 0.2
+		},
+		prices:[
+			{ name : "science", val: 2500 },
+			{ name : "iron", val: 1000 }
+		],
+		upgrades: {
+			buildings: ["lumberMill"]
+		},
+		unlocked: false,
+		researched: false
+	},{
 		name: "steelSaw",
 		title: "Steel Saw",
 		description: "Improve Lumber Mill efficiency by 20%",

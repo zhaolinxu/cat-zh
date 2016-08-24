@@ -146,7 +146,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 1300,
 		unlocks: {
 			tech: ["engineering"],
-			upgrades: ["compositeBow", "advancedRefinement"]
+			upgrades: ["compositeBow", "advancedRefinement", "reinforcedSaw"]
 		},
 		flavor: "Making pillow forts smart!"
 	},{
