@@ -650,7 +650,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTickAutoprod"]*=amt;
 		},
 		val: 0,
-		flavor: "Hot!"
+		flavor: "Watch your whiskers!"
 	},{
 		name: "calciner",
 		label: "Calciner",

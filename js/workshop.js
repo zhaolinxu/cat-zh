@@ -897,8 +897,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "strenghtenBuild",
-		title: "Strenghten build",
-		description: "Concrete repair cracks.",
+		title: "Concrete Pillars",
+		description: "Repair barn and warehouse cracks with concrete.",
 		effects: {
 			"barnRatio" : 0.05,
 			"warehouseRatio" : 0.05
