@@ -541,7 +541,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getProductionBonus: function(){
-		rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
+		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
                 //Solar Revolution capped to 10000% so it doesn't become game-breaking
                 rate = this.game.bld.getHyperbolicEffect(rate, 100);
 		return rate;
@@ -577,7 +577,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
     getTranscendenceRatio: function(level){
             var bonus = Math.exp(level);
-            return (pow(bonus/5+1,2)-1)/80;
+            return (Math.pow(bonus/5+1,2)-1)/80;
     }
 
 });
@@ -662,7 +662,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
-			if (game.village.leader && game.village.leader.trait["name"] == "wise") {
+			if (this.game.village.leader && this.game.village.leader.trait["name"] == "wise") {
 				if (prices[i].name == "faith") {
 					prices[i].val = prices[i].val / 0.9;
 				} else if (prices[i].name == "gold") {

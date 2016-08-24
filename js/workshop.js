@@ -911,6 +911,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		unlocks: {
 			upgrades: ["concreteWarehouses", "concreteBarns", "concreteHuts"]
+		},
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
 		}
 	},
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
