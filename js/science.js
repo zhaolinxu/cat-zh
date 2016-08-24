@@ -468,9 +468,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["electronics"],
 			crafts: ["concrate"],
-			upgrades: ["pumpjack",
-						//TODO: move to the separate tech?
-						"concreteWarehouses", "concreteBarns", "concreteHuts"]
+			upgrades: ["pumpjack", "strenghtenBuild"]
 		}
 	},{
 		name: "metalurgy",

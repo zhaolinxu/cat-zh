@@ -879,6 +879,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "strenghtenBuild",
+		title: "Strenghten build",
+		description: "Concrete repair cracks.",
+		effects: {
+			"barnRatio" : 0.05,
+			"warehouseRatio" : 0.05
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "concrate", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["concreteWarehouses", "concreteBarns", "concreteHuts"]
+		}
 	},
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
 	{
