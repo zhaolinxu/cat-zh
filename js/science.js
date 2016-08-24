@@ -1066,6 +1066,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
+        
+        //---------- challenges ------------
+		this.challengesPanel = null;
+
+        //TODO: use better update/render logic like in Time tab
+		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
+		if (showChallenges){
+			var challengesPanel = new classes.ui.ChallengePanel("Challenges", this.game.challenges);
+			challengesPanel.game = this.game;
+
+			var content = challengesPanel.render(tabContainer);
+			this.challengesPanel = challengesPanel;
+		}
 
 		this.update();
 	},
@@ -1075,6 +1088,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		if (this.metaphysicsPanel){
 			this.metaphysicsPanel.update();
+		}
+        if (this.challengesPanel){
+			this.challengesPanel.update();
 		}
 	},
 

@@ -328,6 +328,49 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     }
 });
 
+dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+    constructor: function(game){
+        this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
+            name: "Reset",
+            description: "Reset current timeline.",
+            prices: [],
+            handler: function(btn){
+                game.reset();
+            }
+        }, game));
+    },
+
+    render: function(container){
+        var div = dojo.create("div", null, container);
+        
+        var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+        this.inherited(arguments, [btnsContainer]);
+
+        var resetDiv = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+        this.resetDiv = resetDiv;
+    },
+
+    update: function(){
+        this.inherited(arguments);
+        
+        var msg = "Reseting the timeline will start the game from the scratch. You will keep all of your statistic and achievements.<br>";
+        msg += "<br>Resetting at this point will also give you:<br>";
+        
+        var kittens = this.game.resPool.get("kittens").value;
+        var karmaPoints = this.game._getKarmaKittens(kittens);
+        var paragonPoints = 0;
+        
+        if (kittens > 70){
+			paragonPoints = (kittens - 70);
+		}
+        
+        msg += "Karma points: " + karmaPoints;
+        msg += "<br>Paragon points: " + paragonPoints;
+        
+        
+        this.resetDiv.innerHTML = msg;
+    }
+});
 
 dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
 
@@ -340,6 +383,18 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
         var timeWgt = new classes.ui.TimeControlWgt(this.game);
         timeWgt.setGame(this.game);
         timePanel.addChild(timeWgt);
+        
+        //--------- reset ----------
+        
+        this.resetPanel = new com.nuclearunicorn.game.ui.Panel("Reset");
+        this.resetPanel.setVisible(true);
+        this.addChild(this.resetPanel);
+        
+        var resetWgt = new classes.ui.ResetWgt(this.game);
+        resetWgt.setGame(this.game);
+        this.resetPanel.addChild(resetWgt);
+        
+        //--------------------------
 
         this.cfPanel = new com.nuclearunicorn.game.ui.Panel("Chronoforge");
         this.cfPanel.setVisible(false);

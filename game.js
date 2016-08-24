@@ -911,6 +911,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             { id: "space",          class:  "SpaceManager"      },
 			{ id: "time",           class:  "TimeManager"       },
             { id: "prestige",       class:  "PrestigeManager"   },
+            { id: "challenges",     class:  "ChallengesManager" },
             { id: "stats",       	class:  "StatsManager"      }
         ];
 
@@ -2313,31 +2314,40 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
+    
+    _getKarmaKittens: function(kittens){
+        var karmaKittens = 0;
+        if (kittens > 35){
+			karmaKittens += (kittens - 35);
+		}
+
+		if (kittens > 60){
+			karmaKittens += (kittens - 60) * 3;
+		}
+
+		if (kittens > 100){
+			karmaKittens += (kittens - 100) * 4;
+		}
+
+		if (kittens > 150){
+			karmaKittens += (kittens - 150) * 5;
+		}
+
+		if (kittens > 300){
+			karmaKittens += (kittens - 300) * 10;
+		}
+
+		if (kittens > 750){
+			karmaKittens += (kittens - 750) * 15;
+		}
+        
+        return karmaKittens;
+    },
 
 	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
-			this.karmaKittens += (kittens - 35);
-		}
-
-		if (kittens > 60){
-			this.karmaKittens += (kittens - 60) * 3;
-		}
-
-		if (kittens > 100){
-			this.karmaKittens += (kittens - 100) * 4;
-		}
-
-		if (kittens > 150){
-			this.karmaKittens += (kittens - 150) * 5;
-		}
-
-		if (kittens > 300){
-			this.karmaKittens += (kittens - 300) * 10;
-		}
-
-		if (kittens > 750){
-			this.karmaKittens += (kittens - 750) * 15;
+			this.karmaKittens += this._getKarmaKittens(kittens);
 		}
 
 		var paragonPoints = 0;

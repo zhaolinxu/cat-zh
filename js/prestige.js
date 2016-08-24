@@ -87,8 +87,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		effects:{
 			"priceRatio" : -0.0225
 		}
-	},
-	{
+	},{
 		name: "diplomacy",
 		title: "Diplomacy",
 		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
@@ -242,6 +241,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: "Every priest will now give a minor bonus to faith accumulation.",
 		paragon: 75,
 		unlocked: false,
+		researched: false,
+		handler: function(game){
+		}
+	},{
+		name: "adjustmentBureau",
+		title: "Adjustment Bureau",
+		description: "Unlocks additional game challenges.",
+		paragon: 5,
+		unlocked: true,
+		defaultUnlocked: true,
 		researched: false,
 		handler: function(game){
 		}
