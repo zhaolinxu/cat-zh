@@ -254,7 +254,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: "void",
 		type : "exotic",
 		craftable: false,
-		visible: false,
+		visible: true,
 		color: "#5A0EDE",
 		style: {
 			"textShadow": "1px 0px 10px #9A2EFE",
@@ -612,6 +612,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             delta = 0.25;
         }
         return delta;
+    },
+
+    getVoidQuantity: function() {
+		// -1, 0, 1, 2 at start, 0.5 on average
+
+		var maxPerDay = 2; //TODO increase the maximum void per day in chronoforge
+		var i = this.game.rand(maxPerDay + 2) - 1;
+
+		// Only integer
+		return i;
     },
 
 	setDisplayAll: function() {
