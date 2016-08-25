@@ -1562,19 +1562,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		}
 
-		// +*FAITH BONUS
-		perTick *= 1 + (this.religion.getProductionBonus() / 100);
-
-			//ParagonSpaceProductionRatio definition 3/4
-			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
-
 		// +*REACTOR PRODUCTION BONUS
 		if (!res.transient && res.name != "uranium"){
 			perTick *= 1 + this.bld.getEffect("productionRatio");
 
-				//ParagonSpaceProductionRatio definition 4/4
+				//ParagonSpaceProductionRatio definition 3/4
 				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
 		}
+
+		// +*FAITH BONUS
+		perTick *= 1 + (this.religion.getProductionBonus() / 100);
+
+			//ParagonSpaceProductionRatio definition 4/4
+			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
@@ -1770,16 +1770,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 		}
 
-		// +*FAITH BONUS
-		stack.push({
-			name: "Faith",
-			type: "ratio",
-			value: this.religion.getProductionBonus() / 100
-		});
-
-			//ParagonSpaceProductionRatio definition 3/4
-			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
-
 		// +*REACTOR PRODUCTION BONUS
 		if (!res.transient && res.name != "uranium") {
 			stack.push({
@@ -1788,10 +1778,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 
-				//ParagonSpaceProductionRatio definition 4/4
+				//ParagonSpaceProductionRatio definition 3/4
 				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
 
 		}
+
+		// +*FAITH BONUS
+		stack.push({
+			name: "Faith",
+			type: "ratio",
+			value: this.religion.getProductionBonus() / 100
+		});
+
+			//ParagonSpaceProductionRatio definition 4/4
+			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
