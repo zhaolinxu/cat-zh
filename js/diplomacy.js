@@ -493,7 +493,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			var resValue = amt + amt*tradeRatioAttitude;
 
 			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
-			this.game.resPool.addResAmt(s.name, resValue);
+			this.game.resPool.addResEvent(s.name, resValue);
 
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
 
@@ -503,7 +503,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			var spiceVal = this.game.rand(50);
 			var resValue = 25 +  spiceVal + spiceVal * this.game.diplomacy.getTradeRatio();
 
-			this.game.resPool.addResAmt("spice", resValue);
+			this.game.resPool.addResEvent("spice", resValue);
 			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(val) + " spice");
 		}
@@ -511,7 +511,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		//-------------- 10% change to get blueprint ---------------
 
 		if (this.game.rand(100) < 10){
-			this.game.resPool.addResAmt("blueprint", 1);
+			this.game.resPool.addResEvent("blueprint", 1);
 			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
 			//this.game.msg("You've got a blueprint!", "notice");
 		}
@@ -526,7 +526,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			var titaniumAmt = 1.5;
 			titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
 
-			this.game.resPool.addResAmt("titanium", titaniumAmt);
+			this.game.resPool.addResEvent("titanium", titaniumAmt);
 			tradeRes["titanium"] = tradeRes["titanium"] ? tradeRes["titanium"] + titaniumAmt : titaniumAmt;
 			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
 		}
@@ -552,9 +552,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		//-------------- pay prices ------------------
 
-		this.game.resPool.addResAmt("manpower", -50*amt);
-		this.game.resPool.addResAmt("gold", -15*amt);
-		this.game.resPool.addResAmt(this.race.buys[0].name, -this.race.buys[0].val*amt);
+		this.game.resPool.addResEvent("manpower", -50*amt);
+		this.game.resPool.addResEvent("gold", -15*amt);
+		this.game.resPool.addResEvent(this.race.buys[0].name, -this.race.buys[0].val*amt);
 
 		//---------- calculate yield -----------------
 

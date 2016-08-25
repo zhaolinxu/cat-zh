@@ -1488,9 +1488,9 @@ dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButt
 			function(){
 				this.animate();
 				gamePage.villageTab.holdFestival(10);
-				this.game.resPool.addResAmt("manpower", -1500 * 10);
-				this.game.resPool.addResAmt("culture", -5000 * 10);
-				this.game.resPool.addResAmt("parchment", -2500  *10);
+				this.game.resPool.addResEvent("manpower", -1500 * 10);
+				this.game.resPool.addResEvent("culture", -5000 * 10);
+				this.game.resPool.addResEvent("parchment", -2500  *10);
 				this.update();
 			}, false
 		);

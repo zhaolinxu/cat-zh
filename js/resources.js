@@ -345,8 +345,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	getResourcePerTickAutomateThisTick: [],
-
 	addRes: function(res, addedValue) {
 		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
@@ -369,23 +367,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	addResAmt: function(name, value){
+	addResEvent: function(name, value){
 		var res = this.get(name);
 
-		if (value >= 0) {
-			var name_use = name + "Prod";
-		} else {
-			var name_use = name + "Cons";
-		}
-
-		if (typeof this.getResourcePerTickAutomateThisTick[name_use] == "undefined") {
-			this.getResourcePerTickAutomateThisTick[name_use] = value;
-		} else {
-			this.getResourcePerTickAutomateThisTick[name_use] += value;
-		}
-
 		this.addRes(res, value);
-
 	},
 
 	/**
@@ -405,7 +390,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var needed = from[i].amt * amt;
 			if (res.value < needed){
 				var newAmt = Math.floor(res.value / from[i].amt) / amt;
-				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
 			}
 			else{
 				var newAmt = 1;
