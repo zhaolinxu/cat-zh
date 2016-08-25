@@ -1484,11 +1484,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +SPACE PerTickBase
 		var perTickBaseSpace = this.getEffect(res.name + "PerTickBaseSpace") *spaceRatio;
 
-		perTick+=perTickBaseSpace;
-
-				// Would put this at the bottom with Cycles, but Starcharts are a special case
-				var perTickAutoprodSpace = this.getEffect(res.name + "PerTickAutoprodSpace") *spaceRatio;
-				var perTickSpace = this.getEffect(res.name + "PerTickSpace") *spaceRatio;
+		perTick += perTickBaseSpace;
 
 		// *SEASON MODIFIERS
 		if (!season){
@@ -1579,10 +1575,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
 
-		// +AUTOMATED PRODUCTION SPACE
-		perTick += perTickAutoprodSpace * (1 + (ParagonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
-		// +AUTOMATED PRODUCTION SPACE
-		perTick += perTickSpace;
+		// +AUTOMATED PRODUCTION SPACE (FULL BONUS)
+		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (ParagonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
+		// +AUTOMATED PRODUCTION SPACE (NOT FULL BONUS)
+		perTick += this.getEffect(res.name + "PerTickSpace") *spaceRatio;
 
 		//CYCLE EFFECTS
 		//Building dependent, will be a pain to move over. I'll do it later.
@@ -1657,6 +1653,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: spaceRatio
 			});
 		//<----
+		stack.push(perTickBaseSpaceStack);
 
 			// prodNVillage_bool
 			prodNVillage_bool = this.getEffect(res.name + "PerTickBase")+this.getEffect(res.name + "PerTickBaseSpace");
