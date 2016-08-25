@@ -384,24 +384,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			return 0;
 		}
 
+		var amtBeginni = amt;
+
 		// Cap amt based on available resources
+		// amt can decrease for each resource
 		for (var i = 0, length = from.length; i < length; i++){
-			var res = this.get(from[i].res);
-			var needed = from[i].amt * amt;
-			if (res.value < needed){
-				var newAmt = Math.floor(res.value / from[i].amt) / amt;
+			var resAvailable = this.get(from[i].res).value;
+			var resNeeded = from[i].amt * amt;
+			if (resAvailable < resNeeded){
+				amtAvailable = Math.floor(resAvailable / from[i].amt)
+				amt = Math.min(amt, amtAvailable);
 			}
-			else{
-				var newAmt = 1;
+			else {
+				// amtAvailable is amt
 			}
 		}
 
 		// Remove from resources
 		for (var i in from){
-			this.addRes(this.get(from[i].res), -from[i].amt * newAmt * amt);
+			this.addRes(this.get(from[i].res), -from[i].amt * amt);
 		}
 
-		return newAmt;
+		// Return the percentage to decrease the productivity
+		return amt / amtBeginni;
 	},
 
 	/**
