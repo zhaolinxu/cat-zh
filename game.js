@@ -2555,6 +2555,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 				if (!res.craftable){
 					newRes.value = res.value * saveRatio;
+					if (res.name == "void") {
+						newRes.value = Math.floor(newRes.value);
+					}
 				} else if (res.value > 0) {
 					newRes.value = Math.sqrt(res.value) * saveRatio * 100;
 				}
