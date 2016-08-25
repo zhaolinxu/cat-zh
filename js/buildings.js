@@ -91,7 +91,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	},
 
-
 	buildingGroups: [{
 		name: "food",
 		title: "Food Production",
@@ -415,12 +414,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 
+			self.effects["catnipPerTickCon"] = -1;
+			self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
+
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
 				self.on
 			);
-			self.effects["catnipPerTickCon"]= -1 * amt;			
-			self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio")) * amt;
+			self.effects["catnipPerTickCon"]*=amt;
+			self.effects["oilPerTickProd"]*=amt;
 			}
 		},
 		val: 0,
@@ -613,8 +615,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = {
-				"woodPerTickCon": -0.05,
-				"mineralsPerTickCon": -0.1,
+				"woodPerTickCon": 0,
+				"mineralsPerTickCon": 0,
 				"ironPerTickAutoprod": 0.02,
 				"coalPerTickAutoprod": 0,
 				"goldPerTickAutoprod": 0,
@@ -636,6 +638,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("nuclearSmelters").researched){
 				self.effects["titaniumPerTickAutoprod"] = 0.0015;
 			}
+
+			self.effects["woodPerTickCon"] = -0.05;
+			self.effects["mineralsPerTickCon"] = -0.1;
 
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "wood", amt: -self.effects["woodPerTickCon"]},
@@ -670,10 +675,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		ignorePriceCheck: true,
 		requiredTech: ["chemistry"],
 		effects: {
-			"mineralsPerTickCon" : -1.5,
+			"mineralsPerTickCon" : 0,
 			"ironPerTickAutoprod" : 0.15,
 			"titaniumPerTickAutoprod" : 0.0005,
-			"oilPerTickCon" : -0.024,	//base + 0.01
+			"oilPerTickCon" : 0,
 			"energyConsumption" : 1,
 			"coalPerTickCon": 0,
 			"steelPerTickProd": 0
@@ -685,6 +690,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
+			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
+			self.effects["mineralsPerTickCon"] = -1.5;
 			var calcinerRatio = game.workshop.getEffect("calcinerRatio");
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio*3 );
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
@@ -1063,7 +1070,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["particlePhysics"],
 		calculateEffects: function(self, game){
 			var effects = {
-				"titaniumPerTickCon" : -0.015,
+				"titaniumPerTickCon" : 0,
 				"uraniumPerTickAutoprod" : 0.0025,
 				"scienceMax": 0,
 				"catnipMax": 0,
@@ -1096,6 +1103,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
 
+			self.effects["titaniumPerTickCon"] = -0.015;
 			self.effects["uraniumPerTickAutoprod"] = 0.0025;
 
 			var amt = game.resPool.getAmtDependsOnStock(
@@ -1160,8 +1168,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function (self, game){
 			self.effects = {
 				"mintEffect" : 0.007,
-				"manpowerPerTickCon" : -0.75,
-				"goldPerTickCon" : -0.005,		//~5 smelters
+				"manpowerPerTickCon" : 0,
+				"goldPerTickCon" : 0,
 				"fursPerTickProd": 0,
 				"ivoryPerTickProd": 0,
 				"goldMax": 100 * (1 + game.workshop.getEffect("warehouseRatio"))
@@ -1174,7 +1182,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.on < 1){
 				return;
 			}
-
+			self.effects["manpowerPerTickCon"] = -0.75;
+			self.effects["goldPerTickCon"] = -0.005; //~5 smelters
+			
 			var manpower = game.resPool.get("manpower");
 			var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
 
