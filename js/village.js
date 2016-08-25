@@ -730,7 +730,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job){
+			if (kitten.job && this.game.calendar.day >= 0){
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}

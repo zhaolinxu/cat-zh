@@ -511,6 +511,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
 			this.game.bld.get("steamworks").jammed = false;
 		}
+
+		if (this.game.bld.get("chronosphere").val > this.game.rand(100)) {
+			this.day = -10;
+		}
+
 	},
 
 	onNewYear: function(){
