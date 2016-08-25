@@ -212,7 +212,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
-		this.game.resPool.addResAmt("science", sciBonus);
+		this.game.resPool.addResEvent("science", sciBonus);
 
 		if (!isSilent){
 			this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
@@ -420,7 +420,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
-				this.game.resPool.addResAmt("science", sciBonus);
+				this.game.resPool.addResEvent("science", sciBonus);
 				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
 

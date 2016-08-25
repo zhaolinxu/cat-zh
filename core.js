@@ -545,7 +545,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				var price = prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				this.game.resPool.addResAmt(price.name,price.val*percent);
+				this.game.resPool.addResEvent(price.name,price.val*percent);
 				//res.value += price.val * percent;
 			}
 		}

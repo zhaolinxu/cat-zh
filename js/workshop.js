@@ -2046,7 +2046,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
-			this.game.resPool.addResAmt(res,craftAmt);
+			this.game.resPool.addResEvent(res,craftAmt);
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}

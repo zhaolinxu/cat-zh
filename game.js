@@ -2000,7 +2000,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
-		this.resPool.getResourcePerTickAutomateThisTick = [];
 		this.bld.update();
 
 		//business logic goes there
@@ -2212,18 +2211,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
-		if (stackElem.name == "Conversion Consumption" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
-			resString += "<span style=\"color: red;\">&#8776;";
-		}
-
 		if (stackElem.type == "fixed"){
 			resString += this.getDisplayValueExt(stackElem.value, true, true);
 		} else {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
-		}
-
-		if (stackElem.name == "Conversion Cons" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
-			resString += "</span>";
 		}
 
 		resString += "</div><br>";
