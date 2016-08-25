@@ -1474,13 +1474,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// BUILDING PerTickBase
 		var perTick = this.getEffect(res.name + "PerTickBase");
 
-		// +SPACE PerTickBase
+		// SPACE RATIO CALCULATION
 		var spaceRatio = 1 + this.getEffect("spaceRatio");
 		if (this.workshop.get("spaceManufacturing").researched && res.name!="uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
 		}
 
+		// +SPACE PerTickBase
 		var perTickBaseSpace = this.getEffect(res.name + "PerTickBaseSpace") *spaceRatio;
 
 		perTick+=perTickBaseSpace;
@@ -1571,8 +1572,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!res.transient && res.name != "uranium"){
 			perTick *= 1 + this.bld.getEffect("productionRatio");
 
-			//ParagonSpaceProductionRatio definition 4/4
-			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+				//ParagonSpaceProductionRatio definition 4/4
+				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
 		}
 
 		// +AUTOMATED PRODUCTION BUILDING
@@ -1626,44 +1627,46 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		if (!season){
-			var season = this.calendar.getCurSeason();
-		}
-
 		var stack = [];
 
+		// BUILDING PerTickBase
 		stack.push({
 			name: "Production",
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTickBase")
 		});
-		if (this.workshop.get("spaceManufacturing").researched&&res.name!="uranium"){
-			var factory = this.bld.get("factory");
-			var spaceManufacturing = (1 + factory.on * factory.effects["craftRatio"] * 0.75);
-		}
-		var spaceStack = [];
-		//---->
-				spaceStack.push({
-					name: "Space Production",
-					type: "fixed",
-					value: this.getEffect(res.name + "PerTickBaseSpace")
-				});
-				spaceStack.push({
-					name: "Space Ratio",
-					type: "ratio",
-					value: this.getEffect("spaceRatio")
-				});
-				spaceStack.push({
-					name: "Space Manufacturing",
-					type: "ratio",
-					value: spaceManufacturing
-				});
-		//<----
-		stack.push(spaceStack);		
-		prodNVillage = this.getEffect(res.name + "PerTickBase")+this.getEffect(res.name + "PerTickBaseSpace");
 
+		// SPACE RATIO CALCULATION
+		var spaceRatio = 1 + this.getEffect("spaceRatio");
+		if (this.workshop.get("spaceManufacturing").researched && res.name!="uranium"){
+			var factory = this.bld.get("factory");
+			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
+		}
+
+		// +SPACE PerTickBase
+		var perTickBaseSpaceStack = [];
+		//---->
+			perTickBaseSpaceStack.push({
+				name: "Space Production",
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickBaseSpace")
+			});
+			perTickBaseSpaceStack.push({
+				name: "Space Ratio",
+				type: "ratio",
+				value: spaceRatio
+			});
+		//<----
+
+			// prodNVillage_bool
+			prodNVillage_bool = this.getEffect(res.name + "PerTickBase")+this.getEffect(res.name + "PerTickBaseSpace");
+
+		// *SEASON MODIFIERS
+		if (!season){
+			var season = this.calendar.getCurSeason();
+		}
 		var weatherMod = this.calendar.getWeatherMod();
-		weatherMod = (season.modifiers[res.name] + weatherMod);
+		    weatherMod = (season.modifiers[res.name] + weatherMod);
 		if (weatherMod < -0.95){
 			weatherMod = -0.95;
 		}
@@ -1674,147 +1677,180 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: weatherMod - 1
 		});
 
-		//----------- production -----------
-
+		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
 		var villageStack = [];
 		//---->
 				villageStack.push({
-					name: "Village",
+					name: "(:3) Village",
 					type: "fixed",
 					value: resMapProduction[res.name] || 0
 				});
-				prodNVillage += resMapProduction[res.name] || 0;
-
 				villageStack.push({
-					name: "Tools",
+					name: "(:3) Tools",
 					type: "ratio",
 					value: this.workshop.getEffect(res.name + "JobRatio")
 				});
 		//<----
 		stack.push(villageStack);
 
+			// prodNVillage_bool
+			prodNVillage_bool += resMapProduction[res.name] || 0;
+
+		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		stack.push({
 			name: "Upgrades",
 			type: "ratio",
 			value: this.workshop.getEffect(res.name + "GlobalRatio")
 		});
 
+		// +*BUILDINGS AND SPACE PRODUCTION
 		stack.push({
 			name: "Buildings",
 			type: "ratio",
 			value: this.bld.getEffect(res.name + "Ratio")
 		});
 
+		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
 		stack.push({
 			name: "Boost",
 			type: "ratio",
 			value: this.workshop.getEffect(res.name + "SuperRatio")
 		});
 
-		stack.push({
-			name: "Space",
-			type: "ratio",
-			value: this.space.getEffect(res.name + "Ratio")
-		});
-
+		// +*RELIGION EFFECTS
 		stack.push({
 			name: "Religion",
 			type: "ratio",
 			value: this.religion.getEffect(res.name + "Ratio")
 		});
 
-		stack.push({
-			name: "Conversion Prod",
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTickAutoprod")
-		});
+		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
+		var steamworks = this.bld.get("steamworks");
+		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
+		if (steamworks.on > 0 && swEffectGlobal ){
+			stack.push({
+				name: "Steamworks",
+				type: "ratio",
+				value: swEffectGlobal
+			});
+		}
 
-		var spaceProdStack = [];
-		//---->
-				spaceProdStack.push({
-					name: "Space Conversion Production",
-					type: "fixed",
-					value: this.getEffect(res.name + "PerTickAutoprodSpace")
-				});
-				spaceProdStack.push({
-					name: "Space Ratio",
-					type: "ratio",
-					value: this.getEffect("spaceRatio")
-				});
-				spaceProdStack.push({
-					name: "Space Manufacturing",
-					type: "ratio",
-					value: spaceManufacturing
-				});
-		//<----
-		stack.push(spaceProdStack);	
-
+		// *PARAGON BONUS
 		stack.push({
 			name: "Paragon",
 			type: "ratio",
 			value: this.prestige.getParagonProductionRatio()
 		});
 
+			//ParagonSpaceProductionRatio definition 1/4
+			var ParagonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+
+		// +SPACE AUTOPROD
 		stack.push({
-			name: "Faith",
-			type: "ratio",
-			value: this.religion.getProductionBonus() / 100
+			name: "Conversion Production",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickAutoprod")
 		});
 
-		//--------- YEY ANOTHER HACK FOR MAGNETOS ------
+		// *MAGNETOS PRODUCTION BONUS
 		if (!res.transient && this.bld.get("magneto").on > 0){
 
+			var steamworks = this.bld.get("steamworks");
+			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 			if (res.name != "oil"){
-				var steamworks = this.bld.get("steamworks");
-				var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 				stack.push({
 					name: "Magnetos",
 					type: "ratio",
 					value: this.bld.getEffect("magnetoRatio") * swRatio
 				});
 			}
+
+				//ParagonSpaceProductionRatio definition 2/4
+				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 		}
 
+		// +*FAITH BONUS
+		stack.push({
+			name: "Faith",
+			type: "ratio",
+			value: this.religion.getProductionBonus() / 100
+		});
+
+			//ParagonSpaceProductionRatio definition 3/4
+			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+
+		// +*REACTOR PRODUCTION BONUS
 		if (!res.transient && res.name != "uranium") {
 			stack.push({
 				name: "Reactors",
 				type: "ratio",
 				value: this.bld.getEffect("productionRatio")
 			});
+
+				//ParagonSpaceProductionRatio definition 4/4
+				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+
 		}
-		
-		var resMapConsumption = this.village.getResConsumption();
-		var resConsumption = resMapConsumption[res.name] || 0;
 
-		resConsumption = resConsumption + resConsumption * this.bld.getEffect(res.name + "DemandRatio", true) - this.space.getEffect(res.name + "Consumption");
-
+		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
-			name: "(:3) Demand",
+			name: "Conversion Production",
 			type: "fixed",
-			value: resConsumption
+			value: this.getEffect(res.name + "PerTickProd")
+		});
+		stack.push({ // extra-compare with this.calcResourcePerTick
+			name: "Conversion Consumption",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickCon")
 		});
 
-		var spaceProd2Stack = [];
+		// +AUTOMATED PRODUCTION SPACE
+		var perTickAutoprodSpaceStack = [];
 		//---->
-				spaceProd2Stack.push({
-					name: "Space Conversion Production",
-					type: "fixed",
-					value: this.getEffect(res.name + "PerTickSpace")
-				});
-				spaceProd2Stack.push({
-					name: "Space Ratio",
-					type: "ratio",
-					value: this.getEffect("spaceRatio")
-				});
-				spaceProd2Stack.push({
-					name: "Space Manufacturing",
-					type: "ratio",
-					value: spaceManufacturing
-				});
+			perTickAutoprodSpaceStack.push({
+				name: "Space Conversion Production",
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickAutoprodSpace")
+			});
+			perTickAutoprodSpaceStack.push({
+				name: "Space Ratio",
+				type: "ratio",
+				value: spaceRatio
+			});
+			perTickAutoprodSpaceStack.push({
+				name: "Paragon",
+				type: "ratio",
+				value: ParagonSpaceProductionRatio - 1
+			});
+			perTickAutoprodSpaceStack.push({
+				name: "Bonus Transfert",
+				type: "ratio",
+				value: this.getEffect("prodTransferBonus")
+			});
 		//<----
-		stack.push(spaceProd2Stack);
+		stack.push(perTickAutoprodSpaceStack);
 
+		// +AUTOMATED PRODUCTION SPACE
+		var perTickSpace = [];
+		//---->
+			perTickSpace.push({
+				name: "Space Conversion Production",
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickSpace")
+			});
+			perTickSpace.push({
+				name: "Space Ratio",
+				type: "ratio",
+				value: spaceRatio
+			});
+		//<----
+		stack.push(perTickSpace);
+
+		//CYCLE EFFECTS
+		//Building dependent, will be a pain to move over. I'll do it later.
+
+		//CYCLE FESTIVAL EFFECTS
 		var effects = {};
 		effects[res.name] = 1;
 		this.calendar.cycleEffects(effects);
@@ -1826,7 +1862,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: cycleEffect
 		});
 
-		if (prodNVillage &&
+		// +BUILDING AND SPACE PerTick
+		stack.push({
+			name: "Independente production",
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTick")
+		});
+
+		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
+		var resMapConsumption = this.village.getResConsumption();
+		var resConsumption = resMapConsumption[res.name] || 0;
+		resConsumption *= 1 + this.bld.getEffect(res.name + "DemandRatio", true);
+		resConsumption -= this.space.getEffect(res.name + "Consumption");
+
+		stack.push({
+			name: "(:3) Demand",
+			type: "fixed",
+			value: resConsumption
+		});
+
+		// TIME extra-compare with this.calcResourcePerTick
+		stack.push({
+			name: "Time",
+			type: "ratio",
+			value: (this.getRateUI() - this.rate) / this.rate
+		});
+
+		/*
+		if (prodNVillage_bool &&
 		   (this.getEffect(res.name + "PerTick") || res.name == "catnip")
 		) {
 			stack.push({
@@ -1836,33 +1899,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		}
 
-		stack.push({
-			name: "Conversion Prod",
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTickProd")
-		});
-
-		stack.push({
-			name: "Conversion Cons",
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTick") + this.getEffect(res.name + "PerTickCon")
-		});
-
-		var steamworks = this.bld.get("steamworks");
-		var swEffectGlobal = steamworks.effects[res.name+"RatioGlobal"];
-		if (steamworks.on > 0 && swEffectGlobal ){
-			stack.push({
-				name: "Steamworks",
-				type: "ratio",
-				value: swEffectGlobal
-			});
-		}
-
-		stack.push({
-			name: "Time",
-			type: "ratio",
-			value: (this.getRateUI() - this.rate) / this.rate
-		});
+				*/
 
 		return stack;
 	},
@@ -2161,7 +2198,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			for (var j = 0; j < depth; j++){
-				resString += "(:3) ";
+				resString += "| ";
 			}
 
 			resString += this.getStackElemString(stackElem, res);
