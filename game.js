@@ -1652,7 +1652,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.getEffect(res.name + "PerTickBaseSpace")
 			});
 			perTickBaseSpaceStack.push({
-				name: "Space Ratio",
+				name: "Space production bonus",
 				type: "ratio",
 				value: spaceRatio
 			});
@@ -1687,7 +1687,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					value: resMapProduction[res.name] || 0
 				});
 				villageStack.push({
-					name: "(:3) Tools",
+					name: "Tools",
 					type: "ratio",
 					value: this.workshop.getEffect(res.name + "JobRatio")
 				});
@@ -1814,7 +1814,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.getEffect(res.name + "PerTickAutoprodSpace")
 			});
 			perTickAutoprodSpaceStack.push({
-				name: "Space Ratio",
+				name: "Space production bonus",
 				type: "ratio",
 				value: spaceRatio
 			});
@@ -1840,7 +1840,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.getEffect(res.name + "PerTickSpace")
 			});
 			perTickSpace.push({
-				name: "Space Ratio",
+				name: "Space production bonus",
 				type: "ratio",
 				value: spaceRatio
 			});
@@ -2197,8 +2197,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 
-			for (var j = 0; j < depth; j++){
-				resString += "| ";
+			if (i != 0) {
+				for (var j = 0; j < depth; j++){
+					resString += "|-> ";
+				}
 			}
 
 			resString += this.getStackElemString(stackElem, res);
@@ -2213,8 +2215,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
-		if (stackElem.name == "Conversion Cons" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
-			resString += "<span style=\"color: red\">&#8776;";
+		if (stackElem.name == "Conversion Consumption" && this.resPool.getResourcePerTickAutomateThisTick[res.name] == "lack") {
+			resString += "<span style=\"color: red;\">&#8776;";
 		}
 
 		if (stackElem.type == "fixed"){
