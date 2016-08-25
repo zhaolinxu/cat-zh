@@ -542,8 +542,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
-                //Solar Revolution capped to 10000% so it doesn't become game-breaking
-                rate = this.game.bld.getHyperbolicEffect(rate, 100);
+        //Solar Revolution capped to 10000% so it doesn't become game-breaking
+        rate = this.game.bld.getHyperbolicEffect(rate, 100);
 		return rate;
 	},
 
@@ -1238,11 +1238,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		var religion = this.game.religion;
                 //Transcend one Level at a time
-                var tclevel = religion.getTranscendenceLevel();
+              var tclevel = religion.getTranscendenceLevel();
 		var ratio = religion.getTranscendenceRatio(tclevel+1)-religion.getTranscendenceRatio(tclevel);
-		religion.faithRatio -= ratio;
-		religion.tcratio += ratio;
-		religion.tclevel = religion.getTranscendenceLevel();
+		if (religion.faithRatio > ratio) {;
+			religion.faithRatio -= ratio;
+			religion.tcratio += ratio;
+			religion.tclevel = religion.getTranscendenceLevel();
+		}
 	},
 
     resetFaithInternal: function(bonusRatio){
