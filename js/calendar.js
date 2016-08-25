@@ -361,9 +361,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			unicornChanceRatio = 1.1;
 		}
 
-		var relicPerDay = this.game.space.getEffect("relicPerDay");
-		if (relicPerDay) {
-			this.game.resPool.get("relic").value += relicPerDay;
+		if (this.day < 0) {
+		//------------------------- void -------------------------
+			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+		}
+		//------------------------- relic -------------------------
+		else {
+			this.game.resPool.addResEvent("relic", this.game.space.getEffect("relicPerDay"));
 		}
 
 		//------------------------- astronomical events -------------------------
@@ -513,7 +517,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if (this.game.bld.get("chronosphere").val > this.game.rand(100)) {
-			this.day = -10;
+			this.day = -10; //TODO increase the number of days in chronoforge ?
 		}
 
 	},
