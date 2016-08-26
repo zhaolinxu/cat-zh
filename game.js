@@ -1469,9 +1469,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	}, */
 
 	calcResourcePerTick: function(resName, season){
-		if (this.calendar.day < 0) {
-			return 0;
-		}
 		var res = this.resPool.get(resName);
 
 		// BUILDING PerTickBase
