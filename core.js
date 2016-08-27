@@ -28,6 +28,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * >>  constructor: function() { this.arrayField = []; }
 	 */
 	effectsCached: null,
+	effectsCachedExisting: {},
 	meta: null,
 	panelData: null,
 
@@ -50,6 +51,15 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	registerMeta: function(meta, provider){
 		this.meta.push({meta: meta, provider: provider});
+		// Set effectsCachedExisting based on meta
+		for (var a = 0; a< this.meta.length; a++){
+			for (var i = 0; i< this.meta[a].meta.length; i++){
+				for (effect in this.meta[a].meta[i].effects) {
+					console.log(effect);
+					this.effectsCachedExisting[effect] = 0;
+				}
+			}
+		}
 	},
 
 	invalidateCachedEffects: function(){
@@ -76,13 +86,18 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		var cached = this.effectsCached[name];
 		if (cached != undefined) { return cached; }
 
-		var effect = 0;
-		for (var i = 0; i< this.meta.length; i++){
-			var effectMeta = this.getMetaEffect(name, this.meta[i]);
-			effect += effectMeta;
+		// Search only if effect exists
+		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
+			return 0;
+		} else {
+			var effect = 0;
+			for (var i = 0; i< this.meta.length; i++){
+				var effectMeta = this.getMetaEffect(name, this.meta[i]);
+				effect += effectMeta;
+			}
+			this.effectsCached[name] = effect;
+			return effect;
 		}
-		this.effectsCached[name] = effect;
-		return effect;
 	},
 
 	/**
