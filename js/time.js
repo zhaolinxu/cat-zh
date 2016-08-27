@@ -44,6 +44,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (saveData.time.cfu){
             this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
             });
+            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked"], function(loadedElem){
+            });
         }
         this.updateEnergyStats();
 
@@ -67,7 +69,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: Date.now(),
            energy: this.energy,
            flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched"])
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched"]),
        };
     },
 
