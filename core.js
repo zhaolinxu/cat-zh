@@ -55,7 +55,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var a = 0; a< this.meta.length; a++){
 			for (var i = 0; i< this.meta[a].meta.length; i++){
 				for (effect in this.meta[a].meta[i].effects) {
-					console.log(effect);
 					this.effectsCachedExisting[effect] = 0;
 				}
 			}
