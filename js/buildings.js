@@ -410,6 +410,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = effects;
 		},
+		lackResConvert: false,
 		action: function(self, game){
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
@@ -423,6 +424,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			);
 			self.effects["catnipPerTickCon"]*=amt;
 			self.effects["oilPerTickProd"]*=amt;
+
+			if (amt != 1) {
+				self.lackResConvert = true;
+			}
+			else {
+				self.lackResConvert = false;
+			};
 			}
 		},
 		val: 0,
@@ -597,6 +605,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"goldPerTickAutoprod": 0,
 			"titaniumPerTickAutoprod": 0
 		},
+		lackResConvert: false,
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
 
@@ -653,6 +662,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["goldPerTickAutoprod"]*=amt;
 			self.effects["coalPerTickAutoprod"]*=amt;
 			self.effects["titaniumPerTickAutoprod"]*=amt;
+
+			if (amt != 1) {
+				self.lackResConvert = true;
+			}
+			else {
+				self.lackResConvert = false;
+			};
 		},
 		val: 0,
 		flavor: "Watch your whiskers!"
@@ -683,6 +699,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"coalPerTickCon": 0,
 			"steelPerTickProd": 0
 		},
+		lackResConvert: false,
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
 
@@ -706,6 +723,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ironPerTickAutoprod"]*=amt;
 			self.effects["titaniumPerTickAutoprod"]*=amt;
 
+			if (amt != 1) {
+				self.lackResConvert = true;
+			}
+			else {
+				self.lackResConvert = false;
+			};
+
 
 
 			var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
@@ -725,7 +749,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 				self.effects["ironPerTickCon"]*=amt;
 				self.effects["coalPerTickCon"]*=amt;
-				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")))
+				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")));
+
+				if (amt != 1) {
+					self.lackResConvert = true;
+				}
+				else {
+					self.lackResConvert = false;
+				};
 			}
 		},
 		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */
@@ -1100,6 +1131,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = effects;
 		},
+		lackResConvert: false,
 		action: function(self, game){
 			// TODO: How to integrate autoProdRatio with calculateEffects?
 
@@ -1112,6 +1144,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			);
 			self.effects["titaniumPerTickCon"]*=amt;
 			self.effects["uraniumPerTickAutoprod"]*=amt;
+
+			if (amt != 1) {
+				self.lackResConvert = true;
+			}
+			else {
+				self.lackResConvert = false;
+			};
 		},
 		flavor: "Large Catron Collider"
 	},
@@ -1176,6 +1215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 		},
 		ignorePriceCheck: true,
+		lackResConvert: false,
 		action: function(self, game){
 			// TODO: How to integrate max manpower with calculateEffects?
 
@@ -1200,6 +1240,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["goldPerTickCon"]*=amt;
 			self.effects["fursPerTickProd"]*=amt;
 			self.effects["ivoryPerTickProd"]*=amt;
+
+								if (amt != 1) {
+									self.lackResConvert = true;
+								}
+								else {
+									self.lackResConvert = false;
+								};
 		}
 	},
 	//-------------------------- Culture -------------------------------
@@ -2378,7 +2425,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					name: 			bld.label,
 					description: 	bld.description,
 					building: 		bld.name,
-					handler: 		bld.handler
+					handler: 		bld.handler,
+					lackResConvert: bld.lackResConvert
 				};
 
 				var btn = null;
