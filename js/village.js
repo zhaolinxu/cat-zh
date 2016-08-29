@@ -142,7 +142,47 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getEffect: function(effectName){
-		//TODO: calculate leader/senate effects there
+
+	},
+
+	getEffectLeader: function(trait, defaultObject){
+		if(this.leader) {
+			leaderTrait = this.leader.trait["name"];
+			if (leaderTrait == trait) {
+				// Modify the defautlObject depends on trait
+				switch (true) {
+					case trait == "engineer": // Crafting bonus
+						defaultObject = 0.05;
+						break;
+					case trait == "merchant": // Trading bonus
+						defaultObject = 0.030;
+						break;
+					case trait == "manager": // Hunting bonus
+						defaultObject = 0.5;
+						break;
+					case trait == "scientist": // Science prices bonus
+						for (var i = 0; i < defaultObject.length; i++) {
+							if (defaultObject[i].name == "science") {
+								defaultObject[i].val *= 0.99;
+							}
+						};
+						break;
+					case trait == "wise": // Religion bonus
+						for (var i = 0; i < defaultObject.length; i++) {
+							if (defaultObject[i].name == "faith") {
+								defaultObject[i].val = defaultObject[i].val / 0.9;
+							}
+							if (defaultObject[i].name == "gold") {
+								defaultObject[i].val = defaultObject[i].val * 0.9;
+							}
+						};
+						break;
+				}
+
+			}
+		}
+		return defaultObject;
+
 	},
 
 	constructor: function(game){
@@ -440,10 +480,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		var furs = this.game.resPool.get("furs");
 
-		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		if (this.leader && this.leader.trait["name"] == "manager") {
-			hunterRatio += 0.5;
-		}
+		var hunterRatio = this.game.workshop.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
 		furs.value += huntingRes.furs;
 
@@ -585,23 +622,23 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow"],
 
 	traits: [{
-		name: "scientist", // Science tech reduction science price
+		name: "scientist",
 		title: "Scientist",
 		unlocked: true
 	},{
-		name: "manager", // hunterRatio bonus
+		name: "manager",
 		title: "Manager",
 		unlocked: true
 	},{
-		name: "engineer", // Craft bonus
+		name: "engineer",
 		title: "Engineer",
 		unlocked: true
 	},{
-		name: "merchant", // TradeRatio bonus
+		name: "merchant",
 		title: "Merchant",
 		unlocked: true
 	},{
-		name: "wise", // Religion bonus
+		name: "wise",
 		title: "Philosopher",
 		unlocked: false
 	},{

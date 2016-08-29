@@ -1905,11 +1905,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getCraftRatio: function() {
-		var craftRatio = this.bld.getEffect("craftRatio");
-		if (this.village.leader && this.village.leader.trait["name"] == "engineer") {
-			craftRatio += 0.05;
-		}
-		return craftRatio;
+		return this.bld.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
 	},
 
 	getResCraftRatio: function(res){
