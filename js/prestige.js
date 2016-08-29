@@ -2,13 +2,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
+		this.registerMetaPrestige();
+	},
 
-		/*this.registerMeta(this.perks, { getEffect: function(meta, effectName){
-			if (meta.researched){
-				return meta.effects[effectName];
+	registerMetaPrestige: function() {
+		this.registerMeta(this.perks, {
+			getEffect: function(perk, effectName){
+				return (perk.researched && perk.effects) ? perk.effects[effectName] : 0;
 			}
-			return 0;
-		}});*/
+		});
 	},
 
     perks:[{
@@ -295,15 +297,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getEffect: function(name){
-		//return this.getEffectCached(name);
-		return this.getMetaEffect(name, { meta: this.perks, provider: {
-			getEffect: function(perk, effectName){
-				if (!perk.effects || !perk.researched){
-					return 0;
-				}
-				return perk.effects[effectName];
-			}
-		}});
+		return this.getEffectCached(name);
 	},
 
 	getPerk: function(name){

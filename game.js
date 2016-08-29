@@ -978,6 +978,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.bld.invalidateCachedEffects();
 			this.workshop.invalidateCachedEffects();
+			this.prestige.invalidateCachedEffects();
 			this.religion.invalidateCachedEffects();
 			this.space.invalidateCachedEffects();
 
@@ -1089,6 +1090,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.bld.invalidateCachedEffects();
 		this.workshop.invalidateCachedEffects();
+		this.prestige.invalidateCachedEffects();
 		this.religion.invalidateCachedEffects();
 		this.village.invalidateCachedEffects();
 		this.space.invalidateCachedEffects();
