@@ -12,7 +12,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
+		this.registerMetaReligion();
+	},
 
+	registerMetaReligion: function() {
 		this.registerMeta(this.zigguratUpgrades, { getEffect: function(bld, effectName){
 			return bld.effects[effectName] * bld.val;
 		}});
