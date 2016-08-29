@@ -1586,11 +1586,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 
-			//TODO: FIX THIS SHIT
-			if (bld.isSpacer){
-				continue;
-			}
-
 			if (!bld.unlocked){
 				if (this.isConstructionEnabled(bld)){
 					bld.unlocked = true;
