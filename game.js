@@ -1091,6 +1091,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.workshop.invalidateCachedEffects();
 		this.religion.invalidateCachedEffects();
 		this.village.invalidateCachedEffects();
+		this.space.invalidateCachedEffects();
 	},
 
 	save: function(){

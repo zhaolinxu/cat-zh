@@ -66,9 +66,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	constructor: function(game){
 		this.game = game;
-
         this.metaCache = {};
+        this.registerMetaBuilding();
+	},
 
+	registerMetaBuilding: function() {
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
@@ -88,7 +90,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return effect;
 			}
 		});
-
 	},
 
 	buildingGroups: [{

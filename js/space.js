@@ -673,7 +673,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
+		this.registerMetaSpace();
+	},
 
+	registerMetaSpace: function(){
 		this.registerMeta(this.programs, { getEffect: function(program, effectName){
 			if (!program.effects){
 				return 0;
@@ -693,7 +696,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				return building.effects[effectName] * val;
 			}});
 		}
-
 	},
 
 	resetState: function(){
