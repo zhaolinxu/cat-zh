@@ -181,6 +181,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				stageUnlocked : false
 			}
 		],
+		effects: {
+			"catnipDemandRatio": 0,
+			"energyProduction": 0
+		},
 		stage: 0,
 		val: 0,
 
@@ -229,6 +233,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				stageUnlocked : false
 			}
 		],
+		effects: {
+			"catnipRatio": 0,
+			"energyProduction": 0
+		},
         calculateEffects: function(self, game){
             var stageMeta = self.stages[self.stage];
             if (self.stage == 0){
@@ -304,7 +312,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Build a library to store sacred catkind knowledge. Each upgrade level improves your science output by 8%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
-		effects: {},
+		effects: {
+			"scienceRatio": 0,
+			"scienceMax": 0,
+			"cultureMax": 0
+			},
 		priceRatio: 1.15,
 		unlocks: {
 			tabs: ["science"],
@@ -350,7 +362,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				 { name : "iron", val: 750 },
 				 { name : "science", val: 1000 }
 		],
-		effects: {},
+		effects: {
+			"scienceRatio": 0,
+			"starEventChance": 0,
+			"starAutoSuccessChance": 0,
+			"scienceMax": 0
+			},
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["astronomy"],
@@ -387,7 +404,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				 { name : "science", val: 1500 }
 		],
 		enabled: true,
-		effects: {},
+		effects: {
+			"scienceRatio": 0.35,
+			"refineRatio": 0.1,
+			"catnipPerTickCon": 0,
+			"oilPerTickProd": 0,
+			"scienceMax": 1500,
+			"energyConsumption": 0
+		},
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
 		requiredTech: ["biology"],
@@ -436,7 +460,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a space to store your resources.",
 		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
-		effects: {},
+		effects: {
+			"catnipMax": 0,
+			"woodMax": 0,
+			"mineralsMax": 0,
+			"ironMax": 0,
+			"coalMax": 0,
+			"goldMax": 0,
+			"titaniumMax": 0
+			},
 		priceRatio: 1.75,
 		requiredTech: ["agriculture"],
 		calculateEffects: function (self, game){
@@ -461,7 +493,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a space to store your resources",
 		unlocked: false,
 		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
-		effects: {},
+		effects: {
+			"catnipMax": 0,
+			"woodMax": 0,
+			"mineralsMax": 0,
+			"ironMax": 0,
+			"coalMax": 0,
+			"goldMax": 0,
+			"titaniumMax": 0
+			},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["construction"],
@@ -491,7 +531,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a space to store your resources",
 		unlocked: false,
 		prices: [{ name : "scaffold", val: 5 }, { name : "slab", val: 50 }, { name : "plate", val: 75 }],
-		effects: {},
+		effects: {
+			"catnipMax": 0,
+			"woodMax": 0,
+			"mineralsMax": 0,
+			"ironMax": 0,
+			"coalMax": 0,
+			"goldMax": 0,
+			"titaniumMax": 0
+			},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		requiredTech: ["navigation"],
@@ -537,7 +585,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Unlocks the miner job. Each upgrade level improves your mineral output by 20%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
-		effects: {},
+		effects: {
+			"mineralsRatio": 0,
+			"coalPerTickBase": 0
+			},
 		priceRatio: 1.15,
 		requiredTech: ["mining"],
 		unlockRatio: 0.15,
@@ -676,6 +727,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["chemistry"],
 		effects: {
 			"mineralsPerTickCon" : 0,
+			"ironPerTickCon" : 0,
 			"ironPerTickAutoprod" : 0.15,
 			"titaniumPerTickAutoprod" : 0.0005,
 			"oilPerTickCon" : 0,
@@ -748,7 +800,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
 		requiredTech: ["machinery"],
-		effects: {},
+		effects: {
+			"magnetoBoostRatio": 0,
+			"coalRatioGlobal" : 0,
+			"manuscriptPerTickProd": 0,
+			"energyProduction": 0,
+			"manuscriptPerTickProd": 0
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"magnetoBoostRatio": 0.15,
@@ -896,7 +954,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{name : "iron", val: 50},
 			{name : "minerals", val: 250}
 		],
-		effects: {},
+		effects: {
+			"woodRatio" : 0
+		},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["construction"],
@@ -923,7 +983,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{name : "gear",  val: 25},
 			{name : "scaffold", val: 25}
 		],
-		effects: {},
+		effects: {
+			"oilPerTickBase" : 0,
+			"oilMax" : 0,
+			"energyConsumption": 0
+		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
@@ -985,7 +1049,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 2500},
 			{ name : "concrate", val: 15}
 		],
-		effects: {},
+		effects: {
+			"craftRatio": 0,
+			"energyConsumption": 0
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"craftRatio": 0.05,
@@ -1019,7 +1086,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "concrate",    val: 50},
 			{ name : "blueprint",   val: 25}
 		],
-		effects: {},
+		effects: {
+			"uraniumPerTick" : 0,
+			"productionRatio": 0,
+			"uraniumMax" : 0,
+			"energyProduction" : 0
+		},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["nuclearFission"],
@@ -1064,7 +1136,19 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "concrate",    val: 125  },
 			{ name : "uranium",   	val: 25   }
 		],
-		effects: {},
+		effects: {
+			"titaniumPerTickCon" : 0,
+			"uraniumPerTickAutoprod" : 0,
+			"scienceMax": 0,
+			"catnipMax": 0,
+			"woodMax": 0,
+			"mineralsMax": 0,
+			"ironMax": 0,
+			"coalMax": 0,
+			"goldMax": 0,
+			"titaniumMax": 0,
+			"energyConsumption": 0
+		},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["particlePhysics"],
@@ -1125,7 +1209,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "minerals", val: 200 },
 			{ name : "gold", val: 10 }
 		],
-		effects: {},
+		effects: {
+			"fursDemandRatio"   : -0.04,
+			"ivoryDemandRatio"  : -0.04,
+			"spiceDemandRatio"  : -0.04,
+			"tradeRatio" : 0.015,
+			"standingRatio": 0
+		},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["currency"],
@@ -1161,7 +1251,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "plate", val: 200 },
 			{ name : "gold", val: 500 }
 		],
-		effects: {},
+		effects: {
+			"mintEffect" : 0,
+			"manpowerPerTickCon" : 0,
+			"goldPerTickCon" : 0,
+			"fursPerTickProd": 0,
+			"ivoryPerTickProd": 0,
+			"goldMax": 0
+		},
 		priceRatio: 1.15,
 		val: 0,
 		requiredTech: ["architecture"],
@@ -1207,6 +1304,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "amphitheatre",
 		unlocked: false,
 		upgradable: true,
+		effects: {
+			"unhappinessRatio" : 0,
+			"culturePerTickBase" : 0,
+			"cultureMax" : 0,
+			"culturePerTickBase" : 0,
+			"unhappinessRatio" : 0,
+			"cultureMax" : 0
+		},
 		stages: [
 			{
 				label: "Amphitheatre",
@@ -1299,7 +1404,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "gold", val: 50 },
 			{ name : "manuscript", val: 10 }
 		],
-		effects: {},
+		effects: {
+			"culturePerTickBase" : 0,
+			"faithPerTickBase" : 0,
+			"happiness" : 0,
+			"manpowerMax" : 0,
+			"scienceMax" : 0,
+			"cultureMax" : 0,
+			"faithMax": 0
+		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
