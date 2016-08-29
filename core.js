@@ -82,13 +82,13 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Will calculate and store cached value if called for a first time.
 	 */
 	getEffectCached: function(name){
-		var cached = this.effectsCached[name];
-		if (cached != undefined) { return cached; }
-
 		// Search only if effect exists
 		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
 			return 0;
 		} else {
+			var cached = this.effectsCached[name];
+			if (cached != undefined) { return cached; }
+
 			var effect = 0;
 			for (var i = 0; i< this.meta.length; i++){
 				var effectMeta = this.getMetaEffect(name, this.meta[i]);
