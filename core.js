@@ -28,7 +28,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * >>  constructor: function() { this.arrayField = []; }
 	 */
 	effectsCached: null,
-	effectsCachedExisting: {},
+	effectsCachedExisting: null,
 	meta: null,
 	panelData: null,
 
@@ -37,6 +37,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	constructor: function(){
 		this.effectsCached = {};
+		this.effectsCachedExisting= {},
 		this.meta = [];
 		this.panelData = {};
 	},
@@ -94,6 +95,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				var effectMeta = this.getMetaEffect(name, this.meta[i]);
 				effect += effectMeta;
 			}
+
 			this.effectsCached[name] = effect;
 			return effect;
 		}

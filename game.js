@@ -979,6 +979,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.bld.invalidateCachedEffects();
 			this.workshop.invalidateCachedEffects();
 			this.religion.invalidateCachedEffects();
+			this.space.invalidateCachedEffects();
 
 			this.updateResources();
 		}), 5);		//once per 5 ticks
