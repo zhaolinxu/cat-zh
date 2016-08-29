@@ -981,8 +981,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.prestige.invalidateCachedEffects();
 			this.religion.invalidateCachedEffects();
 			this.space.invalidateCachedEffects();
+			this.time.invalidateCachedEffects();
 
-			this.updateResources();
+			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
 		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
@@ -1011,15 +1012,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TODO: store all managers in a single array and handle them in the common way
 	getEffect: function(effectName){
-		var effect = this.bld.getEffect(effectName) +
-			this.space.getEffect(effectName);
-            
-        if ( effectName == "tcRefineRatio"){
-			effect += this.religion.getEffect(effectName);   
-        }
+		var effect =
+			  this.bld.getEffect(effectName)
+			+ this.space.getEffect(effectName)
+			+ this.workshop.getEffect(effectName)
+			+ this.prestige.getEffect(effectName)
+			+ this.religion.getEffect(effectName)
+			+ this.time.getEffect(effectName);
+
         return effect;
 	},
 
+	updateCaches: function() {
+		this.bld.updateEffectCached();
+		this.workshop.updateEffectCached();
+		this.prestige.updateEffectCached();
+		this.religion.updateEffectCached();
+		this.space.updateEffectCached();
+		this.time.updateEffectCached();
+
+		this.updateResources();
+	},
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */

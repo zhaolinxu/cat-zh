@@ -78,6 +78,17 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		});
 	},
 
+	updateEffectCached: function() {
+		for (name in this.effectsCachedExisting) {
+			var effect = 0;
+			for (var i = 0; i< this.meta.length; i++){
+				var effectMeta = this.getMetaEffect(name, this.meta[i]);
+				effect += effectMeta;
+			}
+			this.effectsCached[name] = effect;
+		}
+	},
+
 	/**
 	 * Returns a cached combined value of effect of all managers.
 	 * Will calculate and store cached value if called for a first time.
