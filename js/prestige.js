@@ -1,18 +1,5 @@
 dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabManager, {
 
-	constructor: function(game){
-		this.game = game;
-		this.registerMetaPrestige();
-	},
-
-	registerMetaPrestige: function() {
-		this.registerMeta(this.perks, {
-			getEffect: function(perk, effectName){
-				return (perk.researched && perk.effects) ? perk.effects[effectName] : 0;
-			}
-		});
-	},
-
     perks:[{
 		name: "engeneering",
 		title: "Engineering",
@@ -259,6 +246,19 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	}],
 
 	game: null,
+
+	constructor: function(game){
+		this.game = game;
+		this.registerMetaPrestige();
+	},
+
+	registerMetaPrestige: function() {
+		this.registerMeta(this.perks, {
+			getEffect: function(perk, effectName){
+				return (perk.researched && perk.effects) ? perk.effects[effectName] : 0;
+			}
+		});
+	},
 
 	resetState: function(){
 		for (var i = 0; i < this.perks.length; i++){

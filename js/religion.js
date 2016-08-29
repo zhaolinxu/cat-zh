@@ -17,11 +17,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	registerMetaReligion: function() {
 		this.registerMeta(this.zigguratUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects[effectName] * bld.val;
+			return bld.effects ? bld.effects[effectName] * bld.val : 0;
 		}});
 
 		this.registerMeta(this.transcendenceUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects[effectName] * bld.val;
+			return bld.effects ? bld.effects[effectName] * bld.val : 0;
 		}});
 
 		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){

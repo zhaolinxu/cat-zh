@@ -13,6 +13,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.game = game;
 
         this.maxEnergy = game.rate * 60 * 10;   //10 minute max
+
+		this.registerMetaTime();
+    },
+
+    registerMetaTime: function() {
+		this.registerMeta(this.chronoforgeUpgrades, { getEffect: function(bld, effectName){
+			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
+		}});
     },
 
     load: function(saveData){
@@ -120,6 +128,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         val: 0,
         unlocked: true
     }],
+
+	getEffect: function(name) {
+		return this.getEffectCached(name);
+	},
 
     getCFU: function(id){
         return this.getMeta(id, this.chronoforgeUpgrades);
