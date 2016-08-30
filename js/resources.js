@@ -256,6 +256,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		}
 	},{
+		name : "void",
+		title: "void",
+		type : "exotic",
+		craftable: false,
+		visible: true,
+		color: "#5A0EDE",
+		style: {
+			"textShadow": "1px 0px 10px #9A2EFE",
+			"animation": "neon1 1.5s ease-in-out infinite alternate"
+		}
+	},{
 		name : "elderBox",
 		title: "present box",
 		description: "Merry Eldermass!",
@@ -317,8 +328,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		//if no resource found, register new
-		return this.addResource(name);
+		//if no resource found, return false
+		return false;
 	},
 
 	createResource: function(name){
@@ -340,8 +351,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	getResourcePerTickAutomateThisTick: [],
-
 	addRes: function(res, addedValue) {
 		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
@@ -359,61 +368,56 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value += addedValue;
 		}
 
+		if (res.name == "void") { // Always an integer
+			res.value = Math.floor(res.value);
+		}
+
 		if (isNaN(res.value) || res.value < 0){
 			res.value = 0;	//safe switch
 		}
 	},
 
-	addResAmt: function(name, value){
+	addResEvent: function(name, value){
 		var res = this.get(name);
-
-		if (value >= 0) {
-			var name_use = name + "Prod";
-		} else {
-			var name_use = name + "Cons";
-		}
-
-		if (typeof this.getResourcePerTickAutomateThisTick[name_use] == "undefined") {
-			this.getResourcePerTickAutomateThisTick[name_use] = value;
-		} else {
-			this.getResourcePerTickAutomateThisTick[name_use] += value;
-		}
-
 		this.addRes(res, value);
-
 	},
 
 	/**
-	 * Format of from and to:
+	 * Format of from:
 	 * [ {res: "res1", amt: x1}, {res: "res2", amt: x2} ]
-	 * amt in the from and to arrays sets ratios between resources
-	 * The third amt parameter is the number of times to convert
+	 * amt in the from array sets ratios between resources
+	 * The second amt parameter is the maximum number of times to convert
 	 */
-	convert: function(from, to, amt){
+	getAmtDependsOnStock: function(from, amt){
 		if (amt == 0) {
-			return;
+			return 0;
 		}
 
+		var amtBeginni = amt;
+
 		// Cap amt based on available resources
+		// amt can decrease for each resource
 		for (var i = 0, length = from.length; i < length; i++){
-			var res = this.get(from[i].res);
-			var needed = from[i].amt * amt;
-			if (res.value < needed){
-				amt = Math.floor(res.value / from[i].amt);
-				this.getResourcePerTickAutomateThisTick[res.name] = "lack";
+			var resAvailable = this.get(from[i].res).value;
+			var resNeeded = from[i].amt * amt;
+			if (resAvailable < resNeeded){
+				amtAvailable = Math.floor(resAvailable / from[i].amt)
+				amt = Math.min(amt, amtAvailable);
+			}
+			else {
+				// amtAvailable is amt
 			}
 		}
 
-		// Remove from resources
-		for (var i in from){
-			this.addResAmt(from[i].res, -from[i].amt * amt);
+		if (this.game.calendar.day >= 0) {
+			// Remove from resources
+			for (var i in from){
+				this.addRes(this.get(from[i].res), -from[i].amt * amt);
+			}
 		}
 
-		// Add to resources
-		for (var i in to){
-			this.addResAmt(to[i].res, to[i].amt * amt);
-		}
-
+		// Return the percentage to decrease the productivity
+		return amt / amtBeginni;
 	},
 
 	/**
@@ -507,6 +511,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	resetState: function(){
+		this.isLocked = false;
 		for (var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			res.value = 0;
@@ -531,14 +536,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 					if (savedRes != null){
 						var res = this.get(savedRes.name);
-						res.value = savedRes.value;
-						res.isHidden = savedRes.isHidden;
+						if (res != false) {
+							res.value = savedRes.value;
+							res.isHidden = savedRes.isHidden;
+						}
 					}
 				}
 			}
 		}
 		if (saveData.res){
-			this.isLocked = saveData.res || false;
+			this.isLocked = Boolean(saveData.res.isLocked);
 		}
 	},
 
@@ -614,6 +621,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
             delta = 0.25;
         }
         return delta;
+    },
+
+    getVoidQuantity: function() {
+		// -1, 0, 1, 2 at start, 0.5 on average
+
+		var maxPerDay = 2; //TODO increase the maximum void per day in chronoforge
+		var i = this.game.rand(maxPerDay + 2) - 1;
+
+		// Only integer
+		return i;
     },
 
 	setDisplayAll: function() {
@@ -809,7 +826,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.textContent  = maxResValue;
 
-			var perTick = this.game.opts.usePerSecondValues ? res.perTickUI * this.game.getRateUI() : res.perTickUI;
+			var perTick = this.game.calendar.day < 0 ? 0 : res.perTickUI + this.game.getEffect(res.name + "PerTickCon");
+			perTick = this.game.opts.usePerSecondValues ? perTick * this.game.getRateUI() : perTick;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
 				perTick = perTick / res.maxValue * 100;
@@ -1103,6 +1121,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//==================== super confusing % craft logic ===================
 			var allCount = this.game.workshop.getCraftAllCount(res.name);
 			var craftRatio = this.getResourceCraftRatio(res);
+			var craftPrices = (res.name == "ship") ? this.game.workshop.getCraftPrice(recipe) : row.recipeRef.prices;
 			// 1/1%
 			var craftRowAmt = 1;
 			if (1 < allCount * 0.01 ){
@@ -1110,7 +1129,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			} else {
 				craftRowAmt = 1;
 			}
-			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a1.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 
 			// 25/5%
@@ -1119,7 +1138,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			}else {
 				craftRowAmt = 25;
 			}
-			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a25.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 
 			// 100/10%
@@ -1128,7 +1147,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			} else {
 				craftRowAmt = 100;
 			}
-			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(row.recipeRef.prices, craftRowAmt) ? "" : "none");
+			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a100.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1+craftRatio), null, null, 0);
 			//=======================================================================
 			dojo.setStyle(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");

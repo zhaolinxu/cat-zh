@@ -45,7 +45,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Charon",
 			glyph: "&#9049;",
 			effects: {
-				"moonOutpost-unobtainiumPerTick": 0.9
+				"moonOutpost-unobtainiumPerTickSpace": 0.9
 			},
 			festivalEffects: {
 				"catnip": 1.5,
@@ -58,8 +58,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Umbra",
 			glyph: "&#9062;",
 			effects: {
-				"planetCracker-uraniumPerTick": 0.9,
-				"hydrofracturer-oilPerTick": 0.75
+				"planetCracker-uraniumPerTickSpace": 0.9,
+				"hydrofracturer-oilPerTickAutoprodSpace": 0.75
 			},
 			festivalEffects: {
 				"coal": 1.5,
@@ -73,7 +73,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Yarn",
 			glyph: "&#9063;",
 			effects: {
-				"researchVessel-starchartPerTickBase": 0.5
+				"researchVessel-starchartPerTickBaseSpace": 0.5
 			},
 			festivalEffects: {
 				"culture": 2
@@ -97,10 +97,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9022;",
 			effects: {
 				"spaceElevator-prodTransferBonus": 2,
-				"sattelite-starchartPerTickBase": 2,
+				"sattelite-starchartPerTickBaseSpace": 2,
 				"sattelite-observatoryRatio": 2,
 				"spaceStation-scienceRatio": 1.5,
-				"spaceBeacon-starchartPerTickBase": 0.1
+				"spaceBeacon-starchartPerTickBaseSpace": 0.1
 			},
 			festivalEffects: {
 				"manpower": 2
@@ -111,7 +111,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Redmoon",
 			glyph: "&#9052;",
 			effects: {
-				"moonOutpost-unobtainiumPerTick": 1.2
+				"moonOutpost-unobtainiumPerTickSpace": 1.2
 			},
 			festivalEffects: {
 				"unobtainium": 2
@@ -122,8 +122,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Dune",
 			glyph: "&#9067;",
 			effects: {
-				"planetCracker-uraniumPerTick": 1.1,
-				"hydrofracturer-oilPerTick": 1.5
+				"planetCracker-uraniumPerTickSpace": 1.1,
+				"hydrofracturer-oilPerTickAutoprodSpace": 1.5
 			},
 			festivalEffects: {
 				"uranium": 2
@@ -134,7 +134,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Piscine",
 			glyph: "&#9096;",
 			effects: {
-				"researchVessel-starchartPerTickBase": 1.5
+				"researchVessel-starchartPerTickBaseSpace": 1.5
 			},
 			festivalEffects: {
 				"science": 2
@@ -156,9 +156,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			title: "Kairo",
 			glyph: "&#8483;",
 			effects: {
-				"spaceBeacon-starchartPerTickBase": 5,
+				"spaceBeacon-starchartPerTickBaseSpace": 5,
 				"spaceElevator-prodTransferBonus": 0.5,
-				"sattelite-starchartPerTickBase": 0.75,
+				"sattelite-starchartPerTickBaseSpace": 0.75,
 				"sattelite-observatoryRatio": 0.75,
 				"spaceStation-scienceRatio": 0.75
 			},
@@ -212,7 +212,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
-		this.game.resPool.addResAmt("science", sciBonus);
+		this.game.resPool.addResEvent("science", sciBonus);
 
 		if (!isSilent){
 			this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
@@ -290,7 +290,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//TODO: clarify what is exactly wrong
 
 		if (this.game.time.isAccelerated) {
-			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	//*.x float point
+			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	// *.x float point
 		} else {
 			this.day += this.dayPerTick;
 		}
@@ -361,9 +361,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			unicornChanceRatio = 1.1;
 		}
 
-		var relicPerDay = this.game.space.getEffect("relicPerDay");
-		if (relicPerDay) {
-			this.game.resPool.get("relic").value += relicPerDay;
+		if (this.day < 0) {
+		//------------------------- void -------------------------
+			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+		}
+		//------------------------- relic -------------------------
+		else {
+			this.game.resPool.addResEvent("relic", this.game.space.getEffect("relicPerDay"));
 		}
 
 		//------------------------- astronomical events -------------------------
@@ -420,7 +424,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
-				this.game.resPool.addResAmt("science", sciBonus);
+				this.game.resPool.addResEvent("science", sciBonus);
 				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
 
@@ -511,6 +515,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.season == 2 && this.game.workshop.get("advancedAutomation").researched ){
 			this.game.bld.get("steamworks").jammed = false;
 		}
+
+		if (this.game.bld.get("chronosphere").val > this.game.rand(100)) {
+			this.day = -10; //TODO increase the number of days in chronoforge ?
+		}
+
 	},
 
 	onNewYear: function(){

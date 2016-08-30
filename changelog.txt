@@ -1,3 +1,18 @@
+v 1.2.0.1 (23 aug)
+
+changes by freeroot:
+- Cryptotheology will now carry over resets
+- A lot of tooltip/calculation fixes
+
+changes by coderpatsy:
+- Account for Event Horizon's effect in tooltips
+- Fix loading resources locked state (fix "res":{"isLocked":{"isLocked":{"isLocked":{"isLocked":{... in save JSON)
+- Typos
+
+
+Nuclear Plants
+
+
 v 1.2.0.0b (23 jul)
 
 changes by bzbarsky:

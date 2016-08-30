@@ -636,3 +636,7 @@ body.scheme_sleek  {
     color: white;
     padding: 4px 10px;
 }
+
+.scheme_sleek #sorrowTooltip {
+	color: white;
+}

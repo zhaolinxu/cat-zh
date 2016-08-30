@@ -146,7 +146,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		cost: 1300,
 		unlocks: {
 			tech: ["engineering"],
-			upgrades: ["compositeBow", "advancedRefinement"]
+			upgrades: ["compositeBow", "advancedRefinement", "reinforcedSaw"]
 		},
 		flavor: "Making pillow forts smart!"
 	},{
@@ -468,9 +468,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["electronics"],
 			crafts: ["concrate"],
-			upgrades: ["pumpjack",
-						//TODO: move to the separate tech?
-						"concreteWarehouses", "concreteBarns", "concreteHuts"]
+			upgrades: ["pumpjack", "strenghtenBuild"]
 		}
 	},{
 		name: "metalurgy",
@@ -706,7 +704,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "antimatter",
 		title: "Antimatter",
 		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
-		effectDesc: "Unlocks Antimatte Reactors and Antimatter Bases",
+		effectDesc: "Unlocks Antimatter Reactors and Antimatter Bases",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -802,6 +800,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
+			tech: ["voidSpace"],
 			upgrades: ["tachyonAccelerators", "chronoforge"]
 		}
 	},{
@@ -817,6 +816,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["relicStation"]
+		}
+	},{
+		name: "voidSpace",
+		title: "Void Space",
+		description: "Under the void",
+		effectDesc: "Unlocks Cryochambers",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 800000},
+			{name: 	"timeCrystal", val: 40},
+			{name : "void",   val: 100}
+		],
+		unlocks: {
+			voidSpace: ["cryochambers"]
 		}
 	}],
 
@@ -851,14 +865,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			}];
 
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
-
-		if (this.game.village.leader && this.game.village.leader.trait["name"] == "scientist") {
-			for (var i = 0; i < prices_result.length; i++) {
-				if (prices_result[i].name == "science") {
-					prices_result[i].val *= 0.99;
-				}
-			}
-		}
+		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
 
 		return prices_result;
 	},
@@ -1081,6 +1088,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
+        
+        //---------- challenges ------------
+		this.challengesPanel = null;
+
+        //TODO: use better update/render logic like in Time tab
+		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
+		if (showChallenges){
+			var challengesPanel = new classes.ui.ChallengePanel("Challenges", this.game.challenges);
+			challengesPanel.game = this.game;
+
+			var content = challengesPanel.render(tabContainer);
+			this.challengesPanel = challengesPanel;
+		}
 
 		this.update();
 	},
@@ -1090,6 +1110,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		if (this.metaphysicsPanel){
 			this.metaphysicsPanel.update();
+		}
+        if (this.challengesPanel){
+			this.challengesPanel.update();
 		}
 	},
 

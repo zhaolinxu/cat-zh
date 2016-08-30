@@ -142,7 +142,47 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getEffect: function(effectName){
-		//TODO: calculate leader/senate effects there
+
+	},
+
+	getEffectLeader: function(trait, defaultObject){
+		if(this.leader) {
+			leaderTrait = this.leader.trait["name"];
+			if (leaderTrait == trait) {
+				// Modify the defautlObject depends on trait
+				switch (true) {
+					case trait == "engineer": // Crafting bonus
+						defaultObject = 0.05;
+						break;
+					case trait == "merchant": // Trading bonus
+						defaultObject = 0.030;
+						break;
+					case trait == "manager": // Hunting bonus
+						defaultObject = 0.5;
+						break;
+					case trait == "scientist": // Science prices bonus
+						for (var i = 0; i < defaultObject.length; i++) {
+							if (defaultObject[i].name == "science") {
+								defaultObject[i].val *= 0.99;
+							}
+						};
+						break;
+					case trait == "wise": // Religion bonus
+						for (var i = 0; i < defaultObject.length; i++) {
+							if (defaultObject[i].name == "faith") {
+								defaultObject[i].val = defaultObject[i].val / 0.9;
+							}
+							if (defaultObject[i].name == "gold") {
+								defaultObject[i].val = defaultObject[i].val * 0.9;
+							}
+						};
+						break;
+				}
+
+			}
+		}
+		return defaultObject;
+
 	},
 
 	constructor: function(game){
@@ -375,7 +415,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			/*if (saveData.village.jobs.length){
 				this.jobs = saveData.village.jobs;
 			}*/
-			if (saveData.village.jobs.length){
+
+			if (saveData.village.jobs){
 				for (var i = saveData.village.jobs.length - 1; i >= 0; i--) {
 					var savedJob = saveData.village.jobs[i];
 
@@ -440,10 +481,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		var furs = this.game.resPool.get("furs");
 
-		var hunterRatio = this.game.workshop.getEffect("hunterRatio");
-		if (this.leader && this.leader.trait["name"] == "manager") {
-			hunterRatio += 0.5;
-		}
+		var hunterRatio = this.game.workshop.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
 		furs.value += huntingRes.furs;
 
@@ -585,23 +623,23 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow"],
 
 	traits: [{
-		name: "scientist", // Science tech reduction science price
+		name: "scientist",
 		title: "Scientist",
 		unlocked: true
 	},{
-		name: "manager", // hunterRatio bonus
+		name: "manager",
 		title: "Manager",
 		unlocked: true
 	},{
-		name: "engineer", // Craft bonus
+		name: "engineer",
 		title: "Engineer",
 		unlocked: true
 	},{
-		name: "merchant", // TradeRatio bonus
+		name: "merchant",
 		title: "Merchant",
 		unlocked: true
 	},{
-		name: "wise", // Religion bonus
+		name: "wise",
 		title: "Philosopher",
 		unlocked: false
 	},{
@@ -639,6 +677,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 		this.age = 16 + this.rand(30);
 
+		this.exp = 0;
 		this.skills = {};
 	},
 
@@ -730,7 +769,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job){
+			if (kitten.job && this.game.calendar.day >= 0){
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
@@ -1427,15 +1466,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 					var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
-					bonus = bonus > 0 && kitten.isLeader ? this.game.village.getLeaderBonus(kitten.rank) * bonus : bonus;
-					bonus = bonus.toFixed(2);
-					bonus = bonus > 0 ? " +" + bonus + "%" : "";
+					bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
+					bonus = bonus * 100;
+					bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 				}
 				else {var style = ""; var bonus = "";}
 
                 record.content.innerHTML += "<span title='" + exp.toFixed(2) + "'" + style + ">"
                 + this.game.village.getJob(skillsArr[j].name).title + bonus
-                + " [" + this.game.villageTab.skillToText(exp) + " (" + expPercent.toFixed() + "%)]"
+                + " (" + this.game.villageTab.skillToText(exp) + " " + expPercent.toFixed() + "%)"
                 + "</span><br>";
             }
 
@@ -1469,7 +1508,60 @@ dojo.declare("classes.village.ui.VillageButton", com.nuclearunicorn.game.ui.Butt
 
 	getSelectedObject: function(){
 		return {"prices": this.getPrices()};
+	},
+});
+
+dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButton, {
+	x10: null,
+	simplePrices: false,
+	hasResourceHover: true,
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	},
+
+	renderLinks: function(){
+		var self = this;
+
+		this.x10 = this.addLink("x10",
+			function(){
+				this.animate();
+				gamePage.villageTab.holdFestival(10);
+				this.game.resPool.addResEvent("manpower", -1500 * 10);
+				this.game.resPool.addResEvent("culture", -5000 * 10);
+				this.game.resPool.addResEvent("parchment", -2500  *10);
+				this.update();
+			}, false
+		);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+
+		if (this.game.prestige.getPerk("carnivals").researched){
+			var isEnabled = true;
+			var prices = this.getPrices();
+			if (!this.hasMultipleResources(10)){
+				isEnabled = false;
+			}
+		}
+		else {
+			isEnabled = false;
+		}
+
+		if (this.x10){
+			dojo.setStyle(this.x10.link, "display", isEnabled ? "" : "none");
+		}
+	},
+
+	hasMultipleResources: function(amt){
+		return (
+			this.game.resPool.get("manpower").value >= 1500 * amt &&
+			this.game.resPool.get("culture").value >= 5000 * amt &&
+			this.game.resPool.get("parchment").value >= 2500 * amt
+		);
 	}
+
 });
 
 /**
@@ -1599,11 +1691,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.huntBtn = huntBtn;
 
 		//festival
-		var festivalBtn = new classes.village.ui.VillageButton({
+		var festivalBtn = new classes.village.ui.FestivalButton({
 				name: "Hold festival",
 				description: "Hold a cultural festival to make your kittens happy. (+30% to the happiness for a year)",
 				handler: dojo.hitch(this, function(){
-					this.holdFestival();
+					this.holdFestival(1);
 				}),
 				prices: [
 					{ name : "manpower", val: 1500 },
@@ -1811,11 +1903,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.game.village.sendHunters();
 	},
 
-	holdFestival: function(){
+	holdFestival: function(amt){
 		var festivalWasInProgress = this.game.calendar.festivalDays > 0;
 
 		if (this.game.prestige.getPerk("carnivals").researched){
-			this.game.calendar.festivalDays += 400;
+			this.game.calendar.festivalDays += (400 * amt);
 		} else {
 			this.game.calendar.festivalDays = 400;
 		}

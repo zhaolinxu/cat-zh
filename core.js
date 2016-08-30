@@ -28,6 +28,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * >>  constructor: function() { this.arrayField = []; }
 	 */
 	effectsCached: null,
+	effectsCachedExisting: null,
 	meta: null,
 	panelData: null,
 
@@ -36,6 +37,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	constructor: function(){
 		this.effectsCached = {};
+		this.effectsCachedExisting= {},
 		this.meta = [];
 		this.panelData = {};
 	},
@@ -50,6 +52,14 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	registerMeta: function(meta, provider){
 		this.meta.push({meta: meta, provider: provider});
+		// Set effectsCachedExisting based on meta
+		for (var a = 0; a< this.meta.length; a++){
+			for (var i = 0; i< this.meta[a].meta.length; i++){
+				for (effect in this.meta[a].meta[i].effects) {
+					this.effectsCachedExisting[effect] = 0;
+				}
+			}
+		}
 	},
 
 	invalidateCachedEffects: function(){
@@ -68,21 +78,38 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		});
 	},
 
+	updateEffectCached: function() {
+		for (name in this.effectsCachedExisting) {
+			var effect = 0;
+			for (var i = 0; i< this.meta.length; i++){
+				var effectMeta = this.getMetaEffect(name, this.meta[i]);
+				effect += effectMeta;
+			}
+			this.effectsCached[name] = effect;
+		}
+	},
+
 	/**
 	 * Returns a cached combined value of effect of all managers.
 	 * Will calculate and store cached value if called for a first time.
 	 */
 	getEffectCached: function(name){
-		var cached = this.effectsCached[name];
-		if (cached != undefined) { return cached; }
+		// Search only if effect exists
+		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
+			return 0;
+		} else {
+			var cached = this.effectsCached[name];
+			if (cached != undefined) { return cached; }
 
-		var effect = 0;
-		for (var i = 0; i< this.meta.length; i++){
-			var effectMeta = this.getMetaEffect(name, this.meta[i]);
-			effect += effectMeta;
+			var effect = 0;
+			for (var i = 0; i< this.meta.length; i++){
+				var effectMeta = this.getMetaEffect(name, this.meta[i]);
+				effect += effectMeta;
+			}
+
+			this.effectsCached[name] = effect;
+			return effect;
 		}
-		this.effectsCached[name] = effect;
-		return effect;
 	},
 
 	/**
@@ -452,7 +479,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		var isEnabled = true;
 
 		var prices = this.getPrices();
-		if (!this.hasResources(prices)){
+		if (!this.hasResources(prices)
+		|| this.name == "Used Cryochambers"
+		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").val)){
 			isEnabled = false;
 		}
 		this.setEnabled(isEnabled);
@@ -545,7 +574,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				var price = prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				this.game.resPool.addResAmt(price.name,price.val*percent);
+				this.game.resPool.addResEvent(price.name,price.val*percent);
 				//res.value += price.val * percent;
 			}
 		}
@@ -1022,12 +1051,19 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				if (effectName.substr(-3) === "Max") {
 					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
 					effectValue += effectValue * this.game.prestige.getParagonStorageRatio();
+
+					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
+					if (!this.game.resPool.isNormalCraftableResource(res) && !res.transient){
+						effectValue += effectValue * this.game.religion.getEffect("tcResourceRatio");
+					}
 				}
 
 				var displayEffectValue;
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
+				} else if (effectMeta.type === "perDay"){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
 				} else if ( effectMeta.type === "ratio" ) {
 					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
 				} else {

@@ -14,13 +14,16 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
+		this.registerMetaReligion();
+	},
 
+	registerMetaReligion: function() {
 		this.registerMeta(this.zigguratUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects[effectName] * bld.val;
+			return bld.effects ? bld.effects[effectName] * bld.val : 0;
 		}});
 
 		this.registerMeta(this.transcendenceUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects[effectName] * bld.val;
+			return bld.effects ? bld.effects[effectName] * bld.val : 0;
 		}});
 
 		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){
@@ -554,12 +557,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getProductionBonus: function(){
-		rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
+		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
+        //Solar Revolution capped to 10000% so it doesn't become game-breaking
+        rate = this.game.bld.getHyperbolicEffect(rate, 100);
 		return rate;
 	},
 
 	getFaithBonus: function(){
-		return this._getFaithBonus(this.faithRatio);
+                return this._getFaithBonus(this.faithRatio);
 	},
 
 	_getFaithBonus: function(ratio){
@@ -574,8 +579,17 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getTranscendenceLevel: function(){
 		var bonus = this._getFaithBonus(this.tcratio) * 100;
-		return Math.round(Math.log(bonus));
-	}
+		bonus = Math.round(Math.log(bonus));
+			if (bonus < 0) {
+				bonus = 0;
+			}
+		return bonus;
+	},
+
+    getTranscendenceRatio: function(level){
+            var bonus = Math.exp(level);
+            return (Math.pow(bonus/5+1,2)-1)/80;
+    }
 
 });
 
@@ -659,14 +673,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 		for (var i = 0; i< prices.length; i++){
 			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
-			if (game.village.leader && game.village.leader.trait["name"] == "wise") {
-				if (prices[i].name == "faith") {
-					prices[i].val = prices[i].val / 0.9;
-				} else if (prices[i].name == "gold") {
-					prices[i].val = prices[i].val * 0.9;
-				}
-			}
 		}
+
+		prices = this.game.village.getEffectLeader("wise", prices);
 
 	    return prices;
 	},
@@ -988,6 +997,7 @@ dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameA
 });
 
 dojo.declare("classes.ui.CryptotheologyPanel", com.nuclearunicorn.game.ui.Panel, {
+	visible: false,
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
@@ -1222,7 +1232,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!this.game.religion.getRU("transcendence").researched){
 			return;	//:3
 		}
-		if (!confirm("CLICKING THIS BUTTON WILL COMPLETELY ERASE YOUR FAITH BONUS.\nYou will receive special transcendence levels in proportion of sacrificed faith bonus." +
+		if (!confirm("CLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.\nYou will receive special transcendence levels in proportion of sacrificed faith bonus." +
 				" Every level require proportionally more faith to be sacrificed. This bonus will stack and carry over through resets.")){
 			return;
 		}
@@ -1230,17 +1240,25 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!confirm("Are you sure you want to discard your faith bonus and transcend the mortal limits?")){
 			return;
 		}
-		this.resetFaithInternal(0);
 
+                //Don't require Apocrypha trigger
 
 		var religion = this.game.religion;
-		var ratio = religion.faithRatio;
-		religion.faithRatio = 0;
-		religion.tcratio += ratio;
-		religion.tclevel = religion.getTranscendenceLevel();
+                //Transcend one Level at a time
+              var tclevel = religion.getTranscendenceLevel();
+		var ratio = religion.getTranscendenceRatio(tclevel+1)-religion.getTranscendenceRatio(tclevel);
+		if (religion.faithRatio > ratio) {;
+			religion.faithRatio -= ratio;
+			religion.tcratio += ratio;
+			religion.tclevel = religion.getTranscendenceLevel();
+		}
 	},
 
     resetFaithInternal: function(bonusRatio){
+         //100% Bonus per Transcendence Level
+         if (this.game.religion.getRU("transcendence").researched) {
+	        bonusRatio *= Math.pow((1 + this.game.religion.getTranscendenceLevel()), 2);
+         }
         this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1 * bonusRatio;
 		this.game.religion.faith = 0.01;
     }

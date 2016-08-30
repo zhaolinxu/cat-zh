@@ -1,16 +1,5 @@
 dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabManager, {
 
-	constructor: function(game){
-		this.game = game;
-
-		/*this.registerMeta(this.perks, { getEffect: function(meta, effectName){
-			if (meta.researched){
-				return meta.effects[effectName];
-			}
-			return 0;
-		}});*/
-	},
-
     perks:[{
 		name: "engeneering",
 		title: "Engineering",
@@ -87,8 +76,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		effects:{
 			"priceRatio" : -0.0225
 		}
-	},
-	{
+	},{
 		name: "diplomacy",
 		title: "Diplomacy",
 		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
@@ -245,9 +233,32 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		handler: function(game){
 		}
+	},{
+		name: "adjustmentBureau",
+		title: "Adjustment Bureau",
+		description: "Unlocks additional game challenges.",
+		paragon: 5,
+		unlocked: true,
+		defaultUnlocked: true,
+		researched: false,
+		handler: function(game){
+		}
 	}],
 
 	game: null,
+
+	constructor: function(game){
+		this.game = game;
+		this.registerMetaPrestige();
+	},
+
+	registerMetaPrestige: function() {
+		this.registerMeta(this.perks, {
+			getEffect: function(perk, effectName){
+				return (perk.researched && perk.effects) ? perk.effects[effectName] : 0;
+			}
+		});
+	},
 
 	resetState: function(){
 		for (var i = 0; i < this.perks.length; i++){
@@ -286,15 +297,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getEffect: function(name){
-		//return this.getEffectCached(name);
-		return this.getMetaEffect(name, { meta: this.perks, provider: {
-			getEffect: function(perk, effectName){
-				if (!perk.effects || !perk.researched){
-					return 0;
-				}
-				return perk.effects[effectName];
-			}
-		}});
+		return this.getEffectCached(name);
 	},
 
 	getPerk: function(name){

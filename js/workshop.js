@@ -84,6 +84,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "reinforcedSaw",
+		title: "Reinforced Saw",
+		description: "Improve Lumber Mill efficiency by 20%",
+		effects: {
+			"lumberMillRatio" : 0.2
+		},
+		prices:[
+			{ name : "science", val: 2500 },
+			{ name : "iron", val: 1000 }
+		],
+		upgrades: {
+			buildings: ["lumberMill"]
+		},
+		unlocked: false,
+		researched: false
+	},{
 		name: "steelSaw",
 		title: "Steel Saw",
 		description: "Improve Lumber Mill efficiency by 20%",
@@ -879,6 +895,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false,
 		researched: false
+	},{
+		name: "strenghtenBuild",
+		title: "Concrete Pillars",
+		description: "Repair barn and warehouse cracks with concrete.",
+		effects: {
+			"barnRatio" : 0.05,
+			"warehouseRatio" : 0.05
+		},
+		prices:[
+			{ name : "science", val: 100000 },
+			{ name : "concrate", val: 50 }
+		],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			upgrades: ["concreteWarehouses", "concreteBarns", "concreteHuts"]
+		},
+		upgrades: {
+			buildings: ["barn", "warehouse", "harbor", "mint"]
+		}
 	},
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
 	{
@@ -1013,6 +1049,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "alloy", val: 750 },
 			{ name : "science",  val: 200000 }
+		],
+		unlocked: false,
+		researched: false,
+        unlocks: {
+			upgrades: ["nuclearPlants"]
+		},
+	},{
+		name: "nuclearPlants",
+		title: "Nuclear Plants",
+		description: "Steel Plants are additionally boosted by 2% of your craft ratio per Reactor",
+		effects: {
+			"calcinerSteelReactorBonus" : 0.02
+		},
+		prices:[
+			{ name : "uranium", val: 10000 },
+			{ name : "science",  val: 250000 }
 		],
 		unlocked: false,
 		researched: false
@@ -1354,7 +1406,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Relic Station",
 		description: "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
 		effects: {
-			"beaconRelicsPerTick": 0.01
+			"beaconRelicsPerDay": 0.01
 		},
 		prices: [
 			{name: "eludium", val: 100},
@@ -1744,7 +1796,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "manuscript",
 		title: "Manuscript",
-		description: "Written document required for technological advancement.Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
+		description: "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
 		prices:[
 			{name: "parchment", val: 25},
 			{name: "culture", val: 400}
@@ -1842,14 +1894,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
+		this.metaCache = {};
+		this.registerMetaWorkshop();
+	},
 
+	registerMetaWorkshop: function() {
 		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
 			if (upgrade.researched){
 				return upgrade.effects ? upgrade.effects[name] : 0;
 			}
 		}});
-
-		this.metaCache = {};
 	},
 
 	get: function(upgradeName){
@@ -2002,7 +2056,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.game.resPool.hasRes(prices)){
 			this.game.resPool.payPrices(prices);
-			this.game.resPool.addResAmt(res,craftAmt);
+			this.game.resPool.addResEvent(res,craftAmt);
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}

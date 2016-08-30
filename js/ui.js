@@ -31,6 +31,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     fontSize: 16,
 
+    //current selected game tab
+	activeTabId: "Bonfire",
+
     isDisplayOver: false,
     isChatActive: false,
 
@@ -89,7 +92,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }, tabNavigationDiv);
             tab.domNode = tabLink;
 
-            if (game.activeTabId == tab.tabId){
+            if (this.activeTabId == tab.tabId){
                 dojo.addClass(tabLink, "activeTab");
             }
 
@@ -97,7 +100,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             dojo.connect(tabLink, "onclick", this,
                 dojo.partial(
                     function(tab){
-                        game.activeTabId = tab.tabId;
+                        this.activeTabId = tab.tabId;
                         this.render();
                     }, tab)
             );
@@ -111,7 +114,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         for (var i = 0; i < game.tabs.length; i++){
             var tab = game.tabs[i];
 
-            if (game.activeTabId == tab.tabId){
+            if (this.activeTabId == tab.tabId){
 
                 var divContainer = dojo.create("div", {
                     className: "tabInner"
@@ -131,12 +134,24 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     //---------------------------------------------------------------
     update: function(){
         //TODO: use ui managers?
+		this.updateTabs();
         this.updateFastHunt();
         this.updateCalendar();
         this.updateUndoButton();
 
         this.toolbar.update();
     },
+
+	updateTabs: function() {
+		var tabs = this.game.tabs;
+		for (var i = 0; i < tabs.length; i++){
+			var tab = tabs[i];
+
+			if (tab.tabId == this.activeTabId){
+				tab.update();
+			}
+		}
+	},
 
     updateFastHunt: function(){
         if (!this.fastHuntContainer){

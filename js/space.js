@@ -203,7 +203,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
 			val: 0,
-			effects: {},
+			effects: {
+				"oilReductionRatio": 0,
+				"spaceRatio": 0,
+				"prodTransferBonus" : 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"oilReductionRatio": 0.05,
@@ -231,11 +235,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			upgradable: true,
 			togglable: true,
 			tunable: true,
-			effects: {},
+			effects: {
+				"observatoryRatio": 0,
+				"starchartPerTickBaseSpace": 0,
+				"energyConsumption": 0,
+				"energyProduction": 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"observatoryRatio": 0.05,
-					"starchartPerTickBase": 0.001 * game.space.getAutoProductionRatio(),
+					"starchartPerTickBaseSpace": 0.001,
 					"energyConsumption": 0,
 					"energyProduction": 0
 				};
@@ -270,7 +279,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			handler: function(game, self){
 				game.ironWill = false;			//sorry folks
 			},
-			effects: {},
+			effects: {
+				"maxKittens": 0,
+				"scienceRatio": 0,
+				"energyConsumption": 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"maxKittens": 2,
@@ -307,22 +320,27 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			val:  0,
 			on:	  0,
-			effects: {},
+			effects: {
+				"energyConsumption": 0,
+				"uraniumPerTickCon": 0,
+				"unobtainiumPerTickSpace": 0,
+				"uraniumPerTickCon": 0,
+				"unobtainiumPerTickSpace": 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"uraniumPerTick": -0.35,
-					"unobtainiumPerTick": 0.007
-						* game.space.getAutoProductionRatio()
-						* (1+ game.workshop.getEffect("lunarOutpostRatio")),
 					"energyConsumption": 5
 				};
 			},
 			action: function(game, self){
-				game.resPool.convert(
-					[{res: "uranium", amt: -self.effects["uraniumPerTick"]}],
-					[{res: "unobtainium", amt: self.effects["unobtainiumPerTick"]}],
+				self.effects["uraniumPerTickCon"] = -0.35;
+				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
+				var amt = game.resPool.getAmtDependsOnStock(
+					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
 				);
+				self.effects["uraniumPerTickCon"]*=amt;
+				self.effects["unobtainiumPerTickSpace"]*=amt;
 			}
 		},{
 			name: "moonBase",
@@ -338,7 +356,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "unobtainium", 	val: 50},
 				{name: "oil", 			val: 70000}
 			],
-			effects: {},
+			effects: {
+				"catnipMax"         : 0,
+				"woodMax"           : 0,
+				"mineralsMax"       : 0,
+				"ironMax"           : 0,
+				"coalMax"           : 0,
+				"titaniumMax"       : 0,
+				"oilMax"            : 0,
+				"unobtainiumMax"    : 0,
+				"energyConsumption" : 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"catnipMax"         : 45000,
@@ -374,23 +402,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 125000},
                 {name: "kerosene", val: 50}
             ],
-
             upgradable: true,
             togglable: 	false,
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {},
+            effects: {
+				"uraniumPerTickSpace" : 0,
+				"uraniumMax" : 0
+            },
 			calculateEffects: function (game, self){
 				self.effects = {
-					"uraniumPerTick" : 0.3
-						* (1 + game.workshop.getEffect("crackerRatio"))
-						* (1 + game.space.getEffect("spaceRatio")),
+					"uraniumPerTickSpace" : 0.3
+						* (1 + game.workshop.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
 			},
             action: function(game, self){
-				game.resPool.addResAmt("uranium", self.effects["uraniumPerTick"] * self.val);
             }
         },{
             name: "hydrofracturer",
@@ -404,21 +432,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 150000},
                 {name: "kerosene", val: 100}
             ],
-
             upgradable: true,
             togglable: 	false,
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {},
+            effects: {
+				"oilPerTickAutoprodSpace": 0
+            },
 			calculateEffects: function(game, self){
 				self.effects = {
-					"oilPerTick": 0.5
-						* game.space.getAutoProductionRatio(true /* use transfer bonus*/)
+					"oilPerTickAutoprodSpace": 0.5
 				};
 			},
             action: function(game, self){
-				game.resPool.addResAmt("oil", self.effects["oilPerTick"] * self.val);
             }
         }]
 	},{
@@ -442,10 +469,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {},
+            effects: {
+				"starchartPerTickBaseSpace": 0,
+				"scienceMax": 0
+			},
             calculateEffects: function(game, self){
 				self.effects = {
-					"starchartPerTickBase": 0.01 * game.space.getAutoProductionRatio(),
+					"starchartPerTickBaseSpace": 0.01,
 					"scienceMax": 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"))
 				};
             }
@@ -465,7 +495,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	true,
             val:  0,
             on:	  0,
-            effects: {},
+            effects: {
+				"spaceRatio": 0,
+				"energyConsumption" : 0
+				},
             calculateEffects: function(game, self){
 				self.effects = {
 					"spaceRatio": 0.02,
@@ -493,7 +526,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             tunable: 	false,
             val:  0,
             on:	  0,
-            effects: {},
+            effects: {
+				"antimatterProduction": 0,
+				"energyProduction" : 0
+			},
             calculateEffects: function(game, self){
 				self.effects = {
 					"antimatterProduction": 1,
@@ -539,7 +575,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 200000   },
                 {name: "kerosene", val: 500   }
             ],
-            effects: {},
+            effects: {
+				"woodMax"       : 0,
+				"mineralsMax"   : 0,
+				"ironMax"       : 0,
+				"coalMax"       : 0,
+				"uraniumMax"    : 0,
+				"titaniumMax"   : 0,
+				"oilMax"        : 0,
+				"unobtainiumMax": 0
+			},
             calculateEffects: function(game, self){
 				self.effects = {
 					"woodMax"       : 200000,
@@ -573,12 +618,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "alloy", 		val: 25000 },
 					{name: "kerosene", 		val: 7500   }
 				],
-				effects: {},
+				effects: {
+					"starchartPerTickBaseSpace": 0,
+					"scienceMax": 0,
+					"relicPerDay": 0
+				},
 				calculateEffects: function(game, self){
 					self.effects = {
-						"starchartPerTickBase": 0.025 * game.space.getAutoProductionRatio(),
+						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
-						"relicPerDay": game.workshop.getEffect("beaconRelicsPerTick")
+						"relicPerDay": game.workshop.getEffect("beaconRelicsPerDay")
 					};
 				},
 				upgradable: true,
@@ -601,7 +650,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "uranium", val: 5000  },
 					{name: "kerosene", val: 5000   }
 				],
-				effects: {},
+				effects: {
+					"maxKittens": 0,
+					"catnipConsumption": 0
+				},
 				calculateEffects: function(game, self){
 					self.effects = {
 						"maxKittens": 1,
@@ -620,7 +672,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				prices: [
 					{name: "kerosene", val: 500 }
 				],
-				effects: {},
+				effects: {
+					"catnipMaxRatio" : 0,
+					"catnipRatio" : 0
+				},
 				calculateEffects: function(game, self){
 					self.effects = {
 						"catnipMaxRatio" : 0.1,
@@ -640,6 +695,29 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
+		this.registerMetaSpace();
+	},
+
+	registerMetaSpace: function(){
+		this.registerMeta(this.programs, { getEffect: function(program, effectName){
+			if (!program.effects){
+				return 0;
+			}
+			var val = program.togglable ? program.on: program.val;
+			return program.upgradable ?
+				program.effects[effectName] * val:
+				program.effects[effectName];
+		}});
+
+		for (planet of this.planets) {
+			this.registerMeta(planet.buildings, { getEffect: function(building, effectName){
+				if (!building.effects){
+					return 0;
+				}
+				var val = building.togglable ? building.on: building.val;
+				return building.effects[effectName] * val;
+			}});
+		}
 	},
 
 	resetState: function(){
@@ -747,6 +825,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
+
+		this.invalidateCachedEffects();
 	},
 
 	update: function(){
@@ -814,33 +894,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	getEffect: function(name){
 		var self = this;
 
-		var totalEffect =  this.getMetaEffect(name, { meta:this.programs, provider: {
-			getEffect: function(program, effectName){
-				if (!program.effects){
-					return 0;
-				}
-
-				var val = program.togglable ? program.on: program.val;
-				return program.upgradable ?
-					program.effects[effectName] * val:
-					program.effects[effectName];
-			}
-		}}) +
-
-		// i dont know what went wrong
-		this.getMetaEffect(name, { meta:this.planets, provider: {
-			getEffect: function(planet, effectName){
-				return self.getMetaEffect(effectName, {meta: planet.buildings, provider: {
-					getEffect: function(building, effectName){
-						if (!building.effects){
-							return 0;
-						}
-						var val = building.togglable ? building.on: building.val;
-						return building.effects[effectName] * val;
-					}
-				}});
-			}
-		}});
+		var totalEffect = this.getEffectCached(name);
 
 		if ((name == "spaceRatio")
 			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
