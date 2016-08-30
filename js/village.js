@@ -415,7 +415,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			/*if (saveData.village.jobs.length){
 				this.jobs = saveData.village.jobs;
 			}*/
-			if (saveData.village.jobs.length){
+
+			if (saveData.village.jobs){
 				for (var i = saveData.village.jobs.length - 1; i >= 0; i--) {
 					var savedJob = saveData.village.jobs[i];
 
@@ -676,6 +677,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 		this.age = 16 + this.rand(30);
 
+		this.exp = 0;
 		this.skills = {};
 	},
 
