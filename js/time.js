@@ -21,6 +21,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		this.registerMeta(this.chronoforgeUpgrades, { getEffect: function(bld, effectName){
 			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
 		}});
+
+		this.registerMeta(this.voidspaceUpgrades, { getEffect: function(bld, effectName){
+			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
+		}});
     },
 
     load: function(saveData){
@@ -154,7 +158,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
-        effect: {
+        effects: {
 			"maxKittens": 1
         },
         action: function(){
@@ -170,7 +174,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         ],
         priceRatio: 1.25,
-        effect: {
+        effects: {
 			"maxKittens": 1
         },
         action: function(){
