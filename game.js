@@ -2169,7 +2169,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var toZero = res.value / (-res.perTickUI * this.getRateUI());
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
-			if (res.maxValue) {
+			if (res.maxValue && res.value < res.maxValue) {
 				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.getRateUI());
 				if (toCap){
 					resString += "<br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
