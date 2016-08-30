@@ -36,7 +36,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
-			console.log(saveData.time.usedCryochambers);
 				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val"], function(loadedElem){
 			});
 		}
@@ -175,7 +174,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-			"maxKittens": 1
+
         },
         action: function(){
 

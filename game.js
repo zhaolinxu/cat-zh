@@ -1236,7 +1236,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		//------------------------------------
 
-		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0);
+		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 || this.time.getVSU("usedCryochambers").val > 0);
 		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
 		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
