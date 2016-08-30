@@ -362,6 +362,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value += addedValue;
 		}
 
+		if (res.name == "void") { // Always an integer
+			res.value = Math.floor(res.value);
+		}
+
 		if (isNaN(res.value) || res.value < 0){
 			res.value = 0;	//safe switch
 		}

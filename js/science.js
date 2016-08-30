@@ -785,6 +785,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
+			tech: ["voidSpace"],
 			upgrades: ["tachyonAccelerators", "chronoforge"]
 		}
 	},{
@@ -800,6 +801,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["relicStation"]
+		}
+	},{
+		name: "voidSpace",
+		title: "Void Space",
+		description: "Under the void",
+		effectDesc: "Unlocks Cryochambers",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 800000},
+			{name: 	"timeCrystal", val: 40},
+			{name : "void",   val: 100}
+		],
+		unlocks: {
+			voidSpace: ["cryochambers"]
 		}
 	}],
 

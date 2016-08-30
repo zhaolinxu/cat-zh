@@ -1248,7 +1248,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
 		this.religionTab.visible = (this.resPool.get("faith").value > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
-		this.timeTab.visible = (this.science.get("calendar").researched);
+		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 	},
 
 	//btw, ie11 is horrible crap and should not exist
@@ -2568,6 +2568,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
+		var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val"]);
+		usedCryochambers_reset[0]["val"] = this.time.getVSU("cryochambers").val;
+
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
@@ -2582,7 +2585,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks	//never resets
 			},
 			science: { techs: [], hideResearched: false },
-			resources: newResources
+			resources: newResources,
+			time: {
+				usedCryochambers: usedCryochambers_reset
+			}
 		};
 
 		if (anachronomancy.researched){
@@ -2667,6 +2673,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "space":
 				var planet = this.space.getPlanet(unlockId.planet);
 				return this.space.getMeta(unlockId.bld, planet.buildings);
+			case "voidSpace":
+				return this.time.getVSU(unlockId);
 			case "stages":
 				return this.bld.get(unlockId.bld);
 		}
