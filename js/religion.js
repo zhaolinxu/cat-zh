@@ -984,6 +984,7 @@ dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameA
 });
 
 dojo.declare("classes.ui.CryptotheologyPanel", com.nuclearunicorn.game.ui.Panel, {
+	visible: false,
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.game.ui.tab, {
