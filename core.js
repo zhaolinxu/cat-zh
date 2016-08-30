@@ -479,7 +479,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		var isEnabled = true;
 
 		var prices = this.getPrices();
-		if (!this.hasResources(prices) || (this.name == "cryochambers" && this.game.time.voidspaceUpgrades[0].val >= this.game.bld.get("chronosphere").val)){
+		if (!this.hasResources(prices)
+		|| this.name == "Used Cryochambers"
+		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").val)){
 			isEnabled = false;
 		}
 		this.setEnabled(isEnabled);

@@ -813,7 +813,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 800000},
 			{name: 	"timeCrystal", val: 40},
 			{name : "void",   val: 100}
-		]
+		],
+		unlocks: {
+			voidSpace: ["cryochambers"]
+		}
 	}],
 
 	metaCache: null,

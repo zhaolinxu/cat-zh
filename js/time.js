@@ -31,6 +31,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.energy = saveEnergy;
         this.flux = saveData["time"].flux || 0;
 
+		if (saveData.time.usedCryochambers){ //after reset
+			console.log(saveData.time.usedCryochambers);
+				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val"], function(loadedElem){
+			});
+		}
+
         if (!this.game.science.get("calendar").researched){
             return;
         }
@@ -44,6 +50,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (saveData.time.cfu){
             this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
             });
+        }
+        if (saveData.time.vsu){
             this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked"], function(loadedElem){
             });
         }
@@ -153,11 +161,31 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         },
         val: 0,
+        unlocked: false
+    },{
+        name: "usedCryochambers",
+        label: "Used Cryochambers",
+        description: "Those are unusable cryochambers...",
+        prices: [
+
+        ],
+        priceRatio: 1.25,
+        effect: {
+			"maxKittens": 1
+        },
+        action: function(){
+
+        },
+        val: 0,
         unlocked: true
     }],
 
     getCFU: function(id){
         return this.getMeta(id, this.chronoforgeUpgrades);
+    },
+
+    getVSU: function(id){
+        return this.getMeta(id, this.voidspaceUpgrades);
     }
 });
 
@@ -370,6 +398,12 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
     onClick: function(event){
         var self = this;
 
+		if (this.getMetadata().name == "usedCryochambers") {
+			return;
+		} else if (this.getMetadata().name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
+			return;
+		}
+
         this.animate();
         var meta = this.getMetadata();
         if (this.enabled && this.hasResources()){
@@ -537,7 +571,7 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
             this.cfPanel.setVisible(true);
         }
 
-		var hasVS = this.game.science.get("voidSpace").researched;
+		var hasVS = (this.game.science.get("voidSpace").researched || this.game.time.getVSU("usedCryochambers").val > 0);
         if (hasVS){
             this.vsPanel.setVisible(true);
         }
