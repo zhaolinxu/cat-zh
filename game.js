@@ -975,14 +975,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}), 10);	//every 2 seconds
 
 		this.timer.addEvent(dojo.hitch(this, function(){
-
-			this.bld.invalidateCachedEffects();
-			this.workshop.invalidateCachedEffects();
-			this.prestige.invalidateCachedEffects();
-			this.religion.invalidateCachedEffects();
-			this.space.invalidateCachedEffects();
-			this.time.invalidateCachedEffects();
-
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
