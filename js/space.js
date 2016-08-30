@@ -480,7 +480,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		buildings: [{
             name: "sunlifter",
             title: "Sunlifter",
-            description: "Generates antimatter once per year.",
+            description: "Generates antimatter once per year. Inactive if energy production is negative",
             unlocked: true,
             priceRatio: 1.15,
             prices: [
@@ -497,10 +497,32 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             calculateEffects: function(game, self){
 				self.effects = {
 					"antimatterProduction": 1,
-					"energyProduction" : 30
+					"energyProduction" : 30,
+					"antimatter" : 30
 				};
             }
-        }]
+        },{
+			name: "containmentChamber",
+			title: "Containment Chamber",
+			description: "Increases antimatter storage space by 100.",
+			unlocked: true,
+			priceRatio: 1.15,
+			prices: [
+				{name: "science", val: 500000},
+				{name: "kerosene", val: 2500}
+			],
+			upgradable: true,
+			togglable: 	false,
+			tunable: 	false,
+			val:  0,
+			on:	  0,
+			effects: {},
+			calculateEffects: function(game, self){
+				self.effects = {
+					"energyConsumption" : 50
+				};
+			}
+		}]
 	},{
 		name: "terminus",
 		title: "T-Minus",

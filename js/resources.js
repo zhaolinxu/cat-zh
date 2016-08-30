@@ -44,6 +44,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#4EA24E"
 	},{
+		name : "thorium", //divinite
+		type : "common",
+		visible: true,
+		craftable: true,
+		color: "#4EA24E"
+	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
@@ -454,7 +460,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			this.game.updateKarma();
 
 			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
-
 			this.addRes(res, resPerTick);
 
 		}

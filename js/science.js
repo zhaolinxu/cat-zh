@@ -623,8 +623,23 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 250}
 		],
 		unlocks: {
-			tech: ["exogeology"],
+			tech: ["exogeology", "thorium"],
 			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites"]
+		}
+	},{
+		name: "thorium",
+		title: "Thorium",
+		description: "TBD.",
+		effectDesc: "Unlocks Thorium Reactors",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 375000},
+			{name: 	"blueprint", val: 375}
+		],
+		unlocks: {
+			crafts: ["thorium"],
+			/*upgrades: ["thoriumReactors"]*/
 		}
 	},{
 		name: "exogeology",

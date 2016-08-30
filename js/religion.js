@@ -10,6 +10,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	tcratio: 0,
 	corruption: 0,
 
+	alicornCounter: 0,
+
 	constructor: function(game){
 		this.game = game;
 
@@ -135,6 +137,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
 			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
+
+		var apt = this.getEffect("alicornPerTick") || 0;
+		var alicorns = this.game.resPool.get("alicorn");
+
+		//enable hidden generation bonus once first AC was unlocked
+		if (alicorns.value > 0) {
+			this.game.resPool.addRes(alicorns, apt);
+		}
 	},
 
 	zigguratUpgrades: [{
@@ -205,6 +215,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 0.5,
 			"alicornChance" : 5,
+			"alicornPerTick" : 0.00001,
 			"ivoryMeteorRatio" : 0.05
 		},
 		val: 0,
@@ -225,6 +236,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 2.5,
 			"alicornChance" : 15,
+			"alicornPerTick" : 0.00005,
 			"ivoryMeteorRatio" : 0.15,
 			"tcRefineRatio" : 0.1
 		},
@@ -248,6 +260,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 5,
 			"alicornChance" : 30,
+			"alicornPerTick" : 0.0001,
 			"tcRefineRatio": 0.25,
 			"ivoryMeteorRatio" : 0.5
 		},

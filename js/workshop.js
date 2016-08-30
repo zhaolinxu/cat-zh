@@ -1814,6 +1814,14 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         unlocked: false
     },{
+		name: "thorium",
+		title: "Thorium",
+		description: "A highly radioactive and unstable fuel",
+		prices:[
+			{ name: "uranium", val: 250 }
+		],
+		unlocked: false
+	},{
 		name: "megalith",
 		title: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",

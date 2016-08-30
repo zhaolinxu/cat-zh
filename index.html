@@ -43,7 +43,8 @@
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
 
-				var version = "1.1.2.0k";
+				//invalidate caching
+				var version = "1.1.2.0_" + new Date().getTime();
 
 				SystemJS.config({
 					baseURL: ''
