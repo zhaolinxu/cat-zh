@@ -1244,7 +1244,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
     resetFaithInternal: function(bonusRatio){
          //100% Bonus per Transcendence Level
          if (this.game.religion.getRU("transcendence").researched) {
-	        bonusRatio *= Math.pow((1 + this.getTranscendenceLevel()), 2);
+	        bonusRatio *= Math.pow((1 + this.game.religion.getTranscendenceLevel()), 2);
          }
         this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1 * bonusRatio;
 		this.game.religion.faith = 0.01;
