@@ -577,10 +577,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getFaithBonus: function(){
-                return this._getFaithBonus(this.faithRatio);
+		return this.getTriValueReligion(this.faithRatio);
 	},
 
-	_getFaithBonus: function(ratio){
+	getTriValueReligion: function(ratio){
 		return this.game.getTriValue(ratio, 0.1)*0.1;
 	},
 
@@ -591,7 +591,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getTranscendenceLevel: function(){
-		var bonus = this._getFaithBonus(this.tcratio) * 100;
+		var bonus = this.getTriValueReligion(this.tcratio) * 100;
 		bonus = Math.round(Math.log(bonus));
 			if (bonus < 0) {
 				bonus = 0;
