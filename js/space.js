@@ -61,7 +61,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 75}
 		],
 		upgradable: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.space.getProgram("heliosMission").unlocked = true;
 		},
 		unlocks: {
@@ -80,7 +80,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 250}
 		],
 		upgradable: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.space.getProgram("terminusMission").unlocked = true;
 		},
         unlocks: {
@@ -99,7 +99,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 1250}
 		],
 		upgradable: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.space.getProgram("yarnMission").unlocked = true;
 		},
         unlocks: {
@@ -118,7 +118,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 750}
 		],
 		upgradable: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.space.getProgram("heliosMission").unlocked = true;
 			game.space.getProgram("kairoMission").unlocked = true;
 		},
@@ -138,7 +138,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 7500}
 		],
 		upgradable: false,
-		handler: function(game, self){
+		handler: function(game){
 			game.space.getProgram("rorschachMission").unlocked = true;
 		},
 		unlocks: {
@@ -276,7 +276,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			togglable: true,
 			tunable: true,
 			upgradable: true,
-			handler: function(game, self){
+			handler: function(game){
 				game.ironWill = false;			//sorry folks
 			},
 			effects: {

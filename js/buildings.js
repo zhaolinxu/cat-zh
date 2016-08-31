@@ -804,7 +804,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"magnetoBoostRatio": 0,
 			"coalRatioGlobal" : 0,
-			"manuscriptPerTickProd": 0,
 			"energyProduction": 0,
 			"manuscriptPerTickProd": 0
 		},
@@ -1308,9 +1307,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"unhappinessRatio" : 0,
 			"culturePerTickBase" : 0,
-			"cultureMax" : 0,
-			"culturePerTickBase" : 0,
-			"unhappinessRatio" : 0,
 			"cultureMax" : 0
 		},
 		stages: [
@@ -1538,7 +1534,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"faithMax" 		: 100,
 		"cultureMax"	: 100,
 		"uraniumMax"	: 250,
-		"unobtainiumMax": 150
+		"unobtainiumMax": 150,
+		"antimatterMax": 1000
 	},
 
 	get: function(name){

@@ -515,7 +515,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"mintEffect": {
-				title: "Mint effect",
+				title: "Mint effect"
 			},
 
 			"tradeRatio": {
@@ -767,7 +767,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "uraniumPerTick_cycleEffect" : {
                 title: "Zodiac effect Uranium production",
                 type: "ratio"
-            },
+            }
 		}
 	}
 });
@@ -1623,7 +1623,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
-		if (game.calendar.day < 0) {
+		if (game.calendar.day < 0) {
 			return null;
 		}
 
