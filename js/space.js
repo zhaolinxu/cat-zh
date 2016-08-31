@@ -199,7 +199,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			prices: [
 				{name: "titanium", val: 6000},
 				{name: "science", val: 75000},
-				{name: "unobtainium", val: 50},
+				{name: "unobtainium", val: 50}
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
 			val: 0,
@@ -322,8 +322,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			on:	  0,
 			effects: {
 				"energyConsumption": 0,
-				"uraniumPerTickCon": 0,
-				"unobtainiumPerTickSpace": 0,
 				"uraniumPerTickCon": 0,
 				"unobtainiumPerTickSpace": 0
 			},
@@ -555,7 +553,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			effects: {},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"energyConsumption" : 50
+					"energyConsumption" : 50,
+					"antimatterMax": 100
 				};
 			}
 		}]
@@ -709,7 +708,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				program.effects[effectName];
 		}});
 
-		for (planet of this.planets) {
+		for (var i in this.planets) {
+			var planet = this.planets[i];
 			this.registerMeta(planet.buildings, { getEffect: function(building, effectName){
 				if (!building.effects){
 					return 0;

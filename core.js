@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		// Set effectsCachedExisting based on meta
 		for (var a = 0; a< this.meta.length; a++){
 			for (var i = 0; i< this.meta[a].meta.length; i++){
-				for (effect in this.meta[a].meta[i].effects) {
+				for (var effect in this.meta[a].meta[i].effects) {
 					this.effectsCachedExisting[effect] = 0;
 				}
 			}
@@ -79,7 +79,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	},
 
 	updateEffectCached: function() {
-		for (name in this.effectsCachedExisting) {
+		for (var name in this.effectsCachedExisting) {
 			var effect = 0;
 			for (var i = 0; i< this.meta.length; i++){
 				var effectMeta = this.getMetaEffect(name, this.meta[i]);
