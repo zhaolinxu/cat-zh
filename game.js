@@ -2283,20 +2283,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val"]);
 		usedCryochambers_reset[0]["val"] = this.time.getVSU("cryochambers").val;
 
-		var NewKittens= [];
+		var newKittens= [];
 		if (this.time.getVSU("cryochambers").val > 0) {
 			var kittens = this.village.sim.kittens;
 
-			var NewKittensSort = [];
+			var newKittensSort = [];
 			for (i = 0; i < kittens.length; i++) {
-				NewKittensSort.push({"id": i, "sort": kittens[i].exp}); // Sorted by exp
+				newKittensSort.push({"id": i, "sort": kittens[i].exp}); // Sorted by exp
 			}
-			NewKittensSort.sort(function(a, b){return b.sort-a.sort;});
+			newKittensSort.sort(function(a, b){return b.sort-a.sort;});
 
 			for (j = 0; j < this.time.getVSU("cryochambers").val; j++) {
-				if (j < NewKittensSort.length){
+				if (j < newKittensSort.length){
 					delete kittens[j].job;
-					NewKittens.push(kittens[NewKittensSort[j].id]);
+					newKittens.push(kittens[newKittensSort[j].id]);
 				}
 			}
 		}
@@ -2320,7 +2320,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				usedCryochambers: usedCryochambers_reset
 			},
 			village :{
-				kittens: NewKittens
+				kittens: newKittens
 			}
 		};
 
