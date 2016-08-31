@@ -1232,7 +1232,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;	//trust no one
 		}
 
-		if (!confirm("Are you sure you want to reset the pool? You will get +10% to faith conversion per 100K of faith.\nThis bonus will carry over through resets.")){
+		if (!confirm("Are you sure you want to reset the pool?" +
+				"\n\nYou will get +10% to faith conversion per 100K of faith." +
+				"\n\nThis bonus will carry over through resets." +
+				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.")){
 			return;
 		}
 
@@ -1242,28 +1245,31 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	transcend: function(event){
 		event.preventDefault();
 
-		if (!this.game.religion.getRU("transcendence").researched){
+		var religion = this.game.religion;
+
+		if (!religion.getRU("transcendence").researched){
 			return;	//:3
 		}
-		if (!confirm("CLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.\nYou will receive special transcendence levels in proportion of sacrificed faith bonus." +
-				" Every level require proportionally more faith to be sacrificed. This bonus will stack and carry over through resets.")){
+		if (!confirm("Are you sure you want to discard your faith bonus and transcend the mortal limits?" +
+				"\n\nYou can reach a special transcendence level sacrificing your praise's faith bonus." +
+				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
+				"\n\nThis bonus will stack and carry over through resets." +
+				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.")){
 			return;
 		}
 
-		if (!confirm("Are you sure you want to discard your faith bonus and transcend the mortal limits?")){
-			return;
-		}
+		var tclevel = religion.getTranscendenceLevel();
+		//Transcend one Level at a time
+		var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
+		if (religion.faithRatio > needNextLevel) {
 
-                //Don't require Apocrypha trigger
+			religion.faithRatio -= needNextLevel;
+			religion.tcratio += needNextLevel;
+			religion.tclevel += 1;
 
-		var religion = this.game.religion;
-                //Transcend one Level at a time
-              var tclevel = religion.getTranscendenceLevel();
-		var ratio = religion.getTranscendenceRatio(tclevel+1)-religion.getTranscendenceRatio(tclevel);
-		if (religion.faithRatio > ratio) {;
-			religion.faithRatio -= ratio;
-			religion.tcratio += ratio;
-			religion.tclevel = religion.getTranscendenceLevel();
+			this.game.msg("Closer to the gods");
+		} else {
+			this.game.msg("Gods bless you");
 		}
 	},
 
