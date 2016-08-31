@@ -84,71 +84,83 @@ dojo.declare("classes.game.UndoChange", null, {
  * Effects metadata manager
  */
 dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
+
+	effectMeta: function(effectName) {
+
+		for (i = 0; i < game.resPool.resourceData.length; i++) {
+			if (effectName.indexOf(game.resPool.resourceData[i].name) == 0) {
+				var resname = game.resPool.resourceData[i].name;
+				var restitle = (game.resPool.resourceData[i].title) ? game.resPool.resourceData[i].title : resname;
+				restitle = restitle.charAt(0).toUpperCase() + restitle.substring(1, restitle.length);
+				var type = effectName.substring(resname.length, effectName.length);
+				continue;
+			}
+		}
+
+		switch (true){
+			/* Worker pseudoeffect */
+			case type == "":
+				return {
+					//title to be displayed for effect, id if not defined
+					title: restitle,
+					//effect will be hidden if resource is not unlocked
+					resname: resname,
+					//value will be affected by opts.usePerSecondValues
+					type: "perTick"
+				}
+			break;
+			case type == "PerTick":
+				return {
+					title: restitle,
+					resname: resname,
+					type: "perTick"
+				}
+			break;
+			case type == "Max":
+				return {
+					title: "Max " + restitle,
+					resname: resname
+				}
+			break;
+			case type == "Ratio":
+				return {
+					title: restitle + " bonus",
+					resname: resname,
+					type: "ratio"
+				}
+			break;
+			case type == "DemandRatio":
+				return {
+					title: restitle + " demand reduction",
+					resname: resname,
+					type: "ratio"
+				}
+			break;
+			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
+				return {
+					title: restitle + " production",
+					resname: resname,
+					type: "perTick"
+				}
+			break;
+			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
+				return {
+					title: restitle + " conversion",
+					resname: resname,
+					type: "perTick"
+				}
+			break;
+			default:
+				return 0;
+		}
+	},
+
 	statics: {
 		effectMeta: {
-			//=====================
-			//		catnip
-			//=====================
-
-			//	effect id
-			"catnipPerTickBase" : {
-				//title to be displayed for effect, id if not defined
-				title: "Catnip production",
-
-				//effect will be hidden if resource is not unlocked
-				resName: "catnip",
-
-				//value will be affected by opts.usePerSecondValues
-				type: "perTick"
-			},
-			"catnipPerTick" : {
-				title: "Catnip conversion",
-				resName: "catnip",
-				type: "perTick"
-			},
-
-			"catnipDemandRatio" : {
-				title: "Catnip demand reduction",
-				resName: "catnip",
-				type: "ratio"
-			},
-			"catnipRatio" : {
-				title: "Catnip bonus",
-				resName: "catnip",
-				type: "ratio"
-			},
+			// Specials meta of resources
 			"catnipJobRatio" : {
 				title: "Farmer tools",
 				resName: "catnip",
-				type: "ratio"
-			},
-			"catnipMax" : {
-				title: "Max Catnip",
-				resName: "catnip"
-			},
-			"catnipConsumption" : {
-				title: "Catnip Demand",
-				resName: "catnip",
-				type: "perTick"
-			},
-
-			/* Worker pseudoeffect */
-			"catnip" : {
-				title: "catnip",
-				resName: "catnip",
-				type: "perTick"
-			},
-
-			//wood
-
-			"woodMax" : {
-				title: "Max Wood",
-				resName: "wood"
-			},
-
-			"woodRatio" : {
-				title: "Wood bonus",
-				resName: "wood",
 				type: "ratio"
 			},
 
@@ -158,73 +170,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"wood" : {
-				title: "wood",
-				resName: "wood",
-				type: "perTick"
-			},
-
-			"woodPerTick" : {
-				title: "Wood conversion",
-				resName: "wood",
-				type: "perTick"
-			},
-
-			//minerals
-
-			"mineralsMax" : {
-				title: "Max Minerals",
-				resName: "minerals"
-			},
-
-			"mineralsRatio" : {
-				title: "Minerals bonus",
-				resName: "minerals",
+			"manpowerJobRatio" : {
+				title: "Hunter tools",
+				resName: "manpower",
 				type: "ratio"
 			},
 
-			"mineralsPerTick" : {
-				title: "Minerals conversion",
-				resName: "minerals",
-				type : "perTick"
-			},
-
-			"minerals" : {
-				title: "minerals",
-				resName: "minerals",
+			"catnipConsumption" : {
+				title: "Catnip Demand",
+				resName: "catnip",
 				type: "perTick"
-			},
-
-			//iron
-
-			"ironMax" : {
-				title: "Max Iron",
-				resName: "iron"
-			},
-
-			"ironPerTick" : {
-				title: "Iron conversion",
-				resName: "iron",
-				type: "perTick"
-			},
-
-			//coal
-
-			"coal" : {
-				title: "coal",
-				resName: "coal",
-				type: "perTick"
-			},
-
-			"coalMax" : {
-				title: "Max Coal",
-				resName: "coal"
-			},
-
-			"coalPerTickBase" : {
-				title: "Coal production",
-				resName: "coal",
-				type : "perTick"
 			},
 
 			"coalRatioGlobal" : {
@@ -232,53 +187,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				resName: "coal",
 				type: "ratio"
 			},
-
-			"coalPerTick" : {
-				title: "Coal conversion",
-				resName: "coal",
-				type: "perTick"
-			},
-
-			//steel
-
-			"steelPerTick" : {
-				title: "Steel conversion",
-				type : "perTick"
-			},
-
-			//gold
-
-			"goldMax" : {
-				title: "Max Gold",
-				resName: "gold"
-			},
-
-			"gold" : {
-				title: "gold",
-				resName: "gold",
-				type: "perTick"
-			},
-
-			"goldPerTick" : {
-				title: "Gold conversion",
-				resName: "gold",
-				type: "perTick"
-			},
-
-			//titanium
-
-			"titaniumMax" : {
-				title: "Max Titanium",
-				resName: "titanium"
-			},
-
-			"titaniumPerTick" : {
-				title: "Titanium conversion",
-				resName: "titanium",
-				type: "perTick"
-			},
-
-			//oil
 
 			"oilReductionRatio" : {
 				title: "Oil consumption reduction",
@@ -291,72 +199,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: "Kittens"
 			},
 
-			//catpower
-
-			"manpowerMax": {
-				title: "Max Catpower",
-				resName: "manpower"
+			"antimatterProduction": {
+				title: "Antimatter production"
 			},
 
-			"manpower" : {
-				title: "catpower",
-				resName: "manpower",
-				type: "perTick"
-			},
-
-			"manpowerJobRatio" : {
-				title: "Hunter tools",
-				resName: "manpower",
-				type: "ratio"
-			},
-
-			"manpowerPerTick" : {
-				title: "Catpower conversion",
-				resName: "manpower",
-				type: "perTick"
-			},
-
-			//science
-
-			"scienceRatio" : {
-				title: "Science bonus",
-				type: "ratio"
-			},
-
-			"scienceMax" : {
-				title: "Max Science"
-			},
-
-			"learnRatio" : {
-				title: "Skills learning",
-				type: "perTick"
-			},
-
-			"science" : {
-				title: "science",
-				resName: "science",
-				type: "perTick"
-			},
+			// Miscellaneous
 
 			"observatoryRatio" : {
                 title: "Observatory's science ratio",
                 type: "ratio"
             },
-
-			//culture
-
-			"cultureMax" : {
-				resName: "culture",
-				title: "Max Culture"
-			},
-
-			"culturePerTickBase" : {
-				resName: "culture",
-				title: "Culture",
-				type: "perTick"
-			},
-
-			//oil
 
 			"magnetoBoostRatio" : {
 				title: "Magneto boost",
@@ -364,104 +216,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"oilMax" : {
-				resName: "oil",
-				title: "Max Oil"
-			},
-
-			"oilPerTickBase" : {
-				resName: "oil",
-				title: "Oil production",
+			"learnRatio" : {
+				title: "Skills learning",
 				type: "perTick"
 			},
-
-			"oilPerTick" : {
-				resName: "oil",
-				title: "Oil conversion",
-				type: "perTick"
-			},
-
-			//faith
-
-			"faithMax" : {
-				title: "Max Faith",
-				resName: "faith"
-			},
-
-			"faith" : {
-				title: "faith",
-				resName: "faith",
-				type: "perTick"
-			},
-
-			"faithPerTickBase" : {
-				title: "Faith",
-				resName: "faith",
-				type: "perTick"
-			},
-
-			//uranium
-
-			"uraniumMax" : {
-				title: "Max Uranium",
-				resName: "uranium"
-			},
-
-			"uraniumPerTick": {
-				title: "Uranium conversion",
-				resType: "uranium",
-				type: "perTick"
-			},
-
-			//unobtainium
-
-			"unobtainiumMax" : {
-				title: "Max Unobtainium",
-				resName: "unobtainium"
-			},
-
-			"unobtainiumPerTick": {
-				title: "Unobtainium conversion",
-				resType: "unobtainium",
-				type: "perTick"
-			},
-
-			//antimatter
-			"antimatterProduction": {
-				title: "Antimatter production"
-			},
-
-			//unicorns
-
-			"unicornsPerTickBase": {
-				title: "Unicorn production",
-				resType: "unicorns",
-				type: "perTick"
-			},
-
-			//manuscripts
-
-			"manuscriptPerTick": {
-				title: "Manuscript automated production",
-				resType: "manuscript",
-				type: "perTick"
-			},
-
-			//starchart
-
-			"starchart" : {
-				title: "starchart",
-				resName: "starchart",
-				type: "perTick"
-			},
-
-			"starchartPerTickBase": {
-				title: "Starchart production",
-				resType: "starchart",
-				type: "perTick"
-			},
-
-			//miscellaneous
 
 			"refineRatio": {
 				title: "Catnip refine bonus",
@@ -470,36 +228,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"craftRatio": {
 				title: "Craft bonus",
-				type: "ratio"
-			},
-
-			"fursDemandRatio" : {
-				title: "Furs demand reduction",
-				resName: "furs",
-				type: "ratio"
-			},
-
-			"fursPerTick": {
-				title: "Furs conversion",
-				resType: "furs",
-				type: "perTick"
-			},
-
-			"ivoryDemandRatio" : {
-				title: "Ivory demand reduction",
-				resName: "ivory",
-				type: "ratio"
-			},
-
-			"ivoryPerTick": {
-				title: "Ivory conversion",
-				resType: "ivory",
-				type: "perTick"
-			},
-
-			"spiceDemandRatio" : {
-				title: "Spice demand reduction",
-				resName: "spice",
 				type: "ratio"
 			},
 
@@ -997,7 +725,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getEffectMeta: function(effectName) {
-		return this.effectsMgr.statics.effectMeta[effectName];
+		var effectMetaDynamic = game.effectsMgr.effectMeta(effectName);
+		if (effectMetaDynamic != 0) {
+			return effectMetaDynamic;
+		} else {
+			return this.effectsMgr.statics.effectMeta[effectName];
+		}
 	},
 
 	//TODO: store all managers in a single array and handle them in the common way
