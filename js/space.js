@@ -550,7 +550,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			tunable: 	false,
 			val:  0,
 			on:	  0,
-			effects: {},
+			effects: {
+				energyConsumption: 0,
+				antimatterMax: 0
+			},
 			calculateEffects: function(game, self){
 				self.effects = {
 					"energyConsumption" : 50,

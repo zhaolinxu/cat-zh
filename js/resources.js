@@ -425,36 +425,36 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 */
 	update: function(){
 
-		var effectsBase = this.addBarnWarehouseRatio(this.game.bld.effectsBase);
+		var effectsBase = this.addBarnWarehouseRatio(this.game.bld.effectsBase),
+			game = this.game;
 
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 11 + this.game.religion.getEffect("blsLimit") || 0;
+				res.maxValue = 11 + game.religion.getEffect("blsLimit") || 0;
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
 
-			var maxValue = this.game.bld.getEffectCached(res.name + "Max") || 0;
+			var maxValue = game.bld.getEffectCached(res.name + "Max") || 0;
 
 			maxValue += (effectsBase[res.name + "Max"] || 0);
 
 			// fixed bonus
-			maxValue += this.game.workshop.getEffect(res.name + "Max");
-			maxValue += this.game.space.getEffect(res.name + "Max");
+			maxValue += game.workshop.getEffect(res.name + "Max");
+			maxValue += game.space.getEffect(res.name + "Max");
 
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue *= ( 1 +
-				this.game.workshop.getEffect(res.name + "MaxRatio") +
-				this.game.space.getEffect(res.name + "MaxRatio")
+				game.workshop.getEffect(res.name + "MaxRatio") +
+				game.space.getEffect(res.name + "MaxRatio")
 			);
 
-			maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+			maxValue += maxValue * game.prestige.getParagonStorageRatio();
 
 			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1+this.game.religion.getEffect("tcResourceRatio"));
+				maxValue *= (1 + game.religion.getEffect("tcResourceRatio"));
 			}
-
 
 			if (maxValue < 0 ){
 				maxValue = 0;
