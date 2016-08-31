@@ -409,9 +409,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		if (this.game.calendar.day >= 0) {
+		if (this.game.calendar.day >= 0) {
 			// Remove from resources
-			for (var i in from){
+			for (var i in from) {
 				this.addRes(this.get(from[i].res), -from[i].amt * amt);
 			}
 		}
