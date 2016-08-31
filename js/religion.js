@@ -572,7 +572,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
         //Solar Revolution capped to 10000% so it doesn't become game-breaking
-        rate = this.game.bld.getHyperbolicEffect(rate, 100);
+        rate = this.game.bld.getHyperbolicEffect(rate, 100) * (1 + this.getTranscendenceLevel() * 0.1);
 		return rate;
 	},
 
