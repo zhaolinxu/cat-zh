@@ -287,6 +287,19 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false
 	},{
+		name: "unicornGraveyard",
+		label: "Unicorn Graveyard",
+		description: "Grave of the fireflies.",
+		prices: [
+			{ name : "necrocorn", val: 5 },
+			{ name : "megalith", val: 1000 }
+		],
+		priceRatio: 1.15,
+		effects: {
+		},
+		val: 0,
+		unlocked: false
+	},{
 		name: "blackPyramid",
 		label: "Black Pyramid",
 		description: "A dark relic of unspeakable horrors.",
@@ -826,7 +839,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.game.resPool.get("tears").value += tearCount;
 		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
 
-		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
+		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns have been sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
 	},
 
 	getSelectedObject: function(){
@@ -903,7 +916,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 		this.game.resPool.get("alicorn").value -= alicornsCount;
 		this.game.resPool.get("timeCrystal").value += tcAmt;
 
-		this.game.msg(alicornsCount + " alicorns banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
 
 	updateVisible: function(){

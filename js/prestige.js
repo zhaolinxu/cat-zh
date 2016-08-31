@@ -15,17 +15,27 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		effects:{
 			"priceRatio" : -0.01
 		}
-	},
-	{
+	}, {
 		name: "megalomania",
 		title: "Megalomania",
 		description: "Unlocks additional megastructures.",
-		paragon: 25,
+		paragon: 10,
 		unlocked: false,
 		researched: false,
 		handler: function(game){
 			game.religion.getZU("marker").unlocked = true;
 			game.religion.getZU("blackPyramid").unlocked = true;
+			game.prestige.getPerk("blackCodex").unlocked = true;
+		}
+	},{
+		name: "blackCodex",
+		title: "Black Codex",
+		description: "Unlocks unicorn graveyards.",
+		paragon: 25,
+		unlocked: false,
+		researched: false,
+		handler: function(game){
+			game.religion.getZU("unicornGraveyard").unlocked = true;
 		}
 	},{
 		name: "goldenRatio",
