@@ -285,12 +285,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-
-
 			//kittens
 
 			"maxKittens" : {
-				title: "Kittens",
+				title: "Kittens"
 			},
 
 			//catpower
@@ -1540,12 +1538,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// *PARAGON BONUS
-		var ParagonProductionRatio = 1 + this.prestige.getParagonProductionRatio();
+		var paragonProductionRatio = 1 + this.prestige.getParagonProductionRatio();
 
-		perTick *= ParagonProductionRatio;
+		perTick *= paragonProductionRatio;
 
-			//ParagonSpaceProductionRatio definition 1/4
-			var ParagonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+		//ParagonSpaceProductionRatio definition 1/4
+		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
 
 		// +SPACE AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
@@ -1562,8 +1560,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perTick *= 1 + (this.bld.getEffect("magnetoRatio") * swRatio);
 			}
 
-				//ParagonSpaceProductionRatio definition 2/4
-				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
+			//ParagonSpaceProductionRatio definition 2/4
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 
 		}
 
@@ -1571,21 +1569,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!res.transient && res.name != "uranium"){
 			perTick *= 1 + this.bld.getEffect("productionRatio");
 
-				//ParagonSpaceProductionRatio definition 3/4
-				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+			//ParagonSpaceProductionRatio definition 3/4
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("productionRatio");
 		}
 
 		// +*FAITH BONUS
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
-			//ParagonSpaceProductionRatio definition 4/4
-			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		//ParagonSpaceProductionRatio definition 4/4
+		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
 
 		// +AUTOMATED PRODUCTION SPACE (FULL BONUS)
-		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (ParagonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
+		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (paragonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
 		// +AUTOMATED PRODUCTION SPACE (NOT FULL BONUS)
 		perTick += this.getEffect(res.name + "PerTickSpace") *spaceRatio;
 
@@ -1594,7 +1592,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//CYCLE FESTIVAL EFFECTS
 
-		effects = {};
+		var effects = {};
 		effects[resName] = perTick;
 		this.calendar.cycleEffects(effects);
 		perTick = effects[resName];
@@ -1646,7 +1644,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// SPACE RATIO CALCULATION
 		var spaceRatio = 1 + this.getEffect("spaceRatio");
-		if (this.workshop.get("spaceManufacturing").researched && res.name!="uranium"){
+		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
 		}
@@ -1666,9 +1664,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			});
 		//<----
 		stack.push(perTickBaseSpaceStack);
-
-			// prodNVillage_bool
-			prodNVillage_bool = this.getEffect(res.name + "PerTickBase")+this.getEffect(res.name + "PerTickBaseSpace");
 
 		// *SEASON MODIFIERS
 		if (!season){
@@ -1702,9 +1697,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 		//<----
 		stack.push(villageStack);
-
-			// prodNVillage_bool
-			prodNVillage_bool += resMapProduction[res.name] || 0;
 
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		stack.push({
@@ -1752,8 +1744,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.prestige.getParagonProductionRatio()
 		});
 
-			//ParagonSpaceProductionRatio definition 1/4
-			var ParagonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+		//ParagonSpaceProductionRatio definition 1/4
+		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
 
 		// +SPACE AUTOPROD
 		stack.push({
@@ -1775,8 +1767,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				});
 			}
 
-				//ParagonSpaceProductionRatio definition 2/4
-				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
+			//ParagonSpaceProductionRatio definition 2/4
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 		}
 
 		// +*REACTOR PRODUCTION BONUS
@@ -1787,8 +1779,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: this.bld.getEffect("productionRatio")
 			});
 
-				//ParagonSpaceProductionRatio definition 3/4
-				ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+			//ParagonSpaceProductionRatio definition 3/4
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("productionRatio");
 
 		}
 
@@ -1799,8 +1791,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.religion.getProductionBonus() / 100
 		});
 
-			//ParagonSpaceProductionRatio definition 4/4
-			ParagonSpaceProductionRatio += ParagonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		//ParagonSpaceProductionRatio definition 4/4
+		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
@@ -1830,7 +1822,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTickAutoprodSpaceStack.push({
 				name: "Paragon",
 				type: "ratio",
-				value: ParagonSpaceProductionRatio - 1
+				value: paragonSpaceProductionRatio - 1
 			});
 			perTickAutoprodSpaceStack.push({
 				name: "Bonus Transfert",
@@ -1863,7 +1855,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var effects = {};
 		effects[res.name] = 1;
 		this.calendar.cycleEffects(effects);
-		cycleEffect = effects[resName]-1;
+		var cycleEffect = effects[resName]-1;
 
 		stack.push({
 			name: "Cycle Festival Effect",
@@ -1896,19 +1888,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: (this.getRateUI() - this.rate) / this.rate
 		});
-
-		/*
-		if (prodNVillage_bool &&
-		   (this.getEffect(res.name + "PerTick") || res.name == "catnip")
-		) {
-			stack.push({
-				name: "Prod & Village",
-				type: "fixed",
-				value: this.resPool.get(res.name).perTickUI - this.getEffect(res.name + "PerTick")
-			});
-		}
-
-				*/
 
 		return stack;
 	},
