@@ -495,7 +495,10 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
         msg += "<br>Resetting at this point will also give you:<br>";
         
         var kittens = this.game.resPool.get("kittens").value;
-        var karmaPoints = this.game._getKarmaKittens(kittens);
+        var stripe = 5;
+        var karmaPointsPresent = this.game.getTriValue(this.game.karmaKittens, stripe);
+        var karmaPointsAfter = this.game.getTriValue(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
+		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) *100)/100;
         var paragonPoints = 0;
         
         if (kittens > 70){
