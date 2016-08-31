@@ -452,7 +452,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["mechanization", "metalurgy", "combustion"],
-			upgrades: ["barges", "advancedAutomation"]
+			upgrades: ["barges", "advancedAutomation", "logistics"]
 		}
 	},{
 		name: "mechanization",
