@@ -1113,6 +1113,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
 		this.faithCount = faithCount;
 
+		//----------------------- reset -----------------------
+		var faithResetBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
+			href: "#",
+			innerHTML: "[Reset]"
+		}, content);
+		this.faithResetBtn = faithResetBtn;
+		dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
+
 		//----------------------- transcendence -----------------------
 		var transcendBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
 			href: "#",
@@ -1121,13 +1129,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.transcendBtn = transcendBtn;
 		//-------------------------------------------------------------
 		dojo.connect(this.transcendBtn, "onclick", this, "transcend");
-
-		var faithResetBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
-			href: "#",
-			innerHTML: "[Reset]"
-		}, content);
-		this.faithResetBtn = faithResetBtn;
-		dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 
 		var praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: "Praise the sun!",
@@ -1209,7 +1210,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 
 		if (religion.faithRatio > 0){
-			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "%]";
+			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "% praise]";
 		}
 
 		if (religion.tclevel > 0){
@@ -1250,7 +1251,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!religion.getRU("transcendence").researched){
 			return;	//:3
 		}
-		if (!confirm("Are you sure you want to discard your faith bonus and transcend the mortal limits?" +
+		if (!confirm("Are you sure you want to discard your praise's faith bonus and transcend the mortal limits?" +
 				"\n\nYou can reach a special transcendence level sacrificing your praise's faith bonus." +
 				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
 				"\n\nThis bonus will stack and carry over through resets." +
