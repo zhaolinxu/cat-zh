@@ -375,7 +375,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	handler: null,
 	prices: null,
 	priceRatio: null,
-	lackResConvert: null,
 
 	//nodes
 
@@ -400,7 +399,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
-		this.lackResConvert = opts.lackResConvert;
 
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
@@ -468,15 +466,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//---------------------------------------------------
 		var limited = this.game.resPool.isStorageLimited(prices);
 		//---- now highlight some stuff in vanilla js way ---
-		if (limited && this.lackResConvert){
-			this.buttonTitle.className = "limited lackResConv";
-		} else if (limited && !this.lackResConvert) {
-			this.buttonTitle.className = "limited";
-		} else if (!limited && this.lackResConvert) {
-			this.buttonTitle.className = "lackResConv";
-		} else  {
-			this.buttonTitle.className = "";
-		}
+		this.buttonTitle.className = limited ? "limited" : "";
+
 	},
 
 	updateVisible: function(){

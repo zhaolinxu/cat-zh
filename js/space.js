@@ -324,12 +324,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects["uraniumPerTickCon"]*=amt;
 				self.effects["unobtainiumPerTickSpace"]*=amt;
 
-				if (amt != 1) {
-					self.lackResConvert = true;
-				}
-				else {
-					self.lackResConvert = false;
-				};
+				return amt;
 			}
 		},{
 			name: "moonBase",

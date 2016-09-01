@@ -425,12 +425,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["catnipPerTickCon"]*=amt;
 			self.effects["oilPerTickProd"]*=amt;
 
-			if (amt != 1) {
-				self.lackResConvert = true;
-			}
-			else {
-				self.lackResConvert = false;
-			};
+			return amt;
 			}
 		},
 		val: 0,
@@ -663,12 +658,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["coalPerTickAutoprod"]*=amt;
 			self.effects["titaniumPerTickAutoprod"]*=amt;
 
-			if (amt != 1) {
-				self.lackResConvert = true;
-			}
-			else {
-				self.lackResConvert = false;
-			};
+			return amt;
 		},
 		val: 0,
 		flavor: "Watch your whiskers!"
@@ -723,14 +713,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ironPerTickAutoprod"]*=amt;
 			self.effects["titaniumPerTickAutoprod"]*=amt;
 
-			if (amt != 1) {
-				self.lackResConvert = true;
-			}
-			else {
-				self.lackResConvert = false;
-			};
-
-
+			var amtFinal = amt;
 
 			var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
 
@@ -751,13 +734,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["coalPerTickCon"]*=amt;
 				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")));
 
-				if (amt != 1) {
-					self.lackResConvert = true;
-				}
-				else {
-					self.lackResConvert = false;
-				};
+				amtFinal = (amtFinal + amt) / 2;
 			}
+
+			return amtFinal;
 		},
 		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */
 		val: 0
@@ -1145,12 +1125,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTickCon"]*=amt;
 			self.effects["uraniumPerTickAutoprod"]*=amt;
 
-			if (amt != 1) {
-				self.lackResConvert = true;
-			}
-			else {
-				self.lackResConvert = false;
-			};
+			return amt;
 		},
 		flavor: "Large Catron Collider"
 	},
@@ -1241,12 +1216,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["fursPerTickProd"]*=amt;
 			self.effects["ivoryPerTickProd"]*=amt;
 
-								if (amt != 1) {
-									self.lackResConvert = true;
-								}
-								else {
-									self.lackResConvert = false;
-								};
+			return amt;
 		}
 	},
 	//-------------------------- Culture -------------------------------
@@ -1651,8 +1621,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			if (bld.action && bld.val > 0){
-				bld.action(bld, this.game);
+				var amt = bld.action(bld, this.game);
+				if (typeof(amt) != "undefined") {
+					if (amt == 1) {
+						bld.lackResConvert = false;
+					} else {
+						bld.lackResConvert = true;
+					}
+				}
 			}
+
 		}
 
 		/*
@@ -1920,14 +1898,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.name;
 	},
 
-	getName: function(){
+	getName: function(lackResConvert){
 		var building = this.getMetadata();
 		if (building){
 			if (building.togglable) {
 				var name = this.getBuildingName();
 
 				var prefix = building.tunable ? ( building.on + "/" ) : "";
-				return name + " ("+ prefix + building.val + ")";
+				var sufix = building.lackResConvert ? " !" : "";
+				return name + " ("+ prefix + building.val + ")" + sufix;
 			} else {
 				var name = this.getBuildingName();
 				return name + " (" + building.val + ")";
@@ -2425,8 +2404,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					name: 			bld.label,
 					description: 	bld.description,
 					building: 		bld.name,
-					handler: 		bld.handler,
-					lackResConvert: bld.lackResConvert
+					handler: 		bld.handler
 				};
 
 				var btn = null;
