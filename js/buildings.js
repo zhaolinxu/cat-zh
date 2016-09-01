@@ -1506,7 +1506,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "ziggurat",
 		label: "Ziggurat",
-		description: "The dark legacy of the lost race. May have special usage once Theology is researched.",
+		description: "The dark legacy of the lost race. Every Ziggurat will improve your culture limits by 10%.<br>May have special usage once Theology is researched.",
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
@@ -1514,6 +1514,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "blueprint", val: 1 }
 		],
 		effects: {
+			cultureMaxRatio: 0.1
 		},
 		priceRatio: 1.25,
 		unlockRatio: 0.01,	//1% of resources required to unlock building instead of default 30
@@ -1522,7 +1523,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
-		description: "Relocates small amount of resources through the time. Can be upgraded further. Every chronosphere increases the chance of Temporal Paradox.",
+		description: "Relocates small amount of resources through the time. Can be upgraded further. Every Chronosphere increases the chance of Temporal Paradox.",
 		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [

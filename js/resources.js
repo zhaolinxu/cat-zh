@@ -446,6 +446,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue *= ( 1 +
+				game.bld.getEffect(res.name + "MaxRatio") +
 				game.workshop.getEffect(res.name + "MaxRatio") +
 				game.space.getEffect(res.name + "MaxRatio")
 			);
