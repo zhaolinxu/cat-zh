@@ -490,13 +490,26 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	transcendenceUpgrades: [
 	{
+		name: "totem",
+		label: "Totem",
+		description: "Improves your faith bonus.<br>Every Totem will improve your transcendance level bonus by 1%",
+		prices: [
+			{ name : "relic", val: 2000 }
+		],
+		tier: 1,
+		priceRatio: 1.15,
+		effects: {},
+		val: 0,
+		unlocked: true,
+		flavor: "Eye in the sky."
+	},{
 		name: "blackNexus",
 		label: "Black Nexus",
 		description: "Improves the rate you refine time crystals into relics.<br>Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
-		tier: 1,
+		tier: 3,
 		priceRatio: 1.15,
 		effects: {
 			"relicRefineRatio" : 1.0
@@ -511,7 +524,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
-		tier: 3,
+		tier: 5,
 		priceRatio: 1.15,
 		effects: {
 			"blsLimit" : 1
@@ -526,7 +539,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		prices: [
 			{ name : "relic", val: 25000 }
 		],
-		tier: 5,
+		tier: 7,
 		priceRatio: 1.15,
 		effects: {
 			"tcResourceRatio" : 0.10
@@ -572,7 +585,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith,1000) : 0;
         //Solar Revolution capped to 10000% so it doesn't become game-breaking
-        rate = this.game.bld.getHyperbolicEffect(rate, 100) * (1 + this.getTranscendenceLevel() * 0.1);
+        rate = this.game.bld.getHyperbolicEffect(rate, 100) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("totem").val * 0.001)));
 		return rate;
 	},
 
