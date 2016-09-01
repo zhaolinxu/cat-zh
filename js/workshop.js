@@ -1508,6 +1508,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},{
+		name: "logistics",
+		title: "Logistics",
+		description: "Kitten skills are 15% more effective",
+		effects: {
+			"skillMultiplier" : 0.15
+		},
+		prices:[
+			{ name : "gear", val: 100 },
+			{ name : "scaffold",  val: 1000 },
+			{ name : "science",  val: 100000 }
+		],
+		unlocked: false,
+		researched: false
+	},{
 		name: "augumentation",
 		title: "Augmentations",
 		description: "Kitten skills are 100% more effective",
