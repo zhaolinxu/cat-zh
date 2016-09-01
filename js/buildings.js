@@ -310,7 +310,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "library",
 		label: "Library",
-		description: "Build a library to store sacred catkind knowledge. Each upgrade level improves your science output by 8%",
+		description: "Build a library to store sacred catkind knowledge. Each upgrade level improves your science output by 10%",
 		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
@@ -325,7 +325,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			var effects = {
-				"scienceRatio": 0.08,
+				"scienceRatio": 0.1,
 				"scienceMax": 250,
 				"cultureMax": 10
 			};

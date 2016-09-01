@@ -19,7 +19,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		description: "+0.015 wood per tick",
 
 		modifiers:{
-			"wood" : 0.015
+			"wood" : 0.018
 		},
 		value: 0,
 		unlocked: true,
@@ -43,7 +43,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		modifiers:{},
 		calculateEffects: function(self, game){
 			var modifiers = {
-				"science" : 0.05
+				"science" : 0.04
 			};
 
 			if (game.workshop.get("astrophysicists").researched){
