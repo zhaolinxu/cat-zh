@@ -501,7 +501,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {},
 		val: 0,
 		unlocked: true,
-		flavor: "TBD"
+		flavor: "TBD" // flavor is TBD but the faith bonus improvement is already done
 	},{
 		name: "blackNexus",
 		label: "Black Nexus",
