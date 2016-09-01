@@ -590,6 +590,36 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		faith.value = 0.01;	//have a nice autoclicking
 	},
 
+	transcend: function(){
+
+		var religion = this.game.religion;
+
+		if (!religion.getRU("transcendence").researched){
+			return;	//:3
+		}
+		if (!confirm("Are you sure you want to discard your praise bonus ?" +
+				"\n\nYou can reach a special transcendence level sacrificing your praise bonus." +
+				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
+				"\n\nThis bonus will stack and carry over through resets." +
+				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.")){
+			return;
+		}
+
+		var tclevel = religion.getTranscendenceLevel();
+		//Transcend one Level at a time
+		var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
+		if (religion.faithRatio > needNextLevel) {
+
+			religion.faithRatio -= needNextLevel;
+			religion.tcratio += needNextLevel;
+			religion.tclevel += 1;
+
+			this.game.msg("Closer to the gods");
+		} else {
+			this.game.msg("Gods bless you");
+		}
+	},
+
 	getTranscendenceLevel: function(){
 		var bonus = this.getTriValueReligion(this.tcratio) * 100;
 		bonus = Math.round(Math.log(bonus));
@@ -641,9 +671,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 	     return prices;
 	 },
 
-	 payPrice: function(){
+	payPrice: function(){
 		this.inherited(arguments);
-	 },
+	},
 
 	getSelectedObject: function(){
 		return this.getMetadata();
@@ -767,6 +797,26 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingB
 
 	getFlavor: function(){
 		return this.getMetadata().flavor;
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	getName: function() {
+		if (this.game.religion.faithRatio > 0){
+			return this.name + " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "%]";
+		} else {
+			return this.name;
+		}
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	getName: function() {
+		if (this.game.religion.tclevel > 0){
+			return this.name + " [" + this.game.religion.tclevel + "]";
+		} else {
+			return this.name;
+		}
 	}
 });
 
@@ -1121,16 +1171,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.faithResetBtn = faithResetBtn;
 		dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 
-		//----------------------- transcendence -----------------------
-		var transcendBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
-			href: "#",
-			innerHTML: "[Transcend]"
-		}, content);
-		this.transcendBtn = transcendBtn;
-		//-------------------------------------------------------------
-		dojo.connect(this.transcendBtn, "onclick", this, "transcend");
-
-		var praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		var praiseBtn = new com.nuclearunicorn.game.ui.PraiseBtn({
 			name: "Praise the sun!",
 			description: "Convert all your accumulated faith to the total pool",
 			handler: function(btn){
@@ -1166,6 +1207,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.rUpgradeButtons.push(button);
 		}
 
+		var transcendBtn = new com.nuclearunicorn.game.ui.TranscendBtn({
+			name: "Transcend",
+			description: "Transcend the mortal limits",
+			handler: function(btn){
+				this.game.religion.transcend();
+			}
+		}, this.game);
+
+		transcendBtn.render(content);
+		this.transcendBtn = transcendBtn;
+
 		this.inherited(arguments);
 		this.update();
 	},
@@ -1191,6 +1243,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.refineTCBtn.update();
 		}
 
+		if (this.praiseBtn){
+			this.praiseBtn.update();
+		}
+
+		if (this.transcendBtn){
+			this.transcendBtn.update();
+		}
+
 		if (religion.faith && this.faithCount){
 			this.faithCount.innerHTML = "Total faith: " + this.game.getDisplayValueExt(religion.faith);
 		} else {
@@ -1204,17 +1264,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (religion.getRU("apocripha").researched){
 			dojo.style(this.faithResetBtn, "display", "");
-		}
-		if (religion.getRU("transcendence").researched){
-			dojo.style(this.transcendBtn, "display", "");
-		}
-
-		if (religion.faithRatio > 0){
-			this.faithCount.innerHTML += " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "% praise]";
-		}
-
-		if (religion.tclevel > 0){
-			this.faithCount.innerHTML += " [" + religion.tclevel + "] ";
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
@@ -1241,37 +1290,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 
 		this.resetFaithInternal(1.01);
-	},
-
-	transcend: function(event){
-		event.preventDefault();
-
-		var religion = this.game.religion;
-
-		if (!religion.getRU("transcendence").researched){
-			return;	//:3
-		}
-		if (!confirm("Are you sure you want to discard your praise's faith bonus and transcend the mortal limits?" +
-				"\n\nYou can reach a special transcendence level sacrificing your praise's faith bonus." +
-				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
-				"\n\nThis bonus will stack and carry over through resets." +
-				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.")){
-			return;
-		}
-
-		var tclevel = religion.getTranscendenceLevel();
-		//Transcend one Level at a time
-		var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
-		if (religion.faithRatio > needNextLevel) {
-
-			religion.faithRatio -= needNextLevel;
-			religion.tcratio += needNextLevel;
-			religion.tclevel += 1;
-
-			this.game.msg("Closer to the gods");
-		} else {
-			this.game.msg("Gods bless you");
-		}
 	},
 
     resetFaithInternal: function(bonusRatio){
