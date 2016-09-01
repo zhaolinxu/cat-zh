@@ -165,7 +165,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (defaultObject[i].name == "science") {
 								defaultObject[i].val *= 0.99;
 							}
-						};
+						}
 						break;
 					case trait == "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
@@ -175,7 +175,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (defaultObject[i].name == "gold") {
 								defaultObject[i].val = defaultObject[i].val * 0.9;
 							}
-						};
+						}
 						break;
 				}
 

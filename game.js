@@ -143,7 +143,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					type: "perTick"
 				}
 			break;
-			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
+			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: restitle + " conversion",
 					resname: resname,

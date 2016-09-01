@@ -89,12 +89,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "kittens",
 		type : "common",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "zebras",
 		type : "common",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "starchart",
 		type : "common",
@@ -116,27 +116,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "furs",
 		type : "uncommon",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "ivory",
 		type : "uncommon",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "spice",
 		type : "uncommon",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "unicorns",
 		type : "rare",
 		transient: true,
-		visible: true,
+		visible: true
 	},{
 		name : "alicorn",
 		title: "alicorns",
 		type : "rare",
-		visible: true,
+		visible: true
 	},{
 		name : "necrocorn",
 		title: "necrocorns",
@@ -146,11 +146,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},{
 		name : "tears",
 		type : "rare",
-		visible: true,
+		visible: true
 	},{
 		name : "karma",
 		type : "rare",
-		visible: true,
+		visible: true
 	},{
 		name : "paragon",
 		type : "common",
