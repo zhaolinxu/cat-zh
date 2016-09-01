@@ -372,6 +372,10 @@ td.resLimitWarn {
     color: #FF3030;
 }
 
+.lackResConv:after {
+	content: " !";
+}
+
 .tabInner {
 	margin-bottom: 20px;
     padding: 15px;

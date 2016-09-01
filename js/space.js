@@ -330,6 +330,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption": 5
 				};
 			},
+			lackResConvert: false,
 			action: function(game, self){
 				self.effects["uraniumPerTickCon"] = -0.35;
 				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
@@ -339,6 +340,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				);
 				self.effects["uraniumPerTickCon"]*=amt;
 				self.effects["unobtainiumPerTickSpace"]*=amt;
+
+				if (amt != 1) {
+					self.lackResConvert = true;
+				}
+				else {
+					self.lackResConvert = false;
+				};
 			}
 		},{
 			name: "moonBase",
