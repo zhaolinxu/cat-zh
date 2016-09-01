@@ -1,3 +1,30 @@
+v 1.2.1.0 (1 sep)
+
+Ziggurats will now provide 10% bonus to culture caps
+SS and UU will provide passive alicorn generation in addition to the random events
+Codex and Unicorn Graveyard (no effect so far)
+Reset Panel in time will now explain mechanics and provide some usefull information
+
+Base wood production was increased very slightly
+Base science production was decreased very slightly, library scaling was improved
+___
+changes by freeroot:
+
+Fatih bonus will be now capped at 100K% (potentially ato 10%K in future)
+Transcendence tiers will now provide additional faith bonus
+Black Obelisk will increase faith bonus scaling per level
+It is now possible to preserve some kittens through resets using Cryochambers
+
+Chronospeheres can occasionally spawn new relics and void (to be rebalanced later)
+Logisitcs
+
+General performance and code tweaks
+
+changes by Chris:
+
+Massive tooltip refactoring
+
+
 v 1.2.0.1 (23 aug)
 
 changes by freeroot:
