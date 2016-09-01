@@ -490,18 +490,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	transcendenceUpgrades: [
 	{
-		name: "totem",
-		label: "Totem",
-		description: "Improves your faith bonus.<br>Every Totem will improve your transcendance level bonus by 1%",
+		name: "blackObelisk",
+		label: "Black Obelisk",
+		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 1%",
 		prices: [
-			{ name : "relic", val: 2000 }
+			{ name : "relic", val: 100 }
 		],
 		tier: 1,
 		priceRatio: 1.15,
 		effects: {},
 		val: 0,
 		unlocked: true,
-		flavor: "Eye in the sky."
+		flavor: "TBD"
 	},{
 		name: "blackNexus",
 		label: "Black Nexus",
