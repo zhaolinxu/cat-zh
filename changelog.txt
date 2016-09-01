@@ -7,11 +7,16 @@ Reset Panel in time will now explain mechanics and provide some usefull informat
 
 Base wood production was increased very slightly
 Base science production was decreased very slightly, library scaling was improved
-___
-changes by freeroot:
+____
+changes by Chris:
 
+Massive tooltip refactoring
 Fatih bonus will be now capped at 100K% (potentially ato 10%K in future)
 Transcendence tiers will now provide additional faith bonus
+Transcendence tiers will now provide a 10% bonus to Apocrypha
+____
+changes by freeroot:
+
 Black Obelisk will increase faith bonus scaling per level
 It is now possible to preserve some kittens through resets using Cryochambers
 
@@ -19,10 +24,6 @@ Chronospeheres can occasionally spawn new relics and void (to be rebalanced late
 Logisitcs
 
 General performance and code tweaks
-
-changes by Chris:
-
-Massive tooltip refactoring
 
 
 v 1.2.0.1 (23 aug)
