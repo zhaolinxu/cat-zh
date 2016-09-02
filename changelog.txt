@@ -11,13 +11,13 @@ ____
 changes by Chris:
 
 Massive tooltip refactoring
-Fatih bonus will be now capped at 100K% (potentially ato 10%K in future)
+Faith bonus will be now capped at 1K%
 Transcendence tiers will now provide additional faith bonus
 Transcendence tiers will now provide a 10% bonus to Apocrypha
 ____
 changes by freeroot:
 
-Black Obelisk will increase faith bonus scaling per level
+Black Obelisk will increase faith bonus scaling per level by 5%
 It is now possible to preserve some kittens through resets using Cryochambers
 
 Chronospeheres can occasionally spawn new relics and void (to be rebalanced later)
