@@ -492,7 +492,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "blackObelisk",
 		label: "Black Obelisk",
-		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 1%",
+		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 5%",
 		prices: [
 			{ name : "relic", val: 100 }
 		],
@@ -585,7 +585,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith, 1000) : 0;
         //Solar Revolution capped to 1000% so it doesn't become game-breaking
-        rate = this.game.bld.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.001)));
+        rate = this.game.bld.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.005)));
 		return rate;
 	},
 
