@@ -1254,14 +1254,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.workshop.getEffect(res.name+"GlobalRatio");
 
-		// +*BUILDINGS AND SPACE PRODUCTION
+		// +*BUILDINGS, RELIGION AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
 		perTick *= 1 + this.workshop.getEffect(res.name+"SuperRatio");
-
-		// +*RELIGION EFFECTS
-		perTick *= 1 + this.religion.getEffect(resName+"Ratio");
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
 		var steamworks = this.bld.get("steamworks");
