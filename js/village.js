@@ -147,7 +147,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getEffectLeader: function(trait, defaultObject){
 		if(this.leader) {
-			leaderTrait = this.leader.trait["name"];
+			var leaderTrait = this.leader.trait["name"];
 			if (leaderTrait == trait) {
 				// Modify the defautlObject depends on trait
 				switch (true) {
@@ -1526,7 +1526,7 @@ dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButt
 		this.x10 = this.addLink("x10",
 			function(){
 				this.animate();
-				gamePage.villageTab.holdFestival(10);
+				this.game.villageTab.holdFestival(10);
 				this.game.resPool.addResEvent("manpower", -1500 * 10);
 				this.game.resPool.addResEvent("culture", -5000 * 10);
 				this.game.resPool.addResEvent("parchment", -2500  *10);

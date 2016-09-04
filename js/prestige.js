@@ -438,7 +438,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		}, div);
 		dojo.connect(a, "onclick", this, function(){
 			this.game.discardParagon();
-		})
+		});
 		//---------------------------------------------------------------------
 
 		var self = this;

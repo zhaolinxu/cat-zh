@@ -234,7 +234,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var rand = this.game.rand(100);
 
 		if(
-			(this.game.ironWill && (self.game.rand(100) <= 25)) ||
+			(this.game.ironWill && (this.game.rand(100) <= 25)) ||
 			(rand <= autoChance)
 		){
 			this.observeHandler();

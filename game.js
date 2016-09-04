@@ -84,10 +84,15 @@ dojo.declare("classes.game.UndoChange", null, {
  * Effects metadata manager
  */
 dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
+	game: null,
+
+	constructor: function(game){
+		this.game = game;
+	},
 
 	effectMeta: function(effectName) {
-
-		for (i = 0; i < game.resPool.resourceData.length; i++) {
+		var game = this.game;
+		for (var i = 0; i < game.resPool.resourceData.length; i++) {
 			if (effectName.indexOf(game.resPool.resourceData[i].name) == 0) {
 				var resname = game.resPool.resourceData[i].name;
 				var restitle = (game.resPool.resourceData[i].title) ? game.resPool.resourceData[i].title : resname;
@@ -107,48 +112,48 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resname: resname,
 					//value will be affected by opts.usePerSecondValues
 					type: "perTick"
-				}
+				};
 			break;
 			case type == "PerTick":
 				return {
 					title: restitle,
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			case type == "Max":
 				return {
 					title: "Max " + restitle,
 					resname: resname
-				}
+				};
 			break;
 			case type == "Ratio":
 				return {
 					title: restitle + " bonus",
 					resname: resname,
 					type: "ratio"
-				}
+				};
 			break;
 			case type == "DemandRatio":
 				return {
 					title: restitle + " demand reduction",
 					resname: resname,
 					type: "ratio"
-				}
+				};
 			break;
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
 					title: restitle + " production",
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: restitle + " conversion",
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			default:
 				return 0;
@@ -713,7 +718,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 
 
-		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager();
+		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
 
 		//--------------------------
 		var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
@@ -725,7 +730,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getEffectMeta: function(effectName) {
-		var effectMetaDynamic = game.effectsMgr.effectMeta(effectName);
+		var effectMetaDynamic = this.effectsMgr.effectMeta(effectName);
 		if (effectMetaDynamic != 0) {
 			return effectMetaDynamic;
 		} else {
@@ -1351,7 +1356,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
-		if (game.calendar.day < 0) {
+		if (this.calendar.day < 0) {
 			return null;
 		}
 
@@ -2139,7 +2144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
-    
+
     _getKarmaKittens: function(kittens){
         var karmaKittens = 0;
         if (kittens > 35){
@@ -2165,7 +2170,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (kittens > 750){
 			karmaKittens += (kittens - 750) * 15;
 		}
-        
+
         return karmaKittens;
     },
 

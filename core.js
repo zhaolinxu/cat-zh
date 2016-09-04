@@ -37,7 +37,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	constructor: function(){
 		this.effectsCached = {};
-		this.effectsCachedExisting= {},
+		this.effectsCachedExisting= {};
 		this.meta = [];
 		this.panelData = {};
 	},

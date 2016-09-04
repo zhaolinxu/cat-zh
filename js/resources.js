@@ -401,7 +401,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var resAvailable = this.get(from[i].res).value;
 			var resNeeded = from[i].amt * amt;
 			if (resAvailable < resNeeded){
-				amtAvailable = Math.floor(resAvailable / from[i].amt)
+				var amtAvailable = Math.floor(resAvailable / from[i].amt);
 				amt = Math.min(amt, amtAvailable);
 			}
 			else {
