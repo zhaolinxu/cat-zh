@@ -444,18 +444,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue += game.workshop.getEffect(res.name + "Max");
 			maxValue += game.space.getEffect(res.name + "Max");
 
-			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 +
-				game.bld.getEffect(res.name + "MaxRatio") +
-				game.workshop.getEffect(res.name + "MaxRatio") +
-				game.space.getEffect(res.name + "MaxRatio")
-			);
-
-			maxValue += maxValue * game.prestige.getParagonStorageRatio();
-
-			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + game.religion.getEffect("tcResourceRatio"));
-			}
+			maxValue = this.addResMaxRatios(res, maxValue);
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -501,6 +490,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			newEffects[name] = effect;
 		}
 		return newEffects;
+	},
+
+	/**
+	 * Multiplies maxValue by global ratios
+	 * Called in tooltips for more accurate per-building resMax increases
+	 */
+	addResMaxRatios: function(res, maxValue){
+		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+
+		if (res){
+			//Stuff for Refrigiration and (potentially) similar effects
+			maxValue *= ( 1 +
+				this.game.bld.getEffect(res.name + "MaxRatio") +
+				this.game.workshop.getEffect(res.name + "MaxRatio") +
+				this.game.space.getEffect(res.name + "MaxRatio")
+			);
+
+			if (!this.isNormalCraftableResource(res) && !res.transient){
+				maxValue *= (1 + this.game.religion.getEffect("tcResourceRatio"));
+			}
+		}
+
+		return maxValue;
 	},
 
 	setVillage: function(village){
