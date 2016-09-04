@@ -44,12 +44,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#4EA24E"
 	},{
-		name : "thorium", //divinite
-		type : "common",
-		visible: true,
-		craftable: true,
-		color: "#4EA24E"
-	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
@@ -168,82 +162,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: false,
 		color: "black",
 		persists: true	//isn't wiped on game reset
-	},
-
-	//=========================================
-	// 				    CRAFT
-	//=========================================
-	{
-		name : "beam",
-		type : "common",
-		craftable: true
-	},{
-		name : "slab",
-		type : "common",
-		craftable: true
-	},{
-		name : "concrate",
-		title: "concrete",
-		type : "common",
-		craftable: true
-	},{
-		name : "plate",
-		type : "common",
-		craftable: true
-	},{
-		name : "steel",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "alloy",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "eludium",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "darkViolet"
-	},{
-		name : "gear",
-		type : "common",
-		craftable: true,
-		color: "gray"
-	},{
-		name : "scaffold",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "ship",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "tanker",
-		type : "common",
-		craftable: true,
-		color: "#CF4F20"
-	}, {
-		name : "parchment",
-		type : "common",
-		craftable: true,
-		color: "#DF01D7"
-	},{
-		name : "manuscript",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
-	},{
-		name : "compedium",
-		title: "compendium",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
 	},{
 		name : "relic",
 		title: "relic",
@@ -279,6 +197,87 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
+	},
+
+	//=========================================
+	// 				    CRAFT
+	//=========================================
+	{
+		name : "beam",
+		type : "common",
+		craftable: true
+	},{
+		name : "slab",
+		type : "common",
+		craftable: true
+	},{
+		name : "concrate",
+		title: "concrete",
+		type : "common",
+		craftable: true
+	},{
+		name : "plate",
+		type : "common",
+		craftable: true
+	},{
+		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "gear",
+		type : "common",
+		craftable: true,
+		color: "gray"
+	},{
+		name : "alloy",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "eludium",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "darkViolet"
+	},{
+		name : "scaffold",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "ship",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "tanker",
+		type : "common",
+		craftable: true,
+		color: "#CF4F20"
+	},{
+        name: "kerosene",
+        type: "common",
+        craftable: true,
+        color: "darkYellow"
+	},{
+		name : "parchment",
+		type : "common",
+		craftable: true,
+		color: "#DF01D7"
+	},{
+		name : "manuscript",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
+	},{
+		name : "compedium",
+		title: "compendium",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "blueprint",
 		type : "common",
@@ -287,15 +286,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#01A9DB"
 	},{
+		name : "thorium", //divinite
+		type : "common",
+		visible: true,
+		craftable: true,
+		color: "#4EA24E"
+	},{
 		name : "megalith",
 		type : "common",
 		craftable: true,
 		color: "gray"
-	},{
-        name: "kerosene",
-        type: "common",
-        craftable: true,
-        color: "darkYellow"
     }
     ],
 
