@@ -2411,6 +2411,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.time.getVSU(unlockId);
 			case "stages":
 				return this.bld.get(unlockId.bld);
+			case "perks":
+				return this.prestige.getPerk(unlockId);
+			case "zigguratUpgrades":
+				return this.religion.getZU(unlockId);
 		}
 	},
 
