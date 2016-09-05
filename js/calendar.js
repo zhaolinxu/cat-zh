@@ -559,7 +559,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-        this.game.resPool.get("antimatter").value += this.game.space.getEffect("antimatterProduction");
+		var resPool = this.game.resPool;
+		if (resPool.energyProd >= resPool.energyCons) {
+			resPool.addRes(resPool.get("antimatter"), this.game.space.getEffect("antimatterProduction"));
+		}
 	},
 
 	getWeatherMod: function(){
