@@ -230,7 +230,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 10%",
+		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 5%",
 		prices: [
 			{ name : "ivory", val: 1000000 },
 			{ name : "tears", val: 5000 }
@@ -239,9 +239,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 2.5,
 			"alicornChance" : 15,
-			"alicornPerTick" : 0.00005,
+			"alicornPerTick" : 0.000025,
 			"ivoryMeteorRatio" : 0.15,
-			"tcRefineRatio" : 0.1
+			"tcRefineRatio" : 0.05
 		},
 		val: 0,
 		unlocked: false,
@@ -254,7 +254,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		label: "Sunspire",
 
 		//TODO: make SSPIRE make something really interesting
-		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 25%",
+		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 10%",
 		prices: [
 			{ name : "ivory", val: 1500000 },
 			{ name : "tears", val: 25000 }
@@ -263,8 +263,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 5,
 			"alicornChance" : 30,
-			"alicornPerTick" : 0.0001,
-			"tcRefineRatio": 0.25,
+			"alicornPerTick" : 0.00005,
+			"tcRefineRatio": 0.1,
 			"ivoryMeteorRatio" : 0.5
 		},
 		val: 0,
