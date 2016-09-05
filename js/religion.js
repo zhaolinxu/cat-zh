@@ -1144,7 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}, this.game);
 			refineTCBtn.updateVisible();
 			refineTCBtn.render(content);
-			this.refineTCBtn = refineBtn;
+			this.refineTCBtn = refineTCBtn;
 
 			//TODO: all the dark miracles there
 
