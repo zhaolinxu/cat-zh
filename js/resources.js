@@ -44,12 +44,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#4EA24E"
 	},{
-		name : "thorium", //divinite
-		type : "common",
-		visible: true,
-		craftable: true,
-		color: "#4EA24E"
-	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
@@ -168,82 +162,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: false,
 		color: "black",
 		persists: true	//isn't wiped on game reset
-	},
-
-	//=========================================
-	// 				    CRAFT
-	//=========================================
-	{
-		name : "beam",
-		type : "common",
-		craftable: true
-	},{
-		name : "slab",
-		type : "common",
-		craftable: true
-	},{
-		name : "concrate",
-		title: "concrete",
-		type : "common",
-		craftable: true
-	},{
-		name : "plate",
-		type : "common",
-		craftable: true
-	},{
-		name : "steel",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "alloy",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "eludium",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "darkViolet"
-	},{
-		name : "gear",
-		type : "common",
-		craftable: true,
-		color: "gray"
-	},{
-		name : "scaffold",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "ship",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "tanker",
-		type : "common",
-		craftable: true,
-		color: "#CF4F20"
-	}, {
-		name : "parchment",
-		type : "common",
-		craftable: true,
-		color: "#DF01D7"
-	},{
-		name : "manuscript",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
-	},{
-		name : "compedium",
-		title: "compendium",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
 	},{
 		name : "relic",
 		title: "relic",
@@ -279,6 +197,87 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
+	},
+
+	//=========================================
+	// 				    CRAFT
+	//=========================================
+	{
+		name : "beam",
+		type : "common",
+		craftable: true
+	},{
+		name : "slab",
+		type : "common",
+		craftable: true
+	},{
+		name : "concrate",
+		title: "concrete",
+		type : "common",
+		craftable: true
+	},{
+		name : "plate",
+		type : "common",
+		craftable: true
+	},{
+		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "gear",
+		type : "common",
+		craftable: true,
+		color: "gray"
+	},{
+		name : "alloy",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "eludium",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "darkViolet"
+	},{
+		name : "scaffold",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "ship",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "tanker",
+		type : "common",
+		craftable: true,
+		color: "#CF4F20"
+	},{
+        name: "kerosene",
+        type: "common",
+        craftable: true,
+        color: "darkYellow"
+	},{
+		name : "parchment",
+		type : "common",
+		craftable: true,
+		color: "#DF01D7"
+	},{
+		name : "manuscript",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
+	},{
+		name : "compedium",
+		title: "compendium",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "blueprint",
 		type : "common",
@@ -287,15 +286,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#01A9DB"
 	},{
+		name : "thorium", //divinite
+		type : "common",
+		visible: true,
+		craftable: true,
+		color: "#4EA24E"
+	},{
 		name : "megalith",
 		type : "common",
 		craftable: true,
 		color: "gray"
-	},{
-        name: "kerosene",
-        type: "common",
-        craftable: true,
-        color: "darkYellow"
     }
     ],
 
@@ -401,7 +401,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var resAvailable = this.get(from[i].res).value;
 			var resNeeded = from[i].amt * amt;
 			if (resAvailable < resNeeded){
-				amtAvailable = Math.floor(resAvailable / from[i].amt)
+				var amtAvailable = Math.floor(resAvailable / from[i].amt);
 				amt = Math.min(amt, amtAvailable);
 			}
 			else {
@@ -444,18 +444,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue += game.workshop.getEffect(res.name + "Max");
 			maxValue += game.space.getEffect(res.name + "Max");
 
-			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 +
-				game.bld.getEffect(res.name + "MaxRatio") +
-				game.workshop.getEffect(res.name + "MaxRatio") +
-				game.space.getEffect(res.name + "MaxRatio")
-			);
-
-			maxValue += maxValue * game.prestige.getParagonStorageRatio();
-
-			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + game.religion.getEffect("tcResourceRatio"));
-			}
+			maxValue = this.addResMaxRatios(res, maxValue);
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -501,6 +490,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			newEffects[name] = effect;
 		}
 		return newEffects;
+	},
+
+	/**
+	 * Multiplies maxValue by global ratios
+	 * Called in tooltips for more accurate per-building resMax increases
+	 */
+	addResMaxRatios: function(res, maxValue){
+		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+
+		if (res){
+			//Stuff for Refrigiration and (potentially) similar effects
+			maxValue *= ( 1 +
+				this.game.bld.getEffect(res.name + "MaxRatio") +
+				this.game.workshop.getEffect(res.name + "MaxRatio") +
+				this.game.space.getEffect(res.name + "MaxRatio")
+			);
+
+			if (!this.isNormalCraftableResource(res) && !res.transient){
+				maxValue *= (1 + this.game.religion.getEffect("tcResourceRatio"));
+			}
+		}
+
+		return maxValue;
 	},
 
 	setVillage: function(village){

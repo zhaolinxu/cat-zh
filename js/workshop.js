@@ -1772,6 +1772,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false
 	},{
+		name: "gear",
+		title: "Gear",
+		description: "An integral part of automated structures.",
+		prices:[
+			{name: "steel", val: 15}
+		],
+		unlocked: true,
+		defaultUnlocked: true
+	},{
 		name: "alloy",
 		title: "Alloy",
 		description: "A durable alloy of steel, iron and titanium. Required for advanced buildings and upgrades.",
@@ -1790,53 +1799,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: false
 	},{
-		name: "gear",
-		title: "Gear",
-		description: "An integral part of automated structures.",
-		prices:[
-			{name: "steel", val: 15}
-		],
-		unlocked: true,
-		defaultUnlocked: true
-	},{
-		name: "parchment",
-		title: "Parchment",
-		description: "A material for writing on made from animal skin, required for cultural buildings.",
-		prices:[
-			{name: "furs", val: 175}
-		],
-		unlocked: false
-	},
-	{
-		name: "manuscript",
-		title: "Manuscript",
-		description: "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
-		prices:[
-			{name: "parchment", val: 25},
-			{name: "culture", val: 400}
-		],
-		unlocked: true,
-		defaultUnlocked: true
-	},{
-		name: "compedium",
-		title: "Compendium",
-		description: "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
-		prices:[
-			{name: "manuscript", val: 50},
-			{name: "science", val: 10000}
-		],
-		unlocked: false
-	},{
-		name: "blueprint",
-		title: "Blueprint",
-		description: "Strange piece of paper with blue lines.",
-		prices:[
-			{name: "compedium", val: 25},
-			{name: "science", val: 25000}
-		],
-		unlocked: false
-	},
-	{
 		name: "scaffold",
 		title: "Scaffold",
 		description: "A large structure made of wood beams required for construction of very complex buildings and objects",
@@ -1880,6 +1842,42 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         unlocked: false
     },{
+		name: "parchment",
+		title: "Parchment",
+		description: "A material for writing on made from animal skin, required for cultural buildings.",
+		prices:[
+			{name: "furs", val: 175}
+		],
+		unlocked: false
+	},{
+		name: "manuscript",
+		title: "Manuscript",
+		description: "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
+		prices:[
+			{name: "parchment", val: 25},
+			{name: "culture", val: 400}
+		],
+		unlocked: true,
+		defaultUnlocked: true
+	},{
+		name: "compedium",
+		title: "Compendium",
+		description: "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
+		prices:[
+			{name: "manuscript", val: 50},
+			{name: "science", val: 10000}
+		],
+		unlocked: false
+	},{
+		name: "blueprint",
+		title: "Blueprint",
+		description: "Strange piece of paper with blue lines.",
+		prices:[
+			{name: "compedium", val: 25},
+			{name: "science", val: 25000}
+		],
+		unlocked: false
+	},{
 		name: "thorium",
 		title: "Thorium",
 		description: "A highly radioactive and unstable fuel",

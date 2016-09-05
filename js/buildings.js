@@ -440,17 +440,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 
-			self.effects["catnipPerTickCon"] = -1;
-			self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
+				self.effects["catnipPerTickCon"] = -1;
+				self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
 
-			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
-				self.on
-			);
-			self.effects["catnipPerTickCon"]*=amt;
-			self.effects["oilPerTickProd"]*=amt;
+				var amt = game.resPool.getAmtDependsOnStock(
+					[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
+					self.on
+				);
+				self.effects["catnipPerTickCon"]*=amt;
+				self.effects["oilPerTickProd"]*=amt;
 
-			return amt;
+				return amt;
 			}
 		},
 		val: 0,
@@ -756,7 +756,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio*3 );
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 
-			amt = game.resPool.getAmtDependsOnStock(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "oil", amt: -self.effects["oilPerTickCon"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTickCon"]}],
 				self.on
@@ -792,7 +792,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			return amtFinal;
 		},
-		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */
+		isAutomationEnabled: true,
 		val: 0
 	},
 	{
@@ -1296,7 +1296,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 			self.effects["manpowerPerTickCon"] = -0.75;
 			self.effects["goldPerTickCon"] = -0.005; //~5 smelters
-			
+
 			var manpower = game.resPool.get("manpower");
 			var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
 
@@ -1606,7 +1606,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var effects = {};
 		effects["iron"] = autoProdRatio; // Iron because Steel Plants
-		game.calendar.cycleEffects(effects);
+		this.game.calendar.cycleEffects(effects);
 		autoProdRatio = effects["iron"];
 
 		return autoProdRatio;
@@ -1730,7 +1730,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && bld.val > 0){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					if (amt == 1) {
+					if (amt == 1 || (bld.togglable && bld.on == 0)) {
 						bld.lackResConvert = false;
 					} else {
 						bld.lackResConvert = true;
@@ -1867,6 +1867,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (bld.jammed != undefined){
 				bld.jammed = false;
+			}
+
+			if (bld.isAutomationEnabled != undefined){
+				bld.isAutomationEnabled = true;
 			}
 		}
 	},
@@ -2144,7 +2148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!this.toggleAutomation &&
 			(building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell)))
 		{
-			this.toggleAutomation = this.addLink( building.enabled ? "A" : "*",
+			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();
 					building.isAutomationEnabled = !building.isAutomationEnabled;

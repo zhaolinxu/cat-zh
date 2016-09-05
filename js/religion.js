@@ -165,8 +165,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: true,
 		defaultUnlocked: true,
-		handler: function(btn){
-			btn.game.religion.getZU("ivoryTower").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["ivoryTower"]
 		}
 	},{
 		name: "ivoryTower",
@@ -184,8 +184,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("ivoryCitadel").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["ivoryCitadel"]
 		}
 	},{
 		name: "ivoryCitadel",
@@ -203,8 +203,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("skyPalace").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["skyPalace"]
 		}
 	},{
 		name: "skyPalace",
@@ -224,8 +224,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("unicornUtopia").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["unicornUtopia"]
 		}
 	},{
 		name: "unicornUtopia",
@@ -246,8 +246,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("sunspire").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["sunspire"]
 		}
 	},{
 		name: "sunspire",
