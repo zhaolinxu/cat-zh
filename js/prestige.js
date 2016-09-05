@@ -55,8 +55,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 100,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("vitruvianFeline").unlocked = true;
+		unlocks: {
+			"perks": ["vitruvianFeline"]
 		},
 		effects:{
 			"priceRatio" : -0.017

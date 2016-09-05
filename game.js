@@ -463,6 +463,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "cultureMaxRatio" : {
+                title: "Culture limit expansion",
+                type: "ratio"
+            },
+
             "lunarOutpostRatio" : {
                 title: "Lunar Outpost bonus",
                 type: "ratio"
