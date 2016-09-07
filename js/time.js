@@ -181,6 +181,23 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         },
         val: 0,
         unlocked: false
+    },{
+        name: "voidHoover",
+        label: "Void Hoover",
+        description: "",
+        prices: [
+			{ name: "timeCrystal", val: 10 },
+			{ name: "antimatter", val: 1000 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+			"voidRatio": 1
+        },
+        action: function(){
+
+        },
+        val: 0,
+        unlocked: false
     }],
 
     getCFU: function(id){

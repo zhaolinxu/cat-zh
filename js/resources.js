@@ -352,7 +352,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	addRes: function(res, addedValue) {
-		if (this.game.calendar.day < 0) {
+		if (this.game.calendar.day < 0 && res.name != "void") {
 			return;
 		}
 
@@ -640,8 +640,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
     getVoidQuantity: function() {
 		// -1, 0, 1, 2 at start, 0.5 on average
-
-		var maxPerDay = 2; //TODO increase the maximum void per day in chronoforge
+		var maxPerDay = 2 + this.game.getEffect("voidRatio");
 		var i = this.game.rand(maxPerDay + 2) - 1;
 
 		// Only integer
