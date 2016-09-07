@@ -209,7 +209,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.bld.getEffect("scienceRatio"));
+		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.getEffect("scienceRatio"));
 		this.game.resPool.addResEvent("science", sciBonus);
 
 		if (!isSilent){
@@ -228,7 +228,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		this.observeClear();
 
-		var autoChance = (this.game.bld.getEffect("starAutoSuccessChance") * 100);	//in %
+		var autoChance = (this.game.getEffect("starAutoSuccessChance") * 100);	//in %
 		var rand = this.game.rand(100);
 
 		if(
@@ -366,12 +366,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//------------------------- relic -------------------------
 		else {
-			this.game.resPool.addResEvent("relic", this.game.space.getEffect("relicPerDay"));
+			this.game.resPool.addResEvent("relic", this.game.getEffect("relicPerDay"));
 		}
 
 		//------------------------- astronomical events -------------------------
 		var chance = 25;									//25 OPTK of event per day	(0.25%)
-		chance += (this.game.bld.getEffect("starEventChance") * 10000);
+		chance += (this.game.getEffect("starEventChance") * 10000);
 		chance *= chanceRatio;
 
 		if (this.game.rand(10000) < chance &&
@@ -412,7 +412,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < (baseChance + iwChance) &&
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
-			var mineralsAmt = 50 + 25 * this.game.bld.getEffect("mineralsRatio");
+			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
 
 			if (this.game.ironWill){
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
@@ -421,7 +421,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.msg("A meteor fell near the village, +" + mineralsAmt.toFixed() +" minerals!", null, "meteor");
 
 			if (this.game.workshop.get("celestialMechanics").researched){
-				var sciBonus = 15 * ( 1 + this.game.bld.getEffect("scienceRatio"));
+				var sciBonus = 15 * ( 1 + this.game.getEffect("scienceRatio"));
 				this.game.resPool.addResEvent("science", sciBonus);
 				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
@@ -470,14 +470,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
 		//-------------------------  -------------------
 
-		var riftChance = this.game.religion.getEffect("riftChance");	//5 OPTK
+		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
 			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice", "unicornRift");
 
 			this.game.resPool.addResEvent("unicorns", 500);
 		}
 		//----------------------------------------------
-		var aliChance = this.game.religion.getEffect("alicornChance");	//0.2 OPTK
+		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
 		if (this.game.rand(100000) < aliChance){
 			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
 
@@ -485,10 +485,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		// -------------- ivory meteors ---------------
-		var meteorChance = 0 + this.game.religion.getEffect("ivoryMeteorChance");	//5 OPTK
+		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
 		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
 
-			var ivory = (250 + this.game.rand(1500) * (1 + this.game.religion.getEffect("ivoryMeteorRatio")));
+			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
 			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice", "ivoryMeteor");
 
 			this.game.resPool.addResEvent("ivory", ivory);
@@ -559,7 +559,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addRes(resPool.get("antimatter"), this.game.space.getEffect("antimatterProduction"));
+			resPool.addRes(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
 		}
 	},
 

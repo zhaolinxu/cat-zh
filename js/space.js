@@ -333,7 +333,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			lackResConvert: false,
 			action: function(game, self){
 				self.effects["uraniumPerTickCon"] = -0.35;
-				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.workshop.getEffect("lunarOutpostRatio"));
+				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.getEffect("lunarOutpostRatio"));
 				var amt = game.resPool.getAmtDependsOnStock(
 					[{res: "uranium", amt: -self.effects["uraniumPerTickCon"]}],
 					self.on
@@ -415,7 +415,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			calculateEffects: function (game, self){
 				self.effects = {
 					"uraniumPerTickSpace" : 0.3
-						* (1 + game.workshop.getEffect("crackerRatio")),
+						* (1 + game.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
 			},
@@ -477,7 +477,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             calculateEffects: function(game, self){
 				self.effects = {
 					"starchartPerTickBaseSpace": 0.01,
-					"scienceMax": 10000 * (1 + game.workshop.getEffect("spaceScienceRatio"))
+					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio"))
 				};
             }
         },{
@@ -553,8 +553,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			val:  0,
 			on:	  0,
 			effects: {
-				energyConsumption: 0,
-				antimatterMax: 0
+				"energyConsumption": 0,
+				"antimatterMax": 0
 			},
 			calculateEffects: function(game, self){
 				self.effects = {
@@ -630,8 +630,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				calculateEffects: function(game, self){
 					self.effects = {
 						"starchartPerTickBaseSpace": 0.025,
-						"scienceMax": 25000 * (1 + game.workshop.getEffect("spaceScienceRatio")),
-						"relicPerDay": game.workshop.getEffect("beaconRelicsPerDay")
+						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
+						"relicPerDay": game.getEffect("beaconRelicsPerDay")
 					};
 				},
 				upgradable: true,
@@ -700,6 +700,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.game = game;
 		this.metaCache = {};
 		this.registerMetaSpace();
+		this.setEffectsCachedExisting();
 	},
 
 	registerMetaSpace: function(){
@@ -720,9 +721,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					return 0;
 				}
 				var val = building.togglable ? building.on: building.val;
+
+				if (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd){
+					return building.effects[effectName] * val * game.resPool.getEnergyDelta();
+				}
+
 				return building.effects[effectName] * val;
 			}});
 		}
+
 	},
 
 	resetState: function(){
@@ -831,7 +838,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		}
 
-		this.invalidateCachedEffects();
 	},
 
 	update: function(){
@@ -896,25 +902,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		return this.getMeta(name, this.planets);
 	},
 
-	getEffect: function(name){
-		var self = this;
-
-		var totalEffect = this.getEffectCached(name);
-
-		if ((name == "spaceRatio")
-			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
-			totalEffect = totalEffect * this.game.resPool.getEnergyDelta();
-		}
-		return totalEffect;
-	},
-
 	/**
 	 * This method is probably slow as hell, revisit it
 	 */
 	getAutoProductionRatio: function(useTransferBonus){
-        var ratio = ( 1 + this.getEffect("spaceRatio"));
+        var ratio = ( 1 + this.game.getEffect("spaceRatio"));
 		if (useTransferBonus){
-			ratio *= ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * (this.getEffect("prodTransferBonus"))));
+			ratio *= ( 1 + ((this.game.bld.getAutoProductionRatio(false, 0.05) - 1) * (this.game.getEffect("prodTransferBonus"))));
 		}
 
 		if (this.game.workshop.get("spaceManufacturing").researched){
@@ -968,7 +962,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
         }
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
-                var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.space.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
             }
         }

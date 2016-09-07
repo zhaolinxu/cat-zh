@@ -15,6 +15,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.maxEnergy = game.rate * 60 * 10;   //10 minute max
 
 		this.registerMetaTime();
+		this.setEffectsCachedExisting();
     },
 
     registerMetaTime: function() {
@@ -110,10 +111,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             * (1 + this.getCFU("temporalBattery").val * 0.25)
         );
     },
-
-    getEffect: function(name){
-		return this.getEffectCached(name);
-	},
 
 	chronoforgeUpgrades: [{
         name: "temporalBattery",

@@ -445,18 +445,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 12 + game.religion.getEffect("blsLimit") || 0;
+				res.maxValue = 12 + this.game.getEffect("blsLimit") || 0;
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
 
-			var maxValue = game.bld.getEffectCached(res.name + "Max") || 0;
-
-			maxValue += (effectsBase[res.name + "Max"] || 0);
-
-			// fixed bonus
-			maxValue += game.workshop.getEffect(res.name + "Max");
-			maxValue += game.space.getEffect(res.name + "Max");
+			var maxValue = game.getEffect(res.name + "Max") || 0;
 
 			maxValue = this.addResMaxRatios(res, maxValue);
 
@@ -484,8 +478,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 */
 	addBarnWarehouseRatio: function(effects){
 		var newEffects = {};
-		var barnRatio = this.game.workshop.getEffect("barnRatio");
-		var warehouseRatio = 1 + this.game.workshop.getEffect("warehouseRatio");
+		var barnRatio = this.game.getEffect("barnRatio");
+		var warehouseRatio = 1 + this.game.getEffect("warehouseRatio");
 		for (var name in effects){
 			var effect = effects[name];
 
@@ -515,14 +509,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		if (res){
 			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 +
-				this.game.bld.getEffect(res.name + "MaxRatio") +
-				this.game.workshop.getEffect(res.name + "MaxRatio") +
-				this.game.space.getEffect(res.name + "MaxRatio")
-			);
+			maxValue *= ( 1 + this.game.getEffect(res.name + "MaxRatio") );
 
 			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + this.game.religion.getEffect("tcResourceRatio"));
+				maxValue *= (1 + this.game.getEffect("tcResourceRatio"));
 			}
 		}
 

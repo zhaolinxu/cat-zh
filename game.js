@@ -193,6 +193,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
+			"coalRatioGlobalReduction" : {
+				title: "Coal production penalty reduction",
+				resName: "coal",
+				type: "ratio"
+			},
+
 			"oilReductionRatio" : {
 				title: "Oil consumption reduction",
 				type: "ratio"
@@ -531,6 +537,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	console: null,
 
+	//global cache
+	globalEffectsCached: {},
+
 	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
 	rate: 5,
 
@@ -743,29 +752,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	//TODO: store all managers in a single array and handle them in the common way
+	// TODO: store all managers in a single array and handle them in the common way
 	getEffect: function(effectName){
-		var effect =
-			  this.bld.getEffect(effectName)
-			+ this.space.getEffect(effectName)
-			+ this.workshop.getEffect(effectName)
-			+ this.prestige.getEffect(effectName)
-			+ this.religion.getEffect(effectName)
-			+ this.time.getEffect(effectName);
-
-        return effect;
+		 return this.globalEffectsCached[effectName] || 0;
 	},
 
 	updateCaches: function() {
+		this.globalEffectsCached = {};
+
 		this.bld.updateEffectCached();
-		this.workshop.updateEffectCached();
+		this.challenges.updateEffectCached();
 		this.prestige.updateEffectCached();
 		this.religion.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
+		this.workshop.updateEffectCached();
+		// TODO : village cache
 
 		this.updateResources();
 	},
+
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
@@ -834,12 +840,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		this.bld.invalidateCachedEffects();
-		this.workshop.invalidateCachedEffects();
-		this.prestige.invalidateCachedEffects();
-		this.religion.invalidateCachedEffects();
-		this.village.invalidateCachedEffects();
-		this.space.invalidateCachedEffects();
+		this.globalEffectsCached = {};
 	},
 
 	save: function(){
@@ -905,6 +906,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
+			this.updateCaches();
 			this.calculateAllEffects();
 			this.updateOptionsUI();
 			return;
@@ -934,6 +936,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// Calculate effects (needs to be done after all managers are loaded)
+		this.updateCaches();
 		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
@@ -1257,18 +1260,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += resProduction;
 
 		// +VILLAGE JOB PRODUCTION (UPGRADE EFFECTS JOBS)
-		var workshopResRatio = this.workshop.getEffect(res.name+"JobRatio");
+		var workshopResRatio = this.getEffect(res.name+"JobRatio");
 
 		perTick += resProduction * workshopResRatio;
 
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
-		perTick *= 1 + this.workshop.getEffect(res.name+"GlobalRatio");
+		perTick *= 1 + this.getEffect(res.name+"GlobalRatio");
 
 		// +*BUILDINGS, RELIGION AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
-		perTick *= 1 + this.workshop.getEffect(res.name+"SuperRatio");
+		perTick *= 1 + this.getEffect(res.name+"SuperRatio");
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
 		var steamworks = this.bld.get("steamworks");
@@ -1297,20 +1300,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var steamworks = this.bld.get("steamworks");
 			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
 			if (res.name != "oil"){
-				perTick *= 1 + (this.bld.getEffect("magnetoRatio") * swRatio);
+				perTick *= 1 + (this.getEffect("magnetoRatio") * swRatio);
 			}
 
 			//ParagonSpaceProductionRatio definition 2/4
-			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 
 		}
 
 		// +*REACTOR PRODUCTION BONUS
 		if (!res.transient && res.name != "uranium"){
-			perTick *= 1 + this.bld.getEffect("productionRatio");
+			perTick *= 1 + this.getEffect("productionRatio");
 
 			//ParagonSpaceProductionRatio definition 3/4
-			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.getEffect("productionRatio");
 		}
 
 		// +*FAITH BONUS
@@ -1343,12 +1346,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// -EARTH CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
-		resConsumption *= 1 + this.bld.getEffect(res.name + "DemandRatio", true);
+		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 
 		perTick += resConsumption;
 
 		// -SPACE CONSUMPTION
-		perTick -= this.space.getEffect(res.name + "Consumption");
+		perTick -= this.getEffect(res.name + "Consumption");
 
 		if (isNaN(perTick)){
 			return 0;
@@ -1433,7 +1436,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				villageStack.push({
 					name: "Tools",
 					type: "ratio",
-					value: this.workshop.getEffect(res.name + "JobRatio")
+					value: this.getEffect(res.name + "JobRatio")
 				});
 		//<----
 		stack.push(villageStack);
@@ -1442,28 +1445,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "Upgrades",
 			type: "ratio",
-			value: this.workshop.getEffect(res.name + "GlobalRatio")
+			value: this.getEffect(res.name + "GlobalRatio")
 		});
 
 		// +*BUILDINGS AND SPACE PRODUCTION
 		stack.push({
 			name: "Buildings",
 			type: "ratio",
-			value: this.bld.getEffect(res.name + "Ratio")
-		});
-
-		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
-		stack.push({
-			name: "Boost",
-			type: "ratio",
-			value: this.workshop.getEffect(res.name + "SuperRatio")
+			value: this.getEffect(res.name + "Ratio")
 		});
 
 		// +*RELIGION EFFECTS
 		stack.push({
 			name: "Religion",
 			type: "ratio",
-			value: this.religion.getEffect(res.name + "Ratio")
+			value: this.getEffect(res.name + "RatioReligion")
+		});
+
+		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
+		stack.push({
+			name: "Boost",
+			type: "ratio",
+			value: this.getEffect(res.name + "SuperRatio")
 		});
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
@@ -1503,12 +1506,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				stack.push({
 					name: "Magnetos",
 					type: "ratio",
-					value: this.bld.getEffect("magnetoRatio") * swRatio
+					value: this.getEffect("magnetoRatio") * swRatio
 				});
 			}
 
 			//ParagonSpaceProductionRatio definition 2/4
-			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.getEffect("magnetoRatio") * swRatio; //These special cases need to die in a hole
 		}
 
 		// +*REACTOR PRODUCTION BONUS
@@ -1516,11 +1519,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			stack.push({
 				name: "Reactors",
 				type: "ratio",
-				value: this.bld.getEffect("productionRatio")
+				value: this.getEffect("productionRatio")
 			});
 
 			//ParagonSpaceProductionRatio definition 3/4
-			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.bld.getEffect("productionRatio");
+			paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.getEffect("productionRatio");
 
 		}
 
@@ -1613,8 +1616,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
-		resConsumption *= 1 + this.bld.getEffect(res.name + "DemandRatio", true);
-		resConsumption -= this.space.getEffect(res.name + "Consumption");
+		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
+		resConsumption -= this.getEffect(res.name + "Consumption");
 
 		stack.push({
 			name: "(:3) Demand",
@@ -1633,21 +1636,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getCraftRatio: function() {
-		return this.bld.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
+		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
 	},
 
 	getResCraftRatio: function(res){
 		if (res.name == "wood"){
-			var refineRatio = this.bld.getEffect("refineRatio");
+			var refineRatio = this.getEffect("refineRatio");
 			if (this.ironWill){
-				return ( (1 + refineRatio) * (1 + this.bld.getEffect("woodRatio")) ) - 1;
+				return ( (1 + refineRatio) * (1 + this.getEffect("woodRatio")) ) - 1;
 			} else {
 				return refineRatio;
 			}
 		}
 
 		if (res.name == "blueprint"){
-			var bpRatio = this.workshop.getEffect("blueprintCraftRatio");
+			var bpRatio = this.getEffect("blueprintCraftRatio");
 			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
 				this.bld.get("observatory").val + this.bld.get("biolab").val;
 
@@ -1657,7 +1660,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (res.name == "kerosene"){
-			var fRatio = this.workshop.getEffect("factoryRefineRatio");
+			var fRatio = this.getEffect("factoryRefineRatio");
 
 			var amt = this.bld.get("factory").val;
 			var ratio = this.getCraftRatio();
@@ -1666,7 +1669,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
         //get resource specific craft ratio (like factory bonus)
-        var resCraftRatio = this.bld.getEffect(res.name + "CraftRatio") || 0;
+        var resCraftRatio = this.getEffect(res.name + "CraftRatio") || 0;
 
 		return this.getCraftRatio() + resCraftRatio;
 	},
@@ -2242,7 +2245,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			lsData = {game: {}};
 		}
 
-		var saveRatio = this.bld.getEffect("resStasisRatio");
+		var saveRatio = this.getEffect("resStasisRatio");
 		dojo.mixin(lsData.game, {
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,

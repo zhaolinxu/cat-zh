@@ -201,7 +201,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	getTradeRatio: function() {
-		return this.game.bld.getEffect("tradeRatio") + this.game.village.getEffectLeader("merchant", 0);
+		return this.game.getEffect("tradeRatio") + this.game.village.getEffectLeader("merchant", 0);
 	},
 
 	resetState: function(){
@@ -442,7 +442,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		var tradeRatioAttitude = 0;
 
 		var attitudeChance = this.game.rand(100);
-		var standingRatio = this.game.bld.getEffect("standingRatio");
+		var standingRatio = this.game.getEffect("standingRatio");
 		standingRatio = standingRatio ? standingRatio : 0;
 
 		if (this.game.prestige.getPerk("diplomacy").researched){

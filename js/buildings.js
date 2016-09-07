@@ -68,6 +68,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.game = game;
         this.metaCache = {};
         this.registerMetaBuilding();
+        this.setEffectsCachedExisting();
 	},
 
 	registerMetaBuilding: function() {
@@ -76,7 +77,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				var effect = 0;
 				var bld = new classes.BuildingMeta(bld).getMeta();
 				// Need a better way to do this...
-				if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
+				if (effectName == "coalRatioGlobal") {
+					effect =  bld.effects[effectName] || 0;
+				} else if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 
 					if (bld.tunable){
@@ -84,9 +87,24 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					} else {
 						effect = bld.enabled ? bld.effects[effectName] * bld.val : 0;
 					}
-				}else{
+				} else {
 					effect = bld.effects[effectName] * bld.val || 0;
 				}
+
+				// Previously, catnip demand (or other buildings that both effected the same resource)
+				// could have theoretically had more than 100% reduction because they diminished separately,
+				// this takes the total effect and diminishes it as a whole.
+				if(game.bld.isHyperbolic(effectName) && effect < 0) {
+				  effect = game.bld.getHyperbolicEffect(effect, 1.0);
+				}
+
+				//probably not the best place to handle this mechanics
+				//----------- move to separate part? -----------
+				if ((effectName == "productionRatio" || effectName == "magnetoRatio")
+					&& (game.resPool.energyCons > game.resPool.energyProd)){
+					effect *= game.resPool.getEnergyDelta();
+				}
+
 				return effect;
 			}
 		});
@@ -197,7 +215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 var effects = {
                     "energyProduction": 2
                 };
-                effects.energyProduction *= 1 + game.workshop.getEffect("solarFarmRatio");
+                effects.energyProduction *= 1 + game.getEffect("solarFarmRatio");
                 stageMeta.effects = effects;
 			}
 		}
@@ -246,7 +264,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 var effects = {
                     "energyProduction": 5
                 };
-                effects.energyProduction *= 1 + game.workshop.getEffect("hydroPlantRatio");
+                effects.energyProduction *= 1 + game.getEffect("hydroPlantRatio");
                 stageMeta.effects = effects;
             }
         },
@@ -329,7 +347,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"scienceMax": 250,
 				"cultureMax": 10
 			};
-			var libraryRatio = game.workshop.getEffect("libraryRatio");
+			var libraryRatio = game.getEffect("libraryRatio");
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").val * libraryRatio);
 			self.effects = effects;
 		},
@@ -387,7 +405,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["scienceMax"] = 1500;
 			}
 
-			var ratio = 1 + game.space.getEffect("observatoryRatio");
+			var ratio = 1 + game.getEffect("observatoryRatio");
 			effects["scienceMax"] *= ratio;
 			effects["scienceRatio"] *= ratio;
 
@@ -441,7 +459,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["energyConsumption"] = 1;
 
 				self.effects["catnipPerTickCon"] = -1;
-				self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
+				self.effects["oilPerTickProd"]= 0.02 * (1 + game.getEffect("biofuelRatio"));
 
 				var amt = game.resPool.getAmtDependsOnStock(
 					[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
@@ -558,14 +576,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"titaniumMax": 50
 			};
 
-			effects["coalMax"] *= (1 + game.workshop.getEffect("harborCoalRatio"));
+			effects["coalMax"] *= (1 + game.getEffect("harborCoalRatio"));
 
 			var cargoShips = game.workshop.get("cargoShips");
 			if (cargoShips.researched){
 				var shipVal = game.resPool.get("ship").value;
 
 				//100% to 225% with slow falldown on the 75%
-				var limit = 2.25 + game.workshop.getEffect("shipLimit") * game.bld.get("reactor").val;
+				var limit = 2.25 + game.getEffect("shipLimit") * game.bld.get("reactor").val;
 				var ratio = 1 + game.bld.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, limit);
 
 				effects["catnipMax"] *= ratio;
@@ -680,7 +698,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 
 
-			var smelterRatio = (1 + game.workshop.getEffect("smelterRatio"));
+			var smelterRatio = (1 + game.getEffect("smelterRatio"));
 			self.effects["ironPerTickAutoprod"] = 0.02 * smelterRatio;
 
 			if (game.workshop.get("goldOre").researched){
@@ -752,7 +770,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects["oilPerTickCon"] = -0.024; //base + 0.01
 			self.effects["mineralsPerTickCon"] = -1.5;
-			var calcinerRatio = game.workshop.getEffect("calcinerRatio");
+			var calcinerRatio = game.getEffect("calcinerRatio");
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio*3 );
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 
@@ -768,7 +786,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			var amtFinal = amt;
 
-			var steelRatio = game.workshop.getEffect("calcinerSteelRatio");
+			var steelRatio = game.getEffect("calcinerSteelRatio");
 
 			if (steelRatio && self.isAutomationEnabled){
 
@@ -785,7 +803,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 				self.effects["ironPerTickCon"]*=amt;
 				self.effects["coalPerTickCon"]*=amt;
-				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.workshop.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.workshop.getEffect("calcinerSteelReactorBonus")));
+				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.getEffect("calcinerSteelReactorBonus")));
 
 				amtFinal = (amtFinal + amt) / 2;
 			}
@@ -826,7 +844,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyProduction": 1
 			};
 
-			var coalRatio = game.workshop.getEffect("coalRatioGlobal");
+			var coalRatio = game.getEffect("coalRatioGlobalReduction");
 			effects["coalRatioGlobal"] += coalRatio;
 
 			self.effects = effects;
@@ -977,7 +995,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"woodRatio" : 0.1
 			};
 
-			var ratio = 1 + game.workshop.getEffect("lumberMillRatio");
+			var ratio = 1 + game.getEffect("lumberMillRatio");
 			effects["woodRatio"] *= ratio;
 
 			self.effects = effects;
@@ -1014,7 +1032,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyConsumption": 0
 			};
 
-			var ratio = 1 + game.workshop.getEffect("oilWellRatio");
+			var ratio = 1 + game.getEffect("oilWellRatio");
 			effects["oilPerTickBase"] *= ratio;
 
 			if (game.workshop.get("pumpjack").researched){
@@ -1117,15 +1135,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyProduction" : 10
 			};
 
-			effects["uraniumPerTick"] *= (1 - game.workshop.getEffect("uraniumRatio"));
-            effects["energyProduction"] *= ( 1+ game.workshop.getEffect("reactorEnergyRatio"));
+			effects["uraniumPerTick"] *= (1 - game.getEffect("uraniumRatio"));
+            effects["energyProduction"] *= ( 1+ game.getEffect("reactorEnergyRatio"));
 
 			self.effects = effects;
 		},
 		action: function(self, game){
 			var uranium = game.resPool.get("uranium");
 
-			self.effects["uraniumPerTick"]= -0.001 * (1 - game.workshop.getEffect("uraniumRatio"));
+			self.effects["uraniumPerTick"]= -0.001 * (1 - game.getEffect("uraniumRatio"));
 
 			if (uranium.value+self.effects["uraniumPerTick"] <= 0){
 				self.on = 0;
@@ -1182,7 +1200,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["scienceMax"] = 2500;
 			}
 			//------------- limit upgrades ------------
-			var capRatio = (1+game.workshop.getEffect("acceleratorRatio"));
+			var capRatio = (1 + game.getEffect("acceleratorRatio"));
 			if (game.workshop.get("energyRifts").researched){
 				effects["catnipMax"]   = 30000 * capRatio;
 				effects["woodMax"]     = 20000 * capRatio;
@@ -1283,7 +1301,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"goldPerTickCon" : 0,
 				"fursPerTickProd": 0,
 				"ivoryPerTickProd": 0,
-				"goldMax": 100 * (1 + game.workshop.getEffect("warehouseRatio"))
+				"goldMax": 100 * (1 + game.getEffect("warehouseRatio"))
 			};
 		},
 		ignorePriceCheck: true,
@@ -1380,7 +1398,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) *1000)/1000;
             }
 
-            var broadcastTowerRatio = game.workshop.getEffect("broadcastTowerRatio");
+            var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
             var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
 
             btower.effects["cultureMax"] *= ( 1 + totalRatio);
@@ -1596,7 +1614,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		//	SW
 		var steamworks = this.get("steamworks");
 		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
-			autoProdRatio *= (1 + this.getEffect("magnetoRatio") * swRatio);
+			autoProdRatio *= (1 + this.game.getEffect("magnetoRatio") * swRatio);
 
 		// paragon (25%)
 			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
@@ -1624,8 +1642,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var ratioBase = ratio - 1;
 
-		var ratioDiff = this.game.workshop.getEffect(bldName + "PriceRatio") || 0;
-		ratioDiff += this.game.prestige.getEffect("priceRatio") || 0;
+		var ratioDiff = this.game.getEffect(bldName + "PriceRatio") || 0;
+		ratioDiff += this.game.getEffect("priceRatio") || 0;
 
 		ratioDiff = this.getHyperbolicEffect(ratioDiff, ratioBase);
 
@@ -1648,41 +1666,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	    return prices;
 	 },
 
-	/**
-	 * Returns a total effect value generated by all buildings.
-	 *
-	 * For example, if you have N buildings giving K effect,
-	 * total value will be N*K
-	 *
-	 */
-	getEffect: function(name, isHyperbolic){
-		var totalEffect = 0;
-
-		if (this.effectsBase[name]){
-			totalEffect += this.effectsBase[name];
+	isHyperbolic: function(name) {
+		if (name == "fursDemandRatio" ||
+			name == "ivoryDemandRatio" ||
+			name == "spiceDemandRatio" ||
+			name == "unhappinessRatio") {
+			return true;
+		} else {
+		 return false;
 		}
-
-		totalEffect += this.getEffectCached(name);
-
-		// Previously, catnip demand (or other buildings that both effected the same resource)
-		// could have theoretically had more than 100% reduction because they diminished separately,
-		// this takes the total effect and diminishes it as a whole.
-		if(isHyperbolic && totalEffect < 0) {
-		  totalEffect = this.getHyperbolicEffect(totalEffect, 1.0);
-		}
-
-		//probably not the best place to handle this mechanics
-		//----------- move to separate part? -----------
-		if (
-			(name == "productionRatio" || name == "magnetoRatio")
-			&& (this.game.resPool.energyCons > this.game.resPool.energyProd)){
-
-            var delta = this.game.resPool.getEnergyDelta();
-			totalEffect = totalEffect * delta;
-		}
-
-
-		return totalEffect ? totalEffect : 0;
 	},
 
 	/*
@@ -1840,8 +1832,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 		}
-
-		this.invalidateCachedEffects();
 	},
 
 	resetState: function(){

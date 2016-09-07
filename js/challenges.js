@@ -2,6 +2,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	constructor: function(game){
 		this.game = game;
+		this.registerMetaChallenges();
+		this.setEffectsCachedExisting();
+	},
+
+	registerMetaChallenges: function() {
+		this.registerMeta(this.challenges, { getEffect: function(challenge, effectName){
+			return challenge.effects ? challenge.effects[effectName] * challenge.val : 0;
+		}});
 	},
 
     challenges:[/*{
@@ -42,18 +50,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	update: function(){
 
-	},
-
-	getEffect: function(name){
-		//return this.getEffectCached(name);
-		return this.getMetaEffect(name, { meta: this.challenges, provider: {
-			getEffect: function(challenge, effectName){
-				if (!perk.challenge || !challenge.enabled){
-					return 0;
-				}
-				return challenge.effects[effectName];
-			}
-		}});
 	},
 
 	getChallenge: function(name){

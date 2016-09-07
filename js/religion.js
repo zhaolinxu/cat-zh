@@ -15,6 +15,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	constructor: function(game){
 		this.game = game;
 		this.registerMetaReligion();
+		this.setEffectsCachedExisting();
 	},
 
 	registerMetaReligion: function() {
@@ -107,7 +108,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			});
 		}
 
-		this.invalidateCachedEffects();
 		this.tclevel = this.getTranscendenceLevel();
 	},
 
@@ -123,7 +123,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
-			this.corruption += this.getEffect("corruptionRatio")
+			this.corruption += this.game.getEffect("corruptionRatio")
                 * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
 
 			if (this.game.rand(100) < 25 && this.corruption > 1){
@@ -141,7 +141,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
 
-		var apt = this.getEffect("alicornPerTick") || 0;
+		var apt = this.game.getEffect("alicornPerTick") || 0;
 		var alicorns = this.game.resPool.get("alicorn");
 
 		//enable hidden generation bonus once first AC was unlocked
@@ -160,7 +160,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 0.05
+			"unicornsRatioReligion" : 0.05
 		},
 		val: 0,
 		unlocked: true,
@@ -178,7 +178,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 0.1,
+			"unicornsRatioReligion" : 0.1,
 			"riftChance" : 5	//
 		},
 		val: 0,
@@ -197,7 +197,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 0.25,
+			"unicornsRatioReligion" : 0.25,
 			"ivoryMeteorChance" : 5
 		},
 		val: 0,
@@ -216,7 +216,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 0.5,
+			"unicornsRatioReligion" : 0.5,
 			"alicornChance" : 5,
 			"alicornPerTick" : 0.00001,
 			"ivoryMeteorRatio" : 0.05
@@ -237,7 +237,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 2.5,
+			"unicornsRatioReligion" : 2.5,
 			"alicornChance" : 15,
 			"alicornPerTick" : 0.000025,
 			"ivoryMeteorRatio" : 0.15,
@@ -261,7 +261,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatio" : 5,
+			"unicornsRatioReligion" : 5,
 			"alicornChance" : 30,
 			"alicornPerTick" : 0.00005,
 			"tcRefineRatio": 0.1,
@@ -325,7 +325,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		faith: 150,	//total faith required to unlock the upgrade
 		effects: {
-			"faithRatio" : 0.1
+			"faithRatioReligion" : 0.1
 		},
 		val: 0,
 		upgradable: true,
@@ -576,10 +576,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getTU: function(name){
 		return this.getMeta(name, this.transcendenceUpgrades);
-	},
-
-	getEffect: function(name){
-		return this.getEffectCached(name);
 	},
 
 	getProductionBonus: function(){
@@ -1038,7 +1034,8 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 	},
 
 	refine: function(){
-		var relicsCount = (1 + this.game.religion.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
+
+		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
 		this.game.resPool.addResEvent("relic", relicsCount);
 		this.game.msg(relicsCount + " relics crafted");
 	},

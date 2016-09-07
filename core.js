@@ -27,7 +27,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * >>
 	 * >>  constructor: function() { this.arrayField = []; }
 	 */
-	effectsCached: null,
 	effectsCachedExisting: null,
 	meta: null,
 	panelData: null,
@@ -36,7 +35,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Constructors are INHERITED automatically and CHAINED in the class hierarchy
 	 */
 	constructor: function(){
-		this.effectsCached = {};
 		this.effectsCachedExisting= {};
 		this.meta = [];
 		this.panelData = {};
@@ -45,26 +43,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	/**
 	 * Methods however are NOT. Use this.inherited(arguments) to call a base method;
 	 */
-
-	 /**
-	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
-	 * @param provider - any object having getEffect(metaElem, effectName) method
-	 */
-	registerMeta: function(meta, provider){
-		this.meta.push({meta: meta, provider: provider});
-		// Set effectsCachedExisting based on meta
-		for (var a = 0; a< this.meta.length; a++){
-			for (var i = 0; i< this.meta[a].meta.length; i++){
-				for (var effect in this.meta[a].meta[i].effects) {
-					this.effectsCachedExisting[effect] = 0;
-				}
-			}
-		}
-	},
-
-	invalidateCachedEffects: function(){
-		this.effectsCached = {};
-	},
 
 	registerPanel: function(id, panel){
 		if (!this.panelData[id]){
@@ -78,38 +56,72 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		});
 	},
 
+	 /**
+	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
+	 * @param provider - any object having getEffect(metaElem, effectName) method
+	 */
+	registerMeta: function(meta, provider){
+		this.meta.push({meta: meta, provider: provider});
+	},
+
+	setEffectsCachedExisting: function() {
+		// Set effectsCachedExisting based on meta
+		for (var a = 0; a < this.meta.length; a++){
+			for (var i = 0; i< this.meta[a].meta.length; i++){
+				for (var effect in this.meta[a].meta[i].effects) {
+					this.effectsCachedExisting[effect] = 0;
+				}
+			}
+		}
+		// Set effectsCachedExisting based on effectsBase
+		if (typeof(this.effectsBase) == "object") {
+			for (var effect in this.effectsBase) {
+				this.effectsCachedExisting[effect] = 0;
+			}
+		}
+	},
+
 	updateEffectCached: function() {
 		for (var name in this.effectsCachedExisting) {
+			// Add effect from meta
 			var effect = 0;
-			for (var i = 0; i< this.meta.length; i++){
+			for (var i = 0; i < this.meta.length; i++){
 				var effectMeta = this.getMetaEffect(name, this.meta[i]);
 				effect += effectMeta;
 			}
-			this.effectsCached[name] = effect;
+
+			// Add effect from effectsBase
+			if (this.effectsBase && this.effectsBase[name]) {
+				effect += this.effectsBase[name];
+			}
+
+			// Add effect in globalEffectsCached, in addition of other managers
+			game.globalEffectsCached[name] = typeof(game.globalEffectsCached[name]) == "number" ? game.globalEffectsCached[name] + effect : effect;
 		}
 	},
 
 	/**
-	 * Returns a cached combined value of effect of all managers.
-	 * Will calculate and store cached value if called for a first time.
+	 * Returns a cached combined value of effect of all managers, for effect existing in the manager
+	 * Will calculate effect value of the manager if the value of effect of all managers is not yet implemented (launch of the game)
 	 */
-	getEffectCached: function(name){
-		// Search only if effect exists
+	getEffect: function(name){
+		// Search only if effect exists in the manager
 		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
 			return 0;
-		} else {
-			var cached = this.effectsCached[name];
-			if (cached != undefined) { return cached; }
-
-			var effect = 0;
-			for (var i = 0; i< this.meta.length; i++){
-				var effectMeta = this.getMetaEffect(name, this.meta[i]);
-				effect += effectMeta;
-			}
-
-			this.effectsCached[name] = effect;
-			return effect;
 		}
+		// Search only if effect is not yet in the globalEffectsCached
+		var cached = this.game.globalEffectsCached[name];
+		if (cached != undefined) {
+			return cached;
+		}
+
+		// Search
+		var effect = 0;
+		for (var i = 0; i< this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(name, this.meta[i]);
+			effect += effectMeta;
+		}
+		return effect;
 	},
 
 	/**

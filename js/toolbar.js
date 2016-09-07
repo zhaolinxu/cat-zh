@@ -120,7 +120,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	},
 
 	getTooltip: function(){
-		var base = this.game.bld.getEffect("happiness");
+		var base = this.game.getEffect("happiness");
 		//var population = this.game.village.getKittens() *  2;
 		var tooltip = "Base: 100%<br>" +
 			   "Buildings: +" + (Math.floor(base)) + "%<br>";
@@ -143,7 +143,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
         var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
         var unhappiness = unhappiness;
 
-		var unhappinessReduction = unhappiness * this.game.bld.getEffect("unhappinessRatio", true);
+		var unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
 		tooltip += "Population penalty: -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
 
         tooltip += "* Penalty base: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";

@@ -255,6 +255,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	constructor: function(game){
 		this.game = game;
 		this.registerMetaPrestige();
+		this.setEffectsCachedExisting();
 	},
 
 	registerMetaPrestige: function() {
@@ -305,10 +306,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	},
 
-	getEffect: function(name){
-		return this.getEffectCached(name);
-	},
-
 	getPerk: function(name){
 		return this.getMeta(name, this.perks);
 	},
@@ -325,7 +322,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 
     getParagonRatio: function(){
-        return 1.0 + this.getEffect("paragonRatio");
+        return 1.0 + this.game.getEffect("paragonRatio");
     },
 
 	getParagonProductionRatio: function(){
