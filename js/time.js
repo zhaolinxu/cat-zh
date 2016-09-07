@@ -36,7 +36,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val"], function(loadedElem){
+				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "unlocked"], function(loadedElem){
 			});
 		}
 
@@ -180,7 +180,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         },
         val: 0,
-        unlocked: true
+        unlocked: false
     }],
 
     getCFU: function(id){

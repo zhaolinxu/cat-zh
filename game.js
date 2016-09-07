@@ -2291,9 +2291,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val"]);
-		usedCryochambers_reset[0]["val"] = this.time.getVSU("cryochambers").val;
-
 		var newKittens= [];
 		if (this.time.getVSU("cryochambers").val > 0) {
 			var kittens = this.village.sim.kittens;
@@ -2311,6 +2308,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
+
+		if (newKittens.length > 0) {
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			usedCryochambers_reset[0]["val"] = newKittens.length;
+			usedCryochambers_reset[0]["unlocked"] = true;
+		} else {
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			usedCryochambers_reset[0]["val"] = 0;
+			usedCryochambers_reset[0]["unlocked"] = false;
+		}
+		console.log(usedCryochambers_reset);
 
 		var saveData = {
 			saveVersion: this.saveVersion,
