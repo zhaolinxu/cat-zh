@@ -352,6 +352,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	addRes: function(res, addedValue) {
+		if (this.game.calendar.day < 0) {
+			return;
+		}
+
 		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
 			if(res.value > res.maxValue) {
@@ -409,11 +413,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		if (this.game.calendar.day >= 0) {
-			// Remove from resources
-			for (var i in from) {
-				this.addRes(this.get(from[i].res), -from[i].amt * amt);
-			}
+		// Remove from resources
+		for (var i in from) {
+			this.addRes(this.get(from[i].res), -from[i].amt * amt);
 		}
 
 		// Return the percentage to decrease the productivity
