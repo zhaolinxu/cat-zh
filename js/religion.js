@@ -830,6 +830,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.
 		} else {
 			return this.name;
 		}
+	},
+
+	updateVisible: function (){
+		this.setVisible(this.game.religion.getRU("transcendence").researched);
 	}
 });
 
