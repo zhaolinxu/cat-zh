@@ -2306,7 +2306,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			for (j = 0; j < this.time.getVSU("cryochambers").val; j++) {
 				if (j < newKittensSort.length){
-					delete kittens[j].job;
+					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
 				}
 			}
