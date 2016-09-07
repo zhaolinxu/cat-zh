@@ -16,7 +16,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	jobs: [{
 		name: "woodcutter",
 		title: "Woodcutter",
-		description: "+0.015 wood per tick",
+		description: "+0.018 wood per tick",
 
 		modifiers:{
 			"wood" : 0.018
@@ -38,7 +38,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "scholar",
 		title: "Scholar",
-		description: "+0.05 science per tick",
+		description: "+0.04 science per tick",
 
 		modifiers:{},
 		calculateEffects: function(self, game){

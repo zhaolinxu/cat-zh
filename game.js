@@ -1605,7 +1605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +BUILDING AND SPACE PerTick
 		stack.push({
-			name: "Independente production",
+			name: "Independent production",
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTick")
 		});
