@@ -1694,8 +1694,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         },
         unlocked: false,
         researched: false
-
-    }, {
+    },{
         name: "factoryProcessing",
         title: "Factory Processing",
         description: "Every factory will increase oil refinement effectiveness by 5%.",
@@ -1709,6 +1708,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         unlocked: false,
         researched: false
+    },{
+        name: "voidAspiration",
+        title: "Void Aspiration",
+        description: "Unlocks Void Hoover.",
+        effects: {
+
+        },
+        prices:[
+            { name : "timeCrystal", val: 15 },
+            { name : "antimatter", val: 2000 }
+        ],
+        unlocked: false,
+        researched: false,
+        unlocks: {
+            voidSpace: ["voidHoover"]
+        }
     }
     ],
 
