@@ -1880,16 +1880,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		resString = this.processResourcePerTickStack(resStack, res, 0);
 
+		var resPertick = res.perTickUI + this.getEffect(res.name + "PerTickCon");
+
 		if (this.opts.usePercentageResourceValues){
-			resString += "<br> Net gain: " + this.getDisplayValueExt(res.perTickUI, true, true);
+			resString += "<br> Net gain: " + this.getDisplayValueExt(resPertick, true, true);
 		}
 
-		if (res.perTickUI < 0) {
-			var toZero = res.value / (-res.perTickUI * this.getRateUI());
+		if (resPertick < 0) {
+			var toZero = res.value / (-resPertick * this.getRateUI());
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
 			if (res.maxValue && res.value < res.maxValue) {
-				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.getRateUI());
+				var toCap = (res.maxValue - res.value) / (resPertick * this.getRateUI());
 				if (toCap){
 					resString += "<br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
 				}
