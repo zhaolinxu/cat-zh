@@ -364,6 +364,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.day < 0) {
 		//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+                        this.game.time.flux-=0.0025;
 		}
 		//------------------------- relic -------------------------
 		else {
