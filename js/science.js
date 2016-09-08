@@ -826,12 +826,28 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		prices: [
 			{name : "science", val: 800000},
-			{name: 	"timeCrystal", val: 40},
+			{name: 	"timeCrystal", val: 30},
 			{name : "void",   val: 100}
 		],
 		unlocks: {
+			tech: ["paradoxalKnowledge"],
 			upgrades: ["voidAspiration"],
 			voidSpace: ["cryochambers"]
+		}
+	},{
+		name: "paradoxalKnowledge",
+		title: "Paradoxal Knowledge",
+		description: "",
+		effectDesc: "Unlocks Paradoxal Knowledge",
+		unlocked: false,
+		researched: false,
+		prices: [
+			{name : "science", val: 1000000},
+			{name: 	"timeCrystal", val: 40},
+			{name : "void",   val: 150}
+		],
+		unlocks: {
+			voidSpace: ["chronocontrol"]
 		}
 	}],
 

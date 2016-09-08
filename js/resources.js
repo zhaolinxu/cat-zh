@@ -217,7 +217,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-        },{
+	},{
 		name : "wrappingPaper",
 		title: "wrapping paper",
 		type : "exotic",
@@ -229,7 +229,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-        },
+	},{
+		name : "temporalFlux", // game.time.energy : update in time manager
+		title: "temporal flux",
+		description: "",
+		type : "exotic",
+		craftable: false,
+		visible: false,
+		persists: true
+	},
 
 	//=========================================
 	// 				    CRAFT

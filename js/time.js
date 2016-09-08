@@ -97,6 +97,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (this.energy > this.maxEnergy){ //sanity check
             this.energy = this.maxEnergy;
         }
+        game.resPool.get("temporalFlux").value = this.energy;
         if (this.isAccelerated && this.energy > 0){
             this.energy--;
         }
@@ -189,6 +190,24 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.25,
         effects: {
 			"voidRatio": 1
+        },
+        action: function(){
+
+        },
+        val: 0,
+        unlocked: false
+    },{
+        name: "chronocontrol",
+        label: "Chronocontrol",
+        description: "Increase the number of days in Temporal Paradox",
+        prices: [
+			{ name: "timeCrystal", val: 30 },
+			{ name: "void", val: 500 },
+			{ name: "temporalFlux", val: 5000}
+        ],
+        priceRatio: 1.25,
+        effects: {
+			"temporalParadoxDay": 1
         },
         action: function(){
 
@@ -413,17 +432,21 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 
     onClick: function(event){
         var self = this;
+		var meta = this.getMetadata();
 
-		if (this.getMetadata().name == "usedCryochambers") {
+		if (meta.name == "usedCryochambers") {
 			return;
-		} else if (this.getMetadata().name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
+		} else if (meta.name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
 			return;
 		}
 
         this.animate();
-        var meta = this.getMetadata();
+
         if (this.enabled && this.hasResources()){
             this.payPrice();
+            if (meta.name == "chronocontrol") {
+				this.game.time.energy -= meta.prices[2].val;
+            }
             meta.val++;
         }
     },
@@ -453,7 +476,6 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
 
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];
-
             this.addChild(new classes.ui.time.VoidSpaceBtn({
                 id: meta.name,
                 name: meta.label,
