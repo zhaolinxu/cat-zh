@@ -1770,19 +1770,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Updates a perTickValue of resource for UI
 	 */
 	updateResources: function(){
-
 		/**
 		* Updating per tick value is actually a heavy operation. Why don't we do it per 3 tick and cache values?
 		*/
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickUI = this.calcResourcePerTick(res.name);
+			res.perTickCached = this.calcResourcePerTick(res.name);
 		}
 	},
 
-	getResourcePerTick: function(resName, calcAutomatedEffect){
+	getResourcePerTick: function(resName, withConversion){
 		var res = this.resPool.get(resName);
-		return res.perTickUI;
+		return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
 	},
 
 	craft: function(resName, value){
@@ -1846,7 +1845,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 if (!resRef.perTickUI){ return;}
+			 perTick = this.getResourcePerTick(resRef.name, true);
+			 if (!perTick){ return;}
 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
 
@@ -1880,7 +1880,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		resString = this.processResourcePerTickStack(resStack, res, 0);
 
-		var resPertick = res.perTickUI + this.getEffect(res.name + "PerTickCon");
+		var resPertick = this.getResourcePerTick(res.name, true);
 
 		if (this.opts.usePercentageResourceValues){
 			resString += "<br> Net gain: " + this.getDisplayValueExt(resPertick, true, true);
@@ -1915,9 +1915,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			if (stackElem.value && stackElem.name == "Prod & Village") {
-				resString += "<hr>";
-			}
 			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
 				continue;
 			}

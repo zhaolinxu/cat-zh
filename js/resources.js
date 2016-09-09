@@ -455,7 +455,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.maxValue = maxValue;
 			this.game.updateKarma();
 
-			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
+			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
 			this.addRes(res, resPerTick);
 
 		}
@@ -531,8 +531,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = this.resources[i];
 			res.value = 0;
 			res.maxValue = 0;
-			res.perTickNoAutomate = 0;
-			res.perTickUI = 0;
+			res.perTickCached = 0;
 		}
 	},
 
@@ -840,7 +839,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.textContent  = maxResValue;
 
-			var perTick = this.game.calendar.day < 0 ? 0 : res.perTickUI + this.game.getEffect(res.name + "PerTickCon");
+			var perTick = this.game.calendar.day < 0 ? 0 : this.game.getResourcePerTick(res.name, true);
 			perTick = this.game.opts.usePerSecondValues ? perTick * this.game.getRateUI() : perTick;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
@@ -851,11 +850,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 			row.resTick.textContent = perTickValue;
 
-			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
+			row.resTick.style.cursor = perTick ? "pointer" : "default";
 
 			//weather mod
 			var season = this.game.calendar.getCurSeason();
-			if (season.modifiers[res.name] && res.perTickUI != 0 ){
+			if (season.modifiers[res.name] && perTick != 0 ){
 
 				var modifier = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
 				row.resWMod.textContent = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
