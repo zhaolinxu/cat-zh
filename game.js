@@ -1775,13 +1775,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		*/
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickCached = this.calcResourcePerTick(res.name);
+			if (res.perTickExisting) {
+				res.perTickCached = this.calcResourcePerTick(res.name);
+			}
 		}
 	},
 
 	getResourcePerTick: function(resName, withConversion){
 		var res = this.resPool.get(resName);
-		return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
+		if (res.perTickExisting) {
+			return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
+		} else {
+			return 0;
+		}
 	},
 
 	craft: function(resName, value){
