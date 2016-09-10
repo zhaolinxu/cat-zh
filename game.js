@@ -2525,48 +2525,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     },
 
 	redeemGift: function(){
-          var possibleGifts = ["Karma"];
+          gifts = "Karma";
           if(this.resPool.get("paragon").value>=100)
-            possibleGifts.push("Paragon");
+            gifts = "Paragon";
           if(this.resPool.get("timeCrystal").value&&this.prestige.getPerk("anachronomancy").researched)
-            possibleGifts.push("TimeCrystal");
+            gifts = "TimeCrystal";
           if(this.resPool.get("sorrow").value/this.resPool.get("sorrow").maxValue<0.25&&this.prestige.getPerk("megalomania").researched&&this.religion.getZU("blackPyramid").val<3)
-            possibleGifts.push("BLS");
+            gifts = "BLS";
           if(this.religion.getRU("apocripha").researched)
-            possibleGifts.push("Apocrypha");
+            gifts = "Apocrypha";
           if(this.religion.getRU("transcendence").researched&&this.religion.getTranscendenceLevel()<=10)
-            possibleGifts.push("Transcendence");
-          if(this.religion.getTranscendenceLevel()>7&&this.science.get("cryptotheology").researched)
-            possibleGifts.push("Cryptotheology");
+            gifts = "Transcendence";
           if(this.prestige.getPerk("engeneering").researched&&!this.prestige.getPerk("renaissance").researched)
-            possibleGifts.push("Metaphysics");
+            gifts = "Metaphysics";
           if(this.bld.getBuilding("chronosphere").val)
-            possibleGifts.push("Compendiums");
-
-          var size = 1;
-          var rand = Math.floor(Math.random()*100);
-          if(rand<60)
-            size+=1;
-          if(rand<30)
-            size+=1;
-          if(rand<10)
-            size+=1;
-
-          var gift = possibleGifts[Math.floor(Math.random()*possibleGifts.length)]
+            gifts = "Compendiums";
 
           if(gift=="Karma")
           {
             var amt = 5000;
             if(this.resPool.get("karma").value>50)
             {
-              if(size==1)
-                amt = 1;
-              else if(size==2)
-                amt = 5;
-              else if(size==3)
-                amt = 10;
-              else
-                amt = 25;
+              amt = 25;
               amt*=Math.min(this.karmaKittens, 25000);
             }
             var karmaGained = this.getTriValue(this.karmaKittens+amt, 5)-this.getTriValue(this.karmaKittens, 5);
@@ -2577,7 +2557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
           {
             var amt = 100;
             if(this.resPool.get("paragon").value>500)
-              amt = size/4*Math.min(this.resPool.get("paragon").value,1000);
+              amt = Math.min(this.resPool.get("paragon").value,1000);
             var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
             this.paragonPoints+=amt;
           }
@@ -2585,7 +2565,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
           {
             var amt = 50;
             if(this.resPool.get("timeCrystal").value>100)
-              amt = size/4*Math.min(this.resPool.get("timeCrystal").value, 2000);
+              amt = Math.min(this.resPool.get("timeCrystal").value, 2000);
             var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
             this.resPool.get("timeCrystal").value+=amt;
           }
@@ -2599,7 +2579,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
           {
             var amt = 5;
             if(this.religion.faithRatio>10)
-              amt = size*Math.min(this.religion.faithRatio, 1000);
+              amt = 4*Math.min(this.religion.faithRatio, 1000);
             var pre = this.religion.getFaithBonus();
             this.religion.faithRatio+=amt;
             var post = this.religion.getFaithBonus();
@@ -2608,17 +2588,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
           }
           if(gift=="Transcendence")
           {
-            var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel()+size) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
+            var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel()+4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
             this.religion.tcratio+=amt;
-            var msg = "Transcendence Level increased by " + size + "!";
-          }
-          if(gift=="Cryptotheology")
-          {
-            this.religion.getTU("blackObelisk").val+=size;
-            this.religion.getTU("blackNexus").val+=size;
-            this.religion.getTU("blackCore").val+=size;
-            this.religion.getTU("singularity").val+=size;
-            var msg = "Got " + size + " of several Cryptotheology Upgrades!";
+            var msg = "Transcendence Level increased by 4!";
           }
           if(gift=="Metaphysics")
           {
@@ -2651,7 +2623,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
           {
             var amt = 100000;
             if(this.resPool.get("compediums").value>500000)
-              amt = size*this.resPool.get("compediums").value;
+              amt = 4*this.resPool.get("compediums").value;
             var msg = "Got " + this.getDisplayValueExt(amt) + " Compendiums!";
             this.resPool.get("compedium").value+=amt;
           }
