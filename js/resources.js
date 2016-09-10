@@ -613,9 +613,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-
-				var res = this.get(price.name);
-				res.value -= price.val;
+				this.addResEvent(price.name, -price.val);
 			}
 		}
 	},

@@ -303,7 +303,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
                 var prices = this.getPrices();
                 var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
                 if (hasRes){
-                    this.game.resPool.get("timeCrystal").value -= prices[0].val * 5;
+					this.game.resPool.addResEvent("timeCrystal", -prices[0].val * 5);
                 }
 
                 this.doShatter(5);

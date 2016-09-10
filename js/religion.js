@@ -902,8 +902,8 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 
 		var tearCount = this.game.bld.get("ziggurat").val * amt;
 
-		this.game.resPool.get("unicorns").value -= unicornCount;
-		this.game.resPool.get("tears").value += tearCount;
+		this.game.resPool.addResEvent("unicorns", -unicornCount);
+		this.game.resPool.addResEvent("tears", tearCount);
 		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
 
 		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns have been sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
@@ -980,8 +980,8 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 
 		var tcAmt = amt * (1 + this.game.getEffect("tcRefineRatio"));
 
-		this.game.resPool.get("alicorn").value -= alicornsCount;
-		this.game.resPool.get("timeCrystal").value += tcAmt;
+		this.game.resPool.addResEvent("alicorn", -alicornsCount);
+		this.game.resPool.addResEvent("timeCrystal", tcAmt);
 
 		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
@@ -1039,7 +1039,7 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 
 	refine: function(){
 		var relicsCount = (1 + this.game.religion.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
-		this.game.resPool.get("relic").value += relicsCount;
+		this.game.resPool.addResEvent("relic", relicsCount);
 		this.game.msg(relicsCount + " relics crafted");
 	},
 
