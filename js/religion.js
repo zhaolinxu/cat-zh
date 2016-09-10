@@ -690,6 +690,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 
 	getSelectedObject: function(){
 		return this.getMetadata();
+	},
+
+	getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
 	}
 });
 
@@ -766,6 +771,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 	getSelectedObject: function(){
 		return this.getMetadata();
+	},
+
+	getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
 	}
 });
 
@@ -810,6 +820,11 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingB
 
 	getFlavor: function(){
 		return this.getMetadata().flavor;
+	},
+
+	getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
 	}
 });
 

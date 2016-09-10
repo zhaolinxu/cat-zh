@@ -1014,6 +1014,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	},
 
 	renderEffects: function(tooltip, effectsList, hideTitle){
+		if (Object.keys(effectsList).length === 0) {
+			return;
+		}
 
 		if (!hideTitle){
 			dojo.create("div", {
