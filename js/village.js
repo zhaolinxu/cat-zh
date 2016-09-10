@@ -1714,6 +1714,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		optimizeJobsBtn.setVisible(this.game.village.leader != undefined && this.game.workshop.get("register").researched);
 		this.optimizeJobsBtn = optimizeJobsBtn;
 
+		//redeemGift
+		var redeemGiftBtn = new classes.village.ui.VillageButton({
+			name: "Redeem Gift",
+			description: "",
+			handler: dojo.hitch(this, function(){
+				this.game.redeemGift();
+				this.redeemGiftBtn.setVisible(this.game.resPool.get("elderBox").value > 0);
+			})
+		}, this.game);
+		redeemGiftBtn.render(controlsTd);
+		redeemGiftBtn.setVisible(this.game.resPool.get("elderBox").value > 0);
+		this.redeemGiftBtn = redeemGiftBtn;
+
 		//--------------- bureaucracy ------------------
 		this.censusPanel = new com.nuclearunicorn.game.ui.CensusPanel("Census", this.game.village, this.game);
 		//this.censusPanel.collapsed = true;
