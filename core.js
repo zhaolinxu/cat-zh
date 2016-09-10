@@ -37,7 +37,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 */
 	constructor: function(){
 		this.effectsCached = {};
-		this.effectsCachedExisting= {},
+		this.effectsCachedExisting= {};
 		this.meta = [];
 		this.panelData = {};
 	},
@@ -967,8 +967,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			}
 		}, priceItemNode );
 
-		if (!hasRes && res.perTickUI > 0 && !simpleUI){
-			var eta = (price.val-res.value) / (res.perTickUI * this.game.getRateUI());
+		var resPerTick = this.game.getResourcePerTick(res.name, true);
+		if (!hasRes && resPerTick > 0 && !simpleUI){
+			var eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
 			if (eta >= 1) {
 				priceSpan.textContent += " (" + this.game.toDisplaySeconds(eta) + ")";
 			}
@@ -1044,13 +1045,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
-					effectValue += effectValue * this.game.workshop.getEffect(effectName + "Ratio");
-					effectValue += effectValue * this.game.prestige.getParagonStorageRatio();
-
 					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
-					if (!this.game.resPool.isNormalCraftableResource(res) && !res.transient){
-						effectValue += effectValue * this.game.religion.getEffect("tcResourceRatio");
-					}
+					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
 				}
 
 				var displayEffectValue;

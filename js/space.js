@@ -534,8 +534,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             calculateEffects: function(game, self){
 				self.effects = {
 					"antimatterProduction": 1,
-					"energyProduction" : 30,
-					"antimatter" : 30
+					"energyProduction" : 30
 				};
             }
         },{

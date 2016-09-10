@@ -44,12 +44,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#4EA24E"
 	},{
-		name : "thorium", //divinite
-		type : "common",
-		visible: true,
-		craftable: true,
-		color: "#4EA24E"
-	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
@@ -168,82 +162,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: false,
 		color: "black",
 		persists: true	//isn't wiped on game reset
-	},
-
-	//=========================================
-	// 				    CRAFT
-	//=========================================
-	{
-		name : "beam",
-		type : "common",
-		craftable: true
-	},{
-		name : "slab",
-		type : "common",
-		craftable: true
-	},{
-		name : "concrate",
-		title: "concrete",
-		type : "common",
-		craftable: true
-	},{
-		name : "plate",
-		type : "common",
-		craftable: true
-	},{
-		name : "steel",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "alloy",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "gray"
-	},{
-		name : "eludium",
-		type : "common",
-		craftable: true,
-		visible: false,
-		color: "darkViolet"
-	},{
-		name : "gear",
-		type : "common",
-		craftable: true,
-		color: "gray"
-	},{
-		name : "scaffold",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "ship",
-		type : "common",
-		craftable: true,
-		color: "#FF7F50"
-	},{
-		name : "tanker",
-		type : "common",
-		craftable: true,
-		color: "#CF4F20"
-	}, {
-		name : "parchment",
-		type : "common",
-		craftable: true,
-		color: "#DF01D7"
-	},{
-		name : "manuscript",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
-	},{
-		name : "compedium",
-		title: "compendium",
-		type : "common",
-		craftable: true,
-		color: "#01A9DB"
 	},{
 		name : "relic",
 		title: "relic",
@@ -279,18 +197,99 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
+        },{
+                name : "wrappingPaper",
+                title: "wrapping paper",
+                type : "exotic",
+                craftable: false,
+                visible: true,
+                color: "#FA0EDE",
+                style: {
+                        "textShadow": "1px 0px 10px #FA2E9E",
+                        "animation": "neon1 1.5s ease-in-out infinite alternate"
+                },
+                persists: true
+        },
+
+	//=========================================
+	// 				    CRAFT
+	//=========================================
+	{
+		name : "beam",
+		type : "common",
+		craftable: true
 	},{
-		name : "wrappingPaper",
-		title: "wrapping paper",
-		type : "exotic",
-		craftable: false,
-		visible: true,
-		color: "#FA0EDE",
-		style: {
-			"textShadow": "1px 0px 10px #FA2E9E",
-			"animation": "neon1 1.5s ease-in-out infinite alternate"
-		},
-		persists: true
+		name : "slab",
+		type : "common",
+		craftable: true
+	},{
+		name : "concrate",
+		title: "concrete",
+		type : "common",
+		craftable: true
+	},{
+		name : "plate",
+		type : "common",
+		craftable: true
+	},{
+		name : "steel",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "gear",
+		type : "common",
+		craftable: true,
+		color: "gray"
+	},{
+		name : "alloy",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "gray"
+	},{
+		name : "eludium",
+		type : "common",
+		craftable: true,
+		visible: false,
+		color: "darkViolet"
+	},{
+		name : "scaffold",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "ship",
+		type : "common",
+		craftable: true,
+		color: "#FF7F50"
+	},{
+		name : "tanker",
+		type : "common",
+		craftable: true,
+		color: "#CF4F20"
+	},{
+        name: "kerosene",
+        type: "common",
+        craftable: true,
+        color: "darkYellow"
+	},{
+		name : "parchment",
+		type : "common",
+		craftable: true,
+		color: "#DF01D7"
+	},{
+		name : "manuscript",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
+	},{
+		name : "compedium",
+		title: "compendium",
+		type : "common",
+		craftable: true,
+		color: "#01A9DB"
 	},{
 		name : "blueprint",
 		type : "common",
@@ -299,15 +298,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#01A9DB"
 	},{
+		name : "thorium", //divinite
+		type : "common",
+		visible: true,
+		craftable: true,
+		color: "#4EA24E"
+	},{
 		name : "megalith",
 		type : "common",
 		craftable: true,
 		color: "gray"
-	},{
-        name: "kerosene",
-        type: "common",
-        craftable: true,
-        color: "darkYellow"
     }
     ],
 
@@ -364,6 +364,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	addRes: function(res, addedValue) {
+		if (this.game.calendar.day < 0 && res.name != "void") {
+			return;
+		}
+
 		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
 			if(res.value > res.maxValue) {
@@ -413,7 +417,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var resAvailable = this.get(from[i].res).value;
 			var resNeeded = from[i].amt * amt;
 			if (resAvailable < resNeeded){
-				amtAvailable = Math.floor(resAvailable / from[i].amt)
+				var amtAvailable = Math.floor(resAvailable / from[i].amt);
 				amt = Math.min(amt, amtAvailable);
 			}
 			else {
@@ -421,11 +425,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		if (this.game.calendar.day >= 0) {
-			// Remove from resources
-			for (var i in from) {
-				this.addRes(this.get(from[i].res), -from[i].amt * amt);
-			}
+		// Remove from resources
+		for (var i in from) {
+			this.addRes(this.get(from[i].res), -from[i].amt * amt);
 		}
 
 		// Return the percentage to decrease the productivity
@@ -443,7 +445,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 11 + game.religion.getEffect("blsLimit") || 0;
+				res.maxValue = 12 + game.religion.getEffect("blsLimit") || 0;
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
@@ -456,18 +458,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue += game.workshop.getEffect(res.name + "Max");
 			maxValue += game.space.getEffect(res.name + "Max");
 
-			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 +
-				game.bld.getEffect(res.name + "MaxRatio") +
-				game.workshop.getEffect(res.name + "MaxRatio") +
-				game.space.getEffect(res.name + "MaxRatio")
-			);
-
-			maxValue += maxValue * game.prestige.getParagonStorageRatio();
-
-			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + game.religion.getEffect("tcResourceRatio"));
-			}
+			maxValue = this.addResMaxRatios(res, maxValue);
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -476,7 +467,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.maxValue = maxValue;
 			this.game.updateKarma();
 
-			var resPerTick = this.game.getResourcePerTick(res.name) || 0;
+			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
 			this.addRes(res, resPerTick);
 
 		}
@@ -515,6 +506,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return newEffects;
 	},
 
+	/**
+	 * Multiplies maxValue by global ratios
+	 * Called in tooltips for more accurate per-building resMax increases
+	 */
+	addResMaxRatios: function(res, maxValue){
+		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+
+		if (res){
+			//Stuff for Refrigiration and (potentially) similar effects
+			maxValue *= ( 1 +
+				this.game.bld.getEffect(res.name + "MaxRatio") +
+				this.game.workshop.getEffect(res.name + "MaxRatio") +
+				this.game.space.getEffect(res.name + "MaxRatio")
+			);
+
+			if (!this.isNormalCraftableResource(res) && !res.transient){
+				maxValue *= (1 + this.game.religion.getEffect("tcResourceRatio"));
+			}
+		}
+
+		return maxValue;
+	},
+
 	setVillage: function(village){
 		this.village = village;
 	},
@@ -529,8 +543,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = this.resources[i];
 			res.value = 0;
 			res.maxValue = 0;
-			res.perTickNoAutomate = 0;
-			res.perTickUI = 0;
+			res.perTickCached = 0;
 		}
 	},
 
@@ -612,9 +625,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (prices.length){
 			for( var i = 0; i < prices.length; i++){
 				var price = prices[i];
-
-				var res = this.get(price.name);
-				res.value -= price.val;
+				this.addResEvent(price.name, -price.val);
 			}
 		}
 	},
@@ -638,8 +649,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
     getVoidQuantity: function() {
 		// -1, 0, 1, 2 at start, 0.5 on average
-
-		var maxPerDay = 2; //TODO increase the maximum void per day in chronoforge
+		var maxPerDay = 2 + this.game.getEffect("voidRatio");
 		var i = this.game.rand(maxPerDay + 2) - 1;
 
 		// Only integer
@@ -839,7 +849,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var maxResValue = res.maxValue ? "/" + this.game.getDisplayValueExt(res.maxValue) : "";
 			row.resMax.textContent  = maxResValue;
 
-			var perTick = this.game.calendar.day < 0 ? 0 : res.perTickUI + this.game.getEffect(res.name + "PerTickCon");
+			var perTick = this.game.calendar.day < 0 ? 0 : this.game.getResourcePerTick(res.name, true);
 			perTick = this.game.opts.usePerSecondValues ? perTick * this.game.getRateUI() : perTick;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
@@ -850,11 +860,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 			row.resTick.textContent = perTickValue;
 
-			row.resTick.style.cursor = res.perTickUI ? "pointer" : "default";
+			row.resTick.style.cursor = perTick ? "pointer" : "default";
 
 			//weather mod
 			var season = this.game.calendar.getCurSeason();
-			if (season.modifiers[res.name] && res.perTickUI != 0 ){
+			if (season.modifiers[res.name] && perTick != 0 ){
 
 				var modifier = (season.modifiers[res.name] + this.game.calendar.getWeatherMod() - 1)*100;
 				row.resWMod.textContent = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";

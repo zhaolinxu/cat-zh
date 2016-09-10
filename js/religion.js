@@ -165,8 +165,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: true,
 		defaultUnlocked: true,
-		handler: function(btn){
-			btn.game.religion.getZU("ivoryTower").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["ivoryTower"]
 		}
 	},{
 		name: "ivoryTower",
@@ -184,8 +184,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("ivoryCitadel").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["ivoryCitadel"]
 		}
 	},{
 		name: "ivoryCitadel",
@@ -203,8 +203,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("skyPalace").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["skyPalace"]
 		}
 	},{
 		name: "skyPalace",
@@ -224,13 +224,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("unicornUtopia").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["unicornUtopia"]
 		}
 	},{
 		name: "unicornUtopia",
 		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 10%",
+		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 5%",
 		prices: [
 			{ name : "ivory", val: 1000000 },
 			{ name : "tears", val: 5000 }
@@ -239,22 +239,22 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 2.5,
 			"alicornChance" : 15,
-			"alicornPerTick" : 0.00005,
+			"alicornPerTick" : 0.000025,
 			"ivoryMeteorRatio" : 0.15,
-			"tcRefineRatio" : 0.1
+			"tcRefineRatio" : 0.05
 		},
 		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
-		handler: function(btn){
-			btn.game.religion.getZU("sunspire").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["sunspire"]
 		}
 	},{
 		name: "sunspire",
 		label: "Sunspire",
 
 		//TODO: make SSPIRE make something really interesting
-		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 25%",
+		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 10%",
 		prices: [
 			{ name : "ivory", val: 1500000 },
 			{ name : "tears", val: 25000 }
@@ -263,8 +263,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatio" : 5,
 			"alicornChance" : 30,
-			"alicornPerTick" : 0.0001,
-			"tcRefineRatio": 0.25,
+			"alicornPerTick" : 0.00005,
+			"tcRefineRatio": 0.1,
 			"ivoryMeteorRatio" : 0.5
 		},
 		val: 0,
@@ -492,7 +492,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "blackObelisk",
 		label: "Black Obelisk",
-		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 1%",
+		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 5%",
 		prices: [
 			{ name : "relic", val: 100 }
 		],
@@ -585,7 +585,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith, 1000) : 0;
         //Solar Revolution capped to 1000% so it doesn't become game-breaking
-        rate = this.game.bld.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.001)));
+        rate = this.game.bld.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.005)));
 		return rate;
 	},
 
@@ -830,6 +830,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.
 		} else {
 			return this.name;
 		}
+	},
+
+	updateVisible: function (){
+		this.setVisible(this.game.religion.getRU("transcendence").researched);
 	}
 });
 
@@ -898,8 +902,8 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 
 		var tearCount = this.game.bld.get("ziggurat").val * amt;
 
-		this.game.resPool.get("unicorns").value -= unicornCount;
-		this.game.resPool.get("tears").value += tearCount;
+		this.game.resPool.addResEvent("unicorns", -unicornCount);
+		this.game.resPool.addResEvent("tears", tearCount);
 		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
 
 		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns have been sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
@@ -976,8 +980,8 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 
 		var tcAmt = amt * (1 + this.game.getEffect("tcRefineRatio"));
 
-		this.game.resPool.get("alicorn").value -= alicornsCount;
-		this.game.resPool.get("timeCrystal").value += tcAmt;
+		this.game.resPool.addResEvent("alicorn", -alicornsCount);
+		this.game.resPool.addResEvent("timeCrystal", tcAmt);
 
 		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
@@ -1035,7 +1039,7 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 
 	refine: function(){
 		var relicsCount = (1 + this.game.religion.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
-		this.game.resPool.get("relic").value += relicsCount;
+		this.game.resPool.addResEvent("relic", relicsCount);
 		this.game.msg(relicsCount + " relics crafted");
 	},
 
@@ -1144,7 +1148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}, this.game);
 			refineTCBtn.updateVisible();
 			refineTCBtn.render(content);
-			this.refineTCBtn = refineBtn;
+			this.refineTCBtn = refineTCBtn;
 
 			//TODO: all the dark miracles there
 

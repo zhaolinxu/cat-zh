@@ -36,7 +36,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val"], function(loadedElem){
+				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "unlocked"], function(loadedElem){
 			});
 		}
 
@@ -180,7 +180,24 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         },
         val: 0,
-        unlocked: true
+        unlocked: false
+    },{
+        name: "voidHoover",
+        label: "Void Hoover",
+        description: "",
+        prices: [
+			{ name: "timeCrystal", val: 10 },
+			{ name: "antimatter", val: 1000 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+			"voidRatio": 1
+        },
+        action: function(){
+
+        },
+        val: 0,
+        unlocked: false
     }],
 
     getCFU: function(id){
@@ -286,7 +303,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
                 var prices = this.getPrices();
                 var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
                 if (hasRes){
-                    this.game.resPool.get("timeCrystal").value -= prices[0].val * 5;
+					this.game.resPool.addResEvent("timeCrystal", -prices[0].val * 5);
                 }
 
                 this.doShatter(5);

@@ -830,6 +830,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "void",   val: 100}
 		],
 		unlocks: {
+			upgrades: ["voidAspiration"],
 			voidSpace: ["cryochambers"]
 		}
 	}],

@@ -201,8 +201,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			isSilent = true;
 		}
 
-		var starchart = this.game.resPool.get("starchart");
-
 		var celestialBonus = 0;
 		if (this.game.workshop.get("celestialMechanics").researched){
 			celestialBonus = 5;	//20% bonus in the normal mode
@@ -222,7 +220,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (!isSilent){
 				this.game.msg("You've made a star chart!", "", "astronomicalEvent");
 			}
-			starchart.value +=1;
+			this.game.resPool.addResEvent("starchart", 1);
 		}
 	},//this.observeHandler
 
@@ -234,7 +232,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var rand = this.game.rand(100);
 
 		if(
-			(this.game.ironWill && (self.game.rand(100) <= 25)) ||
+			(this.game.ironWill && (this.game.rand(100) <= 25)) ||
 			(rand <= autoChance)
 		){
 			this.observeHandler();
@@ -364,6 +362,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.day < 0) {
 		//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+                        this.game.time.flux-=0.0025;
 		}
 		//------------------------- relic -------------------------
 		else {
@@ -413,7 +412,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < (baseChance + iwChance) &&
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
-			var minerals = this.game.resPool.get("minerals");
 			var mineralsAmt = 50 + 25 * this.game.bld.getEffect("mineralsRatio");
 
 			if (this.game.ironWill){
@@ -428,7 +426,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
 			}
 
-			minerals.value += mineralsAmt;
+			this.game.resPool.addResEvent("minerals", mineralsAmt);
 
 			//TODO: make meteors give titanium on higher levels
 		}
@@ -440,16 +438,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var archery = this.game.science.get("archery");
 			var unicorns = this.game.resPool.get("unicorns");
 			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && archery.researched){
-				unicorns.value += 1;
+				this.game.resPool.addResEvent("unicorns", 1);
 				this.game.msg("A unicorn comes to your village attracted by the catnip scent!");
 			}
 
 			if (!zebras.value && archery.researched){
-				zebras.value += 1;
+				this.game.resPool.addResEvent("zebras", 1);
 				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
 				if (this.game.rand(100000) <= 500){
-					zebras.value += 1;
+					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg("Another zebra hunter joins your village.");
 					this.game.render();
 				}
@@ -476,14 +474,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
 			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice", "unicornRift");
 
-			this.game.resPool.get("unicorns").value += 500;
+			this.game.resPool.addResEvent("unicorns", 500);
 		}
 		//----------------------------------------------
 		var aliChance = this.game.religion.getEffect("alicornChance");	//0.2 OPTK
 		if (this.game.rand(100000) < aliChance){
 			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
 
-			this.game.resPool.get("alicorn").value += 1;
+			this.game.resPool.addResEvent("alicorn", 1);
 		}
 
 		// -------------- ivory meteors ---------------
@@ -493,7 +491,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.religion.getEffect("ivoryMeteorRatio")));
 			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice", "ivoryMeteor");
 
-			this.game.resPool.get("ivory").value += ivory;
+			this.game.resPool.addResEvent("ivory", ivory);
 		}
 
         this.game.diplomacy.onNewDay();
@@ -559,7 +557,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-        this.game.resPool.get("antimatter").value += this.game.space.getEffect("antimatterProduction");
+		var resPool = this.game.resPool;
+		if (resPool.energyProd >= resPool.energyCons) {
+			resPool.addRes(resPool.get("antimatter"), this.game.space.getEffect("antimatterProduction"));
+		}
 	},
 
 	getWeatherMod: function(){

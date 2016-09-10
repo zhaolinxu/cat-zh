@@ -8,9 +8,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("megalomania").unlocked = true;
-			game.prestige.getPerk("goldenRatio").unlocked = true;
+		unlocks: {
+			"perks": ["megalomania", "goldenRatio"]
 		},
 		effects:{
 			"priceRatio" : -0.01
@@ -22,10 +21,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 10,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.religion.getZU("marker").unlocked = true;
-			game.religion.getZU("blackPyramid").unlocked = true;
-			game.prestige.getPerk("blackCodex").unlocked = true;
+		unlocks: {
+			"perks": ["blackCodex"],
+			"zigguratUpgrades": ["marker", "blackPyramid"]
 		}
 	},{
 		name: "blackCodex",
@@ -34,8 +32,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 25,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.religion.getZU("unicornGraveyard").unlocked = true;
+		unlocks: {
+			"zigguratUpgrades": ["unicornGraveyard"]
 		}
 	},{
 		name: "goldenRatio",
@@ -44,8 +42,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("divineProportion").unlocked = true;
+		unlocks: {
+			"perks": ["divineProportion"]
 		},
 		effects:{
 			"priceRatio" : -(1 + Math.sqrt(5)) / 200	//Calculates the Golden Ratio
@@ -57,8 +55,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 100,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("vitruvianFeline").unlocked = true;
+		unlocks: {
+			"perks": ["vitruvianFeline"]
 		},
 		effects:{
 			"priceRatio" : -0.017
@@ -70,8 +68,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 250,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("renaissance").unlocked = true;
+		unlocks: {
+			"perks": ["renaissance"]
 		},
 		effects:{
 			"priceRatio" : -0.02
@@ -94,8 +92,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("zebraDiplomacy").unlocked = true;
+		unlocks: {
+			"perks": ["zebraDiplomacy"]
 		}
 	},{
 		name: "zebraDiplomacy",
@@ -112,9 +110,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("anachronomancy").unlocked = true;
-			game.prestige.getPerk("unicornmancy").unlocked = true;
+		unlocks: {
+			"perks": ["anachronomancy", "unicornmancy"]
 		}
 	},{
 		name: "unicornmancy",
@@ -140,8 +137,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("numerology").unlocked = true;
+		unlocks: {
+			"perks": ["numerology"]
 		}
 	},{
 		name: "willenfluff",
@@ -162,10 +159,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 50,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-			game.prestige.getPerk("numeromancy").unlocked = true;
-			game.prestige.getPerk("willenfluff").unlocked = true;
-			game.prestige.getPerk("voidOrder").unlocked = true;
+		unlocks: {
+			"perks": ["numeromancy", "willenfluff", "voidOrder"]
 		}
 	},{
 		name: "numeromancy",
@@ -174,8 +169,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		paragon: 250,
 		unlocked: false,
 		researched: false,
-		handler: function(game){
-            game.prestige.getPerk("malkuth").unlocked = true;
+		unlocks: {
+			"perks": ["malkuth"]
 		}
 	},
     //---------------------------------------------------
@@ -189,9 +184,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         effects:{
             "paragonRatio" : 0.05
         },
-        handler: function(game){
-            game.prestige.getPerk("yesod").unlocked = true;
-        }
+		unlocks: {
+			"perks": ["yesod"]
+		}
     },{
         name: "yesod",
         title: "Yesod",
@@ -202,9 +197,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         effects:{
             "paragonRatio" : 0.05
         },
-        handler: function(game){
-            game.prestige.getPerk("hod").unlocked = true;
-        }
+		unlocks: {
+			"perks": ["hod"]
+		}
     },{
         name: "hod",
         title: "Hod",
@@ -215,9 +210,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         effects:{
             "paragonRatio" : 0.05
         },
-        handler: function(game){
-            game.prestige.getPerk("netzach").unlocked = true;
-        }
+		unlocks: {
+			"perks": ["netzach"]
+		}
     },{
         name: "netzach",
         title: "Netzach",
@@ -296,8 +291,12 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			});
 		}
 		for (var i = 0; i< this.perks.length; i++){
-			if (this.perks[i].handler && this.perks[i].researched){
-				this.perks[i].handler(this.game);
+			var perk = this.perks[i];
+			if (perk.researched){
+				this.game.unlock(perk.unlocks);
+				if (perk.handler){
+					perk.handler(this.game);
+				}
 			}
 		}
 	},
@@ -405,6 +404,8 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			this.game.paragonPoints -= perk.paragon;
 
 			perk.researched = true;
+			this.game.unlock(perk.unlocks);
+
 			if (perk.handler){
 				perk.handler(this.game);
 			}
@@ -438,7 +439,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		}, div);
 		dojo.connect(a, "onclick", this, function(){
 			this.game.discardParagon();
-		})
+		});
 		//---------------------------------------------------------------------
 
 		var self = this;

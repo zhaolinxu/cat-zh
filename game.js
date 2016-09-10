@@ -84,10 +84,15 @@ dojo.declare("classes.game.UndoChange", null, {
  * Effects metadata manager
  */
 dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
+	game: null,
+
+	constructor: function(game){
+		this.game = game;
+	},
 
 	effectMeta: function(effectName) {
-
-		for (i = 0; i < game.resPool.resourceData.length; i++) {
+		var game = this.game;
+		for (var i = 0; i < game.resPool.resourceData.length; i++) {
 			if (effectName.indexOf(game.resPool.resourceData[i].name) == 0) {
 				var resname = game.resPool.resourceData[i].name;
 				var restitle = (game.resPool.resourceData[i].title) ? game.resPool.resourceData[i].title : resname;
@@ -107,48 +112,48 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resname: resname,
 					//value will be affected by opts.usePerSecondValues
 					type: "perTick"
-				}
+				};
 			break;
 			case type == "PerTick":
 				return {
 					title: restitle,
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			case type == "Max":
 				return {
 					title: "Max " + restitle,
 					resname: resname
-				}
+				};
 			break;
 			case type == "Ratio":
 				return {
 					title: restitle + " bonus",
 					resname: resname,
 					type: "ratio"
-				}
+				};
 			break;
 			case type == "DemandRatio":
 				return {
 					title: restitle + " demand reduction",
 					resname: resname,
 					type: "ratio"
-				}
+				};
 			break;
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
 					title: restitle + " production",
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: restitle + " conversion",
 					resname: resname,
 					type: "perTick"
-				}
+				};
 			break;
 			default:
 				return 0;
@@ -458,6 +463,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "cultureMaxRatio" : {
+                title: "Culture limit expansion",
+                type: "ratio"
+            },
+
             "lunarOutpostRatio" : {
                 title: "Lunar Outpost bonus",
                 type: "ratio"
@@ -713,7 +723,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 
 
-		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager();
+		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
 
 		//--------------------------
 		var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
@@ -725,7 +735,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getEffectMeta: function(effectName) {
-		var effectMetaDynamic = game.effectsMgr.effectMeta(effectName);
+		var effectMetaDynamic = this.effectsMgr.effectMeta(effectName);
 		if (effectMetaDynamic != 0) {
 			return effectMetaDynamic;
 		} else {
@@ -1254,14 +1264,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.workshop.getEffect(res.name+"GlobalRatio");
 
-		// +*BUILDINGS AND SPACE PRODUCTION
+		// +*BUILDINGS, RELIGION AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
 		perTick *= 1 + this.workshop.getEffect(res.name+"SuperRatio");
-
-		// +*RELIGION EFFECTS
-		perTick *= 1 + this.religion.getEffect(resName+"Ratio");
 
 		// +*AFTER PRODUCTION REDUCTION (SPECIAL STEAMWORKS HACK FOR COAL)
 		var steamworks = this.bld.get("steamworks");
@@ -1354,7 +1361,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
-		if (game.calendar.day < 0) {
+		if (this.calendar.day < 0) {
 			return null;
 		}
 
@@ -1598,7 +1605,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +BUILDING AND SPACE PerTick
 		stack.push({
-			name: "Independente production",
+			name: "Without Improvement",
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTick")
 		});
@@ -1763,19 +1770,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Updates a perTickValue of resource for UI
 	 */
 	updateResources: function(){
-
 		/**
 		* Updating per tick value is actually a heavy operation. Why don't we do it per 3 tick and cache values?
 		*/
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			res.perTickUI = this.calcResourcePerTick(res.name);
+			res.perTickCached = this.calcResourcePerTick(res.name);
 		}
 	},
 
-	getResourcePerTick: function(resName, calcAutomatedEffect){
+	getResourcePerTick: function(resName, withConversion){
 		var res = this.resPool.get(resName);
-		return res.perTickUI;
+		return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
 	},
 
 	craft: function(resName, value){
@@ -1839,7 +1845,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 if (!resRef.perTickUI){ return;}
+			 perTick = this.getResourcePerTick(resRef.name, true);
+			 if (!perTick){ return;}
 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
 
@@ -1873,16 +1880,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		resString = this.processResourcePerTickStack(resStack, res, 0);
 
+		var resPertick = this.getResourcePerTick(res.name, true);
+
 		if (this.opts.usePercentageResourceValues){
-			resString += "<br> Net gain: " + this.getDisplayValueExt(res.perTickUI, true, true);
+			resString += "<br> Net gain: " + this.getDisplayValueExt(resPertick, true, true);
 		}
 
-		if (res.perTickUI < 0) {
-			var toZero = res.value / (-res.perTickUI * this.getRateUI());
+		if (resPertick < 0) {
+			var toZero = res.value / (-resPertick * this.getRateUI());
 			resString += "<br>To zero: " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
 			if (res.maxValue && res.value < res.maxValue) {
-				var toCap = (res.maxValue - res.value) / (res.perTickUI * this.getRateUI());
+				var toCap = (res.maxValue - res.value) / (resPertick * this.getRateUI());
 				if (toCap){
 					resString += "<br>To cap: " + this.toDisplaySeconds(toCap.toFixed());
 				}
@@ -1906,9 +1915,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			if (stackElem.value && stackElem.name == "Prod & Village") {
-				resString += "<hr>";
-			}
 			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
 				continue;
 			}
@@ -2142,7 +2148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
-    
+
     _getKarmaKittens: function(kittens){
         var karmaKittens = 0;
         if (kittens > 35){
@@ -2168,7 +2174,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (kittens > 750){
 			karmaKittens += (kittens - 750) * 15;
 		}
-        
+
         return karmaKittens;
     },
 
@@ -2284,9 +2290,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val"]);
-		usedCryochambers_reset[0]["val"] = this.time.getVSU("cryochambers").val;
-
 		var newKittens= [];
 		if (this.time.getVSU("cryochambers").val > 0) {
 			var kittens = this.village.sim.kittens;
@@ -2299,11 +2302,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			for (j = 0; j < this.time.getVSU("cryochambers").val; j++) {
 				if (j < newKittensSort.length){
-					delete kittens[j].job;
+					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
 				}
 			}
 		}
+
+		if (newKittens.length > 0) {
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			usedCryochambers_reset[0]["val"] = newKittens.length;
+			usedCryochambers_reset[0]["unlocked"] = true;
+		} else {
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			usedCryochambers_reset[0]["val"] = 0;
+			usedCryochambers_reset[0]["unlocked"] = false;
+		}
+		console.log(usedCryochambers_reset);
 
 		var saveData = {
 			saveVersion: this.saveVersion,
@@ -2414,6 +2428,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.time.getVSU(unlockId);
 			case "stages":
 				return this.bld.get(unlockId.bld);
+			case "perks":
+				return this.prestige.getPerk(unlockId);
+			case "zigguratUpgrades":
+				return this.religion.getZU(unlockId);
 		}
 	},
 

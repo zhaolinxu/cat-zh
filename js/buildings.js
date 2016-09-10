@@ -440,17 +440,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 
-			self.effects["catnipPerTickCon"] = -1;
-			self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
+				self.effects["catnipPerTickCon"] = -1;
+				self.effects["oilPerTickProd"]= 0.02 * (1 + game.workshop.getEffect("biofuelRatio"));
 
-			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
-				self.on
-			);
-			self.effects["catnipPerTickCon"]*=amt;
-			self.effects["oilPerTickProd"]*=amt;
+				var amt = game.resPool.getAmtDependsOnStock(
+					[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
+					self.on
+				);
+				self.effects["catnipPerTickCon"]*=amt;
+				self.effects["oilPerTickProd"]*=amt;
 
-			return amt;
+				return amt;
 			}
 		},
 		val: 0,
@@ -756,7 +756,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["titaniumPerTickAutoprod"] = 0.0005 * ( 1 + calcinerRatio*3 );
 			self.effects["ironPerTickAutoprod"] = 0.15 * ( 1 + calcinerRatio );
 
-			amt = game.resPool.getAmtDependsOnStock(
+			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "oil", amt: -self.effects["oilPerTickCon"]},
 				 {res: "minerals", amt: -self.effects["mineralsPerTickCon"]}],
 				self.on
@@ -792,7 +792,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			return amtFinal;
 		},
-		isAutomationEnabled: true, /* Commented until I figure out a way to fit more buttons */
+		isAutomationEnabled: true,
 		val: 0
 	},
 	{
@@ -1296,7 +1296,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 			self.effects["manpowerPerTickCon"] = -0.75;
 			self.effects["goldPerTickCon"] = -0.005; //~5 smelters
-			
+
 			var manpower = game.resPool.get("manpower");
 			var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
 
@@ -1606,7 +1606,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var effects = {};
 		effects["iron"] = autoProdRatio; // Iron because Steel Plants
-		game.calendar.cycleEffects(effects);
+		this.game.calendar.cycleEffects(effects);
 		autoProdRatio = effects["iron"];
 
 		return autoProdRatio;
@@ -1730,7 +1730,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && bld.val > 0){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					if (amt == 1) {
+					if (amt == 1 || (bld.togglable && bld.on == 0)) {
 						bld.lackResConvert = false;
 					} else {
 						bld.lackResConvert = true;
@@ -1867,6 +1867,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (bld.jammed != undefined){
 				bld.jammed = false;
+			}
+
+			if (bld.isAutomationEnabled != undefined){
+				bld.isAutomationEnabled = true;
 			}
 		}
 	},
@@ -2144,7 +2148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		if (!this.toggleAutomation &&
 			(building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell)))
 		{
-			this.toggleAutomation = this.addLink( building.enabled ? "A" : "*",
+			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();
 					building.isAutomationEnabled = !building.isAutomationEnabled;
@@ -2257,10 +2261,10 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 						this.game.msg("not enough catnip!");
 					}
 
-					this.game.resPool.get("catnip").value -= (catnipCost * 100);
+					this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
 
 					var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-					this.game.resPool.get("wood").value += 100 * craftRatio;
+					this.game.resPool.addResEvent("wood", (100 * craftRatio));
 
 					this.update();
 				});
@@ -2338,7 +2342,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				//downgrade
 				this.stageLinks.push(
 					this.addLink("V",function(){
-						if (confirm('Do you want to downgrade building?')){
+						if (confirm('Do you want to downgrade this building?')){
 							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
 							if (bldExt.meta.calculateEffects){
@@ -2355,7 +2359,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 				}
 				this.stageLinks.push(
 					this.addLink("^",function(){
-						if (confirm('Do you want to upgrade building? You will lose all existing buildings.')){
+						if (confirm('Do you want to upgrade this building?\n\nYou will lose all of those currently built.')){
 							bldExt.meta.stage = bldExt.meta.stage || 0;
 							bldExt.meta.stage++;
 
@@ -2581,7 +2585,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			name: 		"Refine catnip",
 			handler: 	function(btn){
 							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
-							btn.game.resPool.get("wood").value += 1 * craftRatio;
+							btn.game.resPool.addResEvent("wood", (1 * craftRatio));
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }]
