@@ -2261,10 +2261,10 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 						this.game.msg("not enough catnip!");
 					}
 
-					this.game.resPool.get("catnip").value -= (catnipCost * 100);
+					this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
 
 					var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-					this.game.resPool.get("wood").value += 100 * craftRatio;
+					this.game.resPool.addResEvent("wood", (100 * craftRatio));
 
 					this.update();
 				});
@@ -2585,7 +2585,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			name: 		"Refine catnip",
 			handler: 	function(btn){
 							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
-							btn.game.resPool.get("wood").value += 1 * craftRatio;
+							btn.game.resPool.addResEvent("wood", (1 * craftRatio));
 						},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }]

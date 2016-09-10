@@ -836,8 +836,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					}
 
 					btn.game.msg("Your explorers failed to find anyone. *** " + hint + " ***");
-					var res = btn.game.resPool.get("manpower");
-					res.value += 950;
+					btn.game.resPool.addResEvent("manpower", 950);
 				}
 
 				btn.game.render();

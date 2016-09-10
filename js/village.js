@@ -479,32 +479,25 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			isUnicorn: false
 		};
 
-		var furs = this.game.resPool.get("furs");
-
 		var hunterRatio = this.game.workshop.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
+
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
-		furs.value += huntingRes.furs;
+		this.game.resPool.addResEvent("furs", huntingRes.furs);
 
 		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			var ivory = this.game.resPool.get("ivory");
 			huntingRes.ivory = this.rand(50) + this.rand(40 * hunterRatio);
-
-			ivory.value += huntingRes.ivory;
+			this.game.resPool.addResEvent("ivory", huntingRes.ivory);
 		}
 
 		if (this.rand(100) < 5){
-			var unicorns = this.game.resPool.get("unicorns");
-			unicorns.value += 1;
+			this.game.resPool.addResEvent("unicorns", 1);
 			huntingRes.isUnicorn = true;
 		}
 
-
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
 			if (this.rand(100) < 25){
-				var gold = this.game.resPool.get("gold");
 				huntingRes.gold = this.rand(5) + this.rand(10 * hunterRatio/2);
-
-				gold.value += huntingRes.gold;
+				this.game.resPool.addResEvent("gold", huntingRes.gold);
 			}
 		}
 
@@ -533,7 +526,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (squads < 1){
 			return;
 		}
-		mpower.value -= squads*100;
+		this.game.resPool.addResEvent("manpower", -(squads * 100));
 
 		var totalYield = {
 			furs: 0,
@@ -1311,7 +1304,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 				if (leader.exp >= game.village.getRankExp(leader.rank) && gold.value > goldToPromote){
 					leader.exp -= game.village.getRankExp(leader.rank);
-					gold.value -= goldToPromote;
+					this.game.resPool.addResEvent("gold", -goldToPromote);
 					leader.rank++;
 				}
 				census.renderGovernment(census.container);
