@@ -2341,7 +2341,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 			if (i <= stage){
 				//downgrade
 				this.stageLinks.push(
-					this.addLink("V",function(){
+					this.addLink("v",function(){
 						if (confirm('Do you want to downgrade this building?')){
 							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags

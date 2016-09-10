@@ -2317,7 +2317,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usedCryochambers_reset[0]["val"] = 0;
 			usedCryochambers_reset[0]["unlocked"] = false;
 		}
-		console.log(usedCryochambers_reset);
 
 		var saveData = {
 			saveVersion: this.saveVersion,
