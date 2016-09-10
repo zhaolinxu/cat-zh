@@ -2525,11 +2525,111 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     },
 
 	redeemGift: function(){
-		//TODO: give a bonus based on the current researched technologis
-		//i.e. 25tc with lte game time tech
-		// 5tc with mid game tech
-		// unobtainium with pre time tech
-		// titanium with pre-space tech
-		// something else?
-	}
+          gifts = "Karma";
+          if(this.resPool.get("paragon").value>=100)
+            gifts = "Paragon";
+          if(this.resPool.get("timeCrystal").value&&this.prestige.getPerk("anachronomancy").researched)
+            gifts = "TimeCrystal";
+          if(this.resPool.get("sorrow").value/this.resPool.get("sorrow").maxValue<0.25&&this.prestige.getPerk("megalomania").researched&&this.religion.getZU("blackPyramid").val<3)
+            gifts = "BLS";
+          if(this.religion.getRU("apocripha").researched)
+            gifts = "Apocrypha";
+          if(this.religion.getRU("transcendence").researched&&this.religion.getTranscendenceLevel()<=10)
+            gifts = "Transcendence";
+          if(this.prestige.getPerk("engeneering").researched&&!this.prestige.getPerk("renaissance").researched)
+            gifts = "Metaphysics";
+          if(this.bld.getBuilding("chronosphere").val)
+            gifts = "Compendiums";
+
+          if(gift=="Karma")
+          {
+            var amt = 5000;
+            if(this.resPool.get("karma").value>50)
+            {
+              amt = 25;
+              amt*=Math.min(this.karmaKittens, 25000);
+            }
+            var karmaGained = this.getTriValue(this.karmaKittens+amt, 5)-this.getTriValue(this.karmaKittens, 5);
+            var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
+            this.karmaKittens+=amt;
+          }
+          if(gift=="Paragon")
+          {
+            var amt = 100;
+            if(this.resPool.get("paragon").value>500)
+              amt = Math.min(this.resPool.get("paragon").value,1000);
+            var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
+            this.paragonPoints+=amt;
+          }
+          if(gift=="TimeCrystal")
+          {
+            var amt = 50;
+            if(this.resPool.get("timeCrystal").value>100)
+              amt = Math.min(this.resPool.get("timeCrystal").value, 2000);
+            var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
+            this.resPool.get("timeCrystal").value+=amt;
+          }
+          if(gift=="BLS")
+          {
+            amt = this.resPool.get("sorrow").maxValue-this.resPool.get("sorrow").value;
+            var msg = "Got " + this.getDisplayValueExt(amt) + " Black Liquid Sorrow!";
+            this.resPool.get("sorrow").value+=amt;
+          }
+          if(gift=="Apocrypha")
+          {
+            var amt = 5;
+            if(this.religion.faithRatio>10)
+              amt = 4*Math.min(this.religion.faithRatio, 1000);
+            var pre = this.religion.getFaithBonus();
+            this.religion.faithRatio+=amt;
+            var post = this.religion.getFaithBonus();
+            var apocryphaGained = (post-pre)*100;
+            var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
+          }
+          if(gift=="Transcendence")
+          {
+            var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel()+4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
+            this.religion.tcratio+=amt;
+            var msg = "Transcendence Level increased by 4!";
+          }
+          if(gift=="Metaphysics")
+          {
+            if(!this.prestige.getPerk("goldenRatio").researched)
+            {
+              this.prestige.getPerk("goldenRatio").researched = true;
+              this.prestige.getPerk("goldenRatio").handler(this);
+              var perk = "Golden Ratio";
+            }
+            else if(!this.prestige.getPerk("divineProportion").researched)
+            {
+              this.prestige.getPerk("divineProportion").researched = true;
+              this.prestige.getPerk("divineProportion").handler(this);
+              var perk = "Divine Proportion";
+            }
+            else if(!this.prestige.getPerk("vitruvianFeline").researched)
+            {
+              this.prestige.getPerk("vitruvianFeline").researched = true;
+              this.prestige.getPerk("vitruvianFeline").handler(this);
+              var perk = "Vitruvian Feline";
+            }
+            else if(!this.prestige.getPerk("renaissance").researched)
+            {
+              this.prestige.getPerk("renaissance").researched = true;
+              var perk = "Renaissance";
+            }
+            var msg = "Unlocked " + perk + "!";
+          }
+          if(gift=="Compendiums")
+          {
+            var amt = 100000;
+            if(this.resPool.get("compediums").value>500000)
+              amt = 4*this.resPool.get("compediums").value;
+            var msg = "Got " + this.getDisplayValueExt(amt) + " Compendiums!";
+            this.resPool.get("compedium").value+=amt;
+          }
+          this.msg(msg);
+          this.resPool.get("elderBox").value-=1;
+          this.resPool.get("wrappingPaper").value+=1;
+       }
 });
+

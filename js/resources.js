@@ -197,7 +197,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-	},
+        },{
+                name : "wrappingPaper",
+                title: "wrapping paper",
+                type : "exotic",
+                craftable: false,
+                visible: true,
+                color: "#FA0EDE",
+                style: {
+                        "textShadow": "1px 0px 10px #FA2E9E",
+                        "animation": "neon1 1.5s ease-in-out infinite alternate"
+                },
+                persists: true
+        },
 
 	//=========================================
 	// 				    CRAFT
