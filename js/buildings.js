@@ -1538,7 +1538,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				cultureMaxRatio: 0.08
 			};
-			effects["cultureMaxRatio"] = 0.08 + game.religion.getEffect("cultureMaxRatioBonus");
+			effects["cultureMaxRatio"] = 0.08 + game.getEffect("cultureMaxRatioBonus");
 			self.effects = effects;
 		},
 		priceRatio: 1.25,
@@ -1627,7 +1627,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
 
 		// reactors
-		autoProdRatio *= (1 + this.getEffect("productionRatio"));
+		autoProdRatio *= (1 + this.game.getEffect("productionRatio"));
 
 		var effects = {};
 		effects["iron"] = autoProdRatio; // Iron because Steel Plants
