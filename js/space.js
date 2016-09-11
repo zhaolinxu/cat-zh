@@ -548,8 +548,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "kerosene", val: 2500}
 			],
 			upgradable: true,
-			togglable: 	false,
-			tunable: 	false,
+			togglable: 	true,
+			tunable: 	true,
 			val:  0,
 			on:	  0,
 			effects: {
@@ -558,7 +558,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			calculateEffects: function(game, self){
 				self.effects = {
-					"energyConsumption" : 50,
+					"energyConsumption" : 25,
 					"antimatterMax": 100
 				};
 			}

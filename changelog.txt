@@ -1,3 +1,20 @@
+v 1.2.1.1 (10 sep)
+
+Containment chambers energy requirement was reduced from 50 to 25
+Containment chambers energy consumption can be now adjusted
+Ziggurate culture cap effect was reduced from 10% to 8%
+
+Every Unicorn Graveyard should now go
+
+changes by Chris:
+Eldermas gifts can be now unwrapped
+
+changes by freeroot:
+
+Trade X links will be now dynamically adjusted
+Religion buildings will now display effects
+Fixes and optimizations
+
 v 1.2.1.0 (1 sep)
 
 Ziggurats will now provide 10% bonus to culture caps

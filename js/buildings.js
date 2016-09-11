@@ -1524,7 +1524,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "ziggurat",
 		label: "Ziggurat",
-		description: "The dark legacy of the lost race. Every Ziggurat will improve your culture limits by 10%.<br>May have special usage once Theology is researched.",
+		description: "The dark legacy of the lost race. Every Ziggurat will improve your culture limits by 8%.<br>May have special usage once Theology is researched.",
 		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
@@ -1532,7 +1532,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "blueprint", val: 1 }
 		],
 		effects: {
-			cultureMaxRatio: 0.1
+			cultureMaxRatio: 0.08
+		},
+		calculateEffects: function(self, game) {
+			var effects = {
+				cultureMaxRatio: 0.08
+			};
+			effects["cultureMaxRatio"] = 0.08 + game.religion.getEffect("cultureMaxRatioBonus");
+			self.effects = effects;
 		},
 		priceRatio: 1.25,
 		unlockRatio: 0.01,	//1% of resources required to unlock building instead of default 30

@@ -296,6 +296,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
+			"cultureMaxRatioBonus" : 0.01
+		},
+		upgrades: {
+			buildings: ["ziggurat"]
 		},
 		val: 0,
 		unlocked: false
