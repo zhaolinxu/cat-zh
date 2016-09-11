@@ -539,8 +539,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             }
         },{
 			name: "containmentChamber",
-			title: "Containment Chamber",
-			description: "Increases antimatter storage space by 100.",
+			title: "Cont. Chamber",
+			description: "Containment Chamber. Increases antimatter storage space by 100.",
 			unlocked: true,
 			priceRatio: 1.15,
 			prices: [
