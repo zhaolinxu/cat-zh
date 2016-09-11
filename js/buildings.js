@@ -2478,6 +2478,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		dojo.empty(groupContainer);
 		this.buttons = [];
 
+		this.twoRows = (this.activeGroup == "all" || this.activeGroup == "iw");
+		this.initRenderer(groupContainer);
+
 		for( var i = 0; i< this.bldGroups.length; i++){
 			if (this.bldGroups[i].group.name != this.activeGroup){
 				if (this.activeGroup != "all" &&
@@ -2491,11 +2494,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			if (i == 0){
 				this.addCoreBtns(groupContainer);
 			}
-			this.twoRows = (this.activeGroup == "all" || this.activeGroup == "iw");
-			this.initRenderer(groupContainer);
 
 			var group = this.bldGroups[i].group;
-
 
 			for (var j = 0; j< group.buildings.length; j++){
 				var bldMetaRaw = this.game.bld.get(group.buildings[j]);
