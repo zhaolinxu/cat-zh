@@ -184,6 +184,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	festivalDays: 0,
 
+	futureSeasonTemporalParadox: -1,
+
 	observeBtn: null,
 	observeHandler: null,
 	observeRemainingTime: 0,
@@ -514,8 +516,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.bld.get("steamworks").jammed = false;
 		}
 
-		if (this.game.bld.get("chronosphere").val > this.game.rand(100)) {
-			this.day = -10 - this.game.getEffect("temporalParadoxDay");
+		var numChrono = this.game.bld.get("chronosphere").val;
+		if (numChrono > 0) {
+			if (this.futureSeasonTemporalParadox > 0) {
+				// Go to future Temporal Paradox season
+				this.futureSeasonTemporalParadox--;
+			} else {
+				// Temporal Paradox
+				this.day = -10 - this.game.getEffect("temporalParadoxDay");
+				// Calculation of the future Temporal Paradox season
+				var futureSeasonTemporalParadox = 0;
+				var goon = true;
+				while (goon) {
+					if (numChrono > this.game.rand(100)) {
+						goon = false;
+					} else {
+						futureSeasonTemporalParadox++;
+					}
+				}
+				this.futureSeasonTemporalParadox = futureSeasonTemporalParadox;
+			}
 		}
 
 	},
@@ -601,6 +621,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.festivalDays = 0;
 		this.cycle = 0;
 		this.cycleYear = 0;
+		this.futureSeasonTemporalParadox = -1;
 		this.observeClear();
 	},
 
@@ -612,7 +633,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			weather: this.weather,
 			festivalDays: this.festivalDays,
 			cycle: this.cycle,
-			cycleYear: this.cycleYear
+			cycleYear: this.cycleYear,
+			futureSeasonTemporalParadox: this.futureSeasonTemporalParadox
 		};
 	},
 
@@ -625,6 +647,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.festivalDays = saveData.calendar.festivalDays || 0;
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
+			this.futureSeasonTemporalParadox = saveData.calendar.futureSeasonTemporalParadox || -1;
 		}
 	}
 
