@@ -600,7 +600,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
-		faith.value = 0.01;	//have a nice autoclicking
+		faith.value = 0.0001;	//have a nice autoclicking
 	},
 
 	transcend: function(){
