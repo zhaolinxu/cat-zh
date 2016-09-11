@@ -1094,11 +1094,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				pos.top = scrollBottom - $(tooltip).height();
 			}
 
-			if (pos.left + $(tooltip).width() + 320 >= scrollRight){
+			if (pos.left + $(tooltip).width() + 275 >= scrollRight){
 				pos.left = scrollRight - $(tooltip).width() - 320;
 			}
 
-			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
+			dojo.setStyle(tooltip, "left", (pos.left + 275) + "px");
 			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
 
 			dojo.setStyle(tooltip, "display", "");
