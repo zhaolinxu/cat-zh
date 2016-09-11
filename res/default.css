@@ -157,6 +157,11 @@ input[type="button"] {
     border: 1px solid green;
 }
 
+.btn.bldlackResConvert div.btnContent {
+    padding: 4px;
+    border: 1px solid #FF3030;
+}
+
 .btn.small-text span {
     font-size: 90%;
 }
@@ -359,7 +364,8 @@ td.resLimitWarn {
     text-decoration: none;
 }
 
-.btn.bldEnabled.modern div.btnContent {
+.btn.bldEnabled.modern div.btnContent,
+.btn.bldlackResConvert.modern div.btnContent{
     border-width: 0 0 0 8px;
     padding: 10px 0px 10px 10px;
 }
