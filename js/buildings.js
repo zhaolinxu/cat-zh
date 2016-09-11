@@ -800,6 +800,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.getEffect("calcinerSteelReactorBonus")));
 
 				amtFinal = (amtFinal + amt) / 2;
+			} else {
+				self.effects["ironPerTickCon"] = 0;
+				self.effects["coalPerTickCon"] = 0;
+				self.effects["steelPerTickProd"] = 0;
 			}
 
 			return amtFinal;
@@ -1849,36 +1853,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.isAutomationEnabled = true;
 			}
 
-			// togglable
-			bld.togglable = false;
-			bld.togglableOnOff = false;
-
-			if (bld.isAutomationEnabled != undefined){
-				bld.togglable = true;
-				if (bld.name == "steamworks") { // Special toggle, just on, off
-					bld.togglableOnOff = true;
-				}
-			}
-
-			if (bld.lackResConvert != undefined) {
-				if (bld.name == "biolab") { // Exceptions (when convertion is caused by an upgrade)
-					bld.togglable = false;
-				} else {
-					bld.togglable = true;
-				}
-			}
-
-			for (var effect in bld.effects) {
-				if (effect == "energyConsumption" ||
-					effect == "magnetoRatio" ||
-					effect == "productionRatio") {
-						if (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") { // Exceptions (when energyConsumption is caused by an upgrade)
-							bld.togglable = false;
-						} else {
-							bld.togglable = true;
-						}
-				}
-			}
+			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
 	},
 
@@ -2089,60 +2064,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		//TODO: is this even supposed to work?
-		if (building.togglable && !building.togglableOnOff){
-			if (!this.remLinks){
-				this.remLinks = this.addLinkList([
-				   {
-					id: "off1",
-					title: "-",
-					handler: function(){
-						var building = this.getMetadata();
-						if (building.on){
-							building.on--;
-							this.game.upgrade(building.upgrades);
-						}
-					}
-				   },{
-					id: "offAll",
-					title: "-all",
-					handler: function(){
-						var building = this.getMetadata();
-						if (building.on) {
-							building.on = 0;
-							this.game.upgrade(building.upgrades);
-						}
-					}
-				   }]
-				);
-			}
-			if (!this.addLinks){
-				this.addLinks = this.addLinkList([
-				   {
-					id: "add1",
-					title: "+",
-					handler: function(){
-						var building = this.getMetadata();
-						if (building.on < building.val){
-							building.on++;
-							this.game.upgrade(building.upgrades);
-						}
-					}
-				   },{
-					id: "add",
-					title: "+all",
-					handler: function(){
-						var building = this.getMetadata();
-						if (building.on < building.val) {
-							building.on = building.val;
-							this.game.upgrade(building.upgrades);
-						}
-					}
-				   }]
-				);
-			}
-		}
-
-		if (!this.toggle && building.togglableOnOff){
+		if (building.togglableOnOff){
 			this.toggle = this.addLink( building.enabled ? "off" : "on",
 				function(){
 					var building = this.getMetadataRaw();
@@ -2153,10 +2075,57 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}, true	//use | break
 			);
 		}
+		else {
+			this.remove = this.addLinkList([
+			   {
+				id: "off1",
+				title: "-",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on){
+						building.on--;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   },{
+				id: "offAll",
+				title: "-all",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on) {
+						building.on = 0;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   }]
+			);
 
-		if (!this.toggleAutomation &&
-			(building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell)))
-		{
+			this.add = this.addLinkList([
+			   {
+				id: "add1",
+				title: "+",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on < building.val){
+						building.on++;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   },{
+				id: "add",
+				title: "+all",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on < building.val) {
+						building.on = building.val;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   }]
+			);
+		}
+
+		if (building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell) ) {
 			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();
@@ -2196,14 +2165,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				return;
 			}
 
+			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
 			if (this.remove){
-				dojo.setStyle(this.remove.link, "display", (building.on > 0) ? "" : "none");
-				dojo.setStyle(this.remove.linkBreak, "display", (building.on > 0) ? "" : "none");
+				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
 			}
 			if (this.add){
-				dojo.setStyle(this.add.link, "display", (building.on < building.val) ? "" : "none");
-				dojo.setStyle(this.add.linkBreak, "display", (building.on < building.val) ? "" : "none");
+				dojo.setStyle(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
 			}
+			*/
 
 			if (this.toggle){
 				this.toggle.link.textContent = building.enabled ? "off" : "on";

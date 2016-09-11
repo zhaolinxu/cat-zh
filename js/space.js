@@ -732,18 +732,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						program.on = 0;
 					}
 
-					// togglable
-					program.togglableOnOff = false;
-
-					if (program.lackResConvert != undefined) {
-						program.togglable = true;
-					}
-
-					for (var effect in program.effects) {
-						if (effect == "energyConsumption") {
-							program.togglable = true;
-						}
-					}
+					this.setToggle(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 				}
 			}
 		}
