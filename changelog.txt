@@ -13,6 +13,7 @@ changes by freeroot:
 
 Trade X links will be now dynamically adjusted
 Religion buildings will now display effects
+Chronocontrol will increase days in temporal paradox
 Fixes and optimizations
 
 v 1.2.1.0 (1 sep)
