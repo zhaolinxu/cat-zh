@@ -8,47 +8,57 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	{
 		name : "catnip",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "wood",
 		type : "common",
 		craftable: true,
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "minerals",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "coal",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "iron",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "titanium",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "gold",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "oil",
 		type : "common",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "uranium",
 		type : "common",
 		visible: true,
-		color: "#4EA24E"
+		color: "#4EA24E",
+		perTickExisting: true
 	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
 		display: true,
-		color: "#A00000"
+		color: "#A00000",
+		perTickExisting: true
 	},
 
 	//=========================================
@@ -60,25 +70,29 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		transient: true,		//cant be affected by magneto bonus
-		color: "#DBA901"
+		color: "#DBA901",
+		perTickExisting: true
 	},{
 		name : "science",
 		type : "common",
 		visible: true,
 		transient: true,
-		color: "#01A9DB"
+		color: "#01A9DB",
+		perTickExisting: true
 	},{
 		name : "culture",
 		type : "common",
 		visible: true,
 		transient: true,
-		color: "#DF01D7"
+		color: "#DF01D7",
+		perTickExisting: true
 	},{
 		name : "faith",
 		type : "common",
 		visible: true,
 		transient: true,
-		color: "gray"
+		color: "gray",
+		perTickExisting: true
 	},{
 		name : "kittens",
 		type : "common",
@@ -94,7 +108,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		transient: true,
 		visible: true,
-		color: "#9A2EFE"
+		color: "#9A2EFE",
+		perTickExisting: true
 	},{
 		name : "antimatter",
 		type : "common",
@@ -110,27 +125,32 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "furs",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "ivory",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "spice",
 		type : "uncommon",
 		transient: true,
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "unicorns",
 		type : "rare",
 		transient: true,
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "alicorn",
 		title: "alicorns",
 		type : "rare",
-		visible: true
+		visible: true,
+		perTickExisting: true
 	},{
 		name : "necrocorn",
 		title: "necrocorns",
@@ -161,7 +181,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: false,
 		color: "black",
-		persists: true	//isn't wiped on game reset
+		persists: true //isn't wiped on game reset
 	},{
 		name : "relic",
 		title: "relic",
@@ -198,17 +218,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		},
 		persists: true
         },{
-                name : "wrappingPaper",
-                title: "wrapping paper",
-                type : "exotic",
-                craftable: false,
-                visible: true,
-                color: "#FA0EDE",
-                style: {
-                        "textShadow": "1px 0px 10px #FA2E9E",
-                        "animation": "neon1 1.5s ease-in-out infinite alternate"
-                },
-                persists: true
+		name : "wrappingPaper",
+		title: "wrapping paper",
+		type : "exotic",
+		craftable: false,
+		visible: true,
+		color: "#FA0EDE",
+		style: {
+		        "textShadow": "1px 0px 10px #FA2E9E",
+		        "animation": "neon1 1.5s ease-in-out infinite alternate"
+		},
+		persists: true
         },
 
 	//=========================================
@@ -236,7 +256,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "gray"
+		color: "gray",
+		perTickExisting: true
 	},{
 		name : "gear",
 		type : "common",
@@ -283,7 +304,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "manuscript",
 		type : "common",
 		craftable: true,
-		color: "#01A9DB"
+		color: "#01A9DB",
+		perTickExisting: true
 	},{
 		name : "compedium",
 		title: "compendium",
