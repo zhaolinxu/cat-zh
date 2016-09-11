@@ -52,11 +52,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked", "on"], function(loadedElem){
             });
         }
         if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked"], function(loadedElem){
+            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked", "on"], function(loadedElem){
             });
         }
         this.updateEnergyStats();
@@ -81,14 +81,22 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: Date.now(),
            energy: this.energy,
            flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched", "on"]),
        };
     },
 
     resetState: function(){
 		this.energy = 0;
 		this.isAccelerated = false;
+
+		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
+			var bld = this.voidspaceUpgrades[i];
+			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+		}
+		for (var bld in this.chronoforgeUpgrades) {
+			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+		}
     },
 
     update: function(){
@@ -97,6 +105,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (this.energy > this.maxEnergy){ //sanity check
             this.energy = this.maxEnergy;
         }
+        game.resPool.get("temporalFlux").value = this.energy;
         if (this.isAccelerated && this.energy > 0){
             this.energy--;
         }
@@ -120,9 +129,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "timeCrystal", val: 5 }
         ],
         priceRatio: 1.25,
-        action: function(){
-
-        },
         val: 0,
         unlocked: true
     },{
@@ -134,9 +140,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "relic", val: 1000 }
         ],
         priceRatio: 1.25,
-        action: function(){
-
-        },
         effects: {
             "timeRatio" : 0.05
         },
@@ -147,7 +150,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     voidspaceUpgrades: [{
         name: "cryochambers",
         label: "Cryochambers",
-        description: "What!",
+        description: "One kitten will live after reset.<br>You can have one cryochamber per chronosphere",
         prices: [
             { name : "void", val: 100 },
             { name : "timeCrystal", val: 2 },
@@ -157,11 +160,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 			"maxKittens": 1
         },
-        action: function(){
-
-        },
         val: 0,
-        unlocked: false
+        unlocked: false,
+        flavor: "Board for the past"
     },{
         name: "usedCryochambers",
         label: "Used Cryochambers",
@@ -173,27 +174,38 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 
         },
-        action: function(){
-
-        },
         val: 0,
         unlocked: false
     },{
         name: "voidHoover",
         label: "Void Hoover",
-        description: "",
+        description: "Increase the maximum of void per days in Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 10 },
 			{ name: "antimatter", val: 1000 }
         ],
         priceRatio: 1.25,
         effects: {
-			"voidRatio": 1
-        },
-        action: function(){
-
+			"temporalParadoxVoid": 1
         },
         val: 0,
+        unlocked: false
+    },{
+        name: "chronocontrol",
+        label: "Chronocontrol",
+        description: "Increase the number of days in Temporal Paradox",
+        prices: [
+			{ name: "timeCrystal", val: 30 },
+			{ name: "void", val: 500 },
+			{ name: "temporalFlux", val: 5000}
+        ],
+        priceRatio: 1.25,
+        effects: {
+			"temporalParadoxDay": 1,
+			"energyConsumption": 15
+        },
+        val: 0,
+        on: 0,
         unlocked: false
     }],
 
@@ -365,7 +377,12 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
             this.cache = meta;
         }
         return this.cache;
-    }
+    },
+
+    getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
+	}
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -413,17 +430,21 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 
     onClick: function(event){
         var self = this;
+		var meta = this.getMetadata();
 
-		if (this.getMetadata().name == "usedCryochambers") {
+		if (meta.name == "usedCryochambers") {
 			return;
-		} else if (this.getMetadata().name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
+		} else if (meta.name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
 			return;
 		}
 
         this.animate();
-        var meta = this.getMetadata();
+
         if (this.enabled && this.hasResources()){
             this.payPrice();
+            if (meta.name == "chronocontrol") {
+				this.game.time.energy -= meta.prices[2].val;
+            }
             meta.val++;
         }
     },
@@ -445,7 +466,12 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
             this.cache = meta;
         }
         return this.cache;
-    }
+    },
+
+    getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
+	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -453,7 +479,6 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
 
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];
-
             this.addChild(new classes.ui.time.VoidSpaceBtn({
                 id: meta.name,
                 name: meta.label,

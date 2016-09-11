@@ -217,7 +217,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-        },{
+	},{
 		name : "wrappingPaper",
 		title: "wrapping paper",
 		type : "exotic",
@@ -229,7 +229,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-        },
+	},{
+		name : "temporalFlux", // game.time.energy : update in time manager
+		title: "temporal flux",
+		description: "",
+		type : "exotic",
+		craftable: false,
+		visible: false,
+		persists: true
+	},
 
 	//=========================================
 	// 				    CRAFT
@@ -467,7 +475,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 12 + this.game.getEffect("blsLimit") || 0;
+				res.maxValue = 12 + (this.game.getEffect("blsLimit") * 100) || 0;
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}

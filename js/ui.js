@@ -185,7 +185,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             var mod = "";
             if (calendar.weather){
-                mod = " (" + calendar.weather + ") ";
+                mod = " (" + calendar.weather + ")";
             }
 
             calendarDiv.innerHTML = "Year " + calendar.year + " - " +

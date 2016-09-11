@@ -1659,7 +1659,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 
 		var tr = dojo.create("tr", {}, advVillageTable);
-		var statsTd = dojo.create("td", { style: "cursor:pointer"}, tr);
+		var statsTd = dojo.create("td", { style: "cursor: pointer; width: 50%; text-align: center;"}, tr);
 
 		statsTd.title = "Happiness affects your workers' production. \nRare resources will increase this value whilst over-population will reduce it";
 
@@ -1748,7 +1748,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var festivalDays = this.game.calendar.festivalDays;
 		if (festivalDays){
-			this.happinessStats.innerHTML += " ("+ this.game.getDisplayValueExt(festivalDays) + " days)";
+			this.happinessStats.innerHTML += "<br\><br\> Festival during "+ this.game.getDisplayValueExt(festivalDays) + " days";
 		}
 
 		if (this.statisticsPanel){

@@ -184,6 +184,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	festivalDays: 0,
 
+	futureSeasonTemporalParadox: -1,
+
 	observeBtn: null,
 	observeHandler: null,
 	observeRemainingTime: 0,
@@ -362,7 +364,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.day < 0) {
 		//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
-                        this.game.time.flux-=0.0025;
+			this.game.time.flux-=0.0025;
 		}
 		//------------------------- relic -------------------------
 		else {
@@ -514,8 +516,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.bld.get("steamworks").jammed = false;
 		}
 
-		if (this.game.bld.get("chronosphere").val > this.game.rand(100)) {
-			this.day = -10; //TODO increase the number of days in chronoforge ?
+		var numChrono = this.game.bld.get("chronosphere").val;
+		if (numChrono > 0) {
+			if (this.futureSeasonTemporalParadox > 0) {
+				// Go to future Temporal Paradox season
+				this.futureSeasonTemporalParadox--;
+			} else {
+				// Temporal Paradox
+				this.day = -10 - this.game.getEffect("temporalParadoxDay");
+				// Calculation of the future Temporal Paradox season
+				var futureSeasonTemporalParadox = 0;
+				var goon = true;
+				while (goon) {
+					if (numChrono > this.game.rand(100)) {
+						goon = false;
+					} else {
+						futureSeasonTemporalParadox++;
+					}
+				}
+				this.futureSeasonTemporalParadox = futureSeasonTemporalParadox;
+			}
 		}
 
 	},
@@ -557,6 +577,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
+		// Apply cycleEffect for the newYear
+		var spaceBuildingsMap = [];
+		for (var i = 0; i < this.game.space.planets.length; i++) {
+			var planetName = this.game.space.planets[i].name;
+			var buildings = this.game.space.planets[i].buildings.map(function(building){
+				return building.name;
+			})
+			for (var j = 0; j < buildings.length; j++) {
+				var item = {planet:planetName, bld: buildings[j]};
+				spaceBuildingsMap.push(item);
+			}
+		}
+		this.game.upgrade({
+			space: spaceBuildingsMap
+		});
+
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addRes(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
@@ -585,6 +621,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.festivalDays = 0;
 		this.cycle = 0;
 		this.cycleYear = 0;
+		this.futureSeasonTemporalParadox = -1;
 		this.observeClear();
 	},
 
@@ -596,7 +633,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			weather: this.weather,
 			festivalDays: this.festivalDays,
 			cycle: this.cycle,
-			cycleYear: this.cycleYear
+			cycleYear: this.cycleYear,
+			futureSeasonTemporalParadox: this.futureSeasonTemporalParadox
 		};
 	},
 
@@ -609,6 +647,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.festivalDays = saveData.calendar.festivalDays || 0;
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
+			this.futureSeasonTemporalParadox = saveData.calendar.futureSeasonTemporalParadox || -1;
 		}
 	}
 

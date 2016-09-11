@@ -470,7 +470,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "cultureMaxRatio" : {
-                title: "Culture limit expansion",
+                title: "Max Culture bonus",
                 type: "ratio"
             },
 
@@ -489,6 +489,80 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeRatio" :  {
+                title: "Temporal flux bonus",
+                type: "ratio"
+            },
+
+            "temporalParadoxVoid" :  {
+                title: "Max void",
+                type: "perDay"
+            },
+
+            "temporalParadoxDay" :  {
+                title: "Day in temporal paradox",
+                type: "fixed"
+            },
+
+			"unicornsRatioReligion" :  {
+                title: "Unicorns bonus",
+                type: "ratio"
+            },
+
+			"riftChance" :  {
+                title: "Unicorns rift chance",
+                type: "fixed"
+            },
+
+			"ivoryMeteorChance" :  {
+                title: "Ivory meteor chance",
+                type: "fixed"
+            },
+
+            "ivoryMeteorRatio" :  {
+                title: "Ivory meteor bonus",
+                type: "ratio"
+            },
+
+			"alicornChance" :  {
+                title: "Alicorn descent chance",
+                type: "fixed"
+            },
+
+			"tcRefineRatio" :  {
+                title: "Time crystal refine bonus",
+                type: "ratio"
+            },
+
+			"corruptionRatio" :  {
+                title: "Corruption ratio",
+                type: "ratio"
+            },
+
+			"cultureMaxRatioBonus" :  {
+                title: "Ziggurat's max culture bonus",
+                type: "ratio"
+            },
+
+			"faithRatioReligion" :  {
+                title: "Faith bonus",
+                type: "ratio"
+            },
+
+			"relicRefineRatio" :  {
+                title: "Relic refine bonus",
+                type: "ratio"
+            },
+
+			"blsLimit" :  {
+                title: "Max BLS",
+                type: "ratio"
+            },
+
+			"tcResourceRatio" :  {
+                title: "Max resources bonus",
+                type: "ratio"
+            },
             // cycleEffects
             "prodTransferBonus_cycleEffect" : {
                 title: "Zodiac effect Production transfer bonus",
@@ -1267,8 +1341,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.getEffect(res.name+"GlobalRatio");
 
-		// +*BUILDINGS, RELIGION AND SPACE PRODUCTION
+		// +*BUILDINGS AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
+
+		// +*RELIGION EFFECTS
+		perTick *= 1 + this.getEffect(res.name + "RatioReligion");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
 		perTick *= 1 + this.getEffect(res.name+"SuperRatio");
@@ -2405,10 +2482,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	calculateAllEffects: function() {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
+
+		var spaceBuildingsMap = [];
+		for (var i = 0; i < this.space.planets.length; i++) {
+			var planetName = this.space.planets[i].name;
+			var buildings = this.space.planets[i].buildings.map(function(building){
+				return building.name;
+			})
+			for (var j = 0; j < buildings.length; j++) {
+				var item = {planet:planetName, bld: buildings[j]};
+				spaceBuildingsMap.push(item);
+			}
+		}
+
 		this.upgrade({
 			buildings: this.bld.buildingsData.map(function(building){
 				return building.name;
 			}),
+			space: spaceBuildingsMap,
 			jobs: this.village.jobs.map(function(job){
 				return job.name;
 			})
@@ -2471,6 +2562,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var item = this.getUnlockByName(list[type][i], type);
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
+					if (type == "space") {
+						this.calendar.cycleEffects(item.effects, item.name);
+					}
 				}
 			}
 		}

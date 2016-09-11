@@ -531,7 +531,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 5,
 		priceRatio: 1.15,
 		effects: {
-			"blsLimit" : 1
+			"blsLimit" : 0.01
 		},
 		val: 0,
 		unlocked: true,
@@ -600,7 +600,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
-		faith.value = 0.01;	//have a nice autoclicking
+		faith.value = 0.0001;	//have a nice autoclicking
 	},
 
 	transcend: function(){
@@ -998,7 +998,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 		this.game.resPool.addResEvent("alicorn", -alicornsCount);
 		this.game.resPool.addResEvent("timeCrystal", tcAmt);
 
-		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + this.game.getDisplayValueExt(tcAmt) + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
 
 	updateVisible: function(){

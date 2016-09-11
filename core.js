@@ -104,6 +104,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Returns a cached combined value of effect of all managers, for effect existing in the manager
 	 * Will calculate effect value of the manager if the value of effect of all managers is not yet implemented (launch of the game)
 	 */
+	 /*
 	getEffect: function(name){
 		// Search only if effect exists in the manager
 		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
@@ -123,7 +124,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		}
 		return effect;
 	},
-
+*/
 	/**
 	 * Returns an effect from a generic array of effects like gamePage.bld.buildingsData
 	 * Replacement for getEffect() method
@@ -208,9 +209,42 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			filtered.push(clone);
 		}
 		return filtered;
-	}
+	},
 
 	//TODO: add saveMetadata
+
+	setToggle: function(bld, isAutomationEnabled, lackResConvert, effects) {
+		// togglable
+		bld.togglable = false;
+		bld.togglableOnOff = false;
+
+		if (isAutomationEnabled != undefined){
+			bld.togglable = true;
+			if (bld.name == "steamworks") { // Special toggle, just on, off
+				bld.togglableOnOff = true;
+			}
+		}
+
+		if (lackResConvert != undefined) {
+			if (bld.name == "biolab") { // Exceptions (when convertion is caused by an upgrade)
+				bld.togglable = false;
+			} else {
+				bld.togglable = true;
+			}
+		}
+
+		for (var effect in effects) {
+			if (effect == "energyConsumption" ||
+				effect == "magnetoRatio" ||
+				effect == "productionRatio") {
+					if (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") { // Exceptions (when energyConsumption is caused by an upgrade)
+						bld.togglable = false;
+					} else {
+						bld.togglable = true;
+					}
+			}
+		}
+	}
 
 });
 
