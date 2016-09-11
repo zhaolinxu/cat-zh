@@ -557,6 +557,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 225000 },
 			{ name : "alloy", 	val: 750 }
 		],
+		upgrades: {
+			space: [{planet:"cath", bld: "sattelite"}]
+		},
 		unlocked: false,
 		researched: false
 	},
@@ -1370,6 +1373,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "eludium", val: 15},
 			{name: "antimatter", val: 250}
 		],
+		upgrades: {
+			space: [{planet:"moon", bld: "moonBase"}]
+		},
 		unlocked: false,
 		researched: false
 	},{
@@ -1383,6 +1389,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "eludium", val: 35},
 			{name: "antimatter", val: 750}
 		],
+		upgrades: {
+			space: [{planet:"piscine", bld: "researchVessel"},
+					{planet:"kairo", bld: "spaceBeacon"}]
+		},
 		unlocks: {
 			upgrades: ["amReactorsMK2"]
 		},
@@ -1394,6 +1404,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: "Your Research Vessels and Space Beacons are 75% more effective",
 		effects: {
 			"spaceScienceRatio": 0.75
+		},
+		upgrades: {
+			space: [{planet:"piscine", bld: "researchVessel"},
+					{planet:"kairo", bld: "spaceBeacon"}]
 		},
 		prices: [
 			{name: "eludium", val: 70},
@@ -1407,6 +1421,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
 		effects: {
 			"beaconRelicsPerDay": 0.01
+		},
+		upgrades: {
+			space: [{planet:"kairo", bld: "spaceBeacon"}]
 		},
 		prices: [
 			{name: "eludium", val: 100},
@@ -1674,6 +1691,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "eludium", val: 250 },
 			{ name : "science",  val: 275000 }
 		],
+		upgrades: {
+			space: [{planet:"dune", bld: "planetCracker"}]
+		},
 		unlocked: false,
 		researched: false
 	},

@@ -208,7 +208,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"spaceRatio": 0,
 				"prodTransferBonus" : 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"oilReductionRatio": 0.05,
 					"spaceRatio": 0.01,
@@ -241,7 +241,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0,
 				"energyProduction": 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"observatoryRatio": 0.05,
 					"starchartPerTickBaseSpace": 0.001,
@@ -284,7 +284,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"scienceRatio": 0,
 				"energyConsumption": 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"maxKittens": 2,
 					"scienceRatio": 0.5,
@@ -325,7 +325,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumPerTickCon": 0,
 				"unobtainiumPerTickSpace": 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"energyConsumption": 5
 				};
@@ -368,7 +368,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"unobtainiumMax"    : 0,
 				"energyConsumption" : 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"catnipMax"         : 45000,
 					"woodMax"           : 25000,
@@ -412,15 +412,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"uraniumPerTickSpace" : 0,
 				"uraniumMax" : 0
             },
-			calculateEffects: function (game, self){
+			calculateEffects: function (self, game){
 				self.effects = {
 					"uraniumPerTickSpace" : 0.3
 						* (1 + game.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
-			},
-            action: function(game, self){
-            }
+			}
         },{
             name: "hydrofracturer",
             title: "Hydraulic Fracturer",
@@ -441,13 +439,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             effects: {
 				"oilPerTickAutoprodSpace": 0
             },
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"oilPerTickAutoprodSpace": 0.5
 				};
-			},
-            action: function(game, self){
-            }
+			}
         }]
 	},{
 		name: "piscine",
@@ -474,7 +470,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"starchartPerTickBaseSpace": 0,
 				"scienceMax": 0
 			},
-            calculateEffects: function(game, self){
+            calculateEffects: function(self, game){
 				self.effects = {
 					"starchartPerTickBaseSpace": 0.01,
 					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio"))
@@ -500,7 +496,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"spaceRatio": 0,
 				"energyConsumption" : 0
 				},
-            calculateEffects: function(game, self){
+            calculateEffects: function(self, game){
 				self.effects = {
 					"spaceRatio": 0.02,
 					"energyConsumption" : 20
@@ -531,7 +527,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"antimatterProduction": 0,
 				"energyProduction" : 0
 			},
-            calculateEffects: function(game, self){
+            calculateEffects: function(self, game){
 				self.effects = {
 					"antimatterProduction": 1,
 					"energyProduction" : 30
@@ -556,7 +552,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0,
 				"antimatterMax": 0
 			},
-			calculateEffects: function(game, self){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"energyConsumption" : 25,
 					"antimatterMax": 100
@@ -589,7 +585,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"oilMax"        : 0,
 				"unobtainiumMax": 0
 			},
-            calculateEffects: function(game, self){
+            calculateEffects: function(self, game){
 				self.effects = {
 					"woodMax"       : 200000,
 					"mineralsMax"   : 200000,
@@ -627,7 +623,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"scienceMax": 0,
 					"relicPerDay": 0
 				},
-				calculateEffects: function(game, self){
+				calculateEffects: function(self, game){
 					self.effects = {
 						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
@@ -658,7 +654,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"maxKittens": 0,
 					"catnipConsumption": 0
 				},
-				calculateEffects: function(game, self){
+				calculateEffects: function(self, game){
 					self.effects = {
 						"maxKittens": 1,
 						"catnipConsumption": 250
@@ -680,7 +676,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"catnipMaxRatio" : 0,
 					"catnipRatio" : 0
 				},
-				calculateEffects: function(game, self){
+				calculateEffects: function(self, game){
 					self.effects = {
 						"catnipMaxRatio" : 0.1,
 						"catnipRatio" : 0.025
@@ -841,28 +837,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	update: function(){
-		for (var i = this.programs.length - 1; i >= 0; i--) {
-			var program = this.programs[i];
-
-			if (program.calculateEffects){
-				program.calculateEffects(this.game, program);
-				this.game.calendar.cycleEffects(program.effects, program.name);
-			}
-
-			if (program.action && program.val > 0){
-				program.action(this.game, program);
-			}
-		}
 		for (var i in this.planets){
 			var planet = this.planets[i];
 
 			for (var j in planet.buildings){
 				var bld = planet.buildings[j];
-
-				if (bld.calculateEffects){
-					bld.calculateEffects(this.game, bld);
-					this.game.calendar.cycleEffects(bld.effects, bld.name);
-				}
 
 				if (bld.action && bld.val > 0){
 					bld.action(this.game, bld);
