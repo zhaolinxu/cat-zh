@@ -307,11 +307,6 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
                 this.update();
             }, false
         );
-
-        var prices = this.getPrices();
-        var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
-
-        dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
     },
 
     update: function(){

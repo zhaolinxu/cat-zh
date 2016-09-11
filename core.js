@@ -728,7 +728,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				}
 			}, null);
 
-		dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
+		var linkHandler = dojo.connect(link, "onclick", this, dojo.partial(function(handler, event){
 			event.stopPropagation();
 			event.preventDefault();
 
@@ -748,7 +748,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		return {
 			link: link,
-			linkBreak: linkBreak
+			linkBreak: linkBreak,
+			linkHandler: linkHandler
 		};
 	},
 
