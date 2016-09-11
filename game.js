@@ -1267,8 +1267,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +*BEFORE PRODUCTION BOOST (UPGRADE EFFECTS GLOBAL)
 		perTick *= 1 + this.getEffect(res.name+"GlobalRatio");
 
-		// +*BUILDINGS, RELIGION AND SPACE PRODUCTION
+		// +*BUILDINGS AND SPACE PRODUCTION
 		perTick *= 1 + this.getEffect(res.name + "Ratio");
+
+		// +*RELIGION EFFECTS
+		perTick *= 1 + this.getEffect(res.name + "RatioReligion");
 
 		// +*AFTER PRODUCTION BOOST (UPGRADE EFFECTS SUPER)
 		perTick *= 1 + this.getEffect(res.name+"SuperRatio");
