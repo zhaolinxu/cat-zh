@@ -52,11 +52,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked"], function(loadedElem){
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked", "on"], function(loadedElem){
             });
         }
         if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked"], function(loadedElem){
+            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked", "on"], function(loadedElem){
             });
         }
         this.updateEnergyStats();
@@ -81,14 +81,22 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: Date.now(),
            energy: this.energy,
            flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched", "on"]),
        };
     },
 
     resetState: function(){
 		this.energy = 0;
 		this.isAccelerated = false;
+
+		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
+			var bld = this.voidspaceUpgrades[i];
+			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+		}
+		for (var bld in this.chronoforgeUpgrades) {
+			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+		}
     },
 
     update: function(){
@@ -121,9 +129,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "timeCrystal", val: 5 }
         ],
         priceRatio: 1.25,
-        action: function(){
-
-        },
         val: 0,
         unlocked: true
     },{
@@ -135,9 +140,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "relic", val: 1000 }
         ],
         priceRatio: 1.25,
-        action: function(){
-
-        },
         effects: {
             "timeRatio" : 0.05
         },
@@ -158,9 +160,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 			"maxKittens": 1
         },
-        action: function(){
-
-        },
         val: 0,
         unlocked: false
     },{
@@ -172,9 +171,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-
-        },
-        action: function(){
 
         },
         val: 0,
@@ -191,9 +187,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 			"voidRatio": 1
         },
-        action: function(){
-
-        },
         val: 0,
         unlocked: false
     },{
@@ -207,12 +200,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-			"temporalParadoxDay": 1
-        },
-        action: function(){
-
+			"temporalParadoxDay": 1,
+			"energyConsumption": 15
         },
         val: 0,
+        on: 0,
         unlocked: false
     }],
 

@@ -209,9 +209,42 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			filtered.push(clone);
 		}
 		return filtered;
-	}
+	},
 
 	//TODO: add saveMetadata
+
+	setToggle: function(bld, isAutomationEnabled, lackResConvert, effects) {
+		// togglable
+		bld.togglable = false;
+		bld.togglableOnOff = false;
+
+		if (isAutomationEnabled != undefined){
+			bld.togglable = true;
+			if (bld.name == "steamworks") { // Special toggle, just on, off
+				bld.togglableOnOff = true;
+			}
+		}
+
+		if (lackResConvert != undefined) {
+			if (bld.name == "biolab") { // Exceptions (when convertion is caused by an upgrade)
+				bld.togglable = false;
+			} else {
+				bld.togglable = true;
+			}
+		}
+
+		for (var effect in effects) {
+			if (effect == "energyConsumption" ||
+				effect == "magnetoRatio" ||
+				effect == "productionRatio") {
+					if (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") { // Exceptions (when energyConsumption is caused by an upgrade)
+						bld.togglable = false;
+					} else {
+						bld.togglable = true;
+					}
+			}
+		}
+	}
 
 });
 
