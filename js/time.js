@@ -220,7 +220,11 @@ dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.But
     },
 
     toggle: function() {
-        this.game.time.isAccelerated = !this.game.time.isAccelerated;
+		if (this.game.time.energy == 0) {
+			this.game.time.isAccelerated = false;
+		} else {
+			this.game.time.isAccelerated = !this.game.time.isAccelerated;
+		}
     }
 });
 
