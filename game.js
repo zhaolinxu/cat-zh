@@ -2560,8 +2560,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			gift = "Compendiums";
 		}
 
-		switch (true) {
-			case gift == "Karma":
+		switch (gift) {
+			case "Karma":
 				if(this.resPool.get("karma").value > 50) {
 					var amt = 25 * Math.min(this.karmaKittens, 25000);
 				} else {
@@ -2571,7 +2571,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
 				this.karmaKittens += amt;
 				break;
-			case gift == "Paragon":
+			case "Paragon":
 				if(this.resPool.get("paragon").value > 500) {
 					var amt = Math.min(this.resPool.get("paragon").value, 1000);
 				} else {
@@ -2580,7 +2580,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
 				this.paragonPoints += amt;
 				break;
-			case gift == "TimeCrystal":
+			case "TimeCrystal":
 				if(this.resPool.get("timeCrystal").value > 100) {
 					var amt = Math.min(this.resPool.get("timeCrystal").value, 2000);
 				} else {
@@ -2589,12 +2589,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
 				this.resPool.addResEvent("timeCrystal", amt);
 				break;
-			case gift == "BLS" :
+			case "BLS" :
 				amt = this.resPool.get("sorrow").maxValue - this.resPool.get("sorrow").value;
 				var msg = "Got " + this.getDisplayValueExt(amt) + " Black Liquid Sorrow!";
 				this.resPool.addResEvent("sorrow", amt);
 				break;
-			case gift == "Apocrypha":
+			case "Apocrypha":
 				if(this.religion.faithRatio > 10) {
 					var amt = 4*Math.min(this.religion.faithRatio, 1000);
 				} else {
@@ -2606,12 +2606,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var apocryphaGained = (post-pre)*100;
 				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
 				break;
-			case gift == "Transcendence":
+			case "Transcendence":
 				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
 				this.religion.tcratio += amt;
 				var msg = "Transcendence Level increased by 4!";
 				break;
-			case gift == "Metaphysics":
+			case "Metaphysics":
 				if(!this.prestige.getPerk("goldenRatio").researched) {
 					this.prestige.getPerk("goldenRatio").researched = true;
 					this.prestige.getPerk("goldenRatio").handler(this);
@@ -2633,7 +2633,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 				var msg = "Unlocked " + perk + "!";
 				break;
-			case gift == "Compendiums":
+			case "Compendiums":
 				if(this.resPool.get("compedium").value>500000) {
 					var amt = 4 * this.resPool.get("compedium").value;
 				} else {
