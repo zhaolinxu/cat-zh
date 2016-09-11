@@ -531,7 +531,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 5,
 		priceRatio: 1.15,
 		effects: {
-			"blsLimit" : 1
+			"blsLimit" : 0.01
 		},
 		val: 0,
 		unlocked: true,

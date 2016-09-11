@@ -150,7 +150,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     voidspaceUpgrades: [{
         name: "cryochambers",
         label: "Cryochambers",
-        description: "What!",
+        description: "One kitten will live after reset.<br>You can have one cryochamber per chronosphere",
         prices: [
             { name : "void", val: 100 },
             { name : "timeCrystal", val: 2 },
@@ -161,7 +161,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			"maxKittens": 1
         },
         val: 0,
-        unlocked: false
+        unlocked: false,
+        flavor: "Board for the past"
     },{
         name: "usedCryochambers",
         label: "Used Cryochambers",
@@ -178,14 +179,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "voidHoover",
         label: "Void Hoover",
-        description: "",
+        description: "Increase the maximum of void per days in Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 10 },
 			{ name: "antimatter", val: 1000 }
         ],
         priceRatio: 1.25,
         effects: {
-			"voidRatio": 1
+			"temporalParadoxVoid": 1
         },
         val: 0,
         unlocked: false
@@ -376,7 +377,12 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
             this.cache = meta;
         }
         return this.cache;
-    }
+    },
+
+    getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
+	}
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -460,7 +466,12 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
             this.cache = meta;
         }
         return this.cache;
-    }
+    },
+
+    getEffects: function(){
+		var bld = this.getMetadata();
+		return bld.effects;
+	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {
