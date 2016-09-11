@@ -470,7 +470,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "cultureMaxRatio" : {
-                title: "Culture limit expansion",
+                title: "Max Culture bonus",
                 type: "ratio"
             },
 
@@ -540,7 +540,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
 			"cultureMaxRatioBonus" :  {
-                title: "Max Culture Bonus",
+                title: "Ziggurat's max culture bonus",
                 type: "ratio"
             },
 
