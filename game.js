@@ -2405,10 +2405,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	calculateAllEffects: function() {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
+
+		var spaceBuildingsMap = [];
+		for (var i = 0; i < this.space.planets.length; i++) {
+			var planetName = this.space.planets[i].name;
+			var buildings = this.space.planets[i].buildings.map(function(building){
+				return building.name;
+			})
+			for (var j = 0; j < buildings.length; j++) {
+				var item = {planet:planetName, bld: buildings[j]};
+				spaceBuildingsMap.push(item);
+			}
+		}
+
 		this.upgrade({
 			buildings: this.bld.buildingsData.map(function(building){
 				return building.name;
 			}),
+			space: spaceBuildingsMap,
 			jobs: this.village.jobs.map(function(job){
 				return job.name;
 			})
@@ -2471,6 +2485,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var item = this.getUnlockByName(list[type][i], type);
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
+					if (type == "space") {
+						this.calendar.cycleEffects(item.effects, item.name);
+					}
 				}
 			}
 		}

@@ -557,6 +557,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
+		// Apply cycleEffect for the newYear
+		var spaceBuildingsMap = [];
+		for (var i = 0; i < this.game.space.planets.length; i++) {
+			var planetName = this.game.space.planets[i].name;
+			var buildings = this.game.space.planets[i].buildings.map(function(building){
+				return building.name;
+			})
+			for (var j = 0; j < buildings.length; j++) {
+				var item = {planet:planetName, bld: buildings[j]};
+				spaceBuildingsMap.push(item);
+			}
+		}
+		this.game.upgrade({
+			space: spaceBuildingsMap
+		});
+
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addRes(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
