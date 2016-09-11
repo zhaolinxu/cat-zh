@@ -1859,7 +1859,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				 return;
 			 }
 
-			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
+			 dojo.setStyle(tooltip, "left", pos.left + 100 + "px");
 			 dojo.setStyle(tooltip, "top",  pos.top + "px");
 
 			 dojo.setStyle(tooltip, "display", "");
