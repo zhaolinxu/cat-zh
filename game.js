@@ -489,6 +489,80 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeRatio" :  {
+                title: "Temporal flux bonus",
+                type: "ratio"
+            },
+
+            "temporalParadoxVoid" :  {
+                title: "Max void",
+                type: "perDay"
+            },
+
+            "temporalParadoxDay" :  {
+                title: "Day in temporal paradox",
+                type: "fixed"
+            },
+
+			"unicornsRatioReligion" :  {
+                title: "Unicorns bonus",
+                type: "ratio"
+            },
+
+			"riftChance" :  {
+                title: "Unicorns rift chance",
+                type: "fixed"
+            },
+
+			"ivoryMeteorChance" :  {
+                title: "Ivory meteor chance",
+                type: "fixed"
+            },
+
+            "ivoryMeteorRatio" :  {
+                title: "Ivory meteor bonus",
+                type: "ratio"
+            },
+
+			"alicornChance" :  {
+                title: "Alicorn descent chance",
+                type: "fixed"
+            },
+
+			"tcRefineRatio" :  {
+                title: "Time crystal refine bonus",
+                type: "ratio"
+            },
+
+			"corruptionRatio" :  {
+                title: "Corruption ratio",
+                type: "ratio"
+            },
+
+			"cultureMaxRatioBonus" :  {
+                title: "Max Culture Bonus",
+                type: "ratio"
+            },
+
+			"faithRatioReligion" :  {
+                title: "Faith bonus",
+                type: "ratio"
+            },
+
+			"relicRefineRatio" :  {
+                title: "Relic refine bonus",
+                type: "ratio"
+            },
+
+			"blsLimit" :  {
+                title: "Max BLS",
+                type: "ratio"
+            },
+
+			"tcResourceRatio" :  {
+                title: "Max resources bonus",
+                type: "ratio"
+            },
             // cycleEffects
             "prodTransferBonus_cycleEffect" : {
                 title: "Zodiac effect Production transfer bonus",
