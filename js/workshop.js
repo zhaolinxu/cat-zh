@@ -1204,7 +1204,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "High Pressure Engine",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
-			"coalRatioGlobal" : 0.2
+			"coalRatioGlobalReduction" : 0.2
 		},
 		prices:[
 			{ name : "gear", 	 val: 25 },
@@ -1222,7 +1222,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		title: "Fuel Injectors",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
-			"coalRatioGlobal" : 0.2
+			"coalRatioGlobalReduction" : 0.2
 		},
 		prices:[
 			{ name : "gear", 	 val: 250 },
@@ -1914,7 +1914,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	}],
 
 	effectsBase: {
-		"scienceMax" : 0
+		"scienceMax" : 0,
+		"cultureMax" : 0,
+		"oilMax" : 0
 	},
 
 	metaCache: null,
@@ -1923,6 +1925,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 		this.metaCache = {};
 		this.registerMetaWorkshop();
+		this.setEffectsCachedExisting();
 	},
 
 	registerMetaWorkshop: function() {
@@ -2031,23 +2034,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		this.invalidateCachedEffects();
-	},
-
-	/**
-	 * Returns a total effect value per buildings.
-	 *
-	 * For example, if you have N buildings giving K effect,
-	 * total value will be N*K
-	 *
-	 */
-	getEffect: function(name){
-		var totalEffect = 0;
-
-		if (this.effectsBase[name]){
-			totalEffect += this.effectsBase[name];
-		}
-		return totalEffect + this.getEffectCached(name);
 	},
 
 	getCraftPrice: function(craft){
@@ -2061,7 +2047,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val *
 					(1 - this.game.bld.getHyperbolicEffect(
-						this.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
+						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
 						0.75));
 			}
 		}
@@ -2165,7 +2151,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (upgrade.upgrades) {
 			// Hack so the new upgrade's effects are counted
-			this.game.workshop.invalidateCachedEffects();
 			this.game.upgrade(upgrade.upgrades);
 		}
 	},

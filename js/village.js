@@ -141,10 +141,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return 500 * Math.pow(1.75, rank);
 	},
 
-	getEffect: function(effectName){
-
-	},
-
 	getEffectLeader: function(trait, defaultObject){
 		if(this.leader) {
 			var leaderTrait = this.leader.trait["name"];
@@ -215,7 +211,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
-			this.kittensPerTickBase * (1 + this.game.prestige.getEffect("kittenGrowthRatio"));
+			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -301,7 +297,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 */
 	updateResourceProduction: function(){
 
-		var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
+		var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 
 		var res = {
 		};
@@ -435,13 +431,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var happiness = 100;
 
 		var unhappiness = ( this.getKittens()-5 ) * 2;
-		var unhappiness = unhappiness + unhappiness * this.game.bld.getEffect("unhappinessRatio", true);	//limit ratio by 1.0 by 75% hyperbolic falloff
+		var unhappiness = unhappiness + unhappiness * this.game.getEffect("unhappinessRatio");	//limit ratio by 1.0 by 75% hyperbolic falloff
 
 		if (this.getKittens() > 5){
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
 
-		var happinessBonus = this.game.bld.getEffect("happiness");
+		var happinessBonus = this.game.getEffect("happiness");
 		happiness += happinessBonus;
 
 		//boost happiness/production by 10% for every uncommon/rare resource
@@ -481,8 +477,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			isUnicorn: false
 		};
 
-		var hunterRatio = this.game.workshop.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
-
+		var hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
 		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
 		this.game.resPool.addResEvent("furs", huntingRes.furs);
 
@@ -742,7 +737,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		}
 
 
-		var learnRatio = this.game.bld.getEffect("learnRatio");
+		var learnRatio = this.game.getEffect("learnRatio");
 		var skillRatio = 0.01 + 0.01 * learnRatio;
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
@@ -1458,7 +1453,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				if (skillsArr[j].name == kitten.job) {
 					var style = "style='font-weight: bold'";
 
-					var productionRatio = (1 + this.game.workshop.getEffect("skillMultiplier")) / 4;
+					var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 					var bonus = (mod-1) * productionRatio;
 					bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
