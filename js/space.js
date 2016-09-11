@@ -215,8 +215,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"prodTransferBonus" : 0.001
 				};
 			},
-			togglable: false,
-			tunable: false
 		},{
 			name: "sattelite",
 			title: "Satellite",
@@ -233,8 +231,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			val: 0,
 			on: 0,
 			upgradable: true,
-			togglable: true,
-			tunable: true,
 			effects: {
 				"observatoryRatio": 0,
 				"starchartPerTickBaseSpace": 0,
@@ -252,7 +248,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
 					self.togglable = false;
-					self.tunable = false;
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
@@ -273,8 +268,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			requiredTech: ["orbitalEngineering"],
 			val: 0,
 			on: 0,
-			togglable: true,
-			tunable: true,
 			upgradable: true,
 			handler: function(game){
 				game.ironWill = false;			//sorry folks
@@ -311,8 +304,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "oil", val: 55000}
 			],
 			upgradable: true,
-			togglable: 	true,
-			tunable: 	true,
 
 			handler: function(game, self){
 				//game.workshop.get("unobtainiumAxe").unlocked = true;
@@ -382,8 +373,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				};
 			},
 			upgradable: true,
-			togglable: 	true,
-			tunable: 	true,
 			on: 0,
 			val: 0
 		}]
@@ -404,8 +393,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "kerosene", val: 50}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
@@ -432,8 +419,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "kerosene", val: 100}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
@@ -462,8 +447,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "kerosene", val: 250}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
@@ -488,8 +471,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "kerosene", val: 500}
             ],
             upgradable: true,
-            togglable: 	true,
-            tunable: 	true,
             val:  0,
             on:	  0,
             effects: {
@@ -519,8 +500,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "kerosene", val: 2500}
             ],
             upgradable: true,
-            togglable: 	false,
-            tunable: 	false,
             val:  0,
             on:	  0,
             effects: {
@@ -544,8 +523,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "kerosene", val: 2500}
 			],
 			upgradable: true,
-			togglable: 	true,
-			tunable: 	true,
 			val:  0,
 			on:	  0,
 			effects: {
@@ -753,6 +730,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					program.val = 0;
 					if (program.on != undefined){
 						program.on = 0;
+					}
+
+					// togglable
+					program.togglableOnOff = false;
+
+					if (program.lackResConvert != undefined) {
+						program.togglable = true;
+					}
+
+					for (var effect in program.effects) {
+						if (effect == "energyConsumption") {
+							program.togglable = true;
+						}
 					}
 				}
 			}
@@ -1021,7 +1011,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
             bld.val++;
 
             //to not force player re-click '+' button all the time
-            if (bld.on && bld.tunable){
+            if (bld.on && bld.togglable){
                 bld.on++;
             }
 

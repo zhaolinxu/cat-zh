@@ -82,7 +82,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 
-					if (bld.tunable){
+					if (bld.togglable){
 						effect = bld.effects[effectName] * bld.on;
 					} else {
 						effect = bld.enabled ? bld.effects[effectName] * bld.val : 0;
@@ -444,11 +444,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyConsumption": 0
 			};
 
-			self.togglable = false;
-			self.tunable = false;
 			if (game.workshop.get("biofuel").researched){
+				self.effects["energyConsumption"] = 1;
 				self.togglable = true;
-				self.tunable = true;
+				self.on = self.val
 			}
 
 			self.effects = effects;
@@ -456,7 +455,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		lackResConvert: false,
 		action: function(self, game){
 			if (game.workshop.get("biofuel").researched){
-				self.effects["energyConsumption"] = 1;
 
 				self.effects["catnipPerTickCon"] = -1;
 				self.effects["oilPerTickProd"]= 0.02 * (1 + game.getEffect("biofuelRatio"));
@@ -657,8 +655,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocked: false,
 		enabled: false,
 		on: 0,
-		togglable: true,
-		tunable: true,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -739,8 +735,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocked: false,
 		enabled: false,
 		on: 0,
-		togglable: true,
-		tunable: true,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
@@ -819,7 +813,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "When active, significantly reduces your coal production. Does nothing useful by default, but can do a lot of cool stuff once upgraded.",
 		unlocked: false,
 		enabled: false,
-		togglable: true,
 		on: 0,
 		jammed: false,
 		prices: [
@@ -943,8 +936,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 15%. Consumes oil.",
 		unlocked: false,
 		enabled: false,
-		togglable: true,
-		tunable: true,
 		on: 0,
 		prices: [
 			{ name : "alloy", val: 10 },
@@ -1023,8 +1014,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		on: 0,
 		requiredTech: ["chemistry"],
 		canUpgrade: true,
-		togglable: false,
-		tunable: false,
 		calculateEffects: function(self, game){
 			var effects = {
 				"oilPerTickBase" : 0.02,
@@ -1038,9 +1027,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
 				self.togglable = true;
-				self.tunable = true;
-			}else {
-				self.on = self.val; // Hack to not turn off while pumpjack is researched
+				self.on = self.val;
 			}
 
 			self.effects = effects;
@@ -1097,8 +1084,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		val: 0,
 		on: 0,
-		togglable: true,
-		tunable: true,
 		requiredTech: ["mechanization"]
 	},{
 		name: "reactor",
@@ -1106,8 +1091,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a 5% boost to production while active. Requires uranium to operate.",
 		unlocked: false,
 		ignorePriceCheck: true,
-		togglable: true,
-		tunable: true,
 		on: 0,
 		prices: [
 			{ name : "titanium",    val: 3500 },
@@ -1157,8 +1140,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Converts titanium to the uranium (sic)",
 		unlocked: false,
 		ignorePriceCheck: true,
-		togglable: true,
-		tunable: true,
 		on: 0,
 		prices: [
 			{ name : "titanium",    val: 7500 },
@@ -1274,8 +1255,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Mint",
 		description: "Produces luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
 		unlocked: false,
-		togglable: true,
-		tunable: true,
 		on: 0,
 		enabled: false,
 		prices: [
@@ -1869,6 +1848,37 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.isAutomationEnabled != undefined){
 				bld.isAutomationEnabled = true;
 			}
+
+			// togglable
+			bld.togglable = false;
+			bld.togglableOnOff = false;
+
+			if (bld.isAutomationEnabled != undefined){
+				bld.togglable = true;
+				if (bld.name == "steamworks") { // Special toggle, just on, off
+					bld.togglableOnOff = true;
+				}
+			}
+
+			if (bld.lackResConvert != undefined) {
+				if (bld.name == "biolab") { // Exceptions (when convertion is caused by an upgrade)
+					bld.togglable = false;
+				} else {
+					bld.togglable = true;
+				}
+			}
+
+			for (var effect in bld.effects) {
+				if (effect == "energyConsumption" ||
+					effect == "magnetoRatio" ||
+					effect == "productionRatio") {
+						if (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") { // Exceptions (when energyConsumption is caused by an upgrade)
+							bld.togglable = false;
+						} else {
+							bld.togglable = true;
+						}
+				}
+			}
 		}
 	},
 
@@ -1949,7 +1959,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				building.on = 0;
 			}
 
-			if (!building.tunable && building.enabled){
+			if (building.togglableOnOff && building.enabled){
 				building.on = building.val;
 			}
 			//TODO: fix this mess ^^^^^^^^^^^
@@ -1970,7 +1980,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             bld.val++;
 
             //to not force player re-click '+' button all the time
-            if (bld.on && bld.tunable){
+            if (bld.on && bld.togglable && !bld.togglableOnOff){
                 bld.on++;
             }
 
@@ -2014,7 +2024,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable) {
 				var name = this.getBuildingName();
 
-				var prefix = building.tunable ? ( building.on + "/" ) : "";
+				var prefix = (building.togglable && !building.togglableOnOff) ? ( building.on + "/" ) : "";
 				var sufix = building.lackResConvert ? " !" : "";
 				return name + " ("+ prefix + building.val + ")" + sufix;
 			} else {
@@ -2074,12 +2084,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 		//--------------- toggle ------------
 
-		if (!building.tunable && !building.togglable){
+		if (!building.togglable){
 			return;
 		}
 
 		//TODO: is this even supposed to work?
-		if (building.tunable){
+		if (building.togglable && !building.togglableOnOff){
 			if (!this.remLinks){
 				this.remLinks = this.addLinkList([
 				   {
@@ -2132,7 +2142,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			}
 		}
 
-		if (!this.toggle && !building.tunable){
+		if (!this.toggle && building.togglableOnOff){
 			this.toggle = this.addLink( building.enabled ? "off" : "on",
 				function(){
 					var building = this.getMetadataRaw();
@@ -2182,7 +2192,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			//--------------- toggle ------------
 
-			if (!building.action && !building.togglable){
+			if (!building.togglable){
 				return;
 			}
 
@@ -2210,7 +2220,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
-			dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+			dojo.toggleClass(this.domNode, "bldEnabled", ((building.on > 0) ? true : false));
 
 			if(building.val > 9) {
 				dojo.setStyle(this.domNode,"font-size","90%");
