@@ -998,7 +998,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 		this.game.resPool.addResEvent("alicorn", -alicornsCount);
 		this.game.resPool.addResEvent("timeCrystal", tcAmt);
 
-		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + tcAmt + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + this.game.getDisplayValueExt(tcAmt) + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
 
 	updateVisible: function(){

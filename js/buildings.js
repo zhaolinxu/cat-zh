@@ -1991,9 +1991,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             this.build(bld);
             counter++;
         }
-        this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
-        var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", bld.name, counter);
+		if (counter > 0) {
+			this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
+			var undo = this.game.registerUndoChange();
+			undo.addEvent("bld", bld.name, counter);
+		}
     },
 
     undo: function(metaId, val){
