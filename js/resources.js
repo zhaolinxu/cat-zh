@@ -9,56 +9,56 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "catnip",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "wood",
 		type : "common",
 		craftable: true,
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "minerals",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "coal",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "iron",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "titanium",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "gold",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "oil",
 		type : "common",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "uranium",
 		type : "common",
 		visible: true,
 		color: "#4EA24E",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "unobtainium",
 		type : "common",
 		visible: true,
 		display: true,
 		color: "#A00000",
-		perTickExisting: true
+		calculatePerTick: true
 	},
 
 	//=========================================
@@ -71,28 +71,28 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		transient: true,		//cant be affected by magneto bonus
 		color: "#DBA901",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "science",
 		type : "common",
 		visible: true,
 		transient: true,
 		color: "#01A9DB",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "culture",
 		type : "common",
 		visible: true,
 		transient: true,
 		color: "#DF01D7",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "faith",
 		type : "common",
 		visible: true,
 		transient: true,
 		color: "gray",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "kittens",
 		type : "common",
@@ -109,7 +109,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#9A2EFE",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "antimatter",
 		type : "common",
@@ -126,31 +126,31 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "uncommon",
 		transient: true,
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "ivory",
 		type : "uncommon",
 		transient: true,
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "spice",
 		type : "uncommon",
 		transient: true,
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "unicorns",
 		type : "rare",
 		transient: true,
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "alicorn",
 		title: "alicorns",
 		type : "rare",
 		visible: true,
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "necrocorn",
 		title: "necrocorns",
@@ -225,8 +225,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-		        "textShadow": "1px 0px 10px #FA2E9E",
-		        "animation": "neon1 1.5s ease-in-out infinite alternate"
+			"textShadow": "1px 0px 10px #FA2E9E",
+			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
         },
@@ -257,7 +257,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		visible: false,
 		color: "gray",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "gear",
 		type : "common",
@@ -305,7 +305,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		craftable: true,
 		color: "#01A9DB",
-		perTickExisting: true
+		calculatePerTick: true
 	},{
 		name : "compedium",
 		title: "compendium",
@@ -1121,14 +1121,14 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
-			}else if(isHidden && isVisible){
+			} else if(isHidden && isVisible){
 				row.rowRef.style.display = "";
 			}
 			// Gamer display
 			if (!res.isHidden) {
 				row.rowRef.style.display = "";
 				row.rowRef.style.opacity = 1;
-			}else {
+			} else {
 				row.rowRef.style.display = "none";
 				row.rowRef.style.opacity = 0.3;
 			}

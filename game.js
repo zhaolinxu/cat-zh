@@ -1778,7 +1778,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		*/
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
-			if (res.perTickExisting) {
+			if (res.calculatePerTick) {
 				res.perTickCached = this.calcResourcePerTick(res.name);
 			}
 		}
@@ -1786,7 +1786,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getResourcePerTick: function(resName, withConversion){
 		var res = this.resPool.get(resName);
-		if (res.perTickExisting) {
+		if (res.calculatePerTick) {
 			return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
 		} else {
 			return 0;
@@ -2538,20 +2538,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var gift = "Karma";
-		if(this.resPool.get("paragon").value>=100)
+		if(this.resPool.get("paragon").value>=100) {
 			gift = "Paragon";
-		if(this.resPool.get("timeCrystal").value && this.prestige.getPerk("anachronomancy").researched)
+		}
+		if(this.resPool.get("timeCrystal").value && this.prestige.getPerk("anachronomancy").researched) {
 			gift = "TimeCrystal";
-		if(this.resPool.get("sorrow").value / this.resPool.get("sorrow").maxValue < 0.25 && this.prestige.getPerk("megalomania").researched && this.religion.getZU("blackPyramid").val < 3)
+		}
+		if(this.resPool.get("sorrow").value / this.resPool.get("sorrow").maxValue < 0.25 && this.prestige.getPerk("megalomania").researched && this.religion.getZU("blackPyramid").val < 3) {
 			gift = "BLS";
-		if(this.religion.getRU("apocripha").researched)
+		}
+		if(this.religion.getRU("apocripha").researched) {
 			gift = "Apocrypha";
-		if(this.religion.getRU("transcendence").researched && this.religion.getTranscendenceLevel() <= 10)
+		}
+		if(this.religion.getRU("transcendence").researched && this.religion.getTranscendenceLevel() <= 10) {
 			gift = "Transcendence";
-		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched)
+		}
+		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
 			gift = "Metaphysics";
-		if(this.bld.getBuilding("chronosphere").val)
+		}
+		if(this.bld.getBuilding("chronosphere").val) {
 			gift = "Compendiums";
+		}
 
 		switch (true) {
 			case gift == "Karma":
