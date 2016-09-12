@@ -214,7 +214,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	//TODO: add saveMetadata
 
 	setToggle: function(bld, isAutomationEnabled, lackResConvert, effects) {
-		// togglable
 		bld.togglable = false;
 		bld.togglableOnOff = false;
 
@@ -226,24 +225,22 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		}
 
 		if (lackResConvert != undefined) {
-			if (bld.name == "biolab") { // Exceptions (when convertion is caused by an upgrade)
-				bld.togglable = false;
-			} else {
-				bld.togglable = true;
-			}
+			// Exceptions (when convertion is caused by an upgrade)
+			bld.togglable = (bld.name == "biolab") ? false : true;
 		}
 
 		for (var effect in effects) {
-			if (effect == "energyConsumption" ||
-				effect == "magnetoRatio" ||
-				effect == "productionRatio") {
-					if (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") { // Exceptions (when energyConsumption is caused by an upgrade)
-						bld.togglable = false;
-					} else {
-						bld.togglable = true;
-					}
+			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
+				// Exceptions (when energyConsumption is caused by an upgrade)
+				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") ? false : true;
 			}
 		}
+
+		if (bld.togglable || bld.togglableOnOff) {
+			// Init on only if needed
+			bld.on = 0;
+		}
+
 	}
 
 });

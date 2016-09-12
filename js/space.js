@@ -267,7 +267,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
 			val: 0,
-			on: 0,
 			upgradable: true,
 			handler: function(game){
 				game.ironWill = false;			//sorry folks
@@ -373,7 +372,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				};
 			},
 			upgradable: true,
-			on: 0,
 			val: 0
 		}]
 	},{
@@ -1000,7 +998,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
             bld.val++;
 
             //to not force player re-click '+' button all the time
-            if (bld.on && bld.togglable){
+            if (bld.on){
                 bld.on++;
             }
 

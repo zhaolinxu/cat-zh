@@ -205,7 +205,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			"energyConsumption": 15
         },
         val: 0,
-        on: 0,
         unlocked: false
     }],
 
@@ -357,6 +356,9 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
         if (this.enabled && this.hasResources()){
             this.payPrice();
             meta.val++;
+            if (meta.on) {
+				meta.on++;
+            }
         }
     },
 
@@ -446,6 +448,9 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 				this.game.time.energy -= meta.prices[2].val;
             }
             meta.val++;
+            if (meta.on) {
+				meta.on++;
+            }
         }
     },
 
