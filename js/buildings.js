@@ -1999,9 +1999,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable) {
 				var name = this.getBuildingName();
 
-				var prefix = (building.togglable && !building.togglableOnOff) ? ( building.on + "/" ) : "";
-				var sufix = building.lackResConvert ? " !" : "";
-				return name + " ("+ prefix + building.val + ")" + sufix;
+				var prefix = building.tunable ? ( building.on + "/" ) : "";
+				return name + " ("+ prefix + building.val + ")";
 			} else {
 				var name = this.getBuildingName();
 				return name + " (" + building.val + ")";
@@ -2189,7 +2188,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
-			dojo.toggleClass(this.domNode, "bldEnabled", ((building.on > 0) ? true : false));
+			dojo.removeClass(this.domNode, "bldEnabled");
+			dojo.removeClass(this.domNode, "bldlackResConvert");
+			if (building.lackResConvert) {
+				dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+			} else {
+				dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+			}
 
 			if(building.val > 9) {
 				dojo.setStyle(this.domNode,"font-size","90%");
