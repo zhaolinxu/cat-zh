@@ -1187,7 +1187,20 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
         this.planetPanels = [];
         dojo.forEach(this.game.space.planets, function(planet, i){
             if (planet.unlocked){
-                var planetPanel = new classes.ui.space.PlanetPanel(planet.title, self.game.space);
+
+				if (this.game.prestige.getPerk("numerology").researched) {
+					var planetTitle = "";
+					dojo.forEach(this.game.calendar.cycles, function(cycle, i){
+						if (cycle.name == planet.name || (planet.name == "moon" && cycle.name == "redmoon")) {
+							planetTitle += cycle.glyph + " ";
+						}
+					});
+					planetTitle += planet.title;
+				} else {
+					planetTitle = planet.title;
+				}
+
+                var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);
                 planetPanel.planet = planet;
                 planetPanel.setGame(self.game);
                 var content = planetPanel.render(container);
