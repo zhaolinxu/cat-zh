@@ -470,7 +470,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		},
 		val: 0,
-		on: 0,
 		flavor: "New postdoc positions available."
 	},
 	//----------------------------------- Resource storage -------------------------------------------
@@ -654,7 +653,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Smelts ore into metal",
 		unlocked: false,
 		enabled: false,
-		on: 0,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
 		requiredTech: ["metal"],
@@ -734,7 +732,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "A highly effective source of metal. Consumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
 		unlocked: false,
 		enabled: false,
-		on: 0,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
@@ -817,7 +814,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "When active, significantly reduces your coal production. Does nothing useful by default, but can do a lot of cool stuff once upgraded.",
 		unlocked: false,
 		enabled: false,
-		on: 0,
 		jammed: false,
 		prices: [
 			{ name : "steel", val: 65 },
@@ -940,7 +936,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 15%. Consumes oil.",
 		unlocked: false,
 		enabled: false,
-		on: 0,
 		prices: [
 			{ name : "alloy", val: 10 },
 			{ name : "gear",  val: 5 },
@@ -1015,7 +1010,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
-		on: 0,
 		requiredTech: ["chemistry"],
 		canUpgrade: true,
 		calculateEffects: function(self, game){
@@ -1087,7 +1081,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		on: 0,
 		requiredTech: ["mechanization"]
 	},{
 		name: "reactor",
@@ -1095,7 +1088,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Provides a 5% boost to production while active. Requires uranium to operate.",
 		unlocked: false,
 		ignorePriceCheck: true,
-		on: 0,
 		prices: [
 			{ name : "titanium",    val: 3500 },
 			{ name : "plate", 		val: 5000},
@@ -1144,7 +1136,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "Converts titanium to the uranium (sic)",
 		unlocked: false,
 		ignorePriceCheck: true,
-		on: 0,
 		prices: [
 			{ name : "titanium",    val: 7500 },
 			{ name : "concrate",    val: 125  },
@@ -1259,7 +1250,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Mint",
 		description: "Produces luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
 		unlocked: false,
-		on: 0,
 		enabled: false,
 		prices: [
 			{ name : "minerals", val: 5000 },
@@ -1712,7 +1702,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && bld.val > 0){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					if (amt == 1 || (bld.togglable && bld.on == 0)) {
+					if (amt == 1 || bld.on == 0) {
 						bld.lackResConvert = false;
 					} else {
 						bld.lackResConvert = true;
@@ -1834,9 +1824,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.enabled != undefined){
 				bld.enabled = false;
 			}
-			if (bld.on != undefined){
-				bld.on = 0;
-			}
 
 			if (bld.upgradable){
 				bld.stage = 0;
@@ -1929,16 +1916,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
                 this.build(building);
             }
 
-			//TODO: fix this mess vvvvvvvvvvv
-			if (building.togglable && (!building.on)) {
-				building.on = 0;
-			}
-
-			if (building.togglableOnOff && building.enabled){
-				building.on = building.val;
-			}
-			//TODO: fix this mess ^^^^^^^^^^^
-
 			if (building.upgrades){
 				this.game.upgrade(building.upgrades);
 			}
@@ -1955,7 +1932,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             bld.val++;
 
             //to not force player re-click '+' button all the time
-            if (bld.on && bld.togglable && !bld.togglableOnOff){
+            if (bld.on){
                 bld.on++;
             }
 
@@ -1996,13 +1973,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	getName: function(lackResConvert){
 		var building = this.getMetadata();
 		if (building){
+			var name = this.getBuildingName();
 			if (building.togglable) {
-				var name = this.getBuildingName();
-
 				var prefix = (building.togglable && !building.togglableOnOff) ? ( building.on + "/" ) : "";
 				return name + " ("+ prefix + building.val + ")";
 			} else {
-				var name = this.getBuildingName();
 				return name + " (" + building.val + ")";
 			}
 		}
