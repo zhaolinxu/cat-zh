@@ -81,8 +81,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: Date.now(),
            energy: this.energy,
            flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "researched", "on"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "researched", "on"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "unlocked", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "unlocked", "on"]),
        };
     },
 
@@ -90,11 +90,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		this.energy = 0;
 		this.isAccelerated = false;
 
-		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
-			var bld = this.voidspaceUpgrades[i];
+		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
+			var bld = this.chronoforgeUpgrades[i];
 			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
-		for (var bld in this.chronoforgeUpgrades) {
+		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
+			var bld = this.voidspaceUpgrades[i];
 			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
     },
@@ -433,12 +434,6 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
     onClick: function(event){
         var self = this;
 		var meta = this.getMetadata();
-
-		if (meta.name == "usedCryochambers") {
-			return;
-		} else if (meta.name == "cryochambers" && this.getMetadata().val >= this.game.bld.get("chronosphere").val) {
-			return;
-		}
 
         this.animate();
 
