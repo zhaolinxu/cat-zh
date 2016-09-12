@@ -743,11 +743,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		requiredTech: ["chemistry"],
 		effects: {
 			"mineralsPerTickCon" : 0,
-			"ironPerTickCon" : 0,
+			"oilPerTickCon" : 0,
 			"ironPerTickAutoprod" : 0.15,
 			"titaniumPerTickAutoprod" : 0.0005,
-			"oilPerTickCon" : 0,
 			"energyConsumption" : 1,
+			"ironPerTickCon" : 0,
 			"coalPerTickCon": 0,
 			"steelPerTickProd": 0
 		},
