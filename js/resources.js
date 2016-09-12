@@ -447,7 +447,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var resAvailable = this.get(from[i].res).value;
 			var resNeeded = from[i].amt * amt;
 			if (resAvailable < resNeeded){
-				var amtAvailable = Math.floor(resAvailable / from[i].amt);
+				var amtAvailable = resAvailable / from[i].amt;
 				amt = Math.min(amt, amtAvailable);
 			}
 			else {
@@ -493,6 +493,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
 			this.addRes(res, resPerTick);
+
+			// Hack to reach the maxValue in resTable
+			if (res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {
+				res.value += -game.getResourcePerTickConvertion(res.name);
+			}
 
 		}
 

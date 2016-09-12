@@ -786,7 +786,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.timer = new com.nuclearunicorn.game.ui.Timer();
 
-
 		//Update village resource production.
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
 		this.timer.addEvent(dojo.hitch(this, function(){
@@ -798,9 +797,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}), 5);		//once per 5 ticks
 
 		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
-		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
 
-		this.timer.addEvent(dojo.hitch(this, function(){ this.resTable.update(); }), 1);	//once per tick
+		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
 		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
 
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
@@ -1807,6 +1805,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
+		this.resPool.update();
 		this.bld.update();
 
 		//business logic goes there
@@ -1838,7 +1837,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.timer.update();
 
-		this.resPool.update();
+
 	},
 
 	huntAll: function(event){

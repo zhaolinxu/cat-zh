@@ -139,6 +139,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateCalendar();
         this.updateUndoButton();
 
+        this.game.resTable.update();
+
         this.toolbar.update();
     },
 
