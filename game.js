@@ -1864,10 +1864,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getResourcePerTick: function(resName, withConversion){
 		var res = this.resPool.get(resName);
 		if (res.calculatePerTick) {
-			return withConversion ? res.perTickCached + this.getEffect(res.name + "PerTickCon") : res.perTickCached;
+			return withConversion ? res.perTickCached + this.getResourcePerTickConvertion(res.name) : res.perTickCached;
 		} else {
 			return 0;
 		}
+	},
+
+	getResourcePerTickConvertion: function(resName) {
+		return this.getEffect(resName + "PerTickCon");
 	},
 
 	craft: function(resName, value){
