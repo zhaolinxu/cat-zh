@@ -1999,7 +1999,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (building.togglable) {
 				var name = this.getBuildingName();
 
-				var prefix = building.tunable ? ( building.on + "/" ) : "";
+				var prefix = (building.togglable && !building.togglableOnOff) ? ( building.on + "/" ) : "";
 				return name + " ("+ prefix + building.val + ")";
 			} else {
 				var name = this.getBuildingName();
