@@ -363,12 +363,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if (this.day < 0) {
 		//------------------------- void -------------------------
-			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
 			this.game.time.flux-=0.0025;
 		}
 		//------------------------- relic -------------------------
 		else {
-			this.game.resPool.addRes("relic", this.game.getEffect("relicPerDay"), false);
+			this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay"));
 		}
 
 		//------------------------- astronomical events -------------------------
