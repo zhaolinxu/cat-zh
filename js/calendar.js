@@ -368,7 +368,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//------------------------- relic -------------------------
 		else {
-			this.game.resPool.addResEvent("relic", this.game.getEffect("relicPerDay"));
+			this.game.resPool.addRes("relic", this.game.getEffect("relicPerDay"), false);
 		}
 
 		//------------------------- astronomical events -------------------------
@@ -595,7 +595,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addRes(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
+			resPool.addResEvent(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
 		}
 	},
 
