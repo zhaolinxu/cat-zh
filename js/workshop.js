@@ -1744,6 +1744,24 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         unlocks: {
             voidSpace: ["voidHoover"]
         }
+    },{
+        name: "distorsion",
+        title: "Distorsion",
+        description: "Improve Chronocontrol effectiveness.",
+        effects: {
+			"temporalParadoxDayBonus": 2
+        },
+        prices:[
+            { name : "timeCrystal", val: 25 },
+            { name : "antimatter", val: 2000 },
+            { name : "void", val: 1000 },
+            { name : "science", val: 300000 }
+        ],
+        unlocked: false,
+        researched: false,
+        upgrades: {
+            voidSpace: ["chronocontrol"]
+        }
     }
     ],
 

@@ -198,13 +198,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         prices: [
 			{ name: "timeCrystal", val: 30 },
 			{ name: "void", val: 500 },
-			{ name: "temporalFlux", val: 5000}
+			{ name: "temporalFlux", val: 3000}
         ],
         priceRatio: 1.25,
         effects: {
 			"temporalParadoxDay": 1,
 			"energyConsumption": 15
         },
+		calculateEffects: function(self, game){
+			self.effects = {
+				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus"),
+				"energyConsumption": 15
+			};
+		},
         val: 0,
         unlocked: false
     }],

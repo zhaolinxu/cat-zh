@@ -844,10 +844,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 1000000},
 			{name: 	"timeCrystal", val: 40},
-			{name : "void",   val: 150}
+			{name : "void",   val: 250}
 		],
 		unlocks: {
-			voidSpace: ["chronocontrol"]
+			voidSpace: ["chronocontrol"],
+			upgrades: ["distorsion"]
 		}
 	}],
 

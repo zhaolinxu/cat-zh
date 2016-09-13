@@ -504,6 +504,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
 
+            "temporalParadoxDayBonus" :  {
+                title: "Day in temporal paradox",
+                type: "fixed"
+            },
+
 			"unicornsRatioReligion" :  {
                 title: "Unicorns bonus",
                 type: "ratio"
@@ -2554,6 +2559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	upgrade: function(list){
+		this.updateCaches();
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
