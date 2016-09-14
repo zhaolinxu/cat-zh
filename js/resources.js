@@ -393,8 +393,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addRes: function(res, addedValue) {
-		if (this.game.calendar.day < 0 && res.name != "void") {
+	addRes: function(res, addedValue, event) {
+		if (this.game.calendar.day < 0 && !event) {
 			return;
 		}
 
@@ -421,11 +421,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (isNaN(res.value) || res.value < 0){
 			res.value = 0;	//safe switch
 		}
+
+	},
+
+	addResPerTick: function(name, value){
+		this.addRes(this.get(name), value, false);
 	},
 
 	addResEvent: function(name, value){
-		var res = this.get(name);
-		this.addRes(res, value);
+		this.addRes(this.get(name), value, true);
 	},
 
 	/**
@@ -457,7 +461,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		// Remove from resources
 		for (var i in from) {
-			this.addRes(this.get(from[i].res), -from[i].amt * amt);
+			this.addResPerTick(from[i].res, -from[i].amt * amt);
 		}
 
 		// Return the percentage to decrease the productivity
@@ -492,7 +496,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			this.game.updateKarma();
 
 			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
-			this.addRes(res, resPerTick);
+			this.addResPerTick(res.name, resPerTick);
 
 			// Hack to reach the maxValue in resTable
 			if (res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {

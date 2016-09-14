@@ -368,12 +368,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if (this.day < 0) {
 		//------------------------- void -------------------------
-			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity());
+			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
 			this.game.time.flux-=0.0025;
 		}
 		//------------------------- relic -------------------------
 		else {
-			this.game.resPool.addResEvent("relic", this.game.getEffect("relicPerDay"));
+			this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay"));
 		}
 
 		//------------------------- astronomical events -------------------------
@@ -600,7 +600,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addRes(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
+			resPool.addResEvent(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
 		}
 	},
 

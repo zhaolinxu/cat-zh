@@ -1444,9 +1444,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
-		if (this.calendar.day < 0) {
-			return null;
-		}
 
 		var res = null;
 		for (var i = 0; i < this.resPool.resources.length; i++){

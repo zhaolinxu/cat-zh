@@ -146,7 +146,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		//enable hidden generation bonus once first AC was unlocked
 		if (alicorns.value > 0) {
-			this.game.resPool.addRes(alicorns, apt);
+			this.game.resPool.addResPerTick("alicorns", apt);
 		}
 	},
 
