@@ -1,3 +1,9 @@
+v 1.2.1.2 (14 sep)
+
+Chronocontrol controls days in temporal paradox
+Style improvements
+Fixes and optimizations
+
 v 1.2.1.1 (10 sep)
 
 Containment chambers energy requirement was reduced from 50 to 25
