@@ -217,9 +217,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 0.5,
+			"ivoryMeteorRatio" : 0.05,
 			"alicornChance" : 5,
-			"alicornPerTick" : 0.00001,
-			"ivoryMeteorRatio" : 0.05
+			"alicornPerTick" : 0.00001
 		},
 		val: 0,
 		unlocked: false,
@@ -238,9 +238,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 2.5,
+			"ivoryMeteorRatio" : 0.15,
 			"alicornChance" : 15,
 			"alicornPerTick" : 0.000025,
-			"ivoryMeteorRatio" : 0.15,
 			"tcRefineRatio" : 0.05
 		},
 		val: 0,
@@ -262,10 +262,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 5,
+			"ivoryMeteorRatio" : 0.5,
 			"alicornChance" : 30,
 			"alicornPerTick" : 0.00005,
-			"tcRefineRatio": 0.1,
-			"ivoryMeteorRatio" : 0.5
+			"tcRefineRatio": 0.1
 		},
 		val: 0,
 		unlocked: false,
