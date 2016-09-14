@@ -600,7 +600,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addResEvent(resPool.get("antimatter"), this.game.getEffect("antimatterProduction"));
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
 	},
 
