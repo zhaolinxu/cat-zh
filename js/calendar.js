@@ -258,7 +258,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	cycleEffects: function(effects, building_name){
+	cycleEffectsBasics: function(effects, building_name) {
 		if (this.game.prestige.getPerk("numerology").researched){
 			var list_effects_cycle = this.cycles[this.cycle].effects;
 
@@ -270,10 +270,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-		if (this.game.prestige.getPerk("numeromancy").researched&&this.game.calendar.festivalDays){
+		return effects;
+	},
+
+	cycleEffectsFestival: function(effects) {
+		if (this.game.prestige.getPerk("numeromancy").researched && this.game.calendar.festivalDays){
 			var list_festivalEffects_cycle = this.cycles[this.cycle].festivalEffects;
 
 			for (var effect in effects) {
+
 				var effect_cycle = effect;
 				if (typeof list_festivalEffects_cycle[effect_cycle] !== "undefined") {
 					effects[effect] *= list_festivalEffects_cycle[effect_cycle];
