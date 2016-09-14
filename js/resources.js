@@ -674,7 +674,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
     getVoidQuantity: function() {
 		// -1, 0, 1, 2 at start, 0.5 on average
-		var maxPerDay = 2 + this.game.getEffect("voidRatio");
+		var maxPerDay = 2 + this.game.getEffect("temporalParadoxVoid");
 		var i = this.game.rand(maxPerDay + 2) - 1;
 
 		// Only integer
