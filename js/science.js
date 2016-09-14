@@ -838,7 +838,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "paradoxalKnowledge",
 		title: "Paradoxal Knowledge",
 		description: "",
-		effectDesc: "Unlocks Paradoxal Knowledge",
+		effectDesc: "Unlocks Chronocontrol and Ressource Retrieval",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -847,6 +847,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "void",   val: 250}
 		],
 		unlocks: {
+			chronoforge: ["ressourceRetrieval"],
 			voidSpace: ["chronocontrol"],
 			upgrades: ["distorsion"]
 		}

@@ -146,6 +146,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         },
         val: 0,
         unlocked: true
+    },{
+        name: "ressourceRetrieval",
+        label: "Ressource Retrieval",
+        description: "Retrieve part of your yearly ressources when you shatter TC",
+        prices: [
+            { name : "timeCrystal", val: 1000 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+            "shatterTCGain" : 0.01
+        },
+        val: 0,
+        unlocked: false
     }],
 
     voidspaceUpgrades: [{
@@ -307,6 +320,15 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         }
 
         game.time.flux += amt;
+
+		var shatterTCGain = game.getEffect("shatterTCGain");
+		if (shatterTCGain > 0) {
+			for (var i = 0; i < game.resPool.resources.length; i++){
+				var res = game.resPool.resources[i];
+				var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
+				game.resPool.addResEvent(res.name, valueAdd);
+			}
+		}
     },
 
     /**
