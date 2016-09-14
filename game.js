@@ -1411,13 +1411,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += this.getEffect(res.name + "PerTickSpace") *spaceRatio;
 
 		//CYCLE EFFECTS
-		//Building dependent, will be a pain to move over. I'll do it later.
+		// Already added because it's space building improvements.
 
 		//CYCLE FESTIVAL EFFECTS
 
 		var effects = {};
 		effects[resName] = perTick;
-		this.calendar.cycleEffects(effects);
+		this.calendar.cycleEffectsFestival(effects);
 		perTick = effects[resName];
 
 		// +BUILDING AND SPACE PerTick
@@ -1470,6 +1470,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
+			spaceRatio -= 1;
 		}
 
 		// +SPACE PerTickBase
@@ -1671,13 +1672,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//<----
 		stack.push(perTickSpace);
 
-		//CYCLE EFFECTS
-		//Building dependent, will be a pain to move over. I'll do it later.
+		//CYCLE EFFECT
+		// Can't be displayed because it's space building improvements.
 
 		//CYCLE FESTIVAL EFFECTS
 		var effects = {};
 		effects[res.name] = 1;
-		this.calendar.cycleEffects(effects);
+		this.calendar.cycleEffectsFestival(effects);
 		var cycleEffect = effects[resName]-1;
 
 		stack.push({
@@ -2572,7 +2573,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
 					if (type == "space") {
-						this.calendar.cycleEffects(item.effects, item.name);
+						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}
 			}

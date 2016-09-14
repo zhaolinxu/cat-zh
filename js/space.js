@@ -317,7 +317,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			calculateEffects: function(self, game){
 				self.effects = {
-					"energyConsumption": 5
+					"energyConsumption": 5,
+					"uraniumPerTickCon": 0,
+					"unobtainiumPerTickSpace": 0
 				};
 			},
 			lackResConvert: false,
@@ -822,6 +824,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				if (bld.action && bld.val > 0){
 					bld.action(this.game, bld);
+					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
 			}
 		}

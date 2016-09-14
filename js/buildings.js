@@ -783,6 +783,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				// Second conversion of some of the iron that was just created, to steel
 				var difference = self.effects["ironPerTickAutoprod"] * steelRatio * game.bld.getAutoProductionRatio(); //HACK
+				// Cycle Effect
+				var effectsTemp = {};
+				effectsTemp["iron"] = difference;
+				game.calendar.cycleEffectsFestival(effectsTemp);
+				difference = effectsTemp["iron"];
+
 				self.effects["ironPerTickCon"] = -difference;
 				self.effects["coalPerTickCon"] = -difference;
 				self.effects["steelPerTickProd"] = difference / 100;
@@ -1601,11 +1607,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		// reactors
 		autoProdRatio *= (1 + this.game.getEffect("productionRatio"));
-
-		var effects = {};
-		effects["iron"] = autoProdRatio; // Iron because Steel Plants
-		this.game.calendar.cycleEffects(effects);
-		autoProdRatio = effects["iron"];
 
 		return autoProdRatio;
 
