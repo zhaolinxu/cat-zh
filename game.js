@@ -530,12 +530,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
 			"alicornChance" :  {
-                title: "Alicorn descent chance",
+                title: "Alicorns descent chance",
                 type: "fixed"
             },
 
 			"tcRefineRatio" :  {
-                title: "Time crystal refine bonus",
+                title: "Alicorns sacrifice bonus",
                 type: "ratio"
             },
 
