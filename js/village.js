@@ -166,7 +166,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case trait == "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "faith") {
-								defaultObject[i].val = defaultObject[i].val / 0.9;
+								defaultObject[i].val = defaultObject[i].val * 0.9;
 							}
 							if (defaultObject[i].name == "gold") {
 								defaultObject[i].val = defaultObject[i].val * 0.9;
