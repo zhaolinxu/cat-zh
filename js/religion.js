@@ -1302,7 +1302,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
 		dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
 
-		var hasCT = this.game.science.get("cryptotheology").researched;
+		var hasCT = this.game.science.get("cryptotheology").researched && game.religion.tclevel > 0;
 		if (hasCT){
 			this.ctPanel.setVisible(true);
 		}
