@@ -983,7 +983,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		if (!data){
-			this.updateCaches();
 			this.calculateAllEffects();
 			this.updateOptionsUI();
 			return;
@@ -1013,7 +1012,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// Calculate effects (needs to be done after all managers are loaded)
-		this.updateCaches();
 		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
