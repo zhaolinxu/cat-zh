@@ -1074,6 +1074,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var tdAmt = dojo.create("td", null, tr);
 			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 
+			this.game.attachTooltip(tdAmt, res);
+
 			//	---------------- + ----------------------
 
 			var a1 = this.createCraftButton(tr, recipe, craftRatio, res, 1, 0.01);
