@@ -1102,6 +1102,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		effects: {
 			"uraniumPerTick" : 0,
+			"thoriumPerTick": 0,
 			"productionRatio": 0,
 			"uraniumMax" : 0,
 			"energyProduction" : 0
@@ -1114,25 +1115,31 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			var effects = {
-				"uraniumPerTick" : -0.001,
+				"uraniumPerTick" : 0,
+				"thoriumPerTick": 0,
 				"productionRatio": 0.05,
 				"uraniumMax" : 250,
-				"energyProduction" : 10
+				"energyProduction" : 0
 			};
 
-			effects["uraniumPerTick"] *= (1 - game.getEffect("uraniumRatio"));
-            effects["energyProduction"] *= ( 1+ game.getEffect("reactorEnergyRatio"));
+			effects["uraniumPerTick"]= -0.001 * (1 - game.getEffect("uraniumRatio"));
 
 			self.effects = effects;
 		},
 		action: function(self, game){
-			var uranium = game.resPool.get("uranium");
-
-			self.effects["uraniumPerTick"]= -0.001 * (1 - game.getEffect("uraniumRatio"));
-
-			if (uranium.value+self.effects["uraniumPerTick"] <= 0){
+			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0){
 				self.on = 0;
 				self.enabled = false;
+			}
+
+			self.effects["thoriumPerTick"] = game.getEffect("reactorThoriumPerTick");
+			self.effects["energyProduction"] = 10 * ( 1+ game.getEffect("reactorEnergyRatio"));
+
+			if (game.workshop.get("thoriumReactors").researched) {
+				if (game.resPool.get("thorium").value == 0) {
+					self.effects["thoriumPerTick"] = 0;
+					self.effects["energyProduction"] -= 2.5;
+				}
 			}
 		},
 		flavor: "Glowing mice are much easier to catch!"

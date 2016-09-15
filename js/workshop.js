@@ -1569,8 +1569,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		researched: false
-	},
-    {
+	},{
         name: "coldFusion",
         title: "Cold Fusion",
         description: "Increase Reactors energy output by 25%",
@@ -1586,25 +1585,24 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         },
         unlocked: false,
         researched: false
+    },{
+        name: "thoriumReactors",
+        title: "Thorium Reactors",
+        description: "Increase Reactors energy output by 25% by the addition of thorium",
+        effects: {
+            "reactorEnergyRatio": 0.25,
+            "reactorThoriumPerTick": -0.05
+        },
+        prices:[
+            { name : "thorium",  val: 10000 },
+            { name : "science",  val: 400000 }
+        ],
+        upgrades: {
+            buildings: ["reactor"]
+        },
+        unlocked: false,
+        researched: false
     },
-    {
-		name: "oilRefinery",
-		title: "Oil Refinery",
-		description: "Improves effectiveness of oil wells by 35%",
-		effects: {
-			"oilWellRatio" : 0.35
-		},
-		prices:[
-			{ name : "titanium", val: 1250 },
-			{ name : "gear", 	 val: 500 },
-			{ name : "science",  val: 125000 }
-		],
-		upgrades: {
-			buildings: ["oilWell"]
-		},
-		unlocked: false,
-		researched: false
-	},
 	//------------------- starcharts / space ----------------
 	{
 		name: "hubbleTelescope",
@@ -1699,6 +1697,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	//------------------- oil --------------------------
     {
+		name: "oilRefinery",
+		title: "Oil Refinery",
+		description: "Improves effectiveness of oil wells by 35%",
+		effects: {
+			"oilWellRatio" : 0.35
+		},
+		prices:[
+			{ name : "titanium", val: 1250 },
+			{ name : "gear", 	 val: 500 },
+			{ name : "science",  val: 125000 }
+		],
+		upgrades: {
+			buildings: ["oilWell"]
+		},
+		unlocked: false,
+		researched: false
+	},{
         name: "oilDistillation",
         title: "Oil Distillation",
         description: "Oil output is improved by 75%.",
@@ -1728,7 +1743,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         unlocked: false,
         researched: false
-    },{
+    },
+    //---------------- Void Space ---------------
+    {
         name: "voidAspiration",
         title: "Void Aspiration",
         description: "Unlocks Void Hoover.",
