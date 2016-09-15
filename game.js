@@ -568,6 +568,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: "Max resources bonus",
                 type: "ratio"
             },
+
+            "shatterTCGain" :  {
+                title: "Shatter TC ressources retrieved",
+                type: "ratio"
+            },
+
             // cycleEffects
             "prodTransferBonus_cycleEffect" : {
                 title: "Zodiac effect Production transfer bonus",
@@ -2527,6 +2533,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "space":
 				var planet = this.space.getPlanet(unlockId.planet);
 				return this.space.getMeta(unlockId.bld, planet.buildings);
+			case "chronoforge":
+				return this.time.getCFU(unlockId);
 			case "voidSpace":
 				return this.time.getVSU(unlockId);
 			case "stages":
