@@ -172,6 +172,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycle: 0,
 	cycleYear: 0,
 	yearsPerCycle: 5,
+	calendarSignSpanTooltip: null,
 
 	daysPerSeason: 100,
 	day: 0,
@@ -245,6 +246,113 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	constructor: function(game, displayElement) {
 		this.game = game;
 		this.displayElement = displayElement;
+	},
+
+	render: function() {
+		var calendarSignSpan = dojo.byId("calendarSign");
+           var cycle = this.cycles[this.cycle];
+           if (cycle){
+			this.calendarSignSpanTooltip = this.attachTooltip(calendarSignSpan, dojo.partial(function(cycle) {
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+
+				var cycleSpan = dojo.create("div", {
+					innerHTML: cycle.title + " (Year " + game.calendar.cycleYear+")",
+					style: { float: "right"}
+				}, tooltip );
+
+				// Cycle Effects
+				if (this.game.prestige.getPerk("numerology").researched) {
+					var cycleSpan = dojo.create("div", {
+						innerHTML: "Cycle Effects",
+						style: { clear: "left", textDecoration: "underline"}
+					}, tooltip );
+
+					var effects = cycle.effects;
+
+					for (var effect in effects){
+						var effectItemNode = dojo.create("div", null, tooltip);
+
+						var effectMeta = game.getEffectMeta(effect);
+						effectTitle = typeof(effectMeta) != "undefined" ? effectMeta.title : effect;
+
+						var nameSpan = dojo.create("span", {
+							innerHTML: effectTitle,
+							style: { float: "left"}
+						}, effectItemNode );
+
+						var effectMod = effects[effect] > 1 ? "+": "";
+						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
+
+						var effectSpan = dojo.create("span", {
+							innerHTML: effectMod,
+							style: {float: "right", paddingLeft: "6px" }
+						}, effectItemNode );
+					}
+				}
+
+				if (this.game.prestige.getPerk("numeromancy").researched && this.game.calendar.festivalDays) {
+					// Cycle Festival Effects
+					var cycleSpan = dojo.create("div", {
+						innerHTML: "Cycle Festival Effects",
+						style: { clear: "left", textDecoration: "underline"}
+					}, tooltip );
+
+					var effects = cycle.festivalEffects;
+
+					for (var effect in effects){
+						var effectItemNode = dojo.create("div", null, tooltip);
+
+						var effectMeta = game.getEffectMeta(effect);
+						effectTitle = typeof(effectMeta) != "undefined" ? effectMeta.title : effect;
+
+						var nameSpan = dojo.create("span", {
+							innerHTML: effectTitle,
+							style: { float: "left"}
+						}, effectItemNode );
+
+						var effectMod = effects[effect] > 1 ? "+": "";
+						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
+
+						var effectSpan = dojo.create("span", {
+							innerHTML: effectMod,
+							style: {float: "right", paddingLeft: "6px" }
+						}, effectItemNode );
+
+						var effectSpan = dojo.create("span", {
+							innerHTML: "&nbsp;",
+							style: {clear: "both" }
+						}, effectItemNode );
+					}
+				}
+				return tooltip.outerHTML;
+
+			}, cycle));
+		}
+	},
+
+	attachTooltip: function(container, htmlProvider){
+		var tooltip = dojo.byId("tooltip");
+		dojo.empty(tooltip);
+
+		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
+			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
+
+			 var target = event.originalTarget || event.toElement;	//fucking chrome
+			 var pos = $(target).position();
+			 if (!pos){
+				 return;
+			 }
+
+			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
+			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+
+			 dojo.setStyle(tooltip, "display", "");
+
+	    }, tooltip, htmlProvider));
+
+		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
+			 dojo.setStyle(tooltip, "display", "none");
+		}, tooltip, container));
 	},
 
 	/* Return the whole number of days elapsed in the season, correcting for
@@ -597,6 +705,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.upgrade({
 			space: spaceBuildingsMap
 		});
+
+		this.render();
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {

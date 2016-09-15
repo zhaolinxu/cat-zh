@@ -574,27 +574,57 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-            // cycleEffects
-            "prodTransferBonus_cycleEffect" : {
-                title: "Zodiac effect Production transfer bonus",
+			// cycleEffects
+			"spaceElevator-prodTransferBonus": {
+                title: "Space Elevator: Transferred cath production bonus",
                 type: "ratio"
             },
-            "starchartPerTickBase_cycleEffect" : {
-                title: "Zodiac effect Starchart production",
+
+			"sattelite-starchartPerTickBaseSpace": {
+                title: "Sattelite: Startchar production",
                 type: "ratio"
             },
-            "observatoryRatio_cycleEffect" : {
-                title: "Zodiac effect Observatory's science ratio",
+
+			"sattelite-observatoryRatio": {
+                title: "Sattelite: Observatory's science ratio",
                 type: "ratio"
             },
-            "energyConsumption_cycleEffect" : {
-                title: "Zodiac effect Energy consumption",
+
+			"spaceStation-scienceRatio": {
+                title: "Space Station: Science bonus",
                 type: "ratio"
             },
-            "uraniumPerTick_cycleEffect" : {
-                title: "Zodiac effect Uranium production",
+
+			"moonOutpost-unobtainiumPerTickSpace": {
+                title: "Lunar Outpost: Unobtainium conversion",
+                type: "ratio"
+            },
+
+			"planetCracker-uraniumPerTickSpace": {
+                title: "Planet Cracker: Uranium conversion",
+                type: "ratio"
+            },
+
+			"hydrofracturer-oilPerTickAutoprodSpace": {
+                title: "Hydraulic Fracturer: Oil conversion",
+                type: "ratio"
+            },
+
+			"researchVessel-starchartPerTickBaseSpace": {
+                title: "Research Vessel: Starchart production",
+                type: "ratio"
+            },
+
+			"sunlifter-energyProduction": {
+                title: "Sunlifter: Energy production",
+                type: "ratio"
+            },
+
+			"spaceBeacon-starchartPerTickBaseSpace": {
+                title: "Space Beacon: Starchart production",
                 type: "ratio"
             }
+
 		}
 	}
 });

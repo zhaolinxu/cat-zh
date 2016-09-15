@@ -67,6 +67,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         game.resTable.render();
         game.craftTable.render();
+        game.calendar.render();
 
         var visibleTabs = [];
 
@@ -203,7 +204,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var cycle = calendar.cycles[calendar.cycle];
             if (cycle){
                 calendarSignSpan.innerHTML = cycle.glyph;
-                calendarSignSpan.title = cycle.title + " (Year "+calendar.cycleYear+")";
             }
         } else {
             calendarDiv.textContent = calendar.seasons[calendar.season].title;
