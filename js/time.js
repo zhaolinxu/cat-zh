@@ -183,6 +183,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         description: "Increase the maximum of void per days in Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 10 },
+			{ name: "void", val: 250 },
 			{ name: "antimatter", val: 1000 }
         ],
         priceRatio: 1.25,
