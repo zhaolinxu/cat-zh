@@ -35,6 +35,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 100,
 		unlocks: {
+			buildings: ["barn"],
 			tech: ["mining", "archery"],
 			jobs: ["farmer"]
 		},
@@ -64,6 +65,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 500,
 		unlocks: {
+			buildings: ["mine"],
 			tech: ["metal"],
 			upgrades: ["bolas"]
 		},
@@ -79,6 +81,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 900,
 		unlocks: {
+			buildings: ["smelter"],
 			upgrades: ["huntingArmor"]
 		}
 	},
@@ -92,6 +95,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 500,	//mostly does nothing, so price is lower
 		unlocks: {
+			buildings: ["pasture", "unicornPasture"],
 			tech: ["civil", "math", "construction"]
 			//crafts: ["leather"]
 		}
@@ -131,6 +135,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 1000,
 		unlocks: {
+			buildings: ["academy"],
 			upgrades: ["celestialMechanics"],
 			tabs: ["stats"]
 		},
@@ -145,6 +150,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 1300,
 		unlocks: {
+			buildings: ["logHouse", "warehouse", "lumberMill", "ziggurat"],
 			tech: ["engineering"],
 			upgrades: ["compositeBow", "advancedRefinement", "reinforcedSaw"]
 		},
@@ -159,6 +165,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 1500,
 		unlocks: {
+			buildings: ["aqueduct"],
 			tech: ["writing"]
 		}
 	},{
@@ -171,6 +178,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 2200,
 		unlocks: {
+			buildings: ["tradepost"],
 			upgrades: ["goldOre"]
 		}
 	},{
@@ -183,6 +191,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 3600,
 		unlocks: {
+			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
 			upgrades: ["register"],
 			crafts: ["parchment"]
@@ -198,6 +207,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 9500,
 		unlocks: {
+			buildings: ["temple"],
 			tech: ["theology"],
 			crafts: ["compedium"]
 		},
@@ -213,6 +223,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 15000,
 		unlocks: {
+			buildings: ["steamworks"],
 			upgrades: ["printingPress", "factoryAutomation", "crossbow"]
 		}
 	},{
@@ -262,6 +273,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"manuscript", val: 65}
 		],
 		unlocks: {
+			buildings: ["observatory"],
 			tech: ["navigation"]
 		}
 	},{
@@ -277,6 +289,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"manuscript", val: 100}
 		],
 		unlocks: {
+			buildings: ["harbor"],
 			tech: ["physics", "archeology", "architecture"],
 			crafts: ["ship"],
 			upgrades: ["caravanserai", "cargoShips", "astrolabe",
@@ -294,6 +307,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 10}
 		],
 		unlocks: {
+			buildings: ["mansion", "mint"],
 			tech: ["acoustics"]
 		},
 		flavor: "Bigger, better cat towers!"
@@ -336,6 +350,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 50}
 		],
 		unlocks: {
+			buildings: ["calciner", "oilWell"],
 			upgrades: ["alloyAxe", "alloyArmor", "alloyWarehouses", "alloyBarns"],
 			crafts: ["alloy"]
 		}
@@ -351,6 +366,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 60}
 		],
 		unlocks: {
+			buildings: ["chapel"],
 			tech: ["drama"]
 		}
 	},{
@@ -376,6 +392,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 65}
 		],
 		unlocks: {
+			buildings: ["quarry"],
 			tech: ["biology"],
 			jobs: ["geologist"],
 			upgrades:["geodesy"]
@@ -393,6 +410,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 85}
 		],
 		unlocks: {
+			buildings: ["magneto"],
 			tech: ["industrialization"]
 		},
 		flavor: "Who knew running around on the carpet could generate such power?"
@@ -408,6 +426,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 100}
 		],
 		unlocks: {
+			buildings: ["biolab"],
 			tech: ["biochemistry"]
 		}
 	},{
@@ -466,6 +485,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
+			buildings: ["factory"],
 			tech: ["electronics"],
 			crafts: ["concrate"],
 			upgrades: ["pumpjack", "strenghtenBuild"]
@@ -512,7 +532,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-			stages: [{bld:"pasture",stage:1}]
+			stages: [{bld:"pasture",stage:1}] // Solar Farm
 		}
 	},
 	{
@@ -527,9 +547,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 70}
 		],
 		unlocks: {
+			stages: [{bld:"amphitheatre",stage:1}], // Broadcast Tower
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics"],
-            stages: [{bld:"amphitheatre",stage:1}]
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics"]
 		}
 	},{
 		name: "robotics",
@@ -543,9 +563,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 80}
 		],
 		unlocks: {
+			stages: [{bld:"aqueduct",stage:1}], // Hydro Plant
 			upgrades: ["steelPlants", "rotaryKiln"],
-			crafts: ["tanker"],
-			stages: [{bld:"aqueduct",stage:1}]
+			crafts: ["tanker"]
 		}
 	},{
 		name: "nuclearFission",
@@ -559,6 +579,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 100}
 		],
 		unlocks: {
+			buildings: ["reactor"],
 			tech: ["nanotechnology", "particlePhysics"],
 			upgrades: ["reactorVessel", "nuclearSmelters"]
 		}
@@ -756,6 +777,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 135}
 		],
 		unlocks: {
+			buildings: ["accelerator"],
 			tech: ["chronophysics", "dimensionalPhysics"],
 			upgrades: ["enrichedUranium", "railgun"]
 		}
@@ -784,6 +806,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"timeCrystal", val: 5}
 		],
 		unlocks: {
+			buildings: ["chronosphere"],
 			tech: ["tachyonTheory"],
 			upgrades: ["stasisChambers", "fluxCondensator"]
 		}
