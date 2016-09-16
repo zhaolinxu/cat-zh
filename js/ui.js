@@ -202,7 +202,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
-            if (cycle){
+            if (cycle && this.game.science.get("astronomy").researched){
                 calendarSignSpan.innerHTML = cycle.glyph;
             }
         } else {
