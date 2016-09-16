@@ -487,8 +487,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			amt += amt*ratio;
 
 			var resValue = amt + amt*tradeRatioAttitude;
-			if (race.name == "leviathans")
-				amt += amt*0.1*race.energy;
+			if (race.name == "leviathans") {
+				amt += amt * 0.02 * race.energy;
+			}
 
 			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
 			this.game.resPool.addResEvent(s.name, resValue);
