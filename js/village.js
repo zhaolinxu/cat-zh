@@ -286,7 +286,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			res["manpower"] += 0.15;	//zebras are a bit stronger than kittens
 		}
 		if (zebras.value > 1){
-			 res["manpower"] += this.game.bld.getHyperbolicEffect((zebras.value-1) * 0.05, 2);
+			 res["manpower"] += this.game.getHyperbolicEffect((zebras.value-1) * 0.05, 2);
 		}
 
 		return res;

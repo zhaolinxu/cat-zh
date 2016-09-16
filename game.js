@@ -856,16 +856,24 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.dropBoxClient = dropBoxClient;
 	},
 
+	/**
+	 * Management of effects
+	 */
 	getEffectMeta: function(effectName) {
+		// Try to create Meta automatically, if it fails, check statics, if it fails, by default
 		var effectMetaDynamic = this.effectsMgr.effectMeta(effectName);
 		if (effectMetaDynamic != 0) {
 			return effectMetaDynamic;
 		} else {
-			return this.effectsMgr.statics.effectMeta[effectName];
+			var effectMetaStatic = this.effectsMgr.statics.effectMeta[effectName]
+			if (typeof(effectMetaStatic) != "undefined") {
+				return this.effectsMgr.statics.effectMeta[effectName];
+			} else {
+				return { title: effectName };
+			}
 		}
 	},
 
-	// TODO: store all managers in a single array and handle them in the common way
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
@@ -883,6 +891,41 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// TODO : village cache
 
 		this.updateResources();
+	},
+
+	// Returns a parabolic-approaching value of the effect that heads to the limit, but unable to approach it completely
+	// Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
+	getHyperbolicEffect: function(effect, limit){
+		var absEffect = Math.abs(effect);
+
+		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
+
+		if (absEffect <= maxUndiminished) {
+			//Not high enough for diminishing returns to apply
+			return effect < 0 ? -absEffect : absEffect;
+		}
+
+		var diminishedPortion = absEffect - maxUndiminished;
+
+		var delta = 0.25*limit; //Lower values will approach 1 more quickly.
+
+		// The last 25% will approach .25 but cannot actually reach it
+		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*0.25*limit;
+
+		var totalEffect = maxUndiminished+diminishedEffect;
+
+		return effect < 0 ? -totalEffect : totalEffect;
+	},
+
+	isHyperbolic: function(name) {
+		if (name == "fursDemandRatio" ||
+			name == "ivoryDemandRatio" ||
+			name == "spiceDemandRatio" ||
+			name == "unhappinessRatio") {
+			return true;
+		} else {
+		 return false;
+		}
 	},
 
 	/**
@@ -1092,8 +1135,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//------------------------------------
 
 		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 || this.time.getVSU("usedCryochambers").val > 0);
-		this.libraryTab.visible = (this.bld.getBuilding("library").val > 0);
-		this.workshopTab.visible = (this.bld.getBuilding("workshop").val > 0);
+		this.libraryTab.visible = (this.bld.get("library").val > 0);
+		this.workshopTab.visible = (this.bld.get("workshop").val > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
 
 		if (this.karmaKittens > 0 || this.science.get("math").researched ) {
@@ -2349,7 +2392,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-		bonusZebras += Math.floor(this.bld.getHyperbolicEffect(totalScience / 10000, 100));
+		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
 		if (this.resPool.get("zebras").value > 0 && this.ironWill){
 			this.karmaZebras += bonusZebras;
 		}
@@ -2695,7 +2738,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
 			gift = "Metaphysics";
 		}
-		if(this.bld.getBuilding("chronosphere").val) {
+		if(this.bld.get("chronosphere").val) {
 			gift = "Compendiums";
 		}
 

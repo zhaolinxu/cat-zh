@@ -327,7 +327,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	getParagonProductionRatio: function(){
 		var paragonRatio = this.game.resPool.get("paragon").value * 0.01 * this.getParagonRatio();
-		return this.game.bld.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
+		return this.game.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
 	},
 
 	getParagonStorageRatio: function(){
@@ -352,11 +352,6 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 			this.perk = this.game.prestige.getPerk(this.id);
 		}
 		return this.perk;
-	},
-
-	//what a disgrace
-	getBuilding: function(){
-		return this.getPerk();
 	},
 
 	getPrices: function(){

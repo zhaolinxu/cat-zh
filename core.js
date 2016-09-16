@@ -1081,22 +1081,19 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
 
-				if (!effectMeta) {
-					effectMeta = {};
-				}
-				var displayEffectName = effectMeta.title || effectName;
-
 				if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
 				}
+
+				var displayEffectName = effectMeta.title;
+
+				var displayEffectValue = "";
 
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
 					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
 					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
 				}
-
-				var displayEffectValue;
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
