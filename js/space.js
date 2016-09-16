@@ -921,7 +921,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
         }
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
-                var reductionRatio = this.game.bld.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
             }
         }

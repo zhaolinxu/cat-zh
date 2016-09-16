@@ -273,7 +273,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 						var effectItemNode = dojo.create("div", null, tooltip);
 
 						var effectMeta = game.getEffectMeta(effect);
-						effectTitle = typeof(effectMeta) != "undefined" ? effectMeta.title : effect;
+						var effectTitle = effectMeta.title;
 
 						var nameSpan = dojo.create("span", {
 							innerHTML: effectTitle,
@@ -303,7 +303,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 						var effectItemNode = dojo.create("div", null, tooltip);
 
 						var effectMeta = game.getEffectMeta(effect);
-						effectTitle = typeof(effectMeta) != "undefined" ? effectMeta.title : effect;
+						var effectTitle = effectMeta.title;
 
 						var nameSpan = dojo.create("span", {
 							innerHTML: effectTitle,

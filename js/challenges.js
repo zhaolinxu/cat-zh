@@ -76,11 +76,6 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		return this.meta;
 	},
 
-	//what a disgrace
-	getBuilding: function(){
-		return this.getMeta();
-	},
-
 	getPrices: function(){
 		var price = [{}];
 		return price;

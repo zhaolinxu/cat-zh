@@ -2101,7 +2101,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val *
-					(1 - this.game.bld.getHyperbolicEffect(
+					(1 - this.game.getHyperbolicEffect(
 						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
 						0.75));
 			}

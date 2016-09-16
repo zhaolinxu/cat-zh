@@ -149,12 +149,6 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
         tooltip += "* Penalty base: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
 		tooltip += "* Penalty mitigated: " + -this.game.getDisplayValueExt(unhappinessReduction, false, false, 0) + "%<br>";
 
-		/*var amphitheatre = this.game.bld.getBuilding("amphitheatre");
-		if (amphitheatre.unlocked){
-			tooltip += "*&nbsp;Amphitheaters:" + */
-
-
-
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
             tooltip += "Overpopulation: -" + overpopulation*2 + "%<br>";
