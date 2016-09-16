@@ -332,7 +332,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		craftable: true,
-		color: "#4EA24E"
+		color: "#4EA24E",
+		calculatePerTick: true
 	},{
 		name : "megalith",
 		type : "common",
