@@ -162,7 +162,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Catnip field",
 		description: "Plant some catnip to grow in the village. "+
 			"Fields have +50% production in Spring and -75% production in Winter",
-		unlocked: false,
 		prices: [{ name : "catnip", val: 10 }],
 		effects: {
 			"catnipPerTickBase": 0.125
@@ -174,7 +173,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	{
 		name: "pasture",
 		upgradable: true,
-		unlocked: false,
 		stages: [
 			{
 				label: "Pasture",
@@ -183,7 +181,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects: {
 					"catnipDemandRatio": -0.005
 				},
-				requiredTech: ["animal"],
 				priceRatio: 1.15,
 				flavor: "Take a pint o' milk, Sir!",
 				stageUnlocked : true
@@ -195,7 +192,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects: {
 					"energyProduction": 2
 				},
-				requiredTech: ["ecology"],
 				priceRatio: 1.15,
 				stageUnlocked : false
 			}
@@ -223,8 +219,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "aqueduct",
 		label: "Aqueduct",
 		upgradable: true,
-		unlocked: false,
-		requiredTech: ["engineering"],
 		stages: [
 			{
 				label: "Aqueduct",
@@ -276,7 +270,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "hut",
 		label: "Hut",
 		description: "Build a hut (each has a space for 2 kittens). Kittens need catnip to eat, or they will die.<br>Every kitten consumes about 4 catnip/s",
-		unlocked: false,
 		prices: [{ name : "wood", val: 5 }],
 		effects: {
 			"maxKittens": 2,
@@ -296,14 +289,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "logHouse",
 		label: "Log House",
 		description: "Build a house (each has a space for 1 kitten)",
-		unlocked: false,
 		prices: [{ name : "wood", val: 200 }, { name : "minerals", val: 250 }],
 		effects: {
 			"maxKittens": 1,
 			"manpowerMax": 50
 		},
 		priceRatio: 1.15,
-		requiredTech: ["construction"],
 		breakIronWill: true,
 		val: 0,
 		flavor : "The Cabin in the Woods"
@@ -311,7 +302,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "mansion",
 		label: "Mansion",
 		description: "A spacy mansion (each has a space for 1 kitten)",
-		unlocked: false,
 		prices: [{ name : "slab", val: 185 }, { name : "steel", val: 75 }, { name : "titanium", val: 25 }],
 		effects: {
 			"maxKittens": 1,
@@ -319,7 +309,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		requiredTech: ["architecture"],
 		breakIronWill: true,
 		val: 0,
 		flavor: "The best shipping container available"
@@ -329,7 +318,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "library",
 		label: "Library",
 		description: "Build a library to store sacred catkind knowledge. Each upgrade level improves your science output by 10%",
-		unlocked: false,
 		prices: [{ name : "wood", val: 25 }],
 		effects: {
 			"scienceRatio": 0,
@@ -357,7 +345,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "academy",
 		label: "Academy",
 		description: "Improves your research ratio and the speed of your kitten skills growth. Each upgrade level improves your science output by 20%",
-		unlocked: false,
 		prices: [{ name : "wood", val: 50 },
 				 {name : "minerals", val: 70 },
 				 { name : "science", val: 100 }],
@@ -368,14 +355,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"scienceMax": 500
 		},
 		priceRatio: 1.15,
-		requiredTech: ["math"],
 		val: 0,
 		flavor: "Curiosity is the basis of science. Our cats died nobly"
 	},{
 		name: "observatory",
 		label: "Observatory",
 		description: "Increases the chance of astronomical events by 0.2%",
-		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "slab", val: 35 },
 				 { name : "iron", val: 750 },
@@ -389,7 +374,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
-		requiredTech: ["astronomy"],
 		upgrades: {
 			buildings: ["library"]
 		},
@@ -417,7 +401,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "biolab",
 		label: "Bio Lab",
 		description: "Improves effectiveness of catnip refinement by 10%",
-		unlocked: false,
 		prices: [{ name : "slab", val: 100 },
 				 { name : "alloy", val: 25 },
 				 { name : "science", val: 1500 }
@@ -433,7 +416,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.10,
 		ignorePriceCheck: true,
-		requiredTech: ["biology"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"scienceRatio": 0.35,
@@ -477,7 +459,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "barn",
 		label: "Barn",
 		description: "Provides a space to store your resources.",
-		unlocked: false,
 		prices: [{ name : "wood", val: 50 }],
 		effects: {
 			"catnipMax": 0,
@@ -489,7 +470,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"titaniumMax": 0
 			},
 		priceRatio: 1.75,
-		requiredTech: ["agriculture"],
 		calculateEffects: function (self, game){
 			var effects = {
 				"catnipMax": 5000,
@@ -510,7 +490,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "warehouse",
 		label: "Warehouse",
 		description: "Provides a space to store your resources",
-		unlocked: false,
 		prices: [{ name : "beam", val: 1.5 }, { name : "slab", val: 2 }],
 		effects: {
 			"catnipMax": 0,
@@ -523,7 +502,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		requiredTech: ["construction"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"catnipMax": 0,
@@ -548,7 +526,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "harbor",
 		label: "Harbour",
 		description: "Provides a space to store your resources",
-		unlocked: false,
 		prices: [{ name : "scaffold", val: 5 }, { name : "slab", val: 50 }, { name : "plate", val: 75 }],
 		effects: {
 			"catnipMax": 0,
@@ -561,7 +538,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		requiredTech: ["navigation"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"catnipMax": 2500,
@@ -602,14 +578,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "mine",
 		label: "Mine",
 		description: "Unlocks the miner job. Each upgrade level improves your mineral output by 20%",
-		unlocked: false,
 		prices: [{ name : "wood", val: 100 }],
 		effects: {
 			"mineralsRatio": 0,
 			"coalPerTickBase": 0
 			},
 		priceRatio: 1.15,
-		requiredTech: ["mining"],
 		unlockRatio: 0.15,
 
 		unlocks: {
@@ -634,7 +608,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "quarry",
 		label: "Quarry",
 		description: "Quarries each improve your mining efficiency by 35% and produce a bit of coal",
-		unlocked: false,
 		prices: [{ name : "scaffold", val: 50 },
 				 { name : "steel", val: 150 },
 				 { name : "slab", val: 1000 }],
@@ -643,7 +616,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"coalPerTickBase": 0.015
 		},
 		priceRatio: 1.15,
-		requiredTech: ["archeology"],
 		val: 0,
 		flavor : "It's full of mice! Wait, wrong 'quarry'"
 	},
@@ -651,11 +623,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "smelter",
 		label: "Smelter",
 		description: "Smelts ore into metal",
-		unlocked: false,
 		enabled: false,
 		prices: [{ name : "minerals", val: 200 }],
 		priceRatio: 1.15,
-		requiredTech: ["metal"],
 		effects: {
 			"woodPerTickCon": -0.05,
 			"mineralsPerTickCon": -0.1,
@@ -730,7 +700,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "calciner",
 		label: "Calciner",
 		description: "A highly effective source of metal. Consumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
-		unlocked: false,
 		enabled: false,
 		prices: [
 			{ name : "steel", val: 120 },
@@ -740,7 +709,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		requiredTech: ["chemistry"],
 		effects: {
 			"mineralsPerTickCon" : 0,
 			"oilPerTickCon" : 0,
@@ -818,7 +786,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "steamworks",
 		label: "Steamworks",
 		description: "When active, significantly reduces your coal production. Does nothing useful by default, but can do a lot of cool stuff once upgraded.",
-		unlocked: false,
 		enabled: false,
 		jammed: false,
 		prices: [
@@ -828,7 +795,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
-		requiredTech: ["machinery"],
 		effects: {
 			"magnetoBoostRatio": 0,
 			"coalRatioGlobal" : 0,
@@ -940,7 +906,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "magneto",
 		label: "Magneto",
 		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 15%. Consumes oil.",
-		unlocked: false,
 		enabled: false,
 		prices: [
 			{ name : "alloy", val: 10 },
@@ -949,7 +914,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		ignorePriceCheck: true,
-		requiredTech: ["electricity"],
 		effects: {
 			"oilPerTick" : -0.05,
 			"magnetoRatio": 0.02,
@@ -973,7 +937,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "lumberMill",
 		label: "Lumber Mill",
 		description: "Improves wood production by 10%",
-		unlocked: false,
 		prices: [
 			{name : "wood", val: 100},
 			{name : "iron", val: 50},
@@ -984,7 +947,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["construction"],
 		canUpgrade: true,
 		calculateEffects: function(self, game){
 			var effects = {
@@ -1002,7 +964,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "oilWell",
 		label: "Oil Well",
 		description: "Produces a bit of oil, +1500 to maximum oil limit",
-		unlocked: false,
 		prices: [
 			{name : "steel", val: 50},
 			{name : "gear",  val: 25},
@@ -1016,7 +977,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
-		requiredTech: ["chemistry"],
 		canUpgrade: true,
 		calculateEffects: function(self, game){
 			var effects = {
@@ -1043,7 +1003,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "workshop",
 		label: "Workshop",
 		description: "Provides a vast variety of upgrades. Improves craft effectiveness by 6%",
-		unlocked: false,
         ignorePriceCheck: true,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -1062,7 +1021,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "factory",
 		label: "Factory",
 		description: "Improves craft effectiveness",
-		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
 			{ name : "titanium", val: 2000 },
@@ -1086,13 +1044,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects = effects;
 		},
 		priceRatio: 1.15,
-		val: 0,
-		requiredTech: ["mechanization"]
+		val: 0
 	},{
 		name: "reactor",
 		label: "Reactor",
 		description: "Provides a 5% boost to production while active. Requires uranium to operate.",
-		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
 			{ name : "titanium",    val: 3500 },
@@ -1109,7 +1065,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["nuclearFission"],
 		upgrades: {
 			buildings: ["harbor"]
 		},
@@ -1147,7 +1102,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "accelerator",
 		label: "Accelerator",
 		description: "Converts titanium to the uranium (sic)",
-		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
 			{ name : "titanium",    val: 7500 },
@@ -1169,7 +1123,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["particlePhysics"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"titaniumPerTickCon" : 0,
@@ -1224,7 +1177,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "tradepost",
 		label: "Tradepost",
 		description: "The heart of your trading empire. Improves trade effectiveness by 1.5%, reduces rare resource consumption by 4%",
-		unlocked: false,
 		prices: [
 			{ name : "wood", val: 500 },
 			{ name : "minerals", val: 200 },
@@ -1239,7 +1191,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["currency"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"fursDemandRatio"   : -0.04,
@@ -1262,7 +1213,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "mint",
 		label: "Mint",
 		description: "Produces luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
-		unlocked: false,
 		enabled: false,
 		prices: [
 			{ name : "minerals", val: 5000 },
@@ -1279,7 +1229,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		val: 0,
-		requiredTech: ["architecture"],
 		calculateEffects: function (self, game){
 			self.effects = {
 				"mintEffect" : 0.007,
@@ -1323,7 +1272,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//-------------------------- Culture -------------------------------
 	{
 		name: "amphitheatre",
-		unlocked: false,
 		upgradable: true,
 		effects: {
 			"unhappinessRatio" : 0,
@@ -1367,7 +1315,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		ignorePriceCheck: true,
 		val: 0,
 		stage: 0,
-		requiredTech: ["writing"],
         action: function(self, game){
            //very ugly and crappy stuff
             var btower = self.stages[1];
@@ -1395,7 +1342,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "chapel",
 		label: "Chapel",
 		description: "Produces a bit of culture and faith per tick. May be improved with religious upgrades",
-		unlocked: false,
 		prices: [
 			{ name : "minerals", val: 2000 },
 			{ name : "culture",  val: 250 },
@@ -1408,14 +1354,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
-		val: 0,
-		requiredTech: ["acoustics"]
+		val: 0
 	},
 	{
 		name: "temple",
 		label: "Temple",
 		description: "Temple of light. Produces culture. May be improved with Theology.",
-		unlocked: false,
 		prices: [
 			{ name : "slab", val: 25 },
 			{ name : "plate", val: 15 },
@@ -1434,7 +1378,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		ignorePriceCheck: true,
 		val: 0,
-		requiredTech: ["philosophy"],
 		calculateEffects: function(self, game){
 			var effects = {
 				"culturePerTickBase" : 0.1,
@@ -1491,7 +1434,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "unicornPasture",
 		label: "Unic. Pasture",
 		description: "Allows the taming of unicorns. Reduces catnip consumption by 0.15%",
-		unlocked: false,
 		prices: [
 			{ name : "unicorns", val: 2 }
 		],
@@ -1501,7 +1443,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.75,
 		val: 0,
-		requiredTech: ["animal"],
 		canUpgrade: true,
 		flavor: "We glue horns on horses"
 	},
@@ -1511,7 +1452,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "ziggurat",
 		label: "Ziggurat",
 		description: "The dark legacy of the lost race. Every Ziggurat will improve your culture limits by 8%.<br>May have special usage once Theology is researched.",
-		unlocked: false,
 		prices: [
 			{ name : "megalith", val: 75 },
 			{ name : "scaffold", val: 50 },
@@ -1529,13 +1469,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.25,
 		unlockRatio: 0.01,	//1% of resources required to unlock building instead of default 30
-		val: 0,
-		requiredTech: ["construction"]
+		val: 0
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
 		description: "Relocates small amount of resources through the time. Can be upgraded further. Every Chronosphere increases the chance of Temporal Paradox.",
-		unlocked: false,
 		ignorePriceCheck: true,
 		prices: [
 			{ name : "unobtainium", val: 2500 },
@@ -1550,8 +1488,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			/** TODO: cryochambers upgrade for kittens migration */
 		},
 		priceRatio: 1.25,
-		val: 0,
-		requiredTech: ["chronophysics"]
+		val: 0
 	}
 	],
 
@@ -1766,16 +1703,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	isTechUnlocked: function(building){
-		var isEnabled = true;
-
-		var reqTech = building.requiredTech;
-		if (reqTech){
-			var tech = this.game.science.get(reqTech);
-			if (tech && !tech.researched){
-				isEnabled = false;
-			}
-		}
-		return isEnabled;
+		return this.get(building.name).unlockable;
 	},
 
 	save: function(saveData){
@@ -1827,7 +1755,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var bld = this.buildingsData[i];
 
 			bld.val = 0;
+
 			bld.unlocked = false;
+
+			if (bld.name == "hut" ||
+				bld.name == "field" ||
+				bld.name == "library" ||
+				bld.name == "workshop") {
+				bld.unlockable = true;
+			} else {
+				bld.unlockable = false;
+			}
 
 			if (bld.enabled != undefined){
 				bld.enabled = false;
