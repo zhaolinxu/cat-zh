@@ -538,3 +538,15 @@ h1 {
 #sorrowTooltip {
 	color: black;
 }
+
+.adblock-container {
+    padding: 15px;
+}
+
+.adblock-header a {
+    font-size: 0.8em;
+}
+
+.adblock {
+    padding-top: 25px;
+}

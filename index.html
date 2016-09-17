@@ -40,32 +40,44 @@
 		<link rel="stylesheet" href="res/theme_sleek.css" type="text/css">
 
 		<script type="text/javascript">
+
+			var version = "_" + Date.now();
+
+			function _import(i, def, modules){
+				var importDef = System.import(modules[i] + ".js?v=" + version);
+
+				if (!def){
+					return importDef;
+				} else {
+					return def.then(function(){
+						return importDef;
+					});
+				}
+			}
+
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-
-				var version = "1.2.0.1_" + Date.now();
 
 				SystemJS.config({
 					baseURL: ''
 				});
 
-				//I am too tired to write proper chaining code. Feel free to fix it.
-				//Order does matter, so please be careful with Promise.all and such
-
-				/*var modules = [
-					"resources",
-					"calendar",
-					"buildings",
+				var modules = [
+				    "core",
+					"js/resources",
+					"js/calendar",
+					"js/buildings",
 					"js/village",
-					"science",
-					"workshop",
-					"diplomacy",
-					"religion",
-					"achievements",
-					"space",
+					"js/science",
+					"js/workshop",
+					"js/diplomacy",
+					"js/religion",
+					"js/achievements",
+					"js/space",
 					"js/prestige",
 					"js/time",
 					"js/stats",
+					"js/challenges",
 					"game",
 					"js/ui",
 					"js/toolbar"
@@ -73,47 +85,9 @@
 				var def = System.import('core.js');
 
 				for (var i in modules){
-					def = def.then(function(){
-						return System.import(modules[i] + ".js?v=" + version);
-					})
-				}*/
-
-				System.import('core.js?v=' + version)
-				.then(function() {
-					return System.import('js/resources.js?v=' + version);
-				}).then(function() {
-					return System.import('js/calendar.js?v=' + version)
-				}).then(function() {
-					return System.import('js/buildings.js?v=' + version)
-				}).then(function() {
-					return System.import('js/village.js?v=' + version)
-				}).then(function() {
-					return System.import('js/science.js?v=' + version)
-				}).then(function() {
-					return System.import('js/workshop.js?v=' + version)
-				}).then(function() {
-					return System.import('js/diplomacy.js?v=' + version)
-				}).then(function() {
-					return System.import('js/religion.js?v=' + version)
-				}).then(function() {
-					return System.import('js/achievements.js?v=' + version)
-				}).then(function() {
-					return System.import('js/space.js?v=' + version)
-				}).then(function() {
-					return System.import('js/prestige.js?v=' + version)
-				}).then(function() {
-					return System.import('js/challenges.js?v=' + version)
-				}).then(function() {
-					return System.import('js/time.js?v=' + version)
-				}).then(function() {
-					return System.import('js/stats.js?v=' + version)
-				}).then(function() {
-					return System.import('game.js?v=' + version)
-				}).then(function() {
-					return System.import('js/toolbar.js?v=' + version)
-				}).then(function() {
-					return System.import('js/ui.js?v=' + version)
-				}).then(function() {
+					def = _import(i, def, modules);
+				}
+				def.then(function() {
 					try {
 						gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 						gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
@@ -340,6 +314,24 @@
 					</div>
 					<div class="right-tab" id="rightTabChat" style="display:none;">
 						<div id="IRCChatInner">CHAT GOES THERE</div>
+					</div>
+				</div>
+				<!-- ADS -->
+				<div id="adsColumn" class="column">
+					<div id="adblock-container">
+						<div class="adblock-header">
+							Sponsored links:<br>
+							<a href="#" onclick="$('#adblock-container').hide()">I don't want to see this</a>
+						</div>
+						<div class="adblock">
+							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+						</div>
+						<div class="adblock">
+							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+						</div>
+						<div>
+							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
+						</div>
 					</div>
 				</div>
 			</div>
