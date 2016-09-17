@@ -467,6 +467,22 @@ label:hover {
     opacity: 0.7;
 }
 
+input[type="checkbox"] {
+	display: none;
+}
+
+input[type="checkbox"] + label:before {
+	content: "x";
+	display: inline-block;
+	font: 16px sans-serif;
+	margin: 0px 6px 0px 2px;
+}
+
+input[type="checkbox"]:checked + label:before {
+	content: "\2713";
+	font: 12px sans-serif;
+}
+
 /*New Styles*/
 .achievement {
     cursor: default;
