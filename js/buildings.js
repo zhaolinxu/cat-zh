@@ -80,8 +80,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (effectName == "coalRatioGlobal") {
 					effect =  bld.effects[effectName];
 				// Max effects and Ratio effects depends on constructed buildings
-				} else if (effectName.indexOf("Max", effectName.length - 3) === -1 ||
-					effectName.indexOf("Ratio", effectName.length - 5) === -1)){
+				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
+					effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 					effect = bld.effects[effectName] * bld.val;
 				} else {
 					effect = bld.effects[effectName] * bld.on;
