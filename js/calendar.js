@@ -490,7 +490,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		chance *= chanceRatio;
 
 		if (this.game.rand(10000) < chance &&
-		this.game.bld.get("library").val > 0){
+		this.game.bld.get("library").on > 0){
 			if (this.observeRemainingTime){
 				this.observeTimeout();
 			}
@@ -629,7 +629,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.bld.get("steamworks").jammed = false;
 		}
 
-		var numChrono = this.game.bld.get("chronosphere").val;
+		var numChrono = this.game.bld.get("chronosphere").on;
 		if (numChrono > 0) {
 			if (this.futureSeasonTemporalParadox > 0) {
 				// Go to future Temporal Paradox season

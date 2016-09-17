@@ -81,14 +81,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					effect =  bld.effects[effectName] || 0;
 				} else if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
                     !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
-
-					if (bld.togglable){
-						effect = bld.effects[effectName] * bld.on;
-					} else {
-						effect = bld.enabled ? bld.effects[effectName] * bld.val : 0;
-					}
+					effect = bld.effects[effectName] * bld.on;
 				} else {
-					effect = bld.effects[effectName] * bld.val || 0;
+					effect = bld.effects[effectName] * bld.on || 0;
 				}
 
 				// Previously, catnip demand (or other buildings that both effected the same resource)
@@ -347,7 +342,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"cultureMax": 10
 			};
 			var libraryRatio = game.getEffect("libraryRatio");
-			effects["scienceMax"] *= (1 + game.bld.get("observatory").val * libraryRatio);
+			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
 			self.effects = effects;
 		},
 		flavor: "All in Catonese"
@@ -418,7 +413,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "science", val: 1500 }
 		],
 		priceRatio: 1.10,
-		enabled: true,
 		effects: {
 			"scienceRatio": 0.35,
 			"refineRatio": 0.1,
@@ -440,7 +434,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
 				self.togglable = true;
-				self.on = self.val
 			}
 
 			self.effects = effects;
@@ -572,7 +565,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				var shipVal = game.resPool.get("ship").value;
 
 				//100% to 225% with slow falldown on the 75%
-				var limit = 2.25 + game.getEffect("shipLimit") * game.bld.get("reactor").val;
+				var limit = 2.25 + game.getEffect("shipLimit") * game.bld.get("reactor").on;
 				var ratio = 1 + game.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, limit);
 
 				effects["catnipMax"] *= ratio;
@@ -641,7 +634,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Smelter",
 		description: "Smelts ore into metal",
 		unlockRatio: 0.3,
-		enabled: false,
 		prices: [
 			{ name : "minerals", val: 200 }
 		],
@@ -667,7 +659,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			//safe switch for IW to save precious resources, as per players request
 			//only if option is enabled, because Chris says so
 			if (game.ironWill && game.opts.IWSmelter && iron.value > iron.maxValue * 0.95){
-				self.enabled = false;
 				self.on = 0;
 				return;
 			}
@@ -719,7 +710,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "calciner",
 		label: "Calciner",
 		description: "A highly effective source of metal. Consumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
-		enabled: false,
 		prices: [
 			{ name : "steel", val: 120 },
 			{ name : "titanium",  val: 15 },
@@ -786,7 +776,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 				self.effects["ironPerTickCon"]*=amt;
 				self.effects["coalPerTickCon"]*=amt;
-				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").val * game.getEffect("calcinerSteelReactorBonus")));
+				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
 
 				amtFinal = (amtFinal + amt) / 2;
 			} else {
@@ -803,7 +793,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "steamworks",
 		label: "Steamworks",
 		description: "When active, significantly reduces your coal production. Does nothing useful by default, but can do a lot of cool stuff once upgraded.",
-		enabled: false,
 		prices: [
 			{ name : "steel", val: 65 },
 			{ name : "gear",  val: 20 },
@@ -921,7 +910,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "magneto",
 		label: "Magneto",
 		description: "Improves your total resource production by 2%. Every steamworks will boost this effect by 15%. Consumes oil.",
-		enabled: false,
 		prices: [
 			{ name : "alloy", val: 10 },
 			{ name : "gear",  val: 5 },
@@ -1000,7 +988,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
 				self.togglable = true;
-				self.on = self.val;
 			}
 
 			self.effects = effects;
@@ -1088,7 +1075,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		action: function(self, game){
 			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0){
 				self.on = 0;
-				self.enabled = false;
 			}
 
 			self.effects["thoriumPerTick"] = game.getEffect("reactorThoriumPerTick");
@@ -1215,7 +1201,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "mint",
 		label: "Mint",
 		description: "Produces luxurious resources proportional to your max catpower. Consumes catpower and a bit of gold.",
-		enabled: false,
 		prices: [
 			{ name : "minerals", val: 5000 },
 			{ name : "plate", val: 200 },
@@ -1591,7 +1576,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 
-			if (bld.action && bld.val > 0){
+			if (bld.action && bld.on > 0){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
 					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
@@ -1648,7 +1633,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "enabled", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1669,12 +1654,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					var bld = this.game.bld.getBuildingExt(savedBld.name);
 					if (!bld) { continue; }
 
-					bld.set("val", savedBld.val);
 					bld.set("unlocked", savedBld.unlocked);
-
-					if(savedBld.on != undefined){
-						bld.set("on", savedBld.on);
-					}
+					bld.set("val", savedBld.val);
+					bld.set("on", savedBld.on);
 
 					if (savedBld.jammed != undefined){
 						bld.set("jammed", savedBld.jammed);
@@ -1682,7 +1664,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (savedBld.isAutomationEnabled != undefined){
 						bld.set("isAutomationEnabled", savedBld.isAutomationEnabled);
 					}
-					bld.set("enabled", savedBld.enabled);
+
 					if (typeof(bld.meta.stages) == "object"){
 						bld.set("stage", savedBld.stage);
 					}
@@ -1696,6 +1678,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var bld = this.buildingsData[i];
 
 			bld.val = 0;
+			bld.on = 0;
 
 			bld.unlocked = false;
 
@@ -1706,10 +1689,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.unlockable = true;
 			} else {
 				bld.unlockable = false;
-			}
-
-			if (bld.enabled != undefined){
-				bld.enabled = false;
 			}
 
 			if (typeof(bld.stages) == "object"){
@@ -1734,8 +1713,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
     //============ dev =============
     devAddStorage: function(){
         this.get("warehouse").val += 10;
+        this.get("warehouse").on += 10;
         this.get("barn").val += 10;
+        this.get("barn").on += 10;
         this.get("harbor").val += 10;
+        this.get("harbor").on += 10;
     }
 });
 
@@ -1817,10 +1799,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
         if (bld){
             bld.val++;
+            bld.on++;
 
-            //to not force player re-click '+' button all the time
-            if (bld.on){
-                bld.on++;
+            // manage togglableOnOff when Off
+            if (bld.togglableOnOff && bld.on == 1){
+                bld.on--;
             }
 
             //price check is sorta heavy operation, so we will store the value in the button
@@ -1910,7 +1893,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						}
 
 						if (bldMeta.on > bldMeta.val){
-							building.on = bldMeta.val;
+							bldMeta.on = bldMeta.val;
 						}
 						this.game.upgrade(building.upgrades);
 						this.game.render();
@@ -2161,6 +2144,186 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 
 	getSelectedObject: function(){
 		return this.getMetadata();
+	},
+
+	/**
+	 * Render button links like off/on and sell
+	 * Buildings are now manage with the on parameter
+	 */
+	renderLinks: function(){
+		var building = this.getMetadata();
+		var bldMeta = this.getMetadataRaw();
+
+		if (bldMeta && bldMeta.val && this.hasSellLink()){
+			if (!this.sellHref){
+				this.sellHref = this.addLink("sell",
+					function(event){
+						var end = bldMeta.val - 1;
+						if (end > 0 && event.shiftKey) { //no need to confirm if selling just 1
+							if (this.game.opts.noConfirm || confirm("Are you sure you want to sell all?")) {
+								end = 0;
+							}
+						}
+						while (bldMeta.val > end && this.hasSellLink() ) { //religion upgrades can't sell past 1
+							bldMeta.val--;
+
+							this.refund(0.5);
+
+							this.prices = this.getPrices();
+						}
+
+						if (bldMeta.on > bldMeta.val){
+							bldMeta.on = bldMeta.val;
+						}
+						this.game.upgrade(building.upgrades);
+						this.game.render();
+					});
+			}
+		}
+
+		//--------------- toggle ------------
+
+		if (!building.togglable){
+			return;
+		}
+
+		//TODO: is this even supposed to work?
+		if (building.togglableOnOff){
+			this.toggle = this.addLink( building.on ? "on" : "off",
+				function(){
+					var building = this.getMetadataRaw();
+
+					building.on = building.on ? 0 : building.val;	//legacy safe switch
+					this.game.upgrade(building.upgrades);
+				}, true	//use | break
+			);
+		}
+		else {
+			this.remove = this.addLinkList([
+			   {
+				id: "off1",
+				title: "-",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on){
+						building.on--;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   },{
+				id: "offAll",
+				title: "-all",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on) {
+						building.on = 0;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   }]
+			);
+
+			this.add = this.addLinkList([
+			   {
+				id: "add1",
+				title: "+",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on < building.val){
+						building.on++;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   },{
+				id: "add",
+				title: "+all",
+				handler: function(){
+					var building = this.getMetadata();
+					if (building.on < building.val) {
+						building.on = building.val;
+						this.game.upgrade(building.upgrades);
+					}
+				}
+			   }]
+			);
+		}
+
+		if (building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell) ) {
+			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
+				function(){
+					var building = this.getMetadataRaw();
+					building.isAutomationEnabled = !building.isAutomationEnabled;
+				}, true
+			);
+		}
+
+		if(building.val > 9 && this.hasSellLink()) {
+			//Steamworks and accelerator specifically can be too large when sell button is on
+			//(tested to support max 99 bld count)
+			dojo.addClass(this.domNode, "small-text");
+		}
+	},
+
+	update: function(){
+		this.inherited(arguments);
+
+		var self = this;
+
+		//we are calling update before render, panic flee
+		if (!this.buttonContent){
+			return;
+		}
+
+		var building = this.getMetadata();
+		if (building && building.val){
+
+			// -------------- sell ----------------
+			if (this.sellHref){
+				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
+			}
+
+			//--------------- toggle ------------
+
+			if (!building.togglable){
+				return;
+			}
+
+			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
+			if (this.remove){
+				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
+			}
+			if (this.add){
+				dojo.setStyle(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
+			}
+			*/
+
+			if (this.toggle){
+				this.toggle.link.textContent = building.on ? "on" : "off";
+				this.toggle.link.title = building.on ? "Building enabled" : "Building disabled";
+			}
+
+			if (this.toggleAutomation){
+				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
+				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
+
+				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
+				this.isAutomationResearched = true;
+				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
+				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
+			}
+
+			dojo.removeClass(this.domNode, "bldEnabled");
+			dojo.removeClass(this.domNode, "bldlackResConvert");
+			if (building.lackResConvert) {
+				dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+			} else {
+				dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+			}
+
+			if(building.val > 9) {
+				dojo.setStyle(this.domNode,"font-size","90%");
+			}
+		}
 	}
 });
 
@@ -2190,6 +2353,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 						if (confirm('Do you want to downgrade this building?\n\nYou will lose all of those currently built.')){
 							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							bldExt.meta.on = 0;
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
@@ -2209,6 +2373,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							bldExt.meta.stage++;
 
 							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
+							bldExt.meta.on = 0;
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
@@ -2245,7 +2410,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
 
 		//non-group filters
-		if (this.game.ironWill && this.game.bld.get("library").val > 0){
+		if (this.game.ironWill && this.game.bld.get("library").on > 0){
 			groups.unshift({
 				name: "iw",
 				title: "IW",

@@ -696,7 +696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 3,
+	saveVersion: 3.1,
 
 	//FINALLY
 	opts: null,
@@ -1135,8 +1135,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//------------------------------------
 
 		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 || this.time.getVSU("usedCryochambers").val > 0);
-		this.libraryTab.visible = (this.bld.get("library").val > 0);
-		this.workshopTab.visible = (this.bld.get("workshop").val > 0);
+		this.libraryTab.visible = (this.bld.get("library").on > 0);
+		this.workshopTab.visible = (this.bld.get("workshop").on > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
 
 		if (this.karmaKittens > 0 || this.science.get("math").researched ) {
@@ -1305,6 +1305,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 3;
+		}
+
+		if (save.saveVersion == 3) {
+			// Use .on instead of .val and .enabled for all buildings
+			if (save.buildings) {
+				for (var i = 0; i < save.buildings.length; i++) {
+					save.buildings[i].on = save.buildings[i].val;
+				}
+			}
+
+			save.saveVersion = 3.1;
 		}
 
 		return save;
@@ -1806,8 +1817,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (res.name == "blueprint"){
 			var bpRatio = this.getEffect("blueprintCraftRatio");
-			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
-				this.bld.get("observatory").val + this.bld.get("biolab").val;
+			var scienceBldAmt = this.bld.get("library").on + this.bld.get("academy").on +
+				this.bld.get("observatory").on + this.bld.get("biolab").on;
 
 			var ratio = this.getCraftRatio();
 
@@ -1817,7 +1828,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (res.name == "kerosene"){
 			var fRatio = this.getEffect("factoryRefineRatio");
 
-			var amt = this.bld.get("factory").val;
+			var amt = this.bld.get("factory").on;
 			var ratio = this.getCraftRatio();
 
 			return ratio * (1 + amt * fRatio * 0.75);	//25% penalty
@@ -1973,7 +1984,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	updateAdvisors: function(){
 
-		if (this.bld.get("field").val == 0){
+		if (this.bld.get("field").on == 0){
 			return;
 		}
 
@@ -2738,7 +2749,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
 			gift = "Metaphysics";
 		}
-		if(this.bld.get("chronosphere").val) {
+		if(this.bld.get("chronosphere").on) {
 			gift = "Compendiums";
 		}
 
