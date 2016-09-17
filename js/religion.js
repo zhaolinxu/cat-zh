@@ -915,7 +915,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 			return;
 		}
 
-		var tearCount = this.game.bld.get("ziggurat").val * amt;
+		var tearCount = this.game.bld.get("ziggurat").on * amt;
 
 		this.game.resPool.addResEvent("unicorns", -unicornCount);
 		this.game.resPool.addResEvent("tears", tearCount);
@@ -1126,7 +1126,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
 
-		var zigguratCount = this.game.bld.get("ziggurat").val;
+		var zigguratCount = this.game.bld.get("ziggurat").on;
 		if (zigguratCount > 0){
 			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", this.game.religion);
 			var content = zigguratPanel.render(container);

@@ -1041,7 +1041,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 
-			var isVisible = (recipe.unlocked && res.value > 0 && this.workshop.val > 0);
+			var isVisible = (recipe.unlocked && res.value > 0 && this.workshop.on > 0);
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 
@@ -1137,7 +1137,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
 			// Game display
-			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.val > 0);
+			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.on > 0);
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
