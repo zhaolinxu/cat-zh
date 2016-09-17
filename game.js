@@ -1315,7 +1315,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			save.saveVersion = 3.1;
+			save.saveVersion = 4;
 		}
 
 		return save;
