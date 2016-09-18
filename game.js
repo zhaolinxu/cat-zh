@@ -2571,6 +2571,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.spaceTab;
 			case "stats":
 				return this.statsTab;
+			case "time":
+				return this.timeTab;
 		}
 	},
 

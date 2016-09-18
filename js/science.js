@@ -20,7 +20,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		researched: false,
 		cost: 30,	//cos in WCS (weird cat science)
 		unlocks: {
-			tech: ["agriculture"]
+			tech: ["agriculture"],
+			tabs: ["time"]
 		},
         flavor: "What day is it again?"
 
