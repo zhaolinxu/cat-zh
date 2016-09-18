@@ -44,13 +44,11 @@
 			var version = "_" + Date.now();
 
 			function _import(i, def, modules){
-				var importDef = System.import(modules[i] + ".js?v=" + version);
-
 				if (!def){
-					return importDef;
+					return System.import(modules[i] + ".js?v=" + version);
 				} else {
 					return def.then(function(){
-						return importDef;
+						return System.import(modules[i] + ".js?v=" + version);
 					});
 				}
 			}
