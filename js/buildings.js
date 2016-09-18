@@ -78,12 +78,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				var bld = new classes.BuildingMeta(bld).getMeta();
 				// Need a better way to do this...
 				if (effectName == "coalRatioGlobal") {
-					effect =  bld.effects[effectName] || 0;
-				} else if (bld.togglable && effectName.indexOf("Max", effectName.length - 3) === -1 &&
-                    !(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
-					effect = bld.effects[effectName] * bld.on;
+					effect =  bld.effects[effectName];
+				// Max effects and Ratio effects depends on constructed buildings
+				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
+					effectName.indexOf("Ratio", effectName.length - 5) != -1){
+					effect = bld.effects[effectName] * bld.val;
 				} else {
-					effect = bld.effects[effectName] * bld.on || 0;
+					effect = bld.effects[effectName] * bld.on;
 				}
 
 				// Previously, catnip demand (or other buildings that both effected the same resource)
