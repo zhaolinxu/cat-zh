@@ -280,5 +280,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var $chat = $('#IRCChatInner');
         swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         this.isChatActive = true;
+    },
+
+    renderAds: function(){
+        var $container = $("#adblock-container");
+        for (var i = 0; i< 3; i++) {
+            /*$('<div class="adblock"><iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>')
+                .appendTo($container);*/
+        }
     }
 });

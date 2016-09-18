@@ -126,6 +126,8 @@
 							$("#devModeButton").show();
 						}
 
+						gamePage.ui.renderAds();
+
 					} catch (ex){
 						console.error(ex);
 						console.trace();
@@ -317,21 +319,13 @@
 					</div>
 				</div>
 				<!-- ADS -->
-				<div id="adsColumn" class="column">
+				<div id="adsColumn" class="column" style="display:none">
 					<div id="adblock-container">
 						<div class="adblock-header">
 							Sponsored links:<br>
 							<a href="#" onclick="$('#adblock-container').hide()">I don't want to see this</a>
 						</div>
-						<div class="adblock">
-							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
-						</div>
-						<div class="adblock">
-							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
-						</div>
-						<div>
-							<iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>
-						</div>
+
 					</div>
 				</div>
 			</div>
