@@ -14,7 +14,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
     challenges:[/*{
 		name: "atheism",
-		title: "Atheism",
+		label: "Atheism",
 		description: "Your faith bonus will be permanently capped. Every level of transcendence will increase aprocrypha effectiveness by 10%."
             + "Your game will be reset in order to enable this challenge.",
         enabled: false
@@ -82,11 +82,11 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 	},
 
 	getName: function(){
-		var meta = this.getMeta();
-		if (meta.enabled){
-			return meta.title + " (Complete)";
+		var meta = this.getMetadata();
+		if (meta.researched){
+			return meta.label + " (Complete)";
 		} else {
-			return meta.title;
+			return meta.label;
 		}
 	},
 

@@ -16,51 +16,48 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	programs: [{
 		name: "orbitalLaunch",
-		title: "Orbital Launch",
+		label: "Orbital Launch",
 		description: "Launch a rocket to a space.",
-		researched: false,
 		unlocked: true,
-		defaultUnlocked: true,
 		prices: [
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
 			{name: "science", val: 100000},
 			{name: "oil", val: 15000}
 		],
+		noStackable: true,
         unlocks: {
             planet: "cath",
             programs: ["moonMission"]
         }
 	},{
 		name: "moonMission",
-		title: "Moon Mission",
+		label: "Moon Mission",
 		description: "Launch a rocket to Redmoon, a Cath planet satellite",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 500},
 			{name: "titanium", 	val: 5000},
 			{name: "science", 	val: 125000},
 			{name: "oil", 		val: 45000}
 		],
-		upgradable: false,
+		noStackable: true,
         unlocks: {
             planet: "moon",
             programs: ["duneMission", "piscineMission"]
         }
 	},{
 		name: "duneMission",
-		title: "Dune Mission",
+		label: "Dune Mission",
 		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
 			{name: "kerosene", val: 75}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game){
 			game.space.getProgram("heliosMission").unlocked = true;
 		},
@@ -69,17 +66,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "piscineMission",
-		title: "Piscine Mission",
+		label: "Piscine Mission",
 		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
 			{name: "kerosene", val: 250}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game){
 			game.space.getProgram("terminusMission").unlocked = true;
 		},
@@ -88,17 +84,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "heliosMission",
-		title: "Helios Mission",
+		label: "Helios Mission",
 		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
 			{name: "kerosene", val: 1250}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game){
 			game.space.getProgram("yarnMission").unlocked = true;
 		},
@@ -107,17 +102,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "terminusMission",
-		title: "T-minus Mission",
+		label: "T-minus Mission",
 		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
 			{name: "kerosene", val: 750}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game){
 			game.space.getProgram("heliosMission").unlocked = true;
 			game.space.getProgram("kairoMission").unlocked = true;
@@ -127,17 +121,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "kairoMission",
-		title: "Kairo Mission",
+		label: "Kairo Mission",
 		description: "Kairo is a dwarf planet in the far end of the Cath solar system.",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 5000},
 			{name: "titanium", 	val: 20000},
 			{name: "science", 	val: 300000},
 			{name: "kerosene", 	val: 7500}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game){
 			game.space.getProgram("rorschachMission").unlocked = true;
 		},
@@ -146,34 +139,32 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "rorschachMission",
-		title: "???",
+		label: "???",
 		description: "???",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
 			{name: "science", 	val: 500000},
 			{name: "kerosene", 	val: 25000}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game, self){
 		},
 		unlocks: {
 		}
 	},{
 		name: "yarnMission",
-		title: "Yarn Mission",
+		label: "Yarn Mission",
 		description: "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
 		unlocked: false,
-		researched: false,
 		prices: [
 			{name: "starchart", val: 7500},
 			{name: "titanium", 	val: 35000},
 			{name: "science", 	val: 350000},
 			{name: "kerosene", 	val: 12000}
 		],
-		upgradable: false,
+		noStackable: true,
 		handler: function(game, self){
 			//game.space.getProgram("heliosMission").unlocked = true;
 		},
@@ -187,14 +178,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	planets:
 	[{
 		name: "cath",
-		title: "Cath",
+		label: "Cath",
 		unlocked: false,
 		buildings: [{
 			name: "spaceElevator",
-			title: "Space Elevator",
+			label: "Space Elevator",
 			description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
 			unlocked: true,
-			upgradable:true,
 			priceRatio: 1.15,
 			prices: [
 				{name: "titanium", val: 6000},
@@ -217,7 +207,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 		},{
 			name: "sattelite",
-			title: "Satellite",
+			label: "Satellite",
 			description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 			unlocked: true,
 			prices: [
@@ -230,7 +220,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			requiredTech: ["sattelites"],
 			val: 0,
 			on: 0,
-			upgradable: true,
 			effects: {
 				"observatoryRatio": 0,
 				"starchartPerTickBaseSpace": 0,
@@ -255,7 +244,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		},{
 			name: "spaceStation",
-			title: "Space Station",
+			label: "Space Station",
 			description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 			unlocked: true,
 			prices: [
@@ -267,7 +256,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
 			val: 0,
-			upgradable: true,
 			handler: function(game){
 				game.ironWill = false;			//sorry folks
 			},
@@ -286,11 +274,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}]
 	},{
 		name: "moon",
-		title: "Moon",
+		label: "Moon",
 		unlocked: false,
 		buildings: [{
 			name: "moonOutpost",
-			title: "Lunar Outpost",
+			label: "Lunar Outpost",
 			description: "Deploy a nuclear powered mining outpost on Redmoon",
 			unlocked: true,
 			priceRatio: 1.12,
@@ -302,7 +290,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 100000},
 				{name: "oil", val: 55000}
 			],
-			upgradable: true,
 
 			handler: function(game, self){
 				//game.workshop.get("unobtainiumAxe").unlocked = true;
@@ -337,7 +324,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		},{
 			name: "moonBase",
-			title: "Moon base",
+			label: "Moon base",
 			description: "Establish a base on a surface of Redmoon",
 			unlocked: true,
 			priceRatio: 1.12,
@@ -373,16 +360,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption" : game.workshop.get("amBases").researched ? 5 : 10
 				};
 			},
-			upgradable: true,
 			val: 0
 		}]
 	},{
 		name: "dune",
-		title: "Dune",
+		label: "Dune",
 		unlocked: false,
         buildings: [{
             name: "planetCracker",
-            title: "Planet Cracker",
+            label: "Planet Cracker",
             description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
             unlocked: true,
             priceRatio: 1.18,
@@ -392,7 +378,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 125000},
                 {name: "kerosene", val: 50}
             ],
-            upgradable: true,
             val:  0,
             on:	  0,
             effects: {
@@ -408,7 +393,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
         },{
             name: "hydrofracturer",
-            title: "Hydraulic Fracturer",
+            label: "Hydraulic Fracturer",
             description: "Produces a high-pressure stream of oil. Every Space Elevator will boost this production by 0.1% of the global production multiplier.",
             unlocked: true,
             priceRatio: 1.18,
@@ -418,7 +403,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 150000},
                 {name: "kerosene", val: 100}
             ],
-            upgradable: true,
             val:  0,
             on:	  0,
             effects: {
@@ -432,11 +416,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }]
 	},{
 		name: "piscine",
-		title: "Piscine",
+		label: "Piscine",
 		unlocked: false,
 		buildings: [{
             name: "researchVessel",
-            title: "Research Vessel",
+            label: "Research Vessel",
             description: "Mobile research space vessel.",
             unlocked: true,
             priceRatio: 1.15,
@@ -446,7 +430,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "titanium", val: 12500},
                 {name: "kerosene", val: 250}
             ],
-            upgradable: true,
             val:  0,
             on:	  0,
             effects: {
@@ -461,7 +444,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             }
         },{
             name: "orbitalArray",
-            title: "Orbital Array",
+            label: "Orbital Array",
             description: "Provide a 2% production bonus to all space structures",
             unlocked: true,
             priceRatio: 1.15,
@@ -470,7 +453,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 250000},
                 {name: "kerosene", val: 500}
             ],
-            upgradable: true,
             val:  0,
             on:	  0,
             effects: {
@@ -486,11 +468,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
-		title: "Helios",
+		label: "Helios",
 		unlocked: false,
 		buildings: [{
             name: "sunlifter",
-            title: "Sunlifter",
+            label: "Sunlifter",
             description: "Generates antimatter once per year. Inactive if energy production is negative",
             unlocked: true,
             priceRatio: 1.15,
@@ -499,7 +481,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "eludium", val: 250},
                 {name: "kerosene", val: 2500}
             ],
-            upgradable: true,
             val:  0,
             on:	  0,
             effects: {
@@ -514,7 +495,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             }
         },{
 			name: "containmentChamber",
-			title: "Cont. Chamber",
+			label: "Cont. Chamber",
 			description: "Containment Chamber. Increases antimatter storage space by 100.",
 			unlocked: true,
 			priceRatio: 1.15,
@@ -522,7 +503,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 500000},
 				{name: "kerosene", val: 2500}
 			],
-			upgradable: true,
 			val:  0,
 			on:	  0,
 			effects: {
@@ -538,11 +518,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}]
 	},{
 		name: "terminus",
-		title: "T-Minus",
+		label: "T-Minus",
 		unlocked: false,
         buildings:[{
             name: "cryostation",
-            title: "Cryostation",
+            label: "Cryostation",
             description: "A vast storage facility complex",
             unlocked: true,
             priceRatio: 1.12,
@@ -574,18 +554,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumMax": 750
 				};
             },
-            upgradable: true,
             val: 0
         }
         ]
 	},{
 		name: "kairo",
-		title: "Kairo",
+		label: "Kairo",
 		unlocked: false,
 		buildings:[
 			{
 				name: "spaceBeacon",
-				title: "Space Beacon",
+				label: "Space Beacon",
 				description: "An AM-powered space station used for research and interstellar navigation.",
 				unlocked: true,
 				priceRatio: 1.15,
@@ -607,18 +586,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"relicPerDay": game.getEffect("beaconRelicsPerDay")
 					};
 				},
-				upgradable: true,
 				val: 0
 			}
 		]
 	},{
 		name: "yarn",
-		title: "Yarn",
+		label: "Yarn",
 		unlocked: false,
 		buildings:[
 			{
 				name: "terraformingStation",
-				title: "Terraforming Station",
+				label: "Terraforming Station",
 				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere",
 				unlocked: false,
 				priceRatio: 1.25,
@@ -637,12 +615,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"catnipConsumption": 250
 					};
 				},
-				upgradable: true,
 				val: 0
 			},
 			{
 				name: "hydroponics",
-				title: "Hydroponics",
+				label: "Hydroponics",
 				description: "State of the art automated hydroponic system. Increase catnip limit by 10%. Increase catnip production by 2.5%",
 				unlocked: false,
 				priceRatio: 1.15,
@@ -659,7 +636,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"catnipRatio" : 0.025
 					};
 				},
-				upgradable: true,
 				val: 0
 			}
 		]
@@ -682,9 +658,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				return 0;
 			}
 			var val = program.togglable ? program.on: program.val;
-			return program.upgradable ?
-				program.effects[effectName] * val:
-				program.effects[effectName];
+			return program.noStackable ?
+				program.effects[effectName]:
+				program.effects[effectName] * val;
 		}});
 
 		for (var i in this.planets) {
@@ -709,15 +685,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 
-			program.unlocked = program.defaultUnlocked || false;
-			program.researched = false;
+			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.val = 0;
+			program.on = 0;
 
-			if (program.upgradable){
-				program.val = 0;
-				if (program.on != undefined){
-					program.on = 0;
-				}
-			}
+			this.setToggle(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 		}
 
 		for (i = 0; i < this.planets.length; i++){
@@ -728,9 +700,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
 					program.val = 0;
-					if (program.on != undefined){
-						program.on = 0;
-					}
+					program.on = 0;
 
 					this.setToggle(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 				}
@@ -752,7 +722,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 
 		saveData.space = {
-			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked", "researched"]),
+			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked"]),
 			planets: planets,
 			hideResearched: this.hideResearched
 		};
@@ -768,7 +738,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked", "researched"], function(loadedElem){
+			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
 				for (var k = prices.length - 1; k >= 0; k--) {
@@ -782,7 +752,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		// programs and shit
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
-			if (program.researched){
+			if (program.on){
 				if (program.handler) {
 					program.handler(this.game, program);
 				}
@@ -910,7 +880,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
         var ratio = program.priceRatio || 1.15;
 
         var prices = dojo.clone(program.prices);
-        if (program.upgradable){
+        if (!program.noStackable){
             for (var i = 0; i< prices.length; i++){
                 if (prices[i].name !== "oil") {
                     prices[i].val = prices[i].val * Math.pow(ratio, program.val);
@@ -940,20 +910,24 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 				}
 			}
 		}
-		if (program.researched && !program.upgradable && this.game.space.hideResearched){
+		if (program.on && program.noStackable && this.game.space.hideResearched){
 			this.setVisible(false);
 			return;
 		}
 		this.setVisible(this.getProgram().unlocked);
 	},
-
+/*
 	updateEnabled: function(){
 		this.inherited(arguments);
-		if (this.getProgram().researched && !this.getProgram().upgradable){
+
+		var meta = this.getMetadata();
+		if (!meta.on || meta.on && !meta.noStackable) {
+			this.setEnabled(this.hasResources());
+		} else if (meta.on && meta.noStackable){
 			this.setEnabled(false);
 		}
 	},
-
+*/
 	onClick: function(event){
 		var self = this;
 
@@ -961,7 +935,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
 
-			if (program.upgradable && event.shiftKey){
+			if (!program.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
                     this.buildAll(program);
                 }
@@ -997,12 +971,13 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
     build: function(bld){
         this.payPrice();
 
-        if (bld && bld.upgradable){
+        if (bld){
             bld.val++;
+			bld.on++;
 
-            //to not force player re-click '+' button all the time
-            if (bld.on){
-                bld.on++;
+            // manage togglableOnOff when Off
+            if (bld.togglableOnOff && bld.on == 1){
+                bld.on--;
             }
 
             //price check is sorta heavy operation, so we will store the value in the button
@@ -1017,20 +992,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
             this.build(bld);
             counter++;
         }
-        this.game.msg(bld.title + " x"+counter+ " constructed.", "notice");
+        this.game.msg(bld.label + " x"+counter+ " constructed.", "notice");
     },
-
-
-	getName: function(){
-		var program = this.getProgram();
-		if (!program.upgradable && program.researched){
-			return program.title + " (Complete)";
-		}else if (program.upgradable){
-			return this.inherited(arguments);
-		}else {
-			return program.title;
-		}
-	},
 
 	getDescription: function(){
 		var program = this.getProgram();
@@ -1086,7 +1049,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		var program = this.getProgram();
 		if (this.enabled && this.hasResources()){
 
-			if (program.upgradable && event.shiftKey){
+			if (!program.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
                     this.buildAll(program);
                 }
@@ -1114,7 +1077,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new classes.ui.space.PlanetBuildingBtn({
 				id: 		building.name,
-				name: 		building.title,
+				name: 		building.label,
 				description: building.description,
 				prices: building.prices,
 				planet: self.planet
@@ -1164,13 +1127,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({
 				id: 		program.name,
-				name: 		program.title,
+				name: 		program.label,
 				description: program.description,
 				prices: program.prices,
 				handler: function(btn){
 					var program = btn.getProgram();
-					program.researched = true;
-
 					if (program.handler){
 						program.handler(btn.game, program);
 					}
@@ -1196,9 +1157,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 							planetTitle += cycle.glyph + " ";
 						}
 					});
-					planetTitle += planet.title;
+					planetTitle += planet.label;
 				} else {
-					planetTitle = planet.title;
+					planetTitle = planet.label;
 				}
 
                 var planetPanel = new classes.ui.space.PlanetPanel(planetTitle, self.game.space);

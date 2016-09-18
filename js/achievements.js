@@ -96,10 +96,10 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: "Complete a Moon Program in Iron Will mode",
             starDescription: "Get Moon Program in IW without any paragon points",
             condition: function () {
-                return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched );
+                return ( this.game.ironWill && this.game.space.getProgram("moonMission").on );
             },
             starCondition: function () {
-                return ( this.game.ironWill && this.game.space.getProgram("moonMission").researched && this.game.paragonPoints < 10);
+                return ( this.game.ironWill && this.game.space.getProgram("moonMission").on && this.game.paragonPoints < 10);
             },
             unlocked: false,
             hasStar: true,
@@ -109,7 +109,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Jupiter Ascending",
             description: "Get to the space on a first year",
             condition: function () {
-                return ( this.game.space.getProgram("orbitalLaunch").researched && this.game.calendar.year <= 1);
+                return ( this.game.space.getProgram("orbitalLaunch").on && this.game.calendar.year <= 1);
             },
             unlocked: false
         }, {

@@ -696,7 +696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 4,
+	saveVersion: 5,
 
 	//FINALLY
 	opts: null,
@@ -1288,7 +1288,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 2) {
-			// Move upgradable programs from programs to cath planet
+			// Move !noStackable programs from programs to cath planet
 			if (save.space && save.space.programs && save.space.planets) {
 				var buildings = [];
 				for (var i = 0; i < save.space.programs.length; i++) {
@@ -1316,6 +1316,42 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 4;
+		}
+
+		if (save.saveVersion == 4) {
+			// Use .on instead of .val and .enabled for all buildings
+			if (save.religion.ru) {
+				for (var i = 0; i < save.religion.ru.length; i++) {
+					// Hack to fix old saves
+					if (save.religion.ru[i].researched && (save.religion.ru[i].val == 0 || save.religion.ru[i].val == null)) {
+						loadedElem.val = 1;
+					}
+					save.religion.ru[i].on = save.religion.ru[i].val;
+				}
+			}
+			if (save.space) {
+				if (save.space.programs) {
+					for (var i = 0; i < save.space.programs.length; i++) {
+						if (save.space.programs[i].researched) {
+							save.space.programs[i].on = 1;
+							save.space.programs[i].val = 1;
+						}
+					}
+				}
+				if (save.space.planets) {
+					for (i = 0; i < save.space.planets.length; i++){
+						var planet = save.space.planets[i];
+						if (planet.buildings){
+							for (var j = 0; j < planet.buildings.length; j++){
+								var building = planet.buildings[j];
+								building.on = building.val;
+							}
+						}
+					}
+				}
+			}
+
+			save.saveVersion = 5;
 		}
 
 		return save;
@@ -2409,7 +2445,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//pre-reset faith so people who forgot to do it properly would not be screwed
-		if (this.religion.getRU("apocripha").researched){
+		if (this.religion.getRU("apocripha").on){
 			this.religionTab.resetFaithInternal(1);
 		}
 		//------------------------------------------------------------------------------------------------------
@@ -2559,6 +2595,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return (Math.sqrt(1+8 * value / stripe)-1)/2;
 	},
 
+	getTriValueOrigin: function(value, stripe) {
+		return Math.pow(value *2 +1, 2) /8 *5;
+	},
+
 	getTab: function(name) {
 		switch(name) {
 			case "science":
@@ -2595,6 +2635,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			buildings: this.bld.buildingsData.map(function(building){
 				return building.name;
 			}),
+			religion: this.religion.religionUpgrades.map(function(building){
+				return building.name;
+			}),
 			space: spaceBuildingsMap,
 			jobs: this.village.jobs.map(function(job){
 				return job.name;
@@ -2629,6 +2672,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.prestige.getPerk(unlockId);
 			case "zigguratUpgrades":
 				return this.religion.getZU(unlockId);
+			case "religion":
+				return this.religion.getRU(unlockId);
 		}
 	},
 
@@ -2742,10 +2787,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.resPool.get("sorrow").value / this.resPool.get("sorrow").maxValue < 0.25 && this.prestige.getPerk("megalomania").researched && this.religion.getZU("blackPyramid").val < 3) {
 			gift = "BLS";
 		}
-		if(this.religion.getRU("apocripha").researched) {
+		if(this.religion.getRU("apocripha").on) {
 			gift = "Apocrypha";
 		}
-		if(this.religion.getRU("transcendence").researched && this.religion.getTranscendenceLevel() <= 10) {
+		if(this.religion.getRU("transcendence").on && this.religion.getTranscendenceLevel() <= 10) {
 			gift = "Transcendence";
 		}
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {

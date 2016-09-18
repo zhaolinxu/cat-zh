@@ -2,7 +2,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     perks:[{
 		name: "engeneering",
-		title: "Engineering",
+		label: "Engineering",
 		description: "Reduce all price ratios by 1%. Unlocks more price upgrades.",
 		paragon: 5,
 		unlocked: true,
@@ -16,7 +16,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	}, {
 		name: "megalomania",
-		title: "Megalomania",
+		label: "Megalomania",
 		description: "Unlocks additional megastructures.",
 		paragon: 10,
 		unlocked: false,
@@ -27,7 +27,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "blackCodex",
-		title: "Black Codex",
+		label: "Black Codex",
 		description: "Unlocks unicorn graveyards.",
 		paragon: 25,
 		unlocked: false,
@@ -37,7 +37,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "goldenRatio",
-		title: "Golden Ratio",
+		label: "Golden Ratio",
 		description: "Reduce all price ratios by ~1.618%",
 		paragon: 50,
 		unlocked: false,
@@ -50,7 +50,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "divineProportion",
-		title: "Divine Proportion",
+		label: "Divine Proportion",
 		description: "Reduce all price ratios by 1.7%",
 		paragon: 100,
 		unlocked: false,
@@ -63,7 +63,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "vitruvianFeline",
-		title: "Vitruvian Feline",
+		label: "Vitruvian Feline",
 		description: "Reduce all price ratios by 2%",
 		paragon: 250,
 		unlocked: false,
@@ -76,7 +76,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "renaissance",
-		title: "Renaissance",
+		label: "Renaissance",
 		description: "Reduce all price ratios by 2.25%",
 		paragon: 750,
 		unlocked: false,
@@ -86,7 +86,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "diplomacy",
-		title: "Diplomacy",
+		label: "Diplomacy",
 		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
 		paragon: 5,
 		unlocked: true,
@@ -97,14 +97,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "zebraDiplomacy",
-		title: "Zebra Diplomacy",
+		label: "Zebra Diplomacy",
 		description: "Some zebras hunters will stay in the village.",
 		paragon: 50,
 		unlocked: false,
 		researched: false
 	},{
 		name: "chronomancy",
-		title: "Chronomancy",
+		label: "Chronomancy",
 		description: "Meteor and star events will happen faster.",
 		paragon: 25,
 		unlocked: true,
@@ -115,7 +115,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "unicornmancy",
-		title: "Unicornmancy",
+		label: "Unicornmancy",
 		description: "Unicorn rifts and ivory meteors are more frequent.",
 		paragon: 125,
 		unlocked: true,
@@ -124,14 +124,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "anachronomancy",
-		title: "Anachronomancy",
+		label: "Anachronomancy",
 		description: "Time crystals and chronophysics will be saved across resets.",
 		paragon: 125,
 		unlocked: false,
 		researched: false
 	},{
 		name: "carnivals",
-		title: "Carnivals",
+		label: "Carnivals",
 		description: "Festivals can now stack in duration.",
 		paragon: 25,
 		unlocked: true,
@@ -142,7 +142,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "willenfluff",
-		title: "Venus of Willenfluff",
+		label: "Venus of Willenfluff",
 		description: "Kittens will arrive 75% faster.",
 		paragon: 150,
 		unlocked: false,
@@ -154,7 +154,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
      },{
 		name: "numerology",
-		title: "Numerology",
+		label: "Numerology",
 		description: "Certain years will have special effects.",
 		paragon: 50,
 		unlocked: false,
@@ -164,7 +164,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "numeromancy",
-		title: "Numeromancy",
+		label: "Numeromancy",
 		description: "Certain years will have extra effects during Festivals.",
 		paragon: 250,
 		unlocked: false,
@@ -176,7 +176,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     //---------------------------------------------------
     {
         name: "malkuth",
-        title: "Malkuth",
+        label: "Malkuth",
         description: "Improves paragon effect and scaling by 5%",
         paragon: 500,
         unlocked: false,
@@ -189,7 +189,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "yesod",
-        title: "Yesod",
+        label: "Yesod",
         description: "Improves paragon effect and scaling by 5%",
         paragon: 750,
         unlocked: false,
@@ -202,7 +202,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "hod",
-        title: "Hod",
+        label: "Hod",
         description: "Improves paragon effect and scaling by 5%",
         paragon: 1250,
         unlocked: false,
@@ -215,7 +215,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "netzach",
-        title: "Netzach",
+        label: "Netzach",
         description: "Improves paragon effect and scaling by 5%",
         paragon: 1750,
         unlocked: false,
@@ -231,7 +231,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     //---------------------------------------------------
     {
 		name: "voidOrder",
-		title: "Order of Void",
+		label: "Order of Void",
 		description: "Every priest will now give a minor bonus to faith accumulation.",
 		paragon: 75,
 		unlocked: false,
@@ -240,7 +240,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "adjustmentBureau",
-		title: "Adjustment Bureau",
+		label: "Adjustment Bureau",
 		description: "Unlocks additional game challenges.",
 		paragon: 5,
 		unlocked: true,
@@ -360,11 +360,11 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	},
 
 	getName: function(){
-		var perk = this.getPerk();
-		if (perk.researched){
-			return perk.title + " (Complete)";
+		var meta = this.getMetadata();
+		if (meta.researched){
+			return meta.label + " (Complete)";
 		} else {
-			return perk.title;
+			return meta.label;
 		}
 	},
 
@@ -438,7 +438,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new classes.ui.PrestigeBtn({
 				id: 		perk.name,
-				name: 		perk.title,
+				name: 		perk.label,
 				description: perk.description
 			}, self.game);
 			button.render(content);
