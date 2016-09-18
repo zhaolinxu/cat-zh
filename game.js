@@ -1005,7 +1005,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var saveData = {
 			saveVersion: this.saveVersion,
 			resources: this.resPool.filterMetadata(
-				this.resPool.resources, ["name", "value", "isHidden"]
+				this.resPool.resources, ["name", "value", "unlocked", "isHidden"]
 			)
 		};
 
@@ -1134,7 +1134,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		//------------------------------------
 
-		this.villageTab.visible = (this.resPool.get("kittens").value > 0 || this.resPool.get("zebras").value > 0 || this.time.getVSU("usedCryochambers").val > 0);
+		this.villageTab.visible = (this.resPool.get("kittens").unlocked || this.resPool.get("zebras").unlocked || this.time.getVSU("usedCryochambers").val > 0);
 		this.libraryTab.visible = (this.bld.get("library").on > 0);
 		this.workshopTab.visible = (this.bld.get("workshop").on > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
@@ -1144,7 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").value > 0);
+		this.religionTab.visible = (this.resPool.get("faith").unlocked);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 	},

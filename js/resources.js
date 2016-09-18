@@ -359,6 +359,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i< this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
+			res.unlocked = false;
 			this.resources.push(res);
 		}
 	},
@@ -485,6 +486,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				continue;
 			}
 
+			if (res.value > 0){
+				res.unlocked = true;
+			}
+
 			var maxValue = game.getEffect(res.name + "Max") || 0;
 
 			maxValue = this.addResMaxRatios(res, maxValue);
@@ -574,6 +579,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value = 0;
 			res.maxValue = 0;
 			res.perTickCached = 0;
+			res.unlocked = false;
+			res.isHidden = false;
 		}
 	},
 
@@ -594,6 +601,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 						var res = this.get(savedRes.name);
 						if (res != false) {
 							res.value = savedRes.value;
+							res.unlocked = savedRes.unlocked;
 							res.isHidden = savedRes.isHidden;
 						}
 					}
@@ -747,7 +755,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 
 
-			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
+			var isVisible = (res.unlocked || (res.name == "kittens" && res.maxValue));
 			dojo.setStyle(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 
@@ -830,7 +838,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			var res = row.resRef;
 
 			// Game display
-			var isVisible = (res.value > 0 || (res.name == "kittens" && res.maxValue));
+			var isVisible = (res.unlocked || (res.name == "kittens" && res.maxValue));
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
@@ -1137,7 +1145,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			//---------------------------------------------
 			var recipe = this.game.workshop.getCraft(res.name);
 			// Game display
-			var isVisible = (res.value > 0 && recipe.unlocked && this.workshop.on > 0);
+			var isVisible = (res.unlocked && recipe.unlocked && this.workshop.on > 0);
 			var isHidden = (row.rowRef.style.display === "none");
 			if (isHidden && !isVisible){
 				continue;
