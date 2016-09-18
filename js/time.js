@@ -148,8 +148,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: true
     },{
         name: "ressourceRetrieval",
-        label: "Ressource Retrieval",
-        description: "Retrieve part of your yearly ressources when you shatter TC",
+        label: "Resource Retrieval",
+        description: "Retrieve part of your yearly resources when you shatter TC",
         prices: [
             { name : "timeCrystal", val: 1000 }
         ],

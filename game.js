@@ -696,7 +696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 3.1,
+	saveVersion: 4,
 
 	//FINALLY
 	opts: null,
