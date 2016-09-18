@@ -1039,7 +1039,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	wipe: function(){
-		LCstorage["com.nuclearunicorn.kittengame.savedata"] = null;
+		delete(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 	},
 
 	toggleScheme: function(){
@@ -1061,13 +1061,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		this.resetState();
 		if (!data){
 			this.calculateAllEffects();
 			this.updateOptionsUI();
 			return;
 		}
 
-		this.resetState();
 		try {
 			var saveData = JSON.parse(data);
 

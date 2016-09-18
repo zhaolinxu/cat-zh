@@ -1655,9 +1655,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					var bld = this.game.bld.getBuildingExt(savedBld.name);
 					if (!bld) { continue; }
 
-					bld.set("unlocked", savedBld.unlocked);
-					bld.set("val", savedBld.val);
-					bld.set("on", savedBld.on);
+					if (savedBld.unlocked != undefined){
+						bld.set("unlocked", savedBld.unlocked);
+					}
+
+					if (savedBld.val != undefined){
+						bld.set("val", savedBld.val);
+					}
+
+					if (savedBld.on != undefined){
+						bld.set("on", savedBld.on);
+					}
 
 					if (savedBld.jammed != undefined){
 						bld.set("jammed", savedBld.jammed);
