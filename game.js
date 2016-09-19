@@ -454,6 +454,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+			"reactorThoriumPerTick" : {
+                title: "Reactor thorium consumption",
+                type: "perTick"
+            },
+
             "starchartGlobalRatio" : {
                 title: "Starchart bonus",
                 type: "ratio"
