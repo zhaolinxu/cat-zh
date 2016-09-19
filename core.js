@@ -1081,7 +1081,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
 
-				if (effectMeta.resName && this.game.resPool.get(effectMeta.resName).value == 0){
+				if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
 				}
 
