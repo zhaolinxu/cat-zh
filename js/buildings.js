@@ -1314,7 +1314,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             }
 
             var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
-            var totalRatio = game.space.getProgram("sattelite").val * broadcastTowerRatio;
+            var totalRatio = game.space.getProgram("sattelite").on * broadcastTowerRatio;
 
             btower.effects["cultureMax"] *= ( 1 + totalRatio);
             btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
@@ -1373,35 +1373,35 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			var stainedGlass = game.religion.getRU("stainedGlass");
-			if (stainedGlass.researched){
-				effects["culturePerTickBase"] += 0.05 * stainedGlass.val;
+			if (stainedGlass.on){
+				effects["culturePerTickBase"] += 0.05 * stainedGlass.on;
 			}
 
 			var scholastics = game.religion.getRU("scholasticism");
-			if (scholastics.researched){
-				effects["scienceMax"] = 400 + 100 * scholastics.val;
+			if (scholastics.on){
+				effects["scienceMax"] = 400 + 100 * scholastics.on;
 			}
 
 			var sunAltar = game.religion.getRU("sunAltar");
-			if (sunAltar.researched){
-				effects["faithMax"] += 50 * sunAltar.val;
-				effects["happiness"] = 0.4 + 0.1 * sunAltar.val;
+			if (sunAltar.on){
+				effects["faithMax"] += 50 * sunAltar.on;
+				effects["happiness"] = 0.4 + 0.1 * sunAltar.on;
 			}
 
 			var goldenSpire = game.religion.getRU("goldenSpire");
-			if (goldenSpire.researched){
-				effects["faithMax"] *= (1 + (0.4 + 0.1 * goldenSpire.val));
+			if (goldenSpire.on){
+				effects["faithMax"] *= (1 + (0.4 + 0.1 * goldenSpire.on));
 			}
 
 			var basilica = game.religion.getRU("basilica");
-			if (basilica.researched){
-				effects["cultureMax"] = 75 + 50 * basilica.val;
-				effects["culturePerTickBase"] += 0.2 + 0.05 * (basilica.val-1);
+			if (basilica.on){
+				effects["cultureMax"] = 75 + 50 * basilica.on;
+				effects["culturePerTickBase"] += 0.2 + 0.05 * (basilica.on-1);
 			}
 
 			var templars = game.religion.getRU("templars");
-			if (templars.researched){
-				effects["manpowerMax"] = 50 + 25 * templars.val;
+			if (templars.on){
+				effects["manpowerMax"] = 50 + 25 * templars.on;
 			}
 
 			self.effects = effects;
@@ -1849,18 +1849,35 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.name;
 	},
 
-	getName: function(lackResConvert){
-		var building = this.getMetadata();
-		if (building){
-			var name = this.getBuildingName();
-			if (building.togglable) {
-				var prefix = (building.togglable && !building.togglableOnOff) ? ( building.on + "/" ) : "";
-				return name + " ("+ prefix + building.val + ")";
-			} else {
-				return name + " (" + building.val + ")";
-			}
+	updateEnabled: function(){
+		var meta = this.getMetadata();
+		// Beginning with exceptions
+		if (this.name == "Used Cryochambers"
+		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
+			this.setEnabled(false);
+		} else if (!meta.on || meta.on && !meta.noStackable) {
+			this.setEnabled(this.hasResources());
+		} else if (meta.on && meta.noStackable){
+			this.setEnabled(false);
 		}
-		return this.name;
+
+		if (this.buttonTitle && this.game.opts.highlightUnavailable){
+			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
+		}
+	},
+
+	getName: function(){
+		var meta = this.getMetadata();
+
+		if (meta.val == 0) {
+			return meta.label;
+		} else if (meta.noStackable){
+			return this.name + " (complete)";
+		} else if (meta.togglable && !meta.togglableOnOff) {
+			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+		} else {
+			return meta.label + " (" + meta.val + ")";
+		}
 	},
 
 	getDescription: function(){

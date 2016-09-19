@@ -236,11 +236,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			}
 		}
 
-		if (bld.togglable || bld.togglableOnOff) {
-			// Init on only if needed
-			bld.on = 0;
-		}
-
 	}
 
 });
@@ -519,15 +514,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	},
 
 	updateEnabled: function(){
-		var isEnabled = true;
-
-		var prices = this.getPrices();
-		if (!this.hasResources(prices)
-		|| this.name == "Used Cryochambers"
-		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)){
-			isEnabled = false;
-		}
-		this.setEnabled(isEnabled);
+		this.setEnabled(this.hasResources());
 
 		if (!this.buttonTitle || !this.game.opts.highlightUnavailable){
 			return;
@@ -536,7 +523,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
-		var limited = this.game.resPool.isStorageLimited(prices);
+		var limited = this.game.resPool.isStorageLimited(this.getPrices());
 		//---- now highlight some stuff in vanilla js way ---
 		this.buttonTitle.className = limited ? "limited" : "";
 
@@ -547,7 +534,6 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	},
 
 	hasResources: function(prices){
-		var hasRes = true;
 		if (!prices){
 			prices = this.getPrices();
 		}

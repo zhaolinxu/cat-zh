@@ -28,10 +28,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}});
 
 		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){
-			if (upgrade.researched && upgrade.effects[name]){
-				var ratio = upgrade.upgradable ? upgrade.val : 1;
-				return upgrade.effects[name] * ratio;
-			}
+			return upgrade.effects[name] ? upgrade.effects[name] * upgrade.on : 0;
 		}});
 	},
 
@@ -50,7 +47,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (i = 0; i < this.religionUpgrades.length; i++){
 			var ru = this.religionUpgrades[i];
 			ru.val = 0;
-			ru.researched = false;
+			ru.on = 0;
 		}
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
@@ -66,7 +63,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.faithRatio,
 			tcratio: this.tcratio,
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked"]),
-			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "researched"]),
+			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
 			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val"])
 		};
 	},
@@ -100,11 +97,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "researched"], function(loadedElem){
-				// Hack to fix old saves
-				if (loadedElem.researched && (loadedElem.val == 0 || loadedElem.val == null)) {
-					loadedElem.val = 1;
-				}
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
 			});
 		}
 
@@ -332,9 +325,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"faithRatioReligion" : 0.1
 		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "scholasticism",
 		label: "Scholasticism",
@@ -350,9 +345,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			buildings: ["temple"]
 		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "goldenSpire",
 		label: "Golden Spire",
@@ -368,10 +365,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "sunAltar",
 		label: "Sun Altar",
@@ -387,10 +386,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "stainedGlass",
 		label: "Stained Glass",
@@ -407,9 +408,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "solarRevolution",
 		label: "Solar Revolution",
@@ -423,7 +426,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			//none
 		},
 		val: 0,
-		researched: false
+		noStackable: true
 	},{
 		name: "basilica",
 		label: "Basilica",
@@ -439,10 +442,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "templars",
 		label: "Templars",
@@ -458,10 +463,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
+		calculateEffects: function(self, game) {
+			self.noStackable = (game.religion.getRU("transcendence").on == 0);
+		},
 		val: 0,
-		upgradable: true,
-		priceRatio: 2.5,
-		researched: false
+		noStackable: true,
+		priceRatio: 2.5
 	},{
 		name: "apocripha",
 		label: "Apocrypha",
@@ -475,7 +482,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			//none
 		},
 		val: 0,
-		researched: false
+		noStackable: true
 	},{
 		name: "transcendence",
 		label: "Transcendence",
@@ -488,8 +495,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
+		upgrades: {
+			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
+		},
 		val: 0,
-		researched: false
+		noStackable: true
 	}],
 
 	transcendenceUpgrades: [
@@ -583,7 +593,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getProductionBonus: function(){
-		var rate = this.getRU("solarRevolution").researched ? this.game.getTriValue(this.faith, 1000) : 0;
+		var rate = this.getRU("solarRevolution").on ? this.game.getTriValue(this.faith, 1000) : 0;
         //Solar Revolution capped to 1000% so it doesn't become game-breaking
         rate = this.game.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.005)));
 		return rate;
@@ -607,7 +617,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		var religion = this.game.religion;
 
-		if (!religion.getRU("transcendence").researched){
+		if (!religion.getRU("transcendence").on){
 			return;	//:3
 		}
 		if (!confirm("Are you sure you want to discard your praise bonus ?" +
@@ -704,13 +714,12 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	ruCached: null,
-	transcendence: null,
 	tooltipName: true,
 	simplePrices: false,
 	hasResourceHover: true,
 
 	constructor: function(opts, game) {
-		this.transcendence = this.game.religion.getRU("transcendence");
+
 	},
 
 	getMetadata: function(){
@@ -721,7 +730,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 	},
 
 	hasSellLink: function(){
-		return !this.game.opts.hideSell && this.ruCached.upgradable && this.ruCached.val > 1 && this.transcendence.researched;
+		return !this.game.opts.hideSell && !this.ruCached.noStackable && this.ruCached.val > 1;
 	},
 
 	getRU: function(){
@@ -747,28 +756,18 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 		this.setVisible(isVisible);
 	},
-
+/*
 	updateEnabled: function(){
 		this.inherited(arguments);
 
-		var upgrade = this.getMetadata();
-		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
-			this.setEnabled(false);
-		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){
+		var meta = this.getMetadata();
+		if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());
+		} else if (meta.on && meta.noStackable){
+			this.setEnabled(false);
 		}
 	},
-
-	getName: function(){
-		var upgrade = this.getMetadata();
-		if (upgrade.researched && (!upgrade.upgradable || !this.transcendence.researched)){
-			return this.name + " (complete)";
-		} else if (upgrade.researched && upgrade.upgradable && this.transcendence.researched){	//TODO: cache this too
-			return this.name + " (" + upgrade.val + ")";
-		}
-		return this.name;
-	},
-
+*/
 	getSelectedObject: function(){
 		return this.getMetadata();
 	},
@@ -848,7 +847,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.
 	},
 
 	updateVisible: function (){
-		this.setVisible(this.game.religion.getRU("transcendence").researched);
+		this.setVisible(this.game.religion.getRU("transcendence").on);
 	}
 });
 
@@ -1226,7 +1225,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				prices: upgr.prices,
 				handler: function(btn){
 					var upgrade = btn.getMetadata();
-					upgrade.researched = true;
 					if (upgrade.upgrades){
 						this.game.upgrade(upgrade.upgrades);
 					}
@@ -1295,7 +1293,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% bonus)" );
 		}
 
-		if (religion.getRU("apocripha").researched){
+		if (religion.getRU("apocripha").on){
 			dojo.style(this.faithResetBtn, "display", "");
 		}
 
@@ -1311,7 +1309,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	resetFaith: function(event){
 		event.preventDefault();
 
-		if (!this.game.religion.getRU("apocripha").researched){
+		if (!this.game.religion.getRU("apocripha").on){
 			return;	//trust no one
 		}
 
@@ -1327,7 +1325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
     resetFaithInternal: function(bonusRatio){
          //100% Bonus per Transcendence Level
-         if (this.game.religion.getRU("transcendence").researched) {
+         if (this.game.religion.getRU("transcendence").on) {
 	        bonusRatio *= Math.pow((1 + this.game.religion.getTranscendenceLevel()), 2);
          }
         this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1 * bonusRatio;

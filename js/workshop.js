@@ -2102,7 +2102,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val *
 					(1 - this.game.getHyperbolicEffect(
-						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").val,
+						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").on,
 						0.75));
 			}
 		}
