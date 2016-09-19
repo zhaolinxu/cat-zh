@@ -1406,7 +1406,7 @@ UIUtils = {
 				tooltip.innerHTML = dojo.hitch(game, htmlProvider)();
 			};
 			game.tooltipUpdateFunc();
-			var pos = $(container).position();
+			var pos = $(container).offset();
 
 			//prevent tooltip from leaving the window area
 			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom

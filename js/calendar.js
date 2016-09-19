@@ -252,7 +252,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var calendarSignSpan = dojo.byId("calendarSign");
            var cycle = this.cycles[this.cycle];
            if (cycle){
-			this.calendarSignSpanTooltip = this.attachTooltip(calendarSignSpan, dojo.partial(function(cycle) {
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, dojo.partial(function(cycle) {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {
@@ -261,7 +261,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}, tooltip );
 
 				// Cycle Effects
-				if (this.game.prestige.getPerk("numerology").researched) {
+				if (game.prestige.getPerk("numerology").researched) {
 					var cycleSpan = dojo.create("div", {
 						innerHTML: "Cycle Effects",
 						style: { clear: "left", textDecoration: "underline"}
@@ -290,7 +290,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					}
 				}
 
-				if (this.game.prestige.getPerk("numeromancy").researched && this.game.calendar.festivalDays) {
+				if (game.prestige.getPerk("numeromancy").researched && game.calendar.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
 						innerHTML: "Cycle Festival Effects",
@@ -328,31 +328,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			}, cycle));
 		}
-	},
-
-	attachTooltip: function(container, htmlProvider){
-		var tooltip = dojo.byId("tooltip");
-		dojo.empty(tooltip);
-
-		dojo.connect(container, "onmouseover", this, dojo.partial(function(tooltip, htmlProvider, event){
-			 tooltip.innerHTML = dojo.hitch(this, htmlProvider)();
-
-			 var target = event.originalTarget || event.toElement;	//fucking chrome
-			 var pos = $(target).position();
-			 if (!pos){
-				 return;
-			 }
-
-			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
-			 dojo.setStyle(tooltip, "top",  pos.top + "px");
-
-			 dojo.setStyle(tooltip, "display", "");
-
-	    }, tooltip, htmlProvider));
-
-		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none");
-		}, tooltip, container));
 	},
 
 	/* Return the whole number of days elapsed in the season, correcting for
