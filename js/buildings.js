@@ -1772,7 +1772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 
 });
 
-dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	simplePrices: false,
 
 	getMetadata: function(){
@@ -1800,11 +1800,6 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 			return prices;
 		}
 		return this.prices;
-	},
-
-	getFlavor: function(){
-		var bld = this.getMetadata();
-		return bld.flavor;
 	},
 
 	/**

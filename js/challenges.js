@@ -17,7 +17,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: "Atheism",
 		description: "Your faith bonus will be permanently capped. Every level of transcendence will increase aprocrypha effectiveness by 10%."
             + "Your game will be reset in order to enable this challenge.",
-        enabled: false
+        researched: false
 	}*/],
 
 	game: null,
@@ -57,22 +57,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 });
 
-dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-
-	perk: null,
-
-	constructor: function(opts, game) {
-	},
+dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
+	metaCached: null, // Call getMetadata
 
 	getMetadata: function(){
-		return this.getMeta();
-	},
-
-	getMeta: function(){
-		if (!this.meta){
-			this.meta = this.game.challenge.getChallenge(this.id);
+		if (!this.metaCached){
+			this.metaCached = this.game.challenge.getChallenge(this.id);
 		}
-		return this.meta;
+		return this.metaCached;
 	},
 
 	getPrices: function(){
@@ -80,20 +72,8 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		return price;
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
-		if (meta.researched){
-			return meta.label + " (Complete)";
-		} else {
-			return meta.label;
-		}
-	},
-
-	updateEnabled: function(){
-		this.inherited(arguments);
-		if (this.getMeta().enabled){
-			this.setEnabled(false);
-		}
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
 	},
 
 	updateVisible: function(){
@@ -102,14 +82,14 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 
 	onClick: function(){
 		this.animate();
-		/*var perk = this.getPerk();
+		/*var meta = this.getMetadata();
 		if (this.enabled && this.game.science.get("metaphysics").researched && this.hasResources()){
 			this.payPrice();
-			this.game.paragonPoints -= perk.paragon;
+			this.game.paragonPoints -= meta.paragon;
 
-			perk.researched = true;
-			if (perk.handler){
-				perk.handler(this.game);
+			meta.researched = true;
+			if (meta.handler){
+				meta.handler(this.game);
 			}
 
 			this.update();
@@ -117,9 +97,6 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
         //TODO: enable and reset
 	},
 
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
-	}
 });
 
 dojo.declare("classes.ui.ChallengePanel", com.nuclearunicorn.game.ui.Panel, {
@@ -133,11 +110,7 @@ dojo.declare("classes.ui.ChallengePanel", com.nuclearunicorn.game.ui.Panel, {
 		var content = this.inherited(arguments);
 		var self = this;
 		dojo.forEach(this.game.challenges.challenges, function(challenge, i){
-			var button = new classes.ui.ChallengeBtn({
-				id: 		challenge.name,
-				name: 		challenge.title,
-				description: challenge.description
-			}, self.game);
+			var button = new classes.ui.ChallengeBtn({id: challenge.name}, self.game);
 			button.render(content);
 			self.addChild(button);
 		});

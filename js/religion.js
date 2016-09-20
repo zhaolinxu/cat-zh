@@ -662,7 +662,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 /**
  * A button for ziggurat upgrade
  */
-dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
@@ -691,7 +691,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 /**
  * A button for religion upgrade
  */
-dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
@@ -717,7 +717,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 
 });
 
-dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
@@ -735,10 +735,6 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingB
 
 	updateVisible: function(){
 		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
-	},
-
-	getFlavor: function(){
-		return this.getMetadata().flavor;
 	},
 
 });
