@@ -663,12 +663,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
  * A button for ziggurat upgrade
  */
 dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
-	hasResourceHover: true,
 
 	getMetadata: function(){
-		return this.game.religion.getZU(this.id);
+		if (!this.metaCached){
+			this.metaCached = this.game.religion.getZU(this.id);
+		}
+		return this.metaCached;
 	},
 
 	getBuildingName: function(){
@@ -679,152 +682,65 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		return this.name;
 	},
 
-	getPrices: function(bldName) {
-
-		 var bld = this.getMetadata();
-		 var ratio = bld.priceRatio;
-
-		 var prices = dojo.clone(bld.prices);
-
-		 for (var i = 0; i< bld.val; i++){
-			 for( var j = 0; j < prices.length; j++){
-				prices[j].val = prices[j].val * ratio;
-			 }
-		 }
-	     return prices;
-	 },
-
 	payPrice: function(){
 		this.inherited(arguments);
 	},
 
-	getSelectedObject: function(){
-		return this.getMetadata();
-	},
-
-	getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	}
 });
 
 /**
  * A button for religion upgrade
  */
 dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-
-	ruCached: null,
+	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
-	hasResourceHover: true,
-
-	constructor: function(opts, game) {
-
-	},
 
 	getMetadata: function(){
-		if (!this.ruCached){
-			this.ruCached = this.game.religion.getRU(this.id);
+		if (!this.metaCached){
+			this.metaCached = this.game.religion.getRU(this.id);
 		}
-		return this.ruCached;
+		return this.metaCached;
 	},
 
 	hasSellLink: function(){
-		return !this.game.opts.hideSell && !this.ruCached.noStackable && this.ruCached.val > 1;
-	},
-
-	getRU: function(){
-		return this.getMetadata(this.id);
+		return !this.game.opts.hideSell && !this.getMetadata().noStackable && this.getMetadata().val > 1;
 	},
 
 	getPrices: function(){
-		var ratio = this.getRU().priceRatio || 1;
-		var prices = dojo.clone(this.ruCached.prices);
-
-		for (var i = 0; i< prices.length; i++){
-			prices[i].val = prices[i].val * Math.pow(ratio, this.ruCached.val);
-		}
-
-		prices = this.game.village.getEffectLeader("wise", prices);
-
-	    return prices;
+		return this.game.village.getEffectLeader("wise", this.inherited(arguments));
 	},
 
 	updateVisible: function(){
-		var upgrade = this.getMetadata();
-		var isVisible = ( this.game.religion.faith >= upgrade.faith );
-
-		this.setVisible(isVisible);
-	},
-/*
-	updateEnabled: function(){
-		this.inherited(arguments);
-
-		var meta = this.getMetadata();
-		if (!meta.on || meta.on && !meta.noStackable) {
-			this.setEnabled(this.hasResources());
-		} else if (meta.on && meta.noStackable){
-			this.setEnabled(false);
-		}
-	},
-*/
-	getSelectedObject: function(){
-		return this.getMetadata();
+		this.setVisible(this.game.religion.faith >= this.getMetadata().faith);
 	},
 
-	getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	}
 });
 
 dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	metaCached: null, // Call getMetadata
 	tooltipName: true,
 	simplePrices: false,
-	hasResourceHover: true,
 
 	getMetadata: function(){
-		return this.game.religion.getTU(this.id);
-	},
-
-	getPrices: function(bldName) {
-		var bld = this.getMetadata();
-		var ratio = bld.priceRatio;
-
-		var prices = dojo.clone(bld.prices);
-
-		for (var i = 0; i< bld.val; i++){
-			for( var j = 0; j < prices.length; j++){
-				prices[j].val = prices[j].val * ratio;
-			}
+		if (!this.metaCached){
+			this.metaCached = this.game.religion.getTU(this.id);
 		}
-		return prices;
+		return this.metaCached;
 	},
 
 	payPrice: function(){
 		this.inherited(arguments);
 	},
 
-	getSelectedObject: function(){
-		return this.getMetadata();
-	},
-
 	updateVisible: function(){
-		var tier = this.game.religion.getTranscendenceLevel();
-		var upgrade = this.getMetadata();
-
-		var isVisible = ( tier >= upgrade.tier );
-		this.setVisible(isVisible);
+		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
 	},
 
 	getFlavor: function(){
 		return this.getMetadata().flavor;
 	},
 
-	getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {

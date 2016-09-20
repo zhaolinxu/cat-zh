@@ -375,46 +375,27 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
  */
 
 dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-    hasResourceHover: true,
-    cache: null,
+    metaCached: null, // Call getMetadata
+
+	getMetadata: function(){
+        if (!this.metaCached){
+            this.metaCached = this.game.time.getCFU(this.id);
+        }
+        return this.metaCached;
+    },
 
     onClick: function(event){
-        var self = this;
-
         this.animate();
-        var meta = this.getMetadata();
+
         if (this.enabled && this.hasResources()){
             this.payPrice();
-            meta.val++;
-            if (meta.on) {
-				meta.on++;
+            this.getMetadata().val++;
+            if (this.getMetadata().on) {
+				this.getMetadata().on++;
             }
         }
     },
 
-    getPrices: function(){
-        var ratio = this.getMetadata().priceRatio || 1;
-        var prices = dojo.clone(this.cache.prices);
-
-        for (var i = 0; i< prices.length; i++){
-            prices[i].val = prices[i].val * Math.pow(ratio, this.cache.val);
-        }
-        return prices;
-    },
-
-    getMetadata: function(){
-        if (!this.cache){
-            var time = this.game.time;
-            var meta = time.getMeta(this.id, time.chronoforgeUpgrades);
-            this.cache = meta;
-        }
-        return this.cache;
-    },
-
-    getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	}
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -457,50 +438,30 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
 });
 
 dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-    hasResourceHover: true,
-    cache: null,
+    metaCached: null, // Call getMetadata
+
+	getMetadata: function(){
+        if (!this.metaCached){
+            this.metaCached = this.game.time.getVSU(this.id);
+        }
+        return this.metaCached;
+    },
 
     onClick: function(event){
-        var self = this;
-		var meta = this.getMetadata();
-
         this.animate();
 
         if (this.enabled && this.hasResources()){
             this.payPrice();
-            if (meta.name == "chronocontrol") {
-				this.game.time.energy -= meta.prices[2].val;
+            if (this.getMetadata().name == "chronocontrol") {
+				this.game.time.energy -= this.getMetadata().prices[2].val;
             }
-            meta.val++;
-            if (meta.on) {
-				meta.on++;
+            this.getMetadata().val++;
+            if (this.getMetadata().on) {
+				this.getMetadata().on++;
             }
         }
     },
 
-    getPrices: function(){
-        var ratio = this.getMetadata().priceRatio || 1;
-        var prices = dojo.clone(this.cache.prices);
-
-        for (var i = 0; i< prices.length; i++){
-            prices[i].val = prices[i].val * Math.pow(ratio, this.cache.val);
-        }
-        return prices;
-    },
-
-    getMetadata: function(){
-        if (!this.cache){
-            var time = this.game.time;
-            var meta = time.getMeta(this.id, time.voidspaceUpgrades);
-            this.cache = meta;
-        }
-        return this.cache;
-    },
-
-    getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {

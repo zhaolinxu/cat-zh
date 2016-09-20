@@ -60,7 +60,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	perk: null,
-	hasResourceHover: true,
 
 	constructor: function(opts, game) {
 	},

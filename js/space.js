@@ -849,10 +849,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-
+	metaCached: null, // Call getMetadata
 	program: null,
 	simplePrices: false,
-	hasResourceHover: true,
+
+	getMetadata: function(){
+		if (!this.metaCached){
+			this.metaCached = this.game.space.getProgram(this.id);
+		}
+		return this.metaCached;
+	},
 
 	constructor: function(opts, game) {
 		if(opts.onClickComplete){
@@ -860,23 +866,12 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 	},
 
-	getProgram: function(){
-		if (!this.program){
-			this.program = this.game.space.getProgram(this.id);
-		}
-		return this.program;
-	},
-
-	getMetadata: function(){
-		return this.getProgram();
-	},
-
 	hasSellLink: function(){
 		return false;
 	},
 
     getPrices: function() {
-        var program = this.getProgram();
+        var program = this.getMetadata();
         var ratio = program.priceRatio || 1.15;
 
         var prices = dojo.clone(program.prices);
@@ -900,7 +895,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
     },
 
 	updateVisible: function(){
-		var program = this.getProgram();
+		var program = this.getMetadata();
 		if (program.requiredTech){
 			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
 				var tech = this.game.science.get(program.requiredTech[i]);
@@ -914,25 +909,14 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			this.setVisible(false);
 			return;
 		}
-		this.setVisible(this.getProgram().unlocked);
+		this.setVisible(program.unlocked);
 	},
-/*
-	updateEnabled: function(){
-		this.inherited(arguments);
 
-		var meta = this.getMetadata();
-		if (!meta.on || meta.on && !meta.noStackable) {
-			this.setEnabled(this.hasResources());
-		} else if (meta.on && meta.noStackable){
-			this.setEnabled(false);
-		}
-	},
-*/
 	onClick: function(event){
 		var self = this;
 
 		this.animate();
-		var program = this.getProgram();
+		var program = this.getMetadata();
 		if (this.enabled && this.hasResources()){
 
 			if (!program.noStackable && event.shiftKey){
@@ -995,19 +979,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
         this.game.msg(bld.label + " x"+counter+ " constructed.", "notice");
     },
 
-	getDescription: function(){
-		var program = this.getProgram();
-		return program.description;
-	},
-
-	getEffects: function(){
-		var program = this.getProgram();
-		return program.effects;
-	},
-
-	getSelectedObject: function(){
-		return this.getMetadata();
-	}
 });
 
 dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
