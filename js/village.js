@@ -1504,7 +1504,6 @@ dojo.declare("classes.village.ui.VillageButton", com.nuclearunicorn.game.ui.Butt
 dojo.declare("classes.village.ui.FestivalButton", classes.village.ui.VillageButton, {
 	x10: null,
 	simplePrices: false,
-	hasResourceHover: true,
 
 	getSelectedObject: function(){
 		return {"prices": this.getPrices()};

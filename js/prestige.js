@@ -338,7 +338,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 
 	perk: null,
-	hasResourceHover: true,
 
 	constructor: function(opts, game) {
 	},

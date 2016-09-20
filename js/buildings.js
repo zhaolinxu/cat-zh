@@ -1735,6 +1735,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	sellHref: null,
 	toggleHref: null,
+	hasResourceHover: true,
 
 	buildingName: null,
 
@@ -1763,12 +1764,45 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.getMetadata();
 	},
 
+	getEffects: function(){
+		return this.getMetadata().effects;
+	},
+
 	getPrices: function(){
-		if (this.buildingName){
-			var prices = this.game.bld.getPrices(this.buildingName);
-			return prices;
+        var ratio = this.getMetadata().priceRatio || 1;
+        var prices = dojo.clone(this.getMetadata().prices);
+
+        for (var i = 0; i< prices.length; i++){
+            prices[i].val = prices[i].val * Math.pow(ratio, this.getMetadata().val);
+        }
+        return prices;
+    },
+
+	getSelectedObject: function(){
+		return this.getMetadata();
+	},
+
+	getBuildingName: function(){
+		return this.name;
+	},
+
+	getName: function(){
+		var meta = this.getMetadata();
+
+		if (meta.val == 0) {
+			return meta.label;
+		} else if (meta.noStackable){
+			return this.name + " (complete)";
+		} else if (meta.togglable && !meta.togglableOnOff) {
+			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+		} else {
+			return meta.label + " (" + meta.val + ")";
 		}
-		return this.prices;
+	},
+
+	getDescription: function(){
+		var description = this.getMetadata().description;
+		return typeof(description) != "undefined" ? description : "";
 	},
 
 	onClick: function(event){
@@ -1801,7 +1835,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			this.game.render();
 		}
 	},
-
 
     build: function(bld){
         this.payPrice();
@@ -1844,50 +1877,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
             console.warn("Not implemented yet!");
         }
     },
-
-	getBuildingName: function(){
-		return this.name;
-	},
-
-	updateEnabled: function(){
-		var meta = this.getMetadata();
-		// Beginning with exceptions
-		if (this.name == "Used Cryochambers"
-		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
-			this.setEnabled(false);
-		} else if (!meta.on || meta.on && !meta.noStackable) {
-			this.setEnabled(this.hasResources());
-		} else if (meta.on && meta.noStackable){
-			this.setEnabled(false);
-		}
-
-		if (this.buttonTitle && this.game.opts.highlightUnavailable){
-			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
-		}
-	},
-
-	getName: function(){
-		var meta = this.getMetadata();
-
-		if (meta.val == 0) {
-			return meta.label;
-		} else if (meta.noStackable){
-			return this.name + " (complete)";
-		} else if (meta.togglable && !meta.togglableOnOff) {
-			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
-		} else {
-			return meta.label + " (" + meta.val + ")";
-		}
-	},
-
-	getDescription: function(){
-		var building = this.getMetadata();
-		if (!building || (building && !building.jammed)){
-			return this.description;
-		} else {
-			return this.description + "<br>" + "***Maintenance***";
-		}
-	},
 
 	hasSellLink: function(){
 		return true && !this.game.opts.hideSell;
@@ -1995,13 +1984,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if (building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell) ) {
-			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
-				function(){
-					var building = this.getMetadataRaw();
-					building.isAutomationEnabled = !building.isAutomationEnabled;
-				}, true
-			);
+		if (building.isAutomationEnabled) {
+			if (building.name != "calciner" || (building.name == "calciner" && this.game.opts.hideSell)) {
+				this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
+					function(){
+						var building = this.getMetadataRaw();
+						building.isAutomationEnabled = !building.isAutomationEnabled;
+					}, true
+				);
+			}
 		}
 
 		if(building.val > 9 && this.hasSellLink()) {
@@ -2073,6 +2064,23 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 	},
 
+	updateEnabled: function(){
+		var meta = this.getMetadata();
+		// Beginning with exceptions
+		if (this.name == "Used Cryochambers"
+		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
+			this.setEnabled(false);
+		} else if (!meta.on || meta.on && !meta.noStackable) {
+			this.setEnabled(this.hasResources());
+		} else if (meta.on && meta.noStackable){
+			this.setEnabled(false);
+		}
+
+		if (this.buttonTitle && this.game.opts.highlightUnavailable){
+			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
+		}
+	},
+
 	updateVisible: function(){
 		this.inherited(arguments);
 		var building = this.getMetadata();
@@ -2133,7 +2141,6 @@ dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn
 
 dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingBtn, {
 	simplePrices: false,
-	hasResourceHover: true,
 
 	getMetadata: function(){
 		if (this.buildingName){
@@ -2154,22 +2161,17 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		return null;
 	},
 
-	getDescription: function(){
-		return this.description;
+	getPrices: function(){
+		if (this.buildingName){
+			var prices = this.game.bld.getPrices(this.buildingName);
+			return prices;
+		}
+		return this.prices;
 	},
 
 	getFlavor: function(){
 		var bld = this.getMetadata();
 		return bld.flavor;
-	},
-
-	getEffects: function(){
-		var bld = this.getMetadata();
-		return bld.effects;
-	},
-
-	getSelectedObject: function(){
-		return this.getMetadata();
 	},
 
 	/**
