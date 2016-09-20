@@ -8,7 +8,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		//--------------------- food upgrades ----------------------
 		{
 		name: "mineralHoes",
-		title: "Mineral Hoes",
+		label: "Mineral Hoes",
 		description: "Your farmers are 50% more effective",
 		effects: {
 			"catnipJobRatio" : 0.5
@@ -25,7 +25,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "ironHoes",
-		title: "Iron Hoes",
+		label: "Iron Hoes",
 		description: "Your farmers are 30% more effective",
 		effects: {
 			"catnipJobRatio" : 0.3
@@ -41,7 +41,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- wood upgrades ----------------------
 	{
 		name: "mineralAxes",
-		title: "Mineral Axe",
+		label: "Mineral Axe",
 		description: "Woodcutters are 70% more effective",
 		effects: {
 			"woodJobRatio" : 0.7
@@ -58,7 +58,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "ironAxes",
-		title: "Iron Axe",
+		label: "Iron Axe",
 		description: "Woodcutters are 50% more effective",
 		effects: {
 			"woodJobRatio" : 0.5
@@ -72,7 +72,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "steelAxe",
-		title: "Steel Axe",
+		label: "Steel Axe",
 		description: "Very sharp and durable axes. Woodcutters are 50% more effective",
 		effects: {
 			"woodJobRatio" : 0.5
@@ -85,7 +85,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "reinforcedSaw",
-		title: "Reinforced Saw",
+		label: "Reinforced Saw",
 		description: "Improve Lumber Mill efficiency by 20%",
 		effects: {
 			"lumberMillRatio" : 0.2
@@ -101,7 +101,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "steelSaw",
-		title: "Steel Saw",
+		label: "Steel Saw",
 		description: "Improve Lumber Mill efficiency by 20%",
 		effects: {
 			"lumberMillRatio" : 0.2
@@ -120,7 +120,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "titaniumSaw",
-		title: "Titanium Saw",
+		label: "Titanium Saw",
 		description: "Improve Lumber Mill efficiency by 15%",
 		effects: {
 			"lumberMillRatio" : 0.15
@@ -139,7 +139,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "alloySaw",
-		title: "Alloy Saw",
+		label: "Alloy Saw",
 		description: "Improve Lumber Mill efficiency by 15%",
 		effects: {
 			"lumberMillRatio" : 0.15
@@ -155,7 +155,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "titaniumAxe",
-		title: "Titanium Axe",
+		label: "Titanium Axe",
 		description: "Indestructible axes. Woodcutters are 50% more effective.",
 		effects: {
 			"woodJobRatio" : 0.5
@@ -168,7 +168,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "alloyAxe",
-		title: "Alloy Axe",
+		label: "Alloy Axe",
 		description: "The more you use them, the sharper they are! Woodcutters are 50% more effective.",
 		effects: {
 			"woodJobRatio" : 0.5
@@ -183,7 +183,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- unobtainium stuff --------------------------
 	{
 		name: "unobtainiumAxe",
-		title: "Unobtainium Axe",
+		label: "Unobtainium Axe",
 		description: "Those axes are literally unobtainable! Woodcutters are 50% more effective.",
 		effects: {
 			"woodJobRatio" : 0.5
@@ -197,7 +197,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "unobtainiumSaw",
-		title: "Unobtainium Saw",
+		label: "Unobtainium Saw",
 		description: "Improve Lumber Mill efficiency by 25%",
 		effects: {
 			"lumberMillRatio" : 0.25
@@ -215,7 +215,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- storage upgrades ----------------------
 	{
 		name: "stoneBarns",
-		title: "Expanded Barns",
+		label: "Expanded Barns",
 		description: "75% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.75
@@ -234,7 +234,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "reinforcedBarns",
-		title: "Reinforced Barns",
+		label: "Reinforced Barns",
 		description: "80% more storage space for wood and iron",
 		effects: {
 			"barnRatio" : 0.80
@@ -256,7 +256,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "reinforcedWarehouses",
-		title: "Reinforced Warehouses",
+		label: "Reinforced Warehouses",
 		description: "Storage facilities store 25% more resources",
 		effects: {
 			"warehouseRatio" : 0.25
@@ -277,7 +277,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "titaniumBarns",
-		title: "Titanium Barns",
+		label: "Titanium Barns",
 		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
@@ -295,7 +295,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "alloyBarns",
-		title: "Alloy Barns",
+		label: "Alloy Barns",
 		description: "Storage facilities store twice as many resources",
 		effects: {
 			"barnRatio" : 1
@@ -312,7 +312,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "concreteBarns",
-		title: "Concrete Barns",
+		label: "Concrete Barns",
 		description: "Storage facilities store 75% more resources",
 		effects: {
 			"barnRatio" : 0.75
@@ -329,7 +329,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "titaniumWarehouses",
-		title: "Titanium Warehouses",
+		label: "Titanium Warehouses",
 		description: "Storage facilities store 50% more resources",
 		effects: {
 			"warehouseRatio" : 0.5
@@ -347,7 +347,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "alloyWarehouses",
-		title: "Alloy Warehouses",
+		label: "Alloy Warehouses",
 		description: "Storage facilities store 45% more resources",
 		effects: {
 			"warehouseRatio" : 0.45
@@ -364,7 +364,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "concreteWarehouses",
-		title: "Concrete Warehouses",
+		label: "Concrete Warehouses",
 		description: "Storage facilities store 35% more resources",
 		effects: {
 			"warehouseRatio" : 0.35
@@ -381,7 +381,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "storageBunkers",
-		title: "Storage Bunkers",
+		label: "Storage Bunkers",
 		description: "Storage facilities store 20% more resources",
 		effects: {
 			"warehouseRatio" : 0.20
@@ -400,7 +400,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//==================== accelerators ==============
 	{
 		name: "energyRifts",
-		title: "Energy Rifts",
+		label: "Energy Rifts",
 		description: "Accelerators will now create rifts to a pocket dimension",
 		effects: {
 		},
@@ -416,7 +416,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "stasisChambers",
-		title: "Stasis Chambers",
+		label: "Stasis Chambers",
 		description: "Energy Rifts are twice as effective",
 		effects: {
 			"acceleratorRatio" : 0.95
@@ -437,7 +437,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "voidEnergy",
-		title: "Void Energy",
+		label: "Void Energy",
 		description: "Energy Rifts are even more effective at storing resources.",
 		effects: {
 			"acceleratorRatio" : 0.75
@@ -458,7 +458,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "darkEnergy",
-		title: "Dark Energy",
+		label: "Dark Energy",
 		description: "Energy Rifts are 2.5 times as effective at storing resources.",
 		effects: {
 			"acceleratorRatio" : 2.5	//TODO: ratio is a subject of change
@@ -475,7 +475,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "chronoforge",
-		title: "Chronoforge",
+		label: "Chronoforge",
 		description: "An alien technology related to time manipulation.",
 		prices:[
 			{ name : "science",     val: 500000 },
@@ -486,7 +486,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "tachyonAccelerators",
-		title: "Tachyon Accelerators",
+		label: "Tachyon Accelerators",
 		description: "Energy Rifts are 5 times as effective",
 		effects: {
 			"acceleratorRatio" : 5
@@ -503,7 +503,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "fluxCondensator",
-		title: "Flux Condensator",
+		label: "Flux Condensator",
 		description: "Chronosphere will now affect craftable resources.",
 		effects: {
 		},
@@ -516,7 +516,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "lhc",
-		title: "LHC",
+		label: "LHC",
 		description: "Every accelerator will provide a bonus to maximum science",
 		effects: {
 		},
@@ -534,7 +534,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//----------- energy stuff ---------
 	{
 		name: "photovoltaic",
-		title: "Photovoltaic Cells",
+		label: "Photovoltaic Cells",
 		description: "Solar Farms are 50% more effective",
 		prices:[
 			{ name : "science", val: 75000 },
@@ -551,7 +551,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "solarSatellites",
-		title: "Solar Satellites",
+		label: "Solar Satellites",
 		description: "Satellites will now generate energy instead of consuming it",
 		prices:[
 			{ name : "science", val: 225000 },
@@ -566,7 +566,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//	------------- harbour stuff ------------
 	{
 		name: "cargoShips",
-		title: "Cargo Ships",
+		label: "Cargo Ships",
 		description: "Every ship will give a 1% bonus to Harbor capacity",
 		effects: {
 			"harborRatio" : 0.01
@@ -583,7 +583,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "It's like a tuna can, but bigger"
 	},{
 		name: "barges",
-		title: "Barges",
+		label: "Barges",
 		description: "Harbors store more coal",
 		effects: {
 			"harborCoalRatio" : 0.5
@@ -600,7 +600,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "reactorVessel",
-		title: "Reactor Vessel",
+		label: "Reactor Vessel",
 		description: "Every reactor improves ship potential by 5%",
 		effects: {
 			"shipLimit" : 0.05
@@ -617,7 +617,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 	},{
 		name: "ironwood",
-		title: "Ironwood Huts",
+		label: "Ironwood Huts",
 		description: "Hut price ratio reduced by 50%",
 		effects: {
 			"hutPriceRatio" : -0.5
@@ -634,7 +634,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "concreteHuts",
-		title: "Concrete Huts",
+		label: "Concrete Huts",
 		description: "Hut price ratio reduced by 30%",
 		effects: {
 			"hutPriceRatio" : -0.30
@@ -648,7 +648,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 	},{
 		name: "unobtainiumHuts",
-		title: "Unobtainium Huts",
+		label: "Unobtainium Huts",
 		description: "Hut price ratio reduced by 25%",
 		effects: {
 			"hutPriceRatio" : -0.25
@@ -662,7 +662,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 	},{
 		name: "eludiumHuts",
-		title: "Eludium Huts",
+		label: "Eludium Huts",
 		description: "Hut price ratio reduced by 10%",
 		effects: {
 			"hutPriceRatio" : -0.1
@@ -676,7 +676,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "silos",
-		title: "Silos",
+		label: "Silos",
 		description: "Warehouses can now store catnip",
 		effects: {
 		},
@@ -696,7 +696,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "With carpeting and climbing holds of course"
 	},{
 		name: "refrigeration",
-		title: "Refrigeration",
+		label: "Refrigeration",
 		description: "Expands catnip limit by 75%",
 		effects: {
 			"catnipMaxRatio" : 0.75
@@ -712,7 +712,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- hunt upgrades ----------------------
 	{
 		name: "compositeBow",
-		title: "Composite Bow",
+		label: "Composite Bow",
 		description: "An improved version of a bow which provides a permanent +50% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.5
@@ -726,7 +726,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "crossbow",
-		title: "Crossbow",
+		label: "Crossbow",
 		description: "An improved version of a bow which provides a permanent +25% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.25
@@ -739,7 +739,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "railgun",
-		title: "Railgun",
+		label: "Railgun",
 		description: "Deadly electromagnetic weapon. +25% boost to catpower production",
 		effects: {
 			"manpowerJobRatio" : 0.25
@@ -753,7 +753,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "bolas",
-		title: "Bolas",
+		label: "Bolas",
 		description: "Throwing weapon made of heavy stone weights. Your hunters are twice as effective",
 		effects: {
 			"hunterRatio" : 1
@@ -768,7 +768,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Weaponized yarn"
 	},{
 		name: "huntingArmor",
-		title: "Hunting Armour",
+		label: "Hunting Armour",
 		description: "Hunters are 3 times as effective",
 		effects: {
 			"hunterRatio" : 2
@@ -782,7 +782,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         flavor: "At least they are wearing something..."
 	},{
 		name: "steelArmor",
-		title: "Steel Armour",
+		label: "Steel Armour",
 		description: "Hunters are a bit more effective",
 		effects: {
 			"hunterRatio" : 0.5
@@ -795,7 +795,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "alloyArmor",
-		title: "Alloy Armour",
+		label: "Alloy Armour",
 		description: "Hunters are a bit more effective",
 		effects: {
 			"hunterRatio" : 0.5
@@ -808,7 +808,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "nanosuits",
-		title: "Nanosuits",
+		label: "Nanosuits",
 		description: "Maximum catpower!",
 		effects: {
 			"hunterRatio" : 0.5
@@ -821,7 +821,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "caravanserai",
-		title: "Caravanserai",
+		label: "Caravanserai",
 		description: "Your tradeposts have a very minor effect on race standing",
 		effects: {
 			"standingRatio" : 0.35	//0.35% per tradepost
@@ -841,7 +841,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- stuff ----------------------
 	{
 		name: "advancedRefinement",
-		title: "Catnip Enrichment",
+		label: "Catnip Enrichment",
 		description: "Catnip refines twice as well",
 		effects: {
 		},
@@ -857,7 +857,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "It's all fun and games 'til someone gets pounced"
 	},{
 		name: "goldOre",
-		title: "Gold Ore",
+		label: "Gold Ore",
 		description: "Small percentage of ore will be smelted into gold",
 		effects: {
 		},
@@ -871,7 +871,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Shiny!"
 	},{
 		name: "geodesy",
-		title: "Geodesy",
+		label: "Geodesy",
 		description: "Geologists are more effective and can find gold.",
 		effects: {
 		},
@@ -888,7 +888,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Gold sniffing cats"
 	},{
 		name: "register",
-		title: "Register",
+		label: "Register",
 		description: "Leader manage jobs depending on experience.",
 		effects: {
 		},
@@ -900,7 +900,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "strenghtenBuild",
-		title: "Concrete Pillars",
+		label: "Concrete Pillars",
 		description: "Repair barn and warehouse cracks with concrete.",
 		effects: {
 			"barnRatio" : 0.05,
@@ -922,7 +922,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//TODO: thouse two upgrades may be buggy like hell, we should really really revisit handler logic
 	{
 		name: "miningDrill",
-		title: "Mining Drill",
+		label: "Mining Drill",
 		description: "Geologists are more effective",
 		effects: {
 		},
@@ -938,7 +938,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 	},{
 		name: "unobtainiumDrill",
-		title: "Unobtainium Drill",
+		label: "Unobtainium Drill",
 		description: "Geologists are even more effective",
 		effects: {
 		},
@@ -956,7 +956,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- coal upgrades ----------------------
 	{
 		name: "coalFurnace",
-		title: "Coal Furnace",
+		label: "Coal Furnace",
 		description: "Smelters produce coal while burning wood",
 		effects: {
 		},
@@ -971,7 +971,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "So warm... so sleepy..."
 	},{
 		name: "deepMining",
-		title: "Deep Mining",
+		label: "Deep Mining",
 		description: "Mines will also produce coal",
 		effects: {
 		},
@@ -988,7 +988,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Yummy Canaries!"
 	},{
 		name: "pyrolysis",
-		title: "Pyrolysis",
+		label: "Pyrolysis",
 		description: "Coal output is boosted by 20%",
 		effects: {
 			"coalSuperRatio": 0.2
@@ -1001,7 +1001,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "electrolyticSmelting",
-		title: "Electrolytic Smelting",
+		label: "Electrolytic Smelting",
 		description: "Smelters are twice as effective",
 		effects: {
 			"smelterRatio": 0.95
@@ -1014,7 +1014,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "oxidation",
-		title: "Oxidation",
+		label: "Oxidation",
 		description: "Calciners are twice as effective at producing iron and 4 times at producing titanium",
 		effects: {
 			"calcinerRatio": 0.95
@@ -1027,7 +1027,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "steelPlants",
-		title: "Steel Plants",
+		label: "Steel Plants",
 		description: "10% of the calciners' iron output will be converted to steel",
 		effects: {
 			"calcinerSteelRatio" : 0.1
@@ -1044,7 +1044,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "automatedPlants",
-		title: "Automated Plants",
+		label: "Automated Plants",
 		description: "Steel Plants are boosted by 25% of your craft ratio",
 		effects: {
 			"calcinerSteelCraftRatio" : 0.25
@@ -1060,7 +1060,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 	},{
 		name: "nuclearPlants",
-		title: "Nuclear Plants",
+		label: "Nuclear Plants",
 		description: "Steel Plants are additionally boosted by 2% of your craft ratio per Reactor",
 		effects: {
 			"calcinerSteelReactorBonus" : 0.02
@@ -1073,7 +1073,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "rotaryKiln",
-		title: "Rotary Kiln",
+		label: "Rotary Kiln",
 		description: "Calciners are 75% more effective at producing iron and 3 times at producing titanium",
 		effects: {
 			"calcinerRatio": 0.75
@@ -1088,7 +1088,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "fluidizedReactors",
-		title: "Fluidized Reactors",
+		label: "Fluidized Reactors",
 		description: "Calciners are twice as effective",
 		effects: {
 			"calcinerRatio": 1
@@ -1102,7 +1102,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "nuclearSmelters",
-		title: "Nuclear Smelters",
+		label: "Nuclear Smelters",
 		description: "Smelters can now produce titanium",
 		effects: {
 		},
@@ -1116,7 +1116,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- automation upgrades ----------------------
 	{
 		name: "printingPress",
-		title: "Printing Press",
+		label: "Printing Press",
 		description: "Steamworks automatically print manuscripts",
 		effects: {
 		},
@@ -1131,7 +1131,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "offsetPress",
-		title: "Offset Press",
+		label: "Offset Press",
 		description: "Printing press is 4 times as effective",
 		effects: {
 		},
@@ -1148,7 +1148,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Paper goes in, cat pictures come out."
 	},{
 		name: "photolithography",
-		title: "Photolithography",
+		label: "Photolithography",
 		description: "Printing press is 4 times as effective",
 		effects: {
 		},
@@ -1165,7 +1165,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "factoryAutomation",
-		title: "Workshop Automation",
+		label: "Workshop Automation",
 		description: "Once per year Steamworks will refine small quantities of craftable resources when they are at the limit",
 		effects: {
 		},
@@ -1178,7 +1178,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		flavor: "Includes autofeeders"
 	},{
 		name: "advancedAutomation",
-		title: "Advanced Automation",
+		label: "Advanced Automation",
 		description: "Workshop Automation will be activated twice per year.",
 		effects: {
 		},
@@ -1191,7 +1191,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "pneumaticPress",
-		title: "Pneumatic Press",
+		label: "Pneumatic Press",
 		description: "Workshop automation will also convert iron to plates",
 		effects: {
 		},
@@ -1204,7 +1204,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "combustionEngine",
-		title: "High Pressure Engine",
+		label: "High Pressure Engine",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
 			"coalRatioGlobalReduction" : 0.2
@@ -1222,7 +1222,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         flavor: "A better mousetrap"
 	},{
 		name: "fuelInjectors",
-		title: "Fuel Injectors",
+		label: "Fuel Injectors",
 		description: "Reduces coal consumption of Steamworks by 20%",
 		effects: {
 			"coalRatioGlobalReduction" : 0.2
@@ -1240,7 +1240,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "factoryLogistics",
-		title: "Factory Logistics",
+		label: "Factory Logistics",
 		description: "Factories are providing bigger bonus to craft effectiveness",
 		effects: {
 		},
@@ -1257,7 +1257,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "spaceManufacturing",
-		title: "Space Manufacturing",
+		label: "Space Manufacturing",
 		description: "Factories are providing bonus to Space Elevators and Orbital Arrays",
 		effects: {
 		},
@@ -1274,7 +1274,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//--------------------- science upgrades ----------------------
 	{
 		name: "celestialMechanics",
-		title: "Celestial Mechanics",
+		label: "Celestial Mechanics",
 		description: "Celestial events and meteors will generate additional science",
 		effects: {},
 		prices:[
@@ -1284,7 +1284,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "astrolabe",
-		title: "Astrolabe",
+		label: "Astrolabe",
 		description: "Improves Observatory's max science bonus by 50%",
 		effects: {},
 		prices:[
@@ -1297,7 +1297,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "titaniumMirrors",
-		title: "Titanium Reflectors",
+		label: "Titanium Reflectors",
 		description: "Improved telescope reflectors. Every observatory will give 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
@@ -1316,7 +1316,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "unobtainiumReflectors",
-		title: "Unobtainium Reflectors",
+		label: "Unobtainium Reflectors",
 		description: "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
@@ -1334,7 +1334,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "eludiumReflectors",
-		title: "Eludium Reflectors",
+		label: "Eludium Reflectors",
 		description: "Improved telescope reflectors. Every observatory will give an additional 2% to Library effectiveness.",
 		effects: {
 			"libraryRatio" : 0.02
@@ -1351,7 +1351,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
     {
         name: "hydroPlantTurbines",
-        title: "Hydro Plant Turbines",
+        label: "Hydro Plant Turbines",
         description: "Unobtainium-based turbines. Hydro plants are 15% more effective.",
         effects: {
             "hydroPlantRatio": 0.15
@@ -1367,7 +1367,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         researched: false
     },{
 		name: "amBases",
-		title: "Antimatter Bases",
+		label: "Antimatter Bases",
 		description: "Reduce energy consumption for Lunar Bases by 50%",
 		prices: [
 			{name: "eludium", val: 15},
@@ -1380,7 +1380,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "amReactors",
-		title: "Antimatter Reactors",
+		label: "Antimatter Reactors",
 		description: "Your Research Vessels and Space Beacons are twice as effective",
 		effects: {
 			"spaceScienceRatio": 0.95
@@ -1400,7 +1400,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "amReactorsMK2",
-		title: "Advanced AM Reactors",
+		label: "Advanced AM Reactors",
 		description: "Your Research Vessels and Space Beacons are 75% more effective",
 		effects: {
 			"spaceScienceRatio": 0.75
@@ -1417,7 +1417,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "relicStation",
-		title: "Relic Station",
+		label: "Relic Station",
 		description: "Upgrade Space Beacons with Relic research stations. Every Relic Station will reverse engineer relics yelding 0.01 relic per day",
 		effects: {
 			"beaconRelicsPerDay": 0.01
@@ -1435,7 +1435,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//---------------------- oil ---------------
 	{
 		name: "pumpjack",
-		title: "Pumpjack",
+		label: "Pumpjack",
 		description: "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
 		effects: {
 			"oilWellRatio" : 0.45
@@ -1452,7 +1452,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "biofuel",
-		title: "Biofuel processing",
+		label: "Biofuel processing",
 		description: "Biolabs will convert catnip into oil",
 		effects: {
 		},
@@ -1468,7 +1468,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "unicornSelection",
-		title: "Unicorn Selection",
+		label: "Unicorn Selection",
 		description: "Improves Unicorn Pasture effectiveness by 25%",
 		effects: {
 			"unicornsGlobalRatio": 0.25
@@ -1482,7 +1482,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "gmo",
-		title: "GM Catnip",
+		label: "GM Catnip",
 		description: "Genetically modified catnip that will improve biolab oil yield by 60%",
 		effects: {
 			"biofuelRatio": 0.6
@@ -1501,7 +1501,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//------------------- blueprints ----------------
 	{
 		name: "cadSystems",
-		title: "CAD System",
+		label: "CAD System",
 		description: "All scientific buildings will improve effectiveness of blueprint crafting",
 		effects: {
 			"blueprintCraftRatio" : 0.01
@@ -1514,7 +1514,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "seti",
-		title: "SETI",
+		label: "SETI",
 		description: "A large array of electronic telescopes. Makes astronomical events automatic and silent",
 		effects: {
 		},
@@ -1526,7 +1526,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "logistics",
-		title: "Logistics",
+		label: "Logistics",
 		description: "Kitten skills are 15% more effective",
 		effects: {
 			"skillMultiplier" : 0.15
@@ -1540,7 +1540,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "augumentation",
-		title: "Augmentations",
+		label: "Augmentations",
 		description: "Kitten skills are 100% more effective",
 		effects: {
 			"skillMultiplier" : 1
@@ -1554,7 +1554,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "enrichedUranium",
-		title: "Enriched Uranium",
+		label: "Enriched Uranium",
 		description: "Reduce uranium consumption of reactors by 25%",
 		effects: {
 			"uraniumRatio" : 0.25
@@ -1571,7 +1571,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
         name: "coldFusion",
-        title: "Cold Fusion",
+        label: "Cold Fusion",
         description: "Increase Reactors energy output by 25%",
         effects: {
             "reactorEnergyRatio": 0.25
@@ -1587,7 +1587,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         researched: false
     },{
         name: "thoriumReactors",
-        title: "Thorium Reactors",
+        label: "Thorium Reactors",
         description: "Increase Reactors energy output by 25% by the addition of thorium",
         effects: {
             "reactorEnergyRatio": 0.25,
@@ -1606,7 +1606,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//------------------- starcharts / space ----------------
 	{
 		name: "hubbleTelescope",
-		title: "Hubble Space Telescope",
+		label: "Hubble Space Telescope",
 		description: "Improves starchart production by 30%",
 		effects: {
 			"starchartGlobalRatio" : 0.30
@@ -1624,7 +1624,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "satnav",
-		title: "Satellite Navigation",
+		label: "Satellite Navigation",
 		description: "Every satellite reduce starchart requirement of ships by 1.25%",
 		effects: {
 			"satnavRatio" : 0.0125
@@ -1637,7 +1637,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
         name: "satelliteRadio",
-        title: "Satellite Radio",
+        label: "Satellite Radio",
         description: "Every satellite will boost the effect of Broadcast Towers by 0.5%",
         effects: {
             "broadcastTowerRatio" : 0.005
@@ -1651,7 +1651,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     },
 	{
 		name: "astrophysicists",
-		title: "Astrophysicists",
+		label: "Astrophysicists",
 		description: "Each scholar will now generate starcharts.",
 		effects: {
 		},
@@ -1666,7 +1666,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
 		name: "mWReactor",
-		title: "Microwarp Reactors",
+		label: "Microwarp Reactors",
 		description: "A new eludium-based reactor for Lunar Outposts. Unobtainium production is 75% more effective.",
 		effects: {
 			"lunarOutpostRatio" : 0.75
@@ -1680,7 +1680,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "eludiumCracker",
-		title: "Planet Busters",
+		label: "Planet Busters",
 		description: "Hissmeowra's output is twice as effective.",
 		effects: {
 			"crackerRatio" : 1.0
@@ -1698,7 +1698,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//------------------- oil --------------------------
     {
 		name: "oilRefinery",
-		title: "Oil Refinery",
+		label: "Oil Refinery",
 		description: "Improves effectiveness of oil wells by 35%",
 		effects: {
 			"oilWellRatio" : 0.35
@@ -1715,7 +1715,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		researched: false
 	},{
         name: "oilDistillation",
-        title: "Oil Distillation",
+        label: "Oil Distillation",
         description: "Oil output is improved by 75%.",
         effects: {
             "oilWellRatio" : 0.75
@@ -1731,7 +1731,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         researched: false
     },{
         name: "factoryProcessing",
-        title: "Factory Processing",
+        label: "Factory Processing",
         description: "Every factory will increase oil refinement effectiveness by 5%.",
         effects: {
             "factoryRefineRatio" : 0.05
@@ -1747,7 +1747,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     //---------------- Void Space ---------------
     {
         name: "voidAspiration",
-        title: "Void Aspiration",
+        label: "Void Aspiration",
         description: "Unlocks Void Hoover.",
         effects: {
 
@@ -1763,7 +1763,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         }
     },{
         name: "distorsion",
-        title: "Distorsion",
+        label: "Distorsion",
         description: "Improve Chronocontrol effectiveness.",
         effects: {
 			"temporalParadoxDayBonus": 2
@@ -1788,7 +1788,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	crafts:[{
 		name: "wood",
-		title: "Refine catnip",
+		label: "Refine catnip",
 		description: "A sturdy block of catnip wood. Difficult to process, but great building material.",
 		prices:[
 			{name: "catnip", val: 100}
@@ -1798,7 +1798,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		ignoreBonuses: true,
 	},{
 		name: "beam",
-		title: "Wooden Beam",
+		label: "Wooden Beam",
 		description: "Simple support structure made of a wood. Required for advanced construction.",
 		prices:[
 			{name: "wood", val: 175}
@@ -1807,7 +1807,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "slab",
-		title: "Stone Slab",
+		label: "Stone Slab",
 		description: "A small slab composed of minerals. Required for advanced construction.",
 		prices:[
 			{name: "minerals", val: 250}
@@ -1816,7 +1816,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "concrate",
-		title: "Concrete",
+		label: "Concrete",
 		description: "A block of reinforced concrete.",
 		prices:[
 			{name: "slab", val: 2500},
@@ -1825,7 +1825,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "plate",
-		title: "Metal Plate",
+		label: "Metal Plate",
 		description: "A metal plate. Required for advanced construction.",
 		prices:[
 			{name: "iron", val: 125}
@@ -1834,7 +1834,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "steel",
-		title: "Steel",
+		label: "Steel",
 		description: "A durable metal made by smelting iron and coal. Required for construction of gears and complex machinery.",
 		prices:[
 			{name: "iron", val: 100},
@@ -1843,7 +1843,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "gear",
-		title: "Gear",
+		label: "Gear",
 		description: "An integral part of automated structures.",
 		prices:[
 			{name: "steel", val: 15}
@@ -1852,7 +1852,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "alloy",
-		title: "Alloy",
+		label: "Alloy",
 		description: "A durable alloy of steel, iron and titanium. Required for advanced buildings and upgrades.",
 		prices:[
 			{name: "steel", val: 75 },
@@ -1861,7 +1861,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "eludium",
-		title: "Eludium",
+		label: "Eludium",
 		description: "Extremely rare and expensive alloy of unobtanium and titanium.",
 		prices:[
 			{name: "alloy", val: 2500 },
@@ -1870,7 +1870,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "scaffold",
-		title: "Scaffold",
+		label: "Scaffold",
 		description: "A large structure made of wood beams required for construction of very complex buildings and objects",
 		prices:[
 			{ name: "beam", val: 50 }
@@ -1879,7 +1879,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "ship",
-		title: "Trade Ship",
+		label: "Trade Ship",
 		description: "Ships can be used to discover new civilisations. May improve chances of getting certain rare resources",
 		prices:[
 			{ name: "scaffold", val: 100 },
@@ -1892,7 +1892,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "tanker",
-		title: "Tanker",
+		label: "Tanker",
 		description: "Increase maximum oil capacity by 500",
 		prices:[
 			{ name: "ship", 		val: 200 },
@@ -1905,7 +1905,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
         name: "kerosene",
-        title: "Kerosene",
+        label: "Kerosene",
         description: "A rocket fuel processed from oil",
         prices:[
             { name: "oil", val: 7500 }
@@ -1913,7 +1913,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         unlocked: false
     },{
 		name: "parchment",
-		title: "Parchment",
+		label: "Parchment",
 		description: "A material for writing on made from animal skin, required for cultural buildings.",
 		prices:[
 			{name: "furs", val: 175}
@@ -1921,7 +1921,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "manuscript",
-		title: "Manuscript",
+		label: "Manuscript",
 		description: "Written document required for technological advancement. Every manuscript will give a minor bonus to a maximum culture (this effect has a diminishing return)",
 		prices:[
 			{name: "parchment", val: 25},
@@ -1931,7 +1931,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true
 	},{
 		name: "compedium",
-		title: "Compendium",
+		label: "Compendium",
 		description: "A sum of all modern knowledge of catkind. Every compendium will give +10 to max science",
 		prices:[
 			{name: "manuscript", val: 50},
@@ -1940,7 +1940,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "blueprint",
-		title: "Blueprint",
+		label: "Blueprint",
 		description: "Strange piece of paper with blue lines.",
 		prices:[
 			{name: "compedium", val: 25},
@@ -1949,7 +1949,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "thorium",
-		title: "Thorium",
+		label: "Thorium",
 		description: "A highly radioactive and unstable fuel",
 		prices:[
 			{ name: "uranium", val: 250 }
@@ -1957,7 +1957,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "megalith",
-		title: "Megalith",
+		label: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",
 		prices:[
 			{ name: "slab", val: 75 },
@@ -2218,43 +2218,29 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	upgradeName: null,
+dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
+	metaCached: null, // Call getMetadata
+	tooltipName: true,
 	simplePrices: false,
-	hasResourceHover: true,
 
-	constructor: function(opts, game){
-		this.upgradeName = opts.upgrade;
-	},
-
-	getUpgrade: function(){
-		return this.getUpgradeByName(this.upgradeName);
-	},
-
-	getUpgradeByName: function(name){
-		return this.game.workshop.get(name);
-	},
-
-	updateEnabled: function(){
-		this.inherited(arguments);
-
-		var upgrade = this.getUpgrade();
-		if (upgrade.researched/* || !tech.unlocked*/){
-			this.setEnabled(false);
+	getMetadata: function(){
+		if (!this.metaCached){
+			this.metaCached = this.game.workshop.get(this.id);
 		}
+		return this.metaCached;
 	},
 
-	getName: function(){
-		var upgrade = this.getUpgrade();
-		if (!upgrade.researched){
-			return this.name;
-		} else {
-			return this.name + " (complete)";
-		}
+	getPrices: function() {
+		var meta = this.getMetadata();
+		var prices = meta.prices;
+
+		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
+
+		return prices_result;
 	},
 
 	updateVisible: function(){
-		var upgrade = this.getUpgrade();
+		var upgrade = this.getMetadata();
 		if (!upgrade.unlocked){
 			this.setVisible(false);
 		}else{
@@ -2266,35 +2252,11 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		}
 	},
 
-	getSimplePrices: function(){
-		var upgrade = this.getUpgrade();
-		return this.simplePrices || upgrade.researched;
-	},
-
-	getFlavor: function(){
-		var bld = this.getUpgrade();
-		return bld.flavor;
-	},
-
-	getEffects: function(){
-		var bld = this.getUpgrade();
-		return bld.effects;
-	},
-
-	getSelectedObject: function(){
-		return this.getUpgrade();
-	},
-
 	renderLinks: function(){
 		if (this.game.devMode && !this.devUnlockHref){
 			this.devUnlockHref = this.addLink("[+]", this.unlock);
 		}
 	},
-
-	unlock: function() {
-		var upgrade = this.getUpgrade();
-		this.game.workshop.unlock(upgrade);
-	}
 
 });
 
@@ -2452,13 +2414,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	createBtn: function(upgrade){
 		var self = this;
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
-			name : upgrade.title,
-			handler: function(btn){
-				btn.unlock();
-			},
-			prices: upgrade.prices,
-			description: upgrade.description,
-			upgrade: upgrade.name
+			id: upgrade.name,
+			handler: dojo.partial(function(tech, game, btn){
+				upgrade.researched = true;
+				this.game.unlock(upgrade.unlocks);
+			}, upgrade, self.game)
 		}, this.game);
 		return btn;
 	},

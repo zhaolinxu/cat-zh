@@ -1207,23 +1207,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.name;
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
-
-		if (meta.val == 0) {
-			return meta.label;
-		} else if (meta.noStackable){
-			return this.name + " (complete)";
-		} else if (meta.togglable && !meta.togglableOnOff) {
-			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
-		} else {
-			return meta.label + " (" + meta.val + ")";
-		}
-	},
-
 	getDescription: function(){
 		var description = this.getMetadata().description;
 		return typeof(description) != "undefined" ? description : "";
+	},
+
+	getFlavor: function(){
+		var flavor = this.getMetadata().flavor;
+		return typeof(flavor) != "undefined" ? flavor : "";
 	},
 
 	onClick: function(event){
@@ -1485,25 +1476,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 	},
 
-	updateEnabled: function(){
-		var meta = this.getMetadata();
-		// Beginning with exceptions
-		if (this.name == "Used Cryochambers"
-		|| (this.name == "Cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
-			this.setEnabled(false);
-		} else if (!meta.on || meta.on && !meta.noStackable) {
-			this.setEnabled(this.hasResources());
-		} else if (meta.on && meta.noStackable){
-			this.setEnabled(false);
-		}
-
-		if (this.buttonTitle && this.game.opts.highlightUnavailable){
-			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
-		}
-	},
-
 	updateVisible: function(){
-		this.inherited(arguments);
 		var building = this.getMetadata();
 
 		if (!building){
@@ -1514,6 +1487,70 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			this.setVisible(false);
 		}else{
 			this.setVisible(true);
+		}
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	getName: function(){
+		var meta = this.getMetadata();
+
+		if (meta.val == 0) {
+			return meta.label;
+		} else if (meta.noStackable){
+			return meta.label + " (complete)";
+		} else if (meta.togglable && !meta.togglableOnOff) {
+			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+		} else {
+			return meta.label + " (" + meta.val + ")";
+		}
+	},
+
+	getDescription: function(){
+		return this.inherited(arguments);
+	},
+
+	updateEnabled: function(){
+		var meta = this.getMetadata();
+		// Beginning with exceptions
+		if (meta.name == "usedCryochambers"
+		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
+			this.setEnabled(false);
+		} else if (!meta.on || meta.on && !meta.noStackable) {
+			this.setEnabled(this.hasResources());
+		} else if (meta.on && meta.noStackable){
+			this.setEnabled(false);
+		}
+
+		if (this.buttonTitle && this.game.opts.highlightUnavailable){
+			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
+		}
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	getName: function(){
+		var meta = this.getMetadata();
+		if (meta.researched){
+			return meta.label + " (Complete)";
+		} else {
+			return meta.label;
+		}
+	},
+
+	getDescription: function(){
+		var meta = this.getMetadata();
+		if (meta.effectDesc){
+			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
+		} else {
+			return this.inherited(arguments);
+		}
+	},
+
+	updateEnabled: function(){
+		this.inherited(arguments);
+		if (this.getMetadata().researched){
+			this.setEnabled(false);
 		}
 	}
 });

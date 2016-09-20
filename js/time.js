@@ -374,7 +374,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
  * I wonder if we can get rid of such tremendous amounts of boilerplate code
  */
 
-dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
     metaCached: null, // Call getMetadata
 
 	getMetadata: function(){
@@ -437,7 +437,7 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     }
 });
 
-dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
     metaCached: null, // Call getMetadata
 
 	getMetadata: function(){

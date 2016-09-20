@@ -335,79 +335,56 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-
-	perk: null,
-
-	constructor: function(opts, game) {
-	},
+dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
+	metaCached: null, // Call getMetadata
 
 	getMetadata: function(){
-		return this.getPerk();
-	},
-
-	getPerk: function(){
-		if (!this.perk){
-			this.perk = this.game.prestige.getPerk(this.id);
+		if (!this.metaCached){
+			this.metaCached = this.game.prestige.getPerk(this.id);
 		}
-		return this.perk;
+		return this.metaCached;
 	},
 
 	getPrices: function(){
-		var price = [{ name: "paragon", val: this.getPerk().paragon}];
+		var price = [{ name: "paragon", val: this.getMetadata().paragon}];
 		return price;
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
-		if (meta.researched){
-			return meta.label + " (Complete)";
-		} else {
-			return meta.label;
-		}
-	},
-
-	updateEnabled: function(){
-		this.inherited(arguments);
-		if (this.getPerk().researched){
-			this.setEnabled(false);
-		}
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
 	},
 
 	updateVisible: function(){
-		var perk = this.getPerk();
-		if (!perk.unlocked || (!perk.researched && !this.game.science.get("metaphysics").researched)){
+		var meta = this.getMetadata();
+		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
 			this.setVisible(false);
 		}else{
 			this.setVisible(true);
 		}
 
-		if (perk.researched && this.game.science.hideResearched){
+		if (meta.researched && this.game.science.hideResearched){
 			this.setVisible(false);
 		}
 	},
 
 	onClick: function(){
 		this.animate();
-		var perk = this.getPerk();
+		var meta = this.getMetadata();
 		if (this.enabled && this.game.science.get("metaphysics").researched && this.hasResources()){
 			this.payPrice();
-			this.game.paragonPoints -= perk.paragon;
+			this.game.paragonPoints -= meta.paragon;
 
-			perk.researched = true;
-			this.game.unlock(perk.unlocks);
+			meta.researched = true;
+			this.game.unlock(meta.unlocks);
 
-			if (perk.handler){
-				perk.handler(this.game);
+			if (meta.handler){
+				meta.handler(this.game);
 			}
 
 			this.update();
 		}
 	},
 
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
-	}
 });
 
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
@@ -435,11 +412,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
-			var button = new classes.ui.PrestigeBtn({
-				id: 		perk.name,
-				name: 		perk.label,
-				description: perk.description
-			}, self.game);
+			var button = new classes.ui.PrestigeBtn({id: perk.name}, self.game);
 			button.render(content);
 			self.addChild(button);
 		});
