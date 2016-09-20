@@ -870,7 +870,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (effectMetaDynamic != 0) {
 			return effectMetaDynamic;
 		} else {
-			var effectMetaStatic = this.effectsMgr.statics.effectMeta[effectName]
+			var effectMetaStatic = this.effectsMgr.statics.effectMeta[effectName];
 			if (typeof(effectMetaStatic) != "undefined") {
 				return this.effectsMgr.statics.effectMeta[effectName];
 			} else {
@@ -1327,11 +1327,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Use .on instead of .val and .enabled for all buildings
 			if (save.religion.ru) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
+					var saveRU = save.religion.ru[i];
 					// Hack to fix old saves
-					if (save.religion.ru[i].researched && (save.religion.ru[i].val == 0 || save.religion.ru[i].val == null)) {
-						loadedElem.val = 1;
+					if (saveRU.researched && (saveRU.val == 0 || saveRU.val == null)) {
+						saveRU.val = 1;
 					}
-					save.religion.ru[i].on = save.religion.ru[i].val;
+					saveRU.on = saveRU.val;
 				}
 			}
 			if (save.space) {
@@ -2066,7 +2067,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 perTick = this.getResourcePerTick(resRef.name, true);
+			 var perTick = this.getResourcePerTick(resRef.name, true);
 			 if (!perTick){ return;}
 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
@@ -2629,7 +2630,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var planetName = this.space.planets[i].name;
 			var buildings = this.space.planets[i].buildings.map(function(building){
 				return building.name;
-			})
+			});
 			for (var j = 0; j < buildings.length; j++) {
 				var item = {planet:planetName, bld: buildings[j]};
 				spaceBuildingsMap.push(item);
