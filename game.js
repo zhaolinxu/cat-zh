@@ -1072,6 +1072,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateOptionsUI();
 			return;
 		}
+		var success = true;
 
 		try {
 			var saveData = JSON.parse(data);
@@ -1093,6 +1094,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.error("Unable to load game data: ", ex);
             console.trace();
 			this.msg("Unable to load save data. Close the page and contact the dev.");
+			success = false;
 		}
 
 		// Calculate effects (needs to be done after all managers are loaded)
@@ -1152,6 +1154,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religionTab.visible = (this.resPool.get("faith").unlocked);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
+
+		return success;
 	},
 
 	//btw, ie11 is horrible crap and should not exist
@@ -1175,6 +1179,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 		var data = $("#importData").val();
+		data = data.replace(/\s/g, "");
 
 		var decompress = LZString.decompressFromBase64(data);
 		var json;
@@ -1189,8 +1194,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		this.timer.scheduleEvent(dojo.hitch(this, function(){
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-			this.load();
-			this.msg("Save import successful!");
+			var success = this.load();
+			if (success){
+				this.msg("Save import successful!");
+			}
 
 			this.render();
 		}));
