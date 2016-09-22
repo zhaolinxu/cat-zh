@@ -2361,7 +2361,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		for (var i = 0; i < crafts.length; i++ ){
 			var craft =  crafts[i];
 			var craftBtn = new com.nuclearunicorn.game.ui.CraftButton({
-				name: craft.title,
+				name: craft.label,
 				description: craft.description,
 				craft: craft.name,
 				prices: this.game.workshop.getCraftPrice(craft),
