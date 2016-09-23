@@ -45,12 +45,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
-        var timestamp = Date.now();
-        var delta = timestamp - ( saveData["time"].timestamp || 0 );
-        if (delta <= 0){
-            return;
-        }
-
         if (saveData.time.cfu){
             this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked", "on"], function(loadedElem){
             });
@@ -60,6 +54,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             });
         }
         this.updateEnergyStats();
+
+        var timestamp = Date.now();
+        var delta = timestamp - ( saveData["time"].timestamp || 0 );
+        if (delta <= 0){
+            return;
+        }
 
 		this.energy += Math.round(delta / ( 60 * 1000 ) ) * this.game.rate;    //every 60 seconds
         if (this.energy > this.maxEnergy){
@@ -92,10 +92,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
 			var bld = this.chronoforgeUpgrades[i];
+			bld.val = 0;
+			bld.on = 0;
 			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
 		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
 			var bld = this.voidspaceUpgrades[i];
+			bld.val = 0;
+			bld.on = 0;
 			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
     },
@@ -106,7 +110,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (this.energy > this.maxEnergy){ //sanity check
             this.energy = this.maxEnergy;
         }
-        game.resPool.get("temporalFlux").value = this.energy;
+        this.game.resPool.get("temporalFlux").value = this.energy;
         if (this.isAccelerated && this.energy > 0){
             this.energy--;
         }
@@ -508,7 +512,7 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 
     render: function(container){
         var div = dojo.create("div", null, container);
-        
+
         var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
         this.inherited(arguments, [btnsContainer]);
 
@@ -518,25 +522,25 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 
     update: function(){
         this.inherited(arguments);
-        
+
         var msg = "Reseting the timeline will start the game from the scratch. You will keep all of your statistic and achievements.<br>";
         msg += "<br>Resetting at this point will also give you:<br>";
-        
+
         var kittens = this.game.resPool.get("kittens").value;
         var stripe = 5;
         var karmaPointsPresent = this.game.getTriValue(this.game.karmaKittens, stripe);
         var karmaPointsAfter = this.game.getTriValue(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
 		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) *100)/100;
         var paragonPoints = 0;
-        
+
         if (kittens > 70){
 			paragonPoints = (kittens - 70);
 		}
-        
+
         msg += "Karma points: " + karmaPoints;
         msg += "<br>Paragon points: " + paragonPoints;
-        
-        
+
+
         this.resetDiv.innerHTML = msg;
     }
 });
@@ -552,17 +556,17 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
         var timeWgt = new classes.ui.TimeControlWgt(this.game);
         timeWgt.setGame(this.game);
         timePanel.addChild(timeWgt);
-        
+
         //--------- reset ----------
-        
+
         this.resetPanel = new com.nuclearunicorn.game.ui.Panel("Reset");
         this.resetPanel.setVisible(true);
         this.addChild(this.resetPanel);
-        
+
         var resetWgt = new classes.ui.ResetWgt(this.game);
         resetWgt.setGame(this.game);
         this.resetPanel.addChild(resetWgt);
-        
+
         //--------------------------
 
         this.cfPanel = new com.nuclearunicorn.game.ui.Panel("Chronoforge");
