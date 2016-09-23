@@ -18,7 +18,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
-		cost: 30,	//cos in WCS (weird cat science)
+		prices: [{name : "science", val: 30}],
 		unlocks: {
 			tech: ["agriculture"],
 			tabs: ["time"]
@@ -34,7 +34,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 100,
+		prices: [{name : "science", val: 100}],
 		unlocks: {
 			buildings: ["barn"],
 			tech: ["mining", "archery"],
@@ -50,7 +50,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 300,
+		prices: [{name : "science", val: 300}],
 		unlocks: {
 			tech: ["animal"],
 			jobs: ["hunter"]
@@ -64,7 +64,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 500,
+		prices: [{name : "science", val: 500}],
 		unlocks: {
 			buildings: ["mine"],
 			tech: ["metal"],
@@ -80,7 +80,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 900,
+		prices: [{name : "science", val: 900}],
 		unlocks: {
 			buildings: ["smelter"],
 			upgrades: ["huntingArmor"]
@@ -94,7 +94,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 500,	//mostly does nothing, so price is lower
+		prices: [{name : "science", val: 500}],	//mostly does nothing, so price is lower
 		unlocks: {
 			buildings: ["pasture", "unicornPasture"],
 			tech: ["civil", "math", "construction"]
@@ -110,7 +110,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1200
+		prices: [{name : "science", val: 1200 }]
 	},
 	//--------------------------------------------------
 	{
@@ -121,7 +121,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1500,
+		prices: [{name : "science", val: 1500}],
 		unlocks: {
 			tech: ["currency"]	//currency
 		},
@@ -134,7 +134,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1000,
+		prices: [{name : "science", val: 1000}],
 		unlocks: {
 			buildings: ["academy"],
 			upgrades: ["celestialMechanics"],
@@ -149,7 +149,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1300,
+		prices: [{name : "science", val: 1300}],
 		unlocks: {
 			buildings: ["logHouse", "warehouse", "lumberMill", "ziggurat"],
 			tech: ["engineering"],
@@ -164,7 +164,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 1500,
+		prices: [{name : "science", val: 1500}],
 		unlocks: {
 			buildings: ["aqueduct"],
 			tech: ["writing"]
@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 2200,
+		prices: [{name : "science", val: 2200}],
 		unlocks: {
 			buildings: ["tradepost"],
 			upgrades: ["goldOre"]
@@ -190,7 +190,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 3600,
+		prices: [{name : "science", val: 3600}],
 		unlocks: {
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
@@ -206,7 +206,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 9500,
+		prices: [{name : "science", val: 9500}],
 		unlocks: {
 			buildings: ["temple"],
 			tech: ["theology"],
@@ -222,7 +222,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 15000,
+		prices: [{name : "science", val: 15000}],
 		unlocks: {
 			buildings: ["steamworks"],
 			upgrades: ["printingPress", "factoryAutomation", "crossbow"]
@@ -235,7 +235,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		unlocked: false,
 		researched: false,
-		cost: 12000,
+		prices: [{name : "science", val: 12000}],
 		unlocks: {
 			upgrades: ["deepMining", "coalFurnace", "combustionEngine",
 						"reinforcedWarehouses", "steelAxe", "steelArmor"],
@@ -987,13 +987,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui
 	},
 
 	getPrices: function() {
-		var meta = this.getMetadata();
-		var prices = meta.prices ? meta.prices : [{ name:"science", val: meta.cost }];
-
-		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
-		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
-
-		return prices_result;
+		return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
 	},
 
 	updateVisible: function(){
@@ -1078,7 +1072,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		//------------ metaphysics ----------------
 		this.metaphysicsPanel = null;
 
-		var showMetaphysics = this.game.science.get("metaphysics").researched && this.game.paragonPoints > 0;
+		var showMetaphysics = this.game.science.get("metaphysics").researched && this.game.resPool.get("paragon").value > 0;
 		if (!showMetaphysics){
 			for (var i = this.game.prestige.perks.length - 1; i >= 0; i--){
 				var perk = this.game.prestige.perks[i];
@@ -1132,18 +1126,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 	createTechBtn: function(tech){
 		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.TechButton({
-			id: tech.name,
-			handler: dojo.partial(function(tech, game, btn){
-				tech.researched = true;
-
-				this.game.unlock(tech.unlocks);
-
-				if (tech.upgrades){
-					this.game.upgrade(tech.upgrades);
-				}
-			}, tech, self.game)
-		}, this.game);
+		var btn = new com.nuclearunicorn.game.ui.TechButton({id: tech.name}, this.game);
 		return btn;
 	}
 });

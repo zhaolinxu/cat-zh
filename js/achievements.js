@@ -99,7 +99,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return ( this.game.ironWill && this.game.space.getProgram("moonMission").on );
             },
             starCondition: function () {
-                return ( this.game.ironWill && this.game.space.getProgram("moonMission").on && this.game.paragonPoints < 10);
+                return ( this.game.ironWill && this.game.space.getProgram("moonMission").on && this.game.resPool.get("paragon").value < 10);
             },
             unlocked: false,
             hasStar: true,

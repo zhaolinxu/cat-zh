@@ -95,15 +95,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
 			var bld = this.chronoforgeUpgrades[i];
-			bld.val = 0;
-			bld.on = 0;
-			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
 		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
 			var bld = this.voidspaceUpgrades[i];
-			bld.val = 0;
-			bld.on = 0;
-			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
     },
 
@@ -389,12 +385,21 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
 
         if (this.enabled && this.hasResources()){
             this.payPrice();
-            this.getMetadata().val++;
-            if (this.getMetadata().on) {
-				this.getMetadata().on++;
-            }
+
+			var meta = this.getMetadata();
+
+            meta.val++;
+			meta.on++;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
         }
-    },
+    }
 
 });
 
@@ -412,15 +417,7 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
         for (var i in game.time.chronoforgeUpgrades){
             var meta = game.time.chronoforgeUpgrades[i];
 
-            this.addChild(new classes.ui.time.ChronoforgeBtn({
-                id: meta.name,
-                name: meta.label,
-                description: meta.description,
-                prices: meta.prices,
-                handler: function(btn){
-
-                }
-            }, game));
+            this.addChild(new classes.ui.time.ChronoforgeBtn({id: meta.name}, game));
         }
 
     },
@@ -447,7 +444,7 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
         return this.metaCached;
     },
 
-    onClick: function(event){
+	onClick: function(event){
         this.animate();
 
         if (this.enabled && this.hasResources()){
@@ -455,12 +452,21 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
             if (this.getMetadata().name == "chronocontrol") {
 				this.game.time.energy -= this.getMetadata().prices[2].val;
             }
-            this.getMetadata().val++;
-            if (this.getMetadata().on) {
-				this.getMetadata().on++;
-            }
+
+			var meta = this.getMetadata();
+
+            meta.val++;
+			meta.on++;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
         }
-    },
+    }
 
 });
 
@@ -469,15 +475,7 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
 
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];
-            this.addChild(new classes.ui.time.VoidSpaceBtn({
-                id: meta.name,
-                name: meta.label,
-                description: meta.description,
-                prices: meta.prices,
-                handler: function(btn){
-
-                }
-            }, game));
+            this.addChild(new classes.ui.time.VoidSpaceBtn({id: meta.name}, game));
         }
 
     },

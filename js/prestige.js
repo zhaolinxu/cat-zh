@@ -4,7 +4,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "engeneering",
 		label: "Engineering",
 		description: "Reduce all price ratios by 1%. Unlocks more price upgrades.",
-		paragon: 5,
+		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
@@ -18,7 +18,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "megalomania",
 		label: "Megalomania",
 		description: "Unlocks additional megastructures.",
-		paragon: 10,
+		prices: [{ name: "paragon", val: 10 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -29,7 +29,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "blackCodex",
 		label: "Black Codex",
 		description: "Unlocks unicorn graveyards.",
-		paragon: 25,
+		prices: [{ name: "paragon", val: 25 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -39,7 +39,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "goldenRatio",
 		label: "Golden Ratio",
 		description: "Reduce all price ratios by ~1.618%",
-		paragon: 50,
+		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -52,7 +52,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "divineProportion",
 		label: "Divine Proportion",
 		description: "Reduce all price ratios by 1.7%",
-		paragon: 100,
+		prices: [{ name: "paragon", val: 100 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -65,7 +65,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "vitruvianFeline",
 		label: "Vitruvian Feline",
 		description: "Reduce all price ratios by 2%",
-		paragon: 250,
+		prices: [{ name: "paragon", val: 250 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -78,7 +78,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "renaissance",
 		label: "Renaissance",
 		description: "Reduce all price ratios by 2.25%",
-		paragon: 750,
+		prices: [{ name: "paragon", val: 750 }],
 		unlocked: false,
 		researched: false,
 		effects:{
@@ -88,7 +88,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "diplomacy",
 		label: "Diplomacy",
 		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
-		paragon: 5,
+		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
@@ -99,14 +99,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "zebraDiplomacy",
 		label: "Zebra Diplomacy",
 		description: "Some zebras hunters will stay in the village.",
-		paragon: 50,
+		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false
 	},{
 		name: "chronomancy",
 		label: "Chronomancy",
 		description: "Meteor and star events will happen faster.",
-		paragon: 25,
+		prices: [{ name: "paragon", val: 25 }],
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
@@ -117,7 +117,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "unicornmancy",
 		label: "Unicornmancy",
 		description: "Unicorn rifts and ivory meteors are more frequent.",
-		paragon: 125,
+		prices: [{ name: "paragon", val: 125 }],
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false
@@ -126,14 +126,14 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "anachronomancy",
 		label: "Anachronomancy",
 		description: "Time crystals and chronophysics will be saved across resets.",
-		paragon: 125,
+		prices: [{ name: "paragon", val: 125 }],
 		unlocked: false,
 		researched: false
 	},{
 		name: "carnivals",
 		label: "Carnivals",
 		description: "Festivals can now stack in duration.",
-		paragon: 25,
+		prices: [{ name: "paragon", val: 25 }],
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
@@ -144,11 +144,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "willenfluff",
 		label: "Venus of Willenfluff",
 		description: "Kittens will arrive 75% faster.",
-		paragon: 150,
+		prices: [{ name: "paragon", val: 150 }],
 		unlocked: false,
 		researched: false,
-		handler: function (game) {
-		},
 		effects: {
 			"kittenGrowthRatio": 0.75
 		}
@@ -156,7 +154,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "numerology",
 		label: "Numerology",
 		description: "Certain years will have special effects.",
-		paragon: 50,
+		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -166,7 +164,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "numeromancy",
 		label: "Numeromancy",
 		description: "Certain years will have extra effects during Festivals.",
-		paragon: 250,
+		prices: [{ name: "paragon", val: 250 }],
 		unlocked: false,
 		researched: false,
 		unlocks: {
@@ -178,7 +176,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         name: "malkuth",
         label: "Malkuth",
         description: "Improves paragon effect and scaling by 5%",
-        paragon: 500,
+        prices: [{ name: "paragon", val: 500 }],
         unlocked: false,
         researched: false,
         effects:{
@@ -191,7 +189,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         name: "yesod",
         label: "Yesod",
         description: "Improves paragon effect and scaling by 5%",
-        paragon: 750,
+		prices: [{ name: "paragon", val: 750 }],
         unlocked: false,
         researched: false,
         effects:{
@@ -204,7 +202,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         name: "hod",
         label: "Hod",
         description: "Improves paragon effect and scaling by 5%",
-        paragon: 1250,
+        prices: [{ name: "paragon", val: 1250 }],
         unlocked: false,
         researched: false,
         effects:{
@@ -217,14 +215,11 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         name: "netzach",
         label: "Netzach",
         description: "Improves paragon effect and scaling by 5%",
-        paragon: 1750,
+        prices: [{ name: "paragon", val: 1750 }],
         unlocked: false,
         researched: false,
         effects:{
             "paragonRatio" : 0.05
-        },
-        handler: function(game){
-            //game.prestige.getPerk("netzach").unlocked = true;
         }
     },
 		//2500, 5000, 7500, 15000
@@ -233,21 +228,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "voidOrder",
 		label: "Order of Void",
 		description: "Every priest will now give a minor bonus to faith accumulation.",
-		paragon: 75,
+		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
-		researched: false,
-		handler: function(game){
-		}
+		researched: false
 	},{
 		name: "adjustmentBureau",
 		label: "Adjustment Bureau",
 		description: "Unlocks additional game challenges.",
-		paragon: 5,
+		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
-		researched: false,
-		handler: function(game){
-		}
+		researched: false
 	}],
 
 	game: null,
@@ -295,9 +286,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			var perk = this.perks[i];
 			if (perk.researched){
 				this.game.unlock(perk.unlocks);
-				if (perk.handler){
-					perk.handler(this.game);
-				}
 			}
 		}
 	},
@@ -345,15 +333,6 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingResear
 		return this.metaCached;
 	},
 
-	getPrices: function(){
-		var price = [{ name: "paragon", val: this.getMetadata().paragon}];
-		return price;
-	},
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
-	},
-
 	updateVisible: function(){
 		var meta = this.getMetadata();
 		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
@@ -368,20 +347,8 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingResear
 	},
 
 	onClick: function(){
-		this.animate();
-		var meta = this.getMetadata();
-		if (this.enabled && this.game.science.get("metaphysics").researched && this.hasResources()){
-			this.payPrice();
-			this.game.paragonPoints -= meta.paragon;
-
-			meta.researched = true;
-			this.game.unlock(meta.unlocks);
-
-			if (meta.handler){
-				meta.handler(this.game);
-			}
-
-			this.update();
+		if (this.game.science.get("metaphysics").researched) {
+			this.inherited(arguments);
 		}
 	},
 

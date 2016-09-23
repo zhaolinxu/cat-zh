@@ -1686,9 +1686,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 
-			bld.val = 0;
-			bld.on = 0;
-
 			bld.unlocked = false;
 
 			if (bld.name == "hut" ||
@@ -1715,7 +1712,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.isAutomationEnabled = true;
 			}
 
-			this.setToggle(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
 		}
 	},
 
@@ -1802,185 +1799,76 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		return this.prices;
 	},
 
-	/**
-	 * Render button links like off/on and sell
-	 * Buildings are now manage with the on parameter
-	 */
-	renderLinks: function(){
-		var building = this.getMetadata();
-		var bldMeta = this.getMetadataRaw();
+	onClick: function(event){
+		this.animate();
+		if ((this.enabled && this.hasResources()) || this.game.devMode){
 
-		if (bldMeta && bldMeta.val && this.hasSellLink()){
-			if (!this.sellHref){
-				this.sellHref = this.addLink("sell",
-					function(event){
-						var end = bldMeta.val - 1;
-						if (end > 0 && event.shiftKey) { //no need to confirm if selling just 1
-							if (this.game.opts.noConfirm || confirm("Are you sure you want to sell all?")) {
-								end = 0;
-							}
-						}
-						while (bldMeta.val > end && this.hasSellLink() ) { //religion upgrades can't sell past 1
-							bldMeta.val--;
-
-							this.refund(0.5);
-
-							this.prices = this.getPrices();
-						}
-
-						if (bldMeta.on > bldMeta.val){
-							bldMeta.on = bldMeta.val;
-						}
-						this.game.upgrade(building.upgrades);
-						this.game.render();
-					});
+			if (this.handler) {
+				this.handler(this);
 			}
-		}
 
-		//--------------- toggle ------------
+			var building = this.getMetadataRaw();
 
-		if (!building.togglable){
-			return;
-		}
+			if (building.breakIronWill) {
+				this.game.ironWill = false;
+			}
 
-		//TODO: is this even supposed to work?
-		if (building.togglableOnOff){
-			this.toggle = this.addLink( building.on ? "on" : "off",
-				function(){
-					var building = this.getMetadataRaw();
+			if (event.shiftKey){
+                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
+                    this.buildAll(building);
+                }
+            } else {
+                this.build(building);
+            }
 
-					building.on = building.on ? 0 : building.val;	//legacy safe switch
-					this.game.upgrade(building.upgrades);
-				}, true	//use | break
-			);
-		}
-		else {
-			this.remove = this.addLinkList([
-			   {
-				id: "off1",
-				title: "-",
-				handler: function(){
-					var building = this.getMetadata();
-					if (building.on){
-						building.on--;
-						this.game.upgrade(building.upgrades);
-					}
-				}
-			   },{
-				id: "offAll",
-				title: "-all",
-				handler: function(){
-					var building = this.getMetadata();
-					if (building.on) {
-						building.on = 0;
-						this.game.upgrade(building.upgrades);
-					}
-				}
-			   }]
-			);
+			if (building.unlocks) {
+				this.game.unlock(building.unlocks);
+			}
 
-			this.add = this.addLinkList([
-			   {
-				id: "add1",
-				title: "+",
-				handler: function(){
-					var building = this.getMetadata();
-					if (building.on < building.val){
-						building.on++;
-						this.game.upgrade(building.upgrades);
-					}
-				}
-			   },{
-				id: "add",
-				title: "+all",
-				handler: function(){
-					var building = this.getMetadata();
-					if (building.on < building.val) {
-						building.on = building.val;
-						this.game.upgrade(building.upgrades);
-					}
-				}
-			   }]
-			);
-		}
+			if (building.upgrades){
+				this.game.upgrade(building.upgrades);
+			}
 
-		if (building.name == "steamworks" || (building.name == "calciner" && this.game.opts.hideSell) ) {
-			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
-				function(){
-					var building = this.getMetadataRaw();
-					building.isAutomationEnabled = !building.isAutomationEnabled;
-				}, true
-			);
-		}
-
-		if(building.val > 9 && this.hasSellLink()) {
-			//Steamworks and accelerator specifically can be too large when sell button is on
-			//(tested to support max 99 bld count)
-			dojo.addClass(this.domNode, "small-text");
+			this.game.render();
 		}
 	},
 
-	update: function(){
-		this.inherited(arguments);
+    build: function(bld){
+        this.payPrice();
 
-		var self = this;
+        if (bld){
+            bld.val++;
+            bld.on++;
 
-		//we are calling update before render, panic flee
-		if (!this.buttonContent){
-			return;
+            // manage togglableOnOff when Off
+            if (bld.togglableOnOff && bld.on == 1){
+                bld.on--;
+            }
+
+            //price check is sorta heavy operation, so we will store the value in the button
+            this.prices = this.getPrices();
+
+			//update stats
+			this.game.stats.getStat("buildingsConstructed").val += 1;
+        }
+        var undo = this.game.registerUndoChange();
+        undo.addEvent("bld", bld.name, 1);
+    },
+
+    buildAll: function(bld){
+        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
+        var counter = 0;
+        while (this.hasResources()){
+            this.build(bld);
+            counter++;
+        }
+		if (counter > 0) {
+			this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
+			var undo = this.game.registerUndoChange();
+			undo.addEvent("bld", bld.name, counter);
 		}
+    }
 
-		var building = this.getMetadata();
-		if (building && building.val){
-
-			// -------------- sell ----------------
-			if (this.sellHref){
-				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
-			}
-
-			//--------------- toggle ------------
-
-			if (!building.togglable){
-				return;
-			}
-
-			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
-			if (this.remove){
-				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
-			}
-			if (this.add){
-				dojo.setStyle(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
-			}
-			*/
-
-			if (this.toggle){
-				this.toggle.link.textContent = building.on ? "on" : "off";
-				this.toggle.link.title = building.on ? "Building enabled" : "Building disabled";
-			}
-
-			if (this.toggleAutomation){
-				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
-				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
-
-				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
-				this.isAutomationResearched = true;
-				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
-				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
-			}
-
-			dojo.removeClass(this.domNode, "bldEnabled");
-			dojo.removeClass(this.domNode, "bldlackResConvert");
-			if (building.lackResConvert) {
-				dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
-			} else {
-				dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
-			}
-
-			if(building.val > 9) {
-				dojo.setStyle(this.domNode,"font-size","90%");
-			}
-		}
-	}
 });
 
 //-------------------    special stagable bld exclusive button ------------------------------------------------

@@ -2230,15 +2230,6 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game
 		return this.metaCached;
 	},
 
-	getPrices: function() {
-		var meta = this.getMetadata();
-		var prices = meta.prices;
-
-		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
-
-		return prices_result;
-	},
-
 	updateVisible: function(){
 		var upgrade = this.getMetadata();
 		if (!upgrade.unlocked){
@@ -2413,13 +2404,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	createBtn: function(upgrade){
 		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({
-			id: upgrade.name,
-			handler: dojo.partial(function(tech, game, btn){
-				upgrade.researched = true;
-				this.game.unlock(upgrade.unlocks);
-			}, upgrade, self.game)
-		}, this.game);
+		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name}, this.game);
 		return btn;
 	},
 

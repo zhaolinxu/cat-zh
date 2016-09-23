@@ -40,21 +40,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
 			var zu = this.zigguratUpgrades[i];
-			zu.val = 0;
-			zu.on = 0;
 			zu.unlocked = zu.defaultUnlocked || false;
+			this.resetStateStackable(zu, zu.isAutomationEnabled, zu.lackResConvert, zu.effects);
 		}
 
 		for (i = 0; i < this.religionUpgrades.length; i++){
 			var ru = this.religionUpgrades[i];
-			ru.val = 0;
-			ru.on = 0;
+			this.resetStateStackable(ru, ru.isAutomationEnabled, ru.lackResConvert, ru.effects);
 		}
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
-			tu.val = 0;
-			tu.on = 0;
+			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
 		}
 	},
 
@@ -664,6 +661,26 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 	},
 
+	onClick: function(event){
+        this.animate();
+
+        if (this.enabled && this.hasResources()){
+            this.payPrice();
+
+			var meta = this.getMetadata();
+
+            meta.val++;
+			meta.on++;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
+        }
+    }
 });
 
 /**
@@ -693,6 +710,26 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		this.setVisible(this.game.religion.faith >= this.getMetadata().faith);
 	},
 
+	onClick: function(event){
+        this.animate();
+
+        if (this.enabled && this.hasResources()){
+            this.payPrice();
+
+			var meta = this.getMetadata();
+
+            meta.val++;
+			meta.on++;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
+        }
+    }
 });
 
 dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
@@ -715,6 +752,26 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingS
 		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
 	},
 
+	onClick: function(event){
+        this.animate();
+
+        if (this.enabled && this.hasResources()){
+            this.payPrice();
+
+			var meta = this.getMetadata();
+
+            meta.val++;
+			meta.on++;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
+        }
+    }
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {
