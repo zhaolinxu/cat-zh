@@ -41,6 +41,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
 			var zu = this.zigguratUpgrades[i];
 			zu.val = 0;
+			zu.on = 0;
 			zu.unlocked = zu.defaultUnlocked || false;
 		}
 
@@ -53,6 +54,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
 			tu.val = 0;
+			tu.on = 0;
 		}
 	},
 
@@ -62,9 +64,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			corruption: this.corruption,
 			faithRatio: this.faithRatio,
 			tcratio: this.tcratio,
-			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked"]),
+			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked", "on"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
-			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val"])
+			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on"])
 		};
 	},
 
@@ -79,7 +81,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.tcratio = saveData.religion.tcratio || 0;
 
 		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked"], function(loadedElem){
+			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked", "on"], function(loadedElem){
 				var prices = dojo.clone(loadedElem.prices);
 				for( var k = 0; k < prices.length; k++){
 					var price = prices[k];
@@ -91,7 +93,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val"], function(loadedElem){
+			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on"], function(loadedElem){
 				//IDK
 			});
 		}
@@ -155,7 +157,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"unicornsRatioReligion" : 0.05
 		},
-		val: 0,
 		unlocked: true,
 		defaultUnlocked: true,
 		unlocks: {
@@ -174,7 +175,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"unicornsRatioReligion" : 0.1,
 			"riftChance" : 5	//
 		},
-		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
 		unlocks: {
@@ -193,7 +193,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"unicornsRatioReligion" : 0.25,
 			"ivoryMeteorChance" : 5
 		},
-		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
 		unlocks: {
@@ -214,7 +213,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"alicornChance" : 5,
 			"alicornPerTick" : 0.00001
 		},
-		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
 		unlocks: {
@@ -236,7 +234,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"alicornPerTick" : 0.000025,
 			"tcRefineRatio" : 0.05
 		},
-		val: 0,
 		unlocked: false,
 		defaultUnlocked: false,
 		unlocks: {
@@ -260,7 +257,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"alicornPerTick" : 0.00005,
 			"tcRefineRatio": 0.1
 		},
-		val: 0,
 		unlocked: false,
 		defaultUnlocked: false
 	},{
@@ -277,7 +273,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"corruptionRatio" : 0.000001
 		},
-		val: 0,
 		unlocked: false
 	},{
 		name: "unicornGraveyard",
@@ -294,7 +289,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["ziggurat"]
 		},
-		val: 0,
 		unlocked: false
 	},{
 		name: "blackPyramid",
@@ -309,7 +303,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 		},
-		val: 0,
 		unlocked: false
 	}],
 
@@ -324,7 +317,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"faithRatioReligion" : 0.1
 		},
-		val: 0,
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
@@ -344,7 +336,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
-		val: 0,
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
@@ -368,7 +359,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
-		val: 0,
 		noStackable: true,
 		priceRatio: 2.5
 	},{
@@ -389,7 +379,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
-		val: 0,
 		noStackable: true,
 		priceRatio: 2.5
 	},{
@@ -400,7 +389,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			{ name : "faith", val: 500 },
 			{ name : "gold",  val: 250 }
 		],
-		val: 0,
 		faith: 750,
 		effects: {
 			//none
@@ -425,7 +413,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		val: 0,
 		noStackable: true
 	},{
 		name: "basilica",
@@ -445,7 +432,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
-		val: 0,
 		noStackable: true,
 		priceRatio: 2.5
 	},{
@@ -466,7 +452,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
-		val: 0,
 		noStackable: true,
 		priceRatio: 2.5
 	},{
@@ -481,7 +466,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		val: 0,
 		noStackable: true
 	},{
 		name: "transcendence",
@@ -498,7 +482,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
 		},
-		val: 0,
 		noStackable: true
 	}],
 
@@ -513,7 +496,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 1,
 		priceRatio: 1.15,
 		effects: {},
-		val: 0,
 		unlocked: true,
 		flavor: "TBD" // flavor is TBD but the faith bonus improvement is already done
 	},{
@@ -528,7 +510,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"relicRefineRatio" : 1.0
 		},
-		val: 0,
 		unlocked: true,
 		flavor: "Eye in the sky."
 	},{
@@ -543,7 +524,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"blsLimit" : 0.01
 		},
-		val: 0,
 		unlocked: true,
 		flavor: "Built with the bones of kitten sacrifices."
 	},{
@@ -558,7 +538,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"tcResourceRatio" : 0.10
 		},
-		val: 0,
 		unlocked: true,
 		flavor: "A gateway... To what?"
 	},{
@@ -573,7 +552,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 		},
-		val: 0,
 		unlocked: true,
 		flavor: "We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far."
 	}

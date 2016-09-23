@@ -192,7 +192,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "unobtainium", val: 50}
 			],
 			requiredTech: ["orbitalEngineering", "nanotechnology"],
-			val: 0,
 			effects: {
 				"oilReductionRatio": 0,
 				"spaceRatio": 0,
@@ -218,8 +217,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			priceRatio: 1.08,
 			requiredTech: ["sattelites"],
-			val: 0,
-			on: 0,
 			effects: {
 				"observatoryRatio": 0,
 				"starchartPerTickBaseSpace": 0,
@@ -255,7 +252,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
-			val: 0,
 			handler: function(game){
 				game.ironWill = false;			//sorry folks
 			},
@@ -290,13 +286,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 100000},
 				{name: "oil", val: 55000}
 			],
-
 			handler: function(game, self){
 				//game.workshop.get("unobtainiumAxe").unlocked = true;
 				//game.workshop.get("unobtainiumSaw").unlocked = true;
 			},
-			val:  0,
-			on:	  0,
 			effects: {
 				"energyConsumption": 0,
 				"uraniumPerTickCon": 0,
@@ -359,8 +352,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumMax"    : 150,
 					"energyConsumption" : game.workshop.get("amBases").researched ? 5 : 10
 				};
-			},
-			val: 0
+			}
 		}]
 	},{
 		name: "dune",
@@ -378,8 +370,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 125000},
                 {name: "kerosene", val: 50}
             ],
-            val:  0,
-            on:	  0,
             effects: {
 				"uraniumPerTickSpace" : 0,
 				"uraniumMax" : 0
@@ -403,8 +393,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 150000},
                 {name: "kerosene", val: 100}
             ],
-            val:  0,
-            on:	  0,
             effects: {
 				"oilPerTickAutoprodSpace": 0
             },
@@ -430,8 +418,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "titanium", val: 12500},
                 {name: "kerosene", val: 250}
             ],
-            val:  0,
-            on:	  0,
             effects: {
 				"starchartPerTickBaseSpace": 0,
 				"scienceMax": 0
@@ -453,8 +439,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "science", val: 250000},
                 {name: "kerosene", val: 500}
             ],
-            val:  0,
-            on:	  0,
             effects: {
 				"spaceRatio": 0,
 				"energyConsumption" : 0
@@ -481,8 +465,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 {name: "eludium", val: 250},
                 {name: "kerosene", val: 2500}
             ],
-            val:  0,
-            on:	  0,
             effects: {
 				"antimatterProduction": 0,
 				"energyProduction" : 0
@@ -503,8 +485,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 500000},
 				{name: "kerosene", val: 2500}
 			],
-			val:  0,
-			on:	  0,
 			effects: {
 				"energyConsumption": 0,
 				"antimatterMax": 0
@@ -553,8 +533,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"oilMax"        : 25000,
 					"unobtainiumMax": 750
 				};
-            },
-            val: 0
+            }
         }
         ]
 	},{
@@ -585,8 +564,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
 						"relicPerDay": game.getEffect("beaconRelicsPerDay")
 					};
-				},
-				val: 0
+				}
 			}
 		]
 	},{
@@ -614,8 +592,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"maxKittens": 1,
 						"catnipConsumption": 250
 					};
-				},
-				val: 0
+				}
 			},
 			{
 				name: "hydroponics",
@@ -635,8 +612,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"catnipMaxRatio" : 0.1,
 						"catnipRatio" : 0.025
 					};
-				},
-				val: 0
+				}
 			}
 		]
 	}],
@@ -722,7 +698,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 
 		saveData.space = {
-			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked"]),
+			programs: this.filterMetadata(this.programs, ["name", "val", "on"]),
 			planets: planets,
 			hideResearched: this.hideResearched
 		};
@@ -738,7 +714,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked"], function(loadedElem){
+			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
 				for (var k = prices.length - 1; k >= 0; k--) {

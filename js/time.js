@@ -37,7 +37,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "unlocked"], function(loadedElem){
+				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "on"], function(loadedElem){
 			});
 		}
 
@@ -46,12 +46,15 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "unlocked", "on"], function(loadedElem){
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "on"], function(loadedElem){
             });
         }
         if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "unlocked", "on"], function(loadedElem){
+            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "on"], function(loadedElem){
             });
+        }
+        if (this.getVSU("usedCryochambers").val > 0) {
+			this.getVSU("usedCryochambers").unlocked = true;
         }
         this.updateEnergyStats();
 
@@ -81,8 +84,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: Date.now(),
            energy: this.energy,
            flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "unlocked", "on"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "unlocked", "on"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
        };
     },
 
@@ -134,7 +137,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "timeCrystal", val: 5 }
         ],
         priceRatio: 1.25,
-        val: 0,
         unlocked: true
     },{
         name: "temporalAccelerator",
@@ -148,7 +150,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeRatio" : 0.05
         },
-        val: 0,
         unlocked: true
     },{
         name: "ressourceRetrieval",
@@ -161,7 +162,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "shatterTCGain" : 0.01
         },
-        val: 0,
         unlocked: false
     }],
 
@@ -178,7 +178,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 			"maxKittens": 1
         },
-        val: 0,
         unlocked: false,
         flavor: "Board for the past"
     },{
@@ -192,7 +191,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 
         },
-        val: 0,
         unlocked: false
     },{
         name: "voidHoover",
@@ -207,7 +205,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
 			"temporalParadoxVoid": 1
         },
-        val: 0,
         unlocked: false
     },{
         name: "chronocontrol",
@@ -229,7 +226,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 				"energyConsumption": 15
 			};
 		},
-        val: 0,
         unlocked: false
     }],
 
