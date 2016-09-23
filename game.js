@@ -2538,13 +2538,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (newKittens.length > 0) {
-			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "on"]);
 			usedCryochambers_reset[0]["val"] = newKittens.length;
-			usedCryochambers_reset[0]["unlocked"] = true;
+			usedCryochambers_reset[0]["on"] = newKittens.length;
 		} else {
-			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "unlocked"]);
+			var usedCryochambers_reset = this.time.filterMetadata([this.time.getVSU("usedCryochambers")], ["name", "val", "on"]);
 			usedCryochambers_reset[0]["val"] = 0;
-			usedCryochambers_reset[0]["unlocked"] = false;
+			usedCryochambers_reset[0]["on"] = 0;
 		}
 
 		var saveData = {
