@@ -832,12 +832,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return this.metaCached;
 	},
 
-	constructor: function(opts, game) {
-		if(opts.onClickComplete){
-			this.onClickComplete = opts.onClickComplete;
-		}
-	},
-
 	hasSellLink: function(){
 		return false;
 	},
@@ -884,51 +878,12 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		this.setVisible(program.unlocked);
 	},
 
-	onClick: function(event){
-		var self = this;
+    build: function(bld, maxBld){
+		var counter = 0;
+		while (this.hasResources() && maxBld > 0){
+			this.payPrice();
 
-		this.animate();
-		var program = this.getMetadata();
-		if (this.enabled && this.hasResources()){
-
-			if (!program.noStackable && event.shiftKey){
-                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.buildAll(program);
-                }
-            } else {
-                this.build(program);
-            }
-
-			this.handler(this);
-
-			if (program.unlocks){
-				if (program.unlocks.planet){
-					this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-				}
-				if (program.unlocks.programs){
-					dojo.forEach(program.unlocks.programs, function(uprogram, i){
-						self.game.space.getProgram(uprogram).unlocked = true;
-					});
-				}
-			}
-
-			if (program.upgrades){
-				this.game.upgrade(program.upgrades);
-			}
-			this.onClickComplete();
-			this.update();
-		}
-	},
-
-	onClickComplete: function(){
-
-	},
-
-    build: function(bld){
-        this.payPrice();
-
-        if (bld){
-            bld.val++;
+	        bld.val++;
 			bld.on++;
 
             // manage togglableOnOff when Off
@@ -936,24 +891,35 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
                 bld.on--;
             }
 
-            //price check is sorta heavy operation, so we will store the value in the button
-            this.prices = this.getPrices();
-        }
-    },
-
-    buildAll: function(bld){
-        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
-        var counter = 0;
-        while (this.hasResources()){
-            this.build(bld);
             counter++;
+            maxBld--;
         }
-        this.game.msg(bld.label + " x"+counter+ " constructed.", "notice");
+
+        if (counter > 1) {
+			this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
+		}
+
+		if (bld.unlocks){
+			if (bld.unlocks.planet){
+				this.game.space.getPlanet(bld.unlocks.planet).unlocked = true;
+			}
+			if (bld.unlocks.blds){
+				dojo.forEach(bld.unlocks.blds, function(ubld, i){
+					self.game.space.getbld(ubld).unlocked = true;
+				});
+			}
+		}
+
+		if (bld.upgrades){
+			this.game.upgrade(bld.upgrades);
+		}
+
     },
 
 });
 
 dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
+	metaCached: null, // Call getMetadata
 	planet: null,
 
 	setOpts: function(opts){
@@ -961,52 +927,30 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 		this.planet = opts.planet;
 	},
 
-	getProgram: function(){
+	getMetadata: function(){
 		var space = this.game.space;
-		if (!this.program){
+		if (!this.metaCached){
 			var planet = space.getMeta(this.planet.name, space.planets);
-			this.program = space.getMeta(this.id, this.planet.buildings);
+			this.metaCached = space.getMeta(this.id, this.planet.buildings);
 
 		}
-		return this.program;
+		return this.metaCached;
 	},
 
 	updateVisible: function(){
-		var program = this.getProgram();
-		if (program.requiredTech){
-			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
-				var tech = this.game.science.get(program.requiredTech[i]);
+		var meta = this.getMetadata();
+		if (meta.requiredTech){
+			for (var i = meta.requiredTech.length - 1; i >= 0; i--) {
+				var tech = this.game.science.get(meta.requiredTech[i]);
 				if (!tech.researched){
 					this.setVisible(false);
 					return;
 				}
 			}
 		}
-		this.setVisible(this.getProgram().unlocked);
+		this.setVisible(this.getMetadata().unlocked);
 	},
 
-	onClick: function(event){
-		var self = this;
-
-		this.animate();
-		var program = this.getProgram();
-		if (this.enabled && this.hasResources()){
-
-			if (!program.noStackable && event.shiftKey){
-                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.buildAll(program);
-                }
-            } else {
-                this.build(program);
-            }
-			if (program.handler){
-				program.handler(this.game, program);
-			}
-			if (program.upgrades){
-				this.game.upgrade(program.upgrades);
-			}
-		}
-	}
 });
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
@@ -1068,19 +1012,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 		var content = this.GCPanel.render(container);
 
 		dojo.forEach(this.game.space.programs, function(program, i){
-			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({
-				id: program.name,
-				handler: function(btn){
-					var program = btn.getMetadata();
-					if (program.handler){
-						program.handler(btn.game, program);
-					}
-				},
-				onClickComplete: function(){
-					dojo.empty(container);
-					self.render(container);
-				}
-			}, self.game);
+			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({id: program.name}, self.game);
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});

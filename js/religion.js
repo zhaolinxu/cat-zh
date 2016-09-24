@@ -656,31 +656,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		}
 		return this.name;
 	},
-
-	payPrice: function(){
-		this.inherited(arguments);
-	},
-
-	onClick: function(event){
-        this.animate();
-
-        if (this.enabled && this.hasResources()){
-            this.payPrice();
-
-			var meta = this.getMetadata();
-
-            meta.val++;
-			meta.on++;
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
-        }
-    }
 });
 
 /**
@@ -710,26 +685,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.u
 		this.setVisible(this.game.religion.faith >= this.getMetadata().faith);
 	},
 
-	onClick: function(event){
-        this.animate();
-
-        if (this.enabled && this.hasResources()){
-            this.payPrice();
-
-			var meta = this.getMetadata();
-
-            meta.val++;
-			meta.on++;
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
-        }
-    }
 });
 
 dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
@@ -751,27 +706,6 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingS
 	updateVisible: function(){
 		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
 	},
-
-	onClick: function(event){
-        this.animate();
-
-        if (this.enabled && this.hasResources()){
-            this.payPrice();
-
-			var meta = this.getMetadata();
-
-            meta.val++;
-			meta.on++;
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
-        }
-    }
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {

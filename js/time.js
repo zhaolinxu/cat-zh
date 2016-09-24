@@ -64,6 +64,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var timestamp = Date.now();
         var delta = timestamp - ( saveData["time"].timestamp || 0 );
+        console.log(delta);
         if (delta <= 0){
             return;
         }
@@ -371,27 +372,6 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
         }
         return this.metaCached;
     },
-
-    onClick: function(event){
-        this.animate();
-
-        if (this.enabled && this.hasResources()){
-            this.payPrice();
-
-			var meta = this.getMetadata();
-
-            meta.val++;
-			meta.on++;
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
-        }
-    }
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -434,27 +414,6 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
         }
         return this.metaCached;
     },
-
-	onClick: function(event){
-        this.animate();
-
-        if (this.enabled && this.hasResources()){
-            this.payPrice();
-
-			var meta = this.getMetadata();
-
-            meta.val++;
-			meta.on++;
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
-        }
-    }
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {

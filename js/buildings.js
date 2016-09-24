@@ -1799,75 +1799,42 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		return this.prices;
 	},
 
-	onClick: function(event){
-		this.animate();
-		if ((this.enabled && this.hasResources()) || this.game.devMode){
+    build: function(bld, maxBld){
+		var counter = 0;
+        while (this.hasResources() && maxBld > 0){
+			this.payPrice();
 
-			if (this.handler) {
-				this.handler(this);
-			}
-
-			var building = this.getMetadataRaw();
-
-			if (building.breakIronWill) {
-				this.game.ironWill = false;
-			}
-
-			if (event.shiftKey){
-                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.buildAll(building);
-                }
-            } else {
-                this.build(building);
-            }
-
-			if (building.unlocks) {
-				this.game.unlock(building.unlocks);
-			}
-
-			if (building.upgrades){
-				this.game.upgrade(building.upgrades);
-			}
-
-			this.game.render();
-		}
-	},
-
-    build: function(bld){
-        this.payPrice();
-
-        if (bld){
-            bld.val++;
-            bld.on++;
+	        bld.val++;
+			bld.on++;
 
             // manage togglableOnOff when Off
             if (bld.togglableOnOff && bld.on == 1){
                 bld.on--;
             }
 
-            //price check is sorta heavy operation, so we will store the value in the button
-            this.prices = this.getPrices();
-
-			//update stats
-			this.game.stats.getStat("buildingsConstructed").val += 1;
-        }
-        var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", bld.name, 1);
-    },
-
-    buildAll: function(bld){
-        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
-        var counter = 0;
-        while (this.hasResources()){
-            this.build(bld);
             counter++;
+            maxBld--;
         }
-		if (counter > 0) {
-			this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
-			var undo = this.game.registerUndoChange();
-			undo.addEvent("bld", bld.name, counter);
+
+        if (counter > 1) {
+	        this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
 		}
-    }
+
+		if (bld.unlocks) {
+			this.game.unlock(bld.unlocks);
+		}
+
+		if (bld.upgrades){
+			this.game.upgrade(bld.upgrades);
+		}
+
+		//update stats
+		this.game.stats.getStat("buildingsConstructed").val += counter;
+
+		// undo
+		var undo = this.game.registerUndoChange();
+        undo.addEvent("bld", bld.name, counter);
+    },
 
 });
 
@@ -2068,8 +2035,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				var opts = {
 					name: 			bld.label,
 					description: 	bld.description,
-					building: 		bld.name,
-					handler: 		bld.handler
+					building: 		bld.name
 				};
 
 				var btn = null;
