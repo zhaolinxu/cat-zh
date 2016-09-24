@@ -64,7 +64,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var timestamp = Date.now();
         var delta = timestamp - ( saveData["time"].timestamp || 0 );
-        console.log(delta);
         if (delta <= 0){
             return;
         }
