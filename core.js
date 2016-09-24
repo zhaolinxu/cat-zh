@@ -216,6 +216,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
 		bld.val = 0;
 		bld.on = 0;
+		if (bld.noStackable == "undefined") {
+			bld.noStackable = false
+		}
 
 		bld.togglable = false;
 		bld.togglableOnOff = false;
@@ -1436,6 +1439,56 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
             prices[i].val = prices[i].val * Math.pow(ratio, this.getMetadata().val);
         }
         return prices;
+    },
+
+	onClick: function(event){
+		this.animate();
+		var meta = this.getMetadataRaw();
+		if (this.enabled && this.hasResources() || this.game.devMode){
+			if (!meta.noStackable && event.shiftKey){
+                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
+                    this.build(meta, 1000);
+                }
+            } else {
+                this.build(meta, 1);
+            }
+		}
+		this.game.render();
+	},
+
+	build: function(meta, maxBld){
+        this.animate();
+
+        if (this.enabled && this.hasResources()){
+
+			var counter = 0;
+	        while (this.hasResources() && maxBld > 0){
+				this.payPrice();
+
+		        meta.val++;
+				meta.on++;
+
+	            // manage togglableOnOff when Off
+	            if (meta.togglableOnOff && meta.on == 1){
+	                meta.on--;
+	            }
+
+	            counter++;
+	            maxBld--;
+	        }
+
+	        if (counter > 1) {
+		        this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
+			}
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
+        }
     },
 
 	updateEnabled: function(){
