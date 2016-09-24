@@ -2530,7 +2530,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var newRes = this.resPool.createResource(res.name, res.type);
 
 
-				if (!res.craftable){
+				if (!res.craftable || res.name == "wood"){
 					newRes.value = res.value * saveRatio;
 					if (res.name == "void") {
 						newRes.value = Math.floor(newRes.value);
