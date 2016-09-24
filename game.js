@@ -1363,6 +1363,35 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			save.saveVersion = 5;
 		}
 
+		if (save.saveVersion == 5) {
+			// Move energy into a true resource
+			if (save.time && save.time.energy && save.resources) {
+				var changement = false;
+				for (var i = 0; i < save.resources.length; i++) {
+					var res = save.resources[i];
+					if (res.name == "temporalFlux") {
+						res.value = save.time.energy;
+						changement = true;
+					}
+				}
+				if (!changement) {
+					resTE = {
+						name : "temporalFlux",
+						title: "temporal flux",
+						description: "",
+						type : "exotic",
+						craftable: false,
+						visible: false,
+						persists: true,
+						value: save.time.energy
+					}
+					save.resources.push(resTE);
+				}
+			}
+
+			save.saveVersion = 6;
+		}
+
 		return save;
 	},
 
