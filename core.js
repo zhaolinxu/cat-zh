@@ -1202,10 +1202,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		return this.getMetadataRaw();
 	},
 
-	getBuildingName: function(){
-		return this.name;
-	},
-
 	getDescription: function(){
 		var description = this.getMetadataRaw().description;
 		return typeof(description) != "undefined" ? description : "";
