@@ -389,13 +389,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addResource: function(name){
-		var res = this.createResource(name);
-		this.resources.push(res);
-
-		return res;
-	},
-
 	addRes: function(res, addedValue, event) {
 		if (this.game.calendar.day < 0 && !event) {
 			return;
