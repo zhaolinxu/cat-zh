@@ -44,11 +44,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "on"], function(loadedElem){
 			});
 		}
-
-        if (!this.game.science.get("calendar").researched){
-            return;
-        }
-
         if (saveData.time.cfu){
             this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "on"], function(loadedElem){
             });
@@ -60,6 +55,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (this.getVSU("usedCryochambers").val > 0) {
 			this.getVSU("usedCryochambers").unlocked = true;
         }
+
+        if (!this.game.science.get("calendar").researched){
+            return;
+        }
+
         this.updateEnergyStats();
 
         var timestamp = Date.now();
