@@ -1,8 +1,6 @@
 dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager, {
     game: null,
 
-    maxEnergy: 0,   /*Time acceleration energy in ticks*/
-    energy: 0,
     /*
      * Amount of years skipped by CF time jumps
      */
@@ -11,8 +9,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     constructor: function(game){
         this.game = game;
-
-        this.maxEnergy = game.rate * 60 * 10;   //10 minute max
 
 		this.registerMetaTime();
 		this.setEffectsCachedExisting();
@@ -28,12 +24,20 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		}});
     },
 
+    save: function(saveData){
+       saveData["time"] = {
+           timestamp: Date.now(),
+           flux: this.flux,
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
+       };
+    },
+
     load: function(saveData){
         if (!saveData["time"]){
             return;
         }
-		var saveEnergy = saveData["time"].energy || 0;
-        this.energy = saveEnergy;
+
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
@@ -64,33 +68,21 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
-		this.energy += Math.round(delta / ( 60 * 1000 ) ) * this.game.rate;    //every 60 seconds
-        if (this.energy > this.maxEnergy){
-            this.energy = this.maxEnergy;
-        }
+		var temporalAccelerator = this.getCFU("temporalAccelerator");
+        var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
 
-        var accelerator = this.getCFU("temporalAccelerator"),
-            energyRatio =  1 + (accelerator.val * accelerator.effects["timeRatio"]),
-		    bonusSeconds = Math.round((this.energy - saveEnergy) / this.game.rate * energyRatio);
+        var temporalFluxAdded = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
 
+		this.game.resPool.addResEvent("temporalFlux", temporalFluxAdded);
+
+		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
         if (bonusSeconds > 0){
             this.game.msg("You have recharged " + bonusSeconds + " second"
 				+ (bonusSeconds > 1 ? "s" : "") + " of temporal flux");
         }
     },
 
-    save: function(saveData){
-       saveData["time"] = {
-           timestamp: Date.now(),
-           energy: this.energy,
-           flux: this.flux,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
-       };
-    },
-
     resetState: function(){
-		this.energy = 0;
 		this.isAccelerated = false;
 
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
@@ -106,20 +98,16 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     update: function(){
         this.updateEnergyStats();
 
-        if (this.energy > this.maxEnergy){ //sanity check
-            this.energy = this.maxEnergy;
+        if (this.isAccelerated && this.game.resPool.get("temporalFlux").value > 0){
+            this.game.resPool.addResEvent("temporalFlux", -1);
         }
-        this.game.resPool.get("temporalFlux").value = this.energy;
-        if (this.isAccelerated && this.energy > 0){
-            this.energy--;
-        }
-        if (!this.energy){
+        if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
     },
 
     updateEnergyStats: function(){
-        this.maxEnergy = Math.round(
+        this.game.resPool.get("temporalFlux").maxValue = Math.round(
             this.game.rate * 60 * 10
             * (1 + this.getCFU("temporalBattery").val * 0.25)
         );
@@ -225,6 +213,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: false
     }],
 
+	effectsBase: {
+		"temporalFluxMax": game.rate * 60 * 10   //10 minutes
+	},
+
     getCFU: function(id){
         return this.getMeta(id, this.chronoforgeUpgrades);
     },
@@ -248,7 +240,7 @@ dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.But
     },
 
     toggle: function() {
-		if (this.game.time.energy == 0) {
+		if (this.game.resPool.get("temporalFlux").value == 0) {
 			this.game.time.isAccelerated = false;
 		} else {
 			this.game.time.isAccelerated = !this.game.time.isAccelerated;
@@ -276,9 +268,9 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     },
 
     update: function(){
-        this.timeSpan.innerHTML = "Temporal Flux: " + this.game.time.energy + "/" + this.game.time.maxEnergy;
-        if (this.game.time.energy){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.time.energy / this.game.rate) + ")";
+        this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value + "/" + this.game.resPool.get("temporalFlux").maxValue;
+        if (this.game.resPool.get("temporalFlux").value != 0){
+            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.resPool.get("temporalFlux").value / this.game.rate) + ")";
         }
 
         this.inherited(arguments);
@@ -400,7 +392,6 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
 			}
         }
     }
-
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -449,9 +440,6 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 
         if (this.enabled && this.hasResources()){
             this.payPrice();
-            if (this.getMetadata().name == "chronocontrol") {
-				this.game.time.energy -= this.getMetadata().prices[2].val;
-            }
 
 			var meta = this.getMetadata();
 
@@ -467,7 +455,6 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 			}
         }
     }
-
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {

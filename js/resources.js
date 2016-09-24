@@ -231,7 +231,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		},
 		persists: true
 	},{
-		name : "temporalFlux", // game.time.energy : update in time manager
+		name : "temporalFlux",
 		title: "temporal flux",
 		description: "",
 		type : "exotic",
