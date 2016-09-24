@@ -649,12 +649,13 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 		return this.metaCached;
 	},
 
-	getBuildingName: function(){
+	getName: function(){
 		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
 			var progress = Math.round((this.game.religion.corruption * 100));
-			return this.name + " [" + progress + "%] ";
+			return this.name + " [" + progress + "%] (" + this.getMetadata().val + ")";
+		} else {
+			return this.inherited(arguments);
 		}
-		return this.name;
 	},
 });
 
