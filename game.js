@@ -697,7 +697,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//on a side note, I hate those flags. Could we use gamePage.opts = []/{}; ?
 	karmaKittens: 0,	//counter for karmic reincarnation
 	karmaZebras: 0,
-	paragonPoints: 0,	//endgame prestige
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
@@ -972,7 +971,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.colorScheme = "";
 		this.karmaKittens = 0;
 		this.karmaZebras = 0;
-		this.paragonPoints = 0;
 		this.ironWill = true;
 		this.deadKittens = 0;
 		this.cheatMode = false;
@@ -1030,7 +1028,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
 			karmaZebras: this.karmaZebras,
-			paragonPoints: this.paragonPoints,
 			ironWill : this.ironWill,
 			deadKittens: this.deadKittens,
 			cheatMode: this.cheatMode,
@@ -1109,7 +1106,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
 			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
-			this.paragonPoints = (data.paragonPoints !== undefined) ? data.paragonPoints : 0;
 			this.deadKittens = (data.deadKittens !== undefined) ? data.deadKittens : 0;
 			this.ironWill = (data.ironWill !== undefined) ? data.ironWill : true;
 			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
@@ -2360,7 +2356,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!confirm(msg)){
 			return;
 		}
-		if (this.paragonPoints > 100){
+		if (this.resPool.get("paragon").value > 100){
 			msg = "You have a lot of paragon points. Are you absolutely sure?";
 			if (!confirm(msg)){
 				return;
@@ -2373,7 +2369,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		this.paragonPoints = 0;
+		this.game.resPool.get("paragon").value = 0;
 		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
@@ -2418,7 +2414,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			paragonPoints = (kittens - 70);
 		}
 
-		this.paragonPoints += paragonPoints;
+		this.resPool.addResEvent("paragon", paragonPoints);
 		this.karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
 
@@ -2475,14 +2471,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.mixin(lsData.game, {
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,
-			paragonPoints: 		this.paragonPoints,
 			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
 			deadKittens: 		0
 		});
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "paragon", "karma", "necrocorn", "void"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "void"];
 
 
 
@@ -2590,14 +2585,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var stripe = 5;	//initial amount of kittens per stripe
 		var karma = this.getTriValue(this.karmaKittens, stripe);
 
-		var milleniums = Math.floor(this.calendar.year / 1000);
-		var paragon = milleniums - this.prestige.getSpentParagon();
-		if (this.paragonPoints < paragon){
-			this.paragonPoints = parseInt(paragon);
-		}
-
 		this.resPool.get("karma").value = karma;
-		this.resPool.get("paragon").value = parseInt(this.paragonPoints);
 
 		if (this.karmaZebras){
 			this.resPool.get("zebras").maxValue = this.karmaZebras+1;
@@ -2606,10 +2594,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getTriValue: function(value, stripe){
 		return (Math.sqrt(1+8 * value / stripe)-1)/2;
-	},
-
-	getTriValueOrigin: function(value, stripe) {
-		return Math.pow(value *2 +1, 2) /8 *5;
 	},
 
 	getTab: function(name) {
@@ -2778,7 +2762,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             console.log("Kongregate API initialized successfully, updating stats...");
 
-            self.kongregate.stats.submit("paragon", self.paragonPoints);
+            self.kongregate.stats.submit("paragon", self.resPool.get("paragon").value);
             self.kongregate.stats.submit("karma", self.karmaKittens);
 
             self.achievements.updateStatistics();
@@ -2791,7 +2775,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var gift = "Karma";
-		if(this.resPool.get("paragon").value>=100) {
+		if(this.resPool.get("paragon").value >= 100) {
 			gift = "Paragon";
 		}
 		if(this.resPool.get("timeCrystal").value && this.prestige.getPerk("anachronomancy").researched) {
@@ -2831,7 +2815,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					var amt = 100;
 				}
 				var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
-				this.paragonPoints += amt;
+				this.resPool.addResEvent("paragon", amt);
 				break;
 			case "TimeCrystal":
 				if(this.resPool.get("timeCrystal").value > 100) {

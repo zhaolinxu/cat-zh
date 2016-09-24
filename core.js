@@ -213,7 +213,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	//TODO: add saveMetadata
 
-	setToggle: function(bld, isAutomationEnabled, lackResConvert, effects) {
+	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
+		bld.val = 0;
+		bld.on = 0;
+
 		bld.togglable = false;
 		bld.togglableOnOff = false;
 
@@ -235,7 +238,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") ? false : true;
 			}
 		}
+	},
 
+	resetStateResearch: function() {
+		//TODO
 	}
 
 });
@@ -1186,21 +1192,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	getEffects: function(){
-		return this.getMetadata().effects;
+		return this.getMetadataRaw().effects;
 	},
 
-	getPrices: function(){
-        var ratio = this.getMetadata().priceRatio || 1;
-        var prices = dojo.clone(this.getMetadata().prices);
-
-        for (var i = 0; i< prices.length; i++){
-            prices[i].val = prices[i].val * Math.pow(ratio, this.getMetadata().val);
-        }
-        return prices;
-    },
-
 	getSelectedObject: function(){
-		return this.getMetadata();
+		return this.getMetadataRaw();
 	},
 
 	getBuildingName: function(){
@@ -1208,81 +1204,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	getDescription: function(){
-		var description = this.getMetadata().description;
+		var description = this.getMetadataRaw().description;
 		return typeof(description) != "undefined" ? description : "";
 	},
 
 	getFlavor: function(){
-		var flavor = this.getMetadata().flavor;
+		var flavor = this.getMetadataRaw().flavor;
 		return typeof(flavor) != "undefined" ? flavor : "";
 	},
-
-	onClick: function(event){
-		this.animate();
-		if ((this.enabled && this.hasResources()) || this.game.devMode){
-
-			if (this.handler) {
-				this.handler(this);
-			}
-
-			var building = this.getMetadataRaw();
-			this.game.unlock(building.unlocks);
-
-			if (building.breakIronWill) {
-				this.game.ironWill = false;
-			}
-
-			if (event.shiftKey){
-                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.buildAll(building);
-                }
-            } else {
-                this.build(building);
-            }
-
-			if (building.upgrades){
-				this.game.upgrade(building.upgrades);
-			}
-
-			this.game.render();
-		}
-	},
-
-    build: function(bld){
-        this.payPrice();
-
-        if (bld){
-            bld.val++;
-            bld.on++;
-
-            // manage togglableOnOff when Off
-            if (bld.togglableOnOff && bld.on == 1){
-                bld.on--;
-            }
-
-            //price check is sorta heavy operation, so we will store the value in the button
-            this.prices = this.getPrices();
-
-			//update stats
-			this.game.stats.getStat("buildingsConstructed").val += 1;
-        }
-        var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", bld.name, 1);
-    },
-
-    buildAll: function(bld){
-        //this is a bit ugly and hackish, but I'm to tired to write proper wrapper code;
-        var counter = 0;
-        while (this.hasResources()){
-            this.build(bld);
-            counter++;
-        }
-		if (counter > 0) {
-			this.game.msg(new classes.BuildingMeta(bld).getMeta().label + " x" + counter + " constructed.", "notice");
-			var undo = this.game.registerUndoChange();
-			undo.addEvent("bld", bld.name, counter);
-		}
-    },
 
     undo: function(metaId, val){
         if (console && console.warn) {
@@ -1336,12 +1265,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 		//TODO: is this even supposed to work?
 		if (building.togglableOnOff){
-			this.toggle = this.addLink( building.enabled ? "off" : "on",
+			this.toggle = this.addLink( building.on ? "on" : "off",
 				function(){
 					var building = this.getMetadataRaw();
-					building.enabled = !building.enabled;
 
-					building.on = building.enabled ? building.val : 0;	//legacy safe switch
+					building.on = building.on ? 0 : building.val;	//legacy safe switch
 					this.game.upgrade(building.upgrades);
 				}, true	//use | break
 			);
@@ -1396,7 +1324,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if (building.isAutomationEnabled) {
+		if (typeof(building.isAutomationEnabled) != "undefined") {
 			if (building.name != "calciner" || (building.name == "calciner" && this.game.opts.hideSell)) {
 				this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 					function(){
@@ -1448,8 +1376,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			*/
 
 			if (this.toggle){
-				this.toggle.link.textContent = building.enabled ? "off" : "on";
-				this.toggle.link.title = building.enabled ? "Building enabled" : "Building disabled";
+				this.toggle.link.textContent = building.on ? "on" : "off";
+				this.toggle.link.title = building.on ? "Building enabled" : "Building disabled";
 			}
 
 			if (this.toggleAutomation){
@@ -1477,21 +1405,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	updateVisible: function(){
-		var building = this.getMetadata();
-
-		if (!building){
-			return;
-		}
-
-		if (!building.unlocked && !this.game.devMode){
-			this.setVisible(false);
-		}else{
-			this.setVisible(true);
-		}
+		this.setVisible(this.getMetadata().unlocked || this.game.devMode);
 	}
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	getDescription: function(){
+		return this.inherited(arguments);
+	},
+
 	getName: function(){
 		var meta = this.getMetadata();
 
@@ -1506,9 +1428,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		}
 	},
 
-	getDescription: function(){
-		return this.inherited(arguments);
-	},
+	getPrices: function(){
+        var ratio = this.getMetadata().priceRatio || 1;
+        var prices = dojo.clone(this.getMetadata().prices);
+
+        for (var i = 0; i< prices.length; i++){
+            prices[i].val = prices[i].val * Math.pow(ratio, this.getMetadata().val);
+        }
+        return prices;
+    },
 
 	updateEnabled: function(){
 		var meta = this.getMetadata();
@@ -1529,6 +1457,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	getDescription: function(){
+		var meta = this.getMetadata();
+		if (meta.effectDesc){
+			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
+		} else {
+			return this.inherited(arguments);
+		}
+	},
+
 	getName: function(){
 		var meta = this.getMetadata();
 		if (meta.researched){
@@ -1538,12 +1475,28 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicor
 		}
 	},
 
-	getDescription: function(){
-		var meta = this.getMetadata();
-		if (meta.effectDesc){
-			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
-		} else {
-			return this.inherited(arguments);
+	getPrices: function() {
+		return $.extend(true, [], this.getMetadata().prices); // Create a new array to keep original values
+	},
+
+	onClick: function(event){
+		this.animate();
+		if ((this.enabled && this.hasResources()) || this.game.devMode){
+			this.payPrice();
+
+			var meta = this.getMetadata();
+
+			meta.researched = true;
+
+			if (meta.unlocks) {
+				this.game.unlock(meta.unlocks)
+			};
+
+			if (meta.upgrades) {
+				this.game.upgrade(meta.upgrades);
+			}
+
+			this.game.render();
 		}
 	},
 

@@ -67,11 +67,6 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 		return this.metaCached;
 	},
 
-	getPrices: function(){
-		var price = [{}];
-		return price;
-	},
-
 	getSelectedObject: function(){
 		return {"prices": this.getPrices()};
 	},
@@ -81,19 +76,8 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 	},
 
 	onClick: function(){
-		this.animate();
-		/*var meta = this.getMetadata();
-		if (this.enabled && this.game.science.get("metaphysics").researched && this.hasResources()){
-			this.payPrice();
-			this.game.paragonPoints -= meta.paragon;
+		this.inherited(arguments);
 
-			meta.researched = true;
-			if (meta.handler){
-				meta.handler(this.game);
-			}
-
-			this.update();
-		}*/
         //TODO: enable and reset
 	},
 

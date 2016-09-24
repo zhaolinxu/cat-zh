@@ -662,10 +662,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			var program = this.programs[i];
 
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
-			program.val = 0;
-			program.on = 0;
 
-			this.setToggle(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 		}
 
 		for (i = 0; i < this.planets.length; i++){
@@ -675,10 +673,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
-					program.val = 0;
-					program.on = 0;
 
-					this.setToggle(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 				}
 			}
 		}
@@ -693,12 +689,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++){
 			var planet = planets[i];
 			if (planet.buildings){
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on"]);
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
 			}
 		}
 
 		saveData.space = {
-			programs: this.filterMetadata(this.programs, ["name", "val", "on"]),
+			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked"]),
 			planets: planets,
 			hideResearched: this.hideResearched
 		};
@@ -714,7 +710,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on"], function(loadedElem){
+			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked"], function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
 				for (var k = prices.length - 1; k >= 0; k--) {
@@ -753,7 +749,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
 				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on"], function(loadedElem){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
 					});
 				}
 			}
@@ -1073,12 +1069,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({
-				id: 		program.name,
-				name: 		program.label,
-				description: program.description,
-				prices: program.prices,
+				id: program.name,
 				handler: function(btn){
-					var program = btn.getProgram();
+					var program = btn.getMetadata();
 					if (program.handler){
 						program.handler(btn.game, program);
 					}
