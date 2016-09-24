@@ -61,7 +61,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			corruption: this.corruption,
 			faithRatio: this.faithRatio,
 			tcratio: this.tcratio,
-			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "unlocked", "on"]),
+			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
 			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on"])
 		};
@@ -78,7 +78,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.tcratio = saveData.religion.tcratio || 0;
 
 		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "unlocked", "on"], function(loadedElem){
+			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "on", "unlocked"], function(loadedElem){
 				var prices = dojo.clone(loadedElem.prices);
 				for( var k = 0; k < prices.length; k++){
 					var price = prices[k];
