@@ -1795,7 +1795,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		unlocked: true,
 		defaultUnlocked: true,
-		ignoreBonuses: true
+		ignoreBonuses: true,
+		progressHandicap: 1
 	},{
 		name: "beam",
 		label: "Wooden Beam",
@@ -1804,7 +1805,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "wood", val: 175}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 1
 	},{
 		name: "slab",
 		label: "Stone Slab",
@@ -1813,7 +1815,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "minerals", val: 250}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 1
 	},{
 		name: "concrate",
 		label: "Concrete",
@@ -1822,7 +1825,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "slab", val: 2500},
 			{name: "steel", val: 25}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 9
 	},{
 		name: "plate",
 		label: "Metal Plate",
@@ -1831,7 +1835,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "iron", val: 125}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 4
 	},{
 		name: "steel",
 		label: "Steel",
@@ -1840,7 +1845,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 4
 	},{
 		name: "gear",
 		label: "Gear",
@@ -1849,7 +1855,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "steel", val: 15}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 5
 	},{
 		name: "alloy",
 		label: "Alloy",
@@ -1858,7 +1865,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "steel", val: 75 },
 			{name: "titanium", val: 10}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 7
 	},{
 		name: "eludium",
 		label: "Eludium",
@@ -1877,7 +1885,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "beam", val: 50 }
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 2
 	},{
 		name: "ship",
 		label: "Trade Ship",
@@ -1890,7 +1899,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["harbor"]
 		},
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 20
 	},{
 		name: "tanker",
 		label: "Tanker",
@@ -1903,7 +1913,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["harbor"]
 		},
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 20
 	},{
         name: "kerosene",
         label: "Kerosene",
@@ -1911,7 +1922,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         prices:[
             { name: "oil", val: 7500 }
         ],
-        unlocked: false
+        unlocked: false,
+		progressHandicap: 5
     },{
 		name: "parchment",
 		label: "Parchment",
@@ -1919,7 +1931,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "furs", val: 175}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 1
 	},{
 		name: "manuscript",
 		label: "Manuscript",
@@ -1929,7 +1942,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "culture", val: 400}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 2
 	},{
 		name: "compedium",
 		label: "Compendium",
@@ -1948,7 +1962,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "compedium", val: 25},
 			{name: "science", val: 25000}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 10
 	},{
 		name: "thorium",
 		label: "Thorium",
@@ -1956,7 +1971,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name: "uranium", val: 250 }
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 5
 	},{
 		name: "megalith",
 		label: "Megalith",
@@ -1967,7 +1983,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "plate", val: 5 }
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 5
 	}],
 
 	effectsBase: {
