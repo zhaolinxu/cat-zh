@@ -2377,6 +2377,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+		this.resetAutomatic;
+	},
+
+	resetAutomatic: function() {
 		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
 	},
 

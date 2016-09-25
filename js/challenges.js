@@ -79,7 +79,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 	onClick: function(){
 		if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
 			this.inherited(arguments);
-			this.game.reset();
+			this.game.resetAutomatic();
 		}
 	}
 
