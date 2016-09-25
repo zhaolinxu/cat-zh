@@ -433,11 +433,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		dojo.addClass(this.domNode, "trade");
 	},
 
-	tradeInternal: function(suppressMessages){
+	tradeInternal: function(suppressMessages, tradeRes){
 		var race = this.race;
-
-		var tradeRes = {
-		};
 
 		var tradeRatioAttitude = 0;
 
@@ -471,6 +468,20 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			}
 		}
 
+		if (!tradeRes){
+			tradeRes = {};
+
+			for (var j = 0; j < race.sells.length; j++){
+				tradeRes[race.sells[j].name] = 0;
+			}
+
+			tradeRes["spice"] = 0;
+			tradeRes["blueprint"] = 0;
+		}
+
+		var ratio = this.game.diplomacy.getTradeRatio();
+		var currentSeason = this.game.calendar.getCurSeason().name;
+
 		for (var j =0; j< race.sells.length; j++){
 			var s = race.sells[j];
 
@@ -479,55 +490,51 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 				continue;
 			}
 
-			var sratio = s.seasons[this.game.calendar.getCurSeason().name];
+			var sratio = s.seasons[currentSeason];
 			var min = s.value * sratio - s.value * sratio * s.delta/2;
 			var amt = min + this.game.rand(s.value * sratio * s.delta);
 
-			var ratio = this.game.diplomacy.getTradeRatio();
 			amt += amt*ratio;
 
-			var resValue = amt + amt*tradeRatioAttitude;
+			amt = amt + amt*tradeRatioAttitude;
 			if (race.name == "leviathans") {
 				amt += amt * 0.02 * race.energy;
 			}
 
-			tradeRes[s.name] = tradeRes[s.name] ? tradeRes[s.name] + resValue : resValue;
-			this.game.resPool.addResEvent(s.name, resValue);
-
-			//this.game.msg("You've got " + this.game.getDisplayValueExt(amt + amt*tradeRatioAttitude) + " " + s.name);
+			amt = this.game.resPool.addResEvent(s.name, amt);
+			tradeRes[s.name] += amt;
 
 		}
 		//-------------------- 35% chance to get spice ------------------
 		if (this.game.rand(100) < 35){
 			var spiceVal = this.game.rand(50);
-			var resValue = 25 +  spiceVal + spiceVal * this.game.diplomacy.getTradeRatio();
+			var resValue = 25 +  spiceVal + spiceVal * ratio;
 
-			this.game.resPool.addResEvent("spice", resValue);
-			tradeRes["spice"] = tradeRes["spice"] ? tradeRes["spice"] + resValue : resValue;
-			//this.game.msg("You've got " + this.game.getDisplayValueExt(val) + " spice");
+			resValue = this.game.resPool.addResEvent("spice", resValue);
+			tradeRes["spice"] += resValue;
 		}
 
 		//-------------- 10% change to get blueprint ---------------
 
 		if (this.game.rand(100) < 10){
-			this.game.resPool.addResEvent("blueprint", 1);
-			tradeRes["blueprint"] = tradeRes["blueprint"] ? tradeRes["blueprint"] + 1 : 1;
-			//this.game.msg("You've got a blueprint!", "notice");
+			resValue = this.game.resPool.addResEvent("blueprint", 1);
+			tradeRes["blueprint"] += resValue;
 		}
 
 		//-------------- 15% change to get titanium  ---------------
 
-		var shipVal = this.game.resPool.get("ship").value;
-		var shipRate = shipVal * 0.35;		//0.35% per ship to get titanium
+		if (race.name == "zebras"){
+			var shipVal = this.game.resPool.get("ship").value;
+			var shipRate = shipVal * 0.35;		//0.35% per ship to get titanium
 
-		if ( this.game.rand(100) < ( 15 + shipRate ) && race.name == "zebras" ){
+			if (this.game.rand(100) < ( 15 + shipRate )){
 
-			var titaniumAmt = 1.5;
-			titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
+				var titaniumAmt = 1.5;
+				titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
 
-			this.game.resPool.addResEvent("titanium", titaniumAmt);
-			tradeRes["titanium"] = tradeRes["titanium"] ? tradeRes["titanium"] + titaniumAmt : titaniumAmt;
-			//this.game.msg("You've got " + this.game.getDisplayValueExt(titaniumAmt) + " titanium!", "notice");
+				titaniumAmt = this.game.resPool.addResEvent("titanium", titaniumAmt);
+				tradeRes["titanium"] += titaniumAmt;
+			}
 		}
 
 		//Update Trade Stats
@@ -559,13 +566,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		this.game.msg("You have sent " + amt + " trade caravans", null, "trade");
 
-		var yieldResTotal = {};
+		var yieldResTotal = null;
 		for (var i = 0; i<amt; i++){
-			var yieldRes = this.tradeInternal(true);	//suppress msg
-
-			for (var res in yieldRes) {
-				yieldResTotal[res] = yieldResTotal[res] ? yieldResTotal[res] + yieldRes[res] : yieldRes[res];
-			}
+			yieldResTotal = this.tradeInternal(true, yieldResTotal);	//suppress msg
 		}
 
 		this.printYieldOutput(yieldResTotal);
@@ -581,16 +584,19 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	printYieldOutput: function(yieldResTotal){
 		var output = false;
 		for (var res in yieldResTotal){
-			if (res == "blueprint"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + (yieldResTotal[res] > 1 ? "s" : "") + "!", "notice", "trade");
-			} else if (res == "titanium"){
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + res + "!", "notice", "trade");
-			} else {
-				var resPool = this.game.resPool.get(res);
-				var name = resPool.title || res;
-				this.game.msg("You've got " + this.game.getDisplayValueExt(yieldResTotal[res]) + " " + name, null, "trade");
+			var amt = yieldResTotal[res];
+			if (amt > 0){
+				if (res == "blueprint"){
+					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + (amt > 1 ? "s" : "") + "!", "notice", "trade");
+				} else if (res == "titanium"){
+					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + "!", "notice", "trade");
+				} else {
+					var resPool = this.game.resPool.get(res);
+					var name = resPool.title || res;
+					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + name, null, "trade");
+				}
+				output = true;
 			}
-			output = true;
 		}
 
 		if (yieldResTotal && !output){

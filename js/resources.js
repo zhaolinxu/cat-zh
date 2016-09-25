@@ -391,8 +391,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	addRes: function(res, addedValue, event) {
 		if (this.game.calendar.day < 0 && !event) {
-			return;
+			return 0;
 		}
+
+		var prevValue = res.value || 0;
 
 		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
@@ -418,14 +420,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			res.value = 0;	//safe switch
 		}
 
+		return res.value - prevValue;
 	},
 
 	addResPerTick: function(name, value){
-		this.addRes(this.get(name), value, false);
+		return this.addRes(this.get(name), value, false);
 	},
 
 	addResEvent: function(name, value){
-		this.addRes(this.get(name), value, true);
+		return this.addRes(this.get(name), value, true);
 	},
 
 	/**

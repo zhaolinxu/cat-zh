@@ -74,7 +74,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var temporalFluxAdded = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
 
-		this.game.resPool.addResEvent("temporalFlux", temporalFluxAdded);
+		temporalFluxAdded = this.game.resPool.addResEvent("temporalFlux", temporalFluxAdded);
 
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
         if (bonusSeconds > 0){
