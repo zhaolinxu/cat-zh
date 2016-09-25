@@ -1437,7 +1437,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
                 var exp = skillsArr[j].val;
 
-                if (exp <= 0) {
+                if (exp <= 0 || typeof(exp) == "undefined") {
                     break;
                 }
 
