@@ -2015,7 +2015,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.crafts[i];
 			}
 		}
-		console.error("Failed to get craft for id '" + craftName + "'");
 		return null;
 	},
 
@@ -2091,7 +2090,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
 							craft.unlocked = savedCraft.unlocked;
 						}
-						if (craft && craft.value) {
+						if (craft && savedCraft.value) {
 							craft.value = savedCraft.value;
 						}
 					}
@@ -2150,6 +2149,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		}else{
 			console.log("not enough resources for", prices);
+		}
+	},
+
+	getEffectFactoryWorker: function(resName) {
+		var craft = this.getCraft(resName);
+		if (craft == null) {
+			return 0;
+		} else {
+			return ((1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
 		}
 	},
 
