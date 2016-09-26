@@ -124,9 +124,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		value: 0,
 		unlocked: false
 	},{
-		name: "factoryWorker",
-		title: "Factory Worker",
-		description: "Work in the workshop",
+		name: "engineer",
+		title: "Engineers",
+		description: "Engineers can operate factories to automate resource production",
 		modifiers:{
 		},
 		value: 0,
@@ -271,13 +271,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			factoryWorkerNoFree += this.game.workshop.crafts[i].value;
 		}
 
-		return this.getFactoryWorker() - factoryWorkerNoFree;
+		var freeWorkers = this.getFactoryWorker() - factoryWorkerNoFree,
+			factoriesVal = this.game.bld.get("factory").val;
+		if (freeWorkers > factoriesVal){
+			freeWorkers = factoriesVal;
+		}
+		return freeWorkers;
 	},
 
 	getFactoryWorker: function() {
 		var factoryWorker = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
-			if (this.jobs[i].name == "factoryWorker") {
+			if (this.jobs[i].name == "engineer") {
 				factoryWorker = this.jobs[i].value;
 			}
 		}
@@ -931,7 +936,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         if (jobKittens.length){
             this.kittens[jobKittens[0].id].job = null;
 
-			if (job == "factoryWorker" && this.game.village.getFreeFactoryWorker() < 0) {
+			if (job == "engineer" && this.game.village.getFreeFactoryWorker() < 0) {
 				for (var i = 0; i < this.game.workshop.crafts.length; i++) {
 					if (this.game.workshop.crafts[i].value > 0) {
 						this.game.workshop.crafts[i].value -= 1;

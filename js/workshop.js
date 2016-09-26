@@ -2565,7 +2565,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			this.renderResources(this.resTd);
 		}
 
-		if (this.tdTop && this.game.science.get("geneticEngineering").researched) {
+		if (this.tdTop && this.game.science.get("mechanization").researched) {
 			this.tdTop.innerHTML = "Free Factory Workers: " + this.game.village.getFreeFactoryWorker() + " / " + this.game.village.getFactoryWorker();
 		} else {
 			this.tdTop.innerHTML = "";

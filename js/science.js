@@ -471,7 +471,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 200000}
 		],
 		unlocks: {
-			jobs: ["factoryWorker"]
 		},
 		flavor: "I never saved anything for the swim back."
 	},{
@@ -504,7 +503,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"],
 			tech: ["electronics"],
 			crafts: ["concrate"],
-			upgrades: ["pumpjack", "strenghtenBuild"]
+			upgrades: ["pumpjack", "strenghtenBuild"],
+			jobs: ["engineer"]
 		}
 	},{
 		name: "metalurgy",
