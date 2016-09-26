@@ -946,16 +946,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         jobKittens.sort(function(a, b){return a.val-b.val;});
 
         if (jobKittens.length){
-            this.kittens[jobKittens[0].id].job = null;
 
-			if (job == "engineer" && this.game.village.getFreeEngineer() < 0) {
-				for (var i = 0; i < this.game.workshop.crafts.length; i++) {
-					if (this.game.workshop.crafts[i].value > 0) {
-						this.game.workshop.crafts[i].value -= 1;
-						continue;
-					}
-				}
-			}
+            this.kittens[jobKittens[0].id].job = null;
 
             this.game.village.updateResourceProduction();   //out of synch, refresh instantly
         }else{
@@ -1018,6 +1010,18 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	},
 
+	unassignCraftJobs: function(job) {
+		if (job.name == "engineer" && this.game.village.getFreeEngineer() == 0) {
+			for (var i = 0; i < this.game.workshop.crafts.length; i++) {
+				if (this.game.workshop.crafts[i].value > 0) {
+					console.log(this.game.workshop.crafts[i]);
+					this.game.workshop.crafts[i].value -= 1;
+					break;
+				}
+			}
+		}
+	},
+
 	unassignJobs: function(amt){
 		var job = this.getJob();
 
@@ -1025,8 +1029,9 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 			amt = job.value;
 		}
 
-		job.value -= amt;
 		for (var i = amt - 1; i >= 0; i--) {
+			this.unassignCraftJobs(job);
+			job.value -= 1;
 			this.game.village.sim.removeJob(job.name);
 		}
 		this.update();
