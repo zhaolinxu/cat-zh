@@ -205,11 +205,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		throw "Failed to get job for job name '"+jobName+"'";
 	},
 
+	getJobLimit: function(jobName) {
+		if (jobName == "engineer") {
+			return game.bld.get("factory").val;
+		} else {
+			return 100000;
+		}
+	},
+
 	assignJob: function(job){
 		var freeKittens = this.getFreeKittens();
 		var jobRef = this.getJob(job.name); 	//probably will fix missing ref on loading
 
-		if ( freeKittens > 0 ){
+		if ( freeKittens > 0 && this.getWorkerKittens(job.name) < this.getJobLimit(job.name) ) {
 			this.sim.assignJob(job.name);
 			jobRef.value += 1;
 		}
@@ -265,29 +273,24 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return this.getKittens() - total;
 	},
 
+	getWorkerKittens: function(jobName) {
+		var factoryWorker = 0;
+		for (var i = this.jobs.length - 1; i >= 0; i--) {
+			if (this.jobs[i].name == jobName) {
+				factoryWorker = this.jobs[i].value;
+			}
+		}
+
+		return factoryWorker;
+	},
+
 	getFreeFactoryWorker: function() {
 		var factoryWorkerNoFree = 0;
 		for (var i = this.game.workshop.crafts.length -1; i >= 0; i--) {
 			factoryWorkerNoFree += this.game.workshop.crafts[i].value;
 		}
 
-		var freeWorkers = this.getFactoryWorker() - factoryWorkerNoFree,
-			factoriesVal = this.game.bld.get("factory").val;
-		if (freeWorkers > factoriesVal){
-			freeWorkers = factoriesVal;
-		}
-		return freeWorkers;
-	},
-
-	getFactoryWorker: function() {
-		var factoryWorker = 0;
-		for (var i = this.jobs.length - 1; i >= 0; i--) {
-			if (this.jobs[i].name == "engineer") {
-				factoryWorker = this.jobs[i].value;
-			}
-		}
-
-		return factoryWorker;
+		return this.getWorkerKittens("engineer") - factoryWorkerNoFree;
 	},
 
 	clearJobs: function(){
@@ -978,7 +981,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	updateEnabled: function(){
 		this.inherited(arguments);
-		if (this.game.village.getFreeKittens() == 0 ){
+		if (this.game.village.getFreeKittens() == 0 || this.game.village.getJobLimit(this.jobName) <= this.game.village.getWorkerKittens(this.jobName)){
 			this.setEnabled(false);
 		}
 	},
