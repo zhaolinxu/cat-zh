@@ -2648,6 +2648,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return (Math.sqrt(1+8 * value / stripe)-1)/2;
 	},
 
+	getTriValueOrigin: function(value, stripe) {
+		return (Math.pow(value * 2 + 1, 2) - 1) * stripe / 8;
+	},
+
 	getTab: function(name) {
 		switch(name) {
 			case "science":

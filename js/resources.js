@@ -390,7 +390,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	addRes: function(res, addedValue, event) {
-		if (this.game.calendar.day < 0 && !event) {
+		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
 			return 0;
 		}
 
@@ -418,6 +418,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		if (isNaN(res.value) || res.value < 0){
 			res.value = 0;	//safe switch
+		}
+
+		if (res.name == "karma"){
+			this.game.karmaKittens = Math.round(this.game.getTriValueOrigin(res.value, 5));
+			res.value = this.game.getTriValue(this.game.karmaKittens, 5);
 		}
 
 		return res.value - prevValue;
