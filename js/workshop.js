@@ -2169,7 +2169,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	getEffectFactoryWorker: function(resName) {
+	getEffectEngineer: function(resName) {
 		var craft = this.getCraft(resName);
 		if (craft == null) {
 			return 0;
@@ -2230,7 +2230,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.crafts.length; i++) {
 			var craft = this.crafts[i];
 
-			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per factoryWorker per minute
+			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per engineer per minute
 
 			if(craft.progress > 1) {
 				this.craft(craft.name, 1)
@@ -2336,11 +2336,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
 		var craft = this.game.workshop.getCraft(this.craftName);
-		if (this.game.village.getFreeFactoryWorker() > 0) {
-			if (this.game.village.getFreeFactoryWorker() > value) {
+		if (this.game.village.getFreeEngineer() > 0) {
+			if (this.game.village.getFreeEngineer() > value) {
 				craft.value += value;
 			} else {
-				craft.value += this.game.village.getFreeFactoryWorker();
+				craft.value += this.game.village.getFreeEngineer();
 			}
 		}
 	},
@@ -2566,7 +2566,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		if (this.tdTop && this.game.science.get("mechanization").researched) {
-			this.tdTop.innerHTML = "Free Factory Workers: " + this.game.village.getFreeFactoryWorker() + " / " + this.game.village.getWorkerKittens("engineer");
+			this.tdTop.innerHTML = "Free Engineers: " + this.game.village.getFreeEngineer() + " / " + this.game.village.getWorkerKittens("engineer");
 		} else {
 			this.tdTop.innerHTML = "";
 		}

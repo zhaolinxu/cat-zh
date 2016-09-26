@@ -1878,9 +1878,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +CRAFTING JOB PRODUCTION
 		stack.push({
-			name: "(:3) Factory Worker",
+			name: "(:3) Engineer",
 			type: "fixed",
-			value: this.workshop.getEffectFactoryWorker(res.name)
+			value: this.workshop.getEffectEngineer(res.name)
 		});
 
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
@@ -2129,7 +2129,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 var perTick = this.getResourcePerTick(resRef.name, true) + this.workshop.getEffectFactoryWorker(resRef.name);
+			 var perTick = this.getResourcePerTick(resRef.name, true) + this.workshop.getEffectEngineer(resRef.name);
 			 if (!perTick){ return;}
 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);
