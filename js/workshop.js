@@ -2566,7 +2566,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		if (this.tdTop && this.game.science.get("mechanization").researched) {
-			this.tdTop.innerHTML = "Free Factory Workers: " + this.game.village.getFreeFactoryWorker() + " / " + this.game.village.getFactoryWorker();
+			this.tdTop.innerHTML = "Free Factory Workers: " + this.game.village.getFreeFactoryWorker() + " / " + this.game.village.getWorkerKittens("engineer");
 		} else {
 			this.tdTop.innerHTML = "";
 		}
