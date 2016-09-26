@@ -2327,7 +2327,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	},
 
 	getName: function(){
-		if (this.game.science.get("geneticEngineering").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
+		if (this.game.science.get("mechanization").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
 			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ")";
 		} else {
 			return this.inherited(arguments);
@@ -2355,7 +2355,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	},
 
 	renderLinks: function(){
-		if (this.game.science.get("geneticEngineering").researched) {
+		if (this.game.science.get("mechanization").researched) {
 
 			this.unassignCraftLinks = this.addLinkList([
 			  {
