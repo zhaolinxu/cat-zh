@@ -26,7 +26,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     save: function(saveData){
        saveData["time"] = {
-           timestamp: Date.now(),
+           timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
