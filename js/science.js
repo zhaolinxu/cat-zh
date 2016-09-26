@@ -457,22 +457,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"compedium", val: 1500}
 		],
 		unlocks: {
-			upgrades: ["unicornSelection", "gmo"],
-			tech: ["geneticEngineering"]
+			upgrades: ["unicornSelection", "gmo"]
 		}
-	},{
-		name: "geneticEngineering",
-		label: "Genetic Engineering",
-		description: "",
-		effectDesc: "Unlocks FactoryWorker kittens",
-		unlocked: false,
-		researched: false,
-		prices: [
-			{name : "science", val: 200000}
-		],
-		unlocks: {
-		},
-		flavor: "I never saved anything for the swim back."
 	},{
 		name: "industrialization",
 		label: "Industrialization",
