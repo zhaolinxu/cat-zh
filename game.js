@@ -2384,6 +2384,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+		this.resetAutomatic;
+	},
+
+	resetAutomatic: function() {
 		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
 	},
 
@@ -2588,9 +2592,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				tcratio: this.religion.tcratio,
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on"])
 			},
-			prestige: {
-				perks: this.prestige.perks	//never resets
-			},
+			prestige: { perks: this.prestige.perks },	//never resets
+			challenges: { challenges: this.challenges.challenges },	//never resets
 			science: { techs: [], hideResearched: false },
 			resources: newResources,
 			time: {
@@ -2707,6 +2710,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.religion.getZU(unlockId);
 			case "religion":
 				return this.religion.getRU(unlockId);
+			case "transcendenceUpgrades":
+				return this.religion.getTU(unlockId);
+			case "challenges":
+				return this.challenges.getChallenge(unlockId);
 		}
 	},
 

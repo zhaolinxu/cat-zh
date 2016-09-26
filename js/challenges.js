@@ -12,13 +12,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		}});
 	},
 
-    challenges:[/*{
+    challenges:[{
 		name: "atheism",
 		label: "Atheism",
-		description: "Your faith bonus will be permanently capped. Every level of transcendence will increase aprocrypha effectiveness by 10%."
-            + "Your game will be reset in order to enable this challenge.",
-        researched: false
-	}*/],
+		description: "Every level of transcendence will increase aprocrypha effectiveness by 10%."
+			+ "<br /> Your game will be reset in order to enable this challenge.",
+        researched: false,
+        unlocked: false
+	}],
 
 	game: null,
 
@@ -31,7 +32,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	save: function(saveData){
 		saveData.challenges = {
-			challenges: this.filterMetadata(this.challenges, ["name", "enabled"])
+			challenges: this.filterMetadata(this.challenges, ["name", "researched", "unlocked"])
 		};
 	},
 
@@ -43,7 +44,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		var self = this;
 
 		if (saveData.challenges.challenges){
-			this.loadMetadata(this.challenges, saveData.challenges.challenges, ["unlocked", "enabled"], function(loadedElem){
+			this.loadMetadata(this.challenges, saveData.challenges.challenges, ["researched", "unlocked"], function(loadedElem){
 			});
 		}
 	},
@@ -62,7 +63,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 
 	getMetadata: function(){
 		if (!this.metaCached){
-			this.metaCached = this.game.challenge.getChallenge(this.id);
+			this.metaCached = this.game.challenges.getChallenge(this.id);
 		}
 		return this.metaCached;
 	},
@@ -72,14 +73,15 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 	},
 
 	updateVisible: function(){
-		this.setVisible(true);
+		this.setVisible(this.getMetadata().unlocked);
 	},
 
 	onClick: function(){
-		this.inherited(arguments);
-
-        //TODO: enable and reset
-	},
+		if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
+			this.inherited(arguments);
+			this.game.resetAutomatic();
+		}
+	}
 
 });
 

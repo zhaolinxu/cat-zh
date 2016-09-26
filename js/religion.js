@@ -476,6 +476,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
+		unlocks: {
+			challenges: ["atheism"]
+		},
 		upgrades: {
 			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
 		},
@@ -569,8 +572,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getProductionBonus: function(){
 		var rate = this.getRU("solarRevolution").on ? this.game.getTriValue(this.faith, 1000) : 0;
-        //Solar Revolution capped to 1000% so it doesn't become game-breaking
-        rate = this.game.getHyperbolicEffect(rate, 1000) * (1 + (this.getTranscendenceLevel() * (0.1 + this.getTU("blackObelisk").val * 0.005)));
+		//Solar Revolution capped to 1000% so it doesn't become game-breaking
+		var atheismBonus = this.game.challenges.getChallenge("atheism").researched ? this.getTranscendenceLevel() * 0.1 : 0;
+		var blackObeliskBonus = this.getTranscendenceLevel() * this.getTU("blackObelisk").val * 0.005;
+		rate = this.game.getHyperbolicEffect(rate, 1000) * (1 + atheismBonus + blackObeliskBonus);
 		return rate;
 	},
 
