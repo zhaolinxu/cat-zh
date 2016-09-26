@@ -72,12 +72,15 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             return;
         }
 
+		var previousEnergy = this.game.resPool.get("temporalFlux").value;
+
 		var temporalAccelerator = this.getCFU("temporalAccelerator");
-        var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
+		var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
+		var temporalFluxGained = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
 
-        var temporalFluxAdded = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
+		this.game.resPool.addResEvent("temporalFlux", temporalFluxGained);
 
-		temporalFluxAdded = this.game.resPool.addResEvent("temporalFlux", temporalFluxAdded);
+		var temporalFluxAdded = this.game.resPool.get("temporalFlux").value - previousEnergy;
 
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
         if (bonusSeconds > 0){
