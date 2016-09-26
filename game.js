@@ -712,6 +712,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	ticks: 0,				//how many ticks passed since the start of the game
 	totalUpdateTime: 0,		//total time spent on update cycle in milliseconds, useful for debug/fps counter
 
+	pauseTimestamp: 0, //time of last pause
+
 	//resource table
 	resTable: null,
 
@@ -975,6 +977,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.deadKittens = 0;
 		this.cheatMode = false;
 
+		if (this.pauseTimestamp){
+			this.pauseTimestamp = Date.now();
+		}
+
 		this.opts = {
 			usePerSecondValues: true,
 			usePercentageResourceValues: false,
@@ -1055,6 +1061,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var pauseBtn = dojo.byId("pauseBtn");
 		this.isPaused = !this.isPaused;
 		pauseBtn.innerHTML = this.isPaused ? "unpawse" : "pawse";
+
+		if (this.isPaused){
+			this.pauseTimestamp = Date.now();
+		} else if (this.pauseTimestamp){
+			this.time.gainTemporalFlux(this.pauseTimestamp);
+			this.pauseTimestamp = 0;
+		}
 	},
 
 	updateOptionsUI: function(){

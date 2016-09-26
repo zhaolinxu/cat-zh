@@ -56,14 +56,18 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			this.getVSU("usedCryochambers").unlocked = true;
         }
 
+        this.updateEnergyStats();
+
+		this.gainTemporalFlux(saveData["time"].timestamp);
+	},
+
+	gainTemporalFlux: function (timestamp){
         if (!this.game.science.get("calendar").researched){
             return;
         }
 
-        this.updateEnergyStats();
-
-        var timestamp = Date.now();
-        var delta = timestamp - ( saveData["time"].timestamp || 0 );
+        var now = Date.now();
+        var delta = now - ( timestamp || 0 );
         if (delta <= 0){
             return;
         }
