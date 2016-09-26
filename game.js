@@ -1853,6 +1853,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.getEffect(res.name + "PerTick")
 		});
 
+		// +CRAFTING JOB PRODUCTION
+		stack.push({
+			name: "(:3) Factory Worker",
+			type: "fixed",
+			value: this.workshop.getEffectFactoryWorker(res.name)
+		});
+
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
@@ -2099,7 +2106,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 var perTick = this.getResourcePerTick(resRef.name, true);
+			 var perTick = this.getResourcePerTick(resRef.name, true) + this.workshop.getEffectFactoryWorker(resRef.name);
 			 if (!perTick){ return;}
 
 			 tooltip.innerHTML = this.getDetailedResMap(resRef);

@@ -123,6 +123,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false
+	},{
+		name: "factoryWorker",
+		title: "Factory Worker",
+		description: "Work in the workshop",
+		modifiers:{
+		},
+		value: 0,
+		unlocked: false
 	}],
 
 	//resource modifiers per tick
@@ -255,6 +263,26 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		return this.getKittens() - total;
+	},
+
+	getFreeFactoryWorker: function() {
+		var factoryWorkerNoFree = 0;
+		for (var i = this.game.workshop.crafts.length -1; i >= 0; i--) {
+			factoryWorkerNoFree += this.game.workshop.crafts[i].value;
+		}
+
+		return this.getFactoryWorker() - factoryWorkerNoFree;
+	},
+
+	getFactoryWorker: function() {
+		var factoryWorker = 0;
+		for (var i = this.jobs.length - 1; i >= 0; i--) {
+			if (this.jobs[i].name == "factoryWorker") {
+				factoryWorker = this.jobs[i].value;
+			}
+		}
+
+		return factoryWorker;
 	},
 
 	clearJobs: function(){
@@ -903,6 +931,15 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         if (jobKittens.length){
             this.kittens[jobKittens[0].id].job = null;
 
+			if (job == "factoryWorker" && this.game.village.getFreeFactoryWorker() < 0) {
+				for (var i = 0; i < this.game.workshop.crafts.length; i++) {
+					if (this.game.workshop.crafts[i].value > 0) {
+						this.game.workshop.crafts[i].value -= 1;
+						continue;
+					}
+				}
+			}
+
             this.game.village.updateResourceProduction();   //out of synch, refresh instantly
         }else{
             console.error("failed to remove job", job);
@@ -961,6 +998,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}else{
 			this.setVisible(true);
 		}
+
 	},
 
 	unassignJobs: function(amt){

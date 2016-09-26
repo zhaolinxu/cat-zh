@@ -1796,6 +1796,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		ignoreBonuses: true,
+		progressHandicap: 1
 	},{
 		name: "beam",
 		label: "Wooden Beam",
@@ -1804,7 +1805,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "wood", val: 175}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 1
 	},{
 		name: "slab",
 		label: "Stone Slab",
@@ -1813,7 +1815,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "minerals", val: 250}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 1
 	},{
 		name: "concrate",
 		label: "Concrete",
@@ -1822,7 +1825,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "slab", val: 2500},
 			{name: "steel", val: 25}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 9
 	},{
 		name: "plate",
 		label: "Metal Plate",
@@ -1831,7 +1835,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "iron", val: 125}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 4
 	},{
 		name: "steel",
 		label: "Steel",
@@ -1840,7 +1845,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "iron", val: 100},
 			{name: "coal", val: 100}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 4
 	},{
 		name: "gear",
 		label: "Gear",
@@ -1849,7 +1855,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "steel", val: 15}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 5
 	},{
 		name: "alloy",
 		label: "Alloy",
@@ -1858,7 +1865,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "steel", val: 75 },
 			{name: "titanium", val: 10}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 7
 	},{
 		name: "eludium",
 		label: "Eludium",
@@ -1867,7 +1875,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "alloy", val: 2500 },
 			{name: "unobtainium", val: 1000}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 100
 	},{
 		name: "scaffold",
 		label: "Scaffold",
@@ -1876,7 +1885,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "beam", val: 50 }
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 2
 	},{
 		name: "ship",
 		label: "Trade Ship",
@@ -1889,7 +1899,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["harbor"]
 		},
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 20
 	},{
 		name: "tanker",
 		label: "Tanker",
@@ -1902,7 +1913,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["harbor"]
 		},
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 20
 	},{
         name: "kerosene",
         label: "Kerosene",
@@ -1910,7 +1922,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         prices:[
             { name: "oil", val: 7500 }
         ],
-        unlocked: false
+        unlocked: false,
+		progressHandicap: 5
     },{
 		name: "parchment",
 		label: "Parchment",
@@ -1918,7 +1931,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{name: "furs", val: 175}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 1
 	},{
 		name: "manuscript",
 		label: "Manuscript",
@@ -1928,7 +1942,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "culture", val: 400}
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 2
 	},{
 		name: "compedium",
 		label: "Compendium",
@@ -1937,7 +1952,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "manuscript", val: 50},
 			{name: "science", val: 10000}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 5
 	},{
 		name: "blueprint",
 		label: "Blueprint",
@@ -1946,7 +1962,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "compedium", val: 25},
 			{name: "science", val: 25000}
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 10
 	},{
 		name: "thorium",
 		label: "Thorium",
@@ -1954,7 +1971,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name: "uranium", val: 250 }
 		],
-		unlocked: false
+		unlocked: false,
+		progressHandicap: 5
 	},{
 		name: "megalith",
 		label: "Megalith",
@@ -1965,7 +1983,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name: "plate", val: 5 }
 		],
 		unlocked: true,
-		defaultUnlocked: true
+		defaultUnlocked: true,
+		progressHandicap: 5
 	}],
 
 	effectsBase: {
@@ -2013,7 +2032,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.crafts[i];
 			}
 		}
-		console.error("Failed to get craft for id '" + craftName + "'");
 		return null;
 	},
 
@@ -2026,6 +2044,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		for (i = 0; i < this.crafts.length; i++){
 			this.crafts[i].unlocked = this.crafts[i].defaultUnlocked || false;
+			this.crafts[i].value = 0;
+			this.crafts[i].progress = 0;
+			if (typeof(this.crafts[i].progressHandicap) == "undefined") {
+				this.crafts[i].progressHandicap = 1;
+			}
 		}
 
 		//ugh
@@ -2037,7 +2060,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	save: function(saveData){
 
 		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
-		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked"]);
+		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value"]);
 
 		saveData.workshop = {
 			upgrades: upgrades,
@@ -2081,8 +2104,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 					if (savedCraft != null){
 						var craft = this.game.workshop.getCraft(savedCraft.name);
-						if (craft && !craft.unlocked){					// a little hack to make auto-unlockable recipes work with old saves
+						if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
 							craft.unlocked = savedCraft.unlocked;
+						}
+						if (craft && savedCraft.value) {
+							craft.value = savedCraft.value;
 						}
 					}
 				}
@@ -2143,6 +2169,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
+	getEffectFactoryWorker: function(resName) {
+		var craft = this.getCraft(resName);
+		if (craft == null) {
+			return 0;
+		} else {
+			return ((1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
+		}
+	},
+
     undo: function(metaId, val){
 		var craftRatio = this.game.getResCraftRatio({name:metaId});
 		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded");
@@ -2191,6 +2226,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 		}
+
+		for (var i = 0; i < this.crafts.length; i++) {
+			var craft = this.crafts[i];
+
+			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per factoryWorker per minute
+
+			if(craft.progress > 1) {
+				this.craft(craft.name, 1)
+				craft.progress = 0;
+			}
+		}
+
 	},
 
 	unlock: function(upgrade){
@@ -2277,10 +2324,105 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	getSelectedObject: function(){
 		return this.game.workshop.getCraft(this.craftName);
+	},
+
+	getName: function(){
+		if (this.game.science.get("geneticEngineering").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
+			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ")";
+		} else {
+			return this.inherited(arguments);
+		}
+	},
+
+	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
+		var craft = this.game.workshop.getCraft(this.craftName);
+		if (this.game.village.getFreeFactoryWorker() > 0) {
+			if (this.game.village.getFreeFactoryWorker() > value) {
+				craft.value += value;
+			} else {
+				craft.value += this.game.village.getFreeFactoryWorker();
+			}
+		}
+	},
+
+	unassignCraftJobs: function(value) { //TODO, aunssign one kitten, not just a value to manage with exp
+		var craft = this.game.workshop.getCraft(this.craftName);
+		if (craft.value > value) {
+			craft.value -= value;
+		} else {
+			craft.value = 0;
+		}
+	},
+
+	renderLinks: function(){
+		if (this.game.science.get("geneticEngineering").researched) {
+
+			this.unassignCraftLinks = this.addLinkList([
+			  {
+					id: "unassign",
+					title: "[&ndash;]",
+					handler: function(){
+						this.unassignCraftJobs(1);
+					}
+			   },{
+					id: "unassign5",
+					title: "[-5]",
+					handler: function(){
+						this.unassignCraftJobs(5);
+					}
+			   },{
+					id: "unassign25",
+					title: "[-25]",
+					handler: function(){
+						this.unassignCraftJobs(25);
+					}
+			   }/*,{
+					id: "unassignAll",
+					title: "[-all]",
+					handler: function(){
+						var job = this.getJob();
+						this.unassignCraftJobs(job.value);
+					}
+			   }*/]
+			);
+
+			this.assignCraftLinks = this.addLinkList([
+				{
+					id: "assign",
+					title: "[+]",
+					handler: function(){
+						this.assignCraftJobs(1);
+					}
+			   },{
+					id: "assign5",
+					title: "[+5]",
+					handler: function(){
+						this.assignCraftJobs(5);
+					}
+			   },{
+					id: "assign25",
+					title: "[+25]",
+					handler: function(){
+						this.assignCraftJobs(25);
+					}
+			   }/*,{
+					id: "assignall",
+					title: "[+all]",
+					handler: function(){
+						var freeKittens = this.game.village.getFreeKittens();
+						this.assignCraftJobs(freeKittens);
+					}
+			   }*/]
+			);
+
+		}
 	}
+
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.ui.tab, {
+
+	tdTop: null,
 
 	craftBtns: null,
 
@@ -2346,6 +2488,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		//buttons go there
 		var td = dojo.create("td", {}, table);
+
+		var tdTop = dojo.create("td", { colspan: 2 }, td);
+
+		this.tdTop = tdTop;
 
 		var self = this;
 		var crafts = this.game.workshop.crafts;
@@ -2417,6 +2563,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		if (this.resTd){
 			this.renderResources(this.resTd);
+		}
+
+		if (this.tdTop && this.game.science.get("geneticEngineering").researched) {
+			this.tdTop.innerHTML = "Free Factory Workers: " + this.game.village.getFreeFactoryWorker() + " / " + this.game.village.getFactoryWorker();
+		} else {
+			this.tdTop.innerHTML = "";
 		}
 	}
 });
