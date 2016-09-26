@@ -289,6 +289,20 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		}
 	},
 
+	getPrices: function() {
+		var prices_cloned = $.extend(true, [], this.prices);
+
+		for (var i = 0; i < prices_cloned.length; i++) {
+			var price = prices_cloned[i];
+			if (price["name"] == "timeCrystal") {
+				var fluxBonus = Math.floor((this.game.calendar.year - this.game.time.flux) / 1000) / 100;
+				price["val"] -= Math.min(fluxBonus, 0.4);
+			}
+		}
+
+		return prices_cloned;
+	},
+
     doShatter: function(amt){
         amt = amt || 1;
 
