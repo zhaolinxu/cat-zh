@@ -253,6 +253,15 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 
+		//check job limits
+		for (var i = 0; i < this.jobs.length; i++) {
+			var jobName = this.jobs[i].name;
+			while (this.getWorkerKittens(jobName) > this.getJobLimit(jobName)) {
+				this.sim.removeJob(jobName);
+				this.jobs[i].value -= 1;
+			}
+		}
+
 		if (this.getFreeKittens() < 0 ){
 			this.clearJobs();	//sorry, just a stupid solution for this problem
 		}
