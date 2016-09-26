@@ -283,23 +283,23 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getWorkerKittens: function(jobName) {
-		var factoryWorker = 0;
+		var engineer = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			if (this.jobs[i].name == jobName) {
-				factoryWorker = this.jobs[i].value;
+				engineer = this.jobs[i].value;
 			}
 		}
 
-		return factoryWorker;
+		return engineer;
 	},
 
-	getFreeFactoryWorker: function() {
-		var factoryWorkerNoFree = 0;
+	getFreeEngineer: function() {
+		var engineerNoFree = 0;
 		for (var i = this.game.workshop.crafts.length -1; i >= 0; i--) {
-			factoryWorkerNoFree += this.game.workshop.crafts[i].value;
+			engineerNoFree += this.game.workshop.crafts[i].value;
 		}
 
-		return this.getWorkerKittens("engineer") - factoryWorkerNoFree;
+		return this.getWorkerKittens("engineer") - engineerNoFree;
 	},
 
 	clearJobs: function(){
@@ -948,7 +948,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         if (jobKittens.length){
             this.kittens[jobKittens[0].id].job = null;
 
-			if (job == "engineer" && this.game.village.getFreeFactoryWorker() < 0) {
+			if (job == "engineer" && this.game.village.getFreeEngineer() < 0) {
 				for (var i = 0; i < this.game.workshop.crafts.length; i++) {
 					if (this.game.workshop.crafts[i].value > 0) {
 						this.game.workshop.crafts[i].value -= 1;
