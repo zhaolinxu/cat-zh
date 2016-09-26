@@ -1082,7 +1082,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["energyProduction"] = 10 * ( 1+ game.getEffect("reactorEnergyRatio"));
 
 			if (game.workshop.get("thoriumReactors").researched) {
-				if (game.resPool.get("thorium").value == 0) {
+				if (typeof(self.isAutomationEnabled) == "undefined") {
+					self.isAutomationEnabled = true;
+				}
+				if (game.resPool.get("thorium").value == 0 || self.isAutomationEnabled == false) {
 					self.effects["thoriumPerTick"] = 0;
 					self.effects["energyProduction"] -= 2.5;
 				}
