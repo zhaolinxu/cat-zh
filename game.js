@@ -579,6 +579,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+			"priceRatio" :  {
+                title: "Building's prices",
+                type: "ratio"
+            },
+
+			"kittenGrowthRatio" :  {
+                title: "Kittens birth rate",
+                type: "ratio"
+            },
+
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
                 title: "Space Elevator: Transferred cath production bonus",
