@@ -188,7 +188,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	futureSeasonTemporalParadox: -1,
 
 	observeBtn: null,
-	observeHandler: null,
 	observeRemainingTime: 0,
 	observeClear: function(){
 		dojo.destroy(this.observeBtn);
@@ -213,10 +212,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var sciBonus = (25 + celestialBonus) * ( 1 + this.game.getEffect("scienceRatio"));
-		this.game.resPool.addResEvent("science", sciBonus);
+		var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
-		if (!isSilent){
-			this.game.msg(this.game.getDisplayValueExt(sciBonus, true) + " science!", "", "astronomicalEvent");
+		if (sciGain > 0 && !isSilent){
+			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " science!", "", "astronomicalEvent");
 		}
 
 		if (this.game.science.get("astronomy").researched){
@@ -250,8 +249,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	render: function() {
 		var calendarSignSpan = dojo.byId("calendarSign");
-           var cycle = this.cycles[this.cycle];
-           if (cycle){
+		var cycle = this.cycles[this.cycle];
+		var game = this.game;
+
+		if (cycle){
 			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, dojo.partial(function(cycle) {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
@@ -433,8 +434,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	 * All daily chances are in 1/10K units (OPTK) (0.0X%)
 	 */
 	onNewDay: function(){
-		var self = this;
-
 		if (this.festivalDays){
 			this.festivalDays--;
 		}
@@ -475,8 +474,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (this.game.workshop.get("seti").researched){
 				this.observeHandler();
 			}else{
-				var gameLog = dojo.byId("gameLog");
-				var msg = this.game.msg("A rare astronomical event occurred in the sky", "", "astronomicalEvent");
+				this.game.msg("A rare astronomical event occurred in the sky", "", "astronomicalEvent");
 				var node = dojo.byId("observeButton");
 
 				this.observeBtn = dojo.create("input", {
@@ -508,15 +506,26 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
 
-			this.game.msg("A meteor fell near the village, +" + mineralsAmt.toFixed() +" minerals!", null, "meteor");
+			var mineralsGain = this.game.resPool.addResEvent("minerals", mineralsAmt);
 
+			var sciGain = 0;
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.getEffect("scienceRatio"));
-				this.game.resPool.addResEvent("science", sciBonus);
-				this.game.msg("+" + sciBonus.toFixed() + " science!", null, "meteor");
+				sciGain = this.game.resPool.addResEvent("science", sciBonus);
 			}
 
-			this.game.resPool.addResEvent("minerals", mineralsAmt);
+			if (mineralsGain > 0 || sciGain > 0){
+				var meteorMsg = "A meteor fell near the village";
+
+				if (mineralsGain > 0){
+					meteorMsg += ", +" + this.game.getDisplayValueExt(mineralsGain) + " minerals";
+				}
+				if (sciGain > 0) {
+					meteorMsg += ", +" + this.game.getDisplayValueExt(sciGain) + " science";
+				}
+
+				this.game.msg(meteorMsg + "!", null, "meteor");
+			}
 
 			//TODO: make meteors give titanium on higher levels
 		}
@@ -671,7 +680,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var planetName = this.game.space.planets[i].name;
 			var buildings = this.game.space.planets[i].buildings.map(function(building){
 				return building.name;
-			})
+			});
 			for (var j = 0; j < buildings.length; j++) {
 				var item = {planet:planetName, bld: buildings[j]};
 				spaceBuildingsMap.push(item);
