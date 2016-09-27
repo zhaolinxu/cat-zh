@@ -1478,7 +1478,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		"cultureMax"	: 100,
 		"uraniumMax"	: 250,
 		"unobtainiumMax": 150,
-		"antimatterMax" : 1000
+		"antimatterMax" : 100
 	},
 
 	//deprecated, use getBuildingExt
