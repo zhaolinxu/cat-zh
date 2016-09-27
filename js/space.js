@@ -28,7 +28,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		noStackable: true,
         unlocks: {
             planet: "cath",
-            programs: ["moonMission"]
+            spaceMission: ["moonMission"]
         }
 	},{
 		name: "moonMission",
@@ -43,8 +43,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
         unlocks: {
-            planet: "moon",
-            programs: ["duneMission", "piscineMission"]
+            planet: ["moon"],
+            spaceMission: ["duneMission", "piscineMission"]
         }
 	},{
 		name: "duneMission",
@@ -58,11 +58,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 75}
 		],
 		noStackable: true,
-		handler: function(game){
-			game.space.getProgram("heliosMission").unlocked = true;
-		},
 		unlocks: {
-            planet: "dune"
+            planet: "dune",
+            spaceMission: ["heliosMission"]
         }
 	},{
 		name: "piscineMission",
@@ -76,11 +74,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 250}
 		],
 		noStackable: true,
-		handler: function(game){
-			game.space.getProgram("terminusMission").unlocked = true;
-		},
         unlocks: {
-            planet: "piscine"
+            planet: "piscine",
+            spaceMission: ["terminusMission"]
         }
 	},{
 		name: "heliosMission",
@@ -94,11 +90,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 1250}
 		],
 		noStackable: true,
-		handler: function(game){
-			game.space.getProgram("yarnMission").unlocked = true;
-		},
         unlocks: {
-            planet: "helios"
+            planet: "helios",
+            spaceMission: ["yarnMission"]
         }
 	},{
 		name: "terminusMission",
@@ -112,12 +106,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", val: 750}
 		],
 		noStackable: true,
-		handler: function(game){
-			game.space.getProgram("heliosMission").unlocked = true;
-			game.space.getProgram("kairoMission").unlocked = true;
-		},
         unlocks: {
-            planet: "terminus"
+            planet: "terminus",
+            spaceMission: ["heliosMission", "kairoMission"]
         }
 	},{
 		name: "kairoMission",
@@ -131,11 +122,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 7500}
 		],
 		noStackable: true,
-		handler: function(game){
-			game.space.getProgram("rorschachMission").unlocked = true;
-		},
 		unlocks: {
-			planet: "kairo"
+			planet: "kairo",
+            spaceMission: ["rorschachMission"]
 		}
 	},{
 		name: "rorschachMission",
@@ -149,8 +138,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 25000}
 		],
 		noStackable: true,
-		handler: function(game, self){
-		},
 		unlocks: {
 		}
 	},{
@@ -165,11 +152,24 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 12000}
 		],
 		noStackable: true,
-		handler: function(game, self){
-			//game.space.getProgram("heliosMission").unlocked = true;
-		},
 		unlocks: {
 			planet: "yarn"
+		}
+	},{
+		name: "centaurusSystemMission",
+		label: "Centaurus System Mission",
+		description: "",
+		unlocked: false,
+		prices: [
+			{name: "starchart", val: 100000},
+			{name: "titanium", 	val: 40000},
+			{name: "science", 	val: 400000},
+			{name: "kerosene", 	val: 30000},
+			{name: "thorium",   val: 50000}
+		],
+		noStackable: true,
+		unlocks: {
+			planet: "centaurusSystem"
 		}
 	}],
 
@@ -614,6 +614,32 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		]
+	},{
+		name: "centaurusSystem",
+		label: "Centaurus System",
+		unlocked: false,
+		buildings:[
+			{
+				name: "tectonic",
+				label: "Tectonic",
+				description: "",
+				unlocked: true,
+				priceRatio: 1.25,
+				prices: [
+					{name: "science", val: 600000   },
+					{name: "antimatter", val: 500  },
+					{name: "thorium", val: 75000  }
+				],
+				effects: {
+					"energyProduction": 0
+				},
+				calculateEffects: function(self, game){
+					self.effects = {
+						"energyProduction": 25
+					};
+				}
+			}
+		]
 	}],
 
 	metaCache: null,
@@ -904,14 +930,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 
 		if (bld.unlocks){
-			if (bld.unlocks.planet){
-				this.game.space.getPlanet(bld.unlocks.planet).unlocked = true;
-			}
-			if (bld.unlocks.blds){
-				dojo.forEach(bld.unlocks.blds, function(ubld, i){
-					self.game.space.getbld(ubld).unlocked = true;
-				});
-			}
+			this.game.unlock(bld.unlocks);
 		}
 
 		if (bld.upgrades){

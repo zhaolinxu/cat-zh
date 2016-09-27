@@ -1168,7 +1168,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").unlocked);
+		this.religionTab.visible = (this.resPool.get("faith").unlocked || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 
@@ -2080,6 +2080,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacy.update();
 		this.religion.update();
 		this.space.update();
+		this.challenges.update();
 
 		/*for (i in this.managers){
 		 if (this.managers[i].update){
@@ -2471,7 +2472,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		this.resetAutomatic();
+		this.challenges.currentChallenge = null;
+		this.resetAutomatic;
 	},
 
 	resetAutomatic: function() {
@@ -2594,7 +2596,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			lsData = {game: {}};
 		}
 
-		var saveRatio = this.getEffect("resStasisRatio");
+		var saveRatio = this.bld.get("chronosphere").val > 0 ? this.getEffect("resStasisRatio") : 0; // resStasisRatio excepted when challenge
 		dojo.mixin(lsData.game, {
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,
@@ -2680,7 +2682,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on"])
 			},
 			prestige: { perks: this.prestige.perks },	//never resets
-			challenges: { challenges: this.challenges.challenges },	//never resets
+			challenges: {
+				challenges: this.challenges.challenges, //never resets
+				currentChallenge: this.challenges.currentChallenge
+			},
 			science: { techs: [], hideResearched: false },
 			resources: newResources,
 			time: {
@@ -2789,9 +2794,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getTab(unlockId);
 			case "buildings":
 				return this.bld.get(unlockId);
+			case "spaceMission":
+				return this.space.getProgram(unlockId);
 			case "space":
 				var planet = this.space.getPlanet(unlockId.planet);
 				return this.space.getMeta(unlockId.bld, planet.buildings);
+			case "planet":
+				return this.space.getPlanet(unlockId);
 			case "chronoforge":
 				return this.time.getCFU(unlockId);
 			case "voidSpace":
@@ -2825,6 +2834,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
+				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
+					// do nothing
 				} else {
 					newUnlock.unlocked = true;
 				}

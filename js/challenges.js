@@ -12,11 +12,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		}});
 	},
 
-    challenges:[{
+	currentChallenge: null,
+
+    challenges:[
+    {
 		name: "atheism",
 		label: "Atheism",
-		description: "Every level of transcendence will increase aprocrypha effectiveness by 10%."
-			+ "<br /> Your game will be reset in order to enable this challenge.",
+		description: "Restart the game without faith bonus.",
+		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
 	}],
@@ -32,7 +35,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	save: function(saveData){
 		saveData.challenges = {
-			challenges: this.filterMetadata(this.challenges, ["name", "researched", "unlocked"])
+			challenges: this.filterMetadata(this.challenges, ["name", "researched", "unlocked"]),
+			currentChallenge: this.currentChallenge
 		};
 	},
 
@@ -47,6 +51,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.loadMetadata(this.challenges, saveData.challenges.challenges, ["researched", "unlocked"], function(loadedElem){
 			});
 		}
+		if (saveData.challenges.currentChallenge){
+			this.currentChallenge = saveData.challenges.currentChallenge;
+		}
 	},
 
 	update: function(){
@@ -58,7 +65,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 });
 
-dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
+dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	metaCached: null, // Call getMetadata
 
 	getMetadata: function(){
@@ -66,6 +73,30 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 			this.metaCached = this.game.challenges.getChallenge(this.id);
 		}
 		return this.metaCached;
+	},
+
+	getDescription: function() {
+		var start = this.inherited(arguments);
+		if (this.getMetadata().researched) {
+			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
+		} else {
+			return start + "<br /><br />Your game will be reset in order to enable this challenge."
+		}
+	},
+
+	getName: function(){
+		var meta = this.getMetadata();
+		if (meta.name == this.game.challenges.currentChallenge) {
+			return meta.label + " (Current)";
+		} else if (meta.researched){
+			return meta.label + " (Complete)";
+		} else {
+			return meta.label;
+		}
+	},
+
+	getPrices: function() {
+		return $.extend(true, [], this.getMetadata().prices); // Create a new array to keep original values
 	},
 
 	getSelectedObject: function(){
@@ -77,12 +108,26 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingResea
 	},
 
 	onClick: function(){
-		if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
-			this.inherited(arguments);
-			this.game.resetAutomatic();
+		if (this.getMetadata().name != this.game.challenges.currentChallenge && (this.enabled || this.game.devMode)){
+			if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
+				// Set the challenge for after reset
+				this.game.challenges.currentChallenge = this.getMetadata().name;
+				// Reset with any benefit of chronosphere (ressource, kittens, etc...)
+				this.game.bld.get("chronosphere").val = 0;
+				this.game.resetAutomatic();
+			}
+		} else {
+			this.animate();
+			return;
+		}
+	},
+
+	updateEnabled: function(){
+		this.inherited(arguments);
+		if (this.getMetadata().researched){
+			this.setEnabled(false);
 		}
 	}
-
 });
 
 dojo.declare("classes.ui.ChallengePanel", com.nuclearunicorn.game.ui.Panel, {
