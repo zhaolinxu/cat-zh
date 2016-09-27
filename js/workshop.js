@@ -2334,6 +2334,25 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}
 	},
 
+	setEnabled: function(enabled){
+
+		dojo.removeClass(this.domNode, "bldEnabled");
+		dojo.removeClass(this.domNode, "bldlackResConvert");
+		if (enabled){
+				dojo.removeClass(this.domNode, "disabled");
+				if (this.game.workshop.getCraft(this.craftName).value > 0) {
+					dojo.addClass(this.domNode, "bldEnabled");
+				}
+		} else {
+				dojo.addClass(this.domNode, "disabled");
+				if (this.game.workshop.getCraft(this.craftName).value > 0) {
+					dojo.addClass(this.domNode, "bldlackResConvert");
+				}
+		}
+
+		this.enabled = enabled;
+	},
+
 	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
 		var craft = this.game.workshop.getCraft(this.craftName);
 		if (this.game.village.getFreeEngineer() > 0) {
