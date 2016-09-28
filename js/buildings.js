@@ -203,8 +203,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipDemandRatio": 0,
 			"energyProduction": 0
 		},
-
-		calculateEffects: function(self, game){
+		action: function(self, game){
 			var stageMeta = self.stages[self.stage];
 			if (self.stage == 0){
 				//do nothing
@@ -213,6 +212,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                     "energyProduction": 2
                 };
                 effects.energyProduction *= 1 + game.getEffect("solarFarmRatio");
+				if (game.calendar.season == 3) {
+					effects.energyProduction *= 0.75;
+				}
                 stageMeta.effects = effects;
 			}
 		}
