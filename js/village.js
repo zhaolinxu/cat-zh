@@ -515,32 +515,37 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.happiness = happiness/100;
 	},
 
-	sendHuntersInternal: function(){
-		var huntingRes = {
-			furs: 0,
-			ivory: 0,
-			gold: 0,
-			isUnicorn: false
-		};
+	sendHuntersInternal: function(huntingRes){
+		if (!huntingRes){
+			huntingRes = {
+				furs: 0,
+				ivory: 0,
+				gold: 0,
+				unicorns: 0
+			};
+		}
 
 		var hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
-		huntingRes.furs = this.rand(80) + this.rand(65 * hunterRatio);
-		this.game.resPool.addResEvent("furs", huntingRes.furs);
+		var furs = this.rand(80) + this.rand(65 * hunterRatio);
+		var fursGain = this.game.resPool.addResEvent("furs", furs);
+		huntingRes.furs += fursGain;
 
 		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			huntingRes.ivory = this.rand(50) + this.rand(40 * hunterRatio);
-			this.game.resPool.addResEvent("ivory", huntingRes.ivory);
+			var ivory = this.rand(50) + this.rand(40 * hunterRatio);
+			var ivoryGain = this.game.resPool.addResEvent("ivory", ivory);
+			huntingRes.ivory += ivoryGain;
 		}
 
 		if (this.rand(100) < 5){
-			this.game.resPool.addResEvent("unicorns", 1);
-			huntingRes.isUnicorn = true;
+			var unicorns = this.game.resPool.addResEvent("unicorns", 1);
+			huntingRes.unicorns += unicorns;
 		}
 
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
 			if (this.rand(100) < 25){
-				huntingRes.gold = this.rand(5) + this.rand(10 * hunterRatio/2);
-				this.game.resPool.addResEvent("gold", huntingRes.gold);
+				var gold = this.rand(5) + this.rand(10 * hunterRatio/2);
+				var goldGain = this.game.resPool.addResEvent("gold", gold);
+				huntingRes.gold += goldGain;
 			}
 		}
 
@@ -549,60 +554,50 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	sendHunters: function(){
 		var huntingRes = this.sendHuntersInternal();
-		if (huntingRes.isUnicorn){
-			this.game.msg("You got a unicorn!", "important", "hunt");
-		}
-		var msg = "Your hunters have returned. +" + huntingRes.furs + " furs";
-		if (huntingRes.ivory){
-			msg += ", +" + huntingRes.ivory + " ivory";
-		}
-		if (huntingRes.gold){
-			msg += ", +" + huntingRes.gold + " gold";
-		}
-		this.game.msg( msg, null, "hunt" );
+		this.printHuntYield(huntingRes, 1);
 	},
 
 	huntAll: function(){
 		var mpower = this.game.resPool.get("manpower");
 
 		var squads = Math.floor(mpower.value / 100);
+
+		this.huntMultiple(squads);
+	},
+
+	huntMultiple: function (squads){
+		var mpower = this.game.resPool.get("manpower");
+		squads = Math.min(squads, Math.floor(mpower.value / 100));
+
 		if (squads < 1){
 			return;
 		}
 		this.game.resPool.addResEvent("manpower", -(squads * 100));
 
-		var totalYield = {
-			furs: 0,
-			ivory: 0,
-			gold: 0,
-			unicorns: 0
-		};
+		var totalYield = null;
 
 		for (var i = squads - 1; i >= 0; i--) {
-			var squadYield = this.sendHuntersInternal();
-			totalYield.furs += squadYield.furs;
-			totalYield.ivory += squadYield.ivory;
-			totalYield.gold += squadYield.gold;
-			if (squadYield.isUnicorn) {
-				totalYield.unicorns++;
-			}
+			totalYield = this.sendHuntersInternal(totalYield);
 		}
-		if (totalYield.unicorns){
-			this.game.msg("You got " + totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!", null, "hunt");
+		this.printHuntYield(totalYield, squads);
+	},
+
+	printHuntYield: function (totalYield, squads){
+		if (totalYield.unicorns > 0){
+			this.game.msg("You got " + (totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!"), "important", "hunt");
 		}
 		var msg = "Your hunters have returned";
 		if (squads > 1) {
 			msg += " from " + squads + " hunts";
 		}
 		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " furs";
-		if (totalYield.ivory){
+		if (totalYield.ivory > 0){
 			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " ivory";
 		}
-		if (totalYield.gold){
+		if (totalYield.gold > 0){
 			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " gold";
 		}
 		this.game.msg( msg, null, "hunt" );
-
 	},
 
 	rand: function(val){
