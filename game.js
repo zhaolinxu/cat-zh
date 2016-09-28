@@ -2580,7 +2580,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			newKittensSort.sort(function(a, b){return b.sort-a.sort;});
 
-			for (j = 0; j < this.time.getVSU("cryochambers").val; j++) {
+			for (j = 0; j < Math.min(this.bld.get("chronosphere").val, this.time.getVSU("cryochambers").val); j++) {
 				if (j < newKittensSort.length){
 					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
