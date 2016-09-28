@@ -552,6 +552,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Called in tooltips for more accurate per-building resMax increases
 	 */
 	addResMaxRatios: function(res, maxValue){
+		if (res.name == "temporalFlux") {
+			return maxValue;
+		}
+
 		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
 
 		if (res){

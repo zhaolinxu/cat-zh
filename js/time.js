@@ -56,8 +56,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			this.getVSU("usedCryochambers").unlocked = true;
         }
 
-        this.updateEnergyStats();
-
 		this.gainTemporalFlux(saveData["time"].timestamp);
 	},
 
@@ -71,6 +69,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (delta <= 0){
             return;
         }
+
+		// Update temporalFluxMax from values loaded
+        this.game.updateCaches();
+        this.game.resPool.update();
 
 		var temporalAccelerator = this.getCFU("temporalAccelerator");
 		var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
@@ -99,21 +101,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     update: function(){
-        this.updateEnergyStats();
-
         if (this.isAccelerated && this.game.resPool.get("temporalFlux").value > 0){
             this.game.resPool.addResEvent("temporalFlux", -1);
         }
         if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
-    },
-
-    updateEnergyStats: function(){
-        this.game.resPool.get("temporalFlux").maxValue = Math.round(
-            this.game.rate * 60 * 10
-            * (1 + this.getCFU("temporalBattery").val * 0.25)
-        );
     },
 
 	chronoforgeUpgrades: [{
@@ -123,6 +116,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         prices: [
             { name : "timeCrystal", val: 5 }
         ],
+        effects: {
+        	"temporalFluxMax": 750
+        },
         priceRatio: 1.25,
         unlocked: true
     },{
@@ -215,6 +211,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		},
         unlocked: false
     }],
+
+	effectsBase: {
+		"temporalFluxMax": 60 * 10 * 5  //10 minutes (5 == this.game.rate)
+	},
 
     getCFU: function(id){
         return this.getMeta(id, this.chronoforgeUpgrades);
