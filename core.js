@@ -1195,20 +1195,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	},
 
 	getEffects: function(){
-		return this.getMetadataRaw().effects;
+		return this.getMetadata().effects;
 	},
 
 	getSelectedObject: function(){
-		return this.getMetadataRaw();
+		return this.getMetadata();
 	},
 
 	getDescription: function(){
-		var description = this.getMetadataRaw().description;
+		var description = this.getMetadata().description;
 		return typeof(description) != "undefined" ? description : "";
 	},
 
 	getFlavor: function(){
-		var flavor = this.getMetadataRaw().flavor;
+		var flavor = this.getMetadata().flavor;
 		return typeof(flavor) != "undefined" ? flavor : "";
 	},
 
