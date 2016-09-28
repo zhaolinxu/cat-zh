@@ -1083,7 +1083,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.faithCount = faithCount;
 
 		//----------------------- reset -----------------------
-		var faithResetBtn = dojo.create("a", { style: { display: "inline-block",  paddingLeft: "10px", marginBottom: "10px", display: "none"},
+		var faithResetBtn = dojo.create("a", { style: { paddingLeft: "10px", marginBottom: "10px", display: "none"},
 			href: "#",
 			innerHTML: "[Reset]"
 		}, content);
@@ -1187,7 +1187,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
 		dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
 
-		var hasCT = this.game.science.get("cryptotheology").researched && game.religion.tclevel > 0;
+		var hasCT = this.game.science.get("cryptotheology").researched && this.game.religion.tclevel > 0;
 		if (hasCT){
 			this.ctPanel.setVisible(true);
 		}

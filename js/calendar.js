@@ -448,7 +448,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			unicornChanceRatio = 1.1;
 		}
 
-		if (this.day < 0) {
+		if (this.day < 0){
 		//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
 			this.game.time.flux-=0.0025;
@@ -615,7 +615,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var numChrono = this.game.bld.get("chronosphere").on;
 		if (numChrono > 0) {
-			if (this.futureSeasonTemporalParadox > 0) {
+			if (this.futureSeasonTemporalParadox > 0){
 				// Go to future Temporal Paradox season
 				this.futureSeasonTemporalParadox--;
 			} else {

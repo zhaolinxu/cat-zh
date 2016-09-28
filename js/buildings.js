@@ -72,6 +72,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	registerMetaBuilding: function() {
+		var game = this.game;
 		this.registerMeta(this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
@@ -1033,7 +1034,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"energyConsumption": 2
 			};
 
-			if (game.workshop.get("factoryLogistics").researched) {
+			if (game.workshop.get("factoryLogistics").researched){
 				effects["craftRatio"] = 0.06;
 			}
 

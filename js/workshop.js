@@ -2233,7 +2233,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per engineer per minute
 
 			if(craft.progress > 1) {
-				this.craft(craft.name, 1)
+				this.craft(craft.name, 1);
 				craft.progress = 0;
 			}
 		}

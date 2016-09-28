@@ -113,48 +113,41 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					//value will be affected by opts.usePerSecondValues
 					type: "perTick"
 				};
-			break;
 			case type == "PerTick":
 				return {
 					title: restitle,
 					resname: resname,
 					type: "perTick"
 				};
-			break;
 			case type == "Max":
 				return {
 					title: "Max " + restitle,
 					resname: resname
 				};
-			break;
 			case type == "Ratio":
 				return {
 					title: restitle + " bonus",
 					resname: resname,
 					type: "ratio"
 				};
-			break;
 			case type == "DemandRatio":
 				return {
 					title: restitle + " demand reduction",
 					resname: resname,
 					type: "ratio"
 				};
-			break;
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
 					title: restitle + " production",
 					resname: resname,
 					type: "perTick"
 				};
-			break;
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: restitle + " conversion",
 					resname: resname,
 					type: "perTick"
 				};
-			break;
 			default:
 				return 0;
 		}
@@ -1398,7 +1391,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					}
 				}
 				if (!changement) {
-					resTE = {
+					var resTE = {
 						name : "temporalFlux",
 						title: "temporal flux",
 						description: "",
@@ -1407,7 +1400,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						visible: false,
 						persists: true,
 						value: save.time.energy
-					}
+					};
 					save.resources.push(resTE);
 				}
 			}
@@ -2407,7 +2400,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		this.resetAutomatic;
+		this.resetAutomatic();
 	},
 
 	resetAutomatic: function() {

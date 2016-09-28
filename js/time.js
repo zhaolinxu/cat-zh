@@ -186,7 +186,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         prices: [
 			{ name: "timeCrystal", val: 10 },
 			{ name: "void", val: 250 },
-			{ name: "antimatter", val: 1000 }
+			{ name: "antimatter", val: 1000 }
         ],
         priceRatio: 1.25,
         effects: {
@@ -199,7 +199,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         description: "Increase the number of days in Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 30 },
-			{ name: "void", val: 500 },
+			{ name: "void", val: 500 },
 			{ name: "temporalFlux", val: 3000}
         ],
         priceRatio: 1.25,
@@ -215,10 +215,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		},
         unlocked: false
     }],
-
-	effectsBase: {
-		"temporalFluxMax": game.rate * 60 * 10   //10 minutes
-	},
 
     getCFU: function(id){
         return this.getMeta(id, this.chronoforgeUpgrades);

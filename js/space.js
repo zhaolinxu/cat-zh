@@ -629,6 +629,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	registerMetaSpace: function(){
+		var game = this.game;
 		this.registerMeta(this.programs, { getEffect: function(program, effectName){
 			if (!program.effects){
 				return 0;

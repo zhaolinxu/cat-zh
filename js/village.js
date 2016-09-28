@@ -206,8 +206,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getJobLimit: function(jobName) {
-		if (jobName == "engineer") {
-			return game.bld.get("factory").val;
+		if (jobName == "engineer"){
+			return this.game.bld.get("factory").val;
 		} else {
 			return 100000;
 		}
@@ -490,8 +490,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
 				happiness += 10;
-                                if(resources[i].name=="elderBox"&&game.resPool.get("wrappingPaper").value)
-                                  happiness-=10; // Present Boxes and Wrapping Paper do not stack.
+				if(resources[i].name=="elderBox"&&this.game.resPool.get("wrappingPaper").value){
+					happiness-=10; // Present Boxes and Wrapping Paper do not stack.
+				}
 			}
 		}
 

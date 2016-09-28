@@ -96,7 +96,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			}
 
 			// Add effect in globalEffectsCached, in addition of other managers
-			game.globalEffectsCached[name] = typeof(game.globalEffectsCached[name]) == "number" ? game.globalEffectsCached[name] + effect : effect;
+			this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
 		}
 	},
 
@@ -107,7 +107,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 /*
 	getEffect: function(name){
 		// Search only if effect exists in the manager
-		if (typeof(this.effectsCachedExisting[name]) == "undefined") {
+		if (typeof(this.effectsCachedExisting[name]) == "undefined"){
 			return 0;
 		}
 		// Search only if effect is not yet in the globalEffectsCached
@@ -217,7 +217,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		bld.val = 0;
 		bld.on = 0;
 		if (bld.noStackable == "undefined") {
-			bld.noStackable = false
+			bld.noStackable = false;
 		}
 
 		bld.togglable = false;
@@ -1474,12 +1474,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
 			}
 
 			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
+				this.game.unlock(meta.unlocks);
+			}
 
 			if (meta.upgrades) {
 				this.game.upgrade(meta.upgrades);
@@ -1538,8 +1538,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicor
 			meta.researched = true;
 
 			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks)
-			};
+				this.game.unlock(meta.unlocks);
+			}
 
 			if (meta.upgrades) {
 				this.game.upgrade(meta.upgrades);
