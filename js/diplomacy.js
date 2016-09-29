@@ -501,7 +501,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 				amt += amt * 0.02 * race.energy;
 			}
 
-			amt = this.game.resPool.addResEvent(s.name, amt);
 			tradeRes[s.name] += amt;
 
 		}
@@ -509,16 +508,13 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		if (this.game.rand(100) < 35){
 			var spiceVal = this.game.rand(50);
 			var resValue = 25 +  spiceVal + spiceVal * ratio;
-
-			resValue = this.game.resPool.addResEvent("spice", resValue);
 			tradeRes["spice"] += resValue;
 		}
 
 		//-------------- 10% change to get blueprint ---------------
 
 		if (this.game.rand(100) < 10){
-			resValue = this.game.resPool.addResEvent("blueprint", 1);
-			tradeRes["blueprint"] += resValue;
+			tradeRes["blueprint"] += 1;
 		}
 
 		//-------------- 15% change to get titanium  ---------------
@@ -531,8 +527,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 				var titaniumAmt = 1.5;
 				titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-
-				titaniumAmt = this.game.resPool.addResEvent("titanium", titaniumAmt);
 				tradeRes["titanium"] += titaniumAmt;
 			}
 		}
@@ -547,7 +541,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	trade: function(){
 		var yieldRes = this.tradeInternal();
 
-		this.printYieldOutput(yieldRes);
+		this.gainTradeRes(yieldRes);
 	},
 
 	tradeMultiple: function(amt){
@@ -571,7 +565,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			yieldResTotal = this.tradeInternal(true, yieldResTotal);	//suppress msg
 		}
 
-		this.printYieldOutput(yieldResTotal);
+		this.gainTradeRes(yieldResTotal);
 	},
 
 	tradeAll: function(){
@@ -581,10 +575,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	/**
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
-	printYieldOutput: function(yieldResTotal){
+	gainTradeRes: function(yieldResTotal){
 		var output = false;
 		for (var res in yieldResTotal){
-			var amt = yieldResTotal[res];
+			var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
 			if (amt > 0){
 				if (res == "blueprint"){
 					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + (amt > 1 ? "s" : "") + "!", "notice", "trade");

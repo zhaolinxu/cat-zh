@@ -526,26 +526,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		var hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
-		var furs = this.rand(80) + this.rand(65 * hunterRatio);
-		var fursGain = this.game.resPool.addResEvent("furs", furs);
-		huntingRes.furs += fursGain;
+		huntingRes.furs += this.rand(80) + this.rand(65 * hunterRatio);
 
 		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			var ivory = this.rand(50) + this.rand(40 * hunterRatio);
-			var ivoryGain = this.game.resPool.addResEvent("ivory", ivory);
-			huntingRes.ivory += ivoryGain;
+			huntingRes.ivory += this.rand(50) + this.rand(40 * hunterRatio);
 		}
 
 		if (this.rand(100) < 5){
-			var unicorns = this.game.resPool.addResEvent("unicorns", 1);
-			huntingRes.unicorns += unicorns;
+			huntingRes.unicorns += 1;
 		}
 
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
 			if (this.rand(100) < 25){
-				var gold = this.rand(5) + this.rand(10 * hunterRatio/2);
-				var goldGain = this.game.resPool.addResEvent("gold", gold);
-				huntingRes.gold += goldGain;
+				huntingRes.gold += this.rand(5) + this.rand(10 * hunterRatio/2);
 			}
 		}
 
@@ -554,7 +547,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	sendHunters: function(){
 		var huntingRes = this.sendHuntersInternal();
-		this.printHuntYield(huntingRes, 1);
+		this.gainHuntRes(huntingRes, 1);
 	},
 
 	huntAll: function(){
@@ -579,10 +572,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		for (var i = squads - 1; i >= 0; i--) {
 			totalYield = this.sendHuntersInternal(totalYield);
 		}
-		this.printHuntYield(totalYield, squads);
+		this.gainHuntRes(totalYield, squads);
 	},
 
-	printHuntYield: function (totalYield, squads){
+	gainHuntRes: function (totalYield, squads){
+		for (var res in totalYield){
+			totalYield[res] = this.game.resPool.addResEvent(res, totalYield[res]);
+		}
+
 		if (totalYield.unicorns > 0){
 			this.game.msg("You got " + (totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!"), "important", "hunt");
 		}
