@@ -1553,7 +1553,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
-		if (!res.transient && this.bld.get("magneto").on > 0){
+		if (!res.transient && this.bld.get("magneto").on > 0 && res.name != "catnip"){
 
 			var steamworks = this.bld.get("steamworks");
 			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
@@ -1567,7 +1567,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*REACTOR PRODUCTION BONUS
-		if (!res.transient && res.name != "uranium"){
+		if (!res.transient && res.name != "uranium" && res.name != "catnip"){
 			perTick *= 1 + this.getEffect("productionRatio");
 
 			//ParagonSpaceProductionRatio definition 3/4
@@ -1605,6 +1605,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
+		if (res.name == "catnip") {
+			resConsumption *= game.village.happiness;
+		}
 
 		perTick += resConsumption;
 
@@ -1754,7 +1757,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		});
 
 		// *MAGNETOS PRODUCTION BONUS
-		if (!res.transient && this.bld.get("magneto").on > 0){
+		if (!res.transient && this.bld.get("magneto").on > 0 && res.name != "catnip"){
 
 			var steamworks = this.bld.get("steamworks");
 			var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * steamworks.on) : 1;
@@ -1771,7 +1774,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*REACTOR PRODUCTION BONUS
-		if (!res.transient && res.name != "uranium") {
+		if (!res.transient && res.name != "uranium" && res.name != "catnip") {
 			stack.push({
 				name: "Reactors",
 				type: "ratio",
@@ -1880,6 +1883,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
+		if (res.name == "catnip") {
+			resConsumption *= game.village.happiness;
+		}
 		resConsumption -= this.getEffect(res.name + "Consumption");
 
 		stack.push({
