@@ -446,11 +446,22 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			standingRatio += 10;
 		}
 
+		if (!tradeRes){
+			tradeRes = {};
+
+			for (var j = 0; j < race.sells.length; j++){
+				tradeRes[race.sells[j].name] = 0;
+			}
+
+			tradeRes["spice"] = 0;
+			tradeRes["blueprint"] = 0;
+		}
+
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
 				this.game.msg( race.title + " hate you for no reason", null, "trade");
 			}
-			return;
+			return tradeRes;
 		}
 
 		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
@@ -466,17 +477,6 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			if (race.duration > duration){
 				race.duration = duration;
 			}
-		}
-
-		if (!tradeRes){
-			tradeRes = {};
-
-			for (var j = 0; j < race.sells.length; j++){
-				tradeRes[race.sells[j].name] = 0;
-			}
-
-			tradeRes["spice"] = 0;
-			tradeRes["blueprint"] = 0;
 		}
 
 		var ratio = this.game.diplomacy.getTradeRatio();
