@@ -390,7 +390,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	addRes: function(res, addedValue, event) {
-		if (this.game.calendar.day < 0 && !event || addedValue == 0 || res.name == "alicorn" && res.value == 0) {
+		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
 			return 0;
 		}
 
@@ -488,7 +488,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				continue;
 			}
 
-			if (res.value > 0){
+			if (res.unlocked == false && res.value > 0){
 				res.unlocked = true;
 			}
 

@@ -703,7 +703,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 6,
+	saveVersion: 7,
 
 	//FINALLY
 	opts: null,
@@ -1406,6 +1406,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 6;
+		}
+
+		if (save.saveVersion == 6) {
+			if (save.religion.zu) {
+				for (i = 0; i < save.religion.zu.length; i++){
+					save.religion.zu[i].on = save.religion.zu[i].val;
+				}
+			}
+			if (save.religion.tu) {
+				for (i = 0; i < save.religion.tu.length; i++){
+					save.religion.tu[i].on = save.religion.tu[i].val;
+				}
+			}
+			if (save.time.usedCryochambers) {
+				for (i = 0; i < save.time.usedCryochambers.length; i++){
+					save.time.usedCryochambers[i].on = save.time.usedCryochambers[i].val;
+				}
+			}
+			if (save.time.cfu) {
+				for (i = 0; i < save.time.cfu.length; i++){
+					save.time.cfu[i].on = save.time.cfu[i].val;
+				}
+			}
+			if (save.time.vsu) {
+				for (i = 0; i < save.time.vsu.length; i++){
+					save.time.vsu[i].on = save.time.vsu[i].val;
+				}
+			}
 		}
 
 		return save;
@@ -2701,6 +2729,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return building.name;
 			}),
 			religion: this.religion.religionUpgrades.map(function(building){
+				return building.name;
+			}),
+			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(building){
 				return building.name;
 			}),
 			space: spaceBuildingsMap,
