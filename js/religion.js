@@ -162,7 +162,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 0.1,
-			"riftChance" : 5	//
+			"riftChance" : 5
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -197,10 +197,22 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatioReligion" : 0.5,
-			"ivoryMeteorRatio" : 0.05,
-			"alicornChance" : 5,
-			"alicornPerTick" : 0.00001
+			"unicornsRatioReligion" : 0,
+			"ivoryMeteorRatio" : 0,
+			"alicornChance" : 0,
+			"alicornPerTick" : 0
+		},
+		calculateEffects: function(self, game) {
+			var effects = {
+				"unicornsRatioReligion" : 0.5,
+				"ivoryMeteorRatio" : 0.05,
+				"alicornChance" : 5,
+				"alicornPerTick" : 0
+			}
+			if (game.resPool.get("alicorn").value > 0) {
+				effects["alicornPerTick"] = 0.00001;
+			}
+			self.effects = effects;
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -217,11 +229,24 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatioReligion" : 2.5,
-			"ivoryMeteorRatio" : 0.15,
-			"alicornChance" : 15,
-			"alicornPerTick" : 0.000025,
-			"tcRefineRatio" : 0.05
+			"unicornsRatioReligion" : 0,
+			"ivoryMeteorRatio" : 0,
+			"alicornChance" : 0,
+			"alicornPerTick" : 0,
+			"tcRefineRatio" : 0
+		},
+		calculateEffects: function(self, game) {
+			var effects = {
+				"unicornsRatioReligion" : 2.5,
+				"ivoryMeteorRatio" : 0.15,
+				"alicornChance" : 15,
+				"alicornPerTick" : 0,
+				"tcRefineRatio" : 0.05
+			}
+			if (game.resPool.get("alicorn").value > 0) {
+				effects["alicornPerTick"] = 0.000025;
+			}
+			self.effects = effects;
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -240,11 +265,24 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"unicornsRatioReligion" : 5,
-			"ivoryMeteorRatio" : 0.5,
-			"alicornChance" : 30,
-			"alicornPerTick" : 0.00005,
-			"tcRefineRatio": 0.1
+			"unicornsRatioReligion" : 0,
+			"ivoryMeteorRatio" : 0,
+			"alicornChance" : 0,
+			"alicornPerTick" : 0,
+			"tcRefineRatio": 0
+		},
+		calculateEffects: function(self, game) {
+			var effects = {
+				"unicornsRatioReligion" : 5,
+				"ivoryMeteorRatio" : 0.5,
+				"alicornChance" : 30,
+				"alicornPerTick" : 0,
+				"tcRefineRatio" : 0.1
+			}
+			if (game.resPool.get("alicorn").value > 0) {
+				effects["alicornPerTick"] = 0.00005;
+			}
+			self.effects = effects;
 		},
 		unlocked: false,
 		defaultUnlocked: false

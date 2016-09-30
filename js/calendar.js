@@ -581,6 +581,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
 
 			this.game.resPool.addResEvent("alicorn", 1);
+			this.game.upgrade({
+				zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+			})
 		}
 
 		// -------------- ivory meteors ---------------
