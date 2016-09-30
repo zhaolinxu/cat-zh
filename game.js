@@ -821,7 +821,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.addTab(this.spaceTab);
 
 		this.timeTab = new classes.tab.TimeTab("Time", this);
-		this.timeTab.visible = true;
+		this.timeTab.visible = false;
 		this.addTab(this.timeTab);
 
 		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab("Achievements", this);
@@ -1153,14 +1153,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		//------------------------------------
 
-		this.villageTab.visible = (this.resPool.get("kittens").unlocked || this.resPool.get("zebras").unlocked || this.time.getVSU("usedCryochambers").val > 0);
+		this.villageTab.visible = (this.bld.get("hut").on > 0
+			|| this.resPool.get("kittens").unlocked
+			|| this.resPool.get("zebras").unlocked
+			|| this.time.getVSU("usedCryochambers").val > 0);
 		this.libraryTab.visible = (this.bld.get("library").on > 0);
 		this.workshopTab.visible = (this.bld.get("workshop").on > 0);
 		this.achievementTab.visible = (this.achievements.hasUnlocked());
-
-		if (this.karmaKittens > 0 || this.science.get("math").researched ) {
-			this.statsTab.visible = true;
-		}
+		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
 		this.religionTab.visible = (this.resPool.get("faith").unlocked);
