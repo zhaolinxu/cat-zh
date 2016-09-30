@@ -1546,7 +1546,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
 
-		// +SPACE AUTOPROD
+		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= 1 + (this.prestige.getParagonProductionRatio() * 0.05);
 
@@ -1746,12 +1746,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
 
-		// +SPACE AUTOPROD
-		stack.push({
-			name: "Conversion Production",
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTickAutoprod")
-		});
+		// +BUILDING AUTOPROD
+		var buildingAutoprod = [];
+		// ---->
+			buildingAutoprod.push({
+				name: "Conversion Production",
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickAutoprod")
+			});
+			buildingAutoprod.push({
+				name: "Paragon",
+				type: "ratio",
+				value: this.prestige.getParagonProductionRatio() * 0.05
+			});
+		//<----
+		stack.push(buildingAutoprod);
 
 		// *MAGNETOS PRODUCTION BONUS
 		if (!res.transient && this.bld.get("magneto").on > 0){
