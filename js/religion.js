@@ -132,14 +132,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
 			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
-
-		var apt = this.game.getEffect("alicornPerTick") || 0;
-		var alicorns = this.game.resPool.get("alicorn");
-
-		//enable hidden generation bonus once first AC was unlocked
-		if (alicorns.value > 0) {
-			this.game.resPool.addResPerTick("alicorns", apt);
-		}
 	},
 
 	zigguratUpgrades: [{
