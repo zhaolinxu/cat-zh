@@ -1763,7 +1763,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//redeemGift
 		var redeemGiftBtn = new classes.village.ui.VillageButton({
-			name: "Redeem Gift",
+			name: "Unwrap present box",
 			description: "",
 			handler: dojo.hitch(this, function(){
 				this.game.redeemGift();
