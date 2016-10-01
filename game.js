@@ -1053,6 +1053,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		delete(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 	},
 
+	closeOptions: function() {
+		$('#optionsDiv').hide();
+		this.render();
+	},
+
 	toggleScheme: function(){
 		var schemeToggle = dojo.byId("schemeToggle");
 		this.colorScheme = schemeToggle.value;
