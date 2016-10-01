@@ -507,7 +507,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			this.addResPerTick(res.name, resPerTick);
 
 			// Hack to reach the maxValue in resTable
-			if (res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {
+			if (resPerTick && res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {
 				res.value += -game.getResourcePerTickConvertion(res.name);
 			}
 
