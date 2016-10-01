@@ -1822,6 +1822,10 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
             maxBld--;
         }
 
+		if (bld.breakIronWill) {
+			this.game.ironWill = false;
+		}
+
         if (counter > 1) {
 	        this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
 		}

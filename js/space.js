@@ -895,6 +895,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
             maxBld--;
         }
 
+		if (bld.breakIronWill) {
+			this.game.ironWill = false;
+		}
+
         if (counter > 1) {
 			this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
 		}
