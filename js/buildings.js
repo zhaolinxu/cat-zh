@@ -1337,10 +1337,25 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"culturePerTickBase" : 0.05,
-			"faithPerTickBase" : 0.005,
-			"cultureMax" : 200
+			"culturePerTickBase" : 0,
+			"faithPerTickBase" : 0,
+			"cultureMax" : 0
 		},
+		calculateEffects: function(self, game) {
+			if (game.challenges.currentChallenge != "atheism") {
+				var effects = {
+					"culturePerTickBase" : 0.05,
+					"faithPerTickBase" : 0.005,
+					"cultureMax" : 200
+				}
+			} else {
+				var effects = {
+					"culturePerTickBase" : 0.05,
+					"cultureMax" : 200
+				}
+			}
+			self.effects = effects;
+		}
 	},
 	{
 		name: "temple",
@@ -1363,51 +1378,57 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"faithMax": 0
 		},
 		calculateEffects: function(self, game){
-			var effects = {
-				"culturePerTickBase" : 0.1,
-				"faithPerTickBase" : 0,
-				"happiness" : 0,
-				"manpowerMax" : 0,
-				"scienceMax" : 0,
-				"cultureMax" : 0,
-				"faithMax": 100
-			};
+			if (game.challenges.currentChallenge != "atheism") {
+				var effects = {
+					"culturePerTickBase" : 0.1,
+					"faithPerTickBase" : 0,
+					"happiness" : 0,
+					"manpowerMax" : 0,
+					"scienceMax" : 0,
+					"cultureMax" : 0,
+					"faithMax": 100
+				};
 
-			var theology = game.science.get("theology");
-			if (theology.researched){
-				effects["faithPerTickBase"] = 0.0015;
-			}
+				var theology = game.science.get("theology");
+				if (theology.researched){
+					effects["faithPerTickBase"] = 0.0015;
+				}
 
-			var stainedGlass = game.religion.getRU("stainedGlass");
-			if (stainedGlass.on){
-				effects["culturePerTickBase"] += 0.05 * stainedGlass.on;
-			}
+				var stainedGlass = game.religion.getRU("stainedGlass");
+				if (stainedGlass.on){
+					effects["culturePerTickBase"] += 0.05 * stainedGlass.on;
+				}
 
-			var scholastics = game.religion.getRU("scholasticism");
-			if (scholastics.on){
-				effects["scienceMax"] = 400 + 100 * scholastics.on;
-			}
+				var scholastics = game.religion.getRU("scholasticism");
+				if (scholastics.on){
+					effects["scienceMax"] = 400 + 100 * scholastics.on;
+				}
 
-			var sunAltar = game.religion.getRU("sunAltar");
-			if (sunAltar.on){
-				effects["faithMax"] += 50 * sunAltar.on;
-				effects["happiness"] = 0.4 + 0.1 * sunAltar.on;
-			}
+				var sunAltar = game.religion.getRU("sunAltar");
+				if (sunAltar.on){
+					effects["faithMax"] += 50 * sunAltar.on;
+					effects["happiness"] = 0.4 + 0.1 * sunAltar.on;
+				}
 
-			var goldenSpire = game.religion.getRU("goldenSpire");
-			if (goldenSpire.on){
-				effects["faithMax"] *= (1 + (0.4 + 0.1 * goldenSpire.on));
-			}
+				var goldenSpire = game.religion.getRU("goldenSpire");
+				if (goldenSpire.on){
+					effects["faithMax"] *= (1 + (0.4 + 0.1 * goldenSpire.on));
+				}
 
-			var basilica = game.religion.getRU("basilica");
-			if (basilica.on){
-				effects["cultureMax"] = 75 + 50 * basilica.on;
-				effects["culturePerTickBase"] += 0.2 + 0.05 * (basilica.on-1);
-			}
+				var basilica = game.religion.getRU("basilica");
+				if (basilica.on){
+					effects["cultureMax"] = 75 + 50 * basilica.on;
+					effects["culturePerTickBase"] += 0.2 + 0.05 * (basilica.on-1);
+				}
 
-			var templars = game.religion.getRU("templars");
-			if (templars.on){
-				effects["manpowerMax"] = 50 + 25 * templars.on;
+				var templars = game.religion.getRU("templars");
+				if (templars.on){
+					effects["manpowerMax"] = 50 + 25 * templars.on;
+				}
+			} else {
+				var effects = {
+					"culturePerTickBase" : 0.1
+				}
 			}
 
 			self.effects = effects;
