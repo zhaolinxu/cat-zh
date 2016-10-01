@@ -607,7 +607,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 						var res = this.get(savedRes.name);
 						if (res != false) {
 							res.value = savedRes.value;
-							res.unlocked = savedRes.unlocked;
+							if (savedRes.unlocked) {
+								res.unlocked = savedRes.unlocked;
+							}
 							res.isHidden = savedRes.isHidden;
 						}
 					}
