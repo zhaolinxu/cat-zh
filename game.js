@@ -174,12 +174,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"catnipConsumption" : {
-				title: "Catnip Demand",
-				resName: "catnip",
-				type: "perTick"
-			},
-
 			"coalRatioGlobal" : {
 				title: "Coal production penalty",
 				resName: "coal",
@@ -699,7 +693,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 9,
+	saveVersion: 10,
 
 	//FINALLY
 	opts: null,
@@ -1468,6 +1462,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			save.saveVersion = 9;
 		}
 
+		if (save.saveVersion == 9) {
+			if (save.buildings) {
+				for(var i = 0; i< save.buildings.length; i++){
+					save.buildings[i].unlockable = save.buildings[i].unlocked;
+					save.buildings[i].unlocked = false;
+				}
+			}
+
+			save.saveVersion = 10;
+		}
+
 		return save;
 	},
 
@@ -1665,14 +1670,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
-		if (res.name == "catnip" && this.village.sim.kittens.length > 0) {
+		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
 		perTick += resConsumption;
-
-		// -SPACE CONSUMPTION
-		perTick -= this.getEffect(res.name + "Consumption");
 
 		if (isNaN(perTick)){
 			return 0;
@@ -1952,10 +1954,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
-		if (res.name == "catnip") {
+		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
-		resConsumption -= this.getEffect(res.name + "Consumption");
 
 		stack.push({
 			name: "(:3) Demand",

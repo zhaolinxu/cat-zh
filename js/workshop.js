@@ -1695,6 +1695,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false
 	},
+	{
+		name: "thoriumEngine",
+		label: "Thorium Engine",
+		description: "A new rocket engine to go farer.",
+		prices:[
+			{ name : "ship", val: 10000 },
+			{ name : "gear", val: 40000 },
+			{ name : "alloy", val: 2000 },
+			{ name : "science",  val: 400000 }
+		],
+		unlocks: {
+			spaceMission: ["centaurusSystemMission"]
+		},
+		unlocked: false,
+		researched: false
+	},
 	//------------------- oil --------------------------
     {
 		name: "oilRefinery",
