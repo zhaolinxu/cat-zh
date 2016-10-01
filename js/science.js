@@ -660,7 +660,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			crafts: ["thorium"],
-			upgrades: ["thoriumReactors"]
+			upgrades: ["thoriumReactors"],
+			spaceMission: ["centaurusSystemMission"]
 		}
 	},{
 		name: "exogeology",

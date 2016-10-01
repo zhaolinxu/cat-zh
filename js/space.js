@@ -27,7 +27,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
         unlocks: {
-            planet: "cath",
+            planet: ["cath"],
             spaceMission: ["moonMission"]
         }
 	},{
@@ -59,7 +59,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
 		unlocks: {
-            planet: "dune",
+            planet: ["dune"],
             spaceMission: ["heliosMission"]
         }
 	},{
@@ -75,7 +75,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
         unlocks: {
-            planet: "piscine",
+            planet: ["piscine"],
             spaceMission: ["terminusMission"]
         }
 	},{
@@ -91,7 +91,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
         unlocks: {
-            planet: "helios",
+            planet: ["helios"],
             spaceMission: ["yarnMission"]
         }
 	},{
@@ -107,7 +107,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
         unlocks: {
-            planet: "terminus",
+            planet: ["terminus"],
             spaceMission: ["heliosMission", "kairoMission"]
         }
 	},{
@@ -123,7 +123,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
 		unlocks: {
-			planet: "kairo",
+			planet: ["kairo"],
             spaceMission: ["rorschachMission"]
 		}
 	},{
@@ -153,7 +153,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
 		unlocks: {
-			planet: "yarn"
+			planet: ["yarn"]
 		}
 	},{
 		name: "centaurusSystemMission",
@@ -169,7 +169,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		noStackable: true,
 		unlocks: {
-			planet: "centaurusSystem"
+			planet: ["centaurusSystem"]
 		}
 	}],
 
