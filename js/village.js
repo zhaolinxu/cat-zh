@@ -1800,7 +1800,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var festivalDays = this.game.calendar.festivalDays;
 		if (festivalDays){
-			this.happinessStats.innerHTML += "<br\><br\> Festival during "+ this.game.getDisplayValueExt(festivalDays) + " days";
+			this.happinessStats.innerHTML += "<br\><br\> Festival duration "+ this.game.getDisplayValueExt(festivalDays) + " days";
 		}
 
 		if (this.statisticsPanel){
