@@ -555,3 +555,11 @@ h1 {
 .adblock {
     padding-top: 25px;
 }
+
+a {
+	color: #000;
+}
+
+a:hover {
+	opacity: 0.6;
+}
