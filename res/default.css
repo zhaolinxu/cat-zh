@@ -120,6 +120,26 @@ div#gameLog {
 
 input[type="button"] {
     cursor: pointer;
+    background-color: #fff !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
+    border-radius: 1px !important;
+    outline: 0 !important;
+    color: black;
+    padding: 5px 20px;
+}
+
+select {
+    background-color: #fff;
+    color: black;
+    padding-left: 4px;
+}
+
+select>option {
+    background-color: #fff;
+    color: black;
+    padding: 4px 10px;
 }
 
 .nosel {
