@@ -911,8 +911,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		//throw "ButtonModern::getTooltipHTML must be implemented";
 
 		var tooltip = dojo.create("div", { style: {
-			width: "280px",
-			minHeight:"50px"
+			width: "280px"
 		}}, null);
 
 
@@ -927,41 +926,53 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 			}}, tooltip);
 		}
 
-
+		// description
 		var descDiv = dojo.create("div", {
 			innerHTML: this.getDescription(),
 			style: {
 				textAlign: "center",
 				width: "100%",
 				maxWidth: "280px",
-				paddingBottom: "4px",
+				paddingTop: "4px",
 				fontSize: "15px",
 				color: "gray"
 		}}, tooltip);
 
-		if (this.prices){
-			dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-			this.renderPrices(tooltip, this.getSimplePrices());	//simple prices
-		}
-
+		var prices = this.prices;
 		var effects = this.getEffects();
-		if (effects){
-			this.renderEffects(tooltip, effects);
-		}
-
-		//-------------- flavor stuff -------------
 		var flavor = this.getFlavor();
-		if (flavor) {
-			dojo.create("div", {
-				innerHTML: flavor,
-				className: "flavor",
-				style: {
-					display: "inline-block",
-					paddingTop: "20px",
-					float: "right",
-					fontSize: "12px",
-					fontStyle: "italic"
-			}}, tooltip);
+		if (prices && prices != "" || effects || flavor && flavor != ""){
+			dojo.setStyle(descDiv, "paddingBottom", "8px");
+
+			// prices
+			if (prices){
+				dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
+				this.renderPrices(tooltip, this.getSimplePrices());	//simple prices
+			}
+
+			// effects
+
+			if (effects){
+				this.renderEffects(tooltip, effects);
+			}
+
+			// flavor
+
+			if (flavor && flavor != "") {
+				dojo.create("div", {
+					innerHTML: flavor,
+					className: "flavor",
+					style: {
+						display: "inline-block",
+						paddingTop: "20px",
+						float: "right",
+						fontSize: "12px",
+						fontStyle: "italic"
+				}}, tooltip);
+			}
+
+		} else {
+			dojo.setStyle(descDiv, "paddingBottom", "4px");
 		}
 
 		return tooltip.outerHTML;
