@@ -1634,7 +1634,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip") {
-			resConsumption *= game.village.happiness;
+			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
 		perTick += resConsumption;
@@ -1921,7 +1921,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip") {
-			resConsumption *= game.village.happiness;
+			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 		resConsumption -= this.getEffect(res.name + "Consumption");
 
