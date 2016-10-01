@@ -2835,7 +2835,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var newUnlock = this.getUnlockByName(unlockId, type);
 				if (type == "tabs") {
 					newUnlock.visible = true;
-				} else if (type == "buildings" || type == "planet") {
+				} else if (type == "buildings") {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
