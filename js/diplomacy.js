@@ -704,6 +704,7 @@ dojo.declare("classes.trade.ui.SendExplorersButton", com.nuclearunicorn.game.ui.
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 
 	racePanels: null,
+	leviathansInfo: null,
 
 	constructor: function(tabName, game){
 		var self = this;
@@ -777,6 +778,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			dojo.addClass(clear, "clear");
 
 			if(racePanel.feedBtn){
+				var leviathansInfo = dojo.create("div", {
+					innerHTML: ""
+				}, leftColumn);
+				this.leviathansInfo = leviathansInfo;
 				dojo.place(racePanel.feedBtn.domNode, rightColumn, "first");
 			}
 
@@ -901,6 +906,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.exploreBtn){
 			this.exploreBtn.update();
+		}
+
+		if (this.leviathansInfo) {
+			this.leviathansInfo.innerHTML = "Energy given: " + game.diplomacy.get("leviathans").energy + "<br />Stay still " + game.diplomacy.get("leviathans").duration + " days"
 		}
 		this.updateTab();
 	},
