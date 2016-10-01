@@ -699,7 +699,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 8,
+	saveVersion: 9,
 
 	//FINALLY
 	opts: null,
@@ -1458,6 +1458,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 8;
+		}
+
+		if (save.saveVersion == 8) {
+			save.challenges.currentChallenge = null;
+
+			save.saveVersion = 9;
 		}
 
 		return save;
