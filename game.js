@@ -1657,7 +1657,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
-		if (res.name == "catnip") {
+		if (res.name == "catnip" && this.village.sim.kittens.length > 0) {
 			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
