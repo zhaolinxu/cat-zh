@@ -999,7 +999,7 @@ dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameA
 
 	render: function(container){
 		var div = dojo.create("div", null, container);
-		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+		var btnsContainer = dojo.create("div", null, div);
 		this.inherited(arguments, [btnsContainer]);
 	},
 
