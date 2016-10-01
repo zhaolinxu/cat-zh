@@ -1093,7 +1093,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
-				this.migrateSave(saveData);
+				if (!saveData.saveVersion || saveData.saveVersion != this.saveVersion) {
+					this.migrateSave(saveData);
+				}
 
 				this.resPool.load(saveData);
 				this.village.load(saveData);
