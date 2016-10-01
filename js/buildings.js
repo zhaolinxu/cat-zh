@@ -1659,7 +1659,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlockable", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1682,6 +1682,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					if (savedBld.unlocked != undefined){
 						bld.set("unlocked", savedBld.unlocked);
+					}
+
+					if (savedBld.unlockable != undefined){
+						bld.set("unlockable", savedBld.unlockable);
 					}
 
 					if (savedBld.val != undefined){
