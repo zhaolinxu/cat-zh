@@ -584,8 +584,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "kerosene", val: 5000   }
 				],
 				effects: {
-					"maxKittens": 0,
-					"catnipConsumption": 0
+					"maxKittens": 0
 				},
 				calculateEffects: function(self, game){
 					self.effects = {

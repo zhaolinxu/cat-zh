@@ -174,12 +174,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"catnipConsumption" : {
-				title: "Catnip Demand",
-				resName: "catnip",
-				type: "perTick"
-			},
-
 			"coalRatioGlobal" : {
 				title: "Coal production penalty",
 				resName: "coal",
@@ -1665,14 +1659,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
-		if (res.name == "catnip" && this.village.sim.kittens.length > 0) {
+		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
 		perTick += resConsumption;
-
-		// -SPACE CONSUMPTION
-		perTick -= this.getEffect(res.name + "Consumption");
 
 		if (isNaN(perTick)){
 			return 0;
@@ -1952,10 +1943,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
-		if (res.name == "catnip") {
+		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
-		resConsumption -= this.getEffect(res.name + "Consumption");
 
 		stack.push({
 			name: "(:3) Demand",
