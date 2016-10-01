@@ -244,10 +244,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"mintEffect": {
-				title: "Mint effect"
-			},
-
 			"tradeRatio": {
 				title: "Trade ratio",
 				type: "ratio"

@@ -1215,7 +1215,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"mintEffect" : 0,
 			"manpowerPerTickCon" : 0,
 			"goldPerTickCon" : 0,
 			"fursPerTickProd": 0,
@@ -1224,7 +1223,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects = {
-				"mintEffect" : 0.007,
 				"manpowerPerTickCon" : 0,
 				"goldPerTickCon" : 0,
 				"fursPerTickProd": 0,
@@ -1243,7 +1241,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["goldPerTickCon"] = -0.005; //~5 smelters
 
 			var manpower = game.resPool.get("manpower");
-			var mpratio = (manpower.maxValue * self.effects["mintEffect"]) / 100;
+			var mpratio = (manpower.maxValue * 0.007) / 100;
 
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
