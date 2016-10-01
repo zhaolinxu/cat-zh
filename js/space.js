@@ -158,7 +158,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "centaurusSystemMission",
 		label: "Centaurus System Mission",
-		description: "",
+		description: "Centaurus System is a warm faraway star system.",
 		unlocked: false,
 		prices: [
 			{name: "starchart", val: 100000},
@@ -621,13 +621,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{
 				name: "tectonic",
 				label: "Tectonic",
-				description: "",
+				description: "Rip open the planet near the star Centaurus to collect magma energy.",
 				unlocked: true,
 				priceRatio: 1.25,
 				prices: [
-					{name: "science", val: 600000   },
-					{name: "antimatter", val: 500  },
-					{name: "thorium", val: 75000  }
+					{name: "science", val: 600000 },
+					{name: "antimatter", val: 500 },
+					{name: "thorium", val: 75000 }
 				],
 				effects: {
 					"energyProduction": 0
