@@ -263,6 +263,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perDay"
 			},
 
+			"routeSpeed": {
+				title: "Space travel speed",
+				type: "fixed"
+			},
+
 			// energy
 
 			"energyProduction": {
