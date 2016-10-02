@@ -693,7 +693,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 10,
+	saveVersion: 11,
 
 	//FINALLY
 	opts: null,
@@ -1432,27 +1432,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			save.saveVersion = 7;
-		}
-
-		if (save.saveVersion == 7) {
-			if (save.resources){
-				var resources = save.resources;
-				if (resources.length){
-					for(var i = 0; i< resources.length; i++){
-						var savedRes = resources[i];
-
-						if (savedRes != null){
-							var res = this.resPool.get(savedRes.name);
-							if (res != false) {
-								res.value = savedRes.value;
-									res.unlocked = false;
-							}
-						}
-					}
-				}
-			}
-
 			save.saveVersion = 8;
 		}
 
@@ -1471,6 +1450,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 10;
+		}
+
+		if (save.saveVersion == 10) {
+			if (save.resources){
+				for(var i = 0; i< save.resources.length; i++){
+					save.resources[i].unlocked = false;
+				}
+			}
+
+			save.saveVersion = 11;
 		}
 
 		return save;
