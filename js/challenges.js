@@ -80,7 +80,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		if (this.getMetadata().researched) {
 			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
 		} else {
-			return start + "<br /><br />Your game will be reset in order to enable this challenge."
+			return start + "<br /><br />Your game will be reset in order to enable this challenge.";
 		}
 	},
 

@@ -600,7 +600,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResEvent("alicorn", 1);
 			this.game.upgrade({
 				zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
-			})
+			});
 		}
 
 		// -------------- ivory meteors ---------------

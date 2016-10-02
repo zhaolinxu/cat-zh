@@ -1345,12 +1345,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"culturePerTickBase" : 0.05,
 					"faithPerTickBase" : 0.005,
 					"cultureMax" : 200
-				}
+				};
 			} else {
 				var effects = {
 					"culturePerTickBase" : 0.05,
 					"cultureMax" : 200
-				}
+				};
 			}
 			self.effects = effects;
 		}
@@ -1426,7 +1426,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			} else {
 				var effects = {
 					"culturePerTickBase" : 0.1
-				}
+				};
 			}
 
 			self.effects = effects;
