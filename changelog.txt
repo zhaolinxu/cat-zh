@@ -4,8 +4,20 @@ changes by freeroot, Chris and coderpatsy:
 
 Engineers and craft automation (based on pull request by Tom Muller)
 One new space mission
+Resource Retrieval to keep a part of yearly production
+Leviathan trade bonus increase with energy
+Challenge Atheism
+ShatterTc is cheaper with years
+Gain temporal flux while paused
+Realistic catnip management
+
 Better elders UI
 Better transcendence/religion UI
+Many other things for UI
+
+Few fixes
+Save space issue because of notepad.exe fixed
+Optmizations
 
 Better pretty much everything
 ___
