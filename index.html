@@ -120,7 +120,7 @@
 								gamePage.initKongregateApi();
 							});
 						}
-						if (window.location.protocol == "file:"){
+						if (window.location.protocol == "file:" || window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1"){
 							$("#devModeButton").show();
 						}
 
@@ -134,11 +134,8 @@
 			});
 
 			function dev(){
-				if (window.location.protocol != "file:") {
-					return;
-				} else {
-					$("#dev_boostCalendar").html("&gt;&gt;&gt;");
-					$("#dev_boostCalendar").attr("onclick", "dev_boostCalendar();")
+				if (window.location.protocol == "file:" || window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1") {
+					$("#dev_boostCalendar").show();
 					$("#devPanelCheats").show();
 
 					gamePage.devMode = true;
@@ -280,8 +277,8 @@
 				<!-- RIGHT -->
 				<div id="rightColumn" class="column">
 					<div>
-						<span id="calendarSign" style="cursor:pointer;"></span></span><span id="calendarDiv">Calendar :V</span>
-						<a id="dev_boostCalendar" href="#" style="text-decoration: none; position: relative; left: 5px;"></a>
+						<span id="calendarSign" style="cursor:pointer;"></span><span id="calendarDiv">Calendar :V</span>
+						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
 						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
@@ -356,7 +353,7 @@
 					<li>Duke</li>
 					<li><a href="http://www.reddit.com/user/xranti" target="_blank">xranti</a></li>
                     <li><a href="http://www.reddit.com/user/klusark" target="_blank">klusark</a></li>
-					<li><a href="http://coderpatsy.bitbucket.org/" target="_blank">coderpatsy</a></li>
+					<li><a href="https://coderpatsy.bitbucket.io/" target="_blank">coderpatsy</a></li>
 					<li>ArcanisCz</li>
 					<li>Kida</li>
 					<li>freeroot</li>
