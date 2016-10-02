@@ -1411,29 +1411,33 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 6) {
-			if (save.religion.zu) {
-				for (i = 0; i < save.religion.zu.length; i++){
-					save.religion.zu[i].on = save.religion.zu[i].val;
+			if (save.religion){
+				if (save.religion.zu) {
+					for (i = 0; i < save.religion.zu.length; i++){
+						save.religion.zu[i].on = save.religion.zu[i].val;
+					}
+				}
+				if (save.religion.tu) {
+					for (i = 0; i < save.religion.tu.length; i++){
+						save.religion.tu[i].on = save.religion.tu[i].val;
+					}
 				}
 			}
-			if (save.religion.tu) {
-				for (i = 0; i < save.religion.tu.length; i++){
-					save.religion.tu[i].on = save.religion.tu[i].val;
+			if (save.time){
+				if (save.time.usedCryochambers) {
+					for (i = 0; i < save.time.usedCryochambers.length; i++){
+						save.time.usedCryochambers[i].on = save.time.usedCryochambers[i].val;
+					}
 				}
-			}
-			if (save.time.usedCryochambers) {
-				for (i = 0; i < save.time.usedCryochambers.length; i++){
-					save.time.usedCryochambers[i].on = save.time.usedCryochambers[i].val;
+				if (save.time.cfu) {
+					for (i = 0; i < save.time.cfu.length; i++){
+						save.time.cfu[i].on = save.time.cfu[i].val;
+					}
 				}
-			}
-			if (save.time.cfu) {
-				for (i = 0; i < save.time.cfu.length; i++){
-					save.time.cfu[i].on = save.time.cfu[i].val;
-				}
-			}
-			if (save.time.vsu) {
-				for (i = 0; i < save.time.vsu.length; i++){
-					save.time.vsu[i].on = save.time.vsu[i].val;
+				if (save.time.vsu) {
+					for (i = 0; i < save.time.vsu.length; i++){
+						save.time.vsu[i].on = save.time.vsu[i].val;
+					}
 				}
 			}
 
@@ -1441,7 +1445,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 8) {
-			save.challenges.currentChallenge = null;
+			if (save.challenges){
+				save.challenges.currentChallenge = null;
+			}
 
 			save.saveVersion = 9;
 		}
@@ -1481,7 +1487,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 11) {
-			if (save.religion.ru) {
+			if (save.religion && save.religion.ru && save.challenges) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
 					if (save.religion.ru[i].name == "transcendence" && save.religion.ru[i].on == 1) {
 						var atheism = {
