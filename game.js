@@ -1445,9 +1445,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 8) {
-			if (save.challenges){
-				save.challenges.currentChallenge = null;
+			if (!save.challenges){
+				save.challenges = [];
 			}
+			save.challenges.currentChallenge = null;
 
 			save.saveVersion = 9;
 		}
@@ -1487,7 +1488,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 11) {
-			if (save.religion && save.religion.ru && save.challenges) {
+			if (!save.challenges){
+				save.challenges = [];
+			}
+			if (save.religion && save.religion.ru) {
 				for (var i = 0; i < save.religion.ru.length; i++) {
 					if (save.religion.ru[i].name == "transcendence" && save.religion.ru[i].on == 1) {
 						var atheism = {
