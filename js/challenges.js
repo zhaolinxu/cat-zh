@@ -31,6 +31,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
 		}
+		this.currentChallenge = null;
 	},
 
 	save: function(saveData){

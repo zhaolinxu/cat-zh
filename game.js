@@ -1390,6 +1390,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					if (res.name == "temporalFlux") {
 						res.value = save.time.energy;
 						changement = true;
+						break;
 					}
 				}
 				if (!changement) {
@@ -1503,6 +1504,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							save.challenges.challenges = [];
 						}
 						save.challenges.challenges.push(atheism);
+						break;
 					}
 				}
 			}
