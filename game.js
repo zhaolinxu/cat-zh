@@ -2505,7 +2505,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.challenges.currentChallenge = null;
-		this.resetAutomatic;
+		this.resetAutomatic();
 	},
 
 	resetAutomatic: function() {
