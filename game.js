@@ -693,7 +693,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 11,
+	saveVersion: 12,
 
 	//FINALLY
 	opts: null,
@@ -1473,6 +1473,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 11;
+		}
+
+		if (save.saveVersion == 11) {
+			if (save.religion.ru) {
+				for (var i = 0; i < save.religion.ru.length; i++) {
+					if (save.religion.ru[i].name == "transcendence" && save.religion.ru[i].on == 1) {
+						var atheism = {
+							name: "atheism",
+							researched: false,
+							unlocked: true
+						};
+						if (save.challenges.challenges == "undefined") {
+							save.challenges.challenges = [];
+						}
+						save.challenges.challenges.push(atheism);
+					}
+				}
+			}
+
+			save.saveVersion = 12;
 		}
 
 		return save;
