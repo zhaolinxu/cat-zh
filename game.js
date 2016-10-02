@@ -579,52 +579,52 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
-                title: "Space Elevator: Transferred cath production bonus",
+                title: "Space Elevator - Transferred cath production bonus",
                 type: "ratio"
             },
 
 			"sattelite-starchartPerTickBaseSpace": {
-                title: "Sattelite: Startchar production",
+                title: "Sattelite - Startchar production",
                 type: "ratio"
             },
 
 			"sattelite-observatoryRatio": {
-                title: "Sattelite: Observatory's science ratio",
+                title: "Sattelite - Observatory's science ratio",
                 type: "ratio"
             },
 
 			"spaceStation-scienceRatio": {
-                title: "Space Station: Science bonus",
+                title: "Space Station - Science bonus",
                 type: "ratio"
             },
 
 			"moonOutpost-unobtainiumPerTickSpace": {
-                title: "Lunar Outpost: Unobtainium conversion",
+                title: "Lunar Outpost - Unobtainium conversion",
                 type: "ratio"
             },
 
 			"planetCracker-uraniumPerTickSpace": {
-                title: "Planet Cracker: Uranium conversion",
+                title: "Planet Cracker - Uranium conversion",
                 type: "ratio"
             },
 
 			"hydrofracturer-oilPerTickAutoprodSpace": {
-                title: "Hydraulic Fracturer: Oil conversion",
+                title: "Hydraulic Fracturer - Oil conversion",
                 type: "ratio"
             },
 
 			"researchVessel-starchartPerTickBaseSpace": {
-                title: "Research Vessel: Starchart production",
+                title: "Research Vessel - Starchart production",
                 type: "ratio"
             },
 
 			"sunlifter-energyProduction": {
-                title: "Sunlifter: Energy production",
+                title: "Sunlifter - Energy production",
                 type: "ratio"
             },
 
 			"spaceBeacon-starchartPerTickBaseSpace": {
-                title: "Space Beacon: Starchart production",
+                title: "Space Beacon - Starchart production",
                 type: "ratio"
             }
 
