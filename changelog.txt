@@ -1,3 +1,16 @@
+v 1.3.0.0 (1 oct 2016)
+
+changes by freeroot, Chris and coderpatsy:
+
+Engineers and craft automation (based on pull request by Tom Muller)
+One new space mission
+Better elders UI
+Better transcendence/religion UI
+
+Better pretty much everything
+___
+Reactors can be supercharged by thorium
+
 v 1.2.1.2 (14 sep)
 
 Chronocontrol controls days in temporal paradox
