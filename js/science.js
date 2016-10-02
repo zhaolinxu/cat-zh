@@ -651,7 +651,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "thorium",
 		label: "Thorium",
 		description: "TBD.",
-		effectDesc: "Unlocks Thorium Reactors",
+		effectDesc: "Unlocks Thorium Reactors and Thorium Engine",
 		unlocked: false,
 		researched: false,
 		prices: [
@@ -751,7 +751,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["hydroponics"],
-			space: [{planet:"yarn", bld: "terraformingStation"}]
+			// space: [{planet:"yarn", bld: "terraformingStation"}] done in spaceManager
 		}
 	},{
 		name: "hydroponics",
@@ -765,7 +765,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 25}
 		],
 		unlocks: {
-			space: [{planet:"yarn", bld: "hydroponics"}]
+			// space: [{planet:"yarn", bld: "hydroponics"}] done in spaceManager
 		}
 	},{
 		name: "particlePhysics",
