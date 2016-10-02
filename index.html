@@ -140,7 +140,7 @@
 					$("#dev_boostCalendar").html("&gt;&gt;&gt;");
 					$("#dev_boostCalendar").attr("onclick", "dev_boostCalendar();")
 					$("#devPanelCheats").show();
-					
+
 					gamePage.devMode = true;
 					gamePage.render();
 				}
@@ -443,7 +443,7 @@
 				<br>
 				<h1>Text Export:</h1>
 				<br>
-				<textarea id="exportData" style="width: 550px; height: 220px;"></textarea>
+				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
 				<input type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
@@ -455,7 +455,7 @@
 				<br>
 				<h1>Text Import:</h1>
 				<br>
-				<textarea id="importData" style="width: 550px; height: 220px;"></textarea>
+				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
 				<input type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
 				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
