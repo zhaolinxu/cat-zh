@@ -1443,9 +1443,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 9) {
 			if (save.buildings) {
-				for(var i = 0; i< save.buildings.length; i++){
+				for(var i = 0; i < save.buildings.length; i++){
 					save.buildings[i].unlockable = save.buildings[i].unlocked;
 					save.buildings[i].unlocked = false;
+				}
+			}
+			if (save.space.programs) {
+				for (var i = 0; i < save.space.programs.length; i++) {
+					if (save.space.programs[i].name == "rorschachMission" && save.space.programs[i].on == 1) {
+						var centaurusSystemMission = {
+							name: "centaurusSystemMission",
+							val: 0,
+							on: 0,
+							unlocked: true
+						};
+						save.space.programs.push(centaurusSystemMission);
+					}
 				}
 			}
 

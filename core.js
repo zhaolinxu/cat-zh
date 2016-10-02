@@ -1695,7 +1695,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Panel", [com.nuclearunicorn.game.ui.Con
 			}
 		}, panel);
 
-		dojo.create("div", {
+		this.title = dojo.create("div", {
 			innerHTML: this.name,
 			className: "title"
 		}, panel);
