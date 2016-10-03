@@ -897,6 +897,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 			var perTick = this.game.calendar.day < 0 ? 0 : this.game.getResourcePerTick(res.name, true);
 			perTick = this.game.opts.usePerSecondValues ? perTick * this.game.getRateUI() : perTick;
+			if (perTick != 0 && (this.game.forceHighPrecision && Math.abs(perTick) < 0.001 || !this.game.forceHighPrecision && Math.abs(perTick) < 0.01)){
+				perTick = "a few";
+			}
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
 				perTick = perTick / res.maxValue * 100;
