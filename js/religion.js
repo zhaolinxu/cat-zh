@@ -647,9 +647,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			religion.tcratio += needNextLevel;
 			religion.tclevel += 1;
 
-			this.game.msg("Closer to the gods");
+			this.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
 		} else {
-			this.game.msg("Gods bless you");
+			var left = (needNextLevel - religion.faithRatio) / needNextLevel * 100
+			this.game.msg("One step closer. (" + left.toFixed(0) + "%)");
 		}
 	},
 
