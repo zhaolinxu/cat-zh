@@ -552,7 +552,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 5,
 		priceRatio: 1.15,
 		effects: {
-			"blsLimit" : 0.01
+			"blsLimit" : 1
 		},
 		unlocked: true,
 		flavor: "Built with the bones of kitten sacrifices."

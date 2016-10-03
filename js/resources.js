@@ -485,7 +485,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 12 + (this.game.getEffect("blsLimit") * 100) || 0;
+				res.maxValue = 12 + (game.getEffect("blsLimit") || 0);
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}

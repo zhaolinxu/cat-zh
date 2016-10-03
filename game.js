@@ -554,7 +554,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"blsLimit" :  {
                 title: "Max BLS",
-                type: "ratio"
+                type: "integerRatio"
             },
 
 			"tcResourceRatio" :  {

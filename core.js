@@ -1107,6 +1107,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
 				} else if ( effectMeta.type === "ratio" ) {
 					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
+				} else if ( effectMeta.type === "integerRatio" ){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
