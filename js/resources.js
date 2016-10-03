@@ -503,9 +503,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 
 			res.maxValue = maxValue;
-			this.game.updateKarma();
 
-			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
+			var resPerTick = game.getResourcePerTick(res.name, false) || 0;
 			this.addResPerTick(res.name, resPerTick);
 
 			// Hack to reach the maxValue in resTable
@@ -514,10 +513,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 
 		}
+		game.updateKarma();
 
 		//--------
-		this.energyProd = this.game.getEffect("energyProduction");
-		this.energyCons = this.game.getEffect("energyConsumption");
+		this.energyProd = game.getEffect("energyProduction");
+		this.energyCons = game.getEffect("energyConsumption");
 
 	},
 
@@ -554,7 +554,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Called in tooltips for more accurate per-building resMax increases
 	 */
 	addResMaxRatios: function(res, maxValue){
-		if (res.name == "temporalFlux") {
+		if (res && res.name == "temporalFlux") {
 			return maxValue;
 		}
 

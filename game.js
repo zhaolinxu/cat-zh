@@ -737,6 +737,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/*
 		Whether the game is in developer mode or no
 	 */
+	isLocalhost: false,
 	devMode: false,
 
 	constructor: function(containerId){
@@ -2529,7 +2530,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (window.location.protocol == "file:") {
+		if (this.isLocalhost) {
 
 			var tsDiff = timestampEnd - timestampStart;
 			this.totalUpdateTime += tsDiff;
@@ -2695,7 +2696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "void"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn"];
 
 
 
