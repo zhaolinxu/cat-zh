@@ -2453,6 +2453,30 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			precision = this.forceHighPrecision ? 3 : 2;
 		}
 
+		if (floatVal != 0) {
+			if (Math.abs(floatVal) < 0.01  && precision == 2) {
+				precision = 3;
+			}
+			if (Math.abs(floatVal) < 0.001  && precision == 3) {
+				precision = 4;
+			}
+			if (Math.abs(floatVal) < 0.0001  && precision == 4) {
+				precision = 5;
+			}
+			if (Math.abs(floatVal) < 0.00001  && precision == 5) {
+				precision = 6;
+			}
+			if (Math.abs(floatVal) < 0.000001  && precision == 6) {
+				precision = 7;
+			}
+			if (Math.abs(floatVal) < 0.0000001  && precision == 7) {
+				precision = 8;
+			}
+			if (Math.abs(floatVal) < 0.00000001  && precision == 8) {
+				precision = 9;
+			}
+		}
+
 		if (!floatVal.toFixed){
 			return plusSign + floatVal;
 		}
