@@ -31,6 +31,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
 		}
+		this.currentChallenge = null;
 	},
 
 	save: function(saveData){
@@ -80,7 +81,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		if (this.getMetadata().researched) {
 			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
 		} else {
-			return start + "<br /><br />Your game will be reset in order to enable this challenge."
+			return start + "<br /><br />Your game will be reset in order to enable this challenge.";
 		}
 	},
 

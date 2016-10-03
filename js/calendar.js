@@ -258,14 +258,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				var cycleSpan = dojo.create("div", {
 					innerHTML: cycle.title + " (Year " + game.calendar.cycleYear+")",
-					style: { float: "right"}
+					style: { textAlign: "center", clear: "both"}
 				}, tooltip );
 
 				// Cycle Effects
 				if (game.prestige.getPerk("numerology").researched) {
+					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
+					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
+
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects",
-						style: { clear: "left", textDecoration: "underline"}
+						innerHTML: "Cycle Effects:",
+						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
 					var effects = cycle.effects;
@@ -274,11 +277,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 						var effectItemNode = dojo.create("div", null, tooltip);
 
 						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title;
+						var effectTitle = effectMeta.title + ":";
 
 						var nameSpan = dojo.create("span", {
 							innerHTML: effectTitle,
-							style: { float: "left"}
+							style: {
+								float: "left",
+								fontSize: "16px"
+							}
 						}, effectItemNode );
 
 						var effectMod = effects[effect] > 1 ? "+": "";
@@ -286,7 +292,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 						var effectSpan = dojo.create("span", {
 							innerHTML: effectMod,
-							style: {float: "right", paddingLeft: "6px" }
+							style: {
+								float: "right",
+								fontSize: "16px",
+								paddingLeft: "6px"
+							}
 						}, effectItemNode );
 					}
 				}
@@ -294,8 +304,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (game.prestige.getPerk("numeromancy").researched && game.calendar.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects",
-						style: { clear: "left", textDecoration: "underline"}
+						innerHTML: "Cycle Festival Effects:",
+						style: { textAlign: "center"}
 					}, tooltip );
 
 					var effects = cycle.festivalEffects;
@@ -304,11 +314,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 						var effectItemNode = dojo.create("div", null, tooltip);
 
 						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title;
+						var effectTitle = effectMeta.title + ":";
 
 						var nameSpan = dojo.create("span", {
 							innerHTML: effectTitle,
-							style: { float: "left"}
+							style: {
+								float: "left",
+								fontSize: "16px"
+							}
 						}, effectItemNode );
 
 						var effectMod = effects[effect] > 1 ? "+": "";
@@ -316,7 +329,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 						var effectSpan = dojo.create("span", {
 							innerHTML: effectMod,
-							style: {float: "right", paddingLeft: "6px" }
+							style: {
+								float: "right",
+								fontSize: "16px",
+								paddingLeft: "6px"
+							}
 						}, effectItemNode );
 
 						var effectSpan = dojo.create("span", {
@@ -583,7 +600,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResEvent("alicorn", 1);
 			this.game.upgrade({
 				zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
-			})
+			});
 		}
 
 		// -------------- ivory meteors ---------------

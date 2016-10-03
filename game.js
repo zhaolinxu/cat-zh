@@ -263,6 +263,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perDay"
 			},
 
+			"routeSpeed": {
+				title: "Space travel speed",
+				type: "fixed"
+			},
+
 			// energy
 
 			"energyProduction": {
@@ -574,52 +579,52 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
-                title: "Space Elevator: Transferred cath production bonus",
+                title: "Space Elevator - Transferred cath production bonus",
                 type: "ratio"
             },
 
 			"sattelite-starchartPerTickBaseSpace": {
-                title: "Sattelite: Startchar production",
+                title: "Sattelite - Startchar production",
                 type: "ratio"
             },
 
 			"sattelite-observatoryRatio": {
-                title: "Sattelite: Observatory's science ratio",
+                title: "Sattelite - Observatory's science ratio",
                 type: "ratio"
             },
 
 			"spaceStation-scienceRatio": {
-                title: "Space Station: Science bonus",
+                title: "Space Station - Science bonus",
                 type: "ratio"
             },
 
 			"moonOutpost-unobtainiumPerTickSpace": {
-                title: "Lunar Outpost: Unobtainium conversion",
+                title: "Lunar Outpost - Unobtainium conversion",
                 type: "ratio"
             },
 
 			"planetCracker-uraniumPerTickSpace": {
-                title: "Planet Cracker: Uranium conversion",
+                title: "Planet Cracker - Uranium conversion",
                 type: "ratio"
             },
 
 			"hydrofracturer-oilPerTickAutoprodSpace": {
-                title: "Hydraulic Fracturer: Oil conversion",
+                title: "Hydraulic Fracturer - Oil conversion",
                 type: "ratio"
             },
 
 			"researchVessel-starchartPerTickBaseSpace": {
-                title: "Research Vessel: Starchart production",
+                title: "Research Vessel - Starchart production",
                 type: "ratio"
             },
 
 			"sunlifter-energyProduction": {
-                title: "Sunlifter: Energy production",
+                title: "Sunlifter - Energy production",
                 type: "ratio"
             },
 
 			"spaceBeacon-starchartPerTickBaseSpace": {
-                title: "Space Beacon: Starchart production",
+                title: "Space Beacon - Starchart production",
                 type: "ratio"
             }
 
@@ -693,7 +698,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 10,
+	saveVersion: 12,
 
 	//FINALLY
 	opts: null,
@@ -1385,6 +1390,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					if (res.name == "temporalFlux") {
 						res.value = save.time.energy;
 						changement = true;
+						break;
 					}
 				}
 				if (!changement) {
@@ -1406,49 +1412,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 6) {
-			if (save.religion.zu) {
-				for (i = 0; i < save.religion.zu.length; i++){
-					save.religion.zu[i].on = save.religion.zu[i].val;
+			if (save.religion){
+				if (save.religion.zu) {
+					for (i = 0; i < save.religion.zu.length; i++){
+						save.religion.zu[i].on = save.religion.zu[i].val;
+					}
+				}
+				if (save.religion.tu) {
+					for (i = 0; i < save.religion.tu.length; i++){
+						save.religion.tu[i].on = save.religion.tu[i].val;
+					}
 				}
 			}
-			if (save.religion.tu) {
-				for (i = 0; i < save.religion.tu.length; i++){
-					save.religion.tu[i].on = save.religion.tu[i].val;
+			if (save.time){
+				if (save.time.usedCryochambers) {
+					for (i = 0; i < save.time.usedCryochambers.length; i++){
+						save.time.usedCryochambers[i].on = save.time.usedCryochambers[i].val;
+					}
 				}
-			}
-			if (save.time.usedCryochambers) {
-				for (i = 0; i < save.time.usedCryochambers.length; i++){
-					save.time.usedCryochambers[i].on = save.time.usedCryochambers[i].val;
+				if (save.time.cfu) {
+					for (i = 0; i < save.time.cfu.length; i++){
+						save.time.cfu[i].on = save.time.cfu[i].val;
+					}
 				}
-			}
-			if (save.time.cfu) {
-				for (i = 0; i < save.time.cfu.length; i++){
-					save.time.cfu[i].on = save.time.cfu[i].val;
-				}
-			}
-			if (save.time.vsu) {
-				for (i = 0; i < save.time.vsu.length; i++){
-					save.time.vsu[i].on = save.time.vsu[i].val;
-				}
-			}
-
-			save.saveVersion = 7;
-		}
-
-		if (save.saveVersion == 7) {
-			if (save.resources){
-				var resources = save.resources;
-				if (resources.length){
-					for(var i = 0; i< resources.length; i++){
-						var savedRes = resources[i];
-
-						if (savedRes != null){
-							var res = this.resPool.get(savedRes.name);
-							if (res != false) {
-								res.value = savedRes.value;
-									res.unlocked = false;
-							}
-						}
+				if (save.time.vsu) {
+					for (i = 0; i < save.time.vsu.length; i++){
+						save.time.vsu[i].on = save.time.vsu[i].val;
 					}
 				}
 			}
@@ -1457,6 +1446,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 8) {
+			if (!save.challenges){
+				save.challenges = [];
+			}
 			save.challenges.currentChallenge = null;
 
 			save.saveVersion = 9;
@@ -1464,13 +1456,60 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 9) {
 			if (save.buildings) {
-				for(var i = 0; i< save.buildings.length; i++){
+				for(var i = 0; i < save.buildings.length; i++){
 					save.buildings[i].unlockable = save.buildings[i].unlocked;
 					save.buildings[i].unlocked = false;
 				}
 			}
+			if (save.space.programs) {
+				for (var i = 0; i < save.space.programs.length; i++) {
+					if (save.space.programs[i].name == "rorschachMission" && save.space.programs[i].on == 1) {
+						var centaurusSystemMission = {
+							name: "centaurusSystemMission",
+							val: 0,
+							on: 0,
+							unlocked: true
+						};
+						save.space.programs.push(centaurusSystemMission);
+					}
+				}
+			}
 
 			save.saveVersion = 10;
+		}
+
+		if (save.saveVersion == 10) {
+			if (save.resources){
+				for(var i = 0; i< save.resources.length; i++){
+					save.resources[i].unlocked = false;
+				}
+			}
+
+			save.saveVersion = 11;
+		}
+
+		if (save.saveVersion == 11) {
+			if (!save.challenges){
+				save.challenges = [];
+			}
+			if (save.religion && save.religion.ru) {
+				for (var i = 0; i < save.religion.ru.length; i++) {
+					if (save.religion.ru[i].name == "transcendence" && save.religion.ru[i].on == 1) {
+						var atheism = {
+							name: "atheism",
+							researched: false,
+							unlocked: true
+						};
+						if (save.challenges.challenges == "undefined") {
+							save.challenges.challenges = [];
+						}
+						save.challenges.challenges.push(atheism);
+						break;
+					}
+				}
+			}
+
+			save.saveVersion = 12;
 		}
 
 		return save;
@@ -1671,7 +1710,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
 		perTick += resConsumption;
@@ -1955,7 +1994,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= game.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 		}
 
 		stack.push({
@@ -2478,7 +2517,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.challenges.currentChallenge = null;
-		this.resetAutomatic;
+		this.resetAutomatic();
 	},
 
 	resetAutomatic: function() {

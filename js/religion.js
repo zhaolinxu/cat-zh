@@ -208,7 +208,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				"ivoryMeteorRatio" : 0.05,
 				"alicornChance" : 5,
 				"alicornPerTick" : 0
-			}
+			};
 			if (game.resPool.get("alicorn").value > 0) {
 				effects["alicornPerTick"] = 0.00001;
 			}
@@ -242,7 +242,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				"alicornChance" : 15,
 				"alicornPerTick" : 0,
 				"tcRefineRatio" : 0.05
-			}
+			};
 			if (game.resPool.get("alicorn").value > 0) {
 				effects["alicornPerTick"] = 0.000025;
 			}
@@ -278,7 +278,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				"alicornChance" : 30,
 				"alicornPerTick" : 0,
 				"tcRefineRatio" : 0.1
-			}
+			};
 			if (game.resPool.get("alicorn").value > 0) {
 				effects["alicornPerTick"] = 0.00005;
 			}

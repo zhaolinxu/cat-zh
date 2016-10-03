@@ -6,12 +6,24 @@ Higher happiness will now increase catnip consumption by workers.
 
 Engineers and craft automation (based on pull request by Tom Muller)
 One new space mission
+Resource Retrieval to keep a part of yearly production
+Leviathan trade bonus increase with energy
+Challenge Atheism
+ShatterTc is cheaper with years
+Gain temporal flux while paused
+Realistic catnip management
+Reactors can be supercharged by thorium
+Space mission take time to reach planets
+
 Better elders UI
 Better transcendence/religion UI
+Many other things for UI
+
+Few fixes
+Save space issue because of notepad.exe fixed
+Optmizations
 
 Better pretty much everything
-___
-Reactors can be supercharged by thorium
 
 v 1.2.1.2 (14 sep)
 
