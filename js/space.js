@@ -834,7 +834,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				} else {
 					planet.routeDays = 0;
 					planet.reached = true;
-					this.game.msg("You reach a new planet");
+					this.game.msg("You've reached a new planet!");
 					for (var j in planet.buildings){
 						planet.buildings[j].unlocked = planet.buildings[j].defaultUnlocked;
 					}
@@ -1055,7 +1055,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	update: function() {
 		if (!this.planet.reached && this.planet.unlocked && this.planet.routeDays > 0) {
 			var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-			this.title.innerHTML = this.name + " (target in " + Math.round(this.planet.routeDays / routeSpeed) + " days)";
+			this.title.innerHTML = this.name + " (ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed)) + ")";
 		} else {
 			this.title.innerHTML = this.name;
 		}

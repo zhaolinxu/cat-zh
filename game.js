@@ -2369,6 +2369,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	/**
+	 * The same as toDisplaySeconds, but converts ingame days into xYears xDays
+	 * Just for aestetical pleasness
+	 */
+	toDisplayDays: function(daysRaw){
+		var daysNum = parseInt(daysRaw, 10); // don't forget the second param
+
+		var years   = Math.floor(daysNum / (4*100));
+		var days = daysNum - (years * 4 * 100);
+
+		if (years > 0){
+			years = this.getDisplayValueExt(years);
+		}
+
+		var timeFormated = "";
+		if ( years ) { timeFormated = years + "y "; }
+		if ( days ) { timeFormated += days + "d "; }
+
+		return timeFormated;
+	},
+
+	/**
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
 	 */
