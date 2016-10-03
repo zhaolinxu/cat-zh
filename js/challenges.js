@@ -18,7 +18,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
     {
 		name: "atheism",
 		label: "Atheism",
-		description: "Restart the game without faith bonus.",
+		description: "Restart the game without faith bonus. (No bonus for the moment, just a new way to play)",
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
@@ -81,7 +81,8 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		if (this.getMetadata().researched) {
 			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
 		} else {
-			return start + "<br /><br />Your game will be reset in order to enable this challenge.";
+			var msgChronosphere = this.game.bld.get("chronosphere").val > 0 ? "<br />You won't gain reset bonus from chronospheres." : "";
+			return start + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
 		}
 	},
 
