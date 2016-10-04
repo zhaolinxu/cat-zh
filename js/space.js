@@ -188,7 +188,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Space Elevator",
 			description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.15,
 			prices: [
 				{name: "titanium", val: 6000},
@@ -213,7 +212,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Satellite",
 			description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 			unlocked: false,
-			defaultUnlocked: true,
 			prices: [
 				{name: "starchart", val: 325},
 				{name: "titanium", val: 2500},
@@ -249,7 +247,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Space Station",
 			description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 			unlocked: false,
-			defaultUnlocked: true,
 			prices: [
 				{name: "starchart", val: 425},
 				{name: "alloy", 	val: 750},
@@ -285,7 +282,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Lunar Outpost",
 			description: "Deploy a nuclear powered mining outpost on Redmoon",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.12,
 			prices: [
 				{name: "starchart", val: 650},
@@ -329,7 +325,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Moon base",
 			description: "Establish a base on a surface of Redmoon",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.12,
 			prices: [
 				{name: "starchart", 	val: 700},
@@ -375,7 +370,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Planet Cracker",
             description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.18,
             prices: [
                 {name: "starchart", val: 2500},
@@ -399,7 +393,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Hydraulic Fracturer",
             description: "Produces a high-pressure stream of oil. Every Space Elevator will boost this production by 0.1% of the global production multiplier.",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.18,
             prices: [
                 {name: "starchart", val: 750},
@@ -427,7 +420,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Research Vessel",
             description: "Mobile research space vessel.",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "starchart", val: 500},
@@ -450,7 +442,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Orbital Array",
             description: "Provide a 2% production bonus to all space structures",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "eludium",  val: 100},
@@ -479,7 +470,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Sunlifter",
             description: "Generates antimatter once per year. Inactive if energy production is negative",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "science", val: 500000},
@@ -501,7 +491,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Cont. Chamber",
 			description: "Containment Chamber. Increases antimatter storage space by 100.",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.15,
 			prices: [
 				{name: "science", val: 500000},
@@ -529,7 +518,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Cryostation",
             description: "A vast storage facility complex",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.12,
             prices: [
                 {name: "eludium", val: 25       },
@@ -573,7 +561,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				label: "Space Beacon",
 				description: "An AM-powered space station used for research and interstellar navigation.",
 				unlocked: false,
-				defaultUnlocked: true,
 				priceRatio: 1.15,
 				prices: [
 					{name: "starchart", 	val: 25000 },
@@ -607,15 +594,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				label: "Terraforming Station",
 				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere",
 				unlocked: false,
-				defaultUnlocked: function(game) {
-					return game.science.get("terraformation").researched;
-				},
 				priceRatio: 1.25,
 				prices: [
 					{name: "antimatter", val: 25  },
 					{name: "uranium", val: 5000  },
 					{name: "kerosene", val: 5000  }
 				],
+				requiredTech: ["terraformation"],
 				effects: {
 					"maxKittens": 0
 				},
@@ -630,13 +615,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				label: "Hydroponics",
 				description: "State of the art automated hydroponic system. Increase catnip limit by 10%. Increase catnip production by 2.5%",
 				unlocked: false,
-				defaultUnlocked: function(game) {
-					return game.science.get("terraformation").researched;
-				},
 				priceRatio: 1.15,
 				prices: [
 					{name: "kerosene", val: 500 }
 				],
+				requiredTech: ["hydroponics"],
 				effects: {
 					"catnipMaxRatio" : 0,
 					"catnipRatio" : 0
@@ -661,7 +644,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				label: "Tectonic",
 				description: "Rip open the planet near the star Centaurus to collect magma energy.",
 				unlocked: false,
-				defaultUnlocked: true,
 				priceRatio: 1.25,
 				prices: [
 					{name: "science", val: 600000 },
@@ -705,6 +687,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		for (var i in this.planets) {
 			var planet = this.planets[i];
+			planet.routeDaysDefault = planet.routeDays;
+
 			this.registerMeta(planet.buildings, { getEffect: function(building, effectName){
 				if (!building.effects){
 					return 0;
@@ -733,10 +717,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (i = 0; i < this.planets.length; i++){
 			var planet = this.planets[i];
 			planet.unlocked = false;
+			planet.reached = false;
+			planet.routeDays = planet.routeDaysDefault;
 
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
+					program.unlocked = false;
 
 					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 				}
@@ -836,7 +823,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.reached = true;
 					this.game.msg("You've reached a new planet!");
 					for (var j in planet.buildings){
-						planet.buildings[j].unlocked = planet.buildings[j].defaultUnlocked;
+						planet.buildings[j].unlocked = true;
 					}
 				}
 			}
