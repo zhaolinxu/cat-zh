@@ -1055,7 +1055,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	update: function() {
 		if (!this.planet.reached && this.planet.unlocked && this.planet.routeDays > 0) {
 			var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-			this.title.innerHTML = this.name + " (ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed)) + ")";
+			this.title.innerHTML = this.name + " | ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed));
 		} else {
 			this.title.innerHTML = this.name;
 		}
