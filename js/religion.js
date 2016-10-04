@@ -63,7 +63,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			tcratio: this.tcratio,
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
-			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on"])
+			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 		};
 	},
 
@@ -89,14 +89,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			});
 		}
 
-		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on"], function(loadedElem){
-				//IDK
+		if (saveData.religion.ru){
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
 			});
 		}
 
-		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
+		if (saveData.religion.tu){
+			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on", "unlocked"], function(loadedElem){
+				//IDK
 			});
 		}
 
@@ -526,7 +526,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 1,
 		priceRatio: 1.15,
 		effects: {},
-		unlocked: true,
+		unlocked: false,
 		flavor: "TBD" // flavor is TBD but the faith bonus improvement is already done
 	},{
 		name: "blackNexus",
@@ -540,7 +540,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"relicRefineRatio" : 1.0
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "Eye in the sky."
 	},{
 		name: "blackCore",
@@ -554,7 +554,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"blsLimit" : 1
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "Built with the bones of kitten sacrifices."
 	},{
 		name: "singularity",
@@ -568,7 +568,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"tcResourceRatio" : 0.10
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "A gateway... To what?"
 	},{
 		name: "holyGenocide",
@@ -582,7 +582,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far."
 	}
 		//Holy Genocide
@@ -739,10 +739,6 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingS
 	payPrice: function(){
 		this.inherited(arguments);
 	},
-
-	updateVisible: function(){
-		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
-	},
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -756,6 +752,7 @@ dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+
 	getName: function() {
 		if (this.game.religion.tclevel > 0){
 			return this.name + " [" + this.game.religion.tclevel + "]";
@@ -1159,8 +1156,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var transcendBtn = new com.nuclearunicorn.game.ui.TranscendBtn({
 				name: "Transcend",
 				description: "Transcend the mortal limits",
-				handler: function(btn){
-					this.game.religion.transcend();
+				handler: function(btn) {
+					game.religion.transcend();
+					var transcendenceLevel = game.religion.getTranscendenceLevel();
+					for (var i = 0; i < game.religion.transcendenceUpgrades.length; i++) {
+						if (transcendenceLevel >= game.religion.transcendenceUpgrades[i].tier) {
+							game.religion.transcendenceUpgrades[i].unlocked = true;
+						}
+					}
 				}
 			}, this.game);
 
