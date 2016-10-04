@@ -708,7 +708,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	cheatMode: false,	//flag triggering Super Unethical Climax achievement
 
 	ticks: 0,				//how many ticks passed since the start of the game
-	totalUpdateTime: 0,		//total time spent on update cycle in milliseconds, useful for debug/fps counter
+	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
+	totalUpdateTimeTicks: 0,
+	totalUpdateTimeCurrent : 0,
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -2531,15 +2533,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var timestampEnd = new Date().getTime();
 		if (this.isLocalhost) {
+			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
-			this.totalUpdateTime += tsDiff;
+			this.totalUpdateTime[this.totalUpdateTimeCurrent] += tsDiff;
+			this.totalUpdateTimeCurrent = this.totalUpdateTimeCurrent == 4 ? 0 : this.totalUpdateTimeCurrent + 1;
 
-			var avg = this.totalUpdateTime / this.ticks;
+			var avg = (this.totalUpdateTime[0] + this.totalUpdateTime[1] + this.totalUpdateTime[2] + this.totalUpdateTime[3] + this.totalUpdateTime[4]) / this.totalUpdateTimeTicks;
+			var avg0 = this.totalUpdateTime[0] / Math.floor((this.totalUpdateTimeTicks -1) / 5);
+			var avg1 = this.totalUpdateTime[1] / Math.floor((this.totalUpdateTimeTicks -2) / 5);
+			var avg2 = this.totalUpdateTime[2] / Math.floor((this.totalUpdateTimeTicks -3) / 5);
+			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks -4) / 5);
+			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks -5) / 5);
 
 			if (tsDiff < 10) {tsDiff = 10;}
             if ($("#devPanelFPS")[0]) {
-                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
+                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms,"
+                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (click to restart)";
+                dojo.connect($("#devPanelFPS")[0], "onclick", this, dojo.partial(function() {
+					this.totalUpdateTime[0] = 0;
+					this.totalUpdateTime[1] = 0;
+					this.totalUpdateTime[2] = 0;
+					this.totalUpdateTime[3] = 0;
+					this.totalUpdateTime[4] = 0;
+					this.totalUpdateTimeCurrent = 0;
+					this.totalUpdateTimeTicks = 0;
+                }));
             }
 		}
 	},
