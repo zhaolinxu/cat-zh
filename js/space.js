@@ -18,14 +18,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "orbitalLaunch",
 		label: "Orbital Launch",
 		description: "Launch a rocket to a space.",
-		unlocked: true,
 		prices: [
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
 			{name: "science", val: 100000},
 			{name: "oil", val: 15000}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["cath"],
             spaceMission: ["moonMission"]
@@ -34,14 +32,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "moonMission",
 		label: "Moon Mission",
 		description: "Launch a rocket to Redmoon, a Cath planet satellite",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 500},
 			{name: "titanium", 	val: 5000},
 			{name: "science", 	val: 125000},
 			{name: "oil", 		val: 45000}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["moon"],
             spaceMission: ["duneMission", "piscineMission"]
@@ -50,14 +46,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "duneMission",
 		label: "Dune Mission",
 		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
 			{name: "kerosene", val: 75}
 		],
-		noStackable: true,
 		unlocks: {
             planet: ["dune"],
             spaceMission: ["heliosMission"]
@@ -66,14 +60,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "piscineMission",
 		label: "Piscine Mission",
 		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
 			{name: "kerosene", val: 250}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["piscine"],
             spaceMission: ["terminusMission"]
@@ -82,14 +74,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "heliosMission",
 		label: "Helios Mission",
 		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
 			{name: "kerosene", val: 1250}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["helios"],
             spaceMission: ["yarnMission"]
@@ -98,14 +88,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "terminusMission",
 		label: "T-minus Mission",
 		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
 			{name: "kerosene", val: 750}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["terminus"],
             spaceMission: ["heliosMission", "kairoMission"]
@@ -114,14 +102,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "kairoMission",
 		label: "Kairo Mission",
 		description: "Kairo is a dwarf planet in the far end of the Cath solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 5000},
 			{name: "titanium", 	val: 20000},
 			{name: "science", 	val: 300000},
 			{name: "kerosene", 	val: 7500}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["kairo"],
             spaceMission: ["rorschachMission"]
@@ -130,14 +116,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "rorschachMission",
 		label: "???",
 		description: "???",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
 			{name: "science", 	val: 500000},
 			{name: "kerosene", 	val: 25000}
 		],
-		noStackable: true,
 		unlocks: {
 			spaceMission: ["centaurusSystemMission"]
 		}
@@ -145,14 +129,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "yarnMission",
 		label: "Yarn Mission",
 		description: "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 7500},
 			{name: "titanium", 	val: 35000},
 			{name: "science", 	val: 350000},
 			{name: "kerosene", 	val: 12000}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["yarn"]
 		}
@@ -160,7 +142,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "centaurusSystemMission",
 		label: "Centaurus System Mission",
 		description: "Centaurus System is a warm faraway star system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
@@ -168,7 +149,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 30000},
 			{name: "thorium",   val: 50000}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["centaurusSystem"]
 		}
@@ -180,9 +160,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	[{
 		name: "cath",
 		label: "Cath",
-		reached: false,
 		routeDays: 0,
-		unlocked: false,
 		buildings: [{
 			name: "spaceElevator",
 			label: "Space Elevator",
@@ -274,9 +252,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "moon",
 		label: "Moon",
-		reached: false,
 		routeDays: 3,
-		unlocked: false,
 		buildings: [{
 			name: "moonOutpost",
 			label: "Lunar Outpost",
@@ -362,9 +338,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "dune",
 		label: "Dune",
-		reached: false,
 		routeDays: 356,
-		unlocked: false,
         buildings: [{
             name: "planetCracker",
             label: "Planet Cracker",
@@ -412,9 +386,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "piscine",
 		label: "Piscine",
-		reached: false,
 		routeDays: 256,
-		unlocked: false,
 		buildings: [{
             name: "researchVessel",
             label: "Research Vessel",
@@ -462,9 +434,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
 		label: "Helios",
-		reached: false,
 		routeDays: 227,
-		unlocked: false,
 		buildings: [{
             name: "sunlifter",
             label: "Sunlifter",
@@ -510,9 +480,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "terminus",
 		label: "T-Minus",
-		reached: false,
 		routeDays: 457,
-		unlocked: false,
         buildings:[{
             name: "cryostation",
             label: "Cryostation",
@@ -552,9 +520,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "kairo",
 		label: "Kairo",
-		reached: false,
 		routeDays: 492,
-		unlocked: false,
 		buildings:[
 			{
 				name: "spaceBeacon",
@@ -585,9 +551,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "yarn",
 		label: "Yarn",
-		reached: false,
 		routeDays: 603,
-		unlocked: false,
 		buildings:[
 			{
 				name: "terraformingStation",
@@ -635,9 +599,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "centaurusSystem",
 		label: "Centaurus System",
-		reached: false,
 		routeDays: 120000,
-		unlocked: false,
 		buildings:[
 			{
 				name: "tectonic",
@@ -679,10 +641,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (!program.effects){
 				return 0;
 			}
-			var val = program.togglable ? program.on: program.val;
-			return program.noStackable ?
-				program.effects[effectName]:
-				program.effects[effectName] * val;
+			return program.effects[effectName] * program.on;
 		}});
 
 		for (var i in this.planets) {
@@ -693,13 +652,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (!building.effects){
 					return 0;
 				}
-				var val = building.togglable ? building.on: building.val;
-
-				if (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd){
-					return building.effects[effectName] * val * game.resPool.getEnergyDelta();
-				}
-
-				return building.effects[effectName] * val;
+				var spaceRatio = (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd) ? game.resPool.getEnergyDelta() : 1;
+				return building.effects[effectName] * building.on * spaceRatio;
 			}});
 		}
 
@@ -710,6 +664,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			var program = this.programs[i];
 
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.noStackable = true;
 
 			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 		}
