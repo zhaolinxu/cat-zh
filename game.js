@@ -2769,7 +2769,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			religion: {
 				faithRatio: this.religion.faithRatio,
 				tcratio: this.religion.tcratio,
-				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on"])
+				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
 			prestige: { perks: this.prestige.perks },	//never resets
 			challenges: {
