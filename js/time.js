@@ -313,9 +313,27 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         cal.day = 0;
         cal.season = 0;
 
-        for (var i=0; i< amt; i++) {
+		for (var i = 0; i < amt; i++) {
+			// Calendar
             cal.year+= 1;
             cal.onNewYear();
+            // Space ETA
+            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
+            for (var j in game.space.planets){
+				var planet = game.space.planets[j];
+				if (planet.unlocked && !planet.reached) {
+					planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
+				}
+            }
+            // ShatterTC gain
+            var shatterTCGain = game.getEffect("shatterTCGain");
+			if (shatterTCGain > 0) {
+				for (var i = 0; i < game.resPool.resources.length; i++){
+					var res = game.resPool.resources[i];
+					var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
+					game.resPool.addResEvent(res.name, valueAdd);
+				}
+			}
         }
 
         if (amt == 1) {
@@ -325,15 +343,6 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         }
 
         game.time.flux += amt;
-
-		var shatterTCGain = game.getEffect("shatterTCGain");
-		if (shatterTCGain > 0) {
-			for (var i = 0; i < game.resPool.resources.length; i++){
-				var res = game.resPool.resources[i];
-				var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
-				game.resPool.addResEvent(res.name, valueAdd);
-			}
-		}
     },
 
     /**
