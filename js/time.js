@@ -297,9 +297,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
-			if (price["name"] == "timeCrystal") {
-				var fluxBonus = Math.floor((this.game.calendar.year - this.game.time.flux) / 1000) / 100;
-				price["val"] -= Math.min(fluxBonus, 0.4);
+			if ((this.game.calendar.year - this.game.time.flux) > 40000 && price["name"] == "timeCrystal") {
+				price["val"] = Math.max(0, 1 - Math.floor((this.game.calendar.year - this.game.time.flux - 40000) / 1000) / 100);
 			}
 		}
 
