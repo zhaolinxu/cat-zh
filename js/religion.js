@@ -519,7 +519,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "blackObelisk",
 		label: "Black Obelisk",
-		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 5%",
+		description: "Improves your faith bonus.<br />Every Black Obelisk will improve your transcendance level bonus by 5%.",
 		prices: [
 			{ name : "relic", val: 100 }
 		],
@@ -531,7 +531,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "blackNexus",
 		label: "Black Nexus",
-		description: "Improves the rate you refine time crystals into relics.<br>Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
+		description: "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.",
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
@@ -545,7 +545,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "blackCore",
 		label: "Black Core",
-		description: "Alter and corrupt the laws of the reality on a minor scale. Every level of Black Core increases BLS limit by 1%.",
+		description: "Alter and corrupt the laws of the reality on a minor scale.<br />Every level of Black Core increases BLS limit by 1%.",
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
