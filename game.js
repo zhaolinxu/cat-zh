@@ -709,7 +709,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	ticks: 0,				//how many ticks passed since the start of the game
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
-	totalUpdateTimeTicks: 0,
+	totalUpdateTimeTicks: 5,
 	totalUpdateTimeCurrent : 0,
 
 	pauseTimestamp: 0, //time of last pause
@@ -2557,7 +2557,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.totalUpdateTime[3] = 0;
 					this.totalUpdateTime[4] = 0;
 					this.totalUpdateTimeCurrent = 0;
-					this.totalUpdateTimeTicks = 0;
+					this.totalUpdateTimeTicks = 5;
                 }));
             }
 		}
