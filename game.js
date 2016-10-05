@@ -162,6 +162,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
+			"catnipDemandWorkerRatioGlobal": {
+				title: "Workers catnip demand",
+				resName: "catnip",
+				type: "ratio"
+			},
+
 			"woodJobRatio" : {
 				title: "Woodcutter tools",
 				resName: "wood",
@@ -1714,7 +1720,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		perTick += resConsumption;
@@ -1998,7 +2004,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		stack.push({
