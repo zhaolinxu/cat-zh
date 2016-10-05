@@ -1850,7 +1850,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		}
 
         if (counter > 1) {
-	        this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
+	        this.game.msg(this.getMetadata().label + " x" + counter + " constructed.", "notice");
 		}
 
 		if (bld.unlocks) {
