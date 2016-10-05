@@ -2109,7 +2109,11 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	getName: function(){
 		if (this.game.science.get("mechanization").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
-			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ")";
+			var progressDisplayed = (this.game.workshop.getCraft(this.craftName).progress * 100).toFixed(0);
+			if (progressDisplayed == 100) { // 3 figures cause display issue
+				progressDisplayed = 0;
+			}
+			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
 		}
