@@ -1353,6 +1353,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 150000 }
 		]
 	},{
+		name: "assistance",
+		label: "Assistance",
+		description: "Building robots, workers do less effort and need less catnip",
+		effects: {
+			"catnipDemandWorkerRatioGlobal" : 0.25
+		},
+		prices:[
+			{ name : "steel", val: 10000 },
+			{ name : "gear", val: 250 },
+			{ name : "science", val: 100000 }
+		]
+	},{
 		name: "enrichedUranium",
 		label: "Enriched Uranium",
 		description: "Reduce uranium consumption of reactors by 25%",
