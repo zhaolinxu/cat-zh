@@ -649,8 +649,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 			this.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
 		} else {
-			var left = religion.faithRatio / needNextLevel * 100;
-			this.game.msg("One step closer. (" + left.toFixed(0) + "%)");
+			var progressPercentage = religion.faithRatio / needNextLevel * 100;
+			var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
+			if (leftNumber < 0) {
+				leftNumber = 0;
+			}
+			var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
+			this.game.msg("One step closer: " + progressNumber + " (" + progressPercentage.toFixed(2) + "%)");
 		}
 	},
 
