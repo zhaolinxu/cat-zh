@@ -649,13 +649,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 			this.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
 		} else {
-			var progressPercentage = religion.faithRatio / needNextLevel * 100;
+			var progressPercentage = this.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2);
 			var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
 			if (leftNumber < 0) {
 				leftNumber = 0;
 			}
 			var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
-			this.game.msg("One step closer: " + progressNumber + " (" + progressPercentage.toFixed(2) + "%)");
+			this.game.msg("One step closer: " + progressNumber + " (" + progressPercentage + "%)");
 		}
 	},
 
@@ -692,7 +692,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 
 	getName: function(){
 		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
-			var progress = Math.round((this.game.religion.corruption * 100));
+			var progress = this.game.toDisplayPercentage(this.game.religion.corruption, 0);
 			return this.name + " [" + progress + "%] (" + this.getMetadata().val + ")";
 		} else {
 			return this.inherited(arguments);

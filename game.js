@@ -2392,6 +2392,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return timeFormated;
 	},
 
+	toDisplayPercentage: function(percentage, precision) {
+		// Prevent 100% whereas it's not really reached
+		percentage = percentage * 100 - (1 / Math.pow(10, precision));
+		if (percentage < 0) {
+			percentage = 0;
+		}
+		return percentage.toFixed(precision);
+	},
+
 	/**
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
