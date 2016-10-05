@@ -198,7 +198,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"antimatterProduction": {
-				title: "Antimatter production"
+				title: "Antimatter production",
+				type: "perYear"
 			},
 
 			// Miscellaneous

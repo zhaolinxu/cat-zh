@@ -1110,6 +1110,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+				} else if (effectMeta.type === "perYear"){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
 				} else if ( effectMeta.type === "ratio" ) {
 					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
 				} else if ( effectMeta.type === "integerRatio" ){
