@@ -107,6 +107,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
+
+		if (this.getVSU("cryochambers").on != this.game.bld.get("chronosphere")) {
+			this.getVSU("cryochambers").on = Math.min(this.getVSU("cryochambers").val, this.game.bld.get("chronosphere").on);
+		}
     },
 
 	chronoforgeUpgrades: [{
@@ -426,6 +430,15 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
         }
         return this.metaCached;
     },
+
+	getName: function(){
+		var meta = this.getMetadata();
+		if (meta.name == "cryochambers" && meta.on != meta.val) {
+			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+		} else {
+			return this.inherited(arguments);
+		}
+	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {

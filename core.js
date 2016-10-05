@@ -1436,7 +1436,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		} else if (meta.togglable && !meta.togglableOnOff) {
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
-			return meta.label + " (" + meta.val + ")";
+			return meta.label + " (" + meta.on + ")";
 		}
 	},
 

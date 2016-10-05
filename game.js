@@ -2753,7 +2753,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var newKittens= [];
-		if (this.time.getVSU("cryochambers").val > 0) {
+		if (this.time.getVSU("cryochambers").on > 0) {
 			var kittens = this.village.sim.kittens;
 
 			var newKittensSort = [];
