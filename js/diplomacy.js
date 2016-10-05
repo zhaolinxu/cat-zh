@@ -911,7 +911,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
 			this.leviathansInfo.innerHTML = "Energy: " + ( leviathans.energy || "N/A" ) +
-				"<br />Time to leave: " + leviathans.duration + " days";
+				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration) + " days";
 		}
 		this.updateTab();
 	},
