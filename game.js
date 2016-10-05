@@ -208,6 +208,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perYear"
 			},
 
+			"temporalFluxProduction": {
+				title: "Temporal Flux production",
+				type: "perYear"
+			},
+
+			"temporalFluxProductionChronosphere": {
+				title: "Chronosphere's temporal flux production",
+				type: "perYear"
+			},
+
 			// Miscellaneous
 
 			"observatoryRatio" : {

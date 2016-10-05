@@ -721,6 +721,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
+
+		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 	},
 
 	getWeatherMod: function(){
