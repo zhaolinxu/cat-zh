@@ -2068,7 +2068,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				var opts = {
 					name: 			bld.label,
 					description: 	bld.description,
-					building: 		bld.name
+					building: 		bld.name,
+					twoRow:			this.twoRows
 				};
 
 				var btn = null;
@@ -2127,7 +2128,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 						btn.game.resPool.get("catnip").value++;
 					 },
-			description: "Gather some catnip in the forest"
+			description: "Gather some catnip in the forest",
+			twoRow: this.twoRows
 		}, this.game);
 		this.addButton(btn);
 		//btn.render(container);
@@ -2141,7 +2143,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 							btn.game.resPool.addResEvent("wood", (1 * craftRatio));
 						},
 			description: "Refine catnip into catnip wood",
-			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }]
+			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }],
+			twoRow: this.twoRows
 		}, this.game);
 		this.addButton(btn);
 		//btn.render(container);

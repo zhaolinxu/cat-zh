@@ -449,6 +449,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	handler: null,
 	prices: null,
 	priceRatio: null,
+	twoRow: null,
 
 	//nodes
 
@@ -473,6 +474,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
+		this.twoRow = opts.twoRow;
 
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
@@ -631,11 +633,14 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.domNode = dojo.create("div", {
 			style: {
 				position: "relative",
-				display: this.visible ? "block" : "none"/*,
-				marginLeft: "auto",
-				marginRight: "auto"*/
+				display: this.visible ? "block" : "none"
 			}
 		}, btnContainer);
+
+		if (this.twoRow) {
+			dojo.setStyle(this.domNode, "marginLeft", "auto");
+			dojo.setStyle(this.domNode, "marginRight", "auto");
+		}
 
 		this.buttonContent = dojo.create("div", {
 			className: "btnContent",
