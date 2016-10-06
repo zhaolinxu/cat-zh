@@ -780,7 +780,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			if (tech.name == "calendar") {
 				tech.unlocked = true;
 			} else {
-				tech.unlocked = false
+				tech.unlocked = false;
 			}
 			tech.researched = false;
 		}
@@ -956,7 +956,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 			this.metaphysicsPanel = metaphysicsPanel;
 		}
-        
+
         //---------- challenges ------------
 		this.challengesPanel = null;
 

@@ -1471,7 +1471,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					save.buildings[i].unlocked = false;
 				}
 			}
-			if (save.space.programs) {
+			if (save.space && save.space.programs) {
 				for (var i = 0; i < save.space.programs.length; i++) {
 					if (save.space.programs[i].name == "rorschachMission" && save.space.programs[i].on == 1) {
 						var centaurusSystemMission = {
@@ -1524,13 +1524,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 12) {
 			if (save.religion && save.religion.tcratio && save.religion.tu) {
-				var transcendenceLevel = game.religion.getTriValueReligion(save.religion.tcratio) * 100;
+				var transcendenceLevel = this.religion.getTriValueReligion(save.religion.tcratio) * 100;
 				transcendenceLevel = Math.round(Math.log(transcendenceLevel));
 					if (transcendenceLevel < 0) {
 						transcendenceLevel = 0;
 					}
 				for (var i = 0; i < save.religion.tu.length; i++) {
-					if (transcendenceLevel >= game.religion.getTU(save.religion.tu[i].name).tier) {
+					if (transcendenceLevel >= this.religion.getTU(save.religion.tu[i].name).tier) {
 						save.religion.tu[i].unlocked = true;
 					}
 				}

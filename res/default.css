@@ -42,7 +42,7 @@ body {
 
     margin: 0 auto;
     height: auto;
-    
+
     white-space: nowrap;	/* to prevent log column from wrapping */
 }
 
@@ -77,9 +77,9 @@ body {
 
 #rightColumn {
     width: 250px;
-    vertical-align: top; 
-    padding-left: 8px; 
-    padding-top: 20px; 
+    vertical-align: top;
+    padding-left: 8px;
+    padding-top: 20px;
     position: relative;
 }
 
@@ -207,10 +207,10 @@ select>option {
 .dialog {
     position: absolute;
     border: 1px solid black;
-    
+
     left: 50%;
     top: 50%;
-    
+
     background-color: #FFF;
     padding: 20px;
 }
@@ -517,7 +517,7 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .achievement.starUnlocked .star {
-    textShadow: 1px 0px 10px Coral;
+    text-shadow: 1px 0px 10px Coral;
 }
 
 .statTable tr td:nth-child(2) {
