@@ -504,13 +504,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			res.maxValue = maxValue;
 
-			var resPerTick = game.getResourcePerTick(res.name, false) || 0;
+			var resPerTick = game.getResourcePerTick(res.name, false);
 			this.addResPerTick(res.name, resPerTick);
-
-			// Hack to reach the maxValue in resTable
-			if (resPerTick && res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {
-				res.value += -game.getResourcePerTickConvertion(res.name);
-			}
 
 		}
 		game.updateKarma();
@@ -519,6 +514,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.energyProd = game.getEffect("energyProduction");
 		this.energyCons = game.getEffect("energyConsumption");
 
+	},
+
+	// Hack to reach the maxValue in resTable
+	resConsHackForResTable: function() {
+		for (var i in this.resources){
+			var res = this.resources[i];
+			if (res.maxValue) {
+				if (game.getResourcePerTick(res.name, true) > 0 && res.maxValue >= res.value - game.getResourcePerTickConvertion(res.name)) {
+					res.value += -game.getResourcePerTickConvertion(res.name);
+				}
+			}
+		}
 	},
 
 	/**

@@ -2158,7 +2158,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
+
 		this.resPool.update();
+
 		this.bld.update();
 
 		//business logic goes there
@@ -2181,6 +2183,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 this.managers[i].update();
 		 }
 		 }*/
+
+		this.resPool.resConsHackForResTable();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
