@@ -2931,19 +2931,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.upgrade({
-			buildings: this.bld.buildingsData.map(function(building){
-				return building.name;
-			}),
-			religion: this.religion.religionUpgrades.map(function(building){
-				return building.name;
-			}),
-			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(building){
-				return building.name;
-			}),
+			tech: this.science.techs.map(function(item){return item.name;}),
+			perks: this.prestige.perks.map(function(item){return item.name;}),
+			jobs: this.village.jobs.map(function(item){return item.name;}),
+			crafts: this.workshop.crafts.map(function(item){return item.name;}),
+			upgrades: this.workshop.upgrades.map(function(item){return item.name;}),
+			buildings: this.bld.buildingsData.map(function(item){return item.name;}),
+			spaceMission: this.space.programs.map(function(item){return item.name;}),
 			space: spaceBuildingsMap,
-			jobs: this.village.jobs.map(function(job){
-				return job.name;
-			})
+			planet: this.space.planets.map(function(item){return item.name;}),
+			chronoforge: this.time.chronoforgeUpgrades.map(function(item){return item.name;}),
+			voidSpace: this.time.voidspaceUpgrades.map(function(item){return item.name;}),
+			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(item){return item.name;}),
+			religion: this.religion.religionUpgrades.map(function(item){return item.name;}),
+			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
+			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
 	},
 
@@ -2951,6 +2953,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		switch(type) {
 			case "tech":
 				return this.science.get(unlockId);
+			case "perks":
+				return this.prestige.getPerk(unlockId);
 			case "jobs":
 				return this.village.getJob(unlockId);
 			case "crafts":
@@ -2974,8 +2978,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.time.getVSU(unlockId);
 			case "stages":
 				return this.bld.get(unlockId.bld);
-			case "perks":
-				return this.prestige.getPerk(unlockId);
 			case "zigguratUpgrades":
 				return this.religion.getZU(unlockId);
 			case "religion":
