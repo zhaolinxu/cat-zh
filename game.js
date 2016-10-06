@@ -705,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 13,
+	saveVersion: 14,
 
 	//FINALLY
 	opts: null,
@@ -1537,6 +1537,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 13;
+		}
+
+		if (save.saveVersion == 13) {
+			if (save.challenges && save.challenges.challenges) {
+				for (var i = 0; i < save.challenges.challenges.length; i++) {
+					if (save.challenges.challenges[i].name == "atheism") {
+
+						save.challenges.challenges[i].unlocked = false;
+
+						if (save.science && save.science.techs) {
+							for (var j = 0; j < save.science.techs.length; j++) {
+								if (save.science.techs[j].name == "voidSpace" && save.science.techs[j].researched == true) {
+									save.challenges.challenges[i].unlocked = true;
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+			save.saveVersion = 14;
 		}
 
 		return save;

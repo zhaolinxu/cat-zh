@@ -719,7 +719,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["paradoxalKnowledge"],
 			upgrades: ["voidAspiration"],
-			voidSpace: ["cryochambers"]
+			voidSpace: ["cryochambers"],
+			challenges: ["atheism"]
 		}
 	},{
 		name: "paradoxalKnowledge",

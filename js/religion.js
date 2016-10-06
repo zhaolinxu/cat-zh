@@ -506,9 +506,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		unlocks: {
-			challenges: ["atheism"]
-		},
 		upgrades: {
 			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
 		},
