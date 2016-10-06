@@ -321,7 +321,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
             for (var j in game.space.planets){
 				var planet = game.space.planets[j];
-				if (planet.unlocked && !planet.reached) {
+				if (planet.unlocked && !planet.reached){
 					planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
 				}
             }

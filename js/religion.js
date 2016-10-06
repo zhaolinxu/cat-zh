@@ -1040,21 +1040,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 
 	render: function(container) {
-		var self = this;
+		var game = this.game;
 
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
 
-		var zigguratCount = this.game.bld.get("ziggurat").on;
+		var zigguratCount = game.bld.get("ziggurat").on;
 		if (zigguratCount > 0){
-			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", this.game.religion);
+			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", game.religion);
 			var content = zigguratPanel.render(container);
 
 			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
 				prices: [{ name: "unicorns", val: 2500}]
-			}, this.game);
+			}, game);
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
 
@@ -1062,8 +1062,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Sacrifice Alicorns",
 				description: "Banish the alicorns to the Bloodmoon. You will receive a Time Crystal.",
 				prices: [{ name: "alicorn", val: 25}]
-			}, this.game);
-			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
+			}, game);
+			sacrificeAlicornsBtn.setVisible(game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
@@ -1071,7 +1071,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Refine Tears",
 				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
 				prices: [{ name: "tears", val: 10000}]
-			}, this.game);
+			}, game);
 			refineBtn.updateVisible();
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
@@ -1080,14 +1080,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Refine Time Crystals",
 				description: "Refine Time Crystals into the elder relics.",
 				prices: [{ name: "timeCrystal", val: 25}]
-			}, this.game);
+			}, game);
 			refineTCBtn.updateVisible();
 			refineTCBtn.render(content);
 			this.refineTCBtn = refineTCBtn;
 
 			//TODO: all the dark miracles there
 
-			var upgrades = this.game.religion.zigguratUpgrades;
+			var upgrades = game.religion.zigguratUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
@@ -1097,7 +1097,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					description: upgr.description,
 					prices: upgr.prices,
 					handler: upgr.handler
-				}, this.game);
+				}, game);
 
 				button.updateVisible();
 				button.updateEnabled();
@@ -1107,9 +1107,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 		}	//eo zg upgrades
 
-		if (this.game.challenges.currentChallenge != "atheism") {
+		if (game.challenges.currentChallenge != "atheism") {
 			//------------------- religion -------------------
-			var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", this.game.religion);
+			var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", game.religion);
 			var content = religionPanel.render(container);
 
 			var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
@@ -1129,12 +1129,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				handler: function(btn){
 					btn.game.religion.praise();	//sigh, enjoy your automation scripts
 				}
-			}, this.game);
+			}, game);
 
 			praiseBtn.render(content);
 			this.praiseBtn = praiseBtn;
 
-			var upgrades = this.game.religion.religionUpgrades;
+			var upgrades = game.religion.religionUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
@@ -1146,10 +1146,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					handler: function(btn){
 						var upgrade = btn.getMetadata();
 						if (upgrade.upgrades){
-							this.game.upgrade(upgrade.upgrades);
+							game.upgrade(upgrade.upgrades);
 						}
 					}
-				}, this.game);
+				}, game);
 
 				button.updateVisible();
 				button.updateEnabled();
@@ -1170,7 +1170,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						}
 					}
 				}
-			}, this.game);
+			}, game);
 
 			transcendBtn.render(content);
 			this.transcendBtn = transcendBtn;
