@@ -1510,7 +1510,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							researched: false,
 							unlocked: true
 						};
-						if (save.challenges.challenges == "undefined") {
+						if (typeof save.challenges.challenges == "undefined") {
 							save.challenges.challenges = [];
 						}
 						save.challenges.challenges.push(atheism);
