@@ -18,7 +18,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
     {
 		name: "atheism",
 		label: "Atheism",
-		description: "Restart the game without faith bonus. (No bonus for the moment, just a new way to play)",
+		description: "Restart the game without faith bonus and reset with 1 kitten.",
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false

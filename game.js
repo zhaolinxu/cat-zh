@@ -2615,7 +2615,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
-		this.challenges.currentChallenge = null;
 		this.resetAutomatic();
 	},
 
@@ -2800,6 +2799,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (j < newKittensSort.length){
 					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
+					if (this.challenges.currentChallenge == "atheism") {
+						this.challenges.getChallenge("atheism").researched = true;
+					}
 				}
 			}
 		}
@@ -2827,7 +2829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			prestige: { perks: this.prestige.perks },	//never resets
 			challenges: {
 				challenges: this.challenges.challenges, //never resets
-				currentChallenge: this.challenges.currentChallenge
+				currentChallenge: null
 			},
 			science: { techs: [], hideResearched: false },
 			resources: newResources,
