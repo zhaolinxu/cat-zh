@@ -494,7 +494,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.unlocked = true;
 			} else if (res.value == 0 && res.unlocked == true) {
 				if (res.name == "zebras" ||
-					res.name == "elderBox") {
+					res.name == "elderBox"){
 					res.unlocked = false;
 				}
 			}
@@ -523,6 +523,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	// Hack to reach the maxValue in resTable
 	resConsHackForResTable: function() {
+		var game = this.game;
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.maxValue) {
@@ -699,7 +700,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
     getEnergyDelta: function(){
 		if (this.energyCons == 0) {
-			return 0
+			return 0;
 		} else {
 			var delta = this.energyProd / this.energyCons;
 			if (delta < 0.25){

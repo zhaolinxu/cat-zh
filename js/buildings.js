@@ -1509,7 +1509,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game) {
 			var effects = {
 				"resStasisRatio": 0.015 //1.5% of resources will be preserved
-			}
+			};
 			effects["energyConsumption"] = 20;
 			if (game.challenges.currentChallenge == "energy") {
 				effects["energyConsumption"] *= 2;

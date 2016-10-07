@@ -97,10 +97,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 
 	researchChallenge: function(challenge) {
-		if (challenge == this.currentChallenge) {
+		if (challenge == this.currentChallenge){
 			this.getChallenge(challenge).researched = true;
 			this.currentChallenge = null;
-			this.game.msg("Congratulations ! You achieve the challenge " + this.getChallenge(challenge).label + ".")
+			this.game.msg("Congratulations ! You achieve the challenge " + this.getChallenge(challenge).label + ".");
 		}
 	}
 });

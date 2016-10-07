@@ -932,14 +932,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	isHyperbolic: function(name) {
-		if (name == "fursDemandRatio" ||
+		return (name == "catnipDemandRatio" ||
+			name == "fursDemandRatio" ||
 			name == "ivoryDemandRatio" ||
 			name == "spiceDemandRatio" ||
-			name == "unhappinessRatio") {
-			return true;
-		} else {
-		 return false;
-		}
+			name == "unhappinessRatio");
 	},
 
 	/**
@@ -2521,20 +2518,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (floatVal != 0) {
-			if (Math.abs(floatVal) < 0.01 && precision == 2) {
+			var absVal = Math.abs(floatVal);
+			if (absVal < 0.01 && precision == 2) {
 				precision = 3;
 			}
-			if (Math.abs(floatVal) < 0.001 && precision == 3) {
+			if (absVal < 0.001 && precision == 3) {
 				precision = 4;
-				if (Math.abs(floatVal) < 0.0001) {
+				if (absVal < 0.0001) {
 					precision = 5;
-					if (Math.abs(floatVal) < 0.00001) {
+					if (absVal < 0.00001) {
 						precision = 6;
-						if (Math.abs(floatVal) < 0.000001) {
+						if (absVal < 0.000001) {
 							precision = 7;
-							if (Math.abs(floatVal) < 0.0000001) {
+							if (absVal < 0.0000001) {
 								precision = 8;
-								if (Math.abs(floatVal) < 0.00000001) {
+								if (absVal < 0.00000001) {
 									precision = 9;
 								}
 							}
@@ -2739,13 +2737,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 			if (tech.researched){
-				if( tech.cost){
-					totalScience += tech.cost;
-				}else{
-					for (var j in tech.prices){
-						if (tech.prices[j].name == "science"){
-							totalScience += tech.prices[j].val;
-						}
+				for (var j in tech.prices){
+					if (tech.prices[j].name == "science"){
+						totalScience += tech.prices[j].val;
+						break;
 					}
 				}
 			}
@@ -2787,31 +2782,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i in this.resPool.resources){
 			var res = this.resPool.resources[i];
 
-			if (res.craftable && res.name != "wood" && !fluxCondensator.researched){
+			if ((res.craftable && res.name != "wood" && !fluxCondensator.researched) ||
+				dojo.indexOf(ignoreResources, res.name) >= 0){
 				continue;	//>:
 			}
+			var value = 0;
 
-			if (dojo.indexOf(ignoreResources, res.name) >= 0) {
-				continue;
-			} else if (res.name == "timeCrystal"){
+			if (res.name == "timeCrystal"){
 				if (anachronomancy.researched){
-					newResources.push(res);
+					value = res.value;
 				}
 			} else if (res.persists){
-				newResources.push(res);
+				value = res.value;
 			} else {
-				var newRes = this.resPool.createResource(res.name, res.type);
-
 
 				if (!res.craftable || res.name == "wood"){
-					newRes.value = res.value * saveRatio;
+					value = res.value * saveRatio;
 					if (res.name == "void") {
-						newRes.value = Math.floor(newRes.value);
+						value = Math.floor(value);
 					}
 				} else if (res.value > 0) {
-					newRes.value = Math.sqrt(res.value) * saveRatio * 100;
+					value = Math.sqrt(res.value) * saveRatio * 100;
 				}
 
+			}
+
+			if (value > 0){
+				var newRes = this.resPool.createResource(res.name);
+				newRes.value = value;
 				newResources.push(newRes);
 			}
 		}

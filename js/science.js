@@ -764,10 +764,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	getPrices: function(tech) {
 
-		var prices = tech.prices ? tech.prices : [{
-				name:"science",
-				val: tech.cost
-			}];
+		var prices = tech.prices;
 
 		var prices_result = $.extend(true, [], prices); // Create a new array to keep original values
 		prices_result = this.game.village.getEffectLeader("scientist", prices_result);
