@@ -1440,7 +1440,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 			return meta.label;
 		} else if (meta.noStackable){
 			return meta.label + " (complete)";
-		} else if (meta.togglable && !meta.togglableOnOff) {
+		} else if (meta.togglableOnOff){
+			return meta.label + " (" + meta.val + ")";
+		} else if (meta.togglable) {
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
 			return meta.label + " (" + meta.on + ")";
