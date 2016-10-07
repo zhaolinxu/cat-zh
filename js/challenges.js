@@ -16,9 +16,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
     challenges:[
     {
+		name: "ironWill",
+		label: "Iron Will",
+		description: "Iron Will is a bit hidden challenge and you don't need to click here to enable it: reset the game and play without kittens. IW gets you no bonus.",
+		effectDesc: "Nothing",
+        researched: false,
+        unlocked: true
+	},{
 		name: "atheism",
 		label: "Atheism",
-		description: "Restart the game without faith bonus and reset with 1 kitten.",
+		description: "Restart the game without faith bonus.<br />Goal: Reset with 1 kitten.",
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
@@ -78,6 +85,9 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 
 	getDescription: function() {
 		var start = this.inherited(arguments);
+		if (this.getMetadata().name == "ironWill" && this.game.bld.get("chronosphere").val > 0) {
+			start = start + "<br />WARNING: gain reset bonus from chronospheres disable automatically IW.";
+		}
 		if (this.getMetadata().researched) {
 			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
 		} else {
@@ -113,7 +123,11 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 		if (this.getMetadata().name != this.game.challenges.currentChallenge && (this.enabled || this.game.devMode)){
 			if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
 				// Set the challenge for after reset
-				this.game.challenges.currentChallenge = this.getMetadata().name;
+				if (this.getMetadata().name == "ironWill") {
+					this.game.challenges.currentChallenge = null;
+				} else {
+					this.game.challenges.currentChallenge = this.getMetadata().name;
+				}
 				// Reset with any benefit of chronosphere (ressource, kittens, etc...)
 				this.game.bld.get("chronosphere").val = 0;
 				this.game.resetAutomatic();
