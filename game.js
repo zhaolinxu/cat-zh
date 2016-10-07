@@ -2641,6 +2641,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			return;
 		}
 
+		if (this.challenges.currentChallenge == "atheism" && this.time.getVSU("cryochambers").on > 0) {
+			this.challenges.getChallenge("atheism").researched = true;
+		}
+
+		this.challenges.currentChallenge = null;
 		this.resetAutomatic();
 	},
 
@@ -2821,13 +2826,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			newKittensSort.sort(function(a, b){return b.sort-a.sort;});
 
-			for (j = 0; j < Math.min(this.bld.get("chronosphere").val, this.time.getVSU("cryochambers").val); j++) {
+			for (var j = 0; j < this.time.getVSU("cryochambers").on; j++) {
 				if (j < newKittensSort.length){
 					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
-					if (this.challenges.currentChallenge == "atheism") {
-						this.challenges.getChallenge("atheism").researched = true;
-					}
 				}
 			}
 		}
@@ -2855,7 +2857,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			prestige: { perks: this.prestige.perks },	//never resets
 			challenges: {
 				challenges: this.challenges.challenges, //never resets
-				currentChallenge: null
+				currentChallenge: this.challenges.currentChallenge
 			},
 			science: { techs: [], hideResearched: false },
 			resources: newResources,
