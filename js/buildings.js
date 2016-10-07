@@ -437,6 +437,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (game.workshop.get("biofuel").researched){
 				self.effects["energyConsumption"] = 1;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
 				self.togglable = true;
 			}
 
@@ -726,10 +729,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"oilPerTickCon" : 0,
 			"ironPerTickAutoprod" : 0.15,
 			"titaniumPerTickAutoprod" : 0.0005,
-			"energyConsumption" : 1,
+			"energyConsumption" : 0,
 			"ironPerTickCon" : 0,
 			"coalPerTickCon": 0,
 			"steelPerTickProd": 0
+		},
+		calculateEffects: function(self, game) {
+			self.effects["energyConsumption"] = 1;
+			if (game.challenges.currentChallenge == "energy") {
+				self.effects["energyConsumption"] *= 2;
+			}
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -991,6 +1000,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (game.workshop.get("pumpjack").researched){
 				effects["energyConsumption"] = 1;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
 				self.togglable = true;
 			}
 
@@ -1032,14 +1044,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			var effects = {
-				"craftRatio": 0.05,
-				"energyConsumption": 2
+				"craftRatio": 0.05
 			};
 
 			if (game.workshop.get("factoryLogistics").researched){
 				effects["craftRatio"] = 0.06;
 			}
 
+			effects["energyConsumption"] = 2;
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
 			self.effects = effects;
 		}
 	},{
@@ -1130,8 +1145,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"coalMax": 0,
 				"goldMax": 0,
 				"titaniumMax": 0,
-				"energyConsumption": 2
+				"energyConsumption": 0
 			};
+
+			effects["energyConsumption"] = 2;
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
 
 			if (game.workshop.get("lhc").researched){
 				effects["scienceMax"] = 2500;
@@ -1483,10 +1503,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		effects: {
-			"resStasisRatio": 0.015,		//1.5% of resources will be preserved
-			"energyConsumption" : 20
-
-			/** TODO: cryochambers upgrade for kittens migration */
+			"resStasisRatio": 0,
+			"energyConsumption" : 0
+		},
+		calculateEffects: function(self, game) {
+			var effects = {
+				"resStasisRatio": 0.015 //1.5% of resources will be preserved
+			}
+			effects["energyConsumption"] = 20;
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
+			self.effects = effects;
 		}
 	}
 	],

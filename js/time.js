@@ -204,14 +204,18 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-			"temporalParadoxDay": 1,
-			"energyConsumption": 15
+			"temporalParadoxDay": 0,
+			"energyConsumption": 0
         },
 		calculateEffects: function(self, game){
-			self.effects = {
-				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus"),
-				"energyConsumption": 15
+			var effects = {
+				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
 			};
+			effects["energyConsumption"] = 15;
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
+			self.effects = effects;
 		},
         unlocked: false
     }],

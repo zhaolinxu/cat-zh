@@ -218,6 +218,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
+					if (game.challenges.currentChallenge == "energy") {
+						self.effects["energyConsumption"] *= 2;
+					}
 				}
 			}
 		},{
@@ -242,11 +245,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
+				var effects = {
 					"maxKittens": 2,
-					"scienceRatio": 0.5,
-					"energyConsumption": 10
+					"scienceRatio": 0.5
 				};
+				effects["energyConsumption"] = 10;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
@@ -277,11 +284,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"unobtainiumPerTickSpace": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
-					"energyConsumption": 5,
+				var effects = {
 					"uraniumPerTickCon": 0,
 					"unobtainiumPerTickSpace": 0
 				};
+				effects["energyConsumption"] = 5;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			},
 			lackResConvert: false,
 			action: function(game, self){
@@ -322,7 +333,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
+				var effects = {
 					"catnipMax"         : 45000,
 					"woodMax"           : 25000,
 					"mineralsMax"       : 30000,
@@ -330,9 +341,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"coalMax"           : 3500,
 					"titaniumMax"       : 1250,
 					"oilMax"            : 3500,
-					"unobtainiumMax"    : 150,
-					"energyConsumption" : game.workshop.get("amBases").researched ? 5 : 10
+					"unobtainiumMax"    : 150
 				};
+				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
@@ -425,10 +440,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 0
 				},
             calculateEffects: function(self, game){
-				self.effects = {
-					"spaceRatio": 0.02,
-					"energyConsumption" : 20
+				var effects = {
+					"spaceRatio": 0.02
 				};
+				effects["energyConsumption"] = 20;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
             }
         }]
 	},{
@@ -471,10 +490,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"antimatterMax": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
-					"energyConsumption" : 50,
+				var effects = {
 					"antimatterMax": 100
 				};
+				effects["energyConsumption"] = 50;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
