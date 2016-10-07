@@ -29,6 +29,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
+	},{
+		name: "energy",
+		label: "Energy",
+		description: "Restart the game with consumption of energy multiply by 2.<br />Goal: Unlock all energy production buildings.",
+		effectDesc: "Production bonuses cuts caused by negative energy are divided by 2.",
+        researched: false,
+		unlocked: false
 	}],
 
 	game: null,
@@ -65,12 +72,37 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 
 	update: function(){
-
+		if (this.getChallenge("energy").unlocked == false) {
+			if (this.game.resPool.energyProd != 0 || this.game.resPool.energyCons != 0) {
+				this.getChallenge("energy").unlocked = true;
+			}
+		} else if (this.currentChallenge == "energy") {
+			if (
+				(this.game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
+				(this.game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
+				this.game.bld.get("steamworks").val > 0 &&
+				this.game.bld.get("magneto").val > 0 &&
+				this.game.bld.get("reactor").val > 0 &&
+				this.game.space.getProgram("sattelite").val > 0 &&
+				this.game.space.getProgram("sunlifter").val > 0 &&
+				this.game.space.getProgram("tectonic").val > 0
+			) {
+				this.researchChallenge("energy");
+			}
+		}
 	},
 
 	getChallenge: function(name){
 		return this.getMeta(name, this.challenges);
 	},
+
+	researchChallenge: function(challenge) {
+		if (challenge == this.currentChallenge) {
+			this.getChallenge(challenge).researched = true;
+			this.currentChallenge = null;
+			this.game.msg("Congratulations ! You achieve the challenge " + this.getChallenge(challenge).label + ".")
+		}
+	}
 });
 
 dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {

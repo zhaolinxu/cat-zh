@@ -693,11 +693,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
     getEnergyDelta: function(){
-        var delta = this.energyProd / this.energyCons;
-        if (delta < 0.25){
-            delta = 0.25;
-        }
-        return delta;
+		if (this.energyCons == 0) {
+			return 0
+		} else {
+			var delta = this.energyProd / this.energyCons;
+			if (delta < 0.25){
+				delta = 0.25;
+			}
+			if (this.game.challenges.getChallenge("energy").researched == true) {
+				delta = 1 - (1 - delta) / 2;
+			}
+		return delta;
+		}
     },
 
     getVoidQuantity: function() {
