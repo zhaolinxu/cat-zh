@@ -492,6 +492,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 			if (res.unlocked == false && res.value > 0){
 				res.unlocked = true;
+			} else if (res.value == 0 && res.unlocked == true) {
+				if (res.name == "zebras" ||
+					res.name == "elderBox") {
+					res.unlocked = false;
+				}
 			}
 
 			var maxValue = game.getEffect(res.name + "Max") || 0;
