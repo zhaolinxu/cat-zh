@@ -18,14 +18,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "orbitalLaunch",
 		label: "Orbital Launch",
 		description: "Launch a rocket to a space.",
-		unlocked: true,
 		prices: [
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
 			{name: "science", val: 100000},
 			{name: "oil", val: 15000}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["cath"],
             spaceMission: ["moonMission"]
@@ -34,14 +32,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "moonMission",
 		label: "Moon Mission",
 		description: "Launch a rocket to Redmoon, a Cath planet satellite",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 500},
 			{name: "titanium", 	val: 5000},
 			{name: "science", 	val: 125000},
 			{name: "oil", 		val: 45000}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["moon"],
             spaceMission: ["duneMission", "piscineMission"]
@@ -50,14 +46,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "duneMission",
 		label: "Dune Mission",
 		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
 			{name: "science", val: 175000},
 			{name: "kerosene", val: 75}
 		],
-		noStackable: true,
 		unlocks: {
             planet: ["dune"],
             spaceMission: ["heliosMission"]
@@ -66,14 +60,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "piscineMission",
 		label: "Piscine Mission",
 		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
 			{name: "science", val: 200000},
 			{name: "kerosene", val: 250}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["piscine"],
             spaceMission: ["terminusMission"]
@@ -82,14 +74,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "heliosMission",
 		label: "Helios Mission",
 		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
 			{name: "science", val: 250000},
 			{name: "kerosene", val: 1250}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["helios"],
             spaceMission: ["yarnMission"]
@@ -98,14 +88,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "terminusMission",
 		label: "T-minus Mission",
 		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
 			{name: "science", val: 225000},
 			{name: "kerosene", val: 750}
 		],
-		noStackable: true,
         unlocks: {
             planet: ["terminus"],
             spaceMission: ["heliosMission", "kairoMission"]
@@ -114,14 +102,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "kairoMission",
 		label: "Kairo Mission",
 		description: "Kairo is a dwarf planet in the far end of the Cath solar system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 5000},
 			{name: "titanium", 	val: 20000},
 			{name: "science", 	val: 300000},
 			{name: "kerosene", 	val: 7500}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["kairo"],
             spaceMission: ["rorschachMission"]
@@ -130,14 +116,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "rorschachMission",
 		label: "???",
 		description: "???",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
 			{name: "science", 	val: 500000},
 			{name: "kerosene", 	val: 25000}
 		],
-		noStackable: true,
 		unlocks: {
 			spaceMission: ["centaurusSystemMission"]
 		}
@@ -145,14 +129,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "yarnMission",
 		label: "Yarn Mission",
 		description: "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 7500},
 			{name: "titanium", 	val: 35000},
 			{name: "science", 	val: 350000},
 			{name: "kerosene", 	val: 12000}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["yarn"]
 		}
@@ -160,7 +142,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "centaurusSystemMission",
 		label: "Centaurus System Mission",
 		description: "Centaurus System is a warm faraway star system.",
-		unlocked: false,
 		prices: [
 			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
@@ -168,7 +149,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 30000},
 			{name: "thorium",   val: 50000}
 		],
-		noStackable: true,
 		unlocks: {
 			planet: ["centaurusSystem"]
 		}
@@ -180,15 +160,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	[{
 		name: "cath",
 		label: "Cath",
-		reached: false,
 		routeDays: 0,
-		unlocked: false,
 		buildings: [{
 			name: "spaceElevator",
 			label: "Space Elevator",
 			description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.15,
 			prices: [
 				{name: "titanium", val: 6000},
@@ -213,7 +190,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Satellite",
 			description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
 			unlocked: false,
-			defaultUnlocked: true,
 			prices: [
 				{name: "starchart", val: 325},
 				{name: "titanium", val: 2500},
@@ -242,6 +218,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
+					if (game.challenges.currentChallenge == "energy") {
+						self.effects["energyConsumption"] *= 2;
+					}
 				}
 			}
 		},{
@@ -249,7 +228,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Space Station",
 			description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
 			unlocked: false,
-			defaultUnlocked: true,
 			prices: [
 				{name: "starchart", val: 425},
 				{name: "alloy", 	val: 750},
@@ -267,25 +245,26 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
+				var effects = {
 					"maxKittens": 2,
-					"scienceRatio": 0.5,
-					"energyConsumption": 10
+					"scienceRatio": 0.5
 				};
+				effects["energyConsumption"] = 10;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
 		name: "moon",
 		label: "Moon",
-		reached: false,
 		routeDays: 3,
-		unlocked: false,
 		buildings: [{
 			name: "moonOutpost",
 			label: "Lunar Outpost",
 			description: "Deploy a nuclear powered mining outpost on Redmoon",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.12,
 			prices: [
 				{name: "starchart", val: 650},
@@ -305,11 +284,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"unobtainiumPerTickSpace": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
-					"energyConsumption": 5,
+				var effects = {
 					"uraniumPerTickCon": 0,
 					"unobtainiumPerTickSpace": 0
 				};
+				effects["energyConsumption"] = 5;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			},
 			lackResConvert: false,
 			action: function(game, self){
@@ -329,7 +312,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Moon base",
 			description: "Establish a base on a surface of Redmoon",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.12,
 			prices: [
 				{name: "starchart", 	val: 700},
@@ -351,7 +333,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
+				var effects = {
 					"catnipMax"         : 45000,
 					"woodMax"           : 25000,
 					"mineralsMax"       : 30000,
@@ -359,23 +341,24 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"coalMax"           : 3500,
 					"titaniumMax"       : 1250,
 					"oilMax"            : 3500,
-					"unobtainiumMax"    : 150,
-					"energyConsumption" : game.workshop.get("amBases").researched ? 5 : 10
+					"unobtainiumMax"    : 150
 				};
+				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
 		name: "dune",
 		label: "Dune",
-		reached: false,
 		routeDays: 356,
-		unlocked: false,
         buildings: [{
             name: "planetCracker",
             label: "Planet Cracker",
             description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.18,
             prices: [
                 {name: "starchart", val: 2500},
@@ -399,7 +382,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Hydraulic Fracturer",
             description: "Produces a high-pressure stream of oil. Every Space Elevator will boost this production by 0.1% of the global production multiplier.",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.18,
             prices: [
                 {name: "starchart", val: 750},
@@ -419,15 +401,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "piscine",
 		label: "Piscine",
-		reached: false,
 		routeDays: 256,
-		unlocked: false,
 		buildings: [{
             name: "researchVessel",
             label: "Research Vessel",
             description: "Mobile research space vessel.",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "starchart", val: 500},
@@ -450,7 +429,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             label: "Orbital Array",
             description: "Provide a 2% production bonus to all space structures",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "eludium",  val: 100},
@@ -462,24 +440,25 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption" : 0
 				},
             calculateEffects: function(self, game){
-				self.effects = {
-					"spaceRatio": 0.02,
-					"energyConsumption" : 20
+				var effects = {
+					"spaceRatio": 0.02
 				};
+				effects["energyConsumption"] = 20;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
             }
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
 		label: "Helios",
-		reached: false,
 		routeDays: 227,
-		unlocked: false,
 		buildings: [{
             name: "sunlifter",
             label: "Sunlifter",
             description: "Generates antimatter once per year. Inactive if energy production is negative",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.15,
             prices: [
                 {name: "science", val: 500000},
@@ -501,7 +480,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: "Cont. Chamber",
 			description: "Containment Chamber. Increases antimatter storage space by 100.",
 			unlocked: false,
-			defaultUnlocked: true,
 			priceRatio: 1.15,
 			prices: [
 				{name: "science", val: 500000},
@@ -512,24 +490,25 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"antimatterMax": 0
 			},
 			calculateEffects: function(self, game){
-				self.effects = {
-					"energyConsumption" : 50,
+				var effects = {
 					"antimatterMax": 100
 				};
+				effects["energyConsumption"] = 50;
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+				self.effects = effects;
 			}
 		}]
 	},{
 		name: "terminus",
 		label: "T-Minus",
-		reached: false,
 		routeDays: 457,
-		unlocked: false,
         buildings:[{
             name: "cryostation",
             label: "Cryostation",
             description: "A vast storage facility complex",
             unlocked: false,
-            defaultUnlocked: true,
             priceRatio: 1.12,
             prices: [
                 {name: "eludium", val: 25       },
@@ -564,16 +543,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "kairo",
 		label: "Kairo",
-		reached: false,
 		routeDays: 492,
-		unlocked: false,
 		buildings:[
 			{
 				name: "spaceBeacon",
 				label: "Space Beacon",
 				description: "An AM-powered space station used for research and interstellar navigation.",
 				unlocked: false,
-				defaultUnlocked: true,
 				priceRatio: 1.15,
 				prices: [
 					{name: "starchart", 	val: 25000 },
@@ -598,24 +574,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "yarn",
 		label: "Yarn",
-		reached: false,
 		routeDays: 603,
-		unlocked: false,
 		buildings:[
 			{
 				name: "terraformingStation",
 				label: "Terraforming Station",
 				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere",
 				unlocked: false,
-				defaultUnlocked: function(game) {
-					return game.science.get("terraformation").researched;
-				},
 				priceRatio: 1.25,
 				prices: [
 					{name: "antimatter", val: 25  },
 					{name: "uranium", val: 5000  },
 					{name: "kerosene", val: 5000  }
 				],
+				requiredTech: ["terraformation"],
 				effects: {
 					"maxKittens": 0
 				},
@@ -630,13 +602,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				label: "Hydroponics",
 				description: "State of the art automated hydroponic system. Increase catnip limit by 10%. Increase catnip production by 2.5%",
 				unlocked: false,
-				defaultUnlocked: function(game) {
-					return game.science.get("terraformation").researched;
-				},
 				priceRatio: 1.15,
 				prices: [
 					{name: "kerosene", val: 500 }
 				],
+				requiredTech: ["hydroponics"],
 				effects: {
 					"catnipMaxRatio" : 0,
 					"catnipRatio" : 0
@@ -652,16 +622,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "centaurusSystem",
 		label: "Centaurus System",
-		reached: false,
 		routeDays: 120000,
-		unlocked: false,
 		buildings:[
 			{
 				name: "tectonic",
 				label: "Tectonic",
 				description: "Rip open the planet near the star Centaurus to collect magma energy.",
 				unlocked: false,
-				defaultUnlocked: true,
 				priceRatio: 1.25,
 				prices: [
 					{name: "science", val: 600000 },
@@ -697,25 +664,19 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (!program.effects){
 				return 0;
 			}
-			var val = program.togglable ? program.on: program.val;
-			return program.noStackable ?
-				program.effects[effectName]:
-				program.effects[effectName] * val;
+			return program.effects[effectName] * program.on;
 		}});
 
 		for (var i in this.planets) {
 			var planet = this.planets[i];
+			planet.routeDaysDefault = planet.routeDays;
+
 			this.registerMeta(planet.buildings, { getEffect: function(building, effectName){
 				if (!building.effects){
 					return 0;
 				}
-				var val = building.togglable ? building.on: building.val;
-
-				if (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd){
-					return building.effects[effectName] * val * game.resPool.getEnergyDelta();
-				}
-
-				return building.effects[effectName] * val;
+				var spaceRatio = (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd) ? game.resPool.getEnergyDelta() : 1;
+				return building.effects[effectName] * building.on * spaceRatio;
 			}});
 		}
 
@@ -726,6 +687,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			var program = this.programs[i];
 
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.noStackable = true;
 
 			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 		}
@@ -733,10 +695,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (i = 0; i < this.planets.length; i++){
 			var planet = this.planets[i];
 			planet.unlocked = false;
+			planet.reached = false;
+			planet.routeDays = planet.routeDaysDefault;
 
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
+					program.unlocked = false;
 
 					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
 				}
@@ -836,7 +801,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.reached = true;
 					this.game.msg("You've reached a new planet!");
 					for (var j in planet.buildings){
-						planet.buildings[j].unlocked = planet.buildings[j].defaultUnlocked;
+						planet.buildings[j].unlocked = true;
 					}
 				}
 			}
@@ -1055,7 +1020,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 	update: function() {
 		if (!this.planet.reached && this.planet.unlocked && this.planet.routeDays > 0) {
 			var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-			this.title.innerHTML = this.name + " (ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed)) + ")";
+			this.title.innerHTML = this.name + " | ETA: " + this.game.toDisplayDays(Math.round(this.planet.routeDays / routeSpeed));
 		} else {
 			this.title.innerHTML = this.name;
 		}

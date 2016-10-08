@@ -63,7 +63,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			tcratio: this.tcratio,
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
-			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on"])
+			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 		};
 	},
 
@@ -89,14 +89,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			});
 		}
 
-		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on"], function(loadedElem){
-				//IDK
+		if (saveData.religion.ru){
+			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
 			});
 		}
 
-		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
+		if (saveData.religion.tu){
+			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on", "unlocked"], function(loadedElem){
+				//IDK
 			});
 		}
 
@@ -506,9 +506,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			//none
 		},
-		unlocks: {
-			challenges: ["atheism"]
-		},
 		upgrades: {
 			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
 		},
@@ -519,19 +516,19 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	{
 		name: "blackObelisk",
 		label: "Black Obelisk",
-		description: "Improves your faith bonus.<br>Every Obelisk will improve your transcendance level bonus by 5%",
+		description: "Improves your faith bonus.<br />Every Black Obelisk will improve your transcendance level bonus by 5%.",
 		prices: [
 			{ name : "relic", val: 100 }
 		],
 		tier: 1,
 		priceRatio: 1.15,
 		effects: {},
-		unlocked: true,
+		unlocked: false,
 		flavor: "TBD" // flavor is TBD but the faith bonus improvement is already done
 	},{
 		name: "blackNexus",
 		label: "Black Nexus",
-		description: "Improves the rate you refine time crystals into relics.<br>Every Black Pyramid will improve your Relic Refine ratio by 100%. Every level of Black Nexus will increase this bonus by additional 100%",
+		description: "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.",
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
@@ -540,21 +537,21 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"relicRefineRatio" : 1.0
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "Eye in the sky."
 	},{
 		name: "blackCore",
 		label: "Black Core",
-		description: "Alter and corrupt the laws of the reality on a minor scale. Every level of Black Core increases BLS limit by 1%.",
+		description: "Alter and corrupt the laws of the reality on a minor scale.<br />Every level of Black Core increases BLS limit by 1%.",
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
 		tier: 5,
 		priceRatio: 1.15,
 		effects: {
-			"blsLimit" : 0.01
+			"blsLimit" : 1
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "Built with the bones of kitten sacrifices."
 	},{
 		name: "singularity",
@@ -568,7 +565,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"tcResourceRatio" : 0.10
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "A gateway... To what?"
 	},{
 		name: "holyGenocide",
@@ -582,7 +579,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 		},
-		unlocked: true,
+		unlocked: false,
 		flavor: "We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far."
 	}
 		//Holy Genocide
@@ -649,8 +646,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 			this.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
 		} else {
-			var left = (needNextLevel - religion.faithRatio) / needNextLevel * 100
-			this.game.msg("One step closer. (" + left.toFixed(0) + "%)");
+			var progressPercentage = this.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2);
+			var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
+			if (leftNumber < 0) {
+				leftNumber = 0;
+			}
+			var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
+			this.game.msg("One step closer: " + progressNumber + " (" + progressPercentage + "%)");
 		}
 	},
 
@@ -687,7 +689,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.u
 
 	getName: function(){
 		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
-			var progress = Math.round((this.game.religion.corruption * 100));
+			var progress = this.game.toDisplayPercentage(this.game.religion.corruption, 0);
 			return this.name + " [" + progress + "%] (" + this.getMetadata().val + ")";
 		} else {
 			return this.inherited(arguments);
@@ -739,10 +741,6 @@ dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingS
 	payPrice: function(){
 		this.inherited(arguments);
 	},
-
-	updateVisible: function(){
-		this.setVisible(this.game.religion.getTranscendenceLevel() >= this.getMetadata().tier);
-	},
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -756,6 +754,7 @@ dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+
 	getName: function() {
 		if (this.game.religion.tclevel > 0){
 			return this.name + " [" + this.game.religion.tclevel + "]";
@@ -1038,21 +1037,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 
 	render: function(container) {
-		var self = this;
+		var game = this.game;
 
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
 
-		var zigguratCount = this.game.bld.get("ziggurat").on;
+		var zigguratCount = game.bld.get("ziggurat").on;
 		if (zigguratCount > 0){
-			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", this.game.religion);
+			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", game.religion);
 			var content = zigguratPanel.render(container);
 
 			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
 				prices: [{ name: "unicorns", val: 2500}]
-			}, this.game);
+			}, game);
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
 
@@ -1060,8 +1059,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Sacrifice Alicorns",
 				description: "Banish the alicorns to the Bloodmoon. You will receive a Time Crystal.",
 				prices: [{ name: "alicorn", val: 25}]
-			}, this.game);
-			sacrificeAlicornsBtn.setVisible(this.game.resPool.get("alicorn").value >= 25);
+			}, game);
+			sacrificeAlicornsBtn.setVisible(game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
@@ -1069,7 +1068,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Refine Tears",
 				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
 				prices: [{ name: "tears", val: 10000}]
-			}, this.game);
+			}, game);
 			refineBtn.updateVisible();
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
@@ -1078,14 +1077,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: "Refine Time Crystals",
 				description: "Refine Time Crystals into the elder relics.",
 				prices: [{ name: "timeCrystal", val: 25}]
-			}, this.game);
+			}, game);
 			refineTCBtn.updateVisible();
 			refineTCBtn.render(content);
 			this.refineTCBtn = refineTCBtn;
 
 			//TODO: all the dark miracles there
 
-			var upgrades = this.game.religion.zigguratUpgrades;
+			var upgrades = game.religion.zigguratUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
@@ -1095,7 +1094,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					description: upgr.description,
 					prices: upgr.prices,
 					handler: upgr.handler
-				}, this.game);
+				}, game);
 
 				button.updateVisible();
 				button.updateEnabled();
@@ -1105,9 +1104,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 		}	//eo zg upgrades
 
-		if (this.game.challenges.currentChallenge != "atheism") {
+		if (game.challenges.currentChallenge != "atheism") {
 			//------------------- religion -------------------
-			var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", this.game.religion);
+			var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", game.religion);
 			var content = religionPanel.render(container);
 
 			var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
@@ -1127,12 +1126,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				handler: function(btn){
 					btn.game.religion.praise();	//sigh, enjoy your automation scripts
 				}
-			}, this.game);
+			}, game);
 
 			praiseBtn.render(content);
 			this.praiseBtn = praiseBtn;
 
-			var upgrades = this.game.religion.religionUpgrades;
+			var upgrades = game.religion.religionUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
@@ -1144,10 +1143,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 					handler: function(btn){
 						var upgrade = btn.getMetadata();
 						if (upgrade.upgrades){
-							this.game.upgrade(upgrade.upgrades);
+							game.upgrade(upgrade.upgrades);
 						}
 					}
-				}, this.game);
+				}, game);
 
 				button.updateVisible();
 				button.updateEnabled();
@@ -1159,10 +1158,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var transcendBtn = new com.nuclearunicorn.game.ui.TranscendBtn({
 				name: "Transcend",
 				description: "Transcend the mortal limits",
-				handler: function(btn){
-					this.game.religion.transcend();
+				handler: function(btn) {
+					game.religion.transcend();
+					var transcendenceLevel = game.religion.getTranscendenceLevel();
+					for (var i = 0; i < game.religion.transcendenceUpgrades.length; i++) {
+						if (transcendenceLevel >= game.religion.transcendenceUpgrades[i].tier) {
+							game.religion.transcendenceUpgrades[i].unlocked = true;
+						}
+					}
 				}
-			}, this.game);
+			}, game);
 
 			transcendBtn.render(content);
 			this.transcendBtn = transcendBtn;

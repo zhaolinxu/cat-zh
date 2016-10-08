@@ -126,7 +126,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "engineer",
 		title: "Engineers",
-		description: "Engineers can operate factories to automate resource production",
+		description: "Engineer can operate one factory to automate resource production.",
 		modifiers:{
 		},
 		value: 0,
@@ -187,6 +187,23 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 		return defaultObject;
 
+	},
+
+	getLeaderDescription: function(job) {
+		switch (job) {
+			case "engineer":
+				return "Crating bonus";
+			case "merchant":
+				return "Trading bonus";
+			case "manager":
+				return "Hunting bonus";
+			case "scientist":
+				return "Science prices bonus";
+			case "wise":
+				return "Religion bonus";
+			default:
+				return "";
+		}
 	},
 
 	constructor: function(game){
@@ -1428,7 +1445,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 		var leaderInfo = "N/A";
 		var leader = this.game.village.leader;
 		if (leader){
-			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " (rank " + leader.rank + ")";
+			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [rank " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 
 			leaderInfo = leader.name + " " + leader.surname + ", " + title +

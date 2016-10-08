@@ -485,13 +485,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources){
 			var res = this.resources[i];
 			if (res.name == "sorrow"){
-				res.maxValue = 12 + (this.game.getEffect("blsLimit") * 100) || 0;
+				res.maxValue = 12 + (game.getEffect("blsLimit") || 0);
 				res.value = res.value > res.maxValue ? res.maxValue : res.value;
 				continue;
 			}
 
 			if (res.unlocked == false && res.value > 0){
 				res.unlocked = true;
+			} else if (res.value == 0 && res.unlocked == true) {
+				if (res.name == "zebras" ||
+					res.name == "elderBox"){
+					res.unlocked = false;
+				}
 			}
 
 			var maxValue = game.getEffect(res.name + "Max") || 0;
@@ -503,22 +508,30 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			}
 
 			res.maxValue = maxValue;
-			this.game.updateKarma();
 
-			var resPerTick = this.game.getResourcePerTick(res.name, false) || 0;
+			var resPerTick = game.getResourcePerTick(res.name, false);
 			this.addResPerTick(res.name, resPerTick);
 
-			// Hack to reach the maxValue in resTable
-			if (resPerTick && res.maxValue && res.maxValue == res.value && game.getResourcePerTickConvertion(res.name) != 0) {
-				res.value += -game.getResourcePerTickConvertion(res.name);
-			}
-
 		}
+		game.updateKarma();
 
 		//--------
-		this.energyProd = this.game.getEffect("energyProduction");
-		this.energyCons = this.game.getEffect("energyConsumption");
+		this.energyProd = game.getEffect("energyProduction");
+		this.energyCons = game.getEffect("energyConsumption");
 
+	},
+
+	// Hack to reach the maxValue in resTable
+	resConsHackForResTable: function() {
+		var game = this.game;
+		for (var i in this.resources){
+			var res = this.resources[i];
+			if (res.maxValue) {
+				if (game.getResourcePerTick(res.name, true) > 0 && res.maxValue >= res.value - game.getResourcePerTickConvertion(res.name)) {
+					res.value += -game.getResourcePerTickConvertion(res.name);
+				}
+			}
+		}
 	},
 
 	/**
@@ -554,7 +567,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Called in tooltips for more accurate per-building resMax increases
 	 */
 	addResMaxRatios: function(res, maxValue){
-		if (res.name == "temporalFlux") {
+		if (res && res.name == "temporalFlux") {
 			return maxValue;
 		}
 
@@ -686,11 +699,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
     getEnergyDelta: function(){
-        var delta = this.energyProd / this.energyCons;
-        if (delta < 0.25){
-            delta = 0.25;
-        }
-        return delta;
+		if (this.energyCons == 0) {
+			return 0;
+		} else {
+			var delta = this.energyProd / this.energyCons;
+			if (delta < 0.25){
+				delta = 0.25;
+			}
+			if (this.game.challenges.getChallenge("energy").researched == true) {
+				delta = 1 - (1 - delta) / 2;
+			}
+		return delta;
+		}
     },
 
     getVoidQuantity: function() {

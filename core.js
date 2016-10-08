@@ -433,6 +433,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	handler: null,
 	prices: null,
 	priceRatio: null,
+	twoRow: null,
 
 	//nodes
 
@@ -457,6 +458,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.name = opts.name;
 		this.handler = opts.handler;
 		this.description = opts.description;
+		this.twoRow = opts.twoRow;
 
 		this.prices = opts.prices ? opts.prices : [];
 		this.priceRatio = opts.priceRatio;
@@ -615,11 +617,14 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		this.domNode = dojo.create("div", {
 			style: {
 				position: "relative",
-				display: this.visible ? "block" : "none"/*,
-				marginLeft: "auto",
-				marginRight: "auto"*/
+				display: this.visible ? "block" : "none"
 			}
 		}, btnContainer);
+
+		if (this.twoRow) {
+			dojo.setStyle(this.domNode, "marginLeft", "auto");
+			dojo.setStyle(this.domNode, "marginRight", "auto");
+		}
 
 		this.buttonContent = dojo.create("div", {
 			className: "btnContent",
@@ -1089,8 +1094,12 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+				} else if (effectMeta.type === "perYear"){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
 				} else if ( effectMeta.type === "ratio" ) {
 					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
+				} else if ( effectMeta.type === "integerRatio" ){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
@@ -1415,10 +1424,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 			return meta.label;
 		} else if (meta.noStackable){
 			return meta.label + " (complete)";
-		} else if (meta.togglable && !meta.togglableOnOff) {
+		} else if (meta.togglableOnOff){
+			return meta.label + " (" + meta.val + ")";
+		} else if (meta.togglable) {
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
-			return meta.label + " (" + meta.val + ")";
+			return meta.label + " (" + meta.on + ")";
 		}
 	},
 

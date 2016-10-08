@@ -162,6 +162,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
+			"catnipDemandWorkerRatioGlobal": {
+				title: "Workers catnip demand",
+				resName: "catnip",
+				type: "ratio"
+			},
+
 			"woodJobRatio" : {
 				title: "Woodcutter tools",
 				resName: "wood",
@@ -198,7 +204,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"antimatterProduction": {
-				title: "Antimatter production"
+				title: "Antimatter production",
+				type: "perYear"
 			},
 
 			// Miscellaneous
@@ -554,7 +561,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"blsLimit" :  {
                 title: "Max BLS",
-                type: "ratio"
+                type: "integerRatio"
             },
 
 			"tcResourceRatio" :  {
@@ -698,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 12,
+	saveVersion: 14,
 
 	//FINALLY
 	opts: null,
@@ -708,7 +715,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	cheatMode: false,	//flag triggering Super Unethical Climax achievement
 
 	ticks: 0,				//how many ticks passed since the start of the game
-	totalUpdateTime: 0,		//total time spent on update cycle in milliseconds, useful for debug/fps counter
+	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
+	totalUpdateTimeTicks: 5,
+	totalUpdateTimeCurrent : 0,
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -737,6 +746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/*
 		Whether the game is in developer mode or no
 	 */
+	isLocalhost: false,
 	devMode: false,
 
 	constructor: function(containerId){
@@ -922,14 +932,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	isHyperbolic: function(name) {
-		if (name == "fursDemandRatio" ||
+		return (name == "catnipDemandRatio" ||
+			name == "fursDemandRatio" ||
 			name == "ivoryDemandRatio" ||
 			name == "spiceDemandRatio" ||
-			name == "unhappinessRatio") {
-			return true;
-		} else {
-		 return false;
-		}
+			name == "unhappinessRatio");
 	},
 
 	/**
@@ -1449,7 +1456,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					save.buildings[i].unlocked = false;
 				}
 			}
-			if (save.space.programs) {
+			if (save.space && save.space.programs) {
 				for (var i = 0; i < save.space.programs.length; i++) {
 					if (save.space.programs[i].name == "rorschachMission" && save.space.programs[i].on == 1) {
 						var centaurusSystemMission = {
@@ -1488,7 +1495,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							researched: false,
 							unlocked: true
 						};
-						if (save.challenges.challenges == "undefined") {
+						if (typeof save.challenges.challenges == "undefined") {
 							save.challenges.challenges = [];
 						}
 						save.challenges.challenges.push(atheism);
@@ -1500,7 +1507,47 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			save.saveVersion = 12;
 		}
 
+		if (save.saveVersion == 12) {
+			if (save.religion && save.religion.tcratio && save.religion.tu) {
+				var transcendenceLevel = this.religion.getTriValueReligion(save.religion.tcratio) * 100;
+				transcendenceLevel = Math.round(Math.log(transcendenceLevel));
+					if (transcendenceLevel < 0) {
+						transcendenceLevel = 0;
+					}
+				for (var i = 0; i < save.religion.tu.length; i++) {
+					if (transcendenceLevel >= this.religion.getTU(save.religion.tu[i].name).tier) {
+						save.religion.tu[i].unlocked = true;
+					}
+				}
+			}
+
+			save.saveVersion = 13;
+		}
+
+		if (save.saveVersion == 13) {
+			if (save.challenges && save.challenges.challenges) {
+				for (var i = 0; i < save.challenges.challenges.length; i++) {
+					if (save.challenges.challenges[i].name == "atheism") {
+
+						save.challenges.challenges[i].unlocked = false;
+
+						if (save.science && save.science.techs) {
+							for (var j = 0; j < save.science.techs.length; j++) {
+								if (save.science.techs[j].name == "voidSpace" && save.science.techs[j].researched == true) {
+									save.challenges.challenges[i].unlocked = true;
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+			save.saveVersion = 14;
+		}
+
 		return save;
+
 	},
 
     setUI: function(ui){
@@ -1698,7 +1745,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		perTick += resConsumption;
@@ -1982,7 +2029,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		stack.push({
@@ -2091,7 +2138,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 *
 	 */
 	updateModel: function(){
+
 		this.resPool.update();
+
 		this.bld.update();
 
 		//business logic goes there
@@ -2114,6 +2163,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 this.managers[i].update();
 		 }
 		 }*/
+
+		this.resPool.resConsHackForResTable();
 
 		//nah, kittens are not a resource anymore (?)
 		var kittens = this.resPool.get("kittens");
@@ -2346,6 +2397,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return timeFormated;
 	},
 
+	toDisplayPercentage: function(percentage, precision) {
+		// Prevent 100% whereas it's not really reached
+		percentage = percentage * 100 - (1 / Math.pow(10, precision));
+		if (percentage < 0) {
+			percentage = 0;
+		}
+		return percentage.toFixed(precision);
+	},
+
 	/**
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
@@ -2406,12 +2466,37 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			plusSign = "";
 		}
 
+		if (!floatVal.toFixed){
+			return plusSign + floatVal;
+		}
+
 		if (precision === undefined){
 			precision = this.forceHighPrecision ? 3 : 2;
 		}
 
-		if (!floatVal.toFixed){
-			return plusSign + floatVal;
+		if (floatVal != 0) {
+			var absVal = Math.abs(floatVal);
+			if (absVal < 0.01 && precision == 2) {
+				precision = 3;
+			}
+			if (absVal < 0.001 && precision == 3) {
+				precision = 4;
+				if (absVal < 0.0001) {
+					precision = 5;
+					if (absVal < 0.00001) {
+						precision = 6;
+						if (absVal < 0.000001) {
+							precision = 7;
+							if (absVal < 0.0000001) {
+								precision = 8;
+								if (absVal < 0.00000001) {
+									precision = 9;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		if (floatVal.toFixed() == floatVal){
@@ -2462,16 +2547,33 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ticks++;
 
 		var timestampEnd = new Date().getTime();
-		if (window.location.protocol == "file:") {
+		if (this.isLocalhost) {
+			this.totalUpdateTimeTicks++;
 
 			var tsDiff = timestampEnd - timestampStart;
-			this.totalUpdateTime += tsDiff;
+			this.totalUpdateTime[this.totalUpdateTimeCurrent] += tsDiff;
+			this.totalUpdateTimeCurrent = this.totalUpdateTimeCurrent == 4 ? 0 : this.totalUpdateTimeCurrent + 1;
 
-			var avg = this.totalUpdateTime / this.ticks;
+			var avg = (this.totalUpdateTime[0] + this.totalUpdateTime[1] + this.totalUpdateTime[2] + this.totalUpdateTime[3] + this.totalUpdateTime[4]) / this.totalUpdateTimeTicks;
+			var avg0 = this.totalUpdateTime[0] / Math.floor((this.totalUpdateTimeTicks -1) / 5);
+			var avg1 = this.totalUpdateTime[1] / Math.floor((this.totalUpdateTimeTicks -2) / 5);
+			var avg2 = this.totalUpdateTime[2] / Math.floor((this.totalUpdateTimeTicks -3) / 5);
+			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks -4) / 5);
+			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks -5) / 5);
 
 			if (tsDiff < 10) {tsDiff = 10;}
             if ($("#devPanelFPS")[0]) {
-                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms, avg: " + avg.toFixed() + " ms";
+                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms,"
+                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (click to restart)";
+                dojo.connect($("#devPanelFPS")[0], "onclick", this, dojo.partial(function() {
+					this.totalUpdateTime[0] = 0;
+					this.totalUpdateTime[1] = 0;
+					this.totalUpdateTime[2] = 0;
+					this.totalUpdateTime[3] = 0;
+					this.totalUpdateTime[4] = 0;
+					this.totalUpdateTimeCurrent = 0;
+					this.totalUpdateTimeTicks = 5;
+                }));
             }
 		}
 	},
@@ -2492,6 +2594,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (!confirm(msg)){
 			return;
+		}
+
+		if (this.challenges.currentChallenge == "atheism" && this.time.getVSU("cryochambers").on > 0) {
+			this.challenges.getChallenge("atheism").researched = true;
 		}
 
 		this.challenges.currentChallenge = null;
@@ -2588,13 +2694,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 			if (tech.researched){
-				if( tech.cost){
-					totalScience += tech.cost;
-				}else{
-					for (var j in tech.prices){
-						if (tech.prices[j].name == "science"){
-							totalScience += tech.prices[j].val;
-						}
+				for (var j in tech.prices){
+					if (tech.prices[j].name == "science"){
+						totalScience += tech.prices[j].val;
+						break;
 					}
 				}
 			}
@@ -2628,7 +2731,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "void"];
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn"];
 
 
 
@@ -2636,37 +2739,40 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i in this.resPool.resources){
 			var res = this.resPool.resources[i];
 
-			if (res.craftable && res.name != "wood" && !fluxCondensator.researched){
+			if ((res.craftable && res.name != "wood" && !fluxCondensator.researched) ||
+				dojo.indexOf(ignoreResources, res.name) >= 0){
 				continue;	//>:
 			}
+			var value = 0;
 
-			if (dojo.indexOf(ignoreResources, res.name) >= 0) {
-				continue;
-			} else if (res.name == "timeCrystal"){
+			if (res.name == "timeCrystal"){
 				if (anachronomancy.researched){
-					newResources.push(res);
+					value = res.value;
 				}
 			} else if (res.persists){
-				newResources.push(res);
+				value = res.value;
 			} else {
-				var newRes = this.resPool.createResource(res.name, res.type);
-
 
 				if (!res.craftable || res.name == "wood"){
-					newRes.value = res.value * saveRatio;
+					value = res.value * saveRatio;
 					if (res.name == "void") {
-						newRes.value = Math.floor(newRes.value);
+						value = Math.floor(value);
 					}
 				} else if (res.value > 0) {
-					newRes.value = Math.sqrt(res.value) * saveRatio * 100;
+					value = Math.sqrt(res.value) * saveRatio * 100;
 				}
 
+			}
+
+			if (value > 0){
+				var newRes = this.resPool.createResource(res.name);
+				newRes.value = value;
 				newResources.push(newRes);
 			}
 		}
 
 		var newKittens= [];
-		if (this.time.getVSU("cryochambers").val > 0) {
+		if (this.time.getVSU("cryochambers").on > 0) {
 			var kittens = this.village.sim.kittens;
 
 			var newKittensSort = [];
@@ -2675,7 +2781,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 			newKittensSort.sort(function(a, b){return b.sort-a.sort;});
 
-			for (j = 0; j < Math.min(this.bld.get("chronosphere").val, this.time.getVSU("cryochambers").val); j++) {
+			for (var j = 0; j < this.time.getVSU("cryochambers").on; j++) {
 				if (j < newKittensSort.length){
 					delete kittens[newKittensSort[j].id].job;
 					newKittens.push(kittens[newKittensSort[j].id]);
@@ -2701,7 +2807,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			religion: {
 				faithRatio: this.religion.faithRatio,
 				tcratio: this.religion.tcratio,
-				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on"])
+				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
 			prestige: { perks: this.prestige.perks },	//never resets
 			challenges: {
@@ -2786,19 +2892,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.upgrade({
-			buildings: this.bld.buildingsData.map(function(building){
-				return building.name;
-			}),
-			religion: this.religion.religionUpgrades.map(function(building){
-				return building.name;
-			}),
-			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(building){
-				return building.name;
-			}),
+			tech: this.science.techs.map(function(item){return item.name;}),
+			perks: this.prestige.perks.map(function(item){return item.name;}),
+			jobs: this.village.jobs.map(function(item){return item.name;}),
+			crafts: this.workshop.crafts.map(function(item){return item.name;}),
+			upgrades: this.workshop.upgrades.map(function(item){return item.name;}),
+			buildings: this.bld.buildingsData.map(function(item){return item.name;}),
+			spaceMission: this.space.programs.map(function(item){return item.name;}),
 			space: spaceBuildingsMap,
-			jobs: this.village.jobs.map(function(job){
-				return job.name;
-			})
+			planet: this.space.planets.map(function(item){return item.name;}),
+			chronoforge: this.time.chronoforgeUpgrades.map(function(item){return item.name;}),
+			voidSpace: this.time.voidspaceUpgrades.map(function(item){return item.name;}),
+			zigguratUpgrades: this.religion.zigguratUpgrades.map(function(item){return item.name;}),
+			religion: this.religion.religionUpgrades.map(function(item){return item.name;}),
+			transcendenceUpgrades: this.religion.transcendenceUpgrades.map(function(item){return item.name;}),
+			challenges: this.challenges.challenges.map(function(item){return item.name;})
 		});
 	},
 
@@ -2806,6 +2914,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		switch(type) {
 			case "tech":
 				return this.science.get(unlockId);
+			case "perks":
+				return this.prestige.getPerk(unlockId);
 			case "jobs":
 				return this.village.getJob(unlockId);
 			case "crafts":
@@ -2829,8 +2939,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.time.getVSU(unlockId);
 			case "stages":
 				return this.bld.get(unlockId.bld);
-			case "perks":
-				return this.prestige.getPerk(unlockId);
 			case "zigguratUpgrades":
 				return this.religion.getZU(unlockId);
 			case "religion":

@@ -107,6 +107,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
+
+		if (this.getVSU("cryochambers").on != this.game.bld.get("chronosphere")) {
+			this.getVSU("cryochambers").on = Math.min(this.getVSU("cryochambers").val, this.game.bld.get("chronosphere").on);
+		}
     },
 
 	chronoforgeUpgrades: [{
@@ -200,14 +204,18 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-			"temporalParadoxDay": 1,
-			"energyConsumption": 15
+			"temporalParadoxDay": 0,
+			"energyConsumption": 0
         },
 		calculateEffects: function(self, game){
-			self.effects = {
-				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus"),
-				"energyConsumption": 15
+			var effects = {
+				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
 			};
+			effects["energyConsumption"] = 15;
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
+			self.effects = effects;
 		},
         unlocked: false
     }],
@@ -293,9 +301,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
-			if (price["name"] == "timeCrystal") {
-				var fluxBonus = Math.floor((this.game.calendar.year - this.game.time.flux) / 1000) / 100;
-				price["val"] -= Math.min(fluxBonus, 0.4);
+			if ((this.game.calendar.year - this.game.time.flux) > 40000 && price["name"] == "timeCrystal") {
+				price["val"] = Math.max(0, 1 - Math.floor((this.game.calendar.year - this.game.time.flux - 40000) / 1000) / 100);
 			}
 		}
 
@@ -310,9 +317,27 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         cal.day = 0;
         cal.season = 0;
 
-        for (var i=0; i< amt; i++) {
+		for (var i = 0; i < amt; i++) {
+			// Calendar
             cal.year+= 1;
             cal.onNewYear();
+            // Space ETA
+            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
+            for (var j in game.space.planets){
+				var planet = game.space.planets[j];
+				if (planet.unlocked && !planet.reached){
+					planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
+				}
+            }
+            // ShatterTC gain
+            var shatterTCGain = game.getEffect("shatterTCGain");
+			if (shatterTCGain > 0) {
+				for (var i = 0; i < game.resPool.resources.length; i++){
+					var res = game.resPool.resources[i];
+					var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
+					game.resPool.addResEvent(res.name, valueAdd);
+				}
+			}
         }
 
         if (amt == 1) {
@@ -322,15 +347,6 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         }
 
         game.time.flux += amt;
-
-		var shatterTCGain = game.getEffect("shatterTCGain");
-		if (shatterTCGain > 0) {
-			for (var i = 0; i < game.resPool.resources.length; i++){
-				var res = game.resPool.resources[i];
-				var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
-				game.resPool.addResEvent(res.name, valueAdd);
-			}
-		}
     },
 
     /**
@@ -426,6 +442,15 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
         }
         return this.metaCached;
     },
+
+	getName: function(){
+		var meta = this.getMetadata();
+		if (meta.name == "cryochambers" && meta.on != meta.val) {
+			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+		} else {
+			return this.inherited(arguments);
+		}
+	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {

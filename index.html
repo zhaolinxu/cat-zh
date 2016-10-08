@@ -120,7 +120,8 @@
 								gamePage.initKongregateApi();
 							});
 						}
-						if (window.location.protocol == "file:" || window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1"){
+						gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+						if (gamePage.isLocalhost){
 							$("#devModeButton").show();
 						}
 					} catch (ex){
@@ -131,7 +132,7 @@
 			});
 
 			function dev(){
-				if (window.location.protocol == "file:" || window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1") {
+				if (gamePage.isLocalhost) {
 					$("#dev_boostCalendar").show();
 					$("#devPanelCheats").show();
 
