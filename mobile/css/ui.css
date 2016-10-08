@@ -1,0 +1,95 @@
+
+.view-left{
+    float:left;
+    width:320px;
+    border-right:1px solid #b2b2b2;
+}
+
+.view-main{
+    float:left;
+    width:-webkit-calc(100% - 321px - 320px);
+    width:-moz-calc(100% - 321px - 320px);
+    width:-ms-calc(100% - 321px - 320px);
+    width:calc(100% - 321px - 320px);
+}
+
+.view-right{
+    float:right;
+    width:321px;
+    border-left:1px solid #b2b2b2;
+}
+
+@media (max-width: 768px) {
+    .view-left{
+        width:240px;
+    }
+    .view-main{
+        width:-webkit-calc(100% - 241px);width:-moz-calc(100% - 241px);width:-ms-calc(100% - 241px);width:calc(100% - 241px);
+    }
+}
+
+@media (max-width: 400px) {
+    .view-left{
+        width: 0px;
+    }
+    .view-main{
+        width:-webkit-calc(100% - 1px);width:-moz-calc(100% - 1px);width:-ms-calc(100% - 1px);width:calc(100% - 1px);
+    }
+    .view-right{
+        width: 0px;
+    }
+}
+
+/*--------------------------------------------------------------*/
+.table-block  {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-row div {
+    display: table-cell;
+    padding: 5px;
+}
+
+.progress-circle {
+    padding-left: 5px;
+}
+
+.console-inner {
+    border-top: 1px solid #9d9d9d;
+    padding: 5px;
+}
+
+/* TODO: use regular console and console-short types*/
+.console {
+    height: 200px;
+}
+
+.console-content .messages {
+    height: 160px;
+    overflow-y: scroll;
+}
+
+/*------------ theme related stuff goes there -----------------*/
+
+
+.page {
+    background-color: #dcddce;
+}
+
+.viewport-button.selected {
+    background-color: #2e2e2c;
+    color: #dcddce !important;
+}
+
+.viewport-button {
+    background-color: #dcddce;
+    color: #2e2e2c !important;
+}
+
+.navbar {
+    background-color: #9b9c8e;
+}

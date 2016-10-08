@@ -19,6 +19,14 @@ dojo.declare("classes.ui.UISystem", null, {
 
     displayAutosave: function(){
 
+    },
+
+    resetConsole: function(){
+
+    },
+
+    renderFilters: function(){
+
     }
 });
 
@@ -139,10 +147,15 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateFastHunt();
         this.updateCalendar();
         this.updateUndoButton();
+        this.updateAdvisors();
 
         this.game.resTable.update();
 
         this.toolbar.update();
+
+        if (this.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
+            this.game.tooltipUpdateFunc();
+        }
     },
 
 	updateTabs: function() {
@@ -220,6 +233,27 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
+    updateAdvisors: function(){
+        if (this.game.bld.get("field").on == 0){
+            return;
+        }
+
+        var advDiv = dojo.byId("advisorsContainer");
+        dojo.empty(advDiv);
+
+        var calendar = this.game.calendar,
+            winterDays = calendar.daysPerSeason -
+                (calendar.seasons[calendar.season].name === "winter" ? calendar.day : 0);
+
+        var catnipPerTick = this.game.calcResourcePerTick("catnip", { modifiers:{
+            "catnip" : 0.25
+        }});	//calculate estimate winter per tick for catnip;
+
+        if (this.game.resPool.get("catnip").value + ( winterDays * catnipPerTick / calendar.dayPerTick ) <= 0 ){
+            advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>";
+        }
+    },
+
     updateOptions: function() {
         var game = this.game;
 
@@ -282,11 +316,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.isChatActive = true;
     },
 
-    renderAds: function(){
-        var $container = $("#adblock-container");
-        for (var i = 0; i< 3; i++) {
-            /*$('<div class="adblock"><iframe src="http://ads.adsnxs.com/pubads?id=10450&size=300x250" width="300" height="250" frameborder="0" scrolling="no" marginwidth="0" marginheight="0"></iframe>')
-                .appendTo($container);*/
-        }
+    resetConsole: function(){
+        this.game.console.static.resetState();
+    },
+
+    renderFilters: function(){
+        //this.game.console.static.renderFilters();
     }
 });

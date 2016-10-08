@@ -991,7 +991,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.resetState();
 		this.village.resetState();
 		this.calendar.resetState();
-		this.console.static.resetState();
+		this.ui.resetConsole();
 
 		for (var i in this.managers){
 			this.managers[i].resetState();
@@ -1100,6 +1100,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.village.load(saveData);
 				this.calendar.load(saveData);
 				this.console.static.load(saveData);
+				this.ui.renderFilters();
 
                 for (var i in this.managers){
                     this.managers[i].load(saveData);
@@ -1130,19 +1131,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
-
-			/*-------------------------------------------
-			I don't know how to change it with this.resPool.get("sorrow").maxValue :
-
-			this.sorrow = data.sorrow || 0;
-			var nerfs = data.nerfs || 0;
-
-			if (nerfs < this.nerfs && this.calendar.year >= 100){
-				this.sorrow++;
-				this.msg("Black rain is falling over the village");
-			}
-			-------------------------------------------*/
-
 
 			// ora ora
 			if (data.opts){
@@ -2080,11 +2068,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.undoChange = null;
 			}
 		}
-
-		if (this.ticks % 5 == 0 && this.tooltipUpdateFunc) {
-			this.tooltipUpdateFunc();
-		}
-
         //--------------------
         //  Update UI state
         //--------------------
@@ -2137,11 +2120,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		kittens.value = this.village.getKittens();	//just a simple way to display them
 		kittens.maxValue = this.village.maxKittens;
 
-		this.updateAdvisors();
-
 		this.timer.update();
-
-
 	},
 
 	huntAll: function(event){
@@ -2193,28 +2172,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.workshop.craftAll(resName);
 		this.updateResources();
-	},
-
-	updateAdvisors: function(){
-
-		if (this.bld.get("field").on == 0){
-			return;
-		}
-
-		var advDiv = dojo.byId("advisorsContainer");
-		dojo.empty(advDiv);
-
-		var winterDays = this.calendar.daysPerSeason -
-			(this.calendar.seasons[this.calendar.season].name === "winter" ? this.calendar.day : 0);
-
-		var catnipPerTick = this.calcResourcePerTick("catnip", { modifiers:{
-			"catnip" : 0.25
-		}});	//calculate estimate winter per tick for catnip;
-
-		if (this.resPool.get("catnip").value + ( winterDays * catnipPerTick / this.calendar.dayPerTick ) <= 0 ){
-			advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>";
-		}
-
 	},
 
 	getRequiredResources: function(bld){
