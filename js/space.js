@@ -747,21 +747,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			});
 		}
 
-		// programs and shit
+		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
-			if (program.on){
-				if (program.unlocks){
-					//TODO: move to some common method?
-					if (program.unlocks.planet){
-						this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-					}
-					if (program.unlocks.programs){
-						dojo.forEach(program.unlocks.programs, function(uprogram, i){
-							self.game.space.getBuilding(uprogram).unlocked = true;
-						});
-					}
-				}
+			if (program.on && program.unlocks && program.unlocks.planet){
+				this.getPlanet(program.unlocks.planet).unlocked = true;
 			}
 		}
 
