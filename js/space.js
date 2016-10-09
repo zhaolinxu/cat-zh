@@ -916,21 +916,21 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
     },
 
 	updateVisible: function(){
-		var program = this.getMetadata();
-		if (program.requiredTech){
-			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
-				var tech = this.game.science.get(program.requiredTech[i]);
+		var meta = this.getMetadata();
+		if (meta.requiredTech){
+			for (var i = meta.requiredTech.length - 1; i >= 0; i--) {
+				var tech = this.game.science.get(meta.requiredTech[i]);
 				if (!tech.researched){
 					this.setVisible(false);
 					return;
 				}
 			}
 		}
-		if (program.on && program.noStackable && this.game.space.hideResearched){
+		if (meta.on && meta.noStackable && this.game.space.hideResearched){
 			this.setVisible(false);
 			return;
 		}
-		this.setVisible(program.unlocked);
+		this.setVisible(meta.unlocked);
 	}
 
 });
