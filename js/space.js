@@ -951,10 +951,6 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Bu
 		return this.metaCached;
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.getMetadata().unlocked);
-	},
-
 	hasSellLink: function(){
 		return false;
 	},
