@@ -705,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 14,
+	saveVersion: 15,
 
 	//FINALLY
 	opts: null,
@@ -1556,6 +1556,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 14;
+		}
+
+		if (save.saveVersion == 14) {
+			if (save.space && save.space.planets) {
+				for (var i in save.space.planets){
+					var planet = save.space.planets[i];
+					if (planet.buildings){
+						for (var j in planet.buildings) {
+							var building = planet.buildings[j];
+							if (typeof(building.unlocked) != "undefined") {
+								building.unlockable = building.unlocked;
+							} else {
+								building.unlockable = false;
+							}
+						}
+					}
+				}
+			}
+
+			save.saveVersion = 15;
 		}
 
 		return save;

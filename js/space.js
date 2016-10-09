@@ -701,6 +701,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
+					program.unlockable = false;
 					program.unlocked = false;
 
 					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
@@ -718,7 +719,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++){
 			var planet = planets[i];
 			if (planet.buildings){
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlockable", "unlocked"]);
 			}
 		}
 
@@ -780,7 +781,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
 				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlockable", "unlocked"], function(loadedElem){
 					});
 				}
 			}
@@ -801,13 +802,28 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.reached = true;
 					this.game.msg("You've reached a new planet!");
 					for (var j in planet.buildings){
-						planet.buildings[j].unlocked = true;
+						planet.buildings[j].unlockable = true;
 					}
 				}
 			}
 
 			for (var j in planet.buildings){
 				var bld = planet.buildings[j];
+
+				if (!bld.unlocked && bld.unlockable) {
+					if (typeof(bld.requiredTech) == "undefined"){
+						bld.unlocked = true;
+					} else {
+						var isUnlocked = true;
+						for (var i = bld.requiredTech.length - 1; i >= 0; i--) {
+							var tech = this.game.science.get(bld.requiredTech[i]);
+							if (!tech.researched){
+								isUnlocked = false;
+							}
+						}
+						bld.unlocked = isUnlocked;
+					}
+				}
 
 				if (bld.action && bld.val > 0){
 					bld.action(this.game, bld);
@@ -980,16 +996,6 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 	},
 
 	updateVisible: function(){
-		var meta = this.getMetadata();
-		if (meta.requiredTech){
-			for (var i = meta.requiredTech.length - 1; i >= 0; i--) {
-				var tech = this.game.science.get(meta.requiredTech[i]);
-				if (!tech.researched){
-					this.setVisible(false);
-					return;
-				}
-			}
-		}
 		this.setVisible(this.getMetadata().unlocked);
 	},
 
