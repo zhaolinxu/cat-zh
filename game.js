@@ -1455,7 +1455,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 8) {
-			if (!save.challenges){
+			if (typeof(save.challenges) == "undefined"){
 				save.challenges = [];
 			}
 			save.challenges.currentChallenge = null;
@@ -1498,7 +1498,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 11) {
-			if (!save.challenges){
+			if (typeof(save.challenges) == "undefined"){
 				save.challenges = [];
 			}
 			if (save.religion && save.religion.ru) {
