@@ -898,19 +898,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
     getPrices: function() {
-        var program = this.getMetadata();
-        var ratio = program.priceRatio || 1.15;
+        var prices = dojo.clone(this.getMetadata().prices);
 
-        var prices = dojo.clone(program.prices);
-        if (!program.noStackable){
-            for (var i = 0; i< prices.length; i++){
-                if (prices[i].name !== "oil") {
-                    prices[i].val = prices[i].val * Math.pow(ratio, program.val);
-                 } else {
-                    prices[i].val = prices[i].val * Math.pow(1.05, program.val);
-                 }
-            }
-        }
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
@@ -937,47 +926,14 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			return;
 		}
 		this.setVisible(program.unlocked);
-	},
-
-    build: function(bld, maxBld){
-		var counter = 0;
-		while (this.hasResources() && maxBld > 0){
-			this.payPrice();
-
-	        bld.val++;
-			bld.on++;
-
-            // manage togglableOnOff when Off
-            if (bld.togglableOnOff && bld.on == 1){
-                bld.on--;
-            }
-
-            counter++;
-            maxBld--;
-        }
-
-		if (bld.breakIronWill) {
-			this.game.ironWill = false;
-		}
-
-        if (counter > 1) {
-			this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
-		}
-
-		if (bld.unlocks){
-			this.game.unlock(bld.unlocks);
-		}
-
-		if (bld.upgrades){
-			this.game.upgrade(bld.upgrades);
-		}
-
-    },
+	}
 
 });
 
-dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
+dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
+	program: null,
+	simplePrices: false,
 	planet: null,
 
 	setOpts: function(opts){
@@ -998,6 +954,28 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 	updateVisible: function(){
 		this.setVisible(this.getMetadata().unlocked);
 	},
+
+	hasSellLink: function(){
+		return false;
+	},
+
+    getPrices: function() {
+        var meta = this.getMetadata();
+        var ratio = meta.priceRatio || 1.15;
+
+        var prices = dojo.clone(meta.prices);
+        for (var i = 0; i< prices.length; i++){
+            if (prices[i].name !== "oil") {
+                prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
+             } else {
+                prices[i].val = prices[i].val * Math.pow(1.05, meta.val);
+                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                prices[i].val *= (1 - reductionRatio);
+             }
+        }
+
+        return prices;
+    }
 
 });
 

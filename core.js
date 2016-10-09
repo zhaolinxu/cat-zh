@@ -1475,8 +1475,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	},
 
 	build: function(meta, maxBld){
-        this.animate();
-
         if (this.enabled && this.hasResources()){
 
 			var counter = 0;
@@ -1497,6 +1495,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 
 	        if (counter > 1) {
 		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+			}
+
+			if (meta.breakIronWill) {
+				this.game.ironWill = false;
 			}
 
 			if (meta.unlocks) {
