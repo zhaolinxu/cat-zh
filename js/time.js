@@ -157,8 +157,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: "Cryochambers",
         description: "One kitten will live after reset.<br>You can have one cryochamber per chronosphere",
         prices: [
-            { name : "void", val: 100 },
             { name : "timeCrystal", val: 2 },
+            { name : "void", val: 100 },
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
