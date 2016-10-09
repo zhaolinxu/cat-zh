@@ -586,7 +586,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
-                title: "Space Elevator - Transferred cath production bonus",
+                title: "Space Elevator - Transferred production bonus",
                 type: "ratio"
             },
 

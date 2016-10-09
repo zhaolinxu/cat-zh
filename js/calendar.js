@@ -298,6 +298,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 								paddingLeft: "6px"
 							}
 						}, effectItemNode );
+
+						dojo.create("span", {
+							innerHTML: "&nbsp;",
+							style: {clear: "both" }
+						}, effectItemNode );
 					}
 				}
 
@@ -336,7 +341,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 							}
 						}, effectItemNode );
 
-						var effectSpan = dojo.create("span", {
+						dojo.create("span", {
 							innerHTML: "&nbsp;",
 							style: {clear: "both" }
 						}, effectItemNode );
