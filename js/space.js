@@ -746,23 +746,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			});
 		}
-		// programs and shit
-		for (var i = this.programs.length - 1; i >= 0; i--) {
-			var program = this.programs[i];
-			if (program.on){
-				if (program.unlocks){
-					//TODO: move to some common method?
-					if (program.unlocks.planet){
-						this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-					}
-					if (program.unlocks.programs){
-						dojo.forEach(program.unlocks.programs, function(uprogram, i){
-							self.game.space.getProgram(uprogram).unlocked = true;
-						});
-					}
-				}
-			}
-		}
+
 		//planets
 		if (saveData.space.planets){
 			for (var i in saveData.space.planets){
