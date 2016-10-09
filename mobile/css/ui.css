@@ -28,15 +28,15 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 320px) {
     .view-left{
-        width: 0px;
+        display: none;
     }
     .view-main{
         width:-webkit-calc(100% - 1px);width:-moz-calc(100% - 1px);width:-ms-calc(100% - 1px);width:calc(100% - 1px);
     }
     .view-right{
-        width: 0px;
+        display: none;
     }
 }
 

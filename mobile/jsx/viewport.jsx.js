@@ -42,6 +42,7 @@ WViewport = React.createClass({
                             $r("div", {className: "list-block"}, [
                                 $r("ul", {}, this.createButtons())
                             ])
+                            //-----------------------------------------------------
                         ])
                     ])
                 ])
@@ -49,9 +50,16 @@ WViewport = React.createClass({
             $r("div", {className: "view view-main navbar-through"},[
                 $r("div", {className: "navbar"}, [
                     $r("div", {className: "navbar-inner"}, [
-                        $r("div", {className: "center sliding"},
-                            []
-                        )
+                        $r("div", {className: "center sliding"}, [
+                            "Kittens Game",
+                            $r("span", {id: "version", style: {paddingLeft: "11px"}}, "Ver 1.0")
+                        ]),
+                        $r("div", {className: "right"}, [
+                            $r("a", {href: "#", className: "link"},
+                                $r("i", {className: "icon icon-bars"}),
+                                $r("span", {}, "Menu")
+                            )
+                        ])
                     ])
                 ]),
                 $r("div", {className: "pages"},[
@@ -59,16 +67,10 @@ WViewport = React.createClass({
                         className: "page toolbar-fixed",
                         "data-page": "index-left"
                     }, [
-                        /*$r("div", {className: "toolbar console"},
-                            $r("div", {className: "toolbar-inner"},[
-                                []
-                            ])
-                        ),*/
+
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- MID goes there --------------------------
-                            /*$r(selectedTab.class, {
-                                id: this.state.selectedTab
-                            })*/
+
                             //--------------------------------------------------------------------------------------
 
                         ])
@@ -80,12 +82,6 @@ WViewport = React.createClass({
                     $r("div", {className: "navbar-inner"}, [
                         $r("div", {className: "center sliding"}, [
                             //--------------------- RIGHT PANEL HEADER (calendar, menu) ------------------
-                            /*$r(DDCalendar, {
-                            }),
-
-                            $r(UIProgressCircle, {
-                                size: 20
-                            })*/
                         ])
                     ])
                 ]),
@@ -96,8 +92,6 @@ WViewport = React.createClass({
                     }, [
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- RIGHT goes there --------------------------
-                            /*$r(DDGameProfiler, {}),
-                            $r(DDNetworkProfiler, {})*/
                         ])
                     ])
                 ])

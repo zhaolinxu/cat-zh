@@ -1811,6 +1811,8 @@ UIUtils = {
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
+		console.trace("ATTACHING TOOLTIP");
+
 		dojo.connect(container, "onmouseover", this, function() {
 			game.tooltipUpdateFunc = function(){
 				tooltip.innerHTML = dojo.hitch(game, htmlProvider)();

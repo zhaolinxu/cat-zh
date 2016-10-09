@@ -565,7 +565,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (this.game.rand(100000) <= 500){
 					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg("Another zebra hunter joins your village.");
-					this.game.render();
+					this.game.ui.render();
 				}
 			}
 		}else{
@@ -580,7 +580,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
                     "Zebra hunter has departed from your village."
                 );
                 zebras.value = zTreshold;
-				this.game.render();
+				this.game.ui.render();
 			}
 		}
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
@@ -710,7 +710,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			space: spaceBuildingsMap
 		});
 
-		this.render();
+		this.game.ui.render();
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
