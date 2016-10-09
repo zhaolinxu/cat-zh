@@ -279,8 +279,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			calculateEffects: function(self, game){
 				var effects = {
-					"uraniumPerTickCon": 0,
-					"unobtainiumPerTickSpace": 0
+					"uraniumPerTickCon": -0.35,
+					"unobtainiumPerTickSpace": 0.007 * (1+ game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
 				if (game.challenges.currentChallenge == "energy") {
@@ -335,7 +335,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"coalMax"           : 3500,
 					"titaniumMax"       : 1250,
 					"oilMax"            : 3500,
-					"unobtainiumMax"    : 150
+					"unobtainiumMax"    : 150,
+					"energyConsumption" : 0
 				};
 				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
 				if (game.challenges.currentChallenge == "energy") {
@@ -366,8 +367,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             },
 			calculateEffects: function (self, game){
 				self.effects = {
-					"uraniumPerTickSpace" : 0.3
-						* (1 + game.getEffect("crackerRatio")),
+					"uraniumPerTickSpace" : 0.3 * (1 + game.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
 			}

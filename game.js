@@ -897,13 +897,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	updateCaches: function() {
 		this.globalEffectsCached = {};
 
+		this.workshop.updateEffectCached();
+		this.religion.updateEffectCached();
 		this.bld.updateEffectCached();
 		this.challenges.updateEffectCached();
 		this.prestige.updateEffectCached();
-		this.religion.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
-		this.workshop.updateEffectCached();
 		// TODO : village cache
 
 		this.updateResources();
