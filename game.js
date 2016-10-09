@@ -278,10 +278,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			// energy
 
 			"energyProduction": {
-				title: "Energy production"
+				title: "Energy production",
+				type: "energy"
 			},
 			"energyConsumption": {
-				title: "Energy consumption"
+				title: "Energy consumption",
+				type: "energy"
             },
 
 			//production

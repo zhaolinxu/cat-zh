@@ -1116,6 +1116,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
 				} else if ( effectMeta.type === "integerRatio" ){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
+				} else if ( effectMeta.type === "energy" ){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
