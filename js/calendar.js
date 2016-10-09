@@ -698,16 +698,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var spaceBuildingsMap = [];
 		for (var i = 0; i < this.game.space.planets.length; i++) {
 			var planetName = this.game.space.planets[i].name;
-			var buildings = this.game.space.planets[i].buildings.map(function(building){
+			var spaceBuildings = this.game.space.planets[i].buildings.map(function(building){
 				return building.name;
 			});
-			for (var j = 0; j < buildings.length; j++) {
-				var item = {planet:planetName, bld: buildings[j]};
-				spaceBuildingsMap.push(item);
+			for (var j = 0; j < spaceBuildings.length; j++) {
+				var item = spaceBuildings[j];
+				spaceBuildingsMap.push(spaceBuildings[j]);
 			}
 		}
 		this.game.upgrade({
-			space: spaceBuildingsMap
+			spaceBuilding: spaceBuildingsMap
 		});
 
 		this.render();

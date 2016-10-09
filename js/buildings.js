@@ -1338,7 +1338,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             }
 
             var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
-            var totalRatio = game.space.getProgram("sattelite").on * broadcastTowerRatio;
+            var totalRatio = game.space.getBuilding("sattelite").on * broadcastTowerRatio;
 
             btower.effects["cultureMax"] *= ( 1 + totalRatio);
             btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);

@@ -2945,12 +2945,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var spaceBuildingsMap = [];
 		for (var i = 0; i < this.space.planets.length; i++) {
 			var planetName = this.space.planets[i].name;
-			var buildings = this.space.planets[i].buildings.map(function(building){
+			var spaceBuildings = this.space.planets[i].buildings.map(function(building){
 				return building.name;
 			});
-			for (var j = 0; j < buildings.length; j++) {
-				var item = {planet:planetName, bld: buildings[j]};
-				spaceBuildingsMap.push(item);
+			for (var j = 0; j < spaceBuildings.length; j++) {
+				var item = spaceBuildings[j];
+				spaceBuildingsMap.push(spaceBuildings[j]);
 			}
 		}
 
@@ -2962,7 +2962,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			upgrades: this.workshop.upgrades.map(function(item){return item.name;}),
 			buildings: this.bld.buildingsData.map(function(item){return item.name;}),
 			spaceMission: this.space.programs.map(function(item){return item.name;}),
-			space: spaceBuildingsMap,
+			spaceBuilding: spaceBuildingsMap,
 			planet: this.space.planets.map(function(item){return item.name;}),
 			chronoforge: this.time.chronoforgeUpgrades.map(function(item){return item.name;}),
 			voidSpace: this.time.voidspaceUpgrades.map(function(item){return item.name;}),
@@ -2991,9 +2991,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.bld.get(unlockId);
 			case "spaceMission":
 				return this.space.getProgram(unlockId);
-			case "space":
-				var planet = this.space.getPlanet(unlockId.planet);
-				return this.space.getMeta(unlockId.bld, planet.buildings);
+			case "spaceBuilding":
+				return this.space.getBuilding(unlockId);
 			case "planet":
 				return this.space.getPlanet(unlockId);
 			case "chronoforge":
@@ -3046,7 +3045,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var item = this.getUnlockByName(list[type][i], type);
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
-					if (type == "space") {
+					if (type == "spaceBuilding") {
 						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}

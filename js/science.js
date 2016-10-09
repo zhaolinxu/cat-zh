@@ -626,8 +626,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 5}
 		],
 		unlocks: {
-			tech: ["hydroponics"],
-			// space: [{planet:"yarn", bld: "terraformingStation"}] done in spaceManager
+			tech: ["hydroponics"]
 		}
 	},{
 		name: "hydroponics",
@@ -637,10 +636,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 1000000},
 			{name : "relic",   val: 25}
-		],
-		unlocks: {
-			// space: [{planet:"yarn", bld: "hydroponics"}] done in spaceManager
-		}
+		]
 	},{
 		name: "particlePhysics",
 		label: "Particle Physics",

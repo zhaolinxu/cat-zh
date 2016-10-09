@@ -83,9 +83,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.game.bld.get("steamworks").val > 0 &&
 				this.game.bld.get("magneto").val > 0 &&
 				this.game.bld.get("reactor").val > 0 &&
-				this.game.space.getProgram("sattelite").val > 0 &&
-				this.game.space.getProgram("sunlifter").val > 0 &&
-				this.game.space.getProgram("tectonic").val > 0
+				this.game.space.getBuilding("sattelite").val > 0 &&
+				this.game.space.getBuilding("sunlifter").val > 0 &&
+				this.game.space.getBuilding("tectonic").val > 0
 			) {
 				this.researchChallenge("energy");
 			}

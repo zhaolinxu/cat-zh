@@ -488,7 +488,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", 	val: 750 }
 		],
 		upgrades: {
-			space: [{planet:"cath", bld: "sattelite"}]
+			spaceBuilding: ["sattelite"]
 		}
 	},
 	//	------------- harbour stuff ------------
@@ -1198,7 +1198,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "antimatter", val: 250}
 		],
 		upgrades: {
-			space: [{planet:"moon", bld: "moonBase"}]
+			spaceBuilding: ["moonBase"]
 		}
 	},{
 		name: "amReactors",
@@ -1212,8 +1212,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "antimatter", val: 750}
 		],
 		upgrades: {
-			space: [{planet:"piscine", bld: "researchVessel"},
-					{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		unlocks: {
 			upgrades: ["amReactorsMK2"]
@@ -1226,8 +1225,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"spaceScienceRatio": 0.75
 		},
 		upgrades: {
-			space: [{planet:"piscine", bld: "researchVessel"},
-					{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		prices: [
 			{name: "eludium", val: 70},
@@ -1241,7 +1239,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"beaconRelicsPerDay": 0.01
 		},
 		upgrades: {
-			space: [{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["spaceBeacon"]
 		},
 		prices: [
 			{name: "eludium", val: 100},
@@ -1486,7 +1484,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 275000 }
 		],
 		upgrades: {
-			space: [{planet:"dune", bld: "planetCracker"}]
+			spaceBuilding: ["planetCracker"]
 		}
 	},
 	{
@@ -1921,7 +1919,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val *
 					(1 - this.game.getHyperbolicEffect(
-						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").on,
+						this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on,
 						0.75));
 			}
 		}

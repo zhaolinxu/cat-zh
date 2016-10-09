@@ -845,6 +845,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				return program;
 			}
 		}
+	},
+
+	getBuilding: function(name) {
+		if (this.metaCache[name]){
+			return this.metaCache[name];
+		}
 
 		for (i = this.planets.length - 1; i >= 0; i--){
 			var planet = this.planets[i];
@@ -940,11 +946,8 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Bu
 	},
 
 	getMetadata: function(){
-		var space = this.game.space;
 		if (!this.metaCached){
-			var planet = space.getMeta(this.planet.name, space.planets);
-			this.metaCached = space.getMeta(this.id, this.planet.buildings);
-
+			this.metaCached = this.game.space.getBuilding(this.id);
 		}
 		return this.metaCached;
 	},
