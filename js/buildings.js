@@ -941,14 +941,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"woodRatio" : 0
 		},
 		calculateEffects: function(self, game){
-			var effects = {
-				"woodRatio" : 0.1
-			};
-
-			var ratio = 1 + game.getEffect("lumberMillRatio");
-			effects["woodRatio"] *= ratio;
-
-			self.effects = effects;
+			self.effects["woodRatio"] = 0.1 + game.getEffect("lumberMillRatio") * 0.1;
 		},
 		flavor: "Best log analysing tool"
 	},
