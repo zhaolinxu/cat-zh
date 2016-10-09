@@ -883,7 +883,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
-	program: null,
 	simplePrices: false,
 
 	getMetadata: function(){
@@ -932,7 +931,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
-	program: null,
 	simplePrices: false,
 	planet: null,
 
@@ -984,13 +982,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 		var self = this;
 
 		dojo.forEach(this.planet.buildings, function(building, i){
-			var button = new classes.ui.space.PlanetBuildingBtn({
-				id: 		building.name,
-				name: 		building.label,
-				description: building.description,
-				prices: building.prices,
-				planet: self.planet
-			}, self.game);
+			var button = new classes.ui.space.PlanetBuildingBtn({id: building.name, planet: self.planet}, self.game);
 
 			button.render(content);
 			self.addChild(button);
