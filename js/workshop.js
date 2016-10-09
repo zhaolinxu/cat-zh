@@ -2119,7 +2119,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	getName: function(){
 		if (this.game.science.get("mechanization").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
-			var progressDisplayed = this.game.toDisplayPercentage(this.game.workshop.getCraft(this.craftName).progress, 0);
+			var progressDisplayed = this.game.toDisplayPercentage(this.game.workshop.getCraft(this.craftName).progress, 0, true);
 			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
@@ -2252,7 +2252,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.getCraftRatio() * 100).toFixed() + "%" }, div);
+		dojo.create("span", { innerHTML: "Craft effectiveness: +" + this.game.toDisplayPercentage(this.game.getCraftRatio(), 0, false) + "%" }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

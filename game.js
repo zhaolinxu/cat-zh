@@ -2462,12 +2462,41 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return timeFormated;
 	},
 
-	toDisplayPercentage: function(percentage, precision) {
-		// Prevent 100% whereas it's not really reached
-		percentage = percentage * 100 - (1 / Math.pow(10, precision));
-		if (percentage < 0) {
-			percentage = 0;
+	toDisplayPercentage: function(percentage, precision, precisionFixed) {
+		percentage *= 100;
+		if (precisionFixed) {
+			// Prevent 100% whereas it's not really reached
+			percentage -= 1 / Math.pow(10, precision);
+			if (percentage < 0) {
+				percentage = 0;
+			}
+		} else {
+			if (percentage - Math.trunc(percentage) != 0) {
+				precision = 1;
+				if (percentage*10 - Math.trunc(percentage*10) != 0) {
+					precision = 2;
+					if (percentage*100 - Math.trunc(percentage*100) != 0) {
+						precision = 3;
+						if (percentage*1000 - Math.trunc(percentage*1000) != 0) {
+							precision = 4;
+							if (percentage*10000 - Math.trunc(percentage*10000) != 0) {
+								precision = 5;
+								if (percentage*100000 - Math.trunc(percentage*100000) != 0) {
+									precision = 6;
+									if (percentage*1000000 - Math.trunc(percentage*1000000) != 0) {
+										precision = 7;
+										if (percentage*10000000 - Math.trunc(percentage*10000000) != 0) {
+											precision = 8;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
+
 		return percentage.toFixed(precision);
 	},
 
@@ -2554,9 +2583,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							precision = 7;
 							if (absVal < 0.0000001) {
 								precision = 8;
-								if (absVal < 0.00000001) {
-									precision = 9;
-								}
 							}
 						}
 					}
