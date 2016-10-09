@@ -1857,37 +1857,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 	},
 
     build: function(bld, maxBld){
-		var counter = 0;
-        while (this.hasResources() && maxBld > 0){
-			this.payPrice();
-
-	        bld.val++;
-			bld.on++;
-
-            // manage togglableOnOff when Off
-            if (bld.togglableOnOff && bld.on == 1){
-                bld.on--;
-            }
-
-            counter++;
-            maxBld--;
-        }
-
-		if (bld.breakIronWill) {
-			this.game.ironWill = false;
-		}
-
-        if (counter > 1) {
-	        this.game.msg(this.getMetadata().label + " x" + counter + " constructed.", "notice");
-		}
-
-		if (bld.unlocks) {
-			this.game.unlock(bld.unlocks);
-		}
-
-		if (bld.upgrades){
-			this.game.upgrade(bld.upgrades);
-		}
+		var counter = this.inherited(arguments);
 
 		//update stats
 		this.game.stats.getStat("buildingsConstructed").val += counter;

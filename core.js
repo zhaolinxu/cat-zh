@@ -1475,9 +1475,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	},
 
 	build: function(meta, maxBld){
+		var counter = 0;
         if (this.enabled && this.hasResources()){
 
-			var counter = 0;
 	        while (this.hasResources() && maxBld > 0){
 				this.payPrice();
 
@@ -1494,7 +1494,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg(this.getMetadata().label + " x" + counter + " constructed.", "notice");
 			}
 
 			if (meta.breakIronWill) {
@@ -1509,6 +1509,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 				this.game.upgrade(meta.upgrades);
 			}
         }
+
+		return counter;
     },
 
 	updateEnabled: function(){
