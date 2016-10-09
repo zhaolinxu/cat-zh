@@ -397,6 +397,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "calcinerSteelCraftRatio" : {
+                title: "Steel plants's calciner bonus",
+                type: "ratio"
+            },
+
+            "calcinerSteelReactorBonus" : {
                 title: "Calciner steel production bonus",
                 type: "ratio"
             },
