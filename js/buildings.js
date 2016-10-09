@@ -426,13 +426,15 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption": 0
 		},
 		calculateEffects: function(self, game){
+			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
-				self.effects["energyConsumption"] = 1;
+				energyCons = 1;
 				if (game.challenges.currentChallenge == "energy") {
-					self.effects["energyConsumption"] *= 2;
+					energyCons *= 2;
 				}
 				self.togglable = true;
 			}
+			self.effects["energyConsumption"] = energyCons;
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1101,20 +1103,24 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["energyConsumption"] *= 2;
 			}
 
+			self.effects["scienceMax"] = 0;
 			if (game.workshop.get("lhc").researched){
 				self.effects["scienceMax"] = 2500;
 			}
+
 			//------------- limit upgrades ------------
-			var capRatio = (1 + game.getEffect("acceleratorRatio"));
+			var capRatio = 0;
 			if (game.workshop.get("energyRifts").researched){
-				self.effects["catnipMax"]   = 30000 * capRatio;
-				self.effects["woodMax"]     = 20000 * capRatio;
-				self.effects["mineralsMax"] = 25000 * capRatio;
-				self.effects["ironMax"]     =  7500 * capRatio;
-				self.effects["coalMax"]     =  2500 * capRatio;
-				self.effects["goldMax"]     =   250 * capRatio;
-				self.effects["titaniumMax"] =   750 * capRatio;
+				capRatio = (1 + game.getEffect("acceleratorRatio"));
 			}
+
+			self.effects["catnipMax"]   = 30000 * capRatio;
+			self.effects["woodMax"]     = 20000 * capRatio;
+			self.effects["mineralsMax"] = 25000 * capRatio;
+			self.effects["ironMax"]     =  7500 * capRatio;
+			self.effects["coalMax"]     =  2500 * capRatio;
+			self.effects["goldMax"]     =   250 * capRatio;
+			self.effects["titaniumMax"] =   750 * capRatio;
 		},
 		lackResConvert: false,
 		action: function(self, game){
