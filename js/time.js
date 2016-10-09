@@ -162,6 +162,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
+        breakIronWill: true,
         effects: {
 			"maxKittens": 1
         },

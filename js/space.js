@@ -236,9 +236,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
-			handler: function(game){
-				game.ironWill = false;			//sorry folks
-			},
 			effects: {
 				"maxKittens": 0,
 				"scienceRatio": 0,
@@ -254,7 +251,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					effects["energyConsumption"] *= 2;
 				}
 				self.effects = effects;
-			}
+			},
+			breakIronWill: true
 		}]
 	},{
 		name: "moon",
@@ -274,10 +272,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 100000},
 				{name: "oil", val: 55000}
 			],
-			handler: function(game, self){
-				//game.workshop.get("unobtainiumAxe").unlocked = true;
-				//game.workshop.get("unobtainiumSaw").unlocked = true;
-			},
 			effects: {
 				"energyConsumption": 0,
 				"uraniumPerTickCon": 0,
@@ -595,7 +589,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					self.effects = {
 						"maxKittens": 1
 					};
-				}
+				},
+				breakIronWill: true
 			},
 			{
 				name: "hydroponics",
@@ -755,10 +750,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
 			if (program.on){
-				if (program.handler) {
-					program.handler(this.game, program);
-				}
-
 				if (program.unlocks){
 					//TODO: move to some common method?
 					if (program.unlocks.planet){
