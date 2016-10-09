@@ -1355,7 +1355,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: "Assistance",
 		description: "Building robots, workers do less effort and need less catnip",
 		effects: {
-			"catnipDemandWorkerRatioGlobal" : 0.25
+			"catnipDemandWorkerRatioGlobal" : -0.25
 		},
 		prices:[
 			{ name : "steel", val: 10000 },
