@@ -188,7 +188,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			},
 			{
 				label: "Solar Farm",
-				description: "Provides an additional source of energy.",
+				description: "Provides an additional source of energy depending on the seasons.",
 				prices: [
 					{ name : "titanium", val: 250 }
 				],
