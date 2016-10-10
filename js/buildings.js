@@ -1446,18 +1446,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		effects: {
-			"resStasisRatio": 0,
-			"energyConsumption" : 0
+			"resStasisRatio": 0.015, //1.5% of resources will be preserved
+			"energyConsumption" : 0,
+			"temporalFluxProduction" : 0
 		},
 		calculateEffects: function(self, game) {
-			var effects = {
-				"resStasisRatio": 0.015 //1.5% of resources will be preserved
-			};
-			effects["energyConsumption"] = 20;
+			self.effects["energyConsumption"] = 20;
 			if (game.challenges.currentChallenge == "energy") {
-				effects["energyConsumption"] *= 2;
+				self.effects["energyConsumption"] *= 2;
 			}
-			self.effects = effects;
+			self.effects["temporalFluxProduction"] = game.getEffect("temporalFluxProductionChronosphere");
 		}
 	}
 	],

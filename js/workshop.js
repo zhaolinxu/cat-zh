@@ -1576,6 +1576,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         upgrades: {
             voidSpace: ["chronocontrol"]
         }
+    },{
+        name: "turnSmoothly",
+        label: "Turn smoothly",
+        description: "Improve Chronocontrol effectiveness.",
+        effects: {
+			"temporalFluxProductionChronosphere": 1
+        },
+        prices:[
+			{ name : "unobtainium", val: 100000 },
+			{ name : "timeCrystal", val: 25 },
+			{ name : "void", val: 750 },
+			{ name : "temporalFlux", val: 6500 }
+        ],
+        upgrades: {
+            buildings: ["chronosphere"]
+        }
     }
     ],
 
