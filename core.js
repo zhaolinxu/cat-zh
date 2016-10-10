@@ -1101,9 +1101,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				} else if (effectMeta.type === "perYear"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
 				} else if ( effectMeta.type === "ratio" ) {
-					displayEffectValue = (effectValue * 100).toFixed(1) + "%";
+					displayEffectValue = this.game.toDisplayPercentage(effectValue, 0, false) + "%";
 				} else if ( effectMeta.type === "integerRatio" ){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
+				} else if ( effectMeta.type === "energy" ){
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
@@ -1463,11 +1465,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	},
 
 	build: function(meta, maxBld){
-        this.animate();
-
+		var counter = 0;
         if (this.enabled && this.hasResources()){
 
-			var counter = 0;
 	        while (this.hasResources() && maxBld > 0){
 				this.payPrice();
 
@@ -1484,7 +1484,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg(this.getMetadata().label + " x" + counter + " constructed.", "notice");
+			}
+
+			if (meta.breakIronWill) {
+				this.game.ironWill = false;
 			}
 
 			if (meta.unlocks) {
@@ -1495,6 +1499,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 				this.game.upgrade(meta.upgrades);
 			}
         }
+
+		return counter;
     },
 
 	updateEnabled: function(){

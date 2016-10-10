@@ -163,7 +163,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 
 			"catnipDemandWorkerRatioGlobal": {
-				title: "Workers catnip demand",
+				title: "Workers catnip demand reduction",
 				resName: "catnip",
 				type: "ratio"
 			},
@@ -278,10 +278,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			// energy
 
 			"energyProduction": {
-				title: "Energy production"
+				title: "Energy production",
+				type: "energy"
 			},
 			"energyConsumption": {
-				title: "Energy consumption"
+				title: "Energy consumption",
+				type: "energy"
             },
 
 			//production
@@ -395,6 +397,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "calcinerSteelCraftRatio" : {
+                title: "Steel plants's calciner bonus",
+                type: "ratio"
+            },
+
+            "calcinerSteelReactorBonus" : {
                 title: "Calciner steel production bonus",
                 type: "ratio"
             },
@@ -586,7 +593,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
-                title: "Space Elevator - Transferred cath production bonus",
+                title: "Space Elevator - Transferred production bonus",
                 type: "ratio"
             },
 
@@ -705,7 +712,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	deadKittens: 0,
 	ironWill: true,		//true if player has no kittens or housing buildings
 
-	saveVersion: 14,
+	saveVersion: 15,
 
 	//FINALLY
 	opts: null,
@@ -895,13 +902,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	updateCaches: function() {
 		this.globalEffectsCached = {};
 
+		this.workshop.updateEffectCached();
+		this.religion.updateEffectCached();
 		this.bld.updateEffectCached();
 		this.challenges.updateEffectCached();
 		this.prestige.updateEffectCached();
-		this.religion.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
-		this.workshop.updateEffectCached();
 		// TODO : village cache
 
 		this.updateResources();
@@ -1441,7 +1448,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 8) {
-			if (!save.challenges){
+			if (typeof(save.challenges) == "undefined"){
 				save.challenges = [];
 			}
 			save.challenges.currentChallenge = null;
@@ -1484,7 +1491,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (save.saveVersion == 11) {
-			if (!save.challenges){
+			if (typeof(save.challenges) == "undefined"){
 				save.challenges = [];
 			}
 			if (save.religion && save.religion.ru) {
@@ -1544,6 +1551,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
 			save.saveVersion = 14;
+		}
+
+		if (save.saveVersion == 14) {
+			if (save.space && save.space.planets) {
+				for (var i in save.space.planets){
+					var planet = save.space.planets[i];
+					if (planet.buildings){
+						for (var j in planet.buildings) {
+							var building = planet.buildings[j];
+							if (typeof(building.unlocked) != "undefined") {
+								building.unlockable = building.unlocked;
+							} else {
+								building.unlockable = false;
+							}
+						}
+					}
+				}
+			}
+
+			save.saveVersion = 15;
 		}
 
 		return save;
@@ -1745,7 +1772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		perTick += resConsumption;
@@ -2029,7 +2056,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
-			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 - this.getEffect(res.name + "DemandWorkerRatioGlobal"));
+			resConsumption *= this.village.happiness * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 		}
 
 		stack.push({
@@ -2397,12 +2424,41 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return timeFormated;
 	},
 
-	toDisplayPercentage: function(percentage, precision) {
-		// Prevent 100% whereas it's not really reached
-		percentage = percentage * 100 - (1 / Math.pow(10, precision));
-		if (percentage < 0) {
-			percentage = 0;
+	toDisplayPercentage: function(percentage, precision, precisionFixed) {
+		percentage *= 100;
+		if (precisionFixed) {
+			// Prevent 100% whereas it's not really reached
+			percentage -= 1 / Math.pow(10, precision);
+			if (percentage < 0) {
+				percentage = 0;
+			}
+		} else {
+			if (percentage - Math.trunc(percentage) != 0) {
+				precision = 1;
+				if (percentage*10 - Math.trunc(percentage*10) != 0) {
+					precision = 2;
+					if (percentage*100 - Math.trunc(percentage*100) != 0) {
+						precision = 3;
+						if (percentage*1000 - Math.trunc(percentage*1000) != 0) {
+							precision = 4;
+							if (percentage*10000 - Math.trunc(percentage*10000) != 0) {
+								precision = 5;
+								if (percentage*100000 - Math.trunc(percentage*100000) != 0) {
+									precision = 6;
+									if (percentage*1000000 - Math.trunc(percentage*1000000) != 0) {
+										precision = 7;
+										if (percentage*10000000 - Math.trunc(percentage*10000000) != 0) {
+											precision = 8;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
+
 		return percentage.toFixed(precision);
 	},
 
@@ -2489,9 +2545,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							precision = 7;
 							if (absVal < 0.0000001) {
 								precision = 8;
-								if (absVal < 0.00000001) {
-									precision = 9;
-								}
 							}
 						}
 					}
@@ -2882,12 +2935,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var spaceBuildingsMap = [];
 		for (var i = 0; i < this.space.planets.length; i++) {
 			var planetName = this.space.planets[i].name;
-			var buildings = this.space.planets[i].buildings.map(function(building){
+			var spaceBuildings = this.space.planets[i].buildings.map(function(building){
 				return building.name;
 			});
-			for (var j = 0; j < buildings.length; j++) {
-				var item = {planet:planetName, bld: buildings[j]};
-				spaceBuildingsMap.push(item);
+			for (var j = 0; j < spaceBuildings.length; j++) {
+				var item = spaceBuildings[j];
+				spaceBuildingsMap.push(spaceBuildings[j]);
 			}
 		}
 
@@ -2899,7 +2952,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			upgrades: this.workshop.upgrades.map(function(item){return item.name;}),
 			buildings: this.bld.buildingsData.map(function(item){return item.name;}),
 			spaceMission: this.space.programs.map(function(item){return item.name;}),
-			space: spaceBuildingsMap,
+			spaceBuilding: spaceBuildingsMap,
 			planet: this.space.planets.map(function(item){return item.name;}),
 			chronoforge: this.time.chronoforgeUpgrades.map(function(item){return item.name;}),
 			voidSpace: this.time.voidspaceUpgrades.map(function(item){return item.name;}),
@@ -2928,9 +2981,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.bld.get(unlockId);
 			case "spaceMission":
 				return this.space.getProgram(unlockId);
-			case "space":
-				var planet = this.space.getPlanet(unlockId.planet);
-				return this.space.getMeta(unlockId.bld, planet.buildings);
+			case "spaceBuilding":
+				return this.space.getBuilding(unlockId);
 			case "planet":
 				return this.space.getPlanet(unlockId);
 			case "chronoforge":
@@ -2983,7 +3035,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var item = this.getUnlockByName(list[type][i], type);
 				if (item.calculateEffects){
 					item.calculateEffects(item, this);
-					if (type == "space") {
+					if (type == "spaceBuilding") {
 						this.calendar.cycleEffectsBasics(item.effects, item.name);
 					}
 				}

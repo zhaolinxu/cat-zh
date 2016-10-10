@@ -488,7 +488,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "alloy", 	val: 750 }
 		],
 		upgrades: {
-			space: [{planet:"cath", bld: "sattelite"}]
+			spaceBuilding: ["sattelite"]
 		}
 	},
 	//	------------- harbour stuff ------------
@@ -1198,7 +1198,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "antimatter", val: 250}
 		],
 		upgrades: {
-			space: [{planet:"moon", bld: "moonBase"}]
+			spaceBuilding: ["moonBase"]
 		}
 	},{
 		name: "amReactors",
@@ -1212,8 +1212,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "antimatter", val: 750}
 		],
 		upgrades: {
-			space: [{planet:"piscine", bld: "researchVessel"},
-					{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		unlocks: {
 			upgrades: ["amReactorsMK2"]
@@ -1226,8 +1225,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"spaceScienceRatio": 0.75
 		},
 		upgrades: {
-			space: [{planet:"piscine", bld: "researchVessel"},
-					{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		prices: [
 			{name: "eludium", val: 70},
@@ -1241,7 +1239,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"beaconRelicsPerDay": 0.01
 		},
 		upgrades: {
-			space: [{planet:"kairo", bld: "spaceBeacon"}]
+			spaceBuilding: ["spaceBeacon"]
 		},
 		prices: [
 			{name: "eludium", val: 100},
@@ -1357,7 +1355,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: "Assistance",
 		description: "Building robots, workers do less effort and need less catnip",
 		effects: {
-			"catnipDemandWorkerRatioGlobal" : 0.25
+			"catnipDemandWorkerRatioGlobal" : -0.25
 		},
 		prices:[
 			{ name : "steel", val: 10000 },
@@ -1486,7 +1484,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 275000 }
 		],
 		upgrades: {
-			space: [{planet:"dune", bld: "planetCracker"}]
+			spaceBuilding: ["planetCracker"]
 		}
 	},
 	{
@@ -1921,7 +1919,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			if (prices[i].name == "starchart"){
 				prices[i].val = prices[i].val *
 					(1 - this.game.getHyperbolicEffect(
-						this.game.getEffect("satnavRatio") * this.game.space.getProgram("sattelite").on,
+						this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on,
 						0.75));
 			}
 		}
@@ -2121,7 +2119,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	getName: function(){
 		if (this.game.science.get("mechanization").researched && this.game.workshop.getCraft(this.craftName).value != 0) {
-			var progressDisplayed = this.game.toDisplayPercentage(this.game.workshop.getCraft(this.craftName).progress, 0);
+			var progressDisplayed = this.game.toDisplayPercentage(this.game.workshop.getCraft(this.craftName).progress, 0, true);
 			return this.name + " (" + this.game.workshop.getCraft(this.craftName).value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
@@ -2254,7 +2252,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.getCraftRatio() * 100).toFixed() + "%" }, div);
+		dojo.create("span", { innerHTML: "Craft effectiveness: +" + this.game.toDisplayPercentage(this.game.getCraftRatio(), 0, false) + "%" }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

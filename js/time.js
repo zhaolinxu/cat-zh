@@ -157,11 +157,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: "Cryochambers",
         description: "One kitten will live after reset.<br>You can have one cryochamber per chronosphere",
         prices: [
-            { name : "void", val: 100 },
             { name : "timeCrystal", val: 2 },
+            { name : "void", val: 100 },
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
+        breakIronWill: true,
         effects: {
 			"maxKittens": 1
         },
@@ -332,8 +333,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             // ShatterTC gain
             var shatterTCGain = game.getEffect("shatterTCGain");
 			if (shatterTCGain > 0) {
-				for (var i = 0; i < game.resPool.resources.length; i++){
-					var res = game.resPool.resources[i];
+				for (var j = 0; j < game.resPool.resources.length; j++){
+					var res = game.resPool.resources[j];
 					var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
 					game.resPool.addResEvent(res.name, valueAdd);
 				}

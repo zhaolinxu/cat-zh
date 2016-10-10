@@ -236,9 +236,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			],
 			priceRatio: 1.12,
 			requiredTech: ["orbitalEngineering"],
-			handler: function(game){
-				game.ironWill = false;			//sorry folks
-			},
 			effects: {
 				"maxKittens": 0,
 				"scienceRatio": 0,
@@ -254,7 +251,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					effects["energyConsumption"] *= 2;
 				}
 				self.effects = effects;
-			}
+			},
+			breakIronWill: true
 		}]
 	},{
 		name: "moon",
@@ -274,10 +272,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				{name: "science", val: 100000},
 				{name: "oil", val: 55000}
 			],
-			handler: function(game, self){
-				//game.workshop.get("unobtainiumAxe").unlocked = true;
-				//game.workshop.get("unobtainiumSaw").unlocked = true;
-			},
 			effects: {
 				"energyConsumption": 0,
 				"uraniumPerTickCon": 0,
@@ -285,8 +279,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			calculateEffects: function(self, game){
 				var effects = {
-					"uraniumPerTickCon": 0,
-					"unobtainiumPerTickSpace": 0
+					"uraniumPerTickCon": -0.35,
+					"unobtainiumPerTickSpace": 0.007 * (1+ game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
 				if (game.challenges.currentChallenge == "energy") {
@@ -341,7 +335,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"coalMax"           : 3500,
 					"titaniumMax"       : 1250,
 					"oilMax"            : 3500,
-					"unobtainiumMax"    : 150
+					"unobtainiumMax"    : 150,
+					"energyConsumption" : 0
 				};
 				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
 				if (game.challenges.currentChallenge == "energy") {
@@ -372,8 +367,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             },
 			calculateEffects: function (self, game){
 				self.effects = {
-					"uraniumPerTickSpace" : 0.3
-						* (1 + game.getEffect("crackerRatio")),
+					"uraniumPerTickSpace" : 0.3 * (1 + game.getEffect("crackerRatio")),
 					"uraniumMax" : 1750
 				};
 			}
@@ -595,7 +589,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					self.effects = {
 						"maxKittens": 1
 					};
-				}
+				},
+				breakIronWill: true
 			},
 			{
 				name: "hydroponics",
@@ -701,6 +696,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
+					program.unlockable = false;
 					program.unlocked = false;
 
 					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
@@ -718,7 +714,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++){
 			var planet = planets[i];
 			if (planet.buildings){
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlockable", "unlocked"]);
 			}
 		}
 
@@ -750,27 +746,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			});
 		}
-		// programs and shit
+
+		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
-			if (program.on){
-				if (program.handler) {
-					program.handler(this.game, program);
-				}
-
-				if (program.unlocks){
-					//TODO: move to some common method?
-					if (program.unlocks.planet){
-						this.game.space.getPlanet(program.unlocks.planet).unlocked = true;
-					}
-					if (program.unlocks.programs){
-						dojo.forEach(program.unlocks.programs, function(uprogram, i){
-							self.game.space.getProgram(uprogram).unlocked = true;
-						});
-					}
-				}
+			if (program.on && program.unlocks && program.unlocks.planet){
+				this.getPlanet(program.unlocks.planet).unlocked = true;
 			}
 		}
+
 		//planets
 		if (saveData.space.planets){
 			for (var i in saveData.space.planets){
@@ -780,7 +764,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
 				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlockable", "unlocked"], function(loadedElem){
 					});
 				}
 			}
@@ -801,13 +785,28 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.reached = true;
 					this.game.msg("You've reached a new planet!");
 					for (var j in planet.buildings){
-						planet.buildings[j].unlocked = true;
+						planet.buildings[j].unlockable = true;
 					}
 				}
 			}
 
 			for (var j in planet.buildings){
 				var bld = planet.buildings[j];
+
+				if (!bld.unlocked && bld.unlockable) {
+					if (typeof(bld.requiredTech) == "undefined"){
+						bld.unlocked = true;
+					} else {
+						var isUnlocked = true;
+						for (var i = bld.requiredTech.length - 1; i >= 0; i--) {
+							var tech = this.game.science.get(bld.requiredTech[i]);
+							if (!tech.researched){
+								isUnlocked = false;
+							}
+						}
+						bld.unlocked = isUnlocked;
+					}
+				}
 
 				if (bld.action && bld.val > 0){
 					bld.action(this.game, bld);
@@ -828,6 +827,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				this.metaCache[name] = program;
 				return program;
 			}
+		}
+	},
+
+	getBuilding: function(name) {
+		if (this.metaCache[name]){
+			return this.metaCache[name];
 		}
 
 		for (i = this.planets.length - 1; i >= 0; i--){
@@ -867,7 +872,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	metaCached: null, // Call getMetadata
-	program: null,
 	simplePrices: false,
 
 	getMetadata: function(){
@@ -882,19 +886,8 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
     getPrices: function() {
-        var program = this.getMetadata();
-        var ratio = program.priceRatio || 1.15;
+        var prices = dojo.clone(this.getMetadata().prices);
 
-        var prices = dojo.clone(program.prices);
-        if (!program.noStackable){
-            for (var i = 0; i< prices.length; i++){
-                if (prices[i].name !== "oil") {
-                    prices[i].val = prices[i].val * Math.pow(ratio, program.val);
-                 } else {
-                    prices[i].val = prices[i].val * Math.pow(1.05, program.val);
-                 }
-            }
-        }
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
@@ -904,80 +897,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
         return prices;
     },
-
-	updateVisible: function(){
-		var program = this.getMetadata();
-		if (program.requiredTech){
-			for (var i = program.requiredTech.length - 1; i >= 0; i--) {
-				var tech = this.game.science.get(program.requiredTech[i]);
-				if (!tech.researched){
-					this.setVisible(false);
-					return;
-				}
-			}
-		}
-		if (program.on && program.noStackable && this.game.space.hideResearched){
-			this.setVisible(false);
-			return;
-		}
-		this.setVisible(program.unlocked);
-	},
-
-    build: function(bld, maxBld){
-		var counter = 0;
-		while (this.hasResources() && maxBld > 0){
-			this.payPrice();
-
-	        bld.val++;
-			bld.on++;
-
-            // manage togglableOnOff when Off
-            if (bld.togglableOnOff && bld.on == 1){
-                bld.on--;
-            }
-
-            counter++;
-            maxBld--;
-        }
-
-		if (bld.breakIronWill) {
-			this.game.ironWill = false;
-		}
-
-        if (counter > 1) {
-			this.game.msg(bld.label + " x" + counter + " constructed.", "notice");
-		}
-
-		if (bld.unlocks){
-			this.game.unlock(bld.unlocks);
-		}
-
-		if (bld.upgrades){
-			this.game.upgrade(bld.upgrades);
-		}
-
-    },
-
-});
-
-dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.SpaceProgramBtn, {
-	metaCached: null, // Call getMetadata
-	planet: null,
-
-	setOpts: function(opts){
-		this.inherited(arguments);
-		this.planet = opts.planet;
-	},
-
-	getMetadata: function(){
-		var space = this.game.space;
-		if (!this.metaCached){
-			var planet = space.getMeta(this.planet.name, space.planets);
-			this.metaCached = space.getMeta(this.id, this.planet.buildings);
-
-		}
-		return this.metaCached;
-	},
 
 	updateVisible: function(){
 		var meta = this.getMetadata();
@@ -990,8 +909,53 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Sp
 				}
 			}
 		}
-		this.setVisible(this.getMetadata().unlocked);
+		if (meta.on && meta.noStackable && this.game.space.hideResearched){
+			this.setVisible(false);
+			return;
+		}
+		this.setVisible(meta.unlocked);
+	}
+
+});
+
+dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
+	metaCached: null, // Call getMetadata
+	simplePrices: false,
+	planet: null,
+
+	setOpts: function(opts){
+		this.inherited(arguments);
+		this.planet = opts.planet;
 	},
+
+	getMetadata: function(){
+		if (!this.metaCached){
+			this.metaCached = this.game.space.getBuilding(this.id);
+		}
+		return this.metaCached;
+	},
+
+	hasSellLink: function(){
+		return false;
+	},
+
+    getPrices: function() {
+        var meta = this.getMetadata();
+        var ratio = meta.priceRatio || 1.15;
+
+        var prices = dojo.clone(meta.prices);
+        for (var i = 0; i< prices.length; i++){
+            if (prices[i].name !== "oil") {
+                prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
+             } else {
+                prices[i].val = prices[i].val * Math.pow(1.05, meta.val);
+                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                prices[i].val *= (1 - reductionRatio);
+             }
+        }
+
+        return prices;
+    }
 
 });
 
@@ -1004,13 +968,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 		var self = this;
 
 		dojo.forEach(this.planet.buildings, function(building, i){
-			var button = new classes.ui.space.PlanetBuildingBtn({
-				id: 		building.name,
-				name: 		building.label,
-				description: building.description,
-				prices: building.prices,
-				planet: self.planet
-			}, self.game);
+			var button = new classes.ui.space.PlanetBuildingBtn({id: building.name, planet: self.planet}, self.game);
 
 			button.render(content);
 			self.addChild(button);

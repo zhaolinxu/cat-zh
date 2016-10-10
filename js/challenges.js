@@ -18,21 +18,21 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
     {
 		name: "ironWill",
 		label: "Iron Will",
-		description: "Iron Will is a bit hidden challenge and you don't need to click here to enable it: reset the game and play without kittens. IW gets you no bonus.",
+		description: "Iron Will is a bit hidden challenge and you don't need to click here to enable it: reset the game and play without kittens.",
 		effectDesc: "Nothing",
         researched: false,
         unlocked: true
 	},{
 		name: "atheism",
 		label: "Atheism",
-		description: "Restart the game without faith bonus.<br />Goal: Reset with 1 kitten.",
+		description: "Restart the game without faith bonus.<br /><br />Goal: Reset with 1 kitten.",
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
 	},{
 		name: "energy",
 		label: "Energy",
-		description: "Restart the game with consumption of energy multiply by 2.<br />Goal: Unlock all energy production buildings.",
+		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings.",
 		effectDesc: "Production bonuses cuts caused by negative energy are divided by 2.",
         researched: false,
 		unlocked: false
@@ -83,9 +83,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.game.bld.get("steamworks").val > 0 &&
 				this.game.bld.get("magneto").val > 0 &&
 				this.game.bld.get("reactor").val > 0 &&
-				this.game.space.getProgram("sattelite").val > 0 &&
-				this.game.space.getProgram("sunlifter").val > 0 &&
-				this.game.space.getProgram("tectonic").val > 0
+				this.game.space.getBuilding("sattelite").val > 0 &&
+				this.game.space.getBuilding("sunlifter").val > 0 &&
+				this.game.space.getBuilding("tectonic").val > 0
 			) {
 				this.researchChallenge("energy");
 			}
@@ -116,16 +116,13 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 	},
 
 	getDescription: function() {
-		var start = this.inherited(arguments);
-		if (this.getMetadata().name == "ironWill" && this.game.bld.get("chronosphere").val > 0) {
-			start = start + "<br />WARNING: gain reset bonus from chronospheres disable automatically IW.";
-		}
-		if (this.getMetadata().researched) {
-			return start + "<br /><br />Gain: " + this.getMetadata().effectDesc;
+		if (this.game.bld.get("chronosphere").val > 0) {
+			var msgChronosphere = " You won't gain reset bonus from chronospheres.";
+			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: gain reset bonus from chronospheres disable automatically IW." : "";
 		} else {
-			var msgChronosphere = this.game.bld.get("chronosphere").val > 0 ? "<br />You won't gain reset bonus from chronospheres." : "";
-			return start + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
+			var msgChronosphere = "";
 		}
+		return this.inherited(arguments) + "<br />Gain: " + this.getMetadata().effectDesc + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
 	},
 
 	getName: function(){
