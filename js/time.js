@@ -239,9 +239,9 @@ dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.But
     },
 
     toggle: function() {
-		if (this.game.resPool.get("temporalFlux").value < 0) {
+		if (this.game.resPool.get("temporalFlux").value <= 0) {
 			this.game.time.isAccelerated = false;
-			this.game.resPool.get("temporalFlux").value = 0
+			this.game.resPool.get("temporalFlux").value = 0;
 		} else {
 			this.game.time.isAccelerated = !this.game.time.isAccelerated;
 		}

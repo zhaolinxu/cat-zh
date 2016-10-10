@@ -1585,7 +1585,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	crafts:[{
 		name: "wood",
-		label: "Refine catnip",
+		label: "Refine Catnip",
 		description: "A sturdy block of catnip wood. Difficult to process, but great building material.",
 		prices:[
 			{name: "catnip", val: 100}

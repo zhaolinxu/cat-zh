@@ -826,7 +826,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			return this.metaCache[name];
 		}
 
-		for (i = this.planets.length - 1; i >= 0; i--){
+		for (var i = this.planets.length - 1; i >= 0; i--){
 			var planet = this.planets[i];
 			if (planet.buildings){
 				for (var j = planet.buildings.length - 1; j >= 0; j--){

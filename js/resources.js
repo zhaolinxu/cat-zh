@@ -479,8 +479,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 */
 	update: function(){
 
-		var effectsBase = this.addBarnWarehouseRatio(this.game.bld.effectsBase),
-			game = this.game;
+		var game = this.game;
 
 		for (var i in this.resources){
 			var res = this.resources[i];
