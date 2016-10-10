@@ -10,18 +10,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     constructor: function(game){
         this.game = game;
 
-		this.registerMetaTime();
+		this.registerMeta("stackable", this.chronoforgeUpgrades, null);
+		this.registerMeta("stackable", this.voidspaceUpgrades, null);
 		this.setEffectsCachedExisting();
-    },
-
-    registerMetaTime: function() {
-		this.registerMeta(this.chronoforgeUpgrades, { getEffect: function(bld, effectName){
-			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
-		}});
-
-		this.registerMeta(this.voidspaceUpgrades, { getEffect: function(bld, effectName){
-			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
-		}});
     },
 
     save: function(saveData){

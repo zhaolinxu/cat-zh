@@ -245,16 +245,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
-		this.registerMetaPrestige();
+		this.registerMeta("research", this.perks, null);
 		this.setEffectsCachedExisting();
-	},
-
-	registerMetaPrestige: function() {
-		this.registerMeta(this.perks, {
-			getEffect: function(perk, effectName){
-				return (perk.researched && perk.effects) ? perk.effects[effectName] : 0;
-			}
-		});
 	},
 
 	resetState: function(){

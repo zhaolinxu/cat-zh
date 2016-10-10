@@ -60,8 +60,24 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
 	 * @param provider - any object having getEffect(metaElem, effectName) method
 	 */
-	registerMeta: function(meta, provider){
-		this.meta.push({meta: meta, provider: provider});
+	registerMeta: function(type, meta, provider){
+		if (!type) {
+			this.meta.push({meta: meta, provider: provider});
+		} else if (type == "research") {
+			this.meta.push({
+				meta: meta,
+				provider: { getEffect : function(item, effect){
+					return (item.researched && item.effects) ? item.effects[effect] : 0;
+				}}
+			});
+		} else if (type == "stackable") {
+			this.meta.push({
+				meta: meta,
+				provider: { getEffect : function(item, effect){
+					return (item.effects) ? item.effects[effect] * item.on : 0;
+				}}
+			});
+		}
 	},
 
 	setEffectsCachedExisting: function() {

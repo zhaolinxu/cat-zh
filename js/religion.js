@@ -14,22 +14,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	constructor: function(game){
 		this.game = game;
-		this.registerMetaReligion();
+		this.registerMeta("stackable", this.zigguratUpgrades, null);
+		this.registerMeta("stackable", this.religionUpgrades, null);
+		this.registerMeta("stackable", this.transcendenceUpgrades, null);
 		this.setEffectsCachedExisting();
-	},
-
-	registerMetaReligion: function() {
-		this.registerMeta(this.zigguratUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects ? bld.effects[effectName] * bld.val : 0;
-		}});
-
-		this.registerMeta(this.transcendenceUpgrades, { getEffect: function(bld, effectName){
-			return bld.effects ? bld.effects[effectName] * bld.val : 0;
-		}});
-
-		this.registerMeta(this.religionUpgrades, { getEffect : function(upgrade, name){
-			return upgrade.effects[name] ? upgrade.effects[name] * upgrade.on : 0;
-		}});
 	},
 
 	resetState: function(){

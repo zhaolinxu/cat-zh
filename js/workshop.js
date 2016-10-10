@@ -1768,16 +1768,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
-		this.registerMetaWorkshop();
+		this.registerMeta("research", this.upgrades, null);
 		this.setEffectsCachedExisting();
-	},
-
-	registerMetaWorkshop: function() {
-		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
-			if (upgrade.researched){
-				return upgrade.effects ? upgrade.effects[name] : 0;
-			}
-		}});
 	},
 
 	get: function(upgradeName){
