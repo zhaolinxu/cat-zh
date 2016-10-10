@@ -39,9 +39,7 @@ WViewport = React.createClass({
                     }, [
                         $r("div", {className: "page-content"}, [
                             //------------------- buttons -------------------------
-                            $r("div", {className: "list-block"}, [
-                                $r("ul", {}, this.createButtons())
-                            ])
+                            $r(WResourceTable, {})
                             //-----------------------------------------------------
                         ])
                     ])
@@ -116,9 +114,5 @@ WViewport = React.createClass({
         }
         return viewportButtons;*/
         return [];
-    },
-
-    setTab: function(id){
-        this.setState({selectedTab: id});
     }
 });

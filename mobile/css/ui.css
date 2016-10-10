@@ -93,3 +93,17 @@
 .navbar {
     background-color: #9b9c8e;
 }
+
+/*---------------- resource section ------------------*/
+.resources-table {
+    display: table;
+}
+
+.resources-table-row {
+    display: table-row;
+}
+
+.resources-table-cell {
+    display: table-cell;
+    padding: 5px;
+}

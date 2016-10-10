@@ -251,6 +251,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 /**
  * Simple class from a right-sided console in the game UI
+ *
+ * TODO: all ui logic should be completely detached. Ideally game.msg should just post ("/msg") topic.
  */
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
@@ -316,12 +318,14 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			var gameLog = dojo.byId("gameLog");
 
-			dojo.forEach(dojo.query("*", gameLog), function(entry, i){
-				if (i>25) {
-					var opacity = dojo.getStyle(entry, "opacity");
-					dojo.setStyle(entry, "opacity", opacity - 0.033);
-				}
-			});
+			if (gameLog) {
+				dojo.forEach(dojo.query("*", gameLog), function (entry, i) {
+					if (i > 25) {
+						var opacity = dojo.getStyle(entry, "opacity");
+						dojo.setStyle(entry, "opacity", opacity - 0.033);
+					}
+				});
+			}
 
 			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
 
@@ -1810,8 +1814,6 @@ UIUtils = {
 	attachTooltip: function(game, container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
-
-		console.trace("ATTACHING TOOLTIP");
 
 		dojo.connect(container, "onmouseover", this, function() {
 			game.tooltipUpdateFunc = function(){

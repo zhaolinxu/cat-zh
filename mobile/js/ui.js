@@ -4,6 +4,6 @@ dojo.declare("classes.ui.FW7UI", classes.ui.UISystem, {
     },
 
     update: function(){
-        dojo.publish("ui/update");
+        dojo.publish("game/update", this.game);
     }
 });
