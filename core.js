@@ -98,6 +98,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	},
 
 	updateEffectCached: function() {
+		var effectsBase = this.effectsBase;
+		if (effectsBase){
+			effectsBase = this.game.resPool.addBarnWarehouseRatio(effectsBase);
+		}
+
 		for (var name in this.effectsCachedExisting) {
 			// Add effect from meta
 			var effect = 0;
@@ -107,8 +112,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			}
 
 			// Add effect from effectsBase
-			if (this.effectsBase && this.effectsBase[name]) {
-				effect += this.effectsBase[name];
+			if (effectsBase && effectsBase[name]) {
+				effect += effectsBase[name];
 			}
 
 			// Add effect in globalEffectsCached, in addition of other managers
