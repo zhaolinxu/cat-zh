@@ -273,9 +273,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		//check job limits
 		for (var i = 0; i < this.jobs.length; i++) {
 			var jobName = this.jobs[i].name;
-			while (this.getWorkerKittens(jobName) > this.getJobLimit(jobName)) {
+			var limit = this.getJobLimit(jobName);
+			while (this.getWorkerKittens(jobName) > limit) {
 				this.sim.removeJob(jobName);
-				this.jobs[i].value -= 1;
 			}
 		}
 
@@ -861,9 +861,17 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		var killed = this.kittens.splice(this.kittens.length - amount, amount);
 		var village = this.game.village;
 
-		//remove dead kittens from government
 		for (var i = killed.length - 1; i >= 0; i--){
 			var kitten = killed[i];
+
+			//fire dead kitten to keep craft worker counts in synch
+			if (kitten.job) {
+				var job = village.getJob(kitten.job);
+				this.unassignCraftJobs(job);
+				job.value -= 1;
+			}
+
+			//remove dead kittens from government
 			if (kitten === village.leader){
 				village.leader = null;
 			}
@@ -882,6 +890,17 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 	getKittens: function(){
 		return this.kittens.length;
+	},
+
+	unassignCraftJobs: function(job) {
+		if (job.name == "engineer" && this.game.village.getFreeEngineer() <= 0) {
+			for (var i = 0; i < this.game.workshop.crafts.length; i++) {
+				if (this.game.workshop.crafts[i].value > 0) {
+					this.game.workshop.crafts[i].value -= 1;
+					return true;
+				}
+			}
+		}
 	},
 
 	rand: function(ratio){
@@ -957,8 +976,12 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         jobKittens.sort(function(a, b){return a.val-b.val;});
 
         if (jobKittens.length){
+			var kitten = this.kittens[jobKittens[0].id];
 
-            this.kittens[jobKittens[0].id].job = null;
+			var job = this.game.village.getJob(kitten.job);
+			this.unassignCraftJobs(job);
+			job.value--;
+            kitten.job = null;
 
             this.game.village.updateResourceProduction();   //out of synch, refresh instantly
         }else{
@@ -1021,18 +1044,6 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	},
 
-	unassignCraftJobs: function(job) {
-		if (job.name == "engineer" && this.game.village.getFreeEngineer() == 0) {
-			for (var i = 0; i < this.game.workshop.crafts.length; i++) {
-				if (this.game.workshop.crafts[i].value > 0) {
-					console.log(this.game.workshop.crafts[i]);
-					this.game.workshop.crafts[i].value -= 1;
-					break;
-				}
-			}
-		}
-	},
-
 	unassignJobs: function(amt){
 		var job = this.getJob();
 
@@ -1041,8 +1052,6 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 		}
 
 		for (var i = amt - 1; i >= 0; i--) {
-			this.unassignCraftJobs(job);
-			job.value -= 1;
 			this.game.village.sim.removeJob(job.name);
 		}
 		this.update();
@@ -1380,20 +1389,24 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 			}, this, leader));
 
+			var div = dojo.create("div", null, this.governmentDiv);
+
 			this.unassignLeaderJobHref = dojo.create("a", {
 				href: "#", innerHTML: "Unassign Leader Job",
 				style: {
 					display:
-						(leader.job) ? "block" : "none"
+						(leader.job) ? "inline-block" : "none"
 				}
-			}, this.governmentDiv);
+			}, div);
 
 			dojo.connect(this.unassignLeaderJobHref, "onclick", this, dojo.partial(function(census, leader, event){
 				event.preventDefault();
 				var game = census.game;
 
 				if(leader.job){
-					game.village.getJob(leader.job).value--;
+					var job = game.village.getJob(leader.job);
+					game.village.unassignCraftJobs(job);
+					job.value--;
 
 					leader.job = null;
 					game.village.updateResourceProduction();

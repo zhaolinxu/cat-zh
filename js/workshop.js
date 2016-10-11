@@ -2018,16 +2018,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 
+		var freeCount = this.game.village.getFreeEngineer();
+
 		for (var i = 0; i < this.crafts.length; i++){
 			var craft = this.crafts[i];
 			var prices = this.getCraftPrice(craft);
 
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
-		}
 
-		for (var i = 0; i < this.crafts.length; i++) {
-			var craft = this.crafts[i];
+			//sanity check
+			if (freeCount < 0) {
+				craft.value = 0;
+			}
 
 			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per engineer per minute
 
