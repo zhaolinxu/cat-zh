@@ -824,7 +824,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				this.game.ui.isDisplayOver = false;
 			});
 
-			UIUtils.attachTooltip(this.game, tdResName, dojo.hitch(this, function(res){
+			UIUtils.attachTooltip(this.game, tdResName, 0, 320, dojo.hitch(this, function(res){
 				return res.description || "";
 			}, res));
 

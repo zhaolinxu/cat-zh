@@ -1845,7 +1845,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
  * }
  */
 UIUtils = {
-	attachTooltip: function(game, container, htmlProvider){
+	attachTooltip: function(game, container, topPosition, leftPosition, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
@@ -1868,8 +1868,8 @@ UIUtils = {
 				pos.left = scrollRight - $(tooltip).width() - 320;
 			}
 
-			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			dojo.setStyle(tooltip, "left", (pos.left + leftPosition) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top + topPosition) + "px");
 
 			if (tooltip.innerHTML) {
 				dojo.setStyle(tooltip, "display", "");
