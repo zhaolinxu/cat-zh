@@ -1747,7 +1747,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tr = dojo.create("tr", {}, advVillageTable);
 		var statsTd = dojo.create("td", { style: "cursor: pointer; width: 50%; text-align: center;"}, tr);
 
-		statsTd.title = "Happiness affects your workers' production. \nRare resources will increase this value whilst over-population will reduce it";
+		UIUtils.attachTooltip(this.game, statsTd, dojo.hitch(this, function(){
+				return "Happiness affects your workers' production and consumption of catnip." +
+						"<br />Rare resources will increase this value whilst over-population will reduce it";
+			}));
 
 		this.happinessStats = statsTd;
 
