@@ -66,13 +66,56 @@ WViewport = React.createClass({
                         "data-page": "index-left"
                     }, [
 
+                        /* -----------------------------------------
+                        * Tabs section goes there.
+                        * TODO: hide for smaller screen resolution, use carousel
+                        ------------------------------------------ */
+                        $r("div", {className: "subnavbar"}, [
+                            $r("div", {className: "buttons-row"}, [
+                                $r("div", {href:"#tab1", className: "button"}, "Tab 1"),
+                                $r("div", {href:"#tab2", className: "button"}, "Tab 2"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 3"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 4"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 5"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 6"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 7"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 8"),
+                                $r("div", {href:"#tab3", className: "button"}, "Tab 9")
+                            ])
+                        ]),
+
+                        //-----------------------------------
+                        //          Bottom toolbar
+                        //-----------------------------------
+
+                        $r("div", {
+                            className: "toolbar"
+                        }, [
+                            $r("div", {className : "toolbar-inner"},
+                                $r("a", {href : "#", className: "link"}, "Left link"),
+                                $r("a", {
+                                    href : "#",
+                                    className: "open-popover link",
+                                    "data-popover": ".popover-menu"
+                                }, "Menu")
+                            )
+                        ]),
+
+
+
+
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- MID goes there --------------------------
 
                             //--------------------------------------------------------------------------------------
-
                         ])
-                    ])
+                    ]),
+
+
+                    /*<div class="toolbar">
+                     <div class="toolbar-inner"><a href="#" class="link">Dummy Link</a><a href="#" data-popover=".popover-menu" class="open-popover link">Menu</a></div>
+                     </div>*/
+
                 ])
             ]),
             $r("div", {className: "view view-right navbar-through"},[
@@ -95,6 +138,24 @@ WViewport = React.createClass({
                 ])
             ]),
         ]);
+
+        /**
+         *   <div class="popover popover-menu" style="display: none; top: 233px; left: 75px;">
+             <div class="popover-angle on-bottom" style="left: 201px;"></div>
+             <div class="popover-inner">
+             <div class="list-block">
+             <ul>
+             <li><a href="modals.html" class="list-button item-link">Modals</a></li>
+             <li><a href="popover.html" class="list-button item-link">Popover</a></li>
+             <li><a href="tabs.html" class="list-button item-link">Tabs</a></li>
+             <li><a href="panels.html" class="list-button item-link">Side Panels</a></li>
+             <li><a href="list-view.html" class="list-button item-link">List View</a></li>
+             <li><a href="forms.html" class="list-button item-link">Forms</a></li>
+             </ul>
+             </div>
+             </div>
+             </div>
+         **/
         return viewport;
     },
 

@@ -4,6 +4,16 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//=========================================
 	//				COMMON
 	//=========================================
+
+	/**
+	 * visible: resource will be visible in the topmost ("resource") table
+	 * craftable: resource will be visible in the bottom ("craft") table
+	 *
+	 * Those flags are not mutually exclusive
+	 *
+	 *  transient: will not be affected by magneto production bonus (and other bonuses)
+	 *  type: common/uncommon/rare/exotic
+	 */
 	resourceData: [
 	{
 		name : "catnip",
