@@ -928,7 +928,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			perTick = this.game.opts.usePerSecondValues ? perTick * this.game.getRateUI() : perTick;
 			var postfix = this.game.opts.usePerSecondValues ? "/sec" : "";
 			if (this.game.opts.usePercentageResourceValues && res.maxValue){
-				perTick = perTick / res.maxValue * 100;
+				perTick = (perTick / res.maxValue * 100).toFixed(2);
 				postfix = "%" + postfix;
 			}
 

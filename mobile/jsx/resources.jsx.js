@@ -20,7 +20,7 @@ WResourceTableRow = React.createClass({
 
         var postfix = game.opts.usePerSecondValues ? "/sec" : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
-            perTick = perTick / res.maxValue * 100;
+            perTick = (perTick / res.maxValue * 100).toFixed(2);
             postfix = "%" + postfix;
         }
 
