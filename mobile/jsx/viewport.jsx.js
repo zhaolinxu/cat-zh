@@ -48,6 +48,7 @@ WViewport = React.createClass({
     getDefaultProps: function() {
         return {
             tabs: [
+                {   id:"bonfire", class: WBonfireTab  }
             ]
         }
     },
@@ -55,7 +56,7 @@ WViewport = React.createClass({
     getInitialState: function() {
         return {
             game: null,
-            selectedTabId: null
+            selectedTabId: "Bonfire"
         }
     },
 

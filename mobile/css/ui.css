@@ -95,11 +95,24 @@
 }
 
 /*---------------- resource section ------------------*/
-.resources-table li {
-    font-size: 0.8em;
+.res-table li {
+    font-size: 0.7em;
 }
 
-.resources-table-cell {
+.res-table a {
+    padding-left: 0px !important;
+}
+
+.res-table .item-inner {
+    padding: 0px !important;
+}
+
+.res-row {
+    display: flex;
+    width: 90%;
+}
+.res-cell {
     display: inline-block;
-    padding-left: 5px;
+    flex-basis: 100%;
+    padding-left: 2px;
 }
