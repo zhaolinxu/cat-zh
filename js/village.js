@@ -1405,7 +1405,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 				if(leader.job){
 					var job = game.village.getJob(leader.job);
-					game.village.unassignCraftJobs(job);
+					game.village.sim.unassignCraftJobs(job);
 					job.value--;
 
 					leader.job = null;
