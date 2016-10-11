@@ -371,6 +371,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
 			res.unlocked = false;
+			if (res.name == "oil" ||
+				res.name == "kerosene" ||
+				res.name == "thorium") {
+				res.refundable = false;
+			} else {
+				res.refundable = true
+			}
 			this.resources.push(res);
 		}
 	},

@@ -872,10 +872,6 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		return this.metaCached;
 	},
 
-	hasSellLink: function(){
-		return false;
-	},
-
     getPrices: function() {
         var prices = dojo.clone(this.getMetadata().prices);
 
@@ -913,10 +909,15 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Bu
 	metaCached: null, // Call getMetadata
 	simplePrices: false,
 	planet: null,
+	refundPercentage: 0.1,
 
 	setOpts: function(opts){
 		this.inherited(arguments);
 		this.planet = opts.planet;
+	},
+
+	hasSellLink: function(){
+		return !this.game.opts.hideSell;
 	},
 
 	getMetadata: function(){
@@ -924,10 +925,6 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Bu
 			this.metaCached = this.game.space.getBuilding(this.id);
 		}
 		return this.metaCached;
-	},
-
-	hasSellLink: function(){
-		return false;
 	},
 
     getPrices: function() {

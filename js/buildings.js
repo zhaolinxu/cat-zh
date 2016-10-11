@@ -1797,6 +1797,10 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		return this.prices;
 	},
 
+	hasSellLink: function(){
+		return !this.game.opts.hideSell;
+	},
+
     build: function(bld, maxBld){
 		var counter = this.inherited(arguments);
 
