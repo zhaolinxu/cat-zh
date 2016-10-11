@@ -67,13 +67,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
-        this.registerMetaBuilding();
-        this.setEffectsCachedExisting();
-	},
-
-	registerMetaBuilding: function() {
-		var game = this.game;
-		this.registerMeta(this.buildingsData, {
+        this.registerMeta(false, this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
 				var bld = new classes.BuildingMeta(bld).getMeta();
@@ -105,6 +99,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return effect;
 			}
 		});
+        this.setEffectsCachedExisting();
 	},
 
 	buildingGroups: [{
@@ -214,6 +209,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 effects.energyProduction *= 1 + game.getEffect("solarFarmRatio");
 				if (game.calendar.season == 3) {
 					effects.energyProduction *= 0.75;
+				} else if (game.calendar.season == 1) {
+					effects.energyProduction /= 0.75;
 				}
                 stageMeta.effects = effects;
 			}
@@ -1449,18 +1446,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		effects: {
-			"resStasisRatio": 0,
-			"energyConsumption" : 0
+			"resStasisRatio": 0.015, //1.5% of resources will be preserved
+			"energyConsumption" : 0,
+			"temporalFluxProduction" : 0
 		},
 		calculateEffects: function(self, game) {
-			var effects = {
-				"resStasisRatio": 0.015 //1.5% of resources will be preserved
-			};
-			effects["energyConsumption"] = 20;
+			self.effects["energyConsumption"] = 20;
 			if (game.challenges.currentChallenge == "energy") {
-				effects["energyConsumption"] *= 2;
+				self.effects["energyConsumption"] *= 2;
 			}
-			self.effects = effects;
+			self.effects["temporalFluxProduction"] = game.getEffect("temporalFluxProductionChronosphere");
 		}
 	}
 	],

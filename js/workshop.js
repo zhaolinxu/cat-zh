@@ -1576,6 +1576,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         upgrades: {
             voidSpace: ["chronocontrol"]
         }
+    },{
+        name: "turnSmoothly",
+        label: "Turn smoothly",
+        description: "Improve Chronocontrol effectiveness.",
+        effects: {
+			"temporalFluxProductionChronosphere": 1
+        },
+        prices:[
+			{ name : "unobtainium", val: 100000 },
+			{ name : "timeCrystal", val: 25 },
+			{ name : "void", val: 750 },
+			{ name : "temporalFlux", val: 6500 }
+        ],
+        upgrades: {
+            buildings: ["chronosphere"]
+        }
     }
     ],
 
@@ -1585,7 +1601,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	crafts:[{
 		name: "wood",
-		label: "Refine catnip",
+		label: "Refine Catnip",
 		description: "A sturdy block of catnip wood. Difficult to process, but great building material.",
 		prices:[
 			{name: "catnip", val: 100}
@@ -1768,16 +1784,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
-		this.registerMetaWorkshop();
+		this.registerMeta("research", this.upgrades, null);
 		this.setEffectsCachedExisting();
-	},
-
-	registerMetaWorkshop: function() {
-		this.registerMeta(this.upgrades, { getEffect : function(upgrade, name){
-			if (upgrade.researched){
-				return upgrade.effects ? upgrade.effects[name] : 0;
-			}
-		}});
 	},
 
 	get: function(upgradeName){

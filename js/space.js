@@ -649,32 +649,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
-		this.registerMetaSpace();
-		this.setEffectsCachedExisting();
-	},
-
-	registerMetaSpace: function(){
-		var game = this.game;
-		this.registerMeta(this.programs, { getEffect: function(program, effectName){
-			if (!program.effects){
-				return 0;
-			}
-			return program.effects[effectName] * program.on;
-		}});
-
+		this.registerMeta("stackable", this.programs, null);
 		for (var i in this.planets) {
 			var planet = this.planets[i];
-			planet.routeDaysDefault = planet.routeDays;
-
-			this.registerMeta(planet.buildings, { getEffect: function(building, effectName){
+			this.registerMeta(false, planet.buildings, { getEffect: function(building, effectName){
 				if (!building.effects){
 					return 0;
+				} else {
+					var spaceRatio = (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd) ? game.resPool.getEnergyDelta() : 1;
+					return building.effects[effectName] * building.on * spaceRatio;
 				}
-				var spaceRatio = (effectName == "spaceRatio" && game.resPool.energyCons > game.resPool.energyProd) ? game.resPool.getEnergyDelta() : 1;
-				return building.effects[effectName] * building.on * spaceRatio;
 			}});
 		}
-
+		// Keep default route days to reset state after reset or load
+		for (var i in this.planets) {
+			this.planets[i].routeDaysDefault = this.planets[i].routeDays;
+		}
+		this.setEffectsCachedExisting();
 	},
 
 	resetState: function(){
@@ -835,7 +826,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			return this.metaCache[name];
 		}
 
-		for (i = this.planets.length - 1; i >= 0; i--){
+		for (var i = this.planets.length - 1; i >= 0; i--){
 			var planet = this.planets[i];
 			if (planet.buildings){
 				for (var j = planet.buildings.length - 1; j >= 0; j--){

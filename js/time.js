@@ -10,18 +10,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     constructor: function(game){
         this.game = game;
 
-		this.registerMetaTime();
+		this.registerMeta("stackable", this.chronoforgeUpgrades, null);
+		this.registerMeta("stackable", this.voidspaceUpgrades, null);
 		this.setEffectsCachedExisting();
-    },
-
-    registerMetaTime: function() {
-		this.registerMeta(this.chronoforgeUpgrades, { getEffect: function(bld, effectName){
-			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
-		}});
-
-		this.registerMeta(this.voidspaceUpgrades, { getEffect: function(bld, effectName){
-			return (bld.effects) ? bld.effects[effectName] * bld.val : 0;
-		}});
     },
 
     save: function(saveData){
@@ -218,6 +209,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			}
 			self.effects = effects;
 		},
+		unlocks: {
+			upgrades: ["turnSmoothly"]
+		},
         unlocked: false
     }],
 
@@ -248,8 +242,9 @@ dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.But
     },
 
     toggle: function() {
-		if (this.game.resPool.get("temporalFlux").value == 0) {
+		if (this.game.resPool.get("temporalFlux").value <= 0) {
 			this.game.time.isAccelerated = false;
+			this.game.resPool.get("temporalFlux").value = 0;
 		} else {
 			this.game.time.isAccelerated = !this.game.time.isAccelerated;
 		}
@@ -276,7 +271,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     },
 
     update: function(){
-        this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value + "/" + this.game.resPool.get("temporalFlux").maxValue;
+        this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
         if (this.game.resPool.get("temporalFlux").value != 0){
             this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.resPool.get("temporalFlux").value / this.game.rate) + ")";
         }
@@ -454,8 +449,53 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 	}
 });
 
+dojo.declare("classes.ui.time.FixCryochamberBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	hasResourceHover: true,
+
+	onClick: function(){
+		this.animate();
+
+		if (this.enabled && this.hasResources()){
+			this.payPrice();
+			this.doFixCryochamber();
+		}
+	},
+
+    doFixCryochamber: function(){
+		var cry = this.game.time.getVSU("cryochambers");
+		var usedCry = this.game.time.getVSU("usedCryochambers");
+		if (this.game.workshop.get("chronoforge").researched && usedCry.val != 0) {
+			usedCry.val -= 1;
+			usedCry.on -= 1;
+			cry.val += 1;
+			cry.on += 1;
+			if (usedCry.on == 0) {
+				usedCry.unlocked = false;
+			}
+		}
+    },
+
+	getSelectedObject: function(){
+		return {"prices": this.getPrices()};
+	},
+
+	updateVisible: function() {
+		this.setVisible(this.game.workshop.get("chronoforge").researched && this.game.time.getVSU("usedCryochambers").val != 0);
+	}
+});
+
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
+
+		this.addChild(new classes.ui.time.FixCryochamberBtn({
+            name: "Fix Cryochamber",
+            description: "Tear the space-time to get back a cryochamber before it is used.",
+            prices: [
+				{name: "timeCrystal", val: 100},
+				{name: "void", val: 500},
+				{name: "temporalFlux", val: 3000},
+            ]
+        }, game));
 
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];

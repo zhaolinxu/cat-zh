@@ -60,8 +60,24 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * @param meta	- metadata set (e.g. buildings list, upgrades list, etc)
 	 * @param provider - any object having getEffect(metaElem, effectName) method
 	 */
-	registerMeta: function(meta, provider){
-		this.meta.push({meta: meta, provider: provider});
+	registerMeta: function(type, meta, provider){
+		if (!type) {
+			this.meta.push({meta: meta, provider: provider});
+		} else if (type == "research") {
+			this.meta.push({
+				meta: meta,
+				provider: { getEffect : function(item, effect){
+					return (item.researched && item.effects) ? item.effects[effect] : 0;
+				}}
+			});
+		} else if (type == "stackable") {
+			this.meta.push({
+				meta: meta,
+				provider: { getEffect : function(item, effect){
+					return (item.effects) ? item.effects[effect] * item.on : 0;
+				}}
+			});
+		}
 	},
 
 	setEffectsCachedExisting: function() {
@@ -82,6 +98,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	},
 
 	updateEffectCached: function() {
+		var effectsBase = this.effectsBase;
+		if (effectsBase){
+			effectsBase = this.game.resPool.addBarnWarehouseRatio(effectsBase);
+		}
+
 		for (var name in this.effectsCachedExisting) {
 			// Add effect from meta
 			var effect = 0;
@@ -91,8 +112,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			}
 
 			// Add effect from effectsBase
-			if (this.effectsBase && this.effectsBase[name]) {
-				effect += this.effectsBase[name];
+			if (effectsBase && effectsBase[name]) {
+				effect += effectsBase[name];
 			}
 
 			// Add effect in globalEffectsCached, in addition of other managers
@@ -181,7 +202,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				for (var j = 0; j < fields.length; j++){
 					var fld = fields[j];
 					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
-						//console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
+						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
 					}
 					if (savedMetaElem[fld] !== undefined) {
 						elem[fld] = savedMetaElem[fld];

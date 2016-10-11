@@ -679,7 +679,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if ( this.year % 1000 === 0 ){
 			this.game.resPool.addResEvent("paragon", 1);
 			this.game.stats.getStat("totalParagon").val++;
-			this.game.updateKarma();
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
@@ -721,6 +720,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
+
+		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 	},
 
 	getWeatherMod: function(){
