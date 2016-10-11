@@ -20,9 +20,14 @@ if (document.all && !window.localStorage) {
 /**
  * Just a simple timer, js timer sucks
  */
-dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
+dojo.declare("game.Timer", null, {
 	handlers: [],
 	scheduledHandlers: [],
+
+	ticksTotal: 0,
+	timestampStart: null,
+	totalUpdateTime: null,
+
 
 	addEvent: function(handler, frequency){
 		this.handlers.push({
@@ -52,6 +57,23 @@ dojo.declare("com.nuclearunicorn.game.ui.Timer", null, {
 			this.scheduledHandlers[i]();
 		}
 		this.scheduledHandlers = [];
+	},
+
+	beforeUpdate: function(){
+		this.timestampStart = new Date().getTime();
+	},
+
+	afterUpdate: function(){
+		this.ticksTotal++;
+
+		var timestampEnd = new Date().getTime();
+
+		var tsDiff = timestampEnd - this.timestampStart;
+		this.totalUpdateTime += tsDiff;
+
+
+		this.currentTime = tsDiff;
+		this.averageTime = Math.round(this.totalUpdateTime / this.ticksTotal);
 	}
 });
 
@@ -856,7 +878,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//vvvv do not forget to toggle tab visibility below
 
-		this.timer = new com.nuclearunicorn.game.ui.Timer();
+		this.timer = new game.Timer();
 
 		//Update village resource production.
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
@@ -2136,6 +2158,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.ui.displayAutosave();
 		}
 
+		this.timer.beforeUpdate();
+
 		//hack hack hack
 		this.updateModel();
 		if (this.time.isAccelerated && this.ticks % 2 == 0){
@@ -2156,6 +2180,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //  Update UI state
         //--------------------
         this.ui.update();
+
+		this.timer.afterUpdate();
 	},
 
 	getRateUI: function(){

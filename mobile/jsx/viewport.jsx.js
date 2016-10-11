@@ -1,3 +1,49 @@
+WSubnavTabs = React.createClass({
+    getDefaultProps: function() {
+        return {
+            tabs: [],
+            selectedTabId: null,
+            onclick: null
+        }
+    },
+
+    render: function() {
+        var tabBtns = [],
+            self = this;
+
+        for (var i in this.props.tabs){
+            var tab = this.props.tabs[i];
+
+            var selectedClass = "";
+            if (tab.tabId == this.props.selectedTabId){
+                selectedClass += " active";
+            }
+
+            tabBtns.push(
+                $r("div", {
+                    href:"#",
+                    className: "button" + selectedClass,
+                    onClick: dojo.hitch(this, function(tab){
+                        //console.log("TAB:", tab);
+                        self.onClick(tab.tabId)
+                    }, tab)
+                }, tab.tabName)
+            );
+        }
+
+        return $r("div", {className: "subnavbar"},
+            $r("div", {className: "buttons-row"},[
+                tabBtns
+            ])
+        );
+    },
+
+    onClick: function(tabId){
+        console.log("TAB ID:", tabId);
+        this.props.onclick(tabId);
+    }
+});
+
 WViewport = React.createClass({
     getDefaultProps: function() {
         return {
@@ -8,7 +54,8 @@ WViewport = React.createClass({
 
     getInitialState: function() {
         return {
-            game: null
+            game: null,
+            selectedTabId: null
         }
     },
 
@@ -17,7 +64,10 @@ WViewport = React.createClass({
     },
 
     onChange: function(game){
-        this.setState({game: game});
+        this.setState({
+            game: game,
+            selectedTabId: this.state.selectedTabId
+        });
     },
 
     render: function() {
@@ -69,20 +119,13 @@ WViewport = React.createClass({
                         /* -----------------------------------------
                         * Tabs section goes there.
                         * TODO: hide for smaller screen resolution, use carousel
+                        * TODO: use dynamic tab rendering based on what tab is active
                         ------------------------------------------ */
-                        $r("div", {className: "subnavbar"}, [
-                            $r("div", {className: "buttons-row"}, [
-                                $r("div", {href:"#tab1", className: "button"}, "Tab 1"),
-                                $r("div", {href:"#tab2", className: "button"}, "Tab 2"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 3"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 4"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 5"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 6"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 7"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 8"),
-                                $r("div", {href:"#tab3", className: "button"}, "Tab 9")
-                            ])
-                        ]),
+                        $r(WSubnavTabs, {
+                            tabs: this.getTabs(),
+                            onclick: this.setTab,
+                            selectedTabId: this.state.selectedTabId
+                        }),
 
                         //-----------------------------------
                         //          Bottom toolbar
@@ -101,21 +144,12 @@ WViewport = React.createClass({
                             )
                         ]),
 
-
-
-
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- MID goes there --------------------------
 
                             //--------------------------------------------------------------------------------------
                         ])
-                    ]),
-
-
-                    /*<div class="toolbar">
-                     <div class="toolbar-inner"><a href="#" class="link">Dummy Link</a><a href="#" data-popover=".popover-menu" class="open-popover link">Menu</a></div>
-                     </div>*/
-
+                    ])
                 ])
             ]),
             $r("div", {className: "view view-right navbar-through"},[
@@ -133,47 +167,27 @@ WViewport = React.createClass({
                     }, [
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- RIGHT goes there --------------------------
+                            $r(WProfiler)
                         ])
                     ])
                 ])
             ]),
         ]);
-
-        /**
-         *   <div class="popover popover-menu" style="display: none; top: 233px; left: 75px;">
-             <div class="popover-angle on-bottom" style="left: 201px;"></div>
-             <div class="popover-inner">
-             <div class="list-block">
-             <ul>
-             <li><a href="modals.html" class="list-button item-link">Modals</a></li>
-             <li><a href="popover.html" class="list-button item-link">Popover</a></li>
-             <li><a href="tabs.html" class="list-button item-link">Tabs</a></li>
-             <li><a href="panels.html" class="list-button item-link">Side Panels</a></li>
-             <li><a href="list-view.html" class="list-button item-link">List View</a></li>
-             <li><a href="forms.html" class="list-button item-link">Forms</a></li>
-             </ul>
-             </div>
-             </div>
-             </div>
-         **/
         return viewport;
     },
 
     createButtons: function(){
-        /*var viewportButtons = [];
-        for (var i in this.props.tabs){
-            var tab = this.props.tabs[i];
-
-            var btn = $r(DDViewportTabButton, {
-                id:    tab.id,
-                title: tab.title,
-                selected:
-                    (this.state.selectedTab == tab.id),
-                onclick: this.setTab
-            });
-            viewportButtons.push(btn);
-        }
-        return viewportButtons;*/
         return [];
+    },
+
+    getTabs: function(){
+        return this.state.game ? this.state.game.tabs : [];
+    },
+
+    setTab: function(tabId){
+        this.setState({
+            game: this.state.game,
+            selectedTabId: tabId
+        });
     }
 });
