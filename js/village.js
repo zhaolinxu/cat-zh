@@ -280,7 +280,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		if (this.getFreeKittens() < 0 ){
-			this.clearJobs();	//sorry, just a stupid solution for this problem
+			this.clearJobs(true);	//sorry, just a stupid solution for this problem
 		}
 
 		//calculate production and happiness modifiers
@@ -319,11 +319,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return this.getWorkerKittens("engineer") - engineerNoFree;
 	},
 
-	clearJobs: function(){
+	clearJobs: function(hard){
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			this.jobs[i].value = 0;
 		}
 		this.sim.clearJobs();
+		if (hard){
+			this.game.workshop.clearEngineers();
+		}
 	},
 
 	getKittens: function(){
@@ -638,7 +641,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		if (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 
-			this.game.village.clearJobs();
+			this.game.village.clearJobs(false);
 
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
@@ -1705,7 +1708,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			description: "Clear all jobs",
 			handler: dojo.hitch(this, function(){
 				if (this.game.opts.noConfirm || confirm("Are you sure?")){
-					this.game.village.clearJobs();
+					this.game.village.clearJobs(true);
 				}
 			})
 		});
