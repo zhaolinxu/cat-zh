@@ -2012,11 +2012,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
+	clearEngineers: function(){
+		for (var i = this.crafts.length - 1; i >= 0; i--){
+			this.crafts[i].value = 0;
+		}
+	},
+
 	update: function(){
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
+
+		//sanity check
+		if (this.game.village.getFreeEngineer() < 0){
+			this.clearEngineers();
+		}
 
 		for (var i = 0; i < this.crafts.length; i++){
 			var craft = this.crafts[i];
@@ -2024,10 +2035,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
-		}
-
-		for (var i = 0; i < this.crafts.length; i++) {
-			var craft = this.crafts[i];
 
 			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per engineer per minute
 

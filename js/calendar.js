@@ -253,7 +253,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var game = this.game;
 
 		if (cycle){
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, dojo.partial(function(cycle) {
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.partial(function(cycle) {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {

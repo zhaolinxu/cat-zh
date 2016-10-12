@@ -451,6 +451,8 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 
 	game: null,
+	refundPercentage: 0.5,
+
 	name: "",
 	description: "",
 	visible: true,
@@ -618,8 +620,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				var price = prices[i];
 
 				var res = this.game.resPool.get(price.name);
-				this.game.resPool.addResEvent(price.name,price.val*percent);
-				//res.value += price.val * percent;
+				if (res.refundable) {
+					this.game.resPool.addResEvent(price.name, price.val * percent);
+				} else {
+					// No refund at all
+				}
 			}
 		}
 	},
@@ -1250,7 +1255,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
     },
 
 	hasSellLink: function(){
-		return true && !this.game.opts.hideSell;
+		return false;
 	},
 
 	/**
@@ -1260,6 +1265,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		var building = this.getMetadata();
 		var bldMeta = this.getMetadataRaw();
 
+		var sellLinkAdded = false;
 		if (bldMeta && bldMeta.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
@@ -1273,7 +1279,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						while (bldMeta.val > end && this.hasSellLink() ) { //religion upgrades can't sell past 1
 							bldMeta.val--;
 
-							this.refund(0.5);
+							this.refund(this.refundPercentage);
 
 							this.prices = this.getPrices();
 						}
@@ -1284,12 +1290,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						this.game.upgrade(building.upgrades);
 						this.game.render();
 					});
+				var sellLinkAdded = true;
 			}
 		}
 
 		//--------------- toggle ------------
 
-		if (!building.togglable){
+		if (!building.togglable || sellLinkAdded){
 			return;
 		}
 
@@ -1838,7 +1845,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
  * }
  */
 UIUtils = {
-	attachTooltip: function(game, container, htmlProvider){
+	attachTooltip: function(game, container, topPosition, leftPosition, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
@@ -1861,8 +1868,8 @@ UIUtils = {
 				pos.left = scrollRight - $(tooltip).width() - 320;
 			}
 
-			dojo.setStyle(tooltip, "left", (pos.left + 320) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			dojo.setStyle(tooltip, "left", (pos.left + leftPosition) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top + topPosition) + "px");
 
 			if (tooltip.innerHTML) {
 				dojo.setStyle(tooltip, "display", "");
