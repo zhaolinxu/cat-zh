@@ -116,3 +116,15 @@
     flex-basis: 100%;
     padding-left: 2px;
 }
+
+/* ------------- tabs section ------------ */
+
+.subnavbar {
+    padding: 0px;
+    margin: 0px;
+}
+
+.tabs-row .tab {
+    font-size: 0.9em;
+    padding: 2px !important;
+}

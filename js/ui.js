@@ -111,6 +111,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     function(tab){
                         this.activeTabId = tab.tabId;
                         this.render();
+
+                        if (window.ga) {
+                            ga('set', 'page', '/tab#' + tab.tabId);
+                            ga('send', 'pageview');
+                        }
                     }, tab)
             );
 

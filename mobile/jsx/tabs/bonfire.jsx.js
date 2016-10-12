@@ -1,5 +1,5 @@
 WBonfireTab = React.createClass({
     render: function() {
-        return "BONFIRE";
+        return  $r("div", {});
     }
 });

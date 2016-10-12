@@ -22,7 +22,7 @@ WSubnavTabs = React.createClass({
             tabBtns.push(
                 $r("div", {
                     href:"#",
-                    className: "button" + selectedClass,
+                    className: "button tab" + selectedClass,
                     onClick: dojo.hitch(this, function(tab){
                         //console.log("TAB:", tab);
                         self.onClick(tab.tabId)
@@ -32,7 +32,7 @@ WSubnavTabs = React.createClass({
         }
 
         return $r("div", {className: "subnavbar"},
-            $r("div", {className: "buttons-row"},[
+            $r("div", {className: "buttons-row tabs-row"},[
                 tabBtns
             ])
         );
@@ -48,7 +48,7 @@ WViewport = React.createClass({
     getDefaultProps: function() {
         return {
             tabs: [
-                {   id:"bonfire", class: WBonfireTab  }
+                {   id:"Bonfire", class: WBonfireTab  }
             ]
         }
     },
@@ -72,7 +72,8 @@ WViewport = React.createClass({
     },
 
     render: function() {
-        var selectedTab = $dd.get(this.props.tabs, this.state.selectedTab);
+        var selectedTab = $dd.get(this.props.tabs, this.state.selectedTabId);
+        //console.log("selected tab:", selectedTab, this.props.tabs, this.state.selectedTabId );
 
         var viewport =  $r("div", {
             className: "views"
@@ -147,7 +148,9 @@ WViewport = React.createClass({
 
                         $r("div", {className: "page-content"}, [
                             //-------------------------------------------- MID goes there --------------------------
-
+                            $r(selectedTab.class, {
+                                id: this.state.selectedTabId
+                            })
                             //--------------------------------------------------------------------------------------
                         ])
                     ])

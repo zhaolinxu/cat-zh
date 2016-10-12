@@ -122,6 +122,7 @@
 						}
 						gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 						if (gamePage.isLocalhost){
+							$("#adLink").hide();
 							$("#devModeButton").show();
 						}
 					} catch (ex){
@@ -178,7 +179,7 @@
 						<!-- nothing exceptional there so far -->
 					</a>
 
-					<a href="mailto:cheshire.panther@gmail.com" style="font-size:small; padding-left: 250px;">
+					<a id="adLink" href="mailto:cheshire.panther@gmail.com" style="font-size:small; padding-left: 250px;">
 						your ad here
 					</a>
 
