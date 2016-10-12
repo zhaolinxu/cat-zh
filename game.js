@@ -2694,7 +2694,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	resetAutomatic: function() {
-		this.timer.scheduleEvent(dojo.hitch(this, this._resetInternal));
+		this.timer.scheduleEvent(dojo.hitch(this, function(){
+			this._resetInternal();
+			window.location.reload();
+		}));
 	},
 
 	discardParagon: function(){
@@ -2841,7 +2844,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			} else if (res.persists){
 				value = res.value;
 			} else {
-
 				if (!res.craftable || res.name == "wood"){
 					value = res.value * saveRatio;
 					if (res.name == "void") {
@@ -2850,7 +2852,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else if (res.value > 0) {
 					value = Math.sqrt(res.value) * saveRatio * 100;
 				}
-
 			}
 
 			if (value > 0){
@@ -2920,7 +2921,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// Hack to prevent an autosave from occurring before the reload completes
 		this.isPaused = true;
-		window.location.reload();
 	},
 
 	//TO BE USED EXTERNALLY
