@@ -142,11 +142,70 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	}
 	],
 
-	/**
-	 * Note:
-	 * Do not abuse action() method, it is called on every tick and may have negative performance impact
-	 * Try to reduce .get or .getEffect calls to minimum
+	/***
+	 ** STACKABLE BUILDINGS'S SPEC **
+	 *
+	 * For:
+	 *
+	 * game.bld.buildingsData
+	 * game.religion.zigguratUpgrades
+	 * game.religion.religionUpgrades
+	 * game.religion.transcendenceUpgrades
+	 * game.space.programs
+	 * for each buildings of game.space.planets
+	 * game.time.chronoforgeUpgrades
+	 * game.time.voidspaceUpgrades
+	 *
+	 * Keys:
+	 *
+	 * OPTIONAL: things can be setted or not
+	 * AUTOMATIC: things must be setted by using resetStateStackable()
+	 * Every value can be setted by resetState whereas a hard-value.
+	 *
+	 * Spec:
+	 *
+	 * name MANDATORY: string identifier for coding
+	 * label MANDATORY: string identifier displayed in the game
+	 * description OPTIONAL: string displayed in tooltip to precise what is the building
+	 * flavor OPTIONAL: string displayed in tooltip to joke
+	 *
+	 * stages OPTIONAL: object containing at least the setting of two stages. Each stage is a normal building with those differences :
+	 * 	• stageUnlocked: which stage is set at the begining (one of stages has stageUnlocked == true, others stageUnlocked == false)
+	 * 	• do not set name, calculateEffects neither action : it must be set only in "principal" building
+	 * 	• set label, description, prices, priceRatio, flavor and effects (stage's effects must be set in "principal" building too, see effects spec here)
+	 * stage MANDATORY if stages: number selecting building's stage
+	 *
+	 * unlocked MANDATORY: boolean defining if the building is available for the player or not
+	 * unlockable OPTIONAL: boolean defining if the building can be unlocked dependings on conditions in code
+	 * unlockRatio OPTIONAL: boolean defining percentage of price you must have in stock to unlocked the buiding (see price spec here)
+	 * requiredTech OPTIONAL: list of technologies in game.science which must be researched to unlocked the building
+	 *
+	 * price MANDATORY: list containing lines of prices :
+	 *  • line of price is formatted like { name : "resourceName", val: resourceNeed }
+	 * priceRatio MANDATORY: number multiplying price val in function of how many buildings you have already built (see val spec here)
+	 *
+	 * val AUTOMATIC: number defining how many buildings are built
+	 * on AUTOMATIC: number defining how many buildings are used
+	 *
+	 * togglable AUTOMATIC: boolean defining if on can be modifiy between 0 AND val by the player
+	 * togglableOnOff AUTOMATIC: boolean defining if on can be modifiy either 0 OR val by the player
+	 *
+	 * unlocks OPTIONAL: list, at each construction, calls game.unlock() with variables in unlocks to unlock parts of the game
+	 * upgrades OPTIONAL: list, at each construction, calls game.upgrade() with variables in upgrades which will calls calculateEffects of some buildings (see calculateEffects spec here)
+	 *
+	 * effects MANDATORY: object containing static effects of the building AND all effects set in calculateEffects, action and stages with a val of 0
+	 * calculateEffects OPTIONAL: function called by game.upgrade() to calculated some effects. Effects calculate here can't be calculated in action too. Don't forget to check every possibilities (mandatory "else" if there is an "if" for example).
+	 * action OPTIONAL: function called each tick to calculated some effects. Effects calculate here can't be calculated in calculatedEffects too. Don't forget to check every possibilities (mandatory "else" if there is an "if" for example). Do not abuse, may have negative performance impact.
+	 *
+	 * jammed OPTIONAL: boolean checking the possibility to enable or disable a part of action's code. This variable can't be changed by the player.
+	 * isAutomationEnabled OPTIONAL: boolean checking the possibility to enable or disable a part of action's code. This variable can be changed by the player.
+	 * lackResConvert MANDATORY if conversion in action: boolean checking if conversions are full or not, it's for UI.
+	 *
+	 * breakIronWill OPTIONAL: if true, at the first construction, it will break Iron Will mod
+	 * noStackable OPTIONAL: if true, button associated will have the behavior of a BuildingResearchBtn whereas of a BuildingStackableBtn (used when a researched behavior is changed during the game into a stackable behavior like religion's upgrades)
+	 *
 	 */
+
 	buildingsData : [
 	//----------------------------------- Food production ----------------------------------------
 	{
