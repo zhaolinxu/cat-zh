@@ -131,6 +131,9 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
 				resHappiness += 10;
+				if(resources[i].name=="elderBox"&&this.game.resPool.get("wrappingPaper").value){
+					resHappiness-=10; // Present Boxes and Wrapping Paper do not stack.
+				}
 			}
 		}
 		tooltip += "Rare resources: +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
