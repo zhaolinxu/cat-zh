@@ -1509,6 +1509,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 0,
 			"temporalFluxProduction" : 0
 		},
+		upgrades: {
+			voidSpace: ["cryochambers"]
+		},
 		calculateEffects: function(self, game) {
 			self.effects["energyConsumption"] = 20;
 			if (game.challenges.currentChallenge == "energy") {
