@@ -20,7 +20,7 @@ if (document.all && !window.localStorage) {
 /**
  * Just a simple timer, js timer sucks
  */
-dojo.declare("game.Timer", null, {
+dojo.declare("classes.game.Timer", null, {
 	handlers: [],
 	scheduledHandlers: [],
 
@@ -878,7 +878,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//vvvv do not forget to toggle tab visibility below
 
-		this.timer = new game.Timer();
+		this.timer = new classes.game.Timer();
 
 		//Update village resource production.
 		//Since this method is CPU heavy and rarely used, we will call with some frequency, but not on every tick
