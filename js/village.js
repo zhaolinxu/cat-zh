@@ -602,7 +602,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		if (totalYield.unicorns > 0){
-			this.game.msg("You got " + (totalYield.unicorns === 1 ? "a unicorn!" : + totalYield.unicorns + " unicorns!"), "important", "hunt");
+			this.game.msg("You got " + (Math.round(totalYield.unicorns) === 1 ? "a unicorn!" : + this.game.getDisplayValueExt(totalYield.unicorns) + " unicorns!"), "important", "hunt");
 		}
 		var msg = "Your hunters have returned";
 		if (squads > 1) {

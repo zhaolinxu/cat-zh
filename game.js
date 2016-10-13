@@ -102,7 +102,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	save: function(data){
 		data["telemetry"] = {
 			guid: this.guid
-		}
+		};
 	},
 
 	load: function(data){
@@ -121,7 +121,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		//TODO: push to telemetry server
 		//console.log("event:", event);
 	}
-})
+});
 
 /**
  * Undo Change state. Represents a change in one or multiple
