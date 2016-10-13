@@ -77,6 +77,52 @@ dojo.declare("classes.game.Timer", null, {
 	}
 });
 
+dojo.declare("mixin.IDataStorageAware", null, {
+	constructor: function(){
+		dojo.subscribe("server/save", dojo.hitch(this, this.save));
+		dojo.subscribe("server/load", dojo.hitch(this, this.load));
+	}
+});
+
+dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
+
+	guid: null,
+
+	constructor: function(){
+		this.guid = this.generateGuid();
+	},
+
+	generateGuid: function(){
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+			return v.toString(16);
+		});
+	},
+
+	save: function(data){
+		data["telemetry"] = {
+			guid: this.guid
+		}
+	},
+
+	load: function(data){
+		if (data["telemetry"]){
+			this.guid = data["telemetry"].guid || this.generateGuid();
+		}
+	},
+
+	logEvent: function(eventType, payload){
+		var event = {
+			guid: this.guid,
+			type: eventType,
+			timestamp: Date.now(),
+			payload: payload
+		};
+		//TODO: push to telemetry server
+		//console.log("event:", event);
+	}
+})
+
 /**
  * Undo Change state. Represents a change in one or multiple
  */
@@ -700,6 +746,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	achievements: null,
 
 	console: null,
+	telemetry: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -804,6 +851,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
+		this.telemetry = new classes.game.Telemetry();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1085,6 +1133,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			opts : this.opts
 		};
 
+		dojo.publish("server/save", saveData);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		console.log("Game saved");
@@ -1151,6 +1200,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 for (var i in this.managers){
                     this.managers[i].load(saveData);
                 }
+
+				dojo.publish("server/load", saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);

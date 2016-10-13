@@ -1806,6 +1806,9 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 
 		//update stats
 		this.game.stats.getStat("buildingsConstructed").val += counter;
+		this.game.telemetry.logEvent("building",
+			{name: bld.name, val: counter}
+		);
 
 		// undo
 		var undo = this.game.registerUndoChange();

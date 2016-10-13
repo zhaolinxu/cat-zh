@@ -112,10 +112,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        if (window.ga) {
-                            ga('set', 'page', '/tab#' + tab.tabId);
-                            ga('send', 'pageview');
-                        }
+                        this.game.telemetry.logEvent("tab", "tab.tabId");
                     }, tab)
             );
 

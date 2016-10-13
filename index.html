@@ -126,6 +126,7 @@
 							$("#devModeButton").show();
 						}
 					} catch (ex){
+						this.game.telemetry.logEvent("error", ex);
 						console.error(ex);
 						console.trace();
 					}
