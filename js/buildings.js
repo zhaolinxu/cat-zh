@@ -439,11 +439,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"]
 		},
 		effects: {
-			"scienceRatio": 0,
-			"starEventChance": 0,
-			"starAutoSuccessChance": 0,
-			"scienceMax": 0
-			},
+			"scienceRatio": 0.25,
+			"starEventChance": 0.002,
+			"starAutoSuccessChance": 0.01,
+			"scienceMax": 1000
+		},
 		action: function(self, game){
 			var effects = {
 				"scienceRatio": 0.25,
@@ -1141,8 +1141,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"titaniumPerTickCon" : 0,
-			"uraniumPerTickAutoprod" : 0,
+			"titaniumPerTickCon" : -0.015,
+			"uraniumPerTickAutoprod" : 0.0025,
 			"scienceMax": 0,
 			"catnipMax": 0,
 			"woodMax": 0,
@@ -1243,11 +1243,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"manpowerPerTickCon" : 0,
-			"goldPerTickCon" : 0,
-			"fursPerTickProd": 0,
-			"ivoryPerTickProd": 0,
-			"goldMax": 0
+			"manpowerPerTickCon" : -0.75,
+			"goldPerTickCon" : -0.005,
+			"fursPerTickProd": 0.00875,
+			"ivoryPerTickProd": 0.0021,
+			"goldMax": 100
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
