@@ -10,7 +10,7 @@ WBuildingTabBtn = React.createClass({
                         $r("div", {className: "item-inner"},
                             $r("div", {className: "item-title"},
                                 this.props.meta.label
-                                    + "(" + this.props.meta.val + ")"
+                                    + " (" + this.props.meta.val + ")"
                             )
                         )
                     ),

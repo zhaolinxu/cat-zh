@@ -141,6 +141,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	game: null,
 
 	sim: null,
+	deathTimeout: 0,
 
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
 	senators: null,
@@ -241,7 +242,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	update: function(){
-
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
 			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
@@ -254,7 +254,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.sim.maxKittens = this.maxKittens;
 		this.sim.update(kittensPerTick);
 
-
 		var catnipPerTick = this.game.getResourcePerTick("catnip", true);
 
 		var catnipVal = this.game.resPool.get("catnip").value;
@@ -263,10 +262,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (resDiff < 0 && this.sim.getKittens() > 0){
 
 			var starvedKittens = Math.abs(Math.round(resDiff));
-			if (starvedKittens > 0){
+			if (starvedKittens > 1){
+				starvedKittens = 1;
+			}
+
+			if (starvedKittens > 0 && this.deathTimeout <= 0){
 				starvedKittens = this.sim.killKittens(starvedKittens);
-				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death");
+
+				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death.");
 				this.game.deadKittens += starvedKittens;
+				this.deathTimeout = this.game.rate * 10;	//10 seconds
+			} else {
+				this.deathTimeout--;
 			}
 		}
 
