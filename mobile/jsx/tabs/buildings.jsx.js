@@ -8,8 +8,8 @@ WBuildingTabBtn = React.createClass({
                 [
                     $r("a", { href: "#", className: "item-content item-link" },
                         $r("div", {className: "item-inner"},
-                            $r("div", {className: "item-title res-row"},
-                                this.props.meta.name
+                            $r("div", {className: "item-title"},
+                                this.props.meta.label
                                     + "(" + this.props.meta.val + ")"
                             )
                         )
@@ -37,7 +37,7 @@ WBonfireTab = React.createClass({
             );
         }
 
-        return  $r("div", {className: "list-block accordion-list res-table"},
+        return  $r("div", {className: "list-block accordion-list"},
             $r("ul", {},
                 bldButtons
             )
