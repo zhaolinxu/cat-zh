@@ -98,10 +98,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
-
-		if (this.getVSU("cryochambers").on != this.game.bld.get("chronosphere")) {
-			this.getVSU("cryochambers").on = Math.min(this.getVSU("cryochambers").val, this.game.bld.get("chronosphere").on);
-		}
     },
 
 	chronoforgeUpgrades: [{
@@ -156,6 +152,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         breakIronWill: true,
         effects: {
 			"maxKittens": 1
+        },
+        upgrades: {
+			voidSpace: ["cryochambers"]
+		},
+        calculateEffects: function(self, game){
+			self.on = Math.min(self.val, game.bld.get("chronosphere").on);
         },
         unlocked: false,
         flavor: "Board for the past"
