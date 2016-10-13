@@ -687,7 +687,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (planet.buildings){
 				for (var j = 0; j < planet.buildings.length; j++){
 					var program = planet.buildings[j];
-					program.unlockable = false;
 					program.unlocked = false;
 
 					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
@@ -705,7 +704,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < planets.length; i++){
 			var planet = planets[i];
 			if (planet.buildings){
-				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlockable", "unlocked"]);
+				planet.buildings = this.filterMetadata(planet.buildings, ["name", "val", "on", "unlocked"]);
 			}
 		}
 
@@ -755,7 +754,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				var planet = this.getMeta(savePlanet.name, this.planets);
 
 				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlockable", "unlocked"], function(loadedElem){
+					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
 					});
 				}
 			}
@@ -775,16 +774,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.routeDays = 0;
 					planet.reached = true;
 					this.game.msg("You've reached a new planet!");
-					for (var j in planet.buildings){
-						planet.buildings[j].unlockable = true;
-					}
 				}
 			}
 
 			for (var j in planet.buildings){
 				var bld = planet.buildings[j];
 
-				if (!bld.unlocked && bld.unlockable) {
+				if (!bld.unlocked && planet.reached) {
 					if (typeof(bld.requiredTech) == "undefined"){
 						bld.unlocked = true;
 					} else {
