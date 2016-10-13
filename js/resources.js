@@ -376,7 +376,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.name == "thorium") {
 				res.refundable = false;
 			} else {
-				res.refundable = true
+				res.refundable = true;
 			}
 			this.resources.push(res);
 		}
