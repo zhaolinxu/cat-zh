@@ -176,7 +176,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * stage MANDATORY if stages: number selecting building's stage
 	 *
 	 * unlocked MANDATORY: boolean defining if the building is available for the player or not
-	 * unlockable OPTIONAL: boolean defining if the building can be unlocked dependings on conditions in code
+	 * unlockable MANDATORY: if true, building will be unlocked automatically once resources are available.
 	 * unlockRatio OPTIONAL: boolean defining percentage of price you must have in stock to unlocked the buiding (see price spec here)
 	 * requiredTech OPTIONAL: list of technologies in game.science which must be researched to unlocked the building
 	 *
@@ -213,6 +213,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Catnip field",
 		description: "Plant some catnip to grow in the village. Fields have +50% production in Spring and -75% production in Winter",
 		unlockRatio: 0.3,
+		unlockable: true,
 		prices: [
 			{ name : "catnip", val: 10 }
 		],
@@ -332,6 +333,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "wood", val: 5 }
 		],
 		priceRatio: 2.5,
+		unlockable: true,
 		unlocks: {
 			//unlock village tab
 			tabs: ["village"]
@@ -386,6 +388,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "wood", val: 25 }
 		],
 		priceRatio: 1.15,
+		unlockable: true,
 		unlocks: {
 			tabs: ["science"],
 			jobs: ["scholar"]
@@ -1045,6 +1048,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "workshop",
 		label: "Workshop",
 		description: "Provides a vast variety of upgrades. Improves craft effectiveness by 6%",
+		unlockable: true,
 		unlockRatio: 0.0025,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -1690,7 +1694,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	save: function(saveData){
-		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlockable", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
+		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
 
 		if (!saveData.bldData){
 			saveData.bldData = {};
@@ -1713,10 +1717,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					if (savedBld.unlocked != undefined){
 						bld.set("unlocked", savedBld.unlocked);
-					}
-
-					if (savedBld.unlockable != undefined){
-						bld.set("unlockable", savedBld.unlockable);
 					}
 
 					if (savedBld.val != undefined){
@@ -1747,15 +1747,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var bld = this.buildingsData[i];
 
 			bld.unlocked = false;
-
-			if (bld.name == "hut" ||
-				bld.name == "field" ||
-				bld.name == "library" ||
-				bld.name == "workshop") {
-				bld.unlockable = true;
-			} else {
-				bld.unlockable = false;
-			}
 
 			if (typeof(bld.stages) == "object"){
 				bld.stage = 0;
