@@ -11,6 +11,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
+		this.addIcon(new classes.ui.toolbar.ToolbarDonations(game));
 	},
 
 	addIcon: function(icon){
@@ -191,5 +192,23 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 
 		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
 			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
+	}
+});
+
+
+//Cosmic Microwave Background Radiation
+
+dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
+	update: function(){
+
+		var server = this.game.server;
+		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/100";
+	},
+	getTooltip: function(){
+
+		var bonus = this.game.server.donateAmt / 10;
+
+		return "Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
+			"<br>Storage bonus: " + this.game.getDisplayValueExt(bonus, true, false) + "%";
 	}
 });

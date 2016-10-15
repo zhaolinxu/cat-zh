@@ -122,7 +122,6 @@
 						}
 						gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 						if (gamePage.isLocalhost){
-							$("#adLink").hide();
 							$("#devModeButton").show();
 						}
 					} catch (ex){
@@ -180,9 +179,9 @@
 						<!-- nothing exceptional there so far -->
 					</a>
 
-					<a id="adLink" href="mailto:cheshire.panther@gmail.com" style="font-size:small; padding-left: 250px;">
-						your ad here
-					</a>
+					<span id="motd">
+						<!- motd --!>
+					</span>
 
 					<div id="devPanel" style="display:inline-block; padding-left: 15px; font-size: 14px;">
 						<div id="devPanelFPS">
@@ -316,8 +315,14 @@
 					</div>
 				</div>
 				<!-- ADS -->
-				<div id="adsColumn" class="column" style="display:none">
-					<div id="adblock-container">
+				<div id="adsColumn" class="column" style="width:200px; float: right;">
+					<div>
+						<a id="adLink" href="mailto:cheshire.panther@gmail.com" style="font-size:small;">
+							your ad here
+						</a>
+					</div>
+
+					<div id="adblock-container" style="display:none">
 						<div class="adblock-header">
 							Sponsored links:<br>
 							<a href="#" onclick="$('#adblock-container').hide()">I don't want to see this</a>

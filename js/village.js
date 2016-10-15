@@ -38,12 +38,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "scholar",
 		title: "Scholar",
-		description: "+0.04 science per tick",
+		description: "+0.035 science per tick",
 
 		modifiers:{},
 		calculateEffects: function(self, game){
 			var modifiers = {
-				"science" : 0.04
+				"science" : 0.035
 			};
 
 			if (game.workshop.get("astrophysicists").researched){
@@ -271,7 +271,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death.");
 				this.game.deadKittens += starvedKittens;
-				this.deathTimeout = this.game.rate * 10;	//10 seconds
+				this.deathTimeout = this.game.rate * 5;	//5 seconds
 			} else {
 				this.deathTimeout--;
 			}

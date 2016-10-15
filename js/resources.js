@@ -589,6 +589,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
 
+		//+COSMIC RADIATION
+		maxValue *= (1 + this.game.server.donateAmt / 10);
+
 		if (res){
 			//Stuff for Refrigiration and (potentially) similar effects
 			maxValue *= ( 1 + this.game.getEffect(res.name + "MaxRatio") );

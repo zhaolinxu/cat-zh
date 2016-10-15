@@ -1201,6 +1201,29 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			spaceBuilding: ["moonBase"]
 		}
 	},{
+		name: "amDrive",
+		label: "Antimatter Drive",
+		description: "Antimatter-powered rocket engine",
+		prices:[
+			{ name : "antimatter", val: 125 },
+			{ name : "science",  val: 450000 }
+		],
+		effects: {
+			"routeSpeed" : 25
+		}
+	},{
+		name: "amFission",
+		label: "Antimatter Fission",
+		description: "Engineers are 25% more effective at production of eludium",
+		prices:[
+			{ name : "antimatter", val: 175 },
+			{ name : "thorium", val: 7500 },
+			{ name : "science",  val: 525000 }
+		],
+		effects: {
+			"eludiumAutomationBonus" : 0.25
+		}
+	},{
 		name: "amReactors",
 		label: "Antimatter Reactors",
 		description: "Your Research Vessels and Space Beacons are twice as effective",
@@ -1499,7 +1522,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 400000 }
 		],
 		effects: {
-			"routeSpeed" : 100
+			"routeSpeed" : 50
 		}
 	},
 	//------------------- oil --------------------------
@@ -1973,7 +1996,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (craft == null) {
 			return 0;
 		} else {
-			return ((1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
+			var craftBonus = this.game.getEffect(resName+"AutomationBonus") || 0;
+			return ((1 / (60 * this.game.rate)) * (1+craftBonus) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
 		}
 	},
 

@@ -540,7 +540,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "thorium",
 		label: "Thorium",
-		description: "TBD.",
+		description: "Thorium is an extremely radioactive and energy efficient isotope that can be used in various space era upgrades.",
 		effectDesc: "Unlocks Thorium Reactors and Thorium Engine",
 		prices: [
 			{name : "science", val: 375000},
@@ -607,13 +607,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "antimatter",
 		label: "Antimatter",
 		description: "Antimatter provides some advanced sources of energy and generally benefits scientific advancement",
-		effectDesc: "Unlocks Antimatter Reactors and Antimatter Bases",
+		effectDesc: "Unlocks Antimatter Reactors, AM-Drive, AM-Fission and Antimatter Bases",
 		prices: [
 			{name : "science", val: 500000},
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
-			upgrades: ["amReactors", "amBases"],
+			upgrades: ["amReactors", "amBases", "amDrive", "amFission"],
 			tech: ["terraformation"]
 		}
 	},{
@@ -722,7 +722,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "paradoxalKnowledge",
 		label: "Paradoxal Knowledge",
 		description: "",
-		effectDesc: "Unlocks Chronocontrol and Ressource Retrieval",
+		effectDesc: "Unlocks Chronocontrol and Resource Retrieval",
 		prices: [
 			{name : "science", val: 1000000},
 			{name: 	"timeCrystal", val: 40},

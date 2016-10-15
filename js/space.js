@@ -257,7 +257,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "moon",
 		label: "Moon",
-		routeDays: 3,
+		routeDays: 30,
 		buildings: [{
 			name: "moonOutpost",
 			label: "Lunar Outpost",
@@ -447,7 +447,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
 		label: "Helios",
-		routeDays: 227,
+		routeDays: 1200,
 		buildings: [{
             name: "sunlifter",
             label: "Sunlifter",
@@ -497,7 +497,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "terminus",
 		label: "T-Minus",
-		routeDays: 457,
+		routeDays: 2500,
         buildings:[{
             name: "cryostation",
             label: "Cryostation",
@@ -537,7 +537,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "kairo",
 		label: "Kairo",
-		routeDays: 492,
+		routeDays: 5000,
 		buildings:[
 			{
 				name: "spaceBeacon",
@@ -568,7 +568,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},{
 		name: "yarn",
 		label: "Yarn",
-		routeDays: 603,
+		routeDays: 3800,
 		buildings:[
 			{
 				name: "terraformingStation",

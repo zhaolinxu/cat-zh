@@ -123,6 +123,13 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	}
 });
 
+
+//TODO: to be repalced with actuall server call
+
+dojo.declare("classes.game.Server", null, {
+	donateAmt: 9.26
+});
+
 /**
  * Undo Change state. Represents a change in one or multiple
  */
@@ -747,6 +754,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	console: null,
 	telemetry: null,
+	server: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -852,6 +860,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.console = new com.nuclearunicorn.game.log.Console();
 		this.telemetry = new classes.game.Telemetry();
+		this.server = new classes.game.Server();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1826,6 +1835,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +*FAITH BONUS
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
+		//+COSMIC RADIATION
+		perTick *= (1 + this.server.donateAmt / 10);
+
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 
@@ -1836,6 +1848,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += (this.getEffect(res.name + "PerTickAutoprodSpace") * spaceRatio) * (1 + (paragonSpaceProductionRatio-1) * this.getEffect("prodTransferBonus"));
 		// +AUTOMATED PRODUCTION SPACE (NOT FULL BONUS)
 		perTick += this.getEffect(res.name + "PerTickSpace") *spaceRatio;
+
 
 		//CYCLE EFFECTS
 		// Already added because it's space building improvements.
