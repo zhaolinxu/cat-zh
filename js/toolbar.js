@@ -202,7 +202,8 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	update: function(){
 
 		var server = this.game.server;
-		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/100";
+		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/100&nbsp;" +
+		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU'>+</a>";
 	},
 	getTooltip: function(){
 
