@@ -1836,7 +1836,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
 		//+COSMIC RADIATION
-		perTick *= (1 + this.server.donateAmt / 10);
+		perTick *= (1 + this.server.donateAmt / 1000);
 
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
