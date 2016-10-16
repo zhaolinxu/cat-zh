@@ -127,7 +127,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be repalced with actuall server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 9.26
+	donateAmt: 23
 });
 
 /**

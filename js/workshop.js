@@ -1996,7 +1996,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (craft == null) {
 			return 0;
 		} else {
-			var craftBonus = this.game.getEffect(resName+"AutomationBonus") || 0;
+			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
 			return ((1 / (60 * this.game.rate)) * (1+craftBonus) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
 		}
 	},

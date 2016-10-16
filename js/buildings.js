@@ -1995,7 +1995,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			}
 
 			var separator = null;
-			if ( i != 0){
+			if (i != 0){
 				separator = dojo.create("span", {
 					innerHTML: " | ",
 					style: {
@@ -2009,7 +2009,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				href: "#",
 				style: {
 					display: hasVisibleBldngs ? "" : "none",
-					whiteSpace: "nowrap",
+					whiteSpace: "nowrap"
 				},
 				className: isActiveGroup ? "activeTab" : ""
 			}, topContainer);
@@ -2138,9 +2138,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip",
 			handler: 	function(btn){
-							var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
-							btn.game.resPool.addResEvent("wood", (1 * craftRatio));
-						},
+				var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
+				btn.game.resPool.addResEvent("wood", (1 * craftRatio));
+			},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }],
 			twoRow: this.twoRows
