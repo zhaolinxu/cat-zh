@@ -1552,7 +1552,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
 	getDescription: function(){
 		var meta = this.getMetadata();
-		if (meta.effectDesc){
+		if (meta.effectDesc && meta.researched){
 			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
 		} else {
 			return this.inherited(arguments);

@@ -2187,8 +2187,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (res.name == "blueprint"){
 			var bpRatio = this.getEffect("blueprintCraftRatio");
-			var scienceBldAmt = this.bld.get("library").on + this.bld.get("academy").on +
-				this.bld.get("observatory").on + this.bld.get("biolab").on;
+			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
+				this.bld.get("observatory").val + this.bld.get("biolab").val;
 
 			var ratio = this.getCraftRatio();
 
