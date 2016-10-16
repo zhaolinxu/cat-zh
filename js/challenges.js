@@ -153,6 +153,9 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 				}
 				// Reset with any benefit of chronosphere (ressource, kittens, etc...)
 				this.game.bld.get("chronosphere").val = 0;
+				this.game.bld.get("chronosphere").on = 0;
+				this.game.time.getVSU("cryochambers").val = 0;
+				this.game.time.getVSU("cryochambers").on = 0;
 				this.game.resetAutomatic();
 			}
 		} else {
