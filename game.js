@@ -118,8 +118,15 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			timestamp: Date.now(),
 			payload: payload
 		};
-		//TODO: push to telemetry server
-		//console.log("event:", event);
+
+		$.ajax({
+			url: "http://127.0.0.1:9091/events/",
+			headers: {},
+			method: 'POST',
+			crossOrigin: true,
+			type: 'json',
+			data: event
+		});
 	}
 });
 
@@ -127,7 +134,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be repalced with actuall server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 23
+	donateAmt: 69
 });
 
 /**
@@ -2533,21 +2540,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				percentage = 0;
 			}
 		} else {
-			if (percentage - Math.trunc(percentage) != 0) {
+			if (percentage - Math.floor(percentage) != 0) {
 				precision = 1;
-				if (percentage*10 - Math.trunc(percentage*10) != 0) {
+				if (percentage*10 - Math.floor(percentage*10) != 0) {
 					precision = 2;
-					if (percentage*100 - Math.trunc(percentage*100) != 0) {
+					if (percentage*100 - Math.floor(percentage*100) != 0) {
 						precision = 3;
-						if (percentage*1000 - Math.trunc(percentage*1000) != 0) {
+						if (percentage*1000 - Math.floor(percentage*1000) != 0) {
 							precision = 4;
-							if (percentage*10000 - Math.trunc(percentage*10000) != 0) {
+							if (percentage*10000 - Math.floor(percentage*10000) != 0) {
 								precision = 5;
-								if (percentage*100000 - Math.trunc(percentage*100000) != 0) {
+								if (percentage*100000 - Math.floor(percentage*100000) != 0) {
 									precision = 6;
-									if (percentage*1000000 - Math.trunc(percentage*1000000) != 0) {
+									if (percentage*1000000 - Math.floor(percentage*1000000) != 0) {
 										precision = 7;
-										if (percentage*10000000 - Math.trunc(percentage*10000000) != 0) {
+										if (percentage*10000000 - Math.floor(percentage*10000000) != 0) {
 											precision = 8;
 										}
 									}

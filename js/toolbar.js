@@ -205,8 +205,8 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/100&nbsp;" +
 		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU'>+</a>";
 	},
-	getTooltip: function(){
 
+	getTooltip: function(){
 		var bonus = this.game.server.donateAmt / 10;
 
 		return "Donations pool.<br> Every donation goes to the global pool that affects everyone playing the game.<br><br>Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
