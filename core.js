@@ -1265,7 +1265,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		var building = this.getMetadata();
 		var bldMeta = this.getMetadataRaw();
 
-		var sellLinkAdded = false;
+		//var sellLinkAdded = false;
 		if (bldMeta && bldMeta.val && this.hasSellLink()){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
@@ -1290,13 +1290,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 						this.game.upgrade(building.upgrades);
 						this.game.render();
 					});
-				var sellLinkAdded = true;
+				//var sellLinkAdded = true;
 			}
 		}
 
 		//--------------- toggle ------------
 
-		if (!building.togglable || sellLinkAdded){
+		if (!building.togglable /*|| sellLinkAdded*/){
 			return;
 		}
 
@@ -1362,7 +1362,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if (typeof(building.isAutomationEnabled) != "undefined") {
-			if (building.name != "calciner" || (building.name == "calciner" && this.game.opts.hideSell)) {
+			if (building.name != "calciner" || (building.name == "calciner" /*&& this.game.opts.hideSell*/)) {
 				this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 					function(){
 						var building = this.getMetadataRaw();
