@@ -1481,6 +1481,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		this.animate();
 		var meta = this.getMetadataRaw();
 		if (this.enabled && this.hasResources() || this.game.devMode){
+			if (
+				this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched &&
+				!confirm("This will end iron will. Are you sure?")
+			){
+				return;
+			}
 			if (!meta.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
                     this.build(meta, 1000);
