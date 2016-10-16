@@ -208,7 +208,7 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 
 		var bonus = this.game.server.donateAmt / 10;
 
-		return "Donations pool:<br><br>Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
+		return "Donations pool.<br> Every donation goes to the global pool that affects everyone playing the game.<br><br>Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
 			"<br>Storage bonus: " + this.game.getDisplayValueExt(bonus, true, false) + "%";
 	}
 });
