@@ -193,7 +193,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * unlocks OPTIONAL: list, at each construction, calls game.unlock() with variables in unlocks to unlock parts of the game
 	 * upgrades OPTIONAL: list, at each construction, calls game.upgrade() with variables in upgrades which will calls calculateEffects of some buildings (see calculateEffects spec here)
 	 *
-	 * effects MANDATORY: object containing static effects of the building AND all effects set in calculateEffects, action and stages with a val of 0
+	 * effects MANDATORY: object containing static effects of the building AND all effects set in calculateEffects stages with a val of 0 AND all effects set in action with a basic value (to display when there is no building)
 	 * calculateEffects OPTIONAL: function called by game.upgrade() to calculated some effects. Effects calculate here can't be calculated in action too. Don't forget to check every possibilities (mandatory "else" if there is an "if" for example).
 	 * action OPTIONAL: function called each tick to calculated some effects. Effects calculate here can't be calculated in calculatedEffects too. Don't forget to check every possibilities (mandatory "else" if there is an "if" for example). Do not abuse, may have negative performance impact.
 	 *
@@ -775,8 +775,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"mineralsPerTickCon" : 0,
-			"oilPerTickCon" : 0,
+			"mineralsPerTickCon" : -1.5,
+			"oilPerTickCon" : -0.024,
 			"ironPerTickAutoprod" : 0.15,
 			"titaniumPerTickAutoprod" : 0.0005,
 			"energyConsumption" : 0,
