@@ -2551,6 +2551,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				percentage = 0;
 			}
 		} else {
+			// Adjust value because of floating-point error
+			var percentageAdjusted = Math.floor(percentage * 10000000) / 10000000;
+			if (Math.round((percentage - percentageAdjusted) * 10000000)) {
+				percentageAdjusted = Math.floor((percentage + 0.000000000000010) * 10000000) / 10000000;
+			}
+			percentage = percentageAdjusted;
+			// Seek optimal precision
 			if (percentage - Math.floor(percentage) != 0) {
 				precision = 1;
 				if (percentage*10 - Math.floor(percentage*10) != 0) {
