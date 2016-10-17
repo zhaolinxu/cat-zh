@@ -2394,23 +2394,25 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dojo.empty(tooltip);
 
 		dojo.connect(container, "onmouseover", this, dojo.partial(function(resRef, tooltip, event){
-			 var perTick = this.getResourcePerTick(resRef.name, true) + this.workshop.getEffectEngineer(resRef.name);
-			 if (!perTick){ return;}
+			if (this.getResourcePerTick(resRef.name, false) != 0
+				|| this.getResourcePerTickConvertion(resRef.name) != 0
+				|| this.workshop.getEffectEngineer(resRef.name) != 0
+				){
 
-			 tooltip.innerHTML = this.getDetailedResMap(resRef);
+				tooltip.innerHTML = this.getDetailedResMap(resRef);
 
-			 var target = event.originalTarget || event.toElement;	//fucking chrome
-			 var pos = $(target).position();
-			 if (!pos){
+				var target = event.originalTarget || event.toElement;	//fucking chrome
+				var pos = $(target).position();
+				if (!pos){
 				 return;
-			 }
+				}
 
-			 dojo.setStyle(tooltip, "left", pos.left + 100 + "px");
-			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+				dojo.setStyle(tooltip, "left", pos.left + 100 + "px");
+				dojo.setStyle(tooltip, "top",  pos.top + "px");
 
-			 dojo.setStyle(tooltip, "display", "");
-			 dojo.setStyle(container, "fontWeight", "bold");
-
+				dojo.setStyle(tooltip, "display", "");
+				dojo.setStyle(container, "fontWeight", "bold");
+			}
 	    }, resRef, tooltip));
 
 		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
