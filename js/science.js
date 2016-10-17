@@ -580,7 +580,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "nanotechnology",
 		label: "Nanotechnology",
-		description: "TBD",
+		description: "Handle microscopic materials to improve stuff in many fields.",
 		effectDesc: "Unlocks Nanosuits, FL Reactors, Augmentations and PVC",
 		prices: [
 			{name : "science", val: 200000},
