@@ -580,7 +580,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "nanotechnology",
 		label: "Nanotechnology",
-		description: "Handle microscopic materials to improve stuff in many fields.",
+		description: "Nanotechnology is manipulation of matter on an atomic, molecular, and sub-molecular scale. Can potentially improve your energy and resource production.",
 		effectDesc: "Unlocks Nanosuits, FL Reactors, Augmentations and PVC",
 		prices: [
 			{name : "science", val: 200000},
