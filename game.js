@@ -87,9 +87,11 @@ dojo.declare("mixin.IDataStorageAware", null, {
 dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 
 	guid: null,
+	game: null,
 
-	constructor: function(){
+	constructor: function(game){
 		this.guid = this.generateGuid();
+		this.game = game;
 	},
 
 	generateGuid: function(){
@@ -119,14 +121,15 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			payload: payload
 		};
 
-		/*$.ajax({
-			url: "http://127.0.0.1:9091/events/",
-			headers: {},
-			method: 'POST',
-			crossOrigin: true,
-			type: 'json',
-			data: event
-		});*/
+		if (!this.game.opts.disableTelemetry) {
+			/*$.ajax({
+				url: "http://127.0.0.1:9091/events/",
+				type: "POST",
+				crossOrigin: true,
+				data: JSON.stringify(event),
+				dataType: "json"
+			});*/
+		}
 	}
 });
 
@@ -134,7 +137,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be replaced with actual server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 185.21
+	donateAmt: 216.70
 });
 
 /**
@@ -864,11 +867,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false
+			disableTelemetry: true
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
-		this.telemetry = new classes.game.Telemetry();
+		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server();
 
 		this.resPool = new classes.managers.ResourceManager(this);
