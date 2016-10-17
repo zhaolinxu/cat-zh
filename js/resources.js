@@ -591,7 +591,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		//+COSMIC RADIATION
 		if (!this.game.opts.disableCMBR) {
-			maxValue *= (1 + this.getCMBRBonus());
+			maxValue *= (1 + this.game.getCMBRBonus());
 		}
 
 		if (res){
