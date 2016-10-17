@@ -119,14 +119,14 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			payload: payload
 		};
 
-		$.ajax({
+		/*$.ajax({
 			url: "http://127.0.0.1:9091/events/",
 			headers: {},
 			method: 'POST',
 			crossOrigin: true,
 			type: 'json',
 			data: event
-		});
+		});*/
 	}
 });
 
@@ -134,7 +134,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be repalced with actuall server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 69
+	donateAmt: 160.52
 });
 
 /**

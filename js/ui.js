@@ -155,7 +155,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         this.toolbar.update();
 
-        if (this.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
+        if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
             this.game.tooltipUpdateFunc();
         }
     },
