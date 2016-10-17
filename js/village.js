@@ -125,7 +125,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		unlocked: false
 	},{
 		name: "engineer",
-		title: "Engineers",
+		title: "Engineer",
 		description: "Engineer can operate one factory to automate resource production.",
 		modifiers:{
 		},

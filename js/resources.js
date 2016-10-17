@@ -944,7 +944,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				postfix = "%" + postfix;
 			}
 
-			var perTickValue = perTick ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
+			var perTickValue = this.game.getResourcePerTick(res.name, false) || this.game.getResourcePerTickConvertion(res.name) ? "(" + this.game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 			row.resTick.textContent = perTickValue;
 
 			row.resTick.style.cursor = perTick ? "pointer" : "default";

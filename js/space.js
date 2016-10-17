@@ -289,7 +289,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				self.effects = effects;
 			},
 			lackResConvert: false,
-			action: function(game, self){
+			action: function(self, game){
 				self.effects["uraniumPerTickCon"] = -0.35;
 				self.effects["unobtainiumPerTickSpace"] = 0.007 * (1+ game.getEffect("lunarOutpostRatio"));
 				var amt = game.resPool.getAmtDependsOnStock(
@@ -796,7 +796,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 
 				if (bld.action && bld.val > 0){
-					bld.action(this.game, bld);
+					var amt = bld.action(bld, this.game);
+					if (typeof(amt) != "undefined") {
+						bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+					}
 					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
 			}
