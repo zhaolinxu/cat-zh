@@ -131,10 +131,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 });
 
 
-//TODO: to be repalced with actuall server call
+//TODO: to be replaced with actual server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 160.52
+	donateAmt: 185.21
 });
 
 /**
@@ -862,7 +862,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-			IWSmelter: true
+			IWSmelter: true,
+			disableCMBR: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
@@ -1024,7 +1025,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var diminishedPortion = absEffect - maxUndiminished;
 
-		var delta = 0.25*limit; //Lower values will approach 1 more quickly.
+		var delta = 0.25 * limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
 		var diminishedEffect = (1-(delta/(diminishedPortion+delta)))*0.25*limit;
@@ -1843,7 +1844,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
 		//+COSMIC RADIATION
-		perTick *= (1 + this.server.donateAmt / 1000);
+		if (!this.opts.disableCMBR) {
+			perTick *= (1 + this.server.donateAmt / 1000);
+		}
 
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;

@@ -209,6 +209,10 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var bonus = this.game.server.donateAmt / 10;
 
+		if (this.game.opts.disableCMBR){
+			return "Production bonus disabled";
+		}
+
 		return "Donations pool.<br> Every donation goes to the global pool that affects everyone playing the game.<br><br>Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
 			"<br>Storage bonus: " + this.game.getDisplayValueExt(bonus, true, false) + "%";
 	}
