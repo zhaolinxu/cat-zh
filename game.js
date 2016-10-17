@@ -863,7 +863,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
-			disableCMBR: false
+			disableCMBR: false,
+			disableTelemetry: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console();
@@ -1845,7 +1846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR) {
-			perTick *= (1 + this.server.donateAmt / 1000);
+			perTick *= (1 + this.getCMBRBonus());
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
@@ -2179,6 +2180,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		});
 
 		return stack;
+	},
+
+	//CMBR is capped by 20%
+
+	getCMBRBonus: function(){
+		var ratio = this.server.donateAmt / 1000;
+		return this.getHyperbolicEffect(ratio, 0.2);
 	},
 
 	getCraftRatio: function() {

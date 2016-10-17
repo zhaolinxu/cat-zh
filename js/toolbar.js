@@ -201,13 +201,16 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	update: function(){
 
-		var server = this.game.server;
-		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/100&nbsp;" +
+		var server = this.game.server,
+			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
+
+
+		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/" + (nextTier * 100) + "&nbsp;" +
 		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU'>+</a>";
 	},
 
 	getTooltip: function(){
-		var bonus = this.game.server.donateAmt / 10;
+		var bonus = this.game.getCMBRBonus() * 100;
 
 		if (this.game.opts.disableCMBR){
 			return "Production bonus disabled";
