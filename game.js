@@ -1874,7 +1874,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
 		//+COSMIC RADIATION
-		if (!this.opts.disableCMBR && res.name == "coal") {
+		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= (1 + this.getCMBRBonus());
 		}
 
@@ -2101,7 +2101,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.religion.getProductionBonus() / 100
 		});
 
-		if (!this.opts.disableCMBR) {
+		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
 				name: "CMBR",
 				type: "ratio",
