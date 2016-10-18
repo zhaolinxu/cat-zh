@@ -122,13 +122,14 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-			/*$.ajax({
+			$.ajax({
 				url: "http://127.0.0.1:9091/events/",
 				type: "POST",
 				crossOrigin: true,
 				data: JSON.stringify(event),
-				dataType: "json"
-			});*/
+				dataType: "json",
+				contentType: "text/plain"
+			});
 		}
 	}
 });
@@ -137,7 +138,31 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be replaced with actual server call
 
 dojo.declare("classes.game.Server", null, {
-	donateAmt: 339.72
+	donateAmt: 0,
+
+	showMOTD: true,
+	MOTDTitle: null,
+	MOTDContent: null,
+
+	init: function(){
+		var self = this;
+
+		console.log("Loading server settings...");
+		$.ajax({
+			cache: false,
+			url: "server.json",
+			dataType: "json",
+			success: function(json) {
+				self.donateAmt = json.donateAmt || 0;
+
+				self.showMOTD = json.showMOTD;
+				self.MOTDTitle = json.MOTDTitle;
+				self.MOTDContent = json.MOTDContent;
+			}
+		}).fail(function(err) {
+			console.log("Unable to parse server.json configuration:", err);
+		});
+	}
 });
 
 /**
@@ -873,6 +898,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console();
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server();
+		this.server.init();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1848,7 +1874,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
 		//+COSMIC RADIATION
-		if (!this.opts.disableCMBR) {
+		if (!this.opts.disableCMBR && res.name == "coal") {
 			perTick *= (1 + this.getCMBRBonus());
 		}
 
@@ -2074,6 +2100,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.religion.getProductionBonus() / 100
 		});
+
+		if (!this.opts.disableCMBR) {
+			stack.push({
+				name: "CMBR",
+				type: "ratio",
+				value: this.getCMBRBonus()
+			});
+		}
 
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
