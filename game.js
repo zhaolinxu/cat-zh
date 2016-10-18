@@ -2371,7 +2371,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			if (res.calculatePerTick) {
-				res.perTickCached = this.calcResourcePerTick(res.name);
+				res.perTickCached = this.fixFloatPointNumber(this.calcResourcePerTick(res.name));
 			}
 		}
 	},
@@ -2386,7 +2386,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getResourcePerTickConvertion: function(resName) {
-		return this.getEffect(resName + "PerTickCon");
+		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
 	},
 
 	craft: function(resName, value){
@@ -2590,12 +2590,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				percentage = 0;
 			}
 		} else {
-			// Adjust value because of floating-point error
-			var percentageAdjusted = Math.floor(percentage * 10000000) / 10000000;
-			if (Math.round((percentage - percentageAdjusted) * 10000000)) {
-				percentageAdjusted = Math.floor((percentage + 0.000000000000010) * 10000000) / 10000000;
-			}
-			percentage = percentageAdjusted;
+			percentage = this.fixFloatPointNumber(percentage);
 			// Seek optimal precision
 			if (percentage - Math.floor(percentage) != 0) {
 				precision = 1;
@@ -2710,6 +2705,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var toFixed = floatVal.toFixed(precision);
 			return plusSign + toFixed + mantisa;
 		}
+	},
+
+	fixFloatPointNumber: function(number) {
+		// Adjust value because of floating-point error
+		var numberAdjusted = Math.floor(number * 10000000) / 10000000;
+		if (Math.round((number - numberAdjusted) * 10000000)) {
+			numberAdjusted = Math.floor((number + 0.000000000000010) * 10000000) / 10000000;
+		}
+		return numberAdjusted;
 	},
 
 	addTab: function(tab){
