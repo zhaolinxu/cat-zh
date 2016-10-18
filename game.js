@@ -1297,7 +1297,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").unlocked || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
+		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 

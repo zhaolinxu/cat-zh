@@ -92,7 +92,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-		if (this.game.resPool.get("faith").value > 0){
+		if (this.game.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0){
 			this.game.religionTab.visible = true;
 		}
 
