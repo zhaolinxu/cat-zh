@@ -356,20 +356,19 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
     render: function(container){
 		var content = this.inherited(arguments);
 
+		var self = this;
 		//--------------------------------------------------------------------
-		var div = dojo.create("div", { style: { float: "right"}}, content);
-		var a = dojo.create("a", {
-			id : "burnParagon",
-			href: "#",
-			innerHTML: "Burn paragon points",
-			title: "Discard all paragon points"
-		}, div);
-		dojo.connect(a, "onclick", this, function(){
-			this.game.discardParagon();
-		});
+		var buttonBP = new com.nuclearunicorn.game.ui.ButtonModern({
+			name : "Burn your paragon",
+			description: "Discard all paragon points",
+			handler: dojo.hitch(this, function(){
+				this.game.discardParagon();
+			})
+		}, self.game);
+		buttonBP.render(content);
+		self.addChild(buttonBP);
 		//---------------------------------------------------------------------
 
-		var self = this;
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new classes.ui.PrestigeBtn({id: perk.name}, self.game);
 			button.render(content);
