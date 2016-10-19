@@ -44,6 +44,45 @@ WSubnavTabs = React.createClass({
     }
 });
 
+WCalendar = React.createClass({
+    getInitialState: function() {
+        return {
+            calendar: null
+        }
+    },
+
+    componentDidMount: function() {
+        dojo.subscribe("game/update", dojo.hitch(this, this.onChange));
+    },
+
+    onChange: function(game){
+        this.setState({
+            calendar: game.calendar
+        });
+    },
+
+    render: function() {
+        var calendar =  this.state.calendar;
+        var calendarText = "N/A";
+
+        if (calendar){
+            var mod = "";
+            if (calendar.weather){
+                mod = " (" + calendar.weather + ")";
+            }
+
+            calendarText = "Year " + calendar.year + " - " +
+                calendar.seasons[calendar.season].title + mod + ", day " + calendar.integerDay();
+        }
+
+        return $r("div", {className: "calendar"},
+            $r("div", {className: "calendar"}, [
+                calendarText
+            ])
+        );
+    }
+});
+
 WViewport = React.createClass({
     getDefaultProps: function() {
         return {
@@ -161,6 +200,7 @@ WViewport = React.createClass({
                     $r("div", {className: "navbar-inner"}, [
                         $r("div", {className: "center sliding"}, [
                             //--------------------- RIGHT PANEL HEADER (calendar, menu) ------------------
+                            $r(WCalendar)
                         ])
                     ])
                 ]),
