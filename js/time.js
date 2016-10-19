@@ -132,7 +132,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         prices: [
             { name : "timeCrystal", val: 1000 }
         ],
-        priceRatio: 1.25,
+        priceRatio: 1.3,
         effects: {
             "shatterTCGain" : 0.01
         },

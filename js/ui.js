@@ -112,7 +112,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        this.game.telemetry.logEvent("tab", "tab.tabId");
+                        this.game.telemetry.logEvent("tab", tab.tabId);
                     }, tab)
             );
 
