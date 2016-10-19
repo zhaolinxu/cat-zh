@@ -448,6 +448,18 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 		} else {
 			return this.inherited(arguments);
 		}
+	},
+
+	getPrices: function() {
+		var prices = this.inherited(arguments);
+		if (this.getMetadata().name == "cryochambers") {
+			for (var i = 0; i < prices.length; i++) {
+				if (prices[i].name == "karma") {
+					prices[i].val -= prices[i].val * 0.01 * this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
+				}
+			}
+		}
+		return prices;
 	}
 });
 
