@@ -17,19 +17,19 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
         researched: false,
         unlocked: true
 	},{
-		name: "atheism",
-		label: "Atheism",
-		description: "Restart the game without faith bonus.<br /><br />Goal: Reset with at least one cryochamber.",
-		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
-        researched: false,
-        unlocked: false
-	},{
 		name: "energy",
 		label: "Energy",
 		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings and build at least one of them.",
 		effectDesc: "Production bonuses cuts caused by negative energy are divided by 2.",
         researched: false,
 		unlocked: false
+	},{
+		name: "atheism",
+		label: "Atheism",
+		description: "Restart the game without faith bonus.<br /><br />Goal: Reset with at least one cryochamber.",
+		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
+        researched: false,
+        unlocked: false
 	}],
 
 	game: null,
