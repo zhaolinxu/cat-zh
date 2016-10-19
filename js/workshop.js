@@ -1095,7 +1095,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "factoryOptimization",
 		label: "Factory Optimization",
-		description: "Improves Engineer's effectiveness of T1 Craft by x10and T2 craft by x2 (TBD)",
+		description: "Improves Engineer's effectiveness",
 		effects: {
 			"t1CraftRatio": 10,
 			"t2CraftRatio": 2
@@ -2092,7 +2092,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 
-			craft.progress += (1 / (60 * this.game.rate)) * craft.value / craft.progressHandicap; // (One / handicap) craft per engineer per minute
+			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			craft.progress += (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
 
 			if(craft.progress > 1) {
 				this.craft(craft.name, 1, true);
@@ -2177,7 +2178,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
 
-		if (craft.unlocked){	//TBD
+		if (craft.unlocked){
 			this.setVisible(true);
 		}else{
 			this.setVisible(false);
@@ -2200,10 +2201,14 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	getDescription: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
-		var desc = craft.description + "<br><br>" + "Tier: " + craft.tier;
+		var desc = craft.description;
 
 		if (this.game.science.get("mechanization").researched){
-			//TODO: craft tier bonus TBD;
+			desc += "<br><br>" + "Class: " + craft.tier;
+			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			if (tierBonus != 0) {
+				desc += " (engineer's know-how: " + tierBonus + ")";
+			}
 			desc += "<br>Craft difficulty:" + craft.progressHandicap;
 		}
 		return desc;

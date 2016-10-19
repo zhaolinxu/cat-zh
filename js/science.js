@@ -300,7 +300,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "drama",
 		label: "Drama and Poetry",
 		description: "Drama and poetry are both forms of artistic expression. Improves cultural progress.",
-		effectDesc: "Unlocks Festivals and Cultural artifacts (TBD)",
+		effectDesc: "Unlocks Festivals and Cultural artifacts",
 		prices: [
 			{name : "science", val: 90000},
 			{name: 	"parchment", val: 5000}
@@ -501,7 +501,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         name: "oilProcessing",
         label: "Oil Processing",
         description: "Unlocks advanced options of oil processing",
-        effectDesc: "Unlocks kerosene and factory processing(TBD)",
+        effectDesc: "Unlocks kerosene and factory processing",
         prices: [
             {name : "science", val: 215000},
             {name: 	"blueprint", val: 150}

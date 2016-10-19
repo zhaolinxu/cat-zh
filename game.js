@@ -713,6 +713,31 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+			"t1CraftRatio" :  {
+                title: "Class 1 engineer's know-how",
+                type: "fixed"
+            },
+
+			"t2CraftRatio" :  {
+                title: "Class 2 engineer's know-how",
+                type: "fixed"
+            },
+
+			"t3CraftRatio" :  {
+                title: "Class 3 engineer's know-how",
+                type: "fixed"
+            },
+
+			"t4CraftRatio" :  {
+                title: "Class 4 engineer's know-how",
+                type: "fixed"
+            },
+
+			"t5CraftRatio" :  {
+                title: "Class 5 engineer's know-how",
+                type: "fixed"
+            },
+
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
                 title: "Space Elevator - Transferred production bonus",
