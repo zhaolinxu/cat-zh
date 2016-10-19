@@ -517,6 +517,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.unlocked = true;
 			} else if (res.value == 0 && res.unlocked == true) {
 				if (res.name == "zebras" ||
+					res.name == "paragon" ||
 					res.name == "elderBox"){
 					res.unlocked = false;
 				}
