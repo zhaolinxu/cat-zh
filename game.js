@@ -1300,7 +1300,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").unlocked || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
+		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 
@@ -1877,7 +1877,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick *= 1 + (this.religion.getProductionBonus() / 100);
 
 		//+COSMIC RADIATION
-		if (!this.opts.disableCMBR && res.name == "coal") {
+		if (!this.opts.disableCMBR && res.name != "coal") {
 			perTick *= (1 + this.getCMBRBonus());
 		}
 
@@ -2104,7 +2104,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value: this.religion.getProductionBonus() / 100
 		});
 
-		if (!this.opts.disableCMBR) {
+		if (!this.opts.disableCMBR && res.name != "coal") {
 			stack.push({
 				name: "CMBR",
 				type: "ratio",
@@ -2374,7 +2374,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		for (var i = 0; i < this.resPool.resources.length; i++){
 			var res = this.resPool.resources[i];
 			if (res.calculatePerTick) {
-				res.perTickCached = this.calcResourcePerTick(res.name);
+				res.perTickCached = this.fixFloatPointNumber(this.calcResourcePerTick(res.name));
 			}
 		}
 	},
@@ -2389,7 +2389,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	getResourcePerTickConvertion: function(resName) {
-		return this.getEffect(resName + "PerTickCon");
+		return this.fixFloatPointNumber(this.getEffect(resName + "PerTickCon"));
 	},
 
 	craft: function(resName, value){
@@ -2593,12 +2593,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				percentage = 0;
 			}
 		} else {
-			// Adjust value because of floating-point error
-			var percentageAdjusted = Math.floor(percentage * 10000000) / 10000000;
-			if (Math.round((percentage - percentageAdjusted) * 10000000)) {
-				percentageAdjusted = Math.floor((percentage + 0.000000000000010) * 10000000) / 10000000;
-			}
-			percentage = percentageAdjusted;
+			percentage = this.fixFloatPointNumber(percentage);
 			// Seek optimal precision
 			if (percentage - Math.floor(percentage) != 0) {
 				precision = 1;
@@ -2713,6 +2708,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var toFixed = floatVal.toFixed(precision);
 			return plusSign + toFixed + mantisa;
 		}
+	},
+
+	fixFloatPointNumber: function(number) {
+		// Adjust value because of floating-point error
+		var numberAdjusted = Math.floor(number * 10000000) / 10000000;
+		if (Math.round((number - numberAdjusted) * 10000000)) {
+			numberAdjusted = Math.floor((number + 0.000000000000010) * 10000000) / 10000000;
+		}
+		return numberAdjusted;
 	},
 
 	addTab: function(tab){

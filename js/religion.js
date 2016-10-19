@@ -92,7 +92,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-		if (this.game.resPool.get("faith").value > 0){
+		if (this.game.resPool.get("faith").value > 0 || this.game.challenges.currentChallenge == "atheism" && this.game.bld.get("ziggurat").val > 0){
 			this.game.religionTab.visible = true;
 		}
 
@@ -110,6 +110,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				this.corruption = 0;
 				alicorns.value--;
 				this.game.resPool.get("necrocorn").value++;
+				this.game.upgrade({
+					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+				});
 				this.game.msg("Your alicorn was corrupted by the markers!", "important");
 			}
 		} else {
@@ -901,6 +904,10 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 
 		this.game.resPool.addResEvent("alicorn", -alicornsCount);
 		this.game.resPool.addResEvent("timeCrystal", tcAmt);
+
+		this.game.upgrade({
+			zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+		});
 
 		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + this.game.getDisplayValueExt(tcAmt) + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
 	},
