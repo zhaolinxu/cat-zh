@@ -182,6 +182,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#6141CD",
 		persists: true
 	},{
+		name : "burnedParagon",
+		title : "burned paragon",
+		type : "common",
+		visible: true,
+		color: "#493099",
+		persists: true
+	},{
 		name : "timeCrystal",
 		title: "time crystal",
 		type : "common",
