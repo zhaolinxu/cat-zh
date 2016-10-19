@@ -1130,6 +1130,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.resPool.get("thorium").value == 0 || self.isAutomationEnabled == false) {
 					self.effects["thoriumPerTick"] = 0;
 					self.effects["energyProduction"] -= 2.5;
+					self.isAutomationEnabled = false;
 				}
 			}
 		},
