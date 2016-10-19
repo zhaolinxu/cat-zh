@@ -357,6 +357,12 @@ dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingResear
 
 });
 
+dojo.declare("classes.ui.BurnParagonBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	updateVisible: function(){
+		this.setVisible(this.game.resPool.get("paragon").value > 0);
+	}
+});
+
 dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 	game: null,
@@ -369,7 +375,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 		//--------------------------------------------------------------------
-		var buttonBP = new com.nuclearunicorn.game.ui.ButtonModern({
+		var buttonBP = new classes.ui.BurnParagonBtn({
 			name : "Burn your paragon",
 			description: "Discard all paragon points",
 			handler: dojo.hitch(this, function(){
