@@ -39,7 +39,6 @@ WSubnavTabs = React.createClass({
     },
 
     onClick: function(tabId){
-        console.log("TAB ID:", tabId);
         this.props.onclick(tabId);
     }
 });
@@ -87,7 +86,8 @@ WViewport = React.createClass({
     getDefaultProps: function() {
         return {
             tabs: [
-                {   id:"Bonfire", class: WBonfireTab  }
+                {   id:"Bonfire", class: WBonfireTab  },
+                {   id:"Small village", class: WVillageTab  }
             ]
         }
     },
