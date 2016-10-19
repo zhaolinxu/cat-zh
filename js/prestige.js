@@ -306,12 +306,23 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     },
 
 	getParagonProductionRatio: function(){
-		var paragonRatio = this.game.resPool.get("paragon").value * 0.01 * this.getParagonRatio();
+		var paragonRatio = (this.game.resPool.get("paragon").value * 0.010) * this.getParagonRatio();
+		if (this.game.calendar.year >= 40000 + this.game.time.flux) {
+			paragonRatio += this.game.resPool.get("burnedParagon").value * 0.020 * this.getParagonRatio();
+		} else {
+			paragonRatio += this.game.resPool.get("burnedParagon").value * 0.005 * this.getParagonRatio();
+		}
 		return this.game.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
 	},
 
 	getParagonStorageRatio: function(){
-		return (this.game.resPool.get("paragon").value / 1000) * this.getParagonRatio();	//every 100 paragon will give a 10% bonus to the storage capacity
+		var paragonRatio = (this.game.resPool.get("paragon").value / 1000) * this.getParagonRatio(); //every 100 paragon will give a 10% bonus to the storage capacity
+		if (this.game.calendar.year >= 40000 + this.game.time.flux) {
+			paragonRatio += (this.game.resPool.get("burnedParagon").value / 500) * this.getParagonRatio();
+		} else {
+			paragonRatio += (this.game.resPool.get("burnedParagon").value / 2000) * this.getParagonRatio();
+		}
+		return paragonRatio;
 	}
 });
 
