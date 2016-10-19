@@ -123,7 +123,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 
 		if (!this.game.opts.disableTelemetry) {
 			$.ajax({
-				url: "http://127.0.0.1:9091/events/",
+				url: this.game.server.telemetryUrl,
 				type: "POST",
 				crossOrigin: true,
 				data: JSON.stringify(event),
@@ -139,12 +139,13 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 
 dojo.declare("classes.game.Server", null, {
 	donateAmt: 0,
+	telemetryUrl: null,
 
-	showMOTD: true,
-	MOTDTitle: null,
-	MOTDContent: null,
+	showMotd: true,
+	motdTitle: null,
+	motdContent: null,
 
-	init: function(){
+	refresh: function(){
 		var self = this;
 
 		console.log("Loading server settings...");
@@ -154,10 +155,11 @@ dojo.declare("classes.game.Server", null, {
 			dataType: "json",
 			success: function(json) {
 				self.donateAmt = json.donateAmt || 0;
+				self.telemetryUrl = json.telemetryUrl;
 
-				self.showMOTD = json.showMOTD;
-				self.MOTDTitle = json.MOTDTitle;
-				self.MOTDContent = json.MOTDContent;
+				self.showMotd = json.showMotd;
+				self.motdTitle = json.motdTitle;
+				self.motdContent = json.motdContent;
 			}
 		}).fail(function(err) {
 			console.log("Unable to parse server.json configuration:", err);
@@ -898,7 +900,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console();
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server();
-		this.server.init();
+		this.server.refresh();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -991,6 +993,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
 
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
 
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);

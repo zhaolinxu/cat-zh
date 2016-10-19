@@ -8,7 +8,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 
 		this.icons= [];
 
-
+		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarDonations(game));
@@ -195,6 +195,22 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 	}
 });
 
+dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
+	update: function(){
+
+		var server = this.game.server;
+		if (server.showMotd && server.motdTitle) {
+			this.container.innerHTML = "&nbsp;" + server.motdTitle + "&nbsp;";
+		}
+	},
+
+	getTooltip: function(){
+		var server = this.game.server;
+		if (server.showMotd && server.motdContent) {
+			return server.motdContent;
+		}
+	}
+});
 
 //Cosmic Microwave Background Radiation
 
