@@ -154,31 +154,32 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if(this.leader) {
 			var leaderTrait = this.leader.trait["name"];
 			if (leaderTrait == trait) {
+				var burnedParagonRatio = 1 + this.game.getTriValue(game.resPool.get("burnedParagon").value, 500);
 				// Modify the defautlObject depends on trait
 				switch (true) {
 					case trait == "engineer": // Crafting bonus
-						defaultObject = 0.05;
+						defaultObject = 0.05 * burnedParagonRatio;
 						break;
 					case trait == "merchant": // Trading bonus
-						defaultObject = 0.030;
+						defaultObject = 0.030 * burnedParagonRatio;
 						break;
 					case trait == "manager": // Hunting bonus
-						defaultObject = 0.5;
+						defaultObject = 0.5 * burnedParagonRatio;
 						break;
 					case trait == "scientist": // Science prices bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "science") {
-								defaultObject[i].val *= 0.99;
+								defaultObject[i].val -= defaultObject[i].val * 0.01 * burnedParagonRatio;
 							}
 						}
 						break;
 					case trait == "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "faith") {
-								defaultObject[i].val = defaultObject[i].val * 0.9;
+								defaultObject[i].val -= defaultObject[i].val * 0.9 * burnedParagonRatio;
 							}
 							if (defaultObject[i].name == "gold") {
-								defaultObject[i].val = defaultObject[i].val * 0.9;
+								defaultObject[i].val -= defaultObject[i].val * 0.9 * burnedParagonRatio;
 							}
 						}
 						break;
