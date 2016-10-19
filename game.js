@@ -2869,7 +2869,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool.get("burnedParagon").value += this.resPool.get("paragon").value;
 		this.resPool.get("paragon").value = 0;
-		this.resPool.get("paragon").unlocked = false;
 		this.ironWill = false;
 		//TODO: add some speical hidden effect for this mechanics
 	},
