@@ -2178,7 +2178,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	updateVisible: function(){
 		var craft = this.game.workshop.getCraft(this.craftName);
 
-		if (craft.unlocked){	//TBD
+		if (craft.unlocked){
 			this.setVisible(true);
 		}else{
 			this.setVisible(false);
