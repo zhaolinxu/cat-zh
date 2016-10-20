@@ -587,3 +587,23 @@ a {
 a:hover {
 	opacity: 0.6;
 }
+
+.freshMessage {
+  animation: pulse 5s infinite;
+  -webkit-animation: pulse 5s infinite;
+  -moz-animation: pulse 5s infinite;
+  -o-animation: pulse 5s infinite;
+}
+
+@keyframes pulse{
+  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+}
+@-webkit-keyframes pulse {
+  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+}
+@-moz-keyframes pulse {
+  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+}
+@-o-keyframes pulse {
+  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+}
