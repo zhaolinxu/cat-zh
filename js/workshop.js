@@ -2209,7 +2209,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 			if (tierBonus != 0) {
 				desc += " (engineer's know-how: " + tierBonus + ")";
 			}
-			desc += "<br>Craft difficulty:" + craft.progressHandicap;
+			desc += "<br>Craft difficulty: " + craft.progressHandicap;
 		}
 		return desc;
 	},
