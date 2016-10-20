@@ -541,7 +541,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	trade: function(){
 		var yieldRes = this.tradeInternal();
 
-		this.gainTradeRes(yieldRes);
+		this.gainTradeRes(yieldRes, 1);
 	},
 
 	tradeMultiple: function(amt){
@@ -558,14 +558,12 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		//---------- calculate yield -----------------
 
-		this.game.msg("You have sent " + amt + " trade caravans", null, "trade");
-
 		var yieldResTotal = null;
 		for (var i = 0; i<amt; i++){
 			yieldResTotal = this.tradeInternal(true, yieldResTotal);	//suppress msg
 		}
 
-		this.gainTradeRes(yieldResTotal);
+		this.gainTradeRes(yieldResTotal, amt);
 	},
 
 	tradeAll: function(){
@@ -575,22 +573,26 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	/**
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
-	gainTradeRes: function(yieldResTotal){
+	gainTradeRes: function(yieldResTotal, amtTrade){
 		var output = false;
-		for (var res in yieldResTotal){
-			var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
-			if (amt > 0){
-				if (res == "blueprint"){
-					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + (amt > 1 ? "s" : "") + "!", "notice", "trade");
-				} else if (res == "titanium"){
-					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + "!", "notice", "trade");
-				} else {
-					var resPool = this.game.resPool.get(res);
-					var name = resPool.title || res;
-					this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + name, null, "trade");
+		if (yieldResTotal) {
+			for (var res in yieldResTotal){
+				var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
+				if (amt > 0){
+					if (res == "blueprint"){
+						this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + (amt > 1 ? "s" : "") + "!", "notice", "trade", true);
+					} else if (res == "titanium"){
+						this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + res + "!", "notice", "trade", true);
+					} else {
+						var resPool = this.game.resPool.get(res);
+						var name = resPool.title || res;
+						this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " " + name, null, "trade", true);
+					}
+					output = true;
 				}
-				output = true;
 			}
+			var orthographe = amtTrade > 1 ? "s" : "";
+			this.game.msg("You have sent " + amtTrade + " trade caravan" + orthographe, null, "trade");
 		}
 
 		if (yieldResTotal && !output){

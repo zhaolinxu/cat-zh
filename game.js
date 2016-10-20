@@ -1104,13 +1104,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-	msg: function(message, type, tag){
+	msg: function(message, type, tag, noBullet){
 		var hasCalendarTech = this.science.get("calendar").researched;
 
 
-		var messageLine = this.console.static.msg(message, type, tag);
+		var messageLine = this.console.static.msg(message, type, tag, noBullet);
 		if (messageLine && hasCalendarTech){
-			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title, "date", null);
+			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title, "date", null, false);
 		}
 
 		return messageLine;

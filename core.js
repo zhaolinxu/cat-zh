@@ -325,7 +325,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		/**
 		 * Prints message in the console. Returns a DOM node for the last created message
 		 */
-		msg : function(message, type, tag){
+		msg : function(message, type, tag, noBullet){
 			if (tag && this.filters[tag]){
 				var filter = this.filters[tag];
 
@@ -352,6 +352,9 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			if (type){
 				dojo.addClass(span, "type_"+type);
+			}
+			if (noBullet) {
+				dojo.addClass(span, "noBullet");
 			}
 
 			/**

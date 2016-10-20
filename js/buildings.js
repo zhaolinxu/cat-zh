@@ -913,15 +913,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					(game.workshop.get("pneumaticPress").researched &&
 						iron.value >= iron.maxValue * (1 - baseAutomationRate))
 				){
-
 					if (!self.isAutomationEnabled){
 						game.msg("Skipping workshop automation...", null, "workshopAutomation");
 						self.jammed = true;
 						return;
 					}
-
-					game.msg("Activating workshop automation", null, "workshopAutomation");
-					self.jammed = true;				//Jam until next year
 				} else {
 					return;
 				}
@@ -930,32 +926,36 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				// Cap automation at 90% of resource cap to prevent trying to craft more than you have
 				var automationRate = Math.min(baseAutomationRate + baseAutomationRate * self.on, 0.9);
 
-				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
-					var autoWood = wood.value * (automationRate);
-					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
-						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
-						game.workshop.craft("beam", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!", null, "workshopAutomation");
-					}
-				}
-				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
-					var autoMinerals = minerals.value * (automationRate);
-					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
-						game.workshop.craft("slab", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!", null, "workshopAutomation");
-					}
-				}
-
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * (automationRate);
 
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
 						game.workshop.craft("plate", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!", null, "workshopAutomation");
+						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!", null, "workshopAutomation", true);
 					}
 				}
+
+				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
+					var autoMinerals = minerals.value * (automationRate);
+					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
+						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
+						game.workshop.craft("slab", amt);
+						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!", null, "workshopAutomation", true);
+					}
+				}
+
+				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
+					var autoWood = wood.value * (automationRate);
+					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
+						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
+						game.workshop.craft("beam", amt);
+						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!", null, "workshopAutomation", true);
+					}
+				}
+
+				game.msg("Activating workshop automation", null, "workshopAutomation");
+				self.jammed = true;				//Jam until next year
 			}
 		},
 		flavor: "I just nap here and it looks like I'm working"

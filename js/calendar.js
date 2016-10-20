@@ -215,7 +215,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var sciGain = this.game.resPool.addResEvent("science", sciBonus);
 
 		if (sciGain > 0 && !isSilent){
-			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " science!", "", "astronomicalEvent");
+			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " science!", "", "astronomicalEvent", true);
 		}
 
 		if (this.game.science.get("astronomy").researched){

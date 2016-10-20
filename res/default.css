@@ -543,6 +543,10 @@ h1 {
     list-style-type: circle;
 }
 
+#gameLog span.noBullet {
+    list-style-type: none !important;
+}
+
 #calendarDiv {
     white-space:nowrap;
 }
