@@ -1169,7 +1169,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: false,
 			hideSell: false,
 			noConfirm: false,
-			IWSmelter: true
+			IWSmelter: true,
+			disableCMBR: false,
+			disableTelemetry: true
 		};
 
 		this.resPool.resetState();

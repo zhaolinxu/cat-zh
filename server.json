@@ -4,6 +4,6 @@
   "telemetryUrl": "http://127.0.0.1:9091/events/",
 
   "showMotd": true,
-  "motdTitle": "MOTD Test",
+  "motdTitle": "MOTD",
   "motdContent": "Praise the sun!"
 }
