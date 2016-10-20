@@ -211,7 +211,7 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 		var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			game.motdFreshMessage = false;
-			return server.motdContent;
+			return "Message of the day:<br />" + server.motdContent;
 		}
 	}
 });
