@@ -2093,6 +2093,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 
 			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			if (tierCraftRatio == 0) {
+				tierCraftRatio = 1;
+			}
 			craft.progress += (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
 
 			if(craft.progress > 1) {
