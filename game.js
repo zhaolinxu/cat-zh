@@ -138,6 +138,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 //TODO: to be replaced with actual server call
 
 dojo.declare("classes.game.Server", null, {
+	game: null,
 	donateAmt: 0,
 	telemetryUrl: null,
 
@@ -145,10 +146,15 @@ dojo.declare("classes.game.Server", null, {
 	motdTitle: null,
 	motdContent: null,
 
+	constructor: function(game){
+		this.game = game;
+	},
+
 	refresh: function(){
 		var self = this;
 
 		console.log("Loading server settings...");
+		var previousMotdContent = self.game.motdContent;
 		$.ajax({
 			cache: false,
 			url: "server.json",
@@ -161,9 +167,15 @@ dojo.declare("classes.game.Server", null, {
 				self.motdTitle = json.motdTitle;
 				self.motdContent = json.motdContent;
 			}
+		}).done(function() {
+			self.game.motdContent = self.motdContent;
+			if (previousMotdContent != self.motdContent) {
+				self.game.motdFreshMessage = true;
+			}
 		}).fail(function(err) {
 			console.log("Unable to parse server.json configuration:", err);
 		});
+
 	}
 });
 
@@ -817,6 +829,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	console: null,
 	telemetry: null,
 	server: null,
+	motdFreshMessage: false,
+	motdContent: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -924,8 +938,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.console = new com.nuclearunicorn.game.log.Console();
 		this.telemetry = new classes.game.Telemetry(this);
-		this.server = new classes.game.Server();
-		this.server.refresh();
+		this.server = new classes.game.Server(this);
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		if (data){
+			var saveData = JSON.parse(data);
+			if (saveData && saveData.motdContent){
+				this.motdContent = saveData.motdContent;
+			}
+		}
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1182,6 +1202,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveData = {
 			saveVersion: this.saveVersion,
+			motdContent: this.motdContent,
 			resources: this.resPool.filterMetadata(
 				this.resPool.resources, ["name", "value", "unlocked", "isHidden"]
 			)

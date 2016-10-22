@@ -109,7 +109,6 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	update: function(){
-
 		if (this.game.village.getKittens() <= 5){
 			dojo.style(this.container, "display", "none");
 		} else {
@@ -166,7 +165,6 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 
 dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 	update: function(){
-
 		if (!this.game.science.get("electricity").researched){
 			dojo.style(this.container, "display", "none");
 		} else {
@@ -197,17 +195,23 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 
 dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 	update: function(){
-
 		var server = this.game.server;
 		if (server.showMotd && server.motdTitle) {
 			this.container.innerHTML = "&nbsp;" + server.motdTitle + "&nbsp;";
+		}
+
+		if (this.game.motdFreshMessage) {
+			dojo.addClass(this.container, "freshMessage");
+		} else {
+			dojo.removeClass(this.container, "freshMessage");
 		}
 	},
 
 	getTooltip: function(){
 		var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
-			return server.motdContent;
+			this.game.motdFreshMessage = false;
+			return "Message of the day:<br />" + server.motdContent;
 		}
 	}
 });
@@ -216,10 +220,8 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 
 dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	update: function(){
-
 		var server = this.game.server,
 			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
-
 
 		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/" + (nextTier * 100) + "&nbsp;" +
 		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU'>+</a>";

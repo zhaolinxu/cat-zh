@@ -251,7 +251,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "temporalFlux",
 		title: "temporal flux",
 		description: "",
-		type : "exotic",
+		type : "common",
 		craftable: false,
 		visible: false,
 		persists: true

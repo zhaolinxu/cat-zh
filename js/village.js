@@ -154,7 +154,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if(this.leader) {
 			var leaderTrait = this.leader.trait["name"];
 			if (leaderTrait == trait) {
-				var burnedParagonRatio = 1 + this.game.getTriValue(game.resPool.get("burnedParagon").value, 500);
+				var burnedParagonRatio = 1 + this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
 				// Modify the defautlObject depends on trait
 				switch (true) {
 					case trait == "engineer": // Crafting bonus
