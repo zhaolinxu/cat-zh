@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+	<meta http-equiv="Content-Security-Policy" content="script-src * 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *" />
+	<!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+	<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+	<title>Hello World</title>
+	<script type="text/javascript" src="cordova.js"></script>
+
+
+	<script src="mobile/fw7/build/js/framework7.js"></script>
+	<script src="lib/jQuery.js"></script>
+	<!-- NB: react cant go after the dojo -->
+	<script src="mobile/react/react.js"></script>
+
+	<script type="text/javascript">
+		dojoConfig = {
+			isDebug: true,
+			has: {
+				"csp-restrictions": false
+			}
+		}
+	</script>
+
+	<script src="lib/dojo.xd.js"></script>
+	<script src="lib/lz-string.js"></script>
+	<script src="lib/dropbox.js"></script>
+	<script src="lib/system.js"></script>
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-29812134-1', 'bloodrizer.ru');
+		ga('send', 'pageview');
+	</script>
+
+
+	<link rel="stylesheet" href="mobile/fw7/build/css/framework7.ios.css">
+	<link rel="stylesheet" href="mobile/fw7/build/css/framework7.ios.colors.css">
+	<link rel="stylesheet" href="mobile/css/ui.css">
+
+	<title>Kittens Game - a Dark Souls of incremental gaming</title>
+
+</head>
+
+<body>
+
+<script type="text/javascript">
+	var version = "_" + Date.now();
+
+	game = null;
+
+	function _import(i, def, modules){
+		if (!def){
+			return System.import(modules[i] + ".js?v=" + version);
+		} else {
+			return def.then(function(){
+				return System.import(modules[i] + ".js?v=" + version);
+			});
+		}
+	}
+
+	function bootstrap(){
+		$("#tooltip").hide();
+
+		SystemJS.config({
+			baseURL: ''
+		});
+
+		var modules = [
+			"core",
+			"js/resources",
+			"js/calendar",
+			"js/buildings",
+			"js/village",
+			"js/science",
+			"js/workshop",
+			"js/diplomacy",
+			"js/religion",
+			"js/achievements",
+			"js/space",
+			"js/prestige",
+			"js/time",
+			"js/stats",
+			"js/challenges",
+			"game",
+			"js/ui",
+			"js/toolbar",
+
+			//----- mobile -----
+			"mobile/js/ui",
+			"mobile/js/mobile",
+			"mobile/jsx/widgets/widgets.jsx",
+			"mobile/jsx/tabs/buildings.jsx",
+			"mobile/jsx/tabs/village.jsx",
+			"mobile/jsx/sidebar.jsx",
+			"mobile/jsx/resources.jsx",
+			"mobile/jsx/viewport.jsx"
+		];
+		var def = System.import('core.js');
+
+		for (var i in modules){
+			def = _import(i, def, modules);
+		}
+		def.then(function() {
+			try {
+				game = new com.nuclearunicorn.game.ui.GamePage();
+				game.setUI(new classes.ui.FW7UI("gameContainerId"));
+
+				game.load();
+				game.updateKarma();
+
+				game.render();
+				game.start();
+
+				/**
+				 * NB: don't ever try to console.log game
+				 */
+
+					//finally render ui and stuff
+				setupFW7();
+
+			} catch (ex){
+				console.log(ex);
+				console.log(new Error().stack);
+			}
+		});
+	}
+
+	function onDeviceReady(){
+		console.log("device is ready, bootstrapping application...");
+		bootstrap();
+	}
+
+	dojo.addOnLoad(function() {
+		document.addEventListener('deviceready', onDeviceReady, false);
+	});
+
+	document.addEventListener('deviceready', onDeviceReady, false);
+
+	var $r = React.createElement;
+
+	function setupFW7(){
+		console.log("setting fw7 framework...");
+		var fw7App = new Framework7();
+		var viewport = $r(WViewport);
+		React.render(viewport, document.getElementById('viewportContainer'));
+	}
+
+	function wipe(){
+		if (confirm("All save data will be DESTROYED, are you sure?")){
+			if (confirm("Are you ABSOLUTELY sure?")) {
+				gamePage.wipe();
+			}
+		}
+	}
+
+</script>
+
+<!-- not sure if it is such a good idea -->
+<div id="viewportContainer" style="height:100%">
+	Loading...
+</div>
+</body>
+
+</html>
