@@ -200,7 +200,7 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 			this.container.innerHTML = "&nbsp;" + server.motdTitle + "&nbsp;";
 		}
 
-		if (this.game.motdFreshMessage) {
+		if (server.motdFreshMessage) {
 			dojo.addClass(this.container, "freshMessage");
 		} else {
 			dojo.removeClass(this.container, "freshMessage");
@@ -210,7 +210,7 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
-			this.game.motdFreshMessage = false;
+			server.motdFreshMessage = false;
 			return "Message of the day:<br />" + server.motdContent;
 		}
 	}
