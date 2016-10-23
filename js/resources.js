@@ -547,13 +547,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	// Hack to reach the maxValue in resTable
 	resConsHackForResTable: function() {
-		for (var i in this.resources){
-			var res = this.resources[i];
-			if (res.maxValue) {
-				var perTickConvertion = this.game.getResourcePerTickConvertion(res.name);
-				if (perTickConvertion < 0) {
-					if (this.game.getResourcePerTick(res.name, true) > 0 && res.maxValue + perTickConvertion <= res.value) {
-						res.value += -perTickConvertion;
+		if( this.game.calendar.day >= 0) {
+			for (var i in this.resources){
+				var res = this.resources[i];
+				if (res.maxValue) {
+					var perTickConvertion = this.game.getResourcePerTickConvertion(res.name);
+					if (perTickConvertion < 0) {
+						if (this.game.getResourcePerTick(res.name, true) > 0 && res.maxValue + perTickConvertion <= res.value) {
+							res.value += -perTickConvertion;
+						}
 					}
 				}
 			}
