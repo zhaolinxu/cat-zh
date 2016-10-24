@@ -305,24 +305,30 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         return 1.0 + this.game.getEffect("paragonRatio");
     },
 
+	getBurnedParagonRatio: function(){
+		return this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
+	},
+
 	getParagonProductionRatio: function(){
-		var paragonRatio = (this.game.resPool.get("paragon").value * 0.010) * this.getParagonRatio();
+		var paragonRatio = this.getParagonRatio();
+		var productionRatio = (this.game.resPool.get("paragon").value * 0.010) * paragonRatio;
 		if (this.game.calendar.year >= 40000 + this.game.time.flux) {
-			paragonRatio += this.game.resPool.get("burnedParagon").value * 0.020 * this.getParagonRatio();
+			productionRatio += this.game.resPool.get("burnedParagon").value * 0.020 * paragonRatio;
 		} else {
-			paragonRatio += this.game.resPool.get("burnedParagon").value * 0.005 * this.getParagonRatio();
+			productionRatio += this.game.resPool.get("burnedParagon").value * 0.005 * paragonRatio;
 		}
-		return this.game.getHyperbolicEffect(paragonRatio, 2 * this.getParagonRatio());
+		return this.game.getHyperbolicEffect(productionRatio, 2 * paragonRatio);
 	},
 
 	getParagonStorageRatio: function(){
-		var paragonRatio = (this.game.resPool.get("paragon").value / 1000) * this.getParagonRatio(); //every 100 paragon will give a 10% bonus to the storage capacity
+		var paragonRatio = this.getParagonRatio();
+		var storageRatio = (this.game.resPool.get("paragon").value / 1000) * paragonRatio; //every 100 paragon will give a 10% bonus to the storage capacity
 		if (this.game.calendar.year >= 40000 + this.game.time.flux) {
-			paragonRatio += (this.game.resPool.get("burnedParagon").value / 500) * this.getParagonRatio();
+			storageRatio += (this.game.resPool.get("burnedParagon").value / 500) * paragonRatio;
 		} else {
-			paragonRatio += (this.game.resPool.get("burnedParagon").value / 2000) * this.getParagonRatio();
+			storageRatio += (this.game.resPool.get("burnedParagon").value / 2000) * paragonRatio;
 		}
-		return paragonRatio;
+		return storageRatio;
 	}
 });
 

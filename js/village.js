@@ -154,32 +154,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if(this.leader) {
 			var leaderTrait = this.leader.trait["name"];
 			if (leaderTrait == trait) {
-				var burnedParagonRatio = 1 + this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
+				var burnedParagonRatio = 1 + this.game.prestige.getBurnedParagonRatio();
 				// Modify the defautlObject depends on trait
-				switch (true) {
-					case trait == "engineer": // Crafting bonus
+				switch (trait) {
+					case "engineer": // Crafting bonus
 						defaultObject = 0.05 * burnedParagonRatio;
 						break;
-					case trait == "merchant": // Trading bonus
+					case "merchant": // Trading bonus
 						defaultObject = 0.030 * burnedParagonRatio;
 						break;
-					case trait == "manager": // Hunting bonus
+					case "manager": // Hunting bonus
 						defaultObject = 0.5 * burnedParagonRatio;
 						break;
-					case trait == "scientist": // Science prices bonus
+					case "scientist": // Science prices bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "science") {
-								defaultObject[i].val -= defaultObject[i].val * 0.01 * burnedParagonRatio;
+								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperboliceffect(0.01 * burnedParagonRatio, 1.0); //1% before BP
 							}
 						}
 						break;
-					case trait == "wise": // Religion bonus
+					case "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
-							if (defaultObject[i].name == "faith") {
-								defaultObject[i].val -= defaultObject[i].val * 0.9 * burnedParagonRatio;
-							}
-							if (defaultObject[i].name == "gold") {
-								defaultObject[i].val -= defaultObject[i].val * 0.9 * burnedParagonRatio;
+							if (defaultObject[i].name == "faith" || defaultObject[i].name == "gold") {
+								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.09 + 0.01 * burnedParagonRatio, 1.0); //10% before BP
 							}
 						}
 						break;

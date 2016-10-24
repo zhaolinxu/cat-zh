@@ -1471,11 +1471,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	},
 
 	getPrices: function(){
-        var ratio = this.getMetadata().priceRatio || 1;
-        var prices = dojo.clone(this.getMetadata().prices);
+		var meta = this.getMetadata();
+        var ratio = meta.priceRatio || 1;
+        var prices = dojo.clone(meta.prices);
 
         for (var i = 0; i< prices.length; i++){
-            prices[i].val = prices[i].val * Math.pow(ratio, this.getMetadata().val);
+            prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
         }
         return prices;
     },
