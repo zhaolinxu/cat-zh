@@ -552,8 +552,8 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		//-------------- pay prices ------------------
 
-		this.game.resPool.addResEvent("manpower", -50*amt);
-		this.game.resPool.addResEvent("gold", -15*amt);
+		this.game.resPool.addResEvent("manpower", -50 * amt);
+		this.game.resPool.addResEvent("gold", -15 * amt);
 		this.game.resPool.addResEvent(this.race.buys[0].name, -this.race.buys[0].val*amt);
 
 		//---------- calculate yield -----------------
@@ -622,7 +622,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		// Update tradeHalfHref Link
 		var tradeHalf = Math.floor(tradeMax / 2);
 		// Change button innerHTML
-		this.tradeHalfHref.link.innerHTML = "x" + tradeHalf;
+		this.tradeHalfHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0);
 		// Change handler
 		dojo.disconnect(this.tradeHalfHref.linkHandler);
 		this.tradeHalfHref.linkHandler = dojo.connect(this.tradeHalfHref.link, "onclick", this, dojo.partial(function(event){
@@ -643,7 +643,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 		// Update tradeFifthHref Link
 		var tradeFifth = Math.floor(tradeMax / 5);
 		// Change button innerHTML
-		this.tradeFifthHref.link.innerHTML = "x" + tradeFifth;
+		this.tradeFifthHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0);
 		// Change handler
 		dojo.disconnect(this.tradeFifthHref.linkHandler);
 		this.tradeFifthHref.linkHandler = dojo.connect(this.tradeFifthHref.link, "onclick", this, dojo.partial(function(event){
