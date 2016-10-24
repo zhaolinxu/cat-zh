@@ -1,3 +1,12 @@
+v 1.3.1.1 (23 oct 2016)
+changes by freeroot:
+
+Burned paragon will now provide various bonuses
+_
+Loading animation
+Message of the day toolbar
+Factory Optimization
+
 v 1.3.1.0 (14 oct 2016)
 CMBR toolbar
 AM Drive
