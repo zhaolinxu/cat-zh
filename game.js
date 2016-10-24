@@ -2953,6 +2953,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.stats.getStat("totalParagon").val += paragonPoints;
 		this.stats.getStat("totalResets").val++;
 
+		this.telemetry.logEvent("reset", this.stats.getStat("totalResets").val);
+
 		//Reset current game stats
 		this.stats.resetStatsCurrent();
 
