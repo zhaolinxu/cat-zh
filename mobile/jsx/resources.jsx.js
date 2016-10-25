@@ -9,6 +9,12 @@ WResourceTableRow = React.createClass({
         }
     },
 
+    getInitialState: function() {
+        return {
+            collapsed: true
+        }
+    },
+
     render: function() {
         var res = this.props;
         /* -------------------------------
@@ -26,12 +32,20 @@ WResourceTableRow = React.createClass({
 
         var perTickValue = perTick ? "(" + game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 
-
+        //todo: only calculate tooltip if resbox is expanded
+        var resTooltip = "";
+        if (!this.state.collapsed) {
+            resTooltip = game.getDetailedResMap(res);
+        }
 
         return $r("ul", {},
             $r("li", {className: "accordion-item"},
                 [
-                    $r("a", { href: "#", className: "item-content item-link" },
+                    $r("a", {
+                            href: "#",
+                            className: "item-content item-link",
+                            onClick: this.toggle
+                        },
                             $r("div", {className: "item-inner"},
                                 $r("div", {className: "item-title res-row"},
                                     [
@@ -45,12 +59,20 @@ WResourceTableRow = React.createClass({
                     ),
                     $r("div", {className: "accordion-item-content"},
                             $r("div", {className: "content-block"},
-                                $r("p", {}, "resource details go there")
+                                $r("p", {}, resTooltip)
                             )
                     )
                 ]
             )
         );
+    },
+
+    toggle: function(){
+        console.log("toggle");
+
+        this.setState({
+            collapsed: !this.state.collapsed
+        });
     }
 });
 

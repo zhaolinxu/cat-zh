@@ -872,7 +872,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			//	---------------- +tick ----------------------
 			var tdPerTick = dojo.create("td", {className: "resPerTick"}, tr);
 
-			this.game.attachTooltip(tdPerTick, res);
+			this.game.attachResourceTooltip(tdPerTick, res);
 
 			var tdWeatherMod = dojo.create("td", null, tr);
 

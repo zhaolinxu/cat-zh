@@ -1186,7 +1186,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true
+			disableTelemetry: false
 		};
 
 		this.resPool.resetState();
@@ -1205,6 +1205,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.globalEffectsCached = {};
+	},
+
+	_publish: function(topic, arg){
+		if (dojo.version.minor == 6) {
+			dojo.publish(topic, [arg]);
+		} else {
+			dojo.publish(topic, arg);
+		}
 	},
 
 	save: function(){
@@ -1241,7 +1249,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			opts : this.opts
 		};
 
-		dojo.publish("server/save", saveData);
+		this._publish("server/save", saveData);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		console.log("Game saved");
@@ -1313,7 +1321,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
-            console.trace();
+			console.log(new Error().stack);
+
 			this.msg("Unable to load save data. Close the page and contact the dev.");
 			success = false;
 		}
@@ -1985,16 +1994,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Generates a stack of resource modifiers. (TODO: use it with resource per tick calculation logic)
 	 */
 	getResourcePerTickStack: function(resName, calcAutomatedEffect, season){
+		var stack = [];
 
 		var res = null;
-		for (var i = 0; i < this.resPool.resources.length; i++){
-			if (this.resPool.resources[i].name == resName){
-				res = this.resPool.resources[i];
+		for (var i in this.resPool.resources){
+			var _res = this.resPool.resources[i];
+			if (_res.name == resName){
+				res = _res;
 				break;
 			}
 		}
 
-		var stack = [];
+		if (!res){
+			//console.error("Unable to fetch resource stack for resName '" + resName + "'");
+			return;
+		}
 
 		// BUILDING PerTickBase
 		stack.push({
@@ -2483,7 +2497,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * All tooltips will reuse the same container.
 	 *
 	 */
-	attachTooltip: function(container, resRef){
+	attachResourceTooltip: function(container, resRef){
 
 		var tooltip = dojo.byId("tooltip");
 		dojo.empty(tooltip);
@@ -2550,7 +2564,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = "";
 		var hasFixed = false;
 
-		for (var i = 0; i < resStack.length; i++){
+		for (var i in resStack){
 			var stackElem = resStack[i];
 
 			if (stackElem.length){
