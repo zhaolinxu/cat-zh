@@ -783,7 +783,6 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	update: function(kittensPerTick){
-
 		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
 			this.nextKittenProgress += kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
@@ -793,6 +792,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				for (var iCat = 0; iCat < kittensToAdd; iCat++) {
 					if (this.kittens.length < this.maxKittens) {
 						this.addKitten();
+						if (this.maxKittens <= 10){
+							this.game.msg("A kitten has joined your village");
+						}
 					}
 				}
 

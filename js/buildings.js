@@ -1832,6 +1832,17 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		return null;
 	},
 
+	getName: function() {
+		var meta = this.getMetadata();
+		var name = this.inherited(arguments);
+
+		var sim = this.game.village.sim;
+		if (meta.effects["maxKittens"] && sim.nextKittenProgress && sim.maxKittens <= 10 ){
+			name += " [" + (progress*100).toFixed()  +"%]";
+		}
+		return name;
+	},
+
 	/**
 	 * Ugly hack
 	 **/
