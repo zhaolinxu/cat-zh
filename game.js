@@ -3422,17 +3422,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "Metaphysics":
 				if(!this.prestige.getPerk("goldenRatio").researched) {
 					this.prestige.getPerk("goldenRatio").researched = true;
-					this.prestige.getPerk("goldenRatio").handler(this);
 					var perk = "Golden Ratio";
 				}
 				else if (!this.prestige.getPerk("divineProportion").researched) {
 					this.prestige.getPerk("divineProportion").researched = true;
-					this.prestige.getPerk("divineProportion").handler(this);
 					var perk = "Divine Proportion";
 				}
 				else if (!this.prestige.getPerk("vitruvianFeline").researched) {
 					this.prestige.getPerk("vitruvianFeline").researched = true;
-					this.prestige.getPerk("vitruvianFeline").handler(this);
 					var perk = "Vitruvian Feline";
 				}
 				else if (!this.prestige.getPerk("renaissance").researched) {
