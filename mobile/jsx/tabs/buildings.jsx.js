@@ -1,3 +1,30 @@
+WGatherCatnipTabBtn = React.createClass({
+    render: function(){
+        return $r("li", {className: "accordion-item kg-button"},
+            [ $r("a", { href: "#", className: "item-link list-button", onclick: this.onclick }, "Gather Catnip") ]
+        );
+    },
+
+    onclick: function(){
+        game.bld.gatherCatnip();
+    }
+});
+
+WRefineCatnipTabBtn = React.createClass({
+    render: function(){
+        return $r("li", {className: "accordion-item kg-button"},
+            [
+                $r("a", { href: "#", className: "item-link list-button" }, "Refine Catnip")
+            ]
+        );
+    },
+
+    onclick: function(){
+        game.bld.refineCatnip();
+    }
+});
+
+
 WBuildingTabBtn = React.createClass({
     render: function(){
         /*return $r("div", {},
@@ -27,10 +54,22 @@ WBuildingTabBtn = React.createClass({
 WBonfireTab = React.createClass({
     render: function() {
         var bldButtons = [];
+
+        bldButtons.push(
+            $r(WGatherCatnipTabBtn, {})
+        );
+        bldButtons.push(
+            $r(WRefineCatnipTabBtn, {})
+        );
+
         for (var i in game.bld.buildingsData){
 
             var bld = game.bld.buildingsData[i];
             var bldMeta = new classes.BuildingMeta(bld).getMeta();
+
+            if (!bldMeta.unlocked){
+                continue;
+            }
 
             bldButtons.push(
                 $r(WBuildingTabBtn, {meta: bldMeta })

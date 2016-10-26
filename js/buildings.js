@@ -469,7 +469,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "biolab",
 		label: "Bio Lab",
-		description: "Improves effectiveness of catnip refinement by 10%",
+		description: "Improves effectiveness of catnip refinement by 10%. More effective if powered.",
 		prices: [
 			{ name : "slab", val: 100 },
 			{ name : "alloy", val: 25 },
@@ -508,6 +508,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				);
 				self.effects["catnipPerTickCon"]*=amt;
 				self.effects["oilPerTickProd"]*=amt;
+
+				if (self.val) {
+					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
+				}
 
 				return amt;
 			}
@@ -1776,7 +1780,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         this.get("barn").on += 10;
         this.get("harbor").val += 10;
         this.get("harbor").on += 10;
-    }
+    },
+
+	gatherCatnip: function(){
+		this.game.resPool.get("catnip").value++;
+	},
+
+	refineCatnip: function(){
+		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
+		this.game.resPool.addResEvent("wood", (1 * craftRatio));
+	}
 });
 
 dojo.declare("classes.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
@@ -2128,17 +2141,18 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var btn = new classes.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip",
 			handler: function(btn){
-						clearTimeout(btn.game.gatherTimeoutHandler);
-						btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
 
-						btn.game.gatherClicks++;
-						if (btn.game.gatherClicks >= 2500 && !btn.game.ironWill){
-							btn.game.gatherClicks = 0;
-							btn.game.cheatMode = true;
-						}
+				clearTimeout(btn.game.gatherTimeoutHandler);
+				btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
 
-						btn.game.resPool.get("catnip").value++;
-					 },
+				btn.game.gatherClicks++;
+				if (btn.game.gatherClicks >= 2500 && !btn.game.ironWill){
+					btn.game.gatherClicks = 0;
+					btn.game.cheatMode = true;
+				}
+
+				btn.game.bld.gatherCatnip()
+			},
 			description: "Gather some catnip in the forest",
 			twoRow: this.twoRows
 		}, this.game);
@@ -2150,8 +2164,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var btn = new classes.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip",
 			handler: 	function(btn){
-				var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;
-				btn.game.resPool.addResEvent("wood", (1 * craftRatio));
+				btn.game.bld.refineCatnip();
 			},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }],
