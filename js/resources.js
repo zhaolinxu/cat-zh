@@ -1144,7 +1144,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var tdAmt = dojo.create("td", null, tr);
 			tdAmt.textContent = this.game.getDisplayValueExt(res.value);
 
-			this.game.attachTooltip(tdAmt, res);
+			this.game.attachResourceTooltip(tdAmt, res);
 
 			//	---------------- + ----------------------
 

@@ -2949,6 +2949,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         return karmaKittens;
     },
 
+	_getBonusZebras: function(){
+		var totalScience = 0;
+		var bonusZebras = 0;
+
+		var anachronomancy = this.prestige.getPerk("anachronomancy");
+		if (this.science.get("archery").researched && this.karmaZebras < 10){
+			bonusZebras = 1;
+		}
+		for (var i = 0; i < this.science.techs.length; i++){
+			var tech = this.science.techs[i];
+			if (tech.name == "chronophysics" && anachronomancy.researched){
+				continue;
+			}
+			if (tech.researched){
+				for (var j in tech.prices){
+					if (tech.prices[j].name == "science"){
+						totalScience += tech.prices[j].val;
+						break;
+					}
+				}
+			}
+		}
+		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
+		return bonusZebras;
+	},
+
 	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
 		if (kittens > 35){
@@ -2973,27 +2999,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.stats.resetStatsCurrent();
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
-		var totalScience = 0;
-		var bonusZebras = 0;
-		var anachronomancy = this.prestige.getPerk("anachronomancy");
-		if (this.science.get("archery").researched && this.karmaZebras < 10){
-			bonusZebras = 1;
-		}
-		for (var i = 0; i < this.science.techs.length; i++){
-			var tech = this.science.techs[i];
-			if (tech.name == "chronophysics" && anachronomancy.researched){
-				continue;
-			}
-			if (tech.researched){
-				for (var j in tech.prices){
-					if (tech.prices[j].name == "science"){
-						totalScience += tech.prices[j].val;
-						break;
-					}
-				}
-			}
-		}
-		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
+		var bonusZebras = this._getBonusZebras();
 		if (this.resPool.get("zebras").value > 0 && this.ironWill){
 			this.karmaZebras += bonusZebras;
 		}

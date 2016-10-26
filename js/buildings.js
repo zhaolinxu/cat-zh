@@ -1779,14 +1779,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
     }
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	onClick: function(){
 		this.animate();
 		this.handler(this);
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	x100Href: null,
 
 	update: function(){
@@ -2114,7 +2114,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 	addCoreBtns: function(container){
 
-		var btn = new com.nuclearunicorn.game.ui.GatherCatnipButton({
+		var btn = new classes.game.ui.GatherCatnipButton({
 			name:	 "Gather catnip",
 			handler: function(btn){
 						clearTimeout(btn.game.gatherTimeoutHandler);
@@ -2136,7 +2136,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 		var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
 
-		var btn = new com.nuclearunicorn.game.ui.RefineCatnipButton({
+		var btn = new classes.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip",
 			handler: 	function(btn){
 				var craftRatio = btn.game.getResCraftRatio({name: "wood"}) + 1;

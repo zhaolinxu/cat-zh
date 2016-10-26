@@ -572,6 +572,10 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
         msg += "Karma points: " + karmaPoints;
         msg += "<br>Paragon points: " + paragonPoints;
 
+        if (this.game.ironWill){
+            msg += "<br>Zebra hunters: " + this.game._getBonusZebras();
+        }
+
 
         this.resetDiv.innerHTML = msg;
     }
