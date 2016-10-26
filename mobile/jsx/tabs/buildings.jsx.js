@@ -1,7 +1,7 @@
 WGatherCatnipTabBtn = React.createClass({
     render: function(){
-        return $r("li", {className: "accordion-item kg-button"},
-            [ $r("a", { href: "#", className: "item-link list-button", onclick: this.onclick }, "Gather Catnip") ]
+        return $r("li", {className: "kg-button"},
+            [ $r("a", { href: "#", className: "item-link list-button", onClick: this.onclick }, "Gather Catnip") ]
         );
     },
 
@@ -12,9 +12,9 @@ WGatherCatnipTabBtn = React.createClass({
 
 WRefineCatnipTabBtn = React.createClass({
     render: function(){
-        return $r("li", {className: "accordion-item kg-button"},
+        return $r("li", {className: "kg-button"},
             [
-                $r("a", { href: "#", className: "item-link list-button" }, "Refine Catnip")
+                $r("a", { href: "#", className: "item-link list-button", onClick: this.onclick }, "Refine Catnip")
             ]
         );
     },

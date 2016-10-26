@@ -107,8 +107,7 @@ WResourceTable = React.createClass({
             var res = this.state.resources[i];
 
             var isVisible = (res.unlocked || (res.name == "kittens" && res.maxValue));
-
-            if (!res.visible){
+            if (!isVisible){
                 continue;
             }
 
