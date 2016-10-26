@@ -3031,7 +3031,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn"];
 
 
-
+		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		var fluxCondensator = this.workshop.get("fluxCondensator");
 		for (var i in this.resPool.resources){
 			var res = this.resPool.resources[i];

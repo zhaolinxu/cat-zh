@@ -1851,7 +1851,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 
 		var sim = this.game.village.sim;
 		if (meta.effects["maxKittens"] && sim.nextKittenProgress && sim.maxKittens <= 10 ){
-			name += " [" + (progress*100).toFixed()  +"%]";
+			name += " [" + (sim.nextKittenProgress*100).toFixed()  +"%]";
 		}
 		return name;
 	},
@@ -2151,7 +2151,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					btn.game.cheatMode = true;
 				}
 
-				btn.game.bld.gatherCatnip()
+				btn.game.bld.gatherCatnip();
 			},
 			description: "Gather some catnip in the forest",
 			twoRow: this.twoRows
