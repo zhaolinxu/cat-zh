@@ -894,10 +894,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["manuscriptPerTickProd"] = amt;
 			}
 
-			if (self.effects["manuscriptPerTickProd"]){
-				self.effects["manuscriptPerTickProd"]*=self.on;
-			}
-
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
 				var baseAutomationRate = 0.02;
 
