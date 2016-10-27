@@ -26,10 +26,19 @@ WRefineCatnipTabBtn = React.createClass({
 
 
 WBuildingTabBtn = React.createClass({
+
+    getInitialState: function() {
+        return {
+            collapsed: true
+        }
+    },
+
     render: function(){
-        /*return $r("div", {},
-            "[" + this.props.meta.name + "]"
-        );*/
+
+        var tooltip = "";
+        if (!this.state.collapsed) {
+            tooltip = this.renderTooltip(this.props.meta);
+        }
 
         return $r("li", {className: "accordion-item kg-button"},
                 [
@@ -43,11 +52,35 @@ WBuildingTabBtn = React.createClass({
                     ),
                     $r("div", {className: "accordion-item-content"},
                         $r("div", {className: "content-block"},
-                            $r("p", {}, "bld details go there")
+                            $r("p", {}, tooltip)
                         )
                     )
                 ]
             );
+    },
+
+    renderTooltip: function(meta){
+
+        var prices = meta.prices;
+        var tooltip = dojo.create("div", {});
+        for (var i in prices){
+            game._renderPriceLine(tooltip, prices[i], /*simpleUI*/ false);
+        }
+
+
+        return $r("div", {}, [
+            $r("div", { className: "bld-tooltip-name"}, "NAME"),
+            $r("div", { className: "bld-tooltip-desc"}, "DESC"),
+            $r("div", { className: "bld-tooltip-prices"},
+                tooltip
+            )
+        ]);
+    },
+
+    toggle: function(){
+        this.setState({
+            collapsed: !this.state.collapsed
+        });
     }
 });
 

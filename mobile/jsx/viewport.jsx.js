@@ -176,12 +176,14 @@ WViewport = React.createClass({
                             className: "toolbar"
                         }, [
                             $r("div", {className : "toolbar-inner"},
-                                $r("a", {href : "#", className: "link"}, "Left link"),
+                                $r("a", {href : "#", className: "link"},
+                                    "Resources"),
                                 $r("a", {
                                     href : "#",
                                     className: "open-popover link",
                                     "data-popover": ".popover-menu"
-                                }, "Menu")
+                                },
+                                    "Log")
                             )
                         ]),
 

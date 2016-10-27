@@ -121,7 +121,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			payload: payload
 		};
 
-		if (!this.game.opts.disableTelemetry) {
+		if (!this.game.opts.disableTelemetry && this.game.server.telemetryUrl) {
 			$.ajax({
 				url: this.game.server.telemetryUrl,
 				type: "POST",
@@ -1049,6 +1049,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.rate * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
 
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
@@ -1060,6 +1061,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		dropBoxClient.authDriver(driver);
 
 		this.dropBoxClient = dropBoxClient;
+	},
+
+	heartbeat: function(){
+		this.telemetry.logEvent("heartbeat", {
+			opts: this.opts,
+			year: this.calendar.year
+		});
 	},
 
 	/**
