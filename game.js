@@ -3039,7 +3039,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn"];
 
 
-
+		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		var fluxCondensator = this.workshop.get("fluxCondensator");
 		for (var i in this.resPool.resources){
 			var res = this.resPool.resources[i];
@@ -3430,17 +3430,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "Metaphysics":
 				if(!this.prestige.getPerk("goldenRatio").researched) {
 					this.prestige.getPerk("goldenRatio").researched = true;
-					this.prestige.getPerk("goldenRatio").handler(this);
+					this.unlock(this.prestige.getPerk("goldenRatio").unlocks);
 					var perk = "Golden Ratio";
 				}
 				else if (!this.prestige.getPerk("divineProportion").researched) {
 					this.prestige.getPerk("divineProportion").researched = true;
-					this.prestige.getPerk("divineProportion").handler(this);
+					this.unlock(this.prestige.getPerk("divineProportion").unlocks);
 					var perk = "Divine Proportion";
 				}
 				else if (!this.prestige.getPerk("vitruvianFeline").researched) {
 					this.prestige.getPerk("vitruvianFeline").researched = true;
-					this.prestige.getPerk("vitruvianFeline").handler(this);
+					this.unlock(this.prestige.getPerk("vitruvianFeline").unlocks);
 					var perk = "Vitruvian Feline";
 				}
 				else if (!this.prestige.getPerk("renaissance").researched) {

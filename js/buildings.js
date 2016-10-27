@@ -874,16 +874,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			self.effects["coalRatioGlobal"] = -0.8 + game.getEffect("coalRatioGlobalReduction");
-		},
-		jammed: false,
-		isAutomationEnabled: true,
-		action: function(self, game){
-			if (self.on < 1){
-				return;
-			}
 
+			var amt = 0;
 			if (game.workshop.get("printingPress").researched){
-				var amt = 0.0005;						// 2 per year per SW
+				amt = 0.0005;						// 2 per year per SW
 
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
@@ -891,11 +885,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("photolithography").researched){
 					amt *= 4;
 				}
-				self.effects["manuscriptPerTickProd"] = amt;
 			}
-
-			if (self.effects["manuscriptPerTickProd"]){
-				self.effects["manuscriptPerTickProd"]*=self.on;
+			self.effects["manuscriptPerTickProd"] = amt;
+		},
+		jammed: false,
+		isAutomationEnabled: true,
+		action: function(self, game){
+			if (self.on < 1){
+				return;
 			}
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
@@ -1851,7 +1848,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 
 		var sim = this.game.village.sim;
 		if (meta.effects["maxKittens"] && sim.nextKittenProgress && sim.maxKittens <= 10 ){
-			name += " [" + (progress*100).toFixed()  +"%]";
+			name += " [" + (sim.nextKittenProgress*100).toFixed()  +"%]";
 		}
 		return name;
 	},
@@ -2151,7 +2148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 					btn.game.cheatMode = true;
 				}
 
-				btn.game.bld.gatherCatnip()
+				btn.game.bld.gatherCatnip();
 			},
 			description: "Gather some catnip in the forest",
 			twoRow: this.twoRows
