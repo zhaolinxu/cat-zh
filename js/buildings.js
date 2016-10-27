@@ -874,16 +874,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			self.effects["coalRatioGlobal"] = -0.8 + game.getEffect("coalRatioGlobalReduction");
-		},
-		jammed: false,
-		isAutomationEnabled: true,
-		action: function(self, game){
-			if (self.on < 1){
-				return;
-			}
 
+			var amt = 0;
 			if (game.workshop.get("printingPress").researched){
-				var amt = 0.0005;						// 2 per year per SW
+				amt = 0.0005;						// 2 per year per SW
 
 				if (game.workshop.get("offsetPress").researched){
 					amt *= 4;
@@ -891,7 +885,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("photolithography").researched){
 					amt *= 4;
 				}
-				self.effects["manuscriptPerTickProd"] = amt;
+			}
+			self.effects["manuscriptPerTickProd"] = amt;
+		},
+		jammed: false,
+		isAutomationEnabled: true,
+		action: function(self, game){
+			if (self.on < 1){
+				return;
 			}
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
