@@ -1172,12 +1172,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				pos.top = scrollBottom - $(tooltip).height();
 			}
 
+			var V_OFFSET = 0;
 			if (pos.left + $(tooltip).width() + H_OFFSET >= scrollRight){
 				pos.left = scrollRight - $(tooltip).width() - H_OFFSET;
+				V_OFFSET = 35;
 			}
 
 			dojo.setStyle(tooltip, "left", (pos.left + H_OFFSET) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top) + "px");
+			dojo.setStyle(tooltip, "top",  (pos.top + V_OFFSET ) + "px");
 
 			dojo.setStyle(tooltip, "display", "");
 		});
