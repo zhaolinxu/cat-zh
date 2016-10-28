@@ -1914,7 +1914,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	save: function(saveData){
 
 		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
-		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value"]);
+		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"]);
 
 		saveData.workshop = {
 			upgrades: upgrades,
@@ -1963,6 +1963,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						}
 						if (craft && savedCraft.value) {
 							craft.value = savedCraft.value;
+						}
+						if (craft && savedCraft.progress) {
+							craft.progress = savedCraft.progress;
 						}
 					}
 				}
