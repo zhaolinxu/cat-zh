@@ -91,9 +91,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
+		}
 		// winterIsComing
 		if (this.currentChallenge == "winterIsComing") {
-			if (this.game.space.getProgram("heliosMission").val > 0){
+			if (this.game.space.getPlanet("helios").reached){
 				this.researchChallenge("winterIsComing");
 			}
 		}
