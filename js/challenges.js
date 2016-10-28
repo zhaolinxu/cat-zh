@@ -73,6 +73,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 
 	update: function(){
+		// energy
 		if (this.getChallenge("energy").unlocked == false) {
 			if (this.game.resPool.energyProd != 0 || this.game.resPool.energyCons != 0) {
 				this.getChallenge("energy").unlocked = true;
@@ -90,7 +91,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
-		} else if (this.currentChallenge == "winterIsComing") {
+		// winterIsComing
+		if (this.currentChallenge == "winterIsComing") {
 			if (this.game.space.getProgram("heliosMission").val > 0){
 				this.researchChallenge("winterIsComing");
 			}
