@@ -2018,8 +2018,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
                     res, amt);
             }
 
+            return true;
+
 		}else{
 			console.log("not enough resources for", prices);
+			return false;
 		}
 	},
 
@@ -2099,8 +2102,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			craft.progress += (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
 
 			if(craft.progress > 1) {
-				this.craft(craft.name, 1, true);
-				craft.progress = 0;
+				var craftSuccess = this.craft(craft.name, 1, true);
+				craft.progress = craftSuccess ? 0 : 1;
 			}
 		}
 
