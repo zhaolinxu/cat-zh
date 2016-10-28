@@ -169,7 +169,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case "scientist": // Science prices bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "science") {
-								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperboliceffect(0.01 * burnedParagonRatio, 1.0); //1% before BP
+								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.01 * burnedParagonRatio, 1.0); //1% before BP
 							}
 						}
 						break;
