@@ -17,6 +17,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
         researched: false,
         unlocked: true
 	},{
+		name: "winterIsComing",
+		label: "Winter Has Come",
+		description: "Restart the game with only winter seasons.<br><br>Goal: Get to Helios.",
+		effectDesc: "Weather is better overall.",
+		researched: false,
+		unlocked: true
+	},{
 		name: "energy",
 		label: "Energy",
 		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings and build at least one of them.",
@@ -83,6 +90,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
+		} else if (this.currentChallenge == "winterIsComing") {
+			if (this.game.space.getProgram("heliosMission").val > 0){
+				this.researchChallenge("winterIsComing");
+			}
 		}
 	},
 
@@ -144,7 +155,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 
 	onClick: function(){
 		if (this.getMetadata().name != this.game.challenges.currentChallenge && (this.enabled || this.game.devMode)){
-			if (confirm("Are you sure you want to achieve this challenge by resseting the game ?")) {
+			if (confirm("Are you sure you want to start this challenge by resetting the game ?")) {
 				// Set the challenge for after reset
 				if (this.getMetadata().name == "ironWill") {
 					this.game.challenges.currentChallenge = null;

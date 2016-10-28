@@ -445,6 +445,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 
+			if (this.game.challenges.currentChallenge == "winterIsComing"){
+				this.season = 3;	//eternal winter
+			}
+
 			/* The update function must be called after the onNew functions, which may make changes
 			   that need to be visible (e.g. showing events in the document title)
 			*/
