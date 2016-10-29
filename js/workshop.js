@@ -1105,8 +1105,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 1250 },
 			{ name : "science",  val: 75000 }
 		]
-	},
-	{
+	},{
+		name: "factoryRobotics",
+		label: "Factory Robotics",
+		description: "Improves Engineer's effectiveness",
+		effects: {
+			"t1CraftRatio": 10,
+			"t2CraftRatio": 5,
+			"t3CraftRatio": 2
+		},
+		prices:[
+			{ name : "gear", 	 val: 250 },
+			{ name : "titanium", val: 2500 },
+			{ name : "science",  val: 100000 }
+		]
+	}, {
 		name: "spaceManufacturing",
 		label: "Space Manufacturing",
 		description: "Factories are providing bonus to Space Elevators and Orbital Arrays",
@@ -1458,8 +1471,25 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         ],
         upgrades: {
             buildings: ["reactor"]
-        }
-    },
+        },
+		unlocks: {
+			upgrades: ["enrichedThorium"]
+		}
+    },{
+		name: "enrichedThorium",
+		label: "Enriched Thorium",
+		description: "Reactors will now consume 25% less thorium",
+		effects: {
+			"reactorThoriumPerTick": 0.0125
+		},
+		prices:[
+			{ name : "thorium",  val: 12500 },
+			{ name : "science",  val: 500000 }
+		],
+		upgrades: {
+			buildings: ["reactor"]
+		}
+	},
 	//------------------- starcharts / space ----------------
 	{
 		name: "hubbleTelescope",

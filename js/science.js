@@ -466,7 +466,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"aqueduct",stage:1}], // Hydro Plant
-			upgrades: ["steelPlants", "rotaryKiln", "assistance"],
+			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
 			crafts: ["tanker"]
 		}
 	},{
