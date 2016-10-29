@@ -1256,15 +1256,32 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "amReactorsMK2",
 		label: "Advanced AM Reactors",
-		description: "Your Research Vessels and Space Beacons are 75% more effective",
+		description: "Your Research Vessels and Space Beacons are 1.5x more effective",
 		effects: {
-			"spaceScienceRatio": 0.75
+			"spaceScienceRatio": 1.5
 		},
 		upgrades: {
 			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		prices: [
 			{name: "eludium", val: 70},
+			{name: "antimatter", val: 1750}
+		],
+		unlocks: {
+			upgrades: ["voidReactors"]
+		}
+	},{
+		name: "voidReactors",
+		label: "Void Reactors",
+		description: "Your Research Vessels are 4 times as effective",
+		effects: {
+			"spaceScienceRatio": 4
+		},
+		upgrades: {
+			spaceBuilding: ["researchVessel"]
+		},
+		prices: [
+			{name: "void", val: 250},
 			{name: "antimatter", val: 2500}
 		]
 	},{

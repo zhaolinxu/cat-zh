@@ -1,3 +1,8 @@
+v 1.3.1.3 (29 oct 2016)
+Advanced AM Reactors will now cost less AM and much more effective
+Void Reactors
+Winter has Come challenge
+
 v 1.3.1.2 (25 oct 2016)
 
 Bio Labs will provide better science bonus when powered
