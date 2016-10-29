@@ -196,6 +196,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     updateCalendar: function(){
         var calendar = this.game.calendar;
+        var seasonTitle = calendar.getCurSeasonTitle();
         var hasCalendarTech = this.game.science.get("calendar").researched;
 
         var calendarDiv = calendar.displayElement;
@@ -207,9 +208,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = "Year " + calendar.year + " - " +
-                calendar.seasons[calendar.season].title + mod + ", day " + calendar.integerDay();
+                seasonTitle + mod + ", day " + calendar.integerDay();
             document.title = "Kittens Game - Year " + calendar.year + ", " +
-                calendar.seasons[calendar.season].title + ", d. " + calendar.integerDay();
+                seasonTitle + ", d. " + calendar.integerDay();
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -221,7 +222,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 calendarSignSpan.innerHTML = cycle.glyph;
             }
         } else {
-            calendarDiv.textContent = calendar.seasons[calendar.season].title;
+            calendarDiv.textContent = seasonTitle;
         }
     },
     //--------------------------------------------
@@ -245,7 +246,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         var calendar = this.game.calendar,
             winterDays = calendar.daysPerSeason -
-                (calendar.seasons[calendar.season].name === "winter" ? calendar.day : 0);
+                (calendar.getCurSeason().name === "winter" ? calendar.day : 0);
 
         var catnipPerTick = this.game.calcResourcePerTick("catnip", { modifiers:{
             "catnip" : 0.25

@@ -445,10 +445,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 
-			if (this.game.challenges.currentChallenge == "winterIsComing"){
-				this.season = 3;	//eternal winter
-			}
-
 			/* The update function must be called after the onNew functions, which may make changes
 			   that need to be visible (e.g. showing events in the document title)
 			*/
@@ -629,7 +625,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.eventChance = 0;
 
 		if (this.game.rand(100) < 35 && this.year > 3){
-			if (this.game.rand(100) < 50){
+			var warmChance = 50;
+			if (this.game.challenges.getChallenge('winterIsComing').researched){
+				warmChance += 15;
+			}
+
+			if (this.game.rand(100) < warmChance){
 				this.weather = "warm";
 			} else {
 				this.weather = "cold";
@@ -739,7 +740,33 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	getCurSeason: function(){
+		if (this.game.challenges.currentChallenge == "winterIsComing"){
+			return this.seasons[3];	//eternal winter
+		}
 		return this.seasons[this.season];
+	},
+
+	getCurSeasonTitle: function(){
+		var title = this.getCurSeason().title;
+		if (this.game.challenges.currentChallenge == "winterIsComing"){
+			var numeral = '';
+			switch(this.season){
+				case 0:
+					numeral = 'I';
+					break;
+				case 1:
+					numeral = 'II';
+					break;
+				case 2:
+					numeral = 'III';
+					break;
+				case 3:
+					numeral = 'IV';
+					break;
+			}
+			title += ' ' + numeral;
+		}
+		return title;
 	},
 
 	resetState: function(){
