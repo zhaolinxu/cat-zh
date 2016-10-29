@@ -822,39 +822,45 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			var steelRatio = game.getEffect("calcinerSteelRatio");
 
-			if (steelRatio && self.isAutomationEnabled){
+			if (steelRatio != 0){
 
-				// Second conversion of some of the iron that was just created, to steel
-				var difference = self.effects["ironPerTickAutoprod"] * steelRatio * game.bld.getAutoProductionRatio(); //HACK
-				// Cycle Effect
-				var effectsTemp = {};
-				effectsTemp["iron"] = difference;
-				game.calendar.cycleEffectsFestival(effectsTemp);
-				difference = effectsTemp["iron"];
+				if (typeof(self.isAutomationEnabled) == "undefined") {
+					self.isAutomationEnabled = true;
+				}
 
-				self.effects["ironPerTickCon"] = -difference;
-				self.effects["coalPerTickCon"] = -difference;
-				self.effects["steelPerTickProd"] = difference / 100;
+				if (self.isAutomationEnabled) {
 
-				amt = game.resPool.getAmtDependsOnStock(
-					[{res: "iron", amt: -self.effects["ironPerTickCon"]},
-					 {res: "coal", amt: -self.effects["coalPerTickCon"]}],
-					self.on
-				);
-				self.effects["ironPerTickCon"]*=amt;
-				self.effects["coalPerTickCon"]*=amt;
-				self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
+					// Second conversion of some of the iron that was just created, to steel
+					var difference = self.effects["ironPerTickAutoprod"] * steelRatio * game.bld.getAutoProductionRatio(); //HACK
+					// Cycle Effect
+					var effectsTemp = {};
+					effectsTemp["iron"] = difference;
+					game.calendar.cycleEffectsFestival(effectsTemp);
+					difference = effectsTemp["iron"];
 
-				amtFinal = (amtFinal + amt) / 2;
-			} else {
-				self.effects["ironPerTickCon"] = 0;
-				self.effects["coalPerTickCon"] = 0;
-				self.effects["steelPerTickProd"] = 0;
+					self.effects["ironPerTickCon"] = -difference;
+					self.effects["coalPerTickCon"] = -difference;
+					self.effects["steelPerTickProd"] = difference / 100;
+
+					amt = game.resPool.getAmtDependsOnStock(
+						[{res: "iron", amt: -self.effects["ironPerTickCon"]},
+						 {res: "coal", amt: -self.effects["coalPerTickCon"]}],
+						self.on
+					);
+					self.effects["ironPerTickCon"]*=amt;
+					self.effects["coalPerTickCon"]*=amt;
+					self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
+
+					amtFinal = (amtFinal + amt) / 2;
+				} else {
+					self.effects["ironPerTickCon"] = 0;
+					self.effects["coalPerTickCon"] = 0;
+					self.effects["steelPerTickProd"] = 0;
+				}
 			}
 
 			return amtFinal;
-		},
-		isAutomationEnabled: true
+		}
 	},
 	{
 		name: "steamworks",

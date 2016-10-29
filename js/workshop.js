@@ -1931,7 +1931,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	save: function(saveData){
 
 		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
-		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value"]);
+		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"]);
 
 		saveData.workshop = {
 			upgrades: upgrades,
@@ -1980,6 +1980,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						}
 						if (craft && savedCraft.value) {
 							craft.value = savedCraft.value;
+						}
+						if (craft && savedCraft.progress) {
+							craft.progress = savedCraft.progress;
 						}
 					}
 				}
@@ -2035,8 +2038,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
                     res, amt);
             }
 
+            return true;
+
 		}else{
 			console.log("not enough resources for", prices);
+			return false;
 		}
 	},
 
@@ -2104,20 +2110,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		for (var i = 0; i < this.crafts.length; i++){
 			var craft = this.crafts[i];
+
+			if (craft.value == 0) {
+				continue;
+			}
+
 			var prices = this.getCraftPrice(craft);
 
-			//check and cache if you can't craft even once due to storage limits
-			craft.isLimited = this.game.resPool.isStorageLimited(prices);
+			if(craft.progress >= 1) {
+				var craftSuccess = this.game.resPool.isStorageLimited(prices) ? false : this.craft(craft.name, 1, true);
+				craft.progress = craftSuccess ? 0 : 1;
+			} else {
+				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+				if (tierCraftRatio == 0) {
+					tierCraftRatio = 1;
+				}
+				var currentProgress = (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
 
-			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-			if (tierCraftRatio == 0) {
-				tierCraftRatio = 1;
-			}
-			craft.progress += (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
-
-			if(craft.progress > 1) {
-				this.craft(craft.name, 1, true);
-				craft.progress = 0;
+				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
+					craft.progress += currentProgress;
+				}
 			}
 		}
 

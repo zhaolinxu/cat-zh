@@ -161,6 +161,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "cath",
 		label: "Cath",
 		routeDays: 0,
+		onReached: function(game) {
+			game.space.getProgram("orbitalLaunch").on = 1;
+		},
 		buildings: [{
 			name: "spaceElevator",
 			label: "Space Elevator",
@@ -258,6 +261,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "moon",
 		label: "Moon",
 		routeDays: 30,
+		onReached: function(game) {
+			game.space.getProgram("moonMission").on = 1;
+		},
 		buildings: [{
 			name: "moonOutpost",
 			label: "Lunar Outpost",
@@ -349,6 +355,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "dune",
 		label: "Dune",
 		routeDays: 356,
+		onReached: function(game) {
+			game.space.getProgram("duneMission").on = 1;
+		},
         buildings: [{
             name: "planetCracker",
             label: "Planet Cracker",
@@ -396,6 +405,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "piscine",
 		label: "Piscine",
 		routeDays: 256,
+		onReached: function(game) {
+			game.space.getProgram("piscineMission").on = 1;
+		},
 		buildings: [{
             name: "researchVessel",
             label: "Research Vessel",
@@ -448,6 +460,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "helios",		//technically it is a planet from the game point of view
 		label: "Helios",
 		routeDays: 1200,
+		onReached: function(game) {
+			game.space.getProgram("heliosMission").on = 1;
+		},
 		buildings: [{
             name: "sunlifter",
             label: "Sunlifter",
@@ -498,6 +513,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "terminus",
 		label: "T-Minus",
 		routeDays: 2500,
+		onReached: function(game) {
+			game.space.getProgram("terminusMission").on = 1;
+		},
         buildings:[{
             name: "cryostation",
             label: "Cryostation",
@@ -538,6 +556,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "kairo",
 		label: "Kairo",
 		routeDays: 5000,
+		onReached: function(game) {
+			game.space.getProgram("kairoMission").on = 1;
+		},
 		buildings:[
 			{
 				name: "spaceBeacon",
@@ -569,6 +590,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "yarn",
 		label: "Yarn",
 		routeDays: 3800,
+		onReached: function(game) {
+			game.space.getProgram("yarnMission").on = 1;
+		},
 		buildings:[
 			{
 				name: "terraformingStation",
@@ -618,6 +642,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		name: "centaurusSystem",
 		label: "Centaurus System",
 		routeDays: 120000,
+		onReached: function(game) {
+			game.space.getProgram("centaurusSystemMission").on = 1;
+		},
 		buildings:[
 			{
 				name: "tectonic",
@@ -773,6 +800,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				} else {
 					planet.routeDays = 0;
 					planet.reached = true;
+					planet.onReached(this.game);
 					this.game.msg("You've reached a new planet!", "notice");
 				}
 			}
@@ -900,7 +928,31 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 			return;
 		}
 		this.setVisible(meta.unlocked);
-	}
+	},
+
+	getName: function(){
+		var meta = this.getMetadata();
+
+		if (meta.val == 0) {
+			return meta.label;
+		} else if (meta.on == 0){
+			return meta.label + " (current)";
+		} else {
+			return meta.label + " (complete)";
+		}
+	},
+
+	onClick: function(event){
+		if (this.getMetadata().val == 0) {
+			this.inherited(arguments);
+		}
+	},
+
+	build: function(meta, maxBld){
+		counter = this.inherited(arguments);
+		this.getMetadataRaw().on = 0;
+		return counter;
+    }
 
 });
 

@@ -1148,7 +1148,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var messageLine = this.console.static.msg(message, type, tag, noBullet);
 		if (messageLine && hasCalendarTech){
-			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.seasons[this.calendar.season].title, "date", null, false);
+			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.getCurSeasonTitle(), "date", null, false);
 		}
 
 		return messageLine;
@@ -1913,16 +1913,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// *PARAGON BONUS
-		var paragonProductionRatio = 1 + this.prestige.getParagonProductionRatio();
+		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
+		if (resName == 'catnip' && this.challenges.currentChallenge == 'winterIsComing') {
+			paragonProductionRatio = 0; //winter has come
+		}
 
-		perTick *= paragonProductionRatio;
+		perTick *= 1 + paragonProductionRatio;
 
 		//ParagonSpaceProductionRatio definition 1/4
-		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
-		    perTickAutoprod *= 1 + (this.prestige.getParagonProductionRatio() * 0.05);
+		    perTickAutoprod *= paragonSpaceProductionRatio;
 
 		perTick += perTickAutoprod;
 
@@ -2122,14 +2125,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// *PARAGON BONUS
+		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
+		if (resName == 'catnip' && this.challenges.currentChallenge == 'winterIsComing') {
+			paragonProductionRatio = 0; //winter has come
+		}
+
 		stack.push({
 			name: "Paragon",
 			type: "ratio",
-			value: this.prestige.getParagonProductionRatio()
+			value: paragonProductionRatio
 		});
 
 		//ParagonSpaceProductionRatio definition 1/4
-		var paragonSpaceProductionRatio = 1 + this.prestige.getParagonProductionRatio() * 0.05;
+		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
 
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
@@ -2142,7 +2150,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			buildingAutoprod.push({
 				name: "Paragon",
 				type: "ratio",
-				value: this.prestige.getParagonProductionRatio() * 0.05
+				value: paragonProductionRatio * 0.05
 			});
 		//<----
 		stack.push(buildingAutoprod);
