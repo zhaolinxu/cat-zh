@@ -1914,7 +1914,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == 'catnip' && this.challenges.currentChallenge == 'winterIsComing') {
+		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
 			paragonProductionRatio = 0; //winter has come
 		}
 
@@ -2126,7 +2126,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == 'catnip' && this.challenges.currentChallenge == 'winterIsComing') {
+		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
 			paragonProductionRatio = 0; //winter has come
 		}
 

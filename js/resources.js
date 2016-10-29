@@ -725,7 +725,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	maxAll: function(){
 		for(var i = 0; i< this.resources.length; i++){
 			var res = this.resources[i];
-			if (res.maxValue){
+			if (res.maxValue && res.value < res.maxValue){
 				res.value = res.maxValue;
 			}
 		}

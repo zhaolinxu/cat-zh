@@ -626,7 +626,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if (this.game.rand(100) < 35 && this.year > 3){
 			var warmChance = 50;
-			if (this.game.challenges.getChallenge('winterIsComing').researched){
+			if (this.game.challenges.getChallenge("winterIsComing").researched){
 				warmChance += 15;
 			}
 
@@ -752,19 +752,19 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var numeral = '';
 			switch(this.season){
 				case 0:
-					numeral = 'I';
+					numeral = "I";
 					break;
 				case 1:
-					numeral = 'II';
+					numeral = "II";
 					break;
 				case 2:
-					numeral = 'III';
+					numeral = "III";
 					break;
 				case 3:
-					numeral = 'IV';
+					numeral = "IV";
 					break;
 			}
-			title += ' ' + numeral;
+			title += " " + numeral;
 		}
 		return title;
 	},

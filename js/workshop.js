@@ -1291,7 +1291,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			"spaceScienceRatio": 4
 		},
 		upgrades: {
-			spaceBuilding: ["researchVessel"]
+			spaceBuilding: ["researchVessel", "spaceBeacon"]
 		},
 		prices: [
 			{name: "void", val: 250},
@@ -2141,6 +2141,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.crafts.length; i++){
 			var craft = this.crafts[i];
 
+			var prices = this.getCraftPrice(craft);
+
 			//check and cache if you can't craft even once due to storage limits
 			craft.isLimited = this.game.resPool.isStorageLimited(prices);
 
@@ -2148,10 +2150,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				continue;
 			}
 
-			var prices = this.getCraftPrice(craft);
-
 			if(craft.progress >= 1) {
-				var craftSuccess = this.game.resPool.isStorageLimited(prices) ? false : this.craft(craft.name, 1, true);
+				var craftSuccess = this.isLimited ? false : this.craft(craft.name, 1, true);
 				craft.progress = craftSuccess ? 0 : 1;
 			} else {
 				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;

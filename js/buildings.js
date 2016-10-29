@@ -820,6 +820,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			var amtFinal = amt;
 
+			self.effects["ironPerTickCon"] = 0;
+			self.effects["coalPerTickCon"] = 0;
+			self.effects["steelPerTickProd"] = 0;
+
 			var steelRatio = game.getEffect("calcinerSteelRatio");
 
 			if (steelRatio != 0){
@@ -852,10 +856,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
 
 					amtFinal = (amtFinal + amt) / 2;
-				} else {
-					self.effects["ironPerTickCon"] = 0;
-					self.effects["coalPerTickCon"] = 0;
-					self.effects["steelPerTickProd"] = 0;
 				}
 			}
 

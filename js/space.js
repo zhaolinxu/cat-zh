@@ -949,7 +949,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	},
 
 	build: function(meta, maxBld){
-		counter = this.inherited(arguments);
+		var counter = this.inherited(arguments);
 		this.getMetadataRaw().on = 0;
 		return counter;
     }
