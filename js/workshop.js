@@ -2141,6 +2141,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.crafts.length; i++){
 			var craft = this.crafts[i];
 
+			//check and cache if you can't craft even once due to storage limits
+			craft.isLimited = this.game.resPool.isStorageLimited(prices);
+
 			if (craft.value == 0) {
 				continue;
 			}
