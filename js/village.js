@@ -803,8 +803,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		}
 
 
+		var learnBasicRatio = this.game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
 		var learnRatio = this.game.getEffect("learnRatio");
-		var skillRatio = 0.01 + 0.01 * learnRatio;
+		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio;
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];

@@ -1417,6 +1417,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 150000 }
 		]
 	},{
+		name: "internet",
+		label: "Internet",
+		description: "Kittens learn skills with each other",
+		effects: {},
+		prices:[
+			{ name : "titanium", val: 5000 },
+			{ name : "uranium",  val: 50 },
+			{ name : "science",  val: 150000 }
+		]
+	},{
 		name: "assistance",
 		label: "Robotic Assistance",
 		description: "Factory robots automating routine tasks. Workers require less catnip.",

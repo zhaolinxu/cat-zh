@@ -453,7 +453,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			stages: [{bld:"amphitheatre",stage:1}], // Broadcast Tower
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization"]
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
 		}
 	},{
 		name: "robotics",
