@@ -2047,7 +2047,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTickBaseSpaceStack.push({
 				name: "Space production bonus",
 				type: "ratio",
-				value: spaceRatio
+				value: spaceRatio - 1
 			});
 		//<----
 		stack.push(perTickBaseSpaceStack);
@@ -2226,7 +2226,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTickAutoprodSpaceStack.push({
 				name: "Space production bonus",
 				type: "ratio",
-				value: spaceRatio
+				value: spaceRatio - 1
 			});
 			perTickAutoprodSpaceStack.push({
 				name: "Paragon",
@@ -2252,7 +2252,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			perTickSpace.push({
 				name: "Space production bonus",
 				type: "ratio",
-				value: spaceRatio
+				value: spaceRatio - 1
 			});
 		//<----
 		stack.push(perTickSpace);
