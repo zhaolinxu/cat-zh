@@ -801,7 +801,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					planet.routeDays = 0;
 					planet.reached = true;
 					planet.onReached(this.game);
-					this.game.msg("You've reached a new planet!", "notice");
+					this.game.msg("You've reached a new planet!", "important");
 				}
 			}
 
