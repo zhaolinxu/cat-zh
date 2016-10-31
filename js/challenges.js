@@ -126,7 +126,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 	getDescription: function() {
 		if (this.game.bld.get("chronosphere").val > 0) {
 			var msgChronosphere = " You won't gain reset bonus from chronospheres.";
-			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: gain reset bonus from chronospheres disable automatically IW." : "";
+			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: the reset bonus from chronospheres will automatically disable IW." : "";
 		} else {
 			var msgChronosphere = "";
 		}

@@ -191,7 +191,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	getLeaderDescription: function(job) {
 		switch (job) {
 			case "engineer":
-				return "Crating bonus";
+				return "Crafting bonus";
 			case "merchant":
 				return "Trading bonus";
 			case "manager":

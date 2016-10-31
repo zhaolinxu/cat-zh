@@ -447,6 +447,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 						this.filters[fId].enabled = savedFilter.enabled;
 					}
 				}
+				this.renderFilters();
 			}
 		}
 	}
