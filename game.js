@@ -118,7 +118,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			guid: this.guid,
 			type: eventType,
 			timestamp: Date.now(),
-			payload: payload
+			payload: payload,
+			appId: this.game.server.telemetryAppId
 		};
 
 		if (!this.game.opts.disableTelemetry && this.game.server.telemetryUrl) {
@@ -143,6 +144,7 @@ dojo.declare("classes.game.Server", null, {
 	//---->
 	donateAmt: 0,
 	telemetryUrl: null,
+	telemetryAppId: "KG",
 
 	showMotd: true,
 	motdTitle: null,
@@ -168,6 +170,7 @@ dojo.declare("classes.game.Server", null, {
 			success: function(json) {
 				self.donateAmt = json.donateAmt || 0;
 				self.telemetryUrl = json.telemetryUrl;
+				self.telemetryAppId = json.telemetryAppId;
 
 				self.showMotd = json.showMotd;
 				self.motdTitle = json.motdTitle;

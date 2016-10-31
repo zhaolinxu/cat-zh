@@ -1,7 +1,8 @@
 {
   "donateAmt": 0,
 
-  "telemetryUrl": "http://coldseat.me:9091//events/",
+  "telemetryUrl": "http://coldseat.me:9091/events/",
+  "telemetryAppId": "KG",
 
   "showMotd": true,
   "motdTitle": "MOTD",
