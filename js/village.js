@@ -1304,9 +1304,15 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 					var game = census.game;
 
 					var kitten = game.village.sim.kittens[i];
+					//TODO: fix other side effects (should we just rerender census on kitten's death?)
+					if (!kitten){	//if kitten is dead, old button may still stay, causing very strange behavior
+						return;
+					}
+
 					if (game.village.leader){
 						game.village.leader.isLeader = false;
 					}
+
 					kitten.isLeader = true;
 					game.village.leader = kitten;
 
