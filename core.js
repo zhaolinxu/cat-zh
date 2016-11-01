@@ -1379,7 +1379,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();
-					console.log(building);
 					building.isAutomationEnabled = !building.isAutomationEnabled;
 				}, true
 			);
