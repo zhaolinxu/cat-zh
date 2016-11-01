@@ -24,10 +24,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true
 	},{
-		name: "idiotKittens",
-		label: "Idiot Kittens",
-		description: "Restart the game with kittens acting their own way.<br><br>Goal: ???.",
-		effectDesc: "Kittens are lazy, eat like pigs and can't lead anything.",
+		name: "anarchy",
+		label: "Anarchy",
+		description: "Restart the game with kittens acting their own way.<br><br>Goal: TBD.",
+		effectDesc: "Kittens are lazy, always eat extra catnip and can't be assigned as leaders.",
 		researched: false,
 		unlocked: true
 	},{

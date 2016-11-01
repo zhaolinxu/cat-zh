@@ -307,7 +307,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	isFreeKittens: function(){
 		var FreeKittens = this.getFreeKittens();
-		if(this.game.challenges.currentChallenge == "idiotKittens") {
+		if(this.game.challenges.currentChallenge == "anarchy") {
 			var kittens = this.getKittens();
 			return FreeKittens != Math.floor(this.getKittens() / 2);
 		} else {
@@ -837,7 +837,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job && this.game.calendar.day >= 0 && this.game.challenges.currentChallenge != "idiotKittens"){
+			if (kitten.job && this.game.calendar.day >= 0 && this.game.challenges.currentChallenge != "anarchy"){
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
@@ -1179,7 +1179,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 		//--------------------------------------------------------------------------------------
 		this.governmentDiv = null;
-		if (this.game.challenges.currentChallenge != "idiotKittens") {
+		if (this.game.challenges.currentChallenge != "anarchy") {
 			this.renderGovernment(container);
 		}
 		//--------------------------------------------
@@ -1251,7 +1251,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, div);
 
-			if (this.game.challenges.currentChallenge != "idiotKittens") {
+			if (this.game.challenges.currentChallenge != "anarchy") {
 				var leaderHref = dojo.create("a", {
 					href: "#", innerHTML: "",
 					style: {
@@ -1268,7 +1268,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 				}
 			}, linksDiv);
 
-			if (this.game.challenges.currentChallenge != "idiotKittens") {
+			if (this.game.challenges.currentChallenge != "anarchy") {
 				var senatorHref = dojo.create("a", {
 					href: "#", innerHTML: "Make Senator",
 					style: {
@@ -1298,7 +1298,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 			}, this.game, i));
 
-			if (this.game.challenges.currentChallenge != "idiotKittens") {
+			if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.connect(leaderHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 					var game = census.game;
@@ -1331,7 +1331,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 			//rankExp
 
-			if (this.game.challenges.currentChallenge != "idiotKittens") {
+			if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.connect(senatorHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 
@@ -1508,7 +1508,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 			this.unassignLeaderJobHref.style.display = leader.job ? "block" : "none";
 		}
 		//TODO: promote leader link
-		if (this.game.challenges.currentChallenge != "idiotKittens") {
+		if (this.game.challenges.currentChallenge != "anarchy") {
 			this.leaderDiv.innerHTML = "<strong>Leader:</strong> " + leaderInfo;
 		}
 
@@ -1532,7 +1532,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
              } else {
              dojo.setStyle(record.senatorHref, "display", "block");
              }*/
-             if (this.game.challenges.currentChallenge != "idiotKittens") {
+             if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.setStyle(record.senatorHref, "display", "none");
              }
 
@@ -1586,7 +1586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
                 + "</span><br>";
             }
 
-			if (this.game.challenges.currentChallenge != "idiotKittens") {
+			if (this.game.challenges.currentChallenge != "anarchy") {
 				record.leaderHref.innerHTML = kitten.isLeader ? "&#9733;" : "&#9734;"; //star-shaped link to reduce visual noise
 			}
 
@@ -1828,7 +1828,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			})
 		}, this.game);
 		optimizeJobsBtn.render(controlsTd);
-		optimizeJobsBtn.setVisible(this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "idiotKittens");
+		optimizeJobsBtn.setVisible(this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy");
 		this.optimizeJobsBtn = optimizeJobsBtn;
 
 		//redeemGift
