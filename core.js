@@ -253,7 +253,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		// Automatic settings
 
 		if (isAutomationEnabled != undefined){
-			bld.togglable = true;
 			if (bld.name == "steamworks") { // Special toggle, just on, off
 				bld.togglableOnOff = true;
 			}
@@ -267,7 +266,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var effect in effects) {
 			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
 				// Exceptions (when energyConsumption is caused by an upgrade)
-				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab") ? false : true;
+				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") ? false : true;
 			}
 		}
 	},
@@ -1308,13 +1307,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			}
 		}
 
-		//--------------- toggle ------------
-
-		if (!building.togglable /*|| sellLinkAdded*/){
-			return;
+		//--------------- style -------------
+		if((building.val > 9 || building.name.length > 10) && this.hasSellLink()) {
+			//Steamworks and accelerator specifically can be too large when sell button is on
+			//(tested to support max 99 bld count)
+			dojo.addClass(this.domNode, "small-text");
 		}
 
-		//TODO: is this even supposed to work?
+		//--------------- toggle ------------
 		if (building.togglableOnOff){
 			this.toggle = this.addLink( building.on ? "on" : "off",
 				function(){
@@ -1325,7 +1325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}, true	//use | break
 			);
 		}
-		else if(building.name != "chronosphere"){	/*This is disgusting hack. Ideally there should be 3 different and independent metadata flags: togglable, tunable and isAutomationEnabled.*/
+		else if (building.togglable){
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",
@@ -1379,16 +1379,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();
+					console.log(building);
 					building.isAutomationEnabled = !building.isAutomationEnabled;
 				}, true
 			);
 		}
 
-		if((building.val > 9 || building.name.length > 10) && this.hasSellLink()) {
-			//Steamworks and accelerator specifically can be too large when sell button is on
-			//(tested to support max 99 bld count)
-			dojo.addClass(this.domNode, "small-text");
-		}
 	},
 
 	update: function(){
@@ -1409,12 +1405,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
 			}
 
-			//--------------- toggle ------------
-
-			if (!building.togglable){
-				return;
+			//--------------- style -------------
+			if(building.val > 9) {
+				dojo.setStyle(this.domNode,"font-size","90%");
 			}
-
+			//--------------- toggle ------------
 			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
 			if (this.remove){
 				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
@@ -1434,22 +1429,21 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
 
 				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
-				this.isAutomationResearched = true;
+				//this.isAutomationResearched = true;
 				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
 				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
-			dojo.removeClass(this.domNode, "bldEnabled");
-			dojo.removeClass(this.domNode, "bldlackResConvert");
-			if (building.lackResConvert) {
-				dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
-			} else {
-				dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+			if (this.toggle || this.remove || this.add) {
+				dojo.removeClass(this.domNode, "bldEnabled");
+				dojo.removeClass(this.domNode, "bldlackResConvert");
+				if (building.lackResConvert) {
+					dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+				} else {
+					dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+				}
 			}
 
-			if(building.val > 9) {
-				dojo.setStyle(this.domNode,"font-size","90%");
-			}
 		}
 	},
 
