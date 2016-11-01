@@ -24,6 +24,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true
 	},{
+		name: "idiotKittens",
+		label: "Idiot Kittens",
+		description: "Restart the game with kittens acting their own way.<br><br>Goal: ???.",
+		effectDesc: "Kittens are lazy, eat like pigs and can't lead anything.",
+		researched: false,
+		unlocked: true
+	},{
 		name: "energy",
 		label: "Energy",
 		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings and build at least one of them.",
