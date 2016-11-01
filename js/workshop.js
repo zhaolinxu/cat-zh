@@ -1672,7 +1672,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     },{
         name: "turnSmoothly",
         label: "Turn smoothly",
-        description: "Improve Chronocontrol effectiveness.",
+        description: "Chronosphere gather temporal flux.",
         effects: {
 			"temporalFluxProductionChronosphere": 1
         },
