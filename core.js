@@ -247,13 +247,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			bld.name == "calciner") {
 			delete(bld.isAutomationEnabled);
 		}
-		bld.togglable = false;
 
-		// Automatic settings
-
-		if (bld.name == "steamworks") { // Special toggle, just on, off
-			bld.togglableOnOff = true;
-		}
+		// Automatic settings of togglable
 
 		if (lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
@@ -1312,7 +1307,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		//--------------- toggle ------------
-		if (building.togglable){
+		if (typeof(building.togglable) != "undefined" && building.togglable){
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",

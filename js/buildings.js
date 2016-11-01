@@ -896,6 +896,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		jammed: false,
 		isAutomationEnabled: true,
+		togglableOnOff: true,
 		action: function(self, game){
 			if (self.on < 1){
 				return;
