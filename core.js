@@ -234,6 +234,9 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	//TODO: add saveMetadata
 
+	/**
+	 * TODO: this logic is very confusing. Ideally the only place devs need to change should be building metadata.
+	 */
 	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
 		bld.val = 0;
 		bld.on = 0;
@@ -264,7 +267,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var effect in effects) {
 			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
 				// Exceptions (when energyConsumption is caused by an upgrade)
-				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") ? false : true;
+				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab") ? false : true;
 			}
 		}
 	},
@@ -1322,7 +1325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}, true	//use | break
 			);
 		}
-		else {
+		else if(building.name != "chronosphere"){	/*This is disgusting hack. Ideally there should be 3 different and independent metadata flags: togglable, tunable and isAutomationEnabled.*/
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",
@@ -1373,17 +1376,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if (typeof(building.isAutomationEnabled) != "undefined") {
-			if (building.name != "calciner" || (building.name == "calciner" /*&& this.game.opts.hideSell*/)) {
-				this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
-					function(){
-						var building = this.getMetadataRaw();
-						building.isAutomationEnabled = !building.isAutomationEnabled;
-					}, true
-				);
-			}
+			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
+				function(){
+					var building = this.getMetadataRaw();
+					building.isAutomationEnabled = !building.isAutomationEnabled;
+				}, true
+			);
 		}
 
-		if(building.val > 9 && this.hasSellLink()) {
+		if((building.val > 9 || building.name.length > 10) && this.hasSellLink()) {
 			//Steamworks and accelerator specifically can be too large when sell button is on
 			//(tested to support max 99 bld count)
 			dojo.addClass(this.domNode, "small-text");

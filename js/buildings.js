@@ -1521,6 +1521,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 0,
 			"temporalFluxProduction" : 0
 		},
+		isAutomationEnabled: true,
 		upgrades: {
 			voidSpace: ["cryochambers"]
 		},
