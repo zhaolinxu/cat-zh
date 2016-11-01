@@ -2171,7 +2171,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				var currentProgress = (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
 
 				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
+					craft.isLimitedAmt = false;
 					craft.progress += currentProgress;
+				} else {
+					craft.isLimitedAmt = true;
 				}
 			}
 		}
@@ -2290,22 +2293,18 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	},
 
 	setEnabled: function(enabled){
+		this.inherited(arguments);
 
-		dojo.removeClass(this.domNode, "bldEnabled");
-		dojo.removeClass(this.domNode, "bldlackResConvert");
-		if (enabled){
-				dojo.removeClass(this.domNode, "disabled");
-				if (this.game.workshop.getCraft(this.craftName).value > 0) {
-					dojo.addClass(this.domNode, "bldEnabled");
-				}
-		} else {
-				dojo.addClass(this.domNode, "disabled");
-				if (this.game.workshop.getCraft(this.craftName).value > 0) {
-					dojo.addClass(this.domNode, "bldlackResConvert");
-				}
+		var craft = this.game.workshop.getCraft(this.craftName);
+		if (craft.value > 0) {
+			if (craft.isLimitedAmt) {
+				dojo.removeClass(this.domNode, "bldEnabled");
+				dojo.addClass(this.domNode, "bldlackResConvert");
+			} else {
+				dojo.addClass(this.domNode, "bldEnabled");
+				dojo.removeClass(this.domNode, "bldlackResConvert");
+			}
 		}
-
-		this.enabled = enabled;
 	},
 
 	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
