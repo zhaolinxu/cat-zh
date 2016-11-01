@@ -248,14 +248,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			delete(bld.isAutomationEnabled);
 		}
 		bld.togglable = false;
-		bld.togglableOnOff = false;
 
 		// Automatic settings
 
-		if (isAutomationEnabled != undefined){
-			if (bld.name == "steamworks") { // Special toggle, just on, off
-				bld.togglableOnOff = true;
-			}
+		if (bld.name == "steamworks") { // Special toggle, just on, off
+			bld.togglableOnOff = true;
 		}
 
 		if (lackResConvert != undefined) {
@@ -1315,17 +1312,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		//--------------- toggle ------------
-		if (building.togglableOnOff){
-			this.toggle = this.addLink( building.on ? "on" : "off",
-				function(){
-					var building = this.getMetadataRaw();
-
-					building.on = building.on ? 0 : building.val;	//legacy safe switch
-					this.game.upgrade(building.upgrades);
-				}, true	//use | break
-			);
-		}
-		else if (building.togglable){
+		if (building.togglable){
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",
@@ -1375,6 +1362,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
+		if (typeof(building.togglableOnOff) != "undefined"){
+			this.toggle = this.addLink( building.on ? "on" : "off",
+				function(){
+					var building = this.getMetadataRaw();
+
+					building.on = building.on ? 0 : building.val;	//legacy safe switch
+					this.game.upgrade(building.upgrades);
+				}, true	//use | break
+			);
+		}
+
 		if (typeof(building.isAutomationEnabled) != "undefined") {
 			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
@@ -1408,6 +1406,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if(building.val > 9) {
 				dojo.setStyle(this.domNode,"font-size","90%");
 			}
+
+			if (this.toggle || this.remove || this.add) {
+				dojo.removeClass(this.domNode, "bldEnabled");
+				dojo.removeClass(this.domNode, "bldlackResConvert");
+				if (building.lackResConvert) {
+					dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+				} else {
+					dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+				}
+			}
+
 			//--------------- toggle ------------
 			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
 			if (this.remove){
@@ -1431,16 +1440,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				//this.isAutomationResearched = true;
 				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
 				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
-			}
-
-			if (this.toggle || this.remove || this.add) {
-				dojo.removeClass(this.domNode, "bldEnabled");
-				dojo.removeClass(this.domNode, "bldlackResConvert");
-				if (building.lackResConvert) {
-					dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
-				} else {
-					dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
-				}
 			}
 
 		}
