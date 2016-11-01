@@ -1853,7 +1853,7 @@ dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.Buil
 		var name = this.inherited(arguments);
 
 		var sim = this.game.village.sim;
-		if (meta.effects["maxKittens"] && sim.nextKittenProgress && sim.maxKittens <= 10 ){
+		if (meta.name == "hut" && sim.nextKittenProgress && sim.maxKittens <= 10 ){
 			name += " [" + (sim.nextKittenProgress*100).toFixed()  +"%]";
 		}
 		return name;
