@@ -2295,14 +2295,14 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	setEnabled: function(enabled){
 		this.inherited(arguments);
 
+		dojo.removeClass(this.domNode, "bldEnabled");
+		dojo.removeClass(this.domNode, "bldlackResConvert");
 		var craft = this.game.workshop.getCraft(this.craftName);
 		if (craft.value > 0) {
 			if (craft.isLimitedAmt) {
-				dojo.removeClass(this.domNode, "bldEnabled");
 				dojo.addClass(this.domNode, "bldlackResConvert");
 			} else {
 				dojo.addClass(this.domNode, "bldEnabled");
-				dojo.removeClass(this.domNode, "bldlackResConvert");
 			}
 		}
 	},
