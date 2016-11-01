@@ -26,8 +26,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},{
 		name: "anarchy",
 		label: "Anarchy",
-		description: "Restart the game with kittens acting their own way.<br><br>Goal: TBD.",
-		effectDesc: "Kittens are lazy, always eat extra catnip and can't be assigned as leaders.",
+		description: "Restart the game with kittens acting their own way : kittens are lazy, always eat extra catnip and can't be assigned as leaders.<br><br>Goal: TBD.",
+		effectDesc: "TBD",
 		researched: false,
 		unlocked: true
 	},{
