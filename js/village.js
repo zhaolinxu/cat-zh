@@ -231,9 +231,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	assignJob: function(job){
 		var freeKittens = this.getFreeKittens();
+		var isFreeKittens = this.isFreeKittens();
 		var jobRef = this.getJob(job.name); 	//probably will fix missing ref on loading
 
-		if ( freeKittens > 0 && this.getWorkerKittens(job.name) < this.getJobLimit(job.name) ) {
+		if ( freeKittens > 0 && isFreeKittens && this.getWorkerKittens(job.name) < this.getJobLimit(job.name) ) {
 			this.sim.assignJob(job.name);
 			jobRef.value += 1;
 		}
@@ -302,6 +303,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		return this.getKittens() - total;
+	},
+
+	isFreeKittens: function(){
+		var FreeKittens = this.getFreeKittens();
+		if(this.game.challenges.currentChallenge == "idiotKittens") {
+			var kittens = this.getKittens();
+			return FreeKittens != Math.floor(this.getKittens() / 2);
+		} else {
+			return FreeKittens != 0;
+		}
 	},
 
 	getWorkerKittens: function(jobName) {
@@ -1027,7 +1038,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButton", com.nuclearunicorn.game.ui.
 
 	updateEnabled: function(){
 		this.inherited(arguments);
-		if (this.game.village.getFreeKittens() == 0 || this.game.village.getJobLimit(this.jobName) <= this.game.village.getWorkerKittens(this.jobName)){
+		if (!this.game.village.isFreeKittens() || this.game.village.getJobLimit(this.jobName) <= this.game.village.getWorkerKittens(this.jobName)){
 			this.setEnabled(false);
 		}
 	},
