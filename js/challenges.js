@@ -44,6 +44,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
         researched: false,
         unlocked: false
+	},{
+		name: "1000Years",
+		label: "1000 years",
+		description: "Goal: Reach year 1000.",
+		effectDesc: "TBD",
+        researched: false,
+        unlocked: false
 	}],
 
 	game: null,

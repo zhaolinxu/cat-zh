@@ -429,7 +429,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				if (this.season >= this.seasons.length) {
 					this.season = 0;
-					this.year += 1;
+					if (!(this.game.challenges.currentChallenge == "1000Years" && this.year >= 500)) {
+						this.year += 1;
+					}
 					newyear = true;
 				}
 			}
