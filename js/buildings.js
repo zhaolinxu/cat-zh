@@ -828,7 +828,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (steelRatio != 0){
 
-				if (typeof(self.isAutomationEnabled) == "undefined") {
+				if (self.isAutomationEnabled == null) {
 					self.isAutomationEnabled = true;
 				}
 
@@ -1132,7 +1132,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["energyProduction"] = 10 * ( 1+ game.getEffect("reactorEnergyRatio"));
 
 			if (game.workshop.get("thoriumReactors").researched) {
-				if (typeof(self.isAutomationEnabled) == "undefined") {
+				if (self.isAutomationEnabled == null) {
 					self.isAutomationEnabled = true;
 				}
 				if (game.resPool.get("thorium").value == 0 || self.isAutomationEnabled == false) {

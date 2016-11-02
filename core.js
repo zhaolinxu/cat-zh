@@ -204,11 +204,11 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 					if (fld == name) {
 						continue;
 					}
-					if (!elem.hasOwnProperty(fld) && !(savedMetaElem.name == "reactor" || savedMetaElem.name == "calciner")){
+					if (!elem.hasOwnProperty(fld)){
 						console.warn("Can't find elem." + fld + " in", elem);
 					}
 					if (savedMetaElem[fld] !== undefined) {
-						if (typeof(savedMetaElem[fld]) == "object") {
+						if (savedMetaElem[fld] != null && typeof(savedMetaElem[fld]) == "object") {
 							this.loadMetadata(elem[fld], savedMetaElem[fld]);
 						} else {
 							elem[fld] = savedMetaElem[fld];
@@ -250,7 +250,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		}
 		if (bld.name == "reactor" ||
 			bld.name == "calciner") {
-			delete(bld.isAutomationEnabled);
+			bld.isAutomationEnabled = null;
 		}
 
 		// Automatic settings of togglable
@@ -1373,7 +1373,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if (typeof(building.isAutomationEnabled) != "undefined") {
+		if (typeof(building.isAutomationEnabled) != "undefined" && building.isAutomationEnabled != null) {
 			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
 				function(){
 					var building = this.getMetadataRaw();

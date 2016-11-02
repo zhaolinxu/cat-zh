@@ -221,26 +221,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	load: function(saveData){
-		if (saveData.diplomacy){
-			var diplomacy = saveData.diplomacy.races;
-
-
-			if (saveData.diplomacy.races && saveData.diplomacy.races){
-				for(var i = 0; i< saveData.diplomacy.races.length; i++){
-					var savedRace = saveData.diplomacy.races[i];
-
-					if (savedRace != null){
-						var race = this.game.diplomacy.get(savedRace.name);
-
-						race.unlocked = savedRace.unlocked;
-						race.collapsed = savedRace.collapsed || false;
-						//elders stuff
-						race.energy = savedRace.energy || null;
-						race.duration = savedRace.duration || null;
-					}
-				}
-			}
-		}
+		this.game.bld.loadMetadata(this.races, saveData.diplomacy.races);
 	},
 
 	hasUnlockedRaces: function(){

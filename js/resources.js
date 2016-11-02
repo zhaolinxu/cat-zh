@@ -645,23 +645,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	load: function(saveData){
-		if (saveData.resources){
-			var resources = saveData.resources;
-			if (resources.length){
-				for(var i = 0; i< resources.length; i++){
-					var savedRes = resources[i];
+		this.loadMetadata(this.resources, saveData.resources);
 
-					if (savedRes != null){
-						var res = this.get(savedRes.name);
-						if (res != false) {
-							res.value = savedRes.value;
-							res.unlocked = savedRes.unlocked;
-							res.isHidden = savedRes.isHidden;
-						}
-					}
-				}
-			}
-		}
 		if (saveData.res){
 			this.isLocked = Boolean(saveData.res.isLocked);
 		}
