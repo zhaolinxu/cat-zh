@@ -1716,40 +1716,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	load: function(saveData){
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings: false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
-
-		if (saveData.buildings && saveData.buildings.length){
-			for(var i = 0; i< saveData.buildings.length; i++){
-				var savedBld = saveData.buildings[i];
-
-				if (savedBld != null){
-					var bld = this.game.bld.getBuildingExt(savedBld.name);
-					if (!bld) { continue; }
-
-					if (savedBld.unlocked != undefined){
-						bld.set("unlocked", savedBld.unlocked);
-					}
-
-					if (savedBld.val != undefined){
-						bld.set("val", savedBld.val);
-					}
-
-					if (savedBld.on != undefined){
-						bld.set("on", savedBld.on);
-					}
-
-					if (savedBld.jammed != undefined){
-						bld.set("jammed", savedBld.jammed);
-					}
-					if (savedBld.isAutomationEnabled != undefined){
-						bld.set("isAutomationEnabled", savedBld.isAutomationEnabled);
-					}
-
-					if (typeof(bld.meta.stages) == "object"){
-						bld.set("stage", savedBld.stage);
-					}
-				}
-			}
-		}
+		this.loadMetadata(this.buildingsData, saveData.buildings);
 	},
 
 	resetState: function(){

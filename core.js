@@ -188,6 +188,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	loadMetadata: function(meta, saveMeta){
 		if (!saveMeta){
+			console.log(saveMeta);
 			throw "Unable to load save metadata";
 		}
 
@@ -203,7 +204,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 					if (fld == name) {
 						continue;
 					}
-					if (!elem.hasOwnProperty(fld)){
+					if (!elem.hasOwnProperty(fld) && !(savedMetaElem.name == "reactor" || savedMetaElem.name == "calciner")){
 						console.warn("Can't find elem." + fld + " in", elem);
 					}
 					if (savedMetaElem[fld] !== undefined) {
