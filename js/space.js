@@ -736,9 +736,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 
 		saveData.space = {
+			hideResearched: this.hideResearched,
 			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked"]),
-			planets: planets,
-			hideResearched: this.hideResearched
+			planets: planets
 		};
 	},
 
@@ -749,11 +749,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		var self = this;
 
-		this.hideResearched = saveData.space.hideResearched || false;
-
-		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs);
-		}
+		this.hideResearched = saveData.space.hideResearched || false;		
+		this.loadMetadata(this.programs, saveData.space.programs);
+		this.loadMetadata(this.planets, saveData.space.planets);
 
 		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
 		for (var i = this.programs.length - 1; i >= 0; i--) {
@@ -761,11 +759,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (program.on && program.unlocks && program.unlocks.planet){
 				this.getPlanet(program.unlocks.planet).unlocked = true;
 			}
-		}
-
-		//planets
-		if (saveData.space.planets){
-			this.loadMetadata(this.planets, saveData.space.planets);
 		}
 
 	},

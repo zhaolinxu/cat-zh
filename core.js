@@ -186,7 +186,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		console.error("Could not find metadata for ", name, "in", meta);
 	},
 
-	loadMetadata: function(meta, saveMeta, handler){
+	loadMetadata: function(meta, saveMeta){
 		if (!saveMeta){
 			throw "Unable to load save metadata";
 		}

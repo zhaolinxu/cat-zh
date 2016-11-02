@@ -64,18 +64,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.corruption = saveData.religion.corruption || 0;
 		this.faithRatio = saveData.religion.faithRatio || 0;
 		this.tcratio = saveData.religion.tcratio || 0;
-
-		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
-		}
-
-		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
-		}
-
-		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
-		}
+		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
+		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
+		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
 
 		this.tclevel = this.getTranscendenceLevel();
 	},

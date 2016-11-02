@@ -20,7 +20,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
     },
 
@@ -30,16 +30,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         this.flux = saveData["time"].flux || 0;
+		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
+		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
-		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
+		if (saveData.time.usedCryochambers) { //after reset
+			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
 		}
-        if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
-        }
-        if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
-        }
+
         if (this.getVSU("usedCryochambers").val > 0) {
 			this.getVSU("usedCryochambers").unlocked = true;
         }
