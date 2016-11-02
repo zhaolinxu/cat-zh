@@ -1969,65 +1969,64 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	save: function(saveData){
-
-		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
-		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"]);
-
 		saveData.workshop = {
-			upgrades: upgrades,
-			crafts:   crafts
+			hideResearched: this.hideResearched,
+			upgrades: this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]),
+			crafts: this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"])
 		};
-		saveData.workshop.hideResearched = this.hideResearched;
 	},
 
 	load: function(saveData){
-		if (saveData.workshop){
-			this.hideResearched = saveData.workshop.hideResearched;
+		if (!saveData["workshop"]){
+			return;
+		}
 
-			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
-				for (var i = saveData.workshop.upgrades.length - 1; i >= 0; i--) {
-					var savedUpgrade = saveData.workshop.upgrades[i];
+	this.hideResearched = saveData.workshop.hideResearched;
 
-					if (savedUpgrade != null){
-						var upgrade = this.game.workshop.get(savedUpgrade.name);
+		if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
+			for (var i = saveData.workshop.upgrades.length - 1; i >= 0; i--) {
+				var savedUpgrade = saveData.workshop.upgrades[i];
 
-						if (upgrade){
-							upgrade.unlocked = savedUpgrade.unlocked;
-							upgrade.researched = savedUpgrade.researched;
+				if (savedUpgrade != null){
+					var upgrade = this.game.workshop.get(savedUpgrade.name);
 
-							if (upgrade.researched){
-								if (upgrade.handler) {
-									upgrade.handler(this.game);	//just in case update workshop upgrade effects
-								}
-								if (upgrade.unlocks) {
-									this.game.unlock(upgrade.unlocks);
-								}
+					if (upgrade){
+						upgrade.unlocked = savedUpgrade.unlocked;
+						upgrade.researched = savedUpgrade.researched;
+
+						if (upgrade.researched){
+							if (upgrade.handler) {
+								upgrade.handler(this.game);	//just in case update workshop upgrade effects
+							}
+							if (upgrade.unlocks) {
+								this.game.unlock(upgrade.unlocks);
 							}
 						}
 					}
 				}
 			}
-			//same for craft recipes
+		}
+		//same for craft recipes
 
-			if (saveData.workshop.crafts && saveData.workshop.crafts.length){
-				for (var i = saveData.workshop.crafts.length - 1; i >= 0; i--) {
-					var savedCraft = saveData.workshop.crafts[i];
+		if (saveData.workshop.crafts && saveData.workshop.crafts.length){
+			for (var i = saveData.workshop.crafts.length - 1; i >= 0; i--) {
+				var savedCraft = saveData.workshop.crafts[i];
 
-					if (savedCraft != null){
-						var craft = this.game.workshop.getCraft(savedCraft.name);
-						if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
-							craft.unlocked = savedCraft.unlocked;
-						}
-						if (craft && savedCraft.value) {
-							craft.value = savedCraft.value;
-						}
-						if (craft && savedCraft.progress) {
-							craft.progress = savedCraft.progress;
-						}
+				if (savedCraft != null){
+					var craft = this.game.workshop.getCraft(savedCraft.name);
+					if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
+						craft.unlocked = savedCraft.unlocked;
+					}
+					if (craft && savedCraft.value) {
+						craft.value = savedCraft.value;
+					}
+					if (craft && savedCraft.progress) {
+						craft.progress = savedCraft.progress;
 					}
 				}
 			}
 		}
+	}
 
 	},
 
