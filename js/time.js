@@ -32,16 +32,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux = saveData["time"].flux || 0;
 
 		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "on"], function(loadedElem){
-			});
+				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
 		}
         if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "on"], function(loadedElem){
-            });
+            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
         }
         if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "on"], function(loadedElem){
-            });
+            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
         }
         if (this.getVSU("usedCryochambers").val > 0) {
 			this.getVSU("usedCryochambers").unlocked = true;

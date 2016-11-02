@@ -186,7 +186,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		console.error("Could not find metadata for ", name, "in", meta);
 	},
 
-	loadMetadata: function(meta, saveMeta, fields, handler){
+	loadMetadata: function(meta, saveMeta, handler){
 		if (!saveMeta){
 			throw "Unable to load save metadata";
 		}
@@ -199,15 +199,22 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 				if (!elem) { continue; }
 
-				for (var j = 0; j < fields.length; j++){
-					var fld = fields[j];
-					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
-						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
+				for (var fld in savedMetaElem){
+					if (fld == name) {
+						continue;
+					}
+					if (!elem.hasOwnProperty(fld)){
+						console.warn("Can't find elem." + fld + " in", elem);
 					}
 					if (savedMetaElem[fld] !== undefined) {
-						elem[fld] = savedMetaElem[fld];
+						if (typeof(savedMetaElem[fld]) == "object") {
+							this.loadMetadata(elem[fld], savedMetaElem[fld]);
+						} else {
+							elem[fld] = savedMetaElem[fld];
+						}
 					}
 				}
+
 				if (handler){
 					handler(elem);
 				}

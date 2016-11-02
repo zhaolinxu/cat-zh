@@ -132,10 +132,10 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 
     load: function(saveData){
         if (saveData.stats) {
-            this.loadMetadata(this.stats, saveData.stats, ["val"]);
+            this.loadMetadata(this.stats, saveData.stats);
         }
         if (saveData.statsCurrent) {
-            this.loadMetadata(this.statsCurrent, saveData.statsCurrent, ["val"]);
+            this.loadMetadata(this.statsCurrent, saveData.statsCurrent);
         }
     },
 

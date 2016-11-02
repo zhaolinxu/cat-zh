@@ -271,8 +271,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		var self = this;
 
 		if (saveData.prestige.perks){
-			this.loadMetadata(this.perks, saveData.prestige.perks, ["unlocked", "researched"], function(loadedElem){
-			});
+			this.loadMetadata(this.perks, saveData.prestige.perks);
 		}
 		for (var i = 0; i< this.perks.length; i++){
 			var perk = this.perks[i];

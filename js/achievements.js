@@ -270,7 +270,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         var ach = saveData.achievements;
 
         if (ach) {
-            this.loadMetadata(this.achievements, ach, ["unlocked", "starUnlocked"]);
+            this.loadMetadata(this.achievements, ach);
         }
     }
 });

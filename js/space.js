@@ -752,7 +752,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked"], function(loadedElem){
+			this.loadMetadata(this.programs, saveData.space.programs, function(loadedElem){
 				//TODO: move to common method (like 'adjust prices'), share with religion code
 				var prices = dojo.clone(loadedElem.prices);
 				for (var k = prices.length - 1; k >= 0; k--) {
@@ -774,17 +774,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		//planets
 		if (saveData.space.planets){
-			for (var i in saveData.space.planets){
-				this.loadMetadata(this.planets, saveData.space.planets, ["reached", "unlocked", "routeDays"], function(loadedElem){
-				});
-				var savePlanet = saveData.space.planets[i];
-				var planet = this.getMeta(savePlanet.name, this.planets);
-
-				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
-					});
-				}
-			}
+			this.loadMetadata(this.planets, saveData.space.planets);
 		}
 
 	},
