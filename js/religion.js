@@ -66,15 +66,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.tcratio = saveData.religion.tcratio || 0;
 
 		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, function(loadedElem){
-				var prices = dojo.clone(loadedElem.prices);
-				for( var k = 0; k < prices.length; k++){
-					var price = prices[k];
-					for (var j = 0; j < loadedElem.val; j++){
-						price.val = price.val * loadedElem.priceRatio;
-					}
-				}
-			});
+			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
 		}
 
 		if (saveData.religion.ru){

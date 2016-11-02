@@ -214,11 +214,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 						}
 					}
 				}
-
-				if (handler){
-					handler(elem);
-				}
 			}
+
 		}
 	},
 

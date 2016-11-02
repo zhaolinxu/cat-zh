@@ -752,16 +752,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.hideResearched = saveData.space.hideResearched || false;
 
 		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, function(loadedElem){
-				//TODO: move to common method (like 'adjust prices'), share with religion code
-				var prices = dojo.clone(loadedElem.prices);
-				for (var k = prices.length - 1; k >= 0; k--) {
-					var price = prices[k];
-					for (var j = 0; j < loadedElem.val; j++){
-						price.val = price.val * loadedElem.priceRatio;
-					}
-				}
-			});
+			this.loadMetadata(this.programs, saveData.space.programs);
 		}
 
 		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
