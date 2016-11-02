@@ -268,8 +268,9 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
     update: function(){
         this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        if (this.game.resPool.get("temporalFlux").value != 0){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.resPool.get("temporalFlux").value / this.game.rate) + ")";
+        var second = this.game.resPool.get("temporalFlux").value / this.game.rate;
+        if (second >= 1){
+            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
         }
 
         this.inherited(arguments);
