@@ -1981,52 +1981,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			return;
 		}
 
-	this.hideResearched = saveData.workshop.hideResearched;
+		this.hideResearched = saveData.workshop.hideResearched;
+		this.loadMetadata(this.upgrades, saveData.workshop.upgrades);
+		this.loadMetadata(this.crafts, saveData.workshop.crafts);
 
-		if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
-			for (var i = saveData.workshop.upgrades.length - 1; i >= 0; i--) {
-				var savedUpgrade = saveData.workshop.upgrades[i];
-
-				if (savedUpgrade != null){
-					var upgrade = this.game.workshop.get(savedUpgrade.name);
-
-					if (upgrade){
-						upgrade.unlocked = savedUpgrade.unlocked;
-						upgrade.researched = savedUpgrade.researched;
-
-						if (upgrade.researched){
-							if (upgrade.handler) {
-								upgrade.handler(this.game);	//just in case update workshop upgrade effects
-							}
-							if (upgrade.unlocks) {
-								this.game.unlock(upgrade.unlocks);
-							}
-						}
-					}
+		for (var i = 0; i < this.upgrades.length; i++){
+			var upgrade = this.upgrades[i];
+			if (upgrade.researched){
+				if (upgrade.handler) {
+					upgrade.handler(this.game);	//just in case update workshop upgrade effects
+				}
+				if (upgrade.unlocks) {
+					this.game.unlock(upgrade.unlocks);
 				}
 			}
 		}
-		//same for craft recipes
-
-		if (saveData.workshop.crafts && saveData.workshop.crafts.length){
-			for (var i = saveData.workshop.crafts.length - 1; i >= 0; i--) {
-				var savedCraft = saveData.workshop.crafts[i];
-
-				if (savedCraft != null){
-					var craft = this.game.workshop.getCraft(savedCraft.name);
-					if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
-						craft.unlocked = savedCraft.unlocked;
-					}
-					if (craft && savedCraft.value) {
-						craft.value = savedCraft.value;
-					}
-					if (craft && savedCraft.progress) {
-						craft.progress = savedCraft.progress;
-					}
-				}
-			}
-		}
-	}
 
 	},
 
