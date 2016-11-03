@@ -701,9 +701,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			var spaceBuildings = this.planets[i].buildings.map(function(building){
 				return building.name;
 			});
-		}
-		for (var j = 0; j < spaceBuildings.length; j++) {
-			this.spaceBuildingsMap.push(spaceBuildings[j]);
+			for (var j = 0; j < spaceBuildings.length; j++) {
+				this.spaceBuildingsMap.push(spaceBuildings[j]);
+			}
 		}
 	},
 
