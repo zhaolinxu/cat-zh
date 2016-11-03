@@ -14,6 +14,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	hideResearched: false,
 
+	spaceBuildingsMap: [],
+
 	programs: [{
 		name: "orbitalLaunch",
 		label: "Orbital Launch",
@@ -693,6 +695,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			this.planets[i].routeDaysDefault = this.planets[i].routeDays;
 		}
 		this.setEffectsCachedExisting();
+
+		// Cache spaceBuildingsMap
+		for (var i = 0; i < this.planets.length; i++) {
+			var spaceBuildings = this.planets[i].buildings.map(function(building){
+				return building.name;
+			});
+		}
+		for (var j = 0; j < spaceBuildings.length; j++) {
+			this.spaceBuildingsMap.push(spaceBuildings[j]);
+		}
 	},
 
 	resetState: function(){

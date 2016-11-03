@@ -3199,19 +3199,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	calculateAllEffects: function() {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
-
-		var spaceBuildingsMap = [];
-		for (var i = 0; i < this.space.planets.length; i++) {
-			var planetName = this.space.planets[i].name;
-			var spaceBuildings = this.space.planets[i].buildings.map(function(building){
-				return building.name;
-			});
-			for (var j = 0; j < spaceBuildings.length; j++) {
-				var item = spaceBuildings[j];
-				spaceBuildingsMap.push(spaceBuildings[j]);
-			}
-		}
-
 		this.upgrade({
 			tech: this.science.techs.map(function(item){return item.name;}),
 			perks: this.prestige.perks.map(function(item){return item.name;}),
@@ -3220,7 +3207,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			upgrades: this.workshop.upgrades.map(function(item){return item.name;}),
 			buildings: this.bld.buildingsData.map(function(item){return item.name;}),
 			spaceMission: this.space.programs.map(function(item){return item.name;}),
-			spaceBuilding: spaceBuildingsMap,
+			spaceBuilding: this.space.spaceBuildingsMap,
 			planet: this.space.planets.map(function(item){return item.name;}),
 			chronoforge: this.time.chronoforgeUpgrades.map(function(item){return item.name;}),
 			voidSpace: this.time.voidspaceUpgrades.map(function(item){return item.name;}),
