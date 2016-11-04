@@ -313,7 +313,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		for (var i = 0; i < amt; i++) {
 			// Calendar
             cal.year+= 1;
-            cal.onNewYear();
+            cal.onNewYear(i + 1 == amt);
             // Space ETA
             var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
             for (var j in game.space.planets){

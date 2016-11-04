@@ -443,7 +443,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (newseason) {
 				this.onNewSeason();
 				if (newyear) {
-					this.onNewYear();
+					this.onNewYear(true);
 				}
 			}
 
@@ -669,7 +669,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	onNewYear: function(){
+	onNewYear: function(updateUI){
 
         var ty = this.game.stats.getStat("totalYears");
 		ty.val++;
@@ -710,14 +710,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			spaceBuilding: this.game.space.spaceBuildingsMap
 		});
 
-		this.game.ui.render();
-
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
 
 		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
+
+		if (updateUI) {
+			this.game.ui.render();
+		}
 	},
 
 	getWeatherMod: function(){
