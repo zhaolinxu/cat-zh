@@ -539,6 +539,35 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: "A gateway... To what?"
 	},{
+		name: "blazar",
+		label: "Blazar",
+		description: "Improve certain time scaling effects (TBD)",
+		prices: [
+			{ name : "relic", val: 50000 }
+		],
+		tier: 15,
+		priceRatio: 1.15,
+		effects: {
+			//Should at least improve impedance scaling by some value (5%? 10%). Probably something else
+		},
+		unlocked: false,
+		flavor: "Tiger tiger burning bright."
+	},{
+		name: "darkNova",
+		label: "Dark Nova",
+		description: "TBD",
+		prices: [
+			{ name : "relic", val: 75000 },
+			{ name : "void",  val: 7500 }
+		],
+		tier: 20,
+		priceRatio: 1.15,
+		effects: {
+			//TBD
+		},
+		unlocked: false,
+		flavor: "The stars are dead. Just like our hopes and dreams."
+	},{
 		name: "holyGenocide",
 		label: "Holy Genocide",
 		description: "And tear will not fall down",
