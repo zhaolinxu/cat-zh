@@ -6,7 +6,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
      */
     flux: 0,
 
-    //chronohammer heat (please don't move it to resource section)
+    //should not be visible to player other than on time tab
     heat: 0,
     isAccelerated: false,   //do not save this flag or else!
 
@@ -229,7 +229,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     }],
 
 	effectsBase: {
-		"temporalFluxMax": 60 * 10 * 5  //10 minutes (5 == this.game.rate)
+		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.rate)
+        "heatMax": 100
 	},
 
     getCFU: function(id){
@@ -288,6 +289,10 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         var second = this.game.resPool.get("temporalFlux").value / this.game.rate;
         if (second >= 1){
             this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
+        }
+
+        if (this.game.workshop.get("chronoforge").researched) {
+            this.timeSpan.innerHTML += "<br>Heat: " + this.game.time.heat + "/" + this.game.getEffect("heatMax");
         }
 
         this.inherited(arguments);
