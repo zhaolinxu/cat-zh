@@ -64,29 +64,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.corruption = saveData.religion.corruption || 0;
 		this.faithRatio = saveData.religion.faithRatio || 0;
 		this.tcratio = saveData.religion.tcratio || 0;
-
-		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "on", "unlocked"], function(loadedElem){
-				var prices = dojo.clone(loadedElem.prices);
-				for( var k = 0; k < prices.length; k++){
-					var price = prices[k];
-					for (var j = 0; j < loadedElem.val; j++){
-						price.val = price.val * loadedElem.priceRatio;
-					}
-				}
-			});
-		}
-
-		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
-			});
-		}
-
-		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on", "unlocked"], function(loadedElem){
-				//IDK
-			});
-		}
+		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
+		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
+		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
 
 		this.tclevel = this.getTranscendenceLevel();
 	},

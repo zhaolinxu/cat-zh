@@ -458,10 +458,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	load: function(saveData){
-
-		this.leader = null;
-		this.senators = [];
-
 		if (saveData.village){
 			var kittens = saveData.village.kittens;
 			//quick legacy hack, remove in future
@@ -487,22 +483,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				this.sim.kittens.unshift(newKitten);
 			}
 
-			//this.sim.kittens  = kittens;
 			this.maxKittens  = saveData.village.maxKittens;
-
-			/*if (saveData.village.jobs.length){
-				this.jobs = saveData.village.jobs;
-			}*/
-
-			if (saveData.village.jobs){
-				for (var i = saveData.village.jobs.length - 1; i >= 0; i--) {
-					var savedJob = saveData.village.jobs[i];
-
-					var job = this.getJob(savedJob.name);
-					job.unlocked = savedJob.unlocked;
-					job.value = savedJob.value;
-				}
-			}
+			this.loadMetadata(this.jobs, saveData.village.jobs);
 		}
 
 		this.updateResourceProduction();

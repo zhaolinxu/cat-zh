@@ -439,7 +439,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				if (this.season >= this.seasons.length) {
 					this.season = 0;
-					this.year += 1;
+					if (!(this.game.challenges.currentChallenge == "1000Years" && this.year >= 500)) {
+						this.year += 1;
+					}
 					newyear = true;
 				}
 			}
@@ -451,7 +453,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (newseason) {
 				this.onNewSeason();
 				if (newyear) {
-					this.onNewYear();
+					this.onNewYear(true);
 				}
 			}
 
@@ -677,7 +679,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	onNewYear: function(){
+	onNewYear: function(updateUI){
 
         var ty = this.game.stats.getStat("totalYears");
 		ty.val++;
@@ -714,22 +716,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		// Apply cycleEffect for the newYear
-		var spaceBuildingsMap = [];
-		for (var i = 0; i < this.game.space.planets.length; i++) {
-			var planetName = this.game.space.planets[i].name;
-			var spaceBuildings = this.game.space.planets[i].buildings.map(function(building){
-				return building.name;
-			});
-			for (var j = 0; j < spaceBuildings.length; j++) {
-				var item = spaceBuildings[j];
-				spaceBuildingsMap.push(spaceBuildings[j]);
-			}
-		}
 		this.game.upgrade({
-			spaceBuilding: spaceBuildingsMap
+			spaceBuilding: this.game.space.spaceBuildingsMap
 		});
-
-		this.game.ui.render();
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
@@ -737,6 +726,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
+
+		if (updateUI) {
+			this.game.ui.render();
+		}
 	},
 
 	getWeatherMod: function(){

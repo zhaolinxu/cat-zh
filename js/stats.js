@@ -130,18 +130,14 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 		}
 	},
 
-    load: function(saveData){
-        if (saveData.stats) {
-            this.loadMetadata(this.stats, saveData.stats, ["val"]);
-        }
-        if (saveData.statsCurrent) {
-            this.loadMetadata(this.statsCurrent, saveData.statsCurrent, ["val"]);
-        }
-    },
-
-    save: function(saveData){
+	save: function(saveData){
         saveData.stats = this.filterMetadata(this.stats, ["name", "val"]);
         saveData.statsCurrent = this.filterMetadata(this.statsCurrent, ["name", "val"]);
+    },
+
+    load: function(saveData){
+		this.loadMetadata(this.stats, saveData.stats);
+		this.loadMetadata(this.statsCurrent, saveData.statsCurrent);
     },
 
     getStat: function(name){

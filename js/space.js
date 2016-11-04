@@ -14,6 +14,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	hideResearched: false,
 
+	spaceBuildingsMap: [],
+
 	programs: [{
 		name: "orbitalLaunch",
 		label: "Orbital Launch",
@@ -693,6 +695,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			this.planets[i].routeDaysDefault = this.planets[i].routeDays;
 		}
 		this.setEffectsCachedExisting();
+
+		// Cache spaceBuildingsMap
+		for (var i = 0; i < this.planets.length; i++) {
+			var spaceBuildings = this.planets[i].buildings.map(function(building){
+				return building.name;
+			});
+			for (var j = 0; j < spaceBuildings.length; j++) {
+				this.spaceBuildingsMap.push(spaceBuildings[j]);
+			}
+		}
 	},
 
 	resetState: function(){
@@ -736,9 +748,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 
 		saveData.space = {
+			hideResearched: this.hideResearched,
 			programs: this.filterMetadata(this.programs, ["name", "val", "on", "unlocked"]),
-			planets: planets,
-			hideResearched: this.hideResearched
+			planets: planets
 		};
 	},
 
@@ -749,41 +761,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 		var self = this;
 
-		this.hideResearched = saveData.space.hideResearched || false;
-
-		if (saveData.space.programs){
-			this.loadMetadata(this.programs, saveData.space.programs, ["val", "on", "unlocked"], function(loadedElem){
-				//TODO: move to common method (like 'adjust prices'), share with religion code
-				var prices = dojo.clone(loadedElem.prices);
-				for (var k = prices.length - 1; k >= 0; k--) {
-					var price = prices[k];
-					for (var j = 0; j < loadedElem.val; j++){
-						price.val = price.val * loadedElem.priceRatio;
-					}
-				}
-			});
-		}
+		this.hideResearched = saveData.space.hideResearched || false;		
+		this.loadMetadata(this.programs, saveData.space.programs);
+		this.loadMetadata(this.planets, saveData.space.planets);
 
 		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
 			if (program.on && program.unlocks && program.unlocks.planet){
 				this.getPlanet(program.unlocks.planet).unlocked = true;
-			}
-		}
-
-		//planets
-		if (saveData.space.planets){
-			for (var i in saveData.space.planets){
-				this.loadMetadata(this.planets, saveData.space.planets, ["reached", "unlocked", "routeDays"], function(loadedElem){
-				});
-				var savePlanet = saveData.space.planets[i];
-				var planet = this.getMeta(savePlanet.name, this.planets);
-
-				if (planet && planet.buildings && savePlanet.buildings){
-					this.loadMetadata(planet.buildings, savePlanet.buildings, ["val", "on", "unlocked"], function(loadedElem){
-					});
-				}
 			}
 		}
 

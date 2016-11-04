@@ -20,7 +20,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"]),
+           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
     },
 
@@ -30,19 +30,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         this.flux = saveData["time"].flux || 0;
+		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
+		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
-		if (saveData.time.usedCryochambers){ //after reset
-				this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers, ["name", "val", "on"], function(loadedElem){
-			});
+		if (saveData.time.usedCryochambers) { //after reset
+			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
 		}
-        if (saveData.time.cfu){
-            this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu, ["val", "on"], function(loadedElem){
-            });
-        }
-        if (saveData.time.vsu){
-            this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu, ["val", "on"], function(loadedElem){
-            });
-        }
+
         if (this.getVSU("usedCryochambers").val > 0) {
 			this.getVSU("usedCryochambers").unlocked = true;
         }
@@ -274,8 +268,9 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
     update: function(){
         this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        if (this.game.resPool.get("temporalFlux").value != 0){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(this.game.resPool.get("temporalFlux").value / this.game.rate) + ")";
+        var second = this.game.resPool.get("temporalFlux").value / this.game.rate;
+        if (second >= 1){
+            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
         }
 
         this.inherited(arguments);
@@ -318,7 +313,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		for (var i = 0; i < amt; i++) {
 			// Calendar
             cal.year+= 1;
-            cal.onNewYear();
+            cal.onNewYear(i + 1 == amt);
             // Space ETA
             var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
             for (var j in game.space.planets){
@@ -345,6 +340,11 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         }
 
         game.time.flux += amt;
+
+		game.challenges.getChallenge("1000Years").unlocked = true;
+		if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
+			game.challenges.researchChallenge("1000Years");
+		}
     },
 
     /**
