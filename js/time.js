@@ -96,6 +96,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (!this.game.resPool.get("temporalFlux").value){
             this.isAccelerated = false;
         }
+
+        this.heat += this.game.getEffect("heatPerTick");
+        if (this.heat < 0){
+            this.heat = 0;
+        }
     },
 
 	chronoforgeUpgrades: [{
@@ -230,7 +235,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 	effectsBase: {
 		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.rate)
-        "heatMax": 100
+        "heatMax": 100,
+        "heatPerTick" : -0.01
 	},
 
     getCFU: function(id){
@@ -292,7 +298,12 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         }
 
         if (this.game.workshop.get("chronoforge").researched) {
-            this.timeSpan.innerHTML += "<br>Heat: " + this.game.time.heat + "/" + this.game.getEffect("heatMax");
+            var heatMax = game.getEffect("heatMax");
+            if(this.game.time.heat > heatMax){
+                this.timeSpan.innerHTML += "<br>Heat: <span style='color:red;'>" + this.game.time.heat.toFixed(2) + "</span>/" + heatMax;
+            } else {
+                this.timeSpan.innerHTML += "<br>Heat: " + this.game.time.heat.toFixed(2) + "/" + heatMax;
+            }
         }
 
         this.inherited(arguments);
@@ -317,8 +328,14 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance");
-			if (this.game.calendar.year  > (40000 - impedance) && price["name"] == "timeCrystal") {
-				price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
+			if (price["name"] == "timeCrystal") {
+                if (this.game.calendar.year  > (40000 - impedance)) {
+                    price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
+                }
+                var heatMax = this.game.getEffect("heatMax");
+                if (this.game.time.heat > heatMax) {
+                    price["val"] *= (1 + (this.game.time.heat - heatMax));  //1% per excessive heat unit
+                }
 			}
 		}
 
