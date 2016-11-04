@@ -116,8 +116,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "rorschachMission",
-		label: "???",
-		description: "???",
+		label: "Rorschach",
+		description: "Rorschach is the biggest comet near Helios.",
 		prices: [
 			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
@@ -961,6 +961,10 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 	build: function(meta, maxBld){
 		var counter = this.inherited(arguments);
 		this.getMetadataRaw().on = 0;
+		if (this.getMetadataRaw().name == "rorschachMission") {
+			this.getMetadataRaw().on = 1;
+			this.game.msg("Rorschach is impenetrable but you see now farer.", "important");
+		}
 		return counter;
     }
 
