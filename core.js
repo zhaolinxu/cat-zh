@@ -345,9 +345,8 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			if (gameLog) {
 				dojo.forEach(dojo.query("*", gameLog), function (entry, i) {
-					if (i > 25) {
-						var opacity = dojo.getStyle(entry, "opacity");
-						dojo.setStyle(entry, "opacity", opacity - 0.033);
+					if (i > 24) {
+						dojo.setStyle(entry, "opacity", (1 - (i-24) * 0.066));
 					}
 				});
 			}
