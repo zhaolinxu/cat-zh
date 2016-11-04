@@ -1545,7 +1545,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		var meta = this.getMetadata();
 		// Beginning with exceptions
 		if (meta.name == "usedCryochambers"
-		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
+		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)
+		|| (meta.name == "ressourceRetrieval" && this.game.time.getCFU("ressourceRetrieval").val >= 100)) {
 			this.setEnabled(false);
 		} else if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());
