@@ -341,7 +341,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
         game.time.flux += amt;
 
-		game.challenges.get("1000Years").unlocked = true;
+		game.challenges.getChallenge("1000Years").unlocked = true;
 		if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
 			game.challenges.researchChallenge("1000Years");
 		}
