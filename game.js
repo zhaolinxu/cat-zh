@@ -2755,7 +2755,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			{limit:1e12,divisor:1e12,postfix:['T',' Tera']},
 			{limit:1e9,divisor:1e9,postfix:['G',' Giga']},
 			{limit:1e6,divisor:1e6,postfix:['M',' Mega']},
-			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']}, //WHAT
+			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']} //WHAT
 		];
 
 		postfix = postfix || "";

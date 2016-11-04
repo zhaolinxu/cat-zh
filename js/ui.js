@@ -207,7 +207,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 mod = " (" + calendar.weather + ")";
             }
 
-            calendarDiv.innerHTML = "Year " + calendar.year + " - " +
+            var year = calendar.year;
+            if (year > 100000){
+                year = this.game.getDisplayValueExt(year, false, false, 0);
+            }
+
+            calendarDiv.innerHTML = "Year " + year + " - " +
                 seasonTitle + mod + ", day " + calendar.integerDay();
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 seasonTitle + ", d. " + calendar.integerDay();

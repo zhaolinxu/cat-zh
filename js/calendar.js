@@ -252,6 +252,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var cycle = this.cycles[this.cycle];
 		var game = this.game;
 
+		if (this.game.calendar.displayElement){
+			//TODO: include shatter penalties there
+			UIUtils.attachTooltip(game, this.game.calendar.displayElement, 0, 320, dojo.partial(function(year) {
+				if (year > 100000){
+					return "Year " + year.toLocaleString();
+				}
+				return "";
+			}, this.game.calendar.year));
+		}
+
 		if (cycle){
 			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.partial(function(cycle) {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
