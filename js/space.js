@@ -152,7 +152,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "thorium",   val: 50000}
 		],
 		unlocks: {
-			planet: ["centaurusSystem"]
+			planet: ["centaurusSystem"],
+			spaceMission: ["furthestRingMission"]
+		}
+	},{
+		name: "furthestRingMission",
+		label: "Furthest Ring",
+		description: "The end of the universe.",
+		prices: [
+			{name: "starchart", val: 500000},
+			{name: "science", 	val: 1250000},
+			{name: "kerosene", 	val: 75000},
+			{name: "thorium",   val: 75000}
+		],
+		unlocks: {
+			planet: ["furthestRing"]
 		}
 	}],
 
@@ -669,6 +683,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		]
+	},{
+		name: "furthestRing",
+		label: "Furthest Ring",
+		routeDays: 725000000,
+		onReached: function(game) {
+			game.space.getProgram("furthestRingMission").on = 1;
+		},
+		buildings:[
+			//TBD
+		]
 	}],
 
 	metaCache: null,
@@ -922,7 +946,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		if (meta.val == 0) {
 			return meta.label;
 		} else if (meta.on == 0){
-			return meta.label + " (current)";
+			return meta.label + " (in progress)";
 		} else {
 			return meta.label + " (complete)";
 		}

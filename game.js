@@ -1151,7 +1151,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var messageLine = this.console.static.msg(message, type, tag, noBullet);
 		if (messageLine && hasCalendarTech){
-			this.console.static.msg("Year " + this.calendar.year + " - " + this.calendar.getCurSeasonTitle(), "date", null, false);
+			this.console.static.msg("Year " + this.calendar.year.toLocaleString() + " - " + this.calendar.getCurSeasonTitle(), "date", null, false);
 		}
 
 		return messageLine;

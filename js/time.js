@@ -5,6 +5,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
      * Amount of years skipped by CF time jumps
      */
     flux: 0,
+
+    //chronohammer heat (please don't move it to resource section)
+    heat: 0,
     isAccelerated: false,   //do not save this flag or else!
 
     constructor: function(game){
@@ -19,6 +22,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
        saveData["time"] = {
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
+           heat: this.heat,
            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
@@ -119,6 +123,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "timeRatio" : 0.05
         },
         unlocked: true
+    },{
+        name: "temporalImpedance",
+        label: "Time Impedance",
+        description: "Suppress effect of Dark Future temporal penalty by 1000 years.",
+        prices: [
+            { name : "timeCrystal", val: 100 },
+            { name : "relic", val: 250 }
+        ],
+        priceRatio: 1.05,
+        effects: {
+            "timeImpedance" : 1000
+        },
+        unlocked: true  //TODO: only unlock past 40K?
     },{
         name: "ressourceRetrieval",
         label: "Resource Retrieval",
@@ -294,8 +311,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
-			if ((this.game.calendar.year - this.game.time.flux) > 40000 && price["name"] == "timeCrystal") {
-				price["val"] = Math.max(0, 1 - Math.floor((this.game.calendar.year - this.game.time.flux - 40000) / 1000) / 100);
+            var impedance = this.game.getEffect("timeImpedance");
+			if (this.game.calendar.year  > (40000 - impedance) && price["name"] == "timeCrystal") {
+				price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
 			}
 		}
 
@@ -339,6 +357,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             game.msg("Time crystal destroyed, skipped " + amt + " years");
         }
 
+        game.time.heat += amt*10;
         game.time.flux += amt;
 
 		game.challenges.getChallenge("1000Years").unlocked = true;
@@ -404,7 +423,7 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
             name: "Shatter TC",
-            description: "Destroy time crystal and unleash the stored temporal energy.",
+            description: "Destroy time crystal and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over the time.",
             prices: [{name: "timeCrystal", val: 1}],
             handler: function(btn){
 
@@ -416,7 +435,6 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
             this.addChild(new classes.ui.time.ChronoforgeBtn({id: meta.name}, game));
         }
-
     },
 
     render: function(container){
@@ -555,8 +573,8 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     update: function(){
         this.inherited(arguments);
 
-        var msg = "Reseting the timeline will start the game from the scratch. You will keep all of your statistic and achievements.<br>";
-        msg += "<br>Resetting at this point will also give you:<br>";
+        var msg = "Reseting the timeline will start the game from the scratch. You will keep all of your statistic and achievements. You may receive various game bonuses.<br>";
+        msg += "<br>Resetting at this point will give you:<br>";
 
         var kittens = this.game.resPool.get("kittens").value;
         var stripe = 5;
