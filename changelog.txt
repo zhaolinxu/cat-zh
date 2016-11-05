@@ -1,3 +1,22 @@
+v 1.4.0.0 (4 cot 2016)
+changes by freeroot:
+
+RR will be limited by 100 units
+Numerous optimizations and fixes (like, literally numerous)
+
+1000K Years challenge
+Anarchy challenge
+Kittens will die if there are no housing during Winter Has Come
+___
+Time crystal shattering will now generate chronoheat
+
+Chronofurnace
+Time Impedance
+
+Furthest Ring
+Blazar
+Dark Nova
+
 v 1.3.1.3 (29 oct 2016)
 Advanced AM Reactors will now cost less AM and much more effective
 Void Reactors
