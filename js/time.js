@@ -121,7 +121,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         description: "Operates on chronoheat. Increases the maximum heat limit by 100. Can automatically shatter time crystals.",
         prices: [
             { name : "timeCrystal", val: 25 },
-            { name : "relic", val: 1 }
+            { name : "relic", val: 5 }
         ],
         priceRatio: 1.25,
         effects: {
