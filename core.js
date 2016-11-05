@@ -188,8 +188,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	loadMetadata: function(meta, saveMeta){
 		if (!saveMeta){
-			console.log(saveMeta);
-			throw "Unable to load save metadata";
+			console.trace(saveMeta);
+			throw "Unable to load save metadata, meta is empty";
 		}
 
 		for(var i = 0; i< saveMeta.length; i++){

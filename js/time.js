@@ -35,8 +35,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.flux = saveData["time"].flux || 0;
         this.heat = saveData["time"].heat || 0;
-		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
-		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
+		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu || []);
+		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu || []);
 
 		if (saveData.time.usedCryochambers) { //after reset
 			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);

@@ -136,8 +136,8 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
     },
 
     load: function(saveData){
-		this.loadMetadata(this.stats, saveData.stats);
-		this.loadMetadata(this.statsCurrent, saveData.statsCurrent);
+		this.loadMetadata(this.stats, saveData.stats || []);
+		this.loadMetadata(this.statsCurrent, saveData.statsCurrent || []);
     },
 
     getStat: function(name){
