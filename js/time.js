@@ -367,7 +367,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
-                if (this.game.calendar.year  > (40000 - impedance)) {
+                if (this.game.calendar.year  > (40000 + impedance)) {
                     price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
                 }
                 var heatMax = this.game.getEffect("heatMax");
