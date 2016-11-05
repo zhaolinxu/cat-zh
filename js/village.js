@@ -254,25 +254,30 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.sim.update(kittensPerTick);
 
 		var catnipPerTick = this.game.getResourcePerTick("catnip", true);
-
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var resDiff = catnipVal + catnipPerTick;
 
-		if (resDiff < 0 && this.sim.getKittens() > 0){
+		if (this.sim.getKittens() > 0){
+			if (resDiff < 0 || this.game.challenges.currentChallenge == "winterIsComing" && this.sim.getKittens() > this.sim.maxKittens && this.game.calendar.weather == "cold") {
 
-			var starvedKittens = Math.abs(Math.round(resDiff));
-			if (starvedKittens > 1){
-				starvedKittens = 1;
-			}
+				var starvedKittens = Math.abs(Math.round(resDiff));
+				if (starvedKittens > 1){
+					starvedKittens = 1;
+				}
 
-			if (starvedKittens > 0 && this.deathTimeout <= 0){
-				starvedKittens = this.sim.killKittens(starvedKittens);
+				if (starvedKittens > 0 && this.deathTimeout <= 0){
+					starvedKittens = this.sim.killKittens(starvedKittens);
 
-				this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death.");
-				this.game.deadKittens += starvedKittens;
-				this.deathTimeout = this.game.rate * 5;	//5 seconds
-			} else {
-				this.deathTimeout--;
+					if (resDiff < 0) {
+						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death.");
+					} else {
+						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "froze to death.");
+					}
+					this.game.deadKittens += starvedKittens;
+					this.deathTimeout = this.game.rate * 5;	//5 seconds
+				} else {
+					this.deathTimeout--;
+				}
 			}
 		}
 
