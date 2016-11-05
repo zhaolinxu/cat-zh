@@ -34,6 +34,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         this.flux = saveData["time"].flux || 0;
+        this.heat = saveData["time"].heat || 0;
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
@@ -312,7 +313,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         }
 
         if (this.game.workshop.get("chronoforge").researched) {
-            var heatMax = game.getEffect("heatMax");
+            var heatMax = this.game.getEffect("heatMax");
             if(this.game.time.heat > heatMax){
                 this.timeSpan.innerHTML += "<br>Heat: <span style='color:red;'>" + this.game.time.heat.toFixed(2) + "</span>/" + heatMax;
             } else {
