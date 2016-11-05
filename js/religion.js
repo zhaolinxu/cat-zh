@@ -39,6 +39,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
+			tu.unlocked = false;
 			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
 		}
 	},
@@ -69,6 +70,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu || []);
 
 		this.tclevel = this.getTranscendenceLevel();
+
+		for (var i = 0; i < this.transcendenceUpgrades.length; i++){
+			var tu = this.transcendenceUpgrades[i];
+			if (this.tclevel >= tu.tier) {
+				tu.unlocked = true;
+			}
+		}
 	},
 
 	update: function(){
