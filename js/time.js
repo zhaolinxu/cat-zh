@@ -80,6 +80,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     resetState: function(){
 		this.isAccelerated = false;
 
+        this.flux = 0;
+        this.heat = 0;
+
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
 			var bld = this.chronoforgeUpgrades[i];
 			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
