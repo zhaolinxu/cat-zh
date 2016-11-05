@@ -2129,8 +2129,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 
 			if(craft.progress >= 1) {
-				var craftSuccess = this.isLimited ? false : this.craft(craft.name, 1, true);
-				craft.progress = craftSuccess ? 0 : 1;
+				var units = Math.floor(craft.progress);
+				var craftSuccess = this.isLimited ? false : this.craft(craft.name, units, true);
+				if (craftSuccess) {
+					craft.progress = craft.progress - units;
+				}
 			} else {
 				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
 				if (tierCraftRatio == 0) {
@@ -2239,6 +2242,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		var craft = this.game.workshop.getCraft(this.craftName);
 		if (this.game.science.get("mechanization").researched && craft.value != 0) {
 			var progressDisplayed = this.game.toDisplayPercentage(craft.progress, 0, true);
+			if (progressDisplayed > 99){
+				progressDisplayed = 99;
+			}
+
 			return this.name + " (" + craft.value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
