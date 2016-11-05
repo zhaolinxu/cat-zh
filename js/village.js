@@ -676,32 +676,25 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 	traits: [{
 		name: "scientist",
-		title: "Scientist",
-		unlocked: true
+		title: "Scientist"
 	},{
 		name: "manager",
-		title: "Manager",
-		unlocked: true
+		title: "Manager"
 	},{
 		name: "engineer",
-		title: "Engineer",
-		unlocked: true
+		title: "Artisan"
 	},{
 		name: "merchant",
-		title: "Merchant",
-		unlocked: true
+		title: "Merchant"
 	},{
 		name: "wise",
-		title: "Philosopher",
-		unlocked: false
+		title: "Philosopher"
 	},{
 		name: "metallurgist",
-		title: "Metallurgist",
-		unlocked: false
+		title: "Metallurgist"
 	},{
 		name: "chemist",
-		title: "Chemist",
-		unlocked: false
+		title: "Chemist"
 	},{
 		name: "none",
 		title: "None"
@@ -734,9 +727,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	getTrait: function(name){
-		for (var i = this.traits - 1; i >= 0; i--) {
+		for (var i = this.traits.length - 1; i >= 0; i--) {
 			if (this.traits[i].name === name){
-				return this.trait[i];
+				return this.traits[i];
 			}
 		}
 	},
@@ -751,7 +744,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.age = 		data.age;
 		this.skills = 	data.skills;
 		this.exp = 		data.exp || 0;
-		this.trait = 	data.trait;
+		this.trait = 	this.getTrait(data.trait.name); //load trait, getting current trait.title
 		this.job = 		data.job;
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
