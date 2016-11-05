@@ -116,6 +116,20 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.25,
         unlocked: true
     },{
+        name: "blastFurnace",
+        label: "Chrono Furnace",
+        description: "Operates on chronoheat. Increases the maximum heat limit by 100. Can automatically shatter time crystals.",
+        prices: [
+            { name : "timeCrystal", val: 25 },
+            { name : "relic", val: 1 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+            "heatMax" : 100,
+            "heatPerTick": -0.02
+        },
+        unlocked: true
+    },{
         name: "temporalAccelerator",
         label: "Temporal Accelerator",
         description: "Improves flux energy generation by 5%",
