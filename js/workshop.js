@@ -1582,7 +1582,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "thoriumEngine",
-		label: "Thorium Engine",
+		label: "Thorium Drive",
 		description: "A new rocket engine to go faster in space.",
 		prices:[
 			{ name : "ship", val: 10000 },
