@@ -1124,7 +1124,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
 					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
-					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					if (res != false) { // If res is a resource and not just a variable
+						effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					}
 				}
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
