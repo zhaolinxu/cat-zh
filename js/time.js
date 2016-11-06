@@ -158,7 +158,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeImpedance" : 1000
         },
-        unlocked: true  //TODO: only unlock past 40K?
+        unlocked: false
     },{
         name: "ressourceRetrieval",
         label: "Resource Retrieval",
@@ -367,8 +367,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
-                if (this.game.calendar.year  > (40000 + impedance)) {
-                    price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
+                if (this.calendar.isDarkFuture()) {
+                    price["val"] = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
                 }
                 var heatMax = this.game.getEffect("heatMax");
                 if (this.game.time.heat > heatMax) {

@@ -313,7 +313,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		var productionRatioParagon = (this.game.resPool.get("paragon").value * 0.010) * paragonRatio;
 		productionRatioParagon = this.game.getHyperbolicEffect(productionRatioParagon, 2 * paragonRatio);
 
-		var ratio = this.game.calendar.year >= 40000 + this.game.time.flux ? 4 : 1;
+		var ratio = this.game.calendar.isDarkFuture() ? 4 : 1;
 		var productionRatioBurnedParagon = this.game.resPool.get("burnedParagon").value * 0.010 * paragonRatio;
 		productionRatioBurnedParagon = this.game.getHyperbolicEffect(productionRatioBurnedParagon, ratio * paragonRatio);
 
@@ -323,7 +323,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	getParagonStorageRatio: function(){
 		var paragonRatio = this.getParagonRatio();
 		var storageRatio = (this.game.resPool.get("paragon").value / 1000) * paragonRatio; //every 100 paragon will give a 10% bonus to the storage capacity
-		if (this.game.calendar.year >= 40000 + this.game.time.flux) {
+		if (this.game.calendar.isDarkFuture()) {
 			storageRatio += (this.game.resPool.get("burnedParagon").value / 500) * paragonRatio;
 		} else {
 			storageRatio += (this.game.resPool.get("burnedParagon").value / 2000) * paragonRatio;
