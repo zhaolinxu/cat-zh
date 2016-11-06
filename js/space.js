@@ -646,6 +646,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "antimatter", val: 500 },
 					{name: "thorium", val: 75000 }
 				],
+				requiredTech: ["terraformation"],
 				effects: {
 					"energyProduction": 0
 				},
