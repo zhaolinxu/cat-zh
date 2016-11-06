@@ -406,7 +406,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	isDarkFuture: function() {
-		return (this.calendar.year - 40000 - this.game.time.flux - this.game.getEffect("timeImpedance") >= 0);
+		return (this.year - 40000 - this.game.time.flux - this.game.getEffect("timeImpedance") >= 0);
 	},
 
 	tick: function(){

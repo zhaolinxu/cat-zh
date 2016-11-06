@@ -3159,10 +3159,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				techs: []
 			},
 			time: {
-				cfu: {[
+				cfu: [{
 					name: "temporalImpedance",
 					unlocked: this.time.getCFU("temporalImpedance").unlocked
-				]},
+				}],
 				vsu: [],
 				usedCryochambers: usedCryochambers_reset
 			},
