@@ -405,7 +405,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var res = {
 			name: name,
 			value: 0,
-			perTick: 0,
 
 			//whether resource was marked by user as hidden or visible
 			isHidden: false,

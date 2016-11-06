@@ -489,7 +489,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 
 			this.maxKittens  = saveData.village.maxKittens;
-			this.loadMetadata(this.jobs, saveData.village.jobs || []);
+			this.loadMetadata(this.jobs, saveData.village.jobs);
 		}
 
 		this.updateResourceProduction();

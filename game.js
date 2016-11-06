@@ -3046,7 +3046,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		if (!lsData){
-			lsData = {game: {}};
+			lsData = {
+				game: {},
+				stats: {},
+				statsCurrent: {},
+				achievements: {}
+			};
 		}
 
 		var saveRatio = this.bld.get("chronosphere").val > 0 ? this.getEffect("resStasisRatio") : 0; // resStasisRatio excepted when challenge
@@ -3128,26 +3133,41 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
-			achievements: lsData.achievements,
-			stats: lsData.stats,
+			resources: newResources,
+			buildings: [],
+			challenges: {
+				challenges: this.challenges.challenges,
+				currentChallenge: this.challenges.currentChallenge
+			},
+			diplomacy: {
+				races: []
+			},
+			prestige: {
+				perks: this.prestige.perks
+			},
 			religion: {
 				faithRatio: this.religion.faithRatio,
 				tcratio: this.religion.tcratio,
+				zu: [],
+				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
-			prestige: { perks: this.prestige.perks },	//never resets
-			challenges: {
-				challenges: this.challenges.challenges, //never resets
-				currentChallenge: this.challenges.currentChallenge
+			science: {
+				hideResearched: false,
+				techs: []
 			},
-			science: { techs: [], hideResearched: false },
-			resources: newResources,
 			time: {
+				cfu: [],
+				vsu: [],
 				usedCryochambers: usedCryochambers_reset
 			},
 			village :{
-				kittens: newKittens
-			}
+				kittens: newKittens,
+				jobs: []
+			},
+			achievements: lsData.achievements,
+			stats: lsData.stats,
+			statsCurrent: lsData.statsCurrent
 		};
 
 		if (anachronomancy.researched){
