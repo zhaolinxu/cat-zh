@@ -1999,7 +1999,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.challenges.currentChallenge == "anarchy") {
 				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
-				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+				resConsumption += resConsumption * (this.village.happiness-1) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
 
@@ -2305,7 +2305,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.challenges.currentChallenge == "anarchy") {
 				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
-				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+				resConsumption += resConsumption * (this.village.happiness-1) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
 
