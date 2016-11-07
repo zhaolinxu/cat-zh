@@ -1,4 +1,4 @@
-v 1.4.0.0 (4 cot 2016)
+v 1.4.0.0 (4 oct 2016)
 changes by freeroot:
 
 RR will be limited by 100 units
