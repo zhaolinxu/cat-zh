@@ -252,6 +252,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var cycle = this.cycles[this.cycle];
 		var game = this.game;
 
+		if (this.game.calendar.displayElement){
+			//TODO: include shatter penalties there
+			UIUtils.attachTooltip(game, this.game.calendar.displayElement, 0, 320, dojo.partial(function(year) {
+				if (year > 100000){
+					return "Year " + year.toLocaleString();
+				}
+				return "";
+			}, this.game.calendar.year));
+		}
+
 		if (cycle){
 			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.partial(function(cycle) {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
@@ -395,6 +405,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return effects;
 	},
 
+	isDarkFuture: function() {
+		return (this.year - 40000 - this.game.time.flux - this.game.getEffect("timeImpedance") >= 0);
+	},
+
 	tick: function(){
 
 		/* The behavior is not correct, maybe due to possible float-point. */
@@ -429,7 +443,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				if (this.season >= this.seasons.length) {
 					this.season = 0;
-					this.year += 1;
+					if (!(this.game.challenges.currentChallenge == "1000Years" && this.year >= 500)) {
+						this.year += 1;
+					}
 					newyear = true;
 				}
 			}
@@ -441,7 +457,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (newseason) {
 				this.onNewSeason();
 				if (newyear) {
-					this.onNewYear();
+					this.onNewYear(true);
 				}
 			}
 
@@ -667,7 +683,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	onNewYear: function(){
+	onNewYear: function(updateUI){
 
         var ty = this.game.stats.getStat("totalYears");
 		ty.val++;
@@ -676,6 +692,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
             ty.val = this.year;
         }
 
+		if (this.isDarkFuture()) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
 
 		if (this.game.bld.get("steamworks").jammed) {
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
@@ -704,22 +723,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		// Apply cycleEffect for the newYear
-		var spaceBuildingsMap = [];
-		for (var i = 0; i < this.game.space.planets.length; i++) {
-			var planetName = this.game.space.planets[i].name;
-			var spaceBuildings = this.game.space.planets[i].buildings.map(function(building){
-				return building.name;
-			});
-			for (var j = 0; j < spaceBuildings.length; j++) {
-				var item = spaceBuildings[j];
-				spaceBuildingsMap.push(spaceBuildings[j]);
-			}
-		}
 		this.game.upgrade({
-			spaceBuilding: spaceBuildingsMap
+			spaceBuilding: this.game.space.spaceBuildingsMap
 		});
-
-		this.game.ui.render();
 
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
@@ -727,6 +733,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
+
+		if (updateUI) {
+			this.game.ui.render();
+		}
 	},
 
 	getWeatherMod: function(){

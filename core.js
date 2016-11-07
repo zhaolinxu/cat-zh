@@ -186,9 +186,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		console.error("Could not find metadata for ", name, "in", meta);
 	},
 
-	loadMetadata: function(meta, saveMeta, fields, handler){
+	loadMetadata: function(meta, saveMeta){
 		if (!saveMeta){
-			throw "Unable to load save metadata";
+			console.trace(saveMeta);
+			throw "Unable to load save metadata, meta is empty";
 		}
 
 		for(var i = 0; i< saveMeta.length; i++){
@@ -199,19 +200,23 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 				if (!elem) { continue; }
 
-				for (var j = 0; j < fields.length; j++){
-					var fld = fields[j];
-					if (!elem.hasOwnProperty(fld) || !savedMetaElem.hasOwnProperty(fld)){
-						console.warn("Can't find elem." + fld + " in", elem, savedMetaElem);
+				for (var fld in savedMetaElem){
+					if (fld == name) {
+						continue;
+					}
+					if (!elem.hasOwnProperty(fld)){
+						console.warn("Can't find elem." + fld + " in", elem);
 					}
 					if (savedMetaElem[fld] !== undefined) {
-						elem[fld] = savedMetaElem[fld];
+						if (savedMetaElem[fld] != null && typeof(savedMetaElem[fld]) == "object") {
+							this.loadMetadata(elem[fld], savedMetaElem[fld]);
+						} else {
+							elem[fld] = savedMetaElem[fld];
+						}
 					}
 				}
-				if (handler){
-					handler(elem);
-				}
 			}
+
 		}
 	},
 
@@ -234,22 +239,21 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	//TODO: add saveMetadata
 
+	/**
+	 * TODO: this logic is very confusing. Ideally the only place devs need to change should be building metadata.
+	 */
 	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
 		bld.val = 0;
 		bld.on = 0;
 		if (bld.noStackable == "undefined") {
 			bld.noStackable = false;
 		}
-
-		bld.togglable = false;
-		bld.togglableOnOff = false;
-
-		if (isAutomationEnabled != undefined){
-			bld.togglable = true;
-			if (bld.name == "steamworks") { // Special toggle, just on, off
-				bld.togglableOnOff = true;
-			}
+		if (bld.name == "reactor" ||
+			bld.name == "calciner") {
+			bld.isAutomationEnabled = null;
 		}
+
+		// Automatic settings of togglable
 
 		if (lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
@@ -341,9 +345,8 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 			if (gameLog) {
 				dojo.forEach(dojo.query("*", gameLog), function (entry, i) {
-					if (i > 25) {
-						var opacity = dojo.getStyle(entry, "opacity");
-						dojo.setStyle(entry, "opacity", opacity - 0.033);
+					if (i > 24) {
+						dojo.setStyle(entry, "opacity", (1 - (i-24) * 0.066));
 					}
 				});
 			}
@@ -442,6 +445,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 						this.filters[fId].enabled = savedFilter.enabled;
 					}
 				}
+				this.renderFilters();
 			}
 		}
 	}
@@ -1120,7 +1124,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
 					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
-					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					if (res != false) { // If res is a resource and not just a variable
+						effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					}
 				}
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
@@ -1299,24 +1305,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			}
 		}
 
+		//--------------- style -------------
+		if((building.val > 9 || building.name.length > 10) && this.hasSellLink()) {
+			//Steamworks and accelerator specifically can be too large when sell button is on
+			//(tested to support max 99 bld count)
+			dojo.addClass(this.domNode, "small-text");
+		}
+
 		//--------------- toggle ------------
-
-		if (!building.togglable /*|| sellLinkAdded*/){
-			return;
-		}
-
-		//TODO: is this even supposed to work?
-		if (building.togglableOnOff){
-			this.toggle = this.addLink( building.on ? "on" : "off",
-				function(){
-					var building = this.getMetadataRaw();
-
-					building.on = building.on ? 0 : building.val;	//legacy safe switch
-					this.game.upgrade(building.upgrades);
-				}, true	//use | break
-			);
-		}
-		else {
+		if (typeof(building.togglable) != "undefined" && building.togglable){
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",
@@ -1366,22 +1363,26 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			);
 		}
 
-		if (typeof(building.isAutomationEnabled) != "undefined") {
-			if (building.name != "calciner" || (building.name == "calciner" /*&& this.game.opts.hideSell*/)) {
-				this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
-					function(){
-						var building = this.getMetadataRaw();
-						building.isAutomationEnabled = !building.isAutomationEnabled;
-					}, true
-				);
-			}
+		if (typeof(building.togglableOnOff) != "undefined"){
+			this.toggle = this.addLink( building.on ? "on" : "off",
+				function(){
+					var building = this.getMetadataRaw();
+
+					building.on = building.on ? 0 : building.val;	//legacy safe switch
+					this.game.upgrade(building.upgrades);
+				}, true	//use | break
+			);
 		}
 
-		if(building.val > 9 && this.hasSellLink()) {
-			//Steamworks and accelerator specifically can be too large when sell button is on
-			//(tested to support max 99 bld count)
-			dojo.addClass(this.domNode, "small-text");
+		if (typeof(building.isAutomationEnabled) != "undefined" && building.isAutomationEnabled != null) {
+			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
+				function(){
+					var building = this.getMetadataRaw();
+					building.isAutomationEnabled = !building.isAutomationEnabled;
+				}, true
+			);
 		}
+
 	},
 
 	update: function(){
@@ -1402,12 +1403,22 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
 			}
 
-			//--------------- toggle ------------
-
-			if (!building.togglable){
-				return;
+			//--------------- style -------------
+			if(building.val > 9) {
+				dojo.setStyle(this.domNode,"font-size","90%");
 			}
 
+			if (this.toggle || this.remove || this.add) {
+				dojo.removeClass(this.domNode, "bldEnabled");
+				dojo.removeClass(this.domNode, "bldlackResConvert");
+				if (building.lackResConvert) {
+					dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+				} else {
+					dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+				}
+			}
+
+			//--------------- toggle ------------
 			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
 			if (this.remove){
 				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
@@ -1425,24 +1436,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (this.toggleAutomation){
 				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
 				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
-
-				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
-				this.isAutomationResearched = true;
-				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
-				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
-			dojo.removeClass(this.domNode, "bldEnabled");
-			dojo.removeClass(this.domNode, "bldlackResConvert");
-			if (building.lackResConvert) {
-				dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
-			} else {
-				dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
-			}
-
-			if(building.val > 9) {
-				dojo.setStyle(this.domNode,"font-size","90%");
-			}
 		}
 	},
 
@@ -1495,7 +1490,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 			}
 			if (!meta.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.build(meta, 1000);
+					var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
+                    this.build(meta, maxBld);
                 }
             } else {
                 this.build(meta, 1);
@@ -1546,8 +1542,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	updateEnabled: function(){
 		var meta = this.getMetadata();
 		// Beginning with exceptions
-		if (meta.name == "usedCryochambers"
-		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)) {
+		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
 			this.setEnabled(false);
 		} else if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());

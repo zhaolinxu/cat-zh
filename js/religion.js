@@ -39,6 +39,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
+			tu.unlocked = false;
 			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
 		}
 	},
@@ -64,31 +65,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.corruption = saveData.religion.corruption || 0;
 		this.faithRatio = saveData.religion.faithRatio || 0;
 		this.tcratio = saveData.religion.tcratio || 0;
-
-		if (saveData.religion.zu){
-			this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu, ["val", "on", "unlocked"], function(loadedElem){
-				var prices = dojo.clone(loadedElem.prices);
-				for( var k = 0; k < prices.length; k++){
-					var price = prices[k];
-					for (var j = 0; j < loadedElem.val; j++){
-						price.val = price.val * loadedElem.priceRatio;
-					}
-				}
-			});
-		}
-
-		if (saveData.religion.ru){
-			this.loadMetadata(this.religionUpgrades, saveData.religion.ru, ["val", "on"], function(loadedElem){
-			});
-		}
-
-		if (saveData.religion.tu){
-			this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu, ["val", "on", "unlocked"], function(loadedElem){
-				//IDK
-			});
-		}
+		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
+		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
+		this.loadMetadata(this.transcendenceUpgrades, saveData.religion.tu);
 
 		this.tclevel = this.getTranscendenceLevel();
+
+		for (var i = 0; i < this.transcendenceUpgrades.length; i++){
+			var tu = this.transcendenceUpgrades[i];
+			if (this.tclevel >= tu.tier) {
+				tu.unlocked = true;
+			}
+		}
 	},
 
 	update: function(){
@@ -558,6 +546,35 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		flavor: "A gateway... To what?"
+	},{
+		name: "blazar",
+		label: "Blazar",
+		description: "Improve certain time scaling effects (TBD)",
+		prices: [
+			{ name : "relic", val: 50000 }
+		],
+		tier: 15,
+		priceRatio: 1.15,
+		effects: {
+			//Should at least improve impedance scaling by some value (5%? 10%). Probably something else
+		},
+		unlocked: false,
+		flavor: "Tiger tiger burning bright."
+	},{
+		name: "darkNova",
+		label: "Dark Nova",
+		description: "TBD",
+		prices: [
+			{ name : "relic", val: 75000 },
+			{ name : "void",  val: 7500 }
+		],
+		tier: 20,
+		priceRatio: 1.15,
+		effects: {
+			//TBD
+		},
+		unlocked: false,
+		flavor: "The stars are dead. Just like our hopes and dreams."
 	},{
 		name: "holyGenocide",
 		label: "Holy Genocide",

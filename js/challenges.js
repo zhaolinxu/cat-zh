@@ -24,6 +24,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true
 	},{
+		name: "anarchy",
+		label: "Anarchy",
+		description: "Restart the game with kittens acting their own way : kittens are lazy, always eat extra catnip and can't be assigned as leaders.<br><br>Goal: TBD.",
+		effectDesc: "TBD",
+		researched: false,
+		unlocked: true
+	},{
 		name: "energy",
 		label: "Energy",
 		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings and build at least one of them.",
@@ -35,6 +42,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: "Atheism",
 		description: "Restart the game without faith bonus.<br /><br />Goal: Reset with at least one cryochamber.",
 		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
+        researched: false,
+        unlocked: false
+	},{
+		name: "1000Years",
+		label: "1000 years",
+		description: "Goal: Reach year 1000.",
+		effectDesc: "TBD",
         researched: false,
         unlocked: false
 	}],
@@ -63,10 +77,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 		var self = this;
 
-		if (saveData.challenges.challenges){
-			this.loadMetadata(this.challenges, saveData.challenges.challenges, ["researched", "unlocked"], function(loadedElem){
-			});
-		}
+		this.loadMetadata(this.challenges, saveData.challenges.challenges);
+
 		if (saveData.challenges.currentChallenge){
 			this.currentChallenge = saveData.challenges.currentChallenge;
 		}
@@ -126,7 +138,7 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 	getDescription: function() {
 		if (this.game.bld.get("chronosphere").val > 0) {
 			var msgChronosphere = " You won't gain reset bonus from chronospheres.";
-			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: gain reset bonus from chronospheres disable automatically IW." : "";
+			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: the reset bonus from chronospheres will automatically disable IW." : "";
 		} else {
 			var msgChronosphere = "";
 		}

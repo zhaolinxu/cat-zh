@@ -453,7 +453,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			stages: [{bld:"amphitheatre",stage:1}], // Broadcast Tower
 			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization"]
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
 		}
 	},{
 		name: "robotics",
@@ -784,30 +784,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	save: function(saveData){
 		saveData.science = {
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
-			hideResearched: this.hideResearched
+			hideResearched: this.hideResearched,
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
 		};
 	},
 
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-
-			var techs = saveData.science.techs;
-
-			if (saveData.science.techs.length){
-				for (var i = saveData.science.techs.length - 1; i >= 0; i--) {
-					var savedTech = saveData.science.techs[i];
-
-					if (savedTech != null){
-						var tech = this.game.science.get(savedTech.name);
-						if (tech){
-							tech.unlocked = savedTech.unlocked;
-							tech.researched = savedTech.researched;
-						}
-					}
-				}
-			}
+			this.loadMetadata(this.techs, saveData.science.techs);
 		}
 
 		//re-unlock technologies in case we have modified something

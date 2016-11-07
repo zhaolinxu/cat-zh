@@ -1417,6 +1417,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 150000 }
 		]
 	},{
+		name: "internet",
+		label: "Internet",
+		description: "Kittens learn skills with each other",
+		effects: {},
+		prices:[
+			{ name : "titanium", val: 5000 },
+			{ name : "uranium",  val: 50 },
+			{ name : "science",  val: 150000 }
+		]
+	},{
 		name: "assistance",
 		label: "Robotic Assistance",
 		description: "Factory robots automating routine tasks. Workers require less catnip.",
@@ -1572,7 +1582,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "thoriumEngine",
-		label: "Thorium Engine",
+		label: "Thorium Drive",
 		description: "A new rocket engine to go faster in space.",
 		prices:[
 			{ name : "ship", val: 10000 },
@@ -1662,7 +1672,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     },{
         name: "turnSmoothly",
         label: "Turn smoothly",
-        description: "Improve Chronocontrol effectiveness.",
+        description: "Chronosphere gather temporal flux.",
         effects: {
 			"temporalFluxProductionChronosphere": 1
         },
@@ -1959,62 +1969,30 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	save: function(saveData){
-
-		var upgrades = this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]);
-		var crafts = this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"]);
-
 		saveData.workshop = {
-			upgrades: upgrades,
-			crafts:   crafts
+			hideResearched: this.hideResearched,
+			upgrades: this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]),
+			crafts: this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"])
 		};
-		saveData.workshop.hideResearched = this.hideResearched;
 	},
 
 	load: function(saveData){
-		if (saveData.workshop){
-			this.hideResearched = saveData.workshop.hideResearched;
+		if (!saveData["workshop"]){
+			return;
+		}
 
-			if (saveData.workshop.upgrades && saveData.workshop.upgrades.length){
-				for (var i = saveData.workshop.upgrades.length - 1; i >= 0; i--) {
-					var savedUpgrade = saveData.workshop.upgrades[i];
+		this.hideResearched = saveData.workshop.hideResearched;
+		this.loadMetadata(this.upgrades, saveData.workshop.upgrades);
+		this.loadMetadata(this.crafts, saveData.workshop.crafts);
 
-					if (savedUpgrade != null){
-						var upgrade = this.game.workshop.get(savedUpgrade.name);
-
-						if (upgrade){
-							upgrade.unlocked = savedUpgrade.unlocked;
-							upgrade.researched = savedUpgrade.researched;
-
-							if (upgrade.researched){
-								if (upgrade.handler) {
-									upgrade.handler(this.game);	//just in case update workshop upgrade effects
-								}
-								if (upgrade.unlocks) {
-									this.game.unlock(upgrade.unlocks);
-								}
-							}
-						}
-					}
+		for (var i = 0; i < this.upgrades.length; i++){
+			var upgrade = this.upgrades[i];
+			if (upgrade.researched){
+				if (upgrade.handler) {
+					upgrade.handler(this.game);	//just in case update workshop upgrade effects
 				}
-			}
-			//same for craft recipes
-
-			if (saveData.workshop.crafts && saveData.workshop.crafts.length){
-				for (var i = saveData.workshop.crafts.length - 1; i >= 0; i--) {
-					var savedCraft = saveData.workshop.crafts[i];
-
-					if (savedCraft != null){
-						var craft = this.game.workshop.getCraft(savedCraft.name);
-						if (craft && !craft.unlocked){ // a little hack to make auto-unlockable recipes work with old saves
-							craft.unlocked = savedCraft.unlocked;
-						}
-						if (craft && savedCraft.value) {
-							craft.value = savedCraft.value;
-						}
-						if (craft && savedCraft.progress) {
-							craft.progress = savedCraft.progress;
-						}
-					}
+				if (upgrade.unlocks) {
+					this.game.unlock(upgrade.unlocks);
 				}
 			}
 		}
@@ -2076,13 +2054,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	getEffectEngineer: function(resName) {
+	getEffectEngineer: function(resName, afterCraft) {
 		var craft = this.getCraft(resName);
 		if (craft == null) {
 			return 0;
 		} else {
+			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			if (tierCraftRatio == 0) {
+				tierCraftRatio = 1;
+			}
 			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
-			return ((1 / (60 * this.game.rate)) * (1+craftBonus) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
+
+			// (One * bonus / handicap) crafts per engineer per minute
+			var effectPerTick = ( 1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio * (1 + craftBonus)) / craft.progressHandicap;
+
+			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
 	},
 
@@ -2151,17 +2137,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 
 			if(craft.progress >= 1) {
-				var craftSuccess = this.isLimited ? false : this.craft(craft.name, 1, true);
-				craft.progress = craftSuccess ? 0 : 1;
-			} else {
-				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-				if (tierCraftRatio == 0) {
-					tierCraftRatio = 1;
+				var units = Math.floor(craft.progress);
+				var craftSuccess = this.isLimited ? false : this.craft(craft.name, units, true);
+				if (craftSuccess) {
+					craft.progress = craft.progress - units;
 				}
-				var currentProgress = (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
+			} else {
+				var currentProgress = this.getEffectEngineer(craft.name, false);
 
 				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
+					craft.isLimitedAmt = false;
 					craft.progress += currentProgress;
+				} else {
+					craft.isLimitedAmt = true;
 				}
 			}
 		}
@@ -2258,6 +2246,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		var craft = this.game.workshop.getCraft(this.craftName);
 		if (this.game.science.get("mechanization").researched && craft.value != 0) {
 			var progressDisplayed = this.game.toDisplayPercentage(craft.progress, 0, true);
+			if (progressDisplayed > 99){
+				progressDisplayed = 99;
+			}
+
 			return this.name + " (" + craft.value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
@@ -2280,22 +2272,18 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 	},
 
 	setEnabled: function(enabled){
+		this.inherited(arguments);
 
 		dojo.removeClass(this.domNode, "bldEnabled");
 		dojo.removeClass(this.domNode, "bldlackResConvert");
-		if (enabled){
-				dojo.removeClass(this.domNode, "disabled");
-				if (this.game.workshop.getCraft(this.craftName).value > 0) {
-					dojo.addClass(this.domNode, "bldEnabled");
-				}
-		} else {
-				dojo.addClass(this.domNode, "disabled");
-				if (this.game.workshop.getCraft(this.craftName).value > 0) {
-					dojo.addClass(this.domNode, "bldlackResConvert");
-				}
+		var craft = this.game.workshop.getCraft(this.craftName);
+		if (craft.value > 0) {
+			if (craft.isLimitedAmt) {
+				dojo.addClass(this.domNode, "bldlackResConvert");
+			} else {
+				dojo.addClass(this.domNode, "bldEnabled");
+			}
 		}
-
-		this.enabled = enabled;
 	},
 
 	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
