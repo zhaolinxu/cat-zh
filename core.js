@@ -1544,8 +1544,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		// Beginning with exceptions
 		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
 			this.setEnabled(false);
-		} else if (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on) {
-			this.setEnabled(false);
 		} else if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());
 		} else if (meta.on && meta.noStackable){

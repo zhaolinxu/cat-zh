@@ -184,6 +184,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
+        limitBuild: 0,
         breakIronWill: true,
         effects: {
 			"maxKittens": 1
@@ -192,7 +193,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			voidSpace: ["cryochambers"]
 		},
         calculateEffects: function(self, game){
-			self.on = Math.min(self.val, game.bld.get("chronosphere").on);
+			self.limitBuild = game.bld.get("chronosphere").on;
+			self.on = Math.min(self.val, self.limitBuild);
         },
         unlocked: false,
         flavor: "Board for the past"
