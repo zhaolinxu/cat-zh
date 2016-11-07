@@ -822,8 +822,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
-				kitten.skills[kitten.job] += skillRatio;
-				kitten.exp += skillRatio;
+				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
+					kitten.skills[kitten.job] += skillRatio;
+					kitten.exp += skillRatio;
+				}
 
 				for (var skill in kitten.skills){
 					if (skill != kitten.job && kitten.skills[skill] > 0 ){
