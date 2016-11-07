@@ -384,6 +384,32 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		return prices_cloned;
 	},
 
+	getPricesMultiple: function(amt) {
+		var pricesTotal = 0;
+
+		var prices_cloned = $.extend(true, [], this.prices);
+
+		for (var k = 0; k < amt; k++) {
+			for (var i = 0; i < prices_cloned.length; i++) {
+				var price = prices_cloned[i];
+	            var impedance = this.game.getEffect("timeImpedance");
+				if (price["name"] == "timeCrystal") {
+					var priceLoop = price["val"];
+	                if (this.game.calendar.isDarkFuture()) {
+	                    priceLoop = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+	                }
+	                var heatMax = this.game.getEffect("heatMax");
+	                if ((this.game.time.heat + k * 10) > heatMax) {
+	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax));  //1% per excessive heat unit
+	                }
+					pricesTotal += priceLoop;
+				}
+			}
+		}
+
+		return pricesTotal;
+	},
+
     doShatter: function(amt){
         amt = amt || 1;
 
@@ -440,10 +466,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             function(){
                 this.animate();
 
-                var prices = this.getPrices();
-                var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+                var prices = this.getPricesMultiple(5);
+                var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
                 if (hasRes){
-					this.game.resPool.addResEvent("timeCrystal", -prices[0].val * 5);
+					this.game.resPool.addResEvent("timeCrystal", -prices);
                 }
 
                 this.doShatter(5);
@@ -455,8 +481,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
     update: function(){
         this.inherited(arguments);
 
-        var prices = this.getPrices();
-        var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+        var prices = this.getPricesMultiple(5);
+        var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
 
         if (this.x5) {
             dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
