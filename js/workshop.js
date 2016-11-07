@@ -2065,7 +2065,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
 			var resMapProduction = this.game.village.getResProduction();
-			var experience = resMapProduction["ES" + resName] ? resMapProduction["ES" + resName] : 0;
+			var experience = resMapProduction["ES" + resName] ? this.game.getHyperbolicEffect(resMapProduction["ES" + resName], 2) : 0;
 
 			// (One * bonus / handicap) crafts per engineer per minute
 			var effectPerTick = ( 1 / (60 * this.game.rate)) * (craft.value * experience * tierCraftRatio * (1 + craftBonus)) / craft.progressHandicap;
