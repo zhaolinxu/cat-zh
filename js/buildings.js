@@ -895,7 +895,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["manuscriptPerTickProd"] = amt;
 		},
 		jammed: false,
-		isAutomationEnabled: true,
 		togglableOnOff: true,
 		action: function(self, game){
 			if (self.on < 1){
@@ -903,6 +902,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
+				if (self.isAutomationEnabled == null) {
+					self.isAutomationEnabled = true;
+				}
+
 				var baseAutomationRate = 0.02;
 
 				var wood = game.resPool.get("wood");

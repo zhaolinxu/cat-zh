@@ -1436,11 +1436,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (this.toggleAutomation){
 				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
 				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
-
-				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
-				//this.isAutomationResearched = true;
-				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
-				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
 		}
