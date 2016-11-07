@@ -2286,23 +2286,25 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}
 	},
 
-	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
+	assignCraftJob: function(value) {
 		var craft = this.game.workshop.getCraft(this.craftName);
-		if (this.game.village.getFreeEngineer() > 0) {
-			if (this.game.village.getFreeEngineer() > value) {
-				craft.value += value;
-			} else {
-				craft.value += this.game.village.getFreeEngineer();
-			}
+
+		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
+
+		craft.value += valueCorrected;
+		for (var i = 0; i < valueCorrected; i++) {
+			this.game.village.sim.assignCraftJob(craft);
 		}
 	},
 
-	unassignCraftJobs: function(value) { //TODO, aunssign one kitten, not just a value to manage with exp
+	unassignCraftJob: function(value) {
 		var craft = this.game.workshop.getCraft(this.craftName);
-		if (craft.value > value) {
-			craft.value -= value;
-		} else {
-			craft.value = 0;
+
+		var valueCorrected = craft.value > value ? value : craft.value;
+
+		craft.value -= valueCorrected;
+		for (var i = 0; i < valueCorrected; i++) {
+			this.game.village.sim.unassignCraftJob(craft);
 		}
 	},
 
@@ -2314,19 +2316,19 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 					id: "unassign",
 					title: "[&ndash;]",
 					handler: function(){
-						this.unassignCraftJobs(1);
+						this.unassignCraftJob(1);
 					}
 			   },{
 					id: "unassign5",
 					title: "[-5]",
 					handler: function(){
-						this.unassignCraftJobs(5);
+						this.unassignCraftJob(5);
 					}
 			   },{
 					id: "unassign25",
 					title: "[-25]",
 					handler: function(){
-						this.unassignCraftJobs(25);
+						this.unassignCraftJob(25);
 					}
 			   }]
 			);
@@ -2336,19 +2338,19 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 					id: "assign",
 					title: "[+]",
 					handler: function(){
-						this.assignCraftJobs(1);
+						this.assignCraftJob(1);
 					}
 			   },{
 					id: "assign5",
 					title: "[+5]",
 					handler: function(){
-						this.assignCraftJobs(5);
+						this.assignCraftJob(5);
 					}
 			   },{
 					id: "assign25",
 					title: "[+25]",
 					handler: function(){
-						this.assignCraftJobs(25);
+						this.assignCraftJob(25);
 					}
 			   }]
 			);
