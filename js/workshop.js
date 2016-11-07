@@ -2054,13 +2054,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	getEffectEngineer: function(resName) {
+	getEffectEngineer: function(resName, afterCraft) {
 		var craft = this.getCraft(resName);
 		if (craft == null) {
 			return 0;
 		} else {
+			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			if (tierCraftRatio == 0) {
+				tierCraftRatio = 1;
+			}
 			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
-			return ((1 / (60 * this.game.rate)) * (1+craftBonus) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
+
+			// (One * bonus / handicap) crafts per engineer per minute
+			var effectPerTick = ( 1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio * (1 + craftBonus)) / craft.progressHandicap;
+
+			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
 	},
 
@@ -2135,11 +2143,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 					craft.progress = craft.progress - units;
 				}
 			} else {
-				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-				if (tierCraftRatio == 0) {
-					tierCraftRatio = 1;
-				}
-				var currentProgress = (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
+				var currentProgress = this.getEffectEngineer(craft.name, false);
 
 				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
 					craft.isLimitedAmt = false;

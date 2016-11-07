@@ -2295,7 +2295,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "(:3) Engineer",
 			type: "fixed",
-			value: this.workshop.getEffectEngineer(res.name)
+			value: this.workshop.getEffectEngineer(res.name, true)
 		});
 
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
