@@ -1495,7 +1495,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 			}
 			if (!meta.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.build(meta, 1000);
+					var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
+                    this.build(meta, maxBld);
                 }
             } else {
                 this.build(meta, 1);
@@ -1546,9 +1547,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	updateEnabled: function(){
 		var meta = this.getMetadata();
 		// Beginning with exceptions
-		if (meta.name == "usedCryochambers"
-		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)
-		|| (meta.name == "ressourceRetrieval" && this.game.time.getCFU("ressourceRetrieval").val >= 100)) {
+		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
+			this.setEnabled(false);
+		} else if (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on) {
 			this.setEnabled(false);
 		} else if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());
