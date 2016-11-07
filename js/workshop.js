@@ -2064,9 +2064,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				tierCraftRatio = 1;
 			}
 			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
+			var resMapProduction = this.game.village.getResProduction();
+			var experience = resMapProduction["ES" + resName] ? resMapProduction["ES" + resName] : 0;
 
 			// (One * bonus / handicap) crafts per engineer per minute
-			var effectPerTick = ( 1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio * (1 + craftBonus)) / craft.progressHandicap;
+			var effectPerTick = ( 1 / (60 * this.game.rate)) * (craft.value * experience * tierCraftRatio * (1 + craftBonus)) / craft.progressHandicap;
 
 			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}

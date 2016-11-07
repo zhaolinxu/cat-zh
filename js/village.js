@@ -414,6 +414,26 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							res[jobResMod] += diff;
 						}
 					}
+
+					if (job.name == "engineer" && typeof(kitten.engineerSpeciality) != "undefined" && kitten.engineerSpeciality != null) {
+						var jobResMod = "ES" + kitten.engineerSpeciality;
+
+						var diff = (mod-1) * productionRatio;
+
+						if (diff > 0 ){
+							if (kitten.isLeader){
+								diff *= this.getLeaderBonus(kitten.rank);
+							}
+							diff *= this.happiness;	//alter positive resource production from jobs
+						}
+
+						if (!res[jobResMod]){
+							res[jobResMod] = diff;
+						}else{
+							res[jobResMod] += diff;
+						}
+					}
+
 				}
 			}
 		}
