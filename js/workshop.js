@@ -1776,7 +1776,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "alloy", val: 2500 },
 			{name: "unobtainium", val: 1000}
 		],
-		progressHandicap: 100,
+		progressHandicap: 300,
 		tier: 5
 	},{
 		name: "scaffold",
@@ -2067,8 +2067,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				tierCraftRatio = 1;
 			}
 
-			// (One * bonus / handicap) crafts per engineer per minute
-			var effectPerTick = ( 1 / (60 * this.game.rate)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
+			// (One * bonus / handicap) crafts per engineer per 10 minutes
+			var effectPerTick = ( 1 / (600 * this.game.rate)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
 
 			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
