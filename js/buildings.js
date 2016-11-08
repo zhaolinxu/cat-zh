@@ -479,10 +479,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"scienceRatio": 0.35,
 			"refineRatio": 0.1,
-			"catnipPerTickCon": 0,
-			"oilPerTickProd": 0,
 			"scienceMax": 1500,
-			"energyConsumption": 0
+			"energyConsumption": 0,
+			"catnipPerTickCon": 0,
+			"oilPerTickProd": 0
 		},
 		calculateEffects: function(self, game){
 			var energyCons = 0;
