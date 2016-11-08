@@ -760,11 +760,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		this.loadMetadata(this.programs, saveData.space.programs);
 		this.loadMetadata(this.planets, saveData.space.planets);
 
-		//TODO: move to some common method? Should be in migrateSave since planet.unlocked is saved.
+		//TODO: move to some common method?
 		for (var i = this.programs.length - 1; i >= 0; i--) {
 			var program = this.programs[i];
-			if (program.on && program.unlocks && program.unlocks.planet){
-				this.getPlanet(program.unlocks.planet).unlocked = true;
+			if (program.val && program.unlocks){
+				this.game.unlock(program.unlocks);
 			}
 		}
 
