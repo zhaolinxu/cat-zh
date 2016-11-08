@@ -2073,8 +2073,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
     undo: function(metaId, val){
-		var craftRatio = this.game.getResCraftRatio({name:metaId});
-		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded");
+		var res = this.game.resPool.get(metaId);
+		var craftRatio = this.game.getResCraftRatio(res);
+		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + (res.title || res.name) + " refunded");
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
     },
 
