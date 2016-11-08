@@ -418,7 +418,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					if (job.name == "engineer" && typeof(kitten.engineerSpeciality) != "undefined" && kitten.engineerSpeciality != null) {
 						var jobResMod = "ES" + kitten.engineerSpeciality;
 
-						var diff = 1 + (mod-1) * productionRatio;
+						var automationBonus = this.game.getEffect(kitten.engineerSpeciality + "AutomationBonus") || 0;
+						var diff = 1 + automationBonus;
+
+						diff += diff * (mod-1) * productionRatio;
 
 						if (diff > 0 ){
 							if (kitten.isLeader){
