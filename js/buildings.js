@@ -1900,6 +1900,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
+							this.game.upgrade(bldExt.meta.upgrades);
 							this.game.render();
 						}
 					})
@@ -1920,6 +1921,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
+							this.game.upgrade(bldExt.meta.upgrades);
 							this.game.render();
 						}
 					})
