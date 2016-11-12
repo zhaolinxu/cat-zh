@@ -172,6 +172,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycle: 0,
 	cycleYear: 0,
 	yearsPerCycle: 5,
+	displayElementTooltip: null,
 	calendarSignSpanTooltip: null,
 
 	daysPerSeason: 100,
@@ -249,25 +250,25 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	render: function() {
 		var calendarSignSpan = dojo.byId("calendarSign");
-		var cycle = this.cycles[this.cycle];
 		var game = this.game;
 
-		if (this.game.calendar.displayElement){
+		if (this.displayElement && !this.displayElementTooltip){
 			//TODO: include shatter penalties there
-			UIUtils.attachTooltip(game, this.game.calendar.displayElement, 0, 320, dojo.partial(function(year) {
-				if (year > 100000){
-					return "Year " + year.toLocaleString();
+			this.displayElementTooltip = UIUtils.attachTooltip(game, this.displayElement, 0, 320, dojo.hitch(this, function() {
+				if (this.year > 100000){
+					return "Year " + this.year.toLocaleString();
 				}
 				return "";
-			}, this.game.calendar.year));
+			}));
 		}
 
-		if (cycle){
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.partial(function(cycle) {
+		if (this.cycles[this.cycle] && !this.calendarSignSpanTooltip){
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(this, function() {
+				var cycle = this.cycles[this.cycle];
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (Year " + game.calendar.cycleYear+")",
+					innerHTML: cycle.title + " (Year " + this.cycleYear+")",
 					style: { textAlign: "center", clear: "both"}
 				}, tooltip );
 
@@ -316,7 +317,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					}
 				}
 
-				if (game.prestige.getPerk("numeromancy").researched && game.calendar.festivalDays) {
+				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
 						innerHTML: "Cycle Festival Effects:",
@@ -359,7 +360,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 				return tooltip.outerHTML;
 
-			}, cycle));
+			}));
 		}
 	},
 

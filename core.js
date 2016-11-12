@@ -1887,5 +1887,7 @@ UIUtils = {
 			game.tooltipUpdateFunc = null;
 			dojo.setStyle(tooltip, "display", "none");
 		});
+
+		return htmlProvider;
 	}
 };
