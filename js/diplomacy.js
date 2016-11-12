@@ -221,9 +221,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	load: function(saveData){
-		if (saveData.diplomacy) {
-			this.game.bld.loadMetadata(this.races, saveData.diplomacy.races || []);
-		}
+		if (saveData.diplomacy)
+		this.game.bld.loadMetadata(this.races, saveData.diplomacy.races || []);
 	},
 
 	hasUnlockedRaces: function(){
@@ -372,6 +371,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 					if (ncorns.value > 0){
 						elders.energy++;
 						ncorns.value--;
+
+						this.game.ui.render();
 						this.game.msg("Elder gods are pleased", "notice");
 					} else {
 						this.game.msg("Elder gods are displeased", "notice");
@@ -792,6 +793,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 
 						var tratio = self.game.diplomacy.getTradeRatio();
+						if (race.name == "leviathans") {
+							tratio *= (1 + 0.02 * race.energy);
+						}
 						var val = s.value + s.value * tratio;
 
 						min = val * sratio - val * sratio * s.delta/2;
