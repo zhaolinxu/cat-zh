@@ -2264,12 +2264,22 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		var desc = craft.description;
 
 		if (this.game.science.get("mechanization").researched){
-			desc += "<br><br>" + "Class: " + craft.tier;
-			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-			if (tierBonus != 0) {
-				desc += " (engineer's know-how: " + tierBonus + ")";
+			desc += "<br><br>Engineer's optimal rank: " + craft.tier;
+
+			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 1;
+			if (tierBonus != 1) {
+				desc += "<br>Engineers' know-how: " + this.game.getDisplayValueExt(((tierBonus-1)* 100).toFixed(), true) + "%";
 			}
-			desc += "<br>Craft difficulty: " + craft.progressHandicap;
+
+			if (craft.progressHandicap != 1) {
+				var difficulty = this.game.getDisplayValueExt(((-(1 - (1 / craft.progressHandicap)))* 100).toFixed(2), true);
+				desc += "<br>Craft difficulty: " + difficulty + "%";
+			}
+
+			if (craft.value != 0) {
+				var countdown = (1 / (this.game.workshop.getEffectEngineer(craft.name, false) * 5)).toFixed(0);
+				desc += "<br>=> One craft every: " + countdown + "sec";
+			}
 		}
 		return desc;
 	},
@@ -2294,10 +2304,17 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
 
-		craft.value += valueCorrected;
+		var valueAdded = 0;
 		for (var i = 0; i < valueCorrected; i++) {
-			this.game.village.sim.assignCraftJob(craft);
+			var success = this.game.village.sim.assignCraftJob(craft);
+
+			if (success) {
+				valueAdded += 1;
+			} else {
+				break;
+			}
 		}
+		craft.value += valueAdded;
 	},
 
 	unassignCraftJob: function(value) {
