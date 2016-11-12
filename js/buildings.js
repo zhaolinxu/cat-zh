@@ -479,10 +479,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"scienceRatio": 0.35,
 			"refineRatio": 0.1,
-			"catnipPerTickCon": 0,
-			"oilPerTickProd": 0,
 			"scienceMax": 1500,
-			"energyConsumption": 0
+			"energyConsumption": 0,
+			"catnipPerTickCon": 0,
+			"oilPerTickProd": 0
 		},
 		calculateEffects: function(self, game){
 			var energyCons = 0;
@@ -895,7 +895,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["manuscriptPerTickProd"] = amt;
 		},
 		jammed: false,
-		isAutomationEnabled: true,
 		togglableOnOff: true,
 		action: function(self, game){
 			if (self.on < 1){
@@ -903,6 +902,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
+				if (self.isAutomationEnabled == null) {
+					self.isAutomationEnabled = true;
+				}
+
 				var baseAutomationRate = 0.02;
 
 				var wood = game.resPool.get("wood");
@@ -1716,7 +1719,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	load: function(saveData){
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings: false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
-		this.loadMetadata(this.buildingsData, saveData.buildings || []);
+		this.loadMetadata(this.buildingsData, saveData.buildings);
 	},
 
 	resetState: function(){
@@ -1897,6 +1900,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
+							this.game.upgrade(bldExt.meta.upgrades);
 							this.game.render();
 						}
 					})
@@ -1917,6 +1921,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 							if (bldExt.meta.calculateEffects){
 								bldExt.meta.calculateEffects(bldExt.meta, this.game);
 							}
+							this.game.upgrade(bldExt.meta.upgrades);
 							this.game.render();
 						}
 					})

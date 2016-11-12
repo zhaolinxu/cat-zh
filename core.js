@@ -1124,7 +1124,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				//display resMax values with global ratios like Refrigeration and Paragon
 				if (effectName.substr(-3) === "Max") {
 					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
-					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					if (res != false) { // If res is a resource and not just a variable
+						effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+					}
 				}
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
@@ -1434,11 +1436,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			if (this.toggleAutomation){
 				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
 				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
-
-				var isAutomationResearched = this.game.workshop.get("factoryAutomation").researched;
-				//this.isAutomationResearched = true;
-				dojo.setStyle(this.toggleAutomation.link, "display", isAutomationResearched ? "" : "none");
-				dojo.setStyle(this.toggleAutomation.linkBreak, "display", isAutomationResearched ? "" : "none");
 			}
 
 		}
@@ -1493,7 +1490,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 			}
 			if (!meta.noStackable && event.shiftKey){
                 if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-                    this.build(meta, 1000);
+					var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
+                    this.build(meta, maxBld);
                 }
             } else {
                 this.build(meta, 1);
@@ -1544,9 +1542,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 	updateEnabled: function(){
 		var meta = this.getMetadata();
 		// Beginning with exceptions
-		if (meta.name == "usedCryochambers"
-		|| (meta.name == "cryochambers" && this.game.time.getVSU("cryochambers").val >= this.game.bld.get("chronosphere").on)
-		|| (meta.name == "ressourceRetrieval" && this.game.time.getCFU("ressourceRetrieval").val >= 100)) {
+		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
 			this.setEnabled(false);
 		} else if (!meta.on || meta.on && !meta.noStackable) {
 			this.setEnabled(this.hasResources());

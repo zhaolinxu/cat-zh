@@ -405,6 +405,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return effects;
 	},
 
+	isDarkFuture: function() {
+		return (this.year - 40000 - this.game.time.flux - this.game.getEffect("timeImpedance") >= 0);
+	},
+
 	tick: function(){
 
 		/* The behavior is not correct, maybe due to possible float-point. */
@@ -688,6 +692,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
             ty.val = this.year;
         }
 
+		if (this.isDarkFuture()) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
 
 		if (this.game.bld.get("steamworks").jammed) {
 			this.game.bld.get("steamworks").jammed = false;	//reset jammed status

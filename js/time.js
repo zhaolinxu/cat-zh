@@ -35,8 +35,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.flux = saveData["time"].flux || 0;
         this.heat = saveData["time"].heat || 0;
-		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu || []);
-		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu || []);
+		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
+		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
 		if (saveData.time.usedCryochambers) { //after reset
 			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
@@ -158,7 +158,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeImpedance" : 1000
         },
-        unlocked: true  //TODO: only unlock past 40K?
+        unlocked: false
     },{
         name: "ressourceRetrieval",
         label: "Resource Retrieval",
@@ -167,6 +167,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "timeCrystal", val: 1000 }
         ],
         priceRatio: 1.3,
+        limitBuild: 100,
         effects: {
             "shatterTCGain" : 0.01
         },
@@ -183,6 +184,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             { name : "karma", val: 1 }
         ],
         priceRatio: 1.25,
+        limitBuild: 0,
         breakIronWill: true,
         effects: {
 			"maxKittens": 1
@@ -191,7 +193,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			voidSpace: ["cryochambers"]
 		},
         calculateEffects: function(self, game){
-			self.on = Math.min(self.val, game.bld.get("chronosphere").on);
+			self.limitBuild = game.bld.get("chronosphere").on;
+			self.on = Math.min(self.val, self.limitBuild);
         },
         unlocked: false,
         flavor: "Board for the past"
@@ -203,6 +206,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         ],
         priceRatio: 1.25,
+        limitBuild: 0,
         effects: {
 
         },
@@ -367,8 +371,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
-                if (this.game.calendar.year  > (40000 + impedance)) {
-                    price["val"] = 1 + (this.game.calendar.year - 40000 - impedance) * 0.01;
+                if (this.game.calendar.isDarkFuture()) {
+                    price["val"] = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
                 }
                 var heatMax = this.game.getEffect("heatMax");
                 if (this.game.time.heat > heatMax) {
@@ -378,6 +382,32 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		}
 
 		return prices_cloned;
+	},
+
+	getPricesMultiple: function(amt) {
+		var pricesTotal = 0;
+
+		var prices_cloned = $.extend(true, [], this.prices);
+
+		for (var k = 0; k < amt; k++) {
+			for (var i = 0; i < prices_cloned.length; i++) {
+				var price = prices_cloned[i];
+	            var impedance = this.game.getEffect("timeImpedance");
+				if (price["name"] == "timeCrystal") {
+					var priceLoop = price["val"];
+	                if (this.game.calendar.isDarkFuture()) {
+	                    priceLoop = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+	                }
+	                var heatMax = this.game.getEffect("heatMax");
+	                if ((this.game.time.heat + k * 10) > heatMax) {
+	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax));  //1% per excessive heat unit
+	                }
+					pricesTotal += priceLoop;
+				}
+			}
+		}
+
+		return pricesTotal;
 	},
 
     doShatter: function(amt){
@@ -436,10 +466,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             function(){
                 this.animate();
 
-                var prices = this.getPrices();
-                var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+                var prices = this.getPricesMultiple(5);
+                var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
                 if (hasRes){
-					this.game.resPool.addResEvent("timeCrystal", -prices[0].val * 5);
+					this.game.resPool.addResEvent("timeCrystal", -prices);
                 }
 
                 this.doShatter(5);
@@ -451,8 +481,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
     update: function(){
         this.inherited(arguments);
 
-        var prices = this.getPrices();
-        var hasRes = (prices[0].val * 5 <= this.game.resPool.get("timeCrystal").value);
+        var prices = this.getPricesMultiple(5);
+        var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
 
         if (this.x5) {
             dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");

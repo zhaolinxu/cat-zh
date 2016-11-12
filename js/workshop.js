@@ -1776,7 +1776,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "alloy", val: 2500 },
 			{name: "unobtainium", val: 1000}
 		],
-		progressHandicap: 100,
+		progressHandicap: 300,
 		tier: 5
 	},{
 		name: "scaffold",
@@ -2054,19 +2054,30 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	getEffectEngineer: function(resName) {
+	getEffectEngineer: function(resName, afterCraft) {
 		var craft = this.getCraft(resName);
 		if (craft == null) {
 			return 0;
 		} else {
-			var craftBonus = this.game.getEffect(resName + "AutomationBonus") || 0;
-			return ((1 / (60 * this.game.rate)) * (1+craftBonus) * craft.value / craft.progressHandicap) * this.game.getResCraftRatio({name:resName});
+			var resMapProduction = this.game.village.getResProduction();
+			var kittenResProduction = resMapProduction["ES" + resName] ? resMapProduction["ES" + resName] : 0;
+
+			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+			if (tierCraftRatio == 0) {
+				tierCraftRatio = 1;
+			}
+
+			// (One * bonus / handicap) crafts per engineer per 10 minutes
+			var effectPerTick = ( 1 / (600 * this.game.rate)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
+
+			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
 	},
 
     undo: function(metaId, val){
-		var craftRatio = this.game.getResCraftRatio({name:metaId});
-		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + metaId + " refunded");
+		var res = this.game.resPool.get(metaId);
+		var craftRatio = this.game.getResCraftRatio(res);
+		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + (res.title || res.name) + " refunded");
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
     },
 
@@ -2135,11 +2146,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 					craft.progress = craft.progress - units;
 				}
 			} else {
-				var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-				if (tierCraftRatio == 0) {
-					tierCraftRatio = 1;
-				}
-				var currentProgress = (1 / (60 * this.game.rate)) * (craft.value * tierCraftRatio) / craft.progressHandicap; // (One * bonus / handicap) crafts per engineer per minute
+				var currentProgress = this.getEffectEngineer(craft.name, false);
 
 				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
 					craft.isLimitedAmt = false;
@@ -2282,23 +2289,25 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}
 	},
 
-	assignCraftJobs: function(value) { //TODO, assign one kitten, not just a value to manage with exp
+	assignCraftJob: function(value) {
 		var craft = this.game.workshop.getCraft(this.craftName);
-		if (this.game.village.getFreeEngineer() > 0) {
-			if (this.game.village.getFreeEngineer() > value) {
-				craft.value += value;
-			} else {
-				craft.value += this.game.village.getFreeEngineer();
-			}
+
+		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
+
+		craft.value += valueCorrected;
+		for (var i = 0; i < valueCorrected; i++) {
+			this.game.village.sim.assignCraftJob(craft);
 		}
 	},
 
-	unassignCraftJobs: function(value) { //TODO, aunssign one kitten, not just a value to manage with exp
+	unassignCraftJob: function(value) {
 		var craft = this.game.workshop.getCraft(this.craftName);
-		if (craft.value > value) {
-			craft.value -= value;
-		} else {
-			craft.value = 0;
+
+		var valueCorrected = craft.value > value ? value : craft.value;
+
+		craft.value -= valueCorrected;
+		for (var i = 0; i < valueCorrected; i++) {
+			this.game.village.sim.unassignCraftJob(craft);
 		}
 	},
 
@@ -2310,19 +2319,19 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 					id: "unassign",
 					title: "[&ndash;]",
 					handler: function(){
-						this.unassignCraftJobs(1);
+						this.unassignCraftJob(1);
 					}
 			   },{
 					id: "unassign5",
 					title: "[-5]",
 					handler: function(){
-						this.unassignCraftJobs(5);
+						this.unassignCraftJob(5);
 					}
 			   },{
 					id: "unassign25",
 					title: "[-25]",
 					handler: function(){
-						this.unassignCraftJobs(25);
+						this.unassignCraftJob(25);
 					}
 			   }]
 			);
@@ -2332,19 +2341,19 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 					id: "assign",
 					title: "[+]",
 					handler: function(){
-						this.assignCraftJobs(1);
+						this.assignCraftJob(1);
 					}
 			   },{
 					id: "assign5",
 					title: "[+5]",
 					handler: function(){
-						this.assignCraftJobs(5);
+						this.assignCraftJob(5);
 					}
 			   },{
 					id: "assign25",
 					title: "[+25]",
 					handler: function(){
-						this.assignCraftJobs(25);
+						this.assignCraftJob(25);
 					}
 			   }]
 			);

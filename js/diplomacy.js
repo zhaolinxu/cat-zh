@@ -221,8 +221,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	load: function(saveData){
-		if (saveData.diplomacy)
-		this.game.bld.loadMetadata(this.races, saveData.diplomacy.races || []);
+		if (saveData.diplomacy) {
+			this.game.bld.loadMetadata(this.races, saveData.diplomacy.races);
+		}
 	},
 
 	hasUnlockedRaces: function(){

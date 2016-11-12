@@ -414,6 +414,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							res[jobResMod] += diff;
 						}
 					}
+
+					if (job.name == "engineer" && typeof(kitten.engineerSpeciality) != "undefined" && kitten.engineerSpeciality != null) {
+						var jobResMod = "ES" + kitten.engineerSpeciality;
+
+						var automationBonus = this.game.getEffect(kitten.engineerSpeciality + "AutomationBonus") || 0;
+						var diff = 1 + automationBonus;
+
+						diff += diff * (mod-1) * productionRatio;
+
+						if (diff > 0 ){
+							if (kitten.isLeader){
+								diff *= this.getLeaderBonus(kitten.rank);
+							}
+							diff *= this.happiness;	//alter positive resource production from jobs
+						}
+
+						if (!res[jobResMod]){
+							res[jobResMod] = diff;
+						}else{
+							res[jobResMod] += diff;
+						}
+					}
+
 				}
 			}
 		}
@@ -489,7 +512,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 
 			this.maxKittens  = saveData.village.maxKittens;
-			this.loadMetadata(this.jobs, saveData.village.jobs || []);
+			this.loadMetadata(this.jobs, saveData.village.jobs);
 		}
 
 		this.updateResourceProduction();
@@ -746,6 +769,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.exp = 		data.exp || 0;
 		this.trait = 	this.getTrait(data.trait.name); //load trait, getting current trait.title
 		this.job = 		data.job;
+		this.engineerSpeciality = data.engineerSpeciality || null;
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = data.isSenator || false;
@@ -821,8 +845,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
-				kitten.skills[kitten.job] += skillRatio;
-				kitten.exp += skillRatio;
+				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
+					kitten.skills[kitten.job] += skillRatio;
+					kitten.exp += skillRatio;
+				}
 
 				for (var skill in kitten.skills){
 					if (skill != kitten.job && kitten.skills[skill] > 0 ){
@@ -869,7 +895,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			//fire dead kitten to keep craft worker counts in synch
 			if (kitten.job) {
 				var job = village.getJob(kitten.job);
-				this.unassignCraftJobs(job);
+				this.unassignCraftJobIfEngineer(job);
 				job.value -= 1;
 			}
 
@@ -892,17 +918,6 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 	getKittens: function(){
 		return this.kittens.length;
-	},
-
-	unassignCraftJobs: function(job) {
-		if (job.name == "engineer" && this.game.village.getFreeEngineer() <= 0) {
-			for (var i = 0; i < this.game.workshop.crafts.length; i++) {
-				if (this.game.workshop.crafts[i].value > 0) {
-					this.game.workshop.crafts[i].value -= 1;
-					return true;
-				}
-			}
-		}
 	},
 
 	rand: function(ratio){
@@ -981,7 +996,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			var kitten = this.kittens[jobKittens[0].id];
 
 			var job = this.game.village.getJob(kitten.job);
-			this.unassignCraftJobs(job);
+			this.unassignCraftJobIfEngineer(job, kitten);
 			job.value--;
             kitten.job = null;
 
@@ -989,6 +1004,62 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         }else{
             console.error("failed to remove job", job);
         }
+	},
+
+	assignCraftJob: function(craft) {
+		var freeKittens = [];
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
+			var kitten = this.kittens[i];
+			if (kitten.job == "engineer" && !kitten.engineerSpeciality){
+				if (!this.game.workshop.get("register").researched || this.game.village.leader == undefined) {
+					freeKittens.push({"id": i});
+					continue;
+				}
+				var val = kitten.skills["engineer"] ? kitten.skills["engineer"] : 0;
+				freeKittens.push({"id": i, "val": val});
+			}
+		}
+		freeKittens.sort(function(a, b){return b.val-a.val;});
+
+		if (freeKittens.length){
+			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
+		}else{
+			console.error("failed to assign engineer speciality", craft);
+		}
+	},
+
+	unassignCraftJob: function(craft) {
+		var jobKittens = [];
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
+			var kitten = this.kittens[i];
+            if (kitten.job == "engineer" && kitten.engineerSpeciality == craft.name){
+				if (!this.game.workshop.get("register").researched || this.game.village.leader == undefined) {
+					jobKittens.push({"id": i});
+					continue;
+				}
+                var val = kitten.skills["engineer"] ? kitten.skills["engineer"] : 0;
+                jobKittens.push({"id": i, "val": val});
+            }
+		}
+        jobKittens.sort(function(a, b){return a.val-b.val;});
+
+        if (jobKittens.length){
+			this.kittens[jobKittens[0].id].engineerSpeciality = null;
+        }else{
+            console.error("failed to remove engineer speciality", craft);
+        }
+	},
+
+	unassignCraftJobIfEngineer: function(job, kitten) {
+		if (job.name == "engineer" && this.game.village.getFreeEngineer() <= 0) {
+			for (var i = 0; i < this.game.workshop.crafts.length; i++) {
+				if (this.game.workshop.crafts[i].value > 0) {
+					this.game.workshop.crafts[i].value -= 1;
+					kitten.engineerSpeciality = null;
+					break;
+				}
+			}
+		}
 	},
 
 	clearJobs: function(){
@@ -1423,7 +1494,7 @@ dojo.declare("com.nuclearunicorn.game.ui.village.Census", null, {
 
 				if(leader.job){
 					var job = game.village.getJob(leader.job);
-					game.village.sim.unassignCraftJobs(job);
+					game.village.sim.unassignCraftJobIfEngineer(job);
 					job.value--;
 
 					leader.job = null;

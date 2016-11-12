@@ -1996,10 +1996,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
+			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
 			if (this.challenges.currentChallenge == "anarchy") {
-				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
+				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
-				resConsumption += resConsumption * (this.village.happiness-1) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
 
@@ -2294,7 +2295,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: "(:3) Engineer",
 			type: "fixed",
-			value: this.workshop.getEffectEngineer(res.name)
+			value: this.workshop.getEffectEngineer(res.name, true)
 		});
 
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
@@ -2302,10 +2303,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resConsumption = resMapConsumption[res.name] || 0;
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
+			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
 			if (this.challenges.currentChallenge == "anarchy") {
-				resConsumption += resConsumption * this.village.happiness * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
+				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
-				resConsumption += resConsumption * (this.village.happiness-1) * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
+				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
 
@@ -3046,7 +3048,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 		if (!lsData){
-			lsData = {game: {}};
+			lsData = {
+				game: {},
+				stats: {},
+				statsCurrent: {},
+				achievements: {}
+			};
 		}
 
 		var saveRatio = this.bld.get("chronosphere").val > 0 ? this.getEffect("resStasisRatio") : 0; // resStasisRatio excepted when challenge
@@ -3128,26 +3135,44 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
-			achievements: lsData.achievements,
-			stats: lsData.stats,
+			resources: newResources,
+			buildings: [],
+			challenges: {
+				challenges: this.challenges.challenges,
+				currentChallenge: this.challenges.currentChallenge
+			},
+			diplomacy: {
+				races: []
+			},
+			prestige: {
+				perks: this.prestige.perks
+			},
 			religion: {
 				faithRatio: this.religion.faithRatio,
 				tcratio: this.religion.tcratio,
+				zu: [],
+				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
-			prestige: { perks: this.prestige.perks },	//never resets
-			challenges: {
-				challenges: this.challenges.challenges, //never resets
-				currentChallenge: this.challenges.currentChallenge
+			science: {
+				hideResearched: false,
+				techs: []
 			},
-			science: { techs: [], hideResearched: false },
-			resources: newResources,
 			time: {
+				cfu: [{
+					name: "temporalImpedance",
+					unlocked: this.time.getCFU("temporalImpedance").unlocked
+				}],
+				vsu: [],
 				usedCryochambers: usedCryochambers_reset
 			},
 			village :{
-				kittens: newKittens
-			}
+				kittens: newKittens,
+				jobs: []
+			},
+			achievements: lsData.achievements,
+			stats: lsData.stats,
+			statsCurrent: lsData.statsCurrent
 		};
 
 		if (anachronomancy.researched){
