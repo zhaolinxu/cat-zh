@@ -372,7 +372,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
             var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
                 if (this.game.calendar.isDarkFuture()) {
-                    price["val"] = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+                    price["val"] = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
                 }
                 var heatMax = this.game.getEffect("heatMax");
                 if (this.game.time.heat > heatMax) {
