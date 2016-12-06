@@ -573,10 +573,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"relicPerDay": 0
 				},
 				calculateEffects: function(self, game){
+
+					var rPerDay = game.getEffect("beaconRelicsPerDay");
+					var rrBoost = (1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val * 0.1);	//10% per BP * BN combo
+
 					self.effects = {
 						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
-						"relicPerDay": game.getEffect("beaconRelicsPerDay")
+						"relicPerDay": rPerDay * rrBoost
 					};
 				}
 			}

@@ -5,38 +5,38 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	game: null,
 
 	seasons: [
-	{
-		name: "spring",
-		title: "Spring",
+		{
+			name: "spring",
+			title: "Spring",
 
-		modifiers:{
-			"catnip" : 1.5
-		}
-	},
-	{
-		name: "summer",
-		title: "Summer",
+			modifiers:{
+				"catnip" : 1.5
+			}
+		},
+		{
+			name: "summer",
+			title: "Summer",
 
-		modifiers:{
-			"catnip" : 1.0
-		}
-	},
-	{
-		name: "autumn",
-		title: "Autumn",
+			modifiers:{
+				"catnip" : 1.0
+			}
+		},
+		{
+			name: "autumn",
+			title: "Autumn",
 
-		modifiers:{
-			"catnip" : 1.0
-		}
-	},
-	{
-		name: "winter",
-		title: "Winter",
+			modifiers:{
+				"catnip" : 1.0
+			}
+		},
+		{
+			name: "winter",
+			title: "Winter",
 
-		modifiers:{
-			"catnip" : 0.25
-		}
-	}],
+			modifiers:{
+				"catnip" : 0.25
+			}
+		}],
 
 	//Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
 	cycles: [
@@ -232,6 +232,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.observeClear();
 
 		var autoChance = (this.game.getEffect("starAutoSuccessChance") * 100);	//in %
+		if (this.game.prestige.getPerk("astromancy").researched){
+			autoChance *= 2;
+		}
+
 		var rand = this.game.rand(100);
 
 		if(
@@ -365,8 +369,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	/* Return the whole number of days elapsed in the season, correcting for
-	   possible floating-point errors.
-	*/
+	 possible floating-point errors.
+	 */
 	integerDay: function () {
 		return Math.floor(this.day + 0.5 * this.dayPerTick);
 	},
@@ -422,17 +426,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if(this.observeRemainingTime > 0){
-		  this.observeRemainingTime--;
-		  if(this.observeRemainingTime == 0){
-			this.observeTimeout();
-		  }
+			this.observeRemainingTime--;
+			if(this.observeRemainingTime == 0){
+				this.observeTimeout();
+			}
 		}
 
 		//this.day += this.dayPerTick;
 
 		var intday = this.integerDay(),
-		    newseason = false,
-		    newyear = false;
+			newseason = false,
+			newyear = false;
 
 		if (Math.abs(this.day - intday) < 0.5 * this.dayPerTick) {
 			this.day = intday; /* minimize floating point error */
@@ -452,8 +456,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 
 			/*The new date must be fully computed before any of the individual onNew functions are called
-			   to ensure the onNew functions have a consistent view of what the current date is.
-			*/
+			 to ensure the onNew functions have a consistent view of what the current date is.
+			 */
 			this.onNewDay();
 			if (newseason) {
 				this.onNewSeason();
@@ -463,8 +467,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 
 			/* The update function must be called after the onNew functions, which may make changes
-			   that need to be visible (e.g. showing events in the document title)
-			*/
+			 that need to be visible (e.g. showing events in the document title)
+			 */
 			this.update();
 		}
 	},
@@ -488,7 +492,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if (this.day < 0){
-		//------------------------- void -------------------------
+			//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
 			this.game.time.flux-=0.0025;
 		}
@@ -502,8 +506,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		chance += (this.game.getEffect("starEventChance") * 10000);
 		chance *= chanceRatio;
 
+		if (this.game.prestige.getPerk("astromancy").researched){
+			chance *= 2;
+		}
+
 		if (this.game.rand(10000) < chance &&
-		this.game.bld.get("library").on > 0){
+			this.game.bld.get("library").on > 0){
 			if (this.observeRemainingTime){
 				this.observeTimeout();
 			}
@@ -598,10 +606,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ?
-                    "Zebra hunters have departed from your village." :
-                    "Zebra hunter has departed from your village."
-                );
-                zebras.value = zTreshold;
+						"Zebra hunters have departed from your village." :
+						"Zebra hunter has departed from your village."
+				);
+				zebras.value = zTreshold;
 				this.game.ui.render();
 			}
 		}
@@ -635,7 +643,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.resPool.addResEvent("ivory", ivory);
 		}
 
-        this.game.diplomacy.onNewDay();
+		this.game.diplomacy.onNewDay();
 	},
 
 	onNewSeason: function(){
@@ -686,12 +694,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	onNewYear: function(updateUI){
 
-        var ty = this.game.stats.getStat("totalYears");
+		var ty = this.game.stats.getStat("totalYears");
 		ty.val++;
 
-        if (ty.val < this.year){
-            ty.val = this.year;
-        }
+		if (ty.val < this.year){
+			ty.val = this.year;
+		}
 
 		if (this.isDarkFuture()) {
 			this.game.unlock({chronoforge: ["temporalImpedance"]});
@@ -708,11 +716,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
 		var markerVal = this.game.religion.getZU("marker").val;
-        if ( pyramidVal > 0 ){
-            if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
-                this.game.diplomacy.unlockElders();
-            }
-        }
+		if ( pyramidVal > 0 ){
+			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
+				this.game.diplomacy.unlockElders();
+			}
+		}
 
 		this.cycleYear++;
 		if (this.cycleYear > this.yearsPerCycle){

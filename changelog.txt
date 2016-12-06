@@ -10,6 +10,7 @@ Fixed lag caused by incorrect calendar tooltip behavior
 Blast Furnace will now generate TC from excessive heat
 Black Nexus will now provide a 10% boost to relic stations
 Engineers will now display instructional tooltip
+Astromancy
 
 v 1.4.0.0 (4 oct 2016)
 changes by freeroot:

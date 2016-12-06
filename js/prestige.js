@@ -111,7 +111,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
-			"perks": ["anachronomancy", "unicornmancy"]
+			"perks": ["astromancy", "anachronomancy", "unicornmancy"]
+		}
+	},{
+		name: "astromancy",
+		label: "Astromancy",
+		description: "Star events chance and observatory effectiveness are doubled",
+		prices: [{ name: "paragon", val: 50 }],
+		unlocked: false,
+		researched: false,
+		unlocks: {
 		}
 	},{
 		name: "unicornmancy",
