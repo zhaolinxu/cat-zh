@@ -234,7 +234,7 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 			return "Production bonus disabled";
 		}
 
-		return "Donations pool.<br><br> Every donation goes to the global pool that affects everyone playing the game.<br> This effect has a diminishing return.<br><br>Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
+		return "Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
 			"<br>Storage bonus: " + this.game.getDisplayValueExt(bonus, true, false) + "%";
 	}
 });
