@@ -23,7 +23,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            heat: this.heat,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
     },
@@ -105,6 +105,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (this.heat < 0){
             this.heat = 0;
         }
+
+        for (var i in this.chronoforgeUpgrades) {
+            var cfu = this.chronoforgeUpgrades[i];
+            if (cfu.action) {
+                cfu.action(cfu, this.game);
+            }
+        }
     },
 
 	chronoforgeUpgrades: [{
@@ -131,6 +138,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "heatMax" : 100,
             "heatPerTick": -0.02
+        },
+        heat: 0,
+        action: function(self, game){
+            self.heat -= game.getEffect("heatPerTick");
+            if (self.heat > 100){
+                self.heat -= 100;
+                game.time.shatter();
+            }
         },
         unlocked: true
     },{
@@ -267,6 +282,52 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     getVSU: function(id){
         return this.getMeta(id, this.voidspaceUpgrades);
+    },
+
+    shatter: function(amt){
+        amt = amt || 1;
+
+        var game = this.game;
+        var cal = game.calendar;
+        cal.day = 0;
+        cal.season = 0;
+
+        for (var i = 0; i < amt; i++) {
+            // Calendar
+            cal.year+= 1;
+            cal.onNewYear(i + 1 == amt);
+            // Space ETA
+            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
+            for (var j in game.space.planets){
+                var planet = game.space.planets[j];
+                if (planet.unlocked && !planet.reached){
+                    planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
+                }
+            }
+            // ShatterTC gain
+            var shatterTCGain = game.getEffect("shatterTCGain");
+            if (shatterTCGain > 0) {
+                for (var j = 0; j < game.resPool.resources.length; j++){
+                    var res = game.resPool.resources[j];
+                    var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
+                    game.resPool.addResEvent(res.name, valueAdd);
+                }
+            }
+        }
+
+        if (amt == 1) {
+            game.msg("Time crystal destroyed, skipped one year");
+        } else {
+            game.msg("Time crystal destroyed, skipped " + amt + " years");
+        }
+
+        game.time.heat += amt*10;
+        game.time.flux += amt;
+
+        game.challenges.getChallenge("1000Years").unlocked = true;
+        if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
+            game.challenges.researchChallenge("1000Years");
+        }
     }
 });
 
@@ -411,49 +472,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 	},
 
     doShatter: function(amt){
-        amt = amt || 1;
-
-        var game = this.game;
-        var cal = game.calendar;
-        cal.day = 0;
-        cal.season = 0;
-
-		for (var i = 0; i < amt; i++) {
-			// Calendar
-            cal.year+= 1;
-            cal.onNewYear(i + 1 == amt);
-            // Space ETA
-            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
-            for (var j in game.space.planets){
-				var planet = game.space.planets[j];
-				if (planet.unlocked && !planet.reached){
-					planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
-				}
-            }
-            // ShatterTC gain
-            var shatterTCGain = game.getEffect("shatterTCGain");
-			if (shatterTCGain > 0) {
-				for (var j = 0; j < game.resPool.resources.length; j++){
-					var res = game.resPool.resources[j];
-					var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
-					game.resPool.addResEvent(res.name, valueAdd);
-				}
-			}
-        }
-
-        if (amt == 1) {
-            game.msg("Time crystal destroyed, skipped one year");
-        } else {
-            game.msg("Time crystal destroyed, skipped " + amt + " years");
-        }
-
-        game.time.heat += amt*10;
-        game.time.flux += amt;
-
-		game.challenges.getChallenge("1000Years").unlocked = true;
-		if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
-			game.challenges.researchChallenge("1000Years");
-		}
+        this.game.time.shatter(amt);
     },
 
     /**
@@ -507,6 +526,14 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
         }
         return this.metaCached;
     },
+
+    getName: function(){
+        var meta = this.getMetadata();
+        if (meta.heat){
+            return this.inherited(arguments) + " [" + meta.heat.toFixed(0) + "%]";
+        }
+        return this.inherited(arguments);
+    }
 });
 
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {

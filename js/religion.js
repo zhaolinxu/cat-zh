@@ -507,7 +507,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "blackNexus",
 		label: "Black Nexus",
-		description: "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.",
+		description: "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.<br>" +
+			"This effect also boosts the effectiveness of Relic Stations",
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
@@ -981,7 +982,6 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 	},
 
 	refine: function(){
-
 		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
 		this.game.resPool.addResEvent("relic", relicsCount);
 		this.game.msg(relicsCount + " relics crafted");

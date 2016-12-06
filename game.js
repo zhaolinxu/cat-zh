@@ -506,7 +506,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "hunterRatio" : {
-                title: "Hunts know-how",
+                title: "Hunting effectivness",
                 type: "ratio"
             },
 
@@ -815,7 +815,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: "Space Beacon - Starchart production",
                 type: "ratio"
             }
-
 		}
 	}
 });

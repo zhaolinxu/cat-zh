@@ -2268,7 +2268,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 1;
 			if (tierBonus != 1) {
-				desc += "<br>Engineers' know-how: " + this.game.getDisplayValueExt(((tierBonus-1)* 100).toFixed(), true) + "%";
+				desc += "<br>Engineers expertise: " + this.game.getDisplayValueExt(((tierBonus-1)* 100).toFixed(), true) + "%";
 			}
 
 			if (craft.progressHandicap != 1) {
@@ -2448,10 +2448,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		//buttons go there
 		var td = dojo.create("td", {}, table);
-
-		var tdTop = dojo.create("td", { colspan: 2 }, td);
+		var tdTop = dojo.create("td", { colspan: 2, style: {cursor: "pointer"} }, td);
 
 		this.tdTop = tdTop;
+		UIUtils.attachTooltip(this.game, this.tdTop, 5, 0, function(){
+			return "You will gain one engineer slot per factory.<br>Every engineer can be assigned to the crafting job which they will perform automatically.";
+		});
 
 		var self = this;
 		var crafts = this.game.workshop.crafts;
