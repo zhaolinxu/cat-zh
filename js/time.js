@@ -143,6 +143,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         on: 0,
         togglableOnOff: true,
         action: function(self, game){
+            if (!self.on){
+                return;
+            }
+
             self.heat -= game.getEffect("heatPerTick");
             if (self.heat > 100){
                 self.heat -= 100;
