@@ -224,7 +224,7 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
 
 		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/" + (nextTier * 100) + "&nbsp;" +
-		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3H8PQGAN8V8YU'>+</a>";
+		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN'>+</a>";
 	},
 
 	getTooltip: function(){
