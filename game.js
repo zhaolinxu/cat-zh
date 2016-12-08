@@ -2240,7 +2240,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: spaceRatio - 1
 			});
 			perTickAutoprodSpaceStack.push({
-				name: "Paragon",
+				name: "Space Paragon",
 				type: "ratio",
 				value: paragonSpaceProductionRatio - 1
 			});
