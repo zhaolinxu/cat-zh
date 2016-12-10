@@ -342,9 +342,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	clearJobs: function(hard){
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
-			this.jobs[i].value = 0;
+			var job = this.jobs[i];
+			if (hard || job.name != "engineer") {
+				job.value = 0;
+			}
 		}
-		this.sim.clearJobs();
+		this.sim.clearJobs(hard);
 		if (hard){
 			this.game.workshop.clearEngineers();
 		}
@@ -661,7 +664,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var situationJobs = {};
 		for (var i = this.game.village.sim.kittens.length - 1; i >= 0; i--) {
 			var job = this.game.village.sim.kittens[i].job;
-			if (job) {
+			if (job && job != "engineer") { // don't optimize engineers, headaches lie that way
 				if (situationJobs[job] === undefined) {
 					situationJobs[job] = 1;
 				} else {
@@ -1166,9 +1169,13 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		}
 	},
 
-	clearJobs: function(){
+	clearJobs: function(hard){
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
-			this.kittens[i].job = null;
+			var kitten = this.kittens[i];
+			if (hard || kitten.job != "engineer") { // only fire engineers if hard flag is passed
+				kitten.job = null;
+				kitten.engineerSpeciality = null;
+			}
 		}
 	}
 
