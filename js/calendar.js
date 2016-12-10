@@ -701,7 +701,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			ty.val = this.year;
 		}
 
-		if (this.isDarkFuture()) {
+		if (this.year >= 40000) {
 			this.game.unlock({chronoforge: ["temporalImpedance"]});
 		}
 

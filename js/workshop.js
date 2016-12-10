@@ -2451,6 +2451,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var tdTop = dojo.create("td", { colspan: 2, style: {cursor: "pointer"} }, td);
 
 		this.tdTop = tdTop;
+
 		UIUtils.attachTooltip(this.game, this.tdTop, 5, 0, function(){
 			return "You will gain one engineer slot per factory.<br>Every engineer can be assigned to the crafting job which they will perform automatically.";
 		});
