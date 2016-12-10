@@ -1991,7 +1991,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//promote
 		var promoteKittensBtn = new classes.village.ui.VillageButton({
 			name: "Promote kittens",
-			description: "The leader promotes your kittens",
+			description: "The leader promotes your kittens and spend gold for celebrations",
 			handler: dojo.hitch(this, function(){
 				this.game.village.promoteKittens();
 			})
