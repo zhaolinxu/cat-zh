@@ -467,7 +467,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			stages: [{bld:"aqueduct",stage:1}], // Hydro Plant
 			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
-			crafts: ["tanker"]
+			crafts: ["tanker"],
+			tech: ["ai"],
+		}
+	},{
+		name: "ai",
+		label: "Artificial Intelligence",
+		description: "TBD",
+		effectDesc: "Unlocks Neural Networks",
+		prices: [
+			{name : "science", val: 250000},
+			{name: 	"blueprint", val: 150}
+		],
+		unlocks: {
+			upgrades: ["neuralNetworks"]
 		}
 	},{
 		name: "nuclearFission",

@@ -143,6 +143,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         on: 0,
         isAutomationEnabled: true,
         action: function(self, game){
+
+            if (self.on < self.val){
+                self.on = self.val;
+            }
+
             if (!self.on || !self.isAutomationEnabled){
                 return;
             }

@@ -1427,6 +1427,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 150000 }
 		]
 	},{
+		name: "neuralNetworks",
+		label: "Neural Networks",
+		description: "Engineers effectiveness doubles at cost of the double energy consumption",
+		effects: {},
+		prices:[
+			{ name : "titanium", val: 7500 },
+			{ name : "science",  val: 200000 }
+		]
+	},{
 		name: "assistance",
 		label: "Robotic Assistance",
 		description: "Factory robots automating routine tasks. Workers require less catnip.",
