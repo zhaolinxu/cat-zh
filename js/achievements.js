@@ -42,42 +42,42 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Iron Will",
             description: "You truly deserved this",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").on > 0 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").val > 0 );
             }
         }, {
             name: "uberkatzhen",
             title: "Uberkatzchen",
             description: "What does not kill you makes you stronger",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").on > 0 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").val > 0 );
             }
         }, {
             name: "hundredYearsSolitude",
             title: "One Hundred Years of Solitude",
             description: "How far is too far?",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("steamworks").on > 0 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("steamworks").val > 0 );
             }
         }, {
             name: "soilUptuned",
             title: "Virgin Soil Upturned",
             description: "Have 45 pastures in Iron Will mode",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("pasture").on >= 45 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("pasture").val >= 45 );
             }
         }, {
             name: "atlasUnmeowed",
             title: "Atlas Unmeowed",
             description: "Construct a magneto in Iron Will mode",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("magneto").on > 0 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("magneto").val > 0 );
             }
         }, {
             name: "meowMeowRevolution",
             title: "Meow Meow Revolution",
             description: "Construct a factory in Iron Will mode",
             condition: function () {
-                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("factory").on > 0 );
+                return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("factory").val > 0 );
             }
         }, {
             name: "spaceOddity",
@@ -103,7 +103,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Shadow Of The Colossus",
             description: "Build a Ziggurat having only one kitten",
             condition: function () {
-                return ( this.game.bld.get("ziggurat").on > 0 && this.game.village.maxKittens == 1);
+                return ( this.game.bld.get("ziggurat").val > 0 && this.game.village.maxKittens == 1);
             }
         }, {
             name: "sunGod",
