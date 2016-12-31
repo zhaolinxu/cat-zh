@@ -2245,7 +2245,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				value: paragonSpaceProductionRatio - 1
 			});
 			perTickAutoprodSpaceStack.push({
-				name: "Bonus Transfert",
+				name: "Bonus Transferred",
 				type: "ratio",
 				value: this.getEffect("prodTransferBonus")
 			});
