@@ -228,13 +228,8 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	},
 
 	getTooltip: function(){
-		var bonus = this.game.getCMBRBonus() * 100;
+		var tier = Math.round(this.game.server.donateAmt / 1000) + 1;
 
-		if (this.game.opts.disableCMBR || !this.game.isCMBREnabled){
-			return "";
-		}
-
-		return "Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +
-			"<br>Storage bonus: " + this.game.getDisplayValueExt(bonus, true, false) + "%";
+		return "Magic kitten level: " + tier + "<br><img src='/res/tiers/tier" + tier + ".png'>";
 	}
 });

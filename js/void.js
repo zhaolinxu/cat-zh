@@ -43,7 +43,7 @@ dojo.declare("classes.managers.VoidManager", com.nuclearunicorn.core.TabManager,
     }
 });
 
-dojo.declare("classes.ui.AstronomiconWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+dojo.declare("classes.ui.RorshachWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
     },
 
@@ -55,8 +55,10 @@ dojo.declare("classes.ui.AstronomiconWgt", [mixin.IChildrenAware, mixin.IGameAwa
     },
 
     update: function(){
-        var msg = "Faction: " + (this.game.void.faction || "N/A") + "<br>";
-        msg += "GUID: " + this.game.telemetry.guid + "<br>";
+        /*var msg = "Faction: " + (this.game.void.faction || "N/A") + "<br>";
+        msg += "GUID: " + this.game.telemetry.guid + "<br>";*/
+
+        var msg = "";
 
         this.factionDashboard.innerHTML = msg;
     }

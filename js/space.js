@@ -1038,11 +1038,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 	constructor: function(){
 		//------------ void stuff --------------
-		this.aPanel = new com.nuclearunicorn.game.ui.Panel("Astronomicon");
+		this.aPanel = new com.nuclearunicorn.game.ui.Panel("Rorshach");
 		this.aPanel.setVisible(false);
 		this.addChild(this.aPanel);
 
-		var aWgt = new classes.ui.AstronomiconWgt(this.game);
+		var aWgt = new classes.ui.RorshachWgt(this.game);
 		aWgt.setGame(this.game);
 		this.aPanel.addChild(aWgt);
 	},
