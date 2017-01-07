@@ -861,7 +861,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					if (!dip.get("nagas").unlocked){
 						hint = "Maybe you are not cultural enough.";
 					} else if (!dip.get("zebras").unlocked){
-						hint = "Maybe you should try to reach another continents.";
+						hint = "Maybe you should try to reach another continent.";
 					} else if (!dip.get("spiders").unlocked){
 						hint = "Maybe you are not scientific enough.";
 					} else if (!dip.get("dragons").unlocked){

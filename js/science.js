@@ -566,7 +566,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "exogeology",
 		label: "Exogeology",
-		description: "Exogeology or Planetary Geology studies extraterestial metals and minerals.",
+		description: "Exogeology or Planetary Geology studies extraterrestrial metals and minerals.",
 		effectDesc: "Unlocks various Unobtainium upgrades",
 		prices: [
 			{name : "science", val: 275000},
