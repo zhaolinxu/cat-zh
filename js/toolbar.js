@@ -230,8 +230,8 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var bonus = this.game.getCMBRBonus() * 100;
 
-		if (this.game.opts.disableCMBR){
-			return "Production bonus disabled";
+		if (this.game.opts.disableCMBR || !this.game.isCMBREnabled){
+			return "";
 		}
 
 		return "Production bonus: " +  this.game.getDisplayValueExt(bonus, true, false) + "%" +

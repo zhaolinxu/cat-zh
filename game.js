@@ -853,6 +853,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//I wonder why someone may need this
 	isPaused: false,
 
+	isCMBREnabled: false,
+
 	ticksBeforeSave: 400,	//40 seconds ~
 
 	//in ticks
@@ -976,7 +978,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			{ id: "time",           class:  "TimeManager"       },
             { id: "prestige",       class:  "PrestigeManager"   },
             { id: "challenges",     class:  "ChallengesManager" },
-            { id: "stats",       	class:  "StatsManager"      }
+            { id: "stats",       	class:  "StatsManager"      },
+			{ id: "void",       	class:  "VoidManager"      }
         ];
 
         for (var i in managers){
@@ -1183,6 +1186,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ironWill = true;
 		this.deadKittens = 0;
 		this.cheatMode = false;
+		this.isCMBREnabled = false;
 
 		if (this.pauseTimestamp){
 			this.pauseTimestamp = Date.now();
@@ -1248,6 +1252,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
 			forceHighPrecision: this.forceHighPrecision,
+			isCMBREnabled: this.isCMBREnabled,
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
 			karmaKittens: this.karmaKittens,
@@ -1359,6 +1364,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
 			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
+
+			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
 
 			// ora ora
 			if (data.opts){
@@ -2329,8 +2336,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//CMBR is capped by 20%
 
 	getCMBRBonus: function(){
-		var ratio = this.server.donateAmt / 1000;
-		return this.getHyperbolicEffect(ratio, 0.2);
+		if (this.isCMBREnabled) {
+			return this.getHyperbolicEffect(1.0, 0.2);
+		}
+		return 0;
 	},
 
 	getCraftRatio: function() {
@@ -3060,7 +3069,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaKittens: 		this.karmaKittens,
 			karmaZebras: 		this.karmaZebras,
 			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
-			deadKittens: 		0
+			deadKittens: 		0,
+			isCMBREnabled:		false
 		});
 
 		//------------ we can now carry some of the resources through reset ------------

@@ -39,6 +39,18 @@
         <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
 		<link rel="stylesheet" href="res/theme_sleek.css" type="text/css">
 
+		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+		<script>
+			var config = {
+				apiKey: "AIzaSyDAitgXAOdO-0SgRIEjTDj69fvDz4MCB1g",
+				authDomain: "kg-firebase.firebaseapp.com",
+				databaseURL: "https://kg-firebase.firebaseio.com",
+				storageBucket: "kg-firebase.appspot.com",
+				messagingSenderId: "660584803958"
+			};
+			firebase.initializeApp(config);
+		</script>
+
 		<script type="text/javascript">
 
 			var version = "_" + Date.now();
@@ -76,6 +88,7 @@
 					"js/time",
 					"js/stats",
 					"js/challenges",
+					"js/void",
 					"game",
 					"js/ui",
 					"js/toolbar"
@@ -317,22 +330,6 @@
 					</div>
 					<div class="right-tab" id="rightTabChat" style="display:none;">
 						<div id="IRCChatInner">CHAT GOES THERE</div>
-					</div>
-				</div>
-				<!-- ADS -->
-				<div id="adsColumn" class="column" style="width:200px; float: right;">
-					<div>
-						<a id="adLink" href="mailto:cheshire.panther@gmail.com" style="font-size:small;">
-							your ad here
-						</a>
-					</div>
-
-					<div id="adblock-container" style="display:none">
-						<div class="adblock-header">
-							Sponsored links:<br>
-							<a href="#" onclick="$('#adblock-container').hide()">I don't want to see this</a>
-						</div>
-
 					</div>
 				</div>
 			</div>

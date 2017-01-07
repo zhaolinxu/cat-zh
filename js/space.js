@@ -1037,7 +1037,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 	planetPanels: null,
 
 	constructor: function(){
+		//------------ void stuff --------------
+		this.aPanel = new com.nuclearunicorn.game.ui.Panel("Astronomicon");
+		this.aPanel.setVisible(false);
+		this.addChild(this.aPanel);
 
+		var aWgt = new classes.ui.AstronomiconWgt(this.game);
+		aWgt.setGame(this.game);
+		this.aPanel.addChild(aWgt);
 	},
 
 	render: function(container) {
@@ -1072,6 +1079,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});
+
+		//----------------------------------------------------
+		//render children right before llegacy planet rendering
+
+		this.container = container;
+		this.inherited(arguments);
 
         //------------ space space I'm in space -------------
         this.planetPanels = [];
@@ -1108,5 +1121,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
         dojo.forEach(this.planetPanels, function(panel, i){
             panel.update();
         });
+
+		this.inherited(arguments);
+
+		var hasAstronomicon = this.game.space.getProgram("rorschachMission").on;
+		if (hasAstronomicon){
+			this.aPanel.setVisible(true);
+		}
 	}
 });
