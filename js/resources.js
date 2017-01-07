@@ -610,7 +610,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			maxValue *= ( 1 + this.game.getEffect(res.name + "MaxRatio") );
 
 			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + this.game.getEffect("tcResourceRatio"));
+				maxValue *= (1 + this.game.getEffect("globalResourceRatio"));
 			}
 		}
 

@@ -543,7 +543,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 7,
 		priceRatio: 1.15,
 		effects: {
-			"tcResourceRatio" : 0.10
+			"globalResourceRatio" : 0.10
 		},
 		unlocked: false,
 		flavor: "A gateway... To what?"

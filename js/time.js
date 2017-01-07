@@ -252,6 +252,18 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         },
         unlocked: false
     },{
+        name: "voidRift",
+        label: "Void Rift",
+        description: "Increase the maximum storage space by 1%",
+        prices: [
+            { name: "void", val: 100 },
+        ],
+        priceRatio: 1.3,
+        effects: {
+            "globalResourceRatio": 0.01
+        },
+        unlocked: false
+    },{
         name: "chronocontrol",
         label: "Chronocontrol",
         description: "Increase the number of days in Temporal Paradox",

@@ -720,7 +720,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "integerRatio"
             },
 
-			"tcResourceRatio" :  {
+			"globalResourceRatio" :  {
                 title: "Max resources bonus",
                 type: "ratio"
             },

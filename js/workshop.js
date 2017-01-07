@@ -1651,7 +1651,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     {
         name: "voidAspiration",
         label: "Void Aspiration",
-        description: "Unlocks Void Hoover.",
+        description: "Unlocks Void Hoover and Void Rifts.",
         effects: {
 
         },
@@ -1660,11 +1660,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             { name : "antimatter", val: 2000 }
         ],
         unlocks: {
-            voidSpace: ["voidHoover"]
+            voidSpace: ["voidHoover", "voidRift"]
         }
     },{
         name: "distorsion",
-        label: "Distorsion",
+        label: "Distortion",
         description: "Improve Chronocontrol effectiveness.",
         effects: {
 			"temporalParadoxDayBonus": 2
