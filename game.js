@@ -3469,6 +3469,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			case "Transcendence":
 				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
 				this.religion.tcratio += amt;
+				this.religion.tclevel += 4;
 				var msg = "Transcendence Level increased by 4!";
 				break;
 			case "Metaphysics":
