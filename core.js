@@ -324,6 +324,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: "Alicorn Rifts",
 				enabled: true,
 				unlocked: false
+			},
+			"tc": {
+				title: "Time Crystals",
+				enabled: true,
+				unlocked: false
 			}
 		},
 		/**

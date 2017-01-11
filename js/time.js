@@ -347,9 +347,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (amt == 1) {
-            game.msg("Time crystal destroyed, skipped one year");
+            game.msg("Time crystal destroyed, skipped one year", "", "tc");
         } else {
-            game.msg("Time crystal destroyed, skipped " + amt + " years");
+            game.msg("Time crystal destroyed, skipped " + amt + " years", "", "tc");
         }
 
         game.time.heat += amt*10;
