@@ -772,12 +772,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
 			"sattelite-starchartPerTickBaseSpace": {
-                title: "Sattelite - Startchar production",
+                title: "Satellite - Starchart production",
                 type: "ratio"
             },
 
 			"sattelite-observatoryRatio": {
-                title: "Sattelite - Observatory's science ratio",
+                title: "Satellite - Observatory's science ratio",
                 type: "ratio"
             },
 

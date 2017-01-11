@@ -1512,7 +1512,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "chronosphere",
 		label: "Chronosphere",
-		description: "Relocates small amount of resources through the time. Can be upgraded further. Every Chronosphere increases the chance of Temporal Paradox.",
+		description: "Relocates small amount of resources through time. Can be upgraded further. Every Chronosphere increases the chance of Temporal Paradox.",
 		prices: [
 			{ name : "unobtainium", val: 2500 },
 			{ name : "timeCrystal", val: 1 },

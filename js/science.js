@@ -706,7 +706,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "cryptotheology",
 		label: "Cryptotheology",
-		description: "Cryptotheology applies the most arcane and unorthodox methods of the theology in order to answer the fundamental questions of universe and reality.",
+		description: "Cryptotheology applies the most arcane and unorthodox methods of theology in order to answer the fundamental questions of the universe and reality.",
 		effectDesc: "Unlocks Relic Station and Cryptotheology tree",
 		prices: [
 			{name : "science", val: 650000},
