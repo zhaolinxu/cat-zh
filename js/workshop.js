@@ -1376,7 +1376,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: "CAD System",
 		description: "All scientific buildings will improve effectiveness of blueprint crafting",
 		effects: {
-			"blueprintCraftRatio" : 0.01
+			"cadBlueprintCraftRatio" : 0.01
 		},
 		prices:[
 			{ name : "titanium", val: 750 },

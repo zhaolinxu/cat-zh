@@ -228,7 +228,7 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	},
 
 	getTooltip: function(){
-		var tier = Math.round(this.game.server.donateAmt / 100) + 1;
+		var tier = Math.floor(this.game.server.donateAmt / 100) + 1;
 
 		return "Magic kitten level: " + tier + "<br><img src='res/tiers/tier" + tier + ".png'>";
 	}

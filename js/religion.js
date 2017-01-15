@@ -550,7 +550,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "blazar",
 		label: "Blazar",
-		description: "Improve certain time scaling effects (TBD)",
+		description: "Improve time-related structures",
 		prices: [
 			{ name : "relic", val: 50000 }
 		],
@@ -558,6 +558,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			//Should at least improve impedance scaling by some value (5%? 10%). Probably something else
+			"timeRatio" : 0.10
 		},
 		unlocked: false,
 		flavor: "Tiger tiger burning bright."

@@ -9,10 +9,49 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: true,
 		researched: false,
 		unlocks: {
-			"perks": ["megalomania", "goldenRatio"]
+			"perks": ["megalomania", "goldenRatio", "codexVox"]
 		},
 		effects:{
 			"priceRatio" : -0.01
+		}
+	},{
+		name: "codexVox",
+		label: "Codex Vox",
+		description: "Improves manuscript craft ratio by 25%.",
+		prices: [{ name: "paragon", val: 25 }],
+		unlocked: true,
+		defaultUnlocked: true,
+		researched: false,
+		unlocks: {
+			"perks": ["codexLogos"]
+		},
+		effects:{
+			"manuscriptCraftRatio" : 0.25
+		}
+	},{
+		name: "codexLogos",
+		label: "Codex Logos",
+		description: "Improves compedium craft ratio by 25%.",
+		prices: [{ name: "paragon", val: 50 }],
+		unlocked: true,
+		defaultUnlocked: true,
+		researched: false,
+		unlocks: {
+			"perks": ["codexAgrum"]
+		},
+		effects:{
+			"compediumCraftRatio" : 0.25
+		}
+	},{
+		name: "codexAgrum",
+		label: "Codex Agrum",
+		description: "Improves blueprint craft ratio by 25%.",
+		prices: [{ name: "paragon", val: 75 }],
+		unlocked: true,
+		defaultUnlocked: true,
+		researched: false,
+		effects:{
+			"blueprintCraftRatio" : 0.25
 		}
 	}, {
 		name: "megalomania",
@@ -99,7 +138,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		name: "zebraDiplomacy",
 		label: "Zebra Diplomacy",
 		description: "Some zebras hunters will stay in the village.",
-		prices: [{ name: "paragon", val: 50 }],
+		prices: [{ name: "paragon", val: 35 }],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			"perks": ["zebraCovenant"]
+		}
+	},{
+		name: "zebraCovenant",
+		label: "Zebra Covenant",
+		description: "More zebras are staying with you.",
+		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false
 	},{

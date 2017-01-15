@@ -461,7 +461,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
-            var impedance = this.game.getEffect("timeImpedance");
+            var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
 			if (price["name"] == "timeCrystal") {
                 if (this.game.calendar.isDarkFuture()) {
                     price["val"] = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;

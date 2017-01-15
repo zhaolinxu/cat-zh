@@ -491,6 +491,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			unicornChanceRatio = 1.1;
 		}
 
+		chanceRatio *= (1 + this.game.getEffect("timeRatio") * 0.25);
+		unicornChanceRatio *= (1 + this.game.getEffect("timeRatio") * 0.25);
+
 		if (this.day < 0){
 			//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
@@ -601,8 +604,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}else{
 			var zTreshold = 0;
 			if (this.game.prestige.getPerk("zebraDiplomacy").researched){
-				//zTreshold = Math.floor((this.game.rand(20) + 5) / 100 * this.game.karmaZebras);   //5 - 25% of hunters will stay
-				zTreshold = Math.floor(0.10 * (this.game.karmaZebras+1));   //5 - 25% of hunters will stay
+				zTreshold = Math.floor(0.10 * (this.game.karmaZebras + 1));   //5 - 10% of hunters will stay
+			}
+			if (this.game.prestige.getPerk("zebraCovenant").researched){
+				zTreshold = Math.floor(0.50 * (this.game.karmaZebras + 1));   //5 - 50% of hunters will stay
 			}
 			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ?
