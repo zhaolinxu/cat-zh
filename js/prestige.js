@@ -147,7 +147,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "zebraCovenant",
 		label: "Zebra Covenant",
-		description: "More zebras are staying with you.",
+		description: "More zebras will stay with you.",
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false
