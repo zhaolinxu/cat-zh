@@ -1464,6 +1464,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "titanium", val: 7500 },
 			{ name : "science",  val: 200000 }
+		],
+		unlocks: {
+			upgrades: ["ai"]
+		}
+	},{
+		name: "ai",
+		label: "AI",
+		description: "A state of the art artificial intelligence",
+		effects: {},
+		prices:[
+			{ name : "titanium", val: 10000 },
+			{ name : "science",  val: 250000 }
 		]
 	},{
 		name: "assistance",
