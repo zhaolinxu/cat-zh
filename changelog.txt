@@ -2,6 +2,7 @@ v 1.4.0.3 (14 jan 2017)
 
 Codex Vox, Codex Logos, Codex Agrum for better post-reset runs
 Blazar will now affect Impedances and Chronomancy/Unicornmancy
+Neural Networks
 
 v 1.4.0.2 (6 jan 2017)
 Void Rifts

@@ -548,7 +548,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology", "thorium"],
-			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites"]
+			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites", "spaceEngineers"]
 		}
 	},{
 		name: "thorium",
@@ -701,7 +701,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["voidSpace"],
-			upgrades: ["tachyonAccelerators", "chronoforge"]
+			upgrades: ["tachyonAccelerators", "chronoforge", "chronoEngineers"]
 		}
 	},{
 		name: "cryptotheology",

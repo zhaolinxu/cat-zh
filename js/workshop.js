@@ -1119,6 +1119,36 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "titanium", val: 2500 },
 			{ name : "science",  val: 100000 }
 		]
+	},{
+		name: "spaceEngineers",
+		label: "Space Engineers",
+		description: "Improves Engineer's effectiveness",
+		effects: {
+			"t1CraftRatio": 2,
+			"t2CraftRatio": 2,
+			"t3CraftRatio": 2,
+			"t4CraftRatio": 2
+		},
+		prices:[
+			{ name : "alloy", 	 val: 500 },
+			{ name : "science",  val: 225000 }
+		]
+	},{
+		name: "chronoEngineers",
+		label: "Chronoengineers",
+		description: "Improves Engineer's effectiveness",
+		effects: {
+			"t1CraftRatio": 2,
+			"t2CraftRatio": 2,
+			"t3CraftRatio": 2,
+			"t4CraftRatio": 2,
+			"t5CraftRatio": 2
+		},
+		prices:[
+			{ name : "science",     val: 500000 },
+			{ name : "eludium",     val: 100 },
+			{ name : "timeCrystal", val: 5 }
+		]
 	}, {
 		name: "spaceManufacturing",
 		label: "Space Manufacturing",
@@ -1429,7 +1459,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "neuralNetworks",
 		label: "Neural Networks",
-		description: "Engineers effectiveness doubles at cost of the double energy consumption",
+		description: "Engineers effectiveness doubles at cost of the double energy consumption of the factoriess",
 		effects: {},
 		prices:[
 			{ name : "titanium", val: 7500 },
@@ -2070,6 +2100,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		} else {
 			var resMapProduction = this.game.village.getResProduction();
 			var kittenResProduction = resMapProduction["ES" + resName] ? resMapProduction["ES" + resName] : 0;
+
+			if (this.game.workshop.get("neuralNetworks").researched){
+				kittenResProduction *= 2.0;
+			}
 
 			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
 			if (tierCraftRatio == 0) {
