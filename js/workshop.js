@@ -1459,7 +1459,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "neuralNetworks",
 		label: "Neural Networks",
-		description: "Engineers effectiveness doubles at cost of the double energy consumption of the factoriess",
+		description: "Engineers effectiveness doubles at the cost of double energy consumption of factories",
 		effects: {},
 		prices:[
 			{ name : "titanium", val: 7500 },

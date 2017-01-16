@@ -31,7 +31,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "codexLogos",
 		label: "Codex Logos",
-		description: "Improves compedium craft ratio by 25%.",
+		description: "Improves compendium craft ratio by 25%.",
 		prices: [{ name: "paragon", val: 50 }],
 		unlocked: true,
 		defaultUnlocked: true,

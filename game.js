@@ -287,6 +287,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resname: resname,
 					type: "perTick"
 				};
+			case type == "CraftRatio":
+				return {
+					title: restitle + " craft bonus",
+					resname: resname,
+					type: "ratio"
+				};
 			default:
 				return 0;
 		}
@@ -585,7 +591,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-            "blueprintCraftRatio" : {
+            "cadBlueprintCraftRatio" : {
                 title: "Blueprint craft bonus",
                 type: "ratio"
             },
