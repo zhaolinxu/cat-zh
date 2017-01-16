@@ -19,8 +19,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		label: "Codex Vox",
 		description: "Improves manuscript craft ratio by 25%.",
 		prices: [{ name: "paragon", val: 25 }],
-		unlocked: true,
-		defaultUnlocked: true,
+		unlocked: false,
 		researched: false,
 		unlocks: {
 			"perks": ["codexLogos"]
@@ -33,8 +32,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		label: "Codex Logos",
 		description: "Improves compendium craft ratio by 25%.",
 		prices: [{ name: "paragon", val: 50 }],
-		unlocked: true,
-		defaultUnlocked: true,
+		unlocked: false,
 		researched: false,
 		unlocks: {
 			"perks": ["codexAgrum"]
@@ -47,8 +45,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		label: "Codex Agrum",
 		description: "Improves blueprint craft ratio by 25%.",
 		prices: [{ name: "paragon", val: 75 }],
-		unlocked: true,
-		defaultUnlocked: true,
+		unlocked: false,
 		researched: false,
 		effects:{
 			"blueprintCraftRatio" : 0.25
