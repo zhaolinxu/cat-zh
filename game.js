@@ -287,6 +287,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resname: resname,
 					type: "perTick"
 				};
+			case type == "CraftRatio":
+				return {
+					title: restitle + " craft bonus",
+					resname: resname,
+					type: "ratio"
+				};
 			default:
 				return 0;
 		}
@@ -585,7 +591,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
-            "blueprintCraftRatio" : {
+            "cadBlueprintCraftRatio" : {
                 title: "Blueprint craft bonus",
                 type: "ratio"
             },
@@ -2356,29 +2362,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
+		var ratio = this.getCraftRatio();
+
 		if (res.name == "blueprint"){
 			var bpRatio = this.getEffect("cadBlueprintCraftRatio");
 			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
 				this.bld.get("observatory").val + this.bld.get("biolab").val;
 
-			var ratio = this.getCraftRatio();
-
-			return ratio + scienceBldAmt * bpRatio;
+			ratio += scienceBldAmt * bpRatio;
 		}
 
 		if (res.name == "kerosene"){
 			var fRatio = this.getEffect("factoryRefineRatio");
 
 			var amt = this.bld.get("factory").on;
-			var ratio = this.getCraftRatio();
 
-			return ratio * (1 + amt * fRatio * 0.75);	//25% penalty
+			ratio *= (1 + amt * fRatio * 0.75);	//25% penalty
 		}
 
         //get resource specific craft ratio (like factory bonus)
         var resCraftRatio = this.getEffect(res.name + "CraftRatio") || 0;
 
-		return this.getCraftRatio() + resCraftRatio;
+		return ratio + resCraftRatio;
 	},
 
 	/**
