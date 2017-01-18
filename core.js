@@ -1498,7 +1498,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 					var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
                     this.build(meta, maxBld);
                 }
-            } else {
+            } else if (event.ctrlKey) {
+				this.build(meta, 10);
+				callback(true);
+			} else {
                 this.build(meta, 1);
             }
 		}

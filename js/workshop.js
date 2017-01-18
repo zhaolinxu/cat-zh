@@ -1474,7 +1474,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: "A state of the art artificial intelligence",
 		effects: {},
 		prices:[
-			{ name : "titanium", val: 10000 },
+			{ name : "titanium", val: 7500 },
 			{ name : "science",  val: 250000 }
 		]
 	},{
