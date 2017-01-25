@@ -441,6 +441,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "energy"
             },
 
+			"energyProductionRatio": {
+				title: "Energy production bonus",
+				type: "ratio"
+			},
+
 			//production
 
             "productionRatio" : {
@@ -732,7 +737,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 
             "shatterTCGain" :  {
-                title: "Shatter TC ressources retrieved",
+                title: "Shatter TC resources retrieved",
+                type: "ratio"
+            },
+
+            "rrRatio" :  {
+                title: "Shatter TC resources retrieval bonus",
                 type: "ratio"
             },
 

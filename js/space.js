@@ -593,7 +593,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{
 				name: "terraformingStation",
 				label: "Terraforming Station",
-				description: "Explode a charge of antimatter to melt yarn ice and throw an oxygen into the atmosphere",
+				description: "Explode a charge of antimatter to melt yarn ice and throw oxygen into the atmosphere",
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
