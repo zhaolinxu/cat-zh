@@ -2,9 +2,11 @@ v 1.4.0.4 (25 jan 2017)
 Turn Smoothly was renamed to Chronosurge
 Blazar will now boost RR by 2%
 Black Nova will now boost energy production by 2%
+Unicorn Rifts will now get a 10% synergy from the Ziggurat buildings
 
 Ctrl+Click will now by x10 buildings
 
+Balance tweaks:
 Scientist trait effect was changed from 1% to 5%
 Quarry base price and coal production were slightly buffed.
 Ziggurat base price and megalith craft price were slightly reduced.
