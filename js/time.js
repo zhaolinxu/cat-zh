@@ -336,7 +336,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 }
             }
             // ShatterTC gain
-            var shatterTCGain = game.getEffect("shatterTCGain");
+            var shatterTCGain = game.getEffect("shatterTCGain") * (1+ game.getEffect("rrRatio"));
             if (shatterTCGain > 0) {
                 for (var j = 0; j < game.resPool.resources.length; j++){
                     var res = game.resPool.resources[j];

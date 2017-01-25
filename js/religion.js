@@ -558,14 +558,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			//Should at least improve impedance scaling by some value (5%? 10%). Probably something else
-			"timeRatio" : 0.10
+			"timeRatio" : 0.10,
+			"rrRatio" : 0.02
 		},
 		unlocked: false,
 		flavor: "Tiger tiger burning bright."
 	},{
 		name: "darkNova",
 		label: "Dark Nova",
-		description: "TBD",
+		description: "Improves global energy production",
 		prices: [
 			{ name : "relic", val: 75000 },
 			{ name : "void",  val: 7500 }
@@ -573,7 +574,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 20,
 		priceRatio: 1.15,
 		effects: {
-			//TBD
+			"energyProductionRatio": 0.02
 		},
 		unlocked: false,
 		flavor: "The stars are dead. Just like our hopes and dreams."

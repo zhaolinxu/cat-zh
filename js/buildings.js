@@ -1101,7 +1101,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["energyConsumption"] *= 2;
 			}
 			if (game.workshop.get("neuralNetworks").researched){
-				effects["energyConsumption"] *= 2;
+
 			}
 
 			self.effects = effects;

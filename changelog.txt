@@ -1,3 +1,12 @@
+v 1.4.0.4 (25 jan 2017)
+Turn Smoothly was renamed to Chronosurge
+Blazar will now boost RR by 2%
+Black Nova will now boost energy production by 2%
+Ctrl+Click will now by x10 buildings
+
+changes by tommitscheck:
+Fixed Stats menu item not working in FF
+
 v 1.4.0.3 (14 jan 2017)
 
 Codex Vox, Codex Logos, Codex Agrum for better post-reset runs

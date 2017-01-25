@@ -1722,8 +1722,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         }
     },{
         name: "turnSmoothly",
-        label: "Turn smoothly",
-        description: "Chronosphere gather temporal flux.",
+        label: "Chronosurge",
+        description: "Chronospheres will now generate temporal flux.",
         effects: {
 			"temporalFluxProductionChronosphere": 1
         },
