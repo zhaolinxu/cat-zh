@@ -1498,7 +1498,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		description: "The dark legacy of the lost race. Every Ziggurat will improve your culture limits by 8%.<br>May have special usage once Theology is researched.",
 		unlockRatio: 0.01,
 		prices: [
-			{ name : "megalith", val: 75 },
+			{ name : "megalith", val: 50 },
 			{ name : "scaffold", val: 50 },
 			{ name : "blueprint", val: 1 }
 		],

@@ -1928,8 +1928,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: "Megalith",
 		description: "A massive block that can be used to construct enormous structures",
 		prices:[
-			{ name: "slab", val: 75 },
-			{ name: "beam", val: 35 },
+			{ name: "slab", val: 50 },
+			{ name: "beam", val: 25 },
 			{ name: "plate", val: 5 }
 		],
 		progressHandicap: 5,
