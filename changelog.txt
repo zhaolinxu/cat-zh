@@ -3,6 +3,7 @@ Turn Smoothly was renamed to Chronosurge
 Blazar will now boost RR by 2%
 Black Nova will now boost energy production by 2%
 Ctrl+Click will now by x10 buildings
+Scientist trait effect was changed from 1% to 5%
 
 changes by tommitscheck:
 Fixed Stats menu item not working in FF
