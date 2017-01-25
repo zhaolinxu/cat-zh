@@ -623,9 +623,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
-			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +500 unicorns!", "notice", "unicornRift");
+			var unicornBonus = 500 * (1 + this.game.getEffect("unicornsRatioReligion") * 0.1);
+			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +" + this.game.getDisplayValueExt(unicornBonus) + " unicorns!", "notice", "unicornRift");
 
-			this.game.resPool.addResEvent("unicorns", 500 * (1 + this.game.getEffect("unicornsRatioReligion") * 0.1));	//10% of ziggurat buildings bonus
+			this.game.resPool.addResEvent("unicorns", unicornBonus);	//10% of ziggurat buildings bonus
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
