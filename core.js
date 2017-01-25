@@ -1500,7 +1500,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
                 }
             } else if (event.ctrlKey) {
 				this.build(meta, 10);
-				callback(true);
 			} else {
                 this.build(meta, 1);
             }
