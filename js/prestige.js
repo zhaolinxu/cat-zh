@@ -275,6 +275,90 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
         researched: false,
         effects:{
             "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["tiferet"]
+		}
+
+    },{
+        name: "tiferet",
+        label: "Tiferet",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 2500 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["gevurah"]
+		}
+
+    },{
+        name: "gevurah",
+        label: "Gevurah",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 5000 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["chesed"]
+		}
+
+    },{
+        name: "chesed",
+        label: "Chesed",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 7500 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["binah"]
+		}
+
+    },{
+        name: "binah",
+        label: "Binah",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 15000 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["chokhmah"]
+		}
+
+    },{
+        name: "chokhmah",
+        label: "Chokhmah",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 30000 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
+        },
+		unlocks: {
+			"perks": ["keter"]
+		}
+
+    },{
+        name: "keter",
+        label: "Keter",
+        description: "Improves paragon effect and scaling by 5%",
+        prices: [{ name: "paragon", val: 60000 }],
+        unlocked: false,
+        researched: false,
+        effects:{
+            "paragonRatio" : 0.05
         }
     },
 		//2500, 5000, 7500, 15000
