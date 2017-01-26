@@ -101,8 +101,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             this.isAccelerated = false;
         }
 
-        if (this.heat>0) {								//if we have space chronoheat
-           game.time.chronoforgeUpgrades[1].heat -= this.game.getEffect("heatPerTick");	//add fuel to the furnace
+        if (this.heat>0) {								//if we have spare chronoheat
+           this.chronoforgeUpgrades[1].heat -= this.game.getEffect("heatPerTick");	//add fuel to the furnace
            this.heat += this.game.getEffect("heatPerTick"); 				//lower chronoheat
            if (this.heat < 0){
                 this.heat = 0;								//make sure chronoheat does not go below 0
