@@ -483,17 +483,18 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		var pricesTotal = 0;
 
 		var prices_cloned = $.extend(true, [], this.prices);
+        var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+        var isDarkFuture = this.game.calendar.isDarkFuture();
+        var heatMax = this.game.getEffect("heatMax");
 
 		for (var k = 0; k < amt; k++) {
 			for (var i = 0; i < prices_cloned.length; i++) {
 				var price = prices_cloned[i];
-	            var impedance = this.game.getEffect("timeImpedance");
 				if (price["name"] == "timeCrystal") {
 					var priceLoop = price["val"];
-	                if (this.game.calendar.isDarkFuture()) {
-	                    priceLoop = 1 - ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+	                if (isDarkFuture) {
+	                    priceLoop = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
 	                }
-	                var heatMax = this.game.getEffect("heatMax");
 	                if ((this.game.time.heat + k * 10) > heatMax) {
 	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax));  //1% per excessive heat unit
 	                }
@@ -524,9 +525,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
                 var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
                 if (hasRes){
 					this.game.resPool.addResEvent("timeCrystal", -prices);
+                    this.doShatter(5);
                 }
 
-                this.doShatter(5);
                 this.update();
             }, false
         );
