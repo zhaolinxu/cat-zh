@@ -101,10 +101,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             this.isAccelerated = false;
         }
 
-        this.heat += this.game.getEffect("heatPerTick");
-        if (this.heat < 0){
-            this.heat = 0;
+        if (this.heat>0) {								//if we have spare chronoheat
+           this.getCFU("blastFurnace").heat -= this.game.getEffect("heatPerTick");	//add fuel to the furnace
+           this.heat += this.game.getEffect("heatPerTick"); 				//lower chronoheat
+           if (this.heat < 0){
+                this.heat = 0;								//make sure chronoheat does not go below 0
+            }
         }
+
 
         for (var i in this.chronoforgeUpgrades) {
             var cfu = this.chronoforgeUpgrades[i];
@@ -152,7 +156,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 return;
             }
 
-            self.heat -= game.getEffect("heatPerTick");
             if (self.heat > 100){
                 self.heat -= 100;
                 game.time.shatter();
@@ -188,7 +191,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "ressourceRetrieval",
         label: "Resource Retrieval",
-        description: "Retrieve part of your yearly resources when you shatter TC",
+        description: "Retrieve part of your yearly resources when you burn TC",
         prices: [
             { name : "timeCrystal", val: 1000 }
         ],
@@ -503,7 +506,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 	},
 
     doShatter: function(amt){
-        this.game.time.shatter(amt);
+        var fueling = 100 * amt;				//add 100 fuel per TC
+        game.time.getCFU("blastFurnace").heat += fueling;
     },
 
     /**
@@ -570,8 +574,8 @@ dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.Buildi
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
-            name: "Shatter TC",
-            description: "Destroy time crystal and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over the time.",
+            name: "Combust TC",
+            description: "Feed a time crystal into your chrono furnace and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over the time.",
             prices: [{name: "timeCrystal", val: 1}],
             handler: function(btn){
 
