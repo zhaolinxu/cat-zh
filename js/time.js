@@ -508,7 +508,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
     doShatter: function(amt){
         var fueling = 100 * amt;				//add 100 fuel per TC
-        game.time.getCFU("blastFurnace").heat += fueling;
+        this.game.time.getCFU("blastFurnace").heat += fueling;
     },
 
     /**

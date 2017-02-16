@@ -1027,8 +1027,9 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 		dojo.connect(a, "onclick", this, dojo.partial(function(res, event){
 				var allCount = this.game.workshop.getCraftAllCount(res.name);
-				if (num < allCount*ratio){
-					num = allCount*ratio;
+				var ratioCount = Math.floor(allCount*ratio);
+				if (num < ratioCount){
+					num = ratioCount;
 				}
 				this.game.craft(res.name, num);
 				event.preventDefault();
@@ -1039,8 +1040,9 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				var prices = this.game.workshop.getCraftPrice(recipe);
 
 				var allCount = this.game.workshop.getCraftAllCount(recipe.name);
-				if (num < allCount*ratio){
-					num = allCount*ratio;
+				var ratioCount = Math.floor(allCount*ratio);
+				if (num < ratioCount){
+					num = ratioCount;
 				}
 
 				for (var i = 0; i < prices.length; i++){
