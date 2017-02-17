@@ -689,6 +689,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 			}
 
+			this.game.msg("Your kittens have been reassigned according to their skills.");
+
 			this.game.villageTab.updateTab();
 			this.game.village.updateResourceProduction();
 			this.game.updateResources();
