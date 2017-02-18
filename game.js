@@ -2492,6 +2492,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.village.huntAll();
 	},
 
+	praise: function(event){
+		event.preventDefault();
+		this.religion.praise();
+	},
+
 	/**
 	 * Updates a perTickValue of resource for UI
 	 */

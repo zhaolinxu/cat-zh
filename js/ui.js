@@ -147,6 +147,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: use ui managers?
 		this.updateTabs();
         this.updateFastHunt();
+        this.updateFastPraise();
         this.updateCalendar();
         this.updateUndoButton();
         this.updateAdvisors();
@@ -187,9 +188,25 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var huntCount = Math.floor(catpower.value / 100);
             $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
                 + (huntCount === 1 ? " time" : " times");
-            } else {
-                if (this.fastHuntContainer.style.visibility == "visible"){
+        } else {
+            if (this.fastHuntContainer.style.visibility == "visible"){
                 this.fastHuntContainer.style.visibility = "hidden";
+            }
+        }
+    },
+
+    updateFastPraise: function(){
+        if (!this.fastPraiseContainer){
+            this.fastPraiseContainer = dojo.byId("fastPraiseContainer");
+        }
+
+        if (this.game.religion.faith > 0){
+            if (this.fastPraiseContainer.style.visibility == "hidden"){
+                this.fastPraiseContainer.style.visibility = "visible";
+            }
+        } else {
+            if (this.fastPraiseContainer.style.visibility == "visible"){
+                this.fastPraiseContainer.style.visibility = "hidden";
             }
         }
     },

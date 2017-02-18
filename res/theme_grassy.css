@@ -33,7 +33,8 @@ body.scheme_grassy {
 .scheme_grassy #resContainer,
 .scheme_grassy #advisorsContainer,
 .scheme_grassy #craftContainer,
-.scheme_grassy #fastHuntContainer {
+.scheme_grassy #fastHuntContainer,
+.scheme_grassy #fastPraiseContainer {
 	padding-top: 5px;
 	padding-bottom: 5px;
 
@@ -43,7 +44,8 @@ body.scheme_grassy {
 
 .scheme_grassy #resContainer,
 .scheme_grassy #advisorsContainer,
-.scheme_grassy #fastHuntContainer {
+.scheme_grassy #fastHuntContainer,
+.scheme_grassy #fastPraiseContainer {
 	margin-bottom: 5px;
 }
 
