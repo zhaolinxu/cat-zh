@@ -37,7 +37,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
 
-    fontSize: 16,
+    fontSize: null,
 
     //current selected game tab
 	activeTabId: "Bonfire",
@@ -308,12 +308,24 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }).play();
     },
 
+    getFontSize: function(){
+        //account for themes like sleek that set the default font size to something other than 16
+        if (this.fontSize == null){
+            var computedStyle = getComputedStyle(dojo.byId("leftColumn")).fontSize;
+            this.fontSize = parseInt(computedStyle, 10) || 16;
+        }
+        return this.fontSize;
+    },
+
     zoomUp: function(){
-        this.fontSize++;
+        this.fontSize = this.getFontSize() + 1;
         this.updateFontSize();
     },
     zoomDown: function(){
-        this.fontSize--;
+        this.fontSize = this.getFontSize() - 1;
+        if (this.fontSize < 1){
+            this.fontSize = 1; //prevent resources text from disappearing altogether
+        }
         this.updateFontSize();
     },
     updateFontSize: function(){
