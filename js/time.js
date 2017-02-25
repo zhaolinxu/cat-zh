@@ -102,9 +102,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (this.heat>0) {								//if we have spare chronoheat
-           this.getCFU("blastFurnace").heat -= this.game.getEffect("heatPerTick");	//add fuel to the furnace
-           this.heat += this.game.getEffect("heatPerTick"); 				//lower chronoheat
-           if (this.heat < 0){
+            var perTick = this.game.getEffect("heatPerTick");
+            if (this.heat < Math.abs(perTick)){ //limit fuel to what you actually have
+                perTick = -this.heat;
+            }
+            this.getCFU("blastFurnace").heat -= perTick;	//add fuel to the furnace
+            this.heat += perTick; 				//lower chronoheat
+            if (this.heat < 0){
                 this.heat = 0;								//make sure chronoheat does not go below 0
             }
         }
@@ -133,7 +137,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "blastFurnace",
         label: "Chrono Furnace",
-        description: "Operates on chronoheat. Increases the maximum heat limit by 100. Can automatically shatter time crystals.",
+        description: "Operates on chronoheat. Increases the maximum heat limit by 100.",
         prices: [
             { name : "timeCrystal", val: 25 },
             { name : "relic", val: 5 }
@@ -156,9 +160,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 return;
             }
 
-            if (self.heat > 100){
-                self.heat -= 100;
-                game.time.shatter();
+            if (self.heat >= 100){
+                var amt = Math.floor(self.heat / 100);
+                if (amt > 5){
+                    amt = 5; //limit calculations needed per tick
+                }
+                self.heat -= 100 * amt;
+                game.time.shatter(amt);
             }
         },
         unlocked: true
@@ -318,14 +326,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         cal.day = 0;
         cal.season = 0;
 
-        var tc = game.resPool.get("timeCrystal");
-        if (amt > tc.value){
-            amt = tc.value;
-        }
-        if (amt < 1){
-            return;
-        }
-
         for (var i = 0; i < amt; i++) {
             // Calendar
             cal.year+= 1;
@@ -350,12 +350,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (amt == 1) {
-            game.msg("Time crystal destroyed, skipped one year", "", "tc");
+            game.msg("Temporal energy released, skipped one year", "", "tc");
         } else {
-            game.msg("Time crystal destroyed, skipped " + amt + " years", "", "tc");
+            game.msg("Temporal energy released, skipped " + amt + " years", "", "tc");
         }
 
-        game.time.heat += amt*10;
         game.time.flux += amt;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
@@ -508,6 +507,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 
     doShatter: function(amt){
         var fueling = 100 * amt;				//add 100 fuel per TC
+        this.game.time.heat += amt*10;
         this.game.time.getCFU("blastFurnace").heat += fueling;
     },
 
@@ -576,7 +576,7 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
             name: "Combust TC",
-            description: "Feed a time crystal into your chrono furnace and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over the time.",
+            description: "Feed a time crystal into your chrono furnace and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over time.",
             prices: [{name: "timeCrystal", val: 1}],
             handler: function(btn){
 
