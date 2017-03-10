@@ -3,6 +3,15 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
     achievements: [
         {
+            name: "theElderLegacy",
+            title: "The Elder Legacy",
+            description: "Be a fist player to test Kittens Game Mobile",
+            condition: function () {
+                var date = new Date();
+                return (date.getMonth() == 0 && date.getFullYear() == 2017);
+            }
+        },
+        {
             name: "unicornConspiracy",
             title: "Unicorn Conspiracy",
             description: "Lift the shroud of the Unicorn conspiracy!",

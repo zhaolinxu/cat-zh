@@ -15,6 +15,10 @@ dojo.declare("classes.Metadata", null, {
 		return this.meta;
 	},
 
+	get: function (attr) {
+		return this.meta[attr];
+	},
+
 	set: function(attr, val){
         this.meta[attr] = val;
     }
@@ -25,23 +29,81 @@ dojo.declare("classes.Metadata", null, {
  * We probably should have an model class governed by a metadata, not an adapter
  */
 dojo.declare("classes.BuildingMeta", classes.Metadata, {
+	_metaCache: null,
+	_metaCacheStage: null,
 
+	// We need to avoid to use the function since it is slow, use get method intead which should be faster
     getMeta: function(){
-        var bld = this.meta;
-        if (typeof(bld.stages) == "object"){
+    	var bld = this.meta;
+    	if (bld.stage !== this._metaCacheStage) {
+    		this._metaCache = null; // invalidate cache if the stage has changed
+    	}
+    	if (this._metaCache) {
+    		return this._metaCache;
+    	}
+        
+        if (bld.stages){
 			//some specific hack for stagable buildings
 			if (bld.stage >= bld.stages.length){
 				bld.stage = bld.stages.length-1;
 			}
-			return dojo.mixin(
-                dojo.clone(bld), bld.stages[bld.stage || 0]);
+			var currentStage = bld.stages[bld.stage || 0];
+
+			var copy = {};
+			for (var attr in bld) {
+				// if (currentStage.hasOwnProperty(attr)) {
+				// 	copy[attr] = currentStage[attr];
+				// }
+		        if (bld.hasOwnProperty(attr)){
+		        	copy[attr] = bld[attr];
+		        } 
+		    }
+
+		    for (attr in currentStage) {
+				if (currentStage.hasOwnProperty(attr)) {
+					copy[attr] = currentStage[attr];
+				}
+		    }
+
+			this._metaCache = copy;
+        	this._metaCacheStage = bld.stage;
+        } else {
+        	this._metaCache = bld;
+        	this._metaCacheStage = bld.stage;
         }
-        return bld;
+        return this._metaCache;
+    },
+
+    /**
+	* Strongly encourage to use this function for faster access
+    */
+    get: function (attr) {
+    	var bld = this.meta;
+    	if (bld.stage !== this._metaCacheStage) {
+    		this._metaCache = null; // invalidate cache if the stage has changed
+    	}
+    	if (this._metaCache) {
+    		return this._metaCache[attr];
+    	}
+    	
+    	if (bld.stages){
+			//some specific hack for stagable buildings
+			if (bld.stage >= bld.stages.length){
+				bld.stage = bld.stages.length-1;
+			}
+			var currentStage = bld.stages[bld.stage || 0];
+			if (!currentStage.hasOwnProperty(attr)) {
+				return bld[attr];
+			} else {
+				return currentStage[attr];
+			}
+        }
+        return bld[attr];
     },
 
     set: function(attr, value){
 		var bld = this.meta;
-		if (typeof(bld.stages) == "object"){
+		if (bld.stages){
 			var stage = bld.stages[bld.stage || 0];
 
 			//try to set stage attribute if defined in metadata
@@ -52,6 +114,13 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 			}
 		}
 		this.meta[attr] = value;
+		if (this._metaCache) {
+			if (attr === "stage") {
+				this._metaCache= null;
+			} else {
+				this._metaCache[attr] = value;
+			}
+		}
 	}
 });
 
@@ -67,19 +136,38 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	constructor: function(game){
 		this.game = game;
         this.metaCache = {};
+        var self = this;
         this.registerMeta(false, this.buildingsData, {
 			getEffect: function(bld, effectName){
 				var effect = 0;
-				var bld = new classes.BuildingMeta(bld).getMeta();
+				//var bldMeta = self.getBuildingExt(bld.name);
+				//var effectValue = bldMeta.get("effects")[effectName];
+				var effectValue;
+				if (bld.stages){
+					//some specific hack for stagable buildings
+					if (bld.stage >= bld.stages.length){
+						bld.stage = bld.stages.length-1;
+					}
+					var currentStage = bld.stages[bld.stage || 0];
+					if (currentStage.effects) {
+						effectValue = currentStage.effects[effectName];
+					} else {
+			        	effectValue = bld.effects[effectName];
+			        } 
+		        } else {
+		        	effectValue = bld.effects[effectName];
+		        }
+
+
 				// Need a better way to do this...
 				if (effectName == "coalRatioGlobal") {
-					effect =  bld.effects[effectName];
+					effect = effectValue;
 				// Max effects and Ratio effects depends on constructed buildings
 				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
 					(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
-					effect = bld.effects[effectName] * bld.val;
+					effect = effectValue * bld.val;
 				} else {
-					effect = bld.effects[effectName] * bld.on;
+					effect = effectValue * bld.on;
 				}
 
 				// Previously, catnip demand (or other buildings that both effected the same resource)
@@ -500,14 +588,14 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.workshop.get("biofuel").researched){
 
 				self.effects["catnipPerTickCon"] = -1;
-				self.effects["oilPerTickProd"]= 0.02 * (1 + game.getEffect("biofuelRatio"));
+				self.effects["oilPerTickProd"] = 0.02 * (1 + game.getEffect("biofuelRatio"));
 
 				var amt = game.resPool.getAmtDependsOnStock(
 					[{res: "catnip", amt: -self.effects["catnipPerTickCon"]}],
 					self.on
 				);
-				self.effects["catnipPerTickCon"]*=amt;
-				self.effects["oilPerTickProd"]*=amt;
+				self.effects["catnipPerTickCon"] *= amt;
+				self.effects["oilPerTickProd"] *= amt;
 
 				if (self.val) {
 					self.effects["scienceRatio"] = 0.35 * (1 + self.on / self.val);
@@ -1355,8 +1443,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 if (energyRatio > 1.75){
                     energyRatio = 1.75;
                 }
-                btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) *1000)/1000;
-                btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) *1000)/1000;
+                btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
+                btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
             }
 
             var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
@@ -1587,7 +1675,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	getAutoProductionRatio: function(){
 		var autoProdRatio = 1;
 		//	faith
-		autoProdRatio *= ( 1 + this.game.religion.getProductionBonus() / 100);
+			autoProdRatio *= ( 1 + this.game.religion.getProductionBonus() / 100);
 		//	SW
 		var steamworks = this.get("steamworks");
 		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
@@ -1597,10 +1685,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
 
 		// reactors
-		autoProdRatio *= (1 + this.game.getEffect("productionRatio"));
+			autoProdRatio *= (1 + this.game.getEffect("productionRatio"));
 
 		return autoProdRatio;
-
 		//This function must stay atm for Steel Plants
 	},
 
@@ -1609,16 +1696,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * All direct calls to bld.price ratio should be considered deprecated
 	 */
 	getPriceRatio: function(bldName){
-		var bld = this.getBuildingExt(bldName).getMeta();
-		var ratio = bld.priceRatio;
+		var bld = this.getBuildingExt(bldName);
+		return this.getPriceRatioWithAccessor(bld);
+	},
 
+	getPriceRatioWithAccessor: function(bld){
+		var ratio = bld.get('priceRatio');
 		var ratioBase = ratio - 1;
 
-		var ratioDiff = this.game.getEffect(bldName + "PriceRatio") || 0;
+		var ratioDiff = this.game.getEffect(bld.meta.name + "PriceRatio") || 0;
 		ratioDiff += this.game.getEffect("priceRatio") || 0;
-
 		ratioDiff = this.game.getHyperbolicEffect(ratioDiff, ratioBase);
-
 		return ratio + ratioDiff;
 	},
 
@@ -1627,27 +1715,36 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 * It only took a couple of months. TODO: potential performance impact?
 	 */
 	 getPrices: function(bldName) {
-		var bld = this.getBuildingExt(bldName).getMeta();
-		var ratio = this.getPriceRatio(bldName);
+	 	var bld = this.getBuildingExt(bldName);
+		return this.getPricesWithAccessor(bld);
+	 },
 
-		var prices = dojo.clone(bld.prices);
+	 getPricesWithAccessor: function(bld) {
+	 	var bldPrices = bld.get('prices');
+		var ratio = this.getPriceRatioWithAccessor(bld);
 
-		for (var i = 0; i< prices.length; i++){
-			prices[i].val = prices[i].val * Math.pow(ratio, bld.val);
+		var prices = [];
+
+		for (var i = 0; i< bldPrices.length; i++){
+			prices.push({
+				val: bldPrices[i].val * Math.pow(ratio, bld.get('val')), 
+				name: bldPrices[i].name
+			});
 		}
 	    return prices;
 	 },
 
+
 	update: function(){
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
-
 			if (!bld.unlocked){
 				if (this.isUnlocked(bld)){
 					bld.unlocked = true;
 					this.game.render();
 				}
-			} else {
+			}
+			else {
 				//just in case we patched something (shit happens?)
 				if (!this.isUnlockable(bld)){
 					bld.unlocked = false;
@@ -1768,13 +1865,134 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	refineCatnip: function(){
 		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
 		this.game.resPool.addResEvent("wood", (1 * craftRatio));
+	},
+
+	fastforward: function(daysOffset) {
+		if (game.workshop.get("factoryAutomation").researched){
+			var steamworks = this.get("steamworks");
+			if (steamworks.isAutomationEnabled == null) {
+				steamworks.isAutomationEnabled = true;
+			}
+
+			var daysPerSeason = this.game.calendar.daysPerSeason;
+			var twiceAYear = this.game.workshop.get("advancedAutomation").researched;
+
+			var numberOfAutomations = Math.floor((daysOffset / daysPerSeason) * (twiceAYear? 0.5 : 0.25));
+
+
+			var baseAutomationRate = 0.02;
+
+			var wood = game.resPool.get("wood");
+			var minerals = game.resPool.get("minerals");
+			var iron = game.resPool.get("iron");
+
+			if (wood.maxValue == 0 || minerals.maxValue == 0) {
+				// Hack to prevent factory automation from starting
+				// when the page is first loaded, before caps are
+				return;
+			}
+			if (
+				wood.value >= wood.maxValue * (1 - baseAutomationRate) ||
+				minerals.value >= minerals.maxValue * (1 - baseAutomationRate) ||
+
+				(game.workshop.get("pneumaticPress").researched &&
+					iron.value >= iron.maxValue * (1 - baseAutomationRate))
+			){
+				if (!steamworks.isAutomationEnabled){
+					steamworks.jammed = true;
+					return;
+				}
+			} else {
+				return;
+			}
+
+			var ratio = game.getCraftRatio();
+			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
+			var automationRate = Math.min(baseAutomationRate + baseAutomationRate * steamworks.on, 0.9);
+
+			var i=numberOfAutomations;
+			while (i-- > 0 && game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
+				var autoIron = Math.min(iron.value, iron.maxValue) * (automationRate);
+
+				if (autoIron > game.workshop.getCraft("plate").prices[0].val){
+					var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
+					game.workshop.craft("plate", amt);
+				} else {
+					break;
+				}
+			}
+			i=numberOfAutomations;
+			while (i-- > 0 && minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
+				var autoMinerals = Math.min(minerals.value, minerals.maxValue) * (automationRate);
+				if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
+					var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
+					game.workshop.craft("slab", amt);
+				} else {
+					break;
+				}
+			}
+
+			i=numberOfAutomations;
+			while (i-- > 0 && wood.value >= wood.maxValue * (1 - baseAutomationRate)){
+				var autoWood = Math.min(wood.value, wood.maxValue) * (automationRate);
+				if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
+					var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
+					game.workshop.craft("beam", amt);
+				} else {
+					break;
+				}
+			}
+
+			steamworks.jammed = true;				//Jam until next year
+		}
 	}
 });
 
-dojo.declare("classes.game.ui.GatherCatnipButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	onClick: function(){
-		this.animate();
-		this.handler(this);
+dojo.declare("classes.game.ui.GatherCatnipButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	buyItem: function(model, event, callback){
+		var self = this;
+		clearTimeout(this.game.gatherTimeoutHandler);
+		this.game.gatherTimeoutHandler = setTimeout(function(){ self.game.gatherClicks = 0; }, 2500);	//2.5 sec
+
+		this.game.gatherClicks++;
+		if (this.game.gatherClicks >= 2500 && !this.game.ironWill){
+			this.game.gatherClicks = 0;
+			this.game.cheatMode = true;
+		}
+
+		this.game.bld.gatherCatnip();
+		callback(true);
+	}
+});
+
+dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+	    var self = this; 
+		var catnipVal = this.game.resPool.get("catnip").value;
+		var catnipCost = model.prices[0].val;
+		model.x100Link = {
+			title: "x100",
+			visible: !(catnipVal < (catnipCost * 100)),
+			handler: function(btn){
+				self.handleX100Click(model);
+			}
+		};
+		return model;
+	},
+
+	handleX100Click: function(model) {
+		var catnipVal = this.game.resPool.get("catnip").value;
+		var catnipCost = model.prices[0].val;
+
+		if (catnipVal < (catnipCost * 100)){
+			this.game.msg("not enough catnip!");
+		}
+
+		this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
+
+		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
+		this.game.resPool.addResEvent("wood", (100 * craftRatio));
 	}
 });
 
@@ -1783,99 +2001,185 @@ dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Bu
 
 	update: function(){
 		this.inherited(arguments);
-		var catnipVal = this.game.resPool.get("catnip").value;
-		var catnipCost = this.prices[0].val;
 	    // -------------- x100 ----------------
 
 		if (!this.x100Href){
-			this.x100Href = this.addLink("x100",
-				function(){
-
-					var catnipVal = this.game.resPool.get("catnip").value;
-
-					if (catnipVal < (catnipCost * 100)){
-						this.game.msg("not enough catnip!");
-					}
-
-					this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
-
-					var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-					this.game.resPool.addResEvent("wood", (100 * craftRatio));
-
-					this.update();
-				});
-
+			this.x100Href = this.addLink(this.model.x100Link.title, this.model.x100Link.handler
+				);
 		} else {
-			dojo.setStyle(this.x100Href.link, "display", catnipVal < (catnipCost * 100) ? "none" : "");
+			dojo.setStyle(this.x100Href.link, "display", !this.model.x100Link.visible ? "none" : "");
 		}
 
 	}
 
 });
 
-dojo.declare("classes.ui.btn.BuildingBtnModern", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	simplePrices: false,
-
-	getMetadata: function(){
-		if (this.buildingName){
-			var bld = this.game.bld.getBuildingExt(this.buildingName).getMeta();
-			return bld;
-		}
-		return null;
+dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.simplePrices = false;
+		return result;
 	},
 
-	getName: function() {
-		var meta = this.getMetadata();
+    getMetadata: function(model){
+    	model.metaAccessor = this.game.bld.getBuildingExt(model.options.building);
+
+		//let's not mess with meta accessor, it is a pain to deal with it
+		var meta = model.metaAccessor.getMeta(),
+			bld = this.game.bld.get(model.options.building);
+		meta.unlockable = bld.unlockable;
+		meta.unlocked = bld.unlocked;
+
+		return meta;
+    },
+
+    getName: function(model) {
+		var meta = model.metadata;
 		var name = this.inherited(arguments);
 
 		var sim = this.game.village.sim;
 		if (meta.name == "hut" && sim.nextKittenProgress && sim.maxKittens <= 10 ){
-			name += " [" + (sim.nextKittenProgress*100).toFixed()  +"%]";
+			name += " [" + ( sim.nextKittenProgress * 100 ).toFixed()  + "%]";
 		}
 		return name;
 	},
 
-	/**
-	 * Ugly hack
-	 **/
-	getMetadataRaw: function(){
-		if (this.buildingName){
-			var bld = this.game.bld.get(this.buildingName);
-			return bld;
-		}
-		return null;
+	getPrices: function(model){
+		var prices = this.game.bld.getPricesWithAccessor(model.metaAccessor);
+		return prices;
 	},
 
-	getPrices: function(){
-		if (this.buildingName){
-			var prices = this.game.bld.getPrices(this.buildingName);
-			return prices;
-		}
-		return this.prices;
-	},
-
-	hasSellLink: function(){
+	hasSellLink: function(model){
 		return !this.game.opts.hideSell;
 	},
 
-    build: function(bld, maxBld){
+    build: function(model, maxBld){
 		var counter = this.inherited(arguments);
 
 		//update stats
 		this.game.stats.getStat("buildingsConstructed").val += counter;
 		this.game.telemetry.logEvent("building",
-			{name: bld.name, val: counter}
+			{name: model.options.building, val: counter}
 		);
 
 		// undo
 		var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", bld.name, counter);
+        undo.addEvent("bld", model.options.building, counter);
     },
 
+    decrementValue: function(model) {
+    	this.inherited(arguments);
+    	model.metaAccessor.set("val", model.metadata.val);
+    	model.metaAccessor.set("on", model.metadata.on);
+	},
+
+	incrementValue: function(model) {
+		this.inherited(arguments);
+    	model.metaAccessor.set("val", model.metadata.val);
+    	model.metaAccessor.set("on", model.metadata.on);
+	}
 });
 
+
 //-------------------    special stagable bld exclusive button ------------------------------------------------
-dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
+
+dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBtnModernController, {
+	stageLinks: null,
+
+	constructor: function(){
+		
+	},
+
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		model.stageLinks = this.getStageLinks(model);
+		
+
+		return model;
+	},
+
+	getStageLinks: function(model){
+		var self = this;
+		var stageLinks = [];
+		var stages = model.metadata.stages;
+		var stage = model.metadata.stage || 0;
+
+		var downgradeHandler = function(){
+			self.downgrade(model);
+		}
+		var upgradeHandler = function(){
+			self.upgrade(model);
+		}
+		for (var i = 1; i < stages.length; i++){
+			if (i <= stage){
+				//downgrade
+				stageLinks.push( {title: "v", handler: downgradeHandler, enabled: true});
+			} else {
+				//upgrade
+				if (!stages[i].stageUnlocked){
+					continue;
+				}
+				stageLinks.push( {title: "^", handler: upgradeHandler, enabled: true});
+			} //if
+		}
+
+		return stageLinks;
+	},
+
+	downgrade: function(model) {
+		this.game.ui.confirm('', 'Do you want to downgrade this building?\n\nYou will lose all of those currently built.', {
+			handler: this.downgradeCallback,
+			ctx: this,
+			args: [model]
+		});
+	},
+
+	downgradeCallback: function(model, result) {
+		if (!result) {
+			return;
+		} 
+		var metadataRaw = this.getMetadataRaw(model);
+		metadataRaw.stage = metadataRaw.stage -1 || 0;
+		metadataRaw.val = 0;	//TODO: fix by using separate value flags
+		metadataRaw.on = 0;
+		if (metadataRaw.calculateEffects){
+			metadataRaw.calculateEffects(metadataRaw, this.game);
+		}
+        this.game.upgrade(metadataRaw.upgrades);
+		this.game.render();
+	},
+
+	upgrade: function(model) {
+		this.game.ui.confirm('', 'Do you want to upgrade this building?\n\nYou will lose all of those currently built.', {
+			handler: this.upgradeCallback,
+			ctx: this,
+			args: [model]
+		});
+	},
+
+	upgradeCallback: function(model, result) {
+		if (!result) {
+			return;
+		} 
+		var metadataRaw = this.getMetadataRaw(model);
+		metadataRaw.stage = metadataRaw.stage || 0;
+		metadataRaw.stage++;
+
+		metadataRaw.val = 0;	//TODO: fix by using separate value flags
+		metadataRaw.on = 0;
+		if (metadataRaw.calculateEffects){
+			metadataRaw.calculateEffects(metadataRaw, this.game);
+		}
+        this.game.upgrade(metadataRaw.upgrades);
+		this.game.render();
+	},
+
+	getMetadataRaw: function(model) {
+		return this.game.bld.get(model.metadata.name);
+	}
+});
+
+dojo.declare("classes.ui.btn.StagingBldBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
 	stageLinks: null,
 
 	constructor: function(){
@@ -1884,53 +2188,11 @@ dojo.declare("classes.ui.btn.StagingBldBtn", classes.ui.btn.BuildingBtnModern, {
 
 	renderLinks: function(){
 		this.inherited(arguments);
-		var bldExt = this.game.bld.getBuildingExt(this.buildingName);
 
-		var stages = bldExt.getMeta().stages.length;
-		var stage = bldExt.meta.stage || 0;
-
-		if (this.stageLinks.length > 0){
-			return;
-		}
-		for (var i = 1; i < stages; i++){
-			if (i <= stage){
-				//downgrade
-				this.stageLinks.push(
-					this.addLink("v",function(){
-						if (confirm('Do you want to downgrade this building?\n\nYou will lose all of those currently built.')){
-							bldExt.meta.stage = bldExt.meta.stage -1 || 0;
-							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
-							bldExt.meta.on = 0;
-							if (bldExt.meta.calculateEffects){
-								bldExt.meta.calculateEffects(bldExt.meta, this.game);
-							}
-							this.game.upgrade(bldExt.meta.upgrades);
-							this.game.render();
-						}
-					})
-				);
-			} else {
-				//upgrade
-				if (!bldExt.getMeta().stages[i].stageUnlocked){
-					continue;
-				}
-				this.stageLinks.push(
-					this.addLink("^",function(){
-						if (confirm('Do you want to upgrade this building?\n\nYou will lose all of those currently built.')){
-							bldExt.meta.stage = bldExt.meta.stage || 0;
-							bldExt.meta.stage++;
-
-							bldExt.meta.val = 0;	//TODO: fix by using separate value flags
-							bldExt.meta.on = 0;
-							if (bldExt.meta.calculateEffects){
-								bldExt.meta.calculateEffects(bldExt.meta, this.game);
-							}
-							this.game.upgrade(bldExt.meta.upgrades);
-							this.game.render();
-						}
-					})
-				);
-			} //if
+		for (var i = 0; i < this.model.stageLinks.length; i++){
+			var linkModel = this.model.stageLinks[i];
+			this.stageLinks.push(
+					this.addLink(linkModel.title, linkModel.handler));
 		}
 	}
 });
@@ -2070,27 +2332,34 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				var bldMetaRaw = this.game.bld.get(group.buildings[j]);
 				var bld = new classes.BuildingMeta(bldMetaRaw).getMeta();
 
-				var opts = {
-					name: 			bld.label,
-					description: 	bld.description,
-					building: 		bld.name,
-					twoRow:			this.twoRows
-				};
-
 				var btn = null;
 				if (typeof(bld.stages) == "object"){
-					var btn = new classes.ui.btn.StagingBldBtn(opts, this.game);
+					btn = new classes.ui.btn.StagingBldBtn({
+						name: 			bld.label,
+						description: 	bld.description,
+						building: 		bld.name,
+						twoRow:			this.twoRows,
+						controller: new classes.ui.btn.StagingBldBtnController(this.game)
+					}, this.game);
 				} else {
-					var btn = new classes.ui.btn.BuildingBtnModern(opts, this.game);
+					btn = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
+						name: 			bld.label,
+						description: 	bld.description,
+						building: 		bld.name,
+						twoRow:			this.twoRows,
+						controller: new classes.ui.btn.BuildingBtnModernController(this.game)
+					}, this.game);
 				}
+				var mdl = btn.controller.fetchModel(btn.opts);
 
 				if (this.activeGroup == "allEnabled"){
-					if (!btn.hasResources()){
+					
+					if (!mdl.enabled){
 						continue;
 					}
 				}
 				if (this.activeGroup == "togglable"){
-					if (!bld.togglable){
+					if (!mdl.togglable){
 						continue;
 					}
 				}
@@ -2102,7 +2371,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				}
 
 				btn.update();
-				if (!btn.visible){
+				if (!mdl.visible){
 					continue;	//skip invisible buttons to not make gaps in the two rows renderer
 				}
 
@@ -2119,21 +2388,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 	addCoreBtns: function(container){
 
-		var btn = new classes.game.ui.GatherCatnipButton({
+		var btn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name:	 "Gather catnip",
-			handler: function(btn){
-
-				clearTimeout(btn.game.gatherTimeoutHandler);
-				btn.game.gatherTimeoutHandler = setTimeout(function(){ btn.game.gatherClicks = 0; }, 2500);	//2.5 sec
-
-				btn.game.gatherClicks++;
-				if (btn.game.gatherClicks >= 2500 && !btn.game.ironWill){
-					btn.game.gatherClicks = 0;
-					btn.game.cheatMode = true;
-				}
-
-				btn.game.bld.gatherCatnip();
-			},
+			controller: new classes.game.ui.GatherCatnipButtonController(this.game),
 			description: "Gather some catnip in the forest",
 			twoRow: this.twoRows
 		}, this.game);
@@ -2141,11 +2398,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		//btn.render(container);
 
 		var isEnriched = btn.game.workshop.get("advancedRefinement").researched;
-
+		var self = this;
 		var btn = new classes.game.ui.RefineCatnipButton({
 			name: 		"Refine catnip",
+			controller: new classes.game.ui.RefineCatnipButtonController(this.game),
 			handler: 	function(btn){
-				btn.game.bld.refineCatnip();
+				self.game.bld.refineCatnip();
 			},
 			description: "Refine catnip into catnip wood",
 			prices: [ { name : "catnip", val: (isEnriched ? 50 : 100) }],
@@ -2157,5 +2415,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 	update: function(){
 		this.inherited(arguments);
+	},
+
+	getTabName: function(){
+		//TODO: calculate count and fetch the result
+		return "Bonfire";
 	}
 });

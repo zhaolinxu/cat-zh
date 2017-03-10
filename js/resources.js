@@ -373,6 +373,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 
 		this.resources = [];
+		this.resourceMap = {};
 
 		for (var i = 0; i< this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
@@ -386,19 +387,21 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				res.refundable = true;
 			}
 			this.resources.push(res);
+			this.resourceMap[res.name] = res;
 		}
 	},
 
 	get: function(name){
-		for (var i = 0; i < this.resources.length; i++){
-			var res = this.resources[i];
-			if (res.name == name){
-				return res;
-			}
-		}
+		var res = this.resourceMap[name];
+		// for (var i = 0; i < this.resources.length; i++){
+		// 	var res = this.resources[i];
+		// 	if (res.name == name){
+		// 		return res;
+		// 	}
+		// }
 
 		//if no resource found, return false
-		return false;
+		return res? res : false;
 	},
 
 	createResource: function(name){
@@ -414,14 +417,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addRes: function(res, addedValue, event) {
+	addRes: function(res, addedValue, event, preventLimitCheck) {
 		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
 			return 0;
 		}
 
 		var prevValue = res.value || 0;
 
-		if(res.maxValue) {
+		if(res.maxValue && !preventLimitCheck) {
 			//if already overcap, allow to remain that way unless removing resources.
 			if(res.value > res.maxValue) {
 				if(addedValue < 0 ) {
@@ -1234,27 +1237,24 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var craftRowAmt = 1;
 			if (1 < allCount * 0.01 ){
 				craftRowAmt = Math.floor(allCount * 0.01);
-			} else {
-				craftRowAmt = 1;
 			}
 			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a1.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 
 			// 25/5%
+			var craftRowAmt = 25;
 			if (25 < allCount * 0.05 ){
 				craftRowAmt = Math.floor(allCount * 0.05);
-			}else {
-				craftRowAmt = 25;
 			}
 			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a25.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 
 			// 100/10%
+			var craftRowAmt = 100;
 			if (100 < allCount * 0.1 ){
 				craftRowAmt = Math.floor(allCount * 0.1);
-			} else {
-				craftRowAmt = 100;
 			}
+
 			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a100.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 			//=======================================================================

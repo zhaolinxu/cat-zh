@@ -1,3 +1,14 @@
+
+invokeCallback = function(callback, args) {
+	if (typeof callback == 'function') {
+      	callback.apply(window, args);
+    } else {
+    	var fnArgs = (callback.args? callback.args.slice().concat(args) : args);
+    	callback.handler.apply(callback.ctx, fnArgs);
+    }
+};
+
+
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 	//Base control class. Must be a superclass for all game components.
 });
@@ -183,7 +194,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				return meta;
 			}
 		}
-		console.error("Could not find metadata for ", name, "in", meta);
+		console.error("Could not find metadata for ", name, "in", metadata);
 	},
 
 	loadMetadata: function(meta, saveMeta){
@@ -271,7 +282,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	resetStateResearch: function() {
 		//TODO
 	}
-
 });
 
 /**
@@ -281,8 +291,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
  */
 dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	static: {
-
-		spans: [],
 
 		filters: {
 			"astronomicalEvent": {
@@ -330,128 +338,297 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			}
-		},
+		}
+	},
+
+	messages: null,
+	messageIdCounter: 0,
+	ui: null,
+	game: null,
+
+	constructor: function(game) {
+		this.game = game;
+		this.messages = [];
+		this.filters = dojo.clone(this.static.filters);
+	},
+
+	/**
+	 * Prints message in the console. Returns a DOM node for the last created message
+	 */
+	msg : function(message, type, tag, noBullet) {
+		 if (tag && this.filters[tag]){
+            var filter = this.filters[tag];
+
+            if (!filter.unlocked){
+                filter.unlocked = true;
+                this.ui.renderFilters();
+            } else if (!filter.enabled){
+                return;
+            }
+        }
+
 		/**
-		 * Prints message in the console. Returns a DOM node for the last created message
+		 * This code snippet groups the messages under a single date header based on a date stamp.
+		 * The logic is not straightforward and a bit hacky. Maybe there is a better way to handle it like tracking the reference to a date node
 		 */
-		msg : function(message, type, tag, noBullet){
-			if (tag && this.filters[tag]){
-				var filter = this.filters[tag];
+		if (this.messages.length>1 && type == 'date' && message==this.messages[this.messages.length - 2].text) {
+			this.messages.splice(this.messages.length - 2, 1);
+		}
 
-				if (!filter.unlocked){
-					filter.unlocked = true;
-					this.renderFilters();
-				} else if (!filter.enabled){
-					return;
+		var hasCalendarTech = this.game.science.get("calendar").researched;
+
+		var logmsg = {
+			text: message,
+			type: type, 
+			tag: tag, 
+			noBullet: noBullet,
+			id: "consoleMessage_"+ (this.messageIdCounter++),
+			hasCalendarTech: hasCalendarTech,
+			year: hasCalendarTech? game.calendar.year.toLocaleString(): null,
+			seasonTitle: hasCalendarTech? game.calendar.getCurSeasonTitle() : null,
+			seasonTitleShorten: hasCalendarTech? game.calendar.getCurSeasonTitleShorten() : null
+			
+		};
+		this.messages.push(logmsg);
+
+
+		if (this.messages.length > 40){
+			this.messages.shift();
+		}
+
+		this.ui.renderConsoleLog();
+
+		this.ui.notifyLogEvent(logmsg);
+	},
+
+	clear: function(){
+		this.messages = [];
+		this.ui.renderConsoleLog();
+	},
+
+	
+
+	resetState: function (){
+		for (var fId in this.filters){
+			var filter = this.filters[fId];
+			filter.unlocked = filter.defaultUnlocked || false;
+			filter.enabled = true;
+		}
+		//TODO: find usage and call ui.renderFilters
+		this.ui.renderFilters();
+	},
+
+	save: function(saveData){
+		saveData.console = {
+			filters: this.filters
+		};
+	},
+
+	load: function(saveData){
+		if (saveData.console && saveData.console.filters){
+			for (var fId in saveData.console.filters){
+				var savedFilter = saveData.console.filters[fId];
+
+				if (this.filters[fId]) {
+					this.filters[fId].unlocked = savedFilter.unlocked;
+					this.filters[fId].enabled = savedFilter.enabled;
 				}
 			}
+		}
+	}
+});
 
-			var gameLog = dojo.byId("gameLog");
+dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
+	game: null,
+	controllerOpts: null,
 
-			if (gameLog) {
-				dojo.forEach(dojo.query("*", gameLog), function (entry, i) {
-					if (i > 24) {
-						dojo.setStyle(entry, "opacity", (1 - (i-24) * 0.066));
-					}
-				});
+
+	constructor: function(game, controllerOpts){
+		this.game = game;
+		if (!this.game) {
+			throw new Error("The game instance must be defined for the controller");
+		}
+		this.controllerOpts = controllerOpts || {};
+	},
+
+	fetchModel: function(options) {
+		var model = this.initModel(options);
+		model.name = this.getName(model);
+		model.description = this.getDescription(model);
+		model.prices = this.getPrices(model);
+		model.priceRatio = options.priceRatio;
+		model.handler = options.handler;
+		model.twoRow = options.twoRow;
+
+		this.updateEnabled(model);
+		this.updateVisible(model);
+
+		return model;
+	},
+
+	fetchExtendedModel: function(model) {
+		var prices = model.prices;
+		var priceModels = [];
+
+		if (prices) {
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+				priceModels.push(this.createPriceLineModel(model, price));
+
+			}
+		}
+		model.priceModels = priceModels;
+	},
+
+	initModel: function(options) {
+		var mdl = this.defaults();
+		mdl.options = options;
+		return mdl;
+	},
+
+	defaults: function() {
+		return  {
+			name: "",
+			description: "",
+			visible: true,
+			enabled: true,
+			handler: null,
+			prices: null,
+			priceRatio: null,
+			twoRow: null,
+			refundPercentage: 0.5,
+			// ---
+			highlightUnavailable: false,
+			resourceIsLimited: ""
+
+		};
+	},
+
+	createPriceLineModel: function(model, price) {
+		var res = this.game.resPool.get(price.name);
+		return { 
+			title : res.title || res.name, 
+			name: price.name,
+			val: price.val,
+			progress: res.value / price.val,
+			displayValue: this.game.getDisplayValueExt(price.val)
+		};
+
+	},
+
+	hasResources: function(model, prices){
+		if (!prices){
+			prices = this.getPrices(model);
+		}
+
+		return this.game.resPool.hasRes(prices);
+	},
+
+	updateEnabled: function(model){
+		model.enabled = this.hasResources(model, model.prices);
+		model.highlightUnavailable = this.game.opts.highlightUnavailable;
+
+		if (!this.game.opts.highlightUnavailable){
+			return;
+		}
+
+		//---------------------------------------------------
+		//		a bit hackish place for price highlight
+		//---------------------------------------------------
+		var limited = this.game.resPool.isStorageLimited(model.prices);
+		//---- now highlight some stuff in vanilla js way ---
+		model.resourceIsLimited = limited;
+	},
+
+	updateVisible: function(model) {
+		//do nothing
+		if (this.controllerOpts && this.controllerOpts.updateVisible) {
+			this.controllerOpts.updateVisible.apply(this, arguments);
+		}
+	},
+
+	getPrices: function(model){
+		return model.options.prices || [];
+	},
+
+	getName: function(model){
+		return model.options.name;
+	},
+
+	getDescription: function(model){
+		return model.options.description;
+	},
+
+
+	/**
+	 * Deprecated method for price management (increases price property stored in button)
+	 */
+	adjustPrice:function(model, ratio ){
+		var prices = this.getPrices(model);
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+
+				price.val = price.val * ratio;
+			}
+		}
+
+		this.game.render();
+	},
+
+	/**
+	 * Deprecated method for price management (same as above, but decreases price on sale)
+	 */
+	rejustPrice: function(model, ratio){
+		var prices = model.prices;
+		if (prices.length){
+			for( var i = 0; i < prices.length; i++){
+				var price = prices[i];
+
+				price.val = price.val / ratio;
+
+			}
+		}
+		this.game.render();
+	},
+
+	payPrice: function(model) {
+		this.game.resPool.payPrices(model.prices);
+		model.prices = this.getPrices(model);
+	},
+
+	clickHandler: function(model, event){
+		model.handler.apply(this, [model, event]);
+	},
+
+	buyItem: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			this.clickHandler(model, event);
+
+			this.payPrice(model);
+
+			if (model.priceRatio){
+				this.adjustPrice(model.priceRatio);
 			}
 
-			var span = dojo.create("span", { innerHTML: message, className: "msg" }, gameLog, "first");
+			callback(true);
+		}
+		callback(false);
+	},
 
-			if (type){
-				dojo.addClass(span, "type_"+type);
-			}
-			if (noBullet) {
-				dojo.addClass(span, "noBullet");
-			}
+	refund: function(model){
+		if (model.prices.length){
+			for( var i = 0; i < model.prices.length; i++){
+				var price = model.prices[i];
 
-			/**
-			 * This code snippet groups the messages under a single date header based on a date stamp.
-			 * The logic is not straightforward and a bit hacky. Maybe there is a better way to handle it like tracking the reference to a date node
-			 */
-			var spans = this.spans;
-			if (spans.length>1 && type == 'date' && message==spans[spans.length - 2].innerHTML) {
-				dojo.destroy(spans[spans.length - 2]);
-				spans.splice(spans.length - 2, 1);
-			}
-			//----------------------------------------------------------------------------------------------------------
-
-			spans.push(span);
-			if (spans.length > 40){
-				dojo.destroy(spans.shift()); //remove the first element from the array and destroy it
-			}
-
-
-			return span;
-		},
-
-		clear: function(){
-			this.spans = [];
-
-			var gameLog = dojo.byId("gameLog");
-			dojo.empty(gameLog);
-		},
-
-		renderFilters: function(){
-			var filters = dojo.byId("logFilters");
-			dojo.empty(filters);
-			var show = false;
-
-			for (var fId in this.filters){
-				if (this.filters[fId].unlocked) {
-					this._createFilter(fId, filters);
-					show = true;
+				var res = this.game.resPool.get(price.name);
+				if (res.refundable) {
+					this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
+				} else {
+					// No refund at all
 				}
 			}
-			$("#logFiltersBlock").toggle(show);
-		},
-
-		_createFilter: function(fId, filters){
-			var id = "filter-" + fId;
-
-			var checkbox = dojo.create("input", {
-					id: id,
-					type: "checkbox",
-					checked: this.filters[fId].enabled
-			}, filters);
-			dojo.connect(checkbox, "onclick", this, function(){
-				this.filters[fId].enabled = checkbox.checked;
-			});
-
-			dojo.create("label", {
-				"for": id,
-				innerHTML: this.filters[fId].title
-			}, filters);
-			dojo.create("br", null, filters);
-		},
-
-		resetState: function (){
-			for (var fId in this.filters){
-				var filter = this.filters[fId];
-				filter.unlocked = filter.defaultUnlocked || false;
-				filter.enabled = true;
-			}
-			this.renderFilters();
-		},
-
-		save: function(saveData){
-			saveData.console = {
-				filters: this.filters
-			};
-		},
-
-		load: function(saveData){
-			if (saveData.console && saveData.console.filters){
-				for (var fId in saveData.console.filters){
-					var savedFilter = saveData.console.filters[fId];
-
-					if (this.filters[fId]) {
-						this.filters[fId].unlocked = savedFilter.unlocked;
-						this.filters[fId].enabled = savedFilter.enabled;
-					}
-				}
-				this.renderFilters();
-			}
+			model.prices = this.getPrices(model);
 		}
 	}
 });
@@ -462,17 +639,9 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 
+	model: null,
+	controller: null, 
 	game: null,
-	refundPercentage: 0.5,
-
-	name: "",
-	description: "",
-	visible: true,
-	enabled: true,
-	handler: null,
-	prices: null,
-	priceRatio: null,
-	twoRow: null,
 
 	//nodes
 
@@ -494,13 +663,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 	setOpts: function(opts){
 		this.id = opts.id;
-		this.name = opts.name;
-		this.handler = opts.handler;
-		this.description = opts.description;
-		this.twoRow = opts.twoRow;
-
-		this.prices = opts.prices ? opts.prices : [];
-		this.priceRatio = opts.priceRatio;
+		this.controller = opts.controller;
+		if (!this.controller) {
+			throw new Error("Controller must be defined for the button");
+		}
+		//this.model = this.controller.fetchModel(opts);
 
 		//screw this
 		this.opts = opts;
@@ -511,15 +678,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 	},
 
-	setVisible: function(visible){
-		this.visible = visible;
-
+	updateVisible: function(){
 		if (!this.domNode){
 			return;
 		}
 
 		// locked structures are invisible
-		if (this.visible){
+		if (this.model.visible){
 			if (this.domNode.style.display === "none"){
 				this.domNode.style.display = "block";
 			}
@@ -530,159 +695,80 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		}
 	},
 
-	setEnabled: function(enabled){
-		if ( !this.domNode ){
-			return;
-		}
-
-		if (enabled){
-			if (!this.enabled){
-				dojo.removeClass(this.domNode, "disabled");
-			}
-		} else {
-			if (this.enabled){
-				dojo.addClass(this.domNode, "disabled");
-			}
-		}
-		this.enabled = enabled;
-	},
-
 	updateEnabled: function(){
-		this.setEnabled(this.hasResources());
+		if ( this.domNode ){
+			var hasClass = dojo.hasClass(this.domNode, "disabled");
+			if (this.model.enabled){
+				if (hasClass){
+					dojo.removeClass(this.domNode, "disabled");
+				}
+			} else {
+				if (!hasClass){
+					dojo.addClass(this.domNode, "disabled");
+				}
+			}
+		}
+		
 
-		if (!this.buttonTitle || !this.game.opts.highlightUnavailable){
+		if (!this.buttonTitle || !this.model.highlightUnavailable){
 			return;
 		}
 
 		//---------------------------------------------------
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
-		var limited = this.game.resPool.isStorageLimited(this.getPrices());
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = limited ? "limited" : "";
-
+		this.buttonTitle.className = this.model.resourceIsLimited ? "limited" : "";
 	},
 
-	updateVisible: function(){
-		//do nothing
-	},
-
-	hasResources: function(prices){
-		if (!prices){
-			prices = this.getPrices();
-		}
-
-		return this.game.resPool.hasRes(prices);
-	},
-
-	update: function(){
+	update: function() {
+		this.model = this.controller.fetchModel(this.opts);
 		this.updateEnabled();
 		this.updateVisible();
 
-		if (this.buttonTitle && this.buttonTitle.innerHTML != this.getName()){
-			this.buttonTitle.innerHTML = this.getName();
+		if (this.buttonTitle && this.buttonTitle.innerHTML != this.model.name){
+			this.buttonTitle.innerHTML = this.model.name;
 		}
 	},
 
-	getPrices: function(){
-		return this.prices;
-	},
-
-	/**
-	 * Deprecated method for price management (increases price property stored in button)
-	 */
-	adjustPrice:function( ratio ){
-		var prices = this.getPrices();
-		if (prices.length){
-			for( var i = 0; i < prices.length; i++){
-				var price = prices[i];
-
-				price.val = price.val * ratio;
-			}
-		}
-
-		this.game.render();
-	},
-
-	/**
-	 * Deprecated method for price management (same as above, but decreases price on sale)
-	 */
-	rejustPrice: function( ratio){
-		var prices = this.getPrices();
-		if (prices.length){
-			for( var i = 0; i < prices.length; i++){
-				var price = prices[i];
-
-				price.val = price.val / ratio;
-
-			}
-		}
-		this.game.render();
-	},
-
-	payPrice: function(){
-		var prices = this.getPrices();
-		this.game.resPool.payPrices(prices);
-	},
-
-	refund: function(percent){
-		var prices = this.getPrices();
-		if (prices.length){
-			for( var i = 0; i < prices.length; i++){
-				var price = prices[i];
-
-				var res = this.game.resPool.get(price.name);
-				if (res.refundable) {
-					this.game.resPool.addResEvent(price.name, price.val * percent);
-				} else {
-					// No refund at all
-				}
-			}
-		}
-	},
-
-	getDescription: function(){
-		return this.description;
-	},
-
-	getName: function(){
-		return this.name;
-	},
 
 	/**
 	 * Renders button. Method is usually called once the tab is created.
 	 */
 	render: function(btnContainer){
+		this.model = this.controller.fetchModel(this.opts);
 
 		this.container = btnContainer;
 
 		this.domNode = dojo.create("div", {
 			style: {
 				position: "relative",
-				display: this.visible ? "block" : "none"
+				display: this.model.visible ? "block" : "none"
 			}
 		}, btnContainer);
 
-		if (this.twoRow) {
+		if (this.model.twoRow) {
 			dojo.setStyle(this.domNode, "marginLeft", "auto");
 			dojo.setStyle(this.domNode, "marginRight", "auto");
 		}
 
 		this.buttonContent = dojo.create("div", {
 			className: "btnContent",
-			title: this.getDescription()
+			title: this.model.description
 		}, this.domNode);
 
 		this.buttonTitle = dojo.create("span", {
-			innerHTML: this.getName(),
+			innerHTML: this.model.name,
 			style: {}
 		}, this.buttonContent);
 
 		this.domNode.className = "btn nosel";
 
-		if (!this.enabled){
+		if (!this.model.enabled){
 			this.domNode.className += " disabled";
 		}
+
+		this.updateVisible();
 
 		dojo.connect(this.domNode, "onclick", this, "onClick");
 
@@ -701,25 +787,20 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		});
 	},
 
-	onClick: function(){
+	onClick: function(event){
 		this.animate();
-
-		if (this.enabled && this.hasResources()){
-			this.handler(this);
-
-			this.payPrice();
-
-			if (this.priceRatio){
-				this.adjustPrice(this.priceRatio);
+		var self = this;
+		this.controller.buyItem(this.model, event, function(result) {
+			if (result) {
+				self.update();
 			}
+		});
 
-			this.update();
-		}
 	},
 
 	afterRender: function(){
 
-		var prices = this.getPrices();
+		var prices = this.model.prices;
 		if (prices.length && !this.tooltip){
 
 			var tooltip = dojo.create("div", {
@@ -755,10 +836,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 						}
 					}, tooltip);
 
-				var res = this.game.resPool.get(price.name);
-
-				var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left"} }, priceItemNode );
-				var priceSpan = dojo.create("span", { innerHTML: this.game.getDisplayValueExt(price.val), style: {float: "right" } }, priceItemNode );
+				var nameSpan = dojo.create("span", { innerHTML: price.title, style: { float: "left"} }, priceItemNode );
+				var priceSpan = dojo.create("span", { innerHTML: price.displayValue, style: {float: "right" } }, priceItemNode );
 
 				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
 			}
@@ -897,177 +976,74 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	}
 });
 
-/*
- * Restyled button with slightly more sophisticated tooltip mechanism
- */
 
-dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
-	simplePrices: true,
-	hasResourceHover: false,
 
-	afterRender: function(){
-		dojo.addClass(this.domNode, "modern");
+dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearunicorn.game.ui.ButtonController, {
 
-		this.renderLinks();
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-		this.attachTooltip(this.domNode, dojo.partial( this.getTooltipHTML, this));
-
-		this.buttonContent.title = "";	//no old title for modern buttons :V
-
-		if (this.hasResourceHover) {
-			dojo.connect(this.domNode, "onmouseover", this,
-				dojo.hitch( this, function(){
-					this.game.setSelectedObject(this.getSelectedObject());
-				}));
-			dojo.connect(this.domNode, "onmouseout", this,
-				dojo.hitch( this, function(){
-					this.game.clearSelectedObject();
-				}));
-		}
+		result.simplePrices = true;
+		result.hasResourceHover= false;
+		result.tooltipName = false;
+		return result;
 	},
 
-	getDescription: function(){
-		return this.description;
-	},
-
-	getFlavor: function(){
+	getFlavor: function(model){
 		return undefined;
 	},
 
-	getEffects: function(){
+	getEffects: function(model){
 		return undefined;
 	},
 
-	getTooltipHTML: function(btn){
-		//throw "ButtonModern::getTooltipHTML must be implemented";
-
-		var tooltip = dojo.create("div", { style: {
-			width: "280px"
-		}}, null);
-
-
-		if (this.tooltipName) {
-			dojo.create("div", {
-				innerHTML: this.getName(),
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px"
-			}}, tooltip);
-		}
-
-		// description
-		var descDiv = dojo.create("div", {
-			innerHTML: this.getDescription(),
-			style: {
-				textAlign: "center",
-				width: "100%",
-				maxWidth: "280px",
-				paddingTop: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
-
-		var prices = this.prices;
-		var effects = this.getEffects();
-		var flavor = this.getFlavor();
-		if (prices && prices != "" || effects || flavor && flavor != ""){
-			dojo.setStyle(descDiv, "paddingBottom", "8px");
-
-			// prices
-			if (prices){
-				dojo.setStyle(descDiv, "borderBottom", "1px solid gray");
-				this.renderPrices(tooltip, this.getSimplePrices());	//simple prices
-			}
-
-			// effects
-
-			if (effects){
-				this.renderEffects(tooltip, effects);
-			}
-
-			// flavor
-
-			if (flavor && flavor != "") {
-				dojo.create("div", {
-					innerHTML: flavor,
-					className: "flavor",
-					style: {
-						display: "inline-block",
-						paddingTop: "20px",
-						float: "right",
-						fontSize: "12px",
-						fontStyle: "italic"
-				}}, tooltip);
-			}
-
-		} else {
-			dojo.setStyle(descDiv, "paddingBottom", "4px");
-		}
-
-		return tooltip.outerHTML;
-	},
-	getSimplePrices: function() {
-		return this.simplePrices;
+	createPriceLineModel: function(model, price) {
+		return this._createPriceLineModel(price, model.options.simpleUI);
 	},
 
-	renderPrices: function(tooltip, simpleUI){
-		var prices = this.getPrices();
-		if (!prices.length){
-			return;
-		}
-		for( var i = 0; i < prices.length; i++){
-			var price = prices[i];
-			var span = this._renderPriceLine(tooltip, price, simpleUI);
-		}
-	},
-
-	_renderPriceLine: function(tooltip, price, simpleUI, indent){
-		var priceItemNode = dojo.create("div", {
-				style : {
-					overflow: "hidden"
-				}
-			}, tooltip);
-
+	_createPriceLineModel: function(price, simpleUI, indent) {
 		var res = this.game.resPool.get(price.name);
 		var hasRes = (res.value >= price.val);
 
+		var hasLimitIssue = res.maxValue && ((price.val > res.maxValue && !indent) || price.baseVal > res.maxValue);
+		var asterisk = hasLimitIssue? "*" : "";	//mark limit issues with asterisk
 
-		var nameSpan = dojo.create("span", { innerHTML: res.title || res.name, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
-
-		var asterisk = res.maxValue && ((price.val > res.maxValue && !indent) || price.baseVal > res.maxValue) ? "*" : "";	//mark limit issues with asterisk
-
-		var priceSpan = dojo.create("span", {
-			innerHTML: hasRes || simpleUI ?
+		var displayValue = (hasRes || simpleUI ?
 				this.game.getDisplayValueExt(price.val) :
-				this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val) + asterisk,
-			className: hasRes ? "" : "noRes",
-			style: {
-				float: "right"
-			}
-		}, priceItemNode );
-
+				this.game.getDisplayValueExt(res.value) + " / " + this.game.getDisplayValueExt(price.val) + asterisk);
 		var resPerTick = this.game.getResourcePerTick(res.name, true);
+		var eta=0;
 		if (!hasRes && resPerTick > 0 && !simpleUI){
-			var eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
+			eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
 			if (eta >= 1) {
-				priceSpan.textContent += " (" + this.game.toDisplaySeconds(eta) + ")";
+				displayValue += " (" + this.game.toDisplaySeconds(eta) + ")";
 			}
 		}
 
+		if (!indent) {
+			indent = 0;
+		}
 
+		var result = {
+			title : res.title || res.name, 
+			name: price.name,
+			val: price.val,
+			hasResources: hasRes,
+			displayValue: displayValue,
+			indent: indent,
+			eta: eta,
+			hasLimitIssue: hasLimitIssue
+		};
+
+		
 		//unroll prices to the raw resources
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
 			var craft = this.game.workshop.getCraft(res.name);
 			if (craft.unlocked) {
 				var craftRatio = this.game.getResCraftRatio(res);
-				nameSpan.textContent = "+ " + nameSpan.textContent;
-
-				if (!indent) {
-					indent = 1;
-				}
-
+				result.title = "+ " + result.title;
+				result.children = [];
+				
 				var components = this.game.workshop.getCraftPrice(craft);
 				for (var j in components) {
 
@@ -1082,33 +1058,30 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 					var comp = {name: components[j].name, val: val, baseVal: components[j].val};
 
-					var compSpan = this._renderPriceLine(tooltip, comp, simpleUI, indent + 1);
-					for (var k = 0; k < indent; ++k) {
-						compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
-					}
-					compSpan.name.style.color = "gray";	//mark unrolled price component as raw
+					var compResult = this._createPriceLineModel(comp, simpleUI, indent + 1);
+					result.children.push(compResult);
 				}
 			}
 		}
-
-		return {name: nameSpan, price: priceSpan};
+		return result;
 	},
 
-	renderEffects: function(tooltip, effectsList, hideTitle){
-		if (Object.keys(effectsList).length === 0) {
-			return;
-		}
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		return model;
+	},
 
-		if (!hideTitle){
-			dojo.create("div", {
-				innerHTML: "Effects:",
-				style: {
-					textAlign: "center",
-					width: "100%",
-					borderBottom: "1px solid gray",
-					paddingBottom: "4px",
-					marginBottom: "8px"
-			}}, tooltip);
+	fetchExtendedModel: function(model) {
+		this.inherited(arguments);
+		model.flavor = this.getFlavor(model);
+		this.updateEffectModels(model);
+	},
+
+	updateEffectModels: function(model) {
+		var effectsList = this.getEffects(model);
+		model.effectModels = [];
+		if (!effectsList || Object.keys(effectsList).length === 0) {
+			return;
 		}
 
 		//-----------------------------------------
@@ -1134,8 +1107,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					}
 				}
 
-				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate) + "/sec";
+				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
+					var precision = Math.abs(effectValue * this.game.rate) < 0.01? 3: 2; // avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
+					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
 				} else if (effectMeta.type === "perYear"){
@@ -1150,17 +1124,232 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
 
-				var nameSpan = dojo.create("div", { innerHTML: displayEffectName + ": " + displayEffectValue,
-					style: {
-						float: "left",
-						fontSize: "14px",
-						color: "gray",
-						clear: "both"
-				}}, tooltip );
+				model.effectModels.push({
+					displayEffectName: displayEffectName,
+					displayEffectValue: displayEffectValue
+				});
+			}
+		}
+	},
+
+	isPrecraftAvailable: function(model){
+		for (var i in model.prices){
+			var price = model.prices[i];
+			var res = this.game.resPool.get(price.name);
+			if (res.craftable){
+				return true;
+			}
+		}
+		return false;
+	},	
+
+	precraft: function(model){
+		this.fetchExtendedModel(model);
+		for (var i in model.priceModels){
+			var price = model.priceModels[i];
+			this._precraftRes(price);
+		}
+	},
+
+	_precraftRes: function(price){
+		//console.log("price:", price);
+
+		if (price.children){
+			for (var i in price.children){
+				this._precraftRes(price.children[i]);
 			}
 		}
 
+		var res = this.game.resPool.get(price.name);
+		if (res.craftable){
+
+			var ratio = this.game.getResCraftRatio(res);
+			var amt = price.val - res.value;
+			if (amt > 0){
+				var baseAmt = amt / ratio;
+				this.game.workshop.craft(res.name, baseAmt, false /*no undo*/, true /*force all*/);
+			}
+		}
+	}
+});
+
+ButtonModernHelper = {
+	getTooltipHTML : function(controller, model){
+		controller.fetchExtendedModel(model);
+		//throw "ButtonModern::getTooltipHTML must be implemented";
+
+		var tooltip = dojo.create("div", { className: "tooltip-inner" }, null);
+
+
+		if (model.tooltipName) {
+			dojo.create("div", {
+				innerHTML: model.name,
+				className: "tooltip-divider",
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px"
+			}}, tooltip);
+		}
+
+		// description
+		var descDiv = dojo.create("div", {
+			innerHTML: model.description,
+			className: "desc",
+			style: {
+				textAlign: "center",
+				width: "100%",
+				paddingTop: "4px",
+				fontSize: "15px",
+				color: "gray"
+		}}, tooltip);
+
+		var prices = model.priceModels;
+		var effects = model.effectModels;
+		var flavor = model.flavor;
+		if (prices && prices != "" || effects || flavor && flavor != ""){
+			dojo.style(descDiv, "paddingBottom", "8px");
+
+			// prices
+			if (prices){
+				dojo.style(descDiv, "borderBottom", "1px solid gray");
+				ButtonModernHelper.renderPrices(tooltip, model);	//simple prices
+			}
+
+			// effects
+
+			if (effects){
+				ButtonModernHelper.renderEffects(tooltip, effects);
+			}
+
+			// flavor
+
+			if (flavor && flavor != "") {
+				dojo.create("div", {
+					innerHTML: flavor,
+					className: "flavor",
+					style: {
+						paddingTop: "20px",
+						fontSize: "12px",
+						fontStyle: "italic"
+				}}, tooltip);
+			}
+
+		} else {
+			dojo.style(descDiv, "paddingBottom", "4px");
+		}
+
+		return tooltip.outerHTML;
 	},
+
+	renderPrices : function(tooltip, model){
+		var prices = model.priceModels;
+		if (!prices.length){
+			return;
+		}
+		for( var i = 0; i < prices.length; i++){
+			var price = prices[i];
+			var span = ButtonModernHelper._renderPriceLine(tooltip, price, model.simplePrices);
+		}
+	},
+
+	_renderPriceLine : function(tooltip, price, simpleUI){
+		var priceItemNode = dojo.create("div", {
+				className: "price-block",
+				style : {
+					overflow: "hidden"
+				}
+			}, tooltip);
+
+		var nameSpan = dojo.create("span", { innerHTML: price.title, style: { float: "left", paddingRight: "10px"} }, priceItemNode );
+
+		var priceSpan = dojo.create("span", {
+			innerHTML: price.displayValue,
+			className: price.hasResources ? "" : "noRes",
+			style: {
+				float: "right"
+			}
+		}, priceItemNode );
+
+		if (price.children && price.children.length) {
+			for (var i = 0; i < price.children.length; i++ ) {
+				var compSpan = this._renderPriceLine(tooltip, price.children[i], simpleUI);
+				for (var k = 0; k < price.children[i].indent; ++k) {
+					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
+				}
+				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
+
+			}
+
+		}
+		return {name: nameSpan, price: priceSpan};
+	},
+
+	renderEffects : function(tooltip, effectsList, hideTitle){
+		if (!effectsList || !effectsList.length) {
+			return;
+		}
+
+		if (!hideTitle){
+			dojo.create("div", {
+				innerHTML: "Effects:",
+				className: "tooltip-divider",
+				style: {
+					textAlign: "center",
+					width: "100%",
+					borderBottom: "1px solid gray",
+					paddingBottom: "4px",
+					marginBottom: "8px"
+			}}, tooltip);
+		}
+
+		//-----------------------------------------
+
+		for (var i =0; i < effectsList.length; i++){
+			var effectModel = effectsList[i];
+			var nameSpan = dojo.create("div", { 
+				innerHTML: effectModel.displayEffectName + ": " + effectModel.displayEffectValue,
+					className: "effectName",
+					style: {
+						fontSize: "14px",
+						color: "gray"
+					}
+				}, tooltip );
+			
+		}
+
+	}
+};
+
+/*
+ * Restyled button with slightly more sophisticated tooltip mechanism
+ */
+
+dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.ui.Button, {
+
+	afterRender: function(){
+		dojo.addClass(this.domNode, "modern");
+
+		this.renderLinks();
+
+		this.attachTooltip(this.domNode, dojo.partial( ButtonModernHelper.getTooltipHTML, this.controller, this.model));
+
+		this.buttonContent.title = "";	//no old title for modern buttons :V
+
+		if (this.model.hasResourceHover) {
+			dojo.connect(this.domNode, "onmouseover", this,
+				dojo.hitch( this, function(){
+					this.game.setSelectedObject(this.getSelectedObject());
+				}));
+			dojo.connect(this.domNode, "onmouseout", this,
+				dojo.hitch( this, function(){
+					this.game.clearSelectedObject();
+				}));
+		}
+	},
+
+	
 
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
@@ -1214,54 +1403,195 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	sellHref: null,
-	toggleHref: null,
-	hasResourceHover: true,
 
-	buildingName: null,
+dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 
-	constructor: function(opts, game){
-		if (opts.building){
-			this.buildingName = opts.building;
+	defaults: function() {
+		var result = this.inherited(arguments);
+
+		result.simplePrices = true;
+		result.hasResourceHover= false;
+		return result;
+	},
+
+	initModel: function(options) {
+		var model = this.inherited(arguments);
+		model.metadata = this.getMetadata(model);
+		return model;
+	},
+
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		model.hasSellLink = this.hasSellLink(model);
+		model.showSellLink = model.metadata && model.metadata.val && model.hasSellLink;
+		var self = this; 
+		if (typeof(model.metadata.togglableOnOff) != "undefined") {
+			model.togglableOnOffLink = {
+				title:  model.metadata.on ? "on" : "off",
+				tooltip: model.metadata.on ? "Building enabled" : "Building disabled",
+				visible: true,
+				enabled: true,
+				divider: true,
+				handler: function(btn){
+					self.handleTogglableOnOffClick(model);
+				}
+			};
 		}
+		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
+			model.toggleAutomationLink = {
+				title: model.metadata.isAutomationEnabled ? "A" : "*",
+				tooltip: model.metadata.isAutomationEnabled ? "Automation enabled" : "Automation disabled",
+				visible: this.game.workshop.get("factoryAutomation").researched,
+				enabled: true,
+				divider: true,
+				handler: function(btn){
+					self.handleToggleAutomationLinkClick(model);
+				}
+			};
+		}
+		model.togglable = model.metadata.togglable;
+		if (typeof(model.metadata.on) != "undefined") {
+			model.on = model.metadata.on;
+		}
+		return model;
 	},
 
-	init: function(){
-		this.prices = this.getPrices();
-	},
 
-	getMetadata: function(){
-		if (this.buildingName){
-			var meta = this.game.bld.get(this.buildingName);
+	getMetadata: function(model){
+		if (this.model.options.building){
+			var meta = this.game.bld.get(this.model.options.building);
 			return meta;
 		}
 		return null;
 	},
 
-	/**
-	 * Ugly hack'
-	 */
-	getMetadataRaw: function(){
-		return this.getMetadata();
+	getEffects: function(model){
+		return model.metadata.effects;
 	},
 
-	getEffects: function(){
-		return this.getMetadata().effects;
-	},
-
-	getSelectedObject: function(){
-		return this.getMetadata();
-	},
-
-	getDescription: function(){
-		var description = this.getMetadata().description;
+	getDescription: function(model){
+		var description = model.metadata.description;
 		return typeof(description) != "undefined" ? description : "";
 	},
 
-	getFlavor: function(){
-		var flavor = this.getMetadata().flavor;
+	getFlavor: function(model){
+		var flavor = model.metadata.flavor;
 		return typeof(flavor) != "undefined" ? flavor : "";
+	},
+
+	hasSellLink: function(model){
+		return false;
+	},
+
+	metadataHasChanged: function(model) {
+		// do nothing
+	},
+
+	off: function(model) {
+		var building = model.metadata;
+		if (building.on){
+			building.on--;
+			this.metadataHasChanged(model);
+			this.game.upgrade(building.upgrades);
+		}
+	},
+
+	offAll: function(model) {
+		var building = model.metadata;
+		if (building.on){
+			building.on = 0;
+			this.metadataHasChanged(model);
+			this.game.upgrade(building.upgrades);
+		}
+	},
+
+
+	on: function(model) {
+		var building = model.metadata;
+		if (building.on < building.val){
+			building.on ++;	
+			this.metadataHasChanged(model);
+			this.game.upgrade(building.upgrades);
+		}
+	},
+
+	onAll: function(model) {
+		var building = model.metadata;
+		if (building.on < building.val) {
+			building.on = building.val;
+			this.metadataHasChanged(model);
+			this.game.upgrade(building.upgrades);
+		}
+	},
+
+	sell: function(event, model){
+		var building = model.metadata;
+		var self = this;
+
+		var end = building.val - 1;
+		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
+			end = 0;
+			if (!this.game.opts.noConfirm) {
+				this.game.ui.confirm("", "Are you sure you want to sell all?", function(confirmed){
+					if (confirmed) {
+						self.sellInternal(model, end);
+					}
+				});
+			} else {
+				self.sellInternal(model, end);
+			}
+		} else if (end >= 0) {
+			self.sellInternal(model, end);
+		}
+	},
+
+	sellInternal: function(model, end){
+		var building = model.metadata;
+		while (  building.val > end && this.hasSellLink(model) ) { //religion upgrades can't sell past 1
+			this.decrementValue(model);
+
+			model.prices = this.getPrices(model);
+			this.refund(model);
+		}
+		
+		this.game.upgrade(building.upgrades);
+		this.game.render();
+	},
+
+	decrementValue: function(model) {
+		var building = model.metadata;
+		if (building)
+		building.val--;
+		if (building.on > building.val){
+			building.on = building.val;
+		}
+	},
+
+
+	updateVisible: function(model) {
+		model.visible = model.metadata.unlocked || this.game.devMode;
+	},
+
+	handleTogglableOnOffClick: function(model) {
+		var building = model.metadata;
+
+		building.on = building.on ? 0 : building.val;	//legacy safe switch
+		this.game.upgrade(building.upgrades);
+	},
+
+	handleToggleAutomationLinkClick: function(model) {
+		var building = model.metadata;
+		building.isAutomationEnabled = !building.isAutomationEnabled;
+	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	sellHref: null,
+	toggleHref: null,
+	hasResourceHover: true,
+
+	getSelectedObject: function(){
+		return this.model;
 	},
 
     undo: function(metaId, val){
@@ -1270,75 +1600,44 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
         }
     },
 
-	hasSellLink: function(){
-		return false;
-	},
-
 	/**
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var building = this.getMetadata();
-		var bldMeta = this.getMetadataRaw();
+		var building = this.model.metadata;
 
 		//var sellLinkAdded = false;
-		if (bldMeta && bldMeta.val && this.hasSellLink()){
+		if (this.model.showSellLink){
 			if (!this.sellHref){
 				this.sellHref = this.addLink("sell",
 					function(event){
-						var end = bldMeta.val - 1;
-						if (end > 0 && event.shiftKey) { //no need to confirm if selling just 1
-							if (this.game.opts.noConfirm || confirm("Are you sure you want to sell all?")) {
-								end = 0;
-							}
-						}
-						while (bldMeta.val > end && this.hasSellLink() ) { //religion upgrades can't sell past 1
-							bldMeta.val--;
-
-							this.refund(this.refundPercentage);
-
-							this.prices = this.getPrices();
-						}
-
-						if (bldMeta.on > bldMeta.val){
-							bldMeta.on = bldMeta.val;
-						}
-						this.game.upgrade(building.upgrades);
-						this.game.render();
+						this.sell(event);
 					});
 				//var sellLinkAdded = true;
 			}
 		}
 
 		//--------------- style -------------
-		if((building.val > 9 || building.name.length > 10) && this.hasSellLink()) {
+		if((building.val > 9 || building.name.length > 10) && this.model.hasSellLink) {
 			//Steamworks and accelerator specifically can be too large when sell button is on
 			//(tested to support max 99 bld count)
 			dojo.addClass(this.domNode, "small-text");
 		}
 
 		//--------------- toggle ------------
-		if (typeof(building.togglable) != "undefined" && building.togglable){
+		if (typeof(this.model.togglable) != "undefined" && this.model.togglable){
 			this.remove = this.addLinkList([
 			   {
 				id: "off1",
 				title: "-",
 				handler: function(){
-					var building = this.getMetadata();
-					if (building.on){
-						building.on--;
-						this.game.upgrade(building.upgrades);
-					}
+					this.controller.off(this.model);
 				}
 			   },{
 				id: "offAll",
 				title: "-all",
 				handler: function(){
-					var building = this.getMetadata();
-					if (building.on) {
-						building.on = 0;
-						this.game.upgrade(building.upgrades);
-					}
+					this.controller.offAll(this.model);
 				}
 			   }]
 			);
@@ -1348,46 +1647,34 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				id: "add1",
 				title: "+",
 				handler: function(){
-					var building = this.getMetadata();
-					if (building.on < building.val){
-						building.on++;
-						this.game.upgrade(building.upgrades);
-					}
+					this.controller.on(this.model);
 				}
 			   },{
 				id: "add",
 				title: "+all",
 				handler: function(){
-					var building = this.getMetadata();
-					if (building.on < building.val) {
-						building.on = building.val;
-						this.game.upgrade(building.upgrades);
-					}
+					this.controller.onAll(this.model);
 				}
 			   }]
 			);
 		}
 
-		if (typeof(building.togglableOnOff) != "undefined"){
-			this.toggle = this.addLink( building.on ? "on" : "off",
-				function(){
-					var building = this.getMetadataRaw();
-
-					building.on = building.on ? 0 : building.val;	//legacy safe switch
-					this.game.upgrade(building.upgrades);
-				}, true	//use | break
+		if (this.model.togglableOnOffLink){
+			this.toggle = this.addLink( this.model.togglableOnOffLink.title,
+				this.model.togglableOnOffLink.handler, this.model.togglableOnOffLink.divider	//use | break
 			);
 		}
 
-		if (typeof(building.isAutomationEnabled) != "undefined" && building.isAutomationEnabled != null) {
-			this.toggleAutomation = this.addLink( building.isAutomationEnabled ? "A" : "*",
-				function(){
-					var building = this.getMetadataRaw();
-					building.isAutomationEnabled = !building.isAutomationEnabled;
-				}, true
+		if (this.model.toggleAutomationLink){
+			this.toggleAutomation = this.addLink( this.model.toggleAutomationLink.title,
+				this.model.toggleAutomationLink.handler, this.model.toggleAutomationLink.divider	//use | break
 			);
 		}
 
+	},
+
+	sell: function(event){
+		this.controller.sell(event, this.model);
 	},
 
 	update: function(){
@@ -1400,7 +1687,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			return;
 		}
 
-		var building = this.getMetadata();
+		var building = this.model.metadata;
 		if (building && building.val){
 
 			// -------------- sell ----------------
@@ -1434,32 +1721,25 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			*/
 
 			if (this.toggle){
-				this.toggle.link.textContent = building.on ? "on" : "off";
-				this.toggle.link.title = building.on ? "Building enabled" : "Building disabled";
+				this.toggle.link.textContent = this.model.togglableOnOffLink.title;
+				this.toggle.link.title = this.model.togglableOnOffLink.tooltip;
 			}
 
 			if (this.toggleAutomation){
-				this.toggleAutomation.link.textContent = building.isAutomationEnabled ? "A" : "*";
-				this.toggleAutomation.link.title = building.isAutomationEnabled ? "Automation enabled" : "Automation disabled";
+				this.toggleAutomation.link.textContent = this.model.toggleAutomationLink.title;
+				this.toggleAutomation.link.title = this.model.toggleAutomationLink.tooltip;
 			}
 
 		}
-	},
-
-	updateVisible: function(){
-		this.setVisible(this.getMetadata().unlocked || this.game.devMode);
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-	getDescription: function(){
-		return this.inherited(arguments);
-	},
+dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
 
-	getName: function(){
-		var meta = this.getMetadata();
+	getName: function(model){
+		var meta = model.metadata;
 
-		if (meta.val == 0) {
+		if (!meta.val) {
 			return meta.label;
 		} else if (meta.noStackable){
 			return meta.label + " (complete)";
@@ -1472,62 +1752,99 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		}
 	},
 
-	getPrices: function(){
-		var meta = this.getMetadata();
+	getPrices: function(model){
+		var meta = model.metadata;
         var ratio = meta.priceRatio || 1;
-        var prices = dojo.clone(meta.prices);
+        var prices = [];
 
-        for (var i = 0; i< prices.length; i++){
-            prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
+        for (var i = 0; i< meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * Math.pow(ratio, meta.val),
+            	name: meta.prices[i].name
+            });
         }
         return prices;
     },
 
-	onClick: function(event){
-		this.animate();
-		var meta = this.getMetadataRaw();
-		if (this.enabled && this.hasResources() || this.game.devMode){
-			if (
-				this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched &&
-				!confirm("This will end iron will. Are you sure?")
-			){
-				return;
+	
+
+
+	updateEnabled: function(model){
+		this.inherited(arguments);
+		var meta = model.metadata;
+		// Beginning with exceptions
+		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
+			model.enabled = false;
+		} else if (!meta.on || meta.on && !meta.noStackable) {
+			// do nothing
+		} else if (meta.on && meta.noStackable){
+			model.enabled = false;
+		}
+
+	},
+
+	buyItem: function(model, event, callback) {
+		var self = this;
+		if (model.enabled && this.hasResources(model) || this.game.devMode ){
+			var meta = model.metadata;
+
+			if (this.game.ironWill && meta.effects && meta.effects.maxKittens > 0 && this.game.science.get("archery").researched){
+				this.game.ui.confirm("", "This will end iron will. Are you sure?", function(confirmed) {
+					if(!confirmed) {
+						callback(false);
+					} else {
+						self._buyItem_step2(model, event, callback);
+					}
+				});
+			} else {
+				self._buyItem_step2(model, event, callback);
 			}
-			if (!meta.noStackable && event.shiftKey){
-                if (this.game.opts.noConfirm || confirm("Are you sure you want to construct all buildings?")){
-					var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
-                    this.build(meta, maxBld);
-                }
+		} else {
+			callback(false);
+		}
+	},
+
+	_buyItem_step2: function(model, event, callback) {
+		var self = this;
+		var meta = model.metadata;
+		if (!meta.noStackable && event.shiftKey){
+            if (this.game.opts.noConfirm ){
+                var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
+                this.build(meta, maxBld);
+                callback(true);
             } else if (event.ctrlKey) {
 				this.build(meta, 10);
 			} else {
-                this.build(meta, 1);
+            	this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function(confirmed){
+            		if (confirmed) {
+            			self.build(meta, 1000);
+            			callback(true);
+            		} else {
+            			callback(false);
+            		}
+            	});
             }
-		}
-		this.game.render();
+        } else {
+            this.build(model, 1);
+            callback(true);
+        }
 	},
 
-	build: function(meta, maxBld){
+	build: function(model, maxBld){
+		var meta = model.metadata;
 		var counter = 0;
-        if (this.enabled && this.hasResources()){
+        if (model.enabled && this.hasResources(model) || this.game.devMode ){
 
-	        while (this.hasResources() && maxBld > 0){
-				this.payPrice();
-
-		        meta.val++;
-				meta.on++;
-
-	            // manage togglableOnOff when Off
-	            if (meta.togglableOnOff && meta.on == 1){
-	                meta.on--;
-	            }
+	        while (this.hasResources(model) && maxBld > 0){
+				this.payPrice(model);
+				this.incrementValue(model);
 
 	            counter++;
 	            maxBld--;
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(this.getMetadata().label + " x" + counter + " constructed.", "notice");
+		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
 			}
 
 			if (meta.breakIronWill) {
@@ -1546,26 +1863,31 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		return counter;
     },
 
-	updateEnabled: function(){
-		var meta = this.getMetadata();
-		// Beginning with exceptions
-		if (typeof(meta.limitBuild) == "number" && meta.limitBuild <= meta.val) {
-			this.setEnabled(false);
-		} else if (!meta.on || meta.on && !meta.noStackable) {
-			this.setEnabled(this.hasResources());
-		} else if (meta.on && meta.noStackable){
-			this.setEnabled(false);
-		}
+    incrementValue: function(model) {
+		var meta = model.metadata;
+		meta.val++;
+		meta.on++;
 
-		if (this.buttonTitle && this.game.opts.highlightUnavailable){
-			this.buttonTitle.className = this.game.resPool.isStorageLimited(this.getPrices()) ? "limited" : "";
-		}
+        // manage togglableOnOff when Off
+        if (meta.togglableOnOff && meta.on == 1){
+            meta.on--;
+        }
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-	getDescription: function(){
-		var meta = this.getMetadata();
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+	onClick: function(event){
+		this.inherited(arguments);
+		this.game.render();
+	}
+	
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
+
+	getDescription: function(model){
+		var meta = model.metadata;
 		if (meta.effectDesc && meta.researched){
 			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
 		} else {
@@ -1573,8 +1895,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicor
 		}
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
+	getName: function(model){
+		var meta = model.metadata;
 		if (meta.researched){
 			return meta.label + " (Complete)";
 		} else {
@@ -1582,16 +1904,22 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicor
 		}
 	},
 
-	getPrices: function() {
-		return $.extend(true, [], this.getMetadata().prices); // Create a new array to keep original values
+	getPrices: function(model) {
+		return $.extend(true, [], model.metadata.prices); // Create a new array to keep original values
 	},
 
-	onClick: function(event){
-		this.animate();
-		if ((this.enabled && this.hasResources()) || this.game.devMode){
-			this.payPrice();
+	updateEnabled: function(model){
+		this.inherited(arguments);
+		if (model.metadata.researched){
+			model.enabled = false;
+		}
+	},
 
-			var meta = this.getMetadata();
+	buyItem: function(model, event, callback) {
+		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
+			this.payPrice(model);
+
+			var meta = model.metadata;
 
 			meta.researched = true;
 
@@ -1602,17 +1930,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicor
 			if (meta.upgrades) {
 				this.game.upgrade(meta.upgrades);
 			}
-
+			callback(true);
 			this.game.render();
+			return;
 		}
-	},
-
-	updateEnabled: function(){
-		this.inherited(arguments);
-		if (this.getMetadata().researched){
-			this.setEnabled(false);
-		}
+		callback(false);
 	}
+});
+
+dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
+
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.Spacer", null, {

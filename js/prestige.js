@@ -471,40 +471,40 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("classes.ui.PrestigeBtn", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
-	metaCached: null, // Call getMetadata
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.prestige.getPerk(this.id);
+dojo.declare("classes.ui.PrestigeBtnController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.prestige.getPerk(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+   	buyItem: function(model, event, callback) {
+		if (this.game.science.get("metaphysics").researched) {
+			this.inherited(arguments);
+		} else {
+			callback(false);
 		}
-		return this.metaCached;
 	},
 
-	updateVisible: function(){
-		var meta = this.getMetadata();
+	updateVisible: function(model){
+		var meta = model.metadata;
 		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
-			this.setVisible(false);
-		}else{
-			this.setVisible(true);
+			model.visible = false;
+		} else{
+			model.visible = true;
 		}
 
 		if (meta.researched && this.game.science.hideResearched){
-			this.setVisible(false);
+			model.visible = false;
 		}
-	},
-
-	onClick: function(){
-		if (this.game.science.get("metaphysics").researched) {
-			this.inherited(arguments);
-		}
-	},
-
+	}
 });
 
-dojo.declare("classes.ui.BurnParagonBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	updateVisible: function(){
-		this.setVisible(this.game.resPool.get("paragon").value > 0);
+dojo.declare("classes.ui.BurnParagonBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	updateVisible: function(model){
+		model.visible = this.game.resPool.get("paragon").value > 0;
 	}
 });
 
@@ -520,19 +520,20 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 		//--------------------------------------------------------------------
-		var buttonBP = new classes.ui.BurnParagonBtn({
+		var buttonBP = new com.nuclearunicorn.game.ui.ButtonModern({
 			name : "Burn your paragon",
 			description: "Discard all paragon points",
 			handler: dojo.hitch(this, function(){
 				this.game.discardParagon();
-			})
+			}),
+			controller: new classes.ui.BurnParagonBtnController(self.game)
 		}, self.game);
 		buttonBP.render(content);
 		self.addChild(buttonBP);
 		//---------------------------------------------------------------------
-
+		var controller = new classes.ui.PrestigeBtnController(self.game);
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
-			var button = new classes.ui.PrestigeBtn({id: perk.name}, self.game);
+			var button = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: perk.name, controller: controller}, self.game);
 			button.render(content);
 			self.addChild(button);
 		});

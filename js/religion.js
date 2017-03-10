@@ -628,7 +628,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
+		this.game.msg("You have accumulated +" + this.game.getDisplayValueExt(faith.value, false, false, 0) + " units of faith");
 		faith.value = 0.0001;	//have a nice autoclicking
+
 	},
 
 	transcend: function(){
@@ -638,33 +640,37 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (!religion.getRU("transcendence").on){
 			return;	//:3
 		}
-		if (!confirm("Are you sure you want to discard your praise bonus ?" +
+		var self = this;
+		this.game.ui.confirm("Transcend?", "Are you sure you want to discard your praise bonus ?" +
 				"\n\nYou can reach a special transcendence level sacrificing your praise bonus." +
 				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
 				"\n\nThis bonus will stack and carry over through resets." +
-				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.")){
-			return;
-		}
-
-		var tclevel = religion.getTranscendenceLevel();
-		//Transcend one Level at a time
-		var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
-		if (religion.faithRatio > needNextLevel) {
-
-			religion.faithRatio -= needNextLevel;
-			religion.tcratio += needNextLevel;
-			religion.tclevel += 1;
-
-			this.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
-		} else {
-			var progressPercentage = this.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
-			var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
-			if (leftNumber < 0) {
-				leftNumber = 0;
+				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.", function(result) {
+			if (!result) {
+				return;
 			}
-			var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
-			this.game.msg("One step closer: " + progressNumber + " (" + progressPercentage + "%)");
-		}
+			var tclevel = religion.getTranscendenceLevel();
+			//Transcend one Level at a time
+			var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
+			if (religion.faithRatio > needNextLevel) {
+
+				religion.faithRatio -= needNextLevel;
+				religion.tcratio += needNextLevel;
+				religion.tclevel += 1;
+
+				self.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
+			} else {
+				var progressPercentage = self.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
+				var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
+				if (leftNumber < 0) {
+					leftNumber = 0;
+				}
+				var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
+				self.game.msg("One step closer: " + progressNumber + " (" + progressPercentage + "%)");
+			}
+		});
+
+		
 	},
 
 	getTranscendenceLevel: function(){
@@ -686,160 +692,182 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 /**
  * A button for ziggurat upgrade
  */
-dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	metaCached: null, // Call getMetadata
-	tooltipName: true,
-	simplePrices: false,
+dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.religion.getZU(this.id);
-		}
-		return this.metaCached;
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	getName: function(){
-		if (this.getMetadata().name == "marker" && this.getMetadata().val > 0){
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.religion.getZU(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+    getName: function(model){
+		if (model.metadata.name == "marker" && model.metadata.val > 0){
 			var progress = this.game.toDisplayPercentage(this.game.religion.corruption, 0, true);
-			return this.name + " [" + progress + "%] (" + this.getMetadata().val + ")";
+			return model.name + " [" + progress + "%] (" + model.metadata.val + ")";
 		} else {
 			return this.inherited(arguments);
 		}
-	},
+	}
 });
+
 
 /**
  * A button for religion upgrade
  */
-dojo.declare("com.nuclearunicorn.game.ui.ReligionBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	metaCached: null, // Call getMetadata
-	tooltipName: true,
-	simplePrices: false,
+dojo.declare("com.nuclearunicorn.game.ui.ReligionBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.religion.getRU(this.id);
-		}
-		return this.metaCached;
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	hasSellLink: function(){
-		return !this.game.opts.hideSell && !this.getMetadata().noStackable && this.getMetadata().val > 1;
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.religion.getRU(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+    hasSellLink: function(model){
+		return !this.game.opts.hideSell && !model.metadata.noStackable && model.metadata.val > 1;
 	},
 
-	getPrices: function(){
+	getPrices: function(model){
 		return this.game.village.getEffectLeader("wise", this.inherited(arguments));
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.game.religion.faith >= this.getMetadata().faith);
-	},
-
+	updateVisible: function(model){
+		model.visible = this.game.religion.faith >= model.metadata.faith;
+	}
 });
 
-dojo.declare("classes.ui.TranscendenceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	metaCached: null, // Call getMetadata
-	tooltipName: true,
-	simplePrices: false,
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.religion.getTU(this.id);
-		}
-		return this.metaCached;
+dojo.declare("classes.ui.TranscendenceBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	payPrice: function(){
-		this.inherited(arguments);
-	},
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.religion.getTU(model.options.id);
+        }
+        return model.metaCached;
+    }
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.PraiseBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	getName: function() {
+dojo.declare("com.nuclearunicorn.game.ui.PraiseBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	getName: function(model) {
 		if (this.game.religion.faithRatio > 0){
-			return this.name + " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "%]";
+			return model.options.name + " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 1) + "%]";
 		} else {
-			return this.name;
+			return model.options.name;
 		}
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TranscendBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("com.nuclearunicorn.game.ui.TranscendBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 
-	getName: function() {
+	getName: function(model) {
 		if (this.game.religion.tclevel > 0){
-			return this.name + " [" + this.game.religion.tclevel + "]";
+			return model.options.name + " [" + this.game.religion.tclevel + "]";
 		} else {
-			return this.name;
+			return model.options.name;
 		}
 	},
 
-	updateVisible: function (){
-		this.setVisible(this.game.religion.getRU("transcendence").on);
+	updateVisible: function (model){
+		model.visible = this.game.religion.getRU("transcendence").on;
 	}
 });
 
-dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	x10: null,
-	simplePrices: false,
-	hasResourceHover: true,
+dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-	onClick: function(){
-		this.animate();
-
-		if (this.enabled && this.hasResources()){
-			this.sacrifice(1);
-			this.update();
-		}
+		result.hasResourceHover = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	/**
-	 * Render button links like off/on and sell
-	 */
-	renderLinks: function(){
-		var self = this;
-
-		this.all = this.addLink("all",
-			function(){
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		model.allLink = {
+			visible: true,
+			title: "all", 
+			handler: function(event){
+				var self = this;
 				this.animate();
-				if (this.enabled && this.hasResources()) {
-					var prices = this.getPrices();
-					this.sacrifice(Math.floor(this.game.resPool.get("unicorns").value / prices[0].val));
-					this.update();
-				}
-			}, false
-		);
-
-		this.x10 = this.addLink("x10",
-			function(){
+				this.controller.sacrificeAll(this.model, event, function(result) {
+					if (result) {
+						self.update();
+					}
+				});
+			}
+		};
+		model.x10Link = {
+			visible: this._canAfford(model) >= 10,
+			title: "x10", 
+			handler: function(event){
+				var self = this;
 				this.animate();
-				if (this.enabled && this.hasResources(10)) {
-					this.sacrifice(10);
-					this.update();
-				}
-			}, false
-		);
+				this.controller.sacrificeX10(this.model, event, function(result) {
+					if (result) {
+						self.update();
+					}
+				});
+			}
+		};
+		return model;
 	},
 
-	update: function(){
-		this.inherited(arguments);
-
-		var prices = this.getPrices();
-		var hasUnicorns = (prices[0].val * 10 <= this.game.resPool.get("unicorns").value);
-
-		if (this.x10){
-			dojo.setStyle(this.x10.link, "display", hasUnicorns ? "" : "none");
+	buyItem: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			callback(this.sacrifice(model, 1));
 		}
+		callback(false);
 	},
 
-	sacrifice: function(amt){
-		var prices = this.getPrices();
+	_canAfford: function(model) {
+		return Math.floor(this.game.resPool.get("unicorns").value / model.prices[0].val);
+	},
+
+	sacrificeX10: function(model, event, callback){
+		if (model.enabled && this._canAfford(model) >= 10) {
+			callback(this.sacrifice(model, 10));
+		}
+		callback(false);
+	},
+
+	sacrificeAll: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			var result = this.sacrifice(model, this._canAfford(model));
+			callback(result);
+		}
+		callback(false);
+	},
+
+	sacrifice: function(model, amt){
+		var prices = model.prices;
 		amt = amt || 1;
 
 		var unicornCount = prices[0].val * amt;
 
 		if (unicornCount > this.game.resPool.get("unicorns").value) {
-			return;
+			return false;
 		}
 
 		var tearCount = this.game.bld.get("ziggurat").on * amt;
@@ -849,27 +877,15 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
 
 		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns have been sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
-	},
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
+		return true;
 	}
+
 });
 
 
-dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+
+dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	x10: null,
-	simplePrices: false,
-	hasResourceHover: true,
-
-	onClick: function(){
-		this.animate();
-
-		if (this.enabled && this.hasResources()){
-			this.sacrifice(1);
-			this.update();
-		}
-	},
 
 	/**
 	 * Render button links like off/on and sell
@@ -877,41 +893,86 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 	renderLinks: function(){
 		var self = this;
 
-		this.all = this.addLink("all",
-			function(){
-				this.animate();
-				if (this.enabled && this.hasResources()) {
-					var prices = this.getPrices();
-					this.sacrifice(Math.floor(this.game.resPool.get("alicorn").value / prices[0].val));
-					this.update();
-				}
-			}, false
-		);
+		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false);
 
-		this.x10 = this.addLink("x10",
-			function(){
-				this.animate();
-				if (this.enabled && this.hasResources(10)) {
-					this.sacrifice(10);
-					this.update();
-				}
-			}, false
-		);
+		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false);
 	},
 
 	update: function(){
 		this.inherited(arguments);
-
-		var prices = this.getPrices();
-		var hasAlicorns = (prices[0].val * 10 <= this.game.resPool.get("alicorn").value);
-
 		if (this.x10){
-			dojo.setStyle(this.x10.link, "display", hasAlicorns ? "" : "none");
+			dojo.setStyle(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		}
+	}
+});
+
+
+dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+
+		result.hasResourceHover = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	sacrifice: function(amt){
-		var prices = this.getPrices();
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		model.allLink = {
+			visible: true,
+			title: "all", 
+			handler: function(event){
+				this.animate();
+				this.controller.sacrificeAll(this.model, event, function(result) {
+					if (result) {
+						self.update();
+					}
+				});
+			}
+		};
+		model.x10Link = {
+			visible: this._canAfford(model) >= 10,
+			title: "x10", 
+			handler: function(event){
+				this.animate();
+				this.controller.sacrificeX10(this.model, event, function(result) {
+					if (result) {
+						self.update();
+					}
+				});
+			}
+		};
+		return model;
+	},
+
+	buyItem: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			callback(this.sacrifice(model, 1));
+		}
+		callback(false);
+	},
+
+	_canAfford: function(model) {
+		return Math.floor(this.game.resPool.get("alicorn").value / model.prices[0].val);
+	},
+
+	sacrificeX10: function(model, event, callback){
+		if (model.enabled && this._canAfford(model) >= 10) {
+			callback(this.sacrifice(model, 10));
+		}
+		callback(false);
+	},
+
+	sacrificeAll: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			var result = this.sacrifice(model, this._canAfford(model));
+			callback(result);
+		}
+		callback(false);
+	},
+
+	sacrifice: function(model, amt){
+		var prices = model.prices;
 		amt = amt || 1;
 
 		var alicornsCount = prices[0].val * amt;
@@ -930,57 +991,66 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtn", com.nuclearunicorn.game
 		});
 
 		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + this.game.getDisplayValueExt(tcAmt) + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		return true;
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.game.resPool.get("alicorn").value >= 25);
-	},
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
+	updateVisible: function(model){
+		model.visible = (this.game.resPool.get("alicorn").value >= 25);
 	}
+
 });
 
-dojo.declare("classes.ui.religion.RefineTearsBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	hasResourceHover: true,
 
-	onClick: function(){
-		this.animate();
+dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-		if (this.enabled && this.hasResources()){
+		result.hasResourceHover = true;
+		return result;
+	},
 
+	buyItem: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
 			if (this.game.resPool.get("sorrow").value >= this.game.resPool.get("sorrow").maxValue){
 				this.game.msg("Nothing happens");
+				callback(false);
 				return;
 			}
 
-			this.payPrice();
+			this.payPrice(model);
 			this.refine();
+
+			callback(true);
 		}
+		callback(false);
 	},
 
 	refine: function(){
 		this.game.resPool.get("sorrow").value++; //resPool.update() force below maxValue
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.game.religion.getZU("blackPyramid").unlocked);
-	},
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
+	updateVisible: function(model){
+		model.visible = this.game.religion.getZU("blackPyramid").unlocked;
 	}
+
 });
 
-dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	hasResourceHover: true,
+dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-	onClick: function(){
-		this.animate();
-		if (this.enabled && this.hasResources()){
-			this.payPrice();
+		result.hasResourceHover = true;
+		return result;
+	},
+	
+	buyItem: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			this.payPrice(model);
 			this.refine();
+
+			callback(true);
 		}
+		callback(false);
 	},
 
 	refine: function(){
@@ -989,23 +1059,22 @@ dojo.declare("classes.ui.religion.RefineTCBtn", com.nuclearunicorn.game.ui.Butto
 		this.game.msg(relicsCount + " relics crafted");
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.game.resPool.get("timeCrystal").value >= 25);
-	},
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
+	updateVisible: function(model){
+		model.visible = this.game.resPool.get("timeCrystal").value >= 25;
 	}
+
 });
 
 dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameAware], {
 	constructor: function(game){
 		var self = this;
+		var controller = classes.ui.TranscendenceBtnController(game);
 		dojo.forEach(game.religion.transcendenceUpgrades, function(tu, i){
-			var button = new classes.ui.TranscendenceBtn({
+			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
 				id: 		tu.name,
 				name: 		tu.label,
-				description: tu.description
+				description: tu.description,
+				controller: controller
 			}, game);
 			self.addChild(button);
 		});
@@ -1064,54 +1133,53 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
 				name: "Sacrifice Unicorns",
 				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
-				prices: [{ name: "unicorns", val: 2500}]
+				prices: [{ name: "unicorns", val: 2500}],
+				controller: new classes.ui.religion.SacrificeBtnController(game)
 			}, game);
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
 
-			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeAlicornsBtn({
+			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeBtn({
 				name: "Sacrifice Alicorns",
 				description: "Banish the alicorns to the Bloodmoon. You will receive a Time Crystal.",
-				prices: [{ name: "alicorn", val: 25}]
+				prices: [{ name: "alicorn", val: 25}],
+				controller: new classes.ui.religion.SacrificeAlicornsBtnController(game)
 			}, game);
-			sacrificeAlicornsBtn.setVisible(game.resPool.get("alicorn").value >= 25);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
-			var refineBtn = new classes.ui.religion.RefineTearsBtn({
+			var refineBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Refine Tears",
 				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
-				prices: [{ name: "tears", val: 10000}]
+				prices: [{ name: "tears", val: 10000}],
+				controller: new classes.ui.religion.RefineTearsBtnController(game)
 			}, game);
-			refineBtn.updateVisible();
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
 
-			var refineTCBtn = new classes.ui.religion.RefineTCBtn({
+			var refineTCBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Refine Time Crystals",
 				description: "Refine Time Crystals into the elder relics.",
-				prices: [{ name: "timeCrystal", val: 25}]
+				prices: [{ name: "timeCrystal", val: 25}],
+				controller: new classes.ui.religion.RefineTCBtnController(game)
 			}, game);
-			refineTCBtn.updateVisible();
 			refineTCBtn.render(content);
 			this.refineTCBtn = refineTCBtn;
 
 			//TODO: all the dark miracles there
-
+			var zigguratController = new com.nuclearunicorn.game.ui.ZigguratBtnController(game);
 			var upgrades = game.religion.zigguratUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
-				var button = new com.nuclearunicorn.game.ui.ZigguratBtn({
+				var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
 					id: 		upgr.name,
 					name: upgr.label,
 					description: upgr.description,
 					prices: upgr.prices,
+					controller: zigguratController,
 					handler: upgr.handler
 				}, game);
-
-				button.updateVisible();
-				button.updateEnabled();
 
 				button.render(content);
 				this.zgUpgradeButtons.push(button);
@@ -1134,44 +1202,43 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.faithResetBtn = faithResetBtn;
 			dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 
-			var praiseBtn = new com.nuclearunicorn.game.ui.PraiseBtn({
+			var praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Praise the sun!",
 				description: "Convert all your accumulated faith to the total pool",
-				handler: function(btn){
-					btn.game.religion.praise();	//sigh, enjoy your automation scripts
+				controller: new com.nuclearunicorn.game.ui.PraiseBtnController(game),
+				handler: function(){
+					this.game.religion.praise();	//sigh, enjoy your automation scripts
 				}
 			}, game);
 
 			praiseBtn.render(content);
 			this.praiseBtn = praiseBtn;
-
+			var controller = new com.nuclearunicorn.game.ui.ReligionBtnController(game);
 			var upgrades = game.religion.religionUpgrades;
 			for (var i = 0; i < upgrades.length; i++){
 				var upgr = upgrades[i];
 
-				var button = new com.nuclearunicorn.game.ui.ReligionBtn({
+				var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({
 					id: 		upgr.name,
 					name: 		upgr.label,
 					description: upgr.description,
 					prices: upgr.prices,
+					controller: controller,
 					handler: function(btn){
-						var upgrade = btn.getMetadata();
+						var upgrade = btn.model.metadata;
 						if (upgrade.upgrades){
 							game.upgrade(upgrade.upgrades);
 						}
 					}
 				}, game);
-
-				button.updateVisible();
-				button.updateEnabled();
-
 				button.render(content);
 				this.rUpgradeButtons.push(button);
 			}
 
-			var transcendBtn = new com.nuclearunicorn.game.ui.TranscendBtn({
+			var transcendBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: "Transcend",
 				description: "Transcend the mortal limits",
+				controller: new com.nuclearunicorn.game.ui.TranscendBtnController(game),
 				handler: function(btn) {
 					game.religion.transcend();
 					var transcendenceLevel = game.religion.getTranscendenceLevel();
@@ -1254,15 +1321,17 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		if (!this.game.religion.getRU("apocripha").on){
 			return;	//trust no one
 		}
+		var self = this;
+		this.game.ui.confirm("", "Are you sure you want to reset the pool?" +
+			"\n\nYou will get +10% to faith conversion per 100K of faith." +
+			"\n\nThis bonus will carry over through resets." +
+			"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.", function(confirmed){
+				if (confirmed) {
+					self.resetFaithInternal(1.01);
+				}
+			});
 
-		if (!confirm("Are you sure you want to reset the pool?" +
-				"\n\nYou will get +10% to faith conversion per 100K of faith." +
-				"\n\nThis bonus will carry over through resets." +
-				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.")){
-			return;
-		}
-
-		this.resetFaithInternal(1.01);
+		
 	},
 
     resetFaithInternal: function(bonusRatio){

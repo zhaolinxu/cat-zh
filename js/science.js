@@ -49,7 +49,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: "You can build Mines",
 		prices: [{name : "science", val: 500}],
 		unlocks: {
-			buildings: ["mine"],
+			buildings: ["mine", "workshop"],
 			tech: ["metal"],
 			upgrades: ["bolas"]
 		},
@@ -831,32 +831,36 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TechButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
-	metaCached: null, // Call getMetadata
-	tooltipName: true,
-	simplePrices: false,
-
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.science.get(this.id);
-		}
-		return this.metaCached;
+dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+	
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	getPrices: function() {
-		return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
-	},
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.science.get(model.options.id);
+        }
+        return model.metaCached;
+    },
 
-	updateVisible: function(){
-		var meta = this.getMetadata();
+	getPrices: function(model) {
+        return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+    },
+
+	updateVisible: function(model){
+		var meta = model.metadata;
 		if (!meta.unlocked){
-			this.setVisible(false);
+			model.visible = false;
 		}else{
-			this.setVisible(true);
+			model.visible = true;
 		}
 
 		if (meta.researched && this.game.science.hideResearched){
-			this.setVisible(false);
+			model.visible = false;
 		}
 	}
 });
@@ -983,7 +987,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 	createTechBtn: function(tech){
 		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.TechButton({id: tech.name}, this.game);
+		var controller = new com.nuclearunicorn.game.ui.TechButtonController(this.game);
+		var btn = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: tech.name, controller: controller}, this.game);
 		return btn;
 	}
 });

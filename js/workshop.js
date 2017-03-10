@@ -2068,7 +2068,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		return prices;
 	},
 
-	craft: function (res, amt, suppressUndo){
+	craft: function (res, amt, suppressUndo, forceAll){
 
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio({name:res});
@@ -2101,6 +2101,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		}else{
 			console.log("not enough resources for", prices);
+			if (forceAll){
+				this.craftAll(res);
+				return true;
+			}
 			return false;
 		}
 	},
@@ -2140,11 +2144,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	getCraftAllCount: function(craftName){
 		var recipe = this.getCraft(craftName);
 		var prices = this.getCraftPrice(recipe);
+		return Math.floor(this._getCraftAllCountInternal(recipe, prices));
+	},
+
+	_getCraftAllCountInternal: function(recipe, prices){
 
 		var minAmt = Number.MAX_VALUE;
 		for (var j = prices.length - 1; j >= 0; j--) {
 			var totalRes = this.game.resPool.get(prices[j].name).value;
-			var allAmt = Math.floor(totalRes / prices[j].val);
+			var allAmt = totalRes / prices[j].val; // we need fraction here, do floor later
 			if (allAmt < minAmt){
 				minAmt = allAmt;
 			}
@@ -2171,7 +2179,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-	update: function(){
+	update: function(times){
+		if (!times) {
+			times = 1;
+		}
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
@@ -2194,18 +2205,29 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				continue;
 			}
 
-			if(craft.progress >= 1) {
-				var units = Math.floor(craft.progress);
-				var craftSuccess = this.isLimited ? false : this.craft(craft.name, units, true);
+			var currentProgress = Math.max(craft.progress, 0) + times * this.getEffectEngineer(craft.name, false);
+			if(currentProgress >= 1) {
+				var units = Math.floor(currentProgress), maxOfWhatCanCraft = currentProgress;
+				if (units > 1) {
+					// It has fraction part
+					maxOfWhatCanCraft = this._getCraftAllCountInternal(craft, prices);
+					if (maxOfWhatCanCraft < currentProgress) {
+						units = Math.floor(maxOfWhatCanCraft);
+					} else {
+						maxOfWhatCanCraft = currentProgress;
+					}
+				}
+
+				var craftSuccess = craft.isLimited ? false : this.craft(craft.name, units, true);
 				if (craftSuccess) {
-					craft.progress = craft.progress - units;
+					craft.progress = maxOfWhatCanCraft - units;
+				} else {
+					continue;
 				}
 			} else {
-				var currentProgress = this.getEffectEngineer(craft.name, false);
-
-				if (this.game.resPool.hasRes(prices, craft.progress + currentProgress)) {
+				if (this.game.resPool.hasRes(prices, currentProgress)) {
 					craft.isLimitedAmt = false;
-					craft.progress += currentProgress;
+					craft.progress = currentProgress;
 				} else {
 					craft.isLimitedAmt = true;
 				}
@@ -2239,46 +2261,67 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
-	metaCached: null, // Call getMetadata
-	tooltipName: true,
-	simplePrices: false,
-
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.workshop.get(this.id);
-		}
-		return this.metaCached;
+dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+	
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
 	},
 
-	updateVisible: function(){
-		var upgrade = this.getMetadata();
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.workshop.get(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+	getPrices: function(model) {
+        return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+    },
+
+	updateVisible: function(model){
+		var upgrade = model.metadata;
 		if (!upgrade.unlocked){
-			this.setVisible(false);
+			model.visible = false;
 		}else{
-			this.setVisible(true);
+			model.visible = true;
 		}
 
 		if (upgrade.researched && this.game.workshop.hideResearched){
-			this.setVisible(false);
+			model.visible = false;
 		}
-	},
+	}
+});
 
+
+dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
 	renderLinks: function(){
 		if (this.game.devMode && !this.devUnlockHref){
 			this.devUnlockHref = this.addLink("[+]", this.unlock);
 		}
-	},
+	}
 
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	craftName: null,
-	hasResourceHover: true,
-	simplePrices: false,
+dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 
-	constructor: function(opts, game){
-		this.craftName = opts.craft;
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.hasResourceHover= true;
+		result.simplePrices= false;
+		return result;
+	},
+
+	initModel: function(options) {
+		var model = this.inherited(arguments);
+		model.craft = this.getCraft(model);
+		return model;
+	},
+
+	getCraft: function(model){
+		return this.game.workshop.getCraft(model.options.craft);
 	},
 
 	onClick: function(){
@@ -2286,36 +2329,26 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		this.handler(this);
 	},
 
-	updateVisible: function(){
-		var craft = this.game.workshop.getCraft(this.craftName);
-
-		if (craft.unlocked){
-			this.setVisible(true);
-		}else{
-			this.setVisible(false);
-		}
+	updateVisible: function(model){
+		model.visible = model.craft.unlocked;
 	},
 
-	getSelectedObject: function(){
-		return this.game.workshop.getCraft(this.craftName);
-	},
-
-	getName: function(){
-		var craft = this.game.workshop.getCraft(this.craftName);
+	getName: function(model){
+		var craft = model.craft;
 		if (this.game.science.get("mechanization").researched && craft.value != 0) {
 			var progressDisplayed = this.game.toDisplayPercentage(craft.progress, 0, true);
 			if (progressDisplayed > 99){
 				progressDisplayed = 99;
 			}
 
-			return this.name + " (" + craft.value + ") [" + progressDisplayed + "%]";
+			return model.craft.label + " (" + craft.value + ") [" + progressDisplayed + "%]";
 		} else {
 			return this.inherited(arguments);
 		}
 	},
 
-	getDescription: function(){
-		var craft = this.game.workshop.getCraft(this.craftName);
+	getDescription: function(model){
+		var craft = model.craft;
 		var desc = craft.description;
 
 		if (this.game.science.get("mechanization").researched){
@@ -2339,23 +2372,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		return desc;
 	},
 
-	setEnabled: function(enabled){
-		this.inherited(arguments);
-
-		dojo.removeClass(this.domNode, "bldEnabled");
-		dojo.removeClass(this.domNode, "bldlackResConvert");
-		var craft = this.game.workshop.getCraft(this.craftName);
-		if (craft.value > 0) {
-			if (craft.isLimitedAmt) {
-				dojo.addClass(this.domNode, "bldlackResConvert");
-			} else {
-				dojo.addClass(this.domNode, "bldEnabled");
-			}
-		}
-	},
-
-	assignCraftJob: function(value) {
-		var craft = this.game.workshop.getCraft(this.craftName);
+	assignCraftJob: function(model, value) { //TODO, assign one kitten, not just a value to manage with exp
+		var craft = model.craft;
 
 		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
 
@@ -2372,9 +2390,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		craft.value += valueAdded;
 	},
 
-	unassignCraftJob: function(value) {
-		var craft = this.game.workshop.getCraft(this.craftName);
-
+	unassignCraftJob: function(model, value) { //TODO, aunssign one kitten, not just a value to manage with exp
+		var craft = model.craft;
 		var valueCorrected = craft.value > value ? value : craft.value;
 
 		craft.value -= valueCorrected;
@@ -2383,53 +2400,143 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		}
 	},
 
-	renderLinks: function(){
+
+	fetchModel: function(options){
+		var model = this.inherited(arguments);
+		var self = this;
 		if (this.game.science.get("mechanization").researched) {
+			if (!this.controllerOpts.compactStyle) {
+				model.unassignCraftLinks = [
+				  {
+						id: "unassign",
+						title: "[&ndash;]",
+						handler: function(){
+							self.unassignCraftJob(model, 1);
+						},
+					  	enabled: true
+				   },{
+						id: "unassign5",
+						title: "[-5]",
+						handler: function(){
+							self.unassignCraftJob(model, 5);
+						},
+						enabled: true
+				   },{
+						id: "unassign25",
+						title: "[-25]",
+						handler: function(){
+							self.unassignCraftJob(model, 25);
+						},
+						enabled: true
+				   }];
 
-			this.unassignCraftLinks = this.addLinkList([
-			  {
-					id: "unassign",
-					title: "[&ndash;]",
-					handler: function(){
-						this.unassignCraftJob(1);
-					}
-			   },{
-					id: "unassign5",
-					title: "[-5]",
-					handler: function(){
-						this.unassignCraftJob(5);
-					}
-			   },{
-					id: "unassign25",
-					title: "[-25]",
-					handler: function(){
-						this.unassignCraftJob(25);
-					}
-			   }]
-			);
+				model.assignCraftLinks = [
+					{
+						id: "assign",
+						title: "[+]",
+						handler: function(){
+							self.assignCraftJob(model, 1);
+						},
+						enabled: true
+				   },{
+						id: "assign5",
+						title: "[+5]",
+						handler: function(){
+							self.assignCraftJob(model, 5);
+						},
+						enabled: true
+				   },{
+						id: "assign25",
+						title: "[+25]",
+						handler: function(){
+							self.assignCraftJob(model, 25);
+						},
+						enabled: true
+				   }];
+			} else {
+				model.unassignCraftLinks = [
+				  {
+						id: "unassign",
+						title: "-",
+						handler: function(){
+							self.unassignCraftJob(model, 1);
+						},
+					  	enabled: true
+				   },{
+						id: "unassign25",
+						title: "-25",
+						handler: function(){
+							self.unassignCraftJob(model, 25);
+						},
+						enabled: true
+				   }];
 
-			this.assignCraftLinks = this.addLinkList([
-				{
-					id: "assign",
-					title: "[+]",
-					handler: function(){
-						this.assignCraftJob(1);
-					}
-			   },{
-					id: "assign5",
-					title: "[+5]",
-					handler: function(){
-						this.assignCraftJob(5);
-					}
-			   },{
-					id: "assign25",
-					title: "[+25]",
-					handler: function(){
-						this.assignCraftJob(25);
-					}
-			   }]
-			);
+				model.assignCraftLinks = [
+					{
+						id: "assign",
+						title: "+",
+						handler: function(){
+							self.assignCraftJob(model, 1);
+						},
+						enabled: true
+				   },{
+						id: "assign25",
+						title: "+25",
+						handler: function(){
+							self.assignCraftJob(model, 25);
+						},
+						enabled: true
+				   }];
+			}
 
+		} else {
+			model.assignCraftLinks = [];
+			model.unassignCraftLinks = [];
+		}
+		return model;
+	},
+
+	buyItem: function(model, event, callback) {
+		this.game.workshop.craft(model.craft.name, 1);
+		callback(true);
+	}
+});
+
+
+dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	craftName: null,
+
+	constructor: function(opts, game){
+		this.craftName = opts.craft;
+	},
+
+	onClick: function(){
+		this.animate();
+		this.handler(this);
+	},
+
+	setEnabled: function(enabled){
+		this.inherited(arguments);
+
+		dojo.removeClass(this.domNode, "bldEnabled");
+		dojo.removeClass(this.domNode, "bldlackResConvert");
+		var craft = this.model.craft;
+		if (craft.value > 0) {
+			if (craft.isLimitedAmt) {
+				dojo.addClass(this.domNode, "bldlackResConvert");
+			} else {
+				dojo.addClass(this.domNode, "bldEnabled");
+			}
+		}
+	},
+
+
+	renderLinks: function(){
+		if (this.model.unassignCraftLinks) {
+			this.unassignCraftLinks = this.addLinkList(this.model.unassignCraftLinks);
+		}
+		if (this.model.assignCraftLinks){
+			this.assignCraftLinks = this.addLinkList(this.model.assignCraftLinks);
 		}
 	}
 
@@ -2513,6 +2620,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 		var self = this;
 		var crafts = this.game.workshop.crafts;
+		var controller = new com.nuclearunicorn.game.ui.CraftButtonController(this.game);
 		for (var i = 0; i < crafts.length; i++ ){
 			var craft =  crafts[i];
 			var craftBtn = new com.nuclearunicorn.game.ui.CraftButton({
@@ -2520,9 +2628,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 				description: craft.description,
 				craft: craft.name,
 				prices: this.game.workshop.getCraftPrice(craft),
-				handler: dojo.partial(function(craft, btn){
-					btn.game.workshop.craft(craft.name, 1);
-				}, craft)
+				controller: controller
 			}, this.game);
 
 			craftBtn.render(td);
@@ -2568,7 +2674,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	createBtn: function(upgrade){
 		var self = this;
-		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name}, this.game);
+		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
+		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name, controller: controller}, this.game);
 		return btn;
 	},
 

@@ -100,14 +100,23 @@
 				}
 				def.then(function() {
 					try {
+						
+
 						gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 						gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+						//--------------------------
+						var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
+						/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
+						var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+						dropBoxClient.authDriver(driver);
+						gamePage.setDropboxClient(dropBoxClient);
 
 						gamePage.load();
 						gamePage.updateKarma();
 
 						gamePage.render();
-						gamePage.console.static.renderFilters();
+						gamePage.ui.renderFilters();
 						gamePage.start();
 
 						//---------------------------------
@@ -162,11 +171,7 @@
 			}
 
 			function wipe(){
-				if (confirm("All save data will be DESTROYED, are you sure?")){
-					if (confirm("Are you ABSOLUTELY sure?")) {
-						gamePage.wipe();
-					}
-				}
+				gamePage.wipe();
 			}
 			// we don't need no css, let the dynamic height be. be, dynamic height, be.
 			function resetGameLogHeight(){
@@ -417,7 +422,7 @@
 					</i></label>
 				<br>
 
-				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
+				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.opts.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
 				<label for="forceHighPrecision">Use high precision for resource values</label>
 				<br>
 

@@ -125,28 +125,27 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	}
 });
 
-dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, {
-	metaCached: null, // Call getMetadata
+dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.challenges.getChallenge(this.id);
-		}
-		return this.metaCached;
-	},
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.challenges.getChallenge(model.options.id);
+        }
+        return model.metaCached;
+    },
 
-	getDescription: function() {
+    getDescription: function(model) {
 		if (this.game.bld.get("chronosphere").val > 0) {
 			var msgChronosphere = " You won't gain reset bonus from chronospheres.";
-			msgChronosphere += this.getMetadata().name == "ironWill" ? "<br />WARNING: the reset bonus from chronospheres will automatically disable IW." : "";
+			msgChronosphere += model.metadata.name == "ironWill" ? "<br />WARNING: the reset bonus from chronospheres will automatically disable IW." : "";
 		} else {
 			var msgChronosphere = "";
 		}
-		return this.inherited(arguments) + "<br />Gain: " + this.getMetadata().effectDesc + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
+		return this.inherited(arguments) + "<br />Gain: " + model.metadata.effectDesc + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
+	getName: function(model){
+		var meta = model.metadata;
 		if (meta.name == this.game.challenges.currentChallenge) {
 			return meta.label + " (Current)";
 		} else if (meta.researched){
@@ -155,27 +154,29 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 			return meta.label;
 		}
 	},
-
-	getPrices: function() {
-		return $.extend(true, [], this.getMetadata().prices); // Create a new array to keep original values
+	
+	updateVisible: function(model){
+		model.visible = model.metadata.unlocked;
 	},
 
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
+	getPrices: function(model) {
+		return $.extend(true, [], model.metadata.prices); // Create a new array to keep original values
 	},
 
-	updateVisible: function(){
-		this.setVisible(this.getMetadata().unlocked);
-	},
+	buyItem: function(model, event, callback) {
+		if (model.metadata.name != this.game.challenges.currentChallenge && (model.enabled || this.game.devMode)) {
+			//if (confirm("Are you sure you want to start this challenge by resetting the game ?")) {
+			this.game.ui.confirm('Challenge confirmation', "Are you sure you want to start this challenge by resetting the game ?", function (confirmed) {
+				if (!confirmed) {
+					callback(false);
+					return;
+				}
 
-	onClick: function(){
-		if (this.getMetadata().name != this.game.challenges.currentChallenge && (this.enabled || this.game.devMode)){
-			if (confirm("Are you sure you want to start this challenge by resetting the game ?")) {
 				// Set the challenge for after reset
-				if (this.getMetadata().name == "ironWill") {
+				if (model.metadata.name == "ironWill") {
 					this.game.challenges.currentChallenge = null;
 				} else {
-					this.game.challenges.currentChallenge = this.getMetadata().name;
+					this.game.challenges.currentChallenge = model.metadata.name;
 				}
 				// Reset with any benefit of chronosphere (ressource, kittens, etc...)
 				this.game.bld.get("chronosphere").val = 0;
@@ -183,17 +184,18 @@ dojo.declare("classes.ui.ChallengeBtn", com.nuclearunicorn.game.ui.BuildingBtn, 
 				this.game.time.getVSU("cryochambers").val = 0;
 				this.game.time.getVSU("cryochambers").on = 0;
 				this.game.resetAutomatic();
-			}
+				callback(true);
+			});
 		} else {
-			this.animate();
+			callback(false);
 			return;
 		}
 	},
 
-	updateEnabled: function(){
+	updateEnabled: function(model){
 		this.inherited(arguments);
-		if (this.getMetadata().researched){
-			this.setEnabled(false);
+		if (model.metadata.researched){
+			model.enabled = false;
 		}
 	}
 });
@@ -208,8 +210,9 @@ dojo.declare("classes.ui.ChallengePanel", com.nuclearunicorn.game.ui.Panel, {
     render: function(container){
 		var content = this.inherited(arguments);
 		var self = this;
+		var controller = new classes.ui.ChallengeBtnController(self.game);
 		dojo.forEach(this.game.challenges.challenges, function(challenge, i){
-			var button = new classes.ui.ChallengeBtn({id: challenge.name}, self.game);
+			var button = new com.nuclearunicorn.game.ui.BuildingBtn({id: challenge.name, controller: controller}, self.game);
 			button.render(content);
 			self.addChild(button);
 		});

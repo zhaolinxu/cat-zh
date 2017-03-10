@@ -18,15 +18,24 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     displayAutosave: function(){
-
     },
 
     resetConsole: function(){
-
     },
 
     renderFilters: function(){
+    },
 
+    renderConsoleLog: function() {
+    },
+
+    saveExport: function(encodedData) {
+    },
+
+    observeCallback: function(){
+    },
+
+    observeClear: function(){
     }
 });
 
@@ -112,7 +121,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                         this.activeTabId = tab.tabId;
                         this.render();
 
-                        this.game.telemetry.logEvent("tab", tab.tabId);
+                        //this.game.telemetry.logEvent("tab", tab.tabId);
                     }, tab)
             );
 
@@ -286,7 +295,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("body").attr("class", "scheme_" + game.colorScheme);
 
         $("#workersToggle")[0].checked = game.useWorkers;
-        $("#forceHighPrecision")[0].checked = game.forceHighPrecision;
+        $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
         $("#usePerSecondValues")[0].checked = game.opts.usePerSecondValues;
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
@@ -356,10 +365,112 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
 
     resetConsole: function(){
-        this.game.console.static.resetState();
+        this.game.console.resetState();
     },
 
     renderFilters: function(){
-        //this.game.console.static.renderFilters();
+        var console = this.game.console,
+            filtersDiv = dojo.byId("logFilters");
+
+        dojo.empty(filtersDiv);
+        var show = false;
+
+        for (var fId in console.filters){
+            if (console.filters[fId].unlocked) {
+                this._createFilter(console.filters[fId], fId, filtersDiv);
+                show = true;
+            }
+        }
+        $("#logFiltersBlock").toggle(show);
+    },
+
+    _createFilter: function(filter, fId, filtersDiv){
+        var id = "filter-" + fId;
+
+        var checkbox = dojo.create("input", {
+                id: id,
+                type: "checkbox",
+                checked: filter.enabled
+        }, filtersDiv);
+        dojo.connect(checkbox, "onclick", this, function(){
+            filter.enabled = checkbox.checked;
+        });
+
+        dojo.create("label", {
+            "for": id,
+            innerHTML: filter.title
+        }, filtersDiv);
+        dojo.create("br", null, filtersDiv);
+    },
+
+    renderConsoleLog: function() {
+        var console = this.game.console,
+            messages = console.messages;
+
+        var gameLog = dojo.byId("gameLog");
+        if (!messages.length) { // micro optimization
+            dojo.empty(gameLog);
+            return;
+        } 
+
+        var spans = dojo.query("span", gameLog);
+
+        for (var i = 0, j = 0; i < messages.length || j < spans.length;){
+            var msg = messages[i], 
+                span = spans[j];
+            if (!msg && span) {
+                dojo.destroy(span);
+                i++; j++;
+                continue;
+            } else if (msg && span) {
+                if (msg.id == span.id) {
+                    if (i > 24) {
+                        dojo.setStyle(span, "opacity", (1 - (i-24) * 0.066));
+                    }
+                    i++; j++;
+                    continue;
+                } else {
+                    dojo.destroy(span);
+                    j++;
+                    continue;
+                }
+            } else if (msg && !span) {
+                span = dojo.create("span", { innerHTML: msg.text, className: "msg" }, gameLog, "first");
+
+                if (msg.type){
+                    dojo.addClass(span, "type_"+msg.type);
+                }
+                if (msg.noBullet) {
+                    dojo.addClass(span, "noBullet");
+                }
+                i++;
+            } else {
+                //!msg && !span - break the loop if we didn't do so yet
+                break;
+            }
+
+        }
+    },
+
+    notifyLogEvent: function(logmsg) {
+        // do nothing
+    },
+
+    saveExport: function(encodedData, rawData) {
+        var is_chrome = /*window.chrome*/ true;
+        if (is_chrome){
+            $("#exportDiv").show();
+            $("#exportData").val(encodedData);
+            $("#exportData").select();
+        } else {
+            window.prompt("Copy to clipboard: Ctrl+C, Enter", encodedData);
+        }
+    },
+
+
+    confirm: function(title, msg, callback) {
+        invokeCallback(callback, [window.confirm(msg)]);
     }
+
+
 });

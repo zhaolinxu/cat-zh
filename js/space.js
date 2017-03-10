@@ -887,19 +887,23 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	metaCached: null, // Call getMetadata
-	simplePrices: false,
+dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.space.getProgram(this.id);
-		}
-		return this.metaCached;
+		result.simplePrices = false;
+		return result;
 	},
 
-    getPrices: function() {
-        var prices = dojo.clone(this.getMetadata().prices);
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.space.getProgram(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+    getPrices: function(model) {
+        var prices = dojo.clone(model.metadata.prices);
 
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
@@ -911,26 +915,26 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
         return prices;
     },
 
-	updateVisible: function(){
-		var meta = this.getMetadata();
+	updateVisible: function(model){
+		var meta = model.metadata;
 		if (meta.requiredTech){
 			for (var i = meta.requiredTech.length - 1; i >= 0; i--) {
 				var tech = this.game.science.get(meta.requiredTech[i]);
 				if (!tech.researched){
-					this.setVisible(false);
+					model.visible = false;
 					return;
 				}
 			}
 		}
 		if (meta.on && meta.noStackable && this.game.space.hideResearched){
-			this.setVisible(false);
+			model.visible = false;
 			return;
 		}
-		this.setVisible(meta.unlocked);
+		model.visible = meta.unlocked;
 	},
 
-	getName: function(){
-		var meta = this.getMetadata();
+	getName: function(model){
+		var meta = model.metadata;
 
 		if (meta.val == 0) {
 			return meta.label;
@@ -941,18 +945,19 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 		}
 	},
 
-	onClick: function(event){
-		if (this.getMetadata().val == 0) {
+	buyItem: function(model, event, callback) {
+		if (model.metadata.val == 0) {
 			this.inherited(arguments);
+		} else {
+			callback(false);
 		}
 	},
 
-	build: function(meta, maxBld){
+	build: function(model, maxBld){
 		var counter = this.inherited(arguments);
-		var meta = this.getMetadataRaw();
-		meta.on = 0;
-		if (meta.name == "rorschachMission"){
-			meta.on = 1;
+		model.metadata.on = 0;
+		if (model.metadata.name == "rorschachMission") {
+			model.metadata.on = 1;
 			this.game.msg("Rorschach is impenetrable but you see now farther.", "important");
 		}
 		return counter;
@@ -960,30 +965,20 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtn", com.nuclearunicorn.ga
 
 });
 
-dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-	metaCached: null, // Call getMetadata
-	simplePrices: false,
-	planet: null,
-	refundPercentage: 0.1,
+dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.space.getBuilding(model.options.id);
+        }
+        return model.metaCached;
+    },
 
-	setOpts: function(opts){
-		this.inherited(arguments);
-		this.planet = opts.planet;
-	},
-
-	hasSellLink: function(){
+    hasSellLink: function(model){
 		return !this.game.opts.hideSell;
 	},
 
-	getMetadata: function(){
-		if (!this.metaCached){
-			this.metaCached = this.game.space.getBuilding(this.id);
-		}
-		return this.metaCached;
-	},
-
-    getPrices: function() {
-        var meta = this.getMetadata();
+	getPrices: function(model) {
+        var meta = model.metadata;
         var ratio = meta.priceRatio || 1.15;
 
         var prices = dojo.clone(meta.prices);
@@ -999,7 +994,6 @@ dojo.declare("classes.ui.space.PlanetBuildingBtn", com.nuclearunicorn.game.ui.Bu
 
         return prices;
     }
-
 });
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
@@ -1010,8 +1004,9 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 
+		var controller = new classes.ui.space.PlanetBuildingBtnController(game);
 		dojo.forEach(this.planet.buildings, function(building, i){
-			var button = new classes.ui.space.PlanetBuildingBtn({id: building.name, planet: self.planet}, self.game);
+			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 
 			button.render(content);
 			self.addChild(button);
@@ -1073,9 +1068,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel("Ground Control", this.game.space);
 		var content = this.GCPanel.render(container);
-
+		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(self.game);
 		dojo.forEach(this.game.space.programs, function(program, i){
-			var button = new com.nuclearunicorn.game.ui.SpaceProgramBtn({id: program.name}, self.game);
+			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: program.name, controller: controller}, self.game);
 			button.render(content);
 			self.GCPanel.addChild(button);
 		});

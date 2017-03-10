@@ -122,15 +122,20 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 			appId: this.game.server.telemetryAppId
 		};
 
-		if (!this.game.opts.disableTelemetry && this.game.server.telemetryUrl) {
-			$.ajax({
-				url: this.game.server.telemetryUrl,
-				type: "POST",
-				crossOrigin: true,
-				data: JSON.stringify(event),
-				dataType: "json",
-				contentType: "text/plain"
-			});
+		if (!this.game.opts.disableTelemetry) {
+			
+			if (window.FirebasePlugin) {
+				window.FirebasePlugin.logEvent(eventType, event);
+			} else if (this.game.server.telemetryUrl) {
+				/*$.ajax({
+					url: this.game.server.telemetryUrl,
+					type: "POST",
+					crossOrigin: true,
+					data: JSON.stringify(event),
+					dataType: "json",
+					contentType: "text/plain"
+				});*/
+			}
 		}
 	}
 });
@@ -889,7 +894,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//		option settings
 	//=============================
 	forceShowLimits: false,
-	forceHighPrecision: false,
 	useWorkers: false,
 	colorScheme: "",
 
@@ -929,7 +933,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     managers: null,
 
     keyStates: {
-		shiftKey: false
+		shiftKey: false,
+		ctrlKey: false
 	},
 
     //TODO: this can potentially be an array
@@ -958,7 +963,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.opts = {
 			usePerSecondValues: true,
 			usePercentageResourceValues: false,
-			highlightUnavailable: false,
+			highlightUnavailable: true,
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
@@ -966,7 +971,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableTelemetry: true
 		};
 
-		this.console = new com.nuclearunicorn.game.log.Console();
+		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
@@ -1074,15 +1079,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
-
-		//--------------------------
-		var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
-		/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-		var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
-		dropBoxClient.authDriver(driver);
-
-		this.dropBoxClient = dropBoxClient;
 	},
+
+    setDropboxClient: function(dropBoxClient) {
+        this.dropBoxClient = dropBoxClient;
+    },
 
 	heartbeat: function(){
 		this.telemetry.logEvent("heartbeat", {
@@ -1165,18 +1166,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 */
 	msg: function(message, type, tag, noBullet){
 		var hasCalendarTech = this.science.get("calendar").researched;
+		var messageLine = this.console.msg(message, type, tag, noBullet);
 
-
-		var messageLine = this.console.static.msg(message, type, tag, noBullet);
 		if (messageLine && hasCalendarTech){
-			this.console.static.msg("Year " + this.calendar.year.toLocaleString() + " - " + this.calendar.getCurSeasonTitle(), "date", null, false);
+			this.console.msg("Year " + this.calendar.year.toLocaleString() + " - " + this.calendar.getCurSeasonTitle(), "date", null, false);
 		}
 
 		return messageLine;
 	},
 
 	clearLog: function(){
-		this.console.static.clear();
+		this.console.clear();
 	},
 
 	saveUI: function(){
@@ -1194,7 +1194,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	resetState: function(){
 		this.forceShowLimits = false;
-		this.forceHighPrecision = false;
 		this.useWorkers = false;
 		this.colorScheme = "";
 		this.karmaKittens = 0;
@@ -1210,6 +1209,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			highlightUnavailable: false,
 			hideSell: false,
@@ -1259,7 +1259,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.save(saveData);
 		this.village.save(saveData);
 		this.calendar.save(saveData);
-		this.console.static.save(saveData);
+		this.console.save(saveData);
 
         for (var i in this.managers){
             this.managers[i].save(saveData);
@@ -1267,7 +1267,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		saveData.game = {
 			forceShowLimits: this.forceShowLimits,
-			forceHighPrecision: this.forceHighPrecision,
 			isCMBREnabled: this.isCMBREnabled,
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
@@ -1284,11 +1283,27 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
 		console.log("Game saved");
+
+		return saveData;
 	},
 
-	wipe: function(){
+	_wipe: function(){
 		delete(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
 	},
+
+    wipe: function(){
+        var game = this;
+        this.ui.confirm('Wipe confirmation', "All save data will be DESTROYED, are you sure?", function(confirmed){
+            if (!confirmed) {
+                return;
+            }
+            game.ui.confirm('Wipe confirmation', "Are you ABSOLUTELY sure?", function(confirmed){
+                if (confirmed) {
+                    game._wipe();
+                }
+            });
+        });
+    },
 
 	closeOptions: function() {
 		$('#optionsDiv').hide();
@@ -1317,6 +1332,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	updateOptionsUI: function(){
 		this.ui.updateOptions();
+        this._publish("game/options", this);
 	},
 
 	load: function(){
@@ -1341,14 +1357,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.resPool.load(saveData);
 				this.village.load(saveData);
 				this.calendar.load(saveData);
-				this.console.static.load(saveData);
+				this.console.load(saveData);
 				this.ui.renderFilters();
 
                 for (var i in this.managers){
                     this.managers[i].load(saveData);
                 }
 
-				dojo.publish("server/load", saveData);
+				this._publish("server/load", saveData);
 			}
 		} catch (ex) {
 			console.error("Unable to load game data: ", ex);
@@ -1379,7 +1395,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.useWorkers = (data.useWorkers !== undefined) ? data.useWorkers : false;
 
 			this.cheatMode = (data.cheatMode !== undefined) ? data.cheatMode : false;
-			this.forceHighPrecision = (data.forceHighPrecision !== undefined) ? data.forceHighPrecision : false;
 
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
 
@@ -1416,15 +1431,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.save();
 
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+        var encodedData;
+        if (LZString.compressToBase64) {
+            encodedData = LZString.compressToBase64(data);
+        } else {
+            encodedData = btoa(data);
+        }
+        
+        this.ui.saveExport(encodedData);
 
-		var is_chrome = /*window.chrome*/ true;
-		if (is_chrome){
-			$("#exportDiv").show();
-			$("#exportData").val(LZString.compressToBase64(data));
-			$("#exportData").select();
-		} else {
-			window.prompt("Copy to clipboard: Ctrl+C, Enter", btoa(data));
-		}
 	},
 
 	saveImport: function(){
@@ -1434,28 +1449,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = $("#importData").val();
 		data = data.replace(/\s/g, "");
 
-		var decompress = LZString.decompressFromBase64(data);
-		var json;
-		if (decompress) {
-			json = decompress;
-		} else {
-			json = atob(data);
-		}
-
-		if (!json) {
+		if (!data) {
 			return;
 		}
-		this.timer.scheduleEvent(dojo.hitch(this, function(){
-			LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
-			var success = this.load();
-			if (success){
-				this.msg("Save import successful!");
-			}
 
-			this.render();
-		}));
-		$('#exportDiv').hide();
-		$('#optionsDiv').hide();
+        var callback = function(error) {
+            $('#importDiv').hide();
+            $('#optionsDiv').hide();
+        };
+
+		this.saveImportDropboxText(data, callback);
 	},
 
 	saveExportDropbox: function(){
@@ -1463,63 +1466,109 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		var lzdata = LZString.compressToBase64(data);
 
-		var game = this;
+		
+        var callback = function() {
+            $('#exportDiv').hide();
+            $('#optionsDiv').hide();
+        };
 
-		//cached authentification
-		this.dropBoxClient.authenticate({interactive:false});
-		if (this.dropBoxClient.isAuthenticated()){
-			game.dropBoxClient.writeFile('kittens.save', lzdata, function (){
-				game.msg("Save export successful!");
-				$('#exportDiv').hide();
-				$('#optionsDiv').hide();
-			});
-			return;
-		}
-
-		//interactive authentification
-		this.dropBoxClient.authenticate(function (error, client) {
-			client.writeFile('kittens.save', lzdata, function (){
-				game.msg("Save export successful!");
-				$('#exportDiv').hide();
-				$('#optionsDiv').hide();
-			});
-		});
+		this.exportToDropbox(lzdata, callback);
 	},
+
+    exportToDropbox: function(lzdata, callback) {
+        var game = this;
+
+        //cached authentification
+        this.dropBoxClient.authenticate({interactive:false});
+        if (this.dropBoxClient.isAuthenticated()){
+            game.saveExportDropboxFileWrite(lzdata, callback);
+            return;
+        }
+
+        //interactive authentification
+        this.dropBoxClient.authenticate(function (error, client) {
+            if (error) {
+                callback(error);
+            } else {
+                game.saveExportDropboxFileWrite(lzdata, callback);
+            }
+        });
+    },
+
+    saveExportDropboxFileWrite: function(lzdata, callback){
+        var game = this;
+        this.dropBoxClient.writeFile('kittens.save', lzdata, function (error){
+            if (error) {
+                callback(error);
+            } else {
+                game.msg("Save export successful!");
+                callback();
+            }
+        });
+    },
+
 
 	saveImportDropbox: function(){
 		if (!window.confirm("Are your sure? This will overwrite your save!")){
 			return;
 		}
+		
+        var callback = function(error) {
+            $('#importDiv').hide();
+            $('#optionsDiv').hide();
+        };
 
-		var game = this;
-		this.dropBoxClient.authenticate({interactive:false});
-		if (this.dropBoxClient.isAuthenticated()){
-			game.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
-				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson, lzdata));
-				$('#importDiv').hide();
-				$('#optionsDiv').hide();
-			});
-			return;
-		}
-
-		this.dropBoxClient.authenticate(function (error, client) {
-			client.readFile('kittens.save', {}, function (error, lzdata){
-				game.timer.scheduleEvent(dojo.hitch(game, game._loadSaveJson, lzdata));
-				$('#importDiv').hide();
-				$('#optionsDiv').hide();
-			});
-		});
+		this.importFromDropbox(callback);
 	},
 
+    importFromDropbox: function (callback) {
+        var game = this;
+        this.dropBoxClient.authenticate({interactive:false});
+        if (this.dropBoxClient.isAuthenticated()){
+            game.saveImportDropboxFileRead(callback);
+            return;
+        }
+
+        this.dropBoxClient.authenticate(function (error, client) {
+            if (error) {
+                console.log("Couldn't auth in dropbox:"+error);
+            } else {
+                game.saveImportDropboxFileRead(callback);
+            }
+        });
+    },
+
+    saveImportDropboxFileRead: function(callback){
+        var game = this;
+        this.dropBoxClient.readFile('kittens.save', {}, function (error, lzdata){
+            if (error) {
+                callback(error);
+            } else {
+                game.saveImportDropboxText(lzdata, callback);
+            }
+        });
+    },
+
+    saveImportDropboxText: function(lzdata, callback){
+        this.timer.scheduleEvent(dojo.hitch(this, this._loadSaveJson, lzdata, callback));
+    },
+
 	//TODO: add some additional checks and stuff?
-	_loadSaveJson: function(lzdata){
-		var json = LZString.decompressFromBase64(lzdata);
-		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+	_loadSaveJson: function(lzdata, callback){
+        try {
+    		var json = LZString.decompressFromBase64(lzdata);
+    		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
 
-		this.load();
-		this.msg("Save import successful!");
+    		this.load();
+    		this.msg("Save import successful!");
 
-		this.render();
+    		this.render();
+
+            callback();
+        } catch (e) {
+            console.log("Couldn't import the save of the game:"+e.stack);
+            callback(e);
+        }
 	},
 
 	migrateSave: function(save) {
@@ -1817,6 +1866,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
     setUI: function(ui){
         this.ui = ui;
         ui.setGame(this);
+        this.console.ui = ui;
     },
 
 	render: function(){
@@ -2757,6 +2807,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return percentage.toFixed(precision);
 	},
 
+	//shamelessly copied from Sandcastle Builder code
+	postfixes: [
+		{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},
+		{limit:1e42,divisor:1e42,postfix:['W',' Wololo']},
+		{limit:1e39,divisor:1e39,postfix:['L',' Lotta']},
+		{limit:1e36,divisor:1e36,postfix:['F',' Ferro']},
+		{limit:1e33,divisor:1e33,postfix:['H',' Helo']}, //or Ballard
+		{limit:1e30,divisor:1e30,postfix:['S',' Squilli']},
+		{limit:1e27,divisor:1e27,postfix:['U',' Umpty']},
+
+		{limit:1e24,divisor:1e24,postfix:['Y',' Yotta']},
+		{limit:1e21,divisor:1e21,postfix:['Z',' Zeta']},
+		{limit:1e18,divisor:1e18,postfix:['E',' Exa']},
+		{limit:1e15,divisor:1e15,postfix:['P',' Peta']},
+		{limit:1e12,divisor:1e12,postfix:['T',' Tera']},
+		{limit:1e9,divisor:1e9,postfix:['G',' Giga']},
+		{limit:1e6,divisor:1e6,postfix:['M',' Mega']},
+		{limit:9e3,divisor:1e3,postfix:['K',' Kilo']} //WHAT
+	],
+
 	/**
 	 * Converts raw resource value (e.g. 12345.67890) to a formatted representation (i.e. 12.34K)
 	 * If 'prefix' flag is true, positive value will be prefixed with '+', e.g. ("+12.34K")
@@ -2772,30 +2842,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value = value * this.rate;
 		}
 
-		//shamelessly copied from Sandcastle Builder code
-		var postfixes=[
-			{limit:1e210,divisor:1e210,postfix:['Q',' Quita']},
-			{limit:1e42,divisor:1e42,postfix:['W',' Wololo']},
-			{limit:1e39,divisor:1e39,postfix:['L',' Lotta']},
-			{limit:1e36,divisor:1e36,postfix:['F',' Ferro']},
-			{limit:1e33,divisor:1e33,postfix:['H',' Helo']}, //or Ballard
-			{limit:1e30,divisor:1e30,postfix:['S',' Squilli']},
-			{limit:1e27,divisor:1e27,postfix:['U',' Umpty']},
-
-			{limit:1e24,divisor:1e24,postfix:['Y',' Yotta']},
-			{limit:1e21,divisor:1e21,postfix:['Z',' Zeta']},
-			{limit:1e18,divisor:1e18,postfix:['E',' Exa']},
-			{limit:1e15,divisor:1e15,postfix:['P',' Peta']},
-			{limit:1e12,divisor:1e12,postfix:['T',' Tera']},
-			{limit:1e9,divisor:1e9,postfix:['G',' Giga']},
-			{limit:1e6,divisor:1e6,postfix:['M',' Mega']},
-			{limit:9e3,divisor:1e3,postfix:['K',' Kilo']} //WHAT
-		];
+		
 
 		postfix = postfix || "";
 		var absValue = Math.abs(value);
-		for(var i = 0; i < postfixes.length; i++) {
-			var p = postfixes[i];
+		for(var i = 0; i < this.postfixes.length; i++) {
+			var p = this.postfixes[i];
 			if(absValue >= p.limit){
 				if (usePerTickHack){ // Prevent recursive * this.rate;
 					value = value / this.rate;
@@ -2822,7 +2874,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		if (precision === undefined){
-			precision = this.forceHighPrecision ? 3 : 2;
+			precision = this.opts.forceHighPrecision ? 3 : 2;
 		}
 
 		var mantisa = "";
@@ -2834,7 +2886,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		if (floatVal.toFixed() == floatVal){
+		if (floatVal % 1 === 0){
 			var toFixed = floatVal.toFixed();
 			return plusSign + toFixed;
 		} else {
@@ -2857,8 +2909,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		tab.game = this;
 	},
 
+	isWebWorkerSupported: function(){
+		return false;
+		//return !dojo.isIE && window.Worker;
+	},
+
 	start: function(){
-		if (!dojo.isIE && this.useWorkers && window.Worker){	//IE10 has a nasty security issue with running blob workers
+		if (this.isWebWorkerSupported() && this.useWorkers){	//IE10 has a nasty security issue with running blob workers
 			console.log("starting web worker...");
 			var blob = new Blob([
 				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.rate + "); }"]);	//no shitty external js
@@ -2872,6 +2929,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else {
 			console.log("starting js timer...");
 			//some older browser, perhaps IE. Have a nice idling.
+			// setInterval function set a fixed interval and if the event was delayed due some browser activity, e.g. rendering/scrolling then two or more events will be put into a queue
+			// The problem is that UI looks unresponsive and there are glitches.
+			// We have 2 options: 
+			// 1. Skip events which are really close
+			// 2. Use setTimeout function and reset the interval 
+			// In both cases it will result to drop of number of ticks.
+			// One way is to handle it on UI by queuing the update requests.
 			var timer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
 		}
 	},
@@ -2937,18 +3001,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			msg = "Are you sure that you want to reset?" +
 			"\n\nYou will receive NO BONUS points. You will save old bonus points and achievements.";
 		}
+        var game = this;
 
-		if (!confirm(msg)){
-			return;
-		}
+        this.ui.confirm('Reset confirmation', msg, function(confirmed) {
+            if (!confirmed) {
+                return;
+            }
+            if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
+                game.challenges.getChallenge("atheism").researched = true;
+            }
 
-		if (this.challenges.currentChallenge == "atheism" && this.time.getVSU("cryochambers").on > 0) {
-			this.challenges.getChallenge("atheism").researched = true;
-		}
-
-		this.challenges.currentChallenge = null;
-		this.resetAutomatic();
+            game.challenges.currentChallenge = null;
+            game.resetAutomatic();
+        });		
 	},
+
+
 
 	resetAutomatic: function() {
 		this.timer.scheduleEvent(dojo.hitch(this, function(){

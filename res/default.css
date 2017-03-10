@@ -607,3 +607,22 @@ a:hover {
 @-o-keyframes pulse {
   0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
 }
+
+.flavor {
+    float: right;
+    display: inline-block;
+}
+
+.effectName {
+    float: left;
+    clear: both;
+}
+
+/*------------------------------*/
+.tooltip-inner {
+    width: 280px;
+}
+
+.tooltip-inner .desc {
+    maxWidth: 280px;
+}

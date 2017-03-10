@@ -8,6 +8,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		{
 			name: "spring",
 			title: "Spring",
+			shortTitle: "Spr",
 
 			modifiers:{
 				"catnip" : 1.5
@@ -16,6 +17,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		{
 			name: "summer",
 			title: "Summer",
+			shortTitle: "Sum",
 
 			modifiers:{
 				"catnip" : 1.0
@@ -24,6 +26,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		{
 			name: "autumn",
 			title: "Autumn",
+			shortTitle: "Aut",
 
 			modifiers:{
 				"catnip" : 1.0
@@ -32,6 +35,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		{
 			name: "winter",
 			title: "Winter",
+			shortTitle: "Win",
 
 			modifiers:{
 				"catnip" : 0.25
@@ -44,6 +48,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "charon",
 			title: "Charon",
 			glyph: "&#9049;",
+			uglyph: "⍙",
 			effects: {
 				"moonOutpost-unobtainiumPerTickSpace": 0.9
 			},
@@ -57,6 +62,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "umbra",
 			title: "Umbra",
 			glyph: "&#9062;",
+			uglyph: "⍦",
 			effects: {
 				"planetCracker-uraniumPerTickSpace": 0.9,
 				"hydrofracturer-oilPerTickAutoprodSpace": 0.75
@@ -72,6 +78,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "yarn",
 			title: "Yarn",
 			glyph: "&#9063;",
+			uglyph: "⍧",
 			effects: {
 				"researchVessel-starchartPerTickBaseSpace": 0.5
 			},
@@ -83,6 +90,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "helios",
 			title: "Helios",
 			glyph: "&#8978;",
+			uglyph: "⌒",
 			effects: {
 				"sunlifter-energyProduction": 1.5
 			},
@@ -95,6 +103,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "cath",
 			title: "Cath",
 			glyph: "&#9022;",
+			uglyph: "⌾",
 			effects: {
 				"spaceElevator-prodTransferBonus": 2,
 				"sattelite-starchartPerTickBaseSpace": 2,
@@ -110,6 +119,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "redmoon",
 			title: "Redmoon",
 			glyph: "&#9052;",
+			uglyph: "⍜",
 			effects: {
 				"moonOutpost-unobtainiumPerTickSpace": 1.2
 			},
@@ -121,6 +131,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "dune",
 			title: "Dune",
 			glyph: "&#9067;",
+			uglyph: "⍫",
 			effects: {
 				"planetCracker-uraniumPerTickSpace": 1.1,
 				"hydrofracturer-oilPerTickAutoprodSpace": 1.5
@@ -133,6 +144,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "piscine",
 			title: "Piscine",
 			glyph: "&#9096;",
+			uglyph: "⎈",
 			effects: {
 				"researchVessel-starchartPerTickBaseSpace": 1.5
 			},
@@ -144,6 +156,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "terminus",
 			title: "Terminus",
 			glyph: "&#9053;",
+			uglyph: "⍝",
 			effects: {
 				"sunlifter-energyProduction": 0.5
 			},
@@ -155,6 +168,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			name: "kairo",
 			title: "Kairo",
 			glyph: "&#8483;",
+			uglyph: "℣",
 			effects: {
 				"spaceBeacon-starchartPerTickBaseSpace": 5,
 				"spaceElevator-prodTransferBonus": 0.5,
@@ -194,6 +208,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		dojo.destroy(this.observeBtn);
 		this.observeBtn = null;
 		this.observeRemainingTime = 0;
+
+		this.game.ui.observeClear();
 	},
 	observeHandler: function(){
 		this.observeClear();
@@ -536,6 +552,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
 				this.observeRemainingTime = 300;
+
+				this.game.ui.observeCallback(this.observeHandler);
 			}
 		}
 
@@ -650,6 +668,139 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		this.game.diplomacy.onNewDay();
+	},
+
+	fastForward: function(daysOffset){
+		// Auto observable events
+        var numberEvents = 0, totalNumberOfEvents = 0;
+        if (this.game.bld.get("library").on > 0) {
+            var chanceRatio = 1;
+            if (this.game.prestige.getPerk("chronomancy").researched){
+                chanceRatio = 1.1;
+            }
+            var chance = 25;                                    //25 OPTK of event per day  (0.25%)
+            chance += (this.game.getEffect("starEventChance") * 10000);
+            chance *= chanceRatio;
+
+            if (this.game.prestige.getPerk("astromancy").researched){
+                chance *= 2;
+            }
+
+            var autoChance = this.game.getEffect("starAutoSuccessChance");  
+            if (this.game.prestige.getPerk("astromancy").researched){
+                autoChance *= 2;
+            }
+
+            if (this.game.workshop.get("seti").researched) {
+                autoChance = 1;
+            }
+            autoChance = Math.min(autoChance, 1);
+            console.log("chance="+chance+", autoChance="+autoChance);
+            numberEvents = Math.round(daysOffset * chance * autoChance / 10000);
+            //console.log("number of startcharts="+count);
+            if (numberEvents) {
+                this.game.resPool.addResEvent("starchart", numberEvents);
+            }
+
+            var celestialBonus = 0;
+            if (this.game.workshop.get("celestialMechanics").researched){
+                celestialBonus = 5; //20% bonus in the normal mode
+                if (this.game.ironWill){
+                    celestialBonus = 15;    //60% in the IW
+                }
+            }
+
+            var sciBonus = numberEvents * ((25 + celestialBonus) * ( 1 + this.game.getEffect("scienceRatio")));
+            this.game.resPool.addResEvent("science", sciBonus);
+        }
+
+        totalNumberOfEvents+=numberEvents;
+
+        //------------------------- meteors -------------------------
+		var iwChance = 0;
+		if (this.game.ironWill){
+			iwChance = 40;	// +0.4 additional chance of falling meteors
+		}
+
+		var baseChance = 10 * chanceRatio;
+		if (this.game.science.get("mining").researched){	//0.1% chance of meteors
+
+			numberEvents = Math.round(daysOffset * (baseChance + iwChance) / 10000);
+
+			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
+
+			if (this.game.ironWill){
+				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
+			}
+
+			var mineralsGain = this.game.resPool.addResEvent("minerals", numberEvents * mineralsAmt);
+
+			if (this.game.workshop.get("celestialMechanics").researched){
+				var sciBonus = 15 * ( 1 + this.game.getEffect("scienceRatio"));
+				sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
+			}
+
+			//TODO: make meteors give titanium on higher levels
+
+			totalNumberOfEvents+=numberEvents;
+		}
+
+		
+
+		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
+		var zebras = this.game.resPool.get("zebras");
+
+		if (this.game.ironWill){
+			var archery = this.game.science.get("archery");
+			var unicorns = this.game.resPool.get("unicorns");
+
+			
+			if (unicorns.value < 2 && archery.researched){
+				numberEvents = Math.round(daysOffset * 17 * unicornChanceRatio / 100000);
+				this.game.resPool.addResEvent("unicorns", numberEvents);
+				totalNumberOfEvents+=numberEvents;
+			}
+
+			if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
+				numberEvents = Math.round(daysOffset * 500 / 100000);
+				this.game.resPool.addResEvent("zebras", numberEvents);
+				totalNumberOfEvents+=numberEvents;
+			}
+		}
+		//TODO: maybe it is a good idea to start moving daily events to json metadata
+		//-------------------------  -------------------
+		var unicornChanceRatio = 1;
+		if (this.game.prestige.getPerk("unicornmancy").researched){
+			unicornChanceRatio = 1.1;
+		}
+
+		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
+		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio / 10000);
+		this.game.resPool.addResEvent("unicorns", numberEvents * 500);
+		totalNumberOfEvents+=numberEvents;
+
+		//----------------------------------------------
+		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
+		numberEvents = Math.round(daysOffset * aliChance / 100000);
+		if (numberEvents >= 1) {
+			this.game.resPool.addResEvent("alicorn", numberEvents);
+			this.game.upgrade({
+				zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+			});
+		}
+		totalNumberOfEvents+=numberEvents;
+
+		// -------------- ivory meteors ---------------
+		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
+		numberEvents = Math.round(daysOffset * meteorChance * unicornChanceRatio / 10000);
+		if (numberEvents){
+			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
+			this.game.resPool.addResEvent("ivory", ivory* numberEvents);
+		}
+		totalNumberOfEvents+=numberEvents;
+
+
+        return totalNumberOfEvents;
 	},
 
 	onNewSeason: function(){
@@ -793,6 +944,30 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		return title;
 	},
+
+	getCurSeasonTitleShorten: function(){
+		var title = this.getCurSeason().shortTitle;
+		if (this.game.challenges.currentChallenge == "winterIsComing"){
+			var numeral = '';
+			switch(this.season){
+				case 0:
+					numeral = "I";
+					break;
+				case 1:
+					numeral = "II";
+					break;
+				case 2:
+					numeral = "III";
+					break;
+				case 3:
+					numeral = "IV";
+					break;
+			}
+			title += " " + numeral;
+		}
+		return title;
+	},
+
 
 	resetState: function(){
 		this.year = 0;

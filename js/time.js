@@ -10,6 +10,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     heat: 0,
     isAccelerated: false,   //do not save this flag or else!
 
+    timestamp: null,    /*NO FUCKING timestamp resources*/
+
     constructor: function(game){
         this.game = game;
 
@@ -47,6 +49,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
 		this.gainTemporalFlux(saveData["time"].timestamp);
+        this.timestamp = saveData["time"].timestamp;
 	},
 
 	gainTemporalFlux: function (timestamp){
@@ -113,13 +116,85 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
         }
 
-
+        this.calculateRedshift();
         for (var i in this.chronoforgeUpgrades) {
             var cfu = this.chronoforgeUpgrades[i];
             if (cfu.action) {
                 cfu.action(cfu, this.game);
             }
         }
+    },
+
+    calculateRedshift: function(){
+        var currentTimestamp = Date.now();
+        var delta = currentTimestamp - this.timestamp;
+        //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
+
+        this.timestamp = currentTimestamp;
+
+        if (delta <= 0){
+            return;
+        }
+        var daysOffset = Math.round(delta / (1000/* * this.game.rate*/));
+
+        if (daysOffset < 3/*avoid shift because of UI lags*/){
+            return;
+        }
+
+        var offset = 400 * 10;
+        //limit redshift offset by 1 year
+        if (daysOffset > offset){
+            daysOffset = offset;
+        }
+
+        //daysOffset = 4000;
+
+        //populate cached per tickValues
+        this.game.updateResources();
+        // Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
+        // Idea: relax resource limits temporaraly, load the resource and do workshop, after that enforce limits again.
+        var currentLimits = {};
+
+        var i, res;
+        // calculate resource offsets
+        for (i in this.game.resPool.resources){
+            res = this.game.resPool.resources[i];
+            if (res.name == "catnip" && res.perTickCached < 0){
+                continue;
+            }
+            //NB: don't forget to update resources before calling in redshift
+            if (res.perTickCached) {
+                if (res.maxValue) {
+                    currentLimits[res.name] = Math.max(res.value, res.maxValue);
+                }
+                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false, true/*preventLimitCheck*/);
+                //this.game.msg("Redshift: " + res.perTickCached + " " + res.name);
+            }
+        }
+        
+        var numberEvents = this.game.calendar.fastForward(daysOffset);
+        
+        this.game.bld.fastforward(daysOffset);
+        this.game.workshop.update(this.game.rate * daysOffset);
+
+
+
+        // enforce limits
+        for (i in this.game.resPool.resources){
+            res = this.game.resPool.resources[i];
+            if (!res.maxValue) {
+                continue;
+            }
+            var limit = currentLimits[res.name];
+            if (!limit){
+                continue;
+            }
+            res.value = Math.min(limit, res.value);
+        }
+
+        this.game.msg("You have regained " + daysOffset + " days of production" + (numberEvents? (" and "+ numberEvents + " astronomical events"): ""));
+
+
     },
 
 	chronoforgeUpgrades: [{
@@ -214,7 +289,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     voidspaceUpgrades: [{
         name: "cryochambers",
         label: "Cryochambers",
-        description: "One kitten will live after reset.<br>You can have one cryochamber per chronosphere",
+        description: "Will preserve one kitten afther the reset.<br>You can have one cryochamber per chronosphere",
         prices: [
             { name : "timeCrystal", val: 2 },
             { name : "void", val: 100 },
@@ -238,7 +313,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "usedCryochambers",
         label: "Used Cryochambers",
-        description: "Those are unusable cryochambers...",
+        description: "Unsealed cryochamber. Not in operating condition.",
         prices: [
 
         ],
@@ -251,7 +326,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "voidHoover",
         label: "Void Hoover",
-        description: "Increase the maximum of void per days in Temporal Paradox",
+        description: "Increase the maximum of void gained per day during the Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 10 },
 			{ name: "void", val: 250 },
@@ -277,7 +352,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "chronocontrol",
         label: "Chronocontrol",
-        description: "Increase the number of days in Temporal Paradox",
+        description: "Increase the duration of Temporal Paradox",
         prices: [
 			{ name: "timeCrystal", val: 30 },
 			{ name: "void", val: 500 },
@@ -364,35 +439,38 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     }
 });
 
-dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 
-    onClick: function() {
-        this.animate();
-        if (this.enabled) {
+    buyItem: function(model, event, callback){
+        if (model.enabled) {
             this.toggle();
+            callback(true);
         }
+        callback(false);
     },
 
-    getName: function(){
+    getName: function(model){
       return !this.game.time.isAccelerated ? "Tempus Fugit" : "Tempus Stasit";
     },
 
     toggle: function() {
-		if (this.game.resPool.get("temporalFlux").value <= 0) {
-			this.game.time.isAccelerated = false;
-			this.game.resPool.get("temporalFlux").value = 0;
-		} else {
-			this.game.time.isAccelerated = !this.game.time.isAccelerated;
-		}
+        if (this.game.resPool.get("temporalFlux").value <= 0) {
+            this.game.time.isAccelerated = false;
+            this.game.resPool.get("temporalFlux").value = 0;
+        } else {
+            this.game.time.isAccelerated = !this.game.time.isAccelerated;
+        }
     }
 });
 
+
 dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
-        this.addChild(new classes.ui.time.AccelerateTimeBtn({
+        this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
             name: "Temporal Control",
             description: "Accelerate and slow time at your whim (+50% acceleration)",
-            prices: []
+            prices: [],
+            controller: new classes.ui.time.AccelerateTimeBtnController(game)
         }, game));
     },
 
@@ -437,19 +515,33 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     }
 });
 
-dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	hasResourceHover: true,
+dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+    
+    defaults: function() {
+        var result = this.inherited(arguments);
+        result.hasResourceHover = true;
+        return result;
+    },
 
-	onClick: function(){
-		this.animate();
+    fetchModel: function(options) {
+        var model = this.inherited(arguments);
+        model.x5Link = {
+            visible: this._canAfford(model) >= 5,
+            title: "x5", 
+            handler: function(event){
+                var self = this;
+                this.animate();
+                this.controller.doShatterX5(this.model, event, function(result) {
+                    if (result && self.update) {
+                        self.update();
+                    }
+                });
+            }
+        };
+        return model;
+    },
 
-		if (this.enabled && this.hasResources()){
-			this.payPrice();
-			this.doShatter(1);
-		}
-	},
-
-    getName: function() {
+    getName: function(model) {
         var name = this.inherited(arguments);
 
         if (this.game.time.heat > this.game.getEffect("heatMax")){
@@ -458,8 +550,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         return name;
     },
 
-	getPrices: function() {
-		var prices_cloned = $.extend(true, [], this.prices);
+    getPrices: function(model) {
+		var prices_cloned = $.extend(true, [], model.options.prices);
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
@@ -478,10 +570,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		return prices_cloned;
 	},
 
-	getPricesMultiple: function(amt) {
+	getPricesMultiple: function(model, amt) {
 		var pricesTotal = 0;
 
-		var prices_cloned = $.extend(true, [], this.prices);
+		var prices_cloned = $.extend(true, [], model.options.prices);
         var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
         var isDarkFuture = this.game.calendar.isDarkFuture();
         var heatMax = this.game.getEffect("heatMax");
@@ -505,66 +597,73 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
 		return pricesTotal;
 	},
 
-    doShatter: function(amt){
+    buyItem: function(model, event, callback){
+        if (model.enabled && this.hasResources(model)) {
+            callback(this.doShatter(model, 1));
+        }
+        callback(false);
+    },
+
+    _canAfford: function(model) {
+        return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
+    },
+
+    doShatterX5: function(model, event, callback){
+        if (model.enabled) {
+            var prices = this.getPricesMultiple(model, 5);
+            var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
+            if (hasRes) {
+                this.game.resPool.addResEvent("timeCrystal", -prices);
+                callback(this.doShatter(model, 5));
+                return;
+            }
+        }
+        callback(false);
+    },
+
+    doShatter: function(model, amt){
         var fueling = 100 * amt;				//add 100 fuel per TC
         this.game.time.heat += amt*10;
         this.game.time.getCFU("blastFurnace").heat += fueling;
+        return true;
     },
 
+    updateVisible: function(model){
+        model.visible = (this.game.resPool.get("alicorn").value >= 25);
+    }
+});
+
+dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     /**
      * TODO: this is a horrible pile of copypaste, can we fix it somehow?
      */
     renderLinks: function(){
         var self = this;
 
-        this.x5 = this.addLink("x5",
-            function(){
-                this.animate();
-
-                var prices = this.getPricesMultiple(5);
-                var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
-                if (hasRes){
-					this.game.resPool.addResEvent("timeCrystal", -prices);
-                    this.doShatter(5);
-                }
-
-                this.update();
-            }, false
-        );
+        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
-
-        var prices = this.getPricesMultiple(5);
-        var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
-
         if (this.x5) {
-            dojo.setStyle(this.x5.link, "display", hasRes ? "" : "none");
+            dojo.setStyle(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
         }
-    },
-
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
-	}
+    }
 });
 
 /**
  * I wonder if we can get rid of such tremendous amounts of boilerplate code
  */
 
-dojo.declare("classes.ui.time.ChronoforgeBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-    metaCached: null, // Call getMetadata
-
-	getMetadata: function(){
-        if (!this.metaCached){
-            this.metaCached = this.game.time.getCFU(this.id);
+dojo.declare("classes.ui.time.ChronoforgeBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.time.getCFU(model.options.id);
         }
-        return this.metaCached;
+        return model.metaCached;
     },
-
-    getName: function(){
-        var meta = this.getMetadata();
+    getName: function(model){
+        var meta = model.metadata;
         if (meta.heat){
             return this.inherited(arguments) + " [" + meta.heat.toFixed(0) + "%]";
         }
@@ -578,15 +677,13 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
             name: "Combust TC",
             description: "Feed a time crystal into your chrono furnace and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over time.",
             prices: [{name: "timeCrystal", val: 1}],
-            handler: function(btn){
-
-            }
+            controller: new classes.ui.time.ShatterTCBtnController(game)
         }, game));
-
+        var controller = new classes.ui.time.ChronoforgeBtnController(game);
         for (var i in game.time.chronoforgeUpgrades){
             var meta = game.time.chronoforgeUpgrades[i];
 
-            this.addChild(new classes.ui.time.ChronoforgeBtn({id: meta.name}, game));
+            this.addChild(new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: meta.name, controller: controller }, game));
         }
     },
 
@@ -602,18 +699,16 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     }
 });
 
-dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.BuildingStackableBtn, {
-    metaCached: null, // Call getMetadata
-
-	getMetadata: function(){
-        if (!this.metaCached){
-            this.metaCached = this.game.time.getVSU(this.id);
+dojo.declare("classes.ui.time.VoidSpaceBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
+    getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.time.getVSU(model.options.id);
         }
-        return this.metaCached;
+        return model.metaCached;
     },
 
-	getName: function(){
-		var meta = this.getMetadata();
+	getName: function(model){
+		var meta = model.metadata;
 		if (meta.name == "cryochambers" && meta.on != meta.val) {
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
@@ -621,9 +716,9 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 		}
 	},
 
-	getPrices: function() {
+	getPrices: function(model) {
 		var prices = this.inherited(arguments);
-		if (this.getMetadata().name == "cryochambers") {
+		if (model.metadata.name == "cryochambers") {
 			for (var i = 0; i < prices.length; i++) {
 				if (prices[i].name == "karma") {
 					prices[i].val -= prices[i].val * this.game.getHyperbolicEffect(0.01 * this.game.prestige.getBurnedParagonRatio(), 1.0);
@@ -634,57 +729,64 @@ dojo.declare("classes.ui.time.VoidSpaceBtn", com.nuclearunicorn.game.ui.Building
 	}
 });
 
-dojo.declare("classes.ui.time.FixCryochamberBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	hasResourceHover: true,
+dojo.declare("classes.ui.time.FixCryochamberBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+    defaults: function() {
+        var result = this.inherited(arguments);
+        result.hasResourceHover = true;
+        return result;
+    },
 
-	onClick: function(){
-		this.animate();
+    buyItem: function(model, event, callback){
+        if (model.enabled && this.hasResources(model)) {
+            this.payPrice(model);
 
-		if (this.enabled && this.hasResources()){
-			this.payPrice();
-			this.doFixCryochamber();
-		}
-	},
+            callback(this.doFixCryochamber(model));
+        }
+        callback(false);
+    },
 
-    doFixCryochamber: function(){
+    doFixCryochamber: function(model){
 		var cry = this.game.time.getVSU("cryochambers");
 		var usedCry = this.game.time.getVSU("usedCryochambers");
-		if (this.game.workshop.get("chronoforge").researched && usedCry.val != 0) {
+		if (this.game.workshop.get("chronoforge").researched && usedCry.val) {
 			usedCry.val -= 1;
 			usedCry.on -= 1;
 			cry.val += 1;
 			cry.on += 1;
-			if (usedCry.on == 0) {
+			if (!usedCry.on) {
 				usedCry.unlocked = false;
 			}
+            return true;
 		}
+        return false;
     },
 
-	getSelectedObject: function(){
-		return {"prices": this.getPrices()};
-	},
-
-	updateVisible: function() {
-		this.setVisible(this.game.workshop.get("chronoforge").researched && this.game.time.getVSU("usedCryochambers").val != 0);
+	updateVisible: function(model) {
+		model.visible = this.game.workshop.get("chronoforge").researched && this.game.time.getVSU("usedCryochambers").val != 0;
 	}
 });
 
 dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
 
-		this.addChild(new classes.ui.time.FixCryochamberBtn({
+		this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
             name: "Fix Cryochamber",
-            description: "Tear the space-time to get back a cryochamber before it is used.",
+            description: "Tear the space-time to get back a cryochamber before it was used.",
             prices: [
 				{name: "timeCrystal", val: 100},
 				{name: "void", val: 500},
 				{name: "temporalFlux", val: 3000},
-            ]
+            ],
+            controller: new classes.ui.time.FixCryochamberBtnController(game)
         }, game));
 
+        var controller = new classes.ui.time.VoidSpaceBtnController(game);
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];
-            this.addChild(new classes.ui.time.VoidSpaceBtn({id: meta.name}, game));
+            this.addChild(new com.nuclearunicorn.game.ui.BuildingStackableBtn( {
+                    id: meta.name, 
+                    controller: controller
+                }, game));
         }
 
     },
@@ -709,7 +811,8 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
             prices: [],
             handler: function(btn){
                 game.reset();
-            }
+            },
+            controller: new com.nuclearunicorn.game.ui.ButtonModernController(game)
         }, game));
     },
 
