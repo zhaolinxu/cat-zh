@@ -542,7 +542,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		game.updateKarma();
 
 		//--------
-		this.energyProd = game.getEffect("energyProduction");
+		this.energyProd = game.getEffect("energyProduction") * (1 + game.getEffect("energyProductionRatio"));
 		this.energyCons = game.getEffect("energyConsumption");
 
 	},

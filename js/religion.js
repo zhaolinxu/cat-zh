@@ -566,7 +566,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},{
 		name: "darkNova",
 		label: "Dark Nova",
-		description: "Improves global energy production",
+		description: "Improves global energy production by 2%",
 		prices: [
 			{ name : "relic", val: 75000 },
 			{ name : "void",  val: 7500 }

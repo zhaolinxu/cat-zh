@@ -10,7 +10,7 @@ Floor craft amounts for multiplying prices and actually crafting; buttons alread
 __
 Reduced Calciner steel price from 125 to 75
 Redshift
-
+Black Nova effect should be now applicable
 
 
 v 1.4.0.4 (25 jan 2017)
