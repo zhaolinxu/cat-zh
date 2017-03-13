@@ -1,3 +1,18 @@
+v 1.4.0.5 (12 mar)
+
+changes by coderpatsy:
+
+Fix zooming in on first zoom out when using the sleek theme
+Fix chrono furnace fuel being wasted when you have less than 1 TC when it activates
+Add fast praise button
+Add message after managing jobs
+Floor craft amounts for multiplying prices and actually crafting; buttons already floor to check if they should display at all Also fix a stray global leak
+__
+Reduced Calciner steel price from 125 to 75
+Redshift
+
+
+
 v 1.4.0.4 (25 jan 2017)
 Turn Smoothly was renamed to Chronosurge
 Blazar will now boost RR by 2%

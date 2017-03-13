@@ -167,7 +167,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 if (res.maxValue) {
                     currentLimits[res.name] = Math.max(res.value, res.maxValue);
                 }
-                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false, true/*preventLimitCheck*/);
+                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false, false/*preventLimitCheck*/);
                 //this.game.msg("Redshift: " + res.perTickCached + " " + res.name);
             }
         }

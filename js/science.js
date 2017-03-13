@@ -406,13 +406,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		name: "metalurgy",
 		label: "Metallurgy",
 		description: "Metallurgy improves the process of metal production, benefiting Smelters and Calciners",
-		effectDesc: "Unlocks Electrolytic Smelting and Oxidation",
+		effectDesc: "Unlocks Electrolytic Smelting, Retorting and Oxidation",
 		prices: [
 			{name : "science", val: 125000},
 			{name: 	"blueprint", val: 60}
 		],
 		unlocks: {
-			upgrades: ["electrolyticSmelting", "oxidation", "miningDrill"]
+			upgrades: ["electrolyticSmelting", "oxidation", "retorting", "miningDrill"]
 		}
 	},{
 		name: "combustion",

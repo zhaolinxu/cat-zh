@@ -860,7 +860,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: "Calciner",
 		description: "A highly effective source of metal. Consumes 1.5 minerals and 0.02 oil per tick. Produces iron and a small amount of titanium",
 		prices: [
-			{ name : "steel", val: 120 },
+			{ name : "steel", val: 75 },
 			{ name : "titanium",  val: 15 },
 			{ name : "blueprint",  val: 5 },
 			{ name : "oil",  val: 500 }
@@ -911,6 +911,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ironPerTickCon"] = 0;
 			self.effects["coalPerTickCon"] = 0;
 			self.effects["steelPerTickProd"] = 0;
+
+			//self.effects["coalPerTickAutoprod"] = self.effects["ironPerTickAutoprod"] * game.getEffect("calcinerCoalRatio");
 
 			var steelRatio = game.getEffect("calcinerSteelRatio");
 
@@ -2029,6 +2031,9 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 			bld = this.game.bld.get(model.options.building);
 		meta.unlockable = bld.unlockable;
 		meta.unlocked = bld.unlocked;
+
+		meta.on = bld.on;
+		meta.val = bld.on;
 
 		return meta;
     },
