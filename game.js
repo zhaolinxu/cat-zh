@@ -3400,6 +3400,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
 					// do nothing
 				} else {
+					if (!newUnlock){
+						console.warn("unable to evaluate unlock '", newUnlock, "', skipping");
+						continue;
+					}
 					newUnlock.unlocked = true;
 				}
 			}
