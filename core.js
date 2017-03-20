@@ -32,10 +32,10 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	_deffered: null,
 
 	constructor: function(){
-		this.availableLocales = [this.fallbackLocale, "ru_RU"];
+		this.availableLocales = [this.fallbackLocale, "ru"];
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru_RU": "Русский"
+			"ru": "Русский"
 		};
 	},
 
@@ -49,28 +49,13 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			var defaultLocale = navigator.language || navigator.userLanguage;
 			// find closes match
 			var parts = defaultLocale.split("[-_]");
-			var foundParts = "";
-			for (var i=0; i < parts.length; i++) {
-				var checkTheLang = foundParts? foundParts + "_"+parts[i]: parts[i];
-				
-				var foundMatch = false;
-				for (var j =0; j < this.availableLocales.length; j++) {
-					if (this.availableLocales[i].startsWith(checkTheLang)) {
-						foundMatch = true;
-						break;
-					}
-				}
-				if (foundMatch) {
-					foundParts=checkTheLang;
-				} else {
+			lang = this.fallbackLocale;
+
+			for (var j =0; j < this.availableLocales.length; j++) {
+				if (this.availableLocales[j] == parts[0].toLowerCase()) {
+					lang = this.availableLocales[j];
 					break;
 				}
-			}
-			if (foundParts) {
-				// found at least one language 
-				lang = foundParts;
-			} else {
-				lang = this.fallbackLocale;
 			}
 			LCstorage["com.nuclearunicorn.kittengame.language"] = lang;
 		}

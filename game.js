@@ -1277,6 +1277,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	_wipe: function(){
 		delete(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+        delete(LCstorage["com.nuclearunicorn.kittengame.language"]);// it is the only way to clear it up
 	},
 
     wipe: function(){
