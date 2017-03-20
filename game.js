@@ -3,19 +3,7 @@
  *
  */
 
-/**
- * Workaround for IE9 local storage :V
- *
- * This fix is intended for IE in general and especially for IE9,
- * where localStorage is defined as system variable.
- *
- */
 
-window.LCstorage = window.localStorage;
-if (document.all && !window.localStorage) {
-    window.LCstorage = {};
-    window.LCstorage.removeItem = function () { };
-}
 
 /**
  * Just a simple timer, js timer sucks

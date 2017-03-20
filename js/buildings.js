@@ -298,7 +298,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//----------------------------------- Food production ----------------------------------------
 	{
 		name: "field",
-		label: "Catnip field",
+		label: $I("buildings.field.label"),
 		description: "Plant some catnip to grow in the village. Fields have +50% production in Spring and -75% production in Winter",
 		unlockRatio: 0.3,
 		unlockable: true,
