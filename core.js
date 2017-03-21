@@ -41,7 +41,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 	init: function(version) {
 		if (this._deffered) {
-			return this._deffered;
+			return this._deffered.promise();
 		}
 		// check if user already selected the locale
 		var lang = LCstorage["com.nuclearunicorn.kittengame.language"];
@@ -62,20 +62,38 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		// at this point we always have correct lang selected
 		this.language = lang;
 		var self = this;
+		this._deffered = $.Deferred();
 		// now we can try to load it
+		var defferedForDefaultLocale = $.get( "/res/i18n/"+this.fallbackLocale+".json?v=" + version);
+		defferedForDefaultLocale.fail(function(def, errMrs, err){
+			console.error("Couldn't load default locale '"+self.fallbackLocale+"' because of the following error:"+errMrs+", details:"+err);
+			self._deffered.reject("Couldn't load default locale");
+		});
 		if (this.language != this.fallbackLocale ) {
-			this._deffered = $.when($.get( "/res/i18n/"+this.fallbackLocale+".json?v=" + version), $.get( "/res/i18n/"+lang+".json?v=" + version)).then(function(fallbackLocale, userLocale) {
+			var defferedForUserLocale = $.get( "/res/i18n/"+lang+".json?v=" + version).fail(function(e){
+				console.error("Couldn't load user locale '"+lang+"' because of the following error:"+e);
+			});
+
+			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
 				// merge locales
 				$.extend( fallbackLocale[0], userLocale[0] );
 				self.messages = fallbackLocale[0];
+				self._deffered.resolve();
+			}, function(e1, e2) {
+				if (defferedForDefaultLocale.state() == "resolved") {
+					// default locale was loaded correctly
+					self.messages = fallbackLocale;
+					self._deffered.resolve();
+				}
 			});
 		} else {
-			this._deffered = $.when($.get( "/res/i18n/"+this.fallbackLocale+".json?v=" + version)).then(function(fallbackLocale) {
+			defferedForDefaultLocale.done(function(fallbackLocale) {
 				self.messages = fallbackLocale;
+				self._deffered.resolve();
 			});
 		}
 
-		return this._deffered;
+		return this._deffered.promise();
 	},
 
 	getAvailableLocales: function() {
