@@ -1,3 +1,9 @@
+v 1.4.0.6 (20 mar)
+
+Void Rift price is reduced from 100 to 75
+Void Rift effect is increased from 1% to 2%
+Quarry steel price was reduced from 150 to 125
+
 v 1.4.0.5 (12 mar)
 
 changes by coderpatsy:
@@ -8,7 +14,7 @@ Add fast praise button
 Add message after managing jobs
 Floor craft amounts for multiplying prices and actually crafting; buttons already floor to check if they should display at all Also fix a stray global leak
 __
-Reduced Calciner steel price from 125 to 75
+Reduced Calciner steel price from 125 to 100
 Redshift
 Black Nova effect should be now applicable
 
