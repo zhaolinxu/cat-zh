@@ -18,8 +18,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	programs: [{
 		name: "orbitalLaunch",
-		label: "Orbital Launch",
-		description: "Launch a rocket to a space.",
+		label: $I("space.orbitalLaunch.label"),
+		description: $I("space.orbitalLaunch.desc"),
 		prices: [
 			{name: "starchart", val: 250},
 			{name: "manpower", val: 5000},
@@ -32,8 +32,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "moonMission",
-		label: "Moon Mission",
-		description: "Launch a rocket to Redmoon, a Cath planet satellite",
+		label: $I("space.moonMission.label"),
+		description: $I("space.moonMission.desc"),
 		prices: [
 			{name: "starchart", val: 500},
 			{name: "titanium", 	val: 5000},
@@ -46,8 +46,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "duneMission",
-		label: "Dune Mission",
-		description: "Dune is a large and lifeless planet covered by sand and volcanic rock.",
+		label: $I("space.duneMission.label"),
+		description: $I("space.duneMission.desc"),
 		prices: [
 			{name: "starchart", val: 1000},
 			{name: "titanium", val: 7000},
@@ -60,8 +60,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "piscineMission",
-		label: "Piscine Mission",
-		description: "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
+		label: $I("space.piscineMission.label"),
+		description: $I("space.piscineMission.desc"),
 		prices: [
 			{name: "starchart", val: 1500},
 			{name: "titanium", val: 9000},
@@ -74,8 +74,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "heliosMission",
-		label: "Helios Mission",
-		description: "Helios is a G2V spectral type star in the center of the Cath solar system.",
+		label: $I("space.heliosMission.label"),
+		description: $I("space.heliosMission.desc"),
 		prices: [
 			{name: "starchart", val: 3000},
 			{name: "titanium", val: 15000},
@@ -88,8 +88,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "terminusMission",
-		label: "T-minus Mission",
-		description: "Terminus is a supermassive ice giant at the far end of a Helios solar system.",
+		label: $I("space.terminusMission.label"),
+		description: $I("space.terminusMission.desc"),
 		prices: [
 			{name: "starchart", val: 2500},
 			{name: "titanium", val: 12000},
@@ -102,8 +102,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }
 	},{
 		name: "kairoMission",
-		label: "Kairo Mission",
-		description: "Kairo is a dwarf planet in the far end of the Cath solar system.",
+		label: $I("space.kairoMission.label"),
+		description: $I("space.kairoMission.desc"),
 		prices: [
 			{name: "starchart", val: 5000},
 			{name: "titanium", 	val: 20000},
@@ -116,8 +116,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "rorschachMission",
-		label: "Rorschach",
-		description: "Rorschach is the biggest comet near Helios.",
+		label: $I("space.rorschachMission.label"),
+		description: $I("space.rorschachMission.desc"),
 		prices: [
 			{name: "starchart", val: 15000},
 			{name: "titanium", 	val: 80000},
@@ -129,8 +129,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "yarnMission",
-		label: "Yarn Mission",
-		description: "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
+		label: $I("space.yarnMission.label"),
+		description: $I("space.yarnMission.desc"),
 		prices: [
 			{name: "starchart", val: 7500},
 			{name: "titanium", 	val: 35000},
@@ -142,8 +142,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "centaurusSystemMission",
-		label: "Centaurus System Mission",
-		description: "Centaurus System is a warm faraway star system.",
+		label: $I("space.centaurusSystemMission.label"),
+		description: $I("space.centaurusSystemMission.desc"),
 		prices: [
 			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
@@ -157,8 +157,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},{
 		name: "furthestRingMission",
-		label: "Furthest Ring",
-		description: "The end of the universe.",
+		label: $I("space.furthestRingMission.label"),
+		description: $I("space.furthestRingMission.desc"),
 		prices: [
 			{name: "starchart", val: 500000},
 			{name: "science", 	val: 1250000},
@@ -175,12 +175,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	planets:
 	[{
 		name: "cath",
-		label: "Cath",
+		label: $I("space.planet.cath.label"),
 		routeDays: 0,
 		buildings: [{
 			name: "spaceElevator",
-			label: "Space Elevator",
-			description: "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
+			label: $I("space.planet.cath.spaceElevator.label"),
+			description: $I("space.planet.cath.spaceElevator.desc"),
 			unlocked: false,
 			priceRatio: 1.15,
 			prices: [
@@ -203,8 +203,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 		},{
 			name: "sattelite",
-			label: "Satellite",
-			description: "Deploy a satellite. Satellites improve your observatory effectiveness by 5% and produce starcharts",
+			label: $I("space.planet.cath.sattelite.label"),
+			description: $I("space.planet.cath.sattelite.desc"),
 			unlocked: false,
 			prices: [
 				{name: "starchart", val: 325},
@@ -241,8 +241,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		},{
 			name: "spaceStation",
-			label: "Space Station",
-			description: "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
+			label: $I("space.planet.cath.spaceStation.label"),
+			description: $I("space.planet.cath.spaceStation.desc"),
 			unlocked: false,
 			prices: [
 				{name: "starchart", val: 425},
@@ -272,12 +272,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}]
 	},{
 		name: "moon",
-		label: "Moon",
+		label: $I("space.planet.moon.label"),
 		routeDays: 30,
 		buildings: [{
 			name: "moonOutpost",
-			label: "Lunar Outpost",
-			description: "Deploy a nuclear powered mining outpost on Redmoon",
+			label: $I("space.planet.moon.moonOutpost.label"),
+			description: $I("space.planet.moon.moonOutpost.desc"),
 			unlocked: false,
 			priceRatio: 1.12,
 			prices: [
@@ -319,8 +319,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		},{
 			name: "moonBase",
-			label: "Moon base",
-			description: "Establish a base on a surface of Redmoon",
+			label: $I("space.planet.moon.moonBase.label"),
+			description: $I("space.planet.moon.moonBase.desc"),
 			unlocked: false,
 			priceRatio: 1.12,
 			prices: [
@@ -363,12 +363,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}]
 	},{
 		name: "dune",
-		label: "Dune",
+		label: $I("space.planet.dune.label"),
 		routeDays: 356,
         buildings: [{
             name: "planetCracker",
-            label: "Planet Cracker",
-            description: "USS Mining Vessel Hissmeowra that can crack an entire planet",
+            label: $I("space.planet.dune.planetCracker.label"),
+            description: $I("space.planet.dune.planetCracker.desc"),
             unlocked: false,
             priceRatio: 1.18,
             prices: [
@@ -389,8 +389,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
         },{
             name: "hydrofracturer",
-            label: "Hydraulic Fracturer",
-            description: "Produces a high-pressure stream of oil. Every Space Elevator will boost this production by 0.1% of the global production multiplier.",
+            label: $I("space.planet.dune.hydrofracturer.label"),
+            description: $I("space.planet.dune.hydrofracturer.desc"),
             unlocked: false,
             priceRatio: 1.18,
             prices: [
@@ -410,12 +410,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }]
 	},{
 		name: "piscine",
-		label: "Piscine",
+		label: $I("space.planet.piscine.label"),
 		routeDays: 256,
 		buildings: [{
             name: "researchVessel",
-            label: "Research Vessel",
-            description: "Mobile research space vessel.",
+            label: $I("space.planet.piscine.researchVessel.label"),
+            description: $I("space.planet.piscine.researchVessel.desc"),
             unlocked: false,
             priceRatio: 1.15,
             prices: [
@@ -436,8 +436,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             }
         },{
             name: "orbitalArray",
-            label: "Orbital Array",
-            description: "Provide a 2% production bonus to all space structures",
+            label: $I("space.planet.piscine.orbitalArray.label"),
+            description: $I("space.planet.piscine.orbitalArray.desc"),
             unlocked: false,
             priceRatio: 1.15,
             prices: [
@@ -462,12 +462,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         }]
 	},{
 		name: "helios",		//technically it is a planet from the game point of view
-		label: "Helios",
+		label: $I("space.planet.helios.label"),
 		routeDays: 1200,
 		buildings: [{
             name: "sunlifter",
-            label: "Sunlifter",
-            description: "Generates antimatter once per year. Inactive if energy production is negative",
+            label: $I("space.planet.helios.sunlifter.label"),
+            description: $I("space.planet.helios.sunlifter.desc"),
             unlocked: false,
             priceRatio: 1.15,
             prices: [
@@ -487,8 +487,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             }
         },{
 			name: "containmentChamber",
-			label: "Cont. Chamber",
-			description: "Containment Chamber. Increases antimatter storage space by 100.",
+			label: $I("space.planet.helios.containmentChamber.label"),
+			description: $I("space.planet.helios.containmentChamber.desc"),
 			unlocked: false,
 			priceRatio: 1.15,
 			prices: [
@@ -512,12 +512,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}]
 	},{
 		name: "terminus",
-		label: "T-Minus",
+		label: $I("space.planet.terminus.label"),
 		routeDays: 2500,
         buildings:[{
             name: "cryostation",
-            label: "Cryostation",
-            description: "A vast storage facility complex",
+            label: $I("space.planet.terminus.cryostation.label"),
+            description: $I("space.planet.terminus.cryostation.desc"),
             unlocked: false,
             priceRatio: 1.12,
             prices: [
@@ -552,13 +552,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
         ]
 	},{
 		name: "kairo",
-		label: "Kairo",
+		label: $I("space.planet.kairo.label"),
 		routeDays: 5000,
 		buildings:[
 			{
 				name: "spaceBeacon",
-				label: "Space Beacon",
-				description: "An AM-powered space station used for research and interstellar navigation.",
+				label: $I("space.planet.kairo.spaceBeacon.label"),
+				description: $I("space.planet.kairo.spaceBeacon.desc"),
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
@@ -587,13 +587,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		]
 	},{
 		name: "yarn",
-		label: "Yarn",
+		label: $I("space.planet.yarn.label"),
 		routeDays: 3800,
 		buildings:[
 			{
 				name: "terraformingStation",
-				label: "Terraforming Station",
-				description: "Explode a charge of antimatter to melt yarn ice and throw oxygen into the atmosphere",
+				label: $I("space.planet.yarn.terraformingStation.label"),
+				description: $I("space.planet.yarn.terraformingStation.desc"),
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
@@ -614,8 +614,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			{
 				name: "hydroponics",
-				label: "Hydroponics",
-				description: "State of the art automated hydroponic system. Increase catnip limit by 10%. Increase catnip production by 2.5%",
+				label: $I("space.planet.yarn.hydroponics.label"),
+				description: $I("space.planet.yarn.hydroponics.desc"),
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
@@ -636,13 +636,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		]
 	},{
 		name: "centaurusSystem",
-		label: "Centaurus System",
+		label: $I("space.planet.centaurusSystem.label"),
 		routeDays: 120000,
 		buildings:[
 			{
 				name: "tectonic",
-				label: "Tectonic",
-				description: "Rip open the planet near the star Centaurus to collect magma energy.",
+				label: $I("space.planet.centaurusSystem.tectonic.label"),
+				description: $I("space.planet.centaurusSystem.tectonic.desc"),
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
@@ -663,7 +663,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		]
 	},{
 		name: "furthestRing",
-		label: "Furthest Ring",
+		label: $I("space.planet.furthestRing.label"),
 		routeDays: 725000000,
 		buildings:[
 			//TBD
@@ -785,7 +785,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				} else {
 					planet.routeDays = 0;
 					planet.reached = true;
-					this.game.msg("You've reached a new planet!", "important");
+					this.game.msg($I("space.newplanet.log.msg"), "important");
 				}
 			}
 
@@ -939,9 +939,9 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 		if (meta.val == 0) {
 			return meta.label;
 		} else if (meta.on == 0){
-			return meta.label + " (in progress)";
+			return $I("space.mission.name.inprogress", [meta.label]);
 		} else {
-			return meta.label + " (complete)";
+			return $I("space.mission.name.complete", [meta.label]);
 		}
 	},
 
@@ -958,7 +958,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 		model.metadata.on = 0;
 		if (model.metadata.name == "rorschachMission") {
 			model.metadata.on = 1;
-			this.game.msg("Rorschach is impenetrable but you see now farther.", "important");
+			this.game.msg($I("space.mission.rorschach.complete.log.msg"), "important");
 		}
 		return counter;
     }
@@ -1033,7 +1033,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 	constructor: function(){
 		//------------ void stuff --------------
-		this.aPanel = new com.nuclearunicorn.game.ui.Panel("Rorshach");
+		this.aPanel = new com.nuclearunicorn.game.ui.Panel($I("space.panel.rorshach.label"));
 		this.aPanel.setVisible(false);
 		this.addChild(this.aPanel);
 
@@ -1060,13 +1060,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 			this.render(container);
 		});
 
-		dojo.create("label", { innerHTML: "Hide complete missions", for: "toggleResearched"}, div);
+		dojo.create("label", { innerHTML: $I("space.tab.hide.complete.missions"), for: "toggleResearched"}, div);
 		//---------------------------------------------------------------------
 
 		//padding div to preserve markup
 		dojo.create("div", { style: { height: "20px"}}, container);
 
-		this.GCPanel = new com.nuclearunicorn.game.ui.Panel("Ground Control", this.game.space);
+		this.GCPanel = new com.nuclearunicorn.game.ui.Panel($I("space.ground.control.label"), this.game.space);
 		var content = this.GCPanel.render(container);
 		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(self.game);
 		dojo.forEach(this.game.space.programs, function(program, i){
