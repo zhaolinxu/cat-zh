@@ -2,8 +2,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     perks:[{
 		name: "engeneering",
-		label: "Engineering",
-		description: "Reduce all price ratios by 1%. Unlocks more price upgrades.",
+		label: $I("prestige.engeneering.label"),
+		description: $I("prestige.engeneering.desc"),
 		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -16,8 +16,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "codexVox",
-		label: "Codex Vox",
-		description: "Improves manuscript craft ratio by 25%.",
+		label: $I("prestige.codexVox.label"),
+		description: $I("prestige.codexVox.desc"),
 		prices: [{ name: "paragon", val: 25 }],
 		unlocked: false,
 		researched: false,
@@ -29,8 +29,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "codexLogos",
-		label: "Codex Logos",
-		description: "Improves compendium craft ratio by 25%.",
+		label: $I("prestige.codexLogos.label"),
+		description: $I("prestige.codexLogos.desc"),
 		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
@@ -42,8 +42,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "codexAgrum",
-		label: "Codex Agrum",
-		description: "Improves blueprint craft ratio by 25%.",
+		label: $I("prestige.codexAgrum.label"),
+		description: $I("prestige.codexAgrum.desc"),
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false,
@@ -52,8 +52,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	}, {
 		name: "megalomania",
-		label: "Megalomania",
-		description: "Unlocks additional megastructures.",
+		label: $I("prestige.megalomania.label"),
+		description: $I("prestige.megalomania.desc"),
 		prices: [{ name: "paragon", val: 10 }],
 		unlocked: false,
 		researched: false,
@@ -63,8 +63,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "blackCodex",
-		label: "Black Codex",
-		description: "Unlocks unicorn graveyards.",
+		label: $I("prestige.blackCodex.label"),
+		description: $I("prestige.blackCodex.desc"),
 		prices: [{ name: "paragon", val: 25 }],
 		unlocked: false,
 		researched: false,
@@ -73,8 +73,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "goldenRatio",
-		label: "Golden Ratio",
-		description: "Reduce all price ratios by ~1.618%",
+		label: $I("prestige.goldenRatio.label"),
+		description: $I("prestige.goldenRatio.desc"),
 		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
@@ -86,8 +86,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "divineProportion",
-		label: "Divine Proportion",
-		description: "Reduce all price ratios by 1.7%",
+		label: $I("prestige.divineProportion.label"),
+		description: $I("prestige.divineProportion.desc"),
 		prices: [{ name: "paragon", val: 100 }],
 		unlocked: false,
 		researched: false,
@@ -99,8 +99,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "vitruvianFeline",
-		label: "Vitruvian Feline",
-		description: "Reduce all price ratios by 2%",
+		label: $I("prestige.vitruvianFeline.label"),
+		description: $I("prestige.vitruvianFeline.desc"),
 		prices: [{ name: "paragon", val: 250 }],
 		unlocked: false,
 		researched: false,
@@ -112,8 +112,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "renaissance",
-		label: "Renaissance",
-		description: "Reduce all price ratios by 2.25%",
+		label: $I("prestige.renaissance.label"),
+		description: $I("prestige.renaissance.desc"),
 		prices: [{ name: "paragon", val: 750 }],
 		unlocked: false,
 		researched: false,
@@ -122,8 +122,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "diplomacy",
-		label: "Diplomacy",
-		description: "Races will be discovered earlier and with better standing. Unlocks more trade upgrades.",
+		label: $I("prestige.diplomacy.label"),
+		description: $I("prestige.diplomacy.desc"),
 		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -133,8 +133,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "zebraDiplomacy",
-		label: "Zebra Diplomacy",
-		description: "Some zebras hunters will stay in the village.",
+		label: $I("prestige.zebraDiplomacy.label"),
+		description: $I("prestige.zebraDiplomacy.desc"),
 		prices: [{ name: "paragon", val: 35 }],
 		unlocked: false,
 		researched: false,
@@ -143,15 +143,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "zebraCovenant",
-		label: "Zebra Covenant",
-		description: "More zebras will stay with you.",
+		label: $I("prestige.zebraCovenant.label"),
+		description: $I("prestige.zebraCovenant.desc"),
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false
 	},{
 		name: "chronomancy",
-		label: "Chronomancy",
-		description: "Meteor and star events will happen faster.",
+		label: $I("prestige.chronomancy.label"),
+		description: $I("prestige.chronomancy.desc"),
 		prices: [{ name: "paragon", val: 25 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -161,8 +161,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "astromancy",
-		label: "Astromancy",
-		description: "Star events chance and observatory effectiveness are doubled",
+		label: $I("prestige.astromancy.label"),
+		description: $I("prestige.astromancy.desc"),
 		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
@@ -170,8 +170,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "unicornmancy",
-		label: "Unicornmancy",
-		description: "Unicorn rifts and ivory meteors are more frequent.",
+		label: $I("prestige.unicornmancy.label"),
+		description: $I("prestige.unicornmancy.desc"),
 		prices: [{ name: "paragon", val: 125 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -179,15 +179,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 	},
 	{
 		name: "anachronomancy",
-		label: "Anachronomancy",
-		description: "Time crystals and chronophysics will be saved across resets.",
+		label: $I("prestige.anachronomancy.label"),
+		description: $I("prestige.anachronomancy.desc"),
 		prices: [{ name: "paragon", val: 125 }],
 		unlocked: false,
 		researched: false
 	},{
 		name: "carnivals",
-		label: "Carnivals",
-		description: "Festivals can now stack in duration.",
+		label: $I("prestige.carnivals.label"),
+		description: $I("prestige.carnivals.desc"),
 		prices: [{ name: "paragon", val: 25 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -197,8 +197,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "willenfluff",
-		label: "Venus of Willenfluff",
-		description: "Kittens will arrive 75% faster.",
+		label: $I("prestige.willenfluff.label"),
+		description: $I("prestige.willenfluff.desc"),
 		prices: [{ name: "paragon", val: 150 }],
 		unlocked: false,
 		researched: false,
@@ -207,8 +207,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
      },{
 		name: "numerology",
-		label: "Numerology",
-		description: "Certain years will have special effects.",
+		label: $I("prestige.numerology.label"),
+		description: $I("prestige.numerology.desc"),
 		prices: [{ name: "paragon", val: 50 }],
 		unlocked: false,
 		researched: false,
@@ -217,8 +217,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "numeromancy",
-		label: "Numeromancy",
-		description: "Certain years will have extra effects during Festivals.",
+		label: $I("prestige.numeromancy.label"),
+		description: $I("prestige.numeromancy.desc"),
 		prices: [{ name: "paragon", val: 250 }],
 		unlocked: false,
 		researched: false,
@@ -229,8 +229,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     //---------------------------------------------------
     {
         name: "malkuth",
-        label: "Malkuth",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.malkuth.label"),
+        description: $I("prestige.malkuth.desc"),
         prices: [{ name: "paragon", val: 500 }],
         unlocked: false,
         researched: false,
@@ -242,8 +242,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "yesod",
-        label: "Yesod",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.yesod.label"),
+        description: $I("prestige.yesod.desc"),
 		prices: [{ name: "paragon", val: 750 }],
         unlocked: false,
         researched: false,
@@ -255,8 +255,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "hod",
-        label: "Hod",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.hod.label"),
+        description: $I("prestige.hod.desc"),
         prices: [{ name: "paragon", val: 1250 }],
         unlocked: false,
         researched: false,
@@ -268,8 +268,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		}
     },{
         name: "netzach",
-        label: "Netzach",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.netzach.label"),
+        description: $I("prestige.netzach.desc"),
         prices: [{ name: "paragon", val: 1750 }],
         unlocked: false,
         researched: false,
@@ -282,8 +282,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "tiferet",
-        label: "Tiferet",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.tiferet.label"),
+        description: $I("prestige.tiferet.desc"),
         prices: [{ name: "paragon", val: 2500 }],
         unlocked: false,
         researched: false,
@@ -296,8 +296,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "gevurah",
-        label: "Gevurah",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.gevurah.label"),
+        description: $I("prestige.gevurah.desc"),
         prices: [{ name: "paragon", val: 5000 }],
         unlocked: false,
         researched: false,
@@ -310,8 +310,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "chesed",
-        label: "Chesed",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.chesed.label"),
+        description: $I("prestige.chesed.desc"),
         prices: [{ name: "paragon", val: 7500 }],
         unlocked: false,
         researched: false,
@@ -324,8 +324,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "binah",
-        label: "Binah",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.binah.label"),
+        description: $I("prestige.binah.desc"),
         prices: [{ name: "paragon", val: 15000 }],
         unlocked: false,
         researched: false,
@@ -338,8 +338,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "chokhmah",
-        label: "Chokhmah",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.chokhmah.label"),
+        description: $I("prestige.chokhmah.desc"),
         prices: [{ name: "paragon", val: 30000 }],
         unlocked: false,
         researched: false,
@@ -352,8 +352,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
     },{
         name: "keter",
-        label: "Keter",
-        description: "Improves paragon effect and scaling by 5%",
+        label: $I("prestige.keter.label"),
+        description: $I("prestige.keter.desc"),
         prices: [{ name: "paragon", val: 60000 }],
         unlocked: false,
         researched: false,
@@ -365,15 +365,15 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     //---------------------------------------------------
     {
 		name: "voidOrder",
-		label: "Order of Void",
-		description: "Every priest will now give a minor bonus to faith accumulation.",
+		label: $I("prestige.voidOrder.label"),
+		description: $I("prestige.voidOrder.desc"),
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false
 	},{
 		name: "adjustmentBureau",
-		label: "Adjustment Bureau",
-		description: "Unlocks additional game challenges.",
+		label: $I("prestige.adjustmentBureau.label"),
+		description: $I("prestige.adjustmentBureau.desc"),
 		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
@@ -521,8 +521,8 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		var self = this;
 		//--------------------------------------------------------------------
 		var buttonBP = new com.nuclearunicorn.game.ui.ButtonModern({
-			name : "Burn your paragon",
-			description: "Discard all paragon points",
+			name : $I("prestige.btn.burnParagon.label"),
+			description: $I("prestige.btn.burnParagon.desc"),
 			handler: dojo.hitch(this, function(){
 				this.game.discardParagon();
 			}),
