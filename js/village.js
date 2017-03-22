@@ -16,7 +16,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	jobs: [{
 		name: "woodcutter",
 		title: $I("village.job.woodcutter"),
-		description: "+0.1 wood per second",
+		description: $I("village.job.woodcutter.desc"),
 
 		modifiers:{
 			"wood" : 0.018
@@ -28,7 +28,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "farmer",
 		title: $I("village.job.farmer"),
-		description: "+5 catnip per second",
+		description: $I("village.job.farmer.desc"),
 
 		modifiers:{
 			"catnip" : 1
@@ -38,7 +38,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "scholar",
 		title: $I("village.job.scholar"),
-		description: "+0.2 science per second",
+		description: $I("village.job.scholar.desc"),
 
 		modifiers:{},
 		calculateEffects: function(self, game){
@@ -57,7 +57,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "hunter",
 		title: $I("village.job.hunter"),
-		description: "+0.3 catpower per second",
+		description: $I("village.job.hunter.desc"),
 
 		modifiers:{
 			"manpower" : 0.06
@@ -68,7 +68,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "miner",
 		title: $I("village.job.miner"),
-		description: "+0.25 mineral per second	",
+		description: $I("village.job.miner.desc"),
 
 		modifiers:{
 			"minerals" : 0.05
@@ -79,7 +79,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "priest",
 		title: $I("village.job.priest"),
-		description: "+0.007 faith per second",
+		description: $I("village.job.priest.desc"),
 
 		modifiers:{
 			"faith" : 0.0015
@@ -89,7 +89,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},{
 		name: "geologist",
 		title: $I("village.job.geologist"),
-		description: "+0.075 coal per second",
+		description: $I("village.job.geologist.desc"),
 
 		modifiers:{},
 		calculateEffects: function(self, game){
@@ -125,8 +125,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		unlocked: false
 	},{
 		name: "engineer",
-		title: $I("village.job.Engineer"),
-		description: "Engineer can operate one factory to automate resource production.<br/>Assign your engineers in workshop tab, they will craft automatically one time every 10 minutes.",
+		title: $I("village.job.engineer"),
+		description: $I("village.job.engineer.desc"),
 		modifiers:{
 		},
 		value: 0,
@@ -269,9 +269,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					starvedKittens = this.sim.killKittens(starvedKittens);
 
 					if (resDiff < 0) {
-						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "starved to death.");
+						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " " + $I("village.msg.kitten") + " ": " " + $I("village.msg.kittens") + " " ) + $I("village.msg.starved"));
 					} else {
-						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " kitten " : " kittens " ) + "froze to death.");
+						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " " + $I("village.msg.kitten") + " ": " " + $I("village.msg.kittens") + " " ) + $I("village.msg.froze"));
 					}
 					this.game.deadKittens += starvedKittens;
 					this.deathTimeout = this.game.rate * 5;	//5 seconds
@@ -637,16 +637,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (totalYield.unicorns > 0){
 			this.game.msg("You got " + (Math.round(totalYield.unicorns) === 1 ? "a unicorn!" : + this.game.getDisplayValueExt(totalYield.unicorns) + " unicorns!"), "important", "hunt");
 		}
-		var msg = "Your hunters have returned";
+		var msg = $I("village.msg.hunt.success");
 		if (squads > 1) {
-			msg += " from " + squads + " hunts";
+			msg += $I("village.msg.hunt.from", [squad]);
 		}
-		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " furs";
+		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " " + $I("village.msg.hunt.furs");
 		if (totalYield.ivory > 0){
-			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " ivory";
+			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " " + $I("village.msg.hunt.ivory");
 		}
 		if (totalYield.gold > 0){
-			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " gold";
+			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " " + $I("village.msg.hunt.gold");
 		}
 		this.game.msg( msg, null, "hunt" );
 	},
@@ -1385,7 +1385,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		var jobSelect = dojo.create("select", { style: {float: "right" }}, navbar);
 
-		dojo.create("option", { value: "", innerHTML: "All jobs"}, jobSelect);
+		dojo.create("option", { value: "", innerHTML: $I("village.census.filter.all")}, jobSelect);
 		for (var i = 0; i < this.game.village.jobs.length; i++){
 			var job = this.game.village.jobs[i];
 			if (job.unlocked){
@@ -1454,7 +1454,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 
 			var unassignHref = dojo.create("a", {
-				href: "#", innerHTML: "Unassign&nbsp;Job",
+				href: "#", innerHTML:  $I("village.btn.unassign.job"),
 				style: {
 					display: kitten.job ? "block" : "none"
 				}
@@ -1564,7 +1564,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var leader = this.game.village.leader;
 
 		if (leader){
-			var title = leader.trait.title == "None" ? "No trait :< " : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [rank " + leader.rank + "]";
+			var title = leader.trait.title == "None" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") ["+$I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = leader.name + " " + leader.surname + ", " + title +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
@@ -1592,7 +1592,9 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		for (var j = 0; j < Math.min(skillsArr.length,3) ; j++) {
 
-			var exp = skillsArr[j].val;
+			var exp = skillsArr[j].val,
+				style = "",
+				bonus = "";
 
 			if (exp <= 0 || typeof(exp) == "undefined") {
 				break;
@@ -1608,16 +1610,16 @@ dojo.declare("classes.ui.village.Census", null, {
 			var expPercent = (expDiff / expRequried) * 100;
 
 			if (skillsArr[j].name == kitten.job) {
-				var style = "style='font-weight: bold'";
+				style = "style='font-weight: bold'";
 
 				var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
-				var bonus = (mod-1) * productionRatio;
+				bonus = (mod-1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}
-			else {var style = ""; var bonus = "";}
+			else {}
 
 			info +="<span title='" + exp.toFixed(2) + "'" + style + ">"
 				+ this.game.village.getJob(skillsArr[j].name).title + bonus
@@ -1647,7 +1649,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			var expToPromote = this.game.village.getRankExp(leader.rank);
 			var goldToPromote = 25 * (leader.rank + 1);
 			this.promoteLeaderHref = dojo.create("a", {
-				href: "#", innerHTML: "Promote (" + this.game.getDisplayValueExt(expToPromote.toFixed()) + " exp, " + goldToPromote + " gold)",
+				href: "#", innerHTML: $I("census.leader.promote", [exp, gold]),
 				style: {
 					display:
 						(leader.exp < expToPromote || gold.value < goldToPromote) ? "none" : "block"
