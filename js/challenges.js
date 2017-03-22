@@ -11,44 +11,44 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
     challenges:[
     {
 		name: "ironWill",
-		label: "Iron Will",
-		description: "Iron Will is a bit hidden challenge and you don't need to click here to enable it: reset the game and play without kittens.",
-		effectDesc: "Nothing",
+		label: $I("challendge.ironWill.label"),
+		description: $I("challendge.ironWill.desc"),
+		effectDesc: $I("challendge.ironWill.effect.desc"),
         researched: false,
         unlocked: true
 	},{
 		name: "winterIsComing",
-		label: "Winter Has Come",
-		description: "Restart the game with only winter seasons.<br><br>Goal: Get to Helios.",
-		effectDesc: "Weather is better overall.",
+		label: $I("challendge.winterIsComing.label"),
+		description: $I("challendge.winterIsComing.desc"),
+		effectDesc: $I("challendge.winterIsComing.effect.desc"),
 		researched: false,
 		unlocked: true
 	},{
 		name: "anarchy",
-		label: "Anarchy",
-		description: "Restart the game with kittens acting their own way : kittens are lazy, always eat extra catnip and can't be assigned as leaders.<br><br>Goal: TBD.",
-		effectDesc: "TBD",
+		label: $I("challendge.anarchy.label"),
+		description: $I("challendge.anarchy.desc"),
+		effectDesc: $I("challendge.anarchy.effect.desc"),
 		researched: false,
 		unlocked: true
 	},{
 		name: "energy",
-		label: "Energy",
-		description: "Restart the game with consumption of energy multiply by 2.<br /><br />Goal: Unlock all energy production buildings and build at least one of them.",
-		effectDesc: "Production bonuses cuts caused by negative energy are divided by 2.",
+		label: $I("challendge.energy.label"),
+		description: $I("challendge.energy.desc"),
+		effectDesc: $I("challendge.energy.effect.desc"),
         researched: false,
 		unlocked: false
 	},{
 		name: "atheism",
-		label: "Atheism",
-		description: "Restart the game without faith bonus.<br /><br />Goal: Reset with at least one cryochamber.",
-		effectDesc: "Every level of transcendence will increase aprocrypha effectiveness by 10%.",
+		label: $I("challendge.atheism.label"),
+		description: $I("challendge.atheism.desc"),
+		effectDesc: $I("challendge.atheism.effect.desc"),
         researched: false,
         unlocked: false
 	},{
 		name: "1000Years",
-		label: "1000 years",
-		description: "Goal: Reach year 1000.",
-		effectDesc: "TBD",
+		label: $I("challendge.1000Years.label"),
+		description: $I("challendge.1000Years.desc"),
+		effectDesc: $I("challendge.1000Years.effect.desc"),
         researched: false,
         unlocked: false
 	}],
@@ -120,7 +120,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		if (challenge == this.currentChallenge){
 			this.getChallenge(challenge).researched = true;
 			this.currentChallenge = null;
-			this.game.msg("Congratulations ! You achieve the challenge " + this.getChallenge(challenge).label + ".");
+			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
 		}
 	}
 });
@@ -136,20 +136,20 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
     getDescription: function(model) {
 		if (this.game.bld.get("chronosphere").val > 0) {
-			var msgChronosphere = " You won't gain reset bonus from chronospheres.";
-			msgChronosphere += model.metadata.name == "ironWill" ? "<br />WARNING: the reset bonus from chronospheres will automatically disable IW." : "";
+			var msgChronosphere = model.metadata.name == "ironWill" ? $I("challendge.btn.chronosphere.with.ironWill.desc"): $I("challendge.btn.chronosphere.desc");
 		} else {
 			var msgChronosphere = "";
 		}
-		return this.inherited(arguments) + "<br />Gain: " + model.metadata.effectDesc + "<br /><br />Your game will be reset in order to enable this challenge." + msgChronosphere;
+		return this.inherited(arguments) + $I("challendge.btn.desc", [model.metadata.effectDesc, msgChronosphere]) ;
 	},
 
 	getName: function(model){
+
 		var meta = model.metadata;
 		if (meta.name == this.game.challenges.currentChallenge) {
-			return meta.label + " (Current)";
+			return $I("challendge.btn.name.current", [meta.label]);
 		} else if (meta.researched){
-			return meta.label + " (Complete)";
+			return $I("challendge.btn.name.complete", [meta.label]);
 		} else {
 			return meta.label;
 		}
@@ -166,7 +166,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 	buyItem: function(model, event, callback) {
 		if (model.metadata.name != this.game.challenges.currentChallenge && (model.enabled || this.game.devMode)) {
 			//if (confirm("Are you sure you want to start this challenge by resetting the game ?")) {
-			this.game.ui.confirm('Challenge confirmation', "Are you sure you want to start this challenge by resetting the game ?", function (confirmed) {
+			this.game.ui.confirm($I("challendge.btn.confirmation.dlg.title"), $I("challendge.btn.confirmation.dlg.text"), function (confirmed) {
 				if (!confirmed) {
 					callback(false);
 					return;
