@@ -768,7 +768,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlockRatio: 0.3,
 		prices: [
 			{ name : "scaffold", val: 50 },
-			{ name : "steel", val: 150 },
+			{ name : "steel", val: 125 },
 			{ name : "slab", val: 1000 }
 		],
 		priceRatio: 1.15,
@@ -860,7 +860,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: $I("buildings.calciner.label"),
 		description: $I("buildings.calciner.desc"),
 		prices: [
-			{ name : "steel", val: 75 },
+			{ name : "steel", val: 100 },
 			{ name : "titanium",  val: 15 },
 			{ name : "blueprint",  val: 5 },
 			{ name : "oil",  val: 500 }
@@ -2029,11 +2029,12 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		//let's not mess with meta accessor, it is a pain to deal with it
 		var meta = model.metaAccessor.getMeta(),
 			bld = this.game.bld.get(model.options.building);
+
 		meta.unlockable = bld.unlockable;
 		meta.unlocked = bld.unlocked;
 
 		meta.on = bld.on;
-		meta.val = bld.on;
+		meta.val = bld.val || bld.on;
 
 		return meta;
     },

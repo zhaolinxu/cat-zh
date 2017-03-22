@@ -340,13 +340,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },{
         name: "voidRift",
         label: "Void Rift",
-        description: "Increase the maximum storage space by 1%",
+        description: "Increase the maximum storage space by 2%",
         prices: [
-            { name: "void", val: 100 },
+            { name: "void", val: 75 },
         ],
         priceRatio: 1.3,
         effects: {
-            "globalResourceRatio": 0.01
+            "globalResourceRatio": 0.02
         },
         unlocked: false
     },{
