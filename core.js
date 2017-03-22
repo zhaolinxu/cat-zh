@@ -1,3 +1,17 @@
+/**
+ * Workaround for IE9 local storage :V
+ *
+ * This fix is intended for IE in general and especially for IE9,
+ * where localStorage is defined as system variable.
+ *
+ */
+
+window.LCstorage = window.localStorage;
+if (document.all && !window.localStorage) {
+    window.LCstorage = {};
+    window.LCstorage.removeItem = function () { };
+}
+
 
 invokeCallback = function(callback, args) {
 	if (typeof callback == 'function') {
@@ -8,6 +22,127 @@ invokeCallback = function(callback, args) {
     }
 };
 
+//Localization support
+dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
+	fallbackLocale: "en",
+	availableLocales: null,
+	availableLocaleLabels: null,
+	language: null,
+	messages: null,
+	_deffered: null,
+
+	constructor: function(){
+		this.availableLocales = [this.fallbackLocale /*, "ru"*/];
+		this.availableLocaleLabels = {
+			"en" : "English",
+			"ru": "Русский"
+		};
+	},
+
+	init: function(version) {
+		if (this._deffered) {
+			return this._deffered.promise();
+		}
+		// check if user already selected the locale
+		var lang = LCstorage["com.nuclearunicorn.kittengame.language"];
+		if (!lang || !this.isAvailable(lang)) {
+			var defaultLocale = navigator.language || navigator.userLanguage;
+			// find closes match
+			var parts = defaultLocale.split("[-_]");
+			lang = this.fallbackLocale;
+
+			for (var j =0; j < this.availableLocales.length; j++) {
+				if (this.availableLocales[j] == parts[0].toLowerCase()) {
+					lang = this.availableLocales[j];
+					break;
+				}
+			}
+			LCstorage["com.nuclearunicorn.kittengame.language"] = lang;
+		}
+		// at this point we always have correct lang selected
+		this.language = lang;
+		var self = this;
+		this._deffered = $.Deferred();
+		// now we can try to load it
+		var defferedForDefaultLocale = $.get( "/res/i18n/"+this.fallbackLocale+".json?v=" + version);
+		defferedForDefaultLocale.fail(function(def, errMrs, err){
+			console.error("Couldn't load default locale '"+self.fallbackLocale+"' because of the following error:"+errMrs+", details:"+err);
+			self._deffered.reject("Couldn't load default locale");
+		});
+		if (this.language != this.fallbackLocale ) {
+			var defferedForUserLocale = $.get( "/res/i18n/"+lang+".json?v=" + version).fail(function(e){
+				console.error("Couldn't load user locale '"+lang+"' because of the following error:"+e);
+			});
+
+			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
+				// merge locales
+				$.extend( fallbackLocale[0], userLocale[0] );
+				self.messages = fallbackLocale[0];
+				self._deffered.resolve();
+			}, function(e1, e2) {
+				if (defferedForDefaultLocale.state() == "resolved") {
+					// default locale was loaded correctly
+					self.messages = fallbackLocale;
+					self._deffered.resolve();
+				}
+			});
+		} else {
+			defferedForDefaultLocale.done(function(fallbackLocale) {
+				self.messages = fallbackLocale;
+				self._deffered.resolve();
+			});
+		}
+
+		return this._deffered.promise();
+	},
+
+	getAvailableLocales: function() {
+		return this.availableLocales;
+	},
+
+	getAvailableLocaleLabels: function() {
+		return this.availableLocaleLabels;
+	},
+
+	getLanguage: function() {
+		return this.language;
+	},
+
+	updateLanguage: function(lang) {
+		this.language = lang;
+		LCstorage["com.nuclearunicorn.kittengame.language"] = lang;
+	},
+
+	isAvailable: function(lang) {
+		for (var i =0; i < this.availableLocales.length; i++) {
+			if (this.availableLocales[i] == lang) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	msg: function(key, args) {
+		var msg = this.messages[key];
+		if (!msg) {
+			console.error("Key '"+key+"' wasn't found");
+			return "$"+key;
+		}
+		
+		if (args) {
+			for (var i = 0; i < args.length; i++) {          
+				msg = msg.replace("{"+i+"}", args[i]);
+			}
+		}
+		return msg;
+	}
+});
+
+i18nLang = new com.nuclearunicorn.i18n.Lang();
+
+$I = function(key, args) {
+	return i18nLang.msg(key, args);
+};
 
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 	//Base control class. Must be a superclass for all game components.

@@ -55,12 +55,12 @@
 
 			var version = "_1405";
 
-			function _import(i, def, modules){
+			function _import(module, def){
 				if (!def){
-					return System.import(modules[i] + ".js?v=" + version);
+					return System.import(module + ".js?v=" + version);
 				} else {
 					return def.then(function(){
-						return System.import(modules[i] + ".js?v=" + version);
+						return System.import(module + ".js?v=" + version);
 					});
 				}
 			}
@@ -73,7 +73,6 @@
 				});
 
 				var modules = [
-				    "core",
 					"js/resources",
 					"js/calendar",
 					"js/buildings",
@@ -93,68 +92,78 @@
 					"js/ui",
 					"js/toolbar"
 				];
+				var gameLang;
 				var def = System.import('core.js');
-
-				for (var i in modules){
-					def = _import(i, def, modules);
-				}
-				def.then(function() {
-					try {
-						
-
-						gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
-						gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
-
-						//--------------------------
-						var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
-						/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-						var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
-						dropBoxClient.authDriver(driver);
-						gamePage.setDropboxClient(dropBoxClient);
-
-						gamePage.load();
-						gamePage.updateKarma();
-
-						gamePage.render();
-						gamePage.ui.renderFilters();
-						gamePage.start();
-
-						//---------------------------------
-						//	remove me once x-mass is over
-						//---------------------------------
-						/*if (gamePage.resPool.get("elderBox").value == 0){
-						 gamePage.resPool.get("elderBox").value++;
-						 gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
-						 }*/
-						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
-							gamePage.resPool.get("elderBox").value = 1;
-							gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+				def.then(function () {
+					var langPromise = i18nLang.init(version);
+					langPromise.done(function() {
+						for (var i in modules){
+							def = _import(modules[i], def);
 						}
-						//TODO: use button to invoke this method
-						//gamePage.redeemGift();
-						//---------------------------------
-
-
-						var host = window.location.hostname;
-						if (host.indexOf("kongregate") > -1){
-							$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
-								console.log("loading Kongregate API...");
-								gamePage.initKongregateApi();
-							});
-						}
-						gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
-						if (gamePage.isLocalhost){
-							$("#devModeButton").show();
-						}
-					} catch (ex){
-						if (game && game.telemetry) {
-							game.telemetry.logEvent("error", ex);
-						}
-						console.error(ex);
-						console.trace();
-					}
+						def.then(initGame);
+							
+					});
 				});
 			});
+
+			function initGame() {
+				console.log("About to initialize the game");
+				try {
+					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
+					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
+
+					//--------------------------
+					var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
+					/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
+					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+					dropBoxClient.authDriver(driver);
+					gamePage.setDropboxClient(dropBoxClient);
+
+					gamePage.load();
+					gamePage.updateKarma();
+
+					gamePage.render();
+					gamePage.ui.renderFilters();
+					gamePage.start();
+
+					//---------------------------------
+					//	remove me once x-mass is over
+					//---------------------------------
+					/*if (gamePage.resPool.get("elderBox").value == 0){
+					 gamePage.resPool.get("elderBox").value++;
+					 gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
+					 }*/
+					if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
+						gamePage.resPool.get("elderBox").value = 1;
+						gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+					}
+					//TODO: use button to invoke this method
+					//gamePage.redeemGift();
+					//---------------------------------
+
+
+					var host = window.location.hostname;
+					if (host.indexOf("kongregate") > -1){
+						$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
+							console.log("loading Kongregate API...");
+							gamePage.initKongregateApi();
+						});
+					}
+					gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+					if (gamePage.isLocalhost){
+						$("#devModeButton").show();
+					}
+				} catch (ex){
+					if (game && game.telemetry) {
+						game.telemetry.logEvent("error", ex);
+					}
+					console.error(ex);
+					console.trace();
+				}
+					
+			}
+
+				
 
 			function dev(){
 				if (gamePage.isLocalhost) {
@@ -403,6 +412,13 @@
 			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="dialog help">
 				<a href="#" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
+				<label for="languageSelector">Language:</label>
+				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
+				</select>
+				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
+				<br>
+				<br>
+				
 				<label for="schemeToggle">Color scheme:</label>
 				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
