@@ -1649,7 +1649,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			var expToPromote = this.game.village.getRankExp(leader.rank);
 			var goldToPromote = 25 * (leader.rank + 1);
 			this.promoteLeaderHref = dojo.create("a", {
-				href: "#", innerHTML: $I("census.leader.promote", [exp, gold]),
+				href: "#", innerHTML: $I("village.census.leader.propmote", [this.game.getDisplayValueExt(expToPromote.toFixed()), goldToPromote]),
 				style: {
 					display:
 						(leader.exp < expToPromote || gold.value < goldToPromote) ? "none" : "block"
@@ -1906,8 +1906,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.addButton(btn);
 		}
 
-		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name:"Clear",
-			description: $I("village.btn.clear"),
+		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name: $I("village.btn.job.clear"),
+			description: $I("village.btn.job.clear.desc"),
 			handler: dojo.hitch(this, function(){
 				if (this.game.opts.noConfirm || confirm("Are you sure?")){
 					this.game.village.clearJobs(true);

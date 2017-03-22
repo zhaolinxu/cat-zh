@@ -2,5 +2,8 @@
     "my.key": "Тест",
     "buildings.field.label":"Поле мяты",
     "buildings.gatherCatnip.label": "Собрать мяту",
-    "buildings.refineCatnip.label": "Обработать мяту"
+    "buildings.refineCatnip.label": "Обработать мяту",
+
+    "village.job.hunter": "Охотник",
+    "village.tab.title.smallvillage":"Небольшая деревня"
 }
