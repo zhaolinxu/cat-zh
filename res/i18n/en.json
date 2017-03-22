@@ -198,5 +198,24 @@
     "village.tab.title.settlement":"Settlement",
     "village.tab.title.village":"Village",
     "village.tab.title.smallvillage":"Small Village",
-    "village.tab.title.outpost":"Outpost"
+    "village.tab.title.outpost":"Outpost",
+
+    "stats.kittens.total": "Total Kittens",
+    "stats.kittens.dead":"Kittens Dead",
+    "stats.years.total":"Total Years Played",
+    "stats.resets.total":"Resets Made",
+    "stats.paragon.total":"Total Paragon",
+    "stats.events.total":"Rare Events Observed",
+    "stats.unicorns":"Unicorns Sacrificed",
+    "stats.buildings":"Buildings Constructed",
+    "stats.clicks.total":"Total Clicks",
+    "stats.trades.total":"Trades Completed",
+    "stats.crafts.total":"Crafting Times",
+    "stats.kittens.avg":"Avg. Kittens Born (Per Century)",
+    "stats.trades.current":"Trades Completed",
+    "stats.crafts.current":"Crafting Times",
+    "stats.kittens.current":"Avg. Kittens Born (Per Century)",
+    "stats.time.current":"Time Played (Hours)",
+    "stats.group.all":"All-Time Stats",
+    "stats.group.current":"Current Game Stats"
 }

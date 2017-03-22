@@ -4,63 +4,63 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
     stats:
         [{
             name: "totalKittens",
-            title: "Total Kittens",
+            title: $I("stats.kittens.total"),
             val: 0,
             unlocked: true,
 			defaultUnlocked: true
         },{
             name: "kittensDead",
-            title: "Kittens Dead",
+            title: $I("stats.kittens.dead"),
             val: 0,
             unlocked: true,
 			defaultUnlocked: true
         },{
             name: "totalYears",
-            title: "Total Years Played",
+            title: $I("stats.years.total"),
             val: 0,
             unlocked: true,
 			defaultUnlocked: true
         }, {
             name: "totalResets",
-            title: "Resets Made",
+            title: $I("stats.resets.total"),
             val: 0,
             unlocked: false
         },{
             name: "totalParagon",
-            title: "Total Paragon",
+            title:  $I("stats.paragon.total"),
             val: 0,
             unlocked: false
         }, {
             name: "eventsObserved",
-            title: "Rare Events Observed",
+            title: $I("stats.events.total"),
             val: 0,
             unlocked: false
         }, {
             name: "unicornsSacrificed",
-            title: "Unicorns Sacrificed",
+            title: $I("stats.unicorns"),
             val: 0,
             unlocked: false
         }, {
             name: "buildingsConstructed",
-            title: "Buildings Constructed",
+            title: $I("stats.buildings"),
             val: 0,
             unlocked: false
         }, {
             name: "totalClicks",
-            title: "Total Clicks",
+            title: $I("stats.clicks.total"),
             val: 0,
             unlocked: false
         },{
             name: "totalTrades",
-            title: "Trades Completed",
+            title:  $I("stats.trades.total"),
             val: 0,unlocked: false
         },{
             name: "totalCrafts",
-            title: "Crafting Times",
+            title: $I("stats.crafts.total"),
             val: 0,unlocked: false
         },{
             name: "averageKittens",
-            title: "Avg. Kittens Born (Per Century)",
+            title:  $I("stats.kittens.avg"),
             val: 0,
             calculate: function(game){
 				var result = game.stats.getStat("totalYears").val != 0 ? game.stats.getStat("totalKittens").val / Math.ceil(game.stats.getStat("totalYears").val / 100) : 0;
@@ -72,24 +72,24 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
 
     statsCurrent: [{
         name: "totalTrades",
-        title: "Trades Completed",
+        title: $I("stats.trades.current"),
         val: 0,
         unlocked: false
     },{
         name: "totalCrafts",
-        title: "Crafting Times",
+        title:$I("stats.crafts.current") ,
         val: 0,
         unlocked: false
     },{
         name: "averageKittens",
-        title: "Avg. Kittens Born (Per Century)",
+        title:  $I("stats.kittens.current"),
         val: 0,
         calculate: function(game){
         	var result = game.calendar.year != 0 ? game.resPool.get("kittens").value / Math.ceil(game.calendar.year / 100) : 0;
         	return result;
         }},{
         name: "timePlayed",
-        title: "Time Played (Hours)",
+        title: $I("stats.time.current"),
         val: 0,
         calculate: function (game) {
             var cDay = ((game.calendar.year * 400) + ((game.calendar.season - 1) * 100) + game.calendar.day);
@@ -107,11 +107,11 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         this.statGroups = [
             {
                 group: this.stats,
-                title: 'All-Time Stats'
+                title: $I("stats.group.all")
             },
             {
                 group: this.statsCurrent,
-                title: 'Current Game Stats'
+                title: $I("stats.group.current")
             }
         ];
     },

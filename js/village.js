@@ -1951,8 +1951,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var statsTd = dojo.create("td", { style: "cursor: pointer; width: 50%; text-align: center;"}, tr);
 
 		UIUtils.attachTooltip(this.game, statsTd, 0, 200, dojo.hitch(this, function(){
-				return $I("village.panel.management.desc");
-			}));
+			return $I("village.panel.management.desc");
+		}));
 
 		this.happinessStats = statsTd;
 
