@@ -1934,7 +1934,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//----------------- happiness and things ----------------------
 
-		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel("Management", this.game.village);
+		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.management"), this.game.village);
 		if (this.game.village.getKittens() < 5 && this.game.resPool.get("zebras").value == 0){
 			this.statisticsPanel.setVisible(false);
 		}
@@ -1951,8 +1951,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var statsTd = dojo.create("td", { style: "cursor: pointer; width: 50%; text-align: center;"}, tr);
 
 		UIUtils.attachTooltip(this.game, statsTd, 0, 200, dojo.hitch(this, function(){
-				return "Happiness affects your workers' production and consumption of catnip." +
-						"<br />Rare resources will increase this value whilst over-population will reduce it";
+				return $I("village.panel.management.desc");
 			}));
 
 		this.happinessStats = statsTd;
@@ -1961,8 +1960,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//hunt
 		var huntBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: "Send hunters",
-				description: "Send hunters to the forest",
+				name: $I("village.btn.hunters"),
+				description: $I("village.btn.desc"),
 				handler: dojo.hitch(this, function(){
 					this.sendHunterSquad();
 				}),
@@ -2125,66 +2124,66 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		switch (true) {
 			//you gotta be kitten me
 		case kittens > 5000:
-			return "Elders";
+			return $I("village.tab.title.elders")
 		case kittens > 2000:
-			return "Galactic Union";
+			return $I("village.tab.title.union");
 		case kittens > 1500:
-			return "Planetary Council";
+			return $I("village.tab.title.council");
 		case kittens > 1200:
-			return "Consortium";
+			return $I("village.tab.title.consortium");
         case kittens > 1000:
-            return "Civilisation";	//all rights reserved, yada yada.
+            return $I("village.tab.title.civilisation");	//all rights reserved, yada yada.
         case kittens > 900:
-            return "Society";
+            return $I("village.tab.title.society");
         case kittens > 800:
-            return "Reich";
+            return $I("village.tab.title.reich");
         case kittens > 700:
-            return "Federation";
+            return $I("village.tab.title.federation");
         case kittens > 600:
-            return "Hegemony";
+            return $I("village.tab.title.hegemony");
 		case kittens > 500:
-			return "Dominion";
+			return $I("village.tab.title.dominion");
 		case kittens > 400:
-			return "Imperium";
+			return $I("village.tab.title.imperium");
 		case kittens > 300:
-			return "Empire";
+			return $I("village.tab.title.empire");
 		case kittens > 250:
-			return "Megapolis";
+			return $I("village.tab.title.megapolis");
 		case kittens > 200:
-			return "Metropolis";
+			return $I("village.tab.title.metropolis");
 		case kittens > 150:
-			return "City";
+			return $I("village.tab.title.city");
 		case kittens > 100:
-			return "Town";
+			return $I("village.tab.title.town");
 		case kittens > 50:
-			return "Small Town";
+			return $I("village.tab.title.smalltown");
 		case kittens > 30:
-			return "Settlement";
+			return $I("village.tab.title.settlement");
 		case kittens > 15:
-			return "Village";
+			return $I("village.tab.title.village");
 		case kittens > 0:
-			return "Small Village";
+			return $I("village.tab.title.smallvillage");
 		default:
-			return "Outpost";
+			return $I("village.tab.title.outpost");
 		}
 	},
 
 	skillToText: function(value){
 		switch (true) {
 		case value < 100:
-			return "dabbling";
+			return $I("village.skill.dabbling");
 		case value < 500:
-			return "novice";
+			return $I("village.skill.novice");
 		case value < 1200:
-			return "adequate";
+			return $I("village.skill.adequate");
 		case value < 2500:
-			return "competent";
+			return $I("village.skill.competent");
 		case value < 5000:
-			return "skilled";
+			return $I("village.skill.skilled");
 		case value < 9000:
-			return "proficient";
+			return $I("village.skill.proficient");
 		default:
-			return "master";
+			return $I("village.skill.master");
 		}
 	},
 
