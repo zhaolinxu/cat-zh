@@ -36,6 +36,9 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     observeClear: function(){
+    },
+
+    updateLanguage: function() {
     }
 });
 
@@ -288,6 +291,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
+    updateLanguage: function(){
+        var languageSelector = $("#languageSelector");
+        $("#languageApplyLink").toggle(languageSelector.val() != i18nLang.getLanguage());
+    },
+
+    applyLanguage: function() {
+        var languageSelector = $("#languageSelector");
+        i18nLang.updateLanguage(languageSelector.val());
+        this.game.updateOptionsUI();
+        window.location.reload();
+    },
+
+
     updateOptions: function() {
         var game = this.game;
 
@@ -304,6 +320,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
+
+        var selectedLang = i18nLang.getLanguage();
+        var locales = i18nLang.getAvailableLocales();
+        var labels = i18nLang.getAvailableLocaleLabels();
+        var $langSelector = $("#languageSelector");
+        $langSelector.empty();
+        for (var i = 0; i < locales.length; i++) {
+            $('<option />', {
+                value: locales[i], 
+                text:labels[locales[i]]
+            }).appendTo($langSelector);
+        }
+        $langSelector.val(selectedLang);
     },
 
     displayAutosave: function(){
@@ -471,6 +500,5 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     confirm: function(title, msg, callback) {
         invokeCallback(callback, [window.confirm(msg)]);
     }
-
 
 });
