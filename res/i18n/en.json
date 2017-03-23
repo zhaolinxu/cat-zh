@@ -316,5 +316,8 @@
     "space.terminusMission.desc": "Terminus is a supermassive ice giant at the far end of a Helios solar system.", 
     "space.terminusMission.label": "T-minus Mission", 
     "space.yarnMission.desc": "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.", 
-    "space.yarnMission.label": "Yarn Mission"
+    "space.yarnMission.label": "Yarn Mission",
+
+    "void.spaceCathedral.desc": "TBD.", 
+    "void.spaceCathedral.label": "Space Cathedral"
 }

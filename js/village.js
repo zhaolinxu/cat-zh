@@ -1961,7 +1961,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		//hunt
 		var huntBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("village.btn.hunters"),
-				description: $I("village.btn.desc"),
+				description: $I("village.btn.hunters.desc"),
 				handler: dojo.hitch(this, function(){
 					this.sendHunterSquad();
 				}),

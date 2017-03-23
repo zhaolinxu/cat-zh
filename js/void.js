@@ -32,8 +32,8 @@ dojo.declare("classes.managers.VoidManager", com.nuclearunicorn.core.TabManager,
 
     voidUpgrades:[{
         name: "spaceCathedral",
-        label: "Space Cathedral",
-        description: "TBD.",
+        label: $I("void.spaceCathedral.label"),
+        description: $I("void.spaceCathedral.desc"),
         prices: [{ name: "relic", val: 1 }],
         researched: false
     }],
