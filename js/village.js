@@ -530,7 +530,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	updateHappines: function(){
 		var happiness = 100;
 
-		var unhappiness = ( this.getKittens()-5 ) * 2 * (1 + this.game.getEffect("unhappinessRatio"));	
+		var unhappiness = ( this.getKittens()-5 ) * 2 * (1 + this.game.getEffect("unhappinessRatio"));
 			//limit ratio by 1.0 by 75% hyperbolic falloff
 
 		if (this.getKittens() > 5){
@@ -639,7 +639,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 		var msg = $I("village.msg.hunt.success");
 		if (squads > 1) {
-			msg += $I("village.msg.hunt.from", [squad]);
+			msg += $I("village.msg.hunt.from", [squads]);
 		}
 		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " " + $I("village.msg.hunt.furs");
 		if (totalYield.ivory > 0){
@@ -1580,7 +1580,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		return {
 			leaderInfo: leaderInfo
-		}
+		};
 	},
 
 	getSkillInfo: function(kitten){
@@ -2124,7 +2124,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		switch (true) {
 			//you gotta be kitten me
 		case kittens > 5000:
-			return $I("village.tab.title.elders")
+			return $I("village.tab.title.elders");
 		case kittens > 2000:
 			return $I("village.tab.title.union");
 		case kittens > 1500:

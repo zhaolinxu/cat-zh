@@ -64,7 +64,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		var self = this;
 		this._deffered = $.Deferred();
 		// now we can try to load it
-		var defferedForDefaultLocale = $.get( "/res/i18n/"+this.fallbackLocale+".json?v=" + version);
+		var defferedForDefaultLocale = $.get( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
 			console.error("Couldn't load default locale '"+self.fallbackLocale+"' because of the following error:"+errMrs+", details:"+err);
 			self._deffered.reject("Couldn't load default locale");
@@ -128,9 +128,9 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			console.error("Key '"+key+"' wasn't found");
 			return "$"+key;
 		}
-		
+
 		if (args) {
-			for (var i = 0; i < args.length; i++) {          
+			for (var i = 0; i < args.length; i++) {
 				msg = msg.replace("{"+i+"}", args[i]);
 			}
 		}
@@ -514,15 +514,15 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		var logmsg = {
 			text: message,
-			type: type, 
-			tag: tag, 
+			type: type,
+			tag: tag,
 			noBullet: noBullet,
 			id: "consoleMessage_"+ (this.messageIdCounter++),
 			hasCalendarTech: hasCalendarTech,
 			year: hasCalendarTech? game.calendar.year.toLocaleString(): null,
 			seasonTitle: hasCalendarTech? game.calendar.getCurSeasonTitle() : null,
 			seasonTitleShorten: hasCalendarTech? game.calendar.getCurSeasonTitleShorten() : null
-			
+
 		};
 		this.messages.push(logmsg);
 
@@ -541,7 +541,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		this.ui.renderConsoleLog();
 	},
 
-	
+
 
 	resetState: function (){
 		for (var fId in this.filters){
@@ -641,8 +641,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 
 	createPriceLineModel: function(model, price) {
 		var res = this.game.resPool.get(price.name);
-		return { 
-			title : res.title || res.name, 
+		return {
+			title : res.title || res.name,
 			name: price.name,
 			val: price.val,
 			progress: res.value / price.val,
@@ -775,7 +775,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Control, {
 
 	model: null,
-	controller: null, 
+	controller: null,
 	game: null,
 
 	//nodes
@@ -843,7 +843,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				}
 			}
 		}
-		
+
 
 		if (!this.buttonTitle || !this.model.highlightUnavailable){
 			return;
@@ -1160,7 +1160,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		var result = {
-			title : res.title || res.name, 
+			title : res.title || res.name,
 			name: price.name,
 			val: price.val,
 			hasResources: hasRes,
@@ -1170,7 +1170,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 			hasLimitIssue: hasLimitIssue
 		};
 
-		
+
 		//unroll prices to the raw resources
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
 			var craft = this.game.workshop.getCraft(res.name);
@@ -1178,7 +1178,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				var craftRatio = this.game.getResCraftRatio(res);
 				result.title = "+ " + result.title;
 				result.children = [];
-				
+
 				var components = this.game.workshop.getCraftPrice(craft);
 				for (var j in components) {
 
@@ -1276,7 +1276,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 			}
 		}
 		return false;
-	},	
+	},
 
 	precraft: function(model){
 		this.fetchExtendedModel(model);
@@ -1443,7 +1443,7 @@ ButtonModernHelper = {
 
 		for (var i =0; i < effectsList.length; i++){
 			var effectModel = effectsList[i];
-			var nameSpan = dojo.create("div", { 
+			var nameSpan = dojo.create("div", {
 				innerHTML: effectModel.displayEffectName + ": " + effectModel.displayEffectValue,
 					className: "effectName",
 					style: {
@@ -1451,7 +1451,7 @@ ButtonModernHelper = {
 						color: "gray"
 					}
 				}, tooltip );
-			
+
 		}
 
 	}
@@ -1484,7 +1484,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 
-	
+
 
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
@@ -1559,7 +1559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var model = this.inherited(arguments);
 		model.hasSellLink = this.hasSellLink(model);
 		model.showSellLink = model.metadata && model.metadata.val && model.hasSellLink;
-		var self = this; 
+		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
 				title:  model.metadata.on ? "on" : "off",
@@ -1644,7 +1644,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	on: function(model) {
 		var building = model.metadata;
 		if (building.on < building.val){
-			building.on ++;	
+			building.on ++;
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1688,7 +1688,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.prices = this.getPrices(model);
 			this.refund(model);
 		}
-		
+
 		this.game.upgrade(building.upgrades);
 		this.game.render();
 	},
@@ -1901,7 +1901,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
         return prices;
     },
 
-	
+
 
 
 	updateEnabled: function(model){
@@ -2016,7 +2016,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 		this.inherited(arguments);
 		this.game.render();
 	}
-	
+
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
