@@ -17,53 +17,63 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	resourceData: [
 	{
 		name : "catnip",
+		title: $I("resources.catnip.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "wood",
+		title: $I("resources.wood.title"),
 		type : "common",
 		craftable: true,
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "minerals",
+		title: $I("resources.minerals.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "coal",
+		title: $I("resources.coal.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "iron",
+		title: $I("resources.iron.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "titanium",
+		title: $I("resources.titanium.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "gold",
+		title: $I("resources.gold.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "oil",
+		title: $I("resources.oil.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "uranium",
+		title: $I("resources.uranium.title"),
 		type : "common",
 		visible: true,
 		color: "#4EA24E",
 		calculatePerTick: true
 	},{
 		name : "unobtainium",
+		title: $I("resources.unobtainium.title"),
 		type : "common",
 		visible: true,
 		display: true,
@@ -76,7 +86,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//=========================================
 	{
 		name : "manpower",
-		title: "catpower",
+		title: $I("resources.manpower.title"),
 		type : "common",
 		visible: true,
 		transient: true,		//cant be affected by magneto bonus
@@ -84,6 +94,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "science",
+		title: $I("resources.science.title"),
 		type : "common",
 		visible: true,
 		transient: true,
@@ -91,6 +102,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "culture",
+		title: $I("resources.culture.title"),
 		type : "common",
 		visible: true,
 		transient: true,
@@ -98,6 +110,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "faith",
+		title: $I("resources.faith.title"),
 		type : "common",
 		visible: true,
 		transient: true,
@@ -105,16 +118,19 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "kittens",
+		title: $I("resources.kittens.title"),
 		type : "common",
 		transient: true,
 		visible: true
 	},{
 		name : "zebras",
+		title: $I("resources.zebras.title"),
 		type : "common",
 		transient: true,
 		visible: true
 	},{
 		name : "starchart",
+		title: $I("resources.starchart.title"),
 		type : "common",
 		transient: true,
 		visible: true,
@@ -122,6 +138,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "antimatter",
+		title: $I("resources.antimatter.title"),
 		type : "common",
 		transient: true,
 		visible: true,
@@ -133,76 +150,84 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//=========================================
 	{
 		name : "furs",
+		title: $I("resources.furs.title"),
 		type : "uncommon",
 		transient: true,
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "ivory",
+		title: $I("resources.ivory.title"),
 		type : "uncommon",
 		transient: true,
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "spice",
+		title: $I("resources.spice.title"),
 		type : "uncommon",
 		transient: true,
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "unicorns",
+		title: $I("resources.unicorns.title"),
 		type : "rare",
 		transient: true,
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "alicorn",
-		title: "alicorns",
+		title: $I("resources.alicorn.title"),
 		type : "rare",
 		visible: true,
 		calculatePerTick: true
 	},{
 		name : "necrocorn",
-		title: "necrocorns",
+		title: $I("resources.necrocorn.title"),
 		type : "rare",			//todo: some special FX
 		visible: true,
 		color: "#E00000"
 	},{
 		name : "tears",
+		title: $I("resources.tears.title"),
 		type : "rare",
 		visible: true
 	},{
 		name : "karma",
+		title: $I("resources.karma.title"),
 		type : "rare",
 		visible: true
 	},{
 		name : "paragon",
+		title: $I("resources.paragon.title"),
 		type : "common",
 		visible: true,
 		color: "#6141CD",
 		persists: true
 	},{
 		name : "burnedParagon",
-		title : "burned paragon",
+		title : $I("resources.burnedParagon.title"),
 		type : "common",
 		visible: true,
 		color: "#493099",
 		persists: true
 	},{
 		name : "timeCrystal",
-		title: "time crystal",
+		title: $I("resources.timeCrystal.title"),
 		type : "common",
 		visible: true,
 		color: "#14CD61"
 	},{
 		name : "sorrow",
+		title: $I("resources.sorrow.title"),
 		type : "common",
 		visible: false,
 		color: "black",
 		persists: true //isn't wiped on game reset
 	},{
 		name : "relic",
-		title: "relic",
+		title: $I("resources.relic.title"),
 		type : "exotic",
 		craftable: false,
 		visible: true,
@@ -213,7 +238,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name : "void",
-		title: "void",
+		title: $I("resources.void.title"),
 		type : "exotic",
 		craftable: false,
 		visible: true,
@@ -224,8 +249,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name : "elderBox",
-		title: "present box",
-		description: "Merry Eldermass!",
+		title: $I("resources.elderBox.title"),
+		description: $I("resources.elderBox.desc"),
 		type : "exotic",
 		craftable: false,
 		visible: true,
@@ -237,7 +262,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: true
 	},{
 		name : "wrappingPaper",
-		title: "wrapping paper",
+		title: $I("resources.wrappingPaper.title"),
 		type : "exotic",
 		craftable: false,
 		visible: true,
@@ -249,8 +274,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: true
 	},{
 		name : "temporalFlux",
-		title: "temporal flux",
-		description: "",
+		title: $I("resources.temporalFlux.title"),
 		type : "common",
 		craftable: false,
 		visible: false,
@@ -262,23 +286,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//=========================================
 	{
 		name : "beam",
+		title: $I("resources.beam.title"),
 		type : "common",
 		craftable: true
 	},{
 		name : "slab",
+		title: $I("resources.slab.title"),
 		type : "common",
 		craftable: true
 	},{
 		name : "concrate",
-		title: "concrete",
+		title: $I("resources.concrate.title"),
 		type : "common",
 		craftable: true
 	},{
 		name : "plate",
+		title: $I("resources.plate.title"),
 		type : "common",
 		craftable: true
 	},{
 		name : "steel",
+		title: $I("resources.steel.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
@@ -286,60 +314,70 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "gear",
+		title: $I("resources.gear.title"),
 		type : "common",
 		craftable: true,
 		color: "gray"
 	},{
 		name : "alloy",
+		title: $I("resources.alloy.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
 		color: "gray"
 	},{
 		name : "eludium",
+		title: $I("resources.eludium.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
 		color: "darkViolet"
 	},{
 		name : "scaffold",
+		title: $I("resources.scaffold.title"),
 		type : "common",
 		craftable: true,
 		color: "#FF7F50"
 	},{
 		name : "ship",
+		title: $I("resources.ship.title"),
 		type : "common",
 		craftable: true,
 		color: "#FF7F50"
 	},{
 		name : "tanker",
+		title: $I("resources.tanker.title"),
 		type : "common",
 		craftable: true,
 		color: "#CF4F20"
 	},{
         name: "kerosene",
+        title: $I("resources.kerosene.title"),
         type: "common",
         craftable: true,
         color: "darkYellow"
 	},{
 		name : "parchment",
+		title: $I("resources.parchment.title"),
 		type : "common",
 		craftable: true,
 		color: "#DF01D7"
 	},{
 		name : "manuscript",
+		title: $I("resources.manuscript.title"),
 		type : "common",
 		craftable: true,
 		color: "#01A9DB",
 		calculatePerTick: true
 	},{
 		name : "compedium",
-		title: "compendium",
+		title: $I("resources.compedium.title"),
 		type : "common",
 		craftable: true,
 		color: "#01A9DB"
 	},{
 		name : "blueprint",
+		title: $I("resources.blueprint.title"),
 		type : "common",
 		transient: true,
 		visible: true,
@@ -347,6 +385,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#01A9DB"
 	},{
 		name : "thorium", //divinite
+		title: $I("resources.thorium.title"),
 		type : "common",
 		visible: true,
 		craftable: true,
@@ -354,6 +393,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		calculatePerTick: true
 	},{
 		name : "megalith",
+		title: $I("resources.megalith.title"),
 		type : "common",
 		craftable: true,
 		color: "gray"
@@ -1147,7 +1187,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 
 			var aAll = dojo.create("a", {
 				href: "#",
-				innerHTML : "all",
+				innerHTML : $I("resources.craftTable.all"),
 				style: {
 					display: this.hasMinAmt(recipe) ? "" : "none"
 				}
