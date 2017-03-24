@@ -18,7 +18,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["agriculture"],
 			tabs: ["time"]
 		},
-        flavor: "What day is it again?"
+        flavor: $I("science.calendar.flavor")
 
 	},{
 		name: "agriculture",
@@ -31,7 +31,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["mining", "archery"],
 			jobs: ["farmer"]
 		},
-        flavor: "Best thing since sliced bread!"
+        flavor: $I("science.agriculture.flavor")
 	},{
 		name: "archery",
 		label: $I("science.archery.label"),
@@ -53,7 +53,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["metal"],
 			upgrades: ["bolas"]
 		},
-		flavor: "Pickaxes are easier to hold with opposable thumbs"
+		flavor: $I("science.mining.flavor")
 	},{
 		name: "metal",
 		label: $I("science.metal.label"),
@@ -94,7 +94,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["currency"]	//currency
 		},
-		flavor: "Specialists in Herding Cats"
+		flavor: $I("science.civil.flavor")
 	},{
 		name: "math",
 		label: $I("science.math.label"),
@@ -106,7 +106,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			upgrades: ["celestialMechanics"],
 			tabs: ["stats"]
 		},
-		flavor: "Purr equals Meow times Paw to the square"
+		flavor: $I("science.math.flavor")
 	},{
 		name: "construction",
 		label: $I("science.construction.label"),
@@ -118,7 +118,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["engineering"],
 			upgrades: ["compositeBow", "advancedRefinement", "reinforcedSaw"]
 		},
-		flavor: "Making pillow forts smart!"
+		flavor: $I("science.construction.flavor")
 	},{
 		name: "engineering",
 		label: $I("science.engineering.label"),
@@ -151,7 +151,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			upgrades: ["register"],
 			crafts: ["parchment"]
 		},
-		flavor: "Writing uses less ink than pawprints"
+		flavor: $I("science.writing.flavor")
 	},{
 		name: "philosophy",
 		label: $I("science.philosophy.label"),
@@ -163,7 +163,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["theology"],
 			crafts: ["compedium"]
 		},
-		flavor: "I purr, therefore I am"
+		flavor: $I("science.philosophy.flavor")
 	},{
 		name: "machinery",
 		label: "Machinery",
@@ -202,7 +202,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		upgrades: {
 			buildings: ["temple"]
 		},
-        flavor: "What is that flaming ball in the sky anyway?"
+        flavor: $I("science.theology.flavor")
 	},{
 		name: "astronomy",
 		label: $I("science.astronomy.label"),
@@ -245,7 +245,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["mansion", "mint"],
 			tech: ["acoustics"]
 		},
-		flavor: "Bigger, better cat towers!"
+		flavor: $I("science.architecture.flavor")
 	},{
 		name: "physics",
 		label: $I("science.physics.label"),
@@ -320,7 +320,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			jobs: ["geologist"],
 			upgrades:["geodesy"]
 		},
-		flavor: "Different fossils of giant lizards were discovered. Apparently they all died in a sudden but inevitable betrayal."
+		flavor: $I("science.archeology.flavor")
 	},{
 		name: "electricity",
 		label: $I("science.electricity.label"),
@@ -334,7 +334,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["magneto"],
 			tech: ["industrialization"]
 		},
-		flavor: "Who knew running around on the carpet could generate such power?"
+		flavor: $I("science.electricity.flavor")
 	},{
 		name: "biology",
 		label: $I("science.biology.label"),
@@ -536,7 +536,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             tech: ["orbitalEngineering" ],
             upgrades: [ "photolithography" ]
         },
-        flavor: "Spreading cat videos at the speed of light"
+        flavor: $I("science.sattelites.flavor")
     },{
 		name: "orbitalEngineering",
 		label: $I("science.orbitalEngineering.label"),
