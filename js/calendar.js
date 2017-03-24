@@ -686,7 +686,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
                 chance *= 2;
             }
 
-            var autoChance = this.game.getEffect("starAutoSuccessChance");  
+            var autoChance = this.game.getEffect("starAutoSuccessChance");
             if (this.game.prestige.getPerk("astromancy").researched){
                 autoChance *= 2;
             }
@@ -737,7 +737,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			if (this.game.workshop.get("celestialMechanics").researched){
 				var sciBonus = 15 * ( 1 + this.game.getEffect("scienceRatio"));
-				sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
+				var sciGain = this.game.resPool.addResEvent("science", numberEvents * sciBonus);
 			}
 
 			//TODO: make meteors give titanium on higher levels
@@ -745,7 +745,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			totalNumberOfEvents+=numberEvents;
 		}
 
-		
+
 
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
 		var zebras = this.game.resPool.get("zebras");
@@ -754,7 +754,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var archery = this.game.science.get("archery");
 			var unicorns = this.game.resPool.get("unicorns");
 
-			
+
 			if (unicorns.value < 2 && archery.researched){
 				numberEvents = Math.round(daysOffset * 17 * unicornChanceRatio / 100000);
 				this.game.resPool.addResEvent("unicorns", numberEvents);

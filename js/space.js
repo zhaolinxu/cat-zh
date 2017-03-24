@@ -1004,7 +1004,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 
-		var controller = new classes.ui.space.PlanetBuildingBtnController(game);
+		var controller = new classes.ui.space.PlanetBuildingBtnController(self.game);
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 

@@ -519,9 +519,9 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			noBullet: noBullet,
 			id: "consoleMessage_"+ (this.messageIdCounter++),
 			hasCalendarTech: hasCalendarTech,
-			year: hasCalendarTech? game.calendar.year.toLocaleString(): null,
-			seasonTitle: hasCalendarTech? game.calendar.getCurSeasonTitle() : null,
-			seasonTitleShorten: hasCalendarTech? game.calendar.getCurSeasonTitleShorten() : null
+			year: hasCalendarTech? this.game.calendar.year.toLocaleString(): null,
+			seasonTitle: hasCalendarTech? this.game.calendar.getCurSeasonTitle() : null,
+			seasonTitleShorten: hasCalendarTech? this.game.calendar.getCurSeasonTitleShorten() : null
 
 		};
 		this.messages.push(logmsg);

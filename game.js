@@ -111,7 +111,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-			
+
 			if (window.FirebasePlugin) {
 				window.FirebasePlugin.logEvent(eventType, event);
 			} else if (this.game.server.telemetryUrl) {
@@ -1426,7 +1426,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         } else {
             encodedData = btoa(data);
         }
-        
+
         this.ui.saveExport(encodedData);
 
 	},
@@ -1455,7 +1455,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		var lzdata = LZString.compressToBase64(data);
 
-		
+
         var callback = function() {
             $('#exportDiv').hide();
             $('#optionsDiv').hide();
@@ -1501,7 +1501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (!window.confirm("Are your sure? This will overwrite your save!")){
 			return;
 		}
-		
+
         var callback = function(error) {
             $('#importDiv').hide();
             $('#optionsDiv').hide();
@@ -2831,7 +2831,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			value = value * this.rate;
 		}
 
-		
+
 
 		postfix = postfix || "";
 		var absValue = Math.abs(value);
@@ -2920,9 +2920,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			//some older browser, perhaps IE. Have a nice idling.
 			// setInterval function set a fixed interval and if the event was delayed due some browser activity, e.g. rendering/scrolling then two or more events will be put into a queue
 			// The problem is that UI looks unresponsive and there are glitches.
-			// We have 2 options: 
+			// We have 2 options:
 			// 1. Skip events which are really close
-			// 2. Use setTimeout function and reset the interval 
+			// 2. Use setTimeout function and reset the interval
 			// In both cases it will result to drop of number of ticks.
 			// One way is to handle it on UI by queuing the update requests.
 			var timer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
@@ -3002,7 +3002,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             game.challenges.currentChallenge = null;
             game.resetAutomatic();
-        });		
+        });
 	},
 
 

@@ -171,9 +171,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 //this.game.msg("Redshift: " + res.perTickCached + " " + res.name);
             }
         }
-        
+
         var numberEvents = this.game.calendar.fastForward(daysOffset);
-        
+
         this.game.bld.fastforward(daysOffset);
         this.game.workshop.update(this.game.rate * daysOffset);
 
@@ -516,7 +516,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 });
 
 dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
-    
+
     defaults: function() {
         var result = this.inherited(arguments);
         result.hasResourceHover = true;
@@ -527,7 +527,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var model = this.inherited(arguments);
         model.x5Link = {
             visible: this._canAfford(model) >= 5,
-            title: "x5", 
+            title: "x5",
             handler: function(event){
                 var self = this;
                 this.animate();
@@ -784,7 +784,7 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
         for (var i in game.time.voidspaceUpgrades){
             var meta = game.time.voidspaceUpgrades[i];
             this.addChild(new com.nuclearunicorn.game.ui.BuildingStackableBtn( {
-                    id: meta.name, 
+                    id: meta.name,
                     controller: controller
                 }, game));
         }

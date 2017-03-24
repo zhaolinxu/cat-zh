@@ -41,7 +41,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
     	if (this._metaCache) {
     		return this._metaCache;
     	}
-        
+
         if (bld.stages){
 			//some specific hack for stagable buildings
 			if (bld.stage >= bld.stages.length){
@@ -56,7 +56,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
 				// }
 		        if (bld.hasOwnProperty(attr)){
 		        	copy[attr] = bld[attr];
-		        } 
+		        }
 		    }
 
 		    for (attr in currentStage) {
@@ -85,7 +85,7 @@ dojo.declare("classes.BuildingMeta", classes.Metadata, {
     	if (this._metaCache) {
     		return this._metaCache[attr];
     	}
-    	
+
     	if (bld.stages){
 			//some specific hack for stagable buildings
 			if (bld.stage >= bld.stages.length){
@@ -153,7 +153,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						effectValue = currentStage.effects[effectName];
 					} else {
 			        	effectValue = bld.effects[effectName];
-			        } 
+			        }
 		        } else {
 		        	effectValue = bld.effects[effectName];
 		        }
@@ -431,7 +431,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"manpowerMax": 75
 		},
 		breakIronWill: true, //har har har
-		flavor : $I("buildings.hut.flavor") 
+		flavor : $I("buildings.hut.flavor")
 	},
 	{
 		name: "logHouse",
@@ -1729,7 +1729,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		for (var i = 0; i< bldPrices.length; i++){
 			prices.push({
-				val: bldPrices[i].val * Math.pow(ratio, bld.get('val')), 
+				val: bldPrices[i].val * Math.pow(ratio, bld.get('val')),
 				name: bldPrices[i].name
 			});
 		}
@@ -1870,6 +1870,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	fastforward: function(daysOffset) {
+		var game = this.game;
 		if (game.workshop.get("factoryAutomation").researched){
 			var steamworks = this.get("steamworks");
 			if (steamworks.isAutomationEnabled == null) {
@@ -1970,7 +1971,7 @@ dojo.declare("classes.game.ui.GatherCatnipButtonController", com.nuclearunicorn.
 dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
-	    var self = this; 
+	    var self = this;
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var catnipCost = model.prices[0].val;
 		model.x100Link = {
@@ -2093,13 +2094,13 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	stageLinks: null,
 
 	constructor: function(){
-		
+
 	},
 
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
 		model.stageLinks = this.getStageLinks(model);
-		
+
 
 		return model;
 	},
@@ -2112,10 +2113,10 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 
 		var downgradeHandler = function(){
 			self.downgrade(model);
-		}
+		};
 		var upgradeHandler = function(){
 			self.upgrade(model);
-		}
+		};
 		for (var i = 1; i < stages.length; i++){
 			if (i <= stage){
 				//downgrade
@@ -2143,7 +2144,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	downgradeCallback: function(model, result) {
 		if (!result) {
 			return;
-		} 
+		}
 		var metadataRaw = this.getMetadataRaw(model);
 		metadataRaw.stage = metadataRaw.stage -1 || 0;
 		metadataRaw.val = 0;	//TODO: fix by using separate value flags
@@ -2166,7 +2167,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	upgradeCallback: function(model, result) {
 		if (!result) {
 			return;
-		} 
+		}
 		var metadataRaw = this.getMetadataRaw(model);
 		metadataRaw.stage = metadataRaw.stage || 0;
 		metadataRaw.stage++;
@@ -2359,7 +2360,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				var mdl = btn.controller.fetchModel(btn.opts);
 
 				if (this.activeGroup == "allEnabled"){
-					
+
 					if (!mdl.enabled){
 						continue;
 					}
