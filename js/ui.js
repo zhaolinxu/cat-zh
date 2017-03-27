@@ -328,7 +328,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $langSelector.empty();
         for (var i = 0; i < locales.length; i++) {
             $('<option />', {
-                value: locales[i], 
+                value: locales[i],
                 text:labels[locales[i]]
             }).appendTo($langSelector);
         }
@@ -440,12 +440,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         if (!messages.length) { // micro optimization
             dojo.empty(gameLog);
             return;
-        } 
+        }
 
         var spans = dojo.query("span", gameLog);
 
         for (var i = 0, j = 0; i < messages.length || j < spans.length;){
-            var msg = messages[i], 
+            var msg = messages[i],
                 span = spans[j];
             if (!msg && span) {
                 dojo.destroy(span);

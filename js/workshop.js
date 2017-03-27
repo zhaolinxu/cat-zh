@@ -506,7 +506,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["harbor"]
 		},
-		flavor: "It's like a tuna can, but bigger"
+		flavor: $I("workshop.cargoShips.flavor")
 	},{
 		name: "barges",
 		label: $I("workshop.barges.label"),
@@ -605,7 +605,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		unlocks: {
 			upgrades: ["titaniumWarehouses"]
 		},
-		flavor: "With carpeting and climbing holds of course"
+		flavor: $I("workshop.silos.flavor")
 	},{
 		name: "refrigeration",
 		label: $I("workshop.refrigeration.label"),
@@ -667,7 +667,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "minerals", val: 250 },
 			{ name : "wood", val: 50 }
 		],
-		flavor: "Weaponized yarn"
+		flavor: $I("workshop.bolas.flavor")
 	},{
 		name: "huntingArmor",
 		label: $I("workshop.huntingArmor.label"),
@@ -679,7 +679,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 2000 },
 			{ name : "iron", val: 750 }
 		],
-        flavor: "At least they are wearing something..."
+        flavor: $I("workshop.huntingArmor.flavor")
 	},{
 		name: "steelArmor",
 		label: $I("workshop.steelArmor.label"),
@@ -728,7 +728,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["tradepost"]
 		},
-		flavor: "Now hiring: cuter kittens"
+		flavor: $I("workshop.caravanserai.flavor")
 	},
 	//--------------------- stuff ----------------------
 	{
@@ -744,7 +744,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		handler: function(game){
 			game.workshop.getCraft("wood").prices = [{name: "catnip", val: 50}];
 		},
-		flavor: "It's all fun and games 'til someone gets pounced"
+		flavor: $I("workshop.advancedRefinement.flavor")
 	},{
 		name: "goldOre",
 		label: $I("workshop.goldOre.label"),
@@ -756,7 +756,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		flavor: "Shiny!"
+		flavor: $I("workshop.goldOre.flavor")
 	},{
 		name: "geodesy",
 		label: $I("workshop.geodesy.label"),
@@ -771,7 +771,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			jobs: ["geologist"]
 		},
-		flavor: "Gold sniffing cats"
+		flavor: $I("workshop.geodesy.flavor")
 	},{
 		name: "register",
 		label: $I("workshop.register.label"),
@@ -844,7 +844,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "beam", 	 val: 35 },
 			{ name : "science",  val: 5000 }
 		],
-		flavor: "So warm... so sleepy..."
+		flavor: $I("workshop.coalFurnace.flavor")
 	},{
 		name: "deepMining",
 		label: $I("workshop.deepMining.label"),
@@ -859,7 +859,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["mine"]
 		},
-		flavor: "Yummy Canaries!"
+		flavor: $I("workshop.deepMining.flavor")
 	},{
 		name: "pyrolysis",
 		label: $I("workshop.pyrolysis.label"),
@@ -997,7 +997,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["steamworks"]
 		},
-		flavor: "Paper goes in, cat pictures come out."
+		flavor: $I("workshop.offsetPress.flavor")
 	},{
 		name: "photolithography",
 		label: $I("workshop.photolithography.label"),
@@ -1023,7 +1023,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "gear", 	 val: 25 },
 			{ name : "science",  val: 10000 }
 		],
-		flavor: "Includes autofeeders"
+		flavor: $I("workshop.factoryAutomation.flavor")
 	},{
 		name: "advancedAutomation",
 		label: $I("workshop.advancedAutomation.label"),
@@ -1061,7 +1061,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["steamworks"]
 		},
-        flavor: "A better mousetrap"
+        flavor: $I("workshop.combustionEngine.flavor")
 	},{
 		name: "fuelInjectors",
 		label: $I("workshop.fuelInjectors.label"),
@@ -1198,7 +1198,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["library"]
 		},
-		flavor: "Did that light spot just move?"
+		flavor: $I("workshop.titaniumMirrors.flavor")
 	},
 	{
 		name: "unobtainiumReflectors",

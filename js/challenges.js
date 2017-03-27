@@ -154,7 +154,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 			return meta.label;
 		}
 	},
-	
+
 	updateVisible: function(model){
 		model.visible = model.metadata.unlocked;
 	},

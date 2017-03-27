@@ -670,7 +670,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 		});
 
-		
+
 	},
 
 	getTranscendenceLevel: function(){
@@ -807,7 +807,7 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 		var model = this.inherited(arguments);
 		model.allLink = {
 			visible: true,
-			title: "all", 
+			title: "all",
 			handler: function(event){
 				var self = this;
 				this.animate();
@@ -820,7 +820,7 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 		};
 		model.x10Link = {
 			visible: this._canAfford(model) >= 10,
-			title: "x10", 
+			title: "x10",
 			handler: function(event){
 				var self = this;
 				this.animate();
@@ -920,7 +920,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 		var model = this.inherited(arguments);
 		model.allLink = {
 			visible: true,
-			title: "all", 
+			title: "all",
 			handler: function(event){
 				this.animate();
 				this.controller.sacrificeAll(this.model, event, function(result) {
@@ -932,7 +932,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 		};
 		model.x10Link = {
 			visible: this._canAfford(model) >= 10,
-			title: "x10", 
+			title: "x10",
 			handler: function(event){
 				this.animate();
 				this.controller.sacrificeX10(this.model, event, function(result) {
@@ -1042,7 +1042,7 @@ dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.gam
 		result.hasResourceHover = true;
 		return result;
 	},
-	
+
 	buyItem: function(model, event, callback){
 		if (model.enabled && this.hasResources(model)) {
 			this.payPrice(model);
@@ -1331,7 +1331,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				}
 			});
 
-		
+
 	},
 
     resetFaithInternal: function(bonusRatio){
