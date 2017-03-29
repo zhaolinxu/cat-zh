@@ -83,6 +83,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     resetState: function(){
 		this.isAccelerated = false;
 
+        this.timestamp = Date.now();
         this.flux = 0;
         this.heat = 0;
 
@@ -149,7 +150,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         //daysOffset = 4000;
 
         //populate cached per tickValues
-        this.game.resPool.update() 
+        this.game.resPool.update();
         this.game.updateResources();
         // Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
         // Idea: relax resource limits temporaraly, load the resource and do workshop, after that enforce limits again.
@@ -534,7 +535,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         model.x5Link = {
             visible: this._canAfford(model) >= 5,
             enabled: true,
-            title: "x5", 
+            title: "x5",
             handler: function(event){
                 self.doShatterX5(model, event, function(result) {
                     if (result && self.update) {
