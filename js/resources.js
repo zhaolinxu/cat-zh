@@ -464,7 +464,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		var prevValue = res.value || 0;
 
-		if(res.maxValue && !preventLimitCheck) {
+		if(res.maxValue) {
 			//if already overcap, allow to remain that way unless removing resources.
 			if(res.value > res.maxValue) {
 				if(addedValue < 0 ) {
@@ -472,7 +472,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				}
 			} else {
 				res.value += addedValue;
-				if(res.value > res.maxValue) {
+				if(res.value > res.maxValue && !preventLimitCheck) {
 					res.value = res.maxValue;
 				}
 			}

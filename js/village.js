@@ -301,6 +301,20 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
         //this.game.ui.updateFastHunt();
 	},
 
+	fastforward: function(times){
+		//calculate kittens
+		var kittensPerTick = this.kittensPerTick +
+			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
+
+		//Allow festivals to double birth rate.
+		if (this.game.calendar.festivalDays > 0) {
+			kittensPerTick = kittensPerTick * 2;
+		}
+
+		this.sim.maxKittens = this.maxKittens;
+		this.sim.update(kittensPerTick, times);
+	},
+
 	getFreeKittens: function(){
 		var total = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
@@ -870,9 +884,12 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		this.game = game;
 	},
 
-	update: function(kittensPerTick){
+	update: function(kittensPerTick, times){
+		if (!times) {
+			times = 1;
+		}
 		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
-			this.nextKittenProgress += kittensPerTick;
+			this.nextKittenProgress += times * kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
 				var kittensToAdd = Math.floor(this.nextKittenProgress);
 				this.nextKittenProgress = 0;
@@ -880,7 +897,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				for (var iCat = 0; iCat < kittensToAdd; iCat++) {
 					if (this.kittens.length < this.maxKittens) {
 						this.addKitten();
-						if (this.maxKittens <= 10){
+						if (this.maxKittens <= 10 && times == 1){
 							this.game.msg($I("village.msg.kitten.has.joined"));
 						}
 					}
@@ -893,7 +910,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 		var learnBasicRatio = this.game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
 		var learnRatio = this.game.getEffect("learnRatio");
-		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio;
+		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio * times;
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
@@ -924,9 +941,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				}
 
 				for (var skill in kitten.skills){
-					if (skill != kitten.job && kitten.skills[skill] > 0 ){
-						kitten.skills[skill] -= 0.001;
-						kitten.exp -= 0.001;
+					if (skill != kitten.job && kitten.skills[skill] > 0 ) {
+						var skillExp = Math.min( times * 0.001, kitten.skills[skill]);
+						kitten.skills[skill] -= skillExp;
+						kitten.exp -= skillExp;
 					}
 				}
 			}

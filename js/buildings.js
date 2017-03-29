@@ -2037,6 +2037,8 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		meta.on = bld.on;
 		meta.val = bld.val || bld.on;
 
+		//TODO: this becomes problematic
+
 		return meta;
     },
 

@@ -131,7 +131,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
 
         this.timestamp = currentTimestamp;
-
         if (delta <= 0){
             return;
         }
@@ -150,6 +149,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         //daysOffset = 4000;
 
         //populate cached per tickValues
+        this.game.resPool.update() 
         this.game.updateResources();
         // Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
         // Idea: relax resource limits temporaraly, load the resource and do workshop, after that enforce limits again.
@@ -167,8 +167,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 if (res.maxValue) {
                     currentLimits[res.name] = Math.max(res.value, res.maxValue);
                 }
-                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false, false/*preventLimitCheck*/);
-                //this.game.msg("Redshift: " + res.perTickCached + " " + res.name);
+
+                //console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
+
+                //console.log("resource before adjustment:", res.value);
+                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false/*event?*/, true/*preventLimitCheck*/);
+                //console.log("resource after adjustment:", res.value);
+
             }
         }
 
@@ -176,8 +181,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.game.bld.fastforward(daysOffset);
         this.game.workshop.update(this.game.rate * daysOffset);
-
-
+        this.game.village.fastforward(this.game.rate * daysOffset);
+        this.game.space.fastforward(this.game.rate * daysOffset);
 
         // enforce limits
         for (i in this.game.resPool.resources){
@@ -524,14 +529,14 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     },
 
     fetchModel: function(options) {
+        var self = this;
         var model = this.inherited(arguments);
         model.x5Link = {
             visible: this._canAfford(model) >= 5,
-            title: "x5",
+            enabled: true,
+            title: "x5", 
             handler: function(event){
-                var self = this;
-                this.animate();
-                this.controller.doShatterX5(this.model, event, function(result) {
+                self.doShatterX5(model, event, function(result) {
                     if (result && self.update) {
                         self.update();
                     }
@@ -602,6 +607,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             callback(this.doShatter(model, 1));
         }
         callback(false);
+        return true;
     },
 
     _canAfford: function(model) {

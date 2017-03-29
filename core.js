@@ -14,6 +14,10 @@ if (document.all && !window.localStorage) {
 
 
 invokeCallback = function(callback, args) {
+	if (!callback){
+		console.warn("Callback must be defined");
+		return;
+	}
 	if (typeof callback == 'function') {
       	callback.apply(window, args);
     } else {
@@ -1287,8 +1291,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 	},
 
 	_precraftRes: function(price){
-		//console.log("price:", price);
-
 		if (price.children){
 			for (var i in price.children){
 				this._precraftRes(price.children[i]);
@@ -1296,7 +1298,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		var res = this.game.resPool.get(price.name);
-		if (res.craftable){
+		if (res.craftable && res.name != "wood"){
 
 			var ratio = this.game.getResCraftRatio(res);
 			var amt = price.val - res.value;
@@ -1947,9 +1949,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
                 var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
                 this.build(meta, maxBld);
                 callback(true);
-            } else if (event.ctrlKey) {
-				this.build(meta, 10);
-			} else {
+            } else {
             	this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function(confirmed){
             		if (confirmed) {
             			self.build(meta, 1000);

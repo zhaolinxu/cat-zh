@@ -956,7 +956,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true
+			disableTelemetry: true,
+            useLegacyTwoInRowLayout: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -2570,16 +2571,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	craftAll: function(resName){
+		var isCanceled = false;
 
 		// some way to protect people from refining all catnip during the winter
 		if (resName == "wood" && this.getResourcePerTick("catnip", true) <= 0){
-			if (!confirm("Are you sure? Your kittens will DIE")){
-				return;
-			}
+			this.ui.confirm("Are you sure?", "Your kittens will DIE", function(confirmed){
+				if (!confirmed) {
+					isCanceled = true;
+				}
+			});
 		}
 
-		this.workshop.craftAll(resName);
-		this.updateResources();
+		if (!isCanceled) {
+			this.workshop.craftAll(resName);
+			this.updateResources();
+		}
 	},
 
 	getRequiredResources: function(bld){
