@@ -101,7 +101,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				this.game.upgrade({
 					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 				});
-				this.game.msg("Your alicorn was corrupted by the markers!", "important");
+				this.game.msg($I("religion.msg.corruption"), "important");
 			}
 		} else {
 			this.corruption = 0;
@@ -115,8 +115,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	zigguratUpgrades: [{
 		name: "unicornTomb",
-		label: "Unicorn Tomb",
-		description: "Improves your unicorns generation by 5%",
+		label: $I("religion.zu.unicornTomb.label"),
+		description: $I("religion.zu.unicornTomb.desc"),
 		prices: [
 			{ name : "ivory", val: 500 },
 			{ name : "tears", val: 5 }
@@ -132,8 +132,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "ivoryTower",
-		label: "Ivory Tower",
-		description: "Improves your unicorns generation by 10%, unlocks Unicorn Rifts",
+		label: $I("religion.zu.ivoryTower.label"),
+		description: $I("religion.zu.ivoryTower.desc"),
 		prices: [
 			{ name : "ivory", val: 25000 },
 			{ name : "tears", val: 25 }
@@ -150,8 +150,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "ivoryCitadel",
-		label: "Ivory Citadel",
-		description: "Improves your unicorns generation by 25%, summons Ivory Meteors",
+		label: $I("religion.zu.ivoryCitadel.label"),
+		description: $I("religion.zu.ivoryCitadel.desc"),
 		prices: [
 			{ name : "ivory", val: 50000 },
 			{ name : "tears", val: 50 }
@@ -168,8 +168,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "skyPalace",
-		label: "Sky Palace",
-		description: "Improves your unicorns generation by 50%. There was a legend of ancient and mysterious beings inhabitings this place long ago.",
+		label: $I("religion.zu.skyPalace.label"),
+		description: $I("religion.zu.skyPalace.desc"),
 		prices: [
 			{ name : "ivory", val: 250000 },
 			{ name : "tears", val: 500 }
@@ -200,8 +200,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "unicornUtopia",
-		label: "Unicorn Utopia",
-		description: "Improves your unicorns generation by 250%. Increase alicorn summon chance. Improves TC refine ratio by 5%",
+		label: $I("religion.zu.unicornUtopia.label"),
+		description: $I("religion.zu.unicornUtopia.desc"),
 		prices: [
 			{ name : "ivory", val: 1000000 },
 			{ name : "tears", val: 5000 }
@@ -234,10 +234,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},{
 		name: "sunspire",
-		label: "Sunspire",
+		label: $I("religion.zu.sunspire.label"),
 
 		//TODO: make SSPIRE make something really interesting
-		description: "Improves your unicorns generation by 500%. Increase alicorn summon chance by significant amount. Improves TC refine ratio by 10%",
+		description: $I("religion.zu.sunspire.desc"),
 		prices: [
 			{ name : "ivory", val: 1500000 },
 			{ name : "tears", val: 25000 }
@@ -267,8 +267,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: false
 	},{
 		name: "marker",
-		label: "Marker",
-		description: "A strange structure made of unknown metal and serving unidentified purpose.",
+		label: $I("religion.zu.marker.label"),
+		description: $I("religion.zu.marker.desc"),
 		prices: [
 			{ name : "spice", val: 50000 },
 			{ name : "tears", val: 5000 },
@@ -282,8 +282,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "unicornGraveyard",
-		label: "Unicorn Graveyard",
-		description: "Grave of the fireflies.",
+		label: $I("religion.zu.unicornGraveyard.label"),
+		description: $I("religion.zu.unicornGraveyard.desc"),
 		prices: [
 			{ name : "necrocorn", val: 5 },
 			{ name : "megalith", val: 1000 }
@@ -298,8 +298,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false
 	},{
 		name: "blackPyramid",
-		label: "Black Pyramid",
-		description: "A dark relic of unspeakable horrors.",
+		label: $I("religion.zu.blackPyramid.label"),
+		description: $I("religion.zu.blackPyramid.desc"),
 		prices: [
 			{ name : "spice", val: 150000 },
 			{ name : "sorrow", val: 5 },
@@ -314,8 +314,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	religionUpgrades:[{
 		name: "solarchant",
-		label: "Solar Chant",
-		description: "Improves your faith generation rate by 10%",
+		label: $I("religion.ru.solarchant.label"),
+		description: $I("religion.ru.solarchant.desc"),
 		prices: [
 			{ name : "faith", val: 100 }
 		],
@@ -330,8 +330,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "scholasticism",
-		label: "Scholasticism",
-		description: "Temples will give a bonus to science",
+		label: $I("religion.ru.scholasticism.label"),
+		description: $I("religion.ru.scholasticism.desc"),
 		prices: [
 			{ name : "faith", val: 250 }
 		],
@@ -349,8 +349,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "goldenSpire",
-		label: "Golden Spire",
-		description: "Temples can store 50% more max faith",
+		label: $I("religion.ru.goldenSpire.label"),
+		description: $I("religion.ru.goldenSpire.desc"),
 		prices: [
 			{ name : "faith", val: 350 },
 			{ name : "gold",  val: 150 }
@@ -369,8 +369,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "sunAltar",
-		label: "Sun Altar",
-		description: "Every temple will improve happiness by 0.5%",
+		label: $I("religion.ru.sunAltar.label"),
+		description: $I("religion.ru.sunAltar.desc"),
 		prices: [
 			{ name : "faith", val: 500 },
 			{ name : "gold",  val: 250 }
@@ -389,8 +389,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "stainedGlass",
-		label: "Stained Glass",
-		description: "Every temple will generate twice as much culture",
+		label: $I("religion.ru.stainedGlass.label"),
+		description: $I("religion.ru.stainedGlass.desc"),
 		prices: [
 			{ name : "faith", val: 500 },
 			{ name : "gold",  val: 250 }
@@ -409,8 +409,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "solarRevolution",
-		label: "Solar Revolution",
-		description: "Accumulated faith will give a small boost to resource production.",
+		label: $I("religion.ru.solarRevolution.label"),
+		description: $I("religion.ru.solarRevolution.desc"),
 		prices: [
 			{ name : "faith", val: 750 },
 			{ name : "gold",  val: 500 }
@@ -422,8 +422,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		noStackable: true
 	},{
 		name: "basilica",
-		label: "Basilica",
-		description: "Temples generate more culture and expand cultural limits",
+		label: $I("religion.ru.basilica.label"),
+		description: $I("religion.ru.basilica.desc"),
 		prices: [
 			{ name : "faith", val: 1250 },
 			{ name : "gold",  val: 750 }
@@ -442,8 +442,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "templars",
-		label: "Templars",
-		description: "Temples have a small impact on the catpower limit",
+		label: $I("religion.ru.templars.label"),
+		description: $I("religion.ru.templars.desc"),
 		prices: [
 			{ name : "faith", val: 3500 },
 			{ name : "gold",  val: 3000 }
@@ -462,8 +462,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 2.5
 	},{
 		name: "apocripha",
-		label: "Apocrypha",
-		description: "Grants the ability to discard accumulated faith to improve effectiveness of praying",
+		label: $I("religion.ru.apocripha.label"),
+		description: $I("religion.ru.apocripha.desc"),
 		prices: [
 			{ name : "faith", val: 5000 },
 			{ name : "gold",  val: 5000 }
@@ -475,8 +475,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		noStackable: true
 	},{
 		name: "transcendence",
-		label: "Transcendence",
-		description: "Unlocks additional religion upgrades",
+		label: $I("religion.ru.transcendence.label"),
+		description: $I("religion.ru.transcendence.desc"),
 		prices: [
 			{ name : "faith", val: 7500 },
 			{ name : "gold",  val: 7500 }
@@ -494,8 +494,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	transcendenceUpgrades: [
 	{
 		name: "blackObelisk",
-		label: "Black Obelisk",
-		description: "Improves your faith bonus.<br />Every Black Obelisk will improve your transcendance level bonus by 5%.",
+		label: $I("religion.tu.blackObelisk.label"),
+		description: $I("religion.tu.blackObelisk.desc"),
 		prices: [
 			{ name : "relic", val: 100 }
 		],
@@ -503,12 +503,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {},
 		unlocked: false,
-		flavor: "TBD" // flavor is TBD but the faith bonus improvement is already done
+		flavor: $I("religion.tu.blackObelisk.flavor")
 	},{
 		name: "blackNexus",
-		label: "Black Nexus",
-		description: "Improves the rate you refine time crystals into relics.<br />Every Black Nexus will increase your Relic Refine efficiency by the number of Black Pyramid.<br>" +
-			"This effect also boosts the effectiveness of Relic Stations",
+		label: $I("religion.tu.blackNexus.label"),
+		description: $I("religion.tu.blackNexus.desc"),
 		prices: [
 			{ name : "relic", val: 5000 }
 		],
@@ -518,11 +517,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"relicRefineRatio" : 1.0
 		},
 		unlocked: false,
-		flavor: "Eye in the sky."
+		flavor: $I("religion.tu.blackNexus.flavor")
 	},{
 		name: "blackCore",
-		label: "Black Core",
-		description: "Alter and corrupt the laws of the reality on a minor scale.<br />Every level of Black Core increases BLS limit by 1%.",
+		label: $I("religion.tu.blackCore.label"),
+		description: $I("religion.tu.blackCore.desc"),
 		prices: [
 			{ name : "relic", val: 10000 }
 		],
@@ -532,11 +531,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"blsLimit" : 1
 		},
 		unlocked: false,
-		flavor: "Built with the bones of kitten sacrifices."
+		flavor: $I("religion.tu.blackCore.flavor")
 	},{
 		name: "singularity",
-		label: "Event Horizon",
-		description: "Improve global resource limits by 10%",
+		label: $I("religion.tu.singularity.label"),
+		description: $I("religion.tu.singularity.desc"),
 		prices: [
 			{ name : "relic", val: 25000 }
 		],
@@ -546,11 +545,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"globalResourceRatio" : 0.10
 		},
 		unlocked: false,
-		flavor: "A gateway... To what?"
+		flavor: $I("religion.tu.singularity.flavor")
 	},{
 		name: "blazar",
-		label: "Blazar",
-		description: "Improve time-related structures",
+		label: $I("religion.tu.blazar.label"),
+		description: $I("religion.tu.blazar.desc"),
 		prices: [
 			{ name : "relic", val: 50000 }
 		],
@@ -562,11 +561,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"rrRatio" : 0.02
 		},
 		unlocked: false,
-		flavor: "Tiger tiger burning bright."
+		flavor: $I("religion.tu.blazar.flavor")
 	},{
 		name: "darkNova",
-		label: "Dark Nova",
-		description: "Improves global energy production by 2%",
+		label: $I("religion.tu.darkNova.label"),
+		description: $I("religion.tu.darkNova.desc"),
 		prices: [
 			{ name : "relic", val: 75000 },
 			{ name : "void",  val: 7500 }
@@ -577,11 +576,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"energyProductionRatio": 0.02
 		},
 		unlocked: false,
-		flavor: "The stars are dead. Just like our hopes and dreams."
+		flavor: $I("religion.tu.darkNova.flavor")
 	},{
 		name: "holyGenocide",
-		label: "Holy Genocide",
-		description: "And tear will not fall down",
+		label: $I("religion.tu.holyGenocide.label"),
+		description: $I("religion.tu.holyGenocide.desc"),
 		prices: [
 			{ name : "relic", val: 100000 },
 			{ name : "void", val: 25000 }
@@ -591,7 +590,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 		},
 		unlocked: false,
-		flavor: "We live on a placid island of ignorance in the midst of black seas of infinity, and it was not meant that we should voyage far."
+		flavor: $I("religion.tu.holyGenocide.flavor")
 	}
 		//Holy Genocide
 	],
@@ -628,7 +627,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
 		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
-		this.game.msg("You have accumulated +" + this.game.getDisplayValueExt(faith.value, false, false, 0) + " units of faith");
+		this.game.msg($I("religion.praise.msg", [this.game.getDisplayValueExt(faith.value, false, false, 0)]));
 		faith.value = 0.0001;	//have a nice autoclicking
 
 	},
@@ -641,11 +640,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			return;	//:3
 		}
 		var self = this;
-		this.game.ui.confirm("Transcend?", "Are you sure you want to discard your praise bonus ?" +
-				"\n\nYou can reach a special transcendence level sacrificing your praise bonus." +
-				"\n\nEvery level requires proportionally more faith bonus to be sacrificed." +
-				"\n\nThis bonus will stack and carry over through resets." +
-				"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR PRAISE'S FAITH BONUS.", function(result) {
+		this.game.ui.confirm($I("religion.transcend.confirm.title"), $I("religion.transcend.confirm.msg"), function(result) {
 			if (!result) {
 				return;
 			}
@@ -658,7 +653,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				religion.tcratio += needNextLevel;
 				religion.tclevel += 1;
 
-				self.game.msg("You have transcended the mortal limits. T-level: " + religion.tclevel );
+				self.game.msg($I("religion.transcend.msg.success", [religion.tclevel]));
 			} else {
 				var progressPercentage = self.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
 				var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
@@ -666,7 +661,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 					leftNumber = 0;
 				}
 				var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
-				self.game.msg("One step closer: " + progressNumber + " (" + progressPercentage + "%)");
+				self.game.msg($I("religion.transcend.msg.failure", [progressNumber, progressPercentage]));
 			}
 		});
 
@@ -807,7 +802,7 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 		var model = this.inherited(arguments);
 		model.allLink = {
 			visible: true,
-			title: "all",
+			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event){
 				var self = this;
 				this.animate();
@@ -876,7 +871,7 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 		this.game.resPool.addResEvent("tears", tearCount);
 		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
 
-		this.game.msg(this.game.getDisplayValueExt(unicornCount) + " unicorns have been sacrificed. You've got " + this.game.getDisplayValueExt(tearCount) + " unicorn tears!");
+		this.game.msg($I("religion.sacrificeBtn.sacrifice.msg", [this.game.getDisplayValueExt(unicornCount), this.game.getDisplayValueExt(tearCount)]));
 		return true;
 	}
 
@@ -920,7 +915,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 		var model = this.inherited(arguments);
 		model.allLink = {
 			visible: true,
-			title: "all",
+			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event){
 				this.animate();
 				this.controller.sacrificeAll(this.model, event, function(result) {
@@ -990,7 +985,7 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 			zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 		});
 
-		this.game.msg(alicornsCount + " alicorns have been banished. You've got " + this.game.getDisplayValueExt(tcAmt) + " time crystal" + (tcAmt == 1 ? "" : "s") + "!");
+		this.game.msg($I("religion.sacrificeAlicornsBtn.sacrifice.msg", [alicornsCount, this.game.getDisplayValueExt(tcAmt)]));
 		return true;
 	},
 
@@ -1012,7 +1007,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.
 	buyItem: function(model, event, callback){
 		if (model.enabled && this.hasResources(model)) {
 			if (this.game.resPool.get("sorrow").value >= this.game.resPool.get("sorrow").maxValue){
-				this.game.msg("Nothing happens");
+				this.game.msg($I("religion.refineTearsBtn.refine.msg.failure"));
 				callback(false);
 				return;
 			}
@@ -1056,7 +1051,7 @@ dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.gam
 	refine: function(){
 		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
 		this.game.resPool.addResEvent("relic", relicsCount);
-		this.game.msg(relicsCount + " relics crafted");
+		this.game.msg($I("religion.refineTCsBtn.refine.msg", [relicsCount]));
 	},
 
 	updateVisible: function(model){
@@ -1108,7 +1103,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		this.zgUpgradeButtons = [];
 		this.rUpgradeButtons = [];
 
-		var ctPanel = new classes.ui.CryptotheologyPanel("Cryptotheology");
+		var ctPanel = new classes.ui.CryptotheologyPanel($I("religion.panel.cryptotheology.label"));
 		ctPanel.game = this.game;
 
 		this.addChild(ctPanel);
@@ -1127,12 +1122,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		var zigguratCount = game.bld.get("ziggurat").on;
 		if (zigguratCount > 0){
-			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel("Ziggurats", game.religion);
+			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.ziggurat.label"), game.religion);
 			var content = zigguratPanel.render(container);
 
 			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
-				name: "Sacrifice Unicorns",
-				description: "Return the unicorns to the Unicorn Dimension. You will receive one Unicorn Tear for every ziggurat you have.",
+				name: $I("religion.sacrificeBtn.label"),
+				description: $I("religion.sacrificeBtn.desc"),
 				prices: [{ name: "unicorns", val: 2500}],
 				controller: new classes.ui.religion.SacrificeBtnController(game)
 			}, game);
@@ -1140,8 +1135,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.sacrificeBtn = sacrificeBtn;
 
 			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeBtn({
-				name: "Sacrifice Alicorns",
-				description: "Banish the alicorns to the Bloodmoon. You will receive a Time Crystal.",
+				name: $I("religion.sacrificeAlicornsBtn.label"),
+				description: $I("religion.sacrificeAlicornsBtn.desc"),
 				prices: [{ name: "alicorn", val: 25}],
 				controller: new classes.ui.religion.SacrificeAlicornsBtnController(game)
 			}, game);
@@ -1149,8 +1144,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
 
 			var refineBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: "Refine Tears",
-				description: "Refine Unicorn Tears into a Black Liquid Sorrow.",
+				name: $I("religion.refineTearsBtn.label"),
+				description: $I("religion.refineTearsBtn.desc"),
 				prices: [{ name: "tears", val: 10000}],
 				controller: new classes.ui.religion.RefineTearsBtnController(game)
 			}, game);
@@ -1158,8 +1153,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.refineBtn = refineBtn;
 
 			var refineTCBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: "Refine Time Crystals",
-				description: "Refine Time Crystals into the elder relics.",
+				name: $I("religion.refineTCsBtn.label"),
+				description: $I("religion.refineTCsBtn.desc"),
 				prices: [{ name: "timeCrystal", val: 25}],
 				controller: new classes.ui.religion.RefineTCBtnController(game)
 			}, game);
@@ -1188,7 +1183,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		if (game.challenges.currentChallenge != "atheism") {
 			//------------------- religion -------------------
-			var religionPanel = new com.nuclearunicorn.game.ui.Panel("Order of the Sun", game.religion);
+			var religionPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
 			var content = religionPanel.render(container);
 
 			var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
@@ -1197,14 +1192,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			//----------------------- reset -----------------------
 			var faithResetBtn = dojo.create("a", { style: { paddingLeft: "10px", marginBottom: "10px", display: "none"},
 				href: "#",
-				innerHTML: "[Reset]"
+				innerHTML: $I("religion.faithResetBtn.label")
 			}, content);
 			this.faithResetBtn = faithResetBtn;
 			dojo.connect(this.faithResetBtn, "onclick", this, "resetFaith");
 
 			var praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: "Praise the sun!",
-				description: "Convert all your accumulated faith to the total pool",
+				name: $I("religion.praiseBtn.label"),
+				description: $I("religion.praiseBtn.desc"),
 				controller: new com.nuclearunicorn.game.ui.PraiseBtnController(game),
 				handler: function(){
 					this.game.religion.praise();	//sigh, enjoy your automation scripts
@@ -1236,8 +1231,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 
 			var transcendBtn = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: "Transcend",
-				description: "Transcend the mortal limits",
+				name: $I("religion.transcendBtn.label"),
+				description: $I("religion.transcendBtn.desc"),
 				controller: new com.nuclearunicorn.game.ui.TranscendBtnController(game),
 				handler: function(btn) {
 					game.religion.transcend();
@@ -1289,14 +1284,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 
 			if (religion.faith && this.faithCount){
-				this.faithCount.innerHTML = "Total faith: " + this.game.getDisplayValueExt(religion.faith);
+				this.faithCount.innerHTML = $I("religion.faithCount.pool", [this.game.getDisplayValueExt(religion.faith)]);
 			} else {
 				this.faithCount.innerHTML = "";
 			}
 
 			var bonus = religion.getProductionBonus();
 			if (bonus != 0) {
-				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% bonus)" );
+				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% " + $I("religion.faithCount.bonus") + ")" );
 			}
 
 			if (religion.getRU("apocripha").on){
@@ -1322,10 +1317,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			return;	//trust no one
 		}
 		var self = this;
-		this.game.ui.confirm("", "Are you sure you want to reset the pool?" +
-			"\n\nYou will get +10% to faith conversion per 100K of faith." +
-			"\n\nThis bonus will carry over through resets." +
-			"\n\nCLICKING THIS BUTTON WILL ERASE PART OF YOUR FAITH BONUS.", function(confirmed){
+		this.game.ui.confirm("", $I("religion.resetFaith.confirm.msg"), function(confirmed){
 				if (confirmed) {
 					self.resetFaithInternal(1.01);
 				}
