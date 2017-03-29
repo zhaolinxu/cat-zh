@@ -224,13 +224,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 	effectMeta: function(effectName) {
 		var game = this.game;
-		for (var i = 0; i < game.resPool.resourceData.length; i++) {
-			if (effectName.indexOf(game.resPool.resourceData[i].name) == 0) {
-				var resname = game.resPool.resourceData[i].name;
-				var restitle = (game.resPool.resourceData[i].title) ? game.resPool.resourceData[i].title : resname;
+		for (var i = 0; i < game.resPool.resources.length; i++) {
+			var res = game.resPool.resources[i];
+			if (effectName.indexOf(res.name) == 0) {
+				var resname = res.name;
+				var restitle = res.title || resname;
 				restitle = restitle.charAt(0).toUpperCase() + restitle.substring(1, restitle.length);
 				var type = effectName.substring(resname.length, effectName.length);
-				continue;
+				break;
 			}
 		}
 
@@ -253,36 +254,36 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				};
 			case type == "Max":
 				return {
-					title: "Max " + restitle,
+					title: $I("effectsMgr.type.resMax", [restitle]),
 					resname: resname
 				};
 			case type == "Ratio":
 				return {
-					title: restitle + " bonus",
+					title: $I("effectsMgr.type.resRatio", [restitle]),
 					resname: resname,
 					type: "ratio"
 				};
 			case type == "DemandRatio":
 				return {
-					title: restitle + " demand reduction",
+					title: $I("effectsMgr.type.resDemandRatio", [restitle]),
 					resname: resname,
 					type: "ratio"
 				};
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
-					title: restitle + " production",
+					title: $I("effectsMgr.type.resProduction", [restitle]),
 					resname: resname,
 					type: "perTick"
 				};
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
-					title: restitle + " conversion",
+					title: $I("effectsMgr.type.resConversion", [restitle]),
 					resname: resname,
 					type: "perTick"
 				};
 			case type == "CraftRatio":
 				return {
-					title: restitle + " craft bonus",
+					title: $I("effectsMgr.type.resCraftRatio", [restitle]),
 					resname: resname,
 					type: "ratio"
 				};
@@ -295,533 +296,533 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 		effectMeta: {
 			// Specials meta of resources
 			"catnipJobRatio" : {
-				title: "Farmer tools",
+				title: $I("effectsMgr.statics.catnipJobRatio.title"),
 				resName: "catnip",
 				type: "ratio"
 			},
 
 			"catnipDemandWorkerRatioGlobal": {
-				title: "Workers catnip demand reduction",
+				title: $I("effectsMgr.statics.catnipDemandWorkerRatioGlobal.title"),
 				resName: "catnip",
 				type: "ratio"
 			},
 
 			"woodJobRatio" : {
-				title: "Woodcutter tools",
+				title: $I("effectsMgr.statics.woodJobRatio.title"),
 				resName: "wood",
 				type: "ratio"
 			},
 
 			"manpowerJobRatio" : {
-				title: "Hunter tools",
+				title: $I("effectsMgr.statics.manpowerJobRatio.title"),
 				resName: "manpower",
 				type: "ratio"
 			},
 
 			"coalRatioGlobal" : {
-				title: "Coal production penalty",
+				title: $I("effectsMgr.statics.coalRatioGlobal.title"),
 				resName: "coal",
 				type: "ratio"
 			},
 
 			"coalRatioGlobalReduction" : {
-				title: "Coal production penalty reduction",
+				title: $I("effectsMgr.statics.coalRatioGlobalReduction.title"),
 				resName: "coal",
 				type: "ratio"
 			},
 
 			"oilReductionRatio" : {
-				title: "Oil consumption reduction",
+				title: $I("effectsMgr.statics.oilReductionRatio.title"),
 				type: "ratio"
 			},
 
 			//kittens
 
 			"maxKittens" : {
-				title: "Kittens"
+				title: $I("effectsMgr.statics.maxKittens.title")
 			},
 
 			"antimatterProduction": {
-				title: "Antimatter production",
+				title: $I("effectsMgr.statics.antimatterProduction.title"),
 				type: "perYear"
 			},
 
 			"temporalFluxProduction": {
-				title: "Temporal Flux production",
+				title: $I("effectsMgr.statics.temporalFluxProduction.title"),
 				type: "perYear"
 			},
 
 			"temporalFluxProductionChronosphere": {
-				title: "Chronosphere's temporal flux production",
+				title: $I("effectsMgr.statics.temporalFluxProductionChronosphere.title"),
 				type: "perYear"
 			},
 
 			// Miscellaneous
 
 			"observatoryRatio" : {
-                title: "Observatory's science ratio",
+                title: $I("effectsMgr.statics.observatoryRatio.title"),
                 type: "ratio"
             },
 
 			"magnetoBoostRatio" : {
-				title: "Magneto boost",
+				title: $I("effectsMgr.statics.magnetoBoostRatio.title"),
 				resName: "oil",				//this is sort of hack to prevent early spoiler on magnetos
 				type: "ratio"
 			},
 
 			"learnRatio" : {
-				title: "Skills learning",
+				title: $I("effectsMgr.statics.learnRatio.title"),
 				type: "perTick"
 			},
 
 			"refineRatio": {
-				title: "Catnip refine bonus",
+				title: $I("effectsMgr.statics.refineRatio.title"),
 				type: "ratio"
 			},
 
 			"craftRatio": {
-				title: "Craft bonus",
+				title: $I("effectsMgr.statics.craftRatio.title"),
 				type: "ratio"
 			},
 
 			"happiness": {
-				title: "Happiness"
+				title: $I("effectsMgr.statics.happiness.title")
 			},
 
 			"unhappinessRatio": {
-				title: "Unhappiness reduction",
+				title: $I("effectsMgr.statics.unhappinessRatio.title"),
 				type: "ratio"
 			},
 
 			"tradeRatio": {
-				title: "Trade ratio",
+				title: $I("effectsMgr.statics.tradeRatio.title"),
 				type: "ratio"
 			},
 
 			"standingRatio": {
-				title: "Standing ratio",
+				title: $I("effectsMgr.statics.standingRatio.title"),
 				type: "ratio"
 			},
 
 			"resStasisRatio": {
-				title: "Res-Stasis ratio",
+				title: $I("effectsMgr.statics.resStasisRatio.title"),
 				type: "ratio"
 			},
 
 			"beaconRelicsPerDay": {
-				title: "Relic production",
+				title: $I("effectsMgr.statics.beaconRelicsPerDay.title"),
 				type: "perDay"
 			},
 
 			"relicPerDay": {
-				title: "Relic production",
+				title: $I("effectsMgr.statics.relicPerDay.title"),
 				type: "perDay"
 			},
 
 			"routeSpeed": {
-				title: "Space travel speed",
+				title: $I("effectsMgr.statics.routeSpeed.title"),
 				type: "fixed"
 			},
 
 			// energy
 
 			"energyProduction": {
-				title: "Energy production",
+				title: $I("effectsMgr.statics.energyProduction.title"),
 				type: "energy"
 			},
 			"energyConsumption": {
-				title: "Energy consumption",
+				title: $I("effectsMgr.statics.energyConsumption.title"),
 				type: "energy"
             },
 
 			"energyProductionRatio": {
-				title: "Energy production bonus",
+				title: $I("effectsMgr.statics.energyProductionRatio.title"),
 				type: "ratio"
 			},
 
 			//production
 
             "productionRatio" : {
-                title: "Production bonus",
+                title: $I("effectsMgr.statics.productionRatio.title"),
                 type: "ratio"
             },
 
             "magnetoRatio" : {
-                title: "Production bonus",
+                title: $I("effectsMgr.statics.magnetoRatio.title"),
                 type: "ratio"
             },
 
             "spaceRatio" : {
-				title: "Space production bonus",
+				title: $I("effectsMgr.statics.spaceRatio.title"),
 				type: "ratio"
 			},
 
 			"prodTransferBonus": {
-				title: "Transferred cath production bonus",
+				title: $I("effectsMgr.statics.prodTransferBonus.title"),
 				type: "ratio"
 			},
 
             //starEvent
 
             "starEventChance" : {
-                title: "Astronomical event chance",
+                title: $I("effectsMgr.statics.starEventChance.title"),
                 type: "ratio"
             },
 
             "starAutoSuccessChance" : {
-                title: "Auto astronomical event chance",
+                title: $I("effectsMgr.statics.starAutoSuccessChance.title"),
                 type: "ratio"
             },
 
             //in the tab workshop
             "lumberMillRatio" : {
-                title: "Lumber Mill bonus",
+                title: $I("effectsMgr.statics.lumberMillRatio.title"),
                 type: "ratio"
             },
 
             "barnRatio" : {
-                title: "Barn expansion",
+                title: $I("effectsMgr.statics.barnRatio.title"),
                 type: "ratio"
             },
 
             "warehouseRatio" : {
-                title: "Warehouse expansion",
+                title: $I("effectsMgr.statics.warehouseRatio.title"),
                 type: "ratio"
             },
 
             "acceleratorRatio" : {
-                title: "Accelerator expansion",
+                title: $I("effectsMgr.statics.acceleratorRatio.title"),
                 type: "ratio"
             },
 
             "harborRatio" : {
-                title: "Harbor'ship expansion",
+                title: $I("effectsMgr.statics.harborRatio.title"),
                 type: "ratio"
             },
 
             "harborCoalRatio" : {
-                title: "Harbor coal expansion",
+                title: $I("effectsMgr.statics.harborCoalRatio.title"),
                 type: "ratio"
             },
 
             "catnipMaxRatio" : {
-                title: "Catnip storage expansion",
+                title: $I("effectsMgr.statics.catnipMaxRatio.title"),
                 type: "ratio"
             },
 
             "hunterRatio" : {
-                title: "Hunting effectivness",
+                title: $I("effectsMgr.statics.hunterRatio.title"),
                 type: "ratio"
             },
 
             "solarFarmRatio" : {
-                title: "Solar Farm bonus",
+                title: $I("effectsMgr.statics.solarFarmRatio.title"),
                 type: "ratio"
             },
 
             "shipLimit" : {
-                title: "Ship limit effect",
+                title: $I("effectsMgr.statics.shipLimit.title"),
                 type: "ratio"
             },
 
             "hutPriceRatio" : {
-                title: "Hut price reduction",
+                title: $I("effectsMgr.statics.hutPriceRatio.title"),
                 type: "ratio"
             },
 
             "coalSuperRatio" : {
-                title: "Coal bonus",
+                title: $I("effectsMgr.statics.coalSuperRatio.title"),
                 type: "ratio"
             },
 
             "smelterRatio" : {
-                title: "Smelter bonus",
+                title: $I("effectsMgr.statics.smelterRatio.title"),
                 type: "ratio"
             },
 
             "calcinerRatio" : {
-                title: "Calciner bonus",
+                title: $I("effectsMgr.statics.calcinerRatio.title"),
                 type: "ratio"
             },
 
             "calcinerSteelRatio" : {
-                title: "Calciner steel production",
+                title: $I("effectsMgr.statics.calcinerSteelRatio.title"),
                 type: "ratio"
             },
 
             "calcinerSteelCraftRatio" : {
-                title: "Steel plants's calciner bonus",
+                title: $I("effectsMgr.statics.calcinerSteelCraftRatio.title"),
                 type: "ratio"
             },
 
             "calcinerSteelReactorBonus" : {
-                title: "Calciner steel production bonus",
+                title: $I("effectsMgr.statics.calcinerSteelReactorBonus.title"),
                 type: "ratio"
             },
 
             "libraryRatio" : {
-                title: "Library bonus",
+                title: $I("effectsMgr.statics.libraryRatio.title"),
                 type: "ratio"
             },
 
             "hydroPlantRatio" : {
-                title: "Hydro Plant bonus",
+                title: $I("effectsMgr.statics.hydroPlantRatio.title"),
                 type: "ratio"
             },
 
             "spaceScienceRatio" : {
-                title: "Space science bonus",
+                title: $I("effectsMgr.statics.spaceScienceRatio.title"),
                 type: "ratio"
             },
 
             "oilWellRatio" : {
-                title: "Oil bonus",
+                title: $I("effectsMgr.statics.oilWellRatio.title"),
                 type: "ratio"
             },
 
             "unicornsGlobalRatio" : {
-                title: "Unicorns bonus",
+                title: $I("effectsMgr.statics.unicornsGlobalRatio.title"),
                 type: "ratio"
             },
 
             "biofuelRatio" : {
-                title: "Bio Fuel bonus",
+                title: $I("effectsMgr.statics.biofuelRatio.title"),
                 type: "ratio"
             },
 
             "cadBlueprintCraftRatio" : {
-                title: "Blueprint craft bonus",
+                title: $I("effectsMgr.statics.cadBlueprintCraftRatio.title"),
                 type: "ratio"
             },
 
             "skillMultiplier" : {
-                title: "Kitten's skill effect",
+                title: $I("effectsMgr.statics.skillMultiplier.title"),
                 type: "ratio"
             },
 
             "uraniumRatio" : {
-                title: "Uranium savings",
+                title: $I("effectsMgr.statics.uraniumRatio.title"),
                 type: "ratio"
             },
 
             "reactorEnergyRatio" : {
-                title: "Reactor energy bonus",
+                title: $I("effectsMgr.statics.reactorEnergyRatio.title"),
                 type: "ratio"
             },
 
 			"reactorThoriumPerTick" : {
-                title: "Reactor thorium consumption",
+                title: $I("effectsMgr.statics.reactorThoriumPerTick.title"),
                 type: "perTick"
             },
 
             "starchartGlobalRatio" : {
-                title: "Starchart bonus",
+                title: $I("effectsMgr.statics.starchartGlobalRatio.title"),
                 type: "ratio"
             },
 
             "satnavRatio" : {
-                title: "Ship's cost savings",
+                title: $I("effectsMgr.statics.satnavRatio.title"),
                 type: "ratio"
             },
 
             "broadcastTowerRatio" : {
-                title: "Broadcast Tower bonus",
+                title: $I("effectsMgr.statics.broadcastTowerRatio.title"),
                 type: "ratio"
             },
 
             "cultureMaxRatio" : {
-                title: "Max Culture bonus",
+                title: $I("effectsMgr.statics.cultureMaxRatio.title"),
                 type: "ratio"
             },
 
             "lunarOutpostRatio" : {
-                title: "Lunar Outpost bonus",
+                title: $I("effectsMgr.statics.lunarOutpostRatio.title"),
                 type: "ratio"
             },
 
             "crackerRatio" : {
-                title: "Cracker bonus",
+                title: $I("effectsMgr.statics.crackerRatio.title"),
                 type: "ratio"
             },
 
             "factoryRefineRatio" : {
-                title: "Factory refine bonus",
+                title: $I("effectsMgr.statics.factoryRefineRatio.title"),
                 type: "ratio"
             },
 
             "timeRatio" :  {
-                title: "Temporal flux bonus",
+                title: $I("effectsMgr.statics.timeRatio.title"),
                 type: "ratio"
             },
 
             "temporalParadoxVoid" :  {
-                title: "Max void",
+                title: $I("effectsMgr.statics.temporalParadoxVoid.title"),
                 type: "perDay"
             },
 
             "temporalParadoxDay" :  {
-                title: "Day in temporal paradox",
+                title: $I("effectsMgr.statics.temporalParadoxDay.title"),
                 type: "fixed"
             },
 
             "temporalParadoxDayBonus" :  {
-                title: "Day in temporal paradox",
+                title: $I("effectsMgr.statics.temporalParadoxDayBonus.title"),
                 type: "fixed"
             },
 
 			"unicornsRatioReligion" :  {
-                title: "Unicorns bonus",
+                title: $I("effectsMgr.statics.unicornsRatioReligion.title"),
                 type: "ratio"
             },
 
 			"riftChance" :  {
-                title: "Unicorns rift chance",
+                title: $I("effectsMgr.statics.riftChance.title"),
                 type: "fixed"
             },
 
 			"ivoryMeteorChance" :  {
-                title: "Ivory meteor chance",
+                title: $I("effectsMgr.statics.ivoryMeteorChance.title"),
                 type: "fixed"
             },
 
             "ivoryMeteorRatio" :  {
-                title: "Ivory meteor bonus",
+                title: $I("effectsMgr.statics.ivoryMeteorRatio.title"),
                 type: "ratio"
             },
 
 			"alicornChance" :  {
-                title: "Alicorns descent chance",
+                title: $I("effectsMgr.statics.alicornChance.title"),
                 type: "fixed"
             },
 
 			"tcRefineRatio" :  {
-                title: "Alicorns sacrifice bonus",
+                title: $I("effectsMgr.statics.tcRefineRatio.title"),
                 type: "ratio"
             },
 
 			"corruptionRatio" :  {
-                title: "Corruption ratio",
+                title: $I("effectsMgr.statics.corruptionRatio.title"),
                 type: "ratio"
             },
 
 			"cultureMaxRatioBonus" :  {
-                title: "Ziggurat's max culture bonus",
+                title: $I("effectsMgr.statics.cultureMaxRatioBonus.title"),
                 type: "ratio"
             },
 
 			"faithRatioReligion" :  {
-                title: "Faith bonus",
+                title: $I("effectsMgr.statics.faithRatioReligion.title"),
                 type: "ratio"
             },
 
 			"relicRefineRatio" :  {
-                title: "Relic refine bonus",
+                title: $I("effectsMgr.statics.relicRefineRatio.title"),
                 type: "ratio"
             },
 
 			"blsLimit" :  {
-                title: "Max BLS",
+                title: $I("effectsMgr.statics.blsLimit.title"),
                 type: "integerRatio"
             },
 
 			"globalResourceRatio" :  {
-                title: "Max resources bonus",
+                title: $I("effectsMgr.statics.globalResourceRatio.title"),
                 type: "ratio"
             },
 
             "shatterTCGain" :  {
-                title: "Shatter TC resources retrieved",
+                title: $I("effectsMgr.statics.shatterTCGain.title"),
                 type: "ratio"
             },
 
             "rrRatio" :  {
-                title: "Shatter TC resources retrieval bonus",
+                title: $I("effectsMgr.statics.rrRatio.title"),
                 type: "ratio"
             },
 
 			"priceRatio" :  {
-                title: "Building's prices",
+                title: $I("effectsMgr.statics.priceRatio.title"),
                 type: "ratio"
             },
 
 			"kittenGrowthRatio" :  {
-                title: "Kittens birth rate",
+                title: $I("effectsMgr.statics.kittenGrowthRatio.title"),
                 type: "ratio"
             },
 
 			"t1CraftRatio" :  {
-                title: "Class 1 engineer's know-how",
+                title: $I("effectsMgr.statics.t1CraftRatio.title"),
                 type: "fixed"
             },
 
 			"t2CraftRatio" :  {
-                title: "Class 2 engineer's know-how",
+                title: $I("effectsMgr.statics.t2CraftRatio.title"),
                 type: "fixed"
             },
 
 			"t3CraftRatio" :  {
-                title: "Class 3 engineer's know-how",
+                title: $I("effectsMgr.statics.t3CraftRatio.title"),
                 type: "fixed"
             },
 
 			"t4CraftRatio" :  {
-                title: "Class 4 engineer's know-how",
+                title: $I("effectsMgr.statics.t4CraftRatio.title"),
                 type: "fixed"
             },
 
 			"t5CraftRatio" :  {
-                title: "Class 5 engineer's know-how",
+                title: $I("effectsMgr.statics.t5CraftRatio.title"),
                 type: "fixed"
             },
 
 			// cycleEffects
 			"spaceElevator-prodTransferBonus": {
-                title: "Space Elevator - Transferred production bonus",
+                title: $I("effectsMgr.statics.spaceElevator-prodTransferBonus.title"),
                 type: "ratio"
             },
 
 			"sattelite-starchartPerTickBaseSpace": {
-                title: "Satellite - Starchart production",
+                title: $I("effectsMgr.statics.sattelite-starchartPerTickBaseSpace.title"),
                 type: "ratio"
             },
 
 			"sattelite-observatoryRatio": {
-                title: "Satellite - Observatory's science ratio",
+                title: $I("effectsMgr.statics.sattelite-observatoryRatio.title"),
                 type: "ratio"
             },
 
 			"spaceStation-scienceRatio": {
-                title: "Space Station - Science bonus",
+                title: $I("effectsMgr.statics.spaceStation-scienceRatio.title"),
                 type: "ratio"
             },
 
 			"moonOutpost-unobtainiumPerTickSpace": {
-                title: "Lunar Outpost - Unobtainium conversion",
+                title: $I("effectsMgr.statics.moonOutpost-unobtainiumPerTickSpace.title"),
                 type: "ratio"
             },
 
 			"planetCracker-uraniumPerTickSpace": {
-                title: "Planet Cracker - Uranium conversion",
+                title: $I("effectsMgr.statics.planetCracker-uraniumPerTickSpace.title"),
                 type: "ratio"
             },
 
 			"hydrofracturer-oilPerTickAutoprodSpace": {
-                title: "Hydraulic Fracturer - Oil conversion",
+                title: $I("effectsMgr.statics.hydrofracturer-oilPerTickAutoprodSpace.title"),
                 type: "ratio"
             },
 
 			"researchVessel-starchartPerTickBaseSpace": {
-                title: "Research Vessel - Starchart production",
+                title: $I("effectsMgr.statics.researchVessel-starchartPerTickBaseSpace.title"),
                 type: "ratio"
             },
 
 			"sunlifter-energyProduction": {
-                title: "Sunlifter - Energy production",
+                title: $I("effectsMgr.statics.sunlifter-energyProduction.title"),
                 type: "ratio"
             },
 
 			"spaceBeacon-starchartPerTickBaseSpace": {
-                title: "Space Beacon - Starchart production",
+                title: $I("effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title"),
                 type: "ratio"
             }
 		}
