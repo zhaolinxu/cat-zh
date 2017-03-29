@@ -287,7 +287,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }});	//calculate estimate winter per tick for catnip;
 
         if (this.game.resPool.get("catnip").value + ( winterDays * catnipPerTick / calendar.dayPerTick ) <= 0 ){
-            advDiv.innerHTML = "<span>Food advisor: 'Your catnip supply is too low!'<span>";
+            advDiv.innerHTML = "<span>"+$I("general.food.advisor.text")+"<span>";
         }
     },
 
@@ -492,7 +492,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             $("#exportData").val(encodedData);
             $("#exportData").select();
         } else {
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", encodedData);
+            window.prompt($I("general.copy.to.clipboard.prompt"), encodedData);
         }
     },
 

@@ -2136,7 +2136,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     undo: function(metaId, val){
 		var res = this.game.resPool.get(metaId);
 		var craftRatio = this.game.getResCraftRatio(res);
-		this.game.msg( this.game.getDisplayValueExt(val * (1+craftRatio)) + " " + (res.title || res.name) + " refunded");
+		this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
         this.craft(metaId, -val, true /*do not create cyclic undo*/);
     },
 
@@ -2168,7 +2168,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			var bonus = minAmt * craftRatio;
 
 			var res = this.game.resPool.get(craftName);
-			this.game.msg( "+" + this.game.getDisplayValueExt(minAmt + bonus) + " " + (res.title || craftName) + " crafted", null, "craft");
+			this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
 			this.craft(craftName, minAmt);
 		}
 	},
@@ -2257,7 +2257,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.upgrades){
 			this.unlock(this.upgrades[i]);
 		}
-		this.game.msg("All upgrades are unlocked!");
+		this.game.msg($I("workshop.all.upgrades.unlocked"));
 	}
 });
 
@@ -2563,7 +2563,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: "Craft effectiveness: +" + (this.game.getCraftRatio() * 100).toFixed(0) + "%" }, div);
+		dojo.create("span", { innerHTML: $I("workshop.craft.effectiveness", [(this.game.getCraftRatio() * 100).toFixed(0)]) }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

@@ -199,7 +199,26 @@
     "village.tab.title.village":"Village",
     "village.tab.title.smallvillage":"Small Village",
     "village.tab.title.outpost":"Outpost",
-
+    "village.new.one.unicorn": "You got a unicorn!",
+    "village.new.many.unicorns": "You got {0} unicorns!",
+    "village.job.hunter.flavor": "We're so cute we purr at our prey until it dies", 
+    "village.job.miner.flavor": "I don't really understand how can I hold a pick with my paws", 
+    "village.woodcutter.flavor": "Must. Not. Scratch.",
+    "village.leader.promoted.one.kitten": "Your leader has promoted one kitten",
+    "village.leader.promoted.many.kittens": "Your leader has promoted {0} kittens",
+    "village.general.free.kittens.label": "Free kittens", 
+    "village.kittens.have.best.rank": "Your kittens have their best rank", 
+    "village.msg.kitten.has.joined": "A kitten has joined your village", 
+    "village.tab.clear.job.confirmation": "Are you sure?", 
+    "village.trait.chemist": "Chemist", 
+    "village.trait.engineer": "Artisan", 
+    "village.trait.manager": "Manager", 
+    "village.trait.merchant": "Merchant", 
+    "village.trait.metallurgist": "Metallurgist", 
+    "village.trait.none": "None", 
+    "village.trait.scientist": "Scientist", 
+    "village.trait.wise": "Philosopher", 
+    
     "stats.kittens.total": "Total Kittens",
     "stats.kittens.dead":"Kittens Dead",
     "stats.years.total":"Total Years Played",
@@ -318,6 +337,9 @@
     "space.terminusMission.label": "T-minus Mission",
     "space.yarnMission.desc": "Yarn is a class M planet with high moderate climate, seas and oxygen atmosphere.",
     "space.yarnMission.label": "Yarn Mission",
+
+    "void.spaceCathedral.desc": "TBD.", 
+    "void.spaceCathedral.label": "Space Cathedral",
 
     "prestige.engeneering.desc": "Reduce all price ratios by 1%. Unlocks more price upgrades.",
     "prestige.engeneering.label": "Engineering",
@@ -890,6 +912,15 @@
     "workshop.craftPanel.header.freeEngineers": "Free engineers",
     "workshop.craftPanel.header.tooltip": "You will gain one engineer slot per factory.<br>Every engineer can be assigned to the crafting job which they will perform automatically.",
     "workshop.craftPanel.counts.label": "Stuff",
+    "workshop.undo.msg": "{0} {1} refunded",
+    "workshop.crafted.msg": "+{0} {1} crafted",
+    "workshop.all.upgrades.unlocked": "All upgrades are unlocked!",
+    "workshop.craft.effectiveness": "Craft effectiveness: +{0}%",
+
+    "general.copy.to.clipboard.prompt": "Copy to clipboard: Ctrl+C, Enter", 
+    "general.food.advisor.text": "Food advisor: 'Your catnip supply is too low!'",
+
+    
 
     "resources.catnip.title": "catnip",
     "resources.wood.title": "wood",

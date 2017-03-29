@@ -24,7 +24,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		value: 0,
 		unlocked: true,
 		defaultUnlocked: true,
-        flavor: "Must. Not. Scratch."
+        flavor: $I("village.woodcutter.flavor")
 	},{
 		name: "farmer",
 		title: $I("village.job.farmer"),
@@ -64,7 +64,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
-        flavor: "We're so cute we purr at our prey until it dies"
+        flavor: $I("village.job.hunter.flavor")
 	},{
 		name: "miner",
 		title: $I("village.job.miner"),
@@ -75,7 +75,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
-        flavor: "I don't really understand how can I hold a pick with my paws"
+        flavor: $I("village.job.miner.flavor")
 	},{
 		name: "priest",
 		title: $I("village.job.priest"),
@@ -635,7 +635,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		if (totalYield.unicorns > 0){
-			this.game.msg("You got " + (Math.round(totalYield.unicorns) === 1 ? "a unicorn!" : + this.game.getDisplayValueExt(totalYield.unicorns) + " unicorns!"), "important", "hunt");
+			var unicornMsg = "";
+			if (Math.round(totalYield.unicorns) === 1) {
+				unicornMsg = $I("village.new.one.unicorn");
+			} else {
+				unicornMsg = $I("village.new.many.unicorns", [this.game.getDisplayValueExt(totalYield.unicorns)]);
+			}
+			this.game.msg(unicornMsg, "important", "hunt");
 		}
 		var msg = $I("village.msg.hunt.success");
 		if (squads > 1) {
@@ -745,10 +751,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 
 			if (promotedKittensCount == 0) {
-				this.game.msg("Your kittens have their best rank");
+				this.game.msg($I("village.kittens.have.best.rank"));
 			} else {
-				var orthograph = promotedKittensCount == 1 ? "" : "s";
-				this.game.msg("Your leader has promoted " + promotedKittensCount + " kitten" + orthograph);
+				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
+				this.game.msg(promoteMsg);
 			}
 		}
 
@@ -766,28 +772,28 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 	traits: [{
 		name: "scientist",
-		title: "Scientist"
+		title: $I("village.trait.scientist")
 	},{
 		name: "manager",
-		title: "Manager"
+		title: $I("village.trait.manager")
 	},{
 		name: "engineer",
-		title: "Artisan"
+		title: $I("village.trait.engineer")
 	},{
 		name: "merchant",
-		title: "Merchant"
+		title: $I("village.trait.merchant")
 	},{
 		name: "wise",
-		title: "Philosopher"
+		title: $I("village.trait.wise")
 	},{
 		name: "metallurgist",
-		title: "Metallurgist"
+		title: $I("village.trait.metallurgist")
 	},{
 		name: "chemist",
-		title: "Chemist"
+		title: $I("village.trait.chemist")
 	},{
 		name: "none",
-		title: "None"
+		title: $I("village.trait.none")
 	}],
 
 	name: "Undefined",
@@ -875,7 +881,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 					if (this.kittens.length < this.maxKittens) {
 						this.addKitten();
 						if (this.maxKittens <= 10){
-							this.game.msg("A kitten has joined your village");
+							this.game.msg($I("village.msg.kitten.has.joined"));
 						}
 					}
 				}
@@ -1909,7 +1915,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name: $I("village.btn.job.clear"),
 			description: $I("village.btn.job.clear.desc"),
 			handler: dojo.hitch(this, function(){
-				if (this.game.opts.noConfirm || confirm("Are you sure?")){
+				if (this.game.opts.noConfirm || confirm($I("village.tab.clear.job.confirmation"))){
 					this.game.village.clearJobs(true);
 				}
 			}),
@@ -2057,7 +2063,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 
 		if (this.tdTop){
-			this.tdTop.innerHTML = "Free kittens: " + this.game.village.getFreeKittens() + " / " + this.game.resPool.get("kittens").value;
+			this.tdTop.innerHTML = $I("village.general.free.kittens.label") + ":" + this.game.village.getFreeKittens() + " / " + this.game.resPool.get("kittens").value;
 		}
 
 		if (this.happinessStats){
