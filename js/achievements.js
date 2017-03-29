@@ -4,8 +4,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     achievements: [
         {
             name: "theElderLegacy",
-            title: "The Elder Legacy",
-            description: "Be a fist player to test Kittens Game Mobile",
+            title: $I("achievements.theElderLegacy.title"),
+            description: $I("achievements.theElderLegacy.desc"),
             condition: function () {
                 var date = new Date();
                 return (date.getMonth() == 0 && date.getFullYear() == 2017);
@@ -13,86 +13,86 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         {
             name: "unicornConspiracy",
-            title: "Unicorn Conspiracy",
-            description: "Lift the shroud of the Unicorn conspiracy!",
+            title: $I("achievements.unicornConspiracy.title"),
+            description: $I("achievements.unicornConspiracy.desc"),
             condition: function () {
                 return ( this.game.resPool.get("unicorns").value > 0 );
             }
         }, {
             name: "uniception",
-            title: "Uniception",
-            description: "Find the conspiracy within the conspiracy",
+            title: $I("achievements.uniception.title"),
+            description: $I("achievements.uniception.desc"),
             condition: function () {
                 return ( this.game.resPool.get("tears").value > 0 );
             }
         }, {
             name: "sinsOfEmpire",
-            title: "Sins of a Solar Empire",
-            description: "Wait, seriously?",
+            title: $I("achievements.sinsOfEmpire.title"),
+            description: $I("achievements.sinsOfEmpire.desc"),
             condition: function () {
                 return ( this.game.resPool.get("alicorn").value > 0 );
             }
         }, {
             name: "anachronox",
-            title: "Anachronox",
-            description: "Please stop",
+            title: $I("achievements.anachronox.title"),
+            description: $I("achievements.anachronox.desc"),
             condition: function () {
                 return ( this.game.resPool.get("timeCrystal").value > 0 );
             }
         }, {
             name: "deadSpace",
-            title: "Dead Space",
-            description: "In space no one can hear you meow.",
+            title: $I("achievements.deadSpace.title"),
+            description: $I("achievements.deadSpace.desc"),
             condition: function () {
                 return ( this.game.resPool.get("necrocorn").value > 0 );
             }
         }, {
             name: "ironWill",
-            title: "Iron Will",
-            description: "You truly deserved this",
+            title: $I("achievements.ironWill.title"),
+            description: $I("achievements.ironWill.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("mine").val > 0 );
             }
         }, {
             name: "uberkatzhen",
-            title: "Uberkatzchen",
-            description: "What does not kill you makes you stronger",
+            title: $I("achievements.uberkatzhen.title"),
+            description: $I("achievements.uberkatzhen.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("warehouse").val > 0 );
             }
         }, {
             name: "hundredYearsSolitude",
-            title: "One Hundred Years of Solitude",
-            description: "How far is too far?",
+            title: $I("achievements.hundredYearsSolitude.title"),
+            description: $I("achievements.hundredYearsSolitude.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("steamworks").val > 0 );
             }
         }, {
             name: "soilUptuned",
-            title: "Virgin Soil Upturned",
-            description: "Have 45 pastures in Iron Will mode",
+            title: $I("achievements.soilUptuned.title"),
+            description: $I("achievements.soilUptuned.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("pasture").val >= 45 );
             }
         }, {
             name: "atlasUnmeowed",
-            title: "Atlas Unmeowed",
-            description: "Construct a magneto in Iron Will mode",
+            title: $I("achievements.atlasUnmeowed.title"),
+            description: $I("achievements.atlasUnmeowed.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("magneto").val > 0 );
             }
         }, {
             name: "meowMeowRevolution",
-            title: "Meow Meow Revolution",
-            description: "Construct a factory in Iron Will mode",
+            title: $I("achievements.meowMeowRevolution.title"),
+            description: $I("achievements.meowMeowRevolution.desc"),
             condition: function () {
                 return ( this.game.ironWill && !this.game.resPool.get("kittens").value && this.game.bld.get("factory").val > 0 );
             }
         }, {
             name: "spaceOddity",
-            title: "Space Oddity",
-            description: "Complete a Moon Program in Iron Will mode",
-            starDescription: "Get Moon Program in IW without any paragon points",
+            title: $I("achievements.spaceOddity.title"),
+            description: $I("achievements.spaceOddity.desc"),
+            starDescription: $I("achievements.spaceOddity.starDesc"),
             condition: function () {
                 return ( this.game.ironWill && this.game.space.getProgram("moonMission").on );
             },
@@ -102,76 +102,76 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             hasStar: true
         }, {
             name: "jupiterAscending",
-            title: "Jupiter Ascending",
-            description: "Get to the space on a first year",
+            title: $I("achievements.jupiterAscending.title"),
+            description: $I("achievements.jupiterAscending.desc"),
             condition: function () {
                 return ( this.game.space.getProgram("orbitalLaunch").on && this.game.calendar.year <= 1);
             }
         }, {
             name: "shadowOfTheColossus",
-            title: "Shadow Of The Colossus",
-            description: "Build a Ziggurat having only one kitten",
+            title: $I("achievements.shadowOfTheColossus.title"),
+            description: $I("achievements.shadowOfTheColossus.desc"),
             condition: function () {
                 return ( this.game.bld.get("ziggurat").val > 0 && this.game.village.maxKittens == 1);
             }
         }, {
             name: "sunGod",
-            title: "Sun God",
-            description: "Gain a total of 696,342 accumulated faith",
+            title: $I("achievements.sunGod.title"),
+            description: $I("achievements.sunGod.desc"),
             condition: function () {
                 return ( this.game.religion.faith >= 696342 );
             }
         }, {
             name: "heartOfDarkness",
-            title: "Heart Of Darkness",
-            description: "Become the chieftain of a zebra tribe. (How is this even possible?)",
+            title: $I("achievements.heartOfDarkness.title"),
+            description: $I("achievements.heartOfDarkness.desc"),
             condition: function () {
                 return (this.game.resPool.get("zebras").value > 1);
             }
         }, {
             name: "winterIsComing",
-            title: "Winter Is Coming",
-            description: "Have 10 kittens dead",
+            title: $I("achievements.winterIsComing.title"),
+            description: $I("achievements.winterIsComing.desc"),
             unethical: true,
             condition: function () {
                 return (this.game.deadKittens >= 10);
             }
         }, {
             name: "youMonster",
-            title: "You Monster",
+            title: $I("achievements.youMonster.title"),
             unethical: true,
-            description: "Poor kittens.",
+            description: $I("achievements.youMonster.desc"),
             condition: function () {
                 return (this.game.deadKittens >= 100);
             }
         }, {
             name: "superUnethicalClimax",
-            title: "Super Unethical Climax",
+            title: $I("achievements.superUnethicalClimax.title"),
             unethical: true,
-            description: "Cheat your way through the game.",
+            description: $I("achievements.superUnethicalClimax.desc"),
             condition: function () {
                 return (this.game.cheatMode);
             }
         }, {
             name: "lotusMachine",
-            title: "Lotus Eater Machine",
-            description: "Break the cycle of reincarnations",
+            title: $I("achievements.lotusMachine.title"),
+            description: $I("achievements.lotusMachine.desc"),
             condition: function () {
                 return (this.game.resPool.get("karma").value >= 1);
             }
         }, {
             name: "serenity",
-            title: "Serenity",
-            description: "Have 50 kittens without losing any of them",
+            title: $I("achievements.serenity.title"),
+            description: $I("achievements.serenity.desc"),
             condition: function () {
                 return (this.game.village.getKittens() >= 50 && this.game.deadKittens == 0);
             }
         },
         {
             name: "utopiaProject",
-            title: "Utopia Project",
-            description: "Get a total happiness of over 150%",
-            starDescription: "Get a total happiness of over 500%",
+            title: $I("achievements.utopiaProject.title"),
+            description: $I("achievements.utopiaProject.desc"),
+            starDescription: $I("achievements.utopiaProject.starDesc"),
             condition: function () {
                 return (this.game.village.happiness >= 1.5 && this.game.resPool.get("kittens").value > 35);
             },
@@ -181,9 +181,9 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             hasStar: true
         }, {
             name: "cathammer",
-            title: "Cathammer 40K",
-            description: "In the grim and dark future of a catkind",
-            starDescription: "In the grim and dark future of a catkind there are no resets",
+            title: $I("achievements.cathammer.title"),
+            description: $I("achievements.cathammer.desc"),
+            starDescription: $I("achievements.cathammer.starDesc"),
             condition: function () {
                 return this.game.stats.getStat("totalYears").val >= 40000;
             },
@@ -193,9 +193,9 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             hasStar: true
         }, {
             name: "limitlessClicker",
-            title: "Limitless Clicker",
-            description: "Accumulate 100,000 clicks.",
-            starDescription: "Accumulate 1,000,000 clicks.",
+            title: $I("achievements.limitlessClicker.title"),
+            description: $I("achievements.limitlessClicker.desc"),
+            starDescription: $I("achievements.limitlessClicker.starDesc"),
             condition: function () {
                 return (this.game.stats.getStat("totalClicks").val >= 100000);
             },
@@ -231,14 +231,14 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             var ach = this.achievements[i];
             if (!ach.unlocked && dojo.hitch(this, ach.condition)()) {
                 ach.unlocked = true;
-                this.game.msg("Achievement unlocked: " + ach.title + "!");
+                this.game.msg($I("achievements.msg.unlock", [ach.title]));
                 this.game.achievementTab.visible = true;
 
                 this.updateStatistics();
             }
             if (ach.hasStar && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
                 ach.starUnlocked = true;
-                this.game.msg("Achievement star unlocked: " + ach.title + "!");
+                this.game.msg($I("achievements.msg.starUnlock", [ach.title]));
                 this.game.achievementTab.visible = true;
 
                 this.updateStatistics();
@@ -311,6 +311,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 				title: ach.starUnlocked ? ach.starDescription : "???"
 			}, span);
 		}
-        divHeader.innerHTML = "Achievements: " + completedAchievements + " of " + totalAchievements;
+        divHeader.innerHTML = $I("achievements.header", [completedAchievements, totalAchievements]);
 	}
 });
