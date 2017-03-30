@@ -205,8 +205,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 	chronoforgeUpgrades: [{
         name: "temporalBattery",
-        label: "Temporal Battery",
-        description: "Improves your flux energy capacity by 25%",
+        label: $I("time.cfu.temporalBattery.label"),
+        description: $I("time.cfu.temporalBattery.desc"),
         prices: [
             { name : "timeCrystal", val: 5 }
         ],
@@ -217,8 +217,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: true
     },{
         name: "blastFurnace",
-        label: "Chrono Furnace",
-        description: "Operates on chronoheat. Increases the maximum heat limit by 100.",
+        label: $I("time.cfu.blastFurnace.label"),
+        description: $I("time.cfu.blastFurnace.desc"),
         prices: [
             { name : "timeCrystal", val: 25 },
             { name : "relic", val: 5 }
@@ -253,8 +253,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: true
     },{
         name: "temporalAccelerator",
-        label: "Temporal Accelerator",
-        description: "Improves flux energy generation by 5%",
+        label: $I("time.cfu.temporalAccelerator.label"),
+        description: $I("time.cfu.temporalAccelerator.desc"),
         prices: [
             { name : "timeCrystal", val: 10 },
             { name : "relic", val: 1000 }
@@ -266,8 +266,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: true
     },{
         name: "temporalImpedance",
-        label: "Time Impedance",
-        description: "Suppress effect of Dark Future temporal penalty by 1000 years.",
+        label: $I("time.cfu.temporalImpedance.label"),
+        description: $I("time.cfu.temporalImpedance.desc"),
         prices: [
             { name : "timeCrystal", val: 100 },
             { name : "relic", val: 250 }
@@ -279,8 +279,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: false
     },{
         name: "ressourceRetrieval",
-        label: "Resource Retrieval",
-        description: "Retrieve part of your yearly resources when you burn TC",
+        label: $I("time.cfu.ressourceRetrieval.label"),
+        description: $I("time.cfu.ressourceRetrieval.desc"),
         prices: [
             { name : "timeCrystal", val: 1000 }
         ],
@@ -294,8 +294,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     voidspaceUpgrades: [{
         name: "cryochambers",
-        label: "Cryochambers",
-        description: "Will preserve one kitten afther the reset.<br>You can have one cryochamber per chronosphere",
+        label: $I("time.vsu.cryochambers.label"),
+        description: $I("time.vsu.cryochambers.desc"),
         prices: [
             { name : "timeCrystal", val: 2 },
             { name : "void", val: 100 },
@@ -315,11 +315,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			self.on = Math.min(self.val, self.limitBuild);
         },
         unlocked: false,
-        flavor: "Board for the past"
+        flavor: $I("time.vsu.cryochambers.flavor")
     },{
         name: "usedCryochambers",
-        label: "Used Cryochambers",
-        description: "Unsealed cryochamber. Not in operating condition.",
+        label: $I("time.vsu.usedCryochambers.label"),
+        description: $I("time.vsu.usedCryochambers.desc"),
         prices: [
 
         ],
@@ -331,8 +331,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: false
     },{
         name: "voidHoover",
-        label: "Void Hoover",
-        description: "Increase the maximum of void gained per day during the Temporal Paradox",
+        label: $I("time.vsu.voidHoover.label"),
+        description: $I("time.vsu.voidHoover.desc"),
         prices: [
 			{ name: "timeCrystal", val: 10 },
 			{ name: "void", val: 250 },
@@ -345,8 +345,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: false
     },{
         name: "voidRift",
-        label: "Void Rift",
-        description: "Increase the maximum storage space by 2%",
+        label: $I("time.vsu.voidRift.label"),
+        description: $I("time.vsu.voidRift.desc"),
         prices: [
             { name: "void", val: 75 },
         ],
@@ -357,8 +357,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         unlocked: false
     },{
         name: "chronocontrol",
-        label: "Chronocontrol",
-        description: "Increase the duration of Temporal Paradox",
+        label: $I("time.vsu.chronocontrol.label"),
+        description: $I("time.vsu.chronocontrol.desc"),
         prices: [
 			{ name: "timeCrystal", val: 30 },
 			{ name: "void", val: 500 },
@@ -456,7 +456,7 @@ dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.g
     },
 
     getName: function(model){
-      return !this.game.time.isAccelerated ? "Tempus Fugit" : "Tempus Stasit";
+      return $I(this.game.time.isAccelerated ? "time.AccelerateTimeBtn.label.accelerated" : "time.AccelerateTimeBtn.label.normal");
     },
 
     toggle: function() {
@@ -474,7 +474,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     constructor: function(game){
         this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
             name: "Temporal Control",
-            description: "Accelerate and slow time at your whim (+50% acceleration)",
+            description: $I("time.AccelerateTimeBtn.desc"),
             prices: [],
             controller: new classes.ui.time.AccelerateTimeBtnController(game)
         }, game));
