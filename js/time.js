@@ -138,7 +138,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (delta <= 0){
             return;
         }
-        var daysOffset = Math.round(delta / (1000/* * this.game.rate*/));
+        var daysOffset = Math.round(delta / (2000/* * this.game.rate*/));
 
         if (daysOffset < 3/*avoid shift because of UI lags*/){
             return;
