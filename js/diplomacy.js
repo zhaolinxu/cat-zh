@@ -860,7 +860,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				description: "Trade some of your stuff for the offered resources. Price may vary from season to season.\nYou also have a small chance of getting rare resources.",
 				prices: tradePrices,
 				race: race,
-				controller: new com.nuclearunicorn.game.ui.TradeButtonController(this.game)
+				controller: new com.nuclearunicorn.game.ui.TradeButtonController(this.game),
+				handler: dojo.partial(function(race){
+					self.game.diplomacy.trade(race);
+				}, race)
 			}, this.game);
 			tradeBtn.render(rightColumn);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
