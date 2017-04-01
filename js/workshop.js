@@ -2324,11 +2324,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 		return this.game.workshop.getCraft(model.options.craft);
 	},
 
-	onClick: function(){
-		this.animate();
-		this.handler(this);
-	},
-
 	updateVisible: function(model){
 		model.visible = model.craft.unlocked;
 	},
@@ -2512,7 +2507,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	onClick: function(){
 		this.animate();
-		this.handler(this);
+		this.controller.buyItem(this.model, null, function(){});
 	},
 
 	setEnabled: function(enabled){
