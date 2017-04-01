@@ -2906,8 +2906,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	isWebWorkerSupported: function(){
-		return false;
-		//return !dojo.isIE && window.Worker;
+		//return false;
+		return !dojo.isIE && window.Worker;
 	},
 
 	start: function(){
