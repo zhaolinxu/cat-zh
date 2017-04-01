@@ -2128,8 +2128,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	updateTab: function(){
 		//-------- update tab title -------
 		var tabName = this.getTabName();
+		this.tabName = tabName;
 		if (this.domNode) {
-			this.domNode.innerHTML = this.tabName;
+			this.domNode.innerHTML = tabName;
 		}
 	},
 
