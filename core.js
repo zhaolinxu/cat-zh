@@ -1947,12 +1947,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		if (!meta.noStackable && event.shiftKey){
             if (this.game.opts.noConfirm ){
                 var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
-                this.build(meta, maxBld);
+                this.build(model, maxBld);
                 callback(true);
             } else {
             	this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function(confirmed){
             		if (confirmed) {
-            			self.build(meta, 1000);
+            			self.build(model, 1000);
             			callback(true);
             		} else {
             			callback(false);
