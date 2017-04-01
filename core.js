@@ -476,6 +476,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				title: "Time Crystals",
 				enabled: true,
 				unlocked: false
+			},
+			"faith": {
+				title: "Faith",
+				enabled: true,
+				unlocked: false
 			}
 		}
 	},
