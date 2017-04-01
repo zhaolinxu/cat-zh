@@ -48,8 +48,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			this.getVSU("usedCryochambers").unlocked = true;
         }
 
-		this.gainTemporalFlux(saveData["time"].timestamp);
-        this.timestamp = saveData["time"].timestamp;
+
+        var ts = saveData["time"].timestamp || Date.now();
+
+        this.gainTemporalFlux(ts);
+        this.timestamp = ts;
 	},
 
 	gainTemporalFlux: function (timestamp){
