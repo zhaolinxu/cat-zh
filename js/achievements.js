@@ -9,7 +9,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             condition: function () {
                 var date = new Date();
                 return (date.getMonth() == 0 && date.getFullYear() == 2017);
-            }
+            },
+            hidden: true
         },
         {
             name: "unicornConspiracy",
@@ -286,10 +287,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 
 		div.innerHTML = "";
         var divHeader = dojo.create("div", {}, div);
-        var totalAchievements = this.game.achievements.achievements.length;
+        var totalAchievements = 0; /*this.game.achievements.achievements.length*/;
         var completedAchievements = 0;
 		for (var i in this.game.achievements.achievements){
 			var ach = this.game.achievements.achievements[i];
+            if (!ach.unlocked && ach.hidden){
+                continue;
+            }
+
+            totalAchievements++;
+
             if (ach.unlocked) { completedAchievements++; }
             var className = "achievement";
             if (ach.unlocked && ach.unethical) className += " unethical";
