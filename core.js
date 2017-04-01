@@ -68,13 +68,13 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		var self = this;
 		this._deffered = $.Deferred();
 		// now we can try to load it
-		var defferedForDefaultLocale = $.get( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
+		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
 			console.error("Couldn't load default locale '"+self.fallbackLocale+"' because of the following error:"+errMrs+", details:"+err);
 			self._deffered.reject("Couldn't load default locale");
 		});
 		if (this.language != this.fallbackLocale ) {
-			var defferedForUserLocale = $.get( "/res/i18n/"+lang+".json?v=" + version).fail(function(e){
+			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?v=" + version).fail(function(e){
 				console.error("Couldn't load user locale '"+lang+"' because of the following error:"+e);
 			});
 

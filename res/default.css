@@ -626,3 +626,13 @@ a:hover {
 .tooltip-inner .desc {
     maxWidth: 280px;
 }
+
+.links-block a{
+    text-decoration: none;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.links-block a:hover{
+    text-decoration: underline;
+}
