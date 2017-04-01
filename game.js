@@ -3257,7 +3257,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					unlocked: this.time.getCFU("temporalImpedance").unlocked
 				}],
 				vsu: [],
-				usedCryochambers: usedCryochambers_reset
+				usedCryochambers: usedCryochambers_reset,
+				timestamp: Date.now()
 			},
 			village :{
 				kittens: newKittens,
