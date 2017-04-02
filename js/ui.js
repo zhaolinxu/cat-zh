@@ -432,39 +432,22 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.create("br", null, filtersDiv);
     },
 
+    logMessagesToFade: 15, //how many messages to fade as they approach message limits
+
     renderConsoleLog: function() {
         var console = this.game.console,
             messages = console.messages;
 
         var gameLog = dojo.byId("gameLog");
+        dojo.empty(gameLog);
         if (!messages.length) { // micro optimization
-            dojo.empty(gameLog);
             return;
         }
 
-        var spans = dojo.query("span", gameLog);
-
-        for (var i = 0, j = 0; i < messages.length || j < spans.length;){
-            var msg = messages[i],
-                span = spans[j];
-            if (!msg && span) {
-                dojo.destroy(span);
-                i++; j++;
-                continue;
-            } else if (msg && span) {
-                if (msg.id == span.id) {
-                    if (i > 24) {
-                        dojo.setStyle(span, "opacity", (1 - (i-24) * 0.066));
-                    }
-                    i++; j++;
-                    continue;
-                } else {
-                    dojo.destroy(span);
-                    j++;
-                    continue;
-                }
-            } else if (msg && !span) {
-                span = dojo.create("span", { innerHTML: msg.text, className: "msg" }, gameLog, "first");
+        for (var i = 0; i < messages.length; i++) {
+            var msg = messages[i];
+            if (!msg.span) {
+                var span = dojo.create("span", { innerHTML: msg.text, className: "msg" }, gameLog);
 
                 if (msg.type){
                     dojo.addClass(span, "type_"+msg.type);
@@ -472,12 +455,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 if (msg.noBullet) {
                     dojo.addClass(span, "noBullet");
                 }
-                i++;
-            } else {
-                //!msg && !span - break the loop if we didn't do so yet
-                break;
+                msg.span = span;
             }
+            dojo.place(msg.span, gameLog, "first");
+        }
 
+        //fade message spans as they get closer to being removed and replaced
+        var spans = dojo.query("span", gameLog);
+        var fadeCount = this.logMessagesToFade + 1; //add one so the last line is still barely visible
+        var fadeStart = console.maxMessages - fadeCount;
+        var fadeInterval = 1 / fadeCount;
+
+        for (i = fadeStart + 1; i < spans.length; i++) {
+            dojo.setStyle(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
         }
     },
 
@@ -509,7 +499,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $(".close", container).click(function(){
             $(".close", container).unbind();
             container.hide();
-        })
+        });
     },
 
     displayAppDialog: function(){
