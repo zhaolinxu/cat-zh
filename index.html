@@ -53,7 +53,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1406g";
+			var version = "_1406h";
 
 			function _import(module, def){
 				if (!def){
@@ -412,7 +412,7 @@
 			</div>
 
 
-			<div id="optionsDiv" style="display: none; height: 360px; margin-top:-180px" class="dialog help">
+			<div id="optionsDiv" style="display: none; height: 380px; margin-top:-190px" class="dialog help">
 				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="languageSelector">Language:</label>
@@ -458,11 +458,8 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
-				<input id="disableCMBR" type="checkbox" onclick="gamePage.opts.disableCMBR = $('#disableCMBR')[0].checked;">
-				<label for="disableCMBR">Disable global donate bonus.</label>
-				<br>
-				<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-				<label for="disableTelemetry">Disable game statistics.</label>
+				<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
+				<label for="enableRedshift">Enable offline progression (Experimental)</label>
 				<br>
                 <br>
 
@@ -475,6 +472,9 @@
                     <input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
                     <label for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
                     <br>
+					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
+					<label for="disableTelemetry">Disable game statistics.</label>
+					<br>
 				</div>
 
 				<br>

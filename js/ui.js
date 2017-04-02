@@ -316,7 +316,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
-        $("#disableCMBR")[0].checked = game.opts.disableCMBR;
+        $("#enableRedshift")[0].checked = game.opts.enableRedshift;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;

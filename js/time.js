@@ -130,6 +130,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     calculateRedshift: function(){
+        if (!this.game.opts.enableRedshift){
+            return;
+        }
+
         var currentTimestamp = Date.now();
         var delta = currentTimestamp - this.timestamp;
         //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
@@ -173,7 +177,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 }
 
                 //console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
-
                 //console.log("resource before adjustment:", res.value);
                 this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false/*event?*/, true/*preventLimitCheck*/);
                 //console.log("resource after adjustment:", res.value);

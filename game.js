@@ -958,6 +958,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: true,
+			enableRedshift: false,
             useLegacyTwoInRowLayout: false
 		};
 
@@ -1206,7 +1207,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false
+			disableTelemetry: false,
+			enableRedshift: false
 		};
 
 		this.resPool.resetState();
