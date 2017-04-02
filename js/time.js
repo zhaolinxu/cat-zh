@@ -599,7 +599,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                    priceLoop = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
 	                }
 	                if ((this.game.time.heat + k * 10) > heatMax) {
-	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax));  //1% per excessive heat unit
+	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
 					pricesTotal += priceLoop;
 				}
