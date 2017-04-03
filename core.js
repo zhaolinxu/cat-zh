@@ -486,6 +486,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	},
 
 	messages: null,
+	maxMessages: 40,
 	messageIdCounter: 0,
 	ui: null,
 	game: null,
@@ -536,13 +537,18 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		this.messages.push(logmsg);
 
 
-		if (this.messages.length > 40){
+		if (this.messages.length > this.maxMessages){
+			this.messages.shift();
+		}
+		if (this.messages[0].type == "date"){
 			this.messages.shift();
 		}
 
 		this.ui.renderConsoleLog();
 
 		this.ui.notifyLogEvent(logmsg);
+
+		return logmsg;
 	},
 
 	clear: function(){
