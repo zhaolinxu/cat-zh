@@ -2073,6 +2073,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuc
 
 			meta.researched = true;
 
+			if (meta.handler){
+				meta.handler(this.game, meta);
+			}
+
 			if (meta.unlocks) {
 				this.game.unlock(meta.unlocks);
 			}
