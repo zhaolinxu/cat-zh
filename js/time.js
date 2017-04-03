@@ -611,7 +611,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
     buyItem: function(model, event, callback){
         if (model.enabled && this.hasResources(model)) {
-            this.game.resPool.addResEvent("timeCrystal", -this.getPrices(model));
+            var price = this.getPrices(model);
+            this.game.resPool.addResEvent("timeCrystal", -price[0].val);
             callback(this.doShatter(model, 1));
         }
         callback(false);
@@ -689,7 +690,7 @@ dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAwar
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
             name: "Combust TC",
-            description: "Feed a time crystal into your chrono furnace and unleash the stored temporal energy.<bt> You will jump one year in the future. The price can increase over time.",
+            description: "Shatter TC and unleash the stored temporal energy. (If you have a chrono furnace, this will fuel it instead.)<bt> You will jump one year in the future. The price can increase over time.",
             prices: [{name: "timeCrystal", val: 1}],
             controller: new classes.ui.time.ShatterTCBtnController(game)
         }, game));

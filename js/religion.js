@@ -706,7 +706,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ZigguratBtnController", com.nuclearunic
     getName: function(model){
 		if (model.metadata.name == "marker" && model.metadata.val > 0){
 			var progress = this.game.toDisplayPercentage(this.game.religion.corruption, 0, true);
-			return model.name + " [" + progress + "%] (" + model.metadata.val + ")";
+			return model.metadata.label + " [" + progress + "%] (" + model.metadata.val + ")";
 		} else {
 			return this.inherited(arguments);
 		}
@@ -917,6 +917,8 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event){
+				var self = this;
+
 				this.animate();
 				this.controller.sacrificeAll(this.model, event, function(result) {
 					if (result) {
@@ -929,6 +931,8 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 			visible: this._canAfford(model) >= 10,
 			title: "x10",
 			handler: function(event){
+				var self = this;
+
 				this.animate();
 				this.controller.sacrificeX10(this.model, event, function(result) {
 					if (result) {
