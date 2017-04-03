@@ -2081,12 +2081,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.inherited(arguments);
 
 		if (this.tdTop){
-			this.tdTop.innerHTML = $I("village.general.free.kittens.label") + ":" + this.game.village.getFreeKittens() + " / " + this.game.resPool.get("kittens").value;
+			this.tdTop.innerHTML = $I("village.general.free.kittens.label") + ": " + this.game.village.getFreeKittens() + " / " + this.game.resPool.get("kittens").value;
 		}
 
 		if (this.happinessStats){
 			var happiness = this.game.village.happiness * 100;
-			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ": " + Math.floor(happiness) + "%";
+			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ":  " + Math.floor(happiness) + "%";
 		}
 
 		var festivalDays = this.game.calendar.festivalDays;
