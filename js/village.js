@@ -1122,6 +1122,16 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
 			return true;
 		} else {
+			//TODO: check free kittens and compare them with game.village.getFreeEngineer()
+			//------------- hack start (todo: remove me someday -----
+			/*if (this.game.village.getFreeEngineer() > 0){
+				var job = this.game.village.getJob("engineer"),
+					amt = job.value;
+				for (var i = 0; i< amt; i++) {
+					this.game.village.sim.removeJob("engineer");
+				}
+			}*/
+			//------------ 	hack end -------------
 			return false;
 		}
 	},

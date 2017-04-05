@@ -2507,7 +2507,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 	onClick: function(){
 		this.animate();
-		this.controller.buyItem(this.model, null, function(){});
+		this.controller.buyItem(this.model);
 	},
 
 	setEnabled: function(enabled){

@@ -407,7 +407,27 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"oilPerTickAutoprodSpace": 0.5
 				};
 			}
-        }]
+        },{
+			name: "spiceRefinery",
+			label: $I("space.planet.dune.spiceRefinery.label"),
+			description: $I("space.planet.dune.spiceRefinery.desc"),
+			unlocked: false,
+			priceRatio: 1.15,
+			prices: [
+				{name: "starchart", val: 500},
+				{name: "alloy",  val: 250},
+				{name: "science", val: 75000},
+				{name: "kerosene", val: 75}
+			],
+			effects: {
+				"spicePerTickAutoprodSpace": 0
+			},
+			calculateEffects: function(self, game){
+				self.effects = {
+					"spicePerTickAutoprodSpace": 0.25
+				};
+			}
+		}]
 	},{
 		name: "piscine",
 		label: $I("space.planet.piscine.label"),

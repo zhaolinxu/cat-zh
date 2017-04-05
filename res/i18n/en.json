@@ -303,6 +303,8 @@
     "space.planet.dune.label": "Dune",
     "space.planet.dune.planetCracker.desc": "USS Mining Vessel Hissmeowra that can crack an entire planet",
     "space.planet.dune.planetCracker.label": "Planet Cracker",
+    "space.planet.dune.spiceRefinery.desc":"Refines the sand of the Dune into a highly psychoactive substance known as 'Spice'.",
+    "space.planet.dune.spiceRefinery.label":"Spice Refinery",
     "space.planet.furthestRing.label": "Furthest Ring",
     "space.planet.helios.containmentChamber.desc": "Containment Chamber. Increases antimatter storage space by 100.",
     "space.planet.helios.containmentChamber.label": "Cont. Chamber",
@@ -1087,6 +1089,7 @@
     "effectsMgr.statics.researchVessel-starchartPerTickBaseSpace.title": "Research Vessel - Starchart production",
     "effectsMgr.statics.sunlifter-energyProduction.title": "Sunlifter - Energy production",
     "effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title": "Space Beacon - Starchart production",
+    "effectsMgr.statics.spiceRefinery-spicePerTickAutoprodSpace.title": "Spice Refinery - Spice production",
 
     "religion.zu.unicornTomb.desc": "Improves your unicorns generation by 5%",
     "religion.zu.unicornTomb.label": "Unicorn Tomb",
