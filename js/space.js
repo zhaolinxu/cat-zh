@@ -415,16 +415,16 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			priceRatio: 1.15,
 			prices: [
 				{name: "starchart", val: 500},
-				{name: "alloy",  val: 250},
+				{name: "alloy",  val: 500},
 				{name: "science", val: 75000},
-				{name: "kerosene", val: 75}
+				{name: "kerosene", val: 125}
 			],
 			effects: {
 				"spicePerTickAutoprodSpace": 0
 			},
 			calculateEffects: function(self, game){
 				self.effects = {
-					"spicePerTickAutoprodSpace": 0.25
+					"spicePerTickAutoprodSpace": 0.025
 				};
 			}
 		}]
