@@ -1,3 +1,11 @@
+v 1.4.0.7 (7 apr)
+
+Unicorn Necropolis
+Spice Refinery
+
+Fixed resources not being highlighted for buildings
+Fixed tonns of issues from previous update
+
 v 1.4.0.6 (20 mar)
 
 Void Rift price is reduced from 100 to 75

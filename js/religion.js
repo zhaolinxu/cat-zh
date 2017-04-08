@@ -92,7 +92,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
 			this.corruption += this.game.getEffect("corruptionRatio")
-                * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
+                * (this.game.resPool.get("necrocorn").value > 0 ?
+					0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) :	 //75% penalty
+					1);
 
 			if (this.game.rand(100) < 25 && this.corruption > 1){
 				this.corruption = 0;
@@ -294,6 +296,23 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		upgrades: {
 			buildings: ["ziggurat"]
+		},
+		unlocks: {
+			"zigguratUpgrades": ["unicornNecropolis"]
+		},
+		unlocked: false
+	},{
+		name: "unicornNecropolis",
+		label: $I("religion.zu.unicornNecropolis.label"),
+		description: $I("religion.zu.unicornNecropolis.desc"),
+		prices: [
+			{ name : "void", val: 5 },
+			{ name : "necrocorn", val: 25 },
+			{ name : "megalith", val: 2500 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"corruptionBoostRatio" : 0.10
 		},
 		unlocked: false
 	},{
