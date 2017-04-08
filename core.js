@@ -1601,6 +1601,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.on) != "undefined") {
 			model.on = model.metadata.on;
 		}
+		model.hasResourceHover = true;
 		return model;
 	},
 
