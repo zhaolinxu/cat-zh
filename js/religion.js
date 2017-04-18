@@ -535,6 +535,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"relicRefineRatio" : 1.0
 		},
+		upgrades: {
+			spaceBuilding: ["spaceBeacon"]
+		},
 		unlocked: false,
 		flavor: $I("religion.tu.blackNexus.flavor")
 	},{
