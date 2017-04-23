@@ -624,7 +624,7 @@ a:hover {
 }
 
 .tooltip-inner .desc {
-    maxWidth: 280px;
+    max-width: 280px;
 }
 
 .links-block a{

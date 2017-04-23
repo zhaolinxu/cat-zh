@@ -328,6 +328,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 		},
+		upgrades: {
+			spaceBuilding: ["spaceBeacon"]
+		},
 		unlocked: false
 	}],
 

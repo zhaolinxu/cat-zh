@@ -951,6 +951,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
