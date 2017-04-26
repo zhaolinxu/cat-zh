@@ -671,13 +671,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	fastForward: function(daysOffset){
+        var chanceRatio = 1;
+        if (this.game.prestige.getPerk("chronomancy").researched){
+            chanceRatio = 1.1;
+        }
+        var unicornChanceRatio = 1;
+        if (this.game.prestige.getPerk("unicornmancy").researched){
+            unicornChanceRatio = 1.1;
+        }
+
+        chanceRatio *= (1 + this.game.getEffect("timeRatio") * 0.25);
+        unicornChanceRatio *= (1 + this.game.getEffect("timeRatio") * 0.25);
+
 		// Auto observable events
         var numberEvents = 0, totalNumberOfEvents = 0;
         if (this.game.bld.get("library").on > 0) {
-            var chanceRatio = 1;
-            if (this.game.prestige.getPerk("chronomancy").researched){
-                chanceRatio = 1.1;
-            }
             var chance = 25;                                    //25 OPTK of event per day  (0.25%)
             chance += (this.game.getEffect("starEventChance") * 10000);
             chance *= chanceRatio;
@@ -769,10 +777,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//TODO: maybe it is a good idea to start moving daily events to json metadata
 		//-------------------------  -------------------
-		var unicornChanceRatio = 1;
-		if (this.game.prestige.getPerk("unicornmancy").researched){
-			unicornChanceRatio = 1.1;
-		}
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
 		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio / 10000);
