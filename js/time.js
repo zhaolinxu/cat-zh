@@ -644,7 +644,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     },
 
     updateVisible: function(model){
-        model.visible = (this.game.resPool.get("alicorn").value >= 25);
+        model.visible = (this.game.resPool.get("timeCrystal").value >= 1);
     }
 });
 
