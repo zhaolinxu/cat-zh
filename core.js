@@ -1957,14 +1957,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		var self = this;
 		var meta = model.metadata;
 		if (!meta.noStackable && event.shiftKey) {
+			var maxBld = 10000;
 			if (this.game.opts.noConfirm) {
-				var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10000;
 				this.build(model, maxBld);
 				callback(true);
 			} else {
 				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function (confirmed) {
 					if (confirmed) {
-						self.build(model, 1000);
+						self.build(model, maxBld);
 						callback(true);
 					} else {
 						callback(false);
@@ -1972,8 +1972,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				});
 			}
 		} else if (!meta.noStackable && event.ctrlKey){
-			var maxBld = typeof(meta.limitBuild) == "number" ? (meta.limitBuild - meta.val) : 10;
-			this.build(model, maxBld);
+			this.build(model, 10);
 			callback(true);
 		} else {
             this.build(model, 1);
@@ -1984,8 +1983,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	build: function(model, maxBld){
 		var meta = model.metadata;
 		var counter = 0;
-        if (model.enabled && this.hasResources(model) || this.game.devMode ){
+		if (typeof meta.limitBuild == "number" && meta.limitBuild - meta.val < maxBld){
+			maxBld = meta.limitBuild - meta.val;
+		}
 
+        if (model.enabled && this.hasResources(model) || this.game.devMode ){
 	        while (this.hasResources(model) && maxBld > 0){
 				this.payPrice(model);
 				this.incrementValue(model);
