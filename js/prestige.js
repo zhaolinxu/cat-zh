@@ -25,7 +25,8 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["codexLogos"]
 		},
 		effects:{
-			"manuscriptCraftRatio" : 0.25
+			"manuscriptCraftRatio" : 0.25,
+			"manuscriptGlobalCraftRatio": 0.05
 		}
 	},{
 		name: "codexLogos",
@@ -38,7 +39,10 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["codexAgrum"]
 		},
 		effects:{
-			"compediumCraftRatio" : 0.25
+			"compediumCraftRatio" : 0.25,
+			"manuscriptGlobalCraftRatio": 0.05,
+			"compediumGlobalCraftRatio": 0.05
+
 		}
 	},{
 		name: "codexAgrum",
@@ -48,7 +52,10 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		researched: false,
 		effects:{
-			"blueprintCraftRatio" : 0.25
+			"blueprintCraftRatio" : 0.25,
+			"manuscriptGlobalCraftRatio": 0.05,
+			"compediumGlobalCraftRatio": 0.05,
+			"blueprintGlobalCraftRatio": 0.05
 		}
 	}, {
 		name: "megalomania",

@@ -2443,7 +2443,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //get resource specific craft ratio (like factory bonus)
         var resCraftRatio = this.getEffect(res.name + "CraftRatio") || 0;
 
-		return ratio + resCraftRatio;
+		return (ratio + resCraftRatio) * (1 + ( this.getEffect(res.name + "GlobalCraftRatio") || 0 ));
 	},
 
 	/**

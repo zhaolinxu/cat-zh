@@ -7,6 +7,8 @@ Engineering will now explain upgrade in more details.
 Cargo Ships were renamed to Expanded Cargo.
 Navigation will explain how culture price works.
 
+Codex upgrades will now provide 5% multiplicative bonus to the craft
+
 v 1.4.0.7 (7 apr)
 
 Unicorn Necropolis
