@@ -526,6 +526,13 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		var content = this.inherited(arguments);
 
 		var self = this;
+		//---------------------------------------------------------------
+		var controller = new classes.ui.PrestigeBtnController(self.game);
+		dojo.forEach(this.game.prestige.perks, function(perk, i){
+			var button = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: perk.name, controller: controller}, self.game);
+			button.render(content);
+			self.addChild(button);
+		});
 		//--------------------------------------------------------------------
 		var buttonBP = new com.nuclearunicorn.game.ui.ButtonModern({
 			name : $I("prestige.btn.burnParagon.label"),
@@ -538,13 +545,6 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 		buttonBP.render(content);
 		self.addChild(buttonBP);
 		//---------------------------------------------------------------------
-		var controller = new classes.ui.PrestigeBtnController(self.game);
-		dojo.forEach(this.game.prestige.perks, function(perk, i){
-			var button = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: perk.name, controller: controller}, self.game);
-			button.render(content);
-			self.addChild(button);
-		});
-
 	}
 
 });

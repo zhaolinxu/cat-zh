@@ -1,3 +1,12 @@
+v 1.4.0.8 (5 jun)
+High level Ziggurat Upgrades will now require gold.
+Burn paragon button will now go at the bottom of the panel.
+
+Zebra diplomacy will now explain upgrade in more details.
+Engineering will now explain upgrade in more details.
+Cargo Ships were renamed to Expanded Cargo.
+Navigation will explain how culture price works.
+
 v 1.4.0.7 (7 apr)
 
 Unicorn Necropolis
