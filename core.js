@@ -38,7 +38,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 	//TODO: move to the configuration file
 	constructor: function(){
-		this.availableLocales = [this.fallbackLocale, "zh"];
+		this.availableLocales = [this.fallbackLocale, "ru"];
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
