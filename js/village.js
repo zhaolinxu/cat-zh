@@ -240,6 +240,20 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 	},
 
+	unassignJob: function(kitten){
+		var game = this.game,
+			job = kitten.job;
+
+		if (!job){
+			return;
+		}
+
+		game.village.getJob(job).value--;
+
+		kitten.job = null;
+		game.village.updateResourceProduction();
+	},
+
 	update: function(){
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
@@ -902,8 +916,6 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 						}
 					}
 				}
-
-
 			}
 		}
 
@@ -1505,13 +1517,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
-
-				var job = game.village.sim.kittens[i].job;
-				game.village.getJob(job).value--;
-
-				game.village.sim.kittens[i].job = null;
-				game.village.updateResourceProduction();
-
+				game.village.unassignJob(game.village.sim.kittens[i]);
 				game.render();
 
 			}, this.game, i));
@@ -1598,7 +1604,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var leader = this.game.village.leader;
 
 		if (leader){
-			var title = leader.trait.title == "None" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") ["+$I("village.census.rank")+" " + leader.rank + "]";
+			var title = leader.trait.title == "None" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = leader.name + " " + leader.surname + ", " + title +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
@@ -1608,7 +1614,8 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 
 			if (leader.rank > 0){
-				leaderInfo += "<br><br>" + $I("village.job.bonus") + ": x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" + leader.job + ")";
+				leaderInfo += "<br><br>" + $I("village.job.bonus") + ": x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" +
+					( leader.job ? this.game.village.getJob(leader.job).title : "" ) + ")";
 			}
 		}
 
@@ -1831,13 +1838,12 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
 		model.x10Link = {
 			title: "x10",
 			visible: isVisible,
-			handler: function(btn){
-				this.animate();
+			handler: function(btn, callback){
 				self.game.villageTab.holdFestival(10);
 				self.game.resPool.addResEvent("manpower", -1500 * 10);
 				self.game.resPool.addResEvent("culture", -5000 * 10);
 				self.game.resPool.addResEvent("parchment", -2500  *10);
-				this.update();
+				callback(true);
 			}
 		};
 		return model;

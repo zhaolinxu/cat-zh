@@ -468,6 +468,13 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			storageRatio += (this.game.resPool.get("burnedParagon").value / 2000) * paragonRatio;
 		}
 		return storageRatio;
+	},
+
+	unlockAll: function(){
+		for (var i in this.perks){
+			this.perks[i].unlocked = true;
+		}
+		this.game.msg("All meta upgrades are unlocked!");
 	}
 });
 

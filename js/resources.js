@@ -774,12 +774,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
     },
 
     getVoidQuantity: function() {
-		// -1, 0, 1, 2 at start, 0.5 on average
+		// -1, 0, 1, 2, 3 at start, 1 on average
 		var maxPerDay = 2 + this.game.getEffect("temporalParadoxVoid");
 		var i = this.game.rand(maxPerDay + 2) - 1;
 
 		// Only integer
 		return i;
+    },
+
+    // getVoidQuantity is good for day -by day evaluation but it cannot be used for redshift which requires statistical distribution over large number of days
+    // The valus range of getVoidQuantity is: -1, 0, 1, 2 .. n, where n is (2 + temporalParadoxVoid -1) . The values are  equally distributed so we can get a median out of them. (-1 + n) /2
+    getVoidQuantityStatistically: function() {
+		// -1, 0, 1, 2, 3 at start, 1 on average
+		// Only integer
+		return (2 + this.game.getEffect("temporalParadoxVoid") - 1) / 2 ;
     },
 
 	setDisplayAll: function() {

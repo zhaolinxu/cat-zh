@@ -2100,7 +2100,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             return true;
 
 		}else{
-			console.log("not enough resources for", prices);
+			//console.log("not enough resources for", prices);
 			if (forceAll){
 				this.craftAll(res);
 				return true;
@@ -2256,6 +2256,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	unlockAll: function(){
 		for (var i in this.upgrades){
 			this.unlock(this.upgrades[i]);
+		}
+
+		for (var i in this.crafts){
+			this.crafts[i].unlocked = true;
 		}
 		this.game.msg($I("workshop.all.upgrades.unlocked"));
 	}

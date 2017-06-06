@@ -115,6 +115,35 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
+	fastforward: function(times) {
+		//safe switch for a certain type of pesky bugs with conversion
+		if (isNaN(this.faith)){
+			this.faith = 0;
+		}
+		var alicorns = this.game.resPool.get("alicorn");
+		if (alicorns.value > 0){
+			var corIncrement = times * this.game.getEffect("corruptionRatio") * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
+			var nextGreatestAlicornVal = Math.floor(alicorns.value + 0.999999);
+			this.corruption = Math.max(this.corruption, Math.min(this.corruption + corIncrement, nextGreatestAlicornVal));
+			var cor = Math.floor(Math.min(this.corruption, alicorns.value));
+
+			if (cor) {
+				this.corruption-=cor;
+				alicorns.value-=cor;
+				this.game.resPool.get("necrocorn").value+=cor;
+				this.game.upgrade({
+					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+				});
+			}
+		} else {
+			this.corruption = 0;
+		}
+		if (this.game.prestige.getPerk("voidOrder").researched){
+			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
+			this.faith += times * orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
+		}
+	},
+
 	zigguratUpgrades: [{
 		name: "unicornTomb",
 		label: $I("religion.zu.unicornTomb.label"),
@@ -705,7 +734,27 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
     getTranscendenceRatio: function(level){
             var bonus = Math.exp(level);
             return (Math.pow(bonus/5+1,2)-1)/80;
-    }
+    },
+
+	unlockAll: function(){
+		for (var i in this.religionUpgrades){
+			this.religionUpgrades[i].unlocked = true;
+			this.religionUpgrades[i].researched = true;
+		}
+
+		for (var i in this.zigguratUpgrades){
+			this.zigguratUpgrades[i].unlocked = true;
+		}
+
+		for (var i in this.transcendenceUpgrades){
+			this.transcendenceUpgrades[i].unlocked = true;
+		}
+
+		this.faith = 1000000;
+		this.tcratio = 100000000;
+
+		this.game.msg("All religion upgrades are unlocked!");
+	}
 
 });
 
@@ -825,30 +874,19 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
+		var self = this;
 		model.allLink = {
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
-			handler: function(event){
-				var self = this;
-				this.animate();
-				this.controller.sacrificeAll(this.model, event, function(result) {
-					if (result) {
-						self.update();
-					}
-				});
+			handler: function(event, callback){
+				self.sacrificeAll(model, event, callback);
 			}
 		};
 		model.x10Link = {
 			visible: this._canAfford(model) >= 10,
 			title: "x10",
-			handler: function(event){
-				var self = this;
-				this.animate();
-				this.controller.sacrificeX10(this.model, event, function(result) {
-					if (result) {
-						self.update();
-					}
-				});
+			handler: function(event, callback){
+				self.sacrificeX10(model, event, callback);
 			}
 		};
 		return model;
@@ -913,9 +951,9 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	renderLinks: function(){
 		var self = this;
 
-		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false);
+		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
 
-		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false);
+		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false, true);
 	},
 
 	update: function(){
@@ -938,32 +976,19 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
+		var self = this;
 		model.allLink = {
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
-			handler: function(event){
-				var self = this;
-
-				this.animate();
-				this.controller.sacrificeAll(this.model, event, function(result) {
-					if (result) {
-						self.update();
-					}
-				});
+			handler: function(event, callback){
+				self.sacrificeAll(model, event, callback);
 			}
 		};
 		model.x10Link = {
 			visible: this._canAfford(model) >= 10,
 			title: "x10",
-			handler: function(event){
-				var self = this;
-
-				this.animate();
-				this.controller.sacrificeX10(this.model, event, function(result) {
-					if (result) {
-						self.update();
-					}
-				});
+			handler: function(event, callback){
+				self.sacrificeX10(model, event, callback);
 			}
 		};
 		return model;

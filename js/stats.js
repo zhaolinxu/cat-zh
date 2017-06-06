@@ -154,6 +154,15 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         for (var i in this.statsCurrent) {
             this.statsCurrent[i].val = 0;
         }
+    },
+
+    unlockAll: function(){
+        for (var i in this.statsCurrent) {
+            this.statsCurrent[i].unlocked = true;
+        }
+        for (var i in this.stats) {
+            this.stats[i].unlocked = true;
+        }
     }
 
 });

@@ -278,6 +278,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
     load: function (saveData) {
 		this.loadMetadata(this.achievements, saveData.achievements);
+    },
+
+    unlockAll: function(){
+        for (var i in this.achievements){
+            this.achievements[i].unlocked = true;
+        }
+        this.game.msg("All achievements are unlocked");
     }
 });
 

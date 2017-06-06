@@ -48,7 +48,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			this.getVSU("usedCryochambers").unlocked = true;
         }
 
-
+        //console.log("restored save data timestamp as", saveData["time"].timestamp);
         var ts = saveData["time"].timestamp || Date.now();
 
         this.gainTemporalFlux(ts);
@@ -130,9 +130,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     calculateRedshift: function(){
-        if (!this.game.opts.enableRedshift){
+        /*if (!this.game.opts.enableRedshift){
             return;
-        }
+        }*/
 
         var currentTimestamp = Date.now();
         var delta = currentTimestamp - this.timestamp;
@@ -144,11 +144,16 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
         var daysOffset = Math.round(delta / (2000/* * this.game.rate*/));
 
-        if (daysOffset < 3/*avoid shift because of UI lags*/){
-            return;
+        /*avoid shift because of UI lags*/
+        if (daysOffset < 3){
+           return;
         }
 
-        var offset = 400 * 10;
+        var offset = 400 * 10;  //10 years
+        if (this.game.calendar.year >= 1000 || this.game.resPool.get("paragon").value > 0){
+            offset = 400 * 40;
+        }
+
         //limit redshift offset by 1 year
         if (daysOffset > offset){
             daysOffset = offset;
@@ -190,6 +195,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.game.workshop.update(this.game.rate * daysOffset);
         this.game.village.fastforward(this.game.rate * daysOffset);
         this.game.space.fastforward(this.game.rate * daysOffset);
+        this.game.religion.fastforward(this.game.rate * daysOffset);
 
         // enforce limits
         for (i in this.game.resPool.resources){
@@ -204,9 +210,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             res.value = Math.min(limit, res.value);
         }
 
-        this.game.msg("You have regained " + daysOffset + " days of production" + (numberEvents? (" and "+ numberEvents + " astronomical events"): ""));
-
-
+        if (daysOffset > 3) {
+            this.game.msg("You have regained " + daysOffset + " days of production" + (numberEvents ? (" and " + numberEvents + " astronomical events") : ""));
+        }
     },
 
 	chronoforgeUpgrades: [{
@@ -437,9 +443,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (amt == 1) {
-            game.msg("Temporal energy released, skipped one year", "", "tc");
+            game.msg($I("time.tc.shatterOne"), "", "tc");
         } else {
-            game.msg("Temporal energy released, skipped " + amt + " years", "", "tc");
+            game.msg($I("time.tc.shatter",[amt]), "", "tc");
         }
 
         game.time.flux += amt;
@@ -448,6 +454,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
+    },
+
+    unlockAll: function(){
+        for (var i in this.cfu){
+            this.cfu[i].unlocked = true;
+        }
+        this.game.msg("All time upgrades are unlocked");
     }
 });
 
@@ -637,10 +650,14 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     },
 
     doShatter: function(model, amt){
-        var fueling = 100 * amt;				//add 100 fuel per TC
+
+        this.game.time.heat += amt*10;
+        game.time.shatter(amt);
+
+        /*var fueling = 100 * amt;				//add 100 fuel per TC
         this.game.time.heat += amt*10;
         this.game.time.getCFU("blastFurnace").heat += fueling;
-        return true;
+        return true;*/
     },
 
     updateVisible: function(model){

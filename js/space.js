@@ -917,6 +917,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			ratio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
 		}
 		return ratio;
+	},
+
+	unlockAll: function(){
+		for (var i in this.planets){
+			this.planets[i].unlocked = true;
+		}
+
+		for (var i in this.programs){
+			this.programs[i].unlocked = true;
+		}
+		this.game.msg("All space upgrades are unlocked");
 	}
 });
 

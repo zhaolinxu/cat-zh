@@ -1015,7 +1015,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						iron.value >= iron.maxValue * (1 - baseAutomationRate))
 				){
 					if (!self.isAutomationEnabled){
-						game.msg("Skipping workshop automation...", null, "workshopAutomation");
+						game.msg($I("bld.msg.automation.skip"), null, "workshopAutomation");
 						self.jammed = true;
 						return;
 					}
@@ -1033,7 +1033,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
 						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
 						game.workshop.craft("plate", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoIron) + " iron, +" + game.getDisplayValueExt(amt + amt * ratio) + " plates!", null, "workshopAutomation", true);
+
+						game.msg($I("bld.msg.automation.plates", [game.getDisplayValueExt(autoIron), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
 					}
 				}
 
@@ -1042,7 +1043,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
 						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
 						game.workshop.craft("slab", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoMinerals) + " minerals, +" + game.getDisplayValueExt(amt + amt * ratio) + " slabs!", null, "workshopAutomation", true);
+						game.msg($I("bld.msg.automation.slabs", [game.getDisplayValueExt(autoMinerals), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
 					}
 				}
 
@@ -1051,11 +1052,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
 						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
 						game.workshop.craft("beam", amt);
-						game.msg("Spent " + game.getDisplayValueExt(autoWood) + " wood, +" + game.getDisplayValueExt(amt + amt * ratio) + " beams!", null, "workshopAutomation", true);
+
+						game.msg($I("bld.msg.automation.beams", [game.getDisplayValueExt(autoWood), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
 					}
 				}
 
-				game.msg("Activating workshop automation", null, "workshopAutomation");
+				game.msg($I("bld.msg.automation"), null, "workshopAutomation");
 				self.jammed = true;				//Jam until next year
 			}
 		},
@@ -1415,7 +1417,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"cultureMax" : 50
 				},
 				stageUnlocked : true,
-				flavor: "Daily 'All Dogs Go to Heaven' showings"
+				flavor: $I("buildings.amphitheatre.flavor")
 			},
 			{
 				label : $I("buildings.broadcasttower.label"),

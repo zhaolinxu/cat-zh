@@ -7,8 +7,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	seasons: [
 		{
 			name: "spring",
-			title: "Spring",
-			shortTitle: "Spr",
+			title: $I("calendar.season.spring"),
+			shortTitle: $I("calendar.season.spring.short"),
 
 			modifiers:{
 				"catnip" : 1.5
@@ -16,8 +16,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "summer",
-			title: "Summer",
-			shortTitle: "Sum",
+			title: $I("calendar.season.summer"),
+			shortTitle: $I("calendar.season.summer.short"),
 
 			modifiers:{
 				"catnip" : 1.0
@@ -25,8 +25,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "autumn",
-			title: "Autumn",
-			shortTitle: "Aut",
+			title: $I("calendar.season.autumn"),
+			shortTitle: $I("calendar.season.autumn.short"),
 
 			modifiers:{
 				"catnip" : 1.0
@@ -34,8 +34,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "winter",
-			title: "Winter",
-			shortTitle: "Win",
+			title: $I("calendar.season.winter"),
+			shortTitle: $I("calendar.season.winter.short"),
 
 			modifiers:{
 				"catnip" : 0.25
@@ -237,7 +237,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if (this.game.science.get("astronomy").researched){
 			if (!isSilent){
-				this.game.msg("You've made a star chart!", "", "astronomicalEvent");
+				this.game.msg($I("calendar.msg.starchart"), "", "astronomicalEvent");
 			}
 			this.game.resPool.addResEvent("starchart", 1);
 		}
@@ -276,7 +276,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//TODO: include shatter penalties there
 			this.displayElementTooltip = UIUtils.attachTooltip(game, this.displayElement, 0, 320, dojo.hitch(this, function() {
 				if (this.year > 100000){
-					return "Year " + this.year.toLocaleString();
+					return $I("calendar.year") + " " + this.year.toLocaleString();
 				}
 				return "";
 			}));
@@ -288,7 +288,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (Year " + this.cycleYear+")",
+					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
 					style: { textAlign: "center", clear: "both"}
 				}, tooltip );
 
@@ -540,13 +540,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (this.game.workshop.get("seti").researched){
 				this.observeHandler();
 			}else{
-				this.game.msg("A rare astronomical event occurred in the sky", "", "astronomicalEvent");
+				this.game.msg($I("calendar.msg.event"), "", "astronomicalEvent");
 				var node = dojo.byId("observeButton");
 
 				this.observeBtn = dojo.create("input", {
 					id: "observeBtn",
 					type: "button",
-					value: "Observe the sky"
+					value: $I("navbar.observe")
 				}, node);
 
 				dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
@@ -583,13 +583,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 
 			if (mineralsGain > 0 || sciGain > 0){
-				var meteorMsg = "A meteor fell near the village";
+				var meteorMsg = $I("calendar.msg.meteor");
 
 				if (mineralsGain > 0){
-					meteorMsg += ", +" + this.game.getDisplayValueExt(mineralsGain) + " minerals";
+					meteorMsg += ", +" + this.game.getDisplayValueExt(mineralsGain) + " " + $I("resources.minerals.title");
 				}
 				if (sciGain > 0) {
-					meteorMsg += ", +" + this.game.getDisplayValueExt(sciGain) + " science";
+					meteorMsg += ", +" + this.game.getDisplayValueExt(sciGain) + " " + $I("resources.science.title");
 				}
 
 				this.game.msg(meteorMsg + "!", null, "meteor");
@@ -606,16 +606,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var unicorns = this.game.resPool.get("unicorns");
 			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && archery.researched){
 				this.game.resPool.addResEvent("unicorns", 1);
-				this.game.msg("A unicorn comes to your village attracted by the catnip scent!");
+				this.game.msg($I("calendar.msg.unicorn"));
 			}
 
 			if (!zebras.value && archery.researched){
 				this.game.resPool.addResEvent("zebras", 1);
-				this.game.msg("A mysterious hunter from zebra tribe decides to stop over in the village.");
+				this.game.msg($I("calendar.msg.zebra.hunter"));
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
 				if (this.game.rand(100000) <= 500){
 					this.game.resPool.addResEvent("zebras", 1);
-					this.game.msg("Another zebra hunter joins your village.");
+					this.game.msg($I("calendar.msg.zebra.hunter.new"));
 					this.game.ui.render();
 				}
 			}
@@ -629,8 +629,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			if (zebras.value > zTreshold ){
 				this.game.msg( zebras.value > 1 ?
-						"Zebra hunters have departed from your village." :
-						"Zebra hunter has departed from your village."
+						$I("calendar.msg.zebra.hunter.departed.pl") :
+						$I("calendar.msg.zebra.hunter.departed")
 				);
 				zebras.value = zTreshold;
 				this.game.ui.render();
@@ -642,14 +642,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
 		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
 			var unicornBonus = 500 * (1 + this.game.getEffect("unicornsRatioReligion") * 0.1);
-			this.game.msg("A rift to the Unicorn Dimension has opened in your village, +" + this.game.getDisplayValueExt(unicornBonus) + " unicorns!", "notice", "unicornRift");
+			this.game.msg($I("calendar.msg.rift", [this.game.getDisplayValueExt(unicornBonus)]), "notice", "unicornRift");
 
 			this.game.resPool.addResEvent("unicorns", unicornBonus);	//10% of ziggurat buildings bonus
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
 		if (this.game.rand(100000) < aliChance){
-			this.game.msg("An Alicorn has descended from the sky!", "important", "alicornRift");
+			this.game.msg($I("calendar.msg.alicorn"), "important", "alicornRift");
 
 			this.game.resPool.addResEvent("alicorn", 1);
 			this.game.upgrade({
@@ -662,7 +662,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
 
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
-			this.game.msg("Ivory Meteor fell near the village, +" + ivory.toFixed() + " ivory!", "notice", "ivoryMeteor");
+			this.game.msg($I("calendar.msg.ivoryMeteor", [ivory.toFixed()]), "notice", "ivoryMeteor");
 
 			this.game.resPool.addResEvent("ivory", ivory);
 		}
@@ -703,7 +703,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
                 autoChance = 1;
             }
             autoChance = Math.min(autoChance, 1);
-            console.log("chance="+chance+", autoChance="+autoChance);
+            //console.log("chance="+chance+", autoChance="+autoChance);
             numberEvents = Math.round(daysOffset * chance * autoChance / 10000);
             //console.log("number of startcharts="+count);
             if (numberEvents) {
@@ -720,6 +720,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
             var sciBonus = numberEvents * ((25 + celestialBonus) * ( 1 + this.game.getEffect("scienceRatio")));
             this.game.resPool.addResEvent("science", sciBonus);
+
         }
 
         totalNumberOfEvents+=numberEvents;
@@ -803,6 +804,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		totalNumberOfEvents+=numberEvents;
 
+
+		//==================== other calendar stuff ========================
+		var yearsOffset = Math.floor(daysOffset / 400);
+		this.game.calendar.year += yearsOffset;
+
+		//antimatter
+		var resPool = this.game.resPool;
+		if (resPool.energyProd >= resPool.energyCons) {
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction") * daysOffset / 400);	//give partial AM based on active sunlifters
+		}
+		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
+
+		//not sure if it is a good idea
+		this.game.resPool.addResEvent("void",
+			this.game.resPool.getVoidQuantityStatistically() * Math.round(daysOffset * this.game.bld.get("chronosphere").on / 100));
 
         return totalNumberOfEvents;
 	},

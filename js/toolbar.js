@@ -122,8 +122,8 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var base = this.game.getEffect("happiness");
 		//var population = this.game.village.getKittens() *  2;
-		var tooltip = "Base: 100%<br>" +
-			   "Buildings: +" + (Math.floor(base)) + "%<br>";
+		var tooltip = $I("village.happiness.base") + ": 100%<br>" +
+			   $I("village.happiness.buildings") + ": +" + (Math.floor(base)) + "%<br>";
 
 		//----------------------
 		var resHappiness = 0;
@@ -131,33 +131,31 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
 				resHappiness += 10;
-				if(resources[i].name=="elderBox"&&this.game.resPool.get("wrappingPaper").value){
-					resHappiness-=10; // Present Boxes and Wrapping Paper do not stack.
+				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
+					resHappiness -= 10; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
 		}
-		tooltip += "Rare resources: +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
+		tooltip += $I("village.happiness.rare.resources") + ": +" + this.game.getDisplayValueExt(resHappiness, false, false, 0) + "%<br>";
 		//---------------------
 		var karma = this.game.resPool.get("karma");
 		if (karma.value > 0){
-			tooltip += "Karma: +" + this.game.getDisplayValueExt(karma.value, false, false, 0) + "%<br>";
+			tooltip += $I("village.happiness.karma") + ": +" + this.game.getDisplayValueExt(karma.value, false, false, 0) + "%<br>";
 		}
 
         var unhappiness = ( this.game.village.getKittens()-5 ) * 2;
         var unhappiness = unhappiness;
 
 		var unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
-		tooltip += "Population penalty: -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
+		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
 
-        tooltip += "* Penalty base: -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
-		tooltip += "* Penalty mitigated: " + -this.game.getDisplayValueExt(unhappinessReduction, false, false, 0) + "%<br>";
+        tooltip += "* " + $I("village.happiness.penalty.base") + ": -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
+		tooltip += "* " + $I("village.happiness.penalty.mitigated") + ": " + -this.game.getDisplayValueExt(unhappinessReduction, false, false, 0) + "%<br>";
 
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
-            tooltip += "Overpopulation: -" + overpopulation*2 + "%<br>";
+            tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation*2 + "%<br>";
         }
-
-
 
         return tooltip;
     }

@@ -34,23 +34,51 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	language: null,
 	messages: null,
 	_deffered: null,
+	platformLocale: null,
 
+	//TODO: move to the configuration file
 	constructor: function(){
-		this.availableLocales = [this.fallbackLocale, "ru"];
+		this.availableLocales = [this.fallbackLocale, "zh"];
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru": "Русский"
+			"ru": "Русский",
+			"zh": "Chinese"
 		};
 	},
 
-	init: function(version) {
+	init: function(version){
+		var self = this;
+		if (navigator.globalization  !== undefined) {
+			var def = $.Deferred();
+
+			navigator.globalization.getPreferredLanguage(
+				function (language) {
+					//console.log("platform locale:", language);
+					self.platformLocale = language.value;
+
+					def.resolve();
+				},
+				function (err) {
+					console.error("Unable to get platform locale", err);
+					def.resolve();
+				}
+			);
+			return def.promise().then(function(){return self._init(version)});
+		} else {
+			return this._init(version);
+		}
+	},
+
+	_init: function(version) {
 		if (this._deffered) {
 			return this._deffered.promise();
 		}
 		// check if user already selected the locale
 		var lang = LCstorage["com.nuclearunicorn.kittengame.language"];
 		if (!lang || !this.isAvailable(lang)) {
-			var defaultLocale = navigator.language || navigator.userLanguage;
+
+			//console.log("navigator:", navigator, "platform:", this.platformLocale);
+			var defaultLocale = this.platformLocale || navigator.language || navigator.userLanguage;
 			// find closes match
 			var parts = defaultLocale.split("[-_]");
 			lang = this.fallbackLocale;
@@ -70,7 +98,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		// now we can try to load it
 		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
-			console.error("Couldn't load default locale '"+self.fallbackLocale+"' because of the following error:"+errMrs+", details:"+err);
+			console.error("Couldn't load default locale '", self.fallbackLocale, "' because of the following error:", errMrs, ", details:", err);
 			self._deffered.reject("Couldn't load default locale");
 		});
 		if (this.language != this.fallbackLocale ) {
@@ -1018,9 +1046,16 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			event.stopPropagation();
 			event.preventDefault();
 
-			dojo.hitch(this, handler, event)();
+			var self = this;
+			this.animate();
+			// FIXME should as easy as handler.apply(this, [args...])
+			dojo.hitch(this, handler, event, function(result) {
+				if (result) {
+					self.update();
+				}
+			})();
 
-			this.update();
+			
 		}, handler));
 
 		if (addBreak){
@@ -1258,8 +1293,19 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				}
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
-					var precision = Math.abs(effectValue * this.game.rate) < 0.01? 3: 2; // avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
-					displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
+					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
+					var tempVal = Math.abs(effectValue * this.game.rate), precision;
+					if (tempVal >= 0.001) {
+						precision = tempVal < 0.01? 3: 2; 
+						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
+					} else {
+						// tempVal = tempVal * 60;
+						// if (tempVal >= 0.01) {
+						// 	displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 60, false, false, 2) + "/min";
+						// } else {
+							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/h";
+						// }
+					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
 				} else if (effectMeta.type === "perYear"){
@@ -1441,7 +1487,7 @@ ButtonModernHelper = {
 
 		if (!hideTitle){
 			dojo.create("div", {
-				innerHTML: "Effects:",
+				innerHTML: $I("res.effects") + ":",
 				className: "tooltip-divider",
 				style: {
 					textAlign: "center",
@@ -1784,7 +1830,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}
 			   },{
 				id: "offAll",
-				title: "-all",
+				title: "-" + $I("btn.all.minor"),
 				handler: function(){
 					this.controller.offAll(this.model);
 				}
@@ -1800,7 +1846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				}
 			   },{
 				id: "add",
-				title: "+all",
+				title: "+" + $I("btn.all.minor"),
 				handler: function(){
 					this.controller.onAll(this.model);
 				}
@@ -1891,7 +1937,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		if (!meta.val) {
 			return meta.label;
 		} else if (meta.noStackable){
-			return meta.label + " (complete)";
+			return meta.label + " " + $I("btn.complete");
 		} else if (meta.togglableOnOff){
 			return meta.label + " (" + meta.val + ")";
 		} else if (meta.togglable) {
@@ -2042,7 +2088,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuc
 	getDescription: function(model){
 		var meta = model.metadata;
 		if (meta.effectDesc && meta.researched){
-			return this.inherited(arguments) + "<br>" + "Effect: " + meta.effectDesc;
+			return this.inherited(arguments) + "<br>" + $I("res.effect") + ": " + meta.effectDesc;
 		} else {
 			return this.inherited(arguments);
 		}
@@ -2051,7 +2097,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuc
 	getName: function(model){
 		var meta = model.metadata;
 		if (meta.researched){
-			return meta.label + " (Complete)";
+			return meta.label + " " + $I("btn.complete.capital");
 		} else {
 			return meta.label;
 		}
@@ -2294,9 +2340,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
 	domNode:  null,
 	visible: 	true,
 
-	constructor: function(tabName, game){
-		this.tabName = tabName;
-		this.tabId = tabName;
+	constructor: function(opts, game){
+		this.tabName = opts.name;
+		this.tabId = opts.id;
 		this.buttons = [];
 
 		this.game = game;
