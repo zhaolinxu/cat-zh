@@ -1747,7 +1747,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var govInfo = this.getGovernmentInfo();
 
 		if (this.game.challenges.currentChallenge != "anarchy") {
-			this.leaderDiv.innerHTML = "<strong>" + $I("vilage.census.lbl.leader") + ":</strong> " + govInfo.leaderInfo;
+			this.leaderDiv.innerHTML = "<strong>" + $I("village.census.lbl.leader") + ":</strong> " + govInfo.leaderInfo;
 		}
 
 		//TODO: update senators
