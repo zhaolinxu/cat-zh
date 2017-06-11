@@ -211,7 +211,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         if (daysOffset > 3) {
-            this.game.msg("You have regained " + daysOffset + " days of production" + (numberEvents ? (" and " + numberEvents + " astronomical events") : ""));
+            this.game.msg($I("time.redshift", [daysOffset]) + (numberEvents ? $I("time.redshift.ext",[numberEvents]) : ""));
         }
     },
 

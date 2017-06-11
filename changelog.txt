@@ -1,4 +1,7 @@
 v 1.4.0.8 (5 jun)
+
+Fixed issues with Shatter TC visibility
+
 High level Ziggurat Upgrades will now require gold.
 Burn paragon button will now go at the bottom of the panel.
 
