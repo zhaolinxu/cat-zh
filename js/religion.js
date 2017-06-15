@@ -202,14 +202,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		label: $I("religion.zu.skyPalace.label"),
 		description: $I("religion.zu.skyPalace.desc"),
 		prices: [
-			{ name : "ivory", val: 250000 },
-			{ name : "gold", val: 500 },
+			{ name : "ivory", val: 125000 },
+			{ name : "megalith", val: 5 },
 			{ name : "tears", val: 500 }
 		],
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 0,
 			"ivoryMeteorRatio" : 0,
+			"goldMaxRatio": 0,
 			"alicornChance" : 0,
 			"alicornPerTick" : 0
 		},
@@ -217,11 +218,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			var effects = {
 				"unicornsRatioReligion" : 0.5,
 				"ivoryMeteorRatio" : 0.05,
-				"alicornChance" : 5,
+				"goldMaxRatio": 0.01,
+				"alicornChance" : 10,
 				"alicornPerTick" : 0
 			};
 			if (game.resPool.get("alicorn").value > 0) {
-				effects["alicornPerTick"] = 0.00001;
+				effects["alicornPerTick"] = 0.00002;
 			}
 			self.effects = effects;
 		},
@@ -236,7 +238,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		description: $I("religion.zu.unicornUtopia.desc"),
 		prices: [
 			{ name : "ivory", val: 1000000 },
-			{ name : "gold", val: 750 },
+			{ name : "gold", val: 500 },
 			{ name : "tears", val: 5000 }
 		],
 		priceRatio: 1.15,
@@ -272,7 +274,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		//TODO: make SSPIRE make something really interesting
 		description: $I("religion.zu.sunspire.desc"),
 		prices: [
-			{ name : "ivory", val: 1500000 },
+			{ name : "ivory", val: 750000 },
 			{ name : "gold", val: 1250 },
 			{ name : "tears", val: 25000 }
 		],

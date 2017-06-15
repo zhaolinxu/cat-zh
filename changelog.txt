@@ -1,3 +1,9 @@
+v 1.4.0.9 (14 jun)
+
+Sky palace will now require megaliths instead of gold. Every level of SP will boost gold cap by 1%
+UU will now require slightly less gold
+SS will now require slightly less ivory.
+
 v 1.4.0.8 (5 jun)
 
 Fixed issues with Shatter TC visibility
