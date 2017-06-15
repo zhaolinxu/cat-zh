@@ -203,7 +203,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		description: $I("religion.zu.skyPalace.desc"),
 		prices: [
 			{ name : "ivory", val: 250000 },
-			{ name : "gold", val: 750 },
+			{ name : "gold", val: 500 },
 			{ name : "tears", val: 500 }
 		],
 		priceRatio: 1.15,
@@ -236,7 +236,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		description: $I("religion.zu.unicornUtopia.desc"),
 		prices: [
 			{ name : "ivory", val: 1000000 },
-			{ name : "gold", val: 1250 },
+			{ name : "gold", val: 750 },
 			{ name : "tears", val: 5000 }
 		],
 		priceRatio: 1.15,
@@ -273,7 +273,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		description: $I("religion.zu.sunspire.desc"),
 		prices: [
 			{ name : "ivory", val: 1500000 },
-			{ name : "gold", val: 2500 },
+			{ name : "gold", val: 1250 },
 			{ name : "tears", val: 25000 }
 		],
 		priceRatio: 1.15,
