@@ -969,6 +969,27 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	}
 });
 
+dojo.declare("classes.ui.religion.RefineTCBBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+	x25: null,
+
+	/**
+	 * Render button links like off/on and sell
+	 */
+	renderLinks: function(){
+		var self = this;
+
+		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
+		this.x25 = this.addLink(this.model.x25Link.title, this.model.x25Link.handler, false, true);
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		if (this.x25){
+			dojo.setStyle(this.x25.link, "display", this.model.x25Link.visible ? "" : "none");
+		}
+	}
+});
+
 
 dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
@@ -1107,10 +1128,68 @@ dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.gam
 		callback(false);
 	},
 
+	fetchModel: function(options) {
+		var model = this.inherited(arguments);
+		var self = this;
+		model.allLink = {
+			visible: true,
+			title: $I("religion.sacrificeBtn.all"),
+			handler: function(event, callback){
+				self.refineAll(model, event, callback);
+			}
+		};
+		model.x25Link = {
+			visible: this._canAfford(model) >= 25,
+			title: "x25",
+			handler: function(event, callback){
+				self.refineX25(model, event, callback);
+			}
+		};
+		return model;
+	},
+
 	refine: function(){
+		//TODO: use #_refine
 		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
 		this.game.resPool.addResEvent("relic", relicsCount);
 		this.game.msg($I("religion.refineTCsBtn.refine.msg", [relicsCount]));
+	},
+
+	_canAfford: function(model) {
+		return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
+	},
+
+	refineX25: function(model, event, callback){
+		if (model.enabled && this._canAfford(model) >= 25) {
+			callback(this._refine(model, 25));
+		}
+		callback(false);
+	},
+
+	refineAll: function(model, event, callback){
+		if (model.enabled && this.hasResources(model)) {
+			var result = this._refine(model, this._canAfford(model));
+			callback(result);
+		}
+		callback(false);
+	},
+
+	_refine: function(model, amt){
+		var prices = model.prices;
+		amt = amt || 1;
+
+		var tcPriceCount = prices[0].val * amt;
+
+		if (tcPriceCount > this.game.resPool.get("timeCrystal").value) {
+			return;
+		}
+
+		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val) * amt;
+
+		this.game.resPool.addResEvent("timeCrystal", -tcPriceCount);
+		this.game.resPool.addResEvent("relic", relicsCount);
+		this.game.msg($I("religion.refineTCsBtn.refine.msg", [relicsCount]));
+		return true;
 	},
 
 	updateVisible: function(model){
@@ -1211,7 +1290,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
 
-			var refineTCBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			var refineTCBtn = new classes.ui.religion.RefineTCBBtn({
 				name: $I("religion.refineTCsBtn.label"),
 				description: $I("religion.refineTCsBtn.desc"),
 				prices: [{ name: "timeCrystal", val: 25}],

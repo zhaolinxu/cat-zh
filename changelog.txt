@@ -4,6 +4,8 @@ Sky palace will now require megaliths instead of gold. Every level of SP will bo
 UU will now require slightly less gold
 SS will now require slightly less ivory.
 
+Added x25 and xAll options for tc refine
+
 v 1.4.0.8 (5 jun)
 
 Fixed issues with Shatter TC visibility
