@@ -238,8 +238,8 @@
     "stats.group.all":"All-Time Stats",
     "stats.group.current":"Current Game Stats",
 
-    "challendge.1000Years.desc": "Goal: Reach year 1000.",
-    "challendge.1000Years.effect.desc": "TBD",
+    "challendge.1000Years.desc": "Restart the game with a half-life time.<br><br>Goal: Reach year 1000.",
+    "challendge.1000Years.effect.desc": "Colder combustion of Time Crystal.",
     "challendge.1000Years.label": "1000 years",
     "challendge.anarchy.desc": "Restart the game with kittens acting their own way : kittens are lazy, always eat extra catnip and can't be assigned as leaders.<br><br>Goal: TBD.",
     "challendge.anarchy.effect.desc": "TBD",
