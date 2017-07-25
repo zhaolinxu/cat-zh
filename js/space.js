@@ -360,9 +360,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 
 				if (game.workshop.get("aiBases").researched){
-					for (var key in Object.keys(effects)){
+					for (var key in effects){
 						if (key != "energyConsumption" ){
-							effects[i] *= effects[i] * (1 + game.bld.get("aiCore").on);
+							effects[key] *= (1 + game.bld.get("aiCore").on * 0.25);
 						}
 					}
 				}

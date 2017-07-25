@@ -798,7 +798,7 @@
     "workshop.amBases.desc": "Reduce energy consumption for Moon Bases by 50%",
     "workshop.amBases.label": "Antimatter Bases",
     "workshop.aiBases.label": "AI Bases",
-    "workshop.aiBases.desc": "AI-powered logistics. Every level of AI Core will increase the effectiveness of moon bases by 10% (TBD)",
+    "workshop.aiBases.desc": "AI-powered logistics. Every level of AI Core will increase the effectiveness of moon bases by 25%",
     "workshop.amDrive.desc": "Antimatter-powered rocket engine",
     "workshop.amDrive.label": "Antimatter Drive",
     "workshop.amFission.desc": "Engineers are 25% more effective at production of eludium",
