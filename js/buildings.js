@@ -1632,6 +1632,23 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 			self.effects["temporalFluxProduction"] = game.getEffect("temporalFluxProductionChronosphere");
 		}
+	},{
+		name: "aiCore",
+		label: $I("buildings.aicore.label"),
+		description: $I("buildings.aicore.desc"),
+		prices: [
+			{ name : "unobtainium", val: 2500 },
+			{ name : "science", 	val: 500000 }
+		],
+		priceRatio: 1.15,
+		effects: {
+			"energyConsumption" : 2,
+			"gflopsPerTickBase": 1
+		},
+		calculateEffects: function(self, game) {
+			self.effects["energyConsumption"] = 2 * ( 1 + 0.1*self.on);
+		},
+		flavor: $I("buildings.aicore.flavor")
 	}
 	],
 

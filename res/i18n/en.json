@@ -826,7 +826,7 @@
     "workshop.augumentation.desc": "Kitten skills are 100% more effective",
     "workshop.augumentation.label": "Augmentations",
     "workshop.internet.desc": "Kittens learn skills with each other",
-    "workshop.internet.label": "Internet",
+    "workshop.internet.label": "Telecommunication",
     "workshop.neuralNetworks.desc": "Engineers effectiveness doubles at the cost of double energy consumption of factories",
     "workshop.neuralNetworks.label": "Neural Networks",
     "workshop.ai.desc": "A state of the art artificial intelligence",
@@ -1494,5 +1494,9 @@
     "menu.import.btn":"Import from text",
     "navbar.observe.short": "Observe",
 
-    "workshop.refine.confirmation":"Your kittens will DIE"
+    "workshop.refine.confirmation":"Your kittens will DIE",
+
+    "buildings.aicore.label": "AI Core",
+    "buildings.aicore.desc": "FelineOS, a state of the art artificial intelligence. Absolutely harmless. Every level of upgrade will increase core energy consumption by 10%.",
+    "buildings.aicore.flavor": "It time to put our differences aside for science."
 }

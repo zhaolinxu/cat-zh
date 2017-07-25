@@ -366,14 +366,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.failure", [$I(race.title)]) , null, "trade");
+				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
 			}
 			return tradeRes;
 		}
 
 		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.success", [$I(race.title)]), null, "trade");
+				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
 			}
 			tradeRatioAttitude = 0.25;
 		}
@@ -899,7 +899,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		var exploreBtn = new classes.trade.ui.SendExplorersButton({
 			name: $I("trade.send.explorers"),
-			description: $I("trade.send.desc"),
+			description: $I("trade.send.explorers.desc"),
 			prices: [{ name: "manpower", val: 1000}],
 			controller: new classes.trade.ui.SendExplorersButtonController(this.game)
 		}, this.game);

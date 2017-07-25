@@ -480,7 +480,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks"]
+			upgrades: ["neuralNetworks"],
+			buildings: ["aiCore"]
 		}
 	},{
 		name: "nuclearFission",

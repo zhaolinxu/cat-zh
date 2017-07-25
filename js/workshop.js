@@ -1466,17 +1466,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 200000 }
 		],
 		unlocks: {
-			upgrades: ["ai"]
 		}
-	},{
-		name: "ai",
-		label: $I("workshop.ai.label"),
-		description: $I("workshop.ai.desc"),
-		effects: {},
-		prices:[
-			{ name : "titanium", val: 7500 },
-			{ name : "science",  val: 250000 }
-		]
 	},{
 		name: "assistance",
 		label: $I("workshop.assistance.label"),
@@ -1721,7 +1711,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             voidSpace: ["chronocontrol"]
         }
     },{
-        name: "turnSmoothly",
+        name: "turnSmoothly",	//chronosurge
         label: $I("workshop.turnSmoothly.label"),
         description: $I("workshop.turnSmoothly.desc"),
         effects: {

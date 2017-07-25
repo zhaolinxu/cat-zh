@@ -807,7 +807,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		//==================== other calendar stuff ========================
 		var yearsOffset = Math.floor(daysOffset / 400);
-		this.game.calendar.year += yearsOffset;
+		this.year += yearsOffset;
+
+		if ( yearsOffset && this.year % 1000 === 0 ){
+			this.game.resPool.addResEvent("paragon", 1);
+			this.game.stats.getStat("totalParagon").val++;
+		}
+		//------------------------------------------------------------------
 
 		//antimatter
 		var resPool = this.game.resPool;

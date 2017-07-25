@@ -143,8 +143,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#5A0EDE"
+	},{
+		name : "temporalFlux",
+		title: $I("resources.temporalFlux.title"),
+		type : "common",
+		craftable: false,
+		visible: false,
+		persists: true
+	},{
+		name : "gflops",
+		title: "gigaflops",
+		type : "transient",
+		craftable: false,
+		visible: false
 	},
-
 	//=========================================
 	// 			  luxury resources
 	//=========================================
@@ -272,15 +284,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
-	},{
-		name : "temporalFlux",
-		title: $I("resources.temporalFlux.title"),
-		type : "common",
-		craftable: false,
-		visible: false,
-		persists: true
 	},
-
 	//=========================================
 	// 				    CRAFT
 	//=========================================
