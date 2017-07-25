@@ -130,9 +130,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     calculateRedshift: function(){
-        /*if (!this.game.opts.enableRedshift){
+        if (!this.game.opts.enableRedshift){
             return;
-        }*/
+        }
 
         var currentTimestamp = Date.now();
         var delta = currentTimestamp - this.timestamp;
