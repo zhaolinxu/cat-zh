@@ -1497,6 +1497,6 @@
     "workshop.refine.confirmation":"Your kittens will DIE",
 
     "buildings.aicore.label": "AI Core",
-    "buildings.aicore.desc": "FelineOS, a state of the art artificial intelligence. Absolutely harmless. Every level of upgrade will increase core energy consumption by 10%.",
+    "buildings.aicore.desc": "FelineOS, a state of the art artificial intelligence. Absolutely harmless. Every level of upgrade will increase core energy consumption by 75%.",
     "buildings.aicore.flavor": "It time to put our differences aside for science."
 }

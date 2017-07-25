@@ -226,7 +226,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "megastructures",
 		title: $I("buildings.group.megastructures"),
-		buildings: ["ziggurat", "chronosphere"]
+		buildings: ["ziggurat", "chronosphere", "aiCore"]
 	}
 	],
 
@@ -1636,17 +1636,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "aiCore",
 		label: $I("buildings.aicore.label"),
 		description: $I("buildings.aicore.desc"),
+		unlockRatio: 0.01,
 		prices: [
-			{ name : "unobtainium", val: 2500 },
+			{ name : "antimatter", val: 125 },
 			{ name : "science", 	val: 500000 }
 		],
 		priceRatio: 1.15,
 		effects: {
 			"energyConsumption" : 2,
-			"gflopsPerTickBase": 1
+			"gflopsPerTickBase": 0.02
 		},
-		calculateEffects: function(self, game) {
-			self.effects["energyConsumption"] = 2 * ( 1 + 0.1*self.on);
+		action: function(self, game){
+			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
 		},
 		flavor: $I("buildings.aicore.flavor")
 	}

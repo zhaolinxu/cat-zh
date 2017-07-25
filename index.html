@@ -53,7 +53,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1409b";
+			var version = "_1410";
 
 			function _import(module, def){
 				if (!def){
@@ -248,7 +248,7 @@
 						<a href="#" onclick="wipe();">Wipe</a> |
 						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 
-						<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.4.0.9</a>
+						<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.4.1.0</a>
 					</div>
 				</div>
 			</div>
@@ -265,12 +265,11 @@
 						Chronofurnace
 						Time Impedance
 
-					Minor 0:
-						AM Drive
-						AM Fission
+					Minor 1:
+						AI Core
 
-					Rev: 8
-						Minor fixes
+					Rev: 0
+						-
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -458,9 +457,6 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
-				<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-				<label for="enableRedshift">Enable offline progression (Experimental)</label>
-				<br>
                 <br>
 
                 <a href="#" onclick="$('.optsExtra').show();">More...</a>
@@ -474,6 +470,9 @@
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
 					<label for="disableTelemetry">Disable game statistics.</label>
+					<br>
+					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
+					<label for="enableRedshift">Enable offline progression (Experimental)</label>
 					<br>
 				</div>
 

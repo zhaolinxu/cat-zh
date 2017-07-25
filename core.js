@@ -441,7 +441,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		for (var effect in effects) {
 			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
 				// Exceptions (when energyConsumption is caused by an upgrade)
-				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere") ? false : true;
+				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere" || bld.name == "aiCore") ? false : true;
 			}
 		}
 	},

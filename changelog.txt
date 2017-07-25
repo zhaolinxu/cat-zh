@@ -1,3 +1,10 @@
+v 1.4.1.0 (24 jul)
+Minor redesign of AI upgrade
+Redshift will not be enabled for all players by default anymore
+Redshift will now correctly calculate paragon bonuses
+Relic stations will now have limited production if AM level is not sufficient
+
+
 v 1.4.0.9 (14 jun)
 
 Sky palace will now require megaliths instead of gold. Every level of SP will boost gold cap by 1%
