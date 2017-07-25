@@ -3,6 +3,7 @@ Minor redesign of AI upgrade
 Redshift will not be enabled for all players by default anymore
 Redshift will now correctly calculate paragon bonuses
 Relic stations will now have limited production if AM level is not sufficient
+AI Bases
 
 
 v 1.4.0.9 (14 jun)

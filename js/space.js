@@ -358,6 +358,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (game.challenges.currentChallenge == "energy") {
 					effects["energyConsumption"] *= 2;
 				}
+
+				if (game.workshop.get("aiBases").researched){
+					for (var key in Object.keys(effects)){
+						if (key != "energyConsumption" ){
+							effects[i] *= effects[i] * (1 + game.bld.get("aiCore").on);
+						}
+					}
+				}
 				self.effects = effects;
 			}
 		}]

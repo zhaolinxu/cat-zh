@@ -1255,17 +1255,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		upgrades: {
 			spaceBuilding: ["moonBase"]
+		},
+		unlocks: {
+			upgrades: ["aiBases"]
 		}
 	},{
-		name: "amDrive",
-		label: $I("workshop.amDrive.label"),
-		description: $I("workshop.amDrive.desc"),
+		name: "aiBases",
+		label: $I("workshop.aiBases.label"),
+		description: $I("workshop.aiBases.desc"),
 		prices:[
-			{ name : "antimatter", val: 125 },
-			{ name : "science",  val: 450000 }
+			{ name : "antimatter", val: 7500 },
+			{ name : "science", val: 750000 }
 		],
-		effects: {
-			"routeSpeed" : 25
+		upgrades: {
+			spaceBuilding: ["moonBase"]
 		}
 	},{
 		name: "amFission",

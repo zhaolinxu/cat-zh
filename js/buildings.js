@@ -1646,6 +1646,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 2,
 			"gflopsPerTickBase": 0.02
 		},
+		upgrades: {
+			spaceBuilding: ["moonBase"]
+		},
 		action: function(self, game){
 			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
 		},
