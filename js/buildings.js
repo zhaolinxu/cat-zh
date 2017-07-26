@@ -1651,6 +1651,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		action: function(self, game){
 			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
+
+			var gflops = game.resPool.get("gflops");
+			gflops.value += self.effects["gflopsPerTickBase"] * self.on;
+
+			if (gflops.value > 0) {
+				self.effects["aiLevel"] = Math.round(Math.log(gflops.value));
+			}
 		},
 		flavor: $I("buildings.aicore.flavor")
 	}
