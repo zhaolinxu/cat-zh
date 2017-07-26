@@ -535,6 +535,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var elders = this.game.diplomacy.get("leviathans");
 		if (ncorns.value > 0){
 			elders.energy++;
+
+			var markerCap = this.game.religion.getZU("marker").val * 5 + 5;
+			if (elders.energy > markerCap){
+				elders.energy = markerCap;
+			}
+
 			ncorns.value--;
 			this.game.msg($I("trade.msg.elders.pleased"), "notice");
 		} else {
