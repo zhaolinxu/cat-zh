@@ -1344,6 +1344,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{name: "eludium", val: 100},
 			{name: "antimatter", val: 5000}
 		]
+	},{
+			name: "amDrive",
+			label: $I("workshop.amDrive.label"),
+			description: $I("workshop.amDrive.desc"),
+			prices:[
+				{ name : "antimatter", val: 125 },
+				{ name : "science",  val: 450000 }
+			],
+			effects: {
+				"routeSpeed" : 25
+			}
 	},
 	//---------------------- oil ---------------
 	{

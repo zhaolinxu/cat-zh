@@ -362,7 +362,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (game.workshop.get("aiBases").researched){
 					for (var key in effects){
 						if (key != "energyConsumption" ){
-							effects[key] *= (1 + game.bld.get("aiCore").on * 0.25);
+							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1);
 						}
 					}
 				}
@@ -606,7 +606,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					var rrBoost = (1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val * 0.1);	//10% per BP * BN combo
 
 					//lol
-					var rrBoost = rrBoost * (game.getEffect("antimatterMax") / 5000);
+					var amMax = game.resPool.get("antimatter").maxValue;
+					if (amMax < 5000) {
+						rrBoost = rrBoost * (amMax / 5000);
+						//todo: consider boosting relic stations is over 5000
+					}
 
 					self.effects = {
 						"starchartPerTickBaseSpace": 0.025,
