@@ -1,3 +1,14 @@
+v 1.4.2.0 (1 aug)
+Umbra / HR Harvester
+Quantum Computing
+
+Elders will now display max energy limit
+Chat will no longer require flash
+Chat link will now be highlighted in bold 'cause nobody can find it.
+Font size in resource panel will be now saved
+AI is still perfectly safe
+
+
 v 1.4.1.0 (24 jul)
 Minor redesign of AI upgrade
 Redshift will not be enabled for all players by default anymore
