@@ -708,10 +708,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					if (yearBonus < 0){
 						yearBonus = 0;
 					}
+					var fluxBonus = 0;
+					if (game.time.flux > 0) {
+						fluxBonus = Math.log(game.time.flux);
+					}
 
 					self.effects["energyProduction"] =
 						1 * ( 1 + yearBonus * 0.01) *
-							( 1 + Math.log(game.time.flux) * 0.01) *
+							( 1 + fluxBonus * 0.01) *
 							( 1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
@@ -923,7 +927,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (planet.routeDays > 0) {
 					var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
 					planet.routeDays -= this.game.calendar.dayPerTick * routeSpeed * times;
-				} 
+				}
 			}
 		}
 	},
