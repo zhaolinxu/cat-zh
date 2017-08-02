@@ -364,7 +364,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.3,
         effects: {
-            "globalResourceRatio": 0.02
+            "globalResourceRatio": 0.02,
+            "umbraBoostRatio": 0.1
         },
         unlocked: false
     },{

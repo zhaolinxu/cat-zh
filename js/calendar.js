@@ -926,6 +926,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 
+		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"]
+		if (aiLevel > 14){
+			var aiApocalypseLevel = aiLevel - 14;
+			this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
+			for (var i in this.game.resPool.resources){
+				var res = this.game.resPool.resources[i];
+				if (res.aiCanDestroy) {
+					resPool.addResEvent(res.name, -res.value * 0.01 * aiApocalypseLevel);
+				}
+			}
+		}
+
 		if (updateUI) {
 			this.game.ui.render();
 		}

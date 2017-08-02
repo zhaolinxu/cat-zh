@@ -326,6 +326,10 @@ td.resLimitWarn {
     color: coral;
 }
 
+.msg.type_alert {
+    color: red;
+}
+
 .msg.type_date {
     color: #ff7f50;
     margin-top: 15px;

@@ -481,7 +481,19 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["neuralNetworks"],
-			buildings: ["aiCore"]
+			buildings: ["aiCore"],
+			tech: ["quantumCryptography"]
+		}
+	},{
+		name: "quantumCryptography",
+		label: $I("science.quantumCryptography.label"),
+		description: $I("science.quantumCryptography.desc"),
+		effectDesc: $I("science.quantumCryptography.effectDesc"),
+		prices: [
+			{name : "science", val: 1250000},
+			{name: 	"relic", val: 1024}
+		],
+		unlocks: {
 		}
 	},{
 		name: "nuclearFission",

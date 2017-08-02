@@ -138,7 +138,22 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "kerosene", 	val: 12000}
 		],
 		unlocks: {
-			planet: ["yarn"]
+			planet: ["yarn"],
+			spaceMission: ["umbraMission"]
+		}
+	},{
+		name: "umbraMission",
+		label: $I("space.umbraMission.label"),
+		description: $I("space.umbraMission.desc"),
+		prices: [
+			{name: "starchart", val: 25000},
+			{name: "science", 	val: 500000},
+			{name: "kerosene", 	val: 25000},
+			{name: "thorium",   val: 15000}
+		],
+		unlocks: {
+			planet: ["umbra"],
+			spaceMission: ["umbraMission"]
 		}
 	},{
 		name: "centaurusSystemMission",
@@ -147,7 +162,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		prices: [
 			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
-			{name: "science", 	val: 400000},
+			{name: "science", 	val: 800000},
 			{name: "kerosene", 	val: 30000},
 			{name: "thorium",   val: 50000}
 		],
@@ -572,7 +587,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"coalMax"       : 25000,
 					"uraniumMax"    : 5000,
 					"titaniumMax"   : 7500,
-					"oilMax"        : 25000,
+					//"oilMax"        : 25000,
+					"oilMax"        : 7500,
 					"unobtainiumMax": 750
 				};
             }
@@ -666,6 +682,32 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"catnipMaxRatio" : 0.1,
 						"catnipRatio" : 0.025
 					};
+				}
+			}
+		]
+	},{
+		name: "umbra",
+		label: $I("space.planet.umbra.label"),
+		routeDays: 7500,
+		buildings:[
+			{
+				name: "hrHarvester",
+				label: $I("space.planet.umbra.hrHarvester.label"),
+				description: $I("space.planet.umbra.hrHarvester.desc"),
+				unlocked: false,
+				priceRatio: 1.15,
+				prices: [
+					{name: "relic", val: 25 },
+					{name: "antimatter", val: 1250 }
+				],
+				effects: {
+					"energyProduction": 1
+				},
+				calculateEffects: function(self, game){
+					self.effects["energyProduction"] =
+						1 * ( 1 + (game.calendar.year - 40000 - game.time.flux) * 0.01) *
+							( 1 + Math.log(game.time.flux) * 0.01) *
+							( 1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]

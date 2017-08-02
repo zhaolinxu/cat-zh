@@ -743,7 +743,7 @@
     "workshop.steelPlants.label": "Steel Plants",
     "workshop.automatedPlants.desc": "Steel Plants are boosted by 25% of your craft ratio",
     "workshop.automatedPlants.label": "Automated Plants",
-    "workshop.nuclearPlants.desc": "Steel Plants are additionally boosted by 2% of your craft ratio per Reactor",
+    "workshop.nuclearPlants.desc": "Steel Plants are additionally boosted by 2% per Reactor",
     "workshop.nuclearPlants.label": "Nuclear Plants",
     "workshop.rotaryKiln.desc": "Calciners are 75% more effective at producing iron and 3 times at producing titanium",
     "workshop.rotaryKiln.label": "Rotary Kiln",
@@ -1500,5 +1500,17 @@
 
     "buildings.aicore.label": "AI Core",
     "buildings.aicore.desc": "FelineOS, a state of the art artificial intelligence. Absolutely harmless. Every level of upgrade will increase core energy consumption by 75%.",
-    "buildings.aicore.flavor": "It time to put our differences aside for science."
+    "buildings.aicore.flavor": "It time to put our differences aside for science.",
+    "space.planet.umbra.hrHarvester.label": "HR Harvester",
+    "space.planet.umbra.hrHarvester.desc": "Hawking Radiation Harvester. Operates on the energy of the black hole evaporation. Every HR Harvester generates a 1W of energy which slowly increases over time.",
+    "space.planet.umbra.label": "Umbra",
+    "space.umbraMission.label":"Umbra Mission",
+    "space.umbraMission.desc":"Umbra is a supermassive black hole in the hearth of the Helios system",
+    "ai.apocalypse.msg":"AI has destroyed {0}% of your resources",
+    "science.quantumCryptography.label":"Quantum Cryptography",
+    "science.quantumCryptography.desc":"TBD",
+    "science.quantumCryptography.effectDesc":"TBD"
+
+
+
 }
