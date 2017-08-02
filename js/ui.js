@@ -39,6 +39,14 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     updateLanguage: function() {
+    },
+
+    load: function(){
+
+    },
+
+    save: function(){
+
     }
 });
 
@@ -56,6 +64,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     isDisplayOver: false,
     isChatActive: false,
+    isChatVisited: false,
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -150,7 +159,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         midColumn.scrollTop = scrollPosition;
-
         this.update();
     },
 
@@ -171,6 +179,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
             this.game.tooltipUpdateFunc();
         }
+
+        $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
     },
 
 	updateTabs: function() {
@@ -394,6 +404,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         /*<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width:100%; height:450px;"></iframe>*/
         this.isChatActive = true;
+        this.isChatVisited = true;
     },
 
     resetConsole: function(){
@@ -507,6 +518,26 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     displayAppDialog: function(){
         this.showDialog("appDiv");
+    },
+
+    load: function() {
+        var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
+        try {
+            uiData = JSON.parse(uiData);
+
+            this.fontSize = uiData.fontSize || 16;
+            this.isChatVisited = uiData.isChatVisited || false;
+        } catch (ex) {
+            console.error("unable to load ui data");
+        }
+        this.updateFontSize();
+    },
+
+    save: function(){
+        LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
+           fontSize: this.fontSize,
+           isChatVisited: this.isChatVisited
+        });
     }
 
 });

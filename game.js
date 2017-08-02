@@ -1279,6 +1279,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		console.log("Game saved");
 
+		this.ui.save();
+
 		return saveData;
 	},
 
@@ -1422,6 +1424,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
+
+		this.ui.load();
 
 		return success;
 	},
