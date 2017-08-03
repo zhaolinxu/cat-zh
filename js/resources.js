@@ -145,16 +145,15 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		color: "#9A2EFE",
-		calculatePerTick: true,
-		aiCanDestroy: true
+		calculatePerTick: true
 	},{
 		name : "antimatter",
 		title: $I("resources.antimatter.title"),
 		type : "common",
 		transient: true,
 		visible: true,
-		color: "#5A0EDE",
-		aiCanDestroy: true
+		color: "#5A0EDE"/*,
+		aiCanDestroy: true*/
 	},{
 		name : "temporalFlux",
 		title: $I("resources.temporalFlux.title"),
@@ -203,7 +202,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		transient: true,
 		visible: true,
 		calculatePerTick: true,
-			aiCanDestroy: true
+		aiCanDestroy: true
 	},{
 		name : "alicorn",
 		title: $I("resources.alicorn.title"),
@@ -246,8 +245,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.timeCrystal.title"),
 		type : "common",
 		visible: true,
-		color: "#14CD61",
-			aiCanDestroy: true
+		color: "#14CD61"/*,
+		aiCanDestroy: true*/
 	},{
 		name : "sorrow",
 		title: $I("resources.sorrow.title"),
@@ -265,8 +264,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		style: {
 			"textShadow": "1px 0px 10px #9A2EFE",
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
-		},
-			aiCanDestroy: true
+		}/*,
+		aiCanDestroy: true*/
 	},{
 		name : "void",
 		title: $I("resources.void.title"),
