@@ -1480,6 +1480,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 200000 }
 		],
 		unlocks: {
+		},
+		upgrades: {
+			buildings: ["factory"]
 		}
 	},{
 		name: "assistance",
