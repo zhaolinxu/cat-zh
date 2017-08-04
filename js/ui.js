@@ -160,6 +160,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         midColumn.scrollTop = scrollPosition;
         this.update();
+
+        //-------------------------
+        $(".console-intro").html($I("console.intro"));
     },
 
     //---------------------------------------------------------------

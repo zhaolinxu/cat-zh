@@ -38,11 +38,12 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 	//TODO: move to the configuration file
 	constructor: function(){
-		this.availableLocales = [this.fallbackLocale, "ru"];
+		this.availableLocales = [this.fallbackLocale, "ru", "ja"];
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
-			"zh": "Chinese"
+			"zh": "Chinese",
+			"ja": "Japanese"
 		};
 	},
 
@@ -98,12 +99,12 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		// now we can try to load it
 		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
-			console.error("Couldn't load default locale '", self.fallbackLocale, "' because of the following error:", errMrs, ", details:", err);
+			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
 			self._deffered.reject("Couldn't load default locale");
 		});
 		if (this.language != this.fallbackLocale ) {
 			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?v=" + version).fail(function(e){
-				console.error("Couldn't load user locale '"+lang+"' because of the following error:"+e);
+				console.error("Couldn't load user locale '" + lang + "', error:", e);
 			});
 
 			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {

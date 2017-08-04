@@ -1193,7 +1193,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["energyConsumption"] *= 2;
 			}
 			if (game.workshop.get("neuralNetworks").researched){
-				effects["energyConsumption"] *= 2;
+
 			}
 
 			self.effects = effects;
@@ -1651,6 +1651,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		action: function(self, game){
 			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
+
+			if (game.challenges.currentChallenge == "energy") {
+				effects["energyConsumption"] *= 2;
+			}
 
 			var gflops = game.resPool.get("gflops");
 			gflops.value += self.effects["gflopsPerTickBase"] * self.on;
@@ -2274,12 +2278,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		});
 		groups.unshift({
 			name: "allEnabled",
-			title: "Enabled",
+			title: $I("ui.filter.enabled"),
 			buildings: []
 		});
 		groups.unshift({
 			name: "all",
-			title: "All",
+			title: $I("ui.filter.all"),
 			buildings: []
 		});
 
