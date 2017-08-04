@@ -652,9 +652,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
     doShatter: function(model, amt){
 
-	factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+	var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt*factor;
-        game.time.shatter(amt);
+        this.game.time.shatter(amt);
 
         /*var fueling = 100 * amt;				//add 100 fuel per TC
         this.game.time.heat += amt*10;

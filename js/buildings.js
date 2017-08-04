@@ -1653,7 +1653,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
 
 			if (game.challenges.currentChallenge == "energy") {
-				effects["energyConsumption"] *= 2;
+				self.effects["energyConsumption"] *= 2;
 			}
 
 			var gflops = game.resPool.get("gflops");
