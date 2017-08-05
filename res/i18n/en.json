@@ -1509,7 +1509,9 @@
     "ai.apocalypse.msg":"AI has destroyed {0}% of your resources",
     "science.quantumCryptography.label":"Quantum Cryptography",
     "science.quantumCryptography.desc":"TBD",
-    "science.quantumCryptography.effectDesc":"TBD"
+    "science.quantumCryptography.effectDesc":"TBD",
+    "space.planet.helios.heatsink.label":"Heatsink",
+    "space.planet.helios.heatsink.desc":"A heat dissipation system. Every Heatsink will increase the power consumption and antimatter storage capacity of Containment Chamber by 2%"
 
 
 

@@ -544,13 +544,33 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			},
 			calculateEffects: function(self, game){
 				var effects = {
-					"antimatterMax": 100
+					"antimatterMax": 100 * (1+ game.space.getBuilding("heatsink").val * 0.02),
+					"energyConsumption" : 50 * (1+ game.space.getBuilding("heatsink").val * 0.02)
 				};
-				effects["energyConsumption"] = 50;
+
 				if (game.challenges.currentChallenge == "energy") {
 					effects["energyConsumption"] *= 2;
 				}
 				self.effects = effects;
+			}
+		},{
+			name: "heatsink",
+			label: $I("space.planet.helios.heatsink.label"),
+			description: $I("space.planet.helios.heatsink.desc"),
+			unlocked: false,
+			priceRatio: 1.15,
+			prices: [
+				{name: "science", val: 250000},
+				{name: "thorium", val: 12500 },
+				{name: "relic",   val: 1},
+				{name: "kerosene", val: 5000}
+			],
+			effects: {
+			},
+			calculateEffects: function(self, game){
+			},
+			upgrades: {
+				spaceBuilding: ["containmentChamber"]
 			}
 		}]
 	},{
