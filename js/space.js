@@ -558,9 +558,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: $I("space.planet.helios.heatsink.label"),
 			description: $I("space.planet.helios.heatsink.desc"),
 			unlocked: false,
-			priceRatio: 1.15,
+			priceRatio: 1.12,
 			prices: [
-				{name: "science", val: 250000},
+				{name: "science", val: 125000},
 				{name: "thorium", val: 12500 },
 				{name: "relic",   val: 1},
 				{name: "kerosene", val: 5000}

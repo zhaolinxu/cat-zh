@@ -1663,7 +1663,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["aiLevel"] = Math.round(Math.log(gflops.value));
 			}
 		},
-		flavor: $I("buildings.aicore.flavor")
+		flavor: $I("buildings.aicore.flavor"),
+		overrideSell: function(self, game){
+			if (self.effects.aiLevel < 15){
+				return;
+			}
+			game.systemShockMode = true;
+			// Send message since achievement pop takes time or may have already occurred.
+			game.msg($I("buildings.aicore.attemptsell"));
+			return false;
+		}
 	}
 	],
 

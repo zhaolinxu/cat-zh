@@ -154,6 +154,15 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return (this.game.cheatMode);
             }
         }, {
+            name: "systemShock",
+            title: $I("achievements.systemShock.title"),
+            unethical: true,
+            description: $I("achievements.systemShock.desc"),
+            condition: function () {
+                return (this.game.systemShockMode);
+            }
+        },
+        {
             name: "lotusMachine",
             title: $I("achievements.lotusMachine.title"),
             description: $I("achievements.lotusMachine.desc"),

@@ -1511,8 +1511,9 @@
     "science.quantumCryptography.desc":"TBD",
     "science.quantumCryptography.effectDesc":"TBD",
     "space.planet.helios.heatsink.label":"Heatsink",
-    "space.planet.helios.heatsink.desc":"A heat dissipation system. Every Heatsink will increase the power consumption and antimatter storage capacity of Containment Chamber by 2%"
+    "space.planet.helios.heatsink.desc":"A heat dissipation system. Every Heatsink will increase the power consumption and antimatter storage capacity of Containment Chamber by 2%",
 
-
-
+    "achievements.systemShock.title" : "System Shock",
+    "achievements.systemShock.desc": "I'm sorry Dave, I'm afraid I can't do that.",
+    "buildings.aicore.attemptsell": "Access Denied."
 }
