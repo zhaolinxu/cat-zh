@@ -636,7 +636,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"scienceMax": 0,
 					"relicPerDay": 0
 				},
-				calculateEffects: function(self, game){
+				action: function(self, game){
 
 					var rPerDay = game.getEffect("beaconRelicsPerDay");
 					var rrBoost = (1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val * 0.1);	//10% per BP * BN combo
