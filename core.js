@@ -1727,7 +1727,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		// Allow buildings to override sell button with custom actions
 		// But, proceed with normal action as well if true returned.
 		if (building.canSell) {
-			if(!building.canSell(this, this.game)) {
+			if(!building.canSell(building, this.game)) {
 				return;
 			}
 		}

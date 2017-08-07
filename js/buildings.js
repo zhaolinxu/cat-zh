@@ -1664,8 +1664,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		},
 		flavor: $I("buildings.aicore.flavor"),
-		overrideSell: function(self, game){
-			if (self.effects.aiLevel < 15){
+		canSell: function(self, game){
+			if (self.effects["aiLevel"] < 15){
 				return;
 			}
 			game.systemShockMode = true;
