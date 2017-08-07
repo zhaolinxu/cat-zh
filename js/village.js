@@ -249,9 +249,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		game.village.getJob(job).value--;
+		game.village.sim.unassignCraftJobIfEngineer(job, kitten);
 
 		kitten.job = null;
-		game.village.updateResourceProduction();
 	},
 
 	update: function(){
@@ -996,11 +996,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			var kitten = killed[i];
 
 			//fire dead kitten to keep craft worker counts in synch
-			if (kitten.job) {
-				var job = village.getJob(kitten.job);
-				this.unassignCraftJobIfEngineer(job, kitten);
-				job.value -= 1;
-			}
+			village.unassignJob(kitten);
 
 			//remove dead kittens from government
 			if (kitten === village.leader){
@@ -1098,10 +1094,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
         if (jobKittens.length){
 			var kitten = this.kittens[jobKittens[0].id];
 
-			var job = this.game.village.getJob(kitten.job);
-			this.unassignCraftJobIfEngineer(job, kitten);
-			job.value--;
-            kitten.job = null;
+			this.game.village.unassignJob(kitten);
 
             this.game.village.updateResourceProduction();   //out of synch, refresh instantly
         }else{
@@ -1518,6 +1511,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
 				game.village.unassignJob(game.village.sim.kittens[i]);
+				game.village.updateResourceProduction();
 				game.render();
 
 			}, this.game, i));
@@ -1720,11 +1714,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				var game = census.game;
 
 				if(leader.job){
-					var job = game.village.getJob(leader.job);
-					game.village.sim.unassignCraftJobIfEngineer(job, leader);
-					job.value--;
-
-					leader.job = null;
+					game.village.unassignJob(leader);
 					game.village.updateResourceProduction();
 
 					census.renderGovernment(census.container);
