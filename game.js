@@ -907,6 +907,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	gatherTimeoutHandler: null,	//timeout till resetting gather counter, see below
 	gatherClicks: 0,	//how many clicks in a row was performed on a gather button
 	cheatMode: false,	//flag triggering Super Unethical Climax achievement
+	systemShockMode: false,	//flag triggering System Shock achievement
 
 	ticks: 0,				//how many ticks passed since the start of the game
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
@@ -1195,6 +1196,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.ironWill = true;
 		this.deadKittens = 0;
 		this.cheatMode = false;
+		this.systemShockMode = false;
 		this.isCMBREnabled = false;
 
 		if (this.pauseTimestamp){
