@@ -153,7 +153,21 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		unlocks: {
 			planet: ["umbra"],
-			spaceMission: ["umbraMission"]
+			spaceMission: ["charonMission"]
+		}
+	},{
+		name: "charonMission",
+		label: $I("space.charonMission.label"),
+		description: $I("space.charonMission.desc"),
+		prices: [
+			{name: "starchart", val: 75000},
+			{name: "science", 	val: 750000},
+			{name: "kerosene", 	val: 35000},
+			{name: "thorium",   val: 35000}
+		],
+		unlocks: {
+			planet: ["charon"],
+			spaceMission: ["charonMission"]
 		}
 	},{
 		name: "centaurusSystemMission",
@@ -163,7 +177,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			{name: "starchart", val: 100000},
 			{name: "titanium", 	val: 40000},
 			{name: "science", 	val: 800000},
-			{name: "kerosene", 	val: 30000},
+			{name: "kerosene", 	val: 50000},
 			{name: "thorium",   val: 50000}
 		],
 		unlocks: {
@@ -545,7 +559,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			calculateEffects: function(self, game){
 				var effects = {
 					"antimatterMax": 100 * (1+ game.space.getBuilding("heatsink").val * 0.02),
-					"energyConsumption" : 50 * (1+ game.space.getBuilding("heatsink").val * 0.02)
+					"energyConsumption" : 50 * (1+ game.space.getBuilding("heatsink").val * 0.01)
 				};
 
 				if (game.challenges.currentChallenge == "energy") {
@@ -648,10 +662,12 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						//todo: consider boosting relic stations is over 5000
 					}
 
+					var entBoost = (1 + game.space.getBuilding("entangler").effects["hashRateLevel"] * 0.25);	//25% per entangler hashrate
+
 					self.effects = {
 						"starchartPerTickBaseSpace": 0.025,
 						"scienceMax": 25000 * (1 + game.getEffect("spaceScienceRatio")),
-						"relicPerDay": rPerDay * rrBoost
+						"relicPerDay": rPerDay * rrBoost * entBoost
 					};
 				}
 			}
@@ -714,7 +730,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				name: "hrHarvester",
 				label: $I("space.planet.umbra.hrHarvester.label"),
 				description: $I("space.planet.umbra.hrHarvester.desc"),
-				unlocked: false,
+				unlocked: true,
 				priceRatio: 1.15,
 				prices: [
 					{name: "relic", val: 25 },
@@ -737,6 +753,50 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						1 * ( 1 + yearBonus * 0.01) *
 							( 1 + fluxBonus * 0.01) *
 							( 1 + game.getEffect("umbraBoostRatio"));
+				}
+			}
+		]
+	},{
+		name: "charon",
+		label: $I("space.planet.charon.label"),
+		routeDays: 25000,
+		buildings:[
+			{
+				name: "entangler",
+				label: $I("space.planet.charon.entangler.label"),
+				description: $I("space.planet.charon.entangler.desc"),
+				unlocked: false,
+				priceRatio: 1.15,
+				prices: [
+					{name: "relic", val: 1250 },
+					{name: "antimatter", val: 5250 },
+					{name: "eludium", val: 5000 }
+				],
+				requiredTech: ["quantumCryptography"],
+				effects: {
+					"energyConsumption": 25,
+					"gflopsConsumption": 0.25,
+					hashRateLevel: 0
+				},
+				action: function(self, game){
+					var gflopsPerTick = self.effects.gflopsConsumption * self.val;
+
+					game.resPool.addResEvent("gflops", -gflopsPerTick);
+					game.resPool.addResEvent("hashrates", gflopsPerTick);
+
+					var hr = game.resPool.get("hashrates").value,
+						difficulty = 1000,
+						rate = 1.8;
+
+					self.effects.hashrate = hr;
+					self.effects.nextHashLevelAt = difficulty * Math.pow(rate, self.effects.hashRateLevel + 1);
+					self.effects.hrProgress = hr / (difficulty * Math.pow(rate, self.effects.hashRateLevel + 1));
+					if (hr > difficulty){
+						self.effects.hashRateLevel = Math.floor(Math.log(hr/difficulty) / Math.log(rate));
+					} else {
+						self.effects.hashRateLevel = 0;
+					}
+
 				}
 			}
 		]

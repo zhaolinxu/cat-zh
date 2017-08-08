@@ -1134,6 +1134,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 225000 }
 		]
 	},{
+		name: "aiEngineers",
+		label: $I("workshop.aiEngineers.label"),
+		description: $I("workshop.aiEngineers.desc"),
+		effects: {
+			"t1CraftRatio": 10,
+			"t2CraftRatio": 5,
+			"t3CraftRatio": 5,
+			"t4CraftRatio": 2,
+			"t5CraftRatio": 2
+		},
+		prices:[
+			{ name : "science",     val: 35000 },
+			{ name : "eludium",     val: 50 },
+			{ name : "antimatter",  val: 500 }
+		]
+	},{
 		name: "chronoEngineers",
 		label: $I("workshop.chronoEngineers.label"),
 		description: $I("workshop.chronoEngineers.desc"),

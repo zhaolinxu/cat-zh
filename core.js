@@ -1312,7 +1312,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				} else if (effectMeta.type === "perYear"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
 				} else if ( effectMeta.type === "ratio" ) {
-					displayEffectValue = this.game.toDisplayPercentage(effectValue, 0, false) + "%";
+					displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 				} else if ( effectMeta.type === "integerRatio" ){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 				} else if ( effectMeta.type === "energy" ){

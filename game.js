@@ -824,7 +824,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"spaceBeacon-starchartPerTickBaseSpace": {
                 title: $I("effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title"),
                 type: "ratio"
-            }
+            },
+
+			"hrProgress": {
+				title: $I("effectsMgr.statics.entangler-hrProgress.title"),
+				type: "ratio"
+			}
 		}
 	}
 });
@@ -3171,7 +3176,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "gflops"];
+
+		//TODO: use persists flag
+		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "gflops", "hashrates"];
 
 
 		var anachronomancy = this.prestige.getPerk("anachronomancy");
