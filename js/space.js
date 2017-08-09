@@ -780,6 +780,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				},
 				action: function(self, game){
 					var gflopsPerTick = self.effects.gflopsConsumption * self.on;
+					if (game.resPool.get("gflops").value <= gflopsPerTick){
+						return;
+					}
 
 					game.resPool.addResEvent("gflops", -gflopsPerTick);
 					game.resPool.addResEvent("hashrates", gflopsPerTick);
