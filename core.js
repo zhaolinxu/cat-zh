@@ -64,7 +64,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 					def.resolve();
 				}
 			);
-			return def.promise().then(function(){return self._init(version)});
+			return def.promise().then(function(){return self._init(version);});
 		} else {
 			return this._init(version);
 		}
@@ -1056,7 +1056,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				}
 			})();
 
-			
+
 		}, handler));
 
 		if (addBreak){
@@ -1297,7 +1297,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
 					var tempVal = Math.abs(effectValue * this.game.rate), precision;
 					if (tempVal >= 0.001) {
-						precision = tempVal < 0.01? 3: 2; 
+						precision = tempVal < 0.01? 3: 2;
 						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
 					} else {
 						// tempVal = tempVal * 60;

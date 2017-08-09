@@ -926,7 +926,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 
-		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"]
+		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if (aiLevel > 14){
 			var aiApocalypseLevel = aiLevel - 14;
 			this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
