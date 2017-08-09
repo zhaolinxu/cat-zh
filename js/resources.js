@@ -164,14 +164,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},{
 		name : "gflops",
 		title: "gigaflops",
-		type : "transient",
+		type : "common",
 		transient: true,
 		craftable: false,
 		visible: false
 	},{
 		name : "hashrates",
 		title: "hashrates",
-		type : "transient",
+		type : "common",
 		transient: true,
 		craftable: false,
 		visible: false

@@ -4,6 +4,9 @@ Entangler
 Ai Engineers
 Energy consumption of Heatsinks was reduced from 2% to 1%
 
+changes by coderpatsy:
+Engineers fix and other stuff
+
 v 1.4.3.0 (4 aug)
 Heatsinks
 
