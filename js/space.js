@@ -775,18 +775,18 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				requiredTech: ["quantumCryptography"],
 				effects: {
 					"energyConsumption": 25,
-					"gflopsConsumption": 0.25,
+					"gflopsConsumption": 0.1,
 					hashRateLevel: 0
 				},
 				action: function(self, game){
-					var gflopsPerTick = self.effects.gflopsConsumption * self.val;
+					var gflopsPerTick = self.effects.gflopsConsumption * self.on;
 
 					game.resPool.addResEvent("gflops", -gflopsPerTick);
 					game.resPool.addResEvent("hashrates", gflopsPerTick);
 
 					var hr = game.resPool.get("hashrates").value,
 						difficulty = 1000,
-						rate = 1.8;
+						rate = 1.6;
 
 					self.effects.hashrate = hr;
 					self.effects.nextHashLevelAt = difficulty * Math.pow(rate, self.effects.hashRateLevel + 1);

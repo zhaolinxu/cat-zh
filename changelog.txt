@@ -2,9 +2,10 @@ v 1.4.4.0
 Charon
 Entangler
 Ai Engineers
+Energy consumption of Heatsinks was reduced from 2% to 1%
 
 v 1.4.3.0 (4 aug)
-Heatsinker
+Heatsinks
 
 changes by Exadv1:
 System Shock
