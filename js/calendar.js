@@ -662,7 +662,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
 
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
-			this.game.msg($I("calendar.msg.ivoryMeteor", [ivory.toFixed()]), "notice", "ivoryMeteor");
+			this.game.msg($I("calendar.msg.ivoryMeteor", [this.game.getDisplayValueExt(ivory)]), "notice", "ivoryMeteor");
 
 			this.game.resPool.addResEvent("ivory", ivory);
 		}

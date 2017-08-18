@@ -1495,7 +1495,8 @@ dojo.declare("classes.ui.village.Census", null, {
 			var unassignHref = dojo.create("a", {
 				href: "#", innerHTML:  $I("village.btn.unassign.job"),
 				style: {
-					display: kitten.job ? "block" : "none"
+					display: kitten.job ? "block" : "none",
+					clear: "both"
 				}
 			}, linksDiv);
 
