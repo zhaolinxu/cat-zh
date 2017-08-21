@@ -1525,5 +1525,10 @@
     "workshop.aiEngineers.desc": "A holy union of feline mind and a machine",
     "space.planet.charon.entangler.label": "Entanglement St.",
     "space.planet.charon.entangler.desc": "Entanglement Station generates a set of entangled particles aka qbits for your quantum computing system. This process requires an enormous amount of processing power, but let's you perform a cryptographic attack on elder encryption algorithms.",
-    "effectsMgr.statics.entangler-hrProgress.title":"Hash collision"
+    "effectsMgr.statics.entangler-hrProgress.title":"Hash collision",
+    "effectsMgr.statics.aiLevel.title": "AI Level",
+    "effectsMgr.statics.gflopsConsumption.title": "GFlops consumption",
+    "effectsMgr.statics.hashrateLevel.title": "Hashrate level",
+    "effectsMgr.statics.nextHashLevelAt.title": "Next hashrate level at",
+    "effectsMgr.statics.hashrate.title": "Hashrate"
 }
