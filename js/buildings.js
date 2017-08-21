@@ -1666,7 +1666,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
 			if (self.effects["aiLevel"] < 15){
-				return;
+				return true;
 			}
 			game.systemShockMode = true;
 			// Send message since achievement pop takes time or may have already occurred.
