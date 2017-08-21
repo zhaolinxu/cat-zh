@@ -1152,7 +1152,7 @@ dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.gam
 		//TODO: use #_refine
 		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
 		this.game.resPool.addResEvent("relic", relicsCount);
-		this.game.msg($I("religion.refineTCsBtn.refine.msg", [relicsCount]));
+		this.game.msg($I("religion.refineTCsBtn.refine.msg", [this.game.getDisplayValueExt(relicsCount)]));
 	},
 
 	_canAfford: function(model) {
