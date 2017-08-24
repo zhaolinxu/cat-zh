@@ -42,7 +42,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
-			"zh": "Chinese",
+			"zh": "简体中文",
 			"ja": "Japanese"
 		};
 	},
