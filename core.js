@@ -28,7 +28,7 @@ invokeCallback = function(callback, args) {
 
 //Localization support
 dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
-	fallbackLocale: "en",
+	fallbackLocale: "zh",
 	availableLocales: null,
 	availableLocaleLabels: null,
 	language: null,
