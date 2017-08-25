@@ -196,7 +196,7 @@
 
 		</script>
 
-		<title>Kittens Game - a Dark Souls of incremental gaming</title>
+		<title>小猫游戏 - a Dark Souls of incremental gaming</title>
 	</head>
 
 
@@ -206,7 +206,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					Kittens Game <span style="font-size: small;">by <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a></span>
+					小猫游戏 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
 					<a href="#" style="color: red">
@@ -221,9 +221,9 @@
 						<div id="devPanelFPS">
 						</div>
 						<div id="devPanelCheats" style="display:none">
-							<a href="#" onclick="gamePage.science.unlockAll();">All techs</a>
-							<a href="#" onclick="gamePage.workshop.unlockAll();">All upgrades</a>
-							<a href="#" onclick="gamePage.resPool.maxAll();">All resources</a>
+							<a href="#" onclick="gamePage.science.unlockAll();">全部科技</a>
+							<a href="#" onclick="gamePage.workshop.unlockAll();">全部升级</a>
+							<a href="#" onclick="gamePage.resPool.maxAll();">全部资源</a>
                             <a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
 						</div>
 					</div>
@@ -236,30 +236,30 @@
 					</div>
 					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="Energy"></span>
 					<span id="sorrowTooltip" style="padding-right: 15px; font-size: 12px;" title="Black liquid sorrow"></span>
-					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
-					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
+					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">自动保存中...</span>
+					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">已保存!</span>
 
 					<div class="links-block" style="padding-top:3px;display:inline-block;">
-						<a href="#" onclick="gamePage.saveUI();">Save</a> |
-						<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+						<a href="#" onclick="gamePage.saveUI();">保存</a> |
+						<a href="#" onclick="$('#optionsDiv').toggle();">选项</a> |
 
-						<a href="#" onclick="gamePage.reset();">Reset</a> |
+						<a href="#" onclick="gamePage.reset();">重置</a> |
 						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-						<a href="#" onclick="wipe();">Wipe</a> |
-						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
+						<a href="#" onclick="wipe();">删档</a> |
+						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
 
-						<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.4.4.0b</a>
+						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.0b</a>
 					</div>
 				</div>
 			</div>
 			<div id="changelogDiv" class="dialog help" style="display: none; z-index: 9999">
 				<a href="#" onclick="$('#changelogDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				<b>Changelog/features:</b>
+				<b>更新日志/功能:</b>
 				<br>
 				<pre>
-					Version: 1
-						Space
+					版本: 1
+						太空
 
 					Major: 4
 						Chronofurnace
@@ -274,7 +274,7 @@
 						Balance tweaks
 
 				</pre>
-				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
+				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">全部更新日志</a>
 			</div>
 
 			<div id="game" class="pure-g">
@@ -282,8 +282,8 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">Show All</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">Lock/Unlock</a></div>
+					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
+					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
 					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
 
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
@@ -295,11 +295,11 @@
 					</div>
 
 					<div id="fastHuntContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.huntAll(event);">Send hunters (<span id="fastHuntContainerCount"></span>)</a>
+						<a href="#" onclick="gamePage.huntAll(event);">派出猎人 (<span id="fastHuntContainerCount"></span>)</a>
 					</div>
 
 					<div id="fastPraiseContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.praise(event);">Praise the sun!</a>
+						<a href="#" onclick="gamePage.praise(event);">赞美太阳!</a>
 					</div>
 
 					<div id="craftContainer" style="padding-top: 10px; width: 100%">
@@ -329,8 +329,8 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
-						<a class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>
+						<a href="#" onclick="gamePage.ui.hideChat();">日志</a>&nbsp;|
+						<a class="chatLink" href="#" onclick="gamePage.ui.loadChat();">聊天</a>
 					</div>
 					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
 					<div class="right-tab" id="rightTabLog">
@@ -340,10 +340,10 @@
 							</div>
 
 							<span id="clearLog">
-								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
+								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">清除日志</a>
 							</span>
 							<span id="logFiltersBlock" style="padding-top: 5px">
-								<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
+								<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] 日志过滤</a>
 							</span>
 							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
 							<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
@@ -364,10 +364,10 @@
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">
-				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 				<ul>
-					<li>Q: The game is not working!</li>
-					<li>A: Press Ctrl+F5. Wiping and re-importing the save may also help.</li>
+					<li>Q: 游戏不运行？</li>
+					<li>A: 按Ctrl + F5。 擦除并重新导入保存也可能有所帮助.</li>
 					<br>
 					<li>Q: Wood is useless. It's more effective to refine catnip! [formula follows]</li>
 					<li>A: Catnip/wood mechanics are much more complicated.</li>
@@ -422,7 +422,7 @@
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
 				</select>
 				&nbsp;<a target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">Add translation</a>
-				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
+				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">保存更改</a>
 				<br>
 				<br>
 				
@@ -500,27 +500,27 @@
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
-				<div>Warning! Importing data will overwrite your current game data.</div>
-				<h1>Import Form:</h1>
+				<div>警告！ 导入数据将覆盖您当前的游戏数据，当前游戏进度将会丢失.</div>
+				<h1>导入表单:</h1>
 				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
 				<br>
-				<h1>Text Import:</h1>
+				<h1>导入存档:</h1>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
-				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="导入" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="取消" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
 				<a href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				<span>Kittens Game Mobile has been released! Click on the link to follow:</span>
+				<span>小猫游戏手机版已经发布！ 点击链接获取:</span>
 				<br>
 				<br>
-				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">Android</a>&nbsp;|&nbsp;
-				<a target="_blank" href="https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8">iOS</a>
+				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">安卓版</a>&nbsp;|&nbsp;
+				<a target="_blank" href="https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8">iOS版</a>
 				<br>
 				<br>
 				<br>
@@ -528,12 +528,12 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
+				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">新闻</a> |
+				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">文档</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
-				<a href="#" onclick="$('#helpDiv').toggle();">help</a> |
+				<a href="#" onclick="$('#helpDiv').toggle();">帮助</a> |
 				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> <!-- |
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> <!-- |
 				<a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
