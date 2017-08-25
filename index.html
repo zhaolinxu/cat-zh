@@ -259,23 +259,13 @@
 				<b>更新日志/功能:</b>
 				<br>
 				<pre>
-					版本: 1
-						太空
-
-					Major: 4
-						Chronofurnace
-						Time Impedance
-
-					Minor 4:
-						Umbra / Charon
-						Heatsink
-						Entangler
-
-					Rev: 0
-						Balance tweaks
+					原版：
+						更新了大量译者看不懂的内容
+					中文版：
+						更新了版本号
 
 				</pre>
-				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">全部更新日志</a>
+				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
 			</div>
 
 			<div id="game" class="pure-g">
@@ -313,12 +303,12 @@
 						<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
 						<br>
 						<div style="font-size:12px; color: gray;">
-							如果这需要很多时间，很可能是它没有工作。 但别担心<br>
+							如果卡在这个界面太久，有可能是程序挂掉了，试试这几个办法：<br>
 							<ul>
-								<li>尝试按下Ctrl+F5刷新游戏.</li>
-								<li>尝试在10-15分钟后重新加载游戏.</li>
-								<li>尝试导出存档，擦除游戏的存档，并尝试导入存档.</li>
-								<li>如果以上方法都没有用，请通过以下Reddit链接与我联系.</li>
+								<li>使用 Ctrl+F5 强制刷新。</li>
+								<li>过十几分中后再打开游戏。</li>
+								<li>导出你的存档，保存好，清空游戏数据，再重新导入存档。</li>
+								<li>如果这些方法都不好使，请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入同好会，联系@潘晶莲@好阳光的爸爸</li>
 							</ul>
 						</div>
 					</div>
@@ -346,8 +336,8 @@
 							<span id="logFiltersBlock" style="padding-top: 5px">
 								<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] 日志过滤</a>
 							</span>
-							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
-							<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
+							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">暂停</a>
+							<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">撤销</a>
 
 							<div id="logFilters" style="display:none">
 							</div>
@@ -417,95 +407,98 @@
 
 
 			<div id="optionsDiv" style="display: none; height: 380px; margin-top:-190px" class="dialog help">
-				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
-				<label for="languageSelector">Language:</label>
+				<label for="languageSelector">选择语言:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
 				</select>
-				&nbsp;<a target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">Add translation</a>
+				&nbsp;<a target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">添加新翻译</a>
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">保存更改</a>
 				<br>
 				<br>
 				
-				<label for="schemeToggle">Color scheme:</label>
+				<label for="schemeToggle">更换主题:</label>
 				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
-					<option value="">Classic</option>
-					<option value="dark">Inverted</option>
-					<option value="grassy">Grassy</option>
-					<option value="sleek">Sleek (By Kida)</option>
+					<option value="">默认</option>
+					<option value="dark">反色</option>
+					<option value="grassy">草绿</option>
+					<option value="sleek">整洁 (By Kida)</option>
 				</select>
 				<br>
 				<br>
 
-				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
-				<label for="workersToggle">Use web worker
-					<i>(game works correctly in background tab, may cause performance issues)
+<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
+				<label for="workersToggle">
+					启用 web worker
+					<i>
+						（游戏可以在选项卡后台运行，这可能会影响性能）
 						<br>
-						You need to refresh the browser page for this setting to take effect.
-					</i></label>
+						您需要刷新浏览器页面使该设置生效。
+					</i>
+				</label>
 				<br>
 
 				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.opts.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
-				<label for="forceHighPrecision">Use high precision for resource values</label>
+				<label for="forceHighPrecision">使用高精度资源值</label>
 				<br>
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
-				<label for="usePerSecondValues">Use per second values <i>(per tick otherwise)</i></label>
+				<label for="usePerSecondValues">按秒显示资源变化<i>(选否则按次显示资源变化)</i></label>
 				<br>
 				<input id="usePercentageResourceValues" type="checkbox" onclick="gamePage.opts.usePercentageResourceValues = $('#usePercentageResourceValues')[0].checked;">
-				<label for="usePercentageResourceValues">Use percentage resource production values</label>
+				<label for="usePercentageResourceValues">按百分比显示资源变化</label>
 				<br>
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
-				<label for="highlightUnavailable">Highlight buildings limited by storage space</label>
+				<label for="highlightUnavailable">建筑物存储空间不足时，高亮显示</label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
-				<label for="hideSell">Hide 'sell' buttons</label>
+				<label for="hideSell">隐藏“sell”按钮</label>
 				<br>
                 <br>
 
-                <a href="#" onclick="$('.optsExtra').show();">More...</a>
+                 <a href="#" onclick="$('.optsExtra').show();">更多设置...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					<label for="noConfirm">Do not confirm when clearing all jobs</label>
+					<label for="noConfirm">清除所有工作时不需要确认提示</label>
 					<br>
                     <input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
-                    <label for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
+                    <label for="IWSmelter">在钢铁意志模式下，冶炼厂会在铁储量不足95%时关闭</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-					<label for="disableTelemetry">Disable game statistics.</label>
+					<label for="disableTelemetry">停用游戏的统计功能</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-					<label for="enableRedshift" style="font-size: 8px;">Enable offline progression (Experimental)</label>
+					<label for="enableRedshift">启用脱机进程（实验性功能）</label>
 					<br>
 				</div>
 
 				<br>
 				<br>
-				<input type="button" value="Export" onclick="gamePage.saveExport();">
+				<input type="button" value="导出" onclick="gamePage.saveExport();">
 
-				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
+				<input type="button" value="导入" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
 				<br>
 			</div>
 
 			<div id="exportDiv" style="display: none" class="dialog help">
-				<h1>Export To:</h1>
-				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
-				<br>
-				<h1>Text Export:</h1>
+				<!--<h1>Export To:</h1>
+				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">-->
+				<!--<br>-->
+				<h1>文本导出:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
+				<input type="button" value="关闭" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
-				<div>警告！ 导入数据将覆盖您当前的游戏数据，当前游戏进度将会丢失.</div>
-				<h1>导入表单:</h1>
-				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
-				<br>
-				<h1>导入存档:</h1>
+				<div>警告!导入的存档将会覆盖你的游戏数据</div>
+				<!--<h1>Import Form:</h1>
+				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">-->
+				<!--<br>-->
+				<h1>文本导入:</h1>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
@@ -538,6 +531,5 @@
 				<a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
-
 	</body>
 </html>
