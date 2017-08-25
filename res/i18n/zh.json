@@ -1530,7 +1530,7 @@
     "effectsMgr.statics.gflopsConsumption.title": "GFlops 消耗量",
     "effectsMgr.statics.hashrateLevel.title": "哈希值 等级",
     "effectsMgr.statics.nextHashLevelAt.title": "下一个 哈希值 等级在",
-    "effectsMgr.statics.hashrate.title": "哈希值"
+    "effectsMgr.statics.hashrate.title": "哈希值",
 	
 	"eta.year":"年",
     "eta.day":"天",
