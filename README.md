@@ -1,42 +1,19 @@
-# README #
+# Kittens Game （小猫游戏）  #
 
-### General Information ###
+### 网页版本链接 ###
+* 基本上完全汉化版本：https://zhaolinxu.github.io/cat-zh/
+* 作者英文原版：http://bloodrizer.ru/games/kittens/
 
-* https://www.reddit.com/r/kittensgame
-* https://dojotoolkit.org/reference-guide/1.7/dojo/index.html#dojo-index (I'm using mostly pre-1.7 dojo functionality)
+### 手机版本下载 ###
+手机版本为付费版本，大概6元，有需要的朋友可以移步下载，目前最新的手机版本已经加入了中文，可以在菜单里面设置。
+* 安卓版：https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en
+* ios版：https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8
 
-### Roadmap ###
+### 其它链接 ###
+* 游戏源码：https://bitbucket.org/bloodrizer/kitten-game
+* 游戏百科：http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page
 
-Most recent roadmap: https://trello.com/b/cecIwqp2/kittens-game-roadmap
-Please feel free to add other suggestions.
+### 声明 ###
+* 此汉化版本只是为了方便广大中国玩家进行游戏。
+* 游戏版权归原作者 http://bloodrizer.ru/ 所有。
 
-### Contribution guidelines ###
-
-## Theme/Setting ##
-
-In a grim and dark future of the catkind no one can hear you scream.
-
-* Good: mythical monsters, elder artifacts, arcane technologies, lost civilizations
-* Bad: elves, fairies, robots, owls
-
-## General Design Principles ##
-
-* It's better to reuse existing buildings and resources rather than introduce new
-* Active gameplay should be encouraged if possible, but should not be an absolute requirement to play.
-* Every problem or bottleneck should be addressed in multiple ways
-(E.g.: Tradepost to reduce fur consumption AND hunting upgrade to get better yield)
-* Every solution to a problem should create a new problem
-
-* Design things difficult first and address them with upgrades later
-    * For god's sake never ever nerf anything
-
-* Think how things will scale at later stages. You have a rare resource that cost 1M unobtainium? 
-Someone will be able to farm trillions of them.
-
-* Try to introduce some varieties in mechanic but stay withing established rule system.
-    * For example, hunt require catpower, grants you various resource and have a chance of giving you something rare
-    * Similarly trade require catpower, grants you various resource and have a chance of giving you something rare.
-        * Everyone are really comfortable with trade mechanic because it speaks in familiar terms that players have learned already.
-
-* Don't use %reduction effects. For every problem it may solve, a trillion new issues will appear.
-* Don't use price reduction effects. If you do, be extremely careful.
