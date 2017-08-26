@@ -58,16 +58,16 @@ var run = function() {
                 // Which religious upgrades should be researched?
                 items: {
                     // Order of the Sun
-                    solarchant:      {require: '信仰', enabled: true},
-                    scholasticism:   {require: '信仰', enabled: true},
-                    goldenSpire:     {require: '信仰', enabled: true},
-                    sunAltar:        {require: '信仰', enabled: true},
-                    stainedGlass:    {require: '信仰', enabled: true},
-                    solarRevolution: {require: '信仰', enabled: true},
-                    basilica:        {require: '信仰', enabled: true},
-                    templars:        {require: '信仰', enabled: true},
-                    apocripha:       {require: '信仰', enabled: false},
-                    transcendence:   {require: '信仰', enabled: true},
+                    solarchant:      {require: 'faith', enabled: true},
+                    scholasticism:   {require: 'faith', enabled: true},
+                    goldenSpire:     {require: 'faith', enabled: true},
+                    sunAltar:        {require: 'faith', enabled: true},
+                    stainedGlass:    {require: 'faith', enabled: true},
+                    solarRevolution: {require: 'faith', enabled: true},
+                    basilica:        {require: 'faith', enabled: true},
+                    templars:        {require: 'faith', enabled: true},
+                    apocripha:       {require: 'faith', enabled: false},
+                    transcendence:   {require: 'faith', enabled: true},
                 }
             },
             festival: {
@@ -96,52 +96,52 @@ var run = function() {
                 // property. For other buildings, the key of the item itself is used.
                 items: {
                     // housing
-                    hut:            {require: '木头',        enabled: false},
-                    logHouse:       {require: '矿物',    enabled: false},
-                    mansion:        {require: '钛',    enabled: false},
+                    hut:            {require: 'wood',        enabled: false},
+                    logHouse:       {require: 'minerals',    enabled: false},
+                    mansion:        {require: 'titanium',    enabled: false},
 
                     // craft bonuses
-                    workshop:       {require: '矿物',    enabled: true},
-                    factory:        {require: '钛',    enabled: true},
+                    workshop:       {require: 'minerals',    enabled: true},
+                    factory:        {require: 'titanium',    enabled: true},
 
                     // production
-                    field:          {require: '薄荷',      enabled: true},
-                    pasture:        {require: '薄荷',      enabled: true, stage: 0},
-                    solarFarm:      {require: '钛',    enabled: true, stage: 1, name: 'pasture'},
-                    mine:           {require: '木头',        enabled: true},
-                    lumberMill:     {require: '矿物',    enabled: true},
-                    aqueduct:       {require: '矿物',    enabled: true, stage: 0},
-                    hydroPlant:     {require: '钛',    enabled: true, stage: 1, name: 'aqueduct'},
-                    oilWell:        {require: '煤',        enabled: true},
-                    quarry:         {require: '煤',        enabled: true},
+                    field:          {require: 'catnip',      enabled: true},
+                    pasture:        {require: 'catnip',      enabled: true, stage: 0},
+                    solarFarm:      {require: 'titanium',    enabled: true, stage: 1, name: 'pasture'},
+                    mine:           {require: 'wood',        enabled: true},
+                    lumberMill:     {require: 'minerals',    enabled: true},
+                    aqueduct:       {require: 'minerals',    enabled: true, stage: 0},
+                    hydroPlant:     {require: 'titanium',    enabled: true, stage: 1, name: 'aqueduct'},
+                    oilWell:        {require: 'coal',        enabled: true},
+                    quarry:         {require: 'coal',        enabled: true},
 
                     // conversion
-                    smelter:        {require: '矿物',    enabled: true},
-                    biolab:         {require: '科学点',     enabled: false},
-                    calciner:       {require: '钛',    enabled: false},
-                    reactor:        {require: '钛',    enabled: false},
-                    accelerator:    {require: '钛',    enabled: false},
+                    smelter:        {require: 'minerals',    enabled: true},
+                    biolab:         {require: 'science',     enabled: false},
+                    calciner:       {require: 'titanium',    enabled: false},
+                    reactor:        {require: 'titanium',    enabled: false},
+                    accelerator:    {require: 'titanium',    enabled: false},
                     steamworks:     {require: false,         enabled: false},
                     magneto:        {require: false,         enabled: false},
 
                     // science
-                    library:        {require: '木头',        enabled: true},
-                    academy:        {require: '木头',        enabled: true},
-                    observatory:    {require: '铁',        enabled: true},
+                    library:        {require: 'wood',        enabled: true},
+                    academy:        {require: 'wood',        enabled: true},
+                    observatory:    {require: 'iron',        enabled: true},
 
                     // other
-                    amphitheatre:   {require: '矿物',    enabled: true, stage: 0},
-                    broadcastTower: {require: '钛',    enabled: true, stage: 1, name: 'amphitheatre'},
-                    tradepost:      {require: '黄金',        enabled: true},
-                    chapel:         {require: '矿物',    enabled: true},
-                    temple:         {require: '黄金',        enabled: true},
+                    amphitheatre:   {require: 'minerals',    enabled: true, stage: 0},
+                    broadcastTower: {require: 'titanium',    enabled: true, stage: 1, name: 'amphitheatre'},
+                    tradepost:      {require: 'gold',        enabled: true},
+                    chapel:         {require: 'minerals',    enabled: true},
+                    temple:         {require: 'gold',        enabled: true},
                     mint:           {require: false,         enabled: false},
                     unicornPasture: {require: false,         enabled: true},
                     ziggurat:       {require: false,         enabled: true},
-                    chronosphere:   {require: '难得素', enabled: true},
+                    chronosphere:   {require: 'unobtainium', enabled: true},
 
                     // storage
-                    barn:           {require: '木头',        enabled: true},
+                    barn:           {require: 'wood',        enabled: true},
                     harbor:         {require: false,         enabled: false},
                     warehouse:      {require: false,         enabled: false}
                 }
@@ -154,13 +154,13 @@ var run = function() {
                 trigger: 0.95,
                 items: {
                     // Cath
-                    spaceElevator:  {require: '难得素', enabled: false},
+                    spaceElevator:  {require: 'unobtainium', enabled: false},
                     sattelite:      {require: 'titanium',    enabled: false},
                     spaceStation:   {require: 'oil',         enabled: false},
 
                     // Moon
                     moonOutpost:    {require: 'uranium',     enabled: false},
-                    moonBase:       {require: '难得素', enabled: false},
+                    moonBase:       {require: 'unobtainium', enabled: false},
 
                     // Dune
                     planetCracker:  {require: 'science',     enabled: false},
@@ -173,20 +173,20 @@ var run = function() {
 
                     // Helios
                     sunlifter:          {require: 'eludium', enabled: false},
-                    containmentChamber: {require: '科学', enabled: false},
+                    containmentChamber: {require: 'science', enabled: false},
 
                     // T-Minus
                     cryostation:    {require: 'eludium',     enabled: false},
 
                     // Kairo
-                    spaceBeacon:    {require: '反物质',  enabled: false},
+                    spaceBeacon:    {require: 'antimatter',  enabled: false},
 
                     // Yarn
-                    terraformingStation: {require: '反物质',  enabled: false},
-                    hydroponics:         {require: '煤油',    enabled: false},
+                    terraformingStation: {require: 'antimatter',  enabled: false},
+                    hydroponics:         {require: 'kerosene',    enabled: false},
 
                     // Centaurus
-                    tectonic: {require: '反物质', enabled: false}
+                    tectonic: {require: 'antimatter', enabled: false}
                 }
             },
             craft: {
@@ -201,25 +201,25 @@ var run = function() {
                 // the UI and is not used for any resource by default.
                 // The *limited* property tells KS to only craft the resource once per season.
                 items: {
-                    wood:       {require: '薄荷',      max: 0, limited: false, enabled: true},
-                    beam:       {require: '木头',        max: 0, limited: false, enabled: true},
-                    slab:       {require: '矿物',    max: 0, limited: false, enabled: true},
-                    steel:      {require: '煤',        max: 0, limited: false, enabled: true},
-                    plate:      {require: '铁',        max: 0, limited: false, enabled: true},
-                    alloy:      {require: '钛',    max: 0, limited: true,  enabled: false},
+                    wood:       {require: 'catnip',      max: 0, limited: false, enabled: true},
+                    beam:       {require: 'wood',        max: 0, limited: false, enabled: true},
+                    slab:       {require: 'minerals',    max: 0, limited: false, enabled: true},
+                    steel:      {require: 'coal',        max: 0, limited: false, enabled: true},
+                    plate:      {require: 'iron',        max: 0, limited: false, enabled: true},
+                    alloy:      {require: 'titanium',    max: 0, limited: true,  enabled: false},
                     concrete:   {require: false,         max: 0, limited: true,  enabled: false},
                     gear:       {require: false,         max: 0, limited: true,  enabled: false},
                     scaffold:   {require: false,         max: 0, limited: true,  enabled: false},
                     ship:       {require: false,         max: 0, limited: true,  enabled: false},
                     tanker:     {require: false,         max: 0, limited: true,  enabled: false},
                     parchment:  {require: false,         max: 0, limited: true,  enabled: true},
-                    manuscript: {require: '文化',     max: 0, limited: true,  enabled: true},
-                    compendium: {require: '科学',     max: 0, limited: true,  enabled: true},
-                    blueprint:  {require: '科学',     max: 0, limited: true,  enabled: false},
-                    kerosene:   {require: '石油',         max: 0, limited: true,  enabled: false},
+                    manuscript: {require: 'culture',     max: 0, limited: true,  enabled: true},
+                    compendium: {require: 'science',     max: 0, limited: true,  enabled: true},
+                    blueprint:  {require: 'science',     max: 0, limited: true,  enabled: false},
+                    kerosene:   {require: 'oil',         max: 0, limited: true,  enabled: false},
                     megalith:   {require: false,         max: 0, limited: true,  enabled: false},
-                    eludium:    {require: '难得素', max: 0, limited: true,  enabled: false},
-                    thorium:    {require: '铀',     max: 0, limited: true,  enabled: false}
+                    eludium:    {require: 'unobtainium', max: 0, limited: true,  enabled: false},
+                    thorium:    {require: 'uranium',     max: 0, limited: true,  enabled: false}
                 }
             },
             trade: {
@@ -232,19 +232,19 @@ var run = function() {
                 // are more effective during specific seasons.
                 // The *allowcapped* property allows us to trade even if the sold resources are at their cap.
                 items: {
-                    dragons:    {enabled: false,  require: '钛',    allowcapped: false,
+                    dragons:    {enabled: false,  require: 'titanium',    allowcapped: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
                     zebras:     {enabled: true,  require: false,         allowcapped: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
-                    lizards:    {enabled: false,  require: '矿物',    allowcapped: false,
+                    lizards:    {enabled: false,  require: 'minerals',    allowcapped: false,
                         summer:  true,  autumn:  false, winter:  false,         spring:      false},
 
-                    sharks:     {enabled: false,  require: '铁',        allowcapped: false,
+                    sharks:     {enabled: false,  require: 'iron',        allowcapped: false,
                         summer:  false, autumn:  false, winter:  true,          spring:      false},
 
-                    griffins:   {enabled: false,  require: '木头',        allowcapped: false,
+                    griffins:   {enabled: false,  require: 'wood',        allowcapped: false,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
                     nagas:      {enabled: false,  require: false,         allowcapped: false,
@@ -253,13 +253,13 @@ var run = function() {
                     spiders:    {enabled: false,  require: false,         allowcapped: false,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
-                    leviathans: {enabled: false,  require: '难得素', allowcapped: true,
+                    leviathans: {enabled: false,  require: 'unobtainium', allowcapped: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true}
                 }
             },
             resources: {
-                furs:        {stock: 1000},
-                unobtainium: {consume: 1.0}
+                皮毛:        {stock: 1000},
+                难得素: {consume: 1.0}
             }
         }
     };
@@ -347,14 +347,14 @@ var run = function() {
             if (this.loop) return;
 
             this.loop = setInterval(this.iterate.bind(this), options.interval);
-            message('Enabling the kitten scientists!');
+            message('启用猫咪科学家!');
         },
         stop: function () {
             if (!this.loop) return;
 
             clearInterval(this.loop);
             this.loop = undefined;
-            message('Disabling the kitten scientists!');
+            message('禁用猫咪科学家!');
         },
         iterate: function () {
             this.observeStars();
@@ -481,7 +481,7 @@ var run = function() {
         observeStars: function () {
             if (game.calendar.observeBtn != null){
                 game.calendar.observeHandler();
-                activity('Kitten Scientists have observed a star', 'ks-star');
+                activity('小猫科学家观察到一颗星星', 'ks-star');
                 storeForSummary('stars', 1);
             }
         },
@@ -1238,7 +1238,7 @@ var run = function() {
         });
 
         del.on('click', function () {
-            if (window.confirm('Delete resource controls for ' + ucfirst(title ? title : name) + '?')) {
+            if (window.confirm('取消自动转换' + ucfirst(title ? title : name) + '?')) {
                 container.remove();
                 removeResourceControl(name);
                 saveToKittenStorage();
@@ -1739,7 +1739,7 @@ var run = function() {
 
         // Praise the Sun
         if (activitySummary.other.faith) {
-            summary('Accumulated ' + game.getDisplayValueExt(activitySummary.other.faith) + ' by praising the sun');
+            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 通过赞美太阳');
         }
 
         // Hunters
