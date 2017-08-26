@@ -254,7 +254,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML =  year + " 年 - " +
+            calendarDiv.innerHTML = " 第"+ year + " 年 - " +
                 seasonTitle + mod + ", " + calendar.integerDay() +" 天";
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 seasonTitle + ", d. " + calendar.integerDay();

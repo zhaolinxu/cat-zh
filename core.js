@@ -462,52 +462,52 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		filters: {
 			"astronomicalEvent": {
-				title: "Astronomical Events",
+				title: "天文事件",
 				enabled: true,
 				unlocked: false
 			},
 			"hunt": {
-				title: "Hunts",
+				title: "狩猎",
 				enabled: true,
 				unlocked: false
 			},
 			"craft": {
-				title: "Craft",
+				title: "制造",
 				enabled: true,
 				unlocked: false
 			},
 			"workshopAutomation": {
-				title: "Workshop Automation",
+				title: "车间自动化",
 				enabled: true,
 				unlocked: false
 			},
 			"meteor": {
-				title: "Meteors",
+				title: "流星",
 				enabled: true,
 				unlocked: false
 			},
 			"ivoryMeteor": {
-				title: "Ivory Meteors",
+				title: "象牙流星",
 				enabled: true,
 				unlocked: false
 			},
 			"unicornRift": {
-				title: "Unicorn Rifts",
+				title: "独角兽裂痕",
 				enabled: true,
 				unlocked: false
 			},
 			"alicornRift": {
-				title: "Alicorn Rifts",
+				title: "Alicorn裂痕",
 				enabled: true,
 				unlocked: false
 			},
 			"tc": {
-				title: "Time Crystals",
+				title: "时间晶体",
 				enabled: true,
 				unlocked: false
 			},
 			"faith": {
-				title: "Faith",
+				title: "信仰",
 				enabled: true,
 				unlocked: false
 			}

@@ -1784,7 +1784,7 @@ var run = function() {
                 duration += (days == 1) ? 'day' : 'days';
             }
 
-            summary('Summary of the last ' + duration);
+            summary('最后的总结 ' + duration);
         }
 
         // Clear out the old activity
