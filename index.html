@@ -245,8 +245,8 @@
 						<a href="#" onclick="$('#optionsDiv').toggle();">选项</a> |
 
 						<a href="#" onclick="gamePage.reset();">重置</a> |
-						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-						<a href="#" onclick="wipe();">删档</a> |
+						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();" title="加速模式开启后，点天数后面的 >>> 游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
+						<a href="#" onclick="wipe();" title="此操作会清除你的游戏进度，相当于没玩过。">删档</a> |
 						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
 
 						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.0b</a>
@@ -336,7 +336,7 @@
 							<span id="logFiltersBlock" style="padding-top: 5px">
 								<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] 日志过滤</a>
 							</span>
-							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">暂停</a>
+							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">暂停游戏</a>
 							<a id="undoBtn" style="font-size: 12px;" href="#" title="撤销操作" onclick="gamePage.undo();">撤销</a>
 
 							<div id="logFilters" style="display:none">

@@ -1354,7 +1354,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	togglePause: function(){
 		var pauseBtn = dojo.byId("pauseBtn");
 		this.isPaused = !this.isPaused;
-		pauseBtn.innerHTML = this.isPaused ? "继续" : "暂停";
+		pauseBtn.innerHTML = this.isPaused ? "继续游戏" : "暂停游戏";
 
 		if (this.isPaused){
 			this.pauseTimestamp = Date.now();

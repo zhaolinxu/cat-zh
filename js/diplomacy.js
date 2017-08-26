@@ -786,9 +786,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 
 
-		var expandAll = dojo.create("a", { innerHTML: "Expand all", href: "#" }, expandDiv);
+		var expandAll = dojo.create("a", { innerHTML: "全部展开", href: "#" }, expandDiv);
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
-		var collapseAll = dojo.create("a", { innerHTML: "Collapse all", href: "#" }, expandDiv);
+		var collapseAll = dojo.create("a", { innerHTML: "全部收起", href: "#" }, expandDiv);
 
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
