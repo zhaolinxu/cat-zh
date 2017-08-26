@@ -1602,7 +1602,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			var title = leader.trait.title == "None" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = leader.name + " " + leader.surname + ", " + title +
-				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
+				"<br> 经验值: " + this.game.getDisplayValueExt(leader.exp);
 
 			if( nextRank > leader.exp) {
 				leaderInfo += " (" + Math.floor(leader.exp / nextRank * 100 ) + "%)";
@@ -1761,7 +1761,7 @@ dojo.declare("classes.ui.village.Census", null, {
             record.content.innerHTML =
             	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " years old, "
             	+ kitten.trait["title"]
-            	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")")
+            	+ (kitten.rank == 0 ? "" : " (等级 " + kitten.rank + ")")
             	+ "<br>";
 
             //--------------- skills ----------------

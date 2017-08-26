@@ -212,7 +212,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
             var huntCount = Math.floor(catpower.value / 100);
             $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + (huntCount === 1 ? " time" : " times");
+                + (huntCount === 1 ? " 次" : " 次");
         } else {
             if (this.fastHuntContainer.style.visibility == "visible"){
                 this.fastHuntContainer.style.visibility = "hidden";
@@ -254,8 +254,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML = "Year " + year + " - " +
-                seasonTitle + mod + ", day " + calendar.integerDay();
+            calendarDiv.innerHTML =  year + " 年 - " +
+                seasonTitle + mod + ", " + calendar.integerDay() +" 天";
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 seasonTitle + ", d. " + calendar.integerDay();
 

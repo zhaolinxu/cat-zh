@@ -5,6 +5,6 @@
   "telemetryAppId": "KG",
 
   "showMotd": true,
-  "motdTitle": "MOTD",
-  "motdContent": "Praise the sun!"
+  "motdTitle": "消息",
+  "motdContent": "赞美太阳!"
 }

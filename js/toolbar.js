@@ -115,7 +115,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 			dojo.style(this.container, "display", "");
 		}
 
-		this.container.innerHTML = "(:3)&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
+		this.container.innerHTML = "幸福度: " + Math.floor(this.game.village.happiness * 100) + "%";
 		$(this.container).css("color", "Coral");
 	},
 
@@ -186,8 +186,8 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
         var delta = this.game.resPool.getEnergyDelta();
 		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
 
-		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
-			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
+		return "产出: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
+			   "<br>消耗: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
 	}
 });
 
@@ -209,7 +209,7 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 		var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "Message of the day:<br />" + server.motdContent;
+			return "每日一语:<br />" + server.motdContent;
 		}
 	}
 });
@@ -228,6 +228,6 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	getTooltip: function(){
 		var tier = Math.floor(this.game.server.donateAmt / 100) + 1;
 
-		return "Magic kitten level: " + tier + "<br><img src='res/tiers/tier" + tier + ".png'>";
+		return "魔术小猫等级: " + tier + "<br><img src='res/tiers/tier" + tier + ".png'>";
 	}
 });

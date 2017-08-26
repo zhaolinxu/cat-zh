@@ -2282,7 +2282,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		groups.unshift({
 			name: "togglable",
-			title: "Togglable",
+			title: "可增减",
 			buildings: []
 		});
 		groups.unshift({
