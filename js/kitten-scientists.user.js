@@ -669,7 +669,7 @@ var run = function() {
             storeForSummary(name, 1, 'build');
 
             var label = build.label;
-            activity('Kittens have built a new ' + label, 'ks-build');
+            activity('小猫建造了一个 ' + label, 'ks-build');
         },
         getBuild: function (name) {
             return game.space.getProgram(name);
@@ -706,7 +706,7 @@ var run = function() {
             amount = (amount * (game.getEffect(ratio) + 1)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            activity('Kittens have crafted ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
+            activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
         },
         canCraft: function (name, amount) {
             var craft = this.getCraft(name);
