@@ -1222,7 +1222,7 @@ var run = function() {
         container.append(label, stock, consume, del);
 
         stock.on('click', function () {
-            var value = window.prompt('Stock for ' + ucfirst(title ? title : name));
+            var value = window.prompt('库存 ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setStockValue(name, value);
                 saveToKittenStorage();
@@ -1230,7 +1230,7 @@ var run = function() {
         });
 
         consume.on('click', function () {
-            var value = window.prompt('Consume rate for ' + ucfirst(title ? title : name));
+            var value = window.prompt('消耗率 ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -1561,10 +1561,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
-                message('Enabled trading with ' + ucfirst(name) + ' in the ' + ucfirst(season));
+                message('进行交易 ' + ucfirst(name) + ' 在 ' + ucfirst(season));
             } else if (input.not(':checked') && option[season] == true) {
                 option[season] = false;
-                message('Disabled trading ' + ucfirst(name) + ' in the ' + ucfirst(season));
+                message('停止交易 ' + ucfirst(name) + ' 在 ' + ucfirst(season));
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1848,6 +1848,7 @@ var run = function() {
     var donate = $('<li/>').append($('<a/>', {
         href: 'bitcoin:' + address + '?amount=0.005&label=Kittens Donation',
         target: '_blank',
+        tiltle:'这是猫咪科学家插件作者的比特币捐赠地址',
         text: address
     })).prepend($('<img/>', {
         css: {
