@@ -96,7 +96,7 @@ var run = function() {
                 // property. For other buildings, the key of the item itself is used.
                 items: {
                     // housing
-                    hut:            {require: 'wood',        enabled: false},
+                     hut:            {require: 'wood',        enabled: false},
                     logHouse:       {require: 'minerals',    enabled: false},
                     mansion:        {require: 'titanium',    enabled: false},
 
@@ -258,8 +258,8 @@ var run = function() {
                 }
             },
             resources: {
-                皮毛:        {stock: 1000},
-                难得素: {consume: 1.0}
+                furs:        {stock: 1000},
+                unobtainium: {consume: 1.0}
             }
         }
     };
@@ -347,14 +347,14 @@ var run = function() {
             if (this.loop) return;
 
             this.loop = setInterval(this.iterate.bind(this), options.interval);
-            message('启用猫咪科学家!');
+            message('启动小猫科学家！');
         },
         stop: function () {
             if (!this.loop) return;
 
             clearInterval(this.loop);
             this.loop = undefined;
-            message('禁用猫咪科学家!');
+            message('关闭小猫科学家！');
         },
         iterate: function () {
             this.observeStars();
@@ -391,7 +391,7 @@ var run = function() {
 
             if (options.auto.faith.trigger <= faith.value / faith.maxValue) {
                 storeForSummary('faith', faith.value);
-                activity('Praised the sun!', 'ks-praise');
+                activity('赞美太阳！', 'ks-praise');
                 game.religion.praise();
             }
         },
@@ -474,7 +474,7 @@ var run = function() {
                 game.villageTab.festivalBtn.onClick();
                 if (game.calendar.festivalDays !== 0) {
                     storeForSummary('festival');
-                    activity('Kittens begin holding a festival', 'ks-festival');
+                    activity('小猫开始举办节日', 'ks-festival');
                 }
             }
         },
@@ -492,7 +492,7 @@ var run = function() {
                 // No way to send only some hunters. Thus, we hunt with everything
                 var hunters = game.village.getJob('hunter').value;
                 storeForSummary('hunt', hunters);
-                activity('Sent ' + game.getDisplayValueExt(hunters) + ' kitten' + (hunters == 1 ? '' : 's') + ' on the hunt', 'ks-hunt');
+                activity('派出 ' + game.getDisplayValueExt(hunters) + '小猫' + (hunters == 1 ? '' : 's') + '猎人狩猎', 'ks-hunt');
                 game.village.huntAll();
             }
         },
@@ -669,7 +669,7 @@ var run = function() {
             storeForSummary(name, 1, 'build');
 
             var label = build.label;
-            activity('Kittens have built a new ' + label, 'ks-build');
+            activity('小猫已经建成了一个新的 ' + label, 'ks-build');
         },
         getBuild: function (name) {
             return game.space.getProgram(name);
@@ -706,7 +706,7 @@ var run = function() {
             amount = (amount * (game.getEffect(ratio) + 1)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            activity('Kittens have crafted ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
+            activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
         },
         canCraft: function (name, amount) {
             var craft = this.getCraft(name);
@@ -852,7 +852,7 @@ var run = function() {
 
             game.diplomacy.tradeMultiple(race, amount);
             storeForSummary(name, amount, 'trade');
-            activity('Kittens have traded ' + amount + 'x with ' + ucfirst(name), 'ks-trade');
+            activity('小猫已经交易 ' + amount + '次，跟 ' + ucfirst(name), 'ks-trade');
         },
         getLowestTradeAmount: function (name) {
             var amount = undefined;
@@ -1161,7 +1161,7 @@ var run = function() {
 
         if (!options.auto.resources[name]) options.auto.resources[name] = {};
         options.auto.resources[name].stock = n;
-        $('#stock-value-' + name).text('库存: ' + game.getDisplayValueExt(n));
+        $('#stock-value-' + name).text('Stock: ' + game.getDisplayValueExt(n));
     };
 
     var setConsumeRate = function (name, value) {
@@ -1174,7 +1174,7 @@ var run = function() {
 
         if (!options.auto.resources[name]) options.auto.resources[name] = {};
         options.auto.resources[name].consume = n;
-        $('#consume-rate-' + name).text('消耗: ' + n.toFixed(2));
+        $('#consume-rate-' + name).text('Consume: ' + n.toFixed(2));
     };
 
     var removeResourceControl = function (name) {
@@ -1222,7 +1222,7 @@ var run = function() {
         container.append(label, stock, consume, del);
 
         stock.on('click', function () {
-            var value = window.prompt('Stock for ' + ucfirst(title ? title : name));
+            var value = window.prompt('库存 for ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setStockValue(name, value);
                 saveToKittenStorage();
@@ -1230,7 +1230,7 @@ var run = function() {
         });
 
         consume.on('click', function () {
-            var value = window.prompt('Consume rate for ' + ucfirst(title ? title : name));
+            var value = window.prompt('消耗 for ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -1238,7 +1238,7 @@ var run = function() {
         });
 
         del.on('click', function () {
-            if (window.confirm('取消自动转换' + ucfirst(title ? title : name) + '?')) {
+            if (window.confirm('删除资源控制 for ' + ucfirst(title ? title : name) + '?')) {
                 container.remove();
                 removeResourceControl(name);
                 saveToKittenStorage();
@@ -1561,10 +1561,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
-                message('Enabled trading with ' + ucfirst(name) + ' in the ' + ucfirst(season));
+                message('启动跟 ' + ucfirst(name) + ' 文明在 ' + ucfirst(season) + '季的贸易');
             } else if (input.not(':checked') && option[season] == true) {
                 option[season] = false;
-                message('Disabled trading ' + ucfirst(name) + ' in the ' + ucfirst(season));
+                message('关闭跟 ' + ucfirst(name) + ' 文明在 ' + ucfirst(season) + '季的贸易');
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1729,37 +1729,37 @@ var run = function() {
     var displayActivitySummary = function () {
         // Festivals
         if (activitySummary.other.festival) {
-            summary('Held ' + game.getDisplayValueExt(activitySummary.other.festival) + ' festivals');
+            summary('举行 ' + game.getDisplayValueExt(activitySummary.other.festival) + ' 节日');
         }
 
         // Observe stars
         if (activitySummary.other.stars) {
-            summary('Observed ' + game.getDisplayValueExt(activitySummary.other.stars) + ' stars');
+            summary('观察 ' + game.getDisplayValueExt(activitySummary.other.stars) + ' 星星');
         }
 
         // Praise the Sun
         if (activitySummary.other.faith) {
-            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 通过赞美太阳');
+            summary('积累 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' by 赞美太阳');
         }
 
         // Hunters
         if (activitySummary.other.hunt) {
-            summary('Sent ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' adorable kitten hunter' + (activitySummary.other.hunt == 1 ? '' : 's'));
+            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 队可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : 's'));
         }
 
         // Buildings
         for (var name in activitySummary.build) {
-            summary('Built: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + ucfirst(name));
+            summary('建造: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + ucfirst(name));
         }
 
         // Crafts
         for (var name in activitySummary.craft) {
-            summary('Crafted: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + ucfirst(name));
+            summary('工艺制作: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + ucfirst(name));
         }
 
         // Trading
         for (var name in activitySummary.trade) {
-            summary('Traded: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + ucfirst(name));
+            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + ucfirst(name));
         }
 
         // Show time since last run. Assumes that the day and year are always higher.
@@ -1829,10 +1829,10 @@ var run = function() {
     activityCheckbox.on('change', function () {
         if (activityCheckbox.is(':checked') && options.showactivity == false) {
             options.showactivity = true;
-            message('Showing Kitten Scientists activity live');
+            message('显示小猫科学家的活动');
         } else if (activityCheckbox.not(':checked') && options.showactivity == true) {
             options.showactivity = false;
-            message('Hiding updates of Kitten Scientists activity');
+            message('隐藏小猫科学家的活动');
         }
     });
 
