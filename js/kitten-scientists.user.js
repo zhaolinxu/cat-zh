@@ -852,7 +852,7 @@ var run = function() {
 
             game.diplomacy.tradeMultiple(race, amount);
             storeForSummary(name, amount, 'trade');
-            activity('Kittens have traded ' + amount + 'x with ' + ucfirst(name), 'ks-trade');
+            activity('小猫交易了 ' + amount + '次和' + ucfirst(name), 'ks-trade');
         },
         getLowestTradeAmount: function (name) {
             var amount = undefined;
