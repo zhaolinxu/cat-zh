@@ -256,8 +256,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             calendarDiv.innerHTML = " 第"+ year + " 年 - " +
                 seasonTitle + mod + ", " + calendar.integerDay() +" 天";
-            document.title = "Kittens Game - Year " + calendar.year + ", " +
-                seasonTitle + ", d. " + calendar.integerDay();
+            document.title = "小猫游戏 - " + calendar.year + " 年, " +
+                seasonTitle + ", " + calendar.integerDay() +" 天";
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;

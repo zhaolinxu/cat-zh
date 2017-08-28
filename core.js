@@ -1635,7 +1635,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
-				tooltip: model.metadata.isAutomationEnabled ? "Automation enabled" : "Automation disabled",
+				tooltip: model.metadata.isAutomationEnabled ? "启用自动化" : "禁用自动化",
 				visible: this.game.workshop.get("factoryAutomation").researched,
 				enabled: true,
 				divider: true,
