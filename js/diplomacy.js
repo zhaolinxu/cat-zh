@@ -8,7 +8,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	races: [{
 		name: "lizards",
 		title: $I("trade.race.lizards"),
-		attitude: "friendly",	//neutral, friendly, aggressive
+		attitude: "友好",	//neutral, friendly, aggressive
 		standing: 0.25,			//chance of trade success, works differently based on attitude
 		unlocked: false,
 		buys: [
@@ -26,7 +26,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "sharks",
 		title: $I("trade.race.sharks"),
-		attitude: "neutral",
+		attitude: "中立",
 		unlocked: false,
 		buys: [
 			{name: "iron", val: 100}
@@ -43,7 +43,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "griffins",
 		title: $I("trade.race.griffins"),
-		attitude: "hostile",
+		attitude: "敌对",
 		standing: 0.85,
 		unlocked: false,
 		buys: [
@@ -61,7 +61,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "nagas",
 		title: $I("trade.race.nagas"),
-		attitude: "neutral",
+		attitude: "中立",
 		hidden: true,
 		unlocked: false,
 		buys: [
@@ -80,7 +80,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "zebras",
 		hidden: true,
 		title: $I("trade.race.zebras"),
-		attitude: "hostile",
+		attitude: "敌对",
 		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
@@ -111,7 +111,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "spiders",
 		hidden: true,
 		title: $I("trade.race.spiders"),
-		attitude: "friendly",
+		attitude: "友好",
 		standing: 0.15,			//friendly, but not much
 		unlocked: false,
 		buys: [
@@ -130,7 +130,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "dragons",
 		hidden: true,
 		title: $I("trade.race.dragons"),
-		attitude: "neutral",
+		attitude: "中立",
 		standing: 0.25,
 		unlocked: false,
 		buys: [
@@ -150,7 +150,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		hidden: true,
 		title: $I("trade.race.leviathans"),
 		energy: 0,
-		attitude: "neutral",
+		attitude: "中立",
 		standing: 0.15,
 		unlocked: false,
         duration: 0,
@@ -364,14 +364,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			tradeRes["blueprint"] = 0;
 		}
 
-		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
+		if (race.attitude == "敌对" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
 			if (!suppressMessages){
 				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
 			}
 			return tradeRes;
 		}
 
-		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+		if (race.attitude == "友好" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
 			if (!suppressMessages){
 				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
 			}
@@ -554,7 +554,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			this.races[i].unlocked = true;
 		}
 		this.get("leviathans").duration = 10000;
-		this.game.msg("All trade partners are unlocked");
+		this.game.msg("所有贸易伙伴都已解锁！");
 	}
 });
 
@@ -631,7 +631,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	},
 
 	renderLinks: function(){
-		this.tradeAllHref = this.addLink("all",
+		this.tradeAllHref = this.addLink("全部",
 			function(){
 				this.game.diplomacy.tradeAll(this.race);
 			}
@@ -829,7 +829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var buys = race.buys[0];
 			var res = this.game.resPool.get(buys.name);
 			dojo.create("div", {
-				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='ammount'>" + buys.val + "</span>"
+				innerHTML: "<span class='buys'>收购: </span>" + (res.title || res.name) + " <span class='ammount'>" + buys.val + "</span>"
 			}, leftColumn);
 
 			for (var j =0; j< race.sells.length; j++){
@@ -857,7 +857,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						max = val * sratio + val * sratio * s.delta/2;
 					}
 
-					var prefix = ( j == 0) ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
+					var prefix = ( j == 0) ? "<span class='sells'>出售: </span>" : "<span class='sells'></span>";
 					var div = dojo.create("div", {
 							innerHTML: prefix + (res.title || res.name) + " <span class='ammount'>"
 								+ this.game.getDisplayValueExt(min, false, false, 0) + " - "

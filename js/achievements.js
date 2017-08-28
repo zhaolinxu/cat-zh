@@ -293,7 +293,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         for (var i in this.achievements){
             this.achievements[i].unlocked = true;
         }
-        this.game.msg("All achievements are unlocked");
+        this.game.msg("所有成就已经解锁！");
     }
 });
 
