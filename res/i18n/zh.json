@@ -1282,7 +1282,7 @@
     "trade.msg.trade.failure": "{0} 无缘无故恨你",
     "trade.msg.trade.success": "{0} 认为你的小猫是可爱的",
     "trade.msg.trade.empty": "你的小猫空手而回",
-    "trade.msg.trade.caravan": "你已发送 {0}商队(s)",
+    "trade.msg.trade.caravan": "你已发送 {0}商队",
     "trade.msg.elders.pleased": "上古神很高兴",
     "trade.msg.elders.displeased": "上古神很不满",
     "trade.msg.elders.feed": "Feed elders",
