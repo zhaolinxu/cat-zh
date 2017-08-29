@@ -13,7 +13,7 @@
     "buildings.hydroplant.label": "水电站",
     "buildings.hydroplant.desc": "现代化的能源资源",
     "buildings.hut.label": "帐篷",
-    "buildings.hut.desc": "建一个小屋（每个能容纳2只小喵）。小猫需要吃猫薄荷，不然它们会死。<br>每只小猫大约需要 4 猫薄荷/s",
+    "buildings.hut.desc": "建一个小屋（每个能容纳2只小喵）。小猫需要吃猫薄荷，不然它们会死。<br>每只小猫大约需要 4 猫薄荷/秒",
     "buildings.hut.flavor": "给我两只猫，我能创造一个民族",
     "buildings.logHouse.label": "木屋",
     "buildings.logHouse.desc": "建一个木屋（每个能容纳1只小猫）",

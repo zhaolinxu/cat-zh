@@ -492,7 +492,7 @@ var run = function() {
                 // No way to send only some hunters. Thus, we hunt with everything
                 var hunters = game.village.getJob('hunter').value;
                 storeForSummary('hunt', hunters);
-                activity('Sent ' + game.getDisplayValueExt(hunters) + ' kitten' + (hunters == 1 ? '' : 's') + ' on the hunt', 'ks-hunt');
+                activity('派出 ' + game.getDisplayValueExt(hunters) + ' 小猫' + (hunters == 1 ? '' : 's') + ' 去打猎', 'ks-hunt');
                 game.village.huntAll();
             }
         },
