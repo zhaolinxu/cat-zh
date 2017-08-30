@@ -1759,7 +1759,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 
             record.content.innerHTML =
-            	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " years old, "
+            	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " 岁, "
             	+ kitten.trait["title"]
             	+ (kitten.rank == 0 ? "" : " (等级 " + kitten.rank + ")")
             	+ "<br>";
