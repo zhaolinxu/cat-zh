@@ -1,4 +1,5 @@
 {
     "name": "小猫游戏百科",
-    "ver": "v1.0"
+    "ver": "v1.0",
+    "imports": ["assets/css/wiki.css"]
 }

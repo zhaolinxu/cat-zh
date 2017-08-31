@@ -391,7 +391,7 @@ var run = function() {
 
             if (options.auto.faith.trigger <= faith.value / faith.maxValue) {
                 storeForSummary('faith', faith.value);
-                activity('Praised the sun!', 'ks-praise');
+                activity('赞美太阳!', 'ks-praise');
                 game.religion.praise();
             }
         },
