@@ -474,7 +474,7 @@ var run = function() {
                 game.villageTab.festivalBtn.onClick();
                 if (game.calendar.festivalDays !== 0) {
                     storeForSummary('festival');
-                    activity('Kittens begin holding a festival', 'ks-festival');
+                    activity('小猫开始举办节日', 'ks-festival');
                 }
             }
         },
