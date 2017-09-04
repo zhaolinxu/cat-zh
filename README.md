@@ -1,4 +1,4 @@
-# Kittens Game （小猫游戏）  #
+# Kittens Game （猫国建设者）  #
 
 ### 网页版本链接 ###
 * 最新汉化版本（V 1.4.4.0b）：https://zhaolinxu.github.io/cat-zh/
@@ -20,5 +20,6 @@
 ### 声明 ###
 * 此汉化版本只是为了方便广大中国玩家进行游戏。
 * 游戏版权归原作者 http://bloodrizer.ru/ 所有。
+* 非常感谢 @a253208088 @Domaron 帮助汉化本游戏。
 
 
