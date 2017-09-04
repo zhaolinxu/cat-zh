@@ -28,7 +28,7 @@ invokeCallback = function(callback, args) {
 
 //Localization support
 dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
-	fallbackLocale: "en",
+	fallbackLocale: "zh",
 	availableLocales: null,
 	availableLocaleLabels: null,
 	language: null,
@@ -43,6 +43,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 		for (i in config.locales ){
 			this.availableLocales.push(config.locales[i]);
+            console.log(config.locales[i])
 		}
 		this.availableLocaleLabels = {
 			"en" : "English",
@@ -99,18 +100,19 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		}
 		// at this point we always have correct lang selected
 		this.language = lang;
+        console.log(lang)
 		var self = this;
 		this._deffered = $.Deferred();
 		// now we can try to load it
 		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
-			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
-			self._deffered.reject("Couldn't load default locale");
+			console.error("不能加载默认语言文件 '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
+			self._deffered.reject("不能加载默认语言文件");
 		});
 		var fallbackLocale = this.fallbackLocale;
 		if (this.language != fallbackLocale ) {
 			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?v=" + version).fail(function(e){
-				console.error("Couldn't load user locale '" + lang + "', error:", e);
+				console.error("不能加载用户自定义语言文件'" + lang + "', 错误信息:", e);
 			});
 
 			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
