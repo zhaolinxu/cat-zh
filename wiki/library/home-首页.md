@@ -1,5 +1,5 @@
 # 你是一只猫猫在猫咪森林里。
-### 小猫游戏由bloodrizer开发，是一个村庄模拟管理经营的文字网页游戏。 您在管理一个小猫村，为他们获得资源和开发新技术。 该游戏目前正在开发中，因此价格和平衡可能会发生变化。
+### 猫国建设者游戏由bloodrizer开发，是一个村庄模拟管理经营的文字网页游戏。 您在管理一个小猫村，为他们获得资源和开发新技术。 该游戏目前正在开发中，因此价格和平衡可能会发生变化。
 ### 快速导航
 
 <table class="wikitable">
@@ -230,4 +230,4 @@
 		</tr>
 	</tbody>
 </table>
-[ [小猫游戏 官网英文百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page) ]
+[ [猫国建设者游戏 官网英文百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page) ]
