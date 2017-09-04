@@ -92,8 +92,11 @@
 					"js/ui",
 					"js/toolbar"
 				];
+				
+				var def = _import("config");
+				def = _import("core", def);
 				var gameLang;
-				var def = System.import("core.js?v=" + version);
+
 				def.then(function () {
 					var langPromise = i18nLang.init(version);
 					langPromise.done(function() {
