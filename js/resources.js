@@ -325,11 +325,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		craftable: true
 	},{
-		name : "concrate",
-		title: $I("resources.concrate.title"),
-		type : "common",
-		craftable: true
-	},{
 		name : "plate",
 		title: $I("resources.plate.title"),
 		type : "common",
@@ -342,6 +337,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: false,
 		color: "gray",
 		calculatePerTick: true
+	},{
+		name : "concrate",
+		title: $I("resources.concrate.title"),
+		type : "common",
+		craftable: true
 	},{
 		name : "gear",
 		title: $I("resources.gear.title"),

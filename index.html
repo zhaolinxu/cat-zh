@@ -21,7 +21,7 @@
 
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
-
+<script src="config.js" type="text/javascript" charset="utf-8"></script>
         <!-- <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script> -->
 
 		<!--<script>
@@ -53,7 +53,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1440b";
+			var version = "_1440d";
 
 			function _import(module, def){
 				if (!def){
@@ -107,7 +107,7 @@
 			});
 
 			function initGame() {
-				console.log("About to initialize the game");
+				console.log("关于初始化游戏");
 				try {
 					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));

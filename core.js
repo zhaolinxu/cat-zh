@@ -13,7 +13,7 @@ if (document.all && !window.localStorage) {
 }
 
 
-invokeCallback = function(callback, args) {
+invokeCallback = function(callback, args) { 
 	if (!callback){
 		console.warn("Callback must be defined");
 		return;
@@ -37,8 +37,13 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	platformLocale: null,
 
 	//TODO: move to the configuration file
-	constructor: function(){
-		this.availableLocales = [this.fallbackLocale,"zh","ru", "ja"];
+	constructor: function(){   
+		var config = new classes.KGConfig();
+		this.availableLocales = [this.fallbackLocale];
+
+		for (i in config.locales ){
+			this.availableLocales.push(config.locales[i]);
+		}
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
@@ -102,12 +107,14 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
 			self._deffered.reject("Couldn't load default locale");
 		});
-		if (this.language != this.fallbackLocale ) {
+		var fallbackLocale = this.fallbackLocale;
+		if (this.language != fallbackLocale ) {
 			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?v=" + version).fail(function(e){
 				console.error("Couldn't load user locale '" + lang + "', error:", e);
 			});
 
 			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
+				console.log("locale arguments:", arguments);
 				// merge locales
 				$.extend( fallbackLocale[0], userLocale[0] );
 				self.messages = fallbackLocale[0];
