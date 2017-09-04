@@ -22,7 +22,7 @@
 			</td>
 			<td class="em">
 				<span style="display:block;width:185px">
-							本地化文件
+							多语言
 				</span>
 			</td>
 		</tr>
@@ -41,19 +41,19 @@
 				<a href="http://bloodrizer.ru/games/kittens/">玩游戏（英文原版）</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-en">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-en">
 							英语
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=Technologies">
+				<a href="?file=001-猫咪百科/03-科技">
 							科学
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Game+Mechanics">
+				<a href="#Game+Mechanics">
 							游戏力学
 				</a>
 			</td>
@@ -61,19 +61,19 @@
 				<a href="https://zhaolinxu.github.io/cat-zh/">玩游戏（汉化版）</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-ru">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-ru">
 							俄语
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=workshop">
+				<a href="?file=001-猫咪百科/04-作坊/01-升级">
 							作坊
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Resources">
+				<a href="?file=002-常用资料/005-资源介绍">
 							资源
 				</a>
 			</td>
@@ -81,39 +81,39 @@
 				<a href="https://www.reddit.com/r/kittensgame/">网页游戏论坛</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-ko">
-							朝鲜的
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-ko">
+							韩语
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=Trade">
+				<a href="?file=001-猫咪百科/05-贸易">
 							贸易
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Metaphysics">
-							形而上学
+				<a href="#Metaphysics">
+							玄学
 				</a>
 			</td>
 			<td>
 			<a href="https://www.reddit.com/r/kgmobile/">手机游戏论坛</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-no">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-no">
 							挪威
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=Religion">
+				<a href="#Religion">
 							宗教
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Challenges">
+				<a href="?file=002-常用资料/007-挑战模式">
 							挑战
 				</a>
 			</td>
@@ -123,36 +123,36 @@
 			</a>
 			</td>
 			<td>
-				<a href="index.php?page=Deutsch">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=Deutsch">
 							德语
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=Space">
+				<a href="#Space">
 							空间
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Events">
-							活动
+				<a href="?file=002-常用资料/006-事件介绍">
+							事件
 				</a>
 			</td>
 			<td>
 			<a href="http://gaming.stackexchange.com/tags/kittens-game" class="external">
-						游戏问​​答
+						游戏问答
 			</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-fr">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-fr">
 							法国
 				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="index.php?page=Time">
+				<a href="?file=001-猫咪百科/08-时间">
 							时间
 				</a>
 			</td>
@@ -164,7 +164,7 @@
 			</a>
 			</td>
 			<td>
-				<a href="index.php?page=locale-br">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-br">
 							巴西葡萄牙语
 				</a>
 			</td>
@@ -176,14 +176,14 @@
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=Third-party+Scripts">
+				<a href="?file=004-第三方工具/01-第三方工具">
 							第三方脚本
 				</a>
 			</td>
 			<td>
 			</td>
 			<td>
-				<a href="index.php?page=locale-es">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-es">
 							西班牙语
 				</a>
 			</td>
@@ -223,8 +223,8 @@
 				</a>
 			</td>
 			<td>
-				<a href="index.php?page=locales">
-							完整列表
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales">
+							全部语言
 				</a>
 			</td>
 		</tr>
