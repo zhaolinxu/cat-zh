@@ -544,7 +544,7 @@
     "science.nuclearFission.desc": "核裂变解锁核反应堆和核相关升级",
     "science.nuclearFission.effectDesc": "解锁核反应堆和核船",
     "science.nuclearFission.label": "核裂变",
-    "science.rocketry.desc": "",
+    "science.rocketry.desc": "需要空间探索",
     "science.rocketry.effectDesc": "解锁宇宙飞船和石油加工建设",
     "science.rocketry.label": "火箭学",
     "science.oilProcessing.desc": "解锁油加工的先进选项",
