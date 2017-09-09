@@ -171,7 +171,7 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 
 		var resPool = this.game.resPool;
 		var energy = resPool.energyProd - resPool.energyCons;
-		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(energy) + "Wt";
+		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(energy) + "瓦";
 
 		if (energy >= 0){
 			$(this.container).css("color", "green");

@@ -1307,7 +1307,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 					var tempVal = Math.abs(effectValue * this.game.rate), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
-						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
+						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/秒";
 					} else {
 						// tempVal = tempVal * 60;
 						// if (tempVal >= 0.01) {
@@ -1317,15 +1317,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 						// }
 					}
 				} else if (effectMeta.type === "perDay"){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";
 				} else if (effectMeta.type === "perYear"){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/年";
 				} else if ( effectMeta.type === "ratio" ) {
 					displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 				} else if ( effectMeta.type === "integerRatio" ){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 				} else if ( effectMeta.type === "energy" ){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
+					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "瓦";
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(effectValue);
 				}
