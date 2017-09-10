@@ -2987,6 +2987,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		 * Even if the game is paused, scheduler should still be able to obtain a focus to handle cases like save/load/reset
 		 */
 		this.timer.updateScheduledEvents();
+        var fpsElement;
 
 		if (this.isPaused){
 			return;
@@ -3014,20 +3015,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks -5) / 5);
 
 			if (tsDiff < 10) {tsDiff = 10;}
-            if ($("#devPanelFPS")[0]) {
-                $("#devPanelFPS")[0].innerHTML = "update time: " + tsDiff + " ms,"
-                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (click to restart)";
-                dojo.connect($("#devPanelFPS")[0], "onclick", this, dojo.partial(function() {
-					this.totalUpdateTime[0] = 0;
-					this.totalUpdateTime[1] = 0;
-					this.totalUpdateTime[2] = 0;
-					this.totalUpdateTime[3] = 0;
-					this.totalUpdateTime[4] = 0;
-					this.totalUpdateTimeCurrent = 0;
-					this.totalUpdateTimeTicks = 5;
-                }));
+            fpsElement = $("#devPanelFPS")[0];
+            if (fpsElement) {
+                fpsElement.textContent = "刷新时间: " + tsDiff + " ms,"
+                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (点击重新计算)";
             }
 		}
+	},
+
+	restartFPSCounters: function() {
+        this.totalUpdateTime[0] = 0;
+        this.totalUpdateTime[1] = 0;
+        this.totalUpdateTime[2] = 0;
+        this.totalUpdateTime[3] = 0;
+        this.totalUpdateTime[4] = 0;
+        this.totalUpdateTimeCurrent = 0;
+        this.totalUpdateTimeTicks = 5;
 	},
 
 	reset: function(){

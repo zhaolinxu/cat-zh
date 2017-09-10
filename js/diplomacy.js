@@ -533,7 +533,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	feedElders: function(){
 		var ncorns = this.game.resPool.get("necrocorn");
 		var elders = this.game.diplomacy.get("leviathans");
-		if (ncorns.value > 0){
+		if (ncorns.value >= 1){
 			elders.energy++;
 
 			var markerCap = this.game.religion.getZU("marker").val * 5 + 5;

@@ -1070,7 +1070,8 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 	},
 
 	updateVisible: function(model){
-		model.visible = (this.game.resPool.get("alicorn").value >= 25);
+		var alicorns = this.game.resPool.get("alicorn").value;
+		model.visible = (alicorns >= 25 || (alicorns > 0 && this.game.resPool.get("timeCrystal").unlocked));
 	}
 
 });

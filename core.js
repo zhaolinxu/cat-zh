@@ -41,7 +41,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		var config = new classes.KGConfig();
 		this.availableLocales = [this.fallbackLocale];
 
-		for (i in config.locales ){
+		for (var i in config.locales ){
 			this.availableLocales.push(config.locales[i]);
             console.log(config.locales[i])
 		}

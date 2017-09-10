@@ -804,27 +804,34 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		totalNumberOfEvents+=numberEvents;
 
-
-		//==================== other calendar stuff ========================
 		var yearsOffset = Math.floor(daysOffset / 400);
-		this.year += yearsOffset;
-
-		if ( yearsOffset && this.year % 1000 === 0 ){
-			this.game.resPool.addResEvent("paragon", 1);
-			this.game.stats.getStat("totalParagon").val++;
-		}
-		//------------------------------------------------------------------
 
 		//antimatter
 		var resPool = this.game.resPool;
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction") * daysOffset / 400);	//give partial AM based on active sunlifters
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction") * yearsOffset);
 		}
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
 
 		//not sure if it is a good idea
 		this.game.resPool.addResEvent("void",
 			this.game.resPool.getVoidQuantityStatistically() * Math.round(daysOffset * this.game.bld.get("chronosphere").on / 100));
+
+
+		//==================== other calendar stuff ========================
+		//cap years skipped in 1000 years
+		if (this.game.challenges.currentChallenge == "1000Years" && this.year + yearsOffset > 500){
+			yearsOffset = Math.max(500 - this.year, 0);
+		}
+
+		//calculate millenium difference
+		var paragon = Math.floor((this.year + yearsOffset) / 1000) - Math.floor(this.year / 1000);
+		if (paragon > 0){
+			resPool.addResEvent("paragon", paragon);
+			this.game.stats.getStat("totalParagon").val += paragon;
+		}
+		this.year += yearsOffset;
+		//------------------------------------------------------------------
 
         return totalNumberOfEvents;
 	},

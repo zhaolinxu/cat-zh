@@ -1795,16 +1795,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		progressHandicap: 1,
 		tier: 1
 	},{
-		name: "concrate",
-		label: $I("workshop.crafts.concrate.label"),
-		description: $I("workshop.crafts.concrate.desc"),
-		prices:[
-			{name: "slab", val: 2500},
-			{name: "steel", val: 25}
-		],
-		progressHandicap: 9,
-		tier: 4
-	},{
 		name: "plate",
 		label: $I("workshop.crafts.plate.label"),
 		description: $I("workshop.crafts.plate.desc"),
@@ -1823,6 +1813,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		progressHandicap: 4,
 		tier: 2
+	},{
+		name: "concrate",
+		label: $I("workshop.crafts.concrate.label"),
+		description: $I("workshop.crafts.concrate.desc"),
+		prices:[
+			{name: "slab", val: 2500},
+			{name: "steel", val: 25}
+		],
+		progressHandicap: 9,
+		tier: 4
 	},{
 		name: "gear",
 		label: $I("workshop.crafts.gear.label"),
