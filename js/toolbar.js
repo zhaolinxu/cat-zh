@@ -186,8 +186,8 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
         var delta = this.game.resPool.getEnergyDelta();
 		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
 
-		return "产出: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
-			   "<br>消耗: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
+		return "产出: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "瓦</span>" +
+			   "<br>消耗: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "瓦</span>" + penalty;
 	}
 });
 

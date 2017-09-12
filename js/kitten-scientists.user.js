@@ -1744,22 +1744,22 @@ var run = function() {
 
         // Hunters
         if (activitySummary.other.hunt) {
-            summary('Sent ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' adorable kitten hunter' + (activitySummary.other.hunt == 1 ? '' : 's'));
+            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 批可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : 's'));
         }
 
         // Buildings
         for (var name in activitySummary.build) {
-            summary('Built: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + ucfirst(name));
+            summary('建成: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + ucfirst(name));
         }
 
         // Crafts
         for (var name in activitySummary.craft) {
-            summary('Crafted: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + ucfirst(name));
+            summary('制作了: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + ucfirst(name));
         }
 
         // Trading
         for (var name in activitySummary.trade) {
-            summary('Traded: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + ucfirst(name));
+            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + ucfirst(name));
         }
 
         // Show time since last run. Assumes that the day and year are always higher.
@@ -1781,7 +1781,7 @@ var run = function() {
             if (days >= 0) {
                 if (years > 0) duration += ' and ';
                 duration += roundToTwo(days) + ' ';
-                duration += (days == 1) ? 'day' : 'days';
+                duration += (days == 1) ? '天' : '天';
             }
 
             summary('最后的总结 ' + duration);

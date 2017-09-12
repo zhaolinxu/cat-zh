@@ -675,12 +675,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (squads > 1) {
 			msg += $I("village.msg.hunt.from", [squads]);
 		}
-		msg += ". +" + this.game.getDisplayValueExt(totalYield.furs) + " " + $I("village.msg.hunt.furs");
+		msg += ". 带回了 +" + this.game.getDisplayValueExt(totalYield.furs) + " " + $I("village.msg.hunt.furs");
 		if (totalYield.ivory > 0){
-			msg += ", +" + this.game.getDisplayValueExt(totalYield.ivory) + " " + $I("village.msg.hunt.ivory");
+			msg += ", 带回了 +" + this.game.getDisplayValueExt(totalYield.ivory) + " " + $I("village.msg.hunt.ivory");
 		}
 		if (totalYield.gold > 0){
-			msg += ", +" + this.game.getDisplayValueExt(totalYield.gold) + " " + $I("village.msg.hunt.gold");
+			msg += ", 带回了 +" + this.game.getDisplayValueExt(totalYield.gold) + " " + $I("village.msg.hunt.gold");
 		}
 		this.game.msg( msg, null, "hunt" );
 	},
