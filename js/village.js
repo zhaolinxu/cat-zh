@@ -944,19 +944,38 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 			}
 
 			if (kitten.job && this.game.calendar.day >= 0 && this.game.challenges.currentChallenge != "anarchy"){
+				//Initialisation of job's skill
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
 				}
+				//Learning job's skill
 				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
 					kitten.skills[kitten.job] += skillRatio;
 					kitten.exp += skillRatio;
 				}
+				//Other job's skills
+				if (this.game.workshop.get("neuralNetworks").researched) {
+					// Neural Networks Learning
+					for (var j = game.village.jobs.length - 1; j >= 0; j--) {
+						if (game.village.jobs[j].unlocked) {
+							var job = game.village.jobs[j].name;
+							var jobValue = game.village.jobs[j].value;
 
-				for (var skill in kitten.skills){
-					if (skill != kitten.job && kitten.skills[skill] > 0 ) {
-						var skillExp = Math.min( times * 0.001, kitten.skills[skill]);
-						kitten.skills[skill] -= skillExp;
-						kitten.exp -= skillExp;
+							if (!kitten.skills[job]){
+								kitten.skills[job] = 0;
+							}
+
+							var skillExp = times * 0.001 * jobValue;
+							kitten.skills[job] += skillExp;
+						}
+					}
+				} else {//Forget other skills
+					for (var skill in kitten.skills){
+						if (skill != kitten.job && kitten.skills[skill] > 0 ) {
+							var skillExp = Math.min( times * 0.001, kitten.skills[skill]);
+							kitten.skills[skill] -= skillExp;
+							kitten.exp -= skillExp;
+						}
 					}
 				}
 			}
