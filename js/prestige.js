@@ -26,7 +26,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		},
 		effects:{
 			"manuscriptCraftRatio" : 0.25,
-			"manuscriptGlobalCraftRatio": 0.05
+			"手稿制作效率提高": 0.05
 		}
 	},{
 		name: "codexLogos",
@@ -40,7 +40,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		},
 		effects:{
 			"compediumCraftRatio" : 0.25,
-			"manuscriptGlobalCraftRatio": 0.05,
+			"手稿制作效率提高": 0.05,
 			"compediumGlobalCraftRatio": 0.05
 
 		}
