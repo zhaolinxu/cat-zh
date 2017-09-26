@@ -1,5 +1,6 @@
 dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager, {
     game: null,
+    councilUnlocked: false,
 
     achievements: [
         {
@@ -201,30 +202,28 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return (this.game.calendar.year >= 40000 + this.game.time.flux);
             },
             hasStar: true
-        }, {
-            name: "limitlessClicker",
-            title: $I("achievements.limitlessClicker.title"),
-            description: $I("achievements.limitlessClicker.desc"),
-            starDescription: $I("achievements.limitlessClicker.starDesc"),
-            condition: function () {
-                return (this.game.stats.getStat("totalClicks").val >= 100000);
-            },
-            starCondition: function () {
-                return (this.game.stats.getStat("totalClicks").val >= 1000000);
-            },
-            hasStar: true
-        }],
+    }],
+
+    hats: [
+        {
+            id: 1,
+            name: "simpleHat",
+            title: "Simple Hat",
+            description: "The hat to rule them all",
+            difficulty: "F"
+        }
+    ],
 
     constructor: function (game) {
         this.game = game;
     },
 
     get: function (name) {
-        for (var i = 0; i < this.achievements.length; i++) {
-            if (this.achievements[i].name == name) {
-                return this.achievements[i];
-            }
-        }
+        return this.getMeta(name, this.achievements);
+    },
+
+    getHat: function(name){
+        return this.getMeta(name, this.hats);
     },
 
     hasUnlocked: function () {
@@ -283,10 +282,18 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
     save: function (saveData) {
         saveData.achievements = this.game.bld.filterMetadata(this.achievements, ["name", "unlocked", "starUnlocked"]);
+        saveData.ach = {
+            councilUnlocked : this.councilUnlocked,
+            hats: this.game.bld.filterMetadata(this.hats, ["name", "unlocked"])
+        }
     },
 
     load: function (saveData) {
 		this.loadMetadata(this.achievements, saveData.achievements);
+
+        var ach = saveData.ach || {};
+        this.councilUnlocked = ach.councilUnlocked || false;
+        this.loadMetadata(this.hats, ach.hats);
     },
 
     unlockAll: function(){
@@ -297,13 +304,72 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     }
 });
 
+dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
+    constructor: function(opts){
+        this.opts = opts;
+    },
+    render: function(container) {
+        var div = dojo.create("div", {
+            style:{display:"flex", width: "30px", height: "30px", border: "1px solid gray", fontSize: "12px"}
+        }, container);
+        var span = dojo.create("span", {}, div);
+        span.innerHTML = this.opts.id;
+
+        UIUtils.attachTooltip(this.game, div, 0, 50, dojo.hitch(this, function(){
+            var tooltip = "<span>" + this.opts.title + "</span><br>" + this.opts.description + "<br>" + "Difficulty: " + this.opts.difficulty;
+
+            return tooltip;
+        }));
+
+        this.body = div;
+    },
+    update: function(){
+        //render a rainbow colors if foiled
+        dojo.setStyle(this.body, "display", this.opts.unlocked ? "" : "none")
+    }
+});
+
+dojo.declare("classes.ui.HatWgt", [mixin.IChildrenAware, mixin.IGameAware], {
+    constructor: function(game){
+
+        for (var i in game.achievements.hats){
+            var hatMeta = game.achievements.hats[i];
+            var hat = new classes.ui.Hat(hatMeta);
+            hat.setGame(game);
+            this.addChild(hat);
+        }
+    },
+
+    render: function(container){
+        var div = dojo.create("div", null, container);
+
+        var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
+        this.inherited(arguments, [btnsContainer]);
+    },
+
+    update: function(){
+        this.inherited(arguments);
+    }
+});
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
+
+    constructor: function(){
+        this.hatsPanel = new com.nuclearunicorn.game.ui.Panel("A Secret Council of Hats");
+        this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
+
+        var hatsWgt = new classes.ui.HatWgt(this.game);
+        this.hatsPanel.addChild(hatsWgt);
+
+        this.addChild(this.hatsPanel);
+    },
+
 	render: function(content){
 		var div = dojo.create("div", { }, content);
 
 		div.innerHTML = "";
         var divHeader = dojo.create("div", {}, div);
-        var totalAchievements = 0; /*this.game.achievements.achievements.length*/
+        var totalAchievements = 0;
         var completedAchievements = 0;
 		for (var i in this.game.achievements.achievements){
 			var ach = this.game.achievements.achievements[i];
@@ -335,5 +401,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 			}, span);
 		}
         divHeader.innerHTML = $I("achievements.header", [completedAchievements, totalAchievements]);
-	}
+
+        //---------------------------
+        //         Blah
+        //---------------------------
+        this.container = content;
+
+        this.inherited(arguments);
+        this.update();
+        //--------------------------
+	},
+
+    update: function() {
+        this.inherited(arguments);
+        this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
+    }
 });
