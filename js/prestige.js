@@ -547,7 +547,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 		//---------------------------------------------------------------
-		var controller = new classes.ui.PrestigeBtnController(self.game);
+		var controller = new classes.ui.PrestigeBtnController(this.game);
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: perk.name, controller: controller}, self.game);
 			button.render(content);
