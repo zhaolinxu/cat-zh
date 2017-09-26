@@ -92,7 +92,7 @@
 					"js/ui",
 					"js/toolbar"
 				];
-				
+
 				var def = _import("config");
 				def = _import("core", def);
 				var gameLang;
@@ -104,7 +104,7 @@
 							def = _import(modules[i], def);
 						}
 						def.then(initGame);
-							
+
 					});
 				});
 			});
@@ -163,10 +163,10 @@
 					console.error(ex);
 					console.trace();
 				}
-					
+
 			}
 
-				
+
 
 			function dev(){
 				if (gamePage.isLocalhost) {
@@ -315,7 +315,7 @@
 						<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
 						<br>
 						<div style="font-size:12px; color: gray;">
-							If this takes to much time, most likely it is not working. But don't worry.<br>
+							If this takes too much time, most likely it is not working. But don't worry.<br>
 							<ul>
 								<li>Try to refresh the game by pressing Ctrl+F5.</li>
 								<li>Try to reload the game in about 10-15 minutes.</li>
@@ -428,7 +428,7 @@
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
-				
+
 				<label for="schemeToggle">Color scheme:</label>
 				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
