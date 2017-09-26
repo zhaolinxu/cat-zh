@@ -211,6 +211,19 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		researched: false,
 		effects: {
 			"kittenGrowthRatio": 0.75
+		},
+		unlocks: {
+			"perks": ["pawgan"]
+		}
+     },{
+		name: "pawgan",
+		label: $I("prestige.pawgan.label"),
+		description: $I("prestige.pawgan.desc"),
+		prices: [{ name: "paragon", val: 400 }],
+		unlocked: false,
+		researched: false,
+		effects: {
+			"kittenGrowthRatio": 1.50
 		}
      },{
 		name: "numerology",
