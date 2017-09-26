@@ -265,7 +265,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		this.sim.maxKittens = this.maxKittens;
-
+        this.sim.update(kittensPerTick);
 		var catnipPerTick = this.game.getResourcePerTick("catnip", true);
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var resDiff = catnipVal + catnipPerTick;
@@ -292,10 +292,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					this.deathTimeout--;
 				}
 				//Don't grow if kittens are starving
-				this.sim.update(0);
-			}
-			else{
-				this.sim.update(kittensPerTick);
+//				this.sim.update(0);
+//			}
+//			else{
+//				this.sim.update(kittensPerTick);
 			}
 		}
 
