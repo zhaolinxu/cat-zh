@@ -2775,12 +2775,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 	    var timeFormated = "";
-        if ( years ) { timeFormated = years + "y "; }
-	    if ( days ) { timeFormated += days + "d "; }
+        if ( years ) { timeFormated = years + "年 "; }
+	    if ( days ) { timeFormated += days + "天 "; }
         if ( !years ){
-            if ( hours ) {  timeFormated += hours + "h "; }
-            if ( minutes) { timeFormated += minutes + "m "; }
-            if ( seconds ) { timeFormated += seconds + "s "; }
+            if ( hours ) {  timeFormated += hours + "小时 "; }
+            if ( minutes) { timeFormated += minutes + "分 "; }
+            if ( seconds ) { timeFormated += seconds + "秒 "; }
         }
 
 	    return timeFormated;
@@ -2801,8 +2801,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var timeFormated = "";
-		if ( years ) { timeFormated = years + "y "; }
-		if ( days ) { timeFormated += days + "d "; }
+		if ( years ) { timeFormated = years + "年 "; }
+		if ( days ) { timeFormated += days + "天 "; }
 
 		return timeFormated;
 	},
