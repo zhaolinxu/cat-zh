@@ -91,7 +91,7 @@
 					"js/ui",
 					"js/toolbar"
 				];
-				
+
 				var def = _import("config");
 				def = _import("core", def);
 				var gameLang;
@@ -103,7 +103,7 @@
 							def = _import(modules[i], def);
 						}
 						def.then(initGame);
-							
+
 					});
 				});
 			});
@@ -163,10 +163,10 @@
 					console.error(ex);
 					console.trace();
 				}
-					
+
 			}
 
-				
+
 
 			function dev(){
 				if (gamePage.isLocalhost) {
@@ -427,7 +427,6 @@
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">保存更改</a>
 				<br>
 				<br>
-				
 				<label for="schemeToggle">更换主题:</label>
 				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
