@@ -316,8 +316,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
         span.innerHTML = this.opts.id;
 
         UIUtils.attachTooltip(this.game, div, 0, 50, dojo.hitch(this, function(){
-            var tooltip = "<span>" + this.opts.title + "</span><br>" + this.opts.description + "<br>" + "Difficulty: " + this.opts.difficulty;
-
+            var tooltip = "<span style='font-style: italic;'>" + this.opts.title + "</span><br>" + this.opts.description + "<br>" + "Difficulty: " + this.opts.difficulty;
             return tooltip;
         }));
 

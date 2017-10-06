@@ -15,10 +15,6 @@
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox.js"></script>
 
-		<!-- Embeded IRC (TODO: move swfobject to local hosting) -->
-		<script src="lib/swfobject.js"></script>
-		<script src="lib/lightirc/config.js"></script>
-
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
 
@@ -116,11 +112,12 @@
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 					//--------------------------
-					var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
+					/*var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });*/
 					/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+					/*var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
 					dropBoxClient.authDriver(driver);
-					gamePage.setDropboxClient(dropBoxClient);
+					gamePage.setDropboxClient(dropBoxClient);*/
+
 
 					gamePage.load();
 					gamePage.updateKarma();
@@ -360,7 +357,9 @@
 					</div>
 					<div class="right-tab" id="rightTabChat" style="display:none;">
 						<div id="IRCChatInner">
-							<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width: 400px; height:800px;"></iframe>
+
+							<!--iframe-- src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width: 400px; height:800px;"></iframe-->
+							<iframe src="https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?" style="border:0; width: 400px; height:800px;"></iframe>
 						</div>
 					</div>
 				</div>
