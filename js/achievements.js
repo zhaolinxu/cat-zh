@@ -293,7 +293,9 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
         var ach = saveData.ach || {};
         this.councilUnlocked = ach.councilUnlocked || false;
-        this.loadMetadata(this.hats, ach.hats);
+        if (ach.hats){
+            this.loadMetadata(this.hats, ach.hats);
+        }
     },
 
     unlockAll: function(){
