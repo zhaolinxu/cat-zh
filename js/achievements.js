@@ -211,6 +211,67 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Simple Hat",
             description: "The hat to rule them all",
             difficulty: "F"
+        },
+        {
+            id: 2,
+            name: "lotusHat",
+            title: "Lotus Hat",
+            description: "Hat in the shape of louts",
+            difficulty: "A",
+            condition: function(){
+                return this.game.stats.getStat("totalResets").val >= 50;
+            }
+        },
+        {
+            id: 3,
+            name: "ivoryTowerHat",
+            title: "Ivory Tower Hat",
+            description: "A tall hat in a form of a tower",
+            difficulty: "S+"
+        },
+        {
+            id: 4,
+            name: "uselessHat",
+            title: "Useless Hat",
+            description: "This hat is totally useless",
+            difficulty: "F",
+            condition: function(){
+                var leader = this.game.village.leader;
+                return leader != null && leader.trait.name == "none";
+            }
+        },
+        {
+            id: 5,
+            name: "voidHat",
+            title: "Void Hat",
+            description: "Hat is made of void",
+            difficulty: ""
+        },
+        {
+            id: 6,
+            name: "nullHat",
+            title: "Null Hat",
+            description: "The hat is a lie",
+            difficulty: ""
+        },
+        {
+            id: 7,
+            name: "betaHat",
+            title: "Beta Hat",
+            description: "The hat is a bit glitchy and rough around the edges",
+            difficulty: "B",
+            condition: function(){
+                return (this.game.server.donateAmt == 0);
+            }
+        },{
+            id: 8,
+            name: "muteHat",
+            title: "Mute Hat",
+            description: "This hat is silent",
+            difficulty: "S",
+            condition: function(){
+                return (this.game.server.motdContent == "");
+            }
         }
     ],
 
@@ -226,6 +287,12 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         return this.getMeta(name, this.hats);
     },
 
+    unlockHat: function(name){
+        var hat = this.getHat(name);
+        hat.unlocked = true;
+        this.game.achievements.councilUnlocked = true;
+    },
+
     hasUnlocked: function () {
         for (var i = 0; i < this.achievements.length; i++) {
             if (this.achievements[i].unlocked) {
@@ -236,7 +303,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     },
 
     update: function () {
-        for (var i = 0; i < this.achievements.length; i++) {
+        for (var i in this.achievements) {
             var ach = this.achievements[i];
             if (!ach.unlocked && dojo.hitch(this, ach.condition)()) {
                 ach.unlocked = true;
@@ -251,6 +318,16 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 this.game.achievementTab.visible = true;
 
                 this.updateStatistics();
+            }
+        }
+
+        for (var i in this.hats) {
+            var hat = this.hats[i];
+            //console.log("checking the hat", hat, hat.condition, hat.condition && dojo.hitch(this, hat.condition)());
+            if (!hat.unlocked && hat.condition && dojo.hitch(this, hat.condition)()) {
+                console.log("hat is unlocked!");
+                hat.unlocked = true;
+                this.councilUnlocked = true;
             }
         }
     },
@@ -326,7 +403,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
     },
     update: function(){
         //render a rainbow colors if foiled
-        dojo.setStyle(this.body, "display", this.opts.unlocked ? "" : "none")
+        dojo.setStyle(this.body, "display", this.opts.unlocked ? "inline-flex" : "none")
     }
 });
 
@@ -357,7 +434,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 
     constructor: function(){
         this.hatsPanel = new com.nuclearunicorn.game.ui.Panel("A Secret Council of Hats");
-        this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
+        //this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
+        this.hatsPanel.setVisible(this.game.prestige.getPerk("ascoh").researched && this.game.achievements.councilUnlocked);
 
         var hatsWgt = new classes.ui.HatWgt(this.game);
         this.hatsPanel.addChild(hatsWgt);

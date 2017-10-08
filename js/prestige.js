@@ -397,6 +397,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
+		researched: false,
+		unlocks: {
+			"perks": ["ascoh"]
+		}
+	},{
+		name: "ascoh",
+		label: $I("prestige.ascoh.label"),
+		description: $I("prestige.ascoh.desc"),
+		prices: [{ name: "paragon", val: 5 }],
+		unlocked: false,
+		defaultUnlocked: false,
 		researched: false
 	}],
 
