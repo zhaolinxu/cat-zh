@@ -293,6 +293,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 				//Don't grow if kittens are starving
 				this.sim.update(0);
+			} else {
+				this.sim.update(kittensPerTick);
 			}
 		} else{
 			this.sim.update(kittensPerTick);
