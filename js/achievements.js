@@ -265,13 +265,25 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         },{
             id: 8,
-            name: "muteHat",
-            title: "Mute Hat",
-            description: "This hat is silent",
+            name: "silentHat",
+            title: "Silent Hat",
+            description: "This hat is totally silent",
             difficulty: "S",
             condition: function(){
                 return (this.game.server.motdContent == "");
             }
+        },{
+            id: 9,
+            name: "treetrunkHat",
+            title: "Treetrunk Hat",
+            description: "A hat made of branches and leaves",
+            difficulty: "F"
+        },{
+            id: 10,
+            name: "wizardHat",
+            title: "Wizard Hat",
+            description: "Abracadabra!",
+            difficulty: ""
         }
     ],
 
