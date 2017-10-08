@@ -49,7 +49,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1442";
+			var version = "_1442b";
 
 			function _import(module, def){
 				if (!def){
@@ -112,11 +112,11 @@
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 					//--------------------------
-					/*var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });*/
+					var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
 					/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-					/*var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
+					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
 					dropBoxClient.authDriver(driver);
-					gamePage.setDropboxClient(dropBoxClient);*/
+					gamePage.setDropboxClient(dropBoxClient);
 
 
 					gamePage.load();
@@ -270,7 +270,7 @@
 						Heatsink
 						Entangler
 
-					Rev: 1
+					Rev: 2
 						Balance tweaks
 
 				</pre>

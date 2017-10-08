@@ -294,9 +294,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				//Don't grow if kittens are starving
 				this.sim.update(0);
 			}
-			else{
-				this.sim.update(kittensPerTick);
-			}
+		} else{
+			this.sim.update(kittensPerTick);
 		}
 
 		//check job limits
@@ -907,6 +906,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		if (!times) {
 			times = 1;
 		}
+
 		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
 			this.nextKittenProgress += times * kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
