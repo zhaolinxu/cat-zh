@@ -1,3 +1,15 @@
+v 1.4.4.2
+
+changes by coderpatsy:
+
+- Fix error when importing save without hats
+- 修正index.html中的错字（https://redd.it/72c4if）
+- 修复村庄的全局小漏洞
+- Only check neural networks once per village sim update
+
+Balance tweaks
+New chat client (now with cat pics!)
+
 v 1.4.4.1
 Changes by freeroot and coderpatsy:
 

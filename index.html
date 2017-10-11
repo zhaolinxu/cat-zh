@@ -15,10 +15,6 @@
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox.js"></script>
 
-		<!-- Embeded IRC (TODO: move swfobject to local hosting) -->
-		<script src="lib/swfobject.js"></script>
-		<script src="lib/lightirc/config.js"></script>
-
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
         <!-- <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script> -->
@@ -52,7 +48,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1441";
+			var version = "_1442c";
 
 			function _import(module, def){
 				if (!def){
@@ -120,6 +116,7 @@
 					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
 					dropBoxClient.authDriver(driver);
 					gamePage.setDropboxClient(dropBoxClient);
+
 
 					gamePage.load();
 					gamePage.updateKarma();
@@ -247,10 +244,11 @@
 						<a href="#" onclick="$('#optionsDiv').toggle();">选项</a> |
 
 						<a href="#" onclick="gamePage.reset();">重置</a> |
-						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();" title="加速模式开启后，点天数后面的 >>> 游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
-						<a href="#" onclick="wipe();" title="此操作会清除你的游戏进度，相当于没玩过。">删档</a> |
+						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();"  title="加速模式开启后，点天数后面的 >>> 游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
+						<a href="#" onclick="wipe();"  title="此操作会清除你的所有游戏进度。">删档</a> |
 						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
-						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.1</a>
+
+						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.2</a>
 					</div>
 				</div>
 			</div>
@@ -273,7 +271,7 @@
 						散热器
 						纠缠
 
-					版本: 1
+					版本: 2
 						平衡调整
 
 				</pre>
@@ -360,7 +358,9 @@
 					</div>
 					<div class="right-tab" id="rightTabChat" style="display:none;">
 						<div id="IRCChatInner">
-							<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width: 400px; height:800px;"></iframe>
+
+							<!--iframe-- src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width: 400px; height:800px;"></iframe-->
+							<iframe src="https://kiwiirc.com/nextclient/?settings=98efrnr34rbd&nick=kitten_?" style="border:0; width: 400px; height:800px;"></iframe>
 						</div>
 					</div>
 				</div>

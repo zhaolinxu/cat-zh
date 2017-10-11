@@ -1532,5 +1532,7 @@
     "effectsMgr.statics.gflopsConsumption.title": "GFlops consumption",
     "effectsMgr.statics.hashrateLevel.title": "Hashrate level",
     "effectsMgr.statics.nextHashLevelAt.title": "Next hashrate level at",
-    "effectsMgr.statics.hashrate.title": "Hashrate"
+    "effectsMgr.statics.hashrate.title": "Hashrate",
+    "prestige.ascoh.label":"ASCOH",
+    "prestige.ascoh.desc":"A Secret Council Of Hats"
 }

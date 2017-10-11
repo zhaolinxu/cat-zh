@@ -1588,5 +1588,8 @@
     "effectsMgr.statics.gflopsConsumption.title": "每秒十亿次浮点运算数消耗量",
     "effectsMgr.statics.hashrateLevel.title": "哈希值 等级",
     "effectsMgr.statics.nextHashLevelAt.title": "下一个 哈希值 等级在",
-    "effectsMgr.statics.hashrate.title": "哈希值"
+    "effectsMgr.statics.hashrate.title": "哈希值",
+    "prestige.ascoh.label":"ASCOH",
+    "prestige.ascoh.desc":"一个秘密委员会的帽子"
+
 }

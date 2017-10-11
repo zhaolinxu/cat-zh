@@ -3051,6 +3051,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             }
             if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
                 game.challenges.getChallenge("atheism").researched = true;
+
+				if (game.ironWill){
+					game.achievements.unlockHat("ivoryTowerHat");
+				}
             }
 
             game.challenges.currentChallenge = null;
