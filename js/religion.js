@@ -691,6 +691,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	},
 
+	getApocryphaResetBonus: function(bonusRatio){
+		//100% Bonus per Transcendence Level
+		if (this.getRU("transcendence").on) {
+			bonusRatio *= Math.pow((1 + this.getTranscendenceLevel()), 2);
+		}
+		return (this.faith/100000) * 0.1 * bonusRatio;
+	},
+
 	transcend: function(){
 
 		var religion = this.game.religion;
@@ -1466,11 +1474,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	},
 
     resetFaithInternal: function(bonusRatio){
-         //100% Bonus per Transcendence Level
-         if (this.game.religion.getRU("transcendence").on) {
-	        bonusRatio *= Math.pow((1 + this.game.religion.getTranscendenceLevel()), 2);
-         }
-        this.game.religion.faithRatio += (this.game.religion.faith/100000) * 0.1 * bonusRatio;
+        this.game.religion.faithRatio += this.game.religion.getApocryphaResetBonus(bonusRatio);
 		this.game.religion.faith = 0.01;
     }
 });

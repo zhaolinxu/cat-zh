@@ -3051,6 +3051,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             }
             if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
                 game.challenges.getChallenge("atheism").researched = true;
+
+				if (game.ironWill){
+					game.achievements.unlockHat("ivoryTowerHat");
+				}
             }
 
             game.challenges.currentChallenge = null;
@@ -3149,8 +3153,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	_resetInternal: function(){
 		var kittens = this.resPool.get("kittens").value;
+		var karmaKittens = this.karmaKittens;
 		if (kittens > 35){
-			this.karmaKittens += this._getKarmaKittens(kittens);
+			karmaKittens += this._getKarmaKittens(kittens);
 		}
 
 		var paragonPoints = 0;
@@ -3158,27 +3163,53 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			paragonPoints = (kittens - 70);
 		}
 
-		this.resPool.addResEvent("paragon", paragonPoints);
-		this.karmaZebras = parseInt(this.karmaZebras);	//hack
+		var addRes = {
+			"paragon": paragonPoints
+		};
+
+		var karmaZebras = parseInt(this.karmaZebras);	//hack
 		//that's all folks
 
-		this.stats.getStat("totalParagon").val += paragonPoints;
-		this.stats.getStat("totalResets").val++;
+		var addStats = {
+			"totalParagon": paragonPoints,
+			"totalResets": 1
+		};
 
-		this.telemetry.logEvent("reset", this.stats.getStat("totalResets").val);
+		this.telemetry.logEvent("reset", this.stats.getStat("totalResets").val + 1);
 
-		//Reset current game stats
-		this.stats.resetStatsCurrent();
+        var stats = [];
+        for (var i = 0; i < this.stats.stats.length; i++){
+            var stat = this.stats.stats[i];
+
+            var val = stat.val;
+            if (addStats[stat.name] > 0){
+                val += addStats[stat.name];
+            }
+            stats.push({
+                name: stat.name,
+                val: val
+            });
+        }
+
+        var statsCurrent = [];
+        for (var i = 0; i < this.stats.statsCurrent.length; i++){
+            statsCurrent.push({
+                name: this.stats.statsCurrent[i].name,
+                val: 0
+            });
+        }
+
 
 		//-------------------------- very confusing and convoluted stuff related to karma zebras ---------------
 		var bonusZebras = this._getBonusZebras();
 		if (this.resPool.get("zebras").value > 0 && this.ironWill){
-			this.karmaZebras += bonusZebras;
+			karmaZebras += bonusZebras;
 		}
 
+		var faithRatio = this.religion.faithRatio;
 		//pre-reset faith so people who forgot to do it properly would not be screwed
 		if (this.religion.getRU("apocripha").on){
-			this.religionTab.resetFaithInternal(1);
+			faithRatio += this.religion.getApocryphaResetBonus(1);
 		}
 		//------------------------------------------------------------------------------------------------------
 
@@ -3197,8 +3228,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveRatio = this.bld.get("chronosphere").val > 0 ? this.getEffect("resStasisRatio") : 0; // resStasisRatio excepted when challenge
 		dojo.mixin(lsData.game, {
-			karmaKittens: 		this.karmaKittens,
-			karmaZebras: 		this.karmaZebras,
+			karmaKittens: 		karmaKittens,
+			karmaZebras: 		karmaZebras,
 			ironWill : 			saveRatio > 0 ? false : true,			//chronospheres will disable IW
 			deadKittens: 		0,
 			isCMBREnabled:		false
@@ -3237,6 +3268,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else if (res.value > 0) {
 					value = Math.sqrt(res.value) * saveRatio * 100;
 				}
+			}
+
+			if (addRes[res.name] > 0){
+				value += addRes[res.name];
 			}
 
 			if (value > 0){
@@ -3290,7 +3325,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks
 			},
 			religion: {
-				faithRatio: this.religion.faithRatio,
+				faithRatio: faithRatio,
 				tcratio: this.religion.tcratio,
 				zu: [],
 				ru: [],
@@ -3314,8 +3349,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				jobs: []
 			},
 			achievements: lsData.achievements,
-			stats: lsData.stats,
-			statsCurrent: lsData.statsCurrent
+			stats: stats,
+			statsCurrent: statsCurrent
 		};
 
 		if (anachronomancy.researched){

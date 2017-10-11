@@ -293,10 +293,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 				//Don't grow if kittens are starving
 				this.sim.update(0);
-			}
-			else{
+			} else {
 				this.sim.update(kittensPerTick);
 			}
+		} else{
+			this.sim.update(kittensPerTick);
 		}
 
 		//check job limits
@@ -903,9 +904,11 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	update: function(kittensPerTick, times){
+		var game = this.game;
 		if (!times) {
 			times = 1;
 		}
+
 		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
 			this.nextKittenProgress += times * kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
@@ -916,7 +919,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 					if (this.kittens.length < this.maxKittens) {
 						this.addKitten();
 						if (this.maxKittens <= 10 && times == 1){
-							this.game.msg($I("village.msg.kitten.has.joined"));
+							game.msg($I("village.msg.kitten.has.joined"));
 						}
 					}
 				}
@@ -924,9 +927,10 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 		}
 
 
-		var learnBasicRatio = this.game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
-		var learnRatio = this.game.getEffect("learnRatio");
+		var learnBasicRatio = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
+		var learnRatio = game.getEffect("learnRatio");
 		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio * times;
+		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
@@ -947,7 +951,7 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job && this.game.calendar.day >= 0 && this.game.challenges.currentChallenge != "anarchy"){
+			if (kitten.job && game.calendar.day >= 0 && game.challenges.currentChallenge != "anarchy"){
 				//Initialisation of job's skill
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
@@ -958,9 +962,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 					kitten.exp += skillRatio;
 				}
 				//Other job's skills
-				if (this.game.workshop.get("neuralNetworks").researched) {
+				if (neuralNetworks) {
 					// Neural Networks Learning
-					for (var j = game.village.jobs.length - 1; j >= 0; j--) {
+					for (var j = game.village.jobs.length - 1; j >= 0; j--){
 						if (game.village.jobs[j].unlocked) {
 							var job = game.village.jobs[j].name;
 							var jobValue = game.village.jobs[j].value;
@@ -1148,6 +1152,9 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 
 		if (freeKittens.length){
 			this.kittens[freeKittens[0].id].engineerSpeciality = craft.name;
+			if (craft.name == "wood"){
+				this.game.achievements.unlockHat("treetrunkHat");
+			}
 			return true;
 		} else {
 			//TODO: check free kittens and compare them with game.village.getFreeEngineer()

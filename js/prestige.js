@@ -397,6 +397,17 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		prices: [{ name: "paragon", val: 5 }],
 		unlocked: true,
 		defaultUnlocked: true,
+		researched: false,
+		unlocks: {
+			"perks": ["ascoh"]
+		}
+	},{
+		name: "ascoh",
+		label: $I("prestige.ascoh.label"),
+		description: $I("prestige.ascoh.desc"),
+		prices: [{ name: "paragon", val: 5 }],
+		unlocked: false,
+		defaultUnlocked: false,
 		researched: false
 	}],
 
@@ -547,7 +558,7 @@ dojo.declare("classes.ui.PrestigePanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 		//---------------------------------------------------------------
-		var controller = new classes.ui.PrestigeBtnController(self.game);
+		var controller = new classes.ui.PrestigeBtnController(this.game);
 		dojo.forEach(this.game.prestige.perks, function(perk, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: perk.name, controller: controller}, self.game);
 			button.render(content);
