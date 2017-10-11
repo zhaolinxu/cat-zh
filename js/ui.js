@@ -240,6 +240,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var calendar = this.game.calendar;
         var seasonTitle = calendar.getCurSeasonTitle();
         var hasCalendarTech = this.game.science.get("calendar").researched;
+		var hasParadoxTech = this.game.science.get("paradoxalKnowledge").researched;
 
         var calendarDiv = calendar.displayElement;
         if (hasCalendarTech){
@@ -254,8 +255,21 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML = "Year " + year + " - " +
+			if (hasParadoxTech){
+				var trueYear = Math.trunc(calendar.year-game.time.flux);
+				
+				if (trueYear > 100000){
+                trueYear = this.game.getDisplayValueExt(trueYear, false, false, 0);
+				}
+						
+				calendarDiv.innerHTML = "Year " + year + "(" + trueYear + ") - " +
                 seasonTitle + mod + ", day " + calendar.integerDay();
+			}
+			else {
+				calendarDiv.innerHTML = "Year " + year + " - " +
+                seasonTitle + mod + ", day " + calendar.integerDay();
+			}
+            
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 seasonTitle + ", d. " + calendar.integerDay();
 
