@@ -56,6 +56,7 @@ dojo.declare("classes.ui.UISystem", null, {
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
+	trueYearsTooltip: null,
 
     fontSize: null,
 
@@ -99,7 +100,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         game.calendar.render();
 
         var visibleTabs = [];
-
+		
         for (var i = 0; i < game.tabs.length; i++){
             var tab = game.tabs[i];
             tab.domNode = null;
@@ -157,6 +158,21 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 break;
             }
         }
+		
+		
+		
+		if (this.game.science.get("paradoxalKnowledge").researched){
+			var calendarDiv = dojo.byId("calendarDiv");
+			var trueYear = Math.trunc(game.calendar.year-game.time.flux);
+				
+			if (trueYear > 100000){
+				trueYear = this.game.getDisplayValueExt(trueYear, false, false, 0);
+			}
+			this.trueYearsTooltip = UIUtils.attachTooltip(game, calendarDiv, 0, 0, dojo.hitch(this, function(){
+				var tooltip = "True years elapsed: " + trueYear;
+				return tooltip;
+			}));
+		}
 
         midColumn.scrollTop = scrollPosition;
         this.update();
@@ -241,7 +257,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var seasonTitle = calendar.getCurSeasonTitle();
         var hasCalendarTech = this.game.science.get("calendar").researched;
 
-        var calendarDiv = calendar.displayElement;
         if (hasCalendarTech){
 
             var mod = "";
@@ -254,8 +269,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML = "Year " + year + " - " +
-                seasonTitle + mod + ", day " + calendar.integerDay();
+			calendarDiv.innerHTML = "Year " + year + " - " +
+                seasonTitle + mod + ", day " + calendar.integerDay();      
             document.title = "Kittens Game - Year " + calendar.year + ", " +
                 seasonTitle + ", d. " + calendar.integerDay();
 
