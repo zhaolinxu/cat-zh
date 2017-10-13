@@ -367,6 +367,12 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 			ach.unlocked = false;
 			ach.starUnlocked = false;
 		}
+
+        this.councilUnlocked = false;
+        for (var i = 0; i < this.hats.length; i++){
+            var hat = this.hats[i];
+            hat.unlocked = false;
+        }
 	},
 
     save: function (saveData) {
@@ -505,6 +511,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 
     update: function() {
         this.inherited(arguments);
-        this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
+        this.hatsPanel.setVisible(this.game.prestige.getPerk("ascoh").researched && this.game.achievements.councilUnlocked);
     }
 });
