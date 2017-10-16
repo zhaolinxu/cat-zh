@@ -190,16 +190,16 @@ var run = function() {
                 }
             },
             craft: {
-                // Should resources be crafted automatically?
+               //资源是否自动制作？
                 enabled: true,
-                // Every item can define a required resource with the *require* property.
-                // At what percentage of the storage capacity of that required resource should the listed resource be crafted?
+                //每个项目都可以使用* require *属性定义所需的资源。
+                 //应该列出所需资源的存储容量的百分比？
                 trigger: 0.95,
-                // The items that can be crafted.
-                // In addition to the *require* property, which is explained above, items can also define a *max*. If they
-                // do, no more than that resource will be automatically produced. This feature can not be controlled through
-                // the UI and is not used for any resource by default.
-                // The *limited* property tells KS to only craft the resource once per season.
+                //可以制作的物品
+                 //除上述* require *属性之外，项目还可以定义一个* max *。 如果他们
+                 //做，没有更多的资源将被自动生成。 此功能无法通过控制
+                 // UI，默认情况下不用于任何资源。
+                 // *有限*属性告诉KS只能每季度制作资源一次。
                 items: {
                     wood:       {require: 'catnip',      max: 0, limited: false, enabled: true},
                     beam:       {require: 'wood',        max: 0, limited: false, enabled: true},
@@ -720,8 +720,14 @@ var run = function() {
             		cnname='木头';
             }else if(cnname == "Steel"){
             		cnname='钢';
+            }else if(cnname == "Beam"){
+            		cnname='木梁';
+            }else if(cnname == "Scaffold"){
+            		cnname='脚手架';
+            }else if(cnname == "Slab"){
+            		cnname='石板';
             }
-       		console.log(cnname);
+//       		console.log(cnname);
 //          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
 			activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnname, 'ks-craft');
 
@@ -1125,7 +1131,12 @@ var run = function() {
             var list = $("#toggle-list-resources");
             for (var resource in kittenStorage.resources) {
                 var res = kittenStorage.resources[resource];
-
+//                  if(resource=="皮毛"){
+//                      resource="Furs";
+//                  }else if(resource=="难得素"){
+//                      resource="Unobtainium";
+//                  }
+//                console.log(res)
                 if ($('#resource-' + resource).length === 0) {
                     list.append(addNewResourceOption(resource));
                 }
@@ -1272,9 +1283,15 @@ var run = function() {
         for (var i in game.resPool.resources) {
             var res = game.resPool.resources[i];
 
-            // Show only new resources that we don't have in the list and that are
-            // visible. This helps cut down on total size.
+            //仅显示列表中没有的新资源
+             //可见 这有助于减少总体尺寸。
             if (res.name && $('#resource-' + res.name).length === 0) {
+                    //添加汉化
+                if(res.name=="hashrates"){
+                    res.title="哈希值";
+                }
+//                console.log("name:"+res.name+",title:"+res.title);
+                
                 var item = $('<div/>', {
                     id: 'resource-add-' + res.name,
                     text: ucfirst(res.title ? res.title : res.name),
@@ -1282,7 +1299,7 @@ var run = function() {
                         textShadow: '3px 3px 4px gray'},
                 });
 
-                // Wrapper function needed to make closure work
+                //包装功能需要使封闭工作
                 (function (res, item) {
                     item.on('click', function () {
                         item.remove();
@@ -1327,8 +1344,8 @@ var run = function() {
 
         clearunused.on('click', function () {
             for (var name in options.auto.resources) {
-                // Only delete resources with unmodified values. Require manual
-                // removal of resources with non-standard values.
+                //仅使用未修改的值删除资源。 需要手册
+                 //使用非标准值删除资源。
                 if (!options.auto.resources[name].stock &&
                     options.auto.resources[name].consume == options.consume ||
                     options.auto.resources[name].consume == undefined) {
@@ -1454,11 +1471,12 @@ var run = function() {
 
             // fill out list with toggle items
             for (var itemName in auto.items) {
-                if (toggleName === 'trade')
+                if (toggleName === 'trade'){
+//                    console.log(itemName);
                     list.append(getTradeOption(itemName, auto.items[itemName]));
-                else if (toggleName === 'craft')
+                }else if (toggleName === 'craft'){
                     list.append(getCraftOption(itemName, auto.items[itemName]));
-                else
+                }else
                     list.append(getOption(itemName, auto.items[itemName]));
             }
 
@@ -1480,7 +1498,7 @@ var run = function() {
                 });
 
                 var resourcesList = getResourceOptions();
-
+               
                 // When we click the items button, make sure we clear resources
                 button.on('click', function () {
                     resourcesList.toggle(false);
@@ -1561,10 +1579,20 @@ var run = function() {
 
     var getSeason = function (name, season, option) {
         var element = $('<li/>');
-
+        var jijie=ucfirst(season);
+        if(jijie=="Spring"){
+            jijie="春季";
+        }else if(jijie=="Summer"){
+            jijie="夏季";
+        }else if(jijie=="Autumn"){
+            jijie="秋季";
+        }else if(jijie=="Winter"){
+            jijie="冬季";
+        }
+//        console.log(jijie);
         var label = $('<label/>', {
             'for': 'toggle-' + name + '-' + season,
-            text: ucfirst(season)
+            text: jijie
         });
 
         var input = $('<input/>', {
@@ -1577,12 +1605,43 @@ var run = function() {
         }
 
         input.on('change', function () {
+            //                贸易对象汉化
+                var jiaoyi =ucfirst(name);
+                if(jiaoyi=="Dragons"){
+                    jiaoyi="龙";
+                }else if(jiaoyi=="Zebras"){
+                    jiaoyi="斑马";
+                }else if(jiaoyi=="Lizards"){
+                    jiaoyi="蜥蜴";
+                }else if(jiaoyi=="Sharks"){
+                    jiaoyi="鲨鱼";
+                }else if(jiaoyi=="Griffins"){
+                    jiaoyi="狮鹫";
+                }else if(jiaoyi=="Nagas"){
+                    jiaoyi="娜迦";
+                }else if(jiaoyi=="Spiders"){
+                   jiaoyi="蜘蛛";
+                }else if(jiaoyi=="Leviathans"){
+                     jiaoyi="利维坦";
+                }
+//                季节汉化
+                var jijie=ucfirst(season);
+                if(jijie=="Spring"){
+                    jijie="春季";
+                }else if(jijie=="Summer"){
+                    jijie="夏季";
+                }else if(jijie=="Autumn"){
+                    jijie="秋季";
+                }else if(jijie=="Winter"){
+                    jijie="冬季";
+                }
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
-                message('进行交易 ' + ucfirst(name) + ' 在 ' + ucfirst(season));
+
+                message('在' + jijie + '开始和 ' + jiaoyi + ' 交易');
             } else if (input.not(':checked') && option[season] == true) {
                 option[season] = false;
-                message('停止交易 ' + ucfirst(name) + ' 在 ' + ucfirst(season));
+                message('在' + jijie + '停止和 ' + jiaoyi + ' 交易 ');
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1596,10 +1655,68 @@ var run = function() {
     var getOption = function (name, option) {
         var element = $('<li/>');
         var elementLabel = option.label || ucfirst(name);
+        var elezhs= elementLabel;
+//        汉化
+        if(elezhs=="Wood"){
+            elezhs="木头";     
+        }else if(elezhs=="Beam"){
+            elezhs="木梁";     
+        }else if(elezhs=="Slab"){
+            elezhs="石板";     
+        }else if(elezhs=="Steel"){
+            elezhs="钢";
+        }else if(elezhs=="Plate"){
+            elezhs="金属板";
+        }else if(elezhs=="Alloy"){
+            elezhs="合金";
+        }else if(elezhs=="Concrete"){
+            elezhs="混凝土";
+        }else if(elezhs=="Gear"){
+            elezhs="齿轮";
+        }else if(elezhs=="Scaffold"){
+            elezhs="脚手架";
+        }else if(elezhs=="Ship"){
+            elezhs="贸易船";
+        }else if(elezhs=="Tanker"){
+            elezhs="油轮";
+        }else if(elezhs=="Parchment"){
+            elezhs="羊皮纸";
+        }else if(elezhs=="Manuscript"){
+            elezhs="手稿";
+        }else if(elezhs=="Compendium"){
+            elezhs="摘要";
+        }else if(elezhs=="Blueprint"){
+            elezhs="蓝图";
+        }else if(elezhs=="Kerosene"){
+            elezhs="煤油";
+        }else if(elezhs=="Megalith"){
+            elezhs="巨石";
+        }else if(elezhs=="Eludium"){
+            elezhs="E合金";
+        }else if(elezhs=="Thorium"){
+            elezhs="钍";
+        }else if(elezhs=="Dragons"){
+            elezhs="龙";
+        }else if(elezhs=="Zebras"){
+            elezhs="斑马";
+        }else if(elezhs=="Lizards"){
+            elezhs="蜥蜴";
+        }else if(elezhs=="Sharks"){
+            elezhs="鲨鱼";
+        }else if(elezhs=="Griffins"){
+            elezhs="狮鹫";
+        }else if(elezhs=="Nagas"){
+            elezhs="娜迦";
+        }else if(elezhs=="Spiders"){
+           elezhs="蜘蛛";
+        }else if(elezhs=="Leviathans"){
+             elezhs="利维坦";
+        }
 
+//        console.log(elezhs)
         var label = $('<label/>', {
             'for': 'toggle-' + name,
-            text: elementLabel,
+            text: elezhs,
             css: {display: 'inline-block', minWidth: '80px'}
         });
 
@@ -1615,10 +1732,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.enabled == false) {
                 option.enabled = true;
-                message('启用自动化 ' + elementLabel);
+                message('启用自动化 ' + elezhs);
             } else if (input.not(':checked') && option.enabled == true) {
                 option.enabled = false;
-                message('禁用自动化' + elementLabel);
+                message('禁用自动化 ' + elezhs);
             }
             kittenStorage.items[input.attr('id')] = option.enabled;
             saveToKittenStorage();
@@ -1645,14 +1762,71 @@ var run = function() {
         if (option.limited) {
             input.prop('checked', true);
         }
+        //        汉化
+        var elezhs=ucfirst(name);
+        if(elezhs=="Wood"){
+            elezhs="木头";     
+        }else if(elezhs=="Beam"){
+            elezhs="木梁";     
+        }else if(elezhs=="Slab"){
+            elezhs="石板";     
+        }else if(elezhs=="Steel"){
+            elezhs="钢";
+        }else if(elezhs=="Plate"){
+            elezhs="金属板";
+        }else if(elezhs=="Alloy"){
+            elezhs="合金";
+        }else if(elezhs=="Concrete"){
+            elezhs="混凝土";
+        }else if(elezhs=="Gear"){
+            elezhs="齿轮";
+        }else if(elezhs=="Scaffold"){
+            elezhs="脚手架";
+        }else if(elezhs=="Ship"){
+            elezhs="贸易船";
+        }else if(elezhs=="Tanker"){
+            elezhs="油轮";
+        }else if(elezhs=="Parchment"){
+            elezhs="羊皮纸";
+        }else if(elezhs=="Manuscript"){
+            elezhs="手稿";
+        }else if(elezhs=="Compendium"){
+            elezhs="摘要";
+        }else if(elezhs=="Blueprint"){
+            elezhs="蓝图";
+        }else if(elezhs=="Kerosene"){
+            elezhs="煤油";
+        }else if(elezhs=="Megalith"){
+            elezhs="巨石";
+        }else if(elezhs=="Eludium"){
+            elezhs="E合金";
+        }else if(elezhs=="Thorium"){
+            elezhs="钍";
+        }else if(elezhs=="Dragons"){
+            elezhs="龙";
+        }else if(elezhs=="Zebras"){
+            elezhs="斑马";
+        }else if(elezhs=="Lizards"){
+            elezhs="蜥蜴";
+        }else if(elezhs=="Sharks"){
+            elezhs="鲨鱼";
+        }else if(elezhs=="Griffins"){
+            elezhs="狮鹫";
+        }else if(elezhs=="Nagas"){
+            elezhs="娜迦";
+        }else if(elezhs=="Spiders"){
+           elezhs="蜘蛛";
+        }else if(elezhs=="Leviathans"){
+             elezhs="利维坦";
+        }
 
         input.on('change', function () {
             if (input.is(':checked') && option.limited == false) {
                 option.limited = true;
-                message('工艺 ' + ucfirst(name) + ': 每个季节限量一次');
+                message('工艺 ' + elezhs + ': 每个季节限量一次');
             } else if (input.not(':checked') && option.limited == true) {
                 option.limited = false;
-                message('工艺 ' + ucfirst(name) + ': 不限制');
+                message('工艺 ' + elezhs + ': 不限制');
             }
             kittenStorage.items[input.attr('id')] = option.limited;
             saveToKittenStorage();
@@ -1663,7 +1837,7 @@ var run = function() {
         return element;
     };
 
-    // Grab button labels for religion options
+    // 抢按钮标签宗教选项
     var religionManager = new ReligionManager();
     for (var buildOption in options.auto.faith.items) {
         var buildItem = options.auto.faith.items[buildOption];
@@ -1673,7 +1847,7 @@ var run = function() {
         }
     }
 
-    // Grab button labels for build options
+    // 抢按钮标签建筑选项
     var buildManager = new BuildManager();
     for (var buildOption in options.auto.build.items) {
         var buildItem = options.auto.build.items[buildOption];
