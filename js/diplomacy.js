@@ -492,8 +492,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
 				if (amt > 0){
 					if (res == "blueprint"){
+                        res="蓝图";
 						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
 					} else if (res == "titanium"){
+                        res="钛";
 						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
 					} else {
 						var resPool = this.game.resPool.get(res);

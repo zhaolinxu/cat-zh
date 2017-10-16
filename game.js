@@ -155,7 +155,7 @@ dojo.declare("classes.game.Server", null, {
 	refresh: function(){
 		var self = this;
 
-		console.log("Loading server settings...");
+		console.log("加载服务器设置...");
 		$.ajax({
 			cache: false,
 			url: "server.json",
@@ -1309,7 +1309,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this._publish("server/save", saveData);
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
 
-		console.log("Game saved");
+		console.log("游戏已保存！");
 
 		this.ui.save();
 

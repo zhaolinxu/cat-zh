@@ -258,8 +258,8 @@ var run = function() {
                 }
             },
             resources: {
-                皮毛:        {stock: 1000},
-                难得素: {consume: 1.0}
+                furs:        {stock: 1000},
+                unobtainium: {consume: 1.0}
             }
         }
     };
@@ -706,7 +706,25 @@ var run = function() {
             amount = (amount * (game.getEffect(ratio) + 1)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
+            //汉化资源名称
+            var cnname=ucfirst(name);
+            if(cnname == "Parchment"){
+            		cnname='羊皮纸';
+            }else if(cnname == "Manuscript"){
+            		cnname='手稿';
+            }else if(cnname == "Compendium"){
+            		cnname='摘要';
+            }else if(cnname == "Blueprint"){
+            		cnname='蓝图';
+            }else if(cnname == "Wood"){
+            		cnname='木头';
+            }else if(cnname == "Steel"){
+            		cnname='钢';
+            }
+       		console.log(cnname);
+//          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
+			activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnname, 'ks-craft');
+
         },
         canCraft: function (name, amount) {
             var craft = this.getCraft(name);
@@ -1729,12 +1747,12 @@ var run = function() {
     var displayActivitySummary = function () {
         // Festivals
         if (activitySummary.other.festival) {
-            summary('Held ' + game.getDisplayValueExt(activitySummary.other.festival) + ' festivals');
+            summary('举办 ' + game.getDisplayValueExt(activitySummary.other.festival) + ' 节日');
         }
 
         // Observe stars
         if (activitySummary.other.stars) {
-            summary('Observed ' + game.getDisplayValueExt(activitySummary.other.stars) + ' stars');
+            summary('观测到 ' + game.getDisplayValueExt(activitySummary.other.stars) + ' 星星');
         }
 
         // Praise the Sun
@@ -1884,7 +1902,7 @@ var run = function() {
 
     loadFromKittenStorage();
 
-    if (console && console.log) console.log(version + " loaded");
+    if (console && console.log) console.log(version + " 加载成功！");
 
 }
 
