@@ -186,8 +186,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycle: 0,
 	cycleYear: 0,
 	yearsPerCycle: 5,
-	displayElementTooltip: null,
-	calendarSignSpanTooltip: null,
 
 	daysPerSeason: 100,
 	day: 0,
@@ -269,119 +267,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	render: function() {
-		var calendarSignSpan = dojo.byId("calendarSign");
-		var game = this.game;
 
-		if (this.displayElement && !this.displayElementTooltip){
-			//TODO: include shatter penalties there
-			this.displayElementTooltip = UIUtils.attachTooltip(game, this.displayElement, 0, 320, dojo.hitch(this, function() {
-				if (this.year > 100000){
-					return $I("calendar.year") + " " + this.year.toLocaleString();
-				}
-				return "";
-			}));
-		}
-
-		if (this.cycles[this.cycle] && !this.calendarSignSpanTooltip){
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(this, function() {
-				var cycle = this.cycles[this.cycle];
-				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-
-				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
-					style: { textAlign: "center", clear: "both"}
-				}, tooltip );
-
-				// Cycle Effects
-				if (game.prestige.getPerk("numerology").researched) {
-					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
-					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
-
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
-						style: { textAlign: "center", paddingTop: "4px"}
-					}, tooltip );
-
-					var effects = cycle.effects;
-
-					for (var effect in effects){
-						var effectItemNode = dojo.create("div", null, tooltip);
-
-						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title + ":";
-
-						var nameSpan = dojo.create("span", {
-							innerHTML: effectTitle,
-							style: {
-								float: "left",
-								fontSize: "16px"
-							}
-						}, effectItemNode );
-
-						var effectMod = effects[effect] > 1 ? "+": "";
-						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
-
-						var effectSpan = dojo.create("span", {
-							innerHTML: effectMod,
-							style: {
-								float: "right",
-								fontSize: "16px",
-								paddingLeft: "6px"
-							}
-						}, effectItemNode );
-
-						dojo.create("span", {
-							innerHTML: "&nbsp;",
-							style: {clear: "both" }
-						}, effectItemNode );
-					}
-				}
-
-				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
-					// Cycle Festival Effects
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
-						style: { textAlign: "center"}
-					}, tooltip );
-
-					var effects = cycle.festivalEffects;
-
-					for (var effect in effects){
-						var effectItemNode = dojo.create("div", null, tooltip);
-
-						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title + ":";
-
-						var nameSpan = dojo.create("span", {
-							innerHTML: effectTitle,
-							style: {
-								float: "left",
-								fontSize: "16px"
-							}
-						}, effectItemNode );
-
-						var effectMod = effects[effect] > 1 ? "+": "";
-						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
-
-						var effectSpan = dojo.create("span", {
-							innerHTML: effectMod,
-							style: {
-								float: "right",
-								fontSize: "16px",
-								paddingLeft: "6px"
-							}
-						}, effectItemNode );
-
-						dojo.create("span", {
-							innerHTML: "&nbsp;",
-							style: {clear: "both" }
-						}, effectItemNode );
-					}
-				}
-				return tooltip.outerHTML;
-
-			}));
-		}
 	},
 
 	/* Return the whole number of days elapsed in the season, correcting for
