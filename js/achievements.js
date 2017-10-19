@@ -205,15 +205,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     }],
 
     hats: [
-        {
-            id: 1,
+        {   id: 1,
             name: "simpleHat",
             title: "Simple Hat",
             description: "The hat to rule them all",
             difficulty: "F"
         },
-        {
-            id: 2,
+        {   id: 2,
             name: "lotusHat",
             title: "Lotus Hat",
             description: "Hat in the shape of louts",
@@ -222,15 +220,13 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return this.game.stats.getStat("totalResets").val >= 50;
             }
         },
-        {
-            id: 3,
+        {   id: 3,
             name: "ivoryTowerHat",
             title: "Ivory Tower Hat",
             description: "A tall hat in a form of a tower",
             difficulty: "S+"
         },
-        {
-            id: 4,
+        {   id: 4,
             name: "uselessHat",
             title: "Useless Hat",
             description: "This hat is totally useless",
@@ -240,22 +236,19 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return leader != null && leader.trait.name == "none";
             }
         },
-        {
-            id: 5,
+        {   id: 5,
             name: "voidHat",
             title: "Void Hat",
             description: "Hat is made of void",
             difficulty: ""
         },
-        {
-            id: 6,
+        {   id: 6,
             name: "nullHat",
             title: "Null Hat",
             description: "The hat is a lie",
             difficulty: ""
         },
-        {
-            id: 7,
+        {   id: 7,
             name: "betaHat",
             title: "Beta Hat",
             description: "The hat is a bit glitchy and rough around the edges",
@@ -284,6 +277,109 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: "Wizard Hat",
             description: "Abracadabra!",
             difficulty: ""
+        },{
+            id: 11,
+            name: "nekomimiHat",
+            title: "Nekomimi Hat",
+            description: "*^_^*",
+            difficulty: ""
+        },{
+            id: 12,
+            name: "eldritchHat",
+            title: "Eldritch Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 13,
+            name: "tesseractHat",
+            title: "Tesseract Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 14,
+            name: "crimsonHat",
+            title: "Crimson Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 15,
+            name: "skeletonHat",
+            title: "Skeleton Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 16,
+            name: "gladosHat",
+            title: "Glados Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 17,
+            name: "marioHat",
+            title: "Mario Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 18,
+            name: "fedoraHat",
+            title: "Fedora",
+            description: "Classy fedora",
+            difficulty: ""
+        },{
+            id: 19,
+            name: "necrocornHat",
+            title: "Necrocorn Hat",
+            description: "",
+            difficulty: "S",
+            condition: function(){
+                var kittnes = this.game.resPool.get("kittens")
+                return (kittnes.value >= 1000 && kittnes.maxValue == 0);
+            }
+        },{
+            id: 20,
+            name: "alicornHat",
+            title: "Alicorn Hat",
+            description: "",
+            difficulty: "S",
+            condition: function(){
+                return (this.game.resPool.get("kittens").value > 500 && this.game.resPool.get("alicorn").value == 0);
+            }
+        },{
+            id: 21,
+            name: "unicornHat",
+            title: "Unicorn Hat",
+            description: "",
+            difficulty: "A"
+        },{
+            id: 22,
+            name: "dragonHat",
+            title: "Dragon Hat",
+            description: "",
+            difficulty: ""
+        },{
+            id: 23,
+            name: "glitchyHat",
+            title: "Glitchy Hat",
+            description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆︎",
+            difficulty: "S"
+        },{
+            id: 24,
+            name: "topHat",
+            title: "Tophat",
+            description: "︎",
+            difficulty: ""
+        },{
+            id: 25,
+            name: "jesterHat",
+            title: "Jester Hat",
+            description: "︎",
+            difficulty: ""
+        },{
+            id: 25,
+            name: "fezHat",
+            title: "Fez Hat",
+            description: "A prism-shaped red fez hat.︎",
+            difficulty: "A"
         }
     ],
 
@@ -401,7 +497,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
     },
     render: function(container) {
         var div = dojo.create("div", {
-            style:{display:"flex", width: "30px", height: "30px", border: "1px solid gray", fontSize: "12px"}
+            style:{display:"flex", marginRight:"5px", width: "30px", height: "30px", border: "1px solid gray", fontSize: "12px"}
         }, container);
         var span = dojo.create("span", {}, div);
         span.innerHTML = "#" + this.opts.id;
