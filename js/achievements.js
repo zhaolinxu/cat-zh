@@ -398,6 +398,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     unlockHat: function(name){
         var hat = this.getHat(name);
         hat.unlocked = true;
+        console.log("'", hat.name, "' hat is unlocked!");
         this.game.achievements.councilUnlocked = true;
     },
 
@@ -433,7 +434,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             var hat = this.hats[i];
             //console.log("checking the hat", hat, hat.condition, hat.condition && dojo.hitch(this, hat.condition)());
             if (!hat.unlocked && hat.condition && dojo.hitch(this, hat.condition)()) {
-                console.log("hat is unlocked!");
+                console.log("'", hat.name, "' hat is unlocked!");
                 hat.unlocked = true;
                 this.councilUnlocked = true;
             }
