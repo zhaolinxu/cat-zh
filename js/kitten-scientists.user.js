@@ -726,6 +726,8 @@ var run = function() {
             		cnname='脚手架';
             }else if(cnname == "Slab"){
             		cnname='石板';
+            }else if(cnname == "Eludium"){
+            		cnname='E合金';
             }
 //       		console.log(cnname);
 //          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
