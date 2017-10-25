@@ -876,7 +876,25 @@ var run = function() {
 
             game.diplomacy.tradeMultiple(race, amount);
             storeForSummary(name, amount, 'trade');
-            activity('小猫交易了 ' + amount + '次和' + ucfirst(name), 'ks-trade');
+            var tradobj =ucfirst(name);
+                if(tradobj=="Dragons"){
+                    tradobj="龙";
+                }else if(tradobj=="Zebras"){
+                    tradobj="斑马";
+                }else if(tradobj=="Lizards"){
+                    tradobj="蜥蜴";
+                }else if(tradobj=="Sharks"){
+                    tradobj="鲨鱼";
+                }else if(tradobj=="Griffins"){
+                    tradobj="狮鹫";
+                }else if(tradobj=="Nagas"){
+                    tradobj="娜迦";
+                }else if(tradobj=="Spiders"){
+                   tradobj="蜘蛛";
+                }else if(tradobj=="Leviathans"){
+                     tradobj="利维坦";
+                }
+            activity('小猫交易了 ' + amount + '次和' + tradobj, 'ks-trade');
         },
         getLowestTradeAmount: function (name) {
             var amount = undefined;
@@ -1219,7 +1237,7 @@ var run = function() {
             id: 'resource-' + name,
             css: {display: 'inline-block', width: '100%'},
         });
-
+        console.log(ucfirst(title ? title : name))
         var label = $('<div/>', {
             id: 'resource-label-' + name,
             text: ucfirst(title ? title : name),

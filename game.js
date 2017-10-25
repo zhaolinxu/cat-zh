@@ -1408,7 +1408,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				console.trace();
 			}
 
-			this.msg("Unable to load save data. Close the page and contact the dev.");
+			this.msg("无法加载保存数据。 关闭页面并联系开发人员。");
 			success = false;
 		}
 
