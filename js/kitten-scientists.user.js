@@ -896,7 +896,7 @@ var run = function() {
                 }else if(tradobj=="Leviathans"){
                      tradobj="利维坦";
                 }
-            activity('小猫交易了 ' + amount + '次和' + tradobj, 'ks-trade');
+            activity('小猫和 '+ tradobj + " 交易了 " + amount + '次', 'ks-trade');
         },
         getLowestTradeAmount: function (name) {
             var amount = undefined;
@@ -1234,32 +1234,150 @@ var run = function() {
         var res = options.auto.resources[name];
         var stock = res && (res.stock != undefined) ? res.stock : 0;
         var consume = res && (res.consume != undefined) ? res.consume : options.consume;
-
+        var enname=name;
+        if(enname=="难得素"){
+            enname="unobtainium";
+        }else if(enname=="皮毛"){
+            enname="furs";
+        }
+        //显示文字
+        var chsname= ucfirst(name);
+//        console.log("name " + chsname);
+        if(chsname == "Furs"){
+            chsname='皮毛';
+        }else if(chsname == "Unobtainium"){
+            chsname='难得素';
+        }else if(chsname == "Catnip"){
+            chsname='猫薄荷';
+        }else if(chsname == "Wood"){
+            chsname='木材';
+        }else if(chsname == "Minerals"){
+            chsname='矿物';
+        }else if(chsname == "Coal"){
+            chsname='煤';
+        }else if(chsname == "Iron"){
+            chsname='铁';
+        }else if(chsname == "Titanium"){
+            chsname='钛';
+        }else if(chsname == "Gold"){
+            chsname='黄金';
+        }else if(chsname == "Oil"){
+            chsname='石油';
+        }else if(chsname == "Uranium"){
+            chsname='铀';
+        }else if(chsname == "Manpower"){
+            chsname='喵力';
+        }else if(chsname == "Science"){
+            chsname='科学点';
+        }else if(chsname == "Culture"){
+            chsname='文化点';
+        }else if(chsname == "Faith"){
+            chsname='信仰';
+        }else if(chsname == "Kittens"){
+            chsname='猫咪';
+        }else if(chsname == "Zebras"){
+            chsname='斑马';
+        }else if(chsname == "Starchart"){
+            chsname='星图';
+        }else if(chsname == "Antimatter"){
+            chsname='反物质';
+        }else if(chsname == "TemporalFlux"){
+            chsname='时间通量';
+        }else if(chsname == "Gflops"){
+            chsname='浮点运算能力';
+        }else if(chsname == "Hashrates"){
+            chsname='哈希值';
+        }else if(chsname == "Ivory"){
+            chsname='象牙';
+        }else if(chsname == "Spice"){
+            chsname='香料';
+        }else if(chsname == "Unicorns"){
+            chsname='独角兽';
+        }else if(chsname == "Alicorn"){
+            chsname='翼角兽';
+        }else if(chsname == "Necrocorn"){
+            chsname='死灵兽';
+        }else if(chsname == "Tears"){
+            chsname='眼泪';
+        }else if(chsname == "Karma"){
+            chsname='业';
+        }else if(chsname == "Paragon"){
+            chsname='领导力';
+        }else if(chsname == "BurnedParagon"){
+            chsname='燃烧领导力';
+        }else if(chsname == "TimeCrystal"){
+            chsname='时间水晶';
+        }else if(chsname == "Sorrow"){
+            chsname='悲伤';
+        }else if(chsname == "Relic"){
+            chsname='圣遗物';
+        }else if(chsname == "Void"){
+            chsname='虚空';
+        }else if(chsname == "ElderBox"){
+            chsname='礼盒';
+        }else if(chsname == "WrappingPaper"){
+            chsname='包装纸';
+        }else if(chsname == "Beam"){
+            chsname='木梁';
+        }else if(chsname == "Slab"){
+            chsname='石板';
+        }else if(chsname == "Plate"){
+            chsname='金属板';
+        }else if(chsname == "Steel"){
+            chsname='钢';
+        }else if(chsname == "Concrate"){
+            chsname='混凝土';
+        }else if(chsname == "Gear"){
+            chsname='齿轮';
+        }else if(chsname == "Alloy"){
+            chsname='合金';
+        }else if(chsname == "Eludium"){
+            chsname='E合金';
+        }else if(chsname == "Scaffold"){
+            chsname='脚手架';
+        }else if(chsname == "Ship"){
+            chsname='船';
+        }else if(chsname == "Tanker"){
+            chsname='油轮';
+        }else if(chsname == "Kerosene"){
+            chsname='煤油';
+        }else if(chsname == "Parchment"){
+           chsname='羊皮纸';
+        }else if(chsname == "Manuscript"){
+            chsname='手稿';
+        }else if(chsname == "Compedium"){
+            chsname='摘要';
+        }else if(chsname == "Blueprint"){
+            chsname='蓝图';
+        }else if(chsname == "Thorium"){
+            chsname='钍';
+        }else if(chsname == "Megalith"){
+            chsname='巨石';
+        }
         var container = $('<div/>', {
-            id: 'resource-' + name,
+            id: 'resource-' + enname,
             css: {display: 'inline-block', width: '100%'},
         });
-        console.log(ucfirst(title ? title : name))
         var label = $('<div/>', {
-            id: 'resource-label-' + name,
-            text: ucfirst(title ? title : name),
+            id: 'resource-label-' + enname,
+            text: chsname,
             css: {display: 'inline-block', width: '95px'},
         });
-
+        
         var stock = $('<div/>', {
-            id: 'stock-value-' + name,
+            id: 'stock-value-' + enname,
             text: '库存: ' + game.getDisplayValueExt(stock),
             css: {cursor: 'pointer', display: 'inline-block', width: '80px'},
         });
 
         var consume = $('<div/>', {
-            id: 'consume-rate-' + name,
+            id: 'consume-rate-' + enname,
             text: '消耗: ' + consume.toFixed(2),
             css: {cursor: 'pointer', display: 'inline-block'},
         });
 
         var del = $('<div/>', {
-            id: 'resource-delete-' + name,
+            id: 'resource-delete-' + enname,
             text: '删除',
             css: {cursor: 'pointer',
                 display: 'inline-block',

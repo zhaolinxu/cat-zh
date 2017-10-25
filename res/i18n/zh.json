@@ -1444,7 +1444,7 @@
     "time.tc.shatterOne":"时间能量释放，直接跳过一年时间",
     "time.tc.shatter":"时间能量释放，跳过{0}年",
     "time.redshift":"您已经重生{0}天",
-    "time.redshift.ext": " 和{0}天文事件",
+    "time.redshift.ext": "，观测到 {0} 天文事件",
     "calendar.year":"年",
     "calendar.year.ext":"第{0}年 - {1}季",
     "calendar.year.full":" 第{0}年 - {1}季, 第 {2}天",
