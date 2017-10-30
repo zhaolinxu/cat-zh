@@ -50,7 +50,8 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"en" : "English",
 			"ru": "Русский",
 			"zh": "Chinese",
-			"ja": "Japanese"
+			"ja": "Japanese",
+			"br": "Portuguese"
 		};
 	},
 
