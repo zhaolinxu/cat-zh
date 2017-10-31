@@ -1185,7 +1185,7 @@
     "religion.resetFaith.confirm.msg": "确实要重置信仰池吗？\n\n每100K信仰将会获得 10%的信仰转化。\n\n这份奖励将会通过重置游戏提供给你。\n\n单击此按钮将删除您的信仰加成的一部分。",
     "religion.transcend.confirm.title": "超越?",
     "religion.transcend.confirm.msg": "您确定要放弃您的奖励加成吗？\n\n通过牺牲你的奖励加成，你可以达到一个特殊的超越水平。\n\n每个等级都需要牺牲更多的信仰奖励。\n\n这个加成将通过重置进行堆叠和转移。\n\n单击此按钮将删除您的奖励的信仰加成的一部分。",
-    "religion.transcend.msg.success": "你需要超越人类的极限. T-level: {0}",	
+    "religion.transcend.msg.success": "你超越了人类的极限. 达到超越等级: {0}",	
 	"religion.transcend.msg.failure": "更进一步: {0} ({1}%)",
 			
 	"achievements.theElderLegacy.title": "长者的遗产",		
