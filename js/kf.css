@@ -20,6 +20,6 @@
 .main-im .im_main .go-top{width:50px;height:47px;background:#f5f5f5;border-bottom-right-radius:10px;background:url("../images/kf/totop-icon.png") no-repeat center center;float:right;}
 .main-im .im_main .go-top a{display:block;width:52px;height:47px;}
 .main-im .close-im{position:absolute;right:10px;top:-12px;z-index:100;width:24px;height:24px;}
-.main-im .close-im a{display:block;width:24px;height:24px;background:url("../images/kf/close_im.png") no-repeat left top;}
+.main-im .close-im a{display:block;width:24px;height:24px;background:url("../images/kf/close_im.png") no-repeat left top;text-decoration:none;}
 .main-im .close-im a:hover{text-decoration:none;}
 .main-im .open-im{cursor:pointer;margin-left:68px;width:30px;height:30px;background:url("../images/kf/open_im.png") no-repeat left top;cursor: pointer;background-size: 100%;}
