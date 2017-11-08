@@ -62,11 +62,11 @@
 			</td>
 			<td>
 				<a href="#Game+Mechanics">
-							游戏力学
+							游戏机制
 				</a>
 			</td>
 			<td>
-				<a href="https://zhaolinxu.github.io/cat-zh/">玩游戏（汉化版）</a>
+				<a href="http://likexia.gitee.io/cat-zh/">玩游戏（汉化版）</a>
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-ru">
