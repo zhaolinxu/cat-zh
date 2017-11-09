@@ -243,8 +243,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         {
             id: 5,
             name: "voidHat",
-            title: "Void Hat",
-            description: "Hat is made of void",
+            title: "虚空帽子",
+            description: "帽子是由虚空制作的",
             difficulty: ""
         },
         {
@@ -257,8 +257,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         {
             id: 7,
             name: "betaHat",
-            title: "Beta Hat",
-            description: "The hat is a bit glitchy and rough around the edges",
+            title: "测试版帽子",
+            description: "这顶帽子是周围的边缘有点出问题和粗糙",
             difficulty: "B",
             condition: function(){
                 return (this.game.server.donateAmt == 0);
@@ -407,7 +407,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
         span.innerHTML = "#" + this.opts.id;
 
         UIUtils.attachTooltip(this.game, div, 0, 50, dojo.hitch(this, function(){
-            var tooltip = "<span style='font-style: italic;'>" + this.opts.title + "</span><br>" + this.opts.description + "<br>" + "Difficulty: " + this.opts.difficulty;
+            var tooltip = "<span style='font-style: italic;'>" + this.opts.title + "</span><br>" + this.opts.description + "<br>" + "困难度: " + this.opts.difficulty;
             return tooltip;
         }));
 
@@ -445,7 +445,7 @@ dojo.declare("classes.ui.HatWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui.tab, {
 
     constructor: function(){
-        this.hatsPanel = new com.nuclearunicorn.game.ui.Panel("A Secret Council of Hats");
+        this.hatsPanel = new com.nuclearunicorn.game.ui.Panel("帽子秘密委员会");
         //this.hatsPanel.setVisible(this.game.achievements.councilUnlocked);
         this.hatsPanel.setVisible(this.game.prestige.getPerk("ascoh").researched && this.game.achievements.councilUnlocked);
 
