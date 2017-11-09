@@ -839,7 +839,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech.unlocked = true;
 			this.game.unlock(tech.unlocks);
 		}
-		this.game.msg("All techs are unlocked!");
+		this.game.msg("所有科技都解锁了！");
 	}
 });
 

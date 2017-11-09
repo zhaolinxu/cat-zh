@@ -2032,7 +2032,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 
 		if (catnipVal < (catnipCost * 100)){
-			this.game.msg("not enough catnip!");
+			this.game.msg("没有足够的猫薄荷!");
 		}
 
 		this.game.resPool.addResEvent("catnip", -(catnipCost * 100));

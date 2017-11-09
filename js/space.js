@@ -1076,7 +1076,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i in this.programs){
 			this.programs[i].unlocked = true;
 		}
-		this.game.msg("All space upgrades are unlocked");
+		this.game.msg("所有太空升级已解锁！");
 	}
 });
 
