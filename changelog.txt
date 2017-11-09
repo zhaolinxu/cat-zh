@@ -117,7 +117,7 @@ Black Nova effect should be now applicable
 
 
 v 1.4.0.4 (25 jan 2017)
-Turn Smoothly was renamed to Chronosurge
+Turn Smoothly was renamed to 时空领域
 Blazar will now boost RR by 2%
 Black Nova will now boost energy production by 2%
 Unicorn Rifts will now get a 10% synergy from the Ziggurat buildings
