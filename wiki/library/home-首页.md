@@ -49,7 +49,7 @@
 				<a href="http://bloodrizer.ru/games/kittens/">玩游戏（英文原版）</a>
 			</td>
 			<td>
-				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-en">
+				<a href="?file=006-各国语言包/01-英语">
 							英语
 				</a>
 			</td>
@@ -213,7 +213,7 @@
 				</a>
 			</td>
 			<td>
-			[简体中文](http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-chs)
+			[简体中文](?file=006-各国语言包/02-简体中文)
 			</td>
 		</tr>
 		<tr>
