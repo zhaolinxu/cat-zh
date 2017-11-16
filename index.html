@@ -259,7 +259,7 @@
 				<b>更新日志/功能:</b>
 				<br>
 				<pre>
-				
+
 					版本: 1
 						太空
 
@@ -466,7 +466,10 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">隐藏“出售”按钮</label>
 				<br>
-                <br>
+				<input id="kxj" type="checkbox" >
+				<label id="kxj2" for="kxj">点击启用小猫科学家</label>
+				<span style="color:red;font-size:12px;"><br>* 如果已启用，然后不想用了，请保存游戏并导出存档，复制；然后刷新游戏，导入存档。</span>
+				<br>
 
                  <a href="#" onclick="$('.optsExtra').show();">更多设置...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
@@ -544,7 +547,7 @@
 				<a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
-    		
+
     <!--客服 开始-->
     <link rel="stylesheet" href="http://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
     <script src="http://likexia.gitee.io/game/js/jquery.min.js"></script>
@@ -554,6 +557,19 @@
     <div style="display:none;"><script src="https://s19.cnzz.com/z_stat.php?id=1267958737&web_id=1267958737" language="JavaScript"></script></div>
     <!--统计代码 end-->
 		<!--<script src="js/kitten-scientists.user.js" type="text/javascript" charset="utf-8"></script>-->
-		<!--<script src="wiki/kitten-scientists.user.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			var ok = false;
+			$("#kxj2").click(function() {
+				if(ok != true) {
+					$("#kxj2").text("小猫科学家已启用")
+					document.body.appendChild(document.createElement('script')).src = 'js/kitten-scientists.user.js';
+					$("#kxj").attr("checked", true);
+					$("#kxj").attr("disabled", true);
+					ok = true;
+				}else{
+					return ;
+				}
+			});
+		</script>
 	</body>
 </html>

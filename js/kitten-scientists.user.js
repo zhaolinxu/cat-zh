@@ -708,31 +708,118 @@ var run = function() {
             storeForSummary(name, amount, 'craft');
             //汉化资源名称
             var cnname=ucfirst(name);
-            if(cnname == "Parchment"){
-            		cnname='羊皮纸';
-            }else if(cnname == "Manuscript"){
-            		cnname='手稿';
-            }else if(cnname == "Compendium"){
-            		cnname='摘要';
-            }else if(cnname == "Blueprint"){
-            		cnname='蓝图';
-            }else if(cnname == "Wood"){
-            		cnname='木头';
-            }else if(cnname == "Steel"){
-            		cnname='钢';
-            }else if(cnname == "Beam"){
-            		cnname='木梁';
-            }else if(cnname == "Scaffold"){
-            		cnname='脚手架';
-            }else if(cnname == "Slab"){
-            		cnname='石板';
-            }else if(cnname == "Kerosene"){
-            		cnname='煤油';
-            }else if(cnname == "Plate"){
-            		cnname='金属板';
-            }else if(cnname == "Eludium"){
-            		cnname='E合金';
-            }
+            if(cnname == "Furs"){
+            cnname='皮毛';
+        }else if(cnname == "Unobtainium"){
+            cnname='难得素';
+        }else if(cnname == "Catnip"){
+            cnname='猫薄荷';
+        }else if(cnname == "Wood"){
+            cnname='木材';
+        }else if(cnname == "Minerals"){
+            cnname='矿物';
+        }else if(cnname == "Coal"){
+            cnname='煤';
+        }else if(cnname == "Iron"){
+            cnname='铁';
+        }else if(cnname == "Titanium"){
+            cnname='钛';
+        }else if(cnname == "Gold"){
+            cnname='黄金';
+        }else if(cnname == "Oil"){
+            cnname='石油';
+        }else if(cnname == "Uranium"){
+            cnname='铀';
+        }else if(cnname == "Manpower"){
+            cnname='喵力';
+        }else if(cnname == "Science"){
+            cnname='科学点';
+        }else if(cnname == "Culture"){
+            cnname='文化点';
+        }else if(cnname == "Faith"){
+            cnname='信仰';
+        }else if(cnname == "Kittens"){
+            cnname='猫咪';
+        }else if(cnname == "Zebras"){
+            cnname='斑马';
+        }else if(cnname == "Starchart"){
+            cnname='星图';
+        }else if(cnname == "Antimatter"){
+            cnname='反物质';
+        }else if(cnname == "TemporalFlux"){
+            cnname='时间通量';
+        }else if(cnname == "Gflops"){
+            cnname='浮点运算能力';
+        }else if(cnname == "Hashrates"){
+            cnname='哈希值';
+        }else if(cnname == "Ivory"){
+            cnname='象牙';
+        }else if(cnname == "Spice"){
+            cnname='香料';
+        }else if(cnname == "Unicorns"){
+            cnname='独角兽';
+        }else if(cnname == "Alicorn"){
+            cnname='翼角兽';
+        }else if(cnname == "Necrocorn"){
+            cnname='死灵兽';
+        }else if(cnname == "Tears"){
+            cnname='眼泪';
+        }else if(cnname == "Karma"){
+            cnname='业';
+        }else if(cnname == "Paragon"){
+            cnname='领导力';
+        }else if(cnname == "BurnedParagon"){
+            cnname='燃烧领导力';
+        }else if(cnname == "TimeCrystal"){
+            cnname='时间水晶';
+        }else if(cnname == "Sorrow"){
+            cnname='悲伤';
+        }else if(cnname == "Relic"){
+            cnname='圣遗物';
+        }else if(cnname == "Void"){
+            cnname='虚空';
+        }else if(cnname == "ElderBox"){
+            cnname='礼盒';
+        }else if(cnname == "WrappingPaper"){
+            cnname='包装纸';
+        }else if(cnname == "Beam"){
+            cnname='木梁';
+        }else if(cnname == "Slab"){
+            cnname='石板';
+        }else if(cnname == "Plate"){
+            cnname='金属板';
+        }else if(cnname == "Steel"){
+            cnname='钢';
+        }else if(cnname == "Concrate"){
+            cnname='混凝土';
+        }else if(cnname == "Gear"){
+            cnname='齿轮';
+        }else if(cnname == "Alloy"){
+            cnname='合金';
+        }else if(cnname == "Eludium"){
+            cnname='E合金';
+        }else if(cnname == "Scaffold"){
+            cnname='脚手架';
+        }else if(cnname == "Ship"){
+            cnname='船';
+        }else if(cnname == "Tanker"){
+            cnname='油轮';
+        }else if(cnname == "Kerosene"){
+            cnname='煤油';
+        }else if(cnname == "Parchment"){
+           cnname='羊皮纸';
+        }else if(cnname == "Manuscript"){
+            cnname='手稿';
+        }else if(cnname == "Compedium"){
+            cnname='摘要';
+        }else if(cnname == "Blueprint"){
+            cnname='蓝图';
+        }else if(cnname == "Thorium"){
+            cnname='钍';
+        }else if(cnname == "Megalith"){
+            cnname='巨石';
+        }
+            
 //       		console.log(cnname);
 //          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
 			activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnname, 'ks-craft');
