@@ -790,7 +790,7 @@ var run = function() {
             cnname='金属板';
         }else if(cnname == "Steel"){
             cnname='钢';
-        }else if(cnname == "Concrate"){
+        }else if(cnname == "Concrete"){
             cnname='混凝土';
         }else if(cnname == "Gear"){
             cnname='齿轮';
@@ -810,7 +810,7 @@ var run = function() {
            cnname='羊皮纸';
         }else if(cnname == "Manuscript"){
             cnname='手稿';
-        }else if(cnname == "Compedium"){
+        }else if(cnname == "Compendium"){
             cnname='摘要';
         }else if(cnname == "Blueprint"){
             cnname='蓝图';
