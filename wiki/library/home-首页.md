@@ -238,4 +238,4 @@
 		</tr>
 	</tbody>
 </table>
-[ [猫国建设者游戏 官网英文百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page) ]
+[ [猫国建设者游戏 英文版百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page) ]
