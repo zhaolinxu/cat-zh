@@ -286,9 +286,9 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
+					<div style=""><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
+					<div style=""><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
+					<div style=""><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
 
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
 					</div>
@@ -561,9 +561,9 @@
     <!--统计代码 end-->
 		<!--<script src="js/kitten-scientists.user.js" type="text/javascript" charset="utf-8"></script>-->
 		<script type="text/javascript">
-//            判断屏幕大小，跳app页面
-           if($(window).width() < 600){
-               window.location.href="index-app.html";
+            //            判断屏幕大小，跳PC页面
+           if($(window).width() > 600){
+               window.location.href="index.html";
            }
 			var ok = false;
 			$("#kxj2").click(function() {

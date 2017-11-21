@@ -1,0 +1,41 @@
+@media screen and (max-width: 640px) {
+	html, body {
+		overflow-y: auto;
+	}
+	.help{width: 100%;}
+	#topBar{width: 100%;min-width: auto;}
+	#gamePageContainer{height: 100%;width: 100%;}
+
+	#game, #gamePageContainer, #topBar {
+		max-width: 100%;
+		position: relative;
+		top: auto;
+		bottom: auto;
+		width: 100%;
+	}
+	#headerLinks {}
+	#leftColumn, #midColumn, #rightColumn {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		min-height: auto;
+		min-width: auto;
+		max-width: 100%;
+	}
+	#leftColumn {}
+	#midColumn {}
+	.btn.modern{width: 100px;}
+	#rightColumn {top: auto;}
+	.column {
+		display: block;
+		width: 100%;
+		position: relative;
+		overflow: auto;
+	}
+
+	#footerLinks {
+		/*position: relative;
+		bottom: auto;
+		right: auto;*/
+	}
+}
