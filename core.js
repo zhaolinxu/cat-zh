@@ -506,7 +506,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"alicornRift": {
-				title: "Alicorn裂痕",
+				title: "翼角兽裂痕",
 				enabled: true,
 				unlocked: false
 			},

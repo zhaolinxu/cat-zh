@@ -270,7 +270,7 @@ var run = function() {
     // Add a message filter for trades
     if (!game.console.filters.trade){
         game.console.filters.trade = {
-            title: "Trades",
+            title: "贸易",
             enabled: true,
             unlocked: true
         };

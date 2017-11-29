@@ -1289,7 +1289,7 @@
     "trade.msg.elders.pleased": "上古神很高兴",
     "trade.msg.elders.displeased": "上古神很不满",
     "trade.msg.elders.feed": "献祭上古神",
-    "trade.msg.elders.feed.desc": "献祭上古神",
+    "trade.msg.elders.feed.desc": "献祭上古神，会消耗死灵兽一个，如果没有死灵兽，它会立刻离开。",
     "trade.new.civ": "你发现了一个新的文明!",
     "trade.new.hint.nagas": "也许你的文化发展不够.",
     "trade.new.hint.zebras": "也许你应该尝试到达另一个大陆.",
