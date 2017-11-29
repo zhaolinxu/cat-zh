@@ -237,7 +237,7 @@
 					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
 						<!-- toolbar panel goes there -->
 					</div>
-					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="能量"></span>
+					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="Energy"></span>
 					<span id="sorrowTooltip" style="padding-right: 15px; font-size: 12px;" title="Black liquid sorrow"></span>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">自动保存中...</span>
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">已保存!</span>
@@ -286,9 +286,9 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
+					<div style=""><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
+					<div style=""><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
+					<div style=""><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
 
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
 					</div>
@@ -550,19 +550,20 @@
 				<a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
     <!--客服 开始-->
-    <!-- <link rel="stylesheet" href="http://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="http://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
     <script src="http://likexia.gitee.io/game/js/jquery.min.js"></script>
     <script src="http://likexia.gitee.io/game/js/kf.js"></script>
- --><!-- 客服 结束 -->
+<!-- 客服 结束 -->
     <!--统计代码 start-->
     <div style="display:none;"><script src="https://s19.cnzz.com/z_stat.php?id=1267958737&web_id=1267958737" language="JavaScript"></script></div>
     <!--统计代码 end-->
 		<!--<script src="js/kitten-scientists.user.js" type="text/javascript" charset="utf-8"></script>-->
 		<script type="text/javascript">
-//            判断屏幕大小，跳app页面
-           if($(window).width() < 600){
-               window.location.href="index-app.html";
+            //            判断屏幕大小，跳PC页面
+           if($(window).width() > 600){
+               window.location.href="index.html";
            }
 			var ok = false;
 			$("#kxj2").click(function() {
