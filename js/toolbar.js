@@ -37,7 +37,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 		var sorrowRes = this.game.resPool.get("sorrow"),
 			sorrow = sorrowRes.value;
 		$("#sorrowTooltip").html(sorrow ?
-			"BLS: " + sorrow.toFixed() + "%" :
+			"悲伤: " + sorrow.toFixed() + "%" :
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
