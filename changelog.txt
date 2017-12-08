@@ -301,7 +301,7 @@ Nuclear Plants
 v 1.2.0.0b (23 jul)
 
 changes by bzbarsky:
-Make the time crystal refining effects of Unicorn Utopia and Sunspire actually work.
+Make the time crystal refining effects of Unicorn Utopia and 青睐之光 actually work.
 
 v 1.2.0.0 (20 jul)
 
@@ -314,7 +314,7 @@ v 1.1.9.4 (20 jul)
 UU was split into two upgrades
 UU price was reduced from 65K tears to 5K tears.
 
-UU and Sunspire will now increase alicorn to tc refine ratio by 10% and 25%
+UU and 青睐之光 will now increase alicorn to tc refine ratio by 10% and 25%
 
 
 v 1.1.9.3 (15 jul)

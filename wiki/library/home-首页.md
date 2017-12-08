@@ -101,7 +101,7 @@
 				</a>
 			</td>
 			<td>
-				<a href="#Metaphysics">
+				<a href="?file=001-猫咪百科/03-科技/02-玄学#玄学">
 							玄学
 				</a>
 			</td>
