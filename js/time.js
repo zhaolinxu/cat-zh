@@ -708,8 +708,8 @@ dojo.declare("classes.ui.time.ChronoforgeBtnController", com.nuclearunicorn.game
 dojo.declare("classes.ui.ChronoforgeWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
         this.addChild(new classes.ui.time.ShatterTCBtn({
-            name: "Combust TC",
-            description: "Shatter TC and unleash the stored temporal energy. (If you have a chrono furnace, this will fuel it instead.)<bt> You will jump one year in the future. The price can increase over time.",
+            name: "燃烧时间水晶",
+            description: "粉碎时间水晶并释放存储的时间能量。 （如果你有一个计时炉，反而会加速它。）<bt> 你将会跳到未来一年。 价格会随着时间的推移而增加。",
             prices: [{name: "timeCrystal", val: 1}],
             controller: new classes.ui.time.ShatterTCBtnController(game)
         }, game));
