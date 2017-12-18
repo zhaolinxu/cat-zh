@@ -654,7 +654,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science", val: 150000 },
 			{ name : "titanium", val: 5000 },
 			{ name : "blueprint", val: 25 }
-		]
+		],
+		flavor: $I("workshop.railgun.flavor")
 	},{
 		name: "bolas",
 		label: $I("workshop.bolas.label"),

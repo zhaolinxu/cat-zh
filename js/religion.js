@@ -365,7 +365,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			spaceBuilding: ["spaceBeacon"]
 		},
-		unlocked: false
+		unlocked: false,
+		flavor: $I("religion.zu.blackPyramid.flavor")
 	}],
 
 	religionUpgrades:[{
@@ -422,7 +423,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
 		noStackable: true,
-		priceRatio: 2.5
+		priceRatio: 2.5,
+		flavor: $I("religion.ru.goldenSpire.flavor")
 	},{
 		name: "sunAltar",
 		label: $I("religion.ru.sunAltar.label"),
