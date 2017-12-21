@@ -606,7 +606,7 @@ Changes by Roman Chang:
 
 Changes by coderpatsy:
 
-- Events observed stat increments on manual and SETI observations as well
+- Events observed stat increments on manual and 搜寻地外文明计划 observations as well
 - Fix Dead kittens stat recording more deaths than kittens
 - Add effectMeta for scholar starcharts
 
@@ -1181,7 +1181,7 @@ Space Elevators
 
 v 1.0.3.2 (15 nov)
 
-Fixed SETI preventing other random events
+Fixed 搜寻地外文明计划 preventing other random events
 Religion upgrades will not give double bonuses if transcendence is not researched
 Moon base will now grant storage bonus
 
@@ -1498,7 +1498,7 @@ Log size will be limited to 50 entries
 Fixed CAD SYS not applying correct bonus to the craft
 
 Refrigeration
-SETI
+搜寻地外文明计划
 
 v 0.9.1.2 (31 jul)
 

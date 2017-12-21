@@ -766,7 +766,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
             },
             "compediumGlobalCraftRatio" :  {
-                title: $I("effectsMgr.compediumGlobalCraftRatio.title"),
+                title: $I("effectsMgr.my.compediumGlobalCraftRatio.title"),
+                type: "fixed"
+            },
+            "blueprintGlobalCraftRatio" :  {
+                title: $I("effectsMgr.my.blueprintGlobalCraftRatio.title"),
+                type: "fixed"
+            },
+            "manuscriptGlobalCraftRatio" :  {
+                title: $I("effectsMgr.my.manuscriptGlobalCraftRatio.title"),
                 type: "fixed"
             },
             
