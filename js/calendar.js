@@ -46,7 +46,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycles: [
 		{
 			name: "charon",
-			title: "Charon",
+			title: "卡戎",
 			glyph: "&#9049;",
 			uglyph: "⍙",
 			effects: {
@@ -60,7 +60,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "umbra",
-			title: "Umbra",
+			title: "暗影",
 			glyph: "&#9062;",
 			uglyph: "⍦",
 			effects: {
@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "yarn",
-			title: "Yarn",
+			title: "纱线",
 			glyph: "&#9063;",
 			uglyph: "⍧",
 			effects: {
@@ -88,7 +88,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "helios",
-			title: "Helios",
+			title: "太阳神",
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
@@ -101,7 +101,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "cath",
-			title: "Cath",
+			title: "轨道",
 			glyph: "&#9022;",
 			uglyph: "⌾",
 			effects: {
@@ -117,7 +117,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "redmoon",
-			title: "Redmoon",
+			title: "红月亮",
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
@@ -129,7 +129,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "dune",
-			title: "Dune",
+			title: "沙丘",
 			glyph: "&#9067;",
 			uglyph: "⍫",
 			effects: {
@@ -142,7 +142,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "piscine",
-			title: "Piscine",
+			title: "游泳池",
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
@@ -154,7 +154,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "terminus",
-			title: "Terminus",
+			title: "终点",
 			glyph: "&#9053;",
 			uglyph: "⍝",
 			effects: {
@@ -166,7 +166,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "kairo",
-			title: "Kairo",
+			title: "开罗",
 			glyph: "&#8483;",
 			uglyph: "℣",
 			effects: {
@@ -298,7 +298,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: "周期影响:",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -340,7 +340,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
+						innerHTML: "周期节日影响:",
 						style: { textAlign: "center"}
 					}, tooltip );
 
