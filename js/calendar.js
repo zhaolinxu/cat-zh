@@ -76,7 +76,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "yarn",
-			title: "纱线",
+			title: "纱星",
 			glyph: "&#9063;",
 			uglyph: "⍧",
 			effects: {

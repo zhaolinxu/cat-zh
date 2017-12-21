@@ -748,7 +748,29 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"kittenGrowthRatio" :  {
                 title: $I("effectsMgr.statics.kittenGrowthRatio.title"),
                 type: "ratio"
+            },//新增部分
+            "eludiumAutomationBonus" :  {
+                title: $I("effectsMgr.workshop.eludiumAutomationBonus.title"),
+                type: "ratio"
             },
+             "goldMaxRatio" :  {
+                title: $I("effectsMgr.my.goldMaxRatio.title"),
+                type: "ratio"
+            },
+             "heatMax" :  {
+                title: $I("effectsMgr.heatMax.title"),
+                type: "fixed"
+            },
+            "heatPerTick" :  {
+                title: $I("effectsMgr.heatPerTick.title"),
+                type: "fixed"
+            },
+            "compediumGlobalCraftRatio" :  {
+                title: $I("effectsMgr.compediumGlobalCraftRatio.title"),
+                type: "fixed"
+            },
+            
+            //自己加结束
 
 			"t1CraftRatio" :  {
                 title: $I("effectsMgr.statics.t1CraftRatio.title"),

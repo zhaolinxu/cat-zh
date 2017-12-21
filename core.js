@@ -1313,7 +1313,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 						// if (tempVal >= 0.01) {
 						// 	displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 60, false, false, 2) + "/min";
 						// } else {
-							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/h";
+							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
 						// }
 					}
 				} else if (effectMeta.type === "perDay"){
