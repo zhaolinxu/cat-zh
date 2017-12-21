@@ -61,7 +61,7 @@
 				</a>
 			</td>
 			<td>
-				<a href="#Game+Mechanics">
+				<a href="?file=002-常用资料/001-游戏机制">
 							游戏机制
 				</a>
 			</td>
@@ -116,7 +116,7 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="#Religion">
+				<a href="?file=001-猫咪百科/06-宗教/001-庙塔">
 							宗教
 				</a>
 			</td>
@@ -138,7 +138,7 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="#Space">
+				<a href="?file=001-猫咪百科/07-空间/01-地面控制">
 							空间
 				</a>
 			</td>
