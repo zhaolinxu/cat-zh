@@ -777,6 +777,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.my.manuscriptGlobalCraftRatio.title"),
                 type: "fixed"
             },
+            "corruptionBoostRatio" :  {
+                title: $I("effectsMgr.my.corruptionBoostRatio.title"),
+                type: "fixed"
+            },
             
             //自己加结束
 
