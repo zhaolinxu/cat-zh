@@ -332,8 +332,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: "",
             difficulty: "S",
             condition: function(){
-                var kittnes = this.game.resPool.get("kittens")
-                return (kittnes.value >= 1000 && kittnes.maxValue == 0);
+                var kittens = this.game.resPool.get("kittens");
+                return (kittens.value >= 1000 && kittens.maxValue == 0);
             }
         },{
             id: 20,
@@ -360,25 +360,25 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             id: 23,
             name: "glitchyHat",
             title: "Glitchy Hat",
-            description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆︎",
+            description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆",
             difficulty: "S"
         },{
             id: 24,
             name: "topHat",
             title: "Tophat",
-            description: "︎",
+            description: "",
             difficulty: ""
         },{
             id: 25,
             name: "jesterHat",
             title: "Jester Hat",
-            description: "︎",
+            description: "",
             difficulty: ""
         },{
-            id: 25,
+            id: 26,
             name: "fezHat",
             title: "Fez Hat",
-            description: "A prism-shaped red fez hat.︎",
+            description: "A prism-shaped red fez hat.",
             difficulty: "A"
         }
     ],
@@ -477,7 +477,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         saveData.ach = {
             councilUnlocked : this.councilUnlocked,
             hats: this.game.bld.filterMetadata(this.hats, ["name", "unlocked"])
-        }
+        };
     },
 
     load: function (saveData) {
@@ -518,7 +518,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
     },
     update: function(){
         //render a rainbow colors if foiled
-        dojo.setStyle(this.body, "display", this.opts.unlocked ? "inline-flex" : "none")
+        dojo.setStyle(this.body, "display", this.opts.unlocked ? "inline-flex" : "none");
     }
 });
 

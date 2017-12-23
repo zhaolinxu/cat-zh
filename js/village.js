@@ -1201,13 +1201,19 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 	},
 
 	unassignCraftJobIfEngineer: function(job, kitten) {
-		if (job.name == "engineer" && kitten.engineerSpeciality) {
+		if (job == "engineer" && kitten.engineerSpeciality) {
 			var craft = this.game.workshop.getCraft(kitten.engineerSpeciality);
 			if (craft && craft.value > 0) {
 				craft.value--;
 			}
 		}
 		kitten.engineerSpeciality = null; //ah sanity checks
+	},
+
+	clearCraftJobs: function() {
+		for (var i = this.kittens.length - 1; i >= 0; i--) {
+			this.kittens[i].engineerSpeciality = null;
+		}
 	},
 
 	promote: function(kitten, rank) {

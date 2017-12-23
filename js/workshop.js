@@ -2201,6 +2201,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = this.crafts.length - 1; i >= 0; i--){
 			this.crafts[i].value = 0;
 		}
+		this.game.village.sim.clearCraftJobs();
 	},
 
 	update: function(times){
