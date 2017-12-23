@@ -49,7 +49,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1442d";
+			var version = "_1442f";
 
 			function _import(module, def){
 				if (!def){
@@ -126,19 +126,18 @@
 					gamePage.ui.renderFilters();
 					gamePage.start();
 
-					//---------------------------------
-					//	remove me once x-mass is over
-					//---------------------------------
-					/*if (gamePage.resPool.get("elderBox").value == 0){
-					 gamePage.resPool.get("elderBox").value++;
-					 gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
-					 }*/
-					if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
-						gamePage.resPool.get("elderBox").value = 1;
-						gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+					var config = new classes.KGConfig();
+					if (config.statics.isEldermass){
+						if (gamePage.resPool.get("elderBox").value == 0){
+							gamePage.resPool.get("elderBox").value++;
+							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+						}
+					} else {
+						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
+							gamePage.resPool.get("elderBox").value = 1;
+							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+						}
 					}
-					//TODO: use button to invoke this method
-					//gamePage.redeemGift();
 					//---------------------------------
 
 

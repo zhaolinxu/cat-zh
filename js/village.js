@@ -2092,6 +2092,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.promoteKittensBtn = promoteKittensBtn;
 
 		//redeemGift
+		var config = new classes.KGConfig();
 		var redeemGiftBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: $I("village.btn.unwrap"),
 			description: "",
@@ -2101,7 +2102,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.resPool.get("elderBox").value > 0;
+					model.visible = !config.statics.isEldermass && (this.game.resPool.get("elderBox").value > 0);
 				}
 			})
 		}, this.game);
