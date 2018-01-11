@@ -1,3 +1,10 @@
+v 1.4.4.3
+
+Added Void Resonator
+Added x100 shatter button
+Time Skips will no longer give you additional faith
+Paradoxal Knowledge was renamed to Paradox Theory
+
 v 1.4.4.2
 
 changes by coderpatsy:

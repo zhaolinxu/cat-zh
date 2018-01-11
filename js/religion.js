@@ -139,7 +139,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.corruption = 0;
 		}
 		if (this.game.prestige.getPerk("voidOrder").researched){
-			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
+			var resonance = this.game.getEffect("voidResonance");
+			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
 			this.faith += times * orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
 	},

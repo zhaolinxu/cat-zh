@@ -831,6 +831,20 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
+		//----------------------------------------------------------
+		if (this.game.prestige.getPerk("voidOrder").researched){
+			var resonance = this.game.getEffect("voidResonance");
+			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
+			this.faith += 400 * orderBonus * (1 + this.game.religion.getFaithBonus() * 0.25);	//25% of the apocypha bonus
+
+			if (resonance) {
+				var resAmt = 400 * this.game.calcResourcePerTick("faith") * (resonance);
+				this.game.resPool.addResEvent("faith", -resAmt );
+				console.log("resonance feedback:", resAmt);
+			}
+		}
+		//-----------------------------------------------------------
+
 		if (updateUI) {
 			this.game.ui.render();
 		}

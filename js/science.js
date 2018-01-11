@@ -760,7 +760,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			chronoforge: ["ressourceRetrieval"],
-			voidSpace: ["chronocontrol"],
+			voidSpace: ["chronocontrol", "voidResonator"],
 			upgrades: ["distorsion"]
 		}
 	}],

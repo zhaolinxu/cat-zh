@@ -606,7 +606,7 @@
     "science.voidSpace.label": "Void Space",
     "science.paradoxalKnowledge.desc": "TBD",
     "science.paradoxalKnowledge.effectDesc": "Unlocks Chronocontrol and Resource Retrieval",
-    "science.paradoxalKnowledge.label": "Paradoxal Knowledge",
+    "science.paradoxalKnowledge.label": "Paradox Theory",
 
     "workshop.toggleResearched.label": "Hide researched upgrades",
     "workshop.mineralHoes.desc": "Your farmers are 50% more effective",
@@ -1542,5 +1542,8 @@
     "effectsMgr.statics.nextHashLevelAt.title": "Next hashrate level at",
     "effectsMgr.statics.hashrate.title": "Hashrate",
     "prestige.ascoh.label":"ASCOH",
-    "prestige.ascoh.desc":"A Secret Council Of Hats"
+    "prestige.ascoh.desc":"A Secret Council Of Hats",
+
+    "time.vsu.voidResonator.label": "Void Resonator",
+    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skips."
 }
