@@ -453,7 +453,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
 
                     if (res.name != "faith") {
+                        //for faith, use like 1% of the resource pool?
                         game.resPool.addResEvent(res.name, valueAdd);
+                    } else {
+                        var resonatorAmt = this.game.time.getVSU("voidResonator").val;
+                        if (resonatorAmt) {
+
+                            //TBH i'm not sure at all how it supposed to work
+
+                            var faithTransferAmt = Math.sqrt(resonatorAmt) * 0.01 * valueAdd;
+                            game.resPool.addResEvent(res.name, faithTransferAmt);
+
+                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
+                        }
                     }
                 }
             }
