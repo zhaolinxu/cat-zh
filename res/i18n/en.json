@@ -408,7 +408,7 @@
     "prestige.keter.desc": "Improves paragon effect and scaling by 5%",
     "prestige.keter.label": "Keter",
     "prestige.voidOrder.desc": "Every priest will now give a minor bonus to faith accumulation.",
-    "prestige.voidOrder.label": "Order of Void",
+    "prestige.voidOrder.label": "Order of the Void",
     "prestige.adjustmentBureau.desc": "Unlocks additional game challenges.",
     "prestige.adjustmentBureau.label": "Adjustment Bureau",
     "prestige.btn.burnParagon.label": "Burn your paragon",
@@ -805,7 +805,7 @@
     "workshop.amBases.desc": "Reduce energy consumption for Moon Bases by 50%",
     "workshop.amBases.label": "Antimatter Bases",
     "workshop.aiBases.label": "AI Bases",
-    "workshop.aiBases.desc": "AI-powered logistics. Every level of AI Core will increase the effectiveness of moon bases by 25%",
+    "workshop.aiBases.desc": "AI-powered logistics. Every active AI Core will increase the effectiveness of moon bases by 10%",
     "workshop.amDrive.desc": "Antimatter-powered rocket engine",
     "workshop.amDrive.label": "Antimatter Drive",
     "workshop.amFission.desc": "Engineers are 25% more effective at production of eludium",
@@ -1063,7 +1063,7 @@
     "effectsMgr.statics.lunarOutpostRatio.title": "Lunar Outpost bonus",
     "effectsMgr.statics.crackerRatio.title": "Cracker bonus",
     "effectsMgr.statics.factoryRefineRatio.title": "Factory refine bonus",
-    "effectsMgr.statics.timeRatio.title": "Temporal flux bonus",
+    "effectsMgr.statics.timeRatio.title": "Chronomancy bonus",
     "effectsMgr.statics.temporalParadoxVoid.title": "Max void",
     "effectsMgr.statics.temporalParadoxDay.title": "Day in temporal paradox",
     "effectsMgr.statics.temporalParadoxDayBonus.title": "Day in temporal paradox",
@@ -1545,5 +1545,13 @@
     "prestige.ascoh.desc":"A Secret Council Of Hats",
 
     "time.vsu.voidResonator.label": "Void Resonator",
-    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skips."
+    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skips.",
+    "science.blackchain.label": "Blackchain",
+    "science.blackchain.desc": "All cool cats are mining this, so I think it is some kind of mineral",
+    "science.blackchain.effectDesc": "Unlocks cryptomining and blackcoin exchange",
+    "resources.blackcoin.title": "blackcoin",
+    "trade.buy.ecoin": "Buy bcoin",
+    "trade.buy.ecoin.desc": "Exchange your relics for blackcoins",
+    "trade.sell.ecoin": "Sell bcoin",
+    "trade.sell.ecoin.desc": "Sell your blackcoins and get relics back"
 }
