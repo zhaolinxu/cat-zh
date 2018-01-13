@@ -1,3 +1,7 @@
+v 1.4.4.4
+
+Added blackcoins and blackchain
+
 v 1.4.4.3
 
 Added Void Resonator

@@ -469,6 +469,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     }
                 }
             }
+
+            this.game.calendar.adjustCryptoPrices(400);
         }
 
         if (amt == 1) {

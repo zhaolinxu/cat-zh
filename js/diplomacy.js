@@ -639,6 +639,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		if (this.feedBtn){
 			this.feedBtn.update();
 		}
+
 	}
 });
 
@@ -926,7 +927,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			racePanel.collapse(race.collapsed);
 
 			if (racePanel.buyEcoin && racePanel.sellEcoin){
-				var tradePanel = dojo.create("div", {className:"crypto-trade"}, null);
+				var tradePanel = dojo.create("div", {className:"crypto-trade" /*, style:{display:"none"}*/ }, null);
 				dojo.place(tradePanel, rightColumn, "last");
 
 				dojo.place(racePanel.buyEcoin.domNode, tradePanel, "last");
@@ -987,8 +988,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration);
 
 			if (this.game.science.get("antimatter").researched){
-				this.leviathansInfo.innerHTML += "<br/> B-coin price: <span title='"+ this.game.calendar.cryptoPrice + "'>" +
-					this.game.getDisplayValueExt(this.game.calendar.cryptoPrice) + "</span>";
+				this.leviathansInfo.innerHTML += "<br/> B-coin price: <span style='cursor:pointer' title='"+ this.game.calendar.cryptoPrice + "'>" +
+					this.game.getDisplayValueExt(this.game.calendar.cryptoPrice, false, false, 5) + "</span>";
 			}
 		}
 

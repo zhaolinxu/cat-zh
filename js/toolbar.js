@@ -214,7 +214,6 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 	}
 });
 
-//Cosmic Microwave Background Radiation
 
 dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 	update: function(){

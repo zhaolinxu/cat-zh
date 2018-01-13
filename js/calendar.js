@@ -556,6 +556,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		this.game.diplomacy.onNewDay();
+
+		this.adjustCryptoPrices();
 	},
 
 	fastForward: function(daysOffset){
@@ -845,23 +847,34 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				console.log("resonance feedback:", resAmt);
 			}
 		}
-		//-----------------------------------------------------------
 
-		if (this.game.science.get("antimatter").researched) {
-			var marketFluctuation = this.game.rand(100);
-			if (marketFluctuation < 30 && marketFluctuation > 1) {
-				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.1;
-			} else if (marketFluctuation > 60) {
-				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.1;
-			} else if (marketFluctuation < 1){
-				this.cryptoPrice = this.cryptoPrice * (0.6 + Math.random() * 0.1);
-				this.game.msg("There is a huge crypto market correction");
-			}
-			//cryptoPrice
-		}
+		//this.adjustCryptoPrices(400);
 
 		if (updateUI) {
 			this.game.ui.render();
+		}
+	},
+
+	/* Use 400 ratio for 1 day, 1 ratio for 1 year*/
+	adjustCryptoPrices: function(ratio){
+
+		ratio = ratio || 1;
+
+		if (this.game.science.get("antimatter").researched) {
+			var marketFluctuation = this.game.rand(1000);
+			if (marketFluctuation < 300 && marketFluctuation > 10 ) {
+				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
+			} else if (marketFluctuation > 60 * ratio) {
+				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
+			} else if (marketFluctuation < 10){
+				this.cryptoPrice -= this.cryptoPrice * (0.3 + Math.random() * 0.1) * ratio;
+
+				//only spam on time skips
+				if (ratio > 1) {
+					this.game.msg("There is a huge crypto market correction");
+				}
+			}
+			//cryptoPrice
 		}
 	},
 
