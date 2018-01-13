@@ -861,13 +861,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		ratio = ratio || 1;
 
 		if (this.game.science.get("antimatter").researched) {
-			var marketFluctuation = this.game.rand(1000);
-			if (marketFluctuation < 300 && marketFluctuation > 10 ) {
-				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
-			} else if (marketFluctuation > 600 * ratio) {
-				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
-			} else if (marketFluctuation < 10){
-				this.cryptoPrice -= this.cryptoPrice * (0.3 + Math.random() * 0.1) * ratio;
+			var marketFluctuation = this.game.rand(100000);
+
+			if (marketFluctuation < 30000 && marketFluctuation > 1 ) {
+				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 200;
+			} else if (marketFluctuation > 60000) {
+				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 200;
+			} else if (marketFluctuation < 1){
+				this.cryptoPrice -= this.cryptoPrice * (0.2 + Math.random() * 0.1);
 
 				//only spam on time skips
 				if (ratio > 1) {
