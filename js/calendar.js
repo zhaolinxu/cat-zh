@@ -844,7 +844,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			if (resonance) {
 				var resAmt = 400 * this.game.calcResourcePerTick("faith") * (resonance);
 				this.game.resPool.addResEvent("faith", -resAmt );
-				console.log("resonance feedback:", resAmt);
+				//console.log("resonance feedback:", resAmt);
 			}
 		}
 
@@ -864,7 +864,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var marketFluctuation = this.game.rand(1000);
 			if (marketFluctuation < 300 && marketFluctuation > 10 ) {
 				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
-			} else if (marketFluctuation > 60 * ratio) {
+			} else if (marketFluctuation > 600 * ratio) {
 				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400 * ratio;
 			} else if (marketFluctuation < 10){
 				this.cryptoPrice -= this.cryptoPrice * (0.3 + Math.random() * 0.1) * ratio;
