@@ -41,7 +41,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["animal"],
 			jobs: ["hunter"]
-		}
+		},
+		flavor: $I("science.archery.flavor")
 	},{
 		name: "mining",
 		label: $I("science.mining.label"),
@@ -346,7 +347,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["biolab"],
 			tech: ["biochemistry"]
-		}
+		},
+		flavor: $I("science.biology.flavor")
 	},{
 		name: "biochemistry",
 		label: $I("science.biochemistry.label"),
@@ -359,7 +361,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["genetics"],
 			upgrades: ["biofuel"]
-		}
+		},
+		flavor: $I("science.biochemistry.flavor")
 	},{
 		name: "genetics",
 		label: $I("science.genetics.label"),
@@ -371,7 +374,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			upgrades: ["unicornSelection", "gmo"]
-		}
+		},
+		flavor: $I("science.genetics.flavor")
 	},{
 		name: "industrialization",
 		label: $I("science.industrialization.label"),
@@ -491,6 +495,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 1250000},
 			{name: 	"relic", val: 1024}
+		],
+		unlocks: {
+			tech: ["blackchain"]
+		}
+	},{
+		name: "blackchain",
+		label: $I("science.blackchain.label"),
+		description: $I("science.blackchain.desc"),
+		effectDesc: $I("science.blackchain.effectDesc"),
+		prices: [
+			{name : "science", val: 5000000},
+			{name: 	"relic", val: 5000}
 		],
 		unlocks: {
 		}
@@ -755,7 +771,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			chronoforge: ["ressourceRetrieval"],
-			voidSpace: ["chronocontrol"],
+			voidSpace: ["chronocontrol", "voidResonator"],
 			upgrades: ["distorsion"]
 		}
 	}],

@@ -139,7 +139,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.corruption = 0;
 		}
 		if (this.game.prestige.getPerk("voidOrder").researched){
-			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1;	//10% of faith transfer per priest
+			var resonance = this.game.getEffect("voidResonance");
+			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
 			this.faith += times * orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocypha bonus
 		}
 	},
@@ -365,7 +366,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			spaceBuilding: ["spaceBeacon"]
 		},
-		unlocked: false
+		unlocked: false,
+		flavor: $I("religion.zu.blackPyramid.flavor")
 	}],
 
 	religionUpgrades:[{
@@ -422,7 +424,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
 		},
 		noStackable: true,
-		priceRatio: 2.5
+		priceRatio: 2.5,
+		flavor: $I("religion.ru.goldenSpire.flavor")
 	},{
 		name: "sunAltar",
 		label: $I("religion.ru.sunAltar.label"),

@@ -56,6 +56,8 @@ dojo.declare("classes.ui.UISystem", null, {
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
+    calenderDivTooltip: null,
+    calendarSignSpanTooltip: null,
 
     fontSize: null,
 
@@ -158,6 +160,136 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
         }
 
+
+
+		if (!this.calenderDivTooltip){
+            var calendarDiv = dojo.byId("calendarDiv");
+            this.calenderDivTooltip = UIUtils.attachTooltip(game, calendarDiv, 0, 320, dojo.hitch(game.calendar, function() {
+                var tooltip = "";
+                if (this.year > 100000){
+                    tooltip = $I("calendar.year") + " " + this.year.toLocaleString();
+                }
+
+                if (game.science.get("paradoxalKnowledge").researched){
+                    var trueYear = Math.trunc(this.year-game.time.flux);
+
+                    if (trueYear > 100000){
+                        trueYear = trueYear.toLocaleString();
+                        tooltip += "<br>";
+                    }
+                    tooltip += $I("calendar.trueYear")  + " " + trueYear;
+                }
+                return tooltip;
+            }));
+        }
+
+
+		if (!this.calendarSignSpanTooltip){
+            var calendarSignSpan = dojo.byId("calendarSign");
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(game.calendar, function() {
+                var cycle = this.cycles[this.cycle];
+                if (!cycle) {
+                    return "";
+                }
+
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+
+				var cycleSpan = dojo.create("div", {
+					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
+					style: { textAlign: "center", clear: "both"}
+				}, tooltip );
+
+				// Cycle Effects
+				if (game.prestige.getPerk("numerology").researched) {
+					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
+					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
+
+					var cycleSpan = dojo.create("div", {
+						innerHTML: "Cycle Effects:",
+						style: { textAlign: "center", paddingTop: "4px"}
+					}, tooltip );
+
+					var effects = cycle.effects;
+
+					for (var effect in effects){
+						var effectItemNode = dojo.create("div", null, tooltip);
+
+						var effectMeta = game.getEffectMeta(effect);
+						var effectTitle = effectMeta.title + ":";
+
+						var nameSpan = dojo.create("span", {
+							innerHTML: effectTitle,
+							style: {
+								float: "left",
+								fontSize: "16px"
+							}
+						}, effectItemNode );
+
+						var effectMod = effects[effect] > 1 ? "+": "";
+						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
+
+						var effectSpan = dojo.create("span", {
+							innerHTML: effectMod,
+							style: {
+								float: "right",
+								fontSize: "16px",
+								paddingLeft: "6px"
+							}
+						}, effectItemNode );
+
+						dojo.create("span", {
+							innerHTML: "&nbsp;",
+							style: {clear: "both" }
+						}, effectItemNode );
+					}
+				}
+
+				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
+					// Cycle Festival Effects
+					var cycleSpan = dojo.create("div", {
+						innerHTML: "Cycle Festival Effects:",
+						style: { textAlign: "center"}
+					}, tooltip );
+
+					var effects = cycle.festivalEffects;
+
+					for (var effect in effects){
+						var effectItemNode = dojo.create("div", null, tooltip);
+
+						var effectMeta = game.getEffectMeta(effect);
+						var effectTitle = effectMeta.title + ":";
+
+						var nameSpan = dojo.create("span", {
+							innerHTML: effectTitle,
+							style: {
+								float: "left",
+								fontSize: "16px"
+							}
+						}, effectItemNode );
+
+						var effectMod = effects[effect] > 1 ? "+": "";
+						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
+
+						var effectSpan = dojo.create("span", {
+							innerHTML: effectMod,
+							style: {
+								float: "right",
+								fontSize: "16px",
+								paddingLeft: "6px"
+							}
+						}, effectItemNode );
+
+						dojo.create("span", {
+							innerHTML: "&nbsp;",
+							style: {clear: "both" }
+						}, effectItemNode );
+					}
+				}
+				return tooltip.outerHTML;
+
+			}));
+		}
+
         midColumn.scrollTop = scrollPosition;
         this.update();
 
@@ -241,7 +373,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var seasonTitle = calendar.getCurSeasonTitle();
         var hasCalendarTech = this.game.science.get("calendar").researched;
 
-        var calendarDiv = calendar.displayElement;
+        var calendarDiv = dojo.byId("calendarDiv");
         if (hasCalendarTech){
 
             var mod = "";
@@ -258,6 +390,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 seasonTitle + mod + ", " + calendar.integerDay() +" 天";
             document.title = "猫国建设者 - " + calendar.year + " 年, " +
                 seasonTitle + ", " + calendar.integerDay() +" 天";
+
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;

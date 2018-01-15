@@ -310,6 +310,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			"animation": "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
+	},{
+		name : "blackcoin",
+		title: $I("resources.blackcoin.title"),
+		type : "exotic",
+		craftable: false,
+		visible: true,
+		color: "gold",
+		persists: false
 	},
 	//=========================================
 	// 				    CRAFT

@@ -50,7 +50,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1442c";
+			var version = "_1444f";
 
 			function _import(module, def){
 				if (!def){
@@ -127,19 +127,18 @@
 					gamePage.ui.renderFilters();
 					gamePage.start();
 
-					//---------------------------------
-					//	remove me once x-mass is over
-					//---------------------------------
-					/*if (gamePage.resPool.get("elderBox").value == 0){
-					 gamePage.resPool.get("elderBox").value++;
-					 gamePage.msg("Ho-ho-ho! The Elder Gods have send you a gift box!", "important");
-					 }*/
-					if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1){
-						gamePage.resPool.get("elderBox").value = 1;
-						gamePage.msg("The Elder Gods have repaired your gift box!", "important");
+					var config = new classes.KGConfig();
+					if (config.statics.isEldermass){
+						if (gamePage.resPool.get("elderBox").value == 0){
+							gamePage.resPool.get("elderBox").value++;
+							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+						}
+					} else {
+						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
+							gamePage.resPool.get("elderBox").value = 1;
+							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+						}
 					}
-					//TODO: use button to invoke this method
-					//gamePage.redeemGift();
 					//---------------------------------
 
 
@@ -251,7 +250,7 @@
 						<a href="#" onclick="wipe();"  title="此操作会清除你的所有游戏进度。">删档</a> |
 						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
 
-						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.2</a>
+						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.4</a>
 					</div>
 				</div>
 			</div>
@@ -274,8 +273,9 @@
 						散热器
 						纠缠
 
-					版本: 2
-						平衡调整
+					版本: 4
+						虚空共振
+						黑色产业链
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -543,6 +543,7 @@
 			<a href="https://gitee.com/likexia/cat-zh" target="_blank">汉化主页</a> |
 			<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="目前只有部分，其余仍在汉化中">文档</a> |
 <!--				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">英文文档</a> |-->
+				<a href="https://discord.gg/2arBf9K" target="_blank">聊天</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<a href="#" onclick="$('#helpDiv').toggle();">帮助</a> |
 				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |

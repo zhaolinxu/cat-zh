@@ -396,6 +396,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			upgrades: ["turnSmoothly"]
 		},
         unlocked: false
+    },{
+        name: "voidResonator",
+        label: $I("time.vsu.voidResonator.label"),
+        description: $I("time.vsu.voidResonator.desc"),
+        prices: [
+            { name: "timeCrystal", val: 1000 },
+            { name: "relic", val: 10000 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+            "voidResonance" : 0.1
+        },
+        unlocked: false
     }],
 
 	effectsBase: {
@@ -438,9 +451,28 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 for (var j = 0; j < game.resPool.resources.length; j++){
                     var res = game.resPool.resources[j];
                     var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
-                    game.resPool.addResEvent(res.name, valueAdd);
+
+                    if (res.name != "faith") {
+                        //for faith, use like 1% of the resource pool?
+                        game.resPool.addResEvent(res.name, valueAdd);
+                    } else {
+                        var resonatorAmt = this.game.time.getVSU("voidResonator").val;
+                        if (resonatorAmt) {
+
+                            //TBH i'm not sure at all how it supposed to work
+
+                            var faithTransferAmt = Math.sqrt(resonatorAmt) * 0.01 * valueAdd;
+                            game.resPool.addResEvent(res.name, faithTransferAmt);
+
+                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
+                        }
+                    }
                 }
             }
+
+            /*for (var j = 0; j< 400; j++){
+                this.game.calendar.adjustCryptoPrices(400);
+            }*/
         }
 
         if (amt == 1) {
@@ -557,11 +589,23 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             enabled: true,
             title: "x5",
             handler: function(event){
-                self.doShatterX5(model, event, function(result) {
+                self.doShatterAmt(model, event, function(result) {
                     if (result && self.update) {
                         self.update();
                     }
-                });
+                }, 5);
+            }
+        },
+        model.x100Link = {
+            visible: this._canAfford(model) >= 100,
+            enabled: true,
+            title: "x100",
+            handler: function(event){
+                self.doShatterAmt(model, event, function(result) {
+                    if (result && self.update) {
+                        self.update();
+                    }
+                }, 100);
             }
         };
         return model;
@@ -637,13 +681,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
     },
 
-    doShatterX5: function(model, event, callback){
+    doShatterAmt: function(model, event, callback, amt){
+        if (!amt){
+            amt = 5;
+        }
         if (model.enabled) {
-            var prices = this.getPricesMultiple(model, 5);
+            var prices = this.getPricesMultiple(model, amt);
             var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
             if (hasRes) {
                 this.game.resPool.addResEvent("timeCrystal", -prices);
-                callback(this.doShatter(model, 5));
+                callback(this.doShatter(model, amt));
                 return;
             }
         }
@@ -675,12 +722,16 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         var self = this;
 
         this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
+        this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
         if (this.x5) {
             dojo.setStyle(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
+        }
+        if (this.x100) {
+            dojo.setStyle(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
         }
     }
 });

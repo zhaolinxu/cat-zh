@@ -640,3 +640,9 @@ a:hover {
 .links-block a:hover{
     text-decoration: underline;
 }
+
+.crypto-trade .btn {
+    display: inline-block !important;
+    margin-right: 10px;
+    width: 45%;
+}

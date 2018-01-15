@@ -186,8 +186,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycle: 0,
 	cycleYear: 0,
 	yearsPerCycle: 5,
-	displayElementTooltip: null,
-	calendarSignSpanTooltip: null,
 
 	daysPerSeason: 100,
 	day: 0,
@@ -201,6 +199,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	festivalDays: 0,
 
 	futureSeasonTemporalParadox: -1,
+
+	cryptoPrice: 1000,
 
 	observeBtn: null,
 	observeRemainingTime: 0,
@@ -269,119 +269,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	render: function() {
-		var calendarSignSpan = dojo.byId("calendarSign");
-		var game = this.game;
 
-		if (this.displayElement && !this.displayElementTooltip){
-			//TODO: include shatter penalties there
-			this.displayElementTooltip = UIUtils.attachTooltip(game, this.displayElement, 0, 320, dojo.hitch(this, function() {
-				if (this.year > 100000){
-					return $I("calendar.year") + " " + this.year.toLocaleString();
-				}
-				return "";
-			}));
-		}
-
-		if (this.cycles[this.cycle] && !this.calendarSignSpanTooltip){
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(this, function() {
-				var cycle = this.cycles[this.cycle];
-				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
-
-				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
-					style: { textAlign: "center", clear: "both"}
-				}, tooltip );
-
-				// Cycle Effects
-				if (game.prestige.getPerk("numerology").researched) {
-					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
-					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
-
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "周期影响:",
-						style: { textAlign: "center", paddingTop: "4px"}
-					}, tooltip );
-
-					var effects = cycle.effects;
-
-					for (var effect in effects){
-						var effectItemNode = dojo.create("div", null, tooltip);
-
-						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title + ":";
-
-						var nameSpan = dojo.create("span", {
-							innerHTML: effectTitle,
-							style: {
-								float: "left",
-								fontSize: "16px"
-							}
-						}, effectItemNode );
-
-						var effectMod = effects[effect] > 1 ? "+": "";
-						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
-
-						var effectSpan = dojo.create("span", {
-							innerHTML: effectMod,
-							style: {
-								float: "right",
-								fontSize: "16px",
-								paddingLeft: "6px"
-							}
-						}, effectItemNode );
-
-						dojo.create("span", {
-							innerHTML: "&nbsp;",
-							style: {clear: "both" }
-						}, effectItemNode );
-					}
-				}
-
-				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
-					// Cycle Festival Effects
-					var cycleSpan = dojo.create("div", {
-						innerHTML: "周期节日影响:",
-						style: { textAlign: "center"}
-					}, tooltip );
-
-					var effects = cycle.festivalEffects;
-
-					for (var effect in effects){
-						var effectItemNode = dojo.create("div", null, tooltip);
-
-						var effectMeta = game.getEffectMeta(effect);
-						var effectTitle = effectMeta.title + ":";
-
-						var nameSpan = dojo.create("span", {
-							innerHTML: effectTitle,
-							style: {
-								float: "left",
-								fontSize: "16px"
-							}
-						}, effectItemNode );
-
-						var effectMod = effects[effect] > 1 ? "+": "";
-						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
-
-						var effectSpan = dojo.create("span", {
-							innerHTML: effectMod,
-							style: {
-								float: "right",
-								fontSize: "16px",
-								paddingLeft: "6px"
-							}
-						}, effectItemNode );
-
-						dojo.create("span", {
-							innerHTML: "&nbsp;",
-							style: {clear: "both" }
-						}, effectItemNode );
-					}
-				}
-				return tooltip.outerHTML;
-
-			}));
-		}
 	},
 
 	/* Return the whole number of days elapsed in the season, correcting for
@@ -668,6 +556,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		this.game.diplomacy.onNewDay();
+
+		this.adjustCryptoPrices();
 	},
 
 	fastForward: function(daysOffset){
@@ -945,8 +835,45 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
+		//----------------------------------------------------------
+		if (this.game.prestige.getPerk("voidOrder").researched){
+			var resonance = this.game.getEffect("voidResonance");
+			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
+			this.game.religion.faith += 400 * orderBonus * (1 + this.game.religion.getFaithBonus() * 0.25);	//25% of the apocypha bonus
+
+			if (resonance) {
+				var resAmt = 400 * this.game.calcResourcePerTick("faith") * (resonance);
+				this.game.resPool.addResEvent("faith", -resAmt );
+				//console.log("resonance feedback:", resAmt);
+			}
+		}
+
+		//this.adjustCryptoPrices(400);
+
 		if (updateUI) {
 			this.game.ui.render();
+		}
+	},
+
+	/* Use 400 ratio for 1 day, 1 ratio for 1 year*/
+	adjustCryptoPrices: function(ratio){
+
+		ratio = ratio || 1;
+
+		if (this.game.science.get("antimatter").researched) {
+			var marketFluctuation = this.game.rand(100000);
+
+			if (marketFluctuation < 30000 && marketFluctuation > 1 ) {
+				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400;
+			} else if (marketFluctuation > 60000) {
+				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400;
+			} else if (marketFluctuation < 1){
+				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
+
+				//only spam on time skips
+				//this.game.msg("There is a huge crypto market correction");
+			}
+			//cryptoPrice
 		}
 	},
 
@@ -1035,7 +962,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			festivalDays: this.festivalDays,
 			cycle: this.cycle,
 			cycleYear: this.cycleYear,
-			futureSeasonTemporalParadox: this.futureSeasonTemporalParadox
+			futureSeasonTemporalParadox: this.futureSeasonTemporalParadox,
+			cryptoPrice: this.cryptoPrice
 		};
 	},
 
@@ -1049,6 +977,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
 			this.futureSeasonTemporalParadox = saveData.calendar.futureSeasonTemporalParadox || -1;
+			this.cryptoPrice = saveData.calendar.cryptoPrice || 1000;
 		}
 	}
 
