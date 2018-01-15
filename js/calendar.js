@@ -200,7 +200,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	futureSeasonTemporalParadox: -1,
 
-	cryptoPrice: 0.01,
+	cryptoPrice: 1000,
 
 	observeBtn: null,
 	observeRemainingTime: 0,
@@ -864,16 +864,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var marketFluctuation = this.game.rand(100000);
 
 			if (marketFluctuation < 30000 && marketFluctuation > 1 ) {
-				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 200;
+				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400;
 			} else if (marketFluctuation > 60000) {
-				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 200;
+				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400;
 			} else if (marketFluctuation < 1){
-				this.cryptoPrice -= this.cryptoPrice * (0.2 + Math.random() * 0.1);
+				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
 
 				//only spam on time skips
-				if (ratio > 1) {
-					this.game.msg("There is a huge crypto market correction");
-				}
+				//this.game.msg("There is a huge crypto market correction");
 			}
 			//cryptoPrice
 		}
@@ -979,7 +977,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
 			this.futureSeasonTemporalParadox = saveData.calendar.futureSeasonTemporalParadox || -1;
-			this.cryptoPrice = saveData.calendar.cryptoPrice || 0.01;
+			this.cryptoPrice = saveData.calendar.cryptoPrice || 1000;
 		}
 	}
 
