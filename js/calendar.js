@@ -201,6 +201,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	futureSeasonTemporalParadox: -1,
 
 	cryptoPrice: 1000,
+	cryptoPriceMax: 1100,
 
 	observeBtn: null,
 	observeRemainingTime: 0,
@@ -863,17 +864,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.game.science.get("antimatter").researched) {
 			var marketFluctuation = this.game.rand(100000);
 
-			if (marketFluctuation < 30000 && marketFluctuation > 1 ) {
+			if (marketFluctuation < 30000 ) {
 				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400;
 			} else if (marketFluctuation > 60000) {
 				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400;
-			} else if (marketFluctuation < 1){
-				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
-
-				//only spam on time skips
-				//this.game.msg("There is a huge crypto market correction");
 			}
-			//cryptoPrice
+
+			if (this.cryptoPrice > this.cryptoPriceMax){
+				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
+				this.game.msg("There was a huge crypto market correction");
+			}
 		}
 	},
 
