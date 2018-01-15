@@ -555,7 +555,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
-		this.game.msg("You've bought " + this.game.getDisplayValueExt(amt) + " blackcoins");
+		this.game.msg("你购买了 " + this.game.getDisplayValueExt(amt) + " 黑币");
 	},
 
 	sellEcoin: function(){
@@ -563,7 +563,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.game.resPool.get("relic").value += amt;
 		this.game.resPool.get("blackcoin").value = 0;
 
-		this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " relics");
+		this.game.msg("你获得了 " + this.game.getDisplayValueExt(amt) + " 圣遗物");
 	},
 
 	unlockAll: function(){

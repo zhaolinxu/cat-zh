@@ -1608,7 +1608,7 @@
     
     "time.vsu.voidResonator.label": "虚空共振器",
     "time.vsu.voidResonator.desc": "每个虚空共振器将使无效命令的效果提高10％。 将触发一次时间跳跃。",
-    "science.blackchain.label": "黑色链条",
+    "science.blackchain.label": "区块链",
     "science.blackchain.desc": "所有的酷猫都在开采这个，所以我认为这是某种矿物",
     "science.blackchain.effectDesc": "解锁加密和黑币交换",
     "resources.blackcoin.title": "黑币",
