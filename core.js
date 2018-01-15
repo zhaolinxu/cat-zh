@@ -49,7 +49,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"en" : "English",
 			"ru": "Русский",
 			"zh": "简体中文",
-			"ja": "Japanese"
+			"ja": "Japanese",
 			"br": "Portuguese",
 			"fr": "French"
 		};

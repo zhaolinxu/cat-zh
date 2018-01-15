@@ -785,6 +785,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.my.umbraBoostRatio.title"),
                 type: "fixed"
             },
+            "voidResonance" :  {
+                title: $I("effectsMgr.my.voidResonator.title"),
+                type: "fixed"
+            },
+            
             
             //自己加结束
 
