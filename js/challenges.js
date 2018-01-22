@@ -104,6 +104,11 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
+		} else if (this.currentChallenge == "anarchy") {
+			if (this.game.bld.get("aiCore").val > 0){
+				this.researchChallenge("anarchy");
+			}
+
 		}
 		// winterIsComing
 		if (this.currentChallenge == "winterIsComing") {
@@ -111,6 +116,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.researchChallenge("winterIsComing");
 			}
 		}
+
+
 	},
 
 	getChallenge: function(name){
