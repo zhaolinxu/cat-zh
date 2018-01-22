@@ -648,6 +648,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var isDarkFuture = this.game.calendar.isDarkFuture();
         var heatMax = this.game.getEffect("heatMax");
 
+        var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+
 		for (var k = 0; k < amt; k++) {
 			for (var i = 0; i < prices_cloned.length; i++) {
 				var price = prices_cloned[i];
@@ -656,8 +658,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                if (isDarkFuture) {
 	                    priceLoop = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
 	                }
-	                if ((this.game.time.heat + k * 10) > heatMax) {
-	                    priceLoop *= (1 + (this.game.time.heat + k * 10 - heatMax) * 0.01);  //1% per excessive heat unit
+	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
+	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
 					pricesTotal += priceLoop;
 				}
