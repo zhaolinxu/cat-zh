@@ -547,7 +547,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: $I("space.planet.helios.containmentChamber.label"),
 			description: $I("space.planet.helios.containmentChamber.desc"),
 			unlocked: false,
-			priceRatio: 1.15,
+			priceRatio: 1.12,
 			prices: [
 				{name: "science", val: 500000},
 				{name: "kerosene", val: 2500}
