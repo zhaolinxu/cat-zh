@@ -1659,9 +1659,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var gflops = game.resPool.get("gflops");
 			gflops.value += self.effects["gflopsPerTickBase"] * self.on;
 
-			if (gflops.value > 0) {
-				self.effects["aiLevel"] = Math.round(Math.log(gflops.value));
+			var aiLevel = 0;
+			if (gflops.value > 1) {
+				aiLevel = Math.round(Math.log(gflops.value));
 			}
+			self.effects["aiLevel"] = aiLevel;
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){

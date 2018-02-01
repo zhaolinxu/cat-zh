@@ -745,7 +745,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						yearBonus = 0;
 					}
 					var fluxBonus = 0;
-					if (game.time.flux > 0) {
+					if (game.time.flux > 1) {
 						fluxBonus = Math.log(game.time.flux);
 					}
 
