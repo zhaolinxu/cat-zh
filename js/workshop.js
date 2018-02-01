@@ -2098,6 +2098,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var craftRatio = this.game.getResCraftRatio({name:res});
 
 		var craftAmt = amt * (1 + craftRatio);
+
+		//prevent undo giving free res
+		if (amt < 0 && this.game.resPool.get(res).value < Math.abs(craftAmt)){
+			return false;
+		}
+
 		var prices = dojo.clone(this.getCraftPrice(craft));
 
 		for (var i = prices.length - 1; i >= 0; i--) {
@@ -2158,10 +2164,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
     undo: function(metaId, val){
-		var res = this.game.resPool.get(metaId);
-		var craftRatio = this.game.getResCraftRatio(res);
-		this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
-        this.craft(metaId, -val, true /*do not create cyclic undo*/);
+		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
+			var res = this.game.resPool.get(metaId);
+			var craftRatio = this.game.getResCraftRatio(res);
+			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
+		}
     },
 
 	//returns a total number of resoruces possible to craft for this recipe
