@@ -627,8 +627,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
 			if (price["name"] == "timeCrystal") {
-                if (this.game.calendar.isDarkFuture()) {
-                    price["val"] = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+                var darkYears = this.game.calendar.year - 40000 - this.game.time.flux - impedance;
+                if (darkYears > 0) {
+                    price["val"] = 1 + ((darkYears) / 1000) * 0.01;
                 }
                 var heatMax = this.game.getEffect("heatMax");
                 if (this.game.time.heat > heatMax) {
@@ -645,7 +646,6 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
 		var prices_cloned = $.extend(true, [], model.options.prices);
         var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
-        var isDarkFuture = this.game.calendar.isDarkFuture();
         var heatMax = this.game.getEffect("heatMax");
 
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
@@ -655,8 +655,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 				var price = prices_cloned[i];
 				if (price["name"] == "timeCrystal") {
 					var priceLoop = price["val"];
-	                if (isDarkFuture) {
-	                    priceLoop = 1 + ((this.game.calendar.year - 40000 - this.game.time.flux - impedance) / 1000) * 0.01;
+                        var darkYears = this.game.calendar.year - 40000 - this.game.time.flux - impedance;
+	                if (darkYears > 0) {
+	                    priceLoop = 1 + ((darkYears) / 1000) * 0.01;
 	                }
 	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
