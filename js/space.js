@@ -529,7 +529,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             priceRatio: 1.15,
             prices: [
                 {name: "science", val: 500000},
-                {name: "eludium", val: 250},
+                {name: "eludium", val: 225},
                 {name: "kerosene", val: 2500}
             ],
             effects: {
@@ -547,7 +547,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			label: $I("space.planet.helios.containmentChamber.label"),
 			description: $I("space.planet.helios.containmentChamber.desc"),
 			unlocked: false,
-			priceRatio: 1.15,
+			priceRatio: 1.125,
 			prices: [
 				{name: "science", val: 500000},
 				{name: "kerosene", val: 2500}
@@ -745,7 +745,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						yearBonus = 0;
 					}
 					var fluxBonus = 0;
-					if (game.time.flux > 0) {
+					if (game.time.flux > 1) {
 						fluxBonus = Math.log(game.time.flux);
 					}
 
