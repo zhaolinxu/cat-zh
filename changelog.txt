@@ -1,3 +1,24 @@
+v 1.4.4.6
+
+changes by Chris:
+
+More default caps enforced on basic resources
+Fix exploit where Combust TC price could be negative
+Time impedance penalty will now be properly applied to flux years
+
+changes by coderpatsy:
+
+Fix workshop undo exploit
+Fix AI level displaying negative
+Fix HR Harvester being penalized if 0 < time.flux < 1
+
+Updated credits section as per request of a player
+
+v 1.4.4.5
+
+Reduced Sunlifter price from 250 eludium to 225
+Reduced Containment Chamber scaling from 1.15 to 1.125
+
 v 1.4.4.4
 
 Added blackcoins and blackchain
