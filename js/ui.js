@@ -175,9 +175,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
                     if (trueYear > 100000){
                         trueYear = trueYear.toLocaleString();
-                        tooltip += "<br>";
                     }
-                    tooltip += $I("calendar.trueYear")  + " " + trueYear;
+                    tooltip += "<br>" + $I("calendar.trueYear")  + " " + trueYear;
                 }
                 return tooltip;
             }));
