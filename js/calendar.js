@@ -315,8 +315,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return effects;
 	},
 
-	isDarkFuture: function() {
-		return (this.year - 40000 - this.game.time.flux - this.game.getEffect("timeImpedance") >= 0);
+	darkFutureYears: function(withImpedance) {
+		var impedance = 0;
+                if (withImpedance)
+			impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+		return this.year - (40000 + impedance);
 	},
 
 	tick: function(){
@@ -782,7 +785,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			ty.val = this.year;
 		}
 
-		if (this.year >= 40000) {
+		if (this.darkFutureYears() >= 0) {
 			this.game.unlock({chronoforge: ["temporalImpedance"]});
 		}
 
