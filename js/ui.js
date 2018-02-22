@@ -74,6 +74,104 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.connect($("html")[0],"onclick", this, function() {
             this.game.stats.getStat("totalClicks").val += 1;
         });
+
+        dojo.connect($("html")[0], "onkeyup", this, function (event) {
+            // Allow user extensibility to keybindings in core events
+            var keybinds = [
+                {
+                    name: 'Bonfire',
+                    key: 'B',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Village',
+                    key: 'V',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: "Science",
+                    key: 'S',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Workshop',
+                    key: 'W',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Trade',
+                    key: 'T',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Religion',
+                    key: 'R',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Space',
+                    key: 'P',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Time',
+                    key: 'I',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Achievements',
+                    key: 'M',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: 'Stats',
+                    key: 'A',
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
+                    name: "Close Options",
+                    key: "Escape",
+                    shift: false,
+                    alt: false,
+                    control: false,
+                    action: () => { $('div.dialog:visible').last().hide() }
+                }
+            ]
+            var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
+            var keybind = allKeybinds.find(x =>
+                x.key === event.key &&
+                x.shift == event.shiftKey &&
+                x.alt == event.altKey &&
+                x.control == event.ctrlKey)
+            if (keybind && keybind.action) {
+                // If a keybind is found and has a specific action
+                keybind.action()
+            } else if (keybind && keybind.name != game.ui.activeTabId) {
+                // If a keybound is found and the tab isn't current
+                game.ui.activeTabId = keybind.name
+                game.ui.render()
+            };
+        });
     },
 
     setGame: function(game){
