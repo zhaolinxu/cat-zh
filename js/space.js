@@ -744,14 +744,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					if (yearBonus < 0){
 						yearBonus = 0;
 					}
-					var fluxBonus = 0;
-					if (game.time.flux > 1) {
-						fluxBonus = Math.log(game.time.flux);
-					}
 
 					self.effects["energyProduction"] =
 						1 * ( 1 + yearBonus * 0.01) *
-							( 1 + fluxBonus * 0.01) *
 							( 1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
