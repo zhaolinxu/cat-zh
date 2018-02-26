@@ -50,6 +50,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9049;",
 			uglyph: "⍙",
 			effects: {
+				"entangler-gflopsConsumption": 2,
 				"moonOutpost-unobtainiumPerTickSpace": 0.9
 			},
 			festivalEffects: {
@@ -64,6 +65,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9062;",
 			uglyph: "⍦",
 			effects: {
+				"hrHarvester-energyProduction": 1.5,
 				"planetCracker-uraniumPerTickSpace": 0.9,
 				"hydrofracturer-oilPerTickAutoprodSpace": 0.75
 			},
@@ -80,6 +82,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9063;",
 			uglyph: "⍧",
 			effects: {
+				"hydroponics-catnipRatio": 2,
 				"researchVessel-starchartPerTickBaseSpace": 0.5
 			},
 			festivalEffects: {
@@ -92,7 +95,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
-				"sunlifter-energyProduction": 1.5
+				"sunlifter-energyProduction": 1.5,
+				"cryostation-woodMax": 0.9,
+				"cryostation-mineralsMax": 0.9,
+				"cryostation-ironMax": 0.9,
+				"cryostation-coalMax": 0.9,
+				"cryostation-uraniumMax": 0.9,
+				"cryostation-titaniumMax": 0.9,
+				"cryostation-oilMax": 0.9,
+				"cryostation-unobtainiumMax": 0.9
 			},
 			festivalEffects: {
 				"faith": 2,
@@ -121,7 +132,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
-				"moonOutpost-unobtainiumPerTickSpace": 1.2
+				"moonOutpost-unobtainiumPerTickSpace": 1.2,
+				"entangler-gflopsConsumption": 0.5
 			},
 			festivalEffects: {
 				"unobtainium": 2
@@ -134,7 +146,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			uglyph: "⍫",
 			effects: {
 				"planetCracker-uraniumPerTickSpace": 1.1,
-				"hydrofracturer-oilPerTickAutoprodSpace": 1.5
+				"hydrofracturer-oilPerTickAutoprodSpace": 1.5,
+				"hrHarvester-energyProduction": 0.75
 			},
 			festivalEffects: {
 				"uranium": 2
@@ -146,7 +159,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
-				"researchVessel-starchartPerTickBaseSpace": 1.5
+				"researchVessel-starchartPerTickBaseSpace": 1.5,
+				"hydroponics-catnipRatio": 0.5
 			},
 			festivalEffects: {
 				"science": 2
@@ -158,6 +172,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9053;",
 			uglyph: "⍝",
 			effects: {
+				"cryostation-woodMax": 1.2,
+				"cryostation-mineralsMax": 1.2,
+				"cryostation-ironMax": 1.2,
+				"cryostation-coalMax": 1.2,
+				"cryostation-uraniumMax": 1.2,
+				"cryostation-titaniumMax": 1.2,
+				"cryostation-oilMax": 1.2,
+				"cryostation-unobtainiumMax": 1.2,
 				"sunlifter-energyProduction": 0.5
 			},
 			festivalEffects: {
