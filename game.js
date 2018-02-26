@@ -864,11 +864,65 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+                        "cryostation-woodMax": {
+                title: $I("effectsMgr.statics.cryostation-woodMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-mineralsMax": {
+                title: $I("effectsMgr.statics.cryostation-mineralsMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-ironMax": {
+                title: $I("effectsMgr.statics.cryostation-ironMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-coalMax": {
+                title: $I("effectsMgr.statics.cryostation-coalMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-uraniumMax": {
+                title: $I("effectsMgr.statics.cryostation-uraniumMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-titaniumMax": {
+                title: $I("effectsMgr.statics.cryostation-titaniumMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-oilMax": {
+                title: $I("effectsMgr.statics.cryostation-oilMax.title"),
+                type: "ratio"
+            },
+
+                        "cryostation-unobtainiumMax": {
+                title: $I("effectsMgr.statics.cryostation-unobtainiumMax.title"),
+                type: "ratio"
+            },
+
 			"spaceBeacon-starchartPerTickBaseSpace": {
                 title: $I("effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title"),
                 type: "ratio"
             },
 
+                        "hydroponics-catnipRatio": {
+                title: $I("effectsMgr.statics.hydroponics-catnipRatio.title"),
+                type: "ratio"
+            },
+
+                        "hrHarvester-energyProduction": {
+                title: $I("effectsMgr.statics.hrHarvester-energyProduction.title"),
+                type: "ratio"
+            },
+
+                        "entangler-gflopsConsumption": {
+                title: $I("effectsMgr.statics.entangler-gflopsConsumption.title"),
+                type: "ratio"
+            },
 			"hrProgress": {
 				title: $I("effectsMgr.statics.entangler-hrProgress.title"),
 				type: "ratio"

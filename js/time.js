@@ -627,7 +627,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
 			if (price["name"] == "timeCrystal") {
-                var darkYears = this.game.calendar.year - 40000 - this.game.time.flux - impedance;
+                var darkYears = this.game.calendar.darkFutureYears(true);
                 if (darkYears > 0) {
                     price["val"] = 1 + ((darkYears) / 1000) * 0.01;
                 }
@@ -655,7 +655,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 				var price = prices_cloned[i];
 				if (price["name"] == "timeCrystal") {
 					var priceLoop = price["val"];
-                        var darkYears = this.game.calendar.year - 40000 - this.game.time.flux - impedance;
+                        var darkYears = this.game.calendar.darkFutureYears(true);
 	                if (darkYears > 0) {
 	                    priceLoop = 1 + ((darkYears) / 1000) * 0.01;
 	                }
