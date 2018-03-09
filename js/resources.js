@@ -50,21 +50,30 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		tags:{
+			baseMetal: true
+		}
 	},{
 		name : "titanium",
 		title: $I("resources.titanium.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		tags:{
+			baseMetal: true
+		}
 	},{
 		name : "gold",
 		title: $I("resources.gold.title"),
 		type : "common",
 		visible: true,
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		tags:{
+			baseMetal: true
+		}
 	},{
 		name : "oil",
 		title: $I("resources.oil.title"),
@@ -79,7 +88,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#4EA24E",
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		tags:{
+			baseMetal: true
+		}
 	},{
 		name : "unobtainium",
 		title: $I("resources.unobtainium.title"),
@@ -88,7 +100,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		display: true,
 		color: "#A00000",
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		tags:{
+			baseMetal: true
+		}
 	},
 
 	//=========================================
@@ -693,6 +708,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			if (!this.isNormalCraftableResource(res) && !res.transient){
 				maxValue *= (1 + this.game.getEffect("globalResourceRatio"));
 			}
+		}
+
+		if (res.tags && res.tags.baseMetal){
+			maxValue *= ( 1 + this.game.getEffect("baseMetalMaxRatio") );
 		}
 
 		return maxValue;

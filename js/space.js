@@ -586,6 +586,27 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			upgrades: {
 				spaceBuilding: ["containmentChamber"]
 			}
+		},{
+			name: "sunforge",
+			label: $I("space.planet.helios.sunforge.label"),
+			description: $I("space.planet.helios.sunforge.desc"),
+			unlocked: false,
+			priceRatio: 1.12,
+			prices: [
+				{name: "science", val: 100000},
+				{name: "relic",   val: 1},
+				{name: "kerosene", val: 1250},
+				{name: "antimatter", val: 250}
+			],
+			effects: {
+				"baseMetalMaxRatio": 0.01
+			},
+			calculateEffects: function(self, game){
+				//todo use secondary booster structure
+			}/*,
+			upgrades: {
+				spaceBuilding: ["containmentChamber"]
+			}*/
 		}]
 	},{
 		name: "terminus",
