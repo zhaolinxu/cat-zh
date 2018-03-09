@@ -1,3 +1,15 @@
+v 1.4.4.7
+changes by Chris:
+
+All planets will now have a building-related cycle effects
+HR effect was significantly reduced
+
+changes by Zinsho:
+
+You can now use shift+A/V/S/W/T/R/P/I to change tabs and escape to close dialogs
+___
+Added Sunforge as a workaround for resource caps.
+
 v 1.4.4.6
 
 changes by Chris:
