@@ -1564,5 +1564,8 @@
     "trade.buy.ecoin": "Buy bcoin",
     "trade.buy.ecoin.desc": "Exchange your relics for blackcoins",
     "trade.sell.ecoin": "Sell bcoin",
-    "trade.sell.ecoin.desc": "Sell your blackcoins and get relics back"
+    "trade.sell.ecoin.desc": "Sell your blackcoins and get relics back",
+
+    "space.planet.helios.sunforge.label":"Sunforge",
+    "space.planet.helios.sunforge.desc":"Uses the heat of the sun to smelt materials into supercondensed plasma. Every level of sunforge improves the storage space of your base metals by 1%"
 }

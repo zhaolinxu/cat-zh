@@ -1626,6 +1626,9 @@
     "trade.buy.ecoin": "购买黑币",
     "trade.buy.ecoin.desc": "用圣遗物兑换黑币",
     "trade.sell.ecoin": "出售黑币",
-    "trade.sell.ecoin.desc": "卖掉你的黑币，取回圣遗物。"
+    "trade.sell.ecoin.desc": "卖掉你的黑币，取回圣遗物。",
+    
+    "space.planet.helios.sunforge.label":"太阳锻造",
+    "space.planet.helios.sunforge.desc":"利用太阳的热量将材料熔化成超冷凝的等离子体。 每一层阳光炉都可以将基本金属的存储空间提高1％"
 
 }
