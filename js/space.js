@@ -815,7 +815,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					} else {
 						self.effects.hashRateLevel = 0;
 					}
-
+					self.effects.gflopsConsumption = 0.1;
 				}
 			}
 		]
