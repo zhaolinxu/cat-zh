@@ -882,21 +882,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					var max = 0;
 
 					if (race.name == "zebras" && s.name == "titanium"){
-						var val = 1.5 + (1.5 * this.game.resPool.get("ship").value / 100 * 2);
+						var val = Math.round(1.5 * (this.game.resPool.get("ship").value / 100 * 2 + 1));
 
-						min = Math.floor(val);
-						max = Math.ceil(val);
+						min = val;
+						max = val;
 					} else {
 						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
 
-						var tratio = self.game.diplomacy.getTradeRatio();
+						var tratio = self.game.diplomacy.getTradeRatio() + 1;
 						if (race.name == "leviathans") {
 							tratio *= (1 + 0.02 * race.energy);
 						}
-						var val = s.value + s.value * tratio;
+						var val = sratio * s.value * (1 - s.delta / 2) * tratio;
 
-						min = val * sratio - val * sratio * s.delta/2;
-						max = val * sratio + val * sratio * s.delta/2;
+						min = val;
+						max = val + Math.floor(s.value * sratio * s.delta) * tratio;
 					}
 
 					var prefix = ( j == 0) ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
