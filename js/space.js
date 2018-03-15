@@ -796,7 +796,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				},
 				action: function(self, game){
 					var gflopsPerTick = self.effects.gflopsConsumption * self.on;
-					if (game.resPool.get("gflops").value <= gflopsPerTick){
+					if (game.resPool.get("gflops").value < gflopsPerTick && game.resPool.get("gflops").value > 0){
+						gflopsPerTick = game.resPool.get("gflops").value;
+					}
+					else if(game.resPool.get("gflops").value == 0){
 						return;
 					}
 
@@ -815,7 +818,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					} else {
 						self.effects.hashRateLevel = 0;
 					}
-
+					self.effects.gflopsConsumption = 0.1;
 				}
 			}
 		]

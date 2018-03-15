@@ -120,13 +120,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
         }
 
-        this.calculateRedshift();
         for (var i in this.chronoforgeUpgrades) {
             var cfu = this.chronoforgeUpgrades[i];
             if (cfu.action) {
                 cfu.action(cfu, this.game);
             }
         }
+	this.calculateRedshift();
     },
 
     calculateRedshift: function(){

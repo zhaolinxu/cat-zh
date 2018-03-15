@@ -730,9 +730,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
 
 		//not sure if it is a good idea
-		this.game.resPool.addResEvent("void",
-			this.game.resPool.getVoidQuantityStatistically() * Math.round(daysOffset * this.game.bld.get("chronosphere").on / 100));
+		//calculate amount of void earned on average per day, then multiply by days and percentage of time in paradox
+		var daysInParadox = 10 + this.game.getEffect("temporalParadoxDay");
+		var daysBetweenParadox = daysInParadox + 100 * Math.max( 1 , 100 / this.game.bld.get("chronosphere").on );
+		var percentTimeInParadox = daysInParadox / daysBetweenParadox;
 
+                this.game.resPool.addResEvent("void",
+	                Math.floor(this.game.resPool.getVoidQuantityStatistically() * daysOffset * percentTimeInParadox));
 
 		//==================== other calendar stuff ========================
 		//cap years skipped in 1000 years
