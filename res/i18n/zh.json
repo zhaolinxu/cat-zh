@@ -409,7 +409,7 @@
     "prestige.keter.desc": "改善效能和缩放比例5％",
     "prestige.keter.label": "王冠",
     "prestige.voidOrder.desc": "每个牧师现在都会给信仰积累一个小额的奖励。",
-    "prestige.voidOrder.label": "无效命令",
+    "prestige.voidOrder.label": "虚空秩序",
     "prestige.adjustmentBureau.desc": "解开额外的游戏挑战",
     "prestige.adjustmentBureau.label": "仲裁局",
     "prestige.btn.burnParagon.label": "燃烧领导力",
@@ -1618,7 +1618,7 @@
     "prestige.ascoh.desc":"一个秘密委员会的帽子",
     
     "time.vsu.voidResonator.label": "虚空共振器",
-    "time.vsu.voidResonator.desc": "每个虚空共振器将使无效命令的效果提高10％。 将触发一次时间跳跃。",
+    "time.vsu.voidResonator.desc": "每个虚空共振器将使虚空秩序的效果提高10％。 将触发一次时间跳跃。",
     "science.blackchain.label": "区块链",
     "science.blackchain.desc": "所有的酷猫都在开采这个，所以我认为这是某种矿物",
     "science.blackchain.effectDesc": "解锁加密和黑币交换",
