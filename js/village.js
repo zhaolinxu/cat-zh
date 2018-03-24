@@ -1232,6 +1232,8 @@ dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
 				kitten.exp -= expToPromote[1];
 				this.game.resPool.addResEvent("gold", -goldToPromote[1]);
 				return 1;
+			} else if (rankDiff > 1) { // If rank is unreachable, try one rank
+				return this.promote(kitten);
 			}
 		}
 
