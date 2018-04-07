@@ -2625,9 +2625,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		var content = upgradePanel.render(tabContainer);
 
 		for (var i = 0; i < this.game.workshop.upgrades.length; i++){
-			var uprgade = this.game.workshop.upgrades[i];
+			var upgrade = this.game.workshop.upgrades[i];
 
-			var btn = this.createBtn(uprgade);
+			var btn = this.createBtn(upgrade);
 
 			btn.updateEnabled();
 			btn.updateVisible();
