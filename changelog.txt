@@ -7,8 +7,17 @@ HR effect was significantly reduced
 changes by Zinsho:
 
 You can now use shift+A/V/S/W/T/R/P/I to change tabs and escape to close dialogs
+
+changes by Colgate:
+Fix void calculations for redshift/offline progression
+
+changes by Bioniclegenius:
+
+Fixed Entanglers effects not working correctly
+Fixed trade min/max rounding errors
 ___
 Added Sunforge as a workaround for resource caps.
+
 
 v 1.4.4.6
 

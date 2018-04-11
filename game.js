@@ -3198,6 +3198,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     _getKarmaKittens: function(kittens){
         var karmaKittens = 0;
+
+        if (this.challenges.getChallenge("anarchy").researched) {
+		kittens = kittens * 2;
+        }
+
         if (kittens > 35){
 			karmaKittens += (kittens - 35);
 		}

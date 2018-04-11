@@ -116,6 +116,10 @@ body.scheme_grassy {
 	background-color: #E1F5CF;
 }
 
+.scheme_grassy a.activeTab {
+	font-weight: bold;
+}
+
 .scheme_grassy table > tr > td > * {
 	margin-right: auto;
 	margin-left: auto;
