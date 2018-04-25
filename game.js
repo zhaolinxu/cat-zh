@@ -690,6 +690,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "goldMaxRatio" :  {
+                title: $I("effectsMgr.statics.goldMaxRatio.title"),
+                type: "ratio"
+            },
+
 			"alicornChance" :  {
                 title: $I("effectsMgr.statics.alicornChance.title"),
                 type: "fixed"
