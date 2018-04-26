@@ -11,9 +11,9 @@
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
-		<script src="lib/dojo.js"></script>
+		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
-		<script src="lib/dropbox.js"></script>
+		<script src="lib/dropbox_v2.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
@@ -53,10 +53,14 @@
 
 			function _import(module, def){
 				if (!def){
+					console.log("loading module " + module + "...");
 					return System.import(module + ".js?v=" + version);
 				} else {
 					return def.then(function(){
+						console.log("loading module " + module + "...");
 						return System.import(module + ".js?v=" + version);
+					}).catch(function(err){
+						console.error(err);
 					});
 				}
 			}
@@ -89,18 +93,23 @@
 					"js/toolbar"
 				];
 
+				console.log("Loading...");
+
 				var def = _import("config");
 				def = _import("core", def);
 				var gameLang;
 
 				def.then(function () {
+					console.log("Loading locale system");
 					var langPromise = i18nLang.init(version);
 					langPromise.done(function() {
+						console.log("Loading game modules");
 						for (var i in modules){
 							def = _import(modules[i], def);
 						}
 						def.then(initGame);
-
+					}).fail(function() {
+						console.log("Unable to load locales");
 					});
 				});
 			});
@@ -112,11 +121,8 @@
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 					//--------------------------
-					var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
-					/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
-					dropBoxClient.authDriver(driver);
-					gamePage.setDropboxClient(dropBoxClient);
+					var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
+					game.setDropboxClient(dropBoxClient);
 
 
 					gamePage.load();

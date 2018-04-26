@@ -2061,7 +2061,7 @@ dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Bu
 			this.x100Href = this.addLink(this.model.x100Link.title, this.model.x100Link.handler
 				);
 		} else {
-			dojo.setStyle(this.x100Href.link, "display", !this.model.x100Link.visible ? "none" : "");
+			dojo.style(this.x100Href.link, "display", !this.model.x100Link.visible ? "none" : "");
 		}
 
 	}

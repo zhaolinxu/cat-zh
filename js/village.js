@@ -1788,12 +1788,12 @@ dojo.declare("classes.ui.village.Census", null, {
             //unassign link
             var job = "";
             if (kitten.job) {
-                dojo.setStyle(record.unassignHref, "display", "block");
+                dojo.style(record.unassignHref, "display", "block");
             } else {
-                dojo.setStyle(record.unassignHref, "display", "none");
+                dojo.style(record.unassignHref, "display", "none");
             }
 			if (this.game.challenges.currentChallenge != "anarchy") {
-				dojo.setStyle(record.senatorHref, "display", "none");
+				dojo.style(record.senatorHref, "display", "none");
 			}
 
             record.content.innerHTML =
@@ -1907,7 +1907,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 
 
 		if (this.x10){
-			dojo.setStyle(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
+			dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		}
 	}
 

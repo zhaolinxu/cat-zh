@@ -154,15 +154,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     shift: false,
                     alt: false,
                     control: false,
-                    action: () => { $('div.dialog:visible').last().hide() }
+                    action: function(){ $('div.dialog:visible').last().hide(); }
                 }
             ]
             var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
-            var keybind = allKeybinds.find(x =>
+            var keybind = allKeybinds.find(function(x){
                 x.key === event.key &&
                 x.shift == event.shiftKey &&
                 x.alt == event.altKey &&
-                x.control == event.ctrlKey)
+                x.control == event.ctrlKey });
+
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
                 keybind.action()
@@ -298,8 +299,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 				// Cycle Effects
 				if (game.prestige.getPerk("numerology").researched) {
-					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
-					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
+					dojo.style(cycleSpan, "borderBottom", "1px solid gray");
+					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
 						innerHTML: "Cycle Effects:",
@@ -713,7 +714,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeInterval = 1 / fadeCount;
 
         for (i = fadeStart + 1; i < spans.length; i++) {
-            dojo.setStyle(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
+            dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
         }
     },
 

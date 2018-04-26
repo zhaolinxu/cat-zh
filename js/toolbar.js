@@ -62,18 +62,18 @@ dojo.declare("classes.ui.Toolbar", null, {
 				 return;
 			 }
 
-			 dojo.setStyle(tooltip, "left", pos.left + "px");
-			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+			 dojo.style(tooltip, "left", pos.left + "px");
+			 dojo.style(tooltip, "top",  pos.top + "px");
 
-			 dojo.setStyle(tooltip, "display", "");
-			 dojo.setStyle(container, "fontWeight", "bold");
+			 dojo.style(tooltip, "display", "");
+			 dojo.style(container, "fontWeight", "bold");
 
 	    }, tooltip));
 
 		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
 			 this.game.tooltipUpdateFunc = null;
-			 dojo.setStyle(tooltip, "display", "none");
-			 dojo.setStyle(container, "fontWeight", "normal");
+			 dojo.style(tooltip, "display", "none");
+			 dojo.style(container, "fontWeight", "normal");
 		},tooltip, container));
 
 	},
