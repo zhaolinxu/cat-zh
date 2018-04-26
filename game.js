@@ -1572,7 +1572,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	exportToDropbox: function(lzdata, callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('http://' + window.location.host + '/dropboxauth_v2.html');
+		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		window.addEventListener('message',function(e) {
@@ -1609,7 +1609,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	importFromDropbox: function (callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('http://' + window.location.host + '/dropboxauth_v2.html');
+		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		window.addEventListener('message',function(e) {
