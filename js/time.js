@@ -731,10 +731,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
     update: function(){
         this.inherited(arguments);
         if (this.x5) {
-            dojo.setStyle(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
+            dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
         }
         if (this.x100) {
-            dojo.setStyle(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
+            dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
         }
     }
 });

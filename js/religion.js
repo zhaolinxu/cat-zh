@@ -975,7 +975,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	update: function(){
 		this.inherited(arguments);
 		if (this.x10){
-			dojo.setStyle(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
+			dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		}
 	}
 });
@@ -996,7 +996,7 @@ dojo.declare("classes.ui.religion.RefineTCBBtn", com.nuclearunicorn.game.ui.Butt
 	update: function(){
 		this.inherited(arguments);
 		if (this.x25){
-			dojo.setStyle(this.x25.link, "display", this.model.x25Link.visible ? "" : "none");
+			dojo.style(this.x25.link, "display", this.model.x25Link.visible ? "" : "none");
 		}
 	}
 });

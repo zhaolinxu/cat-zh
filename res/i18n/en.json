@@ -1071,6 +1071,7 @@
     "effectsMgr.statics.riftChance.title": "Unicorns rift chance",
     "effectsMgr.statics.ivoryMeteorChance.title": "Ivory meteor chance",
     "effectsMgr.statics.ivoryMeteorRatio.title": "Ivory meteor bonus",
+    "effectsMgr.statics.goldMaxRatio.title": "Maximum gold bonus",
     "effectsMgr.statics.alicornChance.title": "Alicorns descent chance",
     "effectsMgr.statics.tcRefineRatio.title": "Alicorns sacrifice bonus",
     "effectsMgr.statics.corruptionRatio.title": "Corruption ratio",
