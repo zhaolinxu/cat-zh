@@ -28,7 +28,7 @@
     "buildings.academy.desc": "提高你的研究速度和你的小猫技能的增长速度。每次升级水平提高20%的科学点产出",
     "buildings.academy.flavor": "好奇心是科学的基础。我们猫类死的高贵",
     "buildings.observatory.label": "天文台",
-    "buildings.observatory.desc": "增加0.2%的天文事件发生的可能性",
+    "buildings.observatory.desc": "增加0.2%的天文事件发生概率",
     "buildings.observatory.flavor": "渴望有一天能抓住发红光的小精灵",
     "buildings.biolab.label": "生物实验室",
     "buildings.biolab.desc": "提高了10%的猫薄荷的提炼效果。接入能源会有更高的效果。",
@@ -46,7 +46,7 @@
     "buildings.mine.desc": "解锁矿工职业。每次升级提高20%的矿物产出",
     "buildings.mine.flavor": "过去的100天里没有掘金者的尸体",
     "buildings.quarry.label": "采石场",
-    "buildings.quarry.desc": "采石场提高你35%的挖掘效率和极小的煤炭产出",
+    "buildings.quarry.desc": "提高35%挖掘效率和极少产出煤炭",
     "buildings.quarry.flavor": "它充满了老鼠! 等一下,目标错了!",
     "buildings.smelter.label": "熔炉",
     "buildings.smelter.desc": "把矿物冶炼成金属",
@@ -328,7 +328,7 @@
     "space.planet.terminus.cryostation.desc": "一个复杂而庞大的存储设备",
     "space.planet.terminus.cryostation.label": "低温恒温储存站",
     "space.planet.terminus.label": "终焉星",
-    "space.planet.yarn.hydroponics.desc": "最先进的自动化水培系统。增加 10%猫薄荷上限 ，增加 2.5%猫薄荷生产效率。",
+    "space.planet.yarn.hydroponics.desc": "最先进的自动化水培系统。增加 10%猫薄荷上限，增加 2.5%猫薄荷生产效率。",
     "space.planet.yarn.hydroponics.label": "水栽培",
     "space.planet.yarn.label": "纱星",
     "space.planet.yarn.terraformingStation.desc": "引爆反物质的电荷，融化冰中的冰并向大气层中注入氧气。",
@@ -469,7 +469,7 @@
     "science.philosophy.flavor": "我是呃，所以我是",
     "science.philosophy.label": "哲学",
     "science.machinery.desc": "金属加工和科学先进的进步，诞生了一台机器的概念，一个具有多个运动部件的设备，机械引入了一种减少日常操作的自动化概念",
-    "science.machinery.effectDesc": "解锁蒸汽工坊 ，弩弓，印刷机和工厂自动化",
+    "science.machinery.effectDesc": "解锁蒸汽工坊，弩弓，印刷机和工厂自动化",
     "science.machinery.label": "机械",
     "science.steel.desc": "新钢铁开发进一步推进金属加工，大部分发展方向受益",
     "science.steel.effectDesc": "解锁钢铁生产",
@@ -930,7 +930,7 @@
     "workshop.craft.effectiveness": "制作效率: +{0}%",
 
     "general.copy.to.clipboard.prompt": "复制到剪贴板: Ctrl+C, Enter",
-    "general.food.advisor.text": "食物顾问: '你的猫薄荷储量过低!'",
+    "general.food.advisor.text": "食物顾问: 你的猫薄荷储量过低!",
 
 
 
@@ -1263,7 +1263,7 @@
     "achievements.limitlessClicker.starDesc": "累计 1,000,000 次点击。",
     "achievements.msg.unlock": "成就解锁: {0}!",
     "achievements.msg.starUnlock": "成就星解锁: {0}!",
-    "achievements.header": "成就: {0} of {1}",
+    "achievements.header": "成就: {0} / {1}",
 
     "time.cfu.temporalBattery.desc": "提高通量能源容量 25%",
     "time.cfu.temporalBattery.label": "时间电池",
@@ -1470,10 +1470,10 @@
     "calendar.trueYear": "真实的岁月流逝",
     "res.notify.unavailable":"由于您没有足够的存储空间用于所需的资源，因此该建筑物将不可用于施工。请稍后再试。",
     "res.notify.unavailableTime":"该建筑将会在（{0}+天）后可以使用.请稍后再试。",
-    "res.notify.msg":"当{0}可用时，系统会通知你。",
-    "res.notify.ready":"{0}准备就绪",
+    "res.notify.msg":"{0} 可用时，系统会通知你。",
+    "res.notify.ready":"{0} 准备就绪",
     "res.notify.ready.title":"足够的资源来购买",
-    "console.intro":"你是一只猫猫在猫咪森林里。",
+    "console.intro":"你是一只猫咪森林里的猫猫。",
 
     "trade.buys": "购买",
     "trade.sells": "出售",
