@@ -1490,6 +1490,8 @@
     "village.happiness.overpopulation":"人口过剩",
     "btn.all":"全部",
     "btn.all.minor":"全部",
+    "btn.all.assign": "[+全部]",
+    "btn.all.unassign": "[-全部]",
     "btn.feed":"喂养",
     "btn.trade":"贸易",
     "calendar.weather.warm":"温暖",
