@@ -1372,7 +1372,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 				}
 		   },{
 				id: "unassignAll",
-				title: "[-all]",
+				title: $I("btn.all.unassign"),
 				handler: function(){
 					self.unassignAllJobs(model);
 				}
@@ -1399,7 +1399,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 				}
 		   },{
 				id: "assignall",
-				title: "[+all]",
+				title: $I("btn.all.assign"),
 				handler: function(){
 					self.assignAllJobs(model);
 				}
