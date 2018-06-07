@@ -615,7 +615,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var name = this.inherited(arguments);
 
         if (this.game.time.heat > this.game.getEffect("heatMax")){
-            name += " (Overheat)";
+            name += " (过热)";
         }
         return name;
     },
