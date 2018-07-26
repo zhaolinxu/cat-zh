@@ -612,7 +612,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 				description: $I("trade.buy.ecoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.buyEcoin()
+					self.game.diplomacy.buyEcoin();
 				}
 			}, this.game);
 			buyEcoin.render(content);
@@ -623,7 +623,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 				description: $I("trade.sell.ecoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.sellEcoin()
+					self.game.diplomacy.sellEcoin();
 				}
 			}, this.game);
 			sellEcoin.render(content);
