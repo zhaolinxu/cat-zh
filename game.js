@@ -3054,6 +3054,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return !dojo.isIE && window.Worker;
 	},
 
+	timestamp: function() {
+		return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+	},
+
 	start: function(){
 		if (this.isWebWorkerSupported() && this.useWorkers){	//IE10 has a nasty security issue with running blob workers
 			console.log("starting web worker...");
@@ -3077,10 +3081,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// In both cases it will result to drop of number of ticks.
 			// One way is to handle it on UI by queuing the update requests.
 
+			/*
+				Would still work bad during the scroll
+			 */
 			clearInterval(this._mainTimer);
 			this._mainTimer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
+
+			this._lastFrameTimestamp = this.timestamp();
 		}
 	},
+
+	/**
+	 * Here is a magic
+	 * Don't even try to understand it, madness lies here
+	 */
+	frame: function(){
+		var now = timestamp(),
+			delta = now - this._lastFrameTimestamp;
+
+		if (delta > (1000/this.rate)){
+			/*dojo.hitch(this, this.tick)();*/
+			console.log("tick!");
+			this.tick();
+		}
+		requestAnimationFrame(this.frame);
+	},
+
 
 	tick: function(){
 		/**
