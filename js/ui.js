@@ -169,8 +169,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 keybind.action();
             } else if (keybind && keybind.name != this.game.ui.activeTabId) {
                 // If a keybound is found and the tab isn't current
-                this.game.ui.activeTabId = keybind.name;
-                this.game.ui.render();
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    if (this.game.tabs[i].tabId === keybind.name && this.game.tabs[i].visible){
+                        this.game.ui.activeTabId = keybind.name;
+                        this.game.ui.render();
+                        break;
+                    }
+                }
             }
         });
     },
