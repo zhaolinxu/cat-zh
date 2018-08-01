@@ -122,7 +122,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
-			var corIncrement = times * this.game.getEffect("corruptionRatio") * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 : 1);  //75% penalty
+			var corIncrement = times * this.game.getEffect("corruptionRatio") * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) : 1);  //75% penalty
 			var nextGreatestAlicornVal = Math.floor(alicorns.value + 0.999999);
 			this.corruption = Math.max(this.corruption, Math.min(this.corruption + corIncrement, nextGreatestAlicornVal));
 			var cor = Math.floor(Math.min(this.corruption, alicorns.value));

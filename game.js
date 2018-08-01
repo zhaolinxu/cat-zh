@@ -1669,9 +1669,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						reader.readAsText(blob);
 					}).catch(function (error) {
 						callback("Unable to load file:" + JSON.stringify(error));
-					})
+					});
 				}
-		},false)
+		},false);
 	},
 
     saveImportDropboxFileRead: function(callback){
@@ -3096,7 +3096,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Don't even try to understand it, madness lies here
 	 */
 	frame: function(){
-		var now = timestamp(),
+		var now = this.timestamp(),
 			delta = now - this._lastFrameTimestamp;
 
 		if (delta > (1000/this.rate)){
