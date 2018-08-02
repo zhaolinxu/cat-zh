@@ -289,7 +289,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 		if (!this.calendarSignSpanTooltip){
             var calendarSignSpan = dojo.byId("calendarSign");
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(game.calendar, function() {
+            // 中间的0，0为提示窗口距鼠标位置偏移
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 0, dojo.hitch(game.calendar, function() {
                 var cycle = this.cycles[this.cycle];
                 if (!cycle) {
                     return "";
@@ -308,7 +309,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: "周期效果:",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -350,7 +351,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
+						innerHTML: "周期节日效果:",
 						style: { textAlign: "center"}
 					}, tooltip );
 
