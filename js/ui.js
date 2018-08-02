@@ -343,13 +343,17 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {clear: "both" }
+							style: {
+                                fontSize: "16px",
+                                clear: "both" }
 						}, effectItemNode );
 					}
 				}
 
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
+
 					// Cycle Festival Effects
+
 					var cycleSpan = dojo.create("div", {
 						innerHTML: "周期节日效果:",
 						style: { textAlign: "center"}
@@ -385,7 +389,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {clear: "both" }
+							style: {
+                                fontSize: "16px",
+                                clear: "both" }
 						}, effectItemNode );
 					}
 				}
