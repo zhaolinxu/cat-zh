@@ -79,7 +79,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
         if (bonusSeconds > 0){
             this.game.msg("你获得了 " + bonusSeconds + " 秒"
-				+ (bonusSeconds > 1 ? "s" : "") + "时间加速");
+				+ (bonusSeconds > 1 ? "" : "") + "时间加速");
         }
     },
 
