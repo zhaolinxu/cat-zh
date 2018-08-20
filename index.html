@@ -49,7 +49,7 @@
 
 		<script type="text/javascript">
 
-			var version = "_1448";
+			var version = "1448";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -81,7 +81,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=" + version);
+				return System.import(module + ".js?v=_" + version);
 			}
 
 			function _import(module, def){
@@ -98,7 +98,7 @@
 
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-				$("#versionLink").html(version);
+				$("#versionLink").html(version.split('').join('.'));
 
 				SystemJS.config({
 					baseURL: ''

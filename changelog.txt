@@ -1,4 +1,4 @@
-v 1.4.4.8
+v 1.4.4.8 (19 aug 2018)
 
 Dropbox integration is finally working
 Changed loading screen to something that will not scare everyone to death
