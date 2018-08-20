@@ -1,3 +1,8 @@
+v 1.4.4.8
+
+Dropbox integration is finally working
+Changed loading screen to something that will not scare everyone to death
+
 v 1.4.4.7
 changes by Chris:
 

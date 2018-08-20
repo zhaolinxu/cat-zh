@@ -32,7 +32,7 @@ body {
     min-width: 1180px;
 }
 
-#game {
+#game, #loadingContainer {
     position:absolute;
     bottom: 0;
     top: 26px;
@@ -44,6 +44,18 @@ body {
     height: auto;
 
     white-space: nowrap;	/* to prevent log column from wrapping */
+}
+
+#loadingContainer .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 #game * {
@@ -645,4 +657,25 @@ a:hover {
     display: inline-block !important;
     margin-right: 10px;
     width: 45%;
+}
+
+progress[value] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    display: block;
+    width: 100%;
+    margin-bottom: -1px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: rgb(206, 206, 195);
+}
+
+progress[value]::-webkit-progress-value {
+    background-color: rgb(100,200,100);
+}
+
+#loadingProgressInfo {
+    padding-top: 5px;
 }
