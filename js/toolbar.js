@@ -29,13 +29,13 @@ dojo.declare("classes.ui.Toolbar", null, {
 			}
 		}
 
-		this.update();
+		this.update(true /*forceUpdate*/);
 	},
 
-	update: function(){
+	update: function(forceUpdate){
 		for (var i in this.icons){
 			var icon = this.icons[i];
-			if (icon.getOpts().needUpdate) {
+			if (icon.getOpts().needUpdate || forceUpdate) {
 				this.icons[i].update();
 			}
 		}
