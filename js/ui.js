@@ -156,22 +156,27 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     control: false,
                     action: function(){ $('div.dialog:visible').last().hide(); }
                 }
-            ]
+            ];
             var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
             var keybind = allKeybinds.find(function(x){
-                x.key === event.key &&
+                return x.key === event.key &&
                 x.shift == event.shiftKey &&
                 x.alt == event.altKey &&
-                x.control == event.ctrlKey });
+                x.control == event.ctrlKey; });
 
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
-                keybind.action()
-            } else if (keybind && keybind.name != game.ui.activeTabId) {
+                keybind.action();
+            } else if (keybind && keybind.name != this.game.ui.activeTabId) {
                 // If a keybound is found and the tab isn't current
-                game.ui.activeTabId = keybind.name
-                game.ui.render()
-            };
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    if (this.game.tabs[i].tabId === keybind.name && this.game.tabs[i].visible){
+                        this.game.ui.activeTabId = keybind.name;
+                        this.game.ui.render();
+                        break;
+                    }
+                }
+            }
         });
     },
 
