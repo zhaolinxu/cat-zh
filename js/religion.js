@@ -97,9 +97,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.corruption +=
 				(
 					this.game.getEffect("corruptionRatio") *
-					(1 + sorrow * this.game.getEffect("blsCorruptionRatio"))
+					(
+						1 + Math.sqrt( sorrow * this.game.getEffect("blsCorruptionRatio") )
+					)
 				)
-                * (this.game.resPool.get("necrocorn").value > 0 ?
+				* (this.game.resPool.get("necrocorn").value > 0 ?
 					0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) :	 //75% penalty
 					1);
 
