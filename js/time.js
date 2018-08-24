@@ -79,7 +79,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
         if (bonusSeconds > 0){
             this.game.msg("你获得了 " + bonusSeconds + " 秒"
-				+ (bonusSeconds > 1 ? "s" : "") + "时间加速");
+				+ (bonusSeconds > 1 ? "" : "") + "时间加速");
         }
     },
 
@@ -615,7 +615,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var name = this.inherited(arguments);
 
         if (this.game.time.heat > this.game.getEffect("heatMax")){
-            name += " (Overheat)";
+            name += " (过热)";
         }
         return name;
     },
@@ -731,10 +731,10 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
     update: function(){
         this.inherited(arguments);
         if (this.x5) {
-            dojo.setStyle(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
+            dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
         }
         if (this.x100) {
-            dojo.setStyle(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
+            dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
         }
     }
 });

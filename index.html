@@ -12,9 +12,9 @@
 
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
-		<script src="lib/dojo.js"></script>
+		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
-		<script src="lib/dropbox.js"></script>
+		<script src="lib/dropbox_v2.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
@@ -50,20 +50,56 @@
 
 		<script type="text/javascript">
 
-			var version = "_1447g";
+			var version = "1448d";
+
+			var loadingProgress = 0,
+				progressMax = 0;
+
+			var loadingMessages = [
+				"喂养斑马",
+				"校准金字塔",
+				"播种猫薄荷",
+				"驯服独角兽",
+				"抛光电磁炮",
+				"重启蒸汽机",
+				"打开时空裂缝",
+				"采集的蜥蜴",
+				"部署卫星",
+				"调整纱星进度",
+				"赞美太阳",
+				"冷却精密锻造",
+				"燃烧领导力",
+				"宠物鲨鱼",
+				"黑币挖矿",
+				"修复时间悖论"
+			];
+
+			function loadModule(module){
+				loadingProgress++;
+				console.log("loading module " + module + "...");
+				var progress = (loadingProgress / progressMax ) * 100;
+				$("#loadingProgressBar").attr("value", progress);
+
+				var i = (Math.floor(Math.random() * loadingMessages.length));
+				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
+				return System.import(module + ".js?v=_" + version);
+			}
 
 			function _import(module, def){
 				if (!def){
-					return System.import(module + ".js?v=" + version);
+					return loadModule(module);
 				} else {
 					return def.then(function(){
-						return System.import(module + ".js?v=" + version);
+						return loadModule(module);
+					}).catch(function(err){
+						console.error(err);
 					});
 				}
 			}
 
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
+				$("#versionLink").html(version.split('').join('.'));
 
 				SystemJS.config({
 					baseURL: ''
@@ -89,35 +125,40 @@
 					"js/ui",
 					"js/toolbar"
 				];
+				progressMax = modules.length + 2;
+				console.log("加载中...");
 
 				var def = _import("config");
 				def = _import("core", def);
 				var gameLang;
 
 				def.then(function () {
+					console.log("Loading locale system");
 					var langPromise = i18nLang.init(version);
 					langPromise.done(function() {
+						console.log("Loading game modules");
 						for (var i in modules){
 							def = _import(modules[i], def);
 						}
 						def.then(initGame);
-
+					}).fail(function() {
+						console.log("Unable to load locales");
 					});
 				});
 			});
 
 			function initGame() {
 				console.log("关于初始化游戏");
+				$("#loadingContainer").hide();
+				$("#game").show();
+
 				try {
 					gamePage = game = new com.nuclearunicorn.game.ui.GamePage();
 					gamePage.setUI(new classes.ui.DesktopUI("gameContainerId"));
 
 					//--------------------------
-					var dropBoxClient = new Dropbox.Client({ key: 'u6lnczzgm94nwg3' });
-					/*https://bloodrizer.ru/games/kittens/dropboxauth.html*/
-					var driver = new Dropbox.AuthDriver.Popup({receiverUrl: "https://bloodrizer.ru/games/kittens/dropboxauth.html"});
-					dropBoxClient.authDriver(driver);
-					gamePage.setDropboxClient(dropBoxClient);
+					var dropBoxClient = new Dropbox.Dropbox({clientId: "u6lnczzgm94nwg3"}); //the starting Dropbox object
+					game.setDropboxClient(dropBoxClient);
 
 
 					gamePage.load();
@@ -250,7 +291,7 @@
 						<a href="#" onclick="wipe();"  title="此操作会清除你的所有游戏进度。">删档</a> |
 						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
 
-						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 1.4.4.7</a>
+						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 <span id="versionLink">?.?.?.?</span></a>
 					</div>
 				</div>
 			</div>
@@ -273,14 +314,24 @@
 						散热器
 						纠缠
 
-					Rev: 7
-						太阳锻造
+					Rev: 8
+						新加载界面
+						黑色光辉
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
 			</div>
 
-			<div id="game" class="pure-g">
+			<div id="loadingContainer">
+				<div class="content">
+					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
+					<br>
+					<progress id="loadingProgressBar" value="0" max="100"></progress>
+					<div id="loadingProgressInfo">设置游戏引擎...</div>
+				</div>
+			</div>
+
+			<div id="game" style="display:none;" class="pure-g">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
 
 				<!-- LEFT -->
@@ -312,15 +363,15 @@
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="gameContainerId" style="border: 1px solid gray;">
-						<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
-						<br>
-						<div style="font-size:12px; color: gray;">
-							如果卡在这个界面太久，有可能是程序挂掉了，试试这几个办法：<br>
+						<span>糟糕!</span>
+						<div id="gameContainerHelp" style="font-size:12px; color: gray; display:none;">
+							如果卡在这个界面太久，有可能是程序挂掉了，不用担心，试试这几个办法：<br>
 							<ul>
+								<li>检查浏览器的JavaScript选项是否已启用，或者浏览器广告拦截器是否已关闭。</li>
 								<li>使用 Ctrl+F5 强制刷新。</li>
 								<li>过十几分中后再打开游戏。</li>
 								<li>导出你的存档，保存好，清空游戏数据，再重新导入存档。</li>
-								<li>如果这些方法都不好使，请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入同好会，联系@潘晶莲@好阳光的爸爸</li>
+								<li>如果这些方法都不好使，请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入猫国交流群寻求帮助，或者前往猫国的英文Reddit论坛寻求帮助。</li>
 							</ul>
 						</div>
 					</div>
@@ -376,7 +427,7 @@
 					<li>答: 按Ctrl + F5。 擦除并重新导入保存也可能有所帮助.</li>
 					<br>
 					<li>问: 木材是没用的。 改进猫薄荷更有效！ [公式如下]</li>
-					<li>答: 猫薄荷/木头机制是很复杂的。.</li>
+					<li>答: 猫薄荷/木材机制是很复杂的。.</li>
 					<br>
 					<li>问: 什么是独角兽？</li>
 					<li>答: 这是一个谜。.</li>
@@ -481,7 +532,7 @@
 					<label for="noConfirm">清除所有工作时不需要确认提示</label>
 					<br>
                     <input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
-                    <label for="IWSmelter">在钢铁意志模式下，冶炼厂会在铁储量不足95%时关闭</label>
+                    <label for="IWSmelter">在钢铁意志模式下，熔炉会在铁储量不足95%时关闭</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
 					<label for="disableTelemetry">停用游戏的统计功能</label>
@@ -527,7 +578,7 @@
 			<div id="appDiv" style="display: none" class="dialog help">
 				<a href="#" class="close" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
-				<span>猫国建设者游戏手机版已经发布！ 点击链接获取:</span>
+				<span>猫国建设者游戏手机版已经发布（暂无中文版）！ 点击链接获取:</span>
 				<br>
 				<br>
 				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">安卓版</a>&nbsp;|&nbsp;
@@ -552,9 +603,9 @@
 			</div>
 		</div>
     <!--客服 开始-->
-     <link rel="stylesheet" href="http://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
-    <script src="http://likexia.gitee.io/game/js/jquery.min.js"></script>
-    <script src="http://likexia.gitee.io/game/js/kf.js"></script>
+     <link rel="stylesheet" href="https://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
+    <script src="https://likexia.gitee.io/game/js/jquery.min.js"></script>
+    <script src="https://likexia.gitee.io/game/js/kf.js"></script>
  <!-- 客服 结束 -->
     <!--统计代码 start-->
     <div style="display:none;"><script src="https://s19.cnzz.com/z_stat.php?id=1267958737&web_id=1267958737" language="JavaScript"></script></div>

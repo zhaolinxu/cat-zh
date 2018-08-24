@@ -607,14 +607,14 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 			}, this.game);
 		feedBtn.render(content);
 
-		if (this.game.science.get("antimatter").researched) {
+		if (this.game.science.get("blackchain").researched || this.game.resPool.get("blackcoin").value > 0) {
 
 			var buyEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("trade.buy.ecoin"),
 				description: $I("trade.buy.ecoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.buyEcoin()
+					self.game.diplomacy.buyEcoin();
 				}
 			}, this.game);
 			buyEcoin.render(content);
@@ -625,7 +625,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 				description: $I("trade.sell.ecoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.sellEcoin()
+					self.game.diplomacy.sellEcoin();
 				}
 			}, this.game);
 			sellEcoin.render(content);
@@ -711,7 +711,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.setStyle(this.tradeHalfHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
+		dojo.style(this.tradeHalfHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
 
 		// Update tradeFifthHref Link
 		var tradeFifth = Math.floor(tradeMax / 5);
@@ -732,7 +732,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.setStyle(this.tradeFifthHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
+		dojo.style(this.tradeFifthHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
 
 	}
 });

@@ -1372,7 +1372,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 				}
 		   },{
 				id: "unassignAll",
-				title: "[-all]",
+				title: $I("btn.all.unassign"),
 				handler: function(){
 					self.unassignAllJobs(model);
 				}
@@ -1399,7 +1399,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 				}
 		   },{
 				id: "assignall",
-				title: "[+all]",
+				title: $I("btn.all.assign"),
 				handler: function(){
 					self.assignAllJobs(model);
 				}
@@ -1637,7 +1637,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var leader = this.game.village.leader;
 
 		if (leader){
-			var title = leader.trait.title == "None" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
+			var title = leader.trait.name == "none" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = leader.name + " " + leader.surname + ", " + title +
 				"<br> 经验值: " + this.game.getDisplayValueExt(leader.exp);
@@ -1788,12 +1788,12 @@ dojo.declare("classes.ui.village.Census", null, {
             //unassign link
             var job = "";
             if (kitten.job) {
-                dojo.setStyle(record.unassignHref, "display", "block");
+                dojo.style(record.unassignHref, "display", "block");
             } else {
-                dojo.setStyle(record.unassignHref, "display", "none");
+                dojo.style(record.unassignHref, "display", "none");
             }
 			if (this.game.challenges.currentChallenge != "anarchy") {
-				dojo.setStyle(record.senatorHref, "display", "none");
+				dojo.style(record.senatorHref, "display", "none");
 			}
 
             record.content.innerHTML =
@@ -1907,7 +1907,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 
 
 		if (this.x10){
-			dojo.setStyle(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
+			dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		}
 	}
 

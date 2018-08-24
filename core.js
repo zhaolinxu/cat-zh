@@ -938,8 +938,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		}, btnContainer);
 
 		if (this.model.twoRow) {
-			dojo.setStyle(this.domNode, "marginLeft", "auto");
-			dojo.setStyle(this.domNode, "marginRight", "auto");
+			dojo.style(this.domNode, "marginLeft", "auto");
+			dojo.style(this.domNode, "marginRight", "auto");
 		}
 
 		this.buttonContent = dojo.create("div", {
@@ -1032,8 +1032,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				tooltipPricesNodes.push({ "name" : nameSpan, "price": priceSpan});
 			}
 
-			dojo.connect(this.domNode, "onmouseover", this, dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", ""); }, tooltip));
-			dojo.connect(this.domNode, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "none"); }, tooltip));
+			dojo.connect(this.domNode, "onmouseover", this, dojo.partial(function(tooltip){ dojo.style(tooltip, "display", ""); }, tooltip));
+			dojo.connect(this.domNode, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.style(tooltip, "display", "none"); }, tooltip));
 
 			this.tooltip = tooltip;
 			this.tooltipPricesNodes = tooltipPricesNodes;
@@ -1143,8 +1143,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		//-----------dropdown
 
-		dojo.connect(linksDiv, "onmouseover", this, dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "block"); }, linksTooltip));
-		dojo.connect(linksDiv, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.setStyle(tooltip, "display", "none"); }, linksTooltip));
+		dojo.connect(linksDiv, "onmouseover", this, dojo.partial(function(tooltip){ dojo.style(tooltip, "display", "block"); }, linksTooltip));
+		dojo.connect(linksDiv, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.style(tooltip, "display", "none"); }, linksTooltip));
 
 		for (var i = 1; i< links.length; i++){
 
@@ -1584,15 +1584,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				V_OFFSET = 35;
 			}
 
-			dojo.setStyle(tooltip, "left", (pos.left + H_OFFSET) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top + V_OFFSET ) + "px");
+			dojo.style(tooltip, "left", (pos.left + H_OFFSET) + "px");
+			dojo.style(tooltip, "top",  (pos.top + V_OFFSET ) + "px");
 
-			dojo.setStyle(tooltip, "display", "");
+			dojo.style(tooltip, "display", "");
 		});
 
 		dojo.connect(container, "onmouseout", this, function(){
 			this.game.tooltipUpdateFunc = null;
-			dojo.setStyle(tooltip, "display", "none");
+			dojo.style(tooltip, "display", "none");
 		});
 	},
 
@@ -1824,7 +1824,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink("sell",
+				this.sellHref = this.addLink($I("btn.sell"),
 					function(event){
 						this.sell(event);
 					});
@@ -1907,12 +1907,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 			// -------------- sell ----------------
 			if (this.sellHref){
-				dojo.setStyle(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
+				dojo.style(this.sellHref.link, "display", (building.val > 0) ? "" : "none");
 			}
 
 			//--------------- style -------------
 			if(building.val > 9) {
-				dojo.setStyle(this.domNode,"font-size","90%");
+				dojo.style(this.domNode,"font-size","90%");
 			}
 
 			if (this.toggle || this.remove || this.add) {
@@ -1928,10 +1928,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 			//--------------- toggle ------------
 			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
 			if (this.remove){
-				dojo.setStyle(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
+				dojo.style(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
 			}
 			if (this.add){
-				dojo.setStyle(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
+				dojo.style(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
 			}
 			*/
 
@@ -2432,17 +2432,17 @@ UIUtils = {
 				pos.left = scrollRight - $(tooltip).width() - 320;
 			}
 
-			dojo.setStyle(tooltip, "left", (pos.left + leftPosition) + "px");
-			dojo.setStyle(tooltip, "top",  (pos.top + topPosition) + "px");
+			dojo.style(tooltip, "left", (pos.left + leftPosition) + "px");
+			dojo.style(tooltip, "top",  (pos.top + topPosition) + "px");
 
 			if (tooltip.innerHTML) {
-				dojo.setStyle(tooltip, "display", "");
+				dojo.style(tooltip, "display", "");
 			}
 		});
 
 		dojo.connect(container, "onmouseout", this, function(){
 			game.tooltipUpdateFunc = null;
-			dojo.setStyle(tooltip, "display", "none");
+			dojo.style(tooltip, "display", "none");
 		});
 
 		return htmlProvider;

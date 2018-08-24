@@ -518,7 +518,7 @@ dojo.declare("classes.ui.Hat", [mixin.IGameAware], {
     },
     update: function(){
         //render a rainbow colors if foiled
-        dojo.setStyle(this.body, "display", this.opts.unlocked ? "inline-flex" : "none");
+        dojo.style(this.body, "display", this.opts.unlocked ? "inline-flex" : "none");
     }
 });
 

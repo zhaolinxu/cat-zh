@@ -154,23 +154,29 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     shift: false,
                     alt: false,
                     control: false,
-                    action: () => { $('div.dialog:visible').last().hide() }
+                    action: function(){ $('div.dialog:visible').last().hide(); }
                 }
-            ]
+            ];
             var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
-            var keybind = allKeybinds.find(x =>
-                x.key === event.key &&
+            var keybind = allKeybinds.find(function(x){
+                return x.key === event.key &&
                 x.shift == event.shiftKey &&
                 x.alt == event.altKey &&
-                x.control == event.ctrlKey)
+                x.control == event.ctrlKey; });
+
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
-                keybind.action()
-            } else if (keybind && keybind.name != game.ui.activeTabId) {
+                keybind.action();
+            } else if (keybind && keybind.name != this.game.ui.activeTabId) {
                 // If a keybound is found and the tab isn't current
-                game.ui.activeTabId = keybind.name
-                game.ui.render()
-            };
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    if (this.game.tabs[i].tabId === keybind.name && this.game.tabs[i].visible){
+                        this.game.ui.activeTabId = keybind.name;
+                        this.game.ui.render();
+                        break;
+                    }
+                }
+            }
         });
     },
 
@@ -283,7 +289,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 		if (!this.calendarSignSpanTooltip){
             var calendarSignSpan = dojo.byId("calendarSign");
-			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 320, dojo.hitch(game.calendar, function() {
+            // 中间的0，0为提示窗口距鼠标位置偏移
+			this.calendarSignSpanTooltip = UIUtils.attachTooltip(game, calendarSignSpan, 0, 0, dojo.hitch(game.calendar, function() {
                 var cycle = this.cycles[this.cycle];
                 if (!cycle) {
                     return "";
@@ -298,11 +305,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 				// Cycle Effects
 				if (game.prestige.getPerk("numerology").researched) {
-					dojo.setStyle(cycleSpan, "borderBottom", "1px solid gray");
-					dojo.setStyle(cycleSpan, "paddingBottom", "4px");
+					dojo.style(cycleSpan, "borderBottom", "1px solid gray");
+					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: "周期效果:",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -336,15 +343,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {clear: "both" }
+							style: {
+                                fontSize: "16px",
+                                clear: "both" }
 						}, effectItemNode );
 					}
 				}
 
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
+
 					// Cycle Festival Effects
+
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
+						innerHTML: "周期节日效果:",
 						style: { textAlign: "center"}
 					}, tooltip );
 
@@ -378,7 +389,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 						dojo.create("span", {
 							innerHTML: "&nbsp;",
-							style: {clear: "both" }
+							style: {
+                                fontSize: "16px",
+                                clear: "both" }
 						}, effectItemNode );
 					}
 				}
@@ -714,7 +727,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeInterval = 1 / fadeCount;
 
         for (i = fadeStart + 1; i < spans.length; i++) {
-            dojo.setStyle(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
+            dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
         }
     },
 

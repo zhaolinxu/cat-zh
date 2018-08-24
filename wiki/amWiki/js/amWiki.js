@@ -573,6 +573,7 @@ $(function () {
     //根据hash改变滚动位置
     var changeScrollByHash = function () {
         var hash = location.hash.split('#')[1];
+        hash = decodeURI(hash);
         //当不存在hash
         if (!hash || hash.length == '') {
             //检测是否在顶部，不在顶部滚动至顶部

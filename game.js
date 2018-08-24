@@ -690,6 +690,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "goldMaxRatio" :  {
+                title: $I("effectsMgr.statics.goldMaxRatio.title"),
+                type: "ratio"
+            },
+
 			"alicornChance" :  {
                 title: $I("effectsMgr.statics.alicornChance.title"),
                 type: "fixed"
@@ -1608,38 +1613,29 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.exportToDropbox(lzdata, callback);
 	},
 
-    exportToDropbox: function(lzdata, callback) {
-        var game = this;
+	exportToDropbox: function(lzdata, callback) {
+		var game = this;
+		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
-        //cached authentification
-        this.dropBoxClient.authenticate({interactive:false});
-        if (this.dropBoxClient.isAuthenticated()){
-            game.saveExportDropboxFileWrite(lzdata, callback);
-            return;
-        }
-
-        //interactive authentification
-        this.dropBoxClient.authenticate(function (error, client) {
-            if (error) {
-                callback(error);
-            } else {
-                game.saveExportDropboxFileWrite(lzdata, callback);
-            }
-        });
-    },
-
-    saveExportDropboxFileWrite: function(lzdata, callback){
-        var game = this;
-        this.dropBoxClient.writeFile('kittens.save', lzdata, function (error){
-            if (error) {
-                callback(error);
-            } else {
-                game.msg($I("save.export.msg"));
-                callback();
-            }
-        });
-    },
-
+		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
+		window.addEventListener('message',function(e) {
+			if (window.location.origin !== e.origin) {
+				callback("Unable to save file");
+			} else {
+				var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
+				dbxt.filesUpload({
+					path: "/kittens.save",
+					contents: lzdata,
+					mode: 'overwrite'
+				}).then(function (response) {
+					game.msg($I("save.export.msg"));
+					callback();
+				}).catch(function (error) {
+					callback("Unable to save file:" + JSON.stringify(error));
+				});
+			}
+		},false);
+	},
 
 	saveImportDropbox: function(){
 		if (!window.confirm($I("save.msg.confirm"))){
@@ -1654,22 +1650,29 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.importFromDropbox(callback);
 	},
 
-    importFromDropbox: function (callback) {
-        var game = this;
-        this.dropBoxClient.authenticate({interactive:false});
-        if (this.dropBoxClient.isAuthenticated()){
-            game.saveImportDropboxFileRead(callback);
-            return;
-        }
+	importFromDropbox: function (callback) {
+		var game = this;
+		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
-        this.dropBoxClient.authenticate(function (error, client) {
-            if (error) {
-                console.log("Couldn't auth in dropbox:"+error);
-            } else {
-                game.saveImportDropboxFileRead(callback);
-            }
-        });
-    },
+		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
+		window.addEventListener('message',function(e) {
+				if (window.location.origin !== e.origin) {
+					callback("Unable to load file");
+				} else {
+					var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
+					dbxt.filesDownload({path: "/kittens.save"}).then(function (response) {
+						var blob = response.fileBlob;
+						var reader = new FileReader();
+						reader.addEventListener("loadend", function() {
+							game.saveImportDropboxText(reader.result, callback);
+						});
+						reader.readAsText(blob);
+					}).catch(function (error) {
+						callback("Unable to load file:" + JSON.stringify(error));
+					});
+				}
+		},false);
+	},
 
     saveImportDropboxFileRead: function(callback){
         var game = this;
@@ -2766,17 +2769,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				 return;
 				}
 
-				dojo.setStyle(tooltip, "left", pos.left + 100 + "px");
-				dojo.setStyle(tooltip, "top",  pos.top + "px");
+				dojo.style(tooltip, "left", pos.left + 100 + "px");
+				dojo.style(tooltip, "top",  pos.top + "px");
 
-				dojo.setStyle(tooltip, "display", "");
-				dojo.setStyle(container, "fontWeight", "bold");
+				dojo.style(tooltip, "display", "");
+				dojo.style(container, "fontWeight", "bold");
 			}
 	    }, resRef, tooltip));
 
 		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none");
-			 dojo.setStyle(container, "fontWeight", "normal");
+			 dojo.style(tooltip, "display", "none");
+			 dojo.style(container, "fontWeight", "normal");
 		},tooltip, container));
 
 	},
@@ -3051,6 +3054,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return !dojo.isIE && window.Worker;
 	},
 
+	timestamp: function() {
+		return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+	},
+
 	start: function(){
 		if (this.isWebWorkerSupported() && this.useWorkers){	//IE10 has a nasty security issue with running blob workers
 			console.log("starting web worker...");
@@ -3074,10 +3081,32 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// In both cases it will result to drop of number of ticks.
 			// One way is to handle it on UI by queuing the update requests.
 
+			/*
+				Would still work bad during the scroll
+			 */
 			clearInterval(this._mainTimer);
 			this._mainTimer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
+
+			this._lastFrameTimestamp = this.timestamp();
 		}
 	},
+
+	/**
+	 * Here is a magic
+	 * Don't even try to understand it, madness lies here
+	 */
+	frame: function(){
+		var now = this.timestamp(),
+			delta = now - this._lastFrameTimestamp;
+
+		if (delta > (1000/this.rate)){
+			/*dojo.hitch(this, this.tick)();*/
+			console.log("tick!");
+			this.tick();
+		}
+		requestAnimationFrame(this.frame);
+	},
+
 
 	tick: function(){
 		/**

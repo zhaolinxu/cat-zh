@@ -1887,7 +1887,7 @@ var run = function() {
         var elezhs= elementLabel;
 //        汉化
         if(elezhs=="Wood"){
-            elezhs="木头";     
+            elezhs="木材";     
         }else if(elezhs=="Beam"){
             elezhs="木梁";     
         }else if(elezhs=="Slab"){
@@ -1994,7 +1994,7 @@ var run = function() {
         //        汉化
         var elezhs=ucfirst(name);
         if(elezhs=="Wood"){
-            elezhs="木头";     
+            elezhs="木材";     
         }else if(elezhs=="Beam"){
             elezhs="木梁";     
         }else if(elezhs=="Slab"){

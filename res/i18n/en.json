@@ -1071,6 +1071,7 @@
     "effectsMgr.statics.riftChance.title": "Unicorns rift chance",
     "effectsMgr.statics.ivoryMeteorChance.title": "Ivory meteor chance",
     "effectsMgr.statics.ivoryMeteorRatio.title": "Ivory meteor bonus",
+    "effectsMgr.statics.goldMaxRatio.title": "Maximum gold bonus",
     "effectsMgr.statics.alicornChance.title": "Alicorns descent chance",
     "effectsMgr.statics.tcRefineRatio.title": "Alicorns sacrifice bonus",
     "effectsMgr.statics.corruptionRatio.title": "Corruption ratio",
@@ -1284,7 +1285,7 @@
     "time.vsu.voidRift.label": "Void Rift",
     "time.vsu.chronocontrol.desc": "Increase the duration of Temporal Paradox",
     "time.vsu.chronocontrol.label": "Chronocontrol",
-    "time.AccelerateTimeBtn.desc": "Accelerate and slow time at your whim (+50% acceleration)",
+    "time.AccelerateTimeBtn.desc": "Accelerate and slow time at your whim (+50% speed up)",
     "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
     "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
 
@@ -1488,6 +1489,8 @@
     "village.happiness.overpopulation":"Overpopulation",
     "btn.all":"All",
     "btn.all.minor":"all",
+    "btn.all.assign": "[+all]",
+    "btn.all.unassign": "[-all]",
     "btn.feed":"Feed",
     "btn.trade":"Trade",
     "calendar.weather.warm":"warm",
@@ -1567,5 +1570,11 @@
     "trade.sell.ecoin.desc": "Sell your blackcoins and get relics back",
 
     "space.planet.helios.sunforge.label":"Sunforge",
-    "space.planet.helios.sunforge.desc":"Uses the heat of the sun to smelt materials into supercondensed plasma. Every level of sunforge improves the storage space of your base metals by 1%"
+    "space.planet.helios.sunforge.desc":"Uses the heat of the sun to smelt materials into supercondensed plasma. Every level of sunforge improves the storage space of your base metals by 1%",
+
+    "village.happiness.festival":"Festival",
+
+    "religion.tu.blackRadiance.label" : "Black Radiance",
+    "religion.tu.blackRadiance.desc" : "Every % of BLS meter will very slightly increase alicorn corruption rate",
+    "religion.tu.blackRadiance.flavor": "Like a rainbow in the dark"
 }

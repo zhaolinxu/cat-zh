@@ -909,7 +909,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 
 			var isVisible = (res.unlocked || (res.name == "kittens" && res.maxValue));
-			dojo.setStyle(tr, "display", isVisible ? "" : "none");
+			dojo.style(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
@@ -938,18 +938,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			}, res));
 
 			if (res.type == "uncommon"){
-				dojo.setStyle(tdResName, "color", "Coral");
+				dojo.style(tdResName, "color", "Coral");
 			}
 			if (res.type == "rare"){
-				dojo.setStyle(tdResName, "color", "orange");
-				dojo.setStyle(tdResName, "textShadow", "1px 0px 10px Coral");
+				dojo.style(tdResName, "color", "orange");
+				dojo.style(tdResName, "textShadow", "1px 0px 10px Coral");
 			}
 			if (res.color){
-				dojo.setStyle(tdResName, "color", res.color);
+				dojo.style(tdResName, "color", res.color);
 			}
 			if (res.style){
 				for (var styleKey in res.style){
-					dojo.setStyle(tdResName, styleKey, res.style[styleKey]);
+					dojo.style(tdResName, styleKey, res.style[styleKey]);
 				}
 			}
 
@@ -1061,9 +1061,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				row.resWMod.textContent = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
 				if (modifier > 0){
-					dojo.setStyle(row.resWMod, "color", "green");
+					dojo.style(row.resWMod, "color", "green");
 				}else if (modifier < 0){
-					dojo.setStyle(row.resWMod, "color", "red");
+					dojo.style(row.resWMod, "color", "red");
 				} else {
 					if (row.resWMod.style.color != "black"){
 						row.resWMod.style.color = "black";
@@ -1086,17 +1086,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 				 return;
 			 }
 
-			 dojo.setStyle(tooltip, "left", pos.left + 60 + "px");
-			 dojo.setStyle(tooltip, "top",  pos.top + "px");
+			 dojo.style(tooltip, "left", pos.left + 60 + "px");
+			 dojo.style(tooltip, "top",  pos.top + "px");
 
-			 dojo.setStyle(tooltip, "display", "");
-			 dojo.setStyle(container, "fontWeight", "bold");
+			 dojo.style(tooltip, "display", "");
+			 dojo.style(container, "fontWeight", "bold");
 
 	    }, tooltip, htmlProvider));
 
 		dojo.connect(container, "onmouseout", this, dojo.partial(function(tooltip, container){
-			 dojo.setStyle(tooltip, "display", "none");
-			 dojo.setStyle(container, "fontWeight", "normal");
+			 dojo.style(tooltip, "display", "none");
+			 dojo.style(container, "fontWeight", "normal");
 		}, tooltip, container));
 	}
 });
@@ -1205,7 +1205,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			var tr = dojo.create("tr", { class: "resourceRow" }, resTable);
 
 			var isVisible = (recipe.unlocked && res.value > 0 && this.workshop.on > 0);
-			dojo.setStyle(tr, "display", isVisible ? "" : "none");
+			dojo.style(tr, "display", isVisible ? "" : "none");
 			//	---------------- name ----------------------
 
 			var tdResName = dojo.create("td", {
@@ -1215,7 +1215,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 					}
 				}, tr);
 			if (res.color){
-				dojo.setStyle(tdResName, "color", res.color);
+				dojo.style(tdResName, "color", res.color);
 			}
 
 			dojo.connect(tdResName, "onclick", this, dojo.partial(function(res){
@@ -1343,7 +1343,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			if (1 < allCount * 0.01 ){
 				craftRowAmt = Math.floor(allCount * 0.01);
 			}
-			dojo.setStyle(row.a1, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
+			dojo.style(row.a1, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a1.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 
 			// 25/5%
@@ -1351,7 +1351,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 			if (25 < allCount * 0.05 ){
 				craftRowAmt = Math.floor(allCount * 0.05);
 			}
-			dojo.setStyle(row.a25, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
+			dojo.style(row.a25, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a25.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 
 			// 100/10%
@@ -1360,10 +1360,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 				craftRowAmt = Math.floor(allCount * 0.1);
 			}
 
-			dojo.setStyle(row.a100, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
+			dojo.style(row.a100, "display", this.game.resPool.hasRes(craftPrices, craftRowAmt) ? "" : "none");
 			row.a100.innerHTML = "+" + this.game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0);
 			//=======================================================================
-			dojo.setStyle(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");
+			dojo.style(row.aAll, "display", this.hasMinAmt(row.recipeRef) ? "" : "none");
 		}
 	}
 });
