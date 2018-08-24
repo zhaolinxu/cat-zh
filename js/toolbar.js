@@ -238,7 +238,7 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
 
 		this.container.innerHTML =
-		"<a href='https://www.patreon.com/bloodrizer' data-patreon-widget-type='become-patron-button'>作者主页" +
+		"<a href='https://www.patreon.com/bloodrizer' data-patreon-widget-type='become-patron-button' target='_blank'>作者主页" +
 		"</a><script async src='https://c6.patreon.com/becomePatronButton.bundle.js'></script>";
 	},
 	getOpts: function(){

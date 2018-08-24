@@ -56,22 +56,22 @@
 				progressMax = 0;
 
 			var loadingMessages = [
-				"Feeding zebras",
-				"Calibrating ziggurats",
-				"Seeding catnip",
-				"Taming unicorns",
-				"Polishing railguns",
-				"Restarting steam engines",
-				"Opening temporal rifts",
-				"Gathering lizards",
-				"Deploying satellites",
-				"Tweaking Yarn precession",
-				"Praising the sun",
-				"Cooling off the chronoforge",
-				"Burning paragon",
-				"Petting sharks",
-				"Minting blackcoins",
-				"Fixing time paradoxes"
+				"喂养斑马",
+				"校准金字塔",
+				"播种猫薄荷",
+				"驯服独角兽",
+				"抛光电磁炮",
+				"重启蒸汽机",
+				"打开时空裂缝",
+				"采集的蜥蜴",
+				"部署卫星",
+				"调整纱星进度",
+				"赞美太阳",
+				"冷却精密锻造",
+				"燃烧领导力",
+				"宠物鲨鱼",
+				"黑币挖矿",
+				"修复时间悖论"
 			];
 
 			function loadModule(module){
@@ -126,7 +126,7 @@
 					"js/toolbar"
 				];
 				progressMax = modules.length + 2;
-				console.log("Loading...");
+				console.log("加载中...");
 
 				var def = _import("config");
 				def = _import("core", def);
@@ -324,10 +324,10 @@
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
+					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
-					<div id="loadingProgressInfo">Setting up game engine...</div>
+					<div id="loadingProgressInfo">设置游戏引擎...</div>
 				</div>
 			</div>
 
