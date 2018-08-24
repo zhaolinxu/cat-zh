@@ -607,7 +607,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 			}, this.game);
 		feedBtn.render(content);
 
-		if (this.game.science.get("antimatter").researched) {
+		if (this.game.science.get("blackchain").researched || this.game.resPool.get("blackcoin").value > 0) {
 
 			var buyEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("trade.buy.ecoin"),

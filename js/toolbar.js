@@ -23,15 +23,21 @@ dojo.declare("classes.ui.Toolbar", null, {
 
 		for (var i in this.icons){
 			var iconContainer = this.icons[i].render(container);
-			this.attachToolbarTooltip(iconContainer, this.icons[i]);
+			var icon = this.icons[i];
+			if (icon.getOpts().hasTooltip) {
+				this.attachToolbarTooltip(iconContainer, this.icons[i]);
+			}
 		}
 
-		this.update();
+		this.update(true /*forceUpdate*/);
 	},
 
-	update: function(){
+	update: function(forceUpdate){
 		for (var i in this.icons){
-			this.icons[i].update();
+			var icon = this.icons[i];
+			if (icon.getOpts().needUpdate || forceUpdate) {
+				this.icons[i].update();
+			}
 		}
 
 		var sorrowRes = this.game.resPool.get("sorrow"),
@@ -104,6 +110,13 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 	getTooltip: function(){
 		return "Unimplemented";
+	},
+
+	getOpts: function(){
+		return {
+			needUpdate: true,
+			hasTooltip: true
+		}
 	}
 });
 
@@ -224,13 +237,14 @@ dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
 		var server = this.game.server,
 			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
 
-		this.container.innerHTML = "$&nbsp;" + (server.donateAmt || 0) + "/" + (nextTier * 100) + "&nbsp;" +
-		"<a target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN'>+</a>";
+		this.container.innerHTML =
+		"<a href='https://www.patreon.com/bloodrizer' data-patreon-widget-type='become-patron-button'>作者主页" +
+		"</a><script async src='https://c6.patreon.com/becomePatronButton.bundle.js'></script>";
 	},
-
-	getTooltip: function(){
-		var tier = Math.floor(this.game.server.donateAmt / 100) + 1;
-
-		return "魔术小猫等级: " + tier + "<br><img src='res/tiers/tier" + tier + ".png'>";
+	getOpts: function(){
+		return {
+			needUpdate: false,
+			hasTooltip: false
+		}
 	}
 });
