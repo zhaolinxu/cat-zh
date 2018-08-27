@@ -310,11 +310,11 @@ select>option {
   }
 }
 
-td.resLimitNotice {
+td.resLimitNotice, .res-cell.resLimitNotice {
     color: orange;
 }
 
-td.resLimitWarn {
+td.resLimitWarn, .res-cell.resLimitWarn  {
     color: coral;
     opacity: 0.75;
 }
@@ -678,4 +678,41 @@ progress[value]::-webkit-progress-value {
 
 #loadingProgressInfo {
     padding-top: 5px;
+}
+
+/*======================================================================*/
+
+.link {
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+.res-toolbar{
+    text-align: right;
+}
+
+.res-table {
+    max-width: 340px;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+.res-row {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display:table-row;
+}
+
+.res-cell {
+    padding-left: 2px;
+    padding-right: 2px;
+    display:table-cell;
+}
+
+.res-cell.resource-name {
+    width: 60px;
+}
+.res-cell.resPerTick {
+    cursor: pointer;
 }

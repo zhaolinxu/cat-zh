@@ -9,6 +9,8 @@
 
 		<!-- I only use jquery ironically -->
 
+		<script src="lib/react.min.js"></script>   <!--todo: use min version -->
+
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
 		<script src="lib/dojo.xd.js"></script>
@@ -121,6 +123,9 @@
 					"js/challenges",
 					"js/void",
 					"game",
+
+					"js/jsx/left.jsx",
+
 					"js/ui",
 					"js/toolbar"
 				];
@@ -332,6 +337,7 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
+					<div id="leftColumnViewport">#nothing interesting here</div>
 					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">Show All</a></div>
 					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">Lock/Unlock</a></div>
 					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>

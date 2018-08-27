@@ -285,8 +285,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			"textShadow": "1px 0px 10px #9A2EFE",
-			"animation": "neon1 1.5s ease-in-out infinite alternate"
+			textShadow: "1px 0px 10px #9A2EFE",
+			animation: "neon1 1.5s ease-in-out infinite alternate"
 		}/*,
 		aiCanDestroy: true*/
 	},{
@@ -297,8 +297,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			"textShadow": "1px 0px 10px #9A2EFE",
-			"animation": "neon1 1.5s ease-in-out infinite alternate"
+			textShadow: "1px 0px 10px #9A2EFE",
+			animation: "neon1 1.5s ease-in-out infinite alternate"
 		}
 	},{
 		name : "elderBox",
@@ -309,8 +309,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			"textShadow": "1px 0px 10px #FA2E9E",
-			"animation": "neon1 1.5s ease-in-out infinite alternate"
+			textShadow: "1px 0px 10px #FA2E9E",
+			animation: "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -321,8 +321,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			"textShadow": "1px 0px 10px #FA2E9E",
-			"animation": "neon1 1.5s ease-in-out infinite alternate"
+			textShadow: "1px 0px 10px #FA2E9E",
+			animation: "neon1 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -640,7 +640,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	},
 
-	// Hack to reach the maxValue in resTable
+	//Hack to reach the maxValue in resTable
+	//AB: Questionable
 	resConsHackForResTable: function() {
 		if( this.game.calendar.day >= 0) {
 			for (var i in this.resources){
@@ -869,6 +870,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
  *
  * Instead of re-creating the DOM tree every tick they are capable of rendering
  * outline table and then updating related cells
+ * 
+ * @Deprecated
  */
 
 dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
@@ -1103,6 +1106,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 /**
  * Same as resources, but no per tick values
+ * 
+ * @Deprecated
  */
 dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn.game.ui.GenericResourceTable, {
 

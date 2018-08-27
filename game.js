@@ -1005,9 +1005,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	pauseTimestamp: 0, //time of last pause
 
-	//resource table
-	resTable: null,
-
 	effectsMgr: null,
 
     managers: null,
@@ -1151,8 +1148,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
-
-		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
 
 		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
 		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
