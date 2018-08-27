@@ -398,6 +398,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         //-------------------------
         $(".console-intro").html($I("console.intro"));
+
+        React.render($r(WLeftPanel, {
+            game: this.game
+        }), document.getElementById("leftColumnViewport")); 
     },
 
     //---------------------------------------------------------------
@@ -419,7 +423,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
 
         //wat
-        React.render($r(WLeftPanel), document.getElementById("leftColumnViewport")); 
+        /*React.render($r(WLeftPanel, {
+            game: this.game
+        }), document.getElementById("leftColumnViewport")); */
+        dojo.publish("ui/update", [this.game]);
     },
 
 	updateTabs: function() {

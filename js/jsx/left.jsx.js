@@ -146,17 +146,25 @@ WResourceTable = React.createClass({
 
     toggleEdit: function(){
         this.setState({isEditMode: !this.state.isEditMode});
-    },
-
-    componentDidMount: function(){
-
     }
 });
 
 WLeftPanel = React.createClass({
+    getDefaultProperties: function(){
+        return {game: null};
+    },
+    getInitialState: function(){
+        return {game: this.props.game};
+    },
     render: function(){
         return $r("div", null, [
-            $r(WResourceTable, {resources: game.resPool.resources})
+            $r(WResourceTable, {resources: this.state.game.resPool.resources})
         ]);
+    },
+    componentDidMount: function(){
+        var self = this;
+        dojo.subscribe("ui/update", function(game){
+            self.setState({game: game});
+        });
     }
 });
