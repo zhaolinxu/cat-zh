@@ -1,14 +1,36 @@
 WResourceRow = React.createClass({
 
-    mixins: [React.PureComponent],
+    /*mixins: [React.PureComponent],*/
 
     getDefaultProperties: function(){
         return {resource: null, isEditMode: false};
     },
+
     getInitialState: function(){
         return {visible: true};
     },
-    
+
+    //this is a bit ugly, probably React.PureComponent + immutable would be a much better approach
+    shouldComponentUpdate: function(nextProp, nextState){
+        var oldRes = this.oldRes || {},
+            newRes = nextProp.resource;
+
+        var isEqual = 
+            oldRes.value == newRes.value &&
+            oldRes.maxValue == newRes.maxValue &&
+            oldRes.perTickCached == newRes.perTickCached;
+
+        if (isEqual){
+            return false;
+        }
+        this.oldRes = {
+            value: newRes.value,
+            maxValue: newRes.maxValue,
+            perTickCached: newRes.perTickCached
+        };
+        return true;
+    },
+
     render: function(){
         var res = this.props.resource;
 
@@ -21,8 +43,8 @@ WResourceRow = React.createClass({
         //migrate dual resources (e.g. blueprint) to lower table once craft recipe is unlocked
 		if (game.resPool.isNormalCraftableResource(res) && game.workshop.getCraft(res.name).unlocked){
 			return null;
-		}
-        
+        }
+
         //wtf is this code
         var perTick = game.calendar.day < 0 ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getRateUI() : perTick;
