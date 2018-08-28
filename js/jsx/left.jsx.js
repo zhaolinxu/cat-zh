@@ -154,12 +154,15 @@ WResourceTable = React.createClass({
         }
         return $r("div", null, [
             $r("div", null,[
-                $r("div", {className:"res-toolbar left"}, 
+                $r("div", {
+                    className:"res-toolbar left",
+                    /*onClick: this.toggleCollapsed */
+                }, 
                     $r("a", {
-                            className:"link", 
+                            className:"link collapse", 
                             onClick: this.toggleCollapsed
                         },
-                        this.state.isCollapsed ? ">" : "v"
+                        this.state.isCollapsed ? ">(resources)" : "v"
                     )
                 ),
                 $r("div", {className:"res-toolbar right"}, 

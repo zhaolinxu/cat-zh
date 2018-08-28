@@ -713,9 +713,25 @@ progress[value]::-webkit-progress-value {
 
 /*======================================================================*/
 
+.copyright {
+    text-decoration: none;
+}
+
+.copyright:hover {
+    text-decoration: underline;
+}
+
 .link {
     cursor: pointer;
     padding-right: 10px;
+}
+
+a.link.collapse {
+    opacity: 0.2;
+}
+
+a.link.collapse:hover {
+    opacity: 0.9;
 }
 
 .res-toolbar {
@@ -731,7 +747,6 @@ progress[value]::-webkit-progress-value {
 .res-toolbar.left {
     padding-left:5px;
 }
-
 
 .res-table {
     max-width: 340px;
