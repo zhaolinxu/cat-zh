@@ -689,6 +689,7 @@ progress[value]::-webkit-progress-value {
 
 .res-toolbar{
     text-align: right;
+    margin-right:-18px;
 }
 
 .res-table {
@@ -713,6 +714,7 @@ progress[value]::-webkit-progress-value {
 .res-cell.resource-name {
     width: 60px;
 }
+
 .res-cell.resPerTick {
     cursor: pointer;
 }

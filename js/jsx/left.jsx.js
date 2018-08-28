@@ -18,7 +18,9 @@ WResourceRow = React.createClass({
         var isEqual = 
             oldRes.value == newRes.value &&
             oldRes.maxValue == newRes.maxValue &&
-            oldRes.perTickCached == newRes.perTickCached;
+            oldRes.perTickCached == newRes.perTickCached &&
+            this.props.isEditMode == nextProp.isEditMode &&
+            this.state.visible == nextState.visible;
 
         if (isEqual){
             return false;
@@ -150,8 +152,10 @@ WResourceTable = React.createClass({
         return $r("div", null, [
             $r("div", {className:"res-toolbar"}, 
                 $r("a", {
-                    className:"link", onClick: this.toggleEdit
-                }, "Settings"),
+                    className:"link", 
+                    href:"#",
+                    onClick: this.toggleEdit
+                }, "⚙"),
                 $r("a", {
                     className:"link", 
                     href:"wiki/index.php?page=Resources", 
