@@ -139,7 +139,10 @@ WResourceTable = React.createClass({
         return {resources: null};
     },
     getInitialState: function(){
-        return {isEditMode: false};
+        return {
+            isEditMode: false,
+            isCollapsed: false
+        };
     },
     render: function(){
         var resRows = [];
@@ -150,28 +153,44 @@ WResourceTable = React.createClass({
             );
         }
         return $r("div", null, [
-            $r("div", {className:"res-toolbar"}, 
-                $r("a", {
-                    className:"link", 
-                    href:"#",
-                    onClick: this.toggleEdit
-                }, "⚙"),
-                $r("a", {
-                    className:"link", 
-                    href:"wiki/index.php?page=Resources", 
-                    target:"_blank"
-                }, "?")
-            ),
-            this.state.isEditMode ? $r("div", {style:{"textAlign":"right"}}, [
-                $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
-                $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
-            ]): null,
-            $r("div", {className:"res-table"}, resRows)
+            $r("div", null,[
+                $r("div", {className:"res-toolbar left"}, 
+                    $r("a", {
+                            className:"link", 
+                            onClick: this.toggleCollapsed
+                        },
+                        this.state.isCollapsed ? ">" : "v"
+                    )
+                ),
+                $r("div", {className:"res-toolbar right"}, 
+                    $r("a", {
+                        className:"link", 
+                        onClick: this.toggleEdit
+                    }, "⚙"),
+                    $r("a", {
+                        className:"link", 
+                        href:"wiki/index.php?page=Resources", 
+                        target:"_blank"
+                    }, "?")
+                )
+            ]),
+            this.state.isCollapsed ? null :
+            $r("div", null, [
+                this.state.isEditMode ? $r("div", {style:{"textAlign":"right"}}, [
+                    $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
+                    $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
+                ]): null,
+                $r("div", {className:"res-table"}, resRows)
+            ])
         ]);
     },
 
     toggleEdit: function(){
         this.setState({isEditMode: !this.state.isEditMode});
+    },
+
+    toggleCollapsed: function(){
+        this.setState({isCollapsed: !this.state.isCollapsed});
     }
 });
 

@@ -687,10 +687,20 @@ progress[value]::-webkit-progress-value {
     padding-right: 10px;
 }
 
-.res-toolbar{
+.res-toolbar {
+    display: inline-block;
+}
+
+.res-toolbar.right {
     text-align: right;
     margin-right:-18px;
+    float: right;
 }
+
+.res-toolbar.left {
+    padding-left:5px;
+}
+
 
 .res-table {
     max-width: 340px;
