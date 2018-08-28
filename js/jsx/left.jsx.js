@@ -96,6 +96,26 @@ WResourceRow = React.createClass({
         }
 
         //----------------------------------------------------------------------------
+        //weather mod
+        //----------------------------------------------------------------------------
+
+        var season = game.calendar.getCurSeason();
+        var weatherModValue = null,
+            weatherModCss = null;
+
+        if (season.modifiers[res.name] && perTick !== 0 ){
+
+            var modifier = (season.modifiers[res.name] + game.calendar.getWeatherMod() - 1)*100;
+            weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
+
+            if (modifier > 0){
+                weatherModCss = {color: "green"};
+            }else if (modifier < 0){
+                weatherModCss = {color: "red"};
+            }
+        }
+
+        //----------------------------------------------------------------------------
         return $r("div", {className:"res-row"}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
@@ -119,7 +139,8 @@ WResourceRow = React.createClass({
             $r("div", {className:"res-cell maxRes"}, 
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
-            $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal)
+            $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
+            $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
         ]);
     },
     toggleView: function(){
