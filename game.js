@@ -1009,11 +1009,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     managers: null,
 
-    keyStates: {
-		shiftKey: false,
-		ctrlKey: false
-	},
-
     //TODO: this can potentially be an array
     undoChange: null,
 
