@@ -50,7 +50,7 @@ WResourceRow = React.createClass({
         //wtf is this code
         var perTick = game.calendar.day < 0 ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getRateUI() : perTick;
-        var postfix = game.opts.usePerSecondValues ? "/sec" : "";
+        var postfix = game.opts.usePerSecondValues ? "/秒" : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
             perTick = (perTick / res.maxValue * 100).toFixed(2);
             postfix = "%" + postfix;

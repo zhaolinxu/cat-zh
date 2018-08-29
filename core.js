@@ -1633,8 +1633,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
-				title:  model.metadata.on ? "on" : "off",
-				tooltip: model.metadata.on ? "Building enabled" : "Building disabled",
+				title:  model.metadata.on ? "开" : "关",
+				tooltip: model.metadata.on ? "建筑已启用" : "建筑已禁用",
 				visible: true,
 				enabled: true,
 				divider: true,
