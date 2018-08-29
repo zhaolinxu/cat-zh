@@ -193,7 +193,7 @@ WResourceTable = React.createClass({
                     }, "⚙"),
                     $r("a", {
                         className:"link", 
-                        href:"wiki/index.php?page=Resources", 
+                        href:"https://likexia.gitee.io/cat-zh/wiki/?file=003-%E8%B5%84%E6%BA%90%E5%A4%A7%E5%85%A8/005-%E8%B5%84%E6%BA%90%E4%BB%8B%E7%BB%8D", 
                         target:"_blank"
                     }, "?")
                 )
@@ -201,8 +201,8 @@ WResourceTable = React.createClass({
             this.state.isCollapsed ? null :
             $r("div", null, [
                 this.state.isEditMode ? $r("div", {style:{"textAlign":"right"}}, [
-                    $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
-                    $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
+                    $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "字体放大+"),
+                    $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "字体缩小-"),
                 ]): null,
                 $r("div", {className:"res-table"}, resRows)
             ])
