@@ -10,6 +10,8 @@
 
 		<!-- I only use jquery ironically -->
 
+		<script src="lib/react.min.js"></script>   <!--todo: use min version -->
+
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
 		<script src="lib/dojo.xd.js"></script>
@@ -50,7 +52,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1448d";
+			var version = "1449";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -122,6 +124,9 @@
 					"js/challenges",
 					"js/void",
 					"game",
+
+					"js/jsx/left.jsx",
+
 					"js/ui",
 					"js/toolbar"
 				];
@@ -248,8 +253,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					猫国建设者 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a></span>
-					<div style="margin-left:20px;display:none;"></div>
+					猫国建设者 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" class="copyright" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
 					<a href="#" style="color: red">
@@ -336,9 +340,11 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
+					<div id="leftColumnViewport">#这里没有什么有趣的</div>
+					<!--div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
 					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
+					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a>
+					</div-->
 
 					<div id="resContainer" style="padding-top: 15px; width: 100%">
 					</div>

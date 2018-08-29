@@ -1,3 +1,9 @@
+v 1.4.4.9 (27 aug 2018)
+
+Resource table QOL tweaks
+Fixed rendering perfromance in some places
+Added OSX meta key shortcut
+
 v 1.4.4.8 (19 aug 2018)
 
 Dropbox integration is finally working

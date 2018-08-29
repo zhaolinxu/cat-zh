@@ -53,6 +53,7 @@ dojo.declare("classes.ui.UISystem", null, {
 /**
  * Legacy UI renderer
  */
+var $r = React.createElement;
 dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     containerId: null,
     toolbar: null,
@@ -200,7 +201,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: remove hardcoded id?
         this.toolbar.render(dojo.byId("headerToolbar"));
 
-        game.resTable.render();
         game.craftTable.render();
         game.calendar.render();
 
@@ -280,7 +280,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     if (trueYear > 100000){
                         trueYear = trueYear.toLocaleString();
                     }
-                    tooltip += "<br>" + $I("calendar.trueYear")  + " " + trueYear;
+                    if (this.year > 100000){
+                        tooltip += "<br>";
+                    }
+                    tooltip += $I("calendar.trueYear")  + " " + trueYear;
                 }
                 return tooltip;
             }));
@@ -405,6 +408,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         //-------------------------
         $(".console-intro").html($I("console.intro"));
+
+        React.render($r(WLeftPanel, {
+            game: this.game
+        }), document.getElementById("leftColumnViewport")); 
     },
 
     //---------------------------------------------------------------
@@ -417,8 +424,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateUndoButton();
         this.updateAdvisors();
 
-        this.game.resTable.update();
-
         this.toolbar.update();
 
         if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
@@ -426,6 +431,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
+
+        //wat
+        /*React.render($r(WLeftPanel, {
+            game: this.game
+        }), document.getElementById("leftColumnViewport")); */
+        dojo.publish("ui/update", [this.game]);
     },
 
 	updateTabs: function() {
