@@ -105,12 +105,12 @@ WResourceRow = React.createClass({
 
         if (season.modifiers[res.name] && perTick !== 0 ){
 
-            var modifier = (season.modifiers[res.name] + game.calendar.getWeatherMod() - 1)*100;
+            var modifier = (season.modifiers[res.name] + game.calendar.getWeatherMod() - 1) * 100;
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
-            if (modifier > 0){
+            if (modifier > 0) {
                 weatherModCss = {color: "green"};
-            }else if (modifier < 0){
+            } else if (modifier < 0) {
                 weatherModCss = {color: "red"};
             }
         }
@@ -150,7 +150,18 @@ WResourceRow = React.createClass({
     componentDidMount: function(){
         var node = React.findDOMNode(this.refs.perTickNode);
         if (node){
+            this.tooltipNode = node;
             game.attachResourceTooltip(node, this.props.resource);
+        }
+    },
+
+    componentDidUpdate: function(prevProps, prevState){
+        if (!this.tooltipNode){
+            var node = React.findDOMNode(this.refs.perTickNode);
+            if (node){
+                this.tooltipNode = node;
+                game.attachResourceTooltip(node, this.props.resource);
+            }
         }
     }
 });
