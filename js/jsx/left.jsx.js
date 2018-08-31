@@ -190,12 +190,12 @@ WResourceTable = React.createClass({
                     $r("a", {
                         className:"link", 
                         onClick: this.toggleEdit
-                    }, "⚙"),
+                    }, "⚙")/*,
                     $r("a", {
                         className:"link", 
                         href:"wiki/index.php?page=Resources", 
                         target:"_blank"
-                    }, "?")
+                    }, "?")*/
                 )
             ]),
             this.state.isCollapsed ? null :

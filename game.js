@@ -959,6 +959,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
+	//ctrl-click batch size
+	batchSize: 10,
+
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	selectedBuilding: null,
 	setSelectedObject: function(object) {
