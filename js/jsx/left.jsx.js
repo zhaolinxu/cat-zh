@@ -1,13 +1,10 @@
 WResourceRow = React.createClass({
 
-    /*mixins: [React.PureComponent],*/
-
     getDefaultProperties: function(){
         return {resource: null, isEditMode: false};
     },
 
     getInitialState: function(){
-        console.log("initial:", this.props.resource.isHidden);
         return {visible: !this.props.resource.isHidden};
     },
 
@@ -116,6 +113,7 @@ WResourceRow = React.createClass({
             }
         }
 
+
         //----------------------------------------------------------------------------
         return $r("div", {className:"res-row"}, [
             this.props.isEditMode ? 
@@ -175,6 +173,187 @@ WResourceRow = React.createClass({
     }
 });
 
+WCraftShortcut = React.createClass({
+    getDefaultProperties: function(){
+        return {resource: null, craftFixed: null, craftPercent: null};
+    },
+
+    render: function(){
+        var res = this.props.resource,
+            recipe = this.props.recipe;
+
+        var craftFixed = this.props.craftFixed,
+            craftPercent = this.props.craftPercent,
+            allCount = game.workshop.getCraftAllCount(res.name),
+            craftRatio = game.getResCraftRatio(res),
+            craftPrices = (res.name == "ship") ? game.workshop.getCraftPrice(recipe) : recipe.prices;   //????????????wat
+
+
+        var craftRowAmt = craftFixed;
+        if (craftFixed < allCount * craftPercent ){
+            craftRowAmt = Math.floor(allCount * craftPercent);
+        }
+
+        if (craftPercent == 1){
+            return this.hasMinAmt(recipe) ? 
+                $r("div", {className:"res-cell craft-link"}, "all") : null;
+        }
+
+        return game.resPool.hasRes(craftPrices, craftRowAmt) ?  
+            $r("div", {className:"res-cell craft-link"}, 
+                "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
+            : null;
+    },
+
+    hasMinAmt: function(recipe){
+		var minAmt = Number.MAX_VALUE;
+		for (var j = 0; j < recipe.prices.length; j++){
+			var totalRes = game.resPool.get(recipe.prices[j].name).value;
+			var allAmt = Math.floor(totalRes / recipe.prices[j].val);
+			if (allAmt < minAmt){
+				minAmt = allAmt;
+			}
+		}
+
+		return minAmt > 0 && minAmt < Number.MAX_VALUE;
+	}
+});
+/*=======================================================
+                    CRAFT RESOURCE ROW
+=======================================================*/
+
+WCraftRow = React.createClass({
+
+    getDefaultProperties: function(){
+        return {resource: null, isEditMode: false};
+    },
+
+    getInitialState: function(){
+        return {visible: !this.props.resource.isHidden};
+    },
+
+    shouldComponentUpdate: function(nextProp, nextState){
+        var oldRes = this.oldRes || {},
+            newRes = nextProp.resource;
+
+        var isEqual = 
+            oldRes.value == newRes.value &&
+            this.state.visible == nextState.visible;
+
+        if (isEqual){
+            return false;
+        }
+        this.oldRes = {
+            value: newRes.value,
+        };
+        return true;
+    },
+
+    render: function(){
+        var res = this.props.resource;
+
+        var recipe = game.workshop.getCraft(res.name);
+        var hasVisibility = (res.unlocked && recipe.unlocked /*&& this.workshop.on > 0*/);
+        if (!hasVisibility || (!this.state.visible && !this.props.isEditMode)){
+            return null;
+        }
+
+        //----------------------------------------------------------------------------
+
+        var resNameCss = {};
+        if (res.type == "uncommon"){
+            resNameCss = {
+                color: "Coral"
+            };
+        }
+        if (res.type == "rare"){
+            resNameCss = {
+                color: "orange",
+                textShadow: "1px 0px 10px Coral"
+            };
+        }
+        if (res.color){
+            resNameCss = {
+                color: res.color,
+            };
+        } 
+        if (res.style){
+            for (var styleKey in res.style){
+                resNameCss[styleKey] = res.style[styleKey];
+            }
+        }
+
+        //----------------------------------------------------------------------------
+        return $r("div", {className:"res-row craft"}, [
+            this.props.isEditMode ? 
+                $r("div", {className:"res-cell"},
+                    $r("input", {
+                        type:"checkbox", 
+                        checked: this.state.visible,
+
+                        onClick: this.toggleView,
+                        style:{display:"inline-block"},
+                    })
+                ) : null,
+            $r("div", {
+                className:"res-cell resource-name", 
+                style:resNameCss,
+                onClick: this.onClickName
+            }, 
+                res.title || res.name
+            ),
+            $r("div", {className:"res-cell"}, game.getDisplayValueExt(res.value)),
+            $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:1, craftPercent: 0.01}),
+            $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:25, craftPercent: 0.05}),
+            $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:100, craftPercent: 0.1}),
+            $r(WCraftShortcut, {resource: res, recipe: recipe, craftPercent: 1}),
+        ]);
+    },
+    onClickName: function(e){
+        if (this.props.isEditMode || e.ctrlKey){
+            this.toggleView();
+        } 
+    },
+
+    toggleView: function(){
+        this.setState({visible: !this.state.visible});
+        this.props.resource.isHidden = this.state.visible; 
+    }
+    /*,
+
+    componentDidMount: function(){
+        var node = React.findDOMNode(this.refs.perTickNode);
+        if (node){
+            this.tooltipNode = node;
+            game.attachResourceTooltip(node, this.props.resource);
+        }
+    },
+
+    componentDidUpdate: function(prevProps, prevState){
+        if (!this.tooltipNode){
+            var node = React.findDOMNode(this.refs.perTickNode);
+            if (node){
+                this.tooltipNode = node;
+                game.attachResourceTooltip(node, this.props.resource);
+            }
+        }
+    }*/
+});
+
+/*=======================================================
+                    GENERAL TABLE
+=======================================================*/
+
+WResourceTable = React.createClass({
+    render: function(){
+        return null;
+    }
+});
+
+/*=======================================================
+                     RESORUCES
+=======================================================*/
+
 WResourceTable = React.createClass({
     getDefaultProperties: function(){
         return {resources: null};
@@ -196,8 +375,7 @@ WResourceTable = React.createClass({
         return $r("div", null, [
             $r("div", null,[
                 $r("div", {
-                    className:"res-toolbar left",
-                    /*onClick: this.toggleCollapsed */
+                    className:"res-toolbar left"
                 }, 
                     $r("a", {
                             className:"link collapse", 
@@ -214,12 +392,6 @@ WResourceTable = React.createClass({
                     $r(WTooltip, {body:"?"}, 
                         "Ctrl click resource to hide it, use gear icon for more settings")
                 
-                    
-                    /*$r("a", {
-                        className:"link", 
-                        href:"wiki/index.php?page=Resources", 
-                        target:"_blank"
-                    }, "?")*/
                 )
             ]),
             this.state.isCollapsed ? null :
@@ -228,6 +400,66 @@ WResourceTable = React.createClass({
                     $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
                     $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
                 ]): null,
+                $r("div", {className:"res-table"}, resRows)
+            ])
+        ]);
+    },
+
+    toggleEdit: function(){
+        this.setState({isEditMode: !this.state.isEditMode});
+    },
+
+    toggleCollapsed: function(){
+        this.setState({isCollapsed: !this.state.isCollapsed});
+    }
+});
+
+/*=======================================================
+                        CRAFT
+=======================================================*/
+
+WCraftTable = React.createClass({
+    getDefaultProperties: function(){
+        return {resources: null};
+    },
+    getInitialState: function(){
+        return {
+            isEditMode: false,
+            isCollapsed: false
+        };
+    },
+    render: function(){
+        var resRows = [];
+        for (var i in this.props.resources){
+            var res = this.props.resources[i];
+            if (!res.craftable){
+				continue;
+			}
+            resRows.push(
+                $r(WCraftRow, {resource: res, isEditMode: this.state.isEditMode})
+            );
+        }
+        return $r("div", null, [
+            $r("div", null,[
+                $r("div", {
+                    className:"res-toolbar left",
+                }, 
+                    $r("a", {
+                            className:"link collapse", 
+                            onClick: this.toggleCollapsed
+                        },
+                        this.state.isCollapsed ? ">(craft)" : "v"
+                    )
+                ),
+                $r("div", {className:"res-toolbar right"}, 
+                    $r("a", {
+                        className:"link", 
+                        onClick: this.toggleEdit
+                    }, "⚙")
+                )
+            ]),
+            this.state.isCollapsed ? null :
+            $r("div", null, [
                 $r("div", {className:"res-table"}, resRows)
             ])
         ]);
@@ -251,7 +483,8 @@ WLeftPanel = React.createClass({
     },
     render: function(){
         return $r("div", null, [
-            $r(WResourceTable, {resources: this.state.game.resPool.resources})
+            $r(WResourceTable, {resources: this.state.game.resPool.resources}),
+            $r(WCraftTable, {resources: this.state.game.resPool.resources})
         ]);
     },
     componentDidMount: function(){
