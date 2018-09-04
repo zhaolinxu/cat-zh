@@ -713,6 +713,21 @@ progress[value]::-webkit-progress-value {
 
 /*======================================================================*/
 
+.tooltip-block, .tooltip-block div {
+    z-index: 9999;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 3px;
+}
+
+.tooltip-content {
+    background-color: rgb(239, 239, 244);
+    border: 1px solid #a8a7ac;
+    position: absolute;
+    margin-left: 20px;
+    padding-right: 10px;
+}
+
 .copyright {
     text-decoration: none;
 }

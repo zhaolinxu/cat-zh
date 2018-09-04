@@ -7,7 +7,8 @@ WResourceRow = React.createClass({
     },
 
     getInitialState: function(){
-        return {visible: true};
+        console.log("initial:", this.props.resource.isHidden);
+        return {visible: !this.props.resource.isHidden};
     },
 
     //this is a bit ugly, probably React.PureComponent + immutable would be a much better approach
@@ -131,7 +132,8 @@ WResourceRow = React.createClass({
                 ) : null,
             $r("div", {
                 className:"res-cell resource-name", 
-                style:resNameCss
+                style:resNameCss,
+                onClick: this.onClickName
             }, 
                 res.title || res.name
             ),
@@ -143,8 +145,15 @@ WResourceRow = React.createClass({
             $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
         ]);
     },
+    onClickName: function(e){
+        if (this.props.isEditMode || e.ctrlKey){
+            this.toggleView();
+        } 
+    },
+
     toggleView: function(){
         this.setState({visible: !this.state.visible});
+        this.props.resource.isHidden = this.state.visible; 
     },
 
     componentDidMount: function(){
@@ -201,8 +210,12 @@ WResourceTable = React.createClass({
                     $r("a", {
                         className:"link", 
                         onClick: this.toggleEdit
-                    }, "⚙")/*,
-                    $r("a", {
+                    }, "⚙"),
+                    $r(WTooltip, {body:"?"}, 
+                        "Ctrl click resource to hide it, use gear icon for more settings")
+                
+                    
+                    /*$r("a", {
                         className:"link", 
                         href:"wiki/index.php?page=Resources", 
                         target:"_blank"
@@ -246,5 +259,39 @@ WLeftPanel = React.createClass({
         dojo.subscribe("ui/update", function(game){
             self.setState({game: game});
         });
+    }
+});
+
+WTooltip = React.createClass({
+    getInitialState: function() {
+        return {
+            showTooltip: false
+        };
+    },
+
+    getDefaultProps: function(){
+        return {
+            body: null
+        };
+    },
+
+    render: function(){
+        return $r("div", {className: "tooltip-block", 
+            onMouseOver: this.onMouseOver, 
+            onMouseOut: this.onMouseOut
+        }, [
+            this.props.body || $r("div", {className: "tooltip-icon"}, "[?]"),
+            this.state.showTooltip ? $r("div", {className: "tooltip-content"}, 
+                this.props.children
+            ): null
+        ]);
+    },
+
+    onMouseOver: function(){
+        this.setState({showTooltip: true});
+    },
+
+    onMouseOut: function(){
+        this.setState({showTooltip: false});
     }
 });
