@@ -1,7 +1,7 @@
 WResourceRow = React.createClass({
 
     getDefaultProperties: function(){
-        return {resource: null, isEditMode: false};
+        return {resource: null, isEditMode: false, isRequired: false};
     },
 
     getInitialState: function(){
@@ -18,6 +18,7 @@ WResourceRow = React.createClass({
             oldRes.maxValue == newRes.maxValue &&
             oldRes.perTickCached == newRes.perTickCached &&
             this.props.isEditMode == nextProp.isEditMode &&
+            this.props.isRequired == nextProp.isRequired &&
             this.state.visible == nextState.visible;
 
         if (isEqual){
@@ -115,7 +116,7 @@ WResourceRow = React.createClass({
 
 
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row"}, [
+        return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -257,6 +258,7 @@ WCraftRow = React.createClass({
         var isEqual = 
             oldRes.value == newRes.value &&
             this.props.isEditMode == nextProp.isEditMode &&
+            this.props.isRequired == nextProp.isRequired &&
             this.state.visible == nextState.visible;
 
         if (isEqual){
@@ -303,7 +305,7 @@ WCraftRow = React.createClass({
         }
 
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row craft"}, [
+        return $r("div", {className:"res-row craft" + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {
@@ -367,8 +369,9 @@ WResourceTable = React.createClass({
         var resRows = [];
         for (var i in this.props.resources){
             var res = this.props.resources[i];
+            var isRequired = (this.props.reqRes.indexOf(res.name) >= 0);
             resRows.push(
-                $r(WResourceRow, {resource: res, isEditMode: this.state.isEditMode})
+                $r(WResourceRow, {resource: res, isEditMode: this.state.isEditMode, isRequired: isRequired})
             );
         }
         return $r("div", null, [
@@ -419,7 +422,7 @@ WResourceTable = React.createClass({
 
 WCraftTable = React.createClass({
     getDefaultProperties: function(){
-        return {resources: null};
+        return {resources: null, game: null};
     },
     getInitialState: function(){
         return {
@@ -433,9 +436,10 @@ WCraftTable = React.createClass({
             var res = this.props.resources[i];
             if (!res.craftable){
 				continue;
-			}
+            }
+            var isRequired = (this.props.reqRes.indexOf(res.name) >= 0);
             resRows.push(
-                $r(WCraftRow, {resource: res, isEditMode: this.state.isEditMode})
+                $r(WCraftRow, {resource: res, isEditMode: this.state.isEditMode, isRequired: isRequired})
             );
         }
         return $r("div", null, [
@@ -481,9 +485,14 @@ WLeftPanel = React.createClass({
         return {game: this.props.game};
     },
     render: function(){
+        var game = this.state.game,
+            reqRes = game.getRequiredResources(game.selectedBuilding);
+
+        console.log("req:", reqRes);    
+
         return $r("div", null, [
-            $r(WResourceTable, {resources: this.state.game.resPool.resources}),
-            $r(WCraftTable, {resources: this.state.game.resPool.resources})
+            $r(WResourceTable, {resources: game.resPool.resources, reqRes: reqRes}),
+            $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
         ]);
     },
     componentDidMount: function(){

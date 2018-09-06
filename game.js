@@ -963,12 +963,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	batchSize: 10,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
+	//TODO: move me to UI
 	selectedBuilding: null,
 	setSelectedObject: function(object) {
 		this.selectedBuilding = object;
+		this._publish("ui/update", this);
 	},
 	clearSelectedObject: function() {
 		this.selectedBuilding = null;
+		this._publish("ui/update", this);
 	},
 
 	//=============================

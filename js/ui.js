@@ -428,7 +428,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         /*React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport")); */
-        dojo.publish("ui/update", [this.game]);
+        this.game._publish("ui/update", this.game);
     },
 
 	updateTabs: function() {
