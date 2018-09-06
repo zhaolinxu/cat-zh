@@ -145,7 +145,7 @@ WResourceRow = React.createClass({
         ]);
     },
     onClickName: function(e){
-        if (this.props.isEditMode || e.ctrlKey){
+        if (this.props.isEditMode || e.ctrlKey || e.metaKey){
             this.toggleView();
         } 
     },
@@ -487,8 +487,6 @@ WLeftPanel = React.createClass({
     render: function(){
         var game = this.state.game,
             reqRes = game.getRequiredResources(game.selectedBuilding);
-
-        console.log("req:", reqRes);    
 
         return $r("div", null, [
             $r(WResourceTable, {resources: game.resPool.resources, reqRes: reqRes}),
