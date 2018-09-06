@@ -765,14 +765,14 @@ a.link.collapse:hover {
 
 .res-table {
     max-width: 340px;
+    width: 100%;
     display: table;
     border-collapse: separate;
-    border-spacing: 2px;
+    border-spacing: 3px;
 }
 
 .res-row {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-bottom: 4px;
     display:table-row;
 }
 
@@ -790,15 +790,25 @@ a.link.collapse:hover {
     width: 60px;
 }
 
+.res-cell.resource-value {
+    width: 75px;
+}
+
 .res-cell.resPerTick {
     cursor: pointer;
 }
 
 .res-cell.craft-link {
     cursor: pointer;
+    width: 20px;
 }
 
 .res-cell.craft-link:hover {
     text-decoration: underline;
     font-weight:bold;
+}
+
+.res-cell.craft-link:active {
+    animation: pulse 0.5s;
+    user-select: none;
 }

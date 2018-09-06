@@ -196,13 +196,14 @@ WCraftShortcut = React.createClass({
 
         if (craftPercent == 1){
             return this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link"}, "all") : null;
+                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, "all") : 
+                $r("div", {className:"res-cell craft-link"});
         }
 
         return game.resPool.hasRes(craftPrices, craftRowAmt) ?  
-            $r("div", {className:"res-cell craft-link"}, 
+            $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, 
                 "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
-            : null;
+            : $r("div", {className:"res-cell craft-link"});
     },
 
     hasMinAmt: function(recipe){
@@ -216,7 +217,24 @@ WCraftShortcut = React.createClass({
 		}
 
 		return minAmt > 0 && minAmt < Number.MAX_VALUE;
-	}
+    },
+    
+    doCraft: function(event){
+        var res = this.props.resource;
+        var allCount = game.workshop.getCraftAllCount(res.name);
+            ratioCount = Math.floor(allCount * this.props.craftPercent);
+        
+        var num = this.props.craftFixed;
+        if (num < ratioCount){
+            num = ratioCount;
+        }
+        game.craft(res.name, num);
+    },
+
+    doCraftAll: function(){
+        var res = this.props.resource;
+        game.craftAll(res.name);
+    }
 });
 /*=======================================================
                     CRAFT RESOURCE ROW
@@ -290,7 +308,6 @@ WCraftRow = React.createClass({
                     $r("input", {
                         type:"checkbox", 
                         checked: this.state.visible,
-
                         onClick: this.toggleView,
                         style:{display:"inline-block"},
                     })
@@ -302,7 +319,7 @@ WCraftRow = React.createClass({
             }, 
                 res.title || res.name
             ),
-            $r("div", {className:"res-cell"}, game.getDisplayValueExt(res.value)),
+            $r("div", {className:"res-cell resource-value"}, game.getDisplayValueExt(res.value)),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:1, craftPercent: 0.01}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:25, craftPercent: 0.05}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:100, craftPercent: 0.1}),
@@ -460,7 +477,7 @@ WCraftTable = React.createClass({
             ]),
             this.state.isCollapsed ? null :
             $r("div", null, [
-                $r("div", {className:"res-table"}, resRows)
+                $r("div", {className:"res-table craftTable"}, resRows)
             ])
         ]);
     },

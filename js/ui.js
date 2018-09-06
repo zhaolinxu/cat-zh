@@ -201,7 +201,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: remove hardcoded id?
         this.toolbar.render(dojo.byId("headerToolbar"));
 
-        game.craftTable.render();
         game.calendar.render();
 
         var visibleTabs = [];
