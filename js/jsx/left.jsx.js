@@ -35,6 +35,10 @@ WResourceRow = React.createClass({
     render: function(){
         var res = this.props.resource;
 
+        if (!res.visible){
+            return null;
+        }
+
         var hasVisibility = (res.unlocked || (res.name == "kittens" && res.maxValue));
 
         if (!hasVisibility || (!this.state.visible && !this.props.isEditMode)){
@@ -490,6 +494,20 @@ WLeftPanel = React.createClass({
 
         return $r("div", null, [
             $r(WResourceTable, {resources: game.resPool.resources, reqRes: reqRes}),
+
+            $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
+            $r("div", {id:"fastHuntContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
+                $r("a", {href:"#", onClick: game.huntAll.bind(game)},
+                    "Send hunters (",
+                    $r("span", {id:"fastHuntContainerCount"}),
+                    ")"
+                )
+            ),
+            $r("div", {id:"fastPraiseContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
+                $r("a", {href:"#", onClick: game.praise.bind(game)},
+                    "Praise the sun!"
+                )
+            ),              
             $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
         ]);
     },

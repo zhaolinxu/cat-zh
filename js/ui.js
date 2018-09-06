@@ -447,6 +447,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.fastHuntContainer = $("#fastHuntContainer")[0];
         }
 
+        if (!this.fastHuntContainer){
+            return;
+        }
+
         var catpower = this.game.resPool.get("manpower");
         var showFastHunt = (catpower.value >= 100);
 
@@ -468,6 +472,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateFastPraise: function(){
         if (!this.fastPraiseContainer){
             this.fastPraiseContainer = dojo.byId("fastPraiseContainer");
+        }
+
+        if (!this.fastPraiseContainer){
+            return;
         }
 
         if (this.game.religion.faith > 0){
@@ -534,6 +542,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var advDiv = dojo.byId("advisorsContainer");
+        if (!advDiv){
+            return;
+        }
         dojo.empty(advDiv);
 
         var calendar = this.game.calendar,
