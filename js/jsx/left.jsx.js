@@ -446,6 +446,11 @@ WCraftTable = React.createClass({
                 $r(WCraftRow, {resource: res, isEditMode: this.state.isEditMode, isRequired: isRequired})
             );
         }
+
+        if (game.bld.get("workshop").on <= 0){
+            return null;
+        }
+
         return $r("div", null, [
             $r("div", null,[
                 $r("div", {
