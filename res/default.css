@@ -805,10 +805,16 @@ a.link.collapse:hover {
 
 .res-cell.craft-link:hover {
     text-decoration: underline;
-    font-weight:bold;
+    text-shadow: -0.06ex 0 black, 0.06ex 0 black;
 }
 
 .res-cell.craft-link:active {
-    animation: pulse 0.5s;
+    animation: pulseShort 0.5s;
     user-select: none;
 }
+
+@keyframes pulseShort {
+    100% {
+        transform: scale(1.1);
+    }
+  }
