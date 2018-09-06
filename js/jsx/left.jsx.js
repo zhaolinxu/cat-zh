@@ -199,16 +199,61 @@ WCraftShortcut = React.createClass({
             craftRowAmt = Math.floor(allCount * craftPercent);
         }
 
+        var elem = null;
+
         if (craftPercent == 1){
-            return this.hasMinAmt(recipe) ? 
+            elem = this.hasMinAmt(recipe) ? 
                 $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, "all") : 
                 $r("div", {className:"res-cell craft-link"});
-        }
-
-        return game.resPool.hasRes(craftPrices, craftRowAmt) ?  
+        }else{
+            elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  
             $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, 
                 "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
             : $r("div", {className:"res-cell craft-link"});
+        }
+
+        return $r("div", {ref:"linkBlock", style: {display:"contents"}}, elem);
+    },
+
+    componentDidMount: function(){
+        var res = this.props.resource,
+            recipe = this.props.recipe,
+            ratio = this.props.craftPercent,
+            num = this.props.craftFixed;
+
+        var node = React.findDOMNode(this.refs.linkBlock);
+        if (node && node.firstChild){
+            this.tooltipNode = node;
+
+            UIUtils.attachTooltip(game, node.firstChild, 0, 60, dojo.partial( function(recipe){
+				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
+				var prices = game.workshop.getCraftPrice(recipe);
+
+				var allCount = game.workshop.getCraftAllCount(recipe.name);
+				var ratioCount = Math.floor(allCount*ratio);
+				if (num < ratioCount){
+					num = ratioCount;
+				}
+
+				for (var i = 0; i < prices.length; i++){
+					var price = prices[i];
+
+					var priceItemNode = dojo.create("div", {style: {clear: "both"}}, tooltip);
+					var res = game.resPool.get(price.name);
+
+					var nameSpan = dojo.create("span", {
+							innerHTML: res.title || res.name,
+							style: { float: "left"}
+						}, priceItemNode );
+
+					var priceSpan = dojo.create("span", {
+							innerHTML: game.getDisplayValueExt(price.val * num),
+							style: {float: "right", paddingLeft: "6px" }
+						}, priceItemNode );
+				}
+				return tooltip.outerHTML;
+			}, recipe));
+        }
     },
 
     hasMinAmt: function(recipe){
@@ -259,7 +304,7 @@ WCraftRow = React.createClass({
         var oldRes = this.oldRes || {},
             newRes = nextProp.resource;
 
-        var isEqual = 
+        /*var isEqual = 
             oldRes.value == newRes.value &&
             this.props.isEditMode == nextProp.isEditMode &&
             this.props.isRequired == nextProp.isRequired &&
@@ -267,7 +312,7 @@ WCraftRow = React.createClass({
 
         if (isEqual){
             return false;
-        }
+        }*/
         this.oldRes = {
             value: newRes.value,
         };
@@ -396,7 +441,7 @@ WResourceTable = React.createClass({
                         onClick: this.toggleEdit
                     }, "⚙"),
                     $r(WTooltip, {body:"?"}, 
-                        "Ctrl click resource to hide it, use gear icon for more settings")
+                        "Ctrl+click resource to hide it, use gear icon for more settings.")
                 
                 )
             ]),
