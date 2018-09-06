@@ -256,6 +256,7 @@ WCraftRow = React.createClass({
 
         var isEqual = 
             oldRes.value == newRes.value &&
+            this.props.isEditMode == nextProp.isEditMode &&
             this.state.visible == nextState.visible;
 
         if (isEqual){
@@ -336,25 +337,6 @@ WCraftRow = React.createClass({
         this.setState({visible: !this.state.visible});
         this.props.resource.isHidden = this.state.visible; 
     }
-    /*,
-
-    componentDidMount: function(){
-        var node = React.findDOMNode(this.refs.perTickNode);
-        if (node){
-            this.tooltipNode = node;
-            game.attachResourceTooltip(node, this.props.resource);
-        }
-    },
-
-    componentDidUpdate: function(prevProps, prevState){
-        if (!this.tooltipNode){
-            var node = React.findDOMNode(this.refs.perTickNode);
-            if (node){
-                this.tooltipNode = node;
-                game.attachResourceTooltip(node, this.props.resource);
-            }
-        }
-    }*/
 });
 
 /*=======================================================
