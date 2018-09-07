@@ -818,3 +818,30 @@ a.link.collapse:hover {
         transform: scale(1.1);
     }
   }
+
+.map-viewport {
+    border: 1px solid lightgray;
+    height: 250px;
+    padding: 20px;
+}
+
+/*--------------------------------------
+                Map
+--------------------------------------*/
+
+.map-cell {
+    border: 1px solid lightgray;
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.map-cell .coord {
+    font-size: 10px;
+    color: lightgray;
+}
+.map-cell .label {
+    position: absolute;
+}

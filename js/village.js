@@ -2001,6 +2001,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tdLeft = dojo.create("td", null, tr);
 		var tdRight = dojo.create("td", null, tr);
 
+		//--------------------------	map ---------------------------
+		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
+		var mapPanelViewport = this.mapPanel.render(tabContainer);
+		React.render($r(WMapSection, {
+            game: this.game
+        }), mapPanelViewport); 
+
 		//----------------- happiness and things ----------------------
 
 		this.statisticsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.management"), this.game.village);

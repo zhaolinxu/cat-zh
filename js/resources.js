@@ -865,16 +865,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 });
 
 
-/**
- * Generic resource table for res/craft panels in the game.
- *
- * Instead of re-creating the DOM tree every tick they are capable of rendering
- * outline table and then updating related cells
- * 
- * @Deprecated
- */
-
-dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
+/*dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 
 	game: null,
 	containerId: null,
@@ -984,9 +975,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 		this.update();
 	},
 
-	/**
-	 * This section is performance-critical. Using non vanilla js here is a very *BAD* idea.
-	 */
+	
 	update: function(){
 		var reqRes = this.game.getRequiredResources(this.game.selectedBuilding);
 		for (var i = 0; i < this.resRows.length; i++){
@@ -1102,14 +1091,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GenericResourceTable", null, {
 			 dojo.style(container, "fontWeight", "normal");
 		}, tooltip, container));
 	}
-});
+});*/
 
-/**
- * Same as resources, but no per tick values
- * 
- * @Deprecated
- */
-dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn.game.ui.GenericResourceTable, {
+/*dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn.game.ui.GenericResourceTable, {
 
 	workshop: null,
 
@@ -1123,11 +1107,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		return this.game.getResCraftRatio(res);
 	},
 
-	/**
-	 *
-	 * min amount to craft
-	 * %to craft
-	 **/
 	createCraftButton: function(tr, recipe, craftRatio, res, num, ratio){
 		var td = dojo.create("td", { style: {width: "20px"}}, tr);
 		var a = dojo.create("a", {
@@ -1372,5 +1351,5 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftResourceTable", com.nuclearunicorn
 		}
 	}
 });
-
+*/
 
