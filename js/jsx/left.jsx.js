@@ -221,6 +221,11 @@ WCraftShortcut = React.createClass({
             ratio = this.props.craftPercent,
             num = this.props.craftFixed;
 
+        //no craftAll tooltip    
+        if (this.props.craftPercent == 1){
+            return;
+        }   
+
         var node = React.findDOMNode(this.refs.linkBlock);
         if (node && node.firstChild){
             this.tooltipNode = node;
@@ -371,7 +376,7 @@ WCraftRow = React.createClass({
             }, 
                 res.title || res.name
             ),
-            $r("div", {className:"res-cell resource-value"}, game.getDisplayValueExt(res.value)),
+            $r("div", {className:"res-cell resource-value", ref:"perTickNode"}, game.getDisplayValueExt(res.value)),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:1, craftPercent: 0.01}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:25, craftPercent: 0.05}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:100, craftPercent: 0.1}),
@@ -387,6 +392,24 @@ WCraftRow = React.createClass({
     toggleView: function(){
         this.setState({visible: !this.state.visible});
         this.props.resource.isHidden = this.state.visible; 
+    },
+
+    componentDidMount: function(){
+        var node = React.findDOMNode(this.refs.perTickNode);
+        if (node){
+            this.tooltipNode = node;
+            game.attachResourceTooltip(node, this.props.resource);
+        }
+    },
+
+    componentDidUpdate: function(prevProps, prevState){
+        if (!this.tooltipNode){
+            var node = React.findDOMNode(this.refs.perTickNode);
+            if (node){
+                this.tooltipNode = node;
+                game.attachResourceTooltip(node, this.props.resource);
+            }
+        }
     }
 });
 

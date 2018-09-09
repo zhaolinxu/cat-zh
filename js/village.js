@@ -2003,6 +2003,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//--------------------------	map ---------------------------
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
+		this.mapPanel.setVisible(false);
+
 		var mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
