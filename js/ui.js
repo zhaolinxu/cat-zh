@@ -201,7 +201,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: remove hardcoded id?
         this.toolbar.render(dojo.byId("headerToolbar"));
 
-        game.craftTable.render();
         game.calendar.render();
 
         var visibleTabs = [];
@@ -436,7 +435,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         /*React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport")); */
-        dojo.publish("ui/update", [this.game]);
+        this.game._publish("ui/update", this.game);
     },
 
 	updateTabs: function() {
@@ -453,6 +452,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
             this.fastHuntContainer = $("#fastHuntContainer")[0];
+        }
+
+        if (!this.fastHuntContainer){
+            return;
         }
 
         var catpower = this.game.resPool.get("manpower");
@@ -476,6 +479,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateFastPraise: function(){
         if (!this.fastPraiseContainer){
             this.fastPraiseContainer = dojo.byId("fastPraiseContainer");
+        }
+
+        if (!this.fastPraiseContainer){
+            return;
         }
 
         if (this.game.religion.faith > 0){
@@ -543,6 +550,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var advDiv = dojo.byId("advisorsContainer");
+        if (!advDiv){
+            return;
+        }
         dojo.empty(advDiv);
 
         var calendar = this.game.calendar,

@@ -32,11 +32,10 @@
 			ga('send', 'pageview');
 		</script>-->
 
-		<link rel="stylesheet" href="res/default.css?v=1b" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
-        <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
-		<link rel="stylesheet" href="res/theme_sleek.css" type="text/css">
-		<link rel="stylesheet" href="res/app.css">
+		<link rel="stylesheet" href="res/default.css?v=4" type="text/css">
+		<link rel="stylesheet" href="res/theme_dark.css?v=4" type="text/css">
+        <link rel="stylesheet" href="res/theme_grassy.css?v=4" type="text/css">
+		<link rel="stylesheet" href="res/theme_sleek.css?v=4" type="text/css">
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -52,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1449c";
+			var version = "1449i";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -126,6 +125,7 @@
 					"game",
 
 					"js/jsx/left.jsx",
+					"js/jsx/map.jsx",
 
 					"js/ui",
 					"js/toolbar"
@@ -318,9 +318,8 @@
 						散热器
 						纠缠
 
-					Rev: 8
-						新加载界面
-						黑色光辉
+					Rev: 9
+						小界面调整
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -341,29 +340,6 @@
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
 					<div id="leftColumnViewport">#这里没有什么有趣的</div>
-					<!--div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a>
-					</div-->
-
-					<div id="resContainer" style="padding-top: 15px; width: 100%">
-					</div>
-
-					<!-- Advisers -->
-
-					<div id="advisorsContainer" style=" padding-top: 10px;">
-					</div>
-
-					<div id="fastHuntContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.huntAll(event);">派出猎人 (<span id="fastHuntContainerCount"></span>)</a>
-					</div>
-
-					<div id="fastPraiseContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.praise(event);">赞美太阳!</a>
-					</div>
-
-					<div id="craftContainer" style="padding-top: 10px; width: 100%">
-					</div>
 				</div>
 
 				<!-- MID -->

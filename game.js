@@ -1006,12 +1006,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	batchSize: 10,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
+	//TODO: move me to UI
 	selectedBuilding: null,
 	setSelectedObject: function(object) {
 		this.selectedBuilding = object;
+		this._publish("ui/update", this);
 	},
 	clearSelectedObject: function() {
 		this.selectedBuilding = null;
+		this._publish("ui/update", this);
 	},
 
 	//=============================
@@ -1189,9 +1192,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.addEvent(dojo.hitch(this, function(){
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
-
-		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
-		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
 
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
