@@ -455,7 +455,7 @@ WResourceTable = React.createClass({
                             className:"link collapse", 
                             onClick: this.toggleCollapsed
                         },
-                        this.state.isCollapsed ? ">(resources)" : "v"
+                        this.state.isCollapsed ? ">(资源)" : "v"
                     )
                 ),
                 $r("div", {className:"res-toolbar right"}, 
@@ -527,7 +527,7 @@ WCraftTable = React.createClass({
                             className:"link collapse", 
                             onClick: this.toggleCollapsed
                         },
-                        this.state.isCollapsed ? ">(craft)" : "v"
+                        this.state.isCollapsed ? ">(工艺)" : "v"
                     )
                 ),
                 $r("div", {className:"res-toolbar right"}, 
@@ -570,14 +570,14 @@ WLeftPanel = React.createClass({
             $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
             $r("div", {id:"fastHuntContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.huntAll.bind(game)},
-                    "Send hunters (",
+                    "派出猎人 (",
                     $r("span", {id:"fastHuntContainerCount"}),
                     ")"
                 )
             ),
             $r("div", {id:"fastPraiseContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.praise.bind(game)},
-                    "Praise the sun!"
+                    "赞美太阳！"
                 )
             ),              
             $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
