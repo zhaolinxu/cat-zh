@@ -894,10 +894,14 @@ dojo.declare("classes.village.Map", null, {
 	villageData: {
 			"3_2":{
 				title: "village",
+				type: "village",
 				level: 1,
 				cp: 0
 			}
 	},
+
+	/*% explored, affects your priceRatio */
+	exploredLevel: 0,
 
 	constructor: function(game){
 		this.game = game;
@@ -915,13 +919,18 @@ dojo.declare("classes.village.Map", null, {
 				}
 			}
 			exploredLevel += cellData.level;
+
+			if (cellData.type == "village"){
+				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (cellData.level - 1));
+				this.villageLevel = cellData.level;
+			}
 		}
 
 		this.exploredLevel = exploredLevel;
 	},
 
 	updateEffectCached: function(){
-		this.game.globalEffectsCached["mapPriceReduction"] = -(this.exploredLevel-1) * 0.00001;
+		this.game.globalEffectsCached["mapPriceReduction"] = -(Math.sqrt(this.exploredLevel-1)) * 0.00002;
 	}
 });
 
@@ -1812,7 +1821,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		//update leader stats
 		var leader = this.game.village.leader;
-		if (leader){
+		if (leader && this.unassignLeaderJobHref){
 			this.unassignLeaderJobHref.style.display = leader.job ? "block" : "none";
 		}
 		//TODO: promote leader link
@@ -2141,7 +2150,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader !== undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
 				}
 			})
 		}, this.game);

@@ -24,7 +24,9 @@ WMapTile = React.createClass({
             cp: 0
         };
 
-        var toLevel = 100 * Math.pow(data.level+1, 1.18),
+        var distance =  Math.sqrt(Math.pow(this.props.x - 3, 2) + Math.pow(this.props.y - 2, 2));
+
+        var toLevel = 100 * (1 + 0.1 * distance) * Math.pow(data.level+1, 1.18 + 0.1 * distance),
         percentExplored = (data.cp / toLevel) * 100;
 
 
@@ -37,6 +39,9 @@ WMapTile = React.createClass({
         if (this.state.isFocused){
             tileClass += " focused";
         }
+
+       
+
         return $r("div", {
             className: "map-cell" + tileClass,
             onMouseDown: this.onMouseDown,
@@ -58,7 +63,7 @@ WMapTile = React.createClass({
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
                         $r("div", {className: "label"}, [
-                            $r("div", null, "lv." + data.level + " ["+ data.cp + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
+                            $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
                         ]) 
                         : $r("div", {className: "label"}, "Nothing interesting here")]
                 ))
@@ -116,26 +121,31 @@ WMapViewport = React.createClass({
         e.preventDefault();
 
         var id = x + "_" + y;
-        this.explore(id);    
+        this.explore(id, x, y);    
     },
 
     onMouseUp: function(){
         clearTimeout(this.timeout); 
     },
 
-    explore: function(id){
+    explore: function(id, x, y){
         var dataset = this.state.dataset;
         var data = dataset[id];
         if (!data){
-            data = {level: 0, cp: 0};
+            data = {
+                level: 0, 
+                cp: 0
+            };
             dataset[id] = data;
         }
 
-        var catpower = game.resPool.get("manpower");
-        if (catpower.value >= 1){
-            catpower.value--;
+        var catpower = game.resPool.get("manpower"),
+            explorePower = 1 * (1 + game.getEffect("exploreRatio"));
 
-            data.cp++;
+        if (catpower.value >= explorePower){
+            catpower.value -= explorePower;
+
+            data.cp += explorePower;
             if (data.cp >= 100 * Math.pow(data.level+1, 1.18)){
                 data.cp = 0;
                 data.level++;
@@ -165,7 +175,8 @@ WMapSection = React.createClass({
             mapDataset = map.villageData;
 
         return $r("div", null, [
-            $r("div", null, "Explored:" + map.exploredLevel + "%"),
+            $r("div", null, "Explored: " + map.exploredLevel + "%"),
+            $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
             $r(WMapViewport, {dataset: mapDataset})
         ]);
     },
