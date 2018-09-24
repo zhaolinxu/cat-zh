@@ -175,6 +175,16 @@ WResourceRow = React.createClass({
                 game.attachResourceTooltip(node, this.props.resource);
             }
         }
+    },
+
+    componentWillUnmount: function(){
+        if (!this.tooltipNode){
+            var node = React.findDOMNode(this.refs.perTickNode);
+            if (node){
+                this.tooltipNode = node;
+            }
+        }
+        dojo.destroy(this.tooltipNode);
     }
 });
 
@@ -289,6 +299,13 @@ WCraftShortcut = React.createClass({
     doCraftAll: function(){
         var res = this.props.resource;
         game.craftAll(res.name);
+    },
+
+    componentWillUnmount: function(){
+        var node = React.findDOMNode(this.refs.linkBlock);
+        if (node){
+            dojo.destroy(node.firstChild);
+        }
     }
 });
 /*=======================================================

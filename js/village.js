@@ -141,6 +141,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	game: null,
 
 	sim: null,
+	map: null,
 	deathTimeout: 0,
 
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
@@ -185,7 +186,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 		return defaultObject;
+	},
 
+	updateEffectCached: function(){
+		this.map.updateEffectCached();
 	},
 
 	getLeaderDescription: function(job) {
@@ -207,7 +211,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	constructor: function(game){
 		this.game = game;
-		this.sim = new com.nuclearunicorn.game.village.KittenSim(game);
+		this.sim = new classes.village.KittenSim(game);
+		this.map = new classes.village.Map(game);
 
 		this.senators = [];
 	},
@@ -317,7 +322,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.updateHappines();
 
         //XXX FW7: add some messeging system? Get rid of direct UI update calls completely?
-        //this.game.ui.updateFastHunt();
+		//this.game.ui.updateFastHunt();
+		
+		this.map.update();
 	},
 
 	fastforward: function(times){
@@ -522,7 +529,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		saveData.village = {
 			kittens : this.sim.kittens,
 			maxKittens: this.maxKittens,
-			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"])
+			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
+			map : this.map.villageData
 		};
 	},
 
@@ -554,6 +562,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
+
+			if (saveData.village.map){
+				this.map.villageData = saveData.village.map;
+			}
 		}
 
 		this.updateResourceProduction();
@@ -882,10 +894,104 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	}
 });
 
+dojo.declare("classes.village.Map", null, {
+	game: null,
+	villageData: null,
+
+	/*% explored, affects your priceRatio */
+	exploredLevel: 0,
+
+	constructor: function(game){
+		this.game = game;
+		this.resetMap();
+	},
+
+	init: function(){
+		this.villageData = {
+			"3_2":{
+				title: "v",
+				type: "village",
+				level: 1,
+				cp: 0
+			}
+		}
+	},
+
+	resetMap: function(){
+		this.init();
+		this.mapgen();
+	},
+
+	mapgen: function(){
+		for (var i = 0; i < 5; i++){
+			for (var j = 0; j < 7; j++){
+				var key = i + "_" + j;
+				if (this.villageData[key]){ continue; }
+
+				if (this.game.rand(100) <= 20){
+					this.villageData[key] = {
+						title: "^",
+						type: "forest",
+						level: 0,
+						cp: 0
+					}
+				}
+			}
+		}
+	},
+
+	toLevel: function(x, y){
+		var key = x + "_" + y,
+			data = this.villageData[key] || {
+				level: 0, 
+			};
+
+		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
+
+		if (data.type == "forest"){
+			distance *= 1.2;	//20% penalty for complex terrains
+		}
+		
+		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
+
+		return toLevel;
+	},
+
+	update: function(){
+		var exploredLevel = 0;
+
+		for (var key in this.villageData){
+			var cellData = this.villageData[key];
+			if (cellData.level > 0){
+				cellData.cp -= (0.1 * cellData.level);
+				if (cellData.cp < 0){
+					cellData.cp = 0;
+				}
+			}
+			exploredLevel += cellData.level;
+
+			if (cellData.type == "village"){
+				this.game.globalEffectsCached["exploreRatio"] = (0.1 * (cellData.level - 1));
+				this.villageLevel = cellData.level;
+			}
+		}
+
+		this.exploredLevel = exploredLevel;
+	},
+
+	getPriceReduction: function(){
+		return Math.sqrt(this.exploredLevel-1) * 0.00002;
+	},
+
+	updateEffectCached: function(){
+		this.game.globalEffectsCached["mapPriceReduction"] = -this.getPriceReduction();
+	}
+});
+
 /**
  * Detailed kitten simulation
  */
-dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
+dojo.declare("classes.village.KittenSim", null, {
 
 	kittens: null,
 
@@ -1769,7 +1875,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		//update leader stats
 		var leader = this.game.village.leader;
-		if (leader){
+		if (leader && this.unassignLeaderJobHref){
 			this.unassignLeaderJobHref.style.display = leader.job ? "block" : "none";
 		}
 		//TODO: promote leader link
@@ -2003,12 +2109,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//--------------------------	map ---------------------------
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(false);
+		this.mapPanel.setVisible(true);
 
-		var mapPanelViewport = this.mapPanel.render(tabContainer);
+		if (this.mapPanelViewport){
+			React.unmountComponentAtNode(this.mapPanelViewport);
+		}
+		this.mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
-        }), mapPanelViewport); 
+        }), this.mapPanelViewport);
 
 		//----------------- happiness and things ----------------------
 
@@ -2095,7 +2204,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader !== undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
 				}
 			})
 		}, this.game);
