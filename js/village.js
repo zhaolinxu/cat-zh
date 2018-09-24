@@ -141,6 +141,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	game: null,
 
 	sim: null,
+	map: null,
 	deathTimeout: 0,
 
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
@@ -185,7 +186,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 		return defaultObject;
+	},
 
+	updateEffectCached: function(){
+		this.map.updateEffectCached();
 	},
 
 	getLeaderDescription: function(job) {
@@ -207,7 +211,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	constructor: function(game){
 		this.game = game;
-		this.sim = new com.nuclearunicorn.game.village.KittenSim(game);
+		this.sim = new classes.village.KittenSim(game);
+		this.map = new classes.village.Map(game);
 
 		this.senators = [];
 	},
@@ -317,7 +322,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.updateHappines();
 
         //XXX FW7: add some messeging system? Get rid of direct UI update calls completely?
-        //this.game.ui.updateFastHunt();
+		//this.game.ui.updateFastHunt();
+		
+		this.map.update();
 	},
 
 	fastforward: function(times){
@@ -882,10 +889,46 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	}
 });
 
+dojo.declare("classes.village.Map", null, {
+	game: null,
+	villageData: {
+			"3_2":{
+				title: "village",
+				level: 1,
+				cp: 0
+			}
+	},
+
+	constructor: function(game){
+		this.game = game;
+	},
+
+	update: function(){
+		var exploredLevel = 0;
+
+		for (var key in this.villageData){
+			var cellData = this.villageData[key];
+			if (cellData.level > 0){
+				cellData.cp--;
+				if (cellData.cp < 0){
+					cellData.cp = 0;
+				}
+			}
+			exploredLevel += cellData.level;
+		}
+
+		this.exploredLevel = exploredLevel;
+	},
+
+	updateEffectCached: function(){
+		this.game.globalEffectsCached["mapPriceReduction"] = -(this.exploredLevel-1) * 0.00001;
+	}
+});
+
 /**
  * Detailed kitten simulation
  */
-dojo.declare("com.nuclearunicorn.game.village.KittenSim", null, {
+dojo.declare("classes.village.KittenSim", null, {
 
 	kittens: null,
 
@@ -2003,12 +2046,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		//--------------------------	map ---------------------------
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(false);
+		this.mapPanel.setVisible(true);
 
-		var mapPanelViewport = this.mapPanel.render(tabContainer);
+		if (this.mapPanelViewport){
+			React.unmountComponentAtNode(this.mapPanelViewport);
+		}
+		this.mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
-        }), mapPanelViewport); 
+        }), this.mapPanelViewport);
 
 		//----------------- happiness and things ----------------------
 

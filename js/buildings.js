@@ -1757,8 +1757,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var ratio = bld.get('priceRatio');
 		var ratioBase = ratio - 1;
 
-		var ratioDiff = this.game.getEffect(bld.meta.name + "PriceRatio") || 0;
-		ratioDiff += this.game.getEffect("priceRatio") || 0;
+		var ratioDiff = this.game.getEffect(bld.meta.name + "PriceRatio") +
+			this.game.getEffect("priceRatio") +
+			this.game.getEffect("mapPriceReduction");
+
 		ratioDiff = this.game.getHyperbolicEffect(ratioDiff, ratioBase);
 		return ratio + ratioDiff;
 	},

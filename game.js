@@ -1201,7 +1201,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.prestige.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
-		// TODO : village cache
+		this.village.updateEffectCached();
 
 		this.updateResources();
 	},
