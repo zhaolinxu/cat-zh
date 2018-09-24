@@ -192,31 +192,38 @@ WMapViewport = React.createClass({
 
 WMapSection = React.createClass({
     getDefaultProperties: function(){
-        return {game: game};
+        return {map: game.village.map};
     },
-    getInitialState: function(){
-        return {game: this.props.game};
-    },
-    render: function(){   
-        /*var mapDataset = {"3_2":{
-            title: "village",
-            level: 1,
-            cp: 0
-        }};  */   
 
-        var map = this.state.game.village.map,
+    getInitialState: function(){
+        return {map: this.props.map};
+    },
+
+    render: function(){   
+        if (!this.state.map){
+            return null;
+        }
+
+        var map = this.state.map,
             mapDataset = map.villageData;
 
         return $r("div", null, [
             $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
             $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
+            $r("a", {className:"link", href:"#", onClick: this.resetMap}, "Reset map"),
             $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);
     },
+
     componentDidMount: function(){
         var self = this;
         dojo.subscribe("ui/update", function(game){
-            self.setState({game: game});
+            self.setState({map: game.village.map});
         });
+    },
+
+    resetMap: function(){
+        game.village.map.resetMap();
+        game.render();  //some messy case here
     }
 });

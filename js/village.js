@@ -529,7 +529,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		saveData.village = {
 			kittens : this.sim.kittens,
 			maxKittens: this.maxKittens,
-			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"])
+			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
+			map : this.map.villageData
 		};
 	},
 
@@ -561,6 +562,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
+
+			if (saveData.village.map){
+				this.map.villageData = saveData.village.map;
+			}
 		}
 
 		this.updateResourceProduction();
@@ -891,20 +896,29 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 dojo.declare("classes.village.Map", null, {
 	game: null,
-	villageData: {
-			"3_2":{
-				title: "v",
-				type: "village",
-				level: 1,
-				cp: 0
-			}
-	},
+	villageData: null,
 
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
 
 	constructor: function(game){
 		this.game = game;
+		this.resetMap();
+	},
+
+	init: function(){
+		this.villageData = {
+			"3_2":{
+				title: "v",
+				type: "village",
+				level: 1,
+				cp: 0
+			}
+		}
+	},
+
+	resetMap: function(){
+		this.init();
 		this.mapgen();
 	},
 
