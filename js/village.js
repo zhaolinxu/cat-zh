@@ -949,7 +949,7 @@ dojo.declare("classes.village.Map", null, {
 		for (var key in this.villageData){
 			var cellData = this.villageData[key];
 			if (cellData.level > 0){
-				cellData.cp--;
+				cellData.cp -= (0.1 * cellData.level);
 				if (cellData.cp < 0){
 					cellData.cp = 0;
 				}
