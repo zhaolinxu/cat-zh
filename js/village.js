@@ -929,8 +929,12 @@ dojo.declare("classes.village.Map", null, {
 		this.exploredLevel = exploredLevel;
 	},
 
+	getPriceReduction: function(){
+		return Math.sqrt(this.exploredLevel-1) * 0.00002;
+	},
+
 	updateEffectCached: function(){
-		this.game.globalEffectsCached["mapPriceReduction"] = -(Math.sqrt(this.exploredLevel-1)) * 0.00002;
+		this.game.globalEffectsCached["mapPriceReduction"] = -this.getPriceReduction();
 	}
 });
 

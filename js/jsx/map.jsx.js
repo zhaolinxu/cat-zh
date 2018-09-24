@@ -175,7 +175,7 @@ WMapSection = React.createClass({
             mapDataset = map.villageData;
 
         return $r("div", null, [
-            $r("div", null, "Explored: " + map.exploredLevel + "%"),
+            $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
             $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
             $r(WMapViewport, {dataset: mapDataset})
         ]);
