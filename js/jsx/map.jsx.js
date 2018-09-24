@@ -65,7 +65,7 @@ WMapTile = React.createClass({
                     [data ? 
                         $r("div", {className: "label"}, [
                             data.type && $r("div", null, "地形:" + cntext(data.type)),
-                            $r("div", null, "等级:" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
+                            $r("div", null, "等级:" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + " 猫力]("+ percentExplored.toFixed() + "%)")
                         ]) 
                         : $r("div", {className: "label"}, "这里没什么有趣的")]
                 ))
