@@ -344,10 +344,24 @@ var run = function() {
         villageManager: undefined,
         loop: undefined,
         start: function () {
+			if (game.isWebWorkerSupported() && game.useWorkers){
+				console.log('启用后台猫咪科学家！！喵~');
+				var blob = new Blob([
+					"onmessage = function(e) { setInterval(function(){postMessage('miaowu')}, 2000); }"]);
+				var blobURL = window.URL.createObjectURL(blob);
+				
+				
+				this.worker = new Worker(blobURL);
+				this.worker.addEventListener('message', this.iterate.bind(this));
+				this.worker.postMessage("miaowu");
+				message('启用后台猫咪科学家！！喵~');
+			}
+			else{
             if (this.loop) return;
 
             this.loop = setInterval(this.iterate.bind(this), options.interval);
             message('启用猫咪科学家!');
+			}
         },
         stop: function () {
             if (!this.loop) return;
@@ -1131,13 +1145,13 @@ var run = function() {
         middle.css({
             marginTop: '1%',
             height: '90%',
-            width: '48%'
+            width: '35%'
         });
 
         right.css({
             overflowY: 'scroll',
             height: '92%',
-            width: '19%'
+            width: '32%'
         });
 
         addRule('#gameLog .msg {'
@@ -1887,7 +1901,7 @@ var run = function() {
         var elezhs= elementLabel;
 //        汉化
         if(elezhs=="Wood"){
-            elezhs="木材";     
+            elezhs="木头";     
         }else if(elezhs=="Beam"){
             elezhs="木梁";     
         }else if(elezhs=="Slab"){
@@ -1994,7 +2008,7 @@ var run = function() {
         //        汉化
         var elezhs=ucfirst(name);
         if(elezhs=="Wood"){
-            elezhs="木材";     
+            elezhs="木头";     
         }else if(elezhs=="Beam"){
             elezhs="木梁";     
         }else if(elezhs=="Slab"){
