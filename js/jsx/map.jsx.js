@@ -24,9 +24,9 @@ WMapTile = React.createClass({
             cp: 0
         };
 
-        var distance =  Math.sqrt(Math.pow(this.props.x - 3, 2) + Math.pow(this.props.y - 2, 2));
+        var distance =  Math.sqrt(Math.pow(this.props.x - 3, 2) + Math.pow(this.props.y - 2, 2)) || 1;
 
-        var toLevel = 100 * (1 + 0.1 * distance) * Math.pow(data.level+1, 1.18 + 0.1 * distance),
+        var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance),
         percentExplored = (data.cp / toLevel) * 100;
 
 
