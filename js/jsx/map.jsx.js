@@ -64,10 +64,10 @@ WMapTile = React.createClass({
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
                         $r("div", {className: "label"}, [
-                            data.type && $r("div", null, "Terrain:" + data.type),
-                            $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
+                            data.type && $r("div", null, "地形:" + data.type),
+                            $r("div", null, "等级:" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
                         ]) 
-                        : $r("div", {className: "label"}, "Nothing interesting here")]
+                        : $r("div", {className: "label"}, "这里没什么有趣的")]
                 ))
         );
     },
@@ -208,9 +208,9 @@ WMapSection = React.createClass({
             mapDataset = map.villageData;
 
         return $r("div", null, [
-            $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
-            $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
-            $r("a", {className:"link", href:"#", onClick: this.resetMap}, "Reset map"),
+            $r("div", null, "已探索: " + map.exploredLevel + "% (降价比率: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
+            $r("div", null, "探索奖励: " + (map.villageLevel-1) * 10 + "%"),
+            $r("a", {className:"link", href:"#", onClick: this.resetMap}, "重置地图"),
             $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);
     },

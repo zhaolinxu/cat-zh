@@ -2108,7 +2108,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tdRight = dojo.create("td", null, tr);
 
 		//--------------------------	map ---------------------------
-		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
+		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("地图", this.game.village);
 		this.mapPanel.setVisible(true);
 
 		if (this.mapPanelViewport){
