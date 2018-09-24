@@ -145,11 +145,15 @@ WMapViewport = React.createClass({
     },
 
     onMouseUp: function(){
-        clearTimeout(this.timeout); 
+        if (this.timeout){
+            clearTimeout(this.timeout); 
+        }
     },
 
     onMouseOut: function(){
-        clearTimeout(this.timeout); 
+        if (this.timeout){
+            clearTimeout(this.timeout); 
+        }
     },
 
     explore: function(id, x, y){
@@ -178,6 +182,9 @@ WMapViewport = React.createClass({
             }
 
             this.setState({dataset: dataset});
+        }
+        if (this.timeout){
+            clearTimeout(this.timeout); 
         }
         this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);
     }
