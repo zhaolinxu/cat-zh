@@ -893,7 +893,7 @@ dojo.declare("classes.village.Map", null, {
 	game: null,
 	villageData: {
 			"3_2":{
-				title: "village",
+				title: "v",
 				type: "village",
 				level: 1,
 				cp: 0

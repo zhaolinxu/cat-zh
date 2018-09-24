@@ -14,7 +14,8 @@ WMapTile = React.createClass({
                 cp: 0
             },
             onMouseDown: null,
-            onMouseUp: null
+            onMouseUp: null,
+            scale: 0
         };
     },
 
@@ -38,6 +39,8 @@ WMapTile = React.createClass({
             tileClass += " focused";
         }
 
+        var scale = (1 - this.props.scale/2);
+
         return $r("div", {
             className: "map-cell" + tileClass,
             onMouseDown: this.onMouseDown,
@@ -46,7 +49,9 @@ WMapTile = React.createClass({
             onMouseOut: this.onMouseOut,
 
             style: {
-                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255)"
+                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255)",
+                width: (35 * scale) + "px",
+                height: (35 * scale) + "px"
             }
         },
             /*$r("svg", null, 
@@ -86,23 +91,41 @@ WMapTile = React.createClass({
 
 WMapViewport = React.createClass({
     getDefaultProperties: function(){
-        return {dataset: {}};
+        return {dataset: {}, exploredLevel: 0};
     },
     getInitialState: function(){
         return {dataset: this.props.dataset};
     },
 
     render: function(){
+        var expLevel = this.props.exploredLevel;
+
+        var scale = 0;   
+        if (expLevel > 10){
+            scale = 0.2;
+        }    
+        if (expLevel > 50){
+            scale = 0.4;
+        } 
+        if (expLevel > 100){
+            scale = 0.6;
+        } 
+        /*if (expLevel > 15){
+            scale = 0.8;
+        }*/
+
         var rows = [];
-        for (var i = 0; i < 5; i++){
+        for (var i = 0; i < 5 * (1+scale); i++){
 
             var cells = [];
-            for (var j = 0; j < 7; j++){
+            for (var j = 0; j < 7 * (1+scale); j++){
                 cells.push(
                     $r(WMapTile, {x: j, y: i, 
                         data: this.state.dataset[j+"_"+i],
                         onMouseDown: this.onMouseDown,
-                        onMouseUp: this.onMouseUp
+                        onMouseUp: this.onMouseUp,
+                        onMouseOut: this.onMouseOut,
+                        scale: scale
                     })
                 );
             }
@@ -122,6 +145,10 @@ WMapViewport = React.createClass({
     },
 
     onMouseUp: function(){
+        clearTimeout(this.timeout); 
+    },
+
+    onMouseOut: function(){
         clearTimeout(this.timeout); 
     },
 
@@ -176,7 +203,7 @@ WMapSection = React.createClass({
         return $r("div", null, [
             $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
             $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
-            $r(WMapViewport, {dataset: mapDataset})
+            $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);
     },
     componentDidMount: function(){
