@@ -152,7 +152,7 @@ WMapViewport = React.createClass({
 
             this.setState({dataset: dataset});
         }
-        this.timeout = setTimeout(this.explore.bind(this, id), 25);
+        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);
     }
 });
 

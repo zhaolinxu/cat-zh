@@ -855,20 +855,18 @@ a.link.collapse:hover {
 
 .map-cell .tooltip-content {
     margin-left: 50px;
+    position: relative;
+    float:left;
+    z-index: 99999;
 }
+
+.map-cell .tooltip-content div {
+    white-space: nowrap !important;
+}
+
 /*-----------------------------------------
     Courtesy of https://iros.github.io/patternfills/sample_css.html
 ------------------------------------------*/
-
-svg {
-    width: 100%;
-    height: 100%;
-    float: left;
-}
-rect {
-    width: 100%;
-    height: 100%;
-}
 
 .dots-1 {
     background-color: #6DB3F2;
