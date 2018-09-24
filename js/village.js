@@ -905,6 +905,42 @@ dojo.declare("classes.village.Map", null, {
 
 	constructor: function(game){
 		this.game = game;
+		this.mapgen();
+	},
+
+	mapgen: function(){
+		for (var i = 0; i < 5; i++){
+			for (var j = 0; j < 7; j++){
+				var key = i + "_" + j;
+				if (this.villageData[key]){ continue; }
+
+				if (this.game.rand(100) <= 20){
+					this.villageData[key] = {
+						title: "^",
+						type: "forest",
+						level: 0,
+						cp: 0
+					}
+				}
+			}
+		}
+	},
+
+	toLevel: function(x, y){
+		var key = x + "_" + y,
+			data = this.villageData[key] || {
+				level: 0, 
+			};
+
+		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
+
+		if (data.type == "forest"){
+			distance *= 1.2;	//20% penalty for complex terrains
+		}
+		
+		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
+
+		return toLevel;
 	},
 
 	update: function(){

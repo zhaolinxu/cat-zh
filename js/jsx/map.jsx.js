@@ -24,10 +24,8 @@ WMapTile = React.createClass({
             cp: 0
         };
 
-        var distance =  Math.sqrt(Math.pow(this.props.x - 3, 2) + Math.pow(this.props.y - 2, 2)) || 1;
-
-        var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance),
-        percentExplored = (data.cp / toLevel) * 100;
+        var toLevel = game.village.map.toLevel(this.props.x, this.props.y);
+        var percentExplored = (data.cp / toLevel) * 100;
 
 
         var tileClass = "";
@@ -39,8 +37,6 @@ WMapTile = React.createClass({
         if (this.state.isFocused){
             tileClass += " focused";
         }
-
-       
 
         return $r("div", {
             className: "map-cell" + tileClass,
@@ -63,6 +59,7 @@ WMapTile = React.createClass({
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
                         $r("div", {className: "label"}, [
+                            data.type && $r("div", null, "Terrain:" + data.type),
                             $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)")
                         ]) 
                         : $r("div", {className: "label"}, "Nothing interesting here")]
@@ -140,13 +137,15 @@ WMapViewport = React.createClass({
         }
 
         var catpower = game.resPool.get("manpower"),
-            explorePower = 1 * (1 + game.getEffect("exploreRatio"));
+            explorePower = 1 * (1 + game.getEffect("exploreRatio")),
+            toLevel = game.village.map.toLevel(x, y);
+            
 
         if (catpower.value >= explorePower){
             catpower.value -= explorePower;
 
             data.cp += explorePower;
-            if (data.cp >= 100 * Math.pow(data.level+1, 1.18)){
+            if (data.cp >= toLevel){
                 data.cp = 0;
                 data.level++;
             }
