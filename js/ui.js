@@ -540,7 +540,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#undoBtn").toggle(isVisible);
 
         if (isVisible) {
-            $("#undoBtn").html("撤销转换 (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "秒)");
+            $("#undoBtn").html("撤销 (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "秒)");
         }
     },
 
