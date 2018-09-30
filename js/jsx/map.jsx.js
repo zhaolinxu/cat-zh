@@ -56,7 +56,7 @@ WMapTile = React.createClass({
             onMouseOut: this.onMouseOut,
 
             style: {
-                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255)",
+                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255, 0.6)",
                 width: (35 * scale) + "px",
                 height: (35 * scale) + "px"
             }
@@ -150,6 +150,26 @@ WMapViewport = React.createClass({
             var row = $r("div", {className: "map-row"}, cells);
             rows.push(row);
         }
+        
+        var nodeBlock = null;
+        if (selectedNode){
+            var x = selectedNode.x,
+                y = selectedNode.y,
+                data = this.getTileData(x, y);
+
+            var toLevel = game.village.map.toLevel(x, y);
+            var percentExplored = (data.cp / toLevel) * 100;
+
+
+            nodeBlock = $r("div", null, [
+                "[" + x + "," + y + "]",
+                $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)"),
+                $r("div", null, "Exp. cost:" + this.getExplorationPrice(x, y).toFixed(2) + " cp/sec"),
+                $r("div", {className: "btn nosel modern"}, 
+                    $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore")
+                )
+            ]);
+        }
 
 
         return $r("div", null,[
@@ -160,12 +180,7 @@ WMapViewport = React.createClass({
                 /*$r("div", null, "Expedition supplies: 100%"),*/
                 $r("div", null, "Map region:"),
                 selectedNode ? 
-                    $r("div", null, [
-                        "[" + selectedNode.x + "," + selectedNode.y + "]",
-                        $r("div", {className: "btn nosel modern"}, 
-                            $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore (1/sec)")
-                        )
-                    ]) : "N/A"
+                    nodeBlock : "N/A"
             )
         ]);
     },
@@ -213,24 +228,14 @@ WMapViewport = React.createClass({
 
     explore: function(x, y){
         var dataset = this.state.dataset,
-            id = x + "_" + y;
+            data = this.getTileData(x, y);
 
-        var data = dataset[id];
-        if (!data){
-            data = {
-                level: 0, 
-                cp: 0
-            };
-            dataset[id] = data;
-        }
+        var toLevel = game.village.map.toLevel(x, y),
+            explorePrice = this.getExplorationPrice(x, y),
+            catpower = game.resPool.get("manpower");
 
-        var catpower = game.resPool.get("manpower"),
-            explorePower = 1 * (1 + game.getEffect("exploreRatio")),
-            toLevel = game.village.map.toLevel(x, y);
-            
-
-        if (catpower.value >= explorePower){
-            catpower.value -= explorePower * (1 + Math.pow(0.1, data.level));
+        if (catpower.value >= explorePrice){
+            catpower.value -= explorePrice;
 
             data.cp += explorePower;
             if (data.cp >= toLevel){
@@ -246,6 +251,30 @@ WMapViewport = React.createClass({
             clearTimeout(this.timeout); 
         }
         this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);*/
+    },
+
+    getTileData: function(x, y){
+        var dataset = this.state.dataset,
+            id = x + "_" + y;
+
+        var data = dataset[id];
+        if (!data){
+            data = {
+                level: 0, 
+                cp: 0
+            };
+            dataset[id] = data;
+        }
+        return data;
+    },
+
+    //todo: move to map
+    getExplorationPrice: function(x, y){
+        var data = this.getTileData(x,y);
+            explorePower = 1 * (1 + game.village.map.getExploreRatio()),
+            price = explorePower * (1 + Math.pow(0.1, data.level));
+        
+        return price;
     }
 });
 
@@ -268,7 +297,7 @@ WMapSection = React.createClass({
 
         return $r("div", null, [
             $r("div", null, "Explored: " + map.exploredLevel + "% (Price reduction: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
-            $r("div", null, "Exploration bonus: " + (map.villageLevel-1) * 10 + "%"),
+            $r("div", null, "Exploration bonus: " + (map.getExploreRatio() * 10).toFixed() + "%"),
             $r("a", {className:"link", href:"#", onClick: this.resetMap}, "Reset map"),
             $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);

@@ -988,6 +988,10 @@ dojo.declare("classes.village.Map", null, {
 		this.exploredLevel = exploredLevel;
 	},
 
+	getExploreRatio: function(){
+		return (this.villageLevel-1) * 0.1;
+	},
+
 	getPriceReduction: function(){
 		return Math.sqrt(this.exploredLevel-1) * 0.00002;
 	},
