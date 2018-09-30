@@ -900,6 +900,7 @@ dojo.declare("classes.village.Map", null, {
 
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
+	supplies: 0,
 
 	constructor: function(game){
 		this.game = game;
@@ -934,7 +935,15 @@ dojo.declare("classes.village.Map", null, {
 						type: "forest",
 						level: 0,
 						cp: 0
-					}
+					};
+				}
+				if (this.game.rand(100) <= 5){
+					this.villageData[key] = {
+						title: "*",
+						type: "mountain",
+						level: 0,
+						cp: 0
+					};
 				}
 			}
 		}
@@ -952,7 +961,7 @@ dojo.declare("classes.village.Map", null, {
 			distance *= 1.2;	//20% penalty for complex terrains
 		}
 		
-		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
+		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2.8)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
 
 		return toLevel;
 	},

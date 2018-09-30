@@ -15,7 +15,9 @@ WMapTile = React.createClass({
             },
             onMouseDown: null,
             onMouseUp: null,
-            scale: 0
+            scale: 0,
+            isSelected: false,
+            isActive: false
         };
     },
 
@@ -38,13 +40,18 @@ WMapTile = React.createClass({
         if (this.state.isFocused){
             tileClass += " focused";
         }
+        if (this.props.isSelected){
+            tileClass += " selected";
+        }
+        if (this.props.isActive){
+            tileClass += " active";
+        }
 
         var scale = (1 - this.props.scale/2);
 
         return $r("div", {
             className: "map-cell" + tileClass,
-            onMouseDown: this.onMouseDown,
-            onMouseUp: this.onMouseUp,
+            onClick: this.onClick,
             onMouseOver: this.onMouseOver, 
             onMouseOut: this.onMouseOut,
 
@@ -72,20 +79,18 @@ WMapTile = React.createClass({
         );
     },
 
-    onMouseDown: function(e){
-        this.props.onMouseDown(e, this.props.x, this.props.y);
-    },
-
-    onMouseUp: function(e){
-        this.props.onMouseUp();
+    onClick: function(e){
+        this.props.onClick(e, this.props.x, this.props.y);
     },
 
     onMouseOver: function(){
         this.setState({isFocused: true});
+        this.props.onFocus(this.props.x, this.props.y);
     },
 
     onMouseOut: function(){
         this.setState({isFocused: false});
+        this.props.onBlur(this.props.x, this.props.y);
     }
 });
 
@@ -94,7 +99,12 @@ WMapViewport = React.createClass({
         return {dataset: {}, exploredLevel: 0};
     },
     getInitialState: function(){
-        return {dataset: this.props.dataset};
+        return {
+            dataset: this.props.dataset, 
+            focusedNode: null,
+            selectedNode: null,
+            expeditionNode: null
+        };
     },
 
     render: function(){
@@ -114,18 +124,25 @@ WMapViewport = React.createClass({
             scale = 0.8;
         }*/
 
+        var selectedNode = this.state.selectedNode,
+            expeditionNode = this.state.expeditionNode;
+
         var rows = [];
         for (var i = 0; i < 5 * (1+scale); i++){
 
             var cells = [];
             for (var j = 0; j < 7 * (1+scale); j++){
+                var isNodeSelected = selectedNode && (selectedNode.x == j && selectedNode.y == i);
+                var isNodeActive = expeditionNode && (expeditionNode.x == j && expeditionNode.y == i);
                 cells.push(
                     $r(WMapTile, {x: j, y: i, 
                         data: this.state.dataset[j+"_"+i],
-                        onMouseDown: this.onMouseDown,
-                        onMouseUp: this.onMouseUp,
-                        onMouseOut: this.onMouseOut,
-                        scale: scale
+                        onClick: this.onClick,
+                        onFocus: this.onFocus,
+                        onBlur: this.onBlur,
+                        scale: scale,
+                        isSelected: isNodeSelected,
+                        isActive: isNodeActive
                     })
                 );
             }
@@ -133,31 +150,71 @@ WMapViewport = React.createClass({
             var row = $r("div", {className: "map-row"}, cells);
             rows.push(row);
         }
-        return $r("div", {className:"map-viewport"}, 
-            rows
-        );
-    },
-    onMouseDown: function(e, x, y){
-        e.preventDefault();
 
-        var id = x + "_" + y;
-        this.explore(id, x, y);    
+
+        return $r("div", null,[
+            $r("div", {className:"map-viewport"}, 
+                rows
+            ),
+            $r("div", {className:"map-dashboard"},
+                /*$r("div", null, "Expedition supplies: 100%"),*/
+                $r("div", null, "Map region:"),
+                selectedNode ? 
+                    $r("div", null, [
+                        "[" + selectedNode.x + "," + selectedNode.y + "]",
+                        $r("div", {className: "btn nosel modern"}, 
+                            $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore (1/sec)")
+                        )
+                    ]) : "N/A"
+            )
+        ]);
     },
 
-    onMouseUp: function(){
+    onClick: function(e, x, y){
+        this.setState({selectedNode: {x: x, y: y}});
+    },
+
+    onFocus: function(x, y){
+        this.setState({focusedNode: {x: x, y: y}});
+    },
+
+    onBlur: function(x, y){
+        var focusedNode = this.state.focusedNode;
+        if (focusedNode && focusedNode.x == x && focusedNode.y == y){
+            this.setState({focusedNode: null});
+        }
+    },
+
+    disconnectHandler: function(){
         if (this.timeout){
             clearTimeout(this.timeout); 
         }
     },
 
-    onMouseOut: function(){
-        if (this.timeout){
-            clearTimeout(this.timeout); 
+    componentDidMount: function(){
+        dojo.subscribe("ui/update", function(game){
+            this.update();
+        }.bind(this));
+    },
+
+    update: function(){
+        var activeNode = this.state.expeditionNode;
+        if (activeNode){
+            this.explore(activeNode.x, activeNode.y);
         }
     },
 
-    explore: function(id, x, y){
-        var dataset = this.state.dataset;
+    startExpedition: function(){
+        var selectedNode = this.state.selectedNode;
+        if (selectedNode){
+            this.setState({expeditionNode: {x: selectedNode.x, y:selectedNode.y}});
+        }
+    },
+
+    explore: function(x, y){
+        var dataset = this.state.dataset,
+            id = x + "_" + y;
+
         var data = dataset[id];
         if (!data){
             data = {
@@ -173,20 +230,22 @@ WMapViewport = React.createClass({
             
 
         if (catpower.value >= explorePower){
-            catpower.value -= explorePower;
+            catpower.value -= explorePower * (1 + Math.pow(0.1, data.level));
 
             data.cp += explorePower;
             if (data.cp >= toLevel){
                 data.cp = 0;
                 data.level++;
+
+                this.setState({expeditionNode: null});
             }
 
             this.setState({dataset: dataset});
         }
-        if (this.timeout){
+        /*if (this.timeout){
             clearTimeout(this.timeout); 
         }
-        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);
+        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);*/
     }
 });
 
