@@ -342,135 +342,135 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	//------------------------------------------------------------------------
 
 
-	tradeInternal: function(race, suppressMessages, tradeRes){
-		var tradeRatioAttitude = 0;
-
-		var attitudeChance = this.game.rand(100);
-		var standingRatio = this.game.getEffect("standingRatio");
-		standingRatio = standingRatio ? standingRatio : 0;
-
-		if (this.game.prestige.getPerk("diplomacy").researched){
-			standingRatio += 10;
-		}
-
-		if (!tradeRes){
-			tradeRes = {};
-
-			for (var j = 0; j < race.sells.length; j++){
-				tradeRes[race.sells[j].name] = 0;
-			}
-
-			tradeRes["spice"] = 0;
-			tradeRes["blueprint"] = 0;
-		}
-
-		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
-			}
-			return tradeRes;
-		}
-
-		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
-			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
-			}
-			tradeRatioAttitude = 0.25;
-		}
-
-		if (race.name == "leviathans"){
-			//reset energy to default limit
-			var duration = (400 + 100 * race.energy);
-			if (race.duration > duration){
-				race.duration = duration;
-			}
-		}
-
-		var ratio = this.game.diplomacy.getTradeRatio();
-		var currentSeason = this.game.calendar.getCurSeason().name;
-
-		for (var j =0; j< race.sells.length; j++){
-			var s = race.sells[j];
-
-			var chance = this.game.rand(100);
-			if (chance >= s.chance){
-				continue;
-			}
-
-			var sratio = s.seasons[currentSeason];
-			var min = s.value * sratio - s.value * sratio * s.delta/2;
-			var amt = min + this.game.rand(s.value * sratio * s.delta);
-
-			amt += amt*ratio;
-
-			amt = amt + amt*tradeRatioAttitude;
-			if (race.name == "leviathans") {
-				amt += amt * 0.02 * race.energy;
-			}
-
-			tradeRes[s.name] += amt;
-
-		}
-		//-------------------- 35% chance to get spice ------------------
-		if (this.game.rand(100) < 35){
-			var spiceVal = this.game.rand(50);
-			var resValue = 25 +  spiceVal + spiceVal * ratio;
-			tradeRes["spice"] += resValue;
-		}
-
-		//-------------- 10% change to get blueprint ---------------
-
-		if (this.game.rand(100) < 10){
-			tradeRes["blueprint"] += 1;
-		}
-
-		//-------------- 15% change to get titanium  ---------------
-
-		if (race.name == "zebras"){
-			var shipVal = this.game.resPool.get("ship").value;
-			var shipRate = shipVal * 0.35;		//0.35% per ship to get titanium
-
-			if (this.game.rand(100) < ( 15 + shipRate )){
-
-				var titaniumAmt = 1.5;
-				titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-				tradeRes["titanium"] += titaniumAmt;
-			}
-		}
-
-		//Update Trade Stats
-		this.game.stats.getStat("totalTrades").val += 1;
-		this.game.stats.getStatCurrent("totalTrades").val += 1;
-
-		return tradeRes;
-	},
-
-	trade: function(race){
-		var yieldRes = this.tradeInternal(race);
-		this.gainTradeRes(yieldRes, 1);
-	},
-
-	tradeMultiple: function(race, amt){
-		//------------ safety measure ----------------
-		if (!this.hasMultipleResources(race, amt)) {
-			return;
-		}
-
-		//-------------- pay prices ------------------
-
-		this.game.resPool.addResEvent("manpower", -50 * amt);
-		this.game.resPool.addResEvent("gold", -15 * amt);
-		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
-
-		//---------- calculate yield -----------------
-
-		var yieldResTotal = null;
-		for (var i = 0; i < amt; i++){
-			yieldResTotal = this.tradeInternal(race, true, yieldResTotal);	//suppress msg
-		}
-
-		this.gainTradeRes(yieldResTotal, amt);
-	},
+	gamePage.diplomacy.normalDistribution = function(mean, std) {
+    var vals = [];
+    function calc() {
+        var alpha = Math.random(),
+        beta = Math.random();
+        return [
+            Math.sqrt(-2 * Math.log(alpha)) * Math.sin(2 * Math.PI * beta),
+            Math.sqrt(-2 * Math.log(alpha)) * Math.cos(2 * Math.PI * beta)
+        ];
+    }
+    vals = vals.length == 0 ? calc() : vals;
+    return ((vals.pop())*std+mean);
+}
+ 
+	gamePage.diplomacy.tradeInternal = function(race, suppressMessages, tradeRes, amt){
+	    var attitudeChance = this.game.rand(100);
+	    var standingRatio = this.game.getEffect("standingRatio");
+	    standingRatio = standingRatio ? standingRatio : 0;
+	    if (this.game.prestige.getPerk("diplomacy").researched)
+	        standingRatio += 10;
+	    if (!tradeRes){
+	        tradeRes = {};
+	        for (var j = 0; j < race.sells.length; j++)
+	            tradeRes[race.sells[j].name] = 0;
+	        tradeRes["spice"] = 0;
+	        tradeRes["blueprint"] = 0;
+	    }
+	    var avgSuc = amt * ((standingRatio/100+race.standing));
+	    var stdSuc = (1-(standingRatio/100+race.standing))*(standingRatio/100+race.standing)*amt;
+	    var avgSuper = amt * (standingRatio/200+race.standing);
+	    var stdSuper = (1-(standingRatio/200+race.standing))*(standingRatio/200+race.standing)*amt;
+	   	var adjTrade = amt;
+	    var friendlyTrades = 0;
+	    if (race.attitude == "hostile"){
+	        adjTrade = Math.min(Math.max(this.normalDistribution(avgSuc, stdSuc)+0.5,0),amt);
+	        adjTrade = Math.floor(adjTrade)
+	        if (adjTrade == 0 && !supressMessage)
+	            this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
+	    }
+	    if (race.attitude == "friendly"){
+	        friendlyTrades = Math.min(Math.max(this.normalDistribution(avgSuper, stdSuper)+0.5,0),amt);
+	        friendlyTrades = Math.floor(friendlyTrades)
+	    }
+	    adjTrade = Math.min(amt,Math.max(0,adjTrade));
+	    friendlyTrades = Math.min(amt,Math.max(0,friendlyTrades));
+	       
+ 	 	if (race.name == "leviathans"){
+	        //reset energy to default limit
+	        var duration = (400 + 100 * race.energy);
+	        if (race.duration > duration)
+	            race.duration = duration;
+	    }
+	    var ratio = this.game.diplomacy.getTradeRatio();
+	    var currentSeason = this.game.calendar.getCurSeason().name;
+	    for (var j =0; j< race.sells.length; j++){
+	        var s = race.sells[j];
+	        var avgTrades = adjTrade * (s.chance);
+	        var stdTrades = (1-s.chance)*(s.chance)*adjTrade;
+	        var finalTrades = Math.max(Math.min(this.normalDistribution(avgTrades, stdTrades),adjTrade),0);
+	        if (finalTrades != 0)
+	            continue
+	        var sratio = s.seasons[currentSeason];
+	        var min = s.value * sratio - s.value * sratio * s.delta/2;
+	        var max = min + s.value * sratio * s.delta;
+	        var avgAmt = (min + max)/2
+	        var stdAmt = (max-min)/Math.sqrt(12)
+	        var finAmt = this.normalDistribution(avgAmt, stdAmt);
+	        finAmt += finAmt*ratio;
+	        finAmt = finAmt + finAmt/adjTrade*1.25*friendlyTrades;
+	        if (race.name == "leviathans")
+	            finAmt += finAmt * 0.02 * race.energy;
+	        tradeRes[s.name] += finAmt;
+	    }
+	    //-------------------- 35% chance to get spice ------------------
+	    var spiceTradesAvg = adjTrade * 0.35;
+	    var spiceTradesStd = (0.65) * (0.35)*adjTrade;
+	    var spiceTradesTot = this.normalDistribution(spiceTradesAvg, spiceTradesStd);
+	    var resValueAvg = 150+25*ratio;
+	    var resValueMin = 25;
+	    var resValueMax = resValueMin + 50 + 50 * ratio;
+	    var resValueStd = (resValueMax-resValueMin)/Math.sqrt(12);
+	    var spiceTraded = this.normalDistribution(resValueAvg, resValueStd);
+	    spiceTraded *= spiceTradesTot;
+	    tradeRes["spice"] += spiceTraded;
+	    //-------------- 10% change to get blueprint ---------------
+	    var blueprintAvg = adjTrade * 0.1;
+	    var blueprintStd = (0.1) * (0.9)*blueprintAvg;
+	    var blueprintsTot = this.normalDistribution(blueprintAvg, blueprintStd);
+	    blueprintsTot = Math.floor(blueprintsTot+0.5);
+	    tradeRes["blueprint"] += blueprintsTot;
+	    //-------------- 15% change to get titanium  ---------------
+	    if (race.name == "zebras"){
+	        var shipVal = this.game.resPool.get("ship").value;
+	        var shipRate = shipVal * 0.35;      //0.35% per ship to get titanium
+	        var titTradesAvg = adjTrade * (0.15+shipRate/100);
+	        var titTradesStd = (0.15+shipRate/100) * (1-(0.15+shipRate/100))*adjTrade;
+	        if (titTradesAvg >= adjTrade){
+	            titTradesAvg = adjTrade;
+	            titTradesStd = 0;
+	        }
+	        var titTradesTot = Math.max(Math.min(this.normalDistribution(titTradesAvg, titTradesStd),adjTrade),0);
+	        var titAmt = 3*(shipVal/100);
+	        var titSold = titAmt * titTradesTot;
+	        tradeRes["titanium"] += titSold;
+	    }
+	    //Update Trade Stats
+	    this.game.stats.getStat("totalTrades").val += amt;
+	    this.game.stats.getStatCurrent("totalTrades").val += amt;
+	    return tradeRes;
+	}
+ 
+gamePage.diplomacy.trade = function(race){
+    var yieldRes = this.tradeInternal(race);
+    this.gainTradeRes(yieldRes, 1);
+}
+ 
+gamePage.diplomacy.tradeMultiple = function(race, amt){
+    //------------ safety measure ----------------
+    if (!this.hasMultipleResources(race, amt))
+        return;
+    //-------------- pay prices ------------------
+    this.game.resPool.addResEvent("manpower", -50 * amt);
+    this.game.resPool.addResEvent("gold", -15 * amt);
+    this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
+    //---------- calculate yield -----------------
+    var yieldResTotal = null;
+    yieldResTotal = this.tradeInternal(race, true, yieldResTotal, amt); //suppress msg
+    this.gainTradeRes(yieldResTotal, amt);
+}
 
 	hasMultipleResources: function(race, amt){
 		return (this.game.resPool.get("manpower").value >= 50 * amt &&
