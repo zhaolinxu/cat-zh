@@ -371,7 +371,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 -			return tradeRes;
 -		}
 -
--		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+-		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	
+			//confusing part, low standing is ok for friendly races
 -			if (!suppressMessages){
 -				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
 -			}
@@ -498,7 +499,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	    if (!tradeRes){
 	        tradeRes = {};
 	        for (var j = 0; j < race.sells.length; j++){
-				tradeRes[race.sells[j].name] = 0;
+			tradeRes[race.sells[j].name] = 0;
 			}
 	        tradeRes["spice"] = 0;
 	        tradeRes["blueprint"] = 0;
@@ -533,9 +534,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	    var currentSeason = this.game.calendar.getCurSeason().name;
 	    for (var j = 0; j< race.sells.length; j++){
 	        var s = race.sells[j];
-	        var avgTrades = adjTrade * (s.chance);
-	        var stdTrades = (1-s.chance)*(s.chance)*adjTrade;
+	        var avgTrades = adjTrade * (s.chance*0.01);
+	        var stdTrades = (1-s.chance*0.01)*(s.chance*0.01)*adjTrade;
 	        var finalTrades = Math.max(Math.min(this.normalDistribution(avgTrades, stdTrades),adjTrade),0);
+			finalTrades = Math.floor(finalTrades+1/2);
 	        if (finalTrades != 0) {
 				continue;
 			}
@@ -547,7 +549,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	        var stdAmt = (max-min)/Math.sqrt(12)
 	        var finAmt = this.normalDistribution(avgAmt, stdAmt);
 	        finAmt += finAmt*ratio;
-	        finAmt = finAmt + finAmt/adjTrade*1.25*friendlyTrades;
+			finAmt = finAmt*finalTrades;
+	        finAmt = finAmt + (finAmt/adjTrade*1.25*friendlyTrades);
 	        if (race.name == "leviathans"){
 				finAmt += finAmt * 0.02 * race.energy;
 			}
@@ -592,7 +595,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
  
 	trade: function(race){
-    	var yieldRes = this.tradeInternal(race);
+    	var yieldRes = this.tradeInternal(race, true, yieldRes, 1);
     	this.gainTradeRes(yieldRes, 1);
 	},
  
