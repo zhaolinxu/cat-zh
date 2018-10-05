@@ -371,7 +371,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 -			return tradeRes;
 -		}
 -
--		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
+-		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	
+			//confusing part, low standing is ok for friendly races
 -			if (!suppressMessages){
 -				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
 -			}
@@ -498,7 +499,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	    if (!tradeRes){
 	        tradeRes = {};
 	        for (var j = 0; j < race.sells.length; j++){
-				tradeRes[race.sells[j].name] = 0;
+			tradeRes[race.sells[j].name] = 0;
 			}
 	        tradeRes["spice"] = 0;
 	        tradeRes["blueprint"] = 0;
