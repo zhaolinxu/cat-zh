@@ -594,7 +594,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
  
 	trade: function(race){
-    	var yieldRes = this.tradeInternal(race);
+    	var yieldRes = this.tradeInternal(race, true, yieldRes, 1);
     	this.gainTradeRes(yieldRes, 1);
 	},
  
