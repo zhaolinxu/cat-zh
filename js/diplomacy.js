@@ -536,6 +536,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	        var avgTrades = adjTrade * (s.chance);
 	        var stdTrades = (1-s.chance)*(s.chance)*adjTrade;
 	        var finalTrades = Math.max(Math.min(this.normalDistribution(avgTrades, stdTrades),adjTrade),0);
+			finalTrades = Math.floor(finalTrades+1/2);
 	        if (finalTrades != 0) {
 				continue;
 			}
@@ -547,7 +548,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	        var stdAmt = (max-min)/Math.sqrt(12)
 	        var finAmt = this.normalDistribution(avgAmt, stdAmt);
 	        finAmt += finAmt*ratio;
-	        finAmt = finAmt + finAmt/adjTrade*1.25*friendlyTrades;
+	        finAmt = finAmt + (finAmt/adjTrade*1.25*friendlyTrades);
 	        if (race.name == "leviathans"){
 				finAmt += finAmt * 0.02 * race.energy;
 			}
