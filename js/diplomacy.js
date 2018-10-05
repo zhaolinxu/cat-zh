@@ -548,6 +548,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	        var stdAmt = (max-min)/Math.sqrt(12)
 	        var finAmt = this.normalDistribution(avgAmt, stdAmt);
 	        finAmt += finAmt*ratio;
+			finAmt = finAmt*finalTrades;
 	        finAmt = finAmt + (finAmt/adjTrade*1.25*friendlyTrades);
 	        if (race.name == "leviathans"){
 				finAmt += finAmt * 0.02 * race.energy;
