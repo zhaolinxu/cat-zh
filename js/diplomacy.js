@@ -510,14 +510,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	   	var adjTrade = amt;
 	    var friendlyTrades = 0;
 	    if (race.attitude == "hostile"){
-	        adjTrade = Math.min(Math.max(this.normalDistribution(avgSuc, stdSuc)+0.5,0),amt);
-	        adjTrade = Math.floor(adjTrade)
+	        adjTrade = Math.min(Math.max(this.normalDistribution(avgSuc, stdSuc) + 0.5, 0),amt);
+	        adjTrade = Math.floor(adjTrade);
 	        if (adjTrade == 0 && !supressMessage){
 				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
 			}
 	    }
 	    if (race.attitude == "friendly"){
-	        friendlyTrades = Math.min(Math.max(this.normalDistribution(avgSuper, stdSuper)+0.5,0),amt);
+	        friendlyTrades = Math.min(Math.max(this.normalDistribution(avgSuper, stdSuper) + 0.5, 0),amt);
 	        friendlyTrades = Math.floor(friendlyTrades)
 	    }
 	    adjTrade = Math.min(amt,Math.max(0,adjTrade));

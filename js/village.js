@@ -621,7 +621,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				furs: 0,
 				ivory: 0,
 				gold: 0,
-				unicorns: 0
+				unicorns: 0,
+				bloodstone: 0
 			};
 		}
 
@@ -634,6 +635,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		if (this.rand(100) < 5){
 			huntingRes.unicorns += 1;
+		}
+
+		var resPool = this.game.resPool;
+		if (resPool.get("zebras").value >= 10){
+			if (resPool.get("bloodstone").value == 0){
+				if (this.rand(100) <= 5){
+					huntingRes.bloodstone = 1;
+				}
+			} else {
+				if (this.rand(10000) <= 5){
+					huntingRes.bloodstone += 1;
+				}
+			}
 		}
 
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
@@ -688,6 +702,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 			this.game.msg(unicornMsg, "important", "hunt");
 		}
+		if (totalYield.bloodstone > 0 && this.game.resPool.get("bloodstone").value == 1){
+			this.game.msg($I("village.new.bloodstone"), "important", "ironWill");
+		}
+		
 		var msg = $I("village.msg.hunt.success");
 		if (squads > 1) {
 			msg += $I("village.msg.hunt.from", [squads]);

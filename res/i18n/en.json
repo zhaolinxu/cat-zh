@@ -1576,5 +1576,15 @@
 
     "religion.tu.blackRadiance.label" : "Black Radiance",
     "religion.tu.blackRadiance.desc" : "Every % of BLS meter will very slightly increase alicorn corruption rate",
-    "religion.tu.blackRadiance.flavor": "Like a rainbow in the dark"
+    "religion.tu.blackRadiance.flavor": "Like a rainbow in the dark",
+    "resources.bloodstone.title": "bloodstone",
+    "workshop.crafts.bloodstone.label":"Bloodstone",
+    "workshop.crafts.bloodstone.desc":"A strange jewelry claimed to be made of time and a blood of elder gods",
+    "buildings.zebraOutpost.label":"Zebra Outpost",
+    "buildings.zebraOutpost.desc":"Provides a base for the hunting expeditions. Every level of upgrade improves expedition effectiveness by 5%",
+    "buildings.zebraWorkshop.label":"Zebra Worksop",
+    "buildings.zebraWorkshop.desc":"Unlocks various zebra upgrades",
+    "buildings.zebraForge.label":"Zebra Forge",
+    "buildings.zebraForge.desc":"Unlocks the craft of bloodstones and t-mythril",
+    "village.new.bloodstone":"Your hunters have brought you a strange gift"
 }
