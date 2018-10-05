@@ -534,8 +534,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	    var currentSeason = this.game.calendar.getCurSeason().name;
 	    for (var j = 0; j< race.sells.length; j++){
 	        var s = race.sells[j];
-	        var avgTrades = adjTrade * (s.chance);
-	        var stdTrades = (1-s.chance)*(s.chance)*adjTrade;
+	        var avgTrades = adjTrade * (s.chance*0.01);
+	        var stdTrades = (1-s.chance*0.01)*(s.chance*0.01)*adjTrade;
 	        var finalTrades = Math.max(Math.min(this.normalDistribution(avgTrades, stdTrades),adjTrade),0);
 			finalTrades = Math.floor(finalTrades+1/2);
 	        if (finalTrades != 0) {
