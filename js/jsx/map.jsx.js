@@ -56,7 +56,8 @@ WMapTile = React.createClass({
             onMouseOut: this.onMouseOut,
 
             style: {
-                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255, 0.6)",
+                //backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255, 0.6)",
+                backgroundColor: "rgb(255,"  + (200 - 20*data.level) + ",50, 0.6)",
                 width: (35 * scale) + "px",
                 height: (35 * scale) + "px"
             }
@@ -200,12 +201,6 @@ WMapViewport = React.createClass({
         }
     },
 
-    disconnectHandler: function(){
-        if (this.timeout){
-            clearTimeout(this.timeout); 
-        }
-    },
-
     componentDidMount: function(){
         dojo.subscribe("ui/update", function(game){
             this.update();
@@ -272,7 +267,7 @@ WMapViewport = React.createClass({
     getExplorationPrice: function(x, y){
         var data = this.getTileData(x,y);
             explorePower = 1 * (1 + game.village.map.getExploreRatio()),
-            price = explorePower * (1 + Math.pow(0.1, data.level));
+            price = explorePower * Math.pow(1.01, data.level);
         
         return price;
     }
