@@ -47,6 +47,10 @@ WMapTile = React.createClass({
             tileClass += " active";
         }
 
+        if(!data.unlocked){
+            tileClass += " locked";
+        }
+
         var scale = (1 - this.props.scale/2);
 
         return $r("div", {
@@ -202,9 +206,15 @@ WMapViewport = React.createClass({
     },
 
     componentDidMount: function(){
-        dojo.subscribe("ui/update", function(game){
+        this._handler = dojo.subscribe("ui/update", function(game){
             this.update();
         }.bind(this));
+    },
+
+    componentWillUnmount: function(){
+        if (this._handler){
+            dojo.unsubscribe(this._handler);
+        }
     },
 
     update: function(){
@@ -238,6 +248,7 @@ WMapViewport = React.createClass({
                 data.level++;
 
                 this.setState({expeditionNode: null});
+                game.village.map.unlockTile(x, y);
             }
 
             this.setState({dataset: dataset});

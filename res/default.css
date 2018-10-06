@@ -853,6 +853,10 @@ a.link.collapse:hover {
     animation: border-pulse 4s infinite;
 }
 
+.map-cell.locked {
+    visibility: hidden;
+}
+
 @keyframes border-pulse{
     0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
   }

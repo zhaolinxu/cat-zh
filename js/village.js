@@ -920,6 +920,38 @@ dojo.declare("classes.village.Map", null, {
 	exploredLevel: 0,
 	supplies: 0,
 
+	biomes: [{
+		id: "forest",
+		icon:"^",
+		title:"Forest",
+		terrainPenalty: 1.2,
+		biomeChance: 0.2
+	},{
+		id: "boneForest",
+		icon:"^.",
+		title:"Bone Forest",
+		terrainPenalty: 1.9,
+		biomeChance: 0.02
+	},{
+		id: "rainForest",
+		icon:"^`",
+		title:"Rain Forest",
+		terrainPenalty: 1.4,
+		biomeChance: 0.1
+	},{
+		id: "mountain",
+		icon:"*",
+		title:"Mountain",
+		terrainPenalty: 1.2,
+		biomeChance: 0.05
+	},{
+		id: "desert",
+		icon:"~",
+		title:"Desert",
+		terrainPenalty: 1.5,
+		biomeChance: 0.08
+	}],
+
 	constructor: function(game){
 		this.game = game;
 		this.resetMap();
@@ -947,24 +979,54 @@ dojo.declare("classes.village.Map", null, {
 				var key = i + "_" + j;
 				if (this.villageData[key]){ continue; }
 
-				if (this.game.rand(100) <= 20){
-					this.villageData[key] = {
-						title: "^",
-						type: "forest",
-						level: 0,
-						cp: 0
-					};
+				for (var _biomeKey in this.biomes){
+					var biome = this.biomes[_biomeKey];
+					if (this.game.rand(100) <= (biome.biomeChance * 100)){
+						this.villageData[key] = {
+							title: biome.icon,
+							type: biome.id,
+							level: 0,
+							cp: 0,
+							unlocked: false,
+							biomeInfo: biome
+						};
+					}
 				}
-				if (this.game.rand(100) <= 5){
+				if (!this.villageData[key]){
 					this.villageData[key] = {
-						title: "*",
-						type: "mountain",
+						title: null,
+						type: null,
 						level: 0,
-						cp: 0
+						cp: 0,
+						unlocked: false,
+						biomeInfo: null
 					};
 				}
 			}
 		}
+
+		this.unlockTile(3,2);	//unlock village and 3x3 area around it
+	},
+
+	unlockTile: function(x, y){
+		for (var i = x-1; i<= x+1; i++){
+			for (var j = y-1; j<= y+1; j++){
+				var tile = this.getTile(i, j);
+				if (tile){
+					tile.unlocked = true;
+				}
+			}
+		}
+	},
+
+	getTile: function(x, y){
+		var key = x + "_" + y,
+			data = this.villageData[key];
+
+		if (!data){
+			//todo: allocate tile?
+		}	
+		return data;
 	},
 
 	toLevel: function(x, y){
@@ -975,8 +1037,8 @@ dojo.declare("classes.village.Map", null, {
 
 		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
 
-		if (data.type == "forest"){
-			distance *= 1.2;	//20% penalty for complex terrains
+		if (data.biomeInfo){
+			distance *= data.biomeInfo.terrainPenalty;
 		}
 		
 		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2.8)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
