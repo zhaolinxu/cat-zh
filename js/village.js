@@ -973,8 +973,37 @@ dojo.declare("classes.village.Map", null, {
 		this.mapgen();
 	},
 
+	generateTile: function(i, j){
+		var key = i + "_" + j;
+
+		for (var _biomeKey in this.biomes){
+			var biome = this.biomes[_biomeKey];
+			if (this.game.rand(100) <= (biome.biomeChance * 100)){
+				this.villageData[key] = {
+					title: biome.icon,
+					type: biome.id,
+					level: 0,
+					cp: 0,
+					unlocked: false,
+					biomeInfo: biome
+				};
+			}
+		}
+		if (!this.villageData[key]){
+			this.villageData[key] = {
+				title: null,
+				type: null,
+				level: 0,
+				cp: 0,
+				unlocked: false,
+				biomeInfo: null
+			};
+		}
+		return this.villageData[key];
+	},
+
 	mapgen: function(){
-		for (var i = 0; i < 5; i++){
+		for (var i = 0; i < 7; i++){
 			for (var j = 0; j < 7; j++){
 				var key = i + "_" + j;
 				if (this.villageData[key]){ continue; }
@@ -1024,7 +1053,7 @@ dojo.declare("classes.village.Map", null, {
 			data = this.villageData[key];
 
 		if (!data){
-			//todo: allocate tile?
+			data = this.generateTile(x, y);
 		}	
 		return data;
 	},

@@ -133,15 +133,15 @@ WMapViewport = React.createClass({
             expeditionNode = this.state.expeditionNode;
 
         var rows = [];
-        for (var i = 0; i < 5 * (1+scale); i++){
+        for (var i = 0; i < 7 * (1+scale); i++){
 
             var cells = [];
             for (var j = 0; j < 7 * (1+scale); j++){
-                var isNodeSelected = selectedNode && (selectedNode.x == j && selectedNode.y == i);
-                var isNodeActive = expeditionNode && (expeditionNode.x == j && expeditionNode.y == i);
+                var isNodeSelected = selectedNode && (selectedNode.x == i && selectedNode.y == j);
+                var isNodeActive = expeditionNode && (expeditionNode.x == i && expeditionNode.y == j);
                 cells.push(
-                    $r(WMapTile, {x: j, y: i, 
-                        data: this.state.dataset[j+"_"+i],
+                    $r(WMapTile, {x: i, y: j, 
+                        data: this.state.dataset[i+"_"+j],
                         onClick: this.onClick,
                         onFocus: this.onFocus,
                         onBlur: this.onBlur,
