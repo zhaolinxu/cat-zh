@@ -112,6 +112,7 @@
     "buildings.group.culture": "文化",
     "buildings.group.other": "其他",
     "buildings.group.megastructures": "超级建筑物",
+    "buildings.group.zebraBuildings":"斑马建筑",
 
     "village.job.woodcutter": "伐木工",
     "village.job.woodcutter.desc": "每秒 +0.1 木材",
