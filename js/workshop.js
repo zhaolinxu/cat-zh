@@ -1958,6 +1958,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		progressHandicap: 5,
 		tier: 3
+	},{
+		name: "bloodstone",
+		label: $I("workshop.crafts.bloodstone.label"),
+		description: $I("workshop.crafts.bloodstone.desc"),
+		prices:[
+			{ name: "timeCrystal", val: 5000 },
+			{ name: "relic", val: 10000 }
+		],
+		progressHandicap: 7500,
+		tier: 5
 	}],
 
 	effectsBase: {

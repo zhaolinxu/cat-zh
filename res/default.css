@@ -838,11 +838,28 @@ a.link.collapse:hover {
     cursor: pointer;
 
     fill: lightgray;
+    user-select: none;
 }
 
 .map-cell.focused {
     border: 1px solid lightskyblue;
 }
+
+.map-cell.selected {
+    border: 1px solid darkorange;
+}
+
+.map-cell.active {
+    animation: border-pulse 4s infinite;
+}
+
+.map-cell.locked {
+    visibility: hidden;
+}
+
+@keyframes border-pulse{
+    0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
+  }
 
 .map-cell .coord {
     font-size: 10px;
@@ -862,6 +879,23 @@ a.link.collapse:hover {
 
 .map-cell .tooltip-content div {
     white-space: nowrap !important;
+}
+
+.map-viewport, .map-dashboard {
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid lightgray;
+    height: 250px;
+    margin-right: 10px;
+}
+
+.map-dashboard {
+    width: 150px;
+    padding: 5px;
+}
+
+.map-dashboard .btn {
+    width: 120px;
 }
 
 /*-----------------------------------------

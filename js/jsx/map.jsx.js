@@ -15,7 +15,9 @@ WMapTile = React.createClass({
             },
             onMouseDown: null,
             onMouseUp: null,
-            scale: 0
+            scale: 0,
+            isSelected: false,
+            isActive: false
         };
     },
 
@@ -38,18 +40,28 @@ WMapTile = React.createClass({
         if (this.state.isFocused){
             tileClass += " focused";
         }
+        if (this.props.isSelected){
+            tileClass += " selected";
+        }
+        if (this.props.isActive){
+            tileClass += " active";
+        }
+
+        if(!data.unlocked){
+            tileClass += " locked";
+        }
 
         var scale = (1 - this.props.scale/2);
 
         return $r("div", {
             className: "map-cell" + tileClass,
-            onMouseDown: this.onMouseDown,
-            onMouseUp: this.onMouseUp,
+            onClick: this.onClick,
             onMouseOver: this.onMouseOver, 
             onMouseOut: this.onMouseOut,
 
             style: {
-                backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255)",
+                //backgroundColor: "rgb(" + (255 - 7*data.level) + ","  + (255 - 20*data.level) + ",255, 0.6)",
+                backgroundColor: "rgb(255,"  + (200 - 20*data.level) + ",50, 0.6)",
                 width: (35 * scale) + "px",
                 height: (35 * scale) + "px"
             }
@@ -72,20 +84,18 @@ WMapTile = React.createClass({
         );
     },
 
-    onMouseDown: function(e){
-        this.props.onMouseDown(e, this.props.x, this.props.y);
-    },
-
-    onMouseUp: function(e){
-        this.props.onMouseUp();
+    onClick: function(e){
+        this.props.onClick(e, this.props.x, this.props.y);
     },
 
     onMouseOver: function(){
         this.setState({isFocused: true});
+        this.props.onFocus(this.props.x, this.props.y);
     },
 
     onMouseOut: function(){
         this.setState({isFocused: false});
+        this.props.onBlur(this.props.x, this.props.y);
     }
 });
 
@@ -94,7 +104,12 @@ WMapViewport = React.createClass({
         return {dataset: {}, exploredLevel: 0};
     },
     getInitialState: function(){
-        return {dataset: this.props.dataset};
+        return {
+            dataset: this.props.dataset, 
+            focusedNode: null,
+            selectedNode: null,
+            expeditionNode: null
+        };
     },
 
     render: function(){
@@ -114,18 +129,25 @@ WMapViewport = React.createClass({
             scale = 0.8;
         }*/
 
+        var selectedNode = this.state.selectedNode,
+            expeditionNode = this.state.expeditionNode;
+
         var rows = [];
-        for (var i = 0; i < 5 * (1+scale); i++){
+        for (var i = 0; i < 7 * (1+scale); i++){
 
             var cells = [];
             for (var j = 0; j < 7 * (1+scale); j++){
+                var isNodeSelected = selectedNode && (selectedNode.x == i && selectedNode.y == j);
+                var isNodeActive = expeditionNode && (expeditionNode.x == i && expeditionNode.y == j);
                 cells.push(
-                    $r(WMapTile, {x: j, y: i, 
-                        data: this.state.dataset[j+"_"+i],
-                        onMouseDown: this.onMouseDown,
-                        onMouseUp: this.onMouseUp,
-                        onMouseOut: this.onMouseOut,
-                        scale: scale
+                    $r(WMapTile, {x: i, y: j, 
+                        data: this.state.dataset[i+"_"+j],
+                        onClick: this.onClick,
+                        onFocus: this.onFocus,
+                        onBlur: this.onBlur,
+                        scale: scale,
+                        isSelected: isNodeSelected,
+                        isActive: isNodeActive
                     })
                 );
             }
@@ -133,31 +155,114 @@ WMapViewport = React.createClass({
             var row = $r("div", {className: "map-row"}, cells);
             rows.push(row);
         }
-        return $r("div", {className:"map-viewport"}, 
-            rows
-        );
-    },
-    onMouseDown: function(e, x, y){
-        e.preventDefault();
+        
+        var nodeBlock = null;
+        if (selectedNode){
+            var x = selectedNode.x,
+                y = selectedNode.y,
+                data = this.getTileData(x, y);
 
-        var id = x + "_" + y;
-        this.explore(id, x, y);    
+            var toLevel = game.village.map.toLevel(x, y);
+            var percentExplored = (data.cp / toLevel) * 100;
+
+
+            nodeBlock = $r("div", null, [
+                "[" + x + "," + y + "]",
+                $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)"),
+                $r("div", null, "Exp. cost:" + this.getExplorationPrice(x, y).toFixed(2) + " cp/sec"),
+                $r("div", {className: "btn nosel modern"}, 
+                    $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore")
+                )
+            ]);
+        }
+
+
+        return $r("div", null,[
+            $r("div", {className:"map-viewport"}, 
+                rows
+            ),
+            $r("div", {className:"map-dashboard"},
+                /*$r("div", null, "Expedition supplies: 100%"),*/
+                $r("div", null, "Map region:"),
+                selectedNode ? 
+                    nodeBlock : "N/A"
+            )
+        ]);
     },
 
-    onMouseUp: function(){
-        if (this.timeout){
-            clearTimeout(this.timeout); 
+    onClick: function(e, x, y){
+        this.setState({selectedNode: {x: x, y: y}});
+    },
+
+    onFocus: function(x, y){
+        this.setState({focusedNode: {x: x, y: y}});
+    },
+
+    onBlur: function(x, y){
+        var focusedNode = this.state.focusedNode;
+        if (focusedNode && focusedNode.x == x && focusedNode.y == y){
+            this.setState({focusedNode: null});
         }
     },
 
-    onMouseOut: function(){
-        if (this.timeout){
-            clearTimeout(this.timeout); 
+    componentDidMount: function(){
+        this._handler = dojo.subscribe("ui/update", function(game){
+            this.update();
+        }.bind(this));
+    },
+
+    componentWillUnmount: function(){
+        if (this._handler){
+            dojo.unsubscribe(this._handler);
         }
     },
 
-    explore: function(id, x, y){
-        var dataset = this.state.dataset;
+    update: function(){
+        var activeNode = this.state.expeditionNode;
+        if (activeNode){
+            this.explore(activeNode.x, activeNode.y);
+        }
+    },
+
+    startExpedition: function(){
+        var selectedNode = this.state.selectedNode;
+        if (selectedNode){
+            this.setState({expeditionNode: {x: selectedNode.x, y:selectedNode.y}});
+        }
+    },
+
+    explore: function(x, y){
+        var dataset = this.state.dataset,
+            data = this.getTileData(x, y);
+
+        var toLevel = game.village.map.toLevel(x, y),
+            explorePrice = this.getExplorationPrice(x, y),
+            catpower = game.resPool.get("manpower");
+
+        if (catpower.value >= explorePrice){
+            catpower.value -= explorePrice;
+
+            data.cp += explorePower;
+            if (data.cp >= toLevel){
+                data.cp = 0;
+                data.level++;
+
+                this.setState({expeditionNode: null});
+                game.village.map.unlockTile(x, y);
+            }
+
+            this.setState({dataset: dataset});
+        }
+        /*if (this.timeout){
+            clearTimeout(this.timeout); 
+        }
+        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);*/
+    },
+
+    getTileData: function(x, y){
+        var dataset = this.state.dataset,
+            id = x + "_" + y;
+
         var data = dataset[id];
         if (!data){
             data = {
@@ -166,27 +271,16 @@ WMapViewport = React.createClass({
             };
             dataset[id] = data;
         }
+        return data;
+    },
 
-        var catpower = game.resPool.get("manpower"),
-            explorePower = 1 * (1 + game.getEffect("exploreRatio")),
-            toLevel = game.village.map.toLevel(x, y);
-            
-
-        if (catpower.value >= explorePower){
-            catpower.value -= explorePower;
-
-            data.cp += explorePower;
-            if (data.cp >= toLevel){
-                data.cp = 0;
-                data.level++;
-            }
-
-            this.setState({dataset: dataset});
-        }
-        if (this.timeout){
-            clearTimeout(this.timeout); 
-        }
-        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);
+    //todo: move to map
+    getExplorationPrice: function(x, y){
+        var data = this.getTileData(x,y);
+            explorePower = 1 * (1 + game.village.map.getExploreRatio()),
+            price = explorePower * Math.pow(1.01, data.level);
+        
+        return price;
     }
 });
 
@@ -209,7 +303,7 @@ WMapSection = React.createClass({
 
         return $r("div", null, [
             $r("div", null, "已探索: " + map.exploredLevel + "% (降价比率: " + (map.getPriceReduction() * 100).toFixed(3) + "%)"),
-            $r("div", null, "探索奖励: " + (map.villageLevel-1) * 10 + "%"),
+            $r("div", null, "探索奖励: " + (map.getExploreRatio() * 10).toFixed() + "%"),
             $r("a", {className:"link", href:"#", onClick: this.resetMap}, "重置地图"),
             $r(WMapViewport, {dataset: mapDataset, exploredLevel: map.exploredLevel})
         ]);

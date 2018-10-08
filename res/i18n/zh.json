@@ -811,11 +811,11 @@
     "workshop.amDrive.label": "反物质驱动",
     "workshop.amFission.desc": "工程师在生产铀时更有效率25％",
     "workshop.amFission.label": "反物质裂变",
-    "workshop.amReactors.desc": "你的研究船只和太空灯塔增效两倍",
+    "workshop.amReactors.desc": "你的研究船只和太空灯塔增效95%",
     "workshop.amReactors.label": "反物质反应堆",
-    "workshop.amReactorsMK2.desc": "您的研究船只和太空灯塔增效1.5倍",
+    "workshop.amReactorsMK2.desc": "您的研究船只和太空灯塔增效 ~77%",
     "workshop.amReactorsMK2.label": "高级反物质反应堆",
-    "workshop.voidReactors.desc": "你的研究船只是有效的4倍",
+    "workshop.voidReactors.desc": "你的研究船只是有效的 ~116%",
     "workshop.voidReactors.label": "太空反应堆",
     "workshop.relicStation.desc": "升级空间信标与遗物研究站。每个遗物站将对每天0.01个遗物的遗物进行逆向工程",
     "workshop.relicStation.label": "遗物站",
@@ -1636,7 +1636,18 @@
     "space.planet.helios.sunforge.desc":"利用太阳的热量将材料熔化成超冷凝的等离子体。每一层阳光炉都可以将基本金属的存储空间提高1％",
     "religion.tu.blackRadiance.label" : "黑色光辉",
     "religion.tu.blackRadiance.desc" : "每1%的 悲伤（BLS） 会略微增加翼角兽腐败速度",
-    "religion.tu.blackRadiance.flavor": "就像黑暗中的彩虹"
+    "religion.tu.blackRadiance.flavor": "就像黑暗中的彩虹",
+    "resources.bloodstone.title": "血石",
+    "workshop.crafts.bloodstone.label":"血石",
+    "workshop.crafts.bloodstone.desc":"一件奇怪的珠宝，据说是由时间和上古之神的鲜血制成的",
+    "buildings.zebraOutpost.label":"斑马前哨",
+    "buildings.zebraOutpost.desc":"为狩猎探险提供基地。 每级升级都可将探险效率提高5％",
+    "buildings.zebraWorkshop.label":"斑马工作台",
+    "buildings.zebraWorkshop.desc":"解锁各种斑马升级",
+    "buildings.zebraForge.label":"斑马锻造厂",
+    "buildings.zebraForge.desc":"解锁血石和t-mythril的工艺",
+    "village.new.bloodstone":"你的猎人给你带来了一份奇怪的礼物"
+
 
 
 }

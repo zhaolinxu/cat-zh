@@ -40,6 +40,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 300}],
 		unlocks: {
 			tech: ["animal"],
+			buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"],
 			jobs: ["hunter"]
 		},
 		flavor: $I("science.archery.flavor")

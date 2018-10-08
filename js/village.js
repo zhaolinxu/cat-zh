@@ -621,7 +621,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				furs: 0,
 				ivory: 0,
 				gold: 0,
-				unicorns: 0
+				unicorns: 0,
+				bloodstone: 0
 			};
 		}
 
@@ -634,6 +635,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		if (this.rand(100) < 5){
 			huntingRes.unicorns += 1;
+		}
+
+		var resPool = this.game.resPool;
+		if (resPool.get("zebras").value >= 10){
+			if (resPool.get("bloodstone").value == 0){
+				if (this.rand(100) <= 5){
+					huntingRes.bloodstone = 1;
+				}
+			} else {
+				if (this.rand(10000) <= 5){
+					huntingRes.bloodstone += 1;
+				}
+			}
 		}
 
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
@@ -688,6 +702,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 			this.game.msg(unicornMsg, "important", "hunt");
 		}
+		if (totalYield.bloodstone > 0 && this.game.resPool.get("bloodstone").value == 1){
+			this.game.msg($I("village.new.bloodstone"), "important", "ironWill");
+		}
+		
 		var msg = $I("village.msg.hunt.success");
 		if (squads > 1) {
 			msg += $I("village.msg.hunt.from", [squads]);
@@ -900,6 +918,39 @@ dojo.declare("classes.village.Map", null, {
 
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
+	supplies: 0,
+
+	biomes: [{
+		id: "forest",
+		icon:"^",
+		title:"Forest",
+		terrainPenalty: 1.2,
+		biomeChance: 0.2
+	},{
+		id: "boneForest",
+		icon:"^.",
+		title:"Bone Forest",
+		terrainPenalty: 1.9,
+		biomeChance: 0.02
+	},{
+		id: "rainForest",
+		icon:"^`",
+		title:"Rain Forest",
+		terrainPenalty: 1.4,
+		biomeChance: 0.1
+	},{
+		id: "mountain",
+		icon:"*",
+		title:"Mountain",
+		terrainPenalty: 1.2,
+		biomeChance: 0.05
+	},{
+		id: "desert",
+		icon:"~",
+		title:"Desert",
+		terrainPenalty: 1.5,
+		biomeChance: 0.08
+	}],
 
 	constructor: function(game){
 		this.game = game;
@@ -922,22 +973,89 @@ dojo.declare("classes.village.Map", null, {
 		this.mapgen();
 	},
 
+	generateTile: function(i, j){
+		var key = i + "_" + j;
+
+		for (var _biomeKey in this.biomes){
+			var biome = this.biomes[_biomeKey];
+			if (this.game.rand(100) <= (biome.biomeChance * 100)){
+				this.villageData[key] = {
+					title: biome.icon,
+					type: biome.id,
+					level: 0,
+					cp: 0,
+					unlocked: false,
+					biomeInfo: biome
+				};
+			}
+		}
+		if (!this.villageData[key]){
+			this.villageData[key] = {
+				title: null,
+				type: null,
+				level: 0,
+				cp: 0,
+				unlocked: false,
+				biomeInfo: null
+			};
+		}
+		return this.villageData[key];
+	},
+
 	mapgen: function(){
-		for (var i = 0; i < 5; i++){
+		for (var i = 0; i < 7; i++){
 			for (var j = 0; j < 7; j++){
 				var key = i + "_" + j;
 				if (this.villageData[key]){ continue; }
 
-				if (this.game.rand(100) <= 20){
-					this.villageData[key] = {
-						title: "^",
-						type: "forest",
-						level: 0,
-						cp: 0
+				for (var _biomeKey in this.biomes){
+					var biome = this.biomes[_biomeKey];
+					if (this.game.rand(100) <= (biome.biomeChance * 100)){
+						this.villageData[key] = {
+							title: biome.icon,
+							type: biome.id,
+							level: 0,
+							cp: 0,
+							unlocked: false,
+							biomeInfo: biome
+						};
 					}
+				}
+				if (!this.villageData[key]){
+					this.villageData[key] = {
+						title: null,
+						type: null,
+						level: 0,
+						cp: 0,
+						unlocked: false,
+						biomeInfo: null
+					};
 				}
 			}
 		}
+
+		this.unlockTile(3,2);	//unlock village and 3x3 area around it
+	},
+
+	unlockTile: function(x, y){
+		for (var i = x-1; i<= x+1; i++){
+			for (var j = y-1; j<= y+1; j++){
+				var tile = this.getTile(i, j);
+				if (tile){
+					tile.unlocked = true;
+				}
+			}
+		}
+	},
+
+	getTile: function(x, y){
+		var key = x + "_" + y,
+			data = this.villageData[key];
+
+		if (!data){
+			data = this.generateTile(x, y);
+		}	
+		return data;
 	},
 
 	toLevel: function(x, y){
@@ -948,11 +1066,11 @@ dojo.declare("classes.village.Map", null, {
 
 		var distance =  Math.sqrt(Math.pow(x - 3, 2) + Math.pow(y - 2, 2)) || 1;
 
-		if (data.type == "forest"){
-			distance *= 1.2;	//20% penalty for complex terrains
+		if (data.biomeInfo){
+			distance *= data.biomeInfo.terrainPenalty;
 		}
 		
-		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
+		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2.8)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
 
 		return toLevel;
 	},
@@ -977,6 +1095,10 @@ dojo.declare("classes.village.Map", null, {
 		}
 
 		this.exploredLevel = exploredLevel;
+	},
+
+	getExploreRatio: function(){
+		return (this.villageLevel-1) * 0.1;
 	},
 
 	getPriceReduction: function(){
