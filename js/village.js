@@ -153,7 +153,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getEffectLeader: function(trait, defaultObject){
 		if(this.leader) {
-			var leaderTrait = this.leader.trait["name"];
+			var leaderTrait = this.leader.trait.name;
 			if (leaderTrait == trait) {
 				var burnedParagonRatio = 1 + this.game.prestige.getBurnedParagonRatio();
 				// Modify the defautlObject depends on trait
@@ -526,6 +526,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	save: function(saveData){
+		var kittens = [];
+		for (var i in this.sim.kittens){
+			var _kitten = this.sim.kittens[i].save();
+			kittens.push(_kitten);
+		}
+
 		saveData.village = {
 			kittens : this.sim.kittens,
 			maxKittens: this.maxKittens,
@@ -908,7 +914,22 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.engineerSpeciality = data.engineerSpeciality || null;
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
-		this.isSenator = data.isSenator || false;
+		this.isSenator = false;
+	},
+
+	save: function(){
+		return {
+			name: this.name,
+			surname: this.surname,
+			age: this.age,
+			skills: this.skills,
+			exp: this.exp,
+			trait: {name: this.trait.name},
+			job: this.job || null,
+			engineerSpeciality: this.engineerSpeciality,
+			rank: this.rank,
+			isLeader: this.isLeader
+		};
 	}
 });
 
@@ -2425,7 +2446,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			freeKittens = this.game.village.getFreeKittens();
 
 		if (freeKittens){
-			tabName = this.getVillageTitle() + " (" + freeKittens + ")";
+			tabName = this.getVillageTitle() + " (" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")";
 		}
 		return tabName;
 	},
