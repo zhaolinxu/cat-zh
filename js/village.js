@@ -2467,6 +2467,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var kittens = this.game.village.getKittens();
 		switch (true) {
 			//you gotta be kitten me
+		case kittens > 10000:
+			return $I("village.tab.title.deities");
 		case kittens > 5000:
 			return $I("village.tab.title.elders");
 		case kittens > 2000:

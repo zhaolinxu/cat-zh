@@ -1586,5 +1586,6 @@
     "buildings.zebraWorkshop.desc":"Unlocks various zebra upgrades",
     "buildings.zebraForge.label":"Zebra Forge",
     "buildings.zebraForge.desc":"Unlocks the craft of bloodstones and t-mythril",
-    "village.new.bloodstone":"Your hunters have brought you a strange gift"
+    "village.new.bloodstone":"Your hunters have brought you a strange gift",
+    "village.tab.title.deities":"Deities"
 }

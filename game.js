@@ -1354,11 +1354,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		};
 
 		var saveDataString = JSON.stringify(saveData);
-		if ((saveDataString.length > 500000 || this.opts.forceLZ) && LZString.compressToBase64) {
+		//5mb limit workaround
+		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
 			console.log("compressing the save file...");
 			saveDataString = LZString.compressToBase64(saveDataString);
-        }
-
+		}
+		
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
 		console.log("Game saved");
 
