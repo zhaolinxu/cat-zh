@@ -1,3 +1,10 @@
+v 1.4.5.0 (17 oct 2018)
+
+There is no such thing as 'map'
+Game will now try to compress save files with size over 500kb
+Some long resource values or numbers on UI will be truncated
+Fixed assign/unassign performance on jobs with >= 10K kittens
+
 v 1.4.4.9 (27 aug 2018)
 
 Resource table QOL tweaks
