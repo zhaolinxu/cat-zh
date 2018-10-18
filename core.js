@@ -1961,6 +1961,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		} else if (meta.togglableOnOff){
 			return meta.label + " (" + meta.val + ")";
 		} else if (meta.togglable) {
+			//it's not so important h
+			/*if (meta.val >= 1000){
+				return meta.label + " (" +
+					(meta.on < 10000 ? ((meta.on/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.on)) + "/" +
+					(meta.val < 10000 ? ((meta.val/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.val)) + 
+				")";
+			}*/
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
 			return meta.label + " (" + meta.on + ")";
