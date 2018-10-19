@@ -108,7 +108,7 @@ WMapViewport = React.createClass({
             dataset: this.props.dataset, 
             focusedNode: null,
             selectedNode: null,
-            expeditionNode: null
+            expeditionNode: game.village.map.expeditionNode
         };
     },
 
@@ -218,45 +218,16 @@ WMapViewport = React.createClass({
     },
 
     update: function(){
-        var activeNode = this.state.expeditionNode;
-        if (activeNode){
-            this.explore(activeNode.x, activeNode.y);
-        }
+        this.setState({dataset: this.state.dataset});
     },
 
     startExpedition: function(){
         var selectedNode = this.state.selectedNode;
         if (selectedNode){
-            this.setState({expeditionNode: {x: selectedNode.x, y:selectedNode.y}});
+            var expeditionNode = {x: selectedNode.x, y:selectedNode.y};
+            this.setState({expeditionNode: expeditionNode});
+            game.village.map.expeditionNode = expeditionNode;
         }
-    },
-
-    explore: function(x, y){
-        var dataset = this.state.dataset,
-            data = this.getTileData(x, y);
-
-        var toLevel = game.village.map.toLevel(x, y),
-            explorePrice = this.getExplorationPrice(x, y),
-            catpower = game.resPool.get("manpower");
-
-        if (catpower.value >= explorePrice){
-            catpower.value -= explorePrice;
-
-            data.cp += explorePower;
-            if (data.cp >= toLevel){
-                data.cp = 0;
-                data.level++;
-
-                this.setState({expeditionNode: null});
-                game.village.map.unlockTile(x, y);
-            }
-
-            this.setState({dataset: dataset});
-        }
-        /*if (this.timeout){
-            clearTimeout(this.timeout); 
-        }
-        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);*/
     },
 
     getTileData: function(x, y){

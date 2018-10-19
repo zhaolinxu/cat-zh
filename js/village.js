@@ -1093,7 +1093,6 @@ dojo.declare("classes.village.Map", null, {
 		}
 		
 		var toLevel = 100 * (1 + 1.1 * Math.pow((distance-1), 2.8)) * Math.pow(data.level+1, 1.18 + 0.1 * distance);
-
 		return toLevel;
 	},
 
@@ -1117,6 +1116,40 @@ dojo.declare("classes.village.Map", null, {
 		}
 
 		this.exploredLevel = exploredLevel;
+
+		if (this.expeditionNode){
+			this.explore(this.expeditionNode.x, this.expeditionNode.y);
+		}
+	},
+
+	explore: function(x, y){
+        var dataset = this.villageData,
+            data = this.getTile(x, y);
+
+        var toLevel = this.toLevel(x, y),
+            explorePrice = this.getExplorationPrice(x, y),
+            catpower = this.game.resPool.get("manpower");
+
+        if (catpower.value >= explorePrice){
+            catpower.value -= explorePrice;
+
+            data.cp += explorePower;
+            if (data.cp >= toLevel){
+                data.cp = 0;
+                data.level++;
+
+                this.expeditionNode = null;
+                this.unlockTile(x, y);
+            }
+        }
+	},
+	
+	getExplorationPrice: function(x, y){
+        var data = this.getTile(x,y);
+            explorePower = 1 * (1 + this.getExploreRatio()),
+            price = explorePower * Math.pow(1.01, data.level);
+        
+        return price;
 	},
 
 	getExploreRatio: function(){
