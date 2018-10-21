@@ -802,6 +802,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
            fontSize: this.fontSize,
            isChatVisited: this.isChatVisited
         });
+    },
+
+    toggleCenter: function(){
+        $("#game").toggleClass("centered");
     }
 
 });
