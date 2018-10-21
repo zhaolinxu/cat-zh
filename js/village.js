@@ -2296,8 +2296,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tdRight = dojo.create("td", null, tr);
 
 		//--------------------------	map ---------------------------
+		var isMapVisible = this.game.science.get("archery").researched;
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(true);
+		this.mapPanel.setVisible(isMapVisible);
 
 		if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);

@@ -1561,7 +1561,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
-		var H_OFFSET = 280;
+		var H_OFFSET = 300;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			this.game.tooltipUpdateFunc = function(){
@@ -1578,7 +1578,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				pos.top = scrollBottom - $(tooltip).height();
 			}
 
-			var V_OFFSET = 0;
+			var V_OFFSET = 15;
 			if (pos.left + $(tooltip).width() + H_OFFSET >= scrollRight){
 				pos.left = scrollRight - $(tooltip).width() - H_OFFSET;
 				V_OFFSET = 35;

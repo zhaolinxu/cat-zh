@@ -2314,8 +2314,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var topContainer = dojo.create("div", {
 			style: {
 				paddingBottom : "5px",
-				marginBottom: "15px",
-				borderBottom: "1px solid gray"
+				marginBottom: "15px"
 			}
 		}, content);
 

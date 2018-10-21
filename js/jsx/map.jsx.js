@@ -72,6 +72,7 @@ WMapTile = React.createClass({
 
             $r("span", {className: "coord"}, this.state.isFocused ? "[" + this.props.x + "," + this.props.y + "]" : "..."),
             data && $r("div", {className: "label"}, data.title),
+            data.cp ? $r("progress", {value: percentExplored, max: 100}): null,
             this.state.isFocused && 
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
