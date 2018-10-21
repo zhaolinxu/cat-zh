@@ -806,6 +806,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     toggleCenter: function(){
         $("#game").toggleClass("centered");
+        $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
     }
 
 });
