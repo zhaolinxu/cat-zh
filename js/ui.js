@@ -201,7 +201,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //TODO: remove hardcoded id?
         this.toolbar.render(dojo.byId("headerToolbar"));
 
-        game.craftTable.render();
         game.calendar.render();
 
         var visibleTabs = [];
@@ -429,7 +428,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         /*React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport")); */
-        dojo.publish("ui/update", [this.game]);
+        this.game._publish("ui/update", this.game);
     },
 
 	updateTabs: function() {
@@ -446,6 +445,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateFastHunt: function(){
         if (!this.fastHuntContainer){
             this.fastHuntContainer = $("#fastHuntContainer")[0];
+        }
+
+        if (!this.fastHuntContainer){
+            return;
         }
 
         var catpower = this.game.resPool.get("manpower");
@@ -469,6 +472,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateFastPraise: function(){
         if (!this.fastPraiseContainer){
             this.fastPraiseContainer = dojo.byId("fastPraiseContainer");
+        }
+
+        if (!this.fastPraiseContainer){
+            return;
         }
 
         if (this.game.religion.faith > 0){
@@ -535,6 +542,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var advDiv = dojo.byId("advisorsContainer");
+        if (!advDiv){
+            return;
+        }
         dojo.empty(advDiv);
 
         var calendar = this.game.calendar,
@@ -632,11 +642,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     hideChat: function(){
         $("#rightTabLog").show();
         $("#IRCChatInner").css("visibility", "hidden");
+        $("#logLink").toggleClass("active", true);
+        $("#chatLink").toggleClass("active", false);
     },
 
     loadChat: function(){
         $("#rightTabChat").show();
         $("#rightTabLog").hide();
+
+        $("#logLink").toggleClass("active", false);
+        $("#chatLink").toggleClass("active", true);
 
         $("#IRCChatInner").css("visibility", "visible");
 
@@ -787,6 +802,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
            fontSize: this.fontSize,
            isChatVisited: this.isChatVisited
         });
+    },
+
+    toggleCenter: function(){
+        $("#game").toggleClass("centered");
+        $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
     }
 
 });

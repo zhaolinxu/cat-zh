@@ -32,10 +32,10 @@
 			ga('send', 'pageview');
 		</script>
 
-		<link rel="stylesheet" href="res/default.css?v=1b" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
-        <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
-		<link rel="stylesheet" href="res/theme_sleek.css" type="text/css">
+		<link rel="stylesheet" href="res/default.css?v=5" type="text/css">
+		<link rel="stylesheet" href="res/theme_dark.css?v=5" type="text/css">
+        <link rel="stylesheet" href="res/theme_grassy.css?v=5" type="text/css">
+		<link rel="stylesheet" href="res/theme_sleek.css?v=5" type="text/css">
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1449c";
+			var version = "1450h";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -125,6 +125,7 @@
 					"game",
 
 					"js/jsx/left.jsx",
+					"js/jsx/map.jsx",
 
 					"js/ui",
 					"js/toolbar"
@@ -315,9 +316,8 @@
 						Heatsink
 						Entangler
 
-					Rev: 8
-						New loading screen
-						Black Radiance
+					Rev: 9
+						Minor UI tweaks
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -332,35 +332,12 @@
 				</div>
 			</div>
 
-			<div id="game" style="display:none;" class="pure-g">
+			<div id="game" style="display:none;">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
 					<div id="leftColumnViewport">#nothing interesting here</div>
-					<!--div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">Show All</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">Lock/Unlock</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a>
-					</div-->
-
-					<div id="resContainer" style="padding-top: 15px; width: 100%">
-					</div>
-
-					<!-- Advisers -->
-
-					<div id="advisorsContainer" style=" padding-top: 10px;">
-					</div>
-
-					<div id="fastHuntContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.huntAll(event);">Send hunters (<span id="fastHuntContainerCount"></span>)</a>
-					</div>
-
-					<div id="fastPraiseContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.praise(event);">Praise the sun!</a>
-					</div>
-
-					<div id="craftContainer" style="padding-top: 10px; width: 100%">
-					</div>
 				</div>
 
 				<!-- MID -->
@@ -385,8 +362,8 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a href="#" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
-						<a class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>
+						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
+						<a id="chatLink" class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>
 					</div>
 					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
 					<div class="right-tab" id="rightTabLog">
@@ -419,6 +396,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column toggleCenter">&gt;</div>
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">
@@ -537,10 +515,12 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label for="enableRedshift" style="font-size: 8px;">Enable offline progression (Experimental)</label>
 					<br>
+					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
+					<label for="forceLZ" style="font-size: 8px;">Always compress save files (Experimental)</label>
 				</div>
 
 				<br>
-				<br>
+
 				<input type="button" value="Export" onclick="gamePage.saveExport();">
 
 				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">

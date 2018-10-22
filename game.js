@@ -963,12 +963,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	batchSize: 10,
 
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
+	//TODO: move me to UI
 	selectedBuilding: null,
 	setSelectedObject: function(object) {
 		this.selectedBuilding = object;
+		this._publish("ui/update", this);
 	},
 	clearSelectedObject: function() {
 		this.selectedBuilding = null;
+		this._publish("ui/update", this);
 	},
 
 	//=============================
@@ -1053,13 +1056,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
-		if (data){
-			var saveData = JSON.parse(data);
-			if (saveData && saveData.server){
-				this.server.motdContentPrevious = saveData.server.motdContent;
-			}
-		}
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1147,9 +1143,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
-		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
-		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
-
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
 		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.rate * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
@@ -1201,7 +1194,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.prestige.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
-		// TODO : village cache
+		this.village.updateEffectCached();
 
 		this.updateResources();
 	},
@@ -1295,7 +1288,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
-			enableRedshift: false
+			enableRedshift: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.resPool.resetState();
@@ -1358,9 +1353,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			opts : this.opts
 		};
 
-		this._publish("server/save", saveData);
-		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
-
+		var saveDataString = JSON.stringify(saveData);
+		//5mb limit workaround
+		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
+			console.log("compressing the save file...");
+			saveDataString = LZString.compressToBase64(saveDataString);
+		}
+		
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
 		console.log("Game saved");
 
 		this.ui.save();
@@ -1421,6 +1421,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this._publish("game/options", this);
 	},
 
+	_parseLSSaveData: function(){
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+
+		if (data && data[0] != '{'){
+			console.log("base-64 save detected, decompressing...");
+			data = LZString.decompressFromBase64(data);
+		}
+
+		var saveData = JSON.parse(data);
+		return saveData;
+	},
+
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		this.resetState();
@@ -1432,10 +1444,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var success = true;
 
 		try {
-			var saveData = JSON.parse(data);
+			var saveData = this._parseLSSaveData();
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
+
+				if (saveData.server){
+					this.server.motdContentPrevious = saveData.server.motdContent;
+				}
+
 				if (!saveData.saveVersion || saveData.saveVersion != this.saveVersion) {
 					this.migrateSave(saveData);
 				}
@@ -3300,7 +3317,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+		var lsData = this._parseLSSaveData()
 		if (!lsData){
 			lsData = {
 				game: {},
