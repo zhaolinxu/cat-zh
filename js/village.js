@@ -1454,7 +1454,7 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 		}
 
-		if (optimization) {
+		if (optimizeJobs) {
 			freeKittens.sort(function(a, b){return b.val-a.val;});
 			freeKittens.sort(function(a, b){return b.rank-a.rank;});
 		}
