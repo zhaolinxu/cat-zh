@@ -1283,8 +1283,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 		//-----------------------------------------
 
+		var valMultiplier = model.on ? model.on : 1;		
 		for (var effectName in effectsList){
-			var effectValue = effectsList[effectName];
+			var effectValue = effectsList[effectName] * valMultiplier;
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
 
@@ -1309,14 +1310,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 					var tempVal = Math.abs(effectValue * this.game.rate), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
-						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/sec";
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate, false, false, precision) + "/sec";
 					} else {
-						// tempVal = tempVal * 60;
-						// if (tempVal >= 0.01) {
-						// 	displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 60, false, false, 2) + "/min";
-						// } else {
-							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/h";
-						// }
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate * 3600, false, false, 2) + "/h";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
