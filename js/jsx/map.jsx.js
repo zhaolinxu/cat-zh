@@ -108,7 +108,7 @@ WMapViewport = React.createClass({
         return {
             dataset: this.props.dataset, 
             focusedNode: null,
-            selectedNode: null,
+            selectedNode: game.village.map.selectedNode,
             expeditionNode: game.village.map.expeditionNode
         };
     },
@@ -192,7 +192,9 @@ WMapViewport = React.createClass({
     },
 
     onClick: function(e, x, y){
-        this.setState({selectedNode: {x: x, y: y}});
+        var selectedNode = {x: x, y: y};
+        this.setState({selectedNode: selectedNode});
+        game.village.map.selectedNode = selectedNode;
     },
 
     onFocus: function(x, y){
