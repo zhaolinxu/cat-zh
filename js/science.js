@@ -679,8 +679,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "science", val: 1000000},
 			{name : "relic",   val: 25}
-		]
+		],
+		unlocks: {
+			tech: ["exogeophysics"]
+		}
 	},{
+		name: "exogeophysics",
+		label: $I("science.exogeophysics.label"),
+		description: $I("science.exogeophysics.desc"),
+		effectDesc: $I("science.exogeophysics.effectDesc"),
+		prices: [
+			{name : "science", val: 25000000},
+			{name : "relic",   val: 500}
+		]
+	},
+	{
 		name: "particlePhysics",
 		label: $I("science.particlePhysics.label"),
 		description: $I("science.particlePhysics.desc"),

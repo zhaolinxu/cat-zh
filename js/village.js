@@ -2296,7 +2296,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var tdRight = dojo.create("td", null, tr);
 
 		//--------------------------	map ---------------------------
-		var isMapVisible = this.game.science.get("archery").researched;
+		var isMapVisible = this.game.science.get("archery").researched && this.game.resPool.get("paragon").value > 0;
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
 		this.mapPanel.setVisible(isMapVisible);
 

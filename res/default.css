@@ -890,7 +890,6 @@ a.link.collapse:hover {
 .map-cell .label {
     position: relative;
     float:left;
-    height:100%;
 }
 
 .map-cell progress {
