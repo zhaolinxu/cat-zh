@@ -178,7 +178,7 @@ WMapViewport = React.createClass({
         }
 
 
-        return $r("div", null,[
+        return $r("div", {className:"map-container"},[
             $r("div", {className:"map-viewport"}, 
                 rows
             ),
