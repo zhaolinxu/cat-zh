@@ -938,6 +938,7 @@ dojo.declare("classes.village.Map", null, {
 	game: null,
 	villageData: null,
 
+	villageLevel: 0,
 	/*% explored, affects your priceRatio */
 	exploredLevel: 0,
 	supplies: 0,
