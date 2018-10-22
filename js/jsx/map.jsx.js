@@ -72,6 +72,7 @@ WMapTile = React.createClass({
 
             $r("span", {className: "coord"}, this.state.isFocused ? "[" + this.props.x + "," + this.props.y + "]" : "..."),
             data && $r("div", {className: "label"}, data.title),
+            data.cp ? $r("progress", {value: percentExplored, max: 100}): null,
             this.state.isFocused && 
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
@@ -108,7 +109,7 @@ WMapViewport = React.createClass({
             dataset: this.props.dataset, 
             focusedNode: null,
             selectedNode: null,
-            expeditionNode: null
+            expeditionNode: game.village.map.expeditionNode
         };
     },
 
@@ -168,8 +169,8 @@ WMapViewport = React.createClass({
 
             nodeBlock = $r("div", null, [
                 "[" + x + "," + y + "]",
-                $r("div", null, "lv." + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "cp]("+ percentExplored.toFixed() + "%)"),
-                $r("div", null, "Exp. cost:" + this.getExplorationPrice(x, y).toFixed(2) + " cp/sec"),
+                $r("div", null, "等级" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + "猫力]("+ percentExplored.toFixed() + "%)"),
+                $r("div", null, "经验成本:" + this.getExplorationPrice(x, y).toFixed(2) + " 猫力/秒"),
                 $r("div", {className: "btn nosel modern"}, 
                     $r("div", {className: "btnContent", onClick: this.startExpedition}, "Explore")
                 )
@@ -183,7 +184,7 @@ WMapViewport = React.createClass({
             ),
             $r("div", {className:"map-dashboard"},
                 /*$r("div", null, "Expedition supplies: 100%"),*/
-                $r("div", null, "Map region:"),
+                $r("div", null, "地图区域:"),
                 selectedNode ? 
                     nodeBlock : "N/A"
             )
@@ -218,45 +219,16 @@ WMapViewport = React.createClass({
     },
 
     update: function(){
-        var activeNode = this.state.expeditionNode;
-        if (activeNode){
-            this.explore(activeNode.x, activeNode.y);
-        }
+        this.setState({dataset: this.state.dataset});
     },
 
     startExpedition: function(){
         var selectedNode = this.state.selectedNode;
         if (selectedNode){
-            this.setState({expeditionNode: {x: selectedNode.x, y:selectedNode.y}});
+            var expeditionNode = {x: selectedNode.x, y:selectedNode.y};
+            this.setState({expeditionNode: expeditionNode});
+            game.village.map.expeditionNode = expeditionNode;
         }
-    },
-
-    explore: function(x, y){
-        var dataset = this.state.dataset,
-            data = this.getTileData(x, y);
-
-        var toLevel = game.village.map.toLevel(x, y),
-            explorePrice = this.getExplorationPrice(x, y),
-            catpower = game.resPool.get("manpower");
-
-        if (catpower.value >= explorePrice){
-            catpower.value -= explorePrice;
-
-            data.cp += explorePower;
-            if (data.cp >= toLevel){
-                data.cp = 0;
-                data.level++;
-
-                this.setState({expeditionNode: null});
-                game.village.map.unlockTile(x, y);
-            }
-
-            this.setState({dataset: dataset});
-        }
-        /*if (this.timeout){
-            clearTimeout(this.timeout); 
-        }
-        this.timeout = setTimeout(this.explore.bind(this, id, x, y), 25);*/
     },
 
     getTileData: function(x, y){

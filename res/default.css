@@ -62,6 +62,11 @@ body {
     white-space: normal;
 }
 
+#game.centered {
+    display: flex;
+    justify-content: center;
+}
+
 .column {
     min-height: 100%;
     height: 100%;
@@ -427,6 +432,12 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     border: 1px solid gray;
 }
 
+.toggleCenter {
+    opacity: 0.2;
+    cursor:pointer;
+    width:200px;
+}
+
 table.craftTable tr:hover td {
     background-color: rgba(155, 200, 155, 0.8);
 }
@@ -580,6 +591,10 @@ h1 {
 
 .right-tab-header a {
     padding: 5px;
+}
+
+.right-tab-header a.active {
+    text-decoration: none;
 }
 
 #sorrowTooltip {
@@ -875,6 +890,16 @@ a.link.collapse:hover {
 .map-cell .label {
     position: relative;
     float:left;
+    height:100%;
+}
+
+.map-cell progress {
+    height: 2px;
+    display: block;
+    width: 100%;
+    margin-bottom: -1px;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .map-cell .tooltip-content {
@@ -904,45 +929,3 @@ a.link.collapse:hover {
 .map-dashboard .btn {
     width: 120px;
 }
-
-/*-----------------------------------------
-    Courtesy of https://iros.github.io/patternfills/sample_css.html
-------------------------------------------*/
-
-.dots-1 {
-    background-color: #6DB3F2;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nMScgaGVpZ2h0PScxJyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-2 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nMicgaGVpZ2h0PScyJyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-3 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nMycgaGVpZ2h0PSczJyBmaWxsPSdibGFjaycgLz4KPC9zdmc+Cg==");
-    background-repeat: repeat;
-  }
-  .dots-4 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nNCcgaGVpZ2h0PSc0JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-5 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nNScgaGVpZ2h0PSc1JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-6 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nNicgaGVpZ2h0PSc2JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-7 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nNycgaGVpZ2h0PSc3JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-8 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nOCcgaGVpZ2h0PSc4JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }
-  .dots-9 {
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScgLz4KICA8cmVjdCB4PScwJyB5PScwJyB3aWR0aD0nOScgaGVpZ2h0PSc5JyBmaWxsPSdibGFjaycgLz4KPC9zdmc+");
-    background-repeat: repeat;
-  }

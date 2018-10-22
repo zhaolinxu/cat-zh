@@ -1283,8 +1283,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 		//-----------------------------------------
 
+		var valMultiplier = model.on ? model.on : 1;		
 		for (var effectName in effectsList){
-			var effectValue = effectsList[effectName];
+			var effectValue = effectsList[effectName] * valMultiplier;
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
 
@@ -1309,14 +1310,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 					var tempVal = Math.abs(effectValue * this.game.rate), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
-						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/秒";
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate, false, false, precision) + "/秒";
 					} else {
-						// tempVal = tempVal * 60;
-						// if (tempVal >= 0.01) {
-						// 	displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 60, false, false, 2) + "/min";
-						// } else {
-							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
-						// }
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";
@@ -1561,7 +1559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
-		var H_OFFSET = 280;
+		var H_OFFSET = 300;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			this.game.tooltipUpdateFunc = function(){
@@ -1578,7 +1576,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				pos.top = scrollBottom - $(tooltip).height();
 			}
 
-			var V_OFFSET = 0;
+			var V_OFFSET = 15;
 			if (pos.left + $(tooltip).width() + H_OFFSET >= scrollRight){
 				pos.left = scrollRight - $(tooltip).width() - H_OFFSET;
 				V_OFFSET = 35;
@@ -1961,6 +1959,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		} else if (meta.togglableOnOff){
 			return meta.label + " (" + meta.val + ")";
 		} else if (meta.togglable) {
+			//it's not so important h
+			/*if (meta.val >= 1000){
+				return meta.label + " (" +
+					(meta.on < 10000 ? ((meta.on/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.on)) + "/" +
+					(meta.val < 10000 ? ((meta.val/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.val)) + 
+				")";
+			}*/
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
 			return meta.label + " (" + meta.on + ")";

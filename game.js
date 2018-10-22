@@ -1099,13 +1099,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
-		if (data){
-			var saveData = JSON.parse(data);
-			if (saveData && saveData.server){
-				this.server.motdContentPrevious = saveData.server.motdContent;
-			}
-		}
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1338,7 +1331,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
-			enableRedshift: false
+			enableRedshift: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.resPool.resetState();
@@ -1401,10 +1396,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			opts : this.opts
 		};
 
-		this._publish("server/save", saveData);
-		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
-
-		console.log("游戏已保存！");
+		var saveDataString = JSON.stringify(saveData);
+		//5mb limit workaround
+		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
+			console.log("压缩存档文件中...");
+			saveDataString = LZString.compressToBase64(saveDataString);
+		}
+		
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
+		console.log("游戏已保存");
 
 		this.ui.save();
 
@@ -1464,6 +1464,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this._publish("game/options", this);
 	},
 
+	_parseLSSaveData: function(){
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+
+		if (data && data[0] != '{'){
+			console.log("base-64 save detected, decompressing...");
+			data = LZString.decompressFromBase64(data);
+		}
+
+		var saveData = JSON.parse(data);
+		return saveData;
+	},
+
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		this.resetState();
@@ -1475,10 +1487,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var success = true;
 
 		try {
-			var saveData = JSON.parse(data);
+			var saveData = this._parseLSSaveData();
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
+
+				if (saveData.server){
+					this.server.motdContentPrevious = saveData.server.motdContent;
+				}
+
 				if (!saveData.saveVersion || saveData.saveVersion != this.saveVersion) {
 					this.migrateSave(saveData);
 				}
@@ -3343,7 +3360,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+		var lsData = this._parseLSSaveData()
 		if (!lsData){
 			lsData = {
 				game: {},
