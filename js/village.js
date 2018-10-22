@@ -943,6 +943,13 @@ dojo.declare("classes.village.Map", null, {
 	exploredLevel: 0,
 	supplies: 0,
 
+	// point on map currently being explored
+	expeditionNode: null,
+	//point on map currently being selected
+	selectedNode: null,
+
+	//TODO: in a long run you can probably have multiple maps and multiple expeditions
+
 	biomes: [{
 		id: "forest",
 		icon:"^",
@@ -2290,14 +2297,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		this.tdTop = tdTop;
 
-
-		var tr = dojo.create("tr", null, table);
-
-		var tdLeft = dojo.create("td", null, tr);
-		var tdRight = dojo.create("td", null, tr);
-
 		//--------------------------	map ---------------------------
-		var isMapVisible = this.game.science.get("archery").researched && this.game.resPool.get("paragon").value > 0;
+		var isMapVisible = this.game.science.get("archery").researched && 
+			this.game.resPool.get("paragon").value >= 5;
+			
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
 		this.mapPanel.setVisible(isMapVisible);
 
