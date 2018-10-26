@@ -1139,19 +1139,19 @@ var run = function() {
 
         left.css({
             height: '92%',
-            width: '26%'
+            width: '25%'
         });
 
         middle.css({
             marginTop: '1%',
             height: '90%',
-            width: '35%'
+            width: '46%'
         });
 
         right.css({
             overflowY: 'scroll',
             height: '92%',
-            width: '32%'
+            width: '21%'
         });
 
         addRule('#gameLog .msg {'

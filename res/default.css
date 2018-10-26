@@ -851,6 +851,19 @@ a.link.collapse:hover {
                 Map
 --------------------------------------*/
 
+.map-container {
+    overflow: hidden;
+}
+
+.map-viewport {
+    max-width: 250px;
+    overflow: hidden;
+}
+
+.map-row {
+    white-space: nowrap !important;
+}
+
 .map-cell {
     border: 1px solid lightgray;
     width: 35px;
@@ -881,7 +894,7 @@ a.link.collapse:hover {
 
 @keyframes border-pulse{
     0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
-  }
+}
 
 .map-cell .coord {
     font-size: 10px;
@@ -890,7 +903,6 @@ a.link.collapse:hover {
 .map-cell .label {
     position: relative;
     float:left;
-    height:100%;
 }
 
 .map-cell progress {

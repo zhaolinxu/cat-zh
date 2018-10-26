@@ -1381,6 +1381,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var manpower = game.resPool.get("manpower");
 			var mpratio = (manpower.maxValue * 0.007) / 100;
 
+			//hidden 1% boost to mints from village level
+			mpratio *= (1 + game.village.map.villageLevel * 0.005);
+
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 
