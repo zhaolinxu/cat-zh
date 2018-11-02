@@ -219,6 +219,10 @@ select>option {
     color: #FF3030;
 }
 
+.dropdown-link {
+    cursor: pointer;
+}
+
 .spacer {
     border-bottom: 1px solid gray;
     margin-bottom: 12px;

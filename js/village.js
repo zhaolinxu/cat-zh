@@ -772,7 +772,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 				for (var job in situationJobs) {
-					this.assignJob(this.getJob(job));
+					this.assignJob(this.getJob(job), 1);
 					if (situationJobs[job] == 1) {
 						delete situationJobs[job];
 					} else {

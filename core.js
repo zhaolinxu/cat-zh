@@ -1151,10 +1151,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			var link = dojo.create("a", {
 				href: "#",
 				innerHTML: links[i].title,
+				className:"dropdown-link",
 				style:{
 					display: "block",
-					width: "30px",
-					cursor: "pointer"
 				}
 			}, linksTooltip);
 
