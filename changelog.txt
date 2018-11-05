@@ -1,3 +1,10 @@
+v 1.4.5.1 (4 nov 2018)
+Calciner blueprint price was reduced from 5 to 1
+Necropolis necrocorn price is reduced from 25 to 15
+Necropolis alicorn price is now 100
+Research vessel starchart price have been reduced from 500 to 100
+Orbital arrays starchart price is now 2000
+
 v 1.4.5.0 (17 oct 2018)
 
 There is no such thing as 'map'

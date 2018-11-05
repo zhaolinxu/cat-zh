@@ -476,7 +476,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
-                {name: "starchart", val: 500},
+                {name: "starchart", val: 100},
                 {name: "alloy",  val: 2500},
                 {name: "titanium", val: 12500},
                 {name: "kerosene", val: 250}
@@ -498,6 +498,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
+				{name: "starchart", val: 2000},
                 {name: "eludium",  val: 100},
                 {name: "science", val: 250000},
                 {name: "kerosene", val: 500}
