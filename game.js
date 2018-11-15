@@ -942,6 +942,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	console: null,
 	telemetry: null,
 	server: null,
+	math: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -1056,6 +1057,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
+		this.math = new com.nuclearunicorn.game.Math();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -3465,7 +3467,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TO BE USED EXTERNALLY
 	rand: function(ratio){
-		return (Math.floor(Math.random()*ratio));
+		return this.math.uniformRandomInteger(0, ratio);
 	},
 
 	//Karma has no menu. You get served what you deserve.
