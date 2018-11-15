@@ -402,7 +402,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		//-------------------- 35% chance to get (25 + up to 50 * (1 + tradeRatio)) spice ------------------
 		const spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
-			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * (1 + tradeRatio);
+			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
 
 		//-------------- 10% chance to get blueprint ---------------
 		const blueprintTradeAmount = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
@@ -412,9 +412,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (race.name === "zebras") {
 			const shipAmount = this.game.resPool.get("ship").value;
 			const titaniumProbability = 0.15 + shipAmount * 0.0035;
+			const titaniumRatio = 1 + (shipAmount / 100) * 2; // 2% more titanium per ship
 			const titaniumTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, titaniumProbability);
-			const titaniumRatio = (shipAmount / 100) * 2; // 2% more titanium per ship
-			boughtResourceCollection["titanium"] = 1.5 * (1 + titaniumRatio) * titaniumTradeAmount;
+			boughtResourceCollection["titanium"] = 1.5 * titaniumRatio * titaniumTradeAmount;
 		}
 
 		//Update Trade Stats
