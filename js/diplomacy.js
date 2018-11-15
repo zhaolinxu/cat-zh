@@ -399,7 +399,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			boughtResourceCollection[sellResource.name] = boughtAmount;
 		}
 
-		//-------------------- 35% chance to get (25 + up to 50 * (1 + tradeRatio)) spice ------------------
+		//-------------------- 35% chance to get spice ------------------
 		const spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
