@@ -347,11 +347,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			standingRatio += 10;
 		}
 
-		console.log('Total trades: ' + totalTradeAmount);
 		const tradeFailProbability = race.attitude === "hostile" ? (1 - race.standing - standingRatio / 100) : 0;
 		const failedTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, tradeFailProbability);
 		const successfullTradeAmount = totalTradeAmount - failedTradeAmount;
-		console.log('Failed trades: ' + failedTradeAmount);
 
 		if (successfullTradeAmount == 0) {
 			if (printMessages) {
@@ -369,7 +367,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		const bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;
 		const bonusTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, bonusSuccessProbability);
 		const normalTradeAmount = successfullTradeAmount - bonusTradeAmount;
-		console.log('Bonus trades: ' + bonusTradeAmount);
 
 		if (bonusTradeAmount > 0) {
 			if (printMessages){
@@ -380,7 +377,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		let boughtResourceCollection = {};
 		const bonusTradeRatio = 1.25;
 		const tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
-		console.log('Trade ratio: ' + tradeRatio);
 		const raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1;
 		const currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -425,7 +421,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.game.stats.getStat("totalTrades").val += successfullTradeAmount;
 		this.game.stats.getStatCurrent("totalTrades").val += successfullTradeAmount;
 
-		console.log(boughtResourceCollection);
 		return boughtResourceCollection;
 	},
 
