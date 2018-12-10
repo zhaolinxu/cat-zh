@@ -622,56 +622,41 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.happiness = happiness/100;
 	},
 
-	sendHuntersInternal: function(huntingRes){
-		if (!huntingRes){
-			huntingRes = {
-				furs: 0,
-				ivory: 0,
-				gold: 0,
-				unicorns: 0,
-				bloodstone: 0
-			};
+	sendHuntersImpl: function(squads) {
+		let huntedResources = {};
+		const hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
+		huntedResources["furs"] = 80 * this.game.math.irwinHallRandom(squads) +
+			65 * hunterRatio * this.game.math.irwinHallRandom(squads);
+
+		const ivoryProbability = 0.45 + 2 * hunterRatio;
+		const ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
+		huntedResources["ivory"] = 50 * this.game.math.irwinHallRandom(ivoryHunts) +
+			40 * hunterRatio * this.game.math.irwinHallRandom(ivoryHunts);
+
+		const unicornProbabilty = 0.05;
+		huntedResources["unicorns"] = this.game.math.binominalRandomInteger(squads, unicornProbabilty);
+
+		const resPool = this.game.resPool;
+		if (resPool.get("zebras").value >= 10) {
+			const bloodstoneProbability = resPool.get("bloodstone").value == 0 ? 0.05 : 0.0005;
+			huntedResources["bloodstone"] = this.game.math.binominalRandomInteger(squads, bloodstoneProbability);
 		}
 
-		var hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
-		huntingRes.furs += this.rand(80) + this.rand(65 * hunterRatio);
-
-		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			huntingRes.ivory += this.rand(50) + this.rand(40 * hunterRatio);
+		if (this.game.ironWill && this.game.workshop.get("goldOre").researched) {
+			const goldProbability = 0.25;
+			const goldHunts = this.game.math.binominalRandomInteger(squads, goldProbability);
+			huntedResources["gold"] = 5 * this.game.math.irwinHallRandom(goldHunts) +
+				10 * hunterRatio / 2 * this.game.math.irwinHallRandom(goldHunts);
 		}
 
-		if (this.rand(100) < 5){
-			huntingRes.unicorns += 1;
-		}
-
-		var resPool = this.game.resPool;
-		if (resPool.get("zebras").value >= 10){
-			if (resPool.get("bloodstone").value == 0){
-				if (this.rand(100) <= 5){
-					huntingRes.bloodstone = 1;
-				}
-			} else {
-				if (this.rand(10000) <= 5){
-					huntingRes.bloodstone += 1;
-				}
-			}
-		}
-
-		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
-			if (this.rand(100) < 25){
-				huntingRes.gold += this.rand(5) + this.rand(10 * hunterRatio/2);
-			}
-		}
-
-		return huntingRes;
+		return huntedResources;
 	},
 
-	sendHunters: function(){
-		var huntingRes = this.sendHuntersInternal();
-		this.gainHuntRes(huntingRes, 1);
+	sendHunters: function() {
+		this.gainHuntRes(this.sendHuntersImpl(1), 1);
 	},
 
-	huntAll: function(){
+	huntAll: function() {
 		var mpower = this.game.resPool.get("manpower");
 		var squads = Math.floor(mpower.value / 100);
 		this.huntMultiple(squads);
@@ -686,16 +671,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		this.game.resPool.addResEvent("manpower", -(squads * 100));
-
-		var totalYield = null;
-
-		for (var i = squads - 1; i >= 0; i--) {
-			totalYield = this.sendHuntersInternal(totalYield);
-		}
-		this.gainHuntRes(totalYield, squads);
+		this.gainHuntRes(this.sendHuntersImpl(squads), squads);
 	},
 
-	gainHuntRes: function (totalYield, squads){
+	gainHuntRes: function (totalYield, squads) {
 		for (var res in totalYield){
 			totalYield[res] = this.game.resPool.addResEvent(res, totalYield[res]);
 		}
