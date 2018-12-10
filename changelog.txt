@@ -1,3 +1,10 @@
+v 1.4.5.1b (9 dec 2018)
+
+changes by Dra.c00L.a:
+Fixed trading and hunting to be calculated using quick heuristic.
+_
+You can use shift key to preview total effect on building.
+
 v 1.4.5.1 (4 nov 2018)
 Calciner blueprint price was reduced from 5 to 1
 Necropolis necrocorn price is reduced from 25 to 15
