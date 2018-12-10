@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1451";
+			var version = "1451b";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -172,6 +172,7 @@
 
 					gamePage.render();
 					gamePage.ui.renderFilters();
+					gamePage.ui.onLoad();
 					gamePage.start();
 
 					var config = new classes.KGConfig();
@@ -235,11 +236,6 @@
 			}
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
-
-			/*$(document).on('keyup keydown', function(e){
-				gamePage.keyStates.shiftKey = e.shiftKey;
-				gamePage.keyStates.ctrlKey = e.ctrlKey;
-			} );*/
 
 		</script>
 
@@ -395,7 +391,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column toggleCenter">&gt;</div>
+				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">

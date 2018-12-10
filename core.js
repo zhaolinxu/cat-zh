@@ -1281,8 +1281,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-
-		var valMultiplier = model.on ? model.on : 1;		
+		var valMultiplier = (this.game.ui.isEffectMultiplierEnabled() && model.on) ? model.on : 1;		
 		for (var effectName in effectsList){
 			var effectValue = effectsList[effectName] * valMultiplier;
 			if (effectValue != 0) {

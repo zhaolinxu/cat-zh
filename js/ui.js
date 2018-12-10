@@ -47,6 +47,10 @@ dojo.declare("classes.ui.UISystem", null, {
 
     save: function(){
 
+    },
+
+    isEffectMultiplierEnabled: function(){
+        return false;
     }
 });
 
@@ -63,7 +67,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     fontSize: null,
 
     //current selected game tab
-	activeTabId: "Bonfire",
+    activeTabId: "Bonfire",
+    
+    keyStates: {
+        shiftKey: false,
+        ctrlKey: false,
+        altKey: false
+    },
 
     isDisplayOver: false,
     isChatActive: false,
@@ -76,7 +86,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.game.stats.getStat("totalClicks").val += 1;
         });
 
-        dojo.connect($("html")[0], "onkeyup", this, function (event) {
+        /*dojo.connect($("html")[0], "onkeyup", this, function (event) {
             // Allow user extensibility to keybindings in core events
             var keybinds = [
                 {
@@ -178,7 +188,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     }
                 }
             }
-        });
+        });*/
     },
 
     setGame: function(game){
@@ -691,6 +701,23 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#logFiltersBlock").toggle(show);
     },
 
+    onLoad: function(){
+        var self = this;
+        $(document).on("keyup keydown keypress", function(e){
+            
+            /*if (e.altKey){    //firefox shenenigans
+                e.preventDefault();
+                e.stopPropagation();
+            }*/
+
+            self.keyStates = {
+                shiftKey: e.shiftKey,
+                ctrlKey: e.ctrlKey,
+                altKey: e.altKey
+            };
+        });
+    },
+
     _createFilter: function(filter, fId, filtersDiv){
         var id = "filter-" + fId;
 
@@ -807,6 +834,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     toggleCenter: function(){
         $("#game").toggleClass("centered");
         $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
+    },
+
+    isEffectMultiplierEnabled: function(){
+        //console.log(this.keyStates);
+        return this.keyStates.shiftKey;
     }
 
 });
