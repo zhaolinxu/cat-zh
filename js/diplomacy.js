@@ -380,7 +380,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1;
 			currentSeason = this.game.calendar.getCurSeason().name;
 
-		for (var sellResource in race.sells) {
+		for(var i = 0; i < race.sells.length; i++){
+			var sellResource = race.sells[i];
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
 
