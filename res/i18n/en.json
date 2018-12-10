@@ -1443,6 +1443,7 @@
     "res.effect":"Effect",
     "res.effects":"Effects",
     "res.per.sec":"/sec",
+    "res.per.hour":"/hour",
     "reset.prompt":"Are you sure that you want to reset?",
     "reset.prompt.base":"You will get bonus points for happiness. You will also save your achievements and bonus points",
     "reset.prompt.70":"You will receive extra happiness and bonus to production",
