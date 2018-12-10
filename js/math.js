@@ -11,7 +11,7 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
 
     standardGaussianRandom: function() {
         // Box-Muller transform method
-        let u = 0, v = 0;
+        var u = 0, v = 0;
         while(u === 0) u = Math.random(); //Converting [0,1) to (0,1)
         while(v === 0) v = Math.random();
 
@@ -24,9 +24,9 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
         // If count is high enough, it can be approximated with gaussian distribution.
         // Otherwise just use old good loop to give more stable results, which is also good more majority of players.
 
-        const approximationBound = 1000;
+        var approximationBound = 1000;
         if (count > approximationBound) {
-            const sum = this.standardGaussianRandom() * count / 12 + count / 2;
+            var sum = this.standardGaussianRandom() * count / 12 + count / 2;
 
             // There is small chance that gaussian number will be outside the range, resample in such case.
             if (sum < 0 || sum > count) {
@@ -36,8 +36,8 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
             return sum;
         }
 
-        let sum = 0;
-        for (let i = 0; i < count; ++ i) {
+        sum = 0;
+        for (var i = 0; i < count; ++ i) {
             sum += Math.random();
         }
 
@@ -54,13 +54,13 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
 
         // Binominal distribution can be approximated by gaussian if condition below is met.
         // Otherwise just use old good loop.
-        const failureProbability = 1 - probability;
+        var failureProbability = 1 - probability;
         if ((experiments > 9 * failureProbability / probability) &&
             (experiments > 9 * probability / failureProbability))
         {
-            const mean = experiments * probability;
-            const deviation = experiments * probability * failureProbability;
-            const successNumber = this.standardGaussianRandom() * deviation + mean;
+            var mean = experiments * probability;
+            var deviation = experiments * probability * failureProbability;
+            var successNumber = this.standardGaussianRandom() * deviation + mean;
 
             // There is small chance that gaussian number will be outside the range, resample in such case.
             if (successNumber < 0 || successNumber > experiments) {
@@ -70,8 +70,8 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
             return Math.floor(successNumber);
         }
 
-        let successes = 0;
-        for (let i = 0; i < experiments; ++i) {
+        var successes = 0;
+        for (var i = 0; i < experiments; ++i) {
             if (Math.random() < probability) {
                 ++successes;
             }
@@ -79,4 +79,4 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
 
         return successes;
     }
-})
+});

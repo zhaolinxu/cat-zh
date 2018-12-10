@@ -560,9 +560,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if (newKitten.isLeader){
 					this.game.village.leader = newKitten;
 				}
-				if (newKitten.isSenator){
+				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
-				}
+				}*/
 
 				this.sim.kittens.unshift(newKitten);
 			}
@@ -623,28 +623,31 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	sendHuntersImpl: function(squads) {
-		let huntedResources = {};
-		const hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
+		var huntedResources = {},
+			hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
+
 		huntedResources["furs"] = 80 * this.game.math.irwinHallRandom(squads) +
 			65 * hunterRatio * this.game.math.irwinHallRandom(squads);
 
-		const ivoryProbability = 0.45 + 2 * hunterRatio;
-		const ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
+		var ivoryProbability = 0.45 + 2 * hunterRatio,
+			ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
+
 		huntedResources["ivory"] = 50 * this.game.math.irwinHallRandom(ivoryHunts) +
 			40 * hunterRatio * this.game.math.irwinHallRandom(ivoryHunts);
 
-		const unicornProbabilty = 0.05;
+		var unicornProbabilty = 0.05;
 		huntedResources["unicorns"] = this.game.math.binominalRandomInteger(squads, unicornProbabilty);
 
-		const resPool = this.game.resPool;
+		var resPool = this.game.resPool;
 		if (resPool.get("zebras").value >= 10) {
-			const bloodstoneProbability = resPool.get("bloodstone").value == 0 ? 0.05 : 0.0005;
+			var bloodstoneProbability = resPool.get("bloodstone").value == 0 ? 0.05 : 0.0005;
 			huntedResources["bloodstone"] = this.game.math.binominalRandomInteger(squads, bloodstoneProbability);
 		}
 
 		if (this.game.ironWill && this.game.workshop.get("goldOre").researched) {
-			const goldProbability = 0.25;
-			const goldHunts = this.game.math.binominalRandomInteger(squads, goldProbability);
+			var goldProbability = 0.25,
+				goldHunts = this.game.math.binominalRandomInteger(squads, goldProbability);
+
 			huntedResources["gold"] = 5 * this.game.math.irwinHallRandom(goldHunts) +
 				10 * hunterRatio / 2 * this.game.math.irwinHallRandom(goldHunts);
 		}
@@ -974,7 +977,7 @@ dojo.declare("classes.village.Map", null, {
 				level: 1,
 				cp: 0
 			}
-		}
+		};
 	},
 
 	resetMap: function(){
@@ -1299,12 +1302,12 @@ dojo.declare("classes.village.KittenSim", null, {
 			if (kitten === village.leader){
 				village.leader = null;
 			}
-			if (kitten.isSenator){
+			/*if (kitten.isSenator){
 				var k = village.senators.indexOf(kitten);
 				if (k > -1){
 					village.senators.splice(k,1);
 				}
-			}
+			}*/
 		}
 		this.game.villageTab.updateTab();
 		this.game.village.updateResourceProduction();
@@ -1819,14 +1822,14 @@ dojo.declare("classes.ui.village.Census", null, {
 				}
 			}, linksDiv);
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				var senatorHref = dojo.create("a", {
 					href: "#", innerHTML: $I("village.btn.senator"),
 					style: {
 						display: kitten.isLeader || kitten.isSenator ? "none" : "block"
 					}
 				}, linksDiv);
-			}
+			}*/
 
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
@@ -1854,7 +1857,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 			//rankExp
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.connect(senatorHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 
@@ -1877,13 +1880,13 @@ dojo.declare("classes.ui.village.Census", null, {
 					census.update();
 
 				}, this, i));
-			}
+			}*/
 
 			this.records.push({
 				content: content,
 				kitten: kitten,
 				unassignHref: unassignHref,
-                senatorHref: senatorHref,
+                /*senatorHref: senatorHref,*/
                 leaderHref: leaderHref
 			});
 		}
@@ -2073,9 +2076,9 @@ dojo.declare("classes.ui.village.Census", null, {
             } else {
                 dojo.style(record.unassignHref, "display", "none");
             }
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.style(record.senatorHref, "display", "none");
-			}
+			}*/
 
             record.content.innerHTML =
             	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " years old, "

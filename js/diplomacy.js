@@ -340,16 +340,16 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	tradeImpl: function(race, totalTradeAmount) {
-		const printMessages = (totalTradeAmount == 1);
-		let standingRatio = this.game.getEffect("standingRatio");
+		var printMessages = (totalTradeAmount == 1);
+		var standingRatio = this.game.getEffect("standingRatio");
 		
 		if (this.game.prestige.getPerk("diplomacy").researched) {
 			standingRatio += 10;
 		}
 
-		const tradeFailProbability = race.attitude === "hostile" ? (1 - race.standing - standingRatio / 100) : 0;
-		const failedTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, tradeFailProbability);
-		const successfullTradeAmount = totalTradeAmount - failedTradeAmount;
+		var tradeFailProbability = race.attitude === "hostile" ? (1 - race.standing - standingRatio / 100) : 0;
+		var failedTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, tradeFailProbability);
+		var successfullTradeAmount = totalTradeAmount - failedTradeAmount;
 
 		if (successfullTradeAmount == 0) {
 			if (printMessages) {
@@ -364,9 +364,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			race.duration = Math.min(race.duration, 400 + 100 * race.energy)
 		}
 
-		const bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;
-		const bonusTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, bonusSuccessProbability);
-		const normalTradeAmount = successfullTradeAmount - bonusTradeAmount;
+		var bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;
+		var bonusTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, bonusSuccessProbability);
+		var normalTradeAmount = successfullTradeAmount - bonusTradeAmount;
 
 		if (bonusTradeAmount > 0) {
 			if (printMessages){
@@ -374,46 +374,47 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 		}
 
-		let boughtResourceCollection = {};
-		const bonusTradeRatio = 1.25;
-		const tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
-		const raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1;
-		const currentSeason = this.game.calendar.getCurSeason().name;
+		var boughtResourceCollection = {},
+			bonusTradeRatio = 1.25;
+			tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1;
+			currentSeason = this.game.calendar.getCurSeason().name;
 
-		for (let sellResource of race.sells) {
-			const resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100);
-			const resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
+		for (var sellResource in race.sells) {
+			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100),
+				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
 
 			if (resourcePassedBonusTradeAmount + resourcePassedNormalTradeAmount == 0) {
 				continue;
 			}
 
-			const resourceSeasonTradeRatio = sellResource.seasons[currentSeason];
-			const normalizedBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedNormalTradeAmount +
+			var resourceSeasonTradeRatio = sellResource.seasons[currentSeason];
+			var normalizedBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedNormalTradeAmount +
 				sellResource.delta * this.game.math.irwinHallRandom(resourcePassedNormalTradeAmount);
-			const normalizedBonusBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedBonusTradeAmount +
+			var normalizedBonusBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedBonusTradeAmount +
 				sellResource.delta * this.game.math.irwinHallRandom(resourcePassedBonusTradeAmount);
-			let boughtAmount = (normalizedBoughtAmount + normalizedBonusBoughtAmount * bonusTradeRatio) * sellResource.value *
+			var boughtAmount = (normalizedBoughtAmount + normalizedBonusBoughtAmount * bonusTradeRatio) * sellResource.value *
 				resourceSeasonTradeRatio * tradeRatio * raceRatio;
 
 			boughtResourceCollection[sellResource.name] = boughtAmount;
 		}
 
 		//-------------------- 35% chance to get spice ------------------
-		const spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
 
 		//-------------- 10% chance to get blueprint ---------------
-		const blueprintTradeAmount = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
+		var blueprintTradeAmount = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
 		boughtResourceCollection["blueprint"] = blueprintTradeAmount;
 
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
 		if (race.name === "zebras") {
-			const shipAmount = this.game.resPool.get("ship").value;
-			const titaniumProbability = 0.15 + shipAmount * 0.0035;
-			const titaniumRatio = 1 + (shipAmount / 100) * 2; // 2% more titanium per ship
-			const titaniumTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, titaniumProbability);
+			var shipAmount = this.game.resPool.get("ship").value,
+				titaniumProbability = 0.15 + shipAmount * 0.0035,
+				titaniumRatio = 1 + (shipAmount / 100) * 2, // 2% more titanium per ship
+				titaniumTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, titaniumProbability);
+				
 			boughtResourceCollection["titanium"] = 1.5 * titaniumRatio * titaniumTradeAmount;
 		}
 
