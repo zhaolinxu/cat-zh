@@ -375,9 +375,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResourceCollection = {},
-			bonusTradeRatio = 1.25;
-			tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
-			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1;
+			bonusTradeRatio = 1.25,
+			tradeRatio = 1 + this.game.diplomacy.getTradeRatio(),
+			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1,
 			currentSeason = this.game.calendar.getCurSeason().name;
 
 		for(var i = 0; i < race.sells.length; i++){
@@ -415,7 +415,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				titaniumProbability = 0.15 + shipAmount * 0.0035,
 				titaniumRatio = 1 + (shipAmount / 100) * 2, // 2% more titanium per ship
 				titaniumTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, titaniumProbability);
-				
+
 			boughtResourceCollection["titanium"] = 1.5 * titaniumRatio * titaniumTradeAmount;
 		}
 
