@@ -2284,15 +2284,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.game.resPool.get("paragon").value >= 5;
 			
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(isMapVisible);
+		this.mapPanel.setVisible(false);
 
-		/*if (this.mapPanelViewport){
+		if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);
 		}
 		this.mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
-        }), this.mapPanelViewport);*/
+        }), this.mapPanelViewport);
 
 		//----------------- happiness and things ----------------------
 
