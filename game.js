@@ -2964,8 +2964,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-
-		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? $I("res.per.sec") : "");
+		
+		var _value = this.getDisplayValue(value, prefix, precision);
+		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},
 
 	/**
@@ -3801,6 +3802,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.resPool.get("paragon").value = 1;
+	},
+
+	isEldermass: function(){
+		var date = new Date();
+		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
 	}
+
 });
 

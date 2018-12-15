@@ -2286,13 +2286,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
 		this.mapPanel.setVisible(isMapVisible);
 
-		if (this.mapPanelViewport){
+		/*if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);
 		}
 		this.mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
-        }), this.mapPanelViewport);
+        }), this.mapPanelViewport);*/
 
 		//----------------- happiness and things ----------------------
 
@@ -2397,7 +2397,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = !config.statics.isEldermass && (this.game.resPool.get("elderBox").value > 0);
+					model.visible = !this.game.isEldermass() && (this.game.resPool.get("elderBox").value > 0);
 				}
 			})
 		}, this.game);
