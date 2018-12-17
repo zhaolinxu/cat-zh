@@ -77,7 +77,7 @@ WMapTile = React.createClass({
                 ($r("div", {className: "tooltip-content"}, 
                     [data ? 
                         $r("div", {className: "label"}, [
-                            data.type && $r("div", null, "地形:" + cntext(data.type)),
+                            data.type && $r("div", null, "地形:" + cnItem(data.type)),
                             $r("div", null, "等级:" + data.level + " ["+ data.cp.toFixed() + "/" + toLevel.toFixed() + " 猫力]("+ percentExplored.toFixed() + "%)")
                         ]) 
                         : $r("div", {className: "label"}, "这里没什么有趣的")]
@@ -296,16 +296,3 @@ WMapSection = React.createClass({
     }
 });
 
-function cntext(text){
-    var cntext="";
-    var temp=text;
-    if(temp=="village"){
-        cntext="村庄"
-    }else if(temp=="forest"){
-        cntext="森林"
-    }else{
-console.log("需汉化的英文："+text);
-        return text;
-    }
-    return cntext;
-}

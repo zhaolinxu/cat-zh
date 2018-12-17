@@ -28,7 +28,9 @@ body {
     width: 100%;
     border-bottom: 1px solid gray;
 
-    box-shadow: 1px 0px 2px #888;
+    -webkit-box-shadow: 1px 0px 2px #888;
+
+            box-shadow: 1px 0px 2px #888;
     min-width: 1180px;
 }
 
@@ -47,10 +49,23 @@ body {
 }
 
 #loadingContainer .content{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
     text-align: center;
     min-height: 100vh;
 
@@ -63,8 +78,14 @@ body {
 }
 
 #game.centered {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 .column {
@@ -139,7 +160,8 @@ div#gameLog {
     cursor: pointer;
     background-color: #fff !important;
     cursor: pointer !important;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
     border: none !important;
     border-radius: 1px !important;
     outline: 0 !important;
@@ -162,7 +184,6 @@ select>option {
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -202,7 +223,8 @@ select>option {
 .btn .btnContent a {
     max-width: 50px;
     overflow-x: hidden;
-    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
     display: inline-block;
 }
 
@@ -318,6 +340,8 @@ select>option {
 @media screen {
   .achievement[title]::after{
     content: ' ' attr(title);
+    -webkit-transition: opacity 0.25s;
+    -o-transition: opacity 0.25s;
     transition: opacity 0.25s;
     opacity: 0;
   }
@@ -643,12 +667,6 @@ a:hover {
 @-webkit-keyframes pulse {
   0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
 }
-@-moz-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
-}
-@-o-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
-}
 
 .flavor {
     float: right;
@@ -687,7 +705,8 @@ a:hover {
 
 progress[value] {
     -webkit-appearance: none;
-    appearance: none;
+    -moz-appearance: none;
+         appearance: none;
     height: 2px;
     display: block;
     width: 100%;
@@ -781,7 +800,7 @@ a.link.collapse:hover {
 
 .res-toolbar.right {
     text-align: right;
-    margin-right:-18px;
+    margin-right:0px;
     float: right;
 }
 
@@ -835,13 +854,25 @@ a.link.collapse:hover {
 }
 
 .res-cell.craft-link:active {
-    animation: pulseShort 0.5s;
-    user-select: none;
+    -webkit-animation: pulseShort 0.5s;
+            animation: pulseShort 0.5s;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
+
+@-webkit-keyframes pulseShort {
+    100% {
+        -webkit-transform: scale(1.1);
+                transform: scale(1.1);
+    }
+  }
 
 @keyframes pulseShort {
     100% {
-        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+                transform: scale(1.1);
     }
   }
 
@@ -877,7 +908,10 @@ a.link.collapse:hover {
     cursor: pointer;
 
     fill: lightgray;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .map-cell.focused {
@@ -889,11 +923,16 @@ a.link.collapse:hover {
 }
 
 .map-cell.active {
-    animation: border-pulse 4s infinite;
+    -webkit-animation: border-pulse 4s infinite;
+            animation: border-pulse 4s infinite;
 }
 
 .map-cell.locked {
     visibility: hidden;
+}
+
+@-webkit-keyframes border-pulse{
+    0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
 }
 
 @keyframes border-pulse{
@@ -915,7 +954,8 @@ a.link.collapse:hover {
     width: 100%;
     margin-bottom: -1px;
     -webkit-appearance: none;
-    appearance: none;
+    -moz-appearance: none;
+         appearance: none;
 }
 
 .map-cell .tooltip-content {
@@ -948,13 +988,56 @@ a.link.collapse:hover {
 
 
 div.blaze {
-    animation: rainbow 2.5s linear;
-	animation-iteration-count: infinite;
+    -webkit-animation: rainbow 2.5s linear;
+            animation: rainbow 2.5s linear;
+	-webkit-animation-iteration-count: infinite;
+	        animation-iteration-count: infinite;
 }
 
 div.hail {
-    animation: redrainbow 1.5s linear;
-	animation-iteration-count: infinite;
+    -webkit-animation: redrainbow 1.5s linear;
+            animation: redrainbow 1.5s linear;
+	-webkit-animation-iteration-count: infinite;
+	        animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rainbow{
+    100%,0%{
+        color: rgb(255,0,0);
+    }
+    8%{
+        color: rgb(255,127,0);
+    }
+    16%{
+        color: rgb(255,255,0);
+    }
+    25%{
+        color: rgb(127,255,0);
+    }
+    33%{
+        color: rgb(0,255,0);
+    }
+    41%{
+        color: rgb(0,255,127);
+    }
+    50%{
+        color: rgb(0,255,255);
+    }
+    58%{
+        color: rgb(0,127,255);
+    }
+    66%{
+        color: rgb(0,0,255);
+    }
+    75%{
+        color: rgb(127,0,255);
+    }
+    83%{
+        color: rgb(255,0,255);
+    }
+    91%{
+        color: rgb(255,0,127);
+    }
 }
 
 @keyframes rainbow{
@@ -993,6 +1076,16 @@ div.hail {
     }
     91%{
         color: rgb(255,0,127);
+    }
+}
+
+
+@-webkit-keyframes redrainbow{
+    100%,0%{
+        color: rgb(255,0,0);
+    }
+    50%{
+        color: rgb(0,0,0);
     }
 }
 

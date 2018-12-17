@@ -26,7 +26,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "sharks",
 		title: $I("trade.race.sharks"),
-		attitude: "中立",
+		attitude: "neutral",
 		unlocked: false,
 		buys: [
 			{name: "iron", val: 100}
@@ -43,7 +43,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "griffins",
 		title: $I("trade.race.griffins"),
-		attitude: "敌对",
+		attitude: "hostile",
 		standing: 0.85,
 		unlocked: false,
 		buys: [
@@ -61,7 +61,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},{
 		name: "nagas",
 		title: $I("trade.race.nagas"),
-		attitude: "中立",
+		attitude: "neutral",
 		hidden: true,
 		unlocked: false,
 		buys: [
@@ -80,7 +80,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "zebras",
 		hidden: true,
 		title: $I("trade.race.zebras"),
-		attitude: "敌对",
+		attitude: "hostile",
 		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
@@ -111,7 +111,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "spiders",
 		hidden: true,
 		title: $I("trade.race.spiders"),
-		attitude: "友好",
+		attitude: "friendly",
 		standing: 0.15,			//friendly, but not much
 		unlocked: false,
 		buys: [
@@ -130,7 +130,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		name: "dragons",
 		hidden: true,
 		title: $I("trade.race.dragons"),
-		attitude: "中立",
+		attitude: "neutral",
 		standing: 0.25,
 		unlocked: false,
 		buys: [
@@ -150,7 +150,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		hidden: true,
 		title: $I("trade.race.leviathans"),
 		energy: 0,
-		attitude: "中立",
+		attitude: "neutral",
 		standing: 0.15,
 		unlocked: false,
         duration: 0,
@@ -816,10 +816,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var racePanel = this.racePanels[i];
 			if (!racePanel){
 				if (race.name === "leviathans") {
-					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
+					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+cnItem(race.attitude)+"</span>");
 					racePanel.setGame(this.game);
 				} else {
-					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
+					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+cnItem(race.attitude)+"</span>");
 				}
 				this.racePanels.push(racePanel);
 			}

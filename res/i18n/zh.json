@@ -1445,6 +1445,7 @@
     "res.effect":"效果",
     "res.effects":"效果",
     "res.per.sec":"/秒",
+    "res.per.hour":"/小时",
     "reset.prompt":"你确定要重置游戏吗?",
     "reset.prompt.base":"你会得到幸福点奖励，并且保存你的成就和奖励点。",
     "reset.prompt.70":"您将获得额外的幸福和生产奖励",
