@@ -2,7 +2,6 @@ html, body {
     height: 100%;
     overflow-y: hidden;
 }
-
 body {
     margin: 0;
     padding: 0;
@@ -32,6 +31,7 @@ body {
 
             box-shadow: 1px 0px 2px #888;
     min-width: 1180px;
+    font-size: 13px;
 }
 
 #game, #loadingContainer {
@@ -111,6 +111,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
+    font-size: 13px;
 }
 
 #rightColumn {
@@ -119,6 +120,7 @@ body {
     padding-left: 8px;
     top: 20px;
     position: relative;
+    font-size: 13px;
 }
 
 .tabsContainer {
@@ -135,6 +137,7 @@ div#gameLog {
     position: absolute;
     bottom: 10px;
     right: 5px;
+    font-size: 13px;
 }
 
 .activeTab {
@@ -257,7 +260,7 @@ select>option {
 .dialog {
     position: absolute;
     border: 1px solid black;
-
+font-size: 13px;
     left: 50%;
     top: 50%;
 
@@ -832,7 +835,7 @@ a.link.collapse:hover {
 }
 
 .res-cell.resource-name {
-    width: 60px;
+    width: 30px;
 }
 
 .res-cell.resource-value {
