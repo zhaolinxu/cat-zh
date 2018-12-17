@@ -8,7 +8,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	races: [{
 		name: "lizards",
 		title: $I("trade.race.lizards"),
-		attitude: "友好",	//neutral, friendly, aggressive
+		attitude: "friendly",	//neutral, friendly, hostile
 		standing: 0.25,			//chance of trade success, works differently based on attitude
 		unlocked: false,
 		buys: [
@@ -337,118 +337,97 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         if (elders.duration > 0){
             elders.duration--;
         }
-    },
+	},
 
-	//------------------------------------------------------------------------
-	//lets keep it here FOR SCIENCE
-	//------------------------------------------------------------------------
-	tradeInternal: function(race, suppressMessages, tradeRes){
-		var tradeRatioAttitude = 0;
-
-		var attitudeChance = this.game.rand(100);
+	tradeImpl: function(race, totalTradeAmount) {
+		var printMessages = (totalTradeAmount == 1);
 		var standingRatio = this.game.getEffect("standingRatio");
-		standingRatio = standingRatio ? standingRatio : 0;
-
-		if (this.game.prestige.getPerk("diplomacy").researched){
+		
+		if (this.game.prestige.getPerk("diplomacy").researched) {
 			standingRatio += 10;
 		}
 
-		if (!tradeRes){
-			tradeRes = {};
+		var tradeFailProbability = race.attitude === "hostile" ? (1 - race.standing - standingRatio / 100) : 0;
+		var failedTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, tradeFailProbability);
+		var successfullTradeAmount = totalTradeAmount - failedTradeAmount;
 
-			for (var j = 0; j < race.sells.length; j++){
-				tradeRes[race.sells[j].name] = 0;
-			}
-
-			tradeRes["spice"] = 0;
-			tradeRes["blueprint"] = 0;
-		}
-
-		if (race.attitude == "hostile" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-			if (!suppressMessages){
+		if (successfullTradeAmount == 0) {
+			if (printMessages) {
 				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
 			}
-			return tradeRes;
+
+			return;
 		}
 
-		if (race.attitude == "friendly" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	
-			//confusing part, low standing is ok for friendly races
-			if (!suppressMessages){
+		if (race.name == "leviathans") {
+			//reset energy to default limit
+			race.duration = Math.min(race.duration, 400 + 100 * race.energy)
+		}
+
+		var bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;
+		var bonusTradeAmount =  this.game.math.binominalRandomInteger(totalTradeAmount, bonusSuccessProbability);
+		var normalTradeAmount = successfullTradeAmount - bonusTradeAmount;
+
+		if (bonusTradeAmount > 0) {
+			if (printMessages){
 				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
 			}
-			tradeRatioAttitude = 0.25;
 		}
 
-		if (race.name == "leviathans"){
-			//reset energy to default limit
-			var duration = (400 + 100 * race.energy);
-			if (race.duration > duration){
-				race.duration = duration;
-			}
-		}
+		var boughtResourceCollection = {},
+			bonusTradeRatio = 1.25,
+			tradeRatio = 1 + this.game.diplomacy.getTradeRatio(),
+			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1,
+			currentSeason = this.game.calendar.getCurSeason().name;
 
-		var ratio = this.game.diplomacy.getTradeRatio();
-		var currentSeason = this.game.calendar.getCurSeason().name;
+		for(var i = 0; i < race.sells.length; i++){
+			var sellResource = race.sells[i];
+			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100),
+				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
 
-		for (var j =0; j< race.sells.length; j++){
-			var s = race.sells[j];
-
-			var chance = this.game.rand(100);
-			if (chance >= s.chance){
+			if (resourcePassedBonusTradeAmount + resourcePassedNormalTradeAmount == 0) {
 				continue;
 			}
 
-			var sratio = s.seasons[currentSeason];
-			var min = s.value * sratio - s.value * sratio * s.delta/2;
-			var amt = min + this.game.rand(s.value * sratio * s.delta);
+			var resourceSeasonTradeRatio = sellResource.seasons[currentSeason];
+			var normalizedBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedNormalTradeAmount +
+				sellResource.delta * this.game.math.irwinHallRandom(resourcePassedNormalTradeAmount);
+			var normalizedBonusBoughtAmount = (1 - sellResource.delta / 2) * resourcePassedBonusTradeAmount +
+				sellResource.delta * this.game.math.irwinHallRandom(resourcePassedBonusTradeAmount);
+			var boughtAmount = (normalizedBoughtAmount + normalizedBonusBoughtAmount * bonusTradeRatio) * sellResource.value *
+				resourceSeasonTradeRatio * tradeRatio * raceRatio;
 
-			amt += amt*ratio;
-
-			amt = amt + amt*tradeRatioAttitude;
-			if (race.name == "leviathans") {
-				amt += amt * 0.02 * race.energy;
-			}
-
-			tradeRes[s.name] += amt;
-
+			boughtResourceCollection[sellResource.name] = boughtAmount;
 		}
+
 		//-------------------- 35% chance to get spice ------------------
-		if (this.game.rand(100) < 35){
-			var spiceVal = this.game.rand(50);
-			var resValue = 25 +  spiceVal + spiceVal * ratio;
-			tradeRes["spice"] += resValue;
-		}
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
+		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
+			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
 
-		//-------------- 10% change to get blueprint ---------------
+		//-------------- 10% chance to get blueprint ---------------
+		var blueprintTradeAmount = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
+		boughtResourceCollection["blueprint"] = blueprintTradeAmount;
 
-		if (this.game.rand(100) < 10){
-			tradeRes["blueprint"] += 1;
-		}
+		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
+		if (race.name === "zebras") {
+			var shipAmount = this.game.resPool.get("ship").value,
+				titaniumProbability = 0.15 + shipAmount * 0.0035,
+				titaniumRatio = 1 + (shipAmount / 100) * 2, // 2% more titanium per ship
+				titaniumTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, titaniumProbability);
 
-		//-------------- 15% change to get titanium  ---------------
-
-		if (race.name == "zebras"){
-			var shipVal = this.game.resPool.get("ship").value;
-			var shipRate = shipVal * 0.35;		//0.35% per ship to get titanium
-
-			if (this.game.rand(100) < ( 15 + shipRate )){
-
-				var titaniumAmt = 1.5;
-				titaniumAmt += titaniumAmt * ( shipVal / 100 ) * 2;	//2% more titanium per ship
-				tradeRes["titanium"] += titaniumAmt;
-			}
+			boughtResourceCollection["titanium"] = 1.5 * titaniumRatio * titaniumTradeAmount;
 		}
 
 		//Update Trade Stats
-		this.game.stats.getStat("totalTrades").val += 1;
-		this.game.stats.getStatCurrent("totalTrades").val += 1;
+		this.game.stats.getStat("totalTrades").val += successfullTradeAmount;
+		this.game.stats.getStatCurrent("totalTrades").val += successfullTradeAmount;
 
-		return tradeRes;
+		return boughtResourceCollection;
 	},
 
 	trade: function(race){
-		var yieldRes = this.tradeInternal(race);
-		this.gainTradeRes(yieldRes, 1);
+		this.gainTradeRes(this.tradeImpl(race, 1), 1);
 	},
 
 	tradeMultiple: function(race, amt){
@@ -464,155 +443,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
 
 		//---------- calculate yield -----------------
-
-		var yieldResTotal = null;
-		for (var i = 0; i < amt; i++){
-			yieldResTotal = this.tradeInternal(race, true, yieldResTotal);	//suppress msg
-		}
-
-		this.gainTradeRes(yieldResTotal, amt);
+		this.gainTradeRes(this.tradeImpl(race, amt), amt);
  	},
 
-
-	/*normalDistribution: function(mean, std) {
-		var vals = [];
-		function calc() {
-			var alpha = Math.random(),
-			beta = Math.random();
-			return [
-				Math.sqrt(-2 * Math.log(alpha)) * Math.sin(2 * Math.PI * beta),
-				Math.sqrt(-2 * Math.log(alpha)) * Math.cos(2 * Math.PI * beta)
-			];
-		}
-		vals = vals.length == 0 ? calc() : vals;
-		return ((vals.pop())*std+mean);
-	},
- 
-	tradeInternal: function(race, suppressMessages, tradeRes, amt){
-	    var attitudeChance = this.game.rand(100);
-	    var standingRatio = this.game.getEffect("standingRatio") || 0;
-
-	    if (this.game.prestige.getPerk("diplomacy").researched){
-			standingRatio += 10;
-		}
-	    if (!tradeRes){
-	        tradeRes = {};
-	        for (var j = 0; j < race.sells.length; j++){
-			tradeRes[race.sells[j].name] = 0;
-			}
-
-			tradeRes["spice"] = 0;
-			tradeRes["blueprint"] = 0;
-		}
-
-		if (race.attitude == "敌对" && this.game.rand(100) - standingRatio >= race.standing * 100){	//the less you roll the better
-			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.failure", [race.title]) , null, "trade");
-			}
-			return tradeRes;
-		}
-
-		if (race.attitude == "友好" && this.game.rand(100) - standingRatio/2 <= race.standing * 100){	//confusing part, low standing is ok for friendly races
-			if (!suppressMessages){
-				this.game.msg($I("trade.msg.trade.success", [race.title]), null, "trade");
-			}
-			tradeRatioAttitude = 0.25;
-		}
-
-		if (race.name == "leviathans"){
-			//reset energy to default limit
-			var duration = (400 + 100 * race.energy);
-			if (race.duration > duration){
-				race.duration = duration;
-			}
-		}
-
-		var ratio = this.game.diplomacy.getTradeRatio();
-	    var currentSeason = this.game.calendar.getCurSeason().name;
-	    for (var j = 0; j< race.sells.length; j++){
-	        var s = race.sells[j];
-	        var avgTrades = adjTrade * (s.chance*0.01);
-	        var stdTrades = (1-s.chance*0.01)*(s.chance*0.01)*adjTrade;
-	        var finalTrades = Math.max(Math.min(this.normalDistribution(avgTrades, stdTrades),adjTrade),0);
-			finalTrades = Math.floor(finalTrades+1/2);
-	        if (finalTrades != 0) {
-				continue;
-			}
-			
-	        var sratio = s.seasons[currentSeason];
-	        var min = s.value * sratio - s.value * sratio * s.delta/2;
-	        var max = min + s.value * sratio * s.delta;
-	        var avgAmt = (min + max)/2
-	        var stdAmt = (max-min)/Math.sqrt(12)
-	        var finAmt = this.normalDistribution(avgAmt, stdAmt);
-	        finAmt += finAmt*ratio;
-			finAmt = finAmt*finalTrades;
-	        finAmt = finAmt + (finAmt/adjTrade*1.25*friendlyTrades);
-	        if (race.name == "leviathans"){
-				finAmt += finAmt * 0.02 * race.energy;
-			}
-	        tradeRes[s.name] += finAmt;
-	    }
-	    //-------------------- 35% chance to get spice ------------------
-	    var spiceTradesAvg = adjTrade * 0.35;
-	    var spiceTradesStd = (0.65) * (0.35)*adjTrade;
-	    var spiceTradesTot = this.normalDistribution(spiceTradesAvg, spiceTradesStd);
-	    var resValueAvg = 150+25*ratio;
-	    var resValueMin = 25;
-	    var resValueMax = resValueMin + 50 + 50 * ratio;
-	    var resValueStd = (resValueMax-resValueMin)/Math.sqrt(12);
-	    var spiceTraded = this.normalDistribution(resValueAvg, resValueStd);
-	    spiceTraded *= spiceTradesTot;
-	    tradeRes["spice"] += spiceTraded;
-	    //-------------- 10% change to get blueprint ---------------
-	    var blueprintAvg = adjTrade * 0.1;
-	    var blueprintStd = (0.1) * (0.9)*blueprintAvg;
-	    var blueprintsTot = this.normalDistribution(blueprintAvg, blueprintStd);
-	    blueprintsTot = Math.floor(blueprintsTot+0.5);
-	    tradeRes["blueprint"] += blueprintsTot;
-	    //-------------- 15% change to get titanium  ---------------
-	    if (race.name == "zebras"){
-	        var shipVal = this.game.resPool.get("ship").value;
-	        var shipRate = shipVal * 0.35;      //0.35% per ship to get titanium
-	        var titTradesAvg = adjTrade * (0.15+shipRate/100);
-	        var titTradesStd = (0.15+shipRate/100) * (1-(0.15+shipRate/100))*adjTrade;
-	        if (titTradesAvg >= adjTrade){
-	            titTradesAvg = adjTrade;
-	            titTradesStd = 0;
-	        }
-	        var titTradesTot = Math.max(Math.min(this.normalDistribution(titTradesAvg, titTradesStd),adjTrade),0);
-	        var titAmt = 3*(shipVal/100);
-	        var titSold = titAmt * titTradesTot;
-	        tradeRes["titanium"] += titSold;
-	    }
-	    //Update Trade Stats
-	    this.game.stats.getStat("totalTrades").val += amt;
-	    this.game.stats.getStatCurrent("totalTrades").val += amt;
-	    return tradeRes;
-	},
- 
-	trade: function(race){
-    	var yieldRes = this.tradeInternal(race, true, yieldRes, 1);
-    	this.gainTradeRes(yieldRes, 1);
-	},
-
-	tradeMultiple: function(race, amt){
-		//------------ safety measure ----------------
-		if (!this.hasMultipleResources(race, amt))
-			return;
-		//-------------- pay prices ------------------
-		this.game.resPool.addResEvent("manpower", -50 * amt);
-		this.game.resPool.addResEvent("gold", -15 * amt);
-		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
-		//---------- calculate yield -----------------
-		var yieldResTotal = null;
-			yieldResTotal = this.tradeInternal(race, true, yieldResTotal, amt); //suppress msg
-		this.gainTradeRes(yieldResTotal, amt);
-	},
- 
-	*/
-
-	
 	hasMultipleResources: function(race, amt){
 		return (this.game.resPool.get("manpower").value >= 50 * amt &&
 			this.game.resPool.get("gold").value >= 15 * amt &&
@@ -629,7 +462,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	gainTradeRes: function(yieldResTotal, amtTrade){
 		var output = false;
 		if (yieldResTotal) {
-			for (var res in yieldResTotal){
+			for (var res in yieldResTotal) {
 				var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
 				if (amt > 0){
 					if (res == "blueprint"){
@@ -1031,8 +864,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						max = val;
 					} else {
 						var sratio = s.seasons[this.game.calendar.getCurSeason().name];
-
 						var tratio = self.game.diplomacy.getTradeRatio() + 1;
+
 						if (race.name == "leviathans") {
 							tratio *= (1 + 0.02 * race.energy);
 						}
@@ -1150,9 +983,5 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		if (this.domNode) {
 			this.domNode.innerHTML = this.tabName;
 		}
-	},
-
-	rand: function(ratio){
-		return (Math.floor(Math.random()*ratio));
 	}
 });

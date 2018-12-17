@@ -985,6 +985,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	console: null,
 	telemetry: null,
 	server: null,
+	math: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -1099,6 +1100,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
+		this.math = new com.nuclearunicorn.game.Math();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -3005,8 +3007,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-
-		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? $I("res.per.sec") : "");
+		
+		var _value = this.getDisplayValue(value, prefix, precision);
+		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},
 
 	/**
@@ -3508,7 +3511,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TO BE USED EXTERNALLY
 	rand: function(ratio){
-		return (Math.floor(Math.random()*ratio));
+		return this.math.uniformRandomInteger(0, ratio);
 	},
 
 	//Karma has no menu. You get served what you deserve.
@@ -3842,6 +3845,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.resPool.get("paragon").value = 1;
+	},
+
+	isEldermass: function(){
+		var date = new Date();
+		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
 	}
+
 });
 

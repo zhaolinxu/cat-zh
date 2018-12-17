@@ -560,9 +560,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if (newKitten.isLeader){
 					this.game.village.leader = newKitten;
 				}
-				if (newKitten.isSenator){
+				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
-				}
+				}*/
 
 				this.sim.kittens.unshift(newKitten);
 			}
@@ -622,56 +622,44 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.happiness = happiness/100;
 	},
 
-	sendHuntersInternal: function(huntingRes){
-		if (!huntingRes){
-			huntingRes = {
-				furs: 0,
-				ivory: 0,
-				gold: 0,
-				unicorns: 0,
-				bloodstone: 0
-			};
-		}
+	sendHuntersImpl: function(squads) {
+		var huntedResources = {},
+			hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
 
-		var hunterRatio = this.game.getEffect("hunterRatio") + this.game.village.getEffectLeader("manager", 0);
-		huntingRes.furs += this.rand(80) + this.rand(65 * hunterRatio);
+		huntedResources["furs"] = 80 * this.game.math.irwinHallRandom(squads) +
+			65 * hunterRatio * this.game.math.irwinHallRandom(squads);
 
-		if (this.rand(100) > ( 55 - 2 * hunterRatio)){
-			huntingRes.ivory += this.rand(50) + this.rand(40 * hunterRatio);
-		}
+		var ivoryProbability = 0.45 + 2 * hunterRatio,
+			ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
 
-		if (this.rand(100) < 5){
-			huntingRes.unicorns += 1;
-		}
+		huntedResources["ivory"] = 50 * this.game.math.irwinHallRandom(ivoryHunts) +
+			40 * hunterRatio * this.game.math.irwinHallRandom(ivoryHunts);
+
+		var unicornProbabilty = 0.05;
+		huntedResources["unicorns"] = this.game.math.binominalRandomInteger(squads, unicornProbabilty);
 
 		var resPool = this.game.resPool;
-		if (resPool.get("zebras").value >= 10){
-			if (resPool.get("bloodstone").value == 0){
-				if (this.rand(100) <= 5){
-					huntingRes.bloodstone = 1;
-				}
-			} else {
-				if (this.rand(10000) <= 5){
-					huntingRes.bloodstone += 1;
-				}
-			}
+		if (resPool.get("zebras").value >= 10) {
+			var bloodstoneProbability = resPool.get("bloodstone").value == 0 ? 0.05 : 0.0005;
+			huntedResources["bloodstone"] = this.game.math.binominalRandomInteger(squads, bloodstoneProbability);
 		}
 
-		if (this.game.ironWill && this.game.workshop.get("goldOre").researched){
-			if (this.rand(100) < 25){
-				huntingRes.gold += this.rand(5) + this.rand(10 * hunterRatio/2);
-			}
+		if (this.game.ironWill && this.game.workshop.get("goldOre").researched) {
+			var goldProbability = 0.25,
+				goldHunts = this.game.math.binominalRandomInteger(squads, goldProbability);
+
+			huntedResources["gold"] = 5 * this.game.math.irwinHallRandom(goldHunts) +
+				10 * hunterRatio / 2 * this.game.math.irwinHallRandom(goldHunts);
 		}
 
-		return huntingRes;
+		return huntedResources;
 	},
 
-	sendHunters: function(){
-		var huntingRes = this.sendHuntersInternal();
-		this.gainHuntRes(huntingRes, 1);
+	sendHunters: function() {
+		this.gainHuntRes(this.sendHuntersImpl(1), 1);
 	},
 
-	huntAll: function(){
+	huntAll: function() {
 		var mpower = this.game.resPool.get("manpower");
 		var squads = Math.floor(mpower.value / 100);
 		this.huntMultiple(squads);
@@ -686,16 +674,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		this.game.resPool.addResEvent("manpower", -(squads * 100));
-
-		var totalYield = null;
-
-		for (var i = squads - 1; i >= 0; i--) {
-			totalYield = this.sendHuntersInternal(totalYield);
-		}
-		this.gainHuntRes(totalYield, squads);
+		this.gainHuntRes(this.sendHuntersImpl(squads), squads);
 	},
 
-	gainHuntRes: function (totalYield, squads){
+	gainHuntRes: function (totalYield, squads) {
 		for (var res in totalYield){
 			totalYield[res] = this.game.resPool.addResEvent(res, totalYield[res]);
 		}
@@ -772,7 +754,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 				for (var job in situationJobs) {
-					this.assignJob(this.getJob(job));
+					this.assignJob(this.getJob(job), 1);
 					if (situationJobs[job] == 1) {
 						delete situationJobs[job];
 					} else {
@@ -995,7 +977,7 @@ dojo.declare("classes.village.Map", null, {
 				level: 1,
 				cp: 0
 			}
-		}
+		};
 	},
 
 	resetMap: function(){
@@ -1320,12 +1302,12 @@ dojo.declare("classes.village.KittenSim", null, {
 			if (kitten === village.leader){
 				village.leader = null;
 			}
-			if (kitten.isSenator){
+			/*if (kitten.isSenator){
 				var k = village.senators.indexOf(kitten);
 				if (k > -1){
 					village.senators.splice(k,1);
 				}
-			}
+			}*/
 		}
 		this.game.villageTab.updateTab();
 		this.game.village.updateResourceProduction();
@@ -1840,14 +1822,14 @@ dojo.declare("classes.ui.village.Census", null, {
 				}
 			}, linksDiv);
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				var senatorHref = dojo.create("a", {
 					href: "#", innerHTML: $I("village.btn.senator"),
 					style: {
 						display: kitten.isLeader || kitten.isSenator ? "none" : "block"
 					}
 				}, linksDiv);
-			}
+			}*/
 
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
@@ -1875,7 +1857,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 			//rankExp
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.connect(senatorHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 
@@ -1898,13 +1880,13 @@ dojo.declare("classes.ui.village.Census", null, {
 					census.update();
 
 				}, this, i));
-			}
+			}*/
 
 			this.records.push({
 				content: content,
 				kitten: kitten,
 				unassignHref: unassignHref,
-                senatorHref: senatorHref,
+                /*senatorHref: senatorHref,*/
                 leaderHref: leaderHref
 			});
 		}
@@ -2094,9 +2076,9 @@ dojo.declare("classes.ui.village.Census", null, {
             } else {
                 dojo.style(record.unassignHref, "display", "none");
             }
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			/*if (this.game.challenges.currentChallenge != "anarchy") {
 				dojo.style(record.senatorHref, "display", "none");
-			}
+			}*/
 
             record.content.innerHTML =
             	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " 岁, "
@@ -2302,7 +2284,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.game.resPool.get("paragon").value >= 5;
 			
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("地图", this.game.village);
-		this.mapPanel.setVisible(isMapVisible);
+		this.mapPanel.setVisible(false);
 
 		if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);
@@ -2415,7 +2397,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = !config.statics.isEldermass && (this.game.resPool.get("elderBox").value > 0);
+					model.visible = !this.game.isEldermass() && (this.game.resPool.get("elderBox").value > 0);
 				}
 			})
 		}, this.game);

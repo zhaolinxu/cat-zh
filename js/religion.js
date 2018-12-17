@@ -351,7 +351,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		description: $I("religion.zu.unicornNecropolis.desc"),
 		prices: [
 			{ name : "void", val: 5 },
-			{ name : "necrocorn", val: 25 },
+			{ name : "necrocorn", val: 15 },
+			{ name : "alicorn", val: 100 },
 			{ name : "megalith", val: 2500 }
 		],
 		priceRatio: 1.15,

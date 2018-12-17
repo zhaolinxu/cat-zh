@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1450h";
+			var version = "1451d";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -122,6 +122,7 @@
 					"js/stats",
 					"js/challenges",
 					"js/void",
+					"js/math",
 					"game",
 
 					"js/jsx/left.jsx",
@@ -171,18 +172,19 @@
 
 					gamePage.render();
 					gamePage.ui.renderFilters();
+					gamePage.ui.onLoad();
 					gamePage.start();
 
 					var config = new classes.KGConfig();
-					if (config.statics.isEldermass){
+					if (gamePage.isEldermass()){
 						if (gamePage.resPool.get("elderBox").value == 0){
 							gamePage.resPool.get("elderBox").value++;
-							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+							gamePage.msg("XOXOXO! 老神给你送了1个礼盒！", "important");
 						}
 					} else {
 						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
 							gamePage.resPool.get("elderBox").value = 1;
-							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+							gamePage.msg("老神已经修好了你的礼盒！", "important");
 						}
 					}
 					//---------------------------------
@@ -235,11 +237,6 @@
 			}
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
-
-			/*$(document).on('keyup keydown', function(e){
-				gamePage.keyStates.shiftKey = e.shiftKey;
-				gamePage.keyStates.ctrlKey = e.ctrlKey;
-			} );*/
 
 		</script>
 
@@ -313,13 +310,11 @@
 						时辰炉
 						时间阻力
 
-					次要 4:
-						暗影/卡戎
-						散热器
-						纠缠
+					小调整 5:
+						探索
 
-					Rev: 9
-						小界面调整
+					版本: 1
+						平衡调整
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -400,7 +395,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column toggleCenter">&gt;</div>
+				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">

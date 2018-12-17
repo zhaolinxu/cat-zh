@@ -1151,10 +1151,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			var link = dojo.create("a", {
 				href: "#",
 				innerHTML: links[i].title,
+				className:"dropdown-link",
 				style:{
 					display: "block",
-					width: "30px",
-					cursor: "pointer"
 				}
 			}, linksTooltip);
 
@@ -1282,8 +1281,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-
-		var valMultiplier = model.on ? model.on : 1;		
+		var valMultiplier = (this.game.ui.isEffectMultiplierEnabled() && model.on) ? model.on : 1;		
 		for (var effectName in effectsList){
 			var effectValue = effectsList[effectName] * valMultiplier;
 			if (effectValue != 0) {

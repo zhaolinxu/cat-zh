@@ -866,7 +866,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "steel", val: 100 },
 			{ name : "titanium",  val: 15 },
-			{ name : "blueprint",  val: 5 },
+			{ name : "blueprint",  val: 1 },
 			{ name : "oil",  val: 500 }
 		],
 		priceRatio: 1.15,
