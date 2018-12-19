@@ -1118,3 +1118,4 @@ div.hail {
     #leftColumn{width: 28% !important;}
     #rightColumn{width: 22% !important;}
 }
+#toggle-all-items-build,#toggle-all-items-space,#toggle-all-items-craft,#toggle-all-items-trade,#toggle-all-items-faith{display: none !important;}

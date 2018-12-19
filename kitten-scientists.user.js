@@ -193,16 +193,16 @@ var run = function() {
                 }
             },
             craft: {
-               //资源是否自动制作？
+                // Should resources be crafted automatically?
                 enabled: true,
-                //每个项目都可以使用* require *属性定义所需的资源。
-                 //应该列出所需资源的存储容量的百分比？
+                // Every item can define a required resource with the *require* property.
+                // At what percentage of the storage capacity of that required resource should the listed resource be crafted?
                 trigger: 0.95,
-                //可以制作的物品
-                 //除上述* require *属性之外，项目还可以定义一个* max *。 如果他们
-                 //做，没有更多的资源将被自动生成。 此功能无法通过控制
-                 // UI，默认情况下不用于任何资源。
-                 // *有限*属性告诉KS只能每季度制作资源一次。
+                // The items that can be crafted.
+                // In addition to the *require* property, which is explained above, items can also define a *max*. If they
+                // do, no more than that resource will be automatically produced. This feature can not be controlled through
+                // the UI and is not used for any resource by default.
+                // The *limited* property tells KS to only craft the resource once per season.
                 items: {
                     wood:       {require: 'catnip',      max: 0, limited: false, enabled: true},
                     beam:       {require: 'wood',        max: 0, limited: false, enabled: true},
@@ -393,7 +393,7 @@ var run = function() {
             var faith = craftManager.getResource('faith');
 
             if (options.auto.faith.trigger <= faith.value / faith.maxValue) {
-                storeForSummary('faith', faith.value);
+                storeForSummary('faith', faith.value * (1 + game.religion.getFaithBonus()));
                 activity('赞美太阳!', 'ks-praise');
                 game.religion.praise();
             }
@@ -568,7 +568,7 @@ var run = function() {
                 }
             }
 
-            this.tab ? this.render() : warning('无法找到标签' + name);
+            this.tab ? this.render() : warning('无法找到标签 ' + name);
         }
     };
 
@@ -593,7 +593,7 @@ var run = function() {
             button.domNode.click(build);
             storeForSummary(name, 1, 'faith');
 
-            activity('小猫已经发现了' + build.label, 'ks-faith');
+            activity('小猫已经发现了 ' + build.label, 'ks-faith');
         },
         getBuild: function (name) {
             return game.religion.getRU(name);
@@ -633,7 +633,7 @@ var run = function() {
             storeForSummary(name, 1, 'build');
 
             var label = build.meta.label ? build.meta.label : build.meta.stages[0].label;
-            activity('小猫已经建成了一个新的 ' + label, 'ks-build');
+            activity('小猫建造了一个新的' + label, 'ks-build');
         },
         getBuild: function (name) {
             return game.bld.getBuildingExt(name);
@@ -711,9 +711,7 @@ var run = function() {
             amount = (amount * (1 + ratio)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            
-          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnItem(ucfirst(name)), 'ks-craft');
-
+            activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnItem(ucfirst(name)), 'ks-craft');
         },
         canCraft: function (name, amount) {
             var craft = this.getCraft(name);
@@ -800,7 +798,7 @@ var run = function() {
                 var res = game.resPool.resources[i];
                 if (res.name === this.getName(name)) return res;
             }
-            warning('无法找到资源 ' + name);
+            warning('unable to find resource ' + name);
             return null;
         },
         getValue: function (name) {
@@ -955,7 +953,7 @@ var run = function() {
                 if (panel.name.indexOf(race) > -1) return panel.tradeBtn;
             }
 
-            warning('无法找到交易按钮 ' + name);
+            warning('unable to find trade button for ' + name);
         }
     };
 
@@ -1126,12 +1124,7 @@ var run = function() {
             var list = $("#toggle-list-resources");
             for (var resource in kittenStorage.resources) {
                 var res = kittenStorage.resources[resource];
-//                  if(resource=="皮毛"){
-//                      resource="Furs";
-//                  }else if(resource=="难得素"){
-//                      resource="Unobtainium";
-//                  }
-//                console.log(res)
+
                 if ($('#resource-' + resource).length === 0) {
                     list.append(addNewResourceOption(resource));
                 }
@@ -1188,13 +1181,14 @@ var run = function() {
         var n = Number(value);
 
         if (isNaN(n) || n < 0) {
-            warning('忽略非数值或无效的库存价值' + value);
+            warning('ignoring non-numeric or invalid stock value ' + value);
             return;
         }
 
         if (!options.auto.resources[name]) options.auto.resources[name] = {};
         options.auto.resources[name].stock = n;
         $('#stock-value-' + name).text('库存: ' + game.getDisplayValueExt(n));
+
         setStockWarning(name, n);
     };
 
@@ -1202,7 +1196,7 @@ var run = function() {
         var n = parseFloat(value);
 
         if (isNaN(n) || n < 0.0 || n > 1.0) {
-            warning('忽略非数字或无效消耗率' + value);
+            warning('ignoring non-numeric or invalid consume rate ' + value);
             return;
         }
 
@@ -1219,150 +1213,32 @@ var run = function() {
         var res = options.auto.resources[name];
         var stock = res && (res.stock != undefined) ? res.stock : 0;
         var consume = res && (res.consume != undefined) ? res.consume : options.consume;
-        var enname=name;
-        if(enname=="难得素"){
-            enname="unobtainium";
-        }else if(enname=="皮毛"){
-            enname="furs";
-        }
-        //显示文字
-        var chsname= ucfirst(name);
-//        console.log("name " + chsname);
-        if(chsname == "Furs"){
-            chsname='皮毛';
-        }else if(chsname == "Unobtainium"){
-            chsname='难得素';
-        }else if(chsname == "Catnip"){
-            chsname='猫薄荷';
-        }else if(chsname == "Wood"){
-            chsname='木材';
-        }else if(chsname == "Minerals"){
-            chsname='矿物';
-        }else if(chsname == "Coal"){
-            chsname='煤';
-        }else if(chsname == "Iron"){
-            chsname='铁';
-        }else if(chsname == "Titanium"){
-            chsname='钛';
-        }else if(chsname == "Gold"){
-            chsname='黄金';
-        }else if(chsname == "Oil"){
-            chsname='石油';
-        }else if(chsname == "Uranium"){
-            chsname='铀';
-        }else if(chsname == "Manpower"){
-            chsname='喵力';
-        }else if(chsname == "Science"){
-            chsname='科学点';
-        }else if(chsname == "Culture"){
-            chsname='文化点';
-        }else if(chsname == "Faith"){
-            chsname='信仰';
-        }else if(chsname == "Kittens"){
-            chsname='猫咪';
-        }else if(chsname == "Zebras"){
-            chsname='斑马';
-        }else if(chsname == "Starchart"){
-            chsname='星图';
-        }else if(chsname == "Antimatter"){
-            chsname='反物质';
-        }else if(chsname == "TemporalFlux"){
-            chsname='时间通量';
-        }else if(chsname == "Gflops"){
-            chsname='浮点运算能力';
-        }else if(chsname == "Hashrates"){
-            chsname='哈希值';
-        }else if(chsname == "Ivory"){
-            chsname='象牙';
-        }else if(chsname == "Spice"){
-            chsname='香料';
-        }else if(chsname == "Unicorns"){
-            chsname='独角兽';
-        }else if(chsname == "Alicorn"){
-            chsname='翼角兽';
-        }else if(chsname == "Necrocorn"){
-            chsname='死灵兽';
-        }else if(chsname == "Tears"){
-            chsname='眼泪';
-        }else if(chsname == "Karma"){
-            chsname='业';
-        }else if(chsname == "Paragon"){
-            chsname='领导力';
-        }else if(chsname == "BurnedParagon"){
-            chsname='燃烧领导力';
-        }else if(chsname == "TimeCrystal"){
-            chsname='时间水晶';
-        }else if(chsname == "Sorrow"){
-            chsname='悲伤';
-        }else if(chsname == "Relic"){
-            chsname='圣遗物';
-        }else if(chsname == "Void"){
-            chsname='虚空';
-        }else if(chsname == "ElderBox"){
-            chsname='礼盒';
-        }else if(chsname == "WrappingPaper"){
-            chsname='包装纸';
-        }else if(chsname == "Beam"){
-            chsname='木梁';
-        }else if(chsname == "Slab"){
-            chsname='石板';
-        }else if(chsname == "Plate"){
-            chsname='金属板';
-        }else if(chsname == "Steel"){
-            chsname='钢';
-        }else if(chsname == "Concrate"){
-            chsname='混凝土';
-        }else if(chsname == "Gear"){
-            chsname='齿轮';
-        }else if(chsname == "Alloy"){
-            chsname='合金';
-        }else if(chsname == "Eludium"){
-            chsname='E合金';
-        }else if(chsname == "Scaffold"){
-            chsname='脚手架';
-        }else if(chsname == "Ship"){
-            chsname='船';
-        }else if(chsname == "Tanker"){
-            chsname='油轮';
-        }else if(chsname == "Kerosene"){
-            chsname='煤油';
-        }else if(chsname == "Parchment"){
-           chsname='羊皮纸';
-        }else if(chsname == "Manuscript"){
-            chsname='手稿';
-        }else if(chsname == "Compedium"){
-            chsname='摘要';
-        }else if(chsname == "Blueprint"){
-            chsname='蓝图';
-        }else if(chsname == "Thorium"){
-            chsname='钍';
-        }else if(chsname == "Megalith"){
-            chsname='巨石';
-        }
+
         var container = $('<div/>', {
-            id: 'resource-' + enname,
+            id: 'resource-' + name,
             css: {display: 'inline-block', width: '100%'},
         });
+
         var label = $('<div/>', {
-            id: 'resource-label-' + enname,
-            text: chsname,
+            id: 'resource-label-' + name,
+            text: cnItem(ucfirst(title ? title : name)),
             css: {display: 'inline-block', width: '95px'},
         });
-        
+
         var stock = $('<div/>', {
-            id: 'stock-value-' + enname,
+            id: 'stock-value-' + name,
             text: '库存: ' + game.getDisplayValueExt(stock),
             css: {cursor: 'pointer', display: 'inline-block', width: '80px'},
         });
 
         var consume = $('<div/>', {
-            id: 'consume-rate-' + enname,
+            id: 'consume-rate-' + name,
             text: '消耗: ' + consume.toFixed(2),
             css: {cursor: 'pointer', display: 'inline-block'},
         });
 
         var del = $('<div/>', {
-            id: 'resource-delete-' + enname,
+            id: 'resource-delete-' + name,
             text: '删除',
             css: {cursor: 'pointer',
                 display: 'inline-block',
@@ -1393,7 +1269,7 @@ var run = function() {
         });
 
         del.on('click', function () {
-            if (window.confirm('取消自动转换' + ucfirst(title ? title : name) + '?')) {
+            if (window.confirm('删除资源控制 ' + ucfirst(title ? title : name) + '?')) {
                 container.remove();
                 removeResourceControl(name);
                 saveToKittenStorage();
@@ -1409,15 +1285,9 @@ var run = function() {
         for (var i in game.resPool.resources) {
             var res = game.resPool.resources[i];
 
-            //仅显示列表中没有的新资源
-             //可见 这有助于减少总体尺寸。
+            // Show only new resources that we don't have in the list and that are
+            // visible. This helps cut down on total size.
             if (res.name && $('#resource-' + res.name).length === 0) {
-                    //添加汉化
-                if(res.name=="hashrates"){
-                    res.title="哈希值";
-                }
-//                console.log("name:"+res.name+",title:"+res.title);
-                
                 var item = $('<div/>', {
                     id: 'resource-add-' + res.name,
                     text: ucfirst(res.title ? res.title : res.name),
@@ -1425,7 +1295,7 @@ var run = function() {
                         textShadow: '3px 3px 4px gray'},
                 });
 
-                //包装功能需要使封闭工作
+                // Wrapper function needed to make closure work
                 (function (res, item) {
                     item.on('click', function () {
                         item.remove();
@@ -1451,7 +1321,7 @@ var run = function() {
 
         var add = $('<div/>', {
             id: 'resources-add',
-            text: '添加资源',
+            text: '增加资源',
             css: {cursor: 'pointer',
                 display: 'inline-block',
                 textShadow: '3px 3px 4px gray',
@@ -1470,8 +1340,8 @@ var run = function() {
 
         clearunused.on('click', function () {
             for (var name in options.auto.resources) {
-                //仅使用未修改的值删除资源。 需要手册
-                 //使用非标准值删除资源。
+                // Only delete resources with unmodified values. Require manual
+                // removal of resources with non-standard values.
                 if (!options.auto.resources[name].stock &&
                     options.auto.resources[name].consume == options.consume ||
                     options.auto.resources[name].consume == undefined) {
@@ -1507,7 +1377,7 @@ var run = function() {
 
         var label = $('<label/>', {
             'for': 'toggle-' + toggleName,
-            text: text
+            text: cnItem(text)
         });
 
         var input = $('<input/>', {
@@ -1524,10 +1394,10 @@ var run = function() {
             input.on('change', function () {
                 if (input.is(':checked') && auto.enabled == false) {
                     auto.enabled = true;
-                    message('启用自动化 ' + ucfirst(text));
+                    message('启用自动 ' + cnItem(ucfirst(text)));
                 } else if (input.not(':checked') && auto.enabled == true) {
                     auto.enabled = false;
-                    message('禁用自动化 ' + ucfirst(text));
+                    message('禁用自动化 ' + cnItem(ucfirst(text)));
                 }
             });
         }
@@ -1597,12 +1467,11 @@ var run = function() {
 
             // fill out list with toggle items
             for (var itemName in auto.items) {
-                if (toggleName === 'trade'){
-//                    console.log(itemName);
+                if (toggleName === 'trade')
                     list.append(getTradeOption(itemName, auto.items[itemName]));
-                }else if (toggleName === 'craft'){
+                else if (toggleName === 'craft')
                     list.append(getCraftOption(itemName, auto.items[itemName]));
-                }else
+                else
                     list.append(getOption(itemName, auto.items[itemName]));
             }
 
@@ -1611,7 +1480,6 @@ var run = function() {
             });
 
             element.append(toggle, list);
-
             // Add resource controls for crafting, sort of a hack
             if (toggleName === 'craft') {
                 var resources = $('<div/>', {
@@ -1624,7 +1492,7 @@ var run = function() {
                 });
 
                 var resourcesList = getResourceOptions();
-               
+
                 // When we click the items button, make sure we clear resources
                 button.on('click', function () {
                     resourcesList.toggle(false);
@@ -1655,7 +1523,7 @@ var run = function() {
             });
 
             triggerButton.on('click', function () {
-                var value = window.prompt('输入新的触发值，取值范围：0到1之间' + text + '。', auto.trigger);
+                var value = window.prompt('输入新的触发值，取值范围：0到1之间 ' + cnItem(text) + '。', auto.trigger);
                 if (value !== null) {
                     auto.trigger = parseFloat(value);
                     saveToKittenStorage();
@@ -1705,6 +1573,7 @@ var run = function() {
 
     var getSeason = function (name, season, option) {
         var element = $('<li/>');
+
         var label = $('<label/>', {
             'for': 'toggle-' + name + '-' + season,
             text: cnItem(ucfirst(season))
@@ -1722,11 +1591,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
-
-                message('在' + cnItem(ucfirst(season)) + '开始和 ' + cnItem(ucfirst(name)) + ' 交易');
+                message('已启用和 ' + cnItem(ucfirst(name)) + ' 交易在 ' + cnItem(ucfirst(season)));
             } else if (input.not(':checked') && option[season] == true) {
                 option[season] = false;
-                message('在' + cnItem(ucfirst(season)) + '停止和 ' + cnItem(ucfirst(name)) + ' 交易 ');
+                message('已禁用用和 ' + cnItem(ucfirst(name)) + ' 交易在 ' + cnItem(ucfirst(season)));
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1740,9 +1608,10 @@ var run = function() {
     var getOption = function (name, option) {
         var element = $('<li/>');
         var elementLabel = option.label || ucfirst(name);
+
         var label = $('<label/>', {
             'for': 'toggle-' + name,
-            text: cnItem(ucfirst(name)),
+            text: cnItem(elementLabel),
             css: {display: 'inline-block', minWidth: '80px'}
         });
 
@@ -1758,10 +1627,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.enabled == false) {
                 option.enabled = true;
-                message('启用自动化 ' + cnItem(ucfirst(name)));
+                message('已启用自动 ' + cnItem(elementLabel));
             } else if (input.not(':checked') && option.enabled == true) {
                 option.enabled = false;
-                message('禁用自动化 ' + cnItem(ucfirst(name)));
+                message('已禁用自动 ' + cnItem(elementLabel));
             }
             kittenStorage.items[input.attr('id')] = option.enabled;
             saveToKittenStorage();
@@ -1792,10 +1661,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.limited == false) {
                 option.limited = true;
-                message('工艺 ' + cnItem(ucfirst(name)) + ': 每个季节限量一次');
+                message('工艺制作 ' + cnItem(ucfirst(name)) + ': 每个季节限量一次');
             } else if (input.not(':checked') && option.limited == true) {
                 option.limited = false;
-                message('工艺 ' + cnItem(ucfirst(name)) + ': 不限制');
+                message('工艺制作 ' + cnItem(ucfirst(name)) + ': 不限制');
             }
             kittenStorage.items[input.attr('id')] = option.limited;
             saveToKittenStorage();
@@ -1806,7 +1675,7 @@ var run = function() {
         return element;
     };
 
-    // 抢按钮标签宗教选项
+    // Grab button labels for religion options
     var religionManager = new ReligionManager();
     for (var buildOption in options.auto.faith.items) {
         var buildItem = options.auto.faith.items[buildOption];
@@ -1816,7 +1685,7 @@ var run = function() {
         }
     }
 
-    // 抢按钮标签建筑选项
+    // Grab button labels for build options
     var buildManager = new BuildManager();
     for (var buildOption in options.auto.build.items) {
         var buildItem = options.auto.build.items[buildOption];
@@ -1849,14 +1718,14 @@ var run = function() {
 
     optionsElement.append(optionsTitleElement);
 
-    optionsListElement.append(getToggle('engine',   '启用科学家'));
-    optionsListElement.append(getToggle('build',    '建造'));
-    optionsListElement.append(getToggle('space',    '空间'));
-    optionsListElement.append(getToggle('craft',    '工艺'));
-    optionsListElement.append(getToggle('trade',    '贸易'));
-    optionsListElement.append(getToggle('hunt',     '狩猎'));
-    optionsListElement.append(getToggle('faith',    '宗教'));
-    optionsListElement.append(getToggle('festival', '节日'));
+    optionsListElement.append(getToggle('engine',   'Enable Scientists'));
+    optionsListElement.append(getToggle('build',    'Building'));
+    optionsListElement.append(getToggle('space',    'Space'));
+    optionsListElement.append(getToggle('craft',    'Crafting'));
+    optionsListElement.append(getToggle('trade',    'Trading'));
+    optionsListElement.append(getToggle('hunt',     'Hunting'));
+    optionsListElement.append(getToggle('faith',    'Religion'));
+    optionsListElement.append(getToggle('festival', 'Festival'));
 
     // add activity button
     // ===================
@@ -1900,27 +1769,27 @@ var run = function() {
 
         // Praise the Sun
         if (activitySummary.other.faith) {
-            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 通过赞美太阳');
+            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 信仰通过赞美太阳');
         }
 
         // Hunters
         if (activitySummary.other.hunt) {
-            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 批可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : 's'));
+            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 批可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : ''));
         }
 
         // Buildings
         for (var name in activitySummary.build) {
-            summary('建成: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + ucfirst(name));
+            summary('建成: +' + game.getDisplayValueExt(activitySummary.build[name]) + ' ' + cnItem(ucfirst(name)));
         }
 
         // Crafts
         for (var name in activitySummary.craft) {
-            summary('制作了: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + ucfirst(name));
+            summary('制作了: +' + game.getDisplayValueExt(activitySummary.craft[name]) + ' ' + cnItem(ucfirst(name)));
         }
 
         // Trading
         for (var name in activitySummary.trade) {
-            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + ucfirst(name));
+            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + '次 和' + cnItem(ucfirst(name)));
         }
 
         // Show time since last run. Assumes that the day and year are always higher.
@@ -1936,16 +1805,16 @@ var run = function() {
             var duration = '';
             if (years > 0) {
                 duration += years + ' ';
-                duration += (years == 1) ? 'year' : 'years';
+                duration += (years == 1) ? '年' : '年';
             }
 
             if (days >= 0) {
-                if (years > 0) duration += ' and ';
+                if (years > 0) duration += ' 和 ';
                 duration += roundToTwo(days) + ' ';
                 duration += (days == 1) ? '天' : '天';
             }
 
-            summary('最后的总结 ' + duration);
+            summary('最近的统计 ' + duration);
         }
 
         // Clear out the old activity
@@ -1990,10 +1859,10 @@ var run = function() {
     activityCheckbox.on('change', function () {
         if (activityCheckbox.is(':checked') && options.showactivity == false) {
             options.showactivity = true;
-            message('Showing Kitten Scientists activity live');
+            message('显示小猫科学家活动的更新日志');
         } else if (activityCheckbox.not(':checked') && options.showactivity == true) {
             options.showactivity = false;
-            message('Hiding updates of Kitten Scientists activity');
+            message('隐藏小猫科学家活动的更新日志');
         }
     });
 
