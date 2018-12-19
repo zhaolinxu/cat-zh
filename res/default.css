@@ -97,17 +97,18 @@ body {
 }
 
 #leftColumn {
-    width: 25%;
-    max-width: 400px;
-    min-width: 300px;
+    width: 28%;
+/*    max-width: 400px;*/
+/*    min-width: 300px;*/
     padding-right: 20px;
-
+    font-size: 13px !important;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 #midColumn {
-    width: 630px;
+/*    width: 630px;*/
+    width: 43%;
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
@@ -115,12 +116,14 @@ body {
 }
 
 #rightColumn {
-    width: 250px;
+/*    width: 250px;*/
+    width: 22%;
     vertical-align: top;
     padding-left: 8px;
     top: 20px;
     position: relative;
     font-size: 13px;
+    overflow-x: hidden;
 }
 
 .tabsContainer {
@@ -326,6 +329,7 @@ font-size: 13px;
 
 .maxRes {
     color: #AAA;
+    font-size: 12px;
 }
 
 .achievement {
@@ -355,6 +359,7 @@ font-size: 13px;
 
 td.resLimitNotice, .res-cell.resLimitNotice {
     color: orange;
+    font-size: 12px;
 }
 
 td.resLimitWarn, .res-cell.resLimitWarn  {
@@ -410,12 +415,13 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 
 .btn.modern {
     font-family: Helvetica;
-    font-size: 14px;
+    font-size: 13px;
     border-radius: 3px;
     border: 1px solid #888;
     padding: 0;
     width: 264px;
 }
+
 
 .btn.modern:hover {
     border-color: #777;
@@ -430,7 +436,9 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     border-color: #aaa;
     background: inherit;
 }
-
+.bldGroupContainer .btn.modern {
+    width: 80% !important;
+}
 .modern .btnContent {
     padding: 10px 0 10px 10px;
 }
@@ -466,7 +474,8 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 .toggleCenter {
     opacity: 0.2;
     cursor:pointer;
-    width:200px;
+/*    width:200px;*/
+    width: 100%;
 }
 
 table.craftTable tr:hover td {
@@ -501,12 +510,12 @@ table.craftTable tr:hover td {
 }
 
 .trade-race > .left {
-    width: 50%;
+    width: 40%;
     float: left;
 }
 
 .trade-race > .right {
-    width: 50%;
+    width: 60%;
     float: right;
 }
 
@@ -812,7 +821,7 @@ a.link.collapse:hover {
 }
 
 .res-table {
-    max-width: 340px;
+    max-width: 100%;
     width: 100%;
     display: table;
     border-collapse: separate;
@@ -835,7 +844,7 @@ a.link.collapse:hover {
 }
 
 .res-cell.resource-name {
-    width: 30px;
+    width: 40px;
 }
 
 .res-cell.resource-value {
@@ -844,11 +853,12 @@ a.link.collapse:hover {
 
 .res-cell.resPerTick {
     cursor: pointer;
+    font-size: 12px;
 }
 
 .res-cell.craft-link {
     cursor: pointer;
-    width: 20px;
+    width: 30px;
 }
 
 .res-cell.craft-link:hover {
@@ -1100,4 +1110,9 @@ div.hail {
     50%{
         color: rgb(0,0,0);
     }
+}
+/*response*/
+@media screen and (max-width:1366px){
+    #leftColumn{width: 28% !important;}
+    #rightColumn{width: 22% !important;}
 }

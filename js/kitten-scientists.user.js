@@ -1132,26 +1132,26 @@ var run = function() {
         column.css({
             minHeight: 'inherit',
             maxWidth: 'inherit',
-            padding: '1%',
+            padding: '0',
             margin: 0,
             overflowY: 'auto'
         });
 
         left.css({
             height: '92%',
-            width: '25%'
+            width: '27%'
         });
 
         middle.css({
             marginTop: '1%',
             height: '90%',
-            width: '46%'
+            width: '43%'
         });
 
         right.css({
-            overflowY: 'scroll',
+            overflowY: 'auto',
             height: '92%',
-            width: '21%'
+            width: '25%'
         });
 
         addRule('#gameLog .msg {'
