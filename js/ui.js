@@ -740,8 +740,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     logMessagesToFade: 15, //how many messages to fade as they approach message limits
 
     renderConsoleLog: function() {
-        var console = this.game.console,
-            messages = console.messages;
+        var _console = this.game.console,
+            messages = _console.messages;
 
         var gameLog = dojo.byId("gameLog");
         dojo.empty(gameLog);
@@ -752,7 +752,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         for (var i = 0; i < messages.length; i++) {
             var msg = messages[i];
             if (!msg.span) {
-                var span = dojo.create("span", { innerHTML: msg.text, className: "msg" }, gameLog);
+                var span = dojo.create("span", {className: "msg" }, gameLog);
 
                 if (msg.type){
                     dojo.addClass(span, "type_"+msg.type);
@@ -763,12 +763,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 msg.span = span;
             }
             dojo.place(msg.span, gameLog, "first");
+            dojo.attr(msg.span, {innerHTML: msg.text});
         }
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
         var fadeCount = this.logMessagesToFade + 1; //add one so the last line is still barely visible
-        var fadeStart = console.maxMessages - fadeCount;
+        var fadeStart = _console.maxMessages - fadeCount;
         var fadeInterval = 1 / fadeCount;
 
         for (i = fadeStart + 1; i < spans.length; i++) {
