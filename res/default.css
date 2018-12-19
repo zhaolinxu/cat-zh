@@ -107,12 +107,13 @@ body {
 }
 
 #midColumn {
-/*    width: 630px;*/
-    width: 43%;
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
     font-size: 13px;
+    
+/*    width: 630px;*/
+    width: 43%;
 }
 
 #rightColumn {
@@ -124,6 +125,7 @@ body {
     position: relative;
     font-size: 13px;
     overflow-x: hidden;
+    padding: 0 10px;
 }
 
 .tabsContainer {

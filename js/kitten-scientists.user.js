@@ -1143,7 +1143,7 @@ var run = function() {
         });
 
         middle.css({
-            marginTop: '1%',
+            marginTop: '30px',
             height: '90%',
             width: '43%'
         });
