@@ -57,7 +57,7 @@ var cnItems = {
     'Kerosene': '煤油',
     'Parchment': '羊皮纸',
     'Manuscript': '手稿',
-    'Compendium': '摘要',
+    'Compendium': '概要',
     'Blueprint': '蓝图',
     'Thorium': '钍',
     'Megalith': '巨石',
