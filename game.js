@@ -3750,7 +3750,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					var amt = 5000;
 				}
 				var karmaGained = this.getTriValue(this.karmaKittens + amt, 5) - this.getTriValue(this.karmaKittens, 5);
-				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
+				var msg = "得到 " + this.getDisplayValueExt(karmaGained) + " 业!";
 				this.karmaKittens += amt;
 				break;
 
@@ -3760,7 +3760,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 领导力!";
 				this.resPool.addResEvent("paragon", amt);
 				break;
 
@@ -3770,13 +3770,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 50;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 时间水晶!";
 				this.resPool.addResEvent("timeCrystal", amt);
 				break;
 
 			case "BLS" :
 				amt = this.resPool.get("sorrow").maxValue - this.resPool.get("sorrow").value;
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Black Liquid Sorrow!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 黑色液体悲伤!";
 				this.resPool.addResEvent("sorrow", amt);
 				break;
 
@@ -3790,14 +3790,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.religion.faithRatio += amt;
 				var post = this.religion.getFaithBonus();
 				var apocryphaGained = (post-pre)*100;
-				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
+				var msg = "新约外传奖励增加 " + this.getDisplayValueExt(apocryphaGained) + "%!";
 				break;
 
 			case "Transcendence":
 				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
 				this.religion.tcratio += amt;
 				this.religion.tclevel += 4;
-				var msg = "Transcendence Level increased by 4!";
+				var msg = "超越等级增加 4!";
 				break;
 
 			case "Metaphysics":
@@ -3820,7 +3820,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = "Unlocked " + perk + "!";
+				var msg = "解锁 " + perk + "!";
 				break;
 
 			case "Compendiums":
@@ -3829,7 +3829,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Compendiums!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 概要!";
 				this.resPool.addResEvent("compedium", amt);
 			break;
 		}
