@@ -1015,6 +1015,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		}
 	},{
+		name: "uplink",
+		label: $I("workshop.uplink.label"),
+		description: $I("workshop.uplink.desc"),
+		effects: {
+		},
+		prices:[
+			{ name : "alloy", 	 val: 1750 },
+			{ name : "science",  val: 200000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},
+	{
 		name: "factoryAutomation",
 		label: $I("workshop.factoryAutomation.label"),
 		description: $I("workshop.factoryAutomation.desc"),
@@ -2225,7 +2239,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (!times) {
 			times = 1;
 		}
-		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
+		//-------------	 this is a poor place for this kind of functionality ------------
+		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
+			scienceMaxCompediaCap =  this.game.getEffect("scienceMaxCompedia"),
+			compediaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
+
+		if (compediaScienceMax > (scienceMaxBuilding + scienceMaxCompediaCap)){
+			compediaScienceMax = (scienceMaxBuilding + scienceMaxCompediaCap);
+		}
+		//-------------	todo: move somewhere to bld? ------------------------------------
+
+		this.effectsBase["scienceMax"] = compediaScienceMax;
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);

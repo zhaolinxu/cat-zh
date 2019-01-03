@@ -473,11 +473,35 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//----------------------------------- Science ----------------------------------------
 	{
 		name: "library",
-		label: $I("buildings.library.label"),
-		description: $I("buildings.library.desc"),
-		unlockRatio: 0.3,
-		prices: [
-			{ name : "wood", val: 25 }
+		stages: [
+			{
+				label: $I("buildings.library.label"),
+				description: $I("buildings.library.desc"),
+				unlockRatio: 0.3,
+				prices: [
+					{ name : "wood", val: 25 }
+				],
+				effects: {
+					"scienceRatio": 0,
+					"scienceMax": 0,
+					"cultureMax": 0
+				},
+				stageUnlocked : true,
+				flavor: $I("buildings.library.flavor")
+			},{
+				label: $I("buildings.dataCenter.label"),
+				description: $I("buildings.dataCenter.desc"),
+				prices: [
+					{ name : "concrate", val: 10 },
+					{ name : "steel", val: 100 }
+				],
+				effects: {
+					"scienceMaxCompedia": 1000,
+					"cultureMax": 25,
+					"energyConsumption": 2
+				},
+				stageUnlocked : false
+			}
 		],
 		priceRatio: 1.15,
 		unlockable: true,
@@ -485,12 +509,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			tabs: ["science"],
 			jobs: ["scholar"]
 		},
-		effects: {
-			"scienceRatio": 0,
-			"scienceMax": 0,
-			"cultureMax": 0
-		},
 		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
 			var effects = {
 				"scienceRatio": 0.1,
 				"scienceMax": 250,
@@ -498,9 +518,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 			var libraryRatio = game.getEffect("libraryRatio");
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
-			self.effects = effects;
-		},
-		flavor: $I("buildings.library.flavor")
+			
+			if (self.stage == 1){
+				effects["scienceMaxCompedia"] = 1000;
+				if (game.workshop.get("uplink").researched){
+					effects["scienceMaxCompedia"] *= 2.5;
+				}
+			}
+
+			stageMeta.effects = effects;
+		}
 	},{
 		name: "academy",
 		label: $I("buildings.academy.label"),
@@ -750,7 +777,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"mineralsRatio": 0,
 			"coalPerTickBase": 0
-			},
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.2,
@@ -1872,6 +1899,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 } else {
 			this.game.bld.effectsBase["manpowerMax"] = 100;
 		 }
+	},
+
+	getEffect: function(effectName){
+		var effect = 0;
+		for (var i = 0; i < this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(effectName, this.meta[i]);
+			effect += effectMeta;
+			
+		}
+		return effect;
 	},
 
 	isUnlocked: function(building){

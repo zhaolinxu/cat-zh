@@ -1,3 +1,4 @@
+
 /**
  * Weird cat science
  */
@@ -443,7 +444,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-			stages: [{bld:"pasture",stage:1}] // Solar Farm
+			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		}
 	},
 	{
@@ -456,9 +457,23 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 70}
 		],
 		unlocks: {
-			stages: [{bld:"amphitheatre",stage:1}], // Broadcast Tower
-			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
+			stages: [
+				{bld:"amphitheatre",stage:1},	// Broadcast Tower
+				{bld:"library",stage:1}			// Data Center
+			], 
+			tech: [
+				"nuclearFission", 
+				"rocketry", 
+				"robotics"
+			],
+			upgrades: [
+				"cadSystems", 
+				"refrigeration", 
+				"seti", 
+				"factoryLogistics", 
+				"factoryOptimization", 
+				"internet"
+			]
 		}
 	},{
 		name: "robotics",
@@ -564,7 +579,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [ "photolithography" ]
+            upgrades: [ 
+				"photolithography", 
+				"uplink" 
+			]
         },
         flavor: $I("science.sattelites.flavor")
     },{
@@ -578,7 +596,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology", "thorium"],
-			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites", "spaceEngineers"]
+			upgrades: [
+				"hubbleTelescope", 
+				"satelliteRadio", 
+				"astrophysicists", 
+				"solarSatellites", 
+				"spaceEngineers"
+			]
 		}
 	},{
 		name: "thorium",
