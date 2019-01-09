@@ -1253,7 +1253,7 @@ var run = function() {
         if (res != undefined && res.stock != undefined) setStockWarning(name, res.stock);
 
         stock.on('click', function () {
-            var value = window.prompt('库存 ' + ucfirst(title ? title : name));
+            var value = window.prompt('库存 ' + cnItem(ucfirst(title ? title : name)));
             if (value !== null) {
                 setStockValue(name, value);
                 saveToKittenStorage();
@@ -1261,7 +1261,7 @@ var run = function() {
         });
 
         consume.on('click', function () {
-            var value = window.prompt('消耗率 ' + ucfirst(title ? title : name));
+            var value = window.prompt('消耗率 ' + cnItem(ucfirst(title ? title : name)));
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -1269,7 +1269,7 @@ var run = function() {
         });
 
         del.on('click', function () {
-            if (window.confirm('删除资源控制 ' + ucfirst(title ? title : name) + '?')) {
+            if (window.confirm('删除资源控制 ' + cnItem(ucfirst(title ? title : name) + '?'))) {
                 container.remove();
                 removeResourceControl(name);
                 saveToKittenStorage();
