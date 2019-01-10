@@ -325,7 +325,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.map.update();
 	},
 
-	fastforward: function(times){
+	fastforward: function(daysOffset){
+		const times = daysOffset / this.game.calendar.dayPerTick;
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
 			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
