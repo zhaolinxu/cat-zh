@@ -2235,10 +2235,13 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.game.village.sim.clearCraftJobs();
 	},
 
-	update: function(times){
-		if (!times) {
-			times = 1;
-		}
+	update: function(){
+		this.fastforward(this.game.calendar.dayPerTick);
+	},
+
+	fastforward: function(daysOffset) {
+		var times = daysOffset / this.game.calendar.dayPerTick;
+
 		//-------------	 this is a poor place for this kind of functionality ------------
 		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
 			scienceMaxCompediaCap =  this.game.getEffect("scienceMaxCompedia"),
