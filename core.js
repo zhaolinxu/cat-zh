@@ -1630,8 +1630,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
-				title:  model.metadata.on ? "on" : "off",
-				tooltip: model.metadata.on ? "Building enabled" : "Building disabled",
+				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
+				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				visible: true,
 				enabled: true,
 				divider: true,
@@ -1643,7 +1643,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
-				tooltip: model.metadata.isAutomationEnabled ? "Automation enabled" : "Automation disabled",
+				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				visible: this.game.workshop.get("factoryAutomation").researched,
 				enabled: true,
 				divider: true,
@@ -1821,7 +1821,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink($I("btn.sell"),
+				this.sellHref = this.addLink($I("btn.sell.minor"),
 					function(event){
 						this.sell(event);
 					});

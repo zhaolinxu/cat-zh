@@ -1602,6 +1602,13 @@
 
    "religion.tu.blackRadiance.label" : "Черное Сияние",
    "religion.tu.blackRadiance.desc" : "Каждый % уровня печали немножко увеличит скорость заражения аликорнов",
-   "religion.tu.blackRadiance.flavor": "Как радуга в темноте"
+   "religion.tu.blackRadiance.flavor": "Как радуга в темноте",
+   "btn.sell.minor":"прод",
+   "btn.on.minor":"вкл",
+   "btn.off.minor":"выкл",
+   "btn.on.tooltip": "Здание активно",
+   "btn.off.tooltip": "Здание неактивно",
+   "btn.aon.tooltip": "Автоматизация активна",
+   "btn.aoff.tooltip": "Автоматизация неактивна"
 
 }
