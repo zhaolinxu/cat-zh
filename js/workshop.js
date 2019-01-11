@@ -2223,7 +2223,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	update: function(){
 		this.fastforward(this.game.calendar.dayPerTick);
-	}
+	},
 
 	fastforward: function(daysOffset) {
 		var times = daysOffset / this.game.calendar.dayPerTick;
