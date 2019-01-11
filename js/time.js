@@ -188,12 +188,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         var numberEvents = this.game.calendar.fastForward(daysOffset);
-
         this.game.bld.fastforward(daysOffset);
-        this.game.workshop.update(daysOffset / this.game.calendar.dayPerTick);
-        this.game.village.fastforward(daysOffset / this.game.calendar.dayPerTick);
-        this.game.space.fastforward(daysOffset / this.game.calendar.dayPerTick);
-        this.game.religion.fastforward(daysOffset / this.game.calendar.dayPerTick);
+        this.game.workshop.fastforward(daysOffset);
+        this.game.village.fastforward(daysOffset);
+        this.game.space.fastforward(daysOffset);
+        this.game.religion.fastforward(daysOffset);
 
         // enforce limits
         for (i in this.game.resPool.resources){
