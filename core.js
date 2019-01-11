@@ -52,7 +52,8 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"zh": "Chinese",
 			"ja": "Japanese",
 			"br": "Portuguese",
-			"fr": "French"
+			"fr": "French",
+			"cz": "Česky"
 		};
 	},
 
