@@ -630,7 +630,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		huntedResources["furs"] = 80 * this.game.math.irwinHallRandom(squads) +
 			65 * hunterRatio * this.game.math.irwinHallRandom(squads);
 
-		var ivoryProbability = 0.45 + 2 * hunterRatio,
+		var ivoryProbability = 0.45 + 0.02 * hunterRatio,
 			ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
 
 		huntedResources["ivory"] = 50 * this.game.math.irwinHallRandom(ivoryHunts) +
