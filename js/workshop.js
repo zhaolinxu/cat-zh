@@ -2223,10 +2223,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	update: function(){
 		this.fastforward(this.game.calendar.dayPerTick);
-	}
+	},
 
 	fastforward: function(daysOffset) {
-		const times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset / this.game.calendar.dayPerTick;
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);

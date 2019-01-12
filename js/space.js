@@ -1040,7 +1040,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	fastforward: function(daysOffset) {
-		const times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset / this.game.calendar.dayPerTick;
 		for (var i in this.planets){
 			var planet = this.planets[i];
 

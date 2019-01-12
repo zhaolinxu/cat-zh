@@ -1594,5 +1594,13 @@
     "science.exogeophysics.desc":"A study of geophysics on a massive scale of planetary bodies",
     "science.exogeophysics.effectDesc":"Unlocks Molter Cores",
     "space.planet.centaurusSystem.moltenCore.label":"Molten Core",
-    "space.planet.centaurusSystem.moltenCore.desc":"Every level of Molten Core improves Tectonic effectiveness by 5%"
+    "space.planet.centaurusSystem.moltenCore.desc":"Every level of Molten Core improves Tectonic effectiveness by 5%",
+    
+    "btn.sell.minor":"sell",
+    "btn.on.minor":"on",
+    "btn.off.minor":"off",
+    "btn.on.tooltip": "Building enabled",
+    "btn.off.tooltip": "Building disabled",
+    "btn.aon.tooltip": "Automation enabled",
+    "btn.aoff.tooltip": "Automation disabled"
 }
