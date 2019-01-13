@@ -8,7 +8,7 @@
 ### No ES6 please ###
 
 KG ecosystem have to support about 20.000 different android devices, iOS, os and browser versions dating 1980, chrome/FF/IE/Edge/webkit of all possible releases.
-We support IE6. We support browsers that does not know how to work with local storage or web workers.
+We support IE6. We support browsers that does not know how to work with local storage or web workers. I'm not sure but it might acutally work on Netscape, Links or Mosaic.
 
 Please, no ()=>{}, const, require, webpackers, etc.
 
