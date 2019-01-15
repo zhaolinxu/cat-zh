@@ -493,6 +493,21 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.resourceProduction = res;
 	},
 
+	/**
+	 * Update traits list for census filter
+	 */
+	updateTraits: function () {
+		var traits = [];
+		//TODO might be better to save traits count to get rid of this loop
+		for (var i = 0; i < this.sim.kittens.length; i++) {
+			var trait = this.game.village.sim.kittens[i].trait;
+			if (traits.indexOf(trait) < 0) {
+				traits.unshift(trait);
+			}
+		}
+		this.traits = traits;
+	},
+
 	getLeaderBonus: function(rank){
 		return rank == 0 ? 1.0 : (rank + 1) / 1.4;
 	},
@@ -551,6 +566,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 
 			this.sim.kittens = [];
+			this.game.village.traits = [];
 
 			for (var i = kittens.length - 1; i >= 0; i--) {
 				var kitten = kittens[i];
@@ -558,7 +574,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				var newKitten = new com.nuclearunicorn.game.village.Kitten();
 				newKitten.load(kitten);
 
+				if (this.game.village.traits.indexOf(newKitten.trait) < 0) {
+					this.game.village.traits.unshift(newKitten.trait);
+				}
+
 				if (newKitten.isLeader){
+					this.game.village.leader = newKitten;
 					this.game.village.leader = newKitten;
 				}
 				/*if (newKitten.isSenator){
@@ -1272,6 +1293,9 @@ dojo.declare("classes.village.KittenSim", null, {
 		for (var i = amount - 1; i >= 0; i--) {
 			var kitten = new com.nuclearunicorn.game.village.Kitten();
 			this.kittens.push(kitten);
+			if (this.game.village.traits.indexOf(kitten.trait) < 0) {
+				this.game.village.traits.unshift(kitten.trait);
+			}
 		}
 		this.game.villageTab.updateTab();
 
@@ -1312,6 +1336,7 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 		this.game.villageTab.updateTab();
 		this.game.village.updateResourceProduction();
+		this.game.village.updateTraits();
 		this.game.updateResources();
 		return killed.length;
 	},
@@ -1748,21 +1773,13 @@ dojo.declare("classes.ui.village.Census", null, {
 		var traitSelect = dojo.create("select", {style: {float: "right"}}, navbar);
 		dojo.create("option", {value: "", innerHTML: $I("village.trait.filter.all")}, traitSelect);
 
-		//TODO move owned traites calculation to another place. (load and kitten come/death?)
-		var traits = [];
-		// for (var i = 0; i < this.game.village.traits.length; i++) {
-		// 	var trait = this.game.village.traits[i];
-		for (var i = 0; i < this.game.village.sim.kittens.length; i++) {
-			var trait = this.game.village.sim.kittens[i].trait;
-			if (traits.indexOf(trait) < 0) {
-				traits.push(trait);
-				dojo.create("option", {
-					value: trait.name, innerHTML: trait.title,
-					selected: (trait.name === this.filterTrait)
-				}, traitSelect);
-			}
+		for (var i = 0; i < this.game.village.traits.length; i++) {
+			var trait = this.game.village.traits[i];
+			dojo.create("option", {
+				value: trait.name, innerHTML: trait.title,
+				selected: (trait.name === this.filterTrait)
+			}, traitSelect);
 		}
-		this.game.village.traits = traits;
 
 		dojo.connect(traitSelect, "onchange", this, function (event) {
 			this.filterTrait = event.target.value;
