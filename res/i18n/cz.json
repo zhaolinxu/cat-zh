@@ -218,6 +218,7 @@
     "village.trait.none": "Žádný",
     "village.trait.scientist": "Vědec",
     "village.trait.wise": "Filozof",
+    "village.trait.filter.all": "All traits",
 
     "stats.kittens.total": "Celkem koťat",
     "stats.kittens.dead":"Koťat zemřelo",

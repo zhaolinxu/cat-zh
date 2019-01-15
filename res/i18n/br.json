@@ -219,6 +219,7 @@
     "village.trait.none": "Nada",
     "village.trait.scientist": "Cientista",
     "village.trait.wise": "Filósofo",
+    "village.trait.filter.all": "All traits",
 
     "stats.kittens.total": "Total de Gatos",
     "stats.kittens.dead":"Gatos mortos",
