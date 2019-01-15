@@ -3450,7 +3450,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			village :{
 				kittens: newKittens,
-				jobs: []
+				jobs: [],
+				traits: [],
 			},
 			achievements: lsData.achievements,
 			stats: stats,

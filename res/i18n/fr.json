@@ -218,6 +218,7 @@
     "village.trait.none": "Quelconque",
     "village.trait.scientist": "Rationnel",
     "village.trait.wise": "Sage",
+    "village.trait.filter.all": "All traits",
 
     "stats.kittens.total": "Total Chatons",
     "stats.kittens.dead":"Chatons morts",
