@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1451b";
+			var version = "1451f";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -176,7 +176,7 @@
 					gamePage.start();
 
 					var config = new classes.KGConfig();
-					if (config.statics.isEldermass){
+					if (gamePage.isEldermass()){
 						if (gamePage.resPool.get("elderBox").value == 0){
 							gamePage.resPool.get("elderBox").value++;
 							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");

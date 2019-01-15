@@ -120,6 +120,14 @@ WResourceRow = React.createClass({
 
 
         //----------------------------------------------------------------------------
+
+        var specialClass = "";
+        if (res.value == 420){
+            specialClass = " blaze";
+		} else if (res.value == 666){
+            specialClass = " hail";
+		}
+
         return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
@@ -140,7 +148,7 @@ WResourceRow = React.createClass({
             }, 
                 res.title || res.name
             ),
-            $r("div", {className:"res-cell " + resAmtClassName}, game.getDisplayValueExt(res.value)),
+            $r("div", {className:"res-cell " + resAmtClassName + specialClass}, game.getDisplayValueExt(res.value)),
             $r("div", {className:"res-cell maxRes"}, 
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),

@@ -26,7 +26,7 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
 
         var approximationBound = 1000;
         if (count > approximationBound) {
-            var sum = this.standardGaussianRandom() * count / 12 + count / 2;
+            var sum = this.standardGaussianRandom() * Math.sqrt(count / 12) + count / 2;
 
             // There is small chance that gaussian number will be outside the range, resample in such case.
             if (sum < 0 || sum > count) {
@@ -59,8 +59,8 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
             (experiments > 9 * probability / failureProbability))
         {
             var mean = experiments * probability;
-            var deviation = experiments * probability * failureProbability;
-            var successNumber = this.standardGaussianRandom() * deviation + mean;
+            var variance = experiments * probability * failureProbability;
+            var successNumber = this.standardGaussianRandom() * Math.sqrt(variance) + mean;
 
             // There is small chance that gaussian number will be outside the range, resample in such case.
             if (successNumber < 0 || successNumber > experiments) {

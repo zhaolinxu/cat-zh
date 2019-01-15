@@ -325,7 +325,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.map.update();
 	},
 
-	fastforward: function(times){
+	fastforward: function(daysOffset){
+		var times = daysOffset / this.game.calendar.dayPerTick;
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
 			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
@@ -629,7 +630,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		huntedResources["furs"] = 80 * this.game.math.irwinHallRandom(squads) +
 			65 * hunterRatio * this.game.math.irwinHallRandom(squads);
 
-		var ivoryProbability = 0.45 + 2 * hunterRatio,
+		var ivoryProbability = 0.45 + 0.02 * hunterRatio,
 			ivoryHunts = this.game.math.binominalRandomInteger(squads, ivoryProbability);
 
 		huntedResources["ivory"] = 50 * this.game.math.irwinHallRandom(ivoryHunts) +
@@ -2284,7 +2285,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			this.game.resPool.get("paragon").value >= 5;
 			
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
-		this.mapPanel.setVisible(isMapVisible);
+		this.mapPanel.setVisible(false);
 
 		if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);
@@ -2397,7 +2398,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = !config.statics.isEldermass && (this.game.resPool.get("elderBox").value > 0);
+					model.visible = !this.game.isEldermass() && (this.game.resPool.get("elderBox").value > 0);
 				}
 			})
 		}, this.game);
