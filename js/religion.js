@@ -90,7 +90,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
-		var sorrow = this.game.resPool.get("sorrow").value * 0.1;
+		var sorrow = this.game.resPool.get("sorrow").value;
 
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
@@ -105,8 +105,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 					0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) :	 //75% penalty
 					1);
 
-			if (this.game.rand(100) < 25 && this.corruption > 1){
-				this.corruption = 0;
+			if (this.corruption >= 1) {
+				this.corruption--;
 				alicorns.value--;
 				this.game.resPool.get("necrocorn").value++;
 				this.game.upgrade({
@@ -629,7 +629,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		tier: 12,
 		priceRatio: 1.15,
 		effects: {
-			"blsCorruptionRatio" : 0.012
+			"blsCorruptionRatio" : 0.0012
 		},
 		unlocked: false,
 		flavor: $I("religion.tu.blackRadiance.flavor")
