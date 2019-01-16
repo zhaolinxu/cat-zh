@@ -220,6 +220,7 @@
     "village.trait.none": "无技能",
     "village.trait.scientist": "科学家",
     "village.trait.wise": "哲学家",
+    "village.trait.filter.all": "所有特质",
 
     "stats.kittens.total": "猫总数",
     "stats.kittens.dead":"猫死了",
@@ -247,7 +248,7 @@
     "challendge.anarchy.effect.desc": "产业用的业猫计算量双倍",
     "challendge.anarchy.label": "无政府状态",
     "challendge.atheism.desc": "重启游戏，失去信仰加成。<br /><br />目标：至少有一个冷冻仓复位。",
-    "challendge.atheism.effect.desc": "每个超越等级提供 10%的伪经加成",
+    "challendge.atheism.effect.desc": "每个超越等级（相当于20个黑色方尖碑）将你的信仰奖励限制提高100％。",
     "challendge.atheism.label": "无神论",
     "challendge.btn.chronosphere.desc": " 你将不会从空间转移器中获得重置游戏的加成。",
     "challendge.btn.chronosphere.with.ironWill.desc": " 你将不会从空间转移器中获得重置游戏的加成。<br />警告: 空间转移器的重置加成将自动被禁用",
@@ -1156,7 +1157,7 @@
     "religion.ru.apocripha.label": "新约外传",
     "religion.ru.transcendence.desc": "解除额外的宗教升级",
     "religion.ru.transcendence.label": "超越",
-    "religion.tu.blackObelisk.desc": "提高你的信仰点产出加成。<br />每个黑色方尖碑都会将你的超越级别的奖励提高5％。",
+    "religion.tu.blackObelisk.desc": "提高你的信仰点加成上限。<br />每个黑色方尖碑都会将你的超越级别的信仰加成上限提高5％。",
     "religion.tu.blackObelisk.label": "黑方尖碑",
     "religion.tu.blackObelisk.flavor": "TBD",
     "religion.tu.blackNexus.desc": "提高时间水晶提炼为圣遗物的速度。<br />每个黑色连结都会通过黑庙塔的数量增加您的遗物提炼效率。<br>这也提高了遗迹站的效果",
@@ -1654,7 +1655,16 @@
     "science.exogeophysics.desc":"一项对大规模行星天体的地球物理学的研究",
     "science.exogeophysics.effectDesc":"解锁熔融岩心",
     "space.planet.centaurusSystem.moltenCore.label":"熔融岩心",
-    "space.planet.centaurusSystem.moltenCore.desc":"每一级熔融岩心都将构造的效率提高5％"
+    "space.planet.centaurusSystem.moltenCore.desc":"每一级熔融岩心都将构造的效率提高5％",
+    
+    "btn.sell.minor":"出售",
+    "btn.on.minor":"开",
+    "btn.off.minor":"关",
+    "btn.on.tooltip": "建筑已启用",
+    "btn.off.tooltip": "建筑已禁用",
+    "btn.aon.tooltip": "自动化已启用",
+    "btn.aoff.tooltip": "自动化已禁用"
+
 
 
 

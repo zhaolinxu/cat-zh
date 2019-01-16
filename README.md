@@ -13,6 +13,15 @@
 * 安卓版：https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en
 * ios版：https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8
 
+### No ES6 please ###
+
+KG ecosystem have to support about 20.000 different android devices, iOS, os and browser versions dating 1980, chrome/FF/IE/Edge/webkit of all possible releases.
+We support IE6. We support browsers that does not know how to work with local storage or web workers. I'm not sure but it might acutally work on Netscape, Links or Mosaic.
+
+Please, no ()=>{}, const, require, webpackers, etc.
+
+
+
 ### 其它链接 ###
 * 游戏源码：https://bitbucket.org/bloodrizer/kitten-game
 * 游戏百科：http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page

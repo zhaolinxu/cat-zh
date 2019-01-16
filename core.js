@@ -51,7 +51,8 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"zh": "简体中文",
 			"ja": "Japanese",
 			"br": "Portuguese",
-			"fr": "French"
+			"fr": "French",
+			"cz": "Česky"
 		};
 	},
 
@@ -1629,8 +1630,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
-				title:  model.metadata.on ? "开" : "关",
-				tooltip: model.metadata.on ? "建筑已启用" : "建筑已禁用",
+				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
+				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				visible: true,
 				enabled: true,
 				divider: true,
@@ -1642,7 +1643,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
-				tooltip: model.metadata.isAutomationEnabled ? "启用自动化" : "禁用自动化",
+				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				visible: this.game.workshop.get("factoryAutomation").researched,
 				enabled: true,
 				divider: true,
@@ -1820,7 +1821,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink($I("btn.sell"),
+				this.sellHref = this.addLink($I("btn.sell.minor"),
 					function(event){
 						this.sell(event);
 					});
