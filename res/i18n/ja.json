@@ -218,6 +218,7 @@
     "village.trait.none": "なし",
     "village.trait.scientist": "科学者",
     "village.trait.wise": "哲学者",
+    "village.trait.filter.all": "All traits",
 
     "stats.kittens.total": "総子猫数",
     "stats.kittens.dead":"死んだ子猫数",

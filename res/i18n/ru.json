@@ -218,6 +218,7 @@
     "village.trait.none": "Нет",
     "village.trait.scientist": "Учёный",
     "village.trait.wise": "Философ",
+    "village.trait.filter.all": "Все особенности",
 
     "stats.kittens.total": "Всего котят",
     "stats.kittens.dead":"Мертвых котят",
