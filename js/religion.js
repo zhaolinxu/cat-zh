@@ -89,23 +89,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.faith = 0;
 		}
 
-		//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
-		var sorrow = this.game.resPool.get("sorrow").value;
-
 		var alicorns = this.game.resPool.get("alicorn");
-		if (alicorns.value > 0){
-			this.corruption +=
-				(
-					this.game.getEffect("corruptionRatio") *
-					(
-						1 + Math.sqrt( sorrow * this.game.getEffect("blsCorruptionRatio") )
-					)
-				)
-				* (this.game.resPool.get("necrocorn").value > 0 ?
-					0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) :	 //75% penalty
-					1);
+		if (alicorns.value > 0) {
+			//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
+			var blsBoost = 1 + Math.sqrt(this.game.resPool.get("sorrow").value * this.game.getEffect("blsCorruptionRatio"));
+			var corruptionBoost = this.game.resPool.get("necrocorn").value > 0
+				? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) // 75% penalty
+				: 1;
+			this.corruption += this.game.getEffect("corruptionRatio") * blsBoost * corruptionBoost;
+		} else {
+			this.corruption = 0;
+		}
 
-			if (this.corruption >= 1) {
+		if (this.corruption >= 1) {
+			if (alicorns.value > 1) {
 				this.corruption--;
 				alicorns.value--;
 				this.game.resPool.get("necrocorn").value++;
@@ -113,9 +110,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 				});
 				this.game.msg($I("religion.msg.corruption"), "important");
+			} else {
+				this.corruption = 1;
 			}
-		} else {
-			this.corruption = 0;
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched){
@@ -132,7 +129,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 		var alicorns = this.game.resPool.get("alicorn");
 		if (alicorns.value > 0){
-			var corIncrement = times * this.game.getEffect("corruptionRatio") * (this.game.resPool.get("necrocorn").value > 0 ? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) : 1);  //75% penalty
+			//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
+			var blsBoost = 1 + Math.sqrt(this.game.resPool.get("sorrow").value * this.game.getEffect("blsCorruptionRatio"));
+			var corruptionBoost = this.game.resPool.get("necrocorn").value > 0
+				? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) // 75% penalty
+				: 1;
+			var corIncrement = times * this.game.getEffect("corruptionRatio") * blsBoost * corruptionBoost;
 			var nextGreatestAlicornVal = Math.floor(alicorns.value + 0.999999);
 			this.corruption = Math.max(this.corruption, Math.min(this.corruption + corIncrement, nextGreatestAlicornVal));
 			var cor = Math.floor(Math.min(this.corruption, alicorns.value));
