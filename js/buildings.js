@@ -2165,10 +2165,6 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		this.game.telemetry.logEvent("building",
 			{name: model.options.building, val: counter}
 		);
-
-		// undo
-		var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", model.options.building, counter);
     },
 
     decrementValue: function(model) {
