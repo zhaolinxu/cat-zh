@@ -51,7 +51,8 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"zh": "简体中文",
 			"ja": "Japanese",
 			"br": "Portuguese",
-			"fr": "French"
+			"fr": "French",
+			"cz": "Česky"
 		};
 	},
 
@@ -1151,10 +1152,9 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			var link = dojo.create("a", {
 				href: "#",
 				innerHTML: links[i].title,
+				className:"dropdown-link",
 				style:{
 					display: "block",
-					width: "30px",
-					cursor: "pointer"
 				}
 			}, linksTooltip);
 
@@ -1282,9 +1282,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-
+		var valMultiplier = (this.game.ui.isEffectMultiplierEnabled() && model.on) ? model.on : 1;		
 		for (var effectName in effectsList){
-			var effectValue = effectsList[effectName];
+			var effectValue = effectsList[effectName] * valMultiplier;
 			if (effectValue != 0) {
 				var effectMeta = this.game.getEffectMeta(effectName);
 
@@ -1309,14 +1309,11 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 					var tempVal = Math.abs(effectValue * this.game.rate), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
-						displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate, false, false, precision) + "/秒";
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate, false, false, precision) + "/秒";
 					} else {
-						// tempVal = tempVal * 60;
-						// if (tempVal >= 0.01) {
-						// 	displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 60, false, false, 2) + "/min";
-						// } else {
-							displayEffectValue = this.game.getDisplayValueExt(effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
-						// }
+						displayEffectValue = this.game.getDisplayValueExt(
+							effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";
@@ -1561,7 +1558,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
 
-		var H_OFFSET = 280;
+		var H_OFFSET = 300;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			this.game.tooltipUpdateFunc = function(){
@@ -1578,7 +1575,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 				pos.top = scrollBottom - $(tooltip).height();
 			}
 
-			var V_OFFSET = 0;
+			var V_OFFSET = 15;
 			if (pos.left + $(tooltip).width() + H_OFFSET >= scrollRight){
 				pos.left = scrollRight - $(tooltip).width() - H_OFFSET;
 				V_OFFSET = 35;
@@ -1633,8 +1630,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
-				title:  model.metadata.on ? "on" : "off",
-				tooltip: model.metadata.on ? "Building enabled" : "Building disabled",
+				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
+				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				visible: true,
 				enabled: true,
 				divider: true,
@@ -1646,7 +1643,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
-				tooltip: model.metadata.isAutomationEnabled ? "启用自动化" : "禁用自动化",
+				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				visible: this.game.workshop.get("factoryAutomation").researched,
 				enabled: true,
 				divider: true,
@@ -1824,7 +1821,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink($I("btn.sell"),
+				this.sellHref = this.addLink($I("btn.sell.minor"),
 					function(event){
 						this.sell(event);
 					});
@@ -1961,6 +1958,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		} else if (meta.togglableOnOff){
 			return meta.label + " (" + meta.val + ")";
 		} else if (meta.togglable) {
+			//it's not so important h
+			/*if (meta.val >= 1000){
+				return meta.label + " (" +
+					(meta.on < 10000 ? ((meta.on/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.on)) + "/" +
+					(meta.val < 10000 ? ((meta.val/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.val)) + 
+				")";
+			}*/
 			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
 		} else {
 			return meta.label + " (" + meta.on + ")";
@@ -2037,8 +2041,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 					}
 				});
 			}
-		} else if (!meta.noStackable && event.ctrlKey){
-			this.build(model, 10);
+		} else if (!meta.noStackable && (event.ctrlKey || event.metaKey /*osx tears*/)){
+			this.build(model, this.game.batchSize || 10);
 			callback(true);
 		} else {
             this.build(model, 1);

@@ -130,12 +130,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     },
 
     calculateRedshift: function(){
-        if (!this.game.opts.enableRedshift){
-            return;
-        }
-
         var currentTimestamp = Date.now();
-        var delta = currentTimestamp - this.timestamp;
+        var delta = this.game.opts.enableRedshift
+            ? currentTimestamp - this.timestamp
+            : 0;
         //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
 
         this.timestamp = currentTimestamp;
@@ -190,12 +188,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         }
 
         var numberEvents = this.game.calendar.fastForward(daysOffset);
-
         this.game.bld.fastforward(daysOffset);
-        this.game.workshop.update(this.game.rate * daysOffset);
-        this.game.village.fastforward(this.game.rate * daysOffset);
-        this.game.space.fastforward(this.game.rate * daysOffset);
-        this.game.religion.fastforward(this.game.rate * daysOffset);
+        this.game.workshop.fastforward(daysOffset);
+        this.game.village.fastforward(daysOffset);
+        this.game.space.fastforward(daysOffset);
+        this.game.religion.fastforward(daysOffset);
 
         // enforce limits
         for (i in this.game.resPool.resources){

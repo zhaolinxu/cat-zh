@@ -10,6 +10,8 @@
 
 		<!-- I only use jquery ironically -->
 
+		<script src="lib/react.min.js"></script>   <!--todo: use min version -->
+
 		<!-- Local versions of libs will be hosted so our Chinese players wont be forced to use VPN -->
 		<script src="lib/jQuery.js"></script>
 		<script src="lib/dojo.xd.js"></script>
@@ -30,11 +32,10 @@
 			ga('send', 'pageview');
 		</script>-->
 
-		<link rel="stylesheet" href="res/default.css" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css" type="text/css">
-        <link rel="stylesheet" href="res/theme_grassy.css" type="text/css">
-		<link rel="stylesheet" href="res/theme_sleek.css" type="text/css">
-		<link rel="stylesheet" href="res/app.css">
+		<link rel="stylesheet" href="res/default.css?v=5" type="text/css">
+		<link rel="stylesheet" href="res/theme_dark.css?v=5" type="text/css">
+        <link rel="stylesheet" href="res/theme_grassy.css?v=5" type="text/css">
+		<link rel="stylesheet" href="res/theme_sleek.css?v=5" type="text/css">
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -50,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1448d";
+			var version = "1451f";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -121,7 +122,12 @@
 					"js/stats",
 					"js/challenges",
 					"js/void",
+					"js/math",
 					"game",
+
+					"js/jsx/left.jsx",
+					"js/jsx/map.jsx",
+
 					"js/ui",
 					"js/toolbar"
 				];
@@ -166,18 +172,19 @@
 
 					gamePage.render();
 					gamePage.ui.renderFilters();
+					gamePage.ui.onLoad();
 					gamePage.start();
 
 					var config = new classes.KGConfig();
-					if (config.statics.isEldermass){
+					if (gamePage.isEldermass()){
 						if (gamePage.resPool.get("elderBox").value == 0){
 							gamePage.resPool.get("elderBox").value++;
-							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+							gamePage.msg("XOXOXO! 老神给你送了1个礼盒！", "important");
 						}
 					} else {
 						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
 							gamePage.resPool.get("elderBox").value = 1;
-							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+							gamePage.msg("老神已经修好了你的礼盒！", "important");
 						}
 					}
 					//---------------------------------
@@ -231,11 +238,6 @@
 			$(resetGameLogHeight);
 			$(window).resize(resetGameLogHeight);
 
-			/*$(document).on('keyup keydown', function(e){
-				gamePage.keyStates.shiftKey = e.shiftKey;
-				gamePage.keyStates.ctrlKey = e.ctrlKey;
-			} );*/
-
 		</script>
 
 		<title>猫国建设者 - a Dark Souls of incremental gaming</title>
@@ -248,8 +250,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					猫国建设者 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a></span>
-					<div style="margin-left:20px;display:none;"></div>
+					猫国建设者 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" class="copyright" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
 					<a href="#" style="color: red">
@@ -309,14 +310,11 @@
 						时辰炉
 						时间阻力
 
-					次要 4:
-						暗影/卡戎
-						散热器
-						纠缠
+					小调整 5:
+						探索
 
-					Rev: 8
-						新加载界面
-						黑色光辉
+					版本: 1
+						平衡调整
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -331,33 +329,12 @@
 				</div>
 			</div>
 
-			<div id="game" style="display:none;" class="pure-g">
+			<div id="game" style="display:none;">
 				<div id="tooltip" class="tooltipExt button_tooltip"></div>
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div style="float:left;"><a href="#" style="padding-left:2px;" onclick="gamePage.resPool.setDisplayAll();">全部显示</a></div>
-					<div style="float:left;"><a href="#" style="padding-left:8px;" onclick="gamePage.resPool.toggleLock();">锁定/解锁</a></div>
-					<div style="float:right; margin-right:-13px;"><a href="#" style="padding-right:2px;" onclick="gamePage.ui.zoomDown();">&ndash;</a>/<a href="#" onclick="gamePage.ui.zoomUp();">+</a></div>
-
-					<div id="resContainer" style="padding-top: 15px; width: 100%">
-					</div>
-
-					<!-- Advisers -->
-
-					<div id="advisorsContainer" style=" padding-top: 10px;">
-					</div>
-
-					<div id="fastHuntContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.huntAll(event);">派出猎人 (<span id="fastHuntContainerCount"></span>)</a>
-					</div>
-
-					<div id="fastPraiseContainer" style="padding-left: 5px; visibility: hidden;">
-						<a href="#" onclick="gamePage.praise(event);">赞美太阳!</a>
-					</div>
-
-					<div id="craftContainer" style="padding-top: 10px; width: 100%">
-					</div>
+					<div id="leftColumnViewport">#这里没有什么有趣的</div>
 				</div>
 
 				<!-- MID -->
@@ -383,9 +360,9 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a href="#" onclick="gamePage.ui.hideChat();">日志</a>
-						<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
-<!--						<a class="chatLink" href="#" onclick="gamePage.ui.loadChat();">聊天</a>-->
+						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">日志</a>&nbsp;|
+<!--						<a id="chatLink" class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>-->
+<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
 					</div>
 					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
 					<div class="right-tab" id="rightTabLog">
@@ -406,7 +383,7 @@
 							<div id="logFilters" style="display:none">
 							</div>
 						</div>
-						<div id="gameLog" style="overflow-y: scroll; padding-top: 10px; height: 100%; min-height:100%;">
+						<div id="gameLog" style="overflow-y: auto; padding-top: 10px; height: 100%; min-height:100%;">
 							<!-- Log goes there -->
 						</div>
 					</div>
@@ -418,6 +395,7 @@
 						</div>
 					</div>
 				</div>
+				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">
@@ -540,10 +518,12 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label for="enableRedshift">启用脱机进程（实验性功能）</label>
 					<br>
+					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
+					<label for="forceLZ" style="font-size: 8px;">始终压缩保存文件（实验）</label>
 				</div>
 
 				<br>
-				<br>
+
 				<input type="button" value="导出" onclick="gamePage.saveExport();">
 
 				<input type="button" value="导入" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
@@ -578,10 +558,11 @@
 			<div id="appDiv" style="display: none" class="dialog help">
 				<a href="#" class="close" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
-				<span>猫国建设者游戏手机版已经发布（暂无中文版）！ 点击链接获取:</span>
+				<span>猫国建设者游戏手机版已经发布（iOS暂无中文版）！ 点击链接获取:</span>
 				<br>
 				<br>
-				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">安卓版</a>&nbsp;|&nbsp;
+				<a target="_blank" href="https://likexia.gitee.io/cat-zh/cat.apk">安卓汉化版</a>&nbsp;|&nbsp;
+				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">官方安卓版</a>&nbsp;|&nbsp;
 				<a target="_blank" href="https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8">iOS版</a>
 				<br>
 				<br>
@@ -592,7 +573,7 @@
 			<div id="footerLinks" class="links-block">
 				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">新闻</a> |
 			<a href="https://gitee.com/likexia/cat-zh" target="_blank">汉化主页</a> |
-			<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="目前只有部分，其余仍在汉化中">文档</a> |
+			<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="目前只有部分，其余仍在汉化中">Wiki</a> |
 <!--				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">英文文档</a> |-->
 				<a href="https://discord.gg/2arBf9K" target="_blank">聊天</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
@@ -606,6 +587,7 @@
      <link rel="stylesheet" href="https://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
     <script src="https://likexia.gitee.io/game/js/jquery.min.js"></script>
     <script src="https://likexia.gitee.io/game/js/kf.js"></script>
+    <script src="zh.js"></script>
  <!-- 客服 结束 -->
     <!--统计代码 start-->
     <div style="display:none;"><script src="https://s19.cnzz.com/z_stat.php?id=1267958737&web_id=1267958737" language="JavaScript"></script></div>
@@ -614,13 +596,13 @@
 		<script type="text/javascript">
 //            判断屏幕大小，跳app页面
            if($(window).width() < 600){
-               window.location.href="index-app.html";
+//               window.location.href="index-app.html";
            }
 			var ok = false;
 			$("#kxj2").click(function() {
 				if(ok != true) {
 					$("#kxj2").text("小猫科学家已启用")
-					document.body.appendChild(document.createElement('script')).src = 'js/kitten-scientists.user.js';
+					document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js';
 					$("#kxj").attr("checked", true);
 					$("#kxj").attr("disabled", true);
 					ok = true;

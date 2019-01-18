@@ -985,6 +985,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	console: null,
 	telemetry: null,
 	server: null,
+	math: null,
 
 	//global cache
 	globalEffectsCached: {},
@@ -1002,13 +1003,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
+	//ctrl-click batch size
+	batchSize: 10,
+
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
+	//TODO: move me to UI
 	selectedBuilding: null,
 	setSelectedObject: function(object) {
 		this.selectedBuilding = object;
+		this._publish("ui/update", this);
 	},
 	clearSelectedObject: function() {
 		this.selectedBuilding = null;
+		this._publish("ui/update", this);
 	},
 
 	//=============================
@@ -1048,17 +1055,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	pauseTimestamp: 0, //time of last pause
 
-	//resource table
-	resTable: null,
-
 	effectsMgr: null,
 
     managers: null,
-
-    keyStates: {
-		shiftKey: false,
-		ctrlKey: false
-	},
 
     //TODO: this can potentially be an array
     undoChange: null,
@@ -1101,13 +1100,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.console = new com.nuclearunicorn.game.log.Console(this);
 		this.telemetry = new classes.game.Telemetry(this);
 		this.server = new classes.game.Server(this);
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
-		if (data){
-			var saveData = JSON.parse(data);
-			if (saveData && saveData.server){
-				this.server.motdContentPrevious = saveData.server.motdContent;
-			}
-		}
+		this.math = new com.nuclearunicorn.game.Math();
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
@@ -1195,11 +1188,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.updateCaches();
 		}), 5);		//once per 5 ticks
 
-		this.resTable = new com.nuclearunicorn.game.ui.GenericResourceTable(this, "resContainer");
-
-		this.craftTable = new com.nuclearunicorn.game.ui.CraftResourceTable(this, "craftContainer");
-		this.timer.addEvent(dojo.hitch(this, function(){ this.craftTable.update(); }), 3);	//once per 3 tick
-
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
 		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
 		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.rate * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
@@ -1251,7 +1239,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.prestige.updateEffectCached();
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
-		// TODO : village cache
+		this.village.updateEffectCached();
 
 		this.updateResources();
 	},
@@ -1345,7 +1333,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
-			enableRedshift: false
+			enableRedshift: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.resPool.resetState();
@@ -1408,10 +1398,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			opts : this.opts
 		};
 
-		this._publish("server/save", saveData);
-		LCstorage["com.nuclearunicorn.kittengame.savedata"] = JSON.stringify(saveData);
-
-		console.log("游戏已保存！");
+		var saveDataString = JSON.stringify(saveData);
+		//5mb limit workaround
+		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
+			console.log("压缩存档文件中...");
+			saveDataString = LZString.compressToBase64(saveDataString);
+		}
+		
+		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
+		console.log("游戏已保存");
 
 		this.ui.save();
 
@@ -1471,6 +1466,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this._publish("game/options", this);
 	},
 
+	_parseLSSaveData: function(){
+		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+
+		if (data && data[0] != '{'){
+			console.log("base-64 save detected, decompressing...");
+			data = LZString.decompressFromBase64(data);
+		}
+
+		var saveData = JSON.parse(data);
+		return saveData;
+	},
+
 	load: function(){
 		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 		this.resetState();
@@ -1482,10 +1489,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var success = true;
 
 		try {
-			var saveData = JSON.parse(data);
+			var saveData = this._parseLSSaveData();
 
 			//console.log("restored save data:", localStorage);
 			if (saveData){
+
+				if (saveData.server){
+					this.server.motdContentPrevious = saveData.server.motdContent;
+				}
+
 				if (!saveData.saveVersion || saveData.saveVersion != this.saveVersion) {
 					this.migrateSave(saveData);
 				}
@@ -2995,8 +3007,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-
-		return this.getDisplayValue(value, prefix, precision) + postfix + (usePerTickHack ? $I("res.per.sec") : "");
+		
+		var _value = this.getDisplayValue(value, prefix, precision);
+		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},
 
 	/**
@@ -3350,7 +3363,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = JSON.parse(LCstorage["com.nuclearunicorn.kittengame.savedata"]);
+		var lsData = this._parseLSSaveData()
 		if (!lsData){
 			lsData = {
 				game: {},
@@ -3480,7 +3493,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			village :{
 				kittens: newKittens,
-				jobs: []
+				jobs: [],
+				traits: [],
 			},
 			achievements: lsData.achievements,
 			stats: stats,
@@ -3498,7 +3512,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//TO BE USED EXTERNALLY
 	rand: function(ratio){
-		return (Math.floor(Math.random()*ratio));
+		return this.math.uniformRandomInteger(0, ratio);
 	},
 
 	//Karma has no menu. You get served what you deserve.
@@ -3737,7 +3751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					var amt = 5000;
 				}
 				var karmaGained = this.getTriValue(this.karmaKittens + amt, 5) - this.getTriValue(this.karmaKittens, 5);
-				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
+				var msg = "得到 " + this.getDisplayValueExt(karmaGained) + " 业!";
 				this.karmaKittens += amt;
 				break;
 
@@ -3747,7 +3761,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Paragon!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 领导力!";
 				this.resPool.addResEvent("paragon", amt);
 				break;
 
@@ -3757,13 +3771,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 50;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Time Crystals!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 时间水晶!";
 				this.resPool.addResEvent("timeCrystal", amt);
 				break;
 
 			case "BLS" :
 				amt = this.resPool.get("sorrow").maxValue - this.resPool.get("sorrow").value;
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Black Liquid Sorrow!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 黑色液体悲伤!";
 				this.resPool.addResEvent("sorrow", amt);
 				break;
 
@@ -3777,14 +3791,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.religion.faithRatio += amt;
 				var post = this.religion.getFaithBonus();
 				var apocryphaGained = (post-pre)*100;
-				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
+				var msg = "新约外传奖励增加 " + this.getDisplayValueExt(apocryphaGained) + "%!";
 				break;
 
 			case "Transcendence":
 				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
 				this.religion.tcratio += amt;
 				this.religion.tclevel += 4;
-				var msg = "Transcendence Level increased by 4!";
+				var msg = "超越等级增加 4!";
 				break;
 
 			case "Metaphysics":
@@ -3807,7 +3821,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = "Unlocked " + perk + "!";
+				var msg = "解锁 " + perk + "!";
 				break;
 
 			case "Compendiums":
@@ -3816,7 +3830,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = "Got " + this.getDisplayValueExt(amt) + " Compendiums!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 概要!";
 				this.resPool.addResEvent("compedium", amt);
 			break;
 		}
@@ -3832,6 +3846,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		this.resPool.get("paragon").value = 1;
+	},
+
+	isEldermass: function(){
+		var date = new Date();
+		return (date.getMonth() == 11 && date.getDate() >= 15  && date.getDate() <= 31);
 	}
+
 });
 

@@ -14,7 +14,8 @@
 // ==========================================
 
 var version = '小猫科学家 版本 1.3.2';
-var address = '1AQ1AC9W5CEAPgG5739XGXC5vXqyafhoLp';
+var address = '19ZBVyaXQhikcuUszY2MVRb1MGL2YqicDX';
+
 // Game will be referenced in loadTest function
 var game = null;
 
@@ -33,6 +34,8 @@ var run = function() {
         summarycolor: '#009933', // light green
         // The color for log messages that are about activities (like festivals and star observations).
         activitycolor: '#E65C00', // orange
+        // The color for resources with stock counts higher than current resource max
+        stockwarncolor: '#DD1E00',
 
         // Should activity be logged to the game log?
         showactivity: true,
@@ -404,6 +407,9 @@ var run = function() {
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             buildManager.manager.render();
 
+            // Using labeled for loop to break out of a nested loop
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/label
+            buildLoop:
             for (var name in builds) {
                 if (!builds[name].enabled) continue;
 
@@ -411,6 +417,12 @@ var run = function() {
                 var require = !build.require ? false : craftManager.getResource(build.require);
 
                 if (!require || trigger <= require.value / require.maxValue) {
+                    // verify that the building prices is within the current stock settings
+                    var prices = game.bld.getPrices(build.name || name);
+                    for (var p = 0; p < prices.length; p++) {
+                        if (craftManager.getValueAvailable(prices[p].name, true) < prices[p].val) continue buildLoop;
+                    }
+
                     // If the build overrides the name, use that name instead.
                     // This is usually true for buildings that can be upgraded.
                     buildManager.build(build.name || name, build.stage);
@@ -449,19 +461,12 @@ var run = function() {
                 // Ensure that we have reached our cap
                 if (current && current.value > craft.max) continue;
 
-                // Enforce season limited on specific crafts
-                if (craft.limited && craft.lastSeason === season) continue;
-
                 // Craft the resource if we meet the trigger requirement
                 if (!require || trigger <= require.value / require.maxValue) {
-                    var amount = Math.floor(manager.getLowestCraftAmount(name));
+                    var amount = manager.getLowestCraftAmount(name,craft.limited);
 
-                    // Only update season if we actually craft anything.
                     if (amount > 0) {
-                        manager.craft(name, manager.getLowestCraftAmount(name));
-
-                        // Store the season for future reference
-                        craft.lastSeason = season;
+                        manager.craft(name, amount);
                     }
                 }
             }
@@ -698,131 +703,16 @@ var run = function() {
             if (!this.canCraft(name, amount)) return;
 
             var craft = this.getCraft(name);
-            var ratio = ('wood' === name) ? 'refineRatio' : 'craftRatio';
+            var ratio = game.getResCraftRatio(craft);
 
             game.craft(craft.name, amount);
 
             // determine actual amount after crafting upgrades
-            amount = (amount * (game.getEffect(ratio) + 1)).toFixed(2);
+            amount = (amount * (1 + ratio)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            //汉化资源名称
-            var cnname=ucfirst(name);
-            if(cnname == "Furs"){
-            cnname='皮毛';
-        }else if(cnname == "Unobtainium"){
-            cnname='难得素';
-        }else if(cnname == "Catnip"){
-            cnname='猫薄荷';
-        }else if(cnname == "Wood"){
-            cnname='木材';
-        }else if(cnname == "Minerals"){
-            cnname='矿物';
-        }else if(cnname == "Coal"){
-            cnname='煤';
-        }else if(cnname == "Iron"){
-            cnname='铁';
-        }else if(cnname == "Titanium"){
-            cnname='钛';
-        }else if(cnname == "Gold"){
-            cnname='黄金';
-        }else if(cnname == "Oil"){
-            cnname='石油';
-        }else if(cnname == "Uranium"){
-            cnname='铀';
-        }else if(cnname == "Manpower"){
-            cnname='喵力';
-        }else if(cnname == "Science"){
-            cnname='科学点';
-        }else if(cnname == "Culture"){
-            cnname='文化点';
-        }else if(cnname == "Faith"){
-            cnname='信仰';
-        }else if(cnname == "Kittens"){
-            cnname='猫咪';
-        }else if(cnname == "Zebras"){
-            cnname='斑马';
-        }else if(cnname == "Starchart"){
-            cnname='星图';
-        }else if(cnname == "Antimatter"){
-            cnname='反物质';
-        }else if(cnname == "TemporalFlux"){
-            cnname='时间通量';
-        }else if(cnname == "Gflops"){
-            cnname='浮点运算能力';
-        }else if(cnname == "Hashrates"){
-            cnname='哈希值';
-        }else if(cnname == "Ivory"){
-            cnname='象牙';
-        }else if(cnname == "Spice"){
-            cnname='香料';
-        }else if(cnname == "Unicorns"){
-            cnname='独角兽';
-        }else if(cnname == "Alicorn"){
-            cnname='翼角兽';
-        }else if(cnname == "Necrocorn"){
-            cnname='死灵兽';
-        }else if(cnname == "Tears"){
-            cnname='眼泪';
-        }else if(cnname == "Karma"){
-            cnname='业';
-        }else if(cnname == "Paragon"){
-            cnname='领导力';
-        }else if(cnname == "BurnedParagon"){
-            cnname='燃烧领导力';
-        }else if(cnname == "TimeCrystal"){
-            cnname='时间水晶';
-        }else if(cnname == "Sorrow"){
-            cnname='悲伤';
-        }else if(cnname == "Relic"){
-            cnname='圣遗物';
-        }else if(cnname == "Void"){
-            cnname='虚空';
-        }else if(cnname == "ElderBox"){
-            cnname='礼盒';
-        }else if(cnname == "WrappingPaper"){
-            cnname='包装纸';
-        }else if(cnname == "Beam"){
-            cnname='木梁';
-        }else if(cnname == "Slab"){
-            cnname='石板';
-        }else if(cnname == "Plate"){
-            cnname='金属板';
-        }else if(cnname == "Steel"){
-            cnname='钢';
-        }else if(cnname == "Concrete"){
-            cnname='混凝土';
-        }else if(cnname == "Gear"){
-            cnname='齿轮';
-        }else if(cnname == "Alloy"){
-            cnname='合金';
-        }else if(cnname == "Eludium"){
-            cnname='E合金';
-        }else if(cnname == "Scaffold"){
-            cnname='脚手架';
-        }else if(cnname == "Ship"){
-            cnname='船';
-        }else if(cnname == "Tanker"){
-            cnname='油轮';
-        }else if(cnname == "Kerosene"){
-            cnname='煤油';
-        }else if(cnname == "Parchment"){
-           cnname='羊皮纸';
-        }else if(cnname == "Manuscript"){
-            cnname='手稿';
-        }else if(cnname == "Compendium"){
-            cnname='摘要';
-        }else if(cnname == "Blueprint"){
-            cnname='蓝图';
-        }else if(cnname == "Thorium"){
-            cnname='钍';
-        }else if(cnname == "Megalith"){
-            cnname='巨石';
-        }
             
-//       		console.log(cnname);
-//          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + ucfirst(name), 'ks-craft');
-			activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnname, 'ks-craft');
+          activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnItem(ucfirst(name)), 'ks-craft');
 
         },
         canCraft: function (name, amount) {
@@ -848,8 +738,8 @@ var run = function() {
         getCraft: function (name) {
             return game.workshop.getCraft(this.getName(name));
         },
-        getLowestCraftAmount: function (name) {
-            var amount = undefined;
+        getLowestCraftAmount: function (name, limited) {
+            var amount = Number.MAX_VALUE;
             var materials = this.getMaterials(name);
 
             // Safeguard if materials for craft cannot be determined.
@@ -858,9 +748,17 @@ var run = function() {
             var res = this.getResource(name);
 
             for (var i in materials) {
-                var total = this.getValueAvailable(i) / materials[i];
+                var delta = undefined;
+                if(this.getResource(i).maxValue > 0 || ! limited) {
+                    // If there is a storage limit, we can just use everything returned by getValueAvailable, since the regulation happens there
+                    delta = this.getValueAvailable(i) / materials[i];
+                } else {
+                    // Take the currently present amount of material to craft into account
+                    // Only craft "half" (TODO: document this behaviour)
+                    delta = (this.getValueAvailable(i) - materials[i] * this.getValueAvailable(res.name)) / (2 * materials[i]);
+                }
 
-                amount = (amount === undefined || total < amount) ? total : amount;
+                amount = Math.min(delta,amount);
             }
 
             // If we have a maximum value, ensure that we don't produce more than
@@ -870,7 +768,7 @@ var run = function() {
             if (res.maxValue > 0 && amount > (res.maxValue - res.value))
                 amount = res.maxValue - res.value;
 
-            return amount;
+            return Math.floor(amount);
         },
         getMaterials: function (name) {
             var materials = {};
@@ -969,25 +867,7 @@ var run = function() {
 
             game.diplomacy.tradeMultiple(race, amount);
             storeForSummary(name, amount, 'trade');
-            var tradobj =ucfirst(name);
-                if(tradobj=="Dragons"){
-                    tradobj="龙";
-                }else if(tradobj=="Zebras"){
-                    tradobj="斑马";
-                }else if(tradobj=="Lizards"){
-                    tradobj="蜥蜴";
-                }else if(tradobj=="Sharks"){
-                    tradobj="鲨鱼";
-                }else if(tradobj=="Griffins"){
-                    tradobj="狮鹫";
-                }else if(tradobj=="Nagas"){
-                    tradobj="娜迦";
-                }else if(tradobj=="Spiders"){
-                   tradobj="蜘蛛";
-                }else if(tradobj=="Leviathans"){
-                     tradobj="利维坦";
-                }
-            activity('小猫和 '+ tradobj + " 交易了 " + amount + '次', 'ks-trade');
+            activity('小猫和 '+ cnItem(ucfirst(name)) + " 交易了 " + amount + '次', 'ks-trade');
         },
         getLowestTradeAmount: function (name) {
             var amount = undefined;
@@ -1118,26 +998,26 @@ var run = function() {
         column.css({
             minHeight: 'inherit',
             maxWidth: 'inherit',
-            padding: '1%',
+            padding: '0',
             margin: 0,
             overflowY: 'auto'
         });
 
         left.css({
             height: '92%',
-            width: '26%'
+            width: '27%'
         });
 
         middle.css({
-            marginTop: '1%',
+            marginTop: '30px',
             height: '90%',
-            width: '48%'
+            width: '43%'
         });
 
         right.css({
-            overflowY: 'scroll',
+            overflowY: 'auto',
             height: '92%',
-            width: '19%'
+            width: '25%'
         });
 
         addRule('#gameLog .msg {'
@@ -1180,6 +1060,10 @@ var run = function() {
         + 'display: block;'
         + 'float: left;'
         + 'width: 100%;'
+        + '}');
+
+    addRule('#ks-options #toggle-list-resources .stockWarn {'
+        + 'color: ' + options.stockwarncolor + ';'
         + '}');
 
     // Local Storage
@@ -1291,6 +1175,15 @@ var run = function() {
         return +(Math.round(n + "e+2") + "e-2")
     };
 
+    var setStockWarning = function(name, value) {
+        // simplest way to ensure it doesn't stick around too often; always do 
+        // a remove first then re-add only if needed
+        $("#resource-" + name).removeClass("stockWarn");
+
+        var maxValue = game.resPool.resources.filter(i => i.name == name)[0].maxValue;
+        if (value > maxValue && !(maxValue === 0)) $("#resource-" + name).addClass("stockWarn");
+    }
+
     var setStockValue = function (name, value) {
         var n = Number(value);
 
@@ -1302,6 +1195,7 @@ var run = function() {
         if (!options.auto.resources[name]) options.auto.resources[name] = {};
         options.auto.resources[name].stock = n;
         $('#stock-value-' + name).text('库存: ' + game.getDisplayValueExt(n));
+        setStockWarning(name, n);
     };
 
     var setConsumeRate = function (name, value) {
@@ -1437,7 +1331,7 @@ var run = function() {
         }else if(chsname == "Manuscript"){
             chsname='手稿';
         }else if(chsname == "Compedium"){
-            chsname='摘要';
+            chsname='概要';
         }else if(chsname == "Blueprint"){
             chsname='蓝图';
         }else if(chsname == "Thorium"){
@@ -1478,6 +1372,9 @@ var run = function() {
         });
 
         container.append(label, stock, consume, del);
+
+        // once created, set color if relevant
+        if (res != undefined && res.stock != undefined) setStockWarning(name, res.stock);
 
         stock.on('click', function () {
             var value = window.prompt('库存 ' + ucfirst(title ? title : name));
@@ -1808,20 +1705,9 @@ var run = function() {
 
     var getSeason = function (name, season, option) {
         var element = $('<li/>');
-        var jijie=ucfirst(season);
-        if(jijie=="Spring"){
-            jijie="春季";
-        }else if(jijie=="Summer"){
-            jijie="夏季";
-        }else if(jijie=="Autumn"){
-            jijie="秋季";
-        }else if(jijie=="Winter"){
-            jijie="冬季";
-        }
-//        console.log(jijie);
         var label = $('<label/>', {
             'for': 'toggle-' + name + '-' + season,
-            text: jijie
+            text: cnItem(ucfirst(season))
         });
 
         var input = $('<input/>', {
@@ -1834,43 +1720,13 @@ var run = function() {
         }
 
         input.on('change', function () {
-            //                贸易对象汉化
-                var jiaoyi =ucfirst(name);
-                if(jiaoyi=="Dragons"){
-                    jiaoyi="龙";
-                }else if(jiaoyi=="Zebras"){
-                    jiaoyi="斑马";
-                }else if(jiaoyi=="Lizards"){
-                    jiaoyi="蜥蜴";
-                }else if(jiaoyi=="Sharks"){
-                    jiaoyi="鲨鱼";
-                }else if(jiaoyi=="Griffins"){
-                    jiaoyi="狮鹫";
-                }else if(jiaoyi=="Nagas"){
-                    jiaoyi="娜迦";
-                }else if(jiaoyi=="Spiders"){
-                   jiaoyi="蜘蛛";
-                }else if(jiaoyi=="Leviathans"){
-                     jiaoyi="利维坦";
-                }
-//                季节汉化
-                var jijie=ucfirst(season);
-                if(jijie=="Spring"){
-                    jijie="春季";
-                }else if(jijie=="Summer"){
-                    jijie="夏季";
-                }else if(jijie=="Autumn"){
-                    jijie="秋季";
-                }else if(jijie=="Winter"){
-                    jijie="冬季";
-                }
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
 
-                message('在' + jijie + '开始和 ' + jiaoyi + ' 交易');
+                message('在' + cnItem(ucfirst(season)) + '开始和 ' + cnItem(ucfirst(name)) + ' 交易');
             } else if (input.not(':checked') && option[season] == true) {
                 option[season] = false;
-                message('在' + jijie + '停止和 ' + jiaoyi + ' 交易 ');
+                message('在' + cnItem(ucfirst(season)) + '停止和 ' + cnItem(ucfirst(name)) + ' 交易 ');
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1884,68 +1740,9 @@ var run = function() {
     var getOption = function (name, option) {
         var element = $('<li/>');
         var elementLabel = option.label || ucfirst(name);
-        var elezhs= elementLabel;
-//        汉化
-        if(elezhs=="Wood"){
-            elezhs="木材";     
-        }else if(elezhs=="Beam"){
-            elezhs="木梁";     
-        }else if(elezhs=="Slab"){
-            elezhs="石板";     
-        }else if(elezhs=="Steel"){
-            elezhs="钢";
-        }else if(elezhs=="Plate"){
-            elezhs="金属板";
-        }else if(elezhs=="Alloy"){
-            elezhs="合金";
-        }else if(elezhs=="Concrete"){
-            elezhs="混凝土";
-        }else if(elezhs=="Gear"){
-            elezhs="齿轮";
-        }else if(elezhs=="Scaffold"){
-            elezhs="脚手架";
-        }else if(elezhs=="Ship"){
-            elezhs="贸易船";
-        }else if(elezhs=="Tanker"){
-            elezhs="油轮";
-        }else if(elezhs=="Parchment"){
-            elezhs="羊皮纸";
-        }else if(elezhs=="Manuscript"){
-            elezhs="手稿";
-        }else if(elezhs=="Compendium"){
-            elezhs="摘要";
-        }else if(elezhs=="Blueprint"){
-            elezhs="蓝图";
-        }else if(elezhs=="Kerosene"){
-            elezhs="煤油";
-        }else if(elezhs=="Megalith"){
-            elezhs="巨石";
-        }else if(elezhs=="Eludium"){
-            elezhs="E合金";
-        }else if(elezhs=="Thorium"){
-            elezhs="钍";
-        }else if(elezhs=="Dragons"){
-            elezhs="龙";
-        }else if(elezhs=="Zebras"){
-            elezhs="斑马";
-        }else if(elezhs=="Lizards"){
-            elezhs="蜥蜴";
-        }else if(elezhs=="Sharks"){
-            elezhs="鲨鱼";
-        }else if(elezhs=="Griffins"){
-            elezhs="狮鹫";
-        }else if(elezhs=="Nagas"){
-            elezhs="娜迦";
-        }else if(elezhs=="Spiders"){
-           elezhs="蜘蛛";
-        }else if(elezhs=="Leviathans"){
-             elezhs="利维坦";
-        }
-
-//        console.log(elezhs)
         var label = $('<label/>', {
             'for': 'toggle-' + name,
-            text: elezhs,
+            text: cnItem(ucfirst(name)),
             css: {display: 'inline-block', minWidth: '80px'}
         });
 
@@ -1961,10 +1758,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.enabled == false) {
                 option.enabled = true;
-                message('启用自动化 ' + elezhs);
+                message('启用自动化 ' + cnItem(ucfirst(name)));
             } else if (input.not(':checked') && option.enabled == true) {
                 option.enabled = false;
-                message('禁用自动化 ' + elezhs);
+                message('禁用自动化 ' + cnItem(ucfirst(name)));
             }
             kittenStorage.items[input.attr('id')] = option.enabled;
             saveToKittenStorage();
@@ -1991,71 +1788,14 @@ var run = function() {
         if (option.limited) {
             input.prop('checked', true);
         }
-        //        汉化
-        var elezhs=ucfirst(name);
-        if(elezhs=="Wood"){
-            elezhs="木材";     
-        }else if(elezhs=="Beam"){
-            elezhs="木梁";     
-        }else if(elezhs=="Slab"){
-            elezhs="石板";     
-        }else if(elezhs=="Steel"){
-            elezhs="钢";
-        }else if(elezhs=="Plate"){
-            elezhs="金属板";
-        }else if(elezhs=="Alloy"){
-            elezhs="合金";
-        }else if(elezhs=="Concrete"){
-            elezhs="混凝土";
-        }else if(elezhs=="Gear"){
-            elezhs="齿轮";
-        }else if(elezhs=="Scaffold"){
-            elezhs="脚手架";
-        }else if(elezhs=="Ship"){
-            elezhs="贸易船";
-        }else if(elezhs=="Tanker"){
-            elezhs="油轮";
-        }else if(elezhs=="Parchment"){
-            elezhs="羊皮纸";
-        }else if(elezhs=="Manuscript"){
-            elezhs="手稿";
-        }else if(elezhs=="Compendium"){
-            elezhs="摘要";
-        }else if(elezhs=="Blueprint"){
-            elezhs="蓝图";
-        }else if(elezhs=="Kerosene"){
-            elezhs="煤油";
-        }else if(elezhs=="Megalith"){
-            elezhs="巨石";
-        }else if(elezhs=="Eludium"){
-            elezhs="E合金";
-        }else if(elezhs=="Thorium"){
-            elezhs="钍";
-        }else if(elezhs=="Dragons"){
-            elezhs="龙";
-        }else if(elezhs=="Zebras"){
-            elezhs="斑马";
-        }else if(elezhs=="Lizards"){
-            elezhs="蜥蜴";
-        }else if(elezhs=="Sharks"){
-            elezhs="鲨鱼";
-        }else if(elezhs=="Griffins"){
-            elezhs="狮鹫";
-        }else if(elezhs=="Nagas"){
-            elezhs="娜迦";
-        }else if(elezhs=="Spiders"){
-           elezhs="蜘蛛";
-        }else if(elezhs=="Leviathans"){
-             elezhs="利维坦";
-        }
 
         input.on('change', function () {
             if (input.is(':checked') && option.limited == false) {
                 option.limited = true;
-                message('工艺 ' + elezhs + ': 每个季节限量一次');
+                message('工艺 ' + cnItem(ucfirst(name)) + ': 每个季节限量一次');
             } else if (input.not(':checked') && option.limited == true) {
                 option.limited = false;
-                message('工艺 ' + elezhs + ': 不限制');
+                message('工艺 ' + cnItem(ucfirst(name)) + ': 不限制');
             }
             kittenStorage.items[input.attr('id')] = option.limited;
             saveToKittenStorage();

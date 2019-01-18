@@ -476,7 +476,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
-                {name: "starchart", val: 500},
+                {name: "starchart", val: 100},
                 {name: "alloy",  val: 2500},
                 {name: "titanium", val: 12500},
                 {name: "kerosene", val: 250}
@@ -498,6 +498,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
             unlocked: false,
             priceRatio: 1.15,
             prices: [
+				{name: "starchart", val: 2000},
                 {name: "eludium",  val: 100},
                 {name: "science", val: 250000},
                 {name: "kerosene", val: 500}
@@ -834,7 +835,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.25,
 				prices: [
-					{name: "science", val: 600000 },
 					{name: "antimatter", val: 500 },
 					{name: "thorium", val: 75000 }
 				],
@@ -844,8 +844,26 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				},
 				calculateEffects: function(self, game){
 					self.effects = {
-						"energyProduction": 25
+						"energyProduction": 25 * (1 + game.getEffect("tectonicBonus"))
 					};
+				}
+			}, {
+				name: "moltenCore",
+				label: $I("space.planet.centaurusSystem.moltenCore.label"),
+				description: $I("space.planet.centaurusSystem.moltenCore.desc"),
+				unlocked: false,
+				priceRatio: 1.25,
+				prices: [
+					{name: "science", val: 250000000 },
+					{name: "uranium", val: 5000000 }
+				],
+				requiredTech: ["terraformation"],
+				effects: {
+					"tectonicBonus": 0.05
+				},
+				requiredTech: ["exogeophysics"],
+				upgrades: {
+					spaceBuilding: ["tectonic"]
 				}
 			}
 		]
@@ -1021,7 +1039,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		}
 	},
 
-	fastforward: function(times) {
+	fastforward: function(daysOffset) {
+		var times = daysOffset / this.game.calendar.dayPerTick;
 		for (var i in this.planets){
 			var planet = this.planets[i];
 

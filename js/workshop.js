@@ -1958,6 +1958,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		progressHandicap: 5,
 		tier: 3
+	},{
+		name: "bloodstone",
+		label: $I("workshop.crafts.bloodstone.label"),
+		description: $I("workshop.crafts.bloodstone.desc"),
+		prices:[
+			{ name: "timeCrystal", val: 5000 },
+			{ name: "relic", val: 10000 }
+		],
+		progressHandicap: 7500,
+		tier: 5
 	}],
 
 	effectsBase: {
@@ -2211,10 +2221,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.game.village.sim.clearCraftJobs();
 	},
 
-	update: function(times){
-		if (!times) {
-			times = 1;
-		}
+	update: function(){
+		this.fastforward(this.game.calendar.dayPerTick);
+	},
+
+	fastforward: function(daysOffset) {
+		var times = daysOffset / this.game.calendar.dayPerTick;
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
@@ -2599,7 +2611,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: $I("workshop.craft.effectiveness", [(this.game.getCraftRatio() * 100).toFixed(0)]) }, div);
+		dojo.create("span", { innerHTML: $I("workshop.craft.effectiveness", [this.game.getDisplayValueExt(this.game.getCraftRatio() * 100, false, false, 0)]) }, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);

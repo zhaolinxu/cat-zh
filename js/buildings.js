@@ -227,6 +227,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "megastructures",
 		title: $I("buildings.group.megastructures"),
 		buildings: ["ziggurat", "chronosphere", "aiCore"]
+	},{
+		name: "zebraBuildings",
+		title: $I("buildings.group.zebraBuildings"),
+		buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"]
 	}
 	],
 
@@ -862,7 +866,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "steel", val: 100 },
 			{ name : "titanium",  val: 15 },
-			{ name : "blueprint",  val: 5 },
+			{ name : "blueprint",  val: 1 },
 			{ name : "oil",  val: 500 }
 		],
 		priceRatio: 1.15,
@@ -1377,6 +1381,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var manpower = game.resPool.get("manpower");
 			var mpratio = (manpower.maxValue * 0.007) / 100;
 
+			//hidden 1% boost to mints from village level
+			mpratio *= (1 + game.village.map.villageLevel * 0.005);
+
 			self.effects["fursPerTickProd"]  = mpratio * 1.25;	//2
 			self.effects["ivoryPerTickProd"] = mpratio * 0.3;	//1.5
 
@@ -1675,6 +1682,41 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			game.msg($I("buildings.aicore.attemptsell"));
 			return false;
 		}
+	},
+	//----------------- HoD stuff --------------------------
+	{
+		name: "zebraOutpost",
+		label: $I("buildings.zebraOutpost.label"),
+		description: $I("buildings.zebraOutpost.desc"),
+		unlockRatio: 0.01,
+		prices: [
+			{ name : "bloodstone", val: 1 }
+		],
+		priceRatio: 1.35,
+		zebraRequired: 5,
+		effects: {}
+	},{
+		name: "zebraWorkshop",
+		label: $I("buildings.zebraWorkshop.label"),
+		description: $I("buildings.zebraWorkshop.desc"),
+		unlockRatio: 0.01,
+		prices: [
+			{ name : "bloodstone", val: 5 }
+		],
+		priceRatio: 1.15,
+		zebraRequired: 10,
+		effects: {}
+	},{
+		name: "zebraForge",
+		label: $I("buildings.zebraForge.label"),
+		description: $I("buildings.zebraForge.desc"),
+		unlockRatio: 0.01,
+		prices: [
+			{ name : "bloodstone", val: 50 }
+		],
+		priceRatio: 1.15,
+		zebraRequired: 50,
+		effects: {}
 	}
 	],
 
@@ -1757,8 +1799,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		var ratio = bld.get('priceRatio');
 		var ratioBase = ratio - 1;
 
-		var ratioDiff = this.game.getEffect(bld.meta.name + "PriceRatio") || 0;
-		ratioDiff += this.game.getEffect("priceRatio") || 0;
+		var ratioDiff = this.game.getEffect(bld.meta.name + "PriceRatio") +
+			this.game.getEffect("priceRatio") +
+			this.game.getEffect("mapPriceReduction");
+
 		ratioDiff = this.game.getHyperbolicEffect(ratioDiff, ratioBase);
 		return ratio + ratioDiff;
 	},
@@ -2273,8 +2317,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		var topContainer = dojo.create("div", {
 			style: {
 				paddingBottom : "5px",
-				marginBottom: "15px",
-				borderBottom: "1px solid gray"
+				marginBottom: "15px"
 			}
 		}, content);
 
@@ -2290,7 +2333,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		groups.unshift({
 			name: "togglable",
-			title: "可增减",
+			title: "可切换",
 			buildings: []
 		});
 		groups.unshift({

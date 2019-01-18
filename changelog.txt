@@ -1,3 +1,46 @@
+v 1.4.5.1e (11 jan 2019)
+
+changes by Dra.c00L.a:
+Fixed trading for blueprints behaving incorrectly
+
+changes by RudolfJelín:
+Added cz translation
+
+changes by Ethaniel_Kavelaars:
+Various fixes to redshift logic
+_
+Fixed russian translation and some other localization issues
+Fixed incorrect values for spice during trading
+Fixed eldermass logic to be automated
+
+
+v 1.4.5.1b (9 dec 2018)
+
+changes by Dra.c00L.a:
+Fixed trading and hunting to be calculated using quick heuristic.
+_
+You can use shift key to preview total effect on building.
+
+v 1.4.5.1 (4 nov 2018)
+Calciner blueprint price was reduced from 5 to 1
+Necropolis necrocorn price is reduced from 25 to 15
+Necropolis alicorn price is now 100
+Research vessel starchart price have been reduced from 500 to 100
+Orbital arrays starchart price is now 2000
+
+v 1.4.5.0 (17 oct 2018)
+
+There is no such thing as 'map'
+Game will now try to compress save files with size over 5mb
+Some long resource values or numbers on UI will be truncated
+Fixed assign/unassign performance on jobs with >= 10K kittens
+
+v 1.4.4.9 (27 aug 2018)
+
+Resource table QOL tweaks
+Fixed rendering perfromance in some places
+Added OSX meta key shortcut
+
 v 1.4.4.8 (19 aug 2018)
 
 Dropbox integration is finally working
