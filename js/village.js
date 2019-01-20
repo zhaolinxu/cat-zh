@@ -341,17 +341,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getFreeKittens: function(){
-		var total = 0;
+		var workingKittens = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
-			total += this.jobs[i].value;
+			workingKittens += this.jobs[i].value;
 		}
 
-		var free = this.getKittens() - total;
-		if(this.game.challenges.currentChallenge == "anarchy") {
-			free = Math.floor(free / 2);
-		}
+		var diligentKittens = this.game.challenges.currentChallenge == "anarchy"
+			? Math.floor(this.getKittens() / 2)
+			: this.getKittens();
 
-		return free;
+		return diligentKittens - workingKittens;
 	},
 
 	hasFreeKittens: function(amt){
