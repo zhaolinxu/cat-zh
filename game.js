@@ -1550,7 +1550,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImport: function(){
-		if (!window.confirm("Are your sure? This will overwrite your save!")){
+		if (!window.confirm($I("save.msg.confirm"))){
 			return;
 		}
 		var data = $("#importData").val();
