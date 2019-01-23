@@ -580,7 +580,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 				if (newKitten.isLeader){
 					this.game.village.leader = newKitten;
-					this.game.village.leader = newKitten;
 				}
 				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
@@ -797,30 +796,28 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Promote all kittens - Priority to engineer to tier craft who have a rank below tier craft
 	 */
 	promoteKittens: function() {
-		var promotedKittens = [];
-
+		var candidates = [];
 		for (var i = 0; i < this.sim.kittens.length; i++) {
-			var done = false;
+			var tier = -1;
 			if(this.sim.kittens[i].engineerSpeciality != null) {
-				var tier = this.game.workshop.getCraft(this.sim.kittens[i].engineerSpeciality).tier;
-				if (this.sim.kittens[i].rank < tier) {
-					promotedKittens.push({"kitten": this.sim.kittens[i], "rank": tier});
-					done = true;
+				tier = this.game.workshop.getCraft(this.sim.kittens[i].engineerSpeciality).tier;
+				if (this.sim.kittens[i].rank >= tier) {//if engineer already have required rank, it go to common pool
+					tier = -1;
 				}
 			}
-			if (!done) {
-				promotedKittens.push({"kitten": this.sim.kittens[i]});
-			}
+			candidates.push({"kitten": this.sim.kittens[i], "rank": tier});
 		}
 
-		if(promotedKittens.length) {
-			promotedKittens.sort(function(a, b){return b.rank-a.rank;});
+		if (candidates.length) {
+			candidates.sort(function (a, b) {
+				return b.rank - a.rank;
+			});
 			var promotedKittensCount = 0;
-			for (var i = 0; i < promotedKittens.length; i++) {
-				if (typeof(promotedKittens[i].rank) == "number") {
-					promotedKittensCount += this.sim.promote(promotedKittens[i].kitten, promotedKittens[i].rank);
+			for (var i = 0; i < candidates.length; i++) {
+				if (candidates[i].rank > 0) {
+					promotedKittensCount += this.sim.promote(candidates[i].kitten, candidates[i].rank);
 				} else {
-					promotedKittensCount += this.sim.promote(promotedKittens[i].kitten);
+					promotedKittensCount += this.sim.promote(candidates[i].kitten);
 				}
 			}
 
