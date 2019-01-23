@@ -208,6 +208,7 @@
     "village.leader.promoted.many.kittens": "リーダーは、{0}匹の子猫を昇進させました。",
     "village.general.free.kittens.label": "手があいている子猫",
     "village.kittens.have.best.rank": "子猫たちは全員最上の階級にいます。",
+    "village.kittens.promotion.nogold": "Not enough gold to promote kittens",
     "village.msg.kitten.has.joined": "1匹の子猫が集団に加わった。",
     "village.tab.clear.job.confirmation": "本当に解除しますか？",
     "village.trait.chemist": "化学者",

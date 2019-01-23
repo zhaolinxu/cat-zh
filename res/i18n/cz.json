@@ -208,6 +208,7 @@
     "village.leader.promoted.many.kittens": "Tvůj vůdce povýšil {0} koťat",
     "village.general.free.kittens.label": "Volná koťata",
     "village.kittens.have.best.rank": "Žádné kotě není zralé na povýšení",
+    "village.kittens.promotion.nogold": "Not enough gold to promote kittens",
     "village.msg.kitten.has.joined": "Kotě se přidalo k tvé vesnici",
     "village.tab.clear.job.confirmation": "Jsi si jistý?",
     "village.trait.chemist": "Chemik",

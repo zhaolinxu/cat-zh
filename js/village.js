@@ -813,15 +813,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				return b.rank - a.rank;
 			});
 			var promotedKittensCount = 0;
+			var noGold = false;
 			for (var i = 0; i < candidates.length; i++) {
-				if (candidates[i].rank > 0) {
-					promotedKittensCount += this.sim.promote(candidates[i].kitten, candidates[i].rank);
-				} else {
-					promotedKittensCount += this.sim.promote(candidates[i].kitten);
+				var promoted = this.sim.promote(candidates[i].kitten, candidates[i].rank > 0 ? candidates[i].rank : undefined);
+				if (promoted > 0) {
+					promotedKittensCount++;
+				} else if (promoted < 0) {
+					noGold = true;
 				}
 			}
 
-			if (promotedKittensCount == 0) {
+			if (noGold) {
+				this.game.msg($I("village.kittens.promotion.nogold"));
+			} else if (promotedKittensCount == 0) {
 				this.game.msg($I("village.kittens.have.best.rank"));
 			} else {
 				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
@@ -1531,27 +1535,31 @@ dojo.declare("classes.village.KittenSim", null, {
 	},
 
 	promote: function(kitten, rank) {
-		var kittenRank = kitten.rank;
+		var kittenRank = kitten.rank, rankDiff;
 		if (typeof(rank) == "undefined") {
 			rank = kitten.rank + 1;
-		}
-		var rankDiff = rank - kittenRank;
-
-		if (rankDiff > 0) {
-			var expToPromote = this.expToPromote(kittenRank, rank, kitten.exp);
-			var goldToPromote = this.goldToPromote(kittenRank, rank, this.game.resPool.get("gold").value);
-
-			if (expToPromote[0] && goldToPromote[0]) {
-				kitten.rank = rank;
-				kitten.exp -= expToPromote[1];
-				this.game.resPool.addResEvent("gold", -goldToPromote[1]);
-				return 1;
-			} else if (rankDiff > 1) { // If rank is unreachable, try one rank
-				return this.promote(kitten);
-			}
+			rankDiff = 1;
+		} else {
+			rankDiff = rank - kittenRank;
 		}
 
-		return 0;
+		if (rankDiff <= 0) {
+			return 0;
+		}
+
+		var expToPromote = this.expToPromote(kittenRank, rank, kitten.exp);
+		var goldToPromote = this.goldToPromote(kittenRank, rank, this.game.resPool.get("gold").value);
+
+		if (expToPromote[0] && goldToPromote[0]) {
+			kitten.rank = rank;
+			kitten.exp -= expToPromote[1];
+			this.game.resPool.addResEvent("gold", -goldToPromote[1]);
+			return 1;
+		} else if (rankDiff > 1) { // If rank is unreachable, try one rank
+			return this.promote(kitten);
+		} else if (expToPromote[0] && !goldToPromote[0]) {
+			return -1;
+		}
 	},
 
 	expToPromote: function(rankBase, rankFinal, expNeeded) {

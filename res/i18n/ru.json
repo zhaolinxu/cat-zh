@@ -208,6 +208,7 @@
     "village.leader.promoted.many.kittens": "Лидер повысил {0} котят.",
     "village.general.free.kittens.label": "Безработные котята",
     "village.kittens.have.best.rank": "Все котята на их высшем ранге сообразно опытности.",
+    "village.kittens.promotion.nogold": "Недостаточно золота для повышения",
     "village.msg.kitten.has.joined": "Новый котёнок пришёл в поселение.",
     "village.tab.clear.job.confirmation": "Точно?",
     "village.trait.chemist": "Химик",

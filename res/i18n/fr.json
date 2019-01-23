@@ -208,6 +208,7 @@
     "village.leader.promoted.many.kittens": "Votre chef a promu {0} chatons",
     "village.general.free.kittens.label": "Chatons disponibles",
     "village.kittens.have.best.rank": "Vos chatons n'ont pas assez d'expérience pour être promus",
+    "village.kittens.promotion.nogold": "Not enough gold to promote kittens",
     "village.msg.kitten.has.joined": "Un chaton a rejoint le village",
     "village.tab.clear.job.confirmation": "Confirmez-vous ?",
     "village.trait.chemist": "Méticuleux",
