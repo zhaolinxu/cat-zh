@@ -128,28 +128,36 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.faith = 0;
 		}
 		var alicorns = this.game.resPool.get("alicorn");
-		if (alicorns.value > 0){
+		if (alicorns.value > 0) {
 			//30% bls * 20 Radiance should yield ~ 50-75% boost rate which is laughable but we can always buff it
 			var blsBoost = 1 + Math.sqrt(this.game.resPool.get("sorrow").value * this.game.getEffect("blsCorruptionRatio"));
-			var corruptionBoost = this.game.resPool.get("necrocorn").value > 0
-				? 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")) // 75% penalty
-				: 1;
-			var corIncrement = times * this.game.getEffect("corruptionRatio") * blsBoost * corruptionBoost;
-			var nextGreatestAlicornVal = Math.floor(alicorns.value + 0.999999);
-			this.corruption = Math.max(this.corruption, Math.min(this.corruption + corIncrement, nextGreatestAlicornVal));
-			var cor = Math.floor(Math.min(this.corruption, alicorns.value));
-
-			if (cor) {
-				this.corruption-=cor;
-				alicorns.value-=cor;
-				this.game.resPool.get("necrocorn").value+=cor;
-				this.game.upgrade({
-					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
-				});
-			}
+			var corruptionPerTickBeforeFirstNecrocorn = this.game.getEffect("corruptionRatio") * blsBoost;
+			var ticksBeforeFirstNecrocorn = this.game.resPool.get("necrocorn").value < 1
+				// this.corruption is <= 1 at this point, no need to check if 1-this.corruption is negative
+				? Math.min(Math.ceil((1 - this.corruption) / corruptionPerTickBeforeFirstNecrocorn), times)
+				: 0;
+			var ticksAfterFirstNecrocorn = times - ticksBeforeFirstNecrocorn;
+			var corruptionBoost = 0.25 * (1 + this.game.getEffect("corruptionBoostRatio")); // 75% penalty
+			this.corruption += corruptionPerTickBeforeFirstNecrocorn * (ticksBeforeFirstNecrocorn + ticksAfterFirstNecrocorn * corruptionBoost);
 		} else {
 			this.corruption = 0;
 		}
+
+		// Prevents alicorn count to fall to 0, which would stop the per-tick generation
+		var maxAlicornsToCorrupt = Math.ceil(alicorns.value) - 1;
+		var alicornsToCorrupt = Math.floor(Math.min(this.corruption, maxAlicornsToCorrupt));
+		if (alicornsToCorrupt) {
+			this.corruption -= alicornsToCorrupt;
+			alicorns.value -= alicornsToCorrupt;
+			this.game.resPool.get("necrocorn").value += alicornsToCorrupt;
+			this.game.upgrade({
+				zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+			});
+		}
+		if (this.corruption >= 1) {
+			this.corruption = 1;
+		}
+
 		if (this.game.prestige.getPerk("voidOrder").researched){
 			var resonance = this.game.getEffect("voidResonance");
 			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
