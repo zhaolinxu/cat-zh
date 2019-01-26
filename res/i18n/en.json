@@ -208,6 +208,7 @@
     "village.leader.promoted.many.kittens": "Your leader has promoted {0} kittens",
     "village.general.free.kittens.label": "Free kittens",
     "village.kittens.have.best.rank": "Your kittens have their best rank",
+    "village.kittens.promotion.nogold": "Not enough gold to promote kittens",
     "village.msg.kitten.has.joined": "A kitten has joined your village",
     "village.tab.clear.job.confirmation": "Are you sure?",
     "village.trait.chemist": "Chemist",

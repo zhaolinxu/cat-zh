@@ -209,6 +209,7 @@
     "village.leader.promoted.many.kittens": "Seu líder promoveu {0} gatos",
     "village.general.free.kittens.label": "Gatos disponíveis",
     "village.kittens.have.best.rank": "Seus gatos já estão na melhor classe",
+    "village.kittens.promotion.nogold": "Not enough gold to promote kittens",
     "village.msg.kitten.has.joined": "Um gato se juntou à sua vila",
     "village.tab.clear.job.confirmation": "Tem certeza?",
     "village.trait.chemist": "Químico",
