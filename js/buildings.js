@@ -999,8 +999,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.isAutomationEnabled = true;
 			}
 
-			var baseAutomationRate = 0.02;
-
 			var wood = game.resPool.get("wood");
 			var minerals = game.resPool.get("minerals");
 			var iron = game.resPool.get("iron");
@@ -1011,57 +1009,45 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				return;
 			}
 
-			var threshold = 1 - baseAutomationRate;
-			var willCraftBeams = wood.value >= wood.maxValue * threshold;
-			var willCraftSlabs = minerals.value >= minerals.maxValue * threshold;
-			var willCraftPlates = game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * threshold;
-
-			if (!(willCraftBeams || willCraftSlabs || willCraftPlates)) {
-				return;
-			}
-
-			if (!self.isAutomationEnabled) {
-				game.msg($I("bld.msg.automation.skip"), null, "workshopAutomation");
-				self.jammed = true;
-				return;
-			}
-
-			var ratio = 1 + game.getCraftRatio();
+			var baseAutomationRate = 0.02;
 			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
 			var automationRate = Math.min(baseAutomationRate * self.on, 0.9);
 
-			if (willCraftPlates){
-				var autoIron = iron.value * (automationRate);
-
-				if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-					var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
-					game.workshop.craft("plate", amt);
-
-					game.msg($I("bld.msg.automation.plates", [game.getDisplayValueExt(autoIron), game.getDisplayValueExt(amt * ratio)]), null, "workshopAutomation", true);
-				}
+			function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+				var consumedQuantity = consumedResource.value * automationRate;
+				return {
+					numberOfCrafts: isAllowed && consumedResource.value >= consumedResource.maxValue * (1 - baseAutomationRate)
+						? Math.max(0, Math.floor(consumedQuantity / game.workshop.getCraft(craftedResourceName).prices[0].val))
+						: 0,
+					craft: function() {
+						if (this.numberOfCrafts > 0) {
+							game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+							game.msg($I("bld.msg.automation." + craftedResourceName + "s", [game.getDisplayValueExt(consumedQuantity), game.getDisplayValueExt(this.numberOfCrafts * (1 + game.getCraftRatio()))]), null, "workshopAutomation", true);
+						}
+					}
+				};
 			}
 
-			if (willCraftSlabs){
-				var autoMinerals = minerals.value * (automationRate);
-				if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-					var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
-					game.workshop.craft("slab", amt);
-					game.msg($I("bld.msg.automation.slabs", [game.getDisplayValueExt(autoMinerals), game.getDisplayValueExt(amt * ratio)]), null, "workshopAutomation", true);
-				}
+			var beamCrafter = newCrafter(wood, "beam", true);
+			var slabCrafter = newCrafter(minerals, "slab", true);
+			var plateCrafter = newCrafter(iron, "plate", game.workshop.get("pneumaticPress").researched);
+
+			if (beamCrafter.numberOfCrafts == 0 && slabCrafter.numberOfCrafts == 0 && plateCrafter.numberOfCrafts == 0) {
+				return;
 			}
 
-			if (willCraftBeams){
-				var autoWood = wood.value * (automationRate);
-				if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
-					var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
-					game.workshop.craft("beam", amt);
+			//Jam until next year
+			self.jammed = true;
 
-					game.msg($I("bld.msg.automation.beams", [game.getDisplayValueExt(autoWood), game.getDisplayValueExt(amt * ratio)]), null, "workshopAutomation", true);
-				}
+			if (!self.isAutomationEnabled) {
+				game.msg($I("bld.msg.automation.skip"), null, "workshopAutomation");
+				return;
 			}
 
+			plateCrafter.craft();
+			slabCrafter.craft();
+			beamCrafter.craft();
 			game.msg($I("bld.msg.automation"), null, "workshopAutomation");
-			self.jammed = true;				//Jam until next year
 		},
 		flavor: $I("buildings.steamworks.flavor")
 	},{
