@@ -1029,7 +1029,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				var ratio = game.getCraftRatio();
 				// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-				var automationRate = Math.min(baseAutomationRate + baseAutomationRate * self.on, 0.9);
+				var automationRate = Math.min(baseAutomationRate * self.on, 0.9);
 
 				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
 					var autoIron = iron.value * (automationRate);
@@ -2006,7 +2006,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			var ratio = game.getCraftRatio();
 			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-			var automationRate = Math.min(baseAutomationRate + baseAutomationRate * steamworks.on, 0.9);
+			var automationRate = Math.min(baseAutomationRate * steamworks.on, 0.9);
 
 			var i=numberOfAutomations;
 			while (i-- > 0 && game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
