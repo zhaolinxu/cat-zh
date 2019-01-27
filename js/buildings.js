@@ -1959,13 +1959,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			steamworks.isAutomationEnabled = true;
 		}
 
-		var daysPerSeason = this.game.calendar.daysPerSeason;
-		var twiceAYear = this.game.workshop.get("advancedAutomation").researched;
-
-		var numberOfAutomations = Math.floor((daysOffset / daysPerSeason) * (twiceAYear? 0.5 : 0.25));
-
-		var baseAutomationRate = 0.02;
-
 		var wood = game.resPool.get("wood");
 		var minerals = game.resPool.get("minerals");
 		var iron = game.resPool.get("iron");
@@ -1976,55 +1969,55 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return;
 		}
 
-		var threshold = 1 - baseAutomationRate;
-		if (!(wood.value >= wood.maxValue * threshold ||
-			minerals.value >= minerals.maxValue * threshold ||
-			(game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * threshold))) {
-			return;
-		}
-
-		if (!steamworks.isAutomationEnabled){
-			steamworks.jammed = true;
-			return;
-		}
-
+		var baseAutomationRate = 0.02;
 		// Cap automation at 90% of resource cap to prevent trying to craft more than you have
 		var automationRate = Math.min(baseAutomationRate * steamworks.on, 0.9);
 
-		var i=numberOfAutomations;
-		while (i-- > 0 && game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * threshold){
-			var autoIron = Math.min(iron.value, iron.maxValue) * (automationRate);
+		var automationDelay = this.game.calendar.daysPerSeason * (this.game.workshop.get("advancedAutomation").researched ? 2 : 4);
+		var numberOfAutomations = Math.floor(daysOffset / automationDelay);
 
-			if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-				var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
-				game.workshop.craft("plate", amt);
-			} else {
-				break;
-			}
-		}
-		i=numberOfAutomations;
-		while (i-- > 0 && minerals.value >= minerals.maxValue * threshold){
-			var autoMinerals = Math.min(minerals.value, minerals.maxValue) * (automationRate);
-			if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-				var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
-				game.workshop.craft("slab", amt);
-			} else {
-				break;
-			}
-		}
+		function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+			var consumableQuantity = consumedResource.value;
+			var consumableQuantityThreshold = consumedResource.maxValue * (1 - baseAutomationRate);
+			var price = game.workshop.getCraft(craftedResourceName).prices[0].val;
 
-		i=numberOfAutomations;
-		while (i-- > 0 && wood.value >= wood.maxValue * threshold){
-			var autoWood = Math.min(wood.value, wood.maxValue) * (automationRate);
-			if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
-				var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
-				game.workshop.craft("beam", amt);
-			} else {
-				break;
+			var numberOfCrafts = 0;
+			var numberOfCraftsForCurrentAutomation = 0;
+			var remainingAutomations = numberOfAutomations;
+			while (isAllowed && remainingAutomations-- > 0 && consumableQuantity >= consumableQuantityThreshold
+					&& (numberOfCraftsForCurrentAutomation = Math.floor(Math.min(consumableQuantity, consumedResource.maxValue) * automationRate / price)) > 0) {
+				numberOfCrafts += numberOfCraftsForCurrentAutomation;
+				consumableQuantity -= numberOfCraftsForCurrentAutomation * price;
 			}
+
+			return {
+				numberOfCrafts: numberOfCrafts,
+				craft: function() {
+					if (this.numberOfCrafts > 0) {
+						game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+					}
+				}
+			};
 		}
 
-		steamworks.jammed = true;				//Jam until next year
+		var beamCrafter = newCrafter(wood, "beam", true);
+		var slabCrafter = newCrafter(minerals, "slab", true);
+		var plateCrafter = newCrafter(iron, "plate", game.workshop.get("pneumaticPress").researched);
+
+		if (beamCrafter.numberOfCrafts == 0 && slabCrafter.numberOfCrafts == 0 && plateCrafter.numberOfCrafts == 0) {
+			return;
+		}
+
+		//Jam until next year
+		steamworks.jammed = true;
+
+		if (!steamworks.isAutomationEnabled) {
+			return;
+		}
+
+		plateCrafter.craft();
+		slabCrafter.craft();
+		beamCrafter.craft();
 	}
 });
 
