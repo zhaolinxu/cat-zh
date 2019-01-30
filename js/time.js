@@ -126,7 +126,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 cfu.action(cfu, this.game);
             }
         }
-	this.calculateRedshift();
+        this.calculateRedshift();
     },
 
     calculateRedshift: function(){
@@ -134,13 +134,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var delta = this.game.opts.enableRedshift
             ? currentTimestamp - this.timestamp
             : 0;
-        //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
 
         this.timestamp = currentTimestamp;
         if (delta <= 0){
             return;
         }
-        var daysOffset = Math.round(delta / (2000/* * this.game.rate*/));
+        var daysOffset = Math.round(delta / 2000);
 
         /*avoid shift because of UI lags*/
         if (daysOffset < 3){
@@ -156,8 +155,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (daysOffset > offset){
             daysOffset = offset;
         }
-
-        //daysOffset = 4000;
 
         //populate cached per tickValues
         this.game.resPool.update();
@@ -181,7 +178,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
                 //console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
                 //console.log("resource before adjustment:", res.value);
-                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false/*event?*/, true/*preventLimitCheck*/);
+                this.game.resPool.addRes(res, res.perTickCached * daysOffset / this.game.calendar.dayPerTick, false/*event?*/, true/*preventLimitCheck*/);
                 //console.log("resource after adjustment:", res.value);
 
             }
