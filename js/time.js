@@ -134,6 +134,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var delta = this.game.opts.enableRedshift
             ? currentTimestamp - this.timestamp
             : 0;
+        //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
 
         this.timestamp = currentTimestamp;
         if (delta <= 0){
@@ -423,6 +424,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                         if (resonatorAmt) {
                             //TBH i'm not sure at all how it supposed to work
                             game.resPool.addResEvent(res.name, Math.sqrt(resonatorAmt) * 0.01 * valueAdd);
+                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
                         }
                     }
                 }

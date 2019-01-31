@@ -664,7 +664,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				if (res.maxValue) {
 					limits[res.name] = Math.max(res.value, res.maxValue);
 				}
+				//console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
+				//console.log("resource before adjustment:", res.value);
 				this.addRes(res, res.perTickCached * daysOffset / this.game.calendar.dayPerTick, false/*event?*/, true/*preventLimitCheck*/);
+				//console.log("resource after adjustment:", res.value);
 			}
 		}
 		return limits;
