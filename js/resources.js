@@ -677,7 +677,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.resources) {
 			var res = this.resources[i];
 			if (res.maxValue) {
-				res.value = Math.min(res.value, limits[res.name]);
+				var limit = limits[res.name];
+				if (limit) {
+					res.value = Math.min(res.value, limit);
+				}
 			}
 		}
 	},
