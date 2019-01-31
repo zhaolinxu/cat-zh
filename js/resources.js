@@ -653,6 +653,32 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 	},
 
+	//NB: don't forget to update resources before calling in redshift
+	fastforward: function(daysOffset) {
+		// Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
+		// Idea: relax resource limits temporarily, load the resource and do workshop, after that enforce limits again.
+		var limits = {};
+		for (var i in this.resources) {
+			var res = this.resources[i];
+			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+				if (res.maxValue) {
+					limits[res.name] = Math.max(res.value, res.maxValue);
+				}
+				this.addRes(res, res.perTickCached * daysOffset / this.game.calendar.dayPerTick, false/*event?*/, true/*preventLimitCheck*/);
+			}
+		}
+		return limits;
+	},
+
+	enforceLimits: function(limits) {
+		for (var i in this.resources) {
+			var res = this.resources[i];
+			if (res.maxValue) {
+				res.value = Math.min(res.value, limits[res.name]);
+			}
+		}
+	},
+
 	//Hack to reach the maxValue in resTable
 	//AB: Questionable
 	resConsHackForResTable: function() {
