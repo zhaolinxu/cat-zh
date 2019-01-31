@@ -126,7 +126,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 cfu.action(cfu, this.game);
             }
         }
-	this.calculateRedshift();
+        this.calculateRedshift();
     },
 
     calculateRedshift: function(){
@@ -134,13 +134,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var delta = this.game.opts.enableRedshift
             ? currentTimestamp - this.timestamp
             : 0;
-        //console.log("redshift delta:", delta, "old ts:", this.timestamp, "new timestamp:", currentTimestamp);
 
         this.timestamp = currentTimestamp;
         if (delta <= 0){
             return;
         }
-        var daysOffset = Math.round(delta / (2000/* * this.game.rate*/));
+        var daysOffset = Math.round(delta / 2000);
 
         /*avoid shift because of UI lags*/
         if (daysOffset < 3){
@@ -157,35 +156,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             daysOffset = offset;
         }
 
-        //daysOffset = 4000;
-
         //populate cached per tickValues
         this.game.resPool.update();
         this.game.updateResources();
-        // Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
-        // Idea: relax resource limits temporaraly, load the resource and do workshop, after that enforce limits again.
-        var currentLimits = {};
-
-        var i, res;
-        // calculate resource offsets
-        for (i in this.game.resPool.resources){
-            res = this.game.resPool.resources[i];
-            if (res.name == "catnip" && res.perTickCached < 0){
-                continue;
-            }
-            //NB: don't forget to update resources before calling in redshift
-            if (res.perTickCached) {
-                if (res.maxValue) {
-                    currentLimits[res.name] = Math.max(res.value, res.maxValue);
-                }
-
-                //console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
-                //console.log("resource before adjustment:", res.value);
-                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false/*event?*/, true/*preventLimitCheck*/);
-                //console.log("resource after adjustment:", res.value);
-
-            }
-        }
+        var resourceLimits = this.game.resPool.fastforward(daysOffset);
 
         var numberEvents = this.game.calendar.fastForward(daysOffset);
         this.game.bld.fastforward(daysOffset);
@@ -194,18 +168,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.game.space.fastforward(daysOffset);
         this.game.religion.fastforward(daysOffset);
 
-        // enforce limits
-        for (i in this.game.resPool.resources){
-            res = this.game.resPool.resources[i];
-            if (!res.maxValue) {
-                continue;
-            }
-            var limit = currentLimits[res.name];
-            if (!limit){
-                continue;
-            }
-            res.value = Math.min(limit, res.value);
-        }
+        this.game.resPool.enforceLimits(resourceLimits);
 
         if (daysOffset > 3) {
             this.game.msg($I("time.redshift", [daysOffset]) + (numberEvents ? $I("time.redshift.ext",[numberEvents]) : ""));
