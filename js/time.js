@@ -390,49 +390,47 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var game = this.game;
         var cal = game.calendar;
+
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+
+        var daysPerYear = cal.daysPerSeason * 4;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
         cal.day = 0;
         cal.season = 0;
 
         for (var i = 0; i < amt; i++) {
-            // Calendar
-            cal.year+= 1;
-            cal.onNewYear(i + 1 == amt);
+            var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
+
             // Space ETA
-            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
-            for (var j in game.space.planets){
+            for (var j in game.space.planets) {
                 var planet = game.space.planets[j];
-                if (planet.unlocked && !planet.reached){
-                    planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
+                if (planet.unlocked && !planet.reached) {
+                    planet.routeDays = Math.max(0, planet.routeDays - remainingDaysInCurrentYear * routeSpeed);
                 }
             }
+
             // ShatterTC gain
-            var shatterTCGain = game.getEffect("shatterTCGain") * (1+ game.getEffect("rrRatio"));
             if (shatterTCGain > 0) {
-                for (var j = 0; j < game.resPool.resources.length; j++){
+                for (var j = 0; j < game.resPool.resources.length; j++) {
                     var res = game.resPool.resources[j];
-                    var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
+                    var valueAdd = game.getResourcePerTick(res.name, true) * remainingDaysInCurrentYear / cal.dayPerTick * shatterTCGain;
 
                     if (res.name != "faith") {
-                        //for faith, use like 1% of the resource pool?
                         game.resPool.addResEvent(res.name, valueAdd);
                     } else {
                         var resonatorAmt = this.game.time.getVSU("voidResonator").val;
                         if (resonatorAmt) {
-
                             //TBH i'm not sure at all how it supposed to work
-
-                            var faithTransferAmt = Math.sqrt(resonatorAmt) * 0.01 * valueAdd;
-                            game.resPool.addResEvent(res.name, faithTransferAmt);
-
-                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
+                            game.resPool.addResEvent(res.name, Math.sqrt(resonatorAmt) * 0.01 * valueAdd);
                         }
                     }
                 }
             }
 
-            /*for (var j = 0; j< 400; j++){
-                this.game.calendar.adjustCryptoPrices(400);
-            }*/
+            // Calendar
+            cal.year++;
+            cal.onNewYear(i + 1 == amt);
         }
 
         if (amt == 1) {
