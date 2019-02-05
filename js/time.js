@@ -684,8 +684,8 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
     renderLinks: function(){
         var self = this;
 
-        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
         this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
+        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
     },
 
     update: function(){
