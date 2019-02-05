@@ -545,14 +545,14 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var self = this;
         var model = this.inherited(arguments);
         model.x5Link = {
-            visible: this._canAfford(model) >= 5,
+            visible: this._canAfford(model, 5),
             title: "x5",
             handler: function(event) {
                 self.doShatterAmt(model, 5);
             }
         },
         model.x100Link = {
-            visible: this._canAfford(model) >= 100,
+            visible: this._canAfford(model, 100),
             title: "x100",
             handler: function(event) {
                 self.doShatterAmt(model, 100);
@@ -630,8 +630,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         return true;
     },
 
-    _canAfford: function(model) {
-        return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
+    _canAfford: function(model, amt) {
+        return this.getPricesMultiple(model, amt) <= this.game.resPool.get("timeCrystal").value;
     },
 
     doShatterAmt: function(model, amt) {
