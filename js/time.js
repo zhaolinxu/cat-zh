@@ -394,6 +394,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var routeSpeed = game.getEffect("routeSpeed") || 1;
         var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var resonance = this.game.getEffect("voidResonance");
+        var triggerOotV = resonance && this.game.prestige.getPerk("voidOrder").researched;
 
         var daysPerYear = cal.daysPerSeason * 4;
         var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
@@ -402,6 +404,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         for (var i = 0; i < amt; i++) {
             var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
+            var remainingTicksInCurrentYear = remainingDaysInCurrentYear / cal.dayPerTick;
 
             // Space ETA
             for (var j in game.space.planets) {
@@ -414,20 +417,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             // ShatterTC gain
             if (shatterTCGain > 0) {
                 for (var j = 0; j < game.resPool.resources.length; j++) {
-                    var res = game.resPool.resources[j];
-                    var valueAdd = game.getResourcePerTick(res.name, true) * remainingDaysInCurrentYear / cal.dayPerTick * shatterTCGain;
-
-                    if (res.name != "faith") {
-                        game.resPool.addResEvent(res.name, valueAdd);
-                    } else {
-                        var resonatorAmt = this.game.time.getVSU("voidResonator").val;
-                        if (resonatorAmt) {
-                            //TBH i'm not sure at all how it supposed to work
-                            game.resPool.addResEvent(res.name, Math.sqrt(resonatorAmt) * 0.01 * valueAdd);
-                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
-                        }
+                    var resName = game.resPool.resources[j].name;
+                    var valueAdd = game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain;
+                    if (resName == "faith") {
+                        valueAdd *= Math.sqrt(this.game.getEffect("voidResonance") / 1000);
                     }
+                    game.resPool.addResEvent(resName, valueAdd);
+                    //if (resName == "faith") console.log(100 * Math.sqrt(this.game.getEffect("voidResonance") / 1000), "% of total ", game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain);
                 }
+            }
+
+            if (triggerOotV) {
+                var orderBonus = game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
+                game.religion.faith += remainingTicksInCurrentYear * orderBonus * (1 + game.religion.getFaithBonus() * 0.25);	//25% of the apocypha bonus
             }
 
             // Calendar

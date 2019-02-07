@@ -1562,7 +1562,7 @@
     "prestige.ascoh.desc":"A Secret Council Of Hats",
 
     "time.vsu.voidResonator.label": "Void Resonator",
-    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skips.",
+    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skip.",
     "science.blackchain.label": "Blackchain",
     "science.blackchain.desc": "All cool cats are mining this, so I think it is some kind of mineral",
     "science.blackchain.effectDesc": "Unlocks cryptomining and blackcoin exchange",
