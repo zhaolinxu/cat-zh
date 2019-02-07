@@ -545,27 +545,17 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var self = this;
         var model = this.inherited(arguments);
         model.x5Link = {
-            visible: this._canAfford(model) >= 5,
-            enabled: true,
+            visible: this._canAfford(model, 5),
             title: "x5",
-            handler: function(event){
-                self.doShatterAmt(model, event, function(result) {
-                    if (result && self.update) {
-                        self.update();
-                    }
-                }, 5);
+            handler: function(event) {
+                self.doShatterAmt(model, 5);
             }
         },
         model.x100Link = {
-            visible: this._canAfford(model) >= 100,
-            enabled: true,
+            visible: this._canAfford(model, 100),
             title: "x100",
-            handler: function(event){
-                self.doShatterAmt(model, event, function(result) {
-                    if (result && self.update) {
-                        self.update();
-                    }
-                }, 100);
+            handler: function(event) {
+                self.doShatterAmt(model, 100);
             }
         };
         return model;
@@ -640,36 +630,25 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         return true;
     },
 
-    _canAfford: function(model) {
-        return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
+    _canAfford: function(model, amt) {
+        return this.getPricesMultiple(model, amt) <= this.game.resPool.get("timeCrystal").value;
     },
 
-    doShatterAmt: function(model, event, callback, amt){
-        if (!amt){
-            amt = 5;
+    doShatterAmt: function(model, amt) {
+        if (!model.enabled) {
+            return;
         }
-        if (model.enabled) {
-            var prices = this.getPricesMultiple(model, amt);
-            var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
-            if (hasRes) {
-                this.game.resPool.addResEvent("timeCrystal", -prices);
-                callback(this.doShatter(model, amt));
-                return;
-            }
+        var price = this.getPricesMultiple(model, amt);
+        if (price <= this.game.resPool.get("timeCrystal").value) {
+            this.game.resPool.addResEvent("timeCrystal", -price);
+            this.doShatter(model, amt);
         }
-        callback(false);
     },
 
-    doShatter: function(model, amt){
-
-	var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+    doShatter: function(model, amt) {
+        var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt*factor;
         this.game.time.shatter(amt);
-
-        /*var fueling = 100 * amt;				//add 100 fuel per TC
-        this.game.time.heat += amt*10;
-        this.game.time.getCFU("blastFurnace").heat += fueling;
-        return true;*/
     },
 
     updateVisible: function(model){
@@ -680,22 +659,17 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     /**
      * TODO: this is a horrible pile of copypaste, can we fix it somehow?
+     * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function(){
-        var self = this;
-
-        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
         this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
+        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
-        if (this.x5) {
-            dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
-        }
-        if (this.x100) {
-            dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
-        }
+        dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
+        dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
     }
 });
 
