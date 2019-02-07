@@ -1137,7 +1137,7 @@
     "religion.zu.blackPyramid.flavor":"What have we done?!",
     "religion.ru.solarchant.desc": "Improves your faith generation rate by 10%",
     "religion.ru.solarchant.label": "Solar Chant",
-    "religion.ru.scholasticism.desc": "Temples will give a bonus to science",
+    "religion.ru.scholasticism.desc": "Temples will give a bonus to max science",
     "religion.ru.scholasticism.label": "Scholasticism",
     "religion.ru.goldenSpire.desc": "Temples can store 50% more max faith",
     "religion.ru.goldenSpire.label": "Golden Spire",
@@ -1562,7 +1562,7 @@
     "prestige.ascoh.desc":"A Secret Council Of Hats",
 
     "time.vsu.voidResonator.label": "Void Resonator",
-    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skips.",
+    "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skip.",
     "science.blackchain.label": "Blackchain",
     "science.blackchain.desc": "All cool cats are mining this, so I think it is some kind of mineral",
     "science.blackchain.effectDesc": "Unlocks cryptomining and blackcoin exchange",
@@ -1594,7 +1594,7 @@
     "village.tab.title.deities":"Deities",
     "science.exogeophysics.label":"Exophysics",
     "science.exogeophysics.desc":"A study of geophysics on a massive scale of planetary bodies",
-    "science.exogeophysics.effectDesc":"Unlocks Molter Cores",
+    "science.exogeophysics.effectDesc":"Unlocks Molten Cores",
     "space.planet.centaurusSystem.moltenCore.label":"Molten Core",
     "space.planet.centaurusSystem.moltenCore.desc":"Every level of Molten Core improves Tectonic effectiveness by 5%",
     
