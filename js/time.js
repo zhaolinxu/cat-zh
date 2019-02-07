@@ -544,18 +544,18 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     fetchModel: function(options) {
         var self = this;
         var model = this.inherited(arguments);
-        model.x5Link = {
-            visible: this._canAfford(model, 5),
-            title: "x5",
+        model.x6Link = {
+            visible: this._canAfford(model, 6),
+            title: "x6",
             handler: function(event) {
-                self.doShatterAmt(model, 5);
+                self.doShatterAmt(model, 6);
             }
         },
-        model.x100Link = {
-            visible: this._canAfford(model, 100),
-            title: "x100",
+        model.x54Link = {
+            visible: this._canAfford(model, 54),
+            title: "x54",
             handler: function(event) {
-                self.doShatterAmt(model, 100);
+                self.doShatterAmt(model, 54);
             }
         };
         return model;
@@ -662,14 +662,14 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
      * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function(){
-        this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
-        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
+        this.x54 = this.addLink(this.model.x54Link.title, this.model.x54Link.handler, false);
+        this.x6 = this.addLink(this.model.x6Link.title, this.model.x6Link.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
-        dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
-        dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
+        dojo.style(this.x6.link, "display", this.model.x6Link.visible ? "" : "none");
+        dojo.style(this.x54.link, "display", this.model.x54Link.visible ? "" : "none");
     }
 });
 
