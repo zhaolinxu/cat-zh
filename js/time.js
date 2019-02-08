@@ -362,6 +362,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidResonator.label"),
         description: $I("time.vsu.voidResonator.desc"),
         prices: [
+            { name: "void", val: 50 },
             { name: "timeCrystal", val: 1000 },
             { name: "relic", val: 10000 }
         ],
