@@ -429,7 +429,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
 
             if (triggerOotV) {
-                var orderBonus = remainingTicksInCurrentYear * game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
+                var orderBonus = remainingTicksInCurrentYear * game.calcResourcePerTick("faith") * 0.1 * (1 + resonance);	//10% of faith transfer per priest
                 game.religion.faith += orderBonus * faithBonus;	//25% of the apocrypha bonus
                 game.resPool.addResEvent("faith", -orderBonus);
             }

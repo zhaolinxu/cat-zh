@@ -116,7 +116,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched) {
-			var orderBonus = this.game.calcResourcePerTick("faith") * (0.1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
+			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
 			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
 			this.game.resPool.addResEvent("faith", -orderBonus);
 		}
@@ -160,7 +160,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched) {
-			var orderBonus = times * this.game.calcResourcePerTick("faith") * (0.1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
+			var orderBonus = times * this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
 			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
 			this.game.resPool.addResEvent("faith", -orderBonus);
 		}
