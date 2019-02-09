@@ -517,10 +517,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-			calendarDiv.innerHTML = "Year " + year + " - " +
-                seasonTitle + mod + ", day " + calendar.integerDay();
-            document.title = "Kittens Game - Year " + calendar.year + ", " +
-                seasonTitle + ", d. " + calendar.integerDay();
+            calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, calendar.integerDay()]);
+            // TODO i18n
+            document.title = "Kittens Game - Year " + calendar.year + ", " + seasonTitle + ", d. " + calendar.integerDay();
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
