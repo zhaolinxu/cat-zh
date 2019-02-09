@@ -362,6 +362,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidResonator.label"),
         description: $I("time.vsu.voidResonator.desc"),
         prices: [
+            { name: "void", val: 50 },
             { name: "timeCrystal", val: 1000 },
             { name: "relic", val: 10000 }
         ],
@@ -394,8 +395,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var routeSpeed = game.getEffect("routeSpeed") || 1;
         var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
-        var resonance = this.game.getEffect("voidResonance");
-        var triggerOotV = resonance && this.game.prestige.getPerk("voidOrder").researched;
+        var resonance = game.getEffect("voidResonance");
+        var triggerOotV = resonance && game.prestige.getPerk("voidOrder").researched;
+        var faithBonus = 1 + game.religion.getFaithBonus() * 0.25;	//25% of the apocrypha bonus
 
         var daysPerYear = cal.daysPerSeason * 4;
         var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
@@ -428,8 +430,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
 
             if (triggerOotV) {
-                var orderBonus = game.calcResourcePerTick("faith") * (0.1 + resonance);	//10% of faith transfer per priest
-                game.religion.faith += remainingTicksInCurrentYear * orderBonus * (1 + game.religion.getFaithBonus() * 0.25);	//25% of the apocypha bonus
+                var orderBonus = remainingTicksInCurrentYear * game.calcResourcePerTick("faith") * 0.1 * (1 + resonance);	//10% of faith transfer per priest
+                game.religion.faith += orderBonus * faithBonus;	//25% of the apocrypha bonus
+                game.resPool.addResEvent("faith", -orderBonus);
             }
 
             // Calendar
