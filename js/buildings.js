@@ -1108,29 +1108,27 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"oilPerTickBase" : 0,
-			"oilMax" : 0,
+			"oilPerTickBase" : 0.02,
+			"oilMax" : 1500,
 			"energyConsumption": 0
 		},
-		calculateEffects: function(self, game){
-			var effects = {
-				"oilPerTickBase" : 0.02,
-				"oilMax" : 1500,
-				"energyConsumption": 0
-			};
-
-			var ratio = 1 + game.getEffect("oilWellRatio");
-			effects["oilPerTickBase"] *= ratio;
-
-			if (game.workshop.get("pumpjack").researched){
-				effects["energyConsumption"] = 1;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
-				self.togglable = true;
+		calculateEffects: function(self, game) {
+			var hasPumpjack = game.workshop.get("pumpjack").researched;
+			self.togglable = hasPumpjack;
+			if (self.isAutomationEnabled == null && hasPumpjack) {
+				self.isAutomationEnabled = true;
 			}
+		},
+		action: function(self, game) {
+			var oilRatio = 1 + game.getEffect("oilWellRatio");
+			if (self.isAutomationEnabled == false) {
+				oilRatio -= game.workshop.get("pumpjack").effects["oilWellRatio"];
+			}
+			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
-			self.effects = effects;
+			self.effects["energyConsumption"] = self.isAutomationEnabled
+				? game.challenges.currentChallenge == "energy" ? 2 : 1
+				: 0;
 		},
 		flavor: $I("buildings.oilWell.flavor")
 	},
