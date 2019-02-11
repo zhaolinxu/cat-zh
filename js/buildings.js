@@ -1201,33 +1201,32 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["harbor"]
 		},
 		effects: {
-			"uraniumPerTick" : 0,
+			"uraniumPerTick" : -0.001,
 			"thoriumPerTick": 0,
 			"productionRatio": 0.05,
 			"uraniumMax" : 250,
-			"energyProduction" : 0
+			"energyProduction" : 10
 		},
-		calculateEffects: function(self, game){
+		calculateEffects: function(self, game) {
 			self.effects["uraniumPerTick"]= -0.001 * (1 - game.getEffect("uraniumRatio"));
+			if (self.isAutomationEnabled == null && game.workshop.get("thoriumReactors").researched) {
+				self.isAutomationEnabled = true;
+			}
 		},
-		action: function(self, game){
-			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0){
+		action: function(self, game) {
+			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0) {
 				self.on = 0;
 			}
 
-			self.effects["thoriumPerTick"] = game.getEffect("reactorThoriumPerTick");
-			self.effects["energyProduction"] = 10 * ( 1+ game.getEffect("reactorEnergyRatio"));
+			var stopAutomation = self.isAutomationEnabled == false || (self.isAutomationEnabled && game.resPool.get("thorium").value <= 0);
+			self.effects["thoriumPerTick"] = stopAutomation ? 0 : game.getEffect("reactorThoriumPerTick");
 
-			if (game.workshop.get("thoriumReactors").researched) {
-				if (self.isAutomationEnabled == null) {
-					self.isAutomationEnabled = true;
-				}
-				if (game.resPool.get("thorium").value == 0 || self.isAutomationEnabled == false) {
-					self.effects["thoriumPerTick"] = 0;
-					self.effects["energyProduction"] -= 2.5;
-					self.isAutomationEnabled = false;
-				}
+			var energyRatio = 1 + game.getEffect("reactorEnergyRatio");
+			if (stopAutomation) {
+				energyRatio -= game.workshop.get("thoriumReactors").effects["reactorEnergyRatio"];
+				self.isAutomationEnabled = false;
 			}
+			self.effects["energyProduction"] = 10 * energyRatio;
 		},
 		flavor: $I("buildings.reactor.flavor")
 	},{
