@@ -295,13 +295,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	/* Return the whole number of days elapsed in the season, correcting for
-	 possible floating-point errors.
-	 */
-	integerDay: function () {
-		return Math.floor(this.day + 0.5 * this.dayPerTick);
-	},
-
 	update: function() {
 
 	},
@@ -344,17 +337,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return this.year - (40000 + impedance);
 	},
 
-	tick: function(){
-
-		/* The behavior is not correct, maybe due to possible float-point. */
-		//TODO: clarify what is exactly wrong
-
-		if (this.game.time.isAccelerated) {
-			this.day += Math.round(this.dayPerTick * ((this.game.getRateUI() - this.game.rate) / this.game.rate) * 10) / 10;	// *.x float point
-		} else {
-			this.day += this.dayPerTick;
-		}
-
+	tick: function() {
 		if(this.observeRemainingTime > 0){
 			this.observeRemainingTime--;
 			if(this.observeRemainingTime == 0){
@@ -362,45 +345,49 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-		//this.day += this.dayPerTick;
+		var previousIntDay = Math.floor(this.day);
+		this.day += this.dayPerTick * (1 + this.game.timeAccelerationRatio());
+		this._roundToCentiday();
 
-		var intday = this.integerDay(),
-			newseason = false,
-			newyear = false;
-
-		if (Math.abs(this.day - intday) < 0.5 * this.dayPerTick) {
-			this.day = intday; /* minimize floating point error */
-
-			if (this.day >= this.daysPerSeason) {
-				this.day = 0;
-				this.season += 1;
-				newseason = true;
-
-				if (this.season >= this.seasons.length) {
-					this.season = 0;
-					if (!(this.game.challenges.currentChallenge == "1000Years" && this.year >= 500)) {
-						this.year += 1;
-					}
-					newyear = true;
-				}
-			}
-
-			/*The new date must be fully computed before any of the individual onNew functions are called
-			 to ensure the onNew functions have a consistent view of what the current date is.
-			 */
-			this.onNewDay();
-			if (newseason) {
-				this.onNewSeason();
-				if (newyear) {
-					this.onNewYear(true);
-				}
-			}
-
-			/* The update function must be called after the onNew functions, which may make changes
-			 that need to be visible (e.g. showing events in the document title)
-			 */
-			this.update();
+		if (Math.floor(this.day) == previousIntDay) {
+			return;
 		}
+
+		var newSeason = false;
+		var newYear = false;
+		if (this.day >= this.daysPerSeason) {
+			this.day -= this.daysPerSeason;
+			this._roundToCentiday();
+			this.season += 1;
+			newSeason = true;
+
+			if (this.season >= this.seasons.length) {
+				this.season = 0;
+				this.year += this.game.challenges.currentChallenge == "1000Years" && this.year >= 500 ? 0 : 1;
+				newYear = true;
+			}
+		}
+
+		/*The new date must be fully computed before any of the individual onNew functions are called
+		 to ensure the onNew functions have a consistent view of what the current date is.
+		 */
+		this.onNewDay();
+		if (newSeason) {
+			this.onNewSeason();
+			if (newYear) {
+				this.onNewYear(true);
+			}
+		}
+
+		/* The update function must be called after the onNew functions, which may make changes
+		 that need to be visible (e.g. showing events in the document title)
+		 */
+		this.update();
+	},
+
+	// minimize floating point error 
+	_roundToCentiday() {
+		this.day = Math.round(this.day * 100) / 100;
 	},
 
 	/*

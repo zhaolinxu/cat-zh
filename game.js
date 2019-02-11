@@ -2497,7 +2497,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: $I("res.stack.time"),
 			type: "ratio",
-			value: (this.getRateUI() - this.rate) / this.rate
+			value: this.timeAccelerationRatio()
 		});
 
 		return stack;
@@ -2589,8 +2589,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.afterUpdate();
 	},
 
-	getRateUI: function(){
-		return this.time.isAccelerated ? this.rate * 1.5 : this.rate;
+	getRateUI: function() {
+		return this.rate * (1 + this.timeAccelerationRatio());
+	},
+
+	timeAccelerationRatio: function() {
+		return this.time.isAccelerated ? 0.5 : 0;
 	},
 
 	/**
