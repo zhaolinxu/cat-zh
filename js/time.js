@@ -72,11 +72,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		var temporalAccelerator = this.getCFU("temporalAccelerator");
 		var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
-		var temporalFluxGained = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
+		var temporalFluxGained = Math.round(delta / ( 60 * 1000 ) * (this.game.ticksPerSecond * energyRatio)); // 5 every 60 seconds
 
 		var temporalFluxAdded = this.game.resPool.addResEvent("temporalFlux", temporalFluxGained);
 
-		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
+		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
             this.game.msg("You have recharged " + bonusSeconds + " second"
 				+ (bonusSeconds > 1 ? "s" : "") + " of temporal flux");
@@ -147,10 +147,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            return;
         }
 
-        var offset = 400 * 10;  //10 years
-        if (this.game.calendar.year >= 1000 || this.game.resPool.get("paragon").value > 0){
-            offset = 400 * 40;
-        }
+        var maxYears = this.game.calendar.year >= 1000 || this.game.resPool.get("paragon").value > 0 ? 40 : 10;
+        var offset = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear * maxYears;
 
         //limit redshift offset by 1 year
         if (daysOffset > offset){
@@ -374,7 +372,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     }],
 
 	effectsBase: {
-		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.rate)
+		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.ticksPerSecond)
         "heatMax": 100,
         "heatPerTick" : -0.01
 	},
@@ -399,14 +397,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var triggerOotV = resonance && game.prestige.getPerk("voidOrder").researched;
         var faithBonus = 1 + game.religion.getFaithBonus() * 0.25;	//25% of the apocrypha bonus
 
-        var daysPerYear = cal.daysPerSeason * 4;
-        var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
         cal.day = 0;
         cal.season = 0;
 
         for (var i = 0; i < amt; i++) {
             var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
-            var remainingTicksInCurrentYear = remainingDaysInCurrentYear / cal.dayPerTick;
+            var remainingTicksInCurrentYear = remainingDaysInCurrentYear * cal.ticksPerDay;
 
             // Space ETA
             for (var j in game.space.planets) {
@@ -520,7 +518,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
     update: function(){
         this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        var second = this.game.resPool.get("temporalFlux").value / this.game.rate;
+        var second = this.game.resPool.get("temporalFlux").value / this.game.ticksPerSecond;
         if (second >= 1){
             this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
         }

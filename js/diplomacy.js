@@ -319,7 +319,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
         elders.unlocked = true;
-        elders.duration += 400 *  (5  + 1 * elders.energy )  /*5 years + 1 per energy unit*/;
+        elders.duration += this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);	//5 years + 1 per energy unit
 
         this.game.msg($I("trade.msg.elders"), "notice");
     },
@@ -361,7 +361,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 		if (race.name == "leviathans") {
 			//reset energy to default limit
-			race.duration = Math.min(race.duration, 400 + 100 * race.energy)
+			race.duration = Math.min(race.duration, this.game.calendar.daysPerSeason * (this.game.calendar.seasonsPerYear + race.energy))
 		}
 
 		var bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;

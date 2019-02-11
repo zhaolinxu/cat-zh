@@ -356,7 +356,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var previousIntDay = Math.floor(this.day);
-		this.day += this.dayPerTick * (1 + this.game.timeAccelerationRatio());
+		this.day += (1 + this.game.timeAccelerationRatio()) / this.ticksPerDay;
 		this._roundToCentiday();
 
 		if (Math.floor(this.day) == previousIntDay) {
@@ -717,7 +717,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		totalNumberOfEvents+=numberEvents;
 
-		var yearsOffset = Math.floor(daysOffset / 400);
+		var yearsOffset = Math.floor(daysOffset / (this.daysPerSeason * this.seasonsPerYear));
 
 		//antimatter
 		var resPool = this.game.resPool;
@@ -862,18 +862,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-		//this.adjustCryptoPrices(400);
-
 		if (updateUI) {
 			this.game.ui.render();
 		}
 	},
 
-	/* Use 400 ratio for 1 day, 1 ratio for 1 year*/
-	adjustCryptoPrices: function(ratio){
-
-		ratio = ratio || 1;
-
+	adjustCryptoPrices: function() {
 		if (this.game.science.get("antimatter").researched) {
 			var marketFluctuation = this.game.rand(100000);
 

@@ -92,7 +92,8 @@ dojo.declare("classes.managers.StatsManager", com.nuclearunicorn.core.TabManager
         title: $I("stats.time.current"),
         val: 0,
         calculate: function (game) {
-            var cDay = ((game.calendar.year * 400) + ((game.calendar.season - 1) * 100) + game.calendar.day);
+            var cal = game.calendar;
+            var cDay = (cal.year * cal.seasonsPerYear + cal.season - 1) * cal.daysPerSeason + cal.day;
             return Math.round(cDay / 1800 * 10) / 10;
         },
         unlocked: false

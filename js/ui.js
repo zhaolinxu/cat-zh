@@ -541,7 +541,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#undoBtn").toggle(isVisible);
 
         if (isVisible) {
-            $("#undoBtn").html("undo (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "s)");
+            $("#undoBtn").html("undo (" + Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond) + "s)");
         }
     },
 
@@ -564,8 +564,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             "catnip" : 0.25
         }});	//calculate estimate winter per tick for catnip;
 
-        if (this.game.resPool.get("catnip").value + ( winterDays * catnipPerTick / calendar.dayPerTick ) <= 0 ){
-            advDiv.innerHTML = "<span>"+$I("general.food.advisor.text")+"<span>";
+        if (this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0) {
+            advDiv.innerHTML = "<span>" + $I("general.food.advisor.text") + "<span>";
         }
     },
 

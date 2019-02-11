@@ -2171,7 +2171,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
-			var effectPerTick = ( 1 / (600 * this.game.rate)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
+			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
 
 			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
@@ -2229,11 +2229,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-		this.fastforward(this.game.calendar.dayPerTick);
+		this.fastforward(1 / this.game.calendar.ticksPerDay);
 	},
 
 	fastforward: function(daysOffset) {
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
