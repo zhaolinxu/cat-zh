@@ -829,11 +829,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
-		this.cycleYear++;
-		if (this.cycleYear > this.yearsPerCycle){
+		if (++this.cycleYear >= this.yearsPerCycle) {
 			this.cycleYear = 0;
-			this.cycle++;
-			if (this.cycle >= this.cyclesPerEra){
+			if (++this.cycle >= this.cyclesPerEra) {
 				this.cycle = 0;
 			}
 		}
