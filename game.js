@@ -1593,7 +1593,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImport: function(){
-		if (!window.confirm("你确定吗？这将会覆盖你现在的游戏进度!")){
+		if (!window.confirm($I("save.msg.confirm"))){
 			return;
 		}
 		var data = $("#importData").val();

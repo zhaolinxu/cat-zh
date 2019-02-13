@@ -990,80 +990,64 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		jammed: false,
 		togglableOnOff: true,
-		action: function(self, game){
-			if (self.on < 1){
+		action: function(self, game) {
+			if (self.on < 1 || self.jammed || !game.workshop.get("factoryAutomation").researched) {
 				return;
 			}
 
-			if (game.workshop.get("factoryAutomation").researched && !self.jammed){
-				if (self.isAutomationEnabled == null) {
-					self.isAutomationEnabled = true;
-				}
-
-				var baseAutomationRate = 0.02;
-
-				var wood = game.resPool.get("wood");
-				var minerals = game.resPool.get("minerals");
-				var iron = game.resPool.get("iron");
-
-				if (wood.maxValue == 0 || minerals.maxValue == 0) {
-					// Hack to prevent factory automation from starting
-					// when the page is first loaded, before caps are
-					return;
-				}
-				if (
-					wood.value >= wood.maxValue * (1 - baseAutomationRate) ||
-					minerals.value >= minerals.maxValue * (1 - baseAutomationRate) ||
-
-					(game.workshop.get("pneumaticPress").researched &&
-						iron.value >= iron.maxValue * (1 - baseAutomationRate))
-				){
-					if (!self.isAutomationEnabled){
-						game.msg($I("bld.msg.automation.skip"), null, "workshopAutomation");
-						self.jammed = true;
-						return;
-					}
-				} else {
-					return;
-				}
-
-				var ratio = game.getCraftRatio();
-				// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-				var automationRate = Math.min(baseAutomationRate + baseAutomationRate * self.on, 0.9);
-
-				if (game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
-					var autoIron = iron.value * (automationRate);
-
-					if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-						var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
-						game.workshop.craft("plate", amt);
-
-						game.msg($I("bld.msg.automation.plates", [game.getDisplayValueExt(autoIron), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
-					}
-				}
-
-				if (minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
-					var autoMinerals = minerals.value * (automationRate);
-					if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-						var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
-						game.workshop.craft("slab", amt);
-						game.msg($I("bld.msg.automation.slabs", [game.getDisplayValueExt(autoMinerals), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
-					}
-				}
-
-				if (wood.value >= wood.maxValue * (1 - baseAutomationRate)){
-					var autoWood = wood.value * (automationRate);
-					if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
-						var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
-						game.workshop.craft("beam", amt);
-
-						game.msg($I("bld.msg.automation.beams", [game.getDisplayValueExt(autoWood), game.getDisplayValueExt(amt + amt * ratio)]), null, "workshopAutomation", true);
-					}
-				}
-
-				game.msg($I("bld.msg.automation"), null, "workshopAutomation");
-				self.jammed = true;				//Jam until next year
+			if (self.isAutomationEnabled == null) {
+				self.isAutomationEnabled = true;
 			}
+
+			var wood = game.resPool.get("wood");
+			var minerals = game.resPool.get("minerals");
+			var iron = game.resPool.get("iron");
+
+			if (wood.maxValue == 0 || minerals.maxValue == 0) {
+				// Hack to prevent factory automation from starting
+				// when the page is first loaded, before caps are
+				return;
+			}
+
+			var baseAutomationRate = 0.02;
+			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
+			var automationRate = Math.min(baseAutomationRate * self.on, 0.9);
+
+			function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+				var consumedQuantity = consumedResource.value * automationRate;
+				return {
+					numberOfCrafts: isAllowed && consumedResource.value >= consumedResource.maxValue * (1 - baseAutomationRate)
+						? Math.max(0, Math.floor(consumedQuantity / game.workshop.getCraft(craftedResourceName).prices[0].val))
+						: 0,
+					craft: function() {
+						if (this.numberOfCrafts > 0) {
+							game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+							game.msg($I("bld.msg.automation." + craftedResourceName + "s", [game.getDisplayValueExt(consumedQuantity), game.getDisplayValueExt(this.numberOfCrafts * (1 + game.getCraftRatio()))]), null, "workshopAutomation", true);
+						}
+					}
+				};
+			}
+
+			var beamCrafter = newCrafter(wood, "beam", true);
+			var slabCrafter = newCrafter(minerals, "slab", true);
+			var plateCrafter = newCrafter(iron, "plate", game.workshop.get("pneumaticPress").researched);
+
+			if (beamCrafter.numberOfCrafts == 0 && slabCrafter.numberOfCrafts == 0 && plateCrafter.numberOfCrafts == 0) {
+				return;
+			}
+
+			//Jam until next year
+			self.jammed = true;
+
+			if (!self.isAutomationEnabled) {
+				game.msg($I("bld.msg.automation.skip"), null, "workshopAutomation");
+				return;
+			}
+
+			plateCrafter.craft();
+			slabCrafter.craft();
+			beamCrafter.craft();
+			game.msg($I("bld.msg.automation"), null, "workshopAutomation");
 		},
 		flavor: $I("buildings.steamworks.flavor")
 	},{
@@ -1124,29 +1108,27 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"oilPerTickBase" : 0,
-			"oilMax" : 0,
+			"oilPerTickBase" : 0.02,
+			"oilMax" : 1500,
 			"energyConsumption": 0
 		},
-		calculateEffects: function(self, game){
-			var effects = {
-				"oilPerTickBase" : 0.02,
-				"oilMax" : 1500,
-				"energyConsumption": 0
-			};
-
-			var ratio = 1 + game.getEffect("oilWellRatio");
-			effects["oilPerTickBase"] *= ratio;
-
-			if (game.workshop.get("pumpjack").researched){
-				effects["energyConsumption"] = 1;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
-				self.togglable = true;
+		calculateEffects: function(self, game) {
+			var hasPumpjack = game.workshop.get("pumpjack").researched;
+			self.togglable = hasPumpjack;
+			if (self.isAutomationEnabled == null && hasPumpjack) {
+				self.isAutomationEnabled = true;
 			}
+		},
+		action: function(self, game) {
+			var oilRatio = 1 + game.getEffect("oilWellRatio");
+			if (self.isAutomationEnabled == false) {
+				oilRatio -= game.workshop.get("pumpjack").effects["oilWellRatio"];
+			}
+			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
-			self.effects = effects;
+			self.effects["energyConsumption"] = self.isAutomationEnabled
+				? game.challenges.currentChallenge == "energy" ? 2 : 1
+				: 0;
 		},
 		flavor: $I("buildings.oilWell.flavor")
 	},
@@ -1217,33 +1199,32 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["harbor"]
 		},
 		effects: {
-			"uraniumPerTick" : 0,
+			"uraniumPerTick" : -0.001,
 			"thoriumPerTick": 0,
 			"productionRatio": 0.05,
 			"uraniumMax" : 250,
-			"energyProduction" : 0
+			"energyProduction" : 10
 		},
-		calculateEffects: function(self, game){
+		calculateEffects: function(self, game) {
 			self.effects["uraniumPerTick"]= -0.001 * (1 - game.getEffect("uraniumRatio"));
+			if (self.isAutomationEnabled == null && game.workshop.get("thoriumReactors").researched) {
+				self.isAutomationEnabled = true;
+			}
 		},
-		action: function(self, game){
-			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0){
+		action: function(self, game) {
+			if (game.resPool.get("uranium").value + self.effects["uraniumPerTick"] <= 0) {
 				self.on = 0;
 			}
 
-			self.effects["thoriumPerTick"] = game.getEffect("reactorThoriumPerTick");
-			self.effects["energyProduction"] = 10 * ( 1+ game.getEffect("reactorEnergyRatio"));
+			var stopAutomation = self.isAutomationEnabled == false || (self.isAutomationEnabled && game.resPool.get("thorium").value <= 0);
+			self.effects["thoriumPerTick"] = stopAutomation ? 0 : game.getEffect("reactorThoriumPerTick");
 
-			if (game.workshop.get("thoriumReactors").researched) {
-				if (self.isAutomationEnabled == null) {
-					self.isAutomationEnabled = true;
-				}
-				if (game.resPool.get("thorium").value == 0 || self.isAutomationEnabled == false) {
-					self.effects["thoriumPerTick"] = 0;
-					self.effects["energyProduction"] -= 2.5;
-					self.isAutomationEnabled = false;
-				}
+			var energyRatio = 1 + game.getEffect("reactorEnergyRatio");
+			if (stopAutomation) {
+				energyRatio -= game.workshop.get("thoriumReactors").effects["reactorEnergyRatio"];
+				self.isAutomationEnabled = false;
 			}
+			self.effects["energyProduction"] = 10 * energyRatio;
 		},
 		flavor: $I("buildings.reactor.flavor")
 	},{
@@ -1966,83 +1947,74 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	fastforward: function(daysOffset) {
 		var game = this.game;
-		if (game.workshop.get("factoryAutomation").researched){
-			var steamworks = this.get("steamworks");
-			if (steamworks.isAutomationEnabled == null) {
-				steamworks.isAutomationEnabled = true;
-			}
-
-			var daysPerSeason = this.game.calendar.daysPerSeason;
-			var twiceAYear = this.game.workshop.get("advancedAutomation").researched;
-
-			var numberOfAutomations = Math.floor((daysOffset / daysPerSeason) * (twiceAYear? 0.5 : 0.25));
-
-
-			var baseAutomationRate = 0.02;
-
-			var wood = game.resPool.get("wood");
-			var minerals = game.resPool.get("minerals");
-			var iron = game.resPool.get("iron");
-
-			if (wood.maxValue == 0 || minerals.maxValue == 0) {
-				// Hack to prevent factory automation from starting
-				// when the page is first loaded, before caps are
-				return;
-			}
-			if (
-				wood.value >= wood.maxValue * (1 - baseAutomationRate) ||
-				minerals.value >= minerals.maxValue * (1 - baseAutomationRate) ||
-
-				(game.workshop.get("pneumaticPress").researched &&
-					iron.value >= iron.maxValue * (1 - baseAutomationRate))
-			){
-				if (!steamworks.isAutomationEnabled){
-					steamworks.jammed = true;
-					return;
-				}
-			} else {
-				return;
-			}
-
-			var ratio = game.getCraftRatio();
-			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-			var automationRate = Math.min(baseAutomationRate + baseAutomationRate * steamworks.on, 0.9);
-
-			var i=numberOfAutomations;
-			while (i-- > 0 && game.workshop.get("pneumaticPress").researched && iron.value >= iron.maxValue * (1 - baseAutomationRate)){
-				var autoIron = Math.min(iron.value, iron.maxValue) * (automationRate);
-
-				if (autoIron > game.workshop.getCraft("plate").prices[0].val){
-					var amt = Math.floor(autoIron / game.workshop.getCraft("plate").prices[0].val);
-					game.workshop.craft("plate", amt);
-				} else {
-					break;
-				}
-			}
-			i=numberOfAutomations;
-			while (i-- > 0 && minerals.value >= minerals.maxValue * (1 - baseAutomationRate)){
-				var autoMinerals = Math.min(minerals.value, minerals.maxValue) * (automationRate);
-				if (autoMinerals > game.workshop.getCraft("slab").prices[0].val){
-					var amt = Math.floor(autoMinerals / game.workshop.getCraft("slab").prices[0].val);
-					game.workshop.craft("slab", amt);
-				} else {
-					break;
-				}
-			}
-
-			i=numberOfAutomations;
-			while (i-- > 0 && wood.value >= wood.maxValue * (1 - baseAutomationRate)){
-				var autoWood = Math.min(wood.value, wood.maxValue) * (automationRate);
-				if (autoWood >= game.workshop.getCraft("beam").prices[0].val){
-					var amt = Math.floor(autoWood / game.workshop.getCraft("beam").prices[0].val);
-					game.workshop.craft("beam", amt);
-				} else {
-					break;
-				}
-			}
-
-			steamworks.jammed = true;				//Jam until next year
+		if (!game.workshop.get("factoryAutomation").researched) {
+			return;
 		}
+
+		var steamworks = this.get("steamworks");
+		if (steamworks.isAutomationEnabled == null) {
+			steamworks.isAutomationEnabled = true;
+		}
+
+		var wood = game.resPool.get("wood");
+		var minerals = game.resPool.get("minerals");
+		var iron = game.resPool.get("iron");
+
+		if (wood.maxValue == 0 || minerals.maxValue == 0) {
+			// Hack to prevent factory automation from starting
+			// when the page is first loaded, before caps are
+			return;
+		}
+
+		var baseAutomationRate = 0.02;
+		// Cap automation at 90% of resource cap to prevent trying to craft more than you have
+		var automationRate = Math.min(baseAutomationRate * steamworks.on, 0.9);
+
+		var automationDelay = this.game.calendar.daysPerSeason * (this.game.workshop.get("advancedAutomation").researched ? 2 : 4);
+		var numberOfAutomations = Math.floor(daysOffset / automationDelay);
+
+		function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+			var consumableQuantity = consumedResource.value;
+			var consumableQuantityThreshold = consumedResource.maxValue * (1 - baseAutomationRate);
+			var price = game.workshop.getCraft(craftedResourceName).prices[0].val;
+
+			var numberOfCrafts = 0;
+			var numberOfCraftsForCurrentAutomation = 0;
+			var remainingAutomations = numberOfAutomations;
+			while (isAllowed && remainingAutomations-- > 0 && consumableQuantity >= consumableQuantityThreshold
+					&& (numberOfCraftsForCurrentAutomation = Math.floor(Math.min(consumableQuantity, consumedResource.maxValue) * automationRate / price)) > 0) {
+				numberOfCrafts += numberOfCraftsForCurrentAutomation;
+				consumableQuantity -= numberOfCraftsForCurrentAutomation * price;
+			}
+
+			return {
+				numberOfCrafts: numberOfCrafts,
+				craft: function() {
+					if (this.numberOfCrafts > 0) {
+						game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+					}
+				}
+			};
+		}
+
+		var beamCrafter = newCrafter(wood, "beam", true);
+		var slabCrafter = newCrafter(minerals, "slab", true);
+		var plateCrafter = newCrafter(iron, "plate", game.workshop.get("pneumaticPress").researched);
+
+		if (beamCrafter.numberOfCrafts == 0 && slabCrafter.numberOfCrafts == 0 && plateCrafter.numberOfCrafts == 0) {
+			return;
+		}
+
+		//Jam until next year
+		steamworks.jammed = true;
+
+		if (!steamworks.isAutomationEnabled) {
+			return;
+		}
+
+		plateCrafter.craft();
+		slabCrafter.craft();
+		beamCrafter.craft();
 	}
 });
 
@@ -2165,10 +2137,6 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		this.game.telemetry.logEvent("building",
 			{name: model.options.building, val: counter}
 		);
-
-		// undo
-		var undo = this.game.registerUndoChange();
-        undo.addEvent("bld", model.options.building, counter);
     },
 
     decrementValue: function(model) {

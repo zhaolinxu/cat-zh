@@ -126,7 +126,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 cfu.action(cfu, this.game);
             }
         }
-	this.calculateRedshift();
+        this.calculateRedshift();
     },
 
     calculateRedshift: function(){
@@ -140,7 +140,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         if (delta <= 0){
             return;
         }
-        var daysOffset = Math.round(delta / (2000/* * this.game.rate*/));
+        var daysOffset = Math.round(delta / 2000);
 
         /*avoid shift because of UI lags*/
         if (daysOffset < 3){
@@ -157,35 +157,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             daysOffset = offset;
         }
 
-        //daysOffset = 4000;
-
         //populate cached per tickValues
         this.game.resPool.update();
         this.game.updateResources();
-        // Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
-        // Idea: relax resource limits temporaraly, load the resource and do workshop, after that enforce limits again.
-        var currentLimits = {};
-
-        var i, res;
-        // calculate resource offsets
-        for (i in this.game.resPool.resources){
-            res = this.game.resPool.resources[i];
-            if (res.name == "catnip" && res.perTickCached < 0){
-                continue;
-            }
-            //NB: don't forget to update resources before calling in redshift
-            if (res.perTickCached) {
-                if (res.maxValue) {
-                    currentLimits[res.name] = Math.max(res.value, res.maxValue);
-                }
-
-                //console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
-                //console.log("resource before adjustment:", res.value);
-                this.game.resPool.addRes(res, res.perTickCached * this.game.rate * daysOffset, false/*event?*/, true/*preventLimitCheck*/);
-                //console.log("resource after adjustment:", res.value);
-
-            }
-        }
+        var resourceLimits = this.game.resPool.fastforward(daysOffset);
 
         var numberEvents = this.game.calendar.fastForward(daysOffset);
         this.game.bld.fastforward(daysOffset);
@@ -194,18 +169,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.game.space.fastforward(daysOffset);
         this.game.religion.fastforward(daysOffset);
 
-        // enforce limits
-        for (i in this.game.resPool.resources){
-            res = this.game.resPool.resources[i];
-            if (!res.maxValue) {
-                continue;
-            }
-            var limit = currentLimits[res.name];
-            if (!limit){
-                continue;
-            }
-            res.value = Math.min(limit, res.value);
-        }
+        this.game.resPool.enforceLimits(resourceLimits);
 
         if (daysOffset > 3) {
             this.game.msg($I("time.redshift", [daysOffset]) + (numberEvents ? $I("time.redshift.ext",[numberEvents]) : ""));
@@ -398,6 +362,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidResonator.label"),
         description: $I("time.vsu.voidResonator.desc"),
         prices: [
+            { name: "void", val: 50 },
             { name: "timeCrystal", val: 1000 },
             { name: "relic", val: 10000 }
         ],
@@ -427,49 +392,52 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         var game = this.game;
         var cal = game.calendar;
+
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var resonance = game.getEffect("voidResonance");
+        var triggerOotV = resonance && game.prestige.getPerk("voidOrder").researched;
+        var faithBonus = 1 + game.religion.getFaithBonus() * 0.25;	//25% of the apocrypha bonus
+
+        var daysPerYear = cal.daysPerSeason * 4;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
         cal.day = 0;
         cal.season = 0;
 
         for (var i = 0; i < amt; i++) {
-            // Calendar
-            cal.year+= 1;
-            cal.onNewYear(i + 1 == amt);
+            var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
+            var remainingTicksInCurrentYear = remainingDaysInCurrentYear / cal.dayPerTick;
+
             // Space ETA
-            var routeSpeed = game.getEffect("routeSpeed") != 0 ? game.getEffect("routeSpeed") : 1;
-            for (var j in game.space.planets){
+            for (var j in game.space.planets) {
                 var planet = game.space.planets[j];
-                if (planet.unlocked && !planet.reached){
-                    planet.routeDays = Math.max(0, planet.routeDays - 400 * routeSpeed);
+                if (planet.unlocked && !planet.reached) {
+                    planet.routeDays = Math.max(0, planet.routeDays - remainingDaysInCurrentYear * routeSpeed);
                 }
             }
+
             // ShatterTC gain
-            var shatterTCGain = game.getEffect("shatterTCGain") * (1+ game.getEffect("rrRatio"));
             if (shatterTCGain > 0) {
-                for (var j = 0; j < game.resPool.resources.length; j++){
-                    var res = game.resPool.resources[j];
-                    var valueAdd = game.getResourcePerTick(res.name, true) * ( 1 / game.calendar.dayPerTick * game.calendar.daysPerSeason * 4) * shatterTCGain;
-
-                    if (res.name != "faith") {
-                        //for faith, use like 1% of the resource pool?
-                        game.resPool.addResEvent(res.name, valueAdd);
-                    } else {
-                        var resonatorAmt = this.game.time.getVSU("voidResonator").val;
-                        if (resonatorAmt) {
-
-                            //TBH i'm not sure at all how it supposed to work
-
-                            var faithTransferAmt = Math.sqrt(resonatorAmt) * 0.01 * valueAdd;
-                            game.resPool.addResEvent(res.name, faithTransferAmt);
-
-                            //console.log("amt transfered:", faithTransferAmt, "%:", Math.sqrt(resonatorAmt), "of total:", valueAdd);
-                        }
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var resName = game.resPool.resources[j].name;
+                    var valueAdd = game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain;
+                    if (resName == "faith") {
+                        valueAdd *= Math.sqrt(this.game.getEffect("voidResonance") / 1000);
                     }
+                    game.resPool.addResEvent(resName, valueAdd);
+                    //if (resName == "faith") console.log(100 * Math.sqrt(this.game.getEffect("voidResonance") / 1000), "% of total ", game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain);
                 }
             }
 
-            /*for (var j = 0; j< 400; j++){
-                this.game.calendar.adjustCryptoPrices(400);
-            }*/
+            if (triggerOotV) {
+                var orderBonus = remainingTicksInCurrentYear * game.calcResourcePerTick("faith") * 0.1 * (1 + resonance);	//10% of faith transfer per priest
+                game.religion.faith += orderBonus * faithBonus;	//25% of the apocrypha bonus
+                game.resPool.addResEvent("faith", -orderBonus);
+            }
+
+            // Calendar
+            cal.year++;
+            cal.onNewYear(i + 1 == amt);
         }
 
         if (amt == 1) {
@@ -581,28 +549,18 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     fetchModel: function(options) {
         var self = this;
         var model = this.inherited(arguments);
-        model.x5Link = {
-            visible: this._canAfford(model) >= 5,
-            enabled: true,
-            title: "x5",
-            handler: function(event){
-                self.doShatterAmt(model, event, function(result) {
-                    if (result && self.update) {
-                        self.update();
-                    }
-                }, 5);
+        model.x6Link = {
+            visible: this._canAfford(model, 6),
+            title: "x6",
+            handler: function(event) {
+                self.doShatterAmt(model, 6);
             }
         },
-        model.x100Link = {
-            visible: this._canAfford(model) >= 100,
-            enabled: true,
-            title: "x100",
-            handler: function(event){
-                self.doShatterAmt(model, event, function(result) {
-                    if (result && self.update) {
-                        self.update();
-                    }
-                }, 100);
+        model.x54Link = {
+            visible: this._canAfford(model, 54),
+            title: "x54",
+            handler: function(event) {
+                self.doShatterAmt(model, 54);
             }
         };
         return model;
@@ -677,36 +635,25 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         return true;
     },
 
-    _canAfford: function(model) {
-        return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
+    _canAfford: function(model, amt) {
+        return this.getPricesMultiple(model, amt) <= this.game.resPool.get("timeCrystal").value;
     },
 
-    doShatterAmt: function(model, event, callback, amt){
-        if (!amt){
-            amt = 5;
+    doShatterAmt: function(model, amt) {
+        if (!model.enabled) {
+            return;
         }
-        if (model.enabled) {
-            var prices = this.getPricesMultiple(model, amt);
-            var hasRes = (prices <= this.game.resPool.get("timeCrystal").value);
-            if (hasRes) {
-                this.game.resPool.addResEvent("timeCrystal", -prices);
-                callback(this.doShatter(model, amt));
-                return;
-            }
+        var price = this.getPricesMultiple(model, amt);
+        if (price <= this.game.resPool.get("timeCrystal").value) {
+            this.game.resPool.addResEvent("timeCrystal", -price);
+            this.doShatter(model, amt);
         }
-        callback(false);
     },
 
-    doShatter: function(model, amt){
-
-	var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+    doShatter: function(model, amt) {
+        var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt*factor;
         this.game.time.shatter(amt);
-
-        /*var fueling = 100 * amt;				//add 100 fuel per TC
-        this.game.time.heat += amt*10;
-        this.game.time.getCFU("blastFurnace").heat += fueling;
-        return true;*/
     },
 
     updateVisible: function(model){
@@ -717,22 +664,17 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     /**
      * TODO: this is a horrible pile of copypaste, can we fix it somehow?
+     * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function(){
-        var self = this;
-
-        this.x5 = this.addLink(this.model.x5Link.title, this.model.x5Link.handler, false);
-        this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
+        this.x54 = this.addLink(this.model.x54Link.title, this.model.x54Link.handler, false);
+        this.x6 = this.addLink(this.model.x6Link.title, this.model.x6Link.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
-        if (this.x5) {
-            dojo.style(this.x5.link, "display", this.model.x5Link.visible ? "" : "none");
-        }
-        if (this.x100) {
-            dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
-        }
+        dojo.style(this.x6.link, "display", this.model.x6Link.visible ? "" : "none");
+        dojo.style(this.x54.link, "display", this.model.x54Link.visible ? "" : "none");
     }
 });
 

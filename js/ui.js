@@ -524,11 +524,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML = " 第"+ year + " 年 - " +
-                seasonTitle + mod + ", " + calendar.integerDay() +" 天";
-            document.title = "猫国建设者 - " + calendar.year + " 年, " +
-                seasonTitle + ", " + calendar.integerDay() +" 天";
-
+            calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, calendar.integerDay()]);
+            // TODO i18n
+            document.title = "猫国建设者 - 第 " + calendar.year + " 年, " + seasonTitle + ", 第 " + calendar.integerDay() + " 天";
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;

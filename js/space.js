@@ -800,12 +800,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					if (game.resPool.get("gflops").value < gflopsPerTick && game.resPool.get("gflops").value > 0){
 						gflopsPerTick = game.resPool.get("gflops").value;
 					}
-					else if(game.resPool.get("gflops").value == 0){
-						return;
-					}
 
-					game.resPool.addResEvent("gflops", -gflopsPerTick);
-					game.resPool.addResEvent("hashrates", gflopsPerTick);
+					if (game.resPool.get("gflops").value != 0) {
+						game.resPool.addResEvent("gflops", -gflopsPerTick);
+						game.resPool.addResEvent("hashrates", gflopsPerTick);
+					}
 
 					var hr = game.resPool.get("hashrates").value,
 						difficulty = 1000,
