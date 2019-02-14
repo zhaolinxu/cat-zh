@@ -209,6 +209,7 @@
     "village.leader.promoted.many.kittens": "你的领袖提拔了 {0} 只小猫",
     "village.general.free.kittens.label": "自由职业",
     "village.kittens.have.best.rank": "你的小猫有当前最高的等级",
+    "village.kittens.promotion.nogold": "没有足够的黄金来提升小猫",
     "village.msg.kitten.has.joined": "一只小猫加入了你的村庄",
     "village.tab.clear.job.confirmation": "你确认?",
     "village.trait.chemist": "化学家",
