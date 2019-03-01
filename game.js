@@ -2405,6 +2405,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +AUTOMATED PRODUCTION SPACE
 		var perTickAutoprodSpaceStack = [];
+		var spaceParagonSubStack = [];
 		//---->
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceConvProd"),
@@ -2416,16 +2417,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.spaceParagon"),
 				type: "ratio",
 				value: paragonSpaceProductionRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.bonusTransf"),
-				type: "ratio",
+				type: "multiplier",
 				value: this.getEffect("prodTransferBonus")
 			});
+			perTickAutoprodSpaceStack.push(spaceParagonSubStack);
 		//<----
 		stack.push(perTickAutoprodSpaceStack);
 
