@@ -2783,7 +2783,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var resString = "";
 		var hasFixed = false;
 
-		for (var i in resStack){
+		for (var i = 0; i < resStack.length; i++) {
 			var stackElem = resStack[i];
 
 			if (stackElem.length){
@@ -2792,9 +2792,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					resString += subStack;
 					hasFixed = true;
 				}
+				continue;
 			}
 
-			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
+			if (!stackElem.value || (stackElem.type != "fixed" && !hasFixed)) {
 				continue;
 			}
 
@@ -2816,10 +2817,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
-		if (stackElem.type == "fixed"){
+		if (stackElem.type == "fixed") {
 			resString += this.getDisplayValueExt(stackElem.value, true, true);
-		} else {
+		} else if (stackElem.type == "ratio") {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		} else if (stackElem.type == "multiplier") {
+			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
 		}
 
 		resString += "</div><br>";
