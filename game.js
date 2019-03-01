@@ -2779,16 +2779,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return resString;
 	},
 
-	processResourcePerTickStack: function(resStack, res, depth){
+	processResourcePerTickStack: function(resStack, res, depth, hasFixed) {
 		var resString = "";
-		var hasFixed = false;
+		if (depth < 2) {
+			hasFixed = false;
+		}
 
 		for (var i = 0; i < resStack.length; i++) {
 			var stackElem = resStack[i];
 
-			if (stackElem.length){
-				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1);
-				if (subStack.length){
+			if (stackElem.length) {
+				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1, hasFixed);
+				if (subStack.length) {
 					resString += subStack;
 					hasFixed = true;
 				}
@@ -2799,10 +2801,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				continue;
 			}
 
-			if (i != 0) {
-				for (var j = 0; j < depth; j++){
-					resString += "|-> ";
-				}
+			var indent = i == 0 ? depth - 1 : depth;
+			for (var j = 0; j < indent - 1; j++) {
+				resString += "<span style='visibility: hidden;'>|-> </span>";
+			}
+			if (indent > 0) {
+				resString += "|-> ";
 			}
 
 			resString += this.getStackElemString(stackElem, res);
