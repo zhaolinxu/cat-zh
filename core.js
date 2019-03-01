@@ -439,8 +439,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		if (bld.noStackable == "undefined") {
 			bld.noStackable = false;
 		}
-		if (bld.name == "reactor" ||
-			bld.name == "calciner") {
+		if (bld.isAutomationEnabled != undefined) {
 			bld.isAutomationEnabled = null;
 		}
 
