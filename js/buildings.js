@@ -2018,7 +2018,49 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
-	}
+	},
+
+	undo: function(data){
+		var metaId = data.metaId,
+		amt = data.val;
+
+		var bldMetaRaw = this.get(metaId),
+			bld = new classes.BuildingMeta(bldMetaRaw).getMeta();	
+
+		//This is probably the most up-to-date and problemless way to manage building models due to the layers and layers 
+		//and layes	of legacy abstractions. I am not happy with it, but c'est la vie.
+		if (data.action == "build"){
+			var props = {
+				key:            bld.name,
+				name:           bld.label,
+				description:    bld.description,
+				building:       bld.name
+			}
+			if (typeof(bld.stages) == "object"){
+				props.controller = new classes.ui.btn.StagingBldBtnController(this.game);
+			} else {
+				props.controller = new classes.ui.btn.BuildingBtnModernController(game);
+			}
+			var model = props.controller.fetchModel(props);
+			model.refundPercentage = 1.0;	//full refund for undo
+
+			//Whoever came with reverse amt notation was probably high. (Was it me?)
+			props.controller.sellInternal(model, model.metadata.val - amt);
+			
+		} else if (data.action == "sell"){
+			//tbd
+			console.warn("Not implemented yet");
+		} else if (data.action == "upgrade"){
+			console.warn("Not implemented yet");
+		} else if (data.action == "downgrade"){
+			console.warn("Not implemented yet");
+		}
+	}/*,
+	
+	refund: function(bldId, amt, refundPercentage){
+		refundPercentage = refundPercentage || 0.5;
+
+	}*/
 });
 
 dojo.declare("classes.game.ui.GatherCatnipButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
@@ -2140,7 +2182,13 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		this.game.telemetry.logEvent("building",
 			{name: model.options.building, val: counter}
 		);
-    },
+		var undo = this.game.registerUndoChange();
+        undo.addEvent("building", {
+			action:"build",
+			metaId: model.options.building,
+			val: counter
+		});
+	},
 
     decrementValue: function(model) {
     	this.inherited(arguments);

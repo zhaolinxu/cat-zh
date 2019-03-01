@@ -2134,7 +2134,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
                 undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
-                    res, amt);
+                    {
+						metaId:res,
+						val: amt
+					}
+				);
             }
 
             return true;
@@ -2173,7 +2177,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 	},
 
-    undo: function(metaId, val){
+    undo: function(data){
+		var metaId = data.metaId,
+			val = data.val;
+			 
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
 			var craftRatio = this.game.getResCraftRatio(res);

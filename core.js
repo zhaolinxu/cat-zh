@@ -807,19 +807,20 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 		callback(false);
 	},
 
-	refund: function(model){
-		if (model.prices.length){
-			for( var i = 0; i < model.prices.length; i++){
-				var price = model.prices[i];
+	refund: function(model){		
+		if (!model.prices.length){
+			console.warn("unable to refund building, no prices specifed in metadata :O");
+			return;
+		}
+		for( var i = 0; i < model.prices.length; i++){
+			var price = model.prices[i];
 
-				var res = this.game.resPool.get(price.name);
-				if (res.refundable) {
-					this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
-				} else {
-					// No refund at all
-				}
+			var res = this.game.resPool.get(price.name);
+			if (res.refundable) {
+				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
+			} else {
+				// No refund at all
 			}
-			model.prices = this.getPrices(model);
 		}
 	}
 });
@@ -1805,13 +1806,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	getSelectedObject: function(){
 		return this.model;
 	},
-
-    undo: function(metaId, val){
-        if (console && console.warn) {
-            console.warn("Not implemented yet!");
-        }
-    },
-
 	/**
 	 * Render button links like off/on and sell
 	 */
