@@ -2222,7 +2222,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
-			spaceRatio -= 1;
 		}
 
 		// +SPACE PerTickBase
