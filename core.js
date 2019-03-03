@@ -483,6 +483,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"trade": {
+				title: "Trade",
+				enabled: true,
+				unlocked: false
+			},
 			"craft": {
 				title: "Craft",
 				enabled: true,
