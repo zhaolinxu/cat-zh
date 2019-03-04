@@ -188,7 +188,7 @@ dojo.declare("classes.game.Server", null, {
 });
 
 /**
- * Undo Change state. Represents a change in one or multiple
+ * Undo Change state. Represents a change in one or multiple managers
  */
 dojo.declare("classes.game.UndoChange", null, {
     _static:{
@@ -201,11 +201,10 @@ dojo.declare("classes.game.UndoChange", null, {
         this.events = [];
     },
 
-    addEvent: function(managerId, metaId, value){
+    addEvent: function(managerId, data){
         var event = {
             managerId: managerId,
-            metaId: metaId,
-            value: value
+            data: data
         };
 
         this.events.push(event);
@@ -3683,7 +3682,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          * I am too tired to write proper logic, let it be simple hashmap of references
          */
         var managers = {
-           "workshop": this.workshop
+		   "workshop": this.workshop,
+		   "building": this.bld
         };
 
         for (var i in this.undoChange.events){
@@ -3691,7 +3691,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             var mgr = managers[event.managerId];
 
             if (mgr && mgr.undo){
-                mgr.undo(event.metaId, event.value);
+                mgr.undo(event.data);
             }
         }
 
