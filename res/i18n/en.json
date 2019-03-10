@@ -235,7 +235,7 @@
     "stats.trades.current": "Trades Completed",
     "stats.crafts.current": "Crafting Times",
     "stats.kittens.current": "Avg. Kittens Born (Per Century)",
-    "stats.time.current": "Time Played (Hours)",
+    "stats.time.current": "Time Played",
     "stats.group.all": "All-Time Stats",
     "stats.group.current": "Current Game Stats",
     "challendge.1000Years.desc": "Restart the game with a half-life time.<br><br>Goal: Reach year 1000.",

@@ -235,7 +235,7 @@
     "stats.trades.current": "交易した回数",
     "stats.crafts.current": "クラフト回数",
     "stats.kittens.current": "平均子猫誕生数(1世紀ごと)",
-    "stats.time.current": "プレイ時間(時間)",
+    "stats.time.current": "プレイ時間",
     "stats.group.all": "すべてのゲームの統計",
     "stats.group.current": "現在のゲームの統計",
     "challendge.1000Years.desc": "目標: 1000年に到達すること。",

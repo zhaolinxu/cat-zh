@@ -235,7 +235,7 @@
     "stats.trades.current": "Échanges Effectués",
     "stats.crafts.current": "Nombre de Fabrications",
     "stats.kittens.current": "Moy. Chatons nés (Par Siècle)",
-    "stats.time.current": "Temps de jeu (Heures)",
+    "stats.time.current": "Temps de jeu",
     "stats.group.all": "Statistiques de tous les temps",
     "stats.group.current": "Statistiques de la partie actuelle",
     "challendge.1000Years.desc": "Objectif : Atteindre l'an 1000.",
