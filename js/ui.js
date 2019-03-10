@@ -284,7 +284,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
 
                 if (game.science.get("paradoxalKnowledge").researched){
-                    var trueYear = Math.trunc(this.year-game.time.flux);
+                    var trueYear = Math.trunc(this.trueYear());
 
                     if (trueYear > 100000){
                         trueYear = trueYear.toLocaleString();

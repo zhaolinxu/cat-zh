@@ -340,6 +340,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		return effects;
 	},
 
+	trueYear: function() {
+		return (this.day / this.daysPerSeason + this.season) / this.seasonsPerYear + this.year - this.game.time.flux;
+	},
+
 	darkFutureYears: function(withImpedance) {
 		var impedance = 0;
                 if (withImpedance)
