@@ -356,8 +356,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		var previousIntDay = Math.floor(this.day);
-		this.day += (1 + this.game.timeAccelerationRatio()) / this.ticksPerDay;
+		var timeAccelerationRatio = this.game.timeAccelerationRatio();
+		this.day += (1 + timeAccelerationRatio) / this.ticksPerDay;
 		this._roundToCentiday();
+
+		var ticksPerYear = this.ticksPerDay * this.daysPerSeason * this.seasonsPerYear;
+		if (this.day < 0){
+			this.game.time.flux -= (1 + timeAccelerationRatio) / ticksPerYear;
+		} else {
+			this.game.time.flux += timeAccelerationRatio / ticksPerYear;
+		}
 
 		if (Math.floor(this.day) == previousIntDay) {
 			return;
@@ -424,10 +432,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.day < 0){
 			//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
-			this.game.time.flux -= 1 / (this.daysPerSeason * this.seasonsPerYear);
-		}
-		//------------------------- relic -------------------------
-		else {
+		} else {
+			//------------------------- relic -------------------------
 			this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay"));
 		}
 

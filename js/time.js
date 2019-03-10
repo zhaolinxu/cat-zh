@@ -444,7 +444,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
         }
 
-        game.time.flux += amt;
+        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
         if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
