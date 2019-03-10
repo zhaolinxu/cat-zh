@@ -431,7 +431,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"energyConsumption": {
 				title: $I("effectsMgr.statics.energyConsumption.title"),
-				type: "energy"
+				type: "energy",
+				calculation: "nonProportional"
             },
 
 			"energyProductionRatio": {
@@ -891,7 +892,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"aiLevel" :  {
 				title: $I("effectsMgr.statics.aiLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"gflopsConsumption" :  {

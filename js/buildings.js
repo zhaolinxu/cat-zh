@@ -1631,27 +1631,30 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"energyConsumption" : 2,
+			"energyConsumption": 2,
 			"gflopsPerTickBase": 0.02
 		},
 		upgrades: {
 			spaceBuilding: ["moonBase"]
 		},
-		action: function(self, game){
-			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
-
+		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
+		// TODO Separation of concerns currently done only for AI Core, will be systematized later
+		updateEffects: function(self, game) {
+			// Core #1: 2   ; Total:  2  ; Average: 2    =  8/4 = (3*1+5)/4
+			// Core #2: 3.5 ; Total:  5.5; Average: 2.75 = 11/4 = (3*2+5)/4
+			// Core #3: 5   ; Total: 10.5; Average: 3.5  = 14/4 = (3*3+5)/4
+			// Core #4: 6.5 ; Total: 17  ; Average: 4.25 = 17/4 = (3*4+5)/4
+			// etc.
+			self.effects["energyConsumption"] = (3 * self.on + 5) / 4;
 			if (game.challenges.currentChallenge == "energy") {
 				self.effects["energyConsumption"] *= 2;
 			}
 
-			var gflops = game.resPool.get("gflops");
-			gflops.value += self.effects["gflopsPerTickBase"] * self.on;
-
-			var aiLevel = 0;
-			if (gflops.value > 1) {
-				aiLevel = Math.round(Math.log(gflops.value));
-			}
-			self.effects["aiLevel"] = aiLevel;
+			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
+		},
+		action: function(self, game) {
+			game.resPool.get("gflops").value += self.effects["gflopsPerTickBase"] * self.on;
+			self.updateEffects(self, game);
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
@@ -1829,7 +1832,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 
-			if (bld.action && (bld.on > 0 || bld.name == "biolab")){
+			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
 					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
