@@ -946,8 +946,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//global cache
 	globalEffectsCached: {},
 
-	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
-	rate: 5,
+	//how much ticks are performed per second (5 ticks per second, 200 ms per tick)
+	ticksPerSecond: 5,
 
 	//I wonder why someone may need this
 	isPaused: false,
@@ -1060,6 +1060,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
+
+		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
+		this.rate = this.ticksPerSecond;
 
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);

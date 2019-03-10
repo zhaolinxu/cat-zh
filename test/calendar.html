@@ -144,7 +144,7 @@
 							break;
 						case "newYear":
 							v = mydate.season + 1;
-							if (v !== cal.seasons.length) {
+							if (v !== cal.seasonsPerYear) {
 								event_error(e.event, "wrong number of seasons in the year: " + v);
 							}
 							break;

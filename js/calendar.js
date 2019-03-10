@@ -204,15 +204,19 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	],
 
+	// Conversion constants (null values are calculated in the constructor)
+	ticksPerDay: 10,
+	daysPerSeason: 100,
+	seasonsPerYear: null,
+	yearsPerCycle: 5,
+	cyclesPerEra: null,
+
 	season: 0,
 	cycle: 0,
 	cycleYear: 0,
-	yearsPerCycle: 5,
 
-	daysPerSeason: 100,
 	day: 0,
 	year: 0,
-	dayPerTick: 0.1,
 
 	eventChance: 0,
 
@@ -289,6 +293,12 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	constructor: function(game, displayElement) {
 		this.game = game;
 		this.displayElement = displayElement;
+
+		this.seasonsPerYear = this.seasons.length;
+		this.cyclesPerEra = this.cycles.length;
+
+		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
+		this.dayPerTick = 1 / this.ticksPerDay;
 	},
 
 	render: function() {
@@ -361,7 +371,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.season += 1;
 			newSeason = true;
 
-			if (this.season >= this.seasons.length) {
+			if (this.season >= this.seasonsPerYear) {
 				this.season = 0;
 				this.year += this.game.challenges.currentChallenge == "1000Years" && this.year >= 500 ? 0 : 1;
 				newYear = true;
@@ -414,7 +424,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.day < 0){
 			//------------------------- void -------------------------
 			this.game.resPool.addResEvent("void", this.game.resPool.getVoidQuantity()); // addResEvent because during Temporal Paradox
-			this.game.time.flux-=0.0025;
+			this.game.time.flux -= 1 / (this.daysPerSeason * this.seasonsPerYear);
 		}
 		//------------------------- relic -------------------------
 		else {
@@ -823,7 +833,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (this.cycleYear > this.yearsPerCycle){
 			this.cycleYear = 0;
 			this.cycle++;
-			if (this.cycle >= this.cycles.length){
+			if (this.cycle >= this.cyclesPerEra){
 				this.cycle = 0;
 			}
 		}
