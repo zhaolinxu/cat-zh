@@ -2221,7 +2221,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
-			spaceRatio -= 1;
 		}
 
 		// +SPACE PerTickBase
@@ -2405,6 +2404,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +AUTOMATED PRODUCTION SPACE
 		var perTickAutoprodSpaceStack = [];
+		var spaceParagonSubStack = [];
 		//---->
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceConvProd"),
@@ -2416,16 +2416,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.spaceParagon"),
 				type: "ratio",
 				value: paragonSpaceProductionRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.bonusTransf"),
-				type: "ratio",
+				type: "multiplier",
 				value: this.getEffect("prodTransferBonus")
 			});
+			perTickAutoprodSpaceStack.push(spaceParagonSubStack);
 		//<----
 		stack.push(perTickAutoprodSpaceStack);
 
@@ -2779,29 +2780,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return resString;
 	},
 
-	processResourcePerTickStack: function(resStack, res, depth){
+	processResourcePerTickStack: function(resStack, res, depth, hasFixed) {
 		var resString = "";
-		var hasFixed = false;
+		if (depth < 2) {
+			hasFixed = false;
+		}
 
-		for (var i in resStack){
+		for (var i = 0; i < resStack.length; i++) {
 			var stackElem = resStack[i];
 
-			if (stackElem.length){
-				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1);
-				if (subStack.length){
+			if (stackElem.length) {
+				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1, hasFixed);
+				if (subStack.length) {
 					resString += subStack;
 					hasFixed = true;
 				}
-			}
-
-			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
 				continue;
 			}
 
-			if (i != 0) {
-				for (var j = 0; j < depth; j++){
-					resString += "|-> ";
-				}
+			if (!stackElem.value || (stackElem.type != "fixed" && !hasFixed)) {
+				continue;
+			}
+
+			var indent = i == 0 ? depth - 1 : depth;
+			for (var j = 0; j < indent - 1; j++) {
+				resString += "<span style='visibility: hidden;'>|-> </span>";
+			}
+			if (indent > 0) {
+				resString += "|-> ";
 			}
 
 			resString += this.getStackElemString(stackElem, res);
@@ -2816,10 +2822,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
-		if (stackElem.type == "fixed"){
+		if (stackElem.type == "fixed") {
 			resString += this.getDisplayValueExt(stackElem.value, true, true);
-		} else {
+		} else if (stackElem.type == "ratio") {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		} else if (stackElem.type == "multiplier") {
+			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
 		}
 
 		resString += "</div><br>";
