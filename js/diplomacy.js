@@ -646,7 +646,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	},
 
 	renderLinks: function(){
-		this.tradeAllHref = this.addLink("all",
+		this.tradeAllHref = this.addLink($I("btn.all.minor"),
 			function(){
 				this.game.diplomacy.tradeAll(this.race);
 			}

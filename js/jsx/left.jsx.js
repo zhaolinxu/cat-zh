@@ -221,7 +221,7 @@ WCraftShortcut = React.createClass({
 
         if (craftPercent == 1){
             elem = this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, "all") : 
+                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
                 $r("div", {className:"res-cell craft-link"});
         }else{
             elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  
