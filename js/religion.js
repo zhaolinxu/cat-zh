@@ -123,7 +123,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	fastforward: function(daysOffset) {
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 		//safe switch for a certain type of pesky bugs with conversion
 		if (isNaN(this.faith)){
 			this.faith = 0;
