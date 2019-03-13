@@ -92,11 +92,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
 			var bld = this.chronoforgeUpgrades[i];
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
 		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
 			var bld = this.voidspaceUpgrades[i];
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
     },
 

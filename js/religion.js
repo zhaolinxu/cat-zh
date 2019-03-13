@@ -29,18 +29,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
 			var zu = this.zigguratUpgrades[i];
 			zu.unlocked = zu.defaultUnlocked || false;
-			this.resetStateStackable(zu, zu.isAutomationEnabled, zu.lackResConvert, zu.effects);
+			this.resetStateStackable(zu);
 		}
 
 		for (i = 0; i < this.religionUpgrades.length; i++){
 			var ru = this.religionUpgrades[i];
-			this.resetStateStackable(ru, ru.isAutomationEnabled, ru.lackResConvert, ru.effects);
+			this.resetStateStackable(ru);
 		}
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
 			tu.unlocked = false;
-			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
+			this.resetStateStackable(tu);
 		}
 	},
 
