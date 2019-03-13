@@ -290,7 +290,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " " + $I("village.msg.kitten") + " ": " " + $I("village.msg.kittens") + " " ) + $I("village.msg.froze"));
 					}
 					this.game.deadKittens += starvedKittens;
-					this.deathTimeout = this.game.rate * 5;	//5 seconds
+					this.deathTimeout = this.game.ticksPerSecond * 5;	//5 seconds
 				} else {
 					this.deathTimeout--;
 				}
@@ -326,7 +326,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	fastforward: function(daysOffset){
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
 			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
@@ -732,10 +732,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	holdFestival: function(amt){
 		var festivalWasInProgress = this.game.calendar.festivalDays > 0;
 
-		if (this.game.prestige.getPerk("carnivals").researched){
-			this.game.calendar.festivalDays += (400 * amt);
+		if (this.game.prestige.getPerk("carnivals").researched) {
+			this.game.calendar.festivalDays += this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear * amt;
 		} else {
-			this.game.calendar.festivalDays = 400;
+			this.game.calendar.festivalDays = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear;
 		}
 
 		if (festivalWasInProgress){

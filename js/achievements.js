@@ -199,7 +199,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
                 return this.game.stats.getStat("totalYears").val >= 40000;
             },
             starCondition: function () {
-                return (this.game.calendar.year >= 40000 + this.game.time.flux);
+                return (this.game.calendar.trueYear() >= 40000);
             },
             hasStar: true
     }],
