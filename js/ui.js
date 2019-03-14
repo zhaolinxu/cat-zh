@@ -284,7 +284,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
 
                 if (game.science.get("paradoxalKnowledge").researched){
-                    var trueYear = Math.trunc(this.year-game.time.flux);
+                    var trueYear = Math.trunc(this.trueYear());
 
                     if (trueYear > 100000){
                         trueYear = trueYear.toLocaleString();
@@ -524,11 +524,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 year = this.game.getDisplayValueExt(year, false, false, 0);
             }
 
-            calendarDiv.innerHTML = " 第"+ year + " 年 - " +
-                seasonTitle + mod + ", " + calendar.integerDay() +" 天";
-            document.title = "猫国建设者 - " + calendar.year + " 年, " +
-                seasonTitle + ", " + calendar.integerDay() +" 天";
-
+            calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
+            // TODO i18n
+            document.title = "猫国建设者 - 第 " + calendar.year + " 年, " + seasonTitle + ", 第 " + Math.floor(calendar.day) + " 天";
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -550,7 +548,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#undoBtn").toggle(isVisible);
 
         if (isVisible) {
-            $("#undoBtn").html("撤销 (" + Math.floor(this.game.undoChange.ttl / this.game.rate) + "秒)");
+            $("#undoBtn").html("撤销 (" + Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond) + "秒)");
         }
     },
 
@@ -573,8 +571,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             "catnip" : 0.25
         }});	//calculate estimate winter per tick for catnip;
 
-        if (this.game.resPool.get("catnip").value + ( winterDays * catnipPerTick / calendar.dayPerTick ) <= 0 ){
-            advDiv.innerHTML = "<span>"+$I("general.food.advisor.text")+"<span>";
+        if (this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0) {
+            advDiv.innerHTML = "<span>" + $I("general.food.advisor.text") + "<span>";
         }
     },
 

@@ -439,8 +439,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		if (bld.noStackable == "undefined") {
 			bld.noStackable = false;
 		}
-		if (bld.name == "reactor" ||
-			bld.name == "calciner") {
+		if (bld.isAutomationEnabled != undefined) {
 			bld.isAutomationEnabled = null;
 		}
 
@@ -480,6 +479,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			},
 			"hunt": {
 				title: "狩猎",
+				enabled: true,
+				unlocked: false
+			},
+			"trade": {
+				title: "Trade",
 				enabled: true,
 				unlocked: false
 			},
@@ -807,19 +811,20 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 		callback(false);
 	},
 
-	refund: function(model){
-		if (model.prices.length){
-			for( var i = 0; i < model.prices.length; i++){
-				var price = model.prices[i];
+	refund: function(model){		
+		if (!model.prices.length){
+			console.warn("unable to refund building, no prices specifed in metadata :O");
+			return;
+		}
+		for( var i = 0; i < model.prices.length; i++){
+			var price = model.prices[i];
 
-				var res = this.game.resPool.get(price.name);
-				if (res.refundable) {
-					this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
-				} else {
-					// No refund at all
-				}
+			var res = this.game.resPool.get(price.name);
+			if (res.refundable) {
+				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
+			} else {
+				// No refund at all
 			}
-			model.prices = this.getPrices(model);
 		}
 	}
 });
@@ -1211,7 +1216,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var resPerTick = this.game.getResourcePerTick(res.name, true);
 		var eta=0;
 		if (!hasRes && resPerTick > 0 && !simpleUI){
-			eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
+			eta = (price.val - res.value) / (resPerTick * this.game.getTicksPerSecondUI());
 			if (eta >= 1) {
 				displayValue += " (" + this.game.toDisplaySeconds(eta) + ")";
 			}
@@ -1306,14 +1311,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
 					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
-					var tempVal = Math.abs(effectValue * this.game.rate), precision;
+					var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate, false, false, precision) + "/秒";
+							effectValue * this.game.ticksPerSecond, false, false, precision) + "/秒";
 					} else {
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
+							effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/小时";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";
@@ -1759,7 +1764,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 	sellInternal: function(model, end){
 		var building = model.metadata;
-		while (  building.val > end && this.hasSellLink(model) ) { //religion upgrades can't sell past 1
+		while (  building.val > end /*&& this.hasSellLink(model)*/ ) { //religion upgrades can't sell past 1
 			this.decrementValue(model);
 
 			model.prices = this.getPrices(model);
@@ -1805,13 +1810,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	getSelectedObject: function(){
 		return this.model;
 	},
-
-    undo: function(metaId, val){
-        if (console && console.warn) {
-            console.warn("Not implemented yet!");
-        }
-    },
-
 	/**
 	 * Render button links like off/on and sell
 	 */

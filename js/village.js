@@ -290,7 +290,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 						this.game.msg(starvedKittens + ( starvedKittens === 1 ? " " + $I("village.msg.kitten") + " ": " " + $I("village.msg.kittens") + " " ) + $I("village.msg.froze"));
 					}
 					this.game.deadKittens += starvedKittens;
-					this.deathTimeout = this.game.rate * 5;	//5 seconds
+					this.deathTimeout = this.game.ticksPerSecond * 5;	//5 seconds
 				} else {
 					this.deathTimeout--;
 				}
@@ -326,7 +326,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	fastforward: function(daysOffset){
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 		//calculate kittens
 		var kittensPerTick = this.kittensPerTick +
 			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
@@ -341,17 +341,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getFreeKittens: function(){
-		var total = 0;
+		var workingKittens = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
-			total += this.jobs[i].value;
+			workingKittens += this.jobs[i].value;
 		}
 
-		var free = this.getKittens() - total;
-		if(this.game.challenges.currentChallenge == "anarchy") {
-			free = Math.floor(free / 2);
-		}
+		var diligentKittens = this.game.challenges.currentChallenge == "anarchy"
+			? Math.floor(this.getKittens() / 2)
+			: this.getKittens();
 
-		return free;
+		return diligentKittens - workingKittens;
 	},
 
 	hasFreeKittens: function(amt){
@@ -580,7 +579,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 				if (newKitten.isLeader){
 					this.game.village.leader = newKitten;
-					this.game.village.leader = newKitten;
 				}
 				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
@@ -734,10 +732,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	holdFestival: function(amt){
 		var festivalWasInProgress = this.game.calendar.festivalDays > 0;
 
-		if (this.game.prestige.getPerk("carnivals").researched){
-			this.game.calendar.festivalDays += (400 * amt);
+		if (this.game.prestige.getPerk("carnivals").researched) {
+			this.game.calendar.festivalDays += this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear * amt;
 		} else {
-			this.game.calendar.festivalDays = 400;
+			this.game.calendar.festivalDays = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear;
 		}
 
 		if (festivalWasInProgress){
@@ -797,34 +795,36 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Promote all kittens - Priority to engineer to tier craft who have a rank below tier craft
 	 */
 	promoteKittens: function() {
-		var promotedKittens = [];
-
+		var candidates = [];
 		for (var i = 0; i < this.sim.kittens.length; i++) {
-			var done = false;
+			var tier = -1;
 			if(this.sim.kittens[i].engineerSpeciality != null) {
-				var tier = this.game.workshop.getCraft(this.sim.kittens[i].engineerSpeciality).tier;
-				if (this.sim.kittens[i].rank < tier) {
-					promotedKittens.push({"kitten": this.sim.kittens[i], "rank": tier});
-					done = true;
+				tier = this.game.workshop.getCraft(this.sim.kittens[i].engineerSpeciality).tier;
+				if (this.sim.kittens[i].rank >= tier) {//if engineer already have required rank, it go to common pool
+					tier = -1;
 				}
 			}
-			if (!done) {
-				promotedKittens.push({"kitten": this.sim.kittens[i]});
-			}
+			candidates.push({"kitten": this.sim.kittens[i], "rank": tier});
 		}
 
-		if(promotedKittens.length) {
-			promotedKittens.sort(function(a, b){return b.rank-a.rank;});
+		if (candidates.length) {
+			candidates.sort(function (a, b) {
+				return b.rank - a.rank;
+			});
 			var promotedKittensCount = 0;
-			for (var i = 0; i < promotedKittens.length; i++) {
-				if (typeof(promotedKittens[i].rank) == "number") {
-					promotedKittensCount += this.sim.promote(promotedKittens[i].kitten, promotedKittens[i].rank);
-				} else {
-					promotedKittensCount += this.sim.promote(promotedKittens[i].kitten);
+			var noGold = false;
+			for (var i = 0; i < candidates.length; i++) {
+				var promoted = this.sim.promote(candidates[i].kitten, candidates[i].rank > 0 ? candidates[i].rank : undefined);
+				if (promoted > 0) {
+					promotedKittensCount++;
+				} else if (promoted < 0) {
+					noGold = true;
 				}
 			}
 
-			if (promotedKittensCount == 0) {
+			if (noGold) {
+				this.game.msg($I("village.kittens.promotion.nogold"));
+			} else if (promotedKittensCount == 0) {
 				this.game.msg($I("village.kittens.have.best.rank"));
 			} else {
 				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
@@ -1534,27 +1534,31 @@ dojo.declare("classes.village.KittenSim", null, {
 	},
 
 	promote: function(kitten, rank) {
-		var kittenRank = kitten.rank;
+		var kittenRank = kitten.rank, rankDiff;
 		if (typeof(rank) == "undefined") {
 			rank = kitten.rank + 1;
-		}
-		var rankDiff = rank - kittenRank;
-
-		if (rankDiff > 0) {
-			var expToPromote = this.expToPromote(kittenRank, rank, kitten.exp);
-			var goldToPromote = this.goldToPromote(kittenRank, rank, this.game.resPool.get("gold").value);
-
-			if (expToPromote[0] && goldToPromote[0]) {
-				kitten.rank = rank;
-				kitten.exp -= expToPromote[1];
-				this.game.resPool.addResEvent("gold", -goldToPromote[1]);
-				return 1;
-			} else if (rankDiff > 1) { // If rank is unreachable, try one rank
-				return this.promote(kitten);
-			}
+			rankDiff = 1;
+		} else {
+			rankDiff = rank - kittenRank;
 		}
 
-		return 0;
+		if (rankDiff <= 0) {
+			return 0;
+		}
+
+		var expToPromote = this.expToPromote(kittenRank, rank, kitten.exp);
+		var goldToPromote = this.goldToPromote(kittenRank, rank, this.game.resPool.get("gold").value);
+
+		if (expToPromote[0] && goldToPromote[0]) {
+			kitten.rank = rank;
+			kitten.exp -= expToPromote[1];
+			this.game.resPool.addResEvent("gold", -goldToPromote[1]);
+			return 1;
+		} else if (rankDiff > 1) { // If rank is unreachable, try one rank
+			return this.promote(kitten);
+		} else if (expToPromote[0] && !goldToPromote[0]) {
+			return -1;
+		}
 	},
 
 	expToPromote: function(rankBase, rankFinal, expNeeded) {
