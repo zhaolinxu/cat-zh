@@ -439,8 +439,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		if (bld.noStackable == "undefined") {
 			bld.noStackable = false;
 		}
-		if (bld.name == "reactor" ||
-			bld.name == "calciner") {
+		if (bld.isAutomationEnabled != undefined) {
 			bld.isAutomationEnabled = null;
 		}
 
@@ -1217,7 +1216,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var resPerTick = this.game.getResourcePerTick(res.name, true);
 		var eta=0;
 		if (!hasRes && resPerTick > 0 && !simpleUI){
-			eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
+			eta = (price.val - res.value) / (resPerTick * this.game.getTicksPerSecondUI());
 			if (eta >= 1) {
 				displayValue += " (" + this.game.toDisplaySeconds(eta) + ")";
 			}
@@ -1312,14 +1311,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
 					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
-					var tempVal = Math.abs(effectValue * this.game.rate), precision;
+					var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate, false, false, precision) + "/秒";
+							effectValue * this.game.ticksPerSecond, false, false, precision) + "/秒";
 					} else {
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate * 3600, false, false, 2) + "/小时";
+							effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/小时";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";

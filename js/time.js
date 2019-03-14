@@ -72,11 +72,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		var temporalAccelerator = this.getCFU("temporalAccelerator");
 		var energyRatio = 1 + (temporalAccelerator.val * temporalAccelerator.effects["timeRatio"]);
-		var temporalFluxGained = Math.round(delta / ( 60 * 1000 ) * (this.game.rate * energyRatio)); // 5 every 60 seconds
+		var temporalFluxGained = Math.round(delta / ( 60 * 1000 ) * (this.game.ticksPerSecond * energyRatio)); // 5 every 60 seconds
 
 		var temporalFluxAdded = this.game.resPool.addResEvent("temporalFlux", temporalFluxGained);
 
-		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.rate);
+		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
             this.game.msg("你获得了 " + bonusSeconds + " 秒"
 				+ (bonusSeconds > 1 ? "" : "") + "时间加速");
@@ -147,10 +147,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            return;
         }
 
-        var offset = 400 * 10;  //10 years
-        if (this.game.calendar.year >= 1000 || this.game.resPool.get("paragon").value > 0){
-            offset = 400 * 40;
-        }
+        var maxYears = this.game.calendar.year >= 1000 || this.game.resPool.get("paragon").value > 0 ? 40 : 10;
+        var offset = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear * maxYears;
 
         //limit redshift offset by 1 year
         if (daysOffset > offset){
@@ -374,7 +372,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     }],
 
 	effectsBase: {
-		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.rate)
+		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.ticksPerSecond)
         "heatMax": 100,
         "heatPerTick" : -0.01
 	},
@@ -399,14 +397,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         var triggerOotV = resonance && game.prestige.getPerk("voidOrder").researched;
         var faithBonus = 1 + game.religion.getFaithBonus() * 0.25;	//25% of the apocrypha bonus
 
-        var daysPerYear = cal.daysPerSeason * 4;
-        var remainingDaysInFirstYear = cal.daysPerSeason * (4 - cal.season) - cal.day;
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
         cal.day = 0;
         cal.season = 0;
 
         for (var i = 0; i < amt; i++) {
             var remainingDaysInCurrentYear = i == 0 ? remainingDaysInFirstYear : daysPerYear;
-            var remainingTicksInCurrentYear = remainingDaysInCurrentYear / cal.dayPerTick;
+            var remainingTicksInCurrentYear = remainingDaysInCurrentYear * cal.ticksPerDay;
 
             // Space ETA
             for (var j in game.space.planets) {
@@ -446,7 +444,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             game.msg($I("time.tc.shatter",[amt]), "", "tc");
         }
 
-        game.time.flux += amt;
+        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
         if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
@@ -519,8 +517,8 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     },
 
     update: function(){
-        this.timeSpan.innerHTML = "时光穿梭： " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        var second = this.game.resPool.get("temporalFlux").value / this.game.rate;
+        this.timeSpan.innerHTML = "时光穿梭: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
+        var second = this.game.resPool.get("temporalFlux").value / this.game.ticksPerSecond;
         if (second >= 1){
             this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
         }
@@ -547,23 +545,21 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     },
 
     fetchModel: function(options) {
-        var self = this;
         var model = this.inherited(arguments);
-        model.x6Link = {
-            visible: this._canAfford(model, 6),
-            title: "x6",
+        model.nextCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle);
+        model.sameCycleRestartLink = this._newLink(model, this.game.calendar.yearsPerCycle * (this.game.calendar.cyclesPerEra - 1));
+        return model;
+    },
+
+    _newLink: function(model, shatteredQuantity) {
+        var self = this;
+        return {
+            visible: this.getPricesMultiple(model, shatteredQuantity) <= this.game.resPool.get("timeCrystal").value,
+            title: "x" + shatteredQuantity,
             handler: function(event) {
-                self.doShatterAmt(model, 6);
-            }
-        },
-        model.x54Link = {
-            visible: this._canAfford(model, 54),
-            title: "x54",
-            handler: function(event) {
-                self.doShatterAmt(model, 54);
+                self.doShatterAmt(model, shatteredQuantity);
             }
         };
-        return model;
     },
 
     getName: function(model) {
@@ -635,10 +631,6 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         return true;
     },
 
-    _canAfford: function(model, amt) {
-        return this.getPricesMultiple(model, amt) <= this.game.resPool.get("timeCrystal").value;
-    },
-
     doShatterAmt: function(model, amt) {
         if (!model.enabled) {
             return;
@@ -667,14 +659,14 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
      * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function(){
-        this.x54 = this.addLink(this.model.x54Link.title, this.model.x54Link.handler, false);
-        this.x6 = this.addLink(this.model.x6Link.title, this.model.x6Link.handler, false);
+        this.sameCycleRestart = this.addLink(this.model.sameCycleRestartLink.title, this.model.sameCycleRestartLink.handler, false);
+        this.nextCycle = this.addLink(this.model.nextCycleLink.title, this.model.nextCycleLink.handler, false);
     },
 
     update: function(){
         this.inherited(arguments);
-        dojo.style(this.x6.link, "display", this.model.x6Link.visible ? "" : "none");
-        dojo.style(this.x54.link, "display", this.model.x54Link.visible ? "" : "none");
+        dojo.style(this.nextCycle.link, "display", this.model.nextCycleLink.visible ? "" : "none");
+        dojo.style(this.sameCycleRestart.link, "display", this.model.sameCycleRestartLink.visible ? "" : "none");
     }
 });
 

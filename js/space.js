@@ -986,7 +986,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			if (!planet.reached && planet.unlocked) {
 				if (planet.routeDays > 0) {
 					var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-					planet.routeDays -= this.game.calendar.dayPerTick * routeSpeed;
+					planet.routeDays -= routeSpeed / this.game.calendar.ticksPerDay;
 				} else {
 					planet.routeDays = 0;
 					planet.reached = true;
@@ -1039,14 +1039,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 	},
 
 	fastforward: function(daysOffset) {
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 		for (var i in this.planets){
 			var planet = this.planets[i];
 
 			if (!planet.reached && planet.unlocked) {
 				if (planet.routeDays > 0) {
 					var routeSpeed = this.game.getEffect("routeSpeed") != 0 ? this.game.getEffect("routeSpeed") : 1;
-					planet.routeDays -= this.game.calendar.dayPerTick * routeSpeed * times;
+					planet.routeDays -= times * routeSpeed / this.game.calendar.ticksPerDay;
 				}
 			}
 		}
