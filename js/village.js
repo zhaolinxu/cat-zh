@@ -822,7 +822,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 			}
 
-			if (noGold) {
+			if (noGold && promotedKittensCount == 0) {
 				this.game.msg($I("village.kittens.promotion.nogold"));
 			} else if (promotedKittensCount == 0) {
 				this.game.msg($I("village.kittens.have.best.rank"));
