@@ -822,13 +822,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 			}
 
-			if (noGold) {
-				this.game.msg($I("village.kittens.promotion.nogold"));
-			} else if (promotedKittensCount == 0) {
-				this.game.msg($I("village.kittens.have.best.rank"));
+			if (promotedKittensCount == 0) {
+				this.game.msg($I(nogold ? "village.kittens.promotion.nogold" : "village.kittens.have.best.rank"));
+			} else if (promotedKittensCount == 1) {
+				this.game.msg($I("village.leader.promoted.one.kitten"));
 			} else {
-				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
-				this.game.msg(promoteMsg);
+				this.game.msg($I("village.leader.promoted.many.kittens", [promotedKittensCount]));
 			}
 		}
 

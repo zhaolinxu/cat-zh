@@ -761,7 +761,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {
 					"energyProduction": 1
 				},
-				calculateEffects: function(self, game){
+				action: function(self, game) {
 					var yearBonus = game.calendar.darkFutureYears();
 					if (yearBonus < 0){
 						yearBonus = 0;
@@ -918,7 +918,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
 			program.noStackable = true;
 
-			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+			this.resetStateStackable(program);
 		}
 
 		for (i = 0; i < this.planets.length; i++){
@@ -932,7 +932,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					var program = planet.buildings[j];
 					program.unlocked = false;
 
-					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+					this.resetStateStackable(program);
 				}
 			}
 		}

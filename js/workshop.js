@@ -2212,7 +2212,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			var bonus = minAmt * craftRatio;
 
 			var res = this.game.resPool.get(craftName);
-			if (this.craft(craftName, minAmt, false, false, true)) {
+			if (this.craft(craftName, minAmt, false /* allow undo */, false /* don't force all */, true /* bypass resource check */)) {
 				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
 			}
 		}

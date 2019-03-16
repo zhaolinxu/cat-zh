@@ -409,7 +409,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.ship.title"),
 		type : "common",
 		craftable: true,
-		color: "#FF7F50"
+		color: "#FF571A"
 	},{
 		name : "tanker",
 		title: $I("resources.tanker.title"),
