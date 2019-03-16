@@ -168,10 +168,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		flavor: $I("science.philosophy.flavor")
 	},{
 		name: "machinery",
-		label: "Machinery",
-		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts. " +
-			"Machinery introduces a concept of automation which reduces routine operations",
-		effectDesc: "Unlocks Steamworks, Crossbows, Printing Press and Factory Automation.",
+		label: $I("science.machinery.label"),
+		description: $I("science.machinery.desc"),
+		effectDesc: $I("science.machinery.effectDesc"),
 		prices: [{name : "science", val: 15000}],
 		unlocks: {
 			buildings: ["steamworks"],
