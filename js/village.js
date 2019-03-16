@@ -1371,8 +1371,8 @@ dojo.declare("classes.village.KittenSim", null, {
 
 	/**
 	 * Assign a job to a free kitten :
-	 * • With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
-	 * • Else : the first free kitten
+	 * â€¢ With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
+	 * â€¢ Else : the first free kitten
 	 */
 	assignJob: function(job, amt){
 		var freeKittens = [];
