@@ -1921,7 +1921,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.isAutomationEnabled = true;
 			}
 
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
 	},
 
