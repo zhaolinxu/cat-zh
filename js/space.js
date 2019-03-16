@@ -761,7 +761,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {
 					"energyProduction": 1
 				},
-				action: function(self, game) {
+				calculateEffects: function(self, game) {
 					var yearBonus = game.calendar.darkFutureYears();
 					if (yearBonus < 0){
 						yearBonus = 0;
