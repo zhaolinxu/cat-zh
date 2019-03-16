@@ -822,13 +822,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 			}
 
-			if (noGold && promotedKittensCount == 0) {
-				this.game.msg($I("village.kittens.promotion.nogold"));
-			} else if (promotedKittensCount == 0) {
-				this.game.msg($I("village.kittens.have.best.rank"));
+			if (promotedKittensCount == 0) {
+				this.game.msg($I(nogold ? "village.kittens.promotion.nogold" : "village.kittens.have.best.rank"));
+			} else if (promotedKittensCount == 1) {
+				this.game.msg($I("village.leader.promoted.one.kitten"));
 			} else {
-				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
-				this.game.msg(promoteMsg);
+				this.game.msg($I("village.leader.promoted.many.kittens", [promotedKittensCount]));
 			}
 		}
 
@@ -1372,8 +1371,8 @@ dojo.declare("classes.village.KittenSim", null, {
 
 	/**
 	 * Assign a job to a free kitten :
-	 * â€¢ With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
-	 * â€¢ Else : the first free kitten
+	 * • With leader and register tech buy : a free kitten with Highest skill level in this job or any free if none
+	 * • Else : the first free kitten
 	 */
 	assignJob: function(job, amt){
 		var freeKittens = [];
