@@ -3433,6 +3433,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			game : lsData.game,
 			resources: newResources,
 			buildings: [],
+			calendar: {
+				cryptoPrice: this.calendar.cryptoPrice
+			},
 			challenges: {
 				challenges: this.challenges.challenges,
 				currentChallenge: this.challenges.currentChallenge
