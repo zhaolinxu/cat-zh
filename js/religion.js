@@ -1001,10 +1001,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
-
 		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false, true);
 	},
 
@@ -1023,8 +1020,6 @@ dojo.declare("classes.ui.religion.RefineTCBBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
 		this.x25 = this.addLink(this.model.x25Link.title, this.model.x25Link.handler, false, true);
 	},

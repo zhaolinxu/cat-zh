@@ -763,7 +763,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 	leviathansInfo: null,
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 
 		this.racePanels = [];

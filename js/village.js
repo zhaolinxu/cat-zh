@@ -2228,8 +2228,6 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	x10: null,
 
 	renderLinks: function(){
-		var self = this;
-
 		this.x10 = this.addLink(this.model.x10Link.title,
 			this.model.x10Link.handler, false
 		);
@@ -2275,10 +2273,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	render: function(tabContainer){
-
-		var self = this;
-
-
 		this.advModeButtons = [];
 		this.buttons = [];
 

@@ -438,8 +438,6 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			return;
 		}
 
-		var self = this;
-
 		this.loadMetadata(this.perks, saveData.prestige.perks);
 
 		for (var i = 0; i< this.perks.length; i++){
