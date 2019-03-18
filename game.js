@@ -734,6 +734,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeImpedance" :  {
+                title: $I("effectsMgr.statics.timeImpedance.title"),
+                type: "fixed"
+            },
+
             "shatterTCGain" :  {
                 title: $I("effectsMgr.statics.shatterTCGain.title"),
                 type: "ratio"

@@ -658,6 +658,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"timeRatio" : 0.10,
 			"rrRatio" : 0.02
 		},
+		upgrades: {
+			chronoforge: ["temporalImpedance"]
+		},
 		unlocked: false,
 		flavor: $I("religion.tu.blazar.flavor")
 	},{

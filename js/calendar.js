@@ -345,9 +345,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	darkFutureYears: function(withImpedance) {
-		var impedance = 0;
-                if (withImpedance)
-			impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+		var impedance = withImpedance ? this.game.getEffect("timeImpedance") : 0;
 		return this.year - (40000 + impedance);
 	},
 
