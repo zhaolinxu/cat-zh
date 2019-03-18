@@ -982,12 +982,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		};
 	},
 
+	// TODO Use loadMetadata
 	load: function(saveData){
 		if (saveData.calendar){
-			this.year  = saveData.calendar.year;
-			this.day  = saveData.calendar.day;
-			this.season  = saveData.calendar.season;
-			this.weather = saveData.calendar.weather;
+			this.year  = saveData.calendar.year || 0;
+			this.day  = saveData.calendar.day || 0;
+			this.season  = saveData.calendar.season || 0;
+			this.weather = saveData.calendar.weather || null;
 			this.festivalDays = saveData.calendar.festivalDays || 0;
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
