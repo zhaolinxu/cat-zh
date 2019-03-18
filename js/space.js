@@ -259,6 +259,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
+					self.on = self.val;
 					self.togglable = false;
 				}
 				else {
@@ -761,7 +762,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {
 					"energyProduction": 1
 				},
-				calculateEffects: function(self, game){
+				action: function(self, game) {
 					var yearBonus = game.calendar.darkFutureYears();
 					if (yearBonus < 0){
 						yearBonus = 0;
@@ -918,7 +919,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
 			program.noStackable = true;
 
-			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+			this.resetStateStackable(program);
 		}
 
 		for (i = 0; i < this.planets.length; i++){
@@ -932,7 +933,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					var program = planet.buildings[j];
 					program.unlocked = false;
 
-					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+					this.resetStateStackable(program);
 				}
 			}
 		}
@@ -962,8 +963,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		if (!saveData.space){
 			return;
 		}
-
-		var self = this;
 
 		this.hideResearched = saveData.space.hideResearched || false;
 		this.loadMetadata(this.programs, saveData.space.programs);
@@ -1234,7 +1233,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 
-		var controller = new classes.ui.space.PlanetBuildingBtnController(self.game);
+		var controller = new classes.ui.space.PlanetBuildingBtnController(this.game);
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 
@@ -1298,7 +1297,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel($I("space.ground.control.label"), this.game.space);
 		var content = this.GCPanel.render(container);
-		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(self.game);
+		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(this.game);
 		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: program.name, controller: controller}, self.game);
 			button.render(content);

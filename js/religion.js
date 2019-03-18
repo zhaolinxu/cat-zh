@@ -29,18 +29,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
 			var zu = this.zigguratUpgrades[i];
 			zu.unlocked = zu.defaultUnlocked || false;
-			this.resetStateStackable(zu, zu.isAutomationEnabled, zu.lackResConvert, zu.effects);
+			this.resetStateStackable(zu);
 		}
 
 		for (i = 0; i < this.religionUpgrades.length; i++){
 			var ru = this.religionUpgrades[i];
-			this.resetStateStackable(ru, ru.isAutomationEnabled, ru.lackResConvert, ru.effects);
+			this.resetStateStackable(ru);
 		}
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
 			tu.unlocked = false;
-			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
+			this.resetStateStackable(tu);
 		}
 	},
 
@@ -658,6 +658,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"timeRatio" : 0.10,
 			"rrRatio" : 0.02
 		},
+		upgrades: {
+			chronoforge: ["temporalImpedance"]
+		},
 		unlocked: false,
 		flavor: $I("religion.tu.blazar.flavor")
 	},{
@@ -1001,10 +1004,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
-
 		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false, true);
 	},
 
@@ -1023,8 +1023,6 @@ dojo.declare("classes.ui.religion.RefineTCBBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
 		this.x25 = this.addLink(this.model.x25Link.title, this.model.x25Link.handler, false, true);
 	},

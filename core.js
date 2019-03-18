@@ -433,7 +433,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	/**
 	 * TODO: this logic is very confusing. Ideally the only place devs need to change should be building metadata.
 	 */
-	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
+	resetStateStackable: function(bld) {
 		bld.val = 0;
 		bld.on = 0;
 		if (bld.noStackable == "undefined") {
@@ -445,12 +445,12 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 		// Automatic settings of togglable
 
-		if (lackResConvert != undefined) {
+		if (bld.lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
 			bld.togglable = (bld.name == "biolab") ? false : true;
 		}
 
-		for (var effect in effects) {
+		for (var effect in bld.effects) {
 			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
 				// Exceptions (when energyConsumption is caused by an upgrade)
 				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere" || bld.name == "aiCore") ? false : true;
@@ -1889,8 +1889,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 	update: function(){
 		this.inherited(arguments);
-
-		var self = this;
 
 		//we are calling update before render, panic flee
 		if (!this.buttonContent){

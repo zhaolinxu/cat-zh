@@ -520,6 +520,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			ncorns.value--;
 			this.game.msg($I("trade.msg.elders.pleased"), "notice");
 		} else {
+			ncorns.value = 0;
 			this.game.msg($I("trade.msg.elders.displeased"), "notice");
 			elders.duration = 0;
 		}
@@ -765,7 +766,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 	leviathansInfo: null,
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 
 		this.racePanels = [];
