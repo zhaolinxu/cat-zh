@@ -2881,8 +2881,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	toDisplayDays: function(daysRaw){
 		var daysNum = parseInt(daysRaw, 10); // don't forget the second param
 
-		var years   = Math.floor(daysNum / (this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear));
-		var days = daysNum - (years * this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear);
+		var daysPerYear = this.calendar.daysPerSeason * this.calendar.seasonsPerYear;
+		var years = Math.floor(daysNum / daysPerYear);
+		var days = daysNum - years * daysPerYear;
 
 		if (years > 0){
 			years = this.getDisplayValueExt(years);
