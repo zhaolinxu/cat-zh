@@ -259,6 +259,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
+					self.on = self.val;
 					self.togglable = false;
 				}
 				else {
