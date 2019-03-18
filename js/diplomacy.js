@@ -518,6 +518,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			ncorns.value--;
 			this.game.msg($I("trade.msg.elders.pleased"), "notice");
 		} else {
+			ncorns.value = 0;
 			this.game.msg($I("trade.msg.elders.displeased"), "notice");
 			elders.duration = 0;
 		}
