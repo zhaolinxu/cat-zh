@@ -2603,7 +2603,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	resTd: null,
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 
 		this.craftBtns = [];
@@ -2670,7 +2669,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			return $I("workshop.craftPanel.header.tooltip");
 		});
 
-		var self = this;
 		var crafts = this.game.workshop.crafts;
 		var controller = new com.nuclearunicorn.game.ui.CraftButtonController(this.game);
 		for (var i = 0; i < crafts.length; i++ ){
@@ -2725,7 +2723,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	},
 
 	createBtn: function(upgrade){
-		var self = this;
 		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name, controller: controller}, this.game);
 		return btn;

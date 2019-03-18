@@ -1890,8 +1890,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	update: function(){
 		this.inherited(arguments);
 
-		var self = this;
-
 		//we are calling update before render, panic flee
 		if (!this.buttonContent){
 			return;

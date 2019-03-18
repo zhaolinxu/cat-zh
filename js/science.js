@@ -1023,12 +1023,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 	},
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 	},
 
 	createTechBtn: function(tech){
-		var self = this;
 		var controller = new com.nuclearunicorn.game.ui.TechButtonController(this.game);
 		var btn = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: tech.name, controller: controller}, this.game);
 		return btn;
