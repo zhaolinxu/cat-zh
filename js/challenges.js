@@ -75,8 +75,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			return;
 		}
 
-		var self = this;
-
 		this.loadMetadata(this.challenges, saveData.challenges.challenges);
 
 		if (saveData.challenges.currentChallenge){

@@ -963,8 +963,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			return;
 		}
 
-		var self = this;
-
 		this.hideResearched = saveData.space.hideResearched || false;
 		this.loadMetadata(this.programs, saveData.space.programs);
 		this.loadMetadata(this.planets, saveData.space.planets);
@@ -1234,7 +1232,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 
-		var controller = new classes.ui.space.PlanetBuildingBtnController(self.game);
+		var controller = new classes.ui.space.PlanetBuildingBtnController(this.game);
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 
@@ -1298,7 +1296,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel($I("space.ground.control.label"), this.game.space);
 		var content = this.GCPanel.render(container);
-		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(self.game);
+		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(this.game);
 		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: program.name, controller: controller}, self.game);
 			button.render(content);
