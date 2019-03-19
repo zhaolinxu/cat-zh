@@ -1455,6 +1455,7 @@
     "calendar.year": "Year",
     "calendar.year.ext": "Year {0} - {1}",
     "calendar.year.full": "Year {0} - {1}, day {2}",
+    "calendar.year.tooltip": "Year:",
     "calendar.trueYear": "Real year:",
     "res.notify.unavailable": "Строение недоступно - не хватает объёма хранилищя для всех необходимых ресурсов. Попробуй позднее.",
     "res.notify.unavailableTime": "Это строение будет строиться слишком долго ({0}+ дней). Попробуй позднее.",

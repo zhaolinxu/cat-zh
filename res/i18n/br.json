@@ -1455,6 +1455,7 @@
     "calendar.year": "Year",
     "calendar.year.ext": "Year {0} - {1}",
     "calendar.year.full": "Year {0} - {1}, day {2}",
+    "calendar.year.tooltip": "Year:",
     "calendar.trueYear": "Real year:",
     "res.notify.unavailable": "Esta construção não está disponível para construção porque você não tem armazenamento suficiente para os recursos necessários. Tente novamente mais tarde.",
     "res.notify.unavailableTime": "A construção será disponível em ({0}+ days) dias no futuro. Tente novamente mais tarde.",

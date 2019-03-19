@@ -279,20 +279,21 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var calendarDiv = dojo.byId("calendarDiv");
             this.calenderDivTooltip = UIUtils.attachTooltip(game, calendarDiv, 0, 320, dojo.hitch(game.calendar, function() {
                 var tooltip = "";
-                if (this.year > 100000){
-                    tooltip = $I("calendar.year") + " " + this.year.toLocaleString();
+                var displayThreshold = 100000;
+                if (this.year > displayThreshold) {
+                    tooltip = $I("calendar.year.tooltip") + " " + this.year.toLocaleString();
                 }
 
-                if (game.science.get("paradoxalKnowledge").researched){
-                    var trueYear = Math.trunc(this.trueYear());
-
-                    if (trueYear > 100000){
-                        trueYear = trueYear.toLocaleString();
-                    }
-                    if (this.year > 100000){
+                if (game.science.get("paradoxalKnowledge").researched) {
+                    if (this.year > displayThreshold) {
                         tooltip += "<br>";
                     }
-                    tooltip += $I("calendar.trueYear")  + " " + trueYear;
+
+                    var trueYear = Math.trunc(this.trueYear());
+                    if (trueYear > displayThreshold) {
+                        trueYear = trueYear.toLocaleString();
+                    }
+                    tooltip += $I("calendar.trueYear") + " " + trueYear;
                 }
                 return tooltip;
             }));
@@ -518,8 +519,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
-            // TODO i18n
-            document.title = "Kittens Game - Year " + calendar.year + ", " + seasonTitle + ", d. " + Math.floor(calendar.day);
+            document.title = "Kittens Game - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;

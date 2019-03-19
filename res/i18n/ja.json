@@ -1455,6 +1455,7 @@
     "calendar.year": "Year",
     "calendar.year.ext": "Year {0} - {1}",
     "calendar.year.full": "Year {0} - {1}, day {2}",
+    "calendar.year.tooltip": "Year:",
     "calendar.trueYear": "Real year:",
     "res.notify.unavailable": "必要とされる資源が十分でないためこの建造物の建築は出来ません。後ほど試してください。",
     "res.notify.unavailableTime": "この建造物は ({0}+ 日)先まで利用できません。後ほど試してください。",

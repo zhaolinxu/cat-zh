@@ -1455,6 +1455,7 @@
     "calendar.year": "Rok",
     "calendar.year.ext": "Rok {0} - {1}",
     "calendar.year.full": "Rok {0} - {1}, den {2} z 100",
+    "calendar.year.tooltip": "Rok:",
     "calendar.trueYear": "Opravdový rok:",
     "res.notify.unavailable": "Tato budova nebude možna postavut protože nemáš dost místa pro potřebné suroviny. Zkus zase později.",
     "res.notify.unavailableTime": "Budova bude možna pořádit příliš daleko ({0}+ dní) v budoucnosti. Zkus zase později.",
