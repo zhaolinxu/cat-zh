@@ -311,7 +311,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
+					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear + ")",
 					style: { textAlign: "center", clear: "both"}
 				}, tooltip );
 
@@ -527,8 +527,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
-            if (cycle && this.game.science.get("astronomy").researched){
-                calendarSignSpan.innerHTML = cycle.glyph;
+            if (cycle && this.game.science.get("astronomy").researched) {
+            	calendarSignSpan.style = "color: " + calendar.cycleYearColor();
+                calendarSignSpan.innerHTML = cycle.glyph + " ";
             }
         } else {
             calendarDiv.textContent = seasonTitle;
