@@ -1251,7 +1251,7 @@
     "achievements.limitlessClicker.starDesc": "Сделай 1,000,000 кликов.",
     "achievements.msg.unlock": "Достижение открыто: {0}!",
     "achievements.msg.starUnlock": "Звезда достижения открыта: {0}!",
-    "achievements.header": "Достижения: {0} of {1}",
+    "achievements.header": "Достижения: {0} из {1}",
     "time.cfu.temporalBattery.desc": "Улучшает хранилище временно́го потока на 25%",
     "time.cfu.temporalBattery.label": "Временнáя батарея",
     "time.cfu.blastFurnace.desc": "Работает на хронотепле. Увеличивает максимум хранимого хронотепла на 100.",

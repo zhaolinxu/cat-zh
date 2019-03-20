@@ -1251,7 +1251,7 @@
     "achievements.limitlessClicker.starDesc": "Acumule 1,000,000 cliques.",
     "achievements.msg.unlock": "Conquista ganha: {0}!",
     "achievements.msg.starUnlock": "Conquista estrela ganha: {0}!",
-    "achievements.header": "Conquistas: {0} of {1}",
+    "achievements.header": "Conquistas: {0} de {1}",
     "time.cfu.temporalBattery.desc": "Aumenta sua capacidade de energia de fluxo em 25%",
     "time.cfu.temporalBattery.label": "Bateria Temporal",
     "time.cfu.blastFurnace.desc": "Opera com crono-calor. Aumenta o limite máximo de calor em 100.",

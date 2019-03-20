@@ -1251,7 +1251,7 @@
     "achievements.limitlessClicker.starDesc": "Accumulate 1,000,000 clicks.",
     "achievements.msg.unlock": "Achievement unlocked: {0}!",
     "achievements.msg.starUnlock": "Achievement star unlocked: {0}!",
-    "achievements.header": "Achievements: {0} of {1}",
+    "achievements.header": "Achievements: {0} out of {1}",
     "time.cfu.temporalBattery.desc": "Improves your flux energy capacity by 25%",
     "time.cfu.temporalBattery.label": "Temporal Battery",
     "time.cfu.blastFurnace.desc": "Operates on chronoheat. Increases the maximum heat limit by 100.",
