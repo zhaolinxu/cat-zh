@@ -1278,6 +1278,7 @@
     "time.AccelerateTimeBtn.desc": "Ускорять и замедлять время по желанию (ускорение +50%)",
     "time.AccelerateTimeBtn.label.normal": "Ускорить время",
     "time.AccelerateTimeBtn.label.accelerated": "Замедлить время",
+    "trade.effectiveness": "Эффективность торговля: +{0}%",
     "trade.race.lizards": "Ящеры",
     "trade.race.sharks": "Акулы",
     "trade.race.griffins": "Грифоны",

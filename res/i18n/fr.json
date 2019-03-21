@@ -1278,6 +1278,7 @@
     "time.AccelerateTimeBtn.desc": "Accélère et ralentit le temps selon votre fantaisie (+50% d'accélération)",
     "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
     "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
+    "trade.effectiveness": "Trade effectiveness: +{0}%",
     "trade.race.lizards": "Lézards",
     "trade.race.sharks": "Requins",
     "trade.race.griffins": "Griffons",

@@ -795,6 +795,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		var self = this;
 
+		var div = dojo.create("div", { class: "expandAllBar", style: { float: "left"}}, tabContainer);
+		dojo.create("span", { innerHTML: $I("trade.effectiveness", [this.game.getDisplayValueExt(this.game.diplomacy.getTradeRatio() * 100, false, false, 0)]) }, div);
+
 		// expand all / collapse all panels
 
 		var expandDiv = dojo.create("div", { class: "expandAllBar" }, tabContainer);
