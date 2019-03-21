@@ -110,6 +110,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//			   TRANSIENT
 	//=========================================
 	{
+		name : "antimatter",
+		title: $I("resources.antimatter.title"),
+		type : "common",
+		transient: true,
+		visible: true,
+		color: "#5A0EDE"/*,
+		aiCanDestroy: true*/
+	},{
 		name : "manpower",
 		title: $I("resources.manpower.title"),
 		type : "common",
@@ -161,14 +169,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#9A2EFE",
 		calculatePerTick: true
-	},{
-		name : "antimatter",
-		title: $I("resources.antimatter.title"),
-		type : "common",
-		transient: true,
-		visible: true,
-		color: "#5A0EDE"/*,
-		aiCanDestroy: true*/
 	},{
 		name : "temporalFlux",
 		title: $I("resources.temporalFlux.title"),

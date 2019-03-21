@@ -332,6 +332,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "globalResourceRatio": 0.02,
             "umbraBoostRatio": 0.1
         },
+        upgrades: {
+            spaceBuilding: ["hrHarvester"]
+        },
         unlocked: false
     },{
         name: "chronocontrol",
