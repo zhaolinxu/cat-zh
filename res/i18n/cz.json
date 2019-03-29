@@ -1278,6 +1278,7 @@
     "time.AccelerateTimeBtn.desc": "Zrychli nebo zpomal čas (+50% zrychlení)",
     "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
     "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
+    "trade.effectiveness": "Účinnost obchod: +{0}%",
     "trade.race.lizards": "Ještěři",
     "trade.race.sharks": "Žraloci",
     "trade.race.griffins": "Griffinové",

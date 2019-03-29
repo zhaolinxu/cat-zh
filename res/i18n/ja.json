@@ -1278,6 +1278,7 @@
     "time.AccelerateTimeBtn.desc": "あなたの気まぐれで時間を加速したり遅らせたりします。(+50%加速します。)",
     "time.AccelerateTimeBtn.label.normal": "時間を速める",
     "time.AccelerateTimeBtn.label.accelerated": "時間を遅らせる",
+    "trade.effectiveness": "交易効果: +{0}%",
     "trade.race.lizards": "トカゲ族",
     "trade.race.sharks": "サメ族",
     "trade.race.griffins": "グリフィン族",
