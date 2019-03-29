@@ -40,7 +40,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			modifiers:{
 				"catnip" : 0.25
 			}
-		}],
+		}
+	],
+
+	cycleYearColors: [
+		"#A00000",
+		"#DBA901",
+		"#14CD61",
+		"#01A9DB",
+		"#9A2EFE"
+	],
 
 	//Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
 	cycles: [
@@ -208,7 +217,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	ticksPerDay: 10,
 	daysPerSeason: 100,
 	seasonsPerYear: null,
-	yearsPerCycle: 5,
+	yearsPerCycle: null,
 	cyclesPerEra: null,
 
 	season: 0,
@@ -295,6 +304,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.displayElement = displayElement;
 
 		this.seasonsPerYear = this.seasons.length;
+		this.yearsPerCycle = this.cycleYearColors.length;
 		this.cyclesPerEra = this.cycles.length;
 
 		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
@@ -307,6 +317,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	update: function() {
 
+	},
+
+	cycleYearColor: function() {
+		return this.cycleYearColors[this.cycleYear];
 	},
 
 	cycleEffectsBasics: function(effects, building_name) {
