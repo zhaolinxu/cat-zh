@@ -1251,7 +1251,7 @@
     "achievements.limitlessClicker.starDesc": "1,000,000回クリックする。",
     "achievements.msg.unlock": "実績がアンロックされた: {0}!",
     "achievements.msg.starUnlock": "実績の星がアンロックされた: {0}!",
-    "achievements.header": "実績: {0} 個 {1} 個中",
+    "achievements.header": "実績: {1}中{0}",
     "time.cfu.temporalBattery.desc": "変位エネルギーの最大値を25%向上させます。",
     "time.cfu.temporalBattery.label": "時空電池",
     "time.cfu.blastFurnace.desc": "時空熱を操作します。最大熱限度を100増加させます。",
