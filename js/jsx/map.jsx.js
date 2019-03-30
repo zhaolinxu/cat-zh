@@ -250,7 +250,7 @@ WMapViewport = React.createClass({
 
     //todo: move to map
     getExplorationPrice: function(x, y){
-        var data = this.getTileData(x,y);
+        var data = this.getTileData(x,y),
             explorePower = 1 * (1 + game.village.map.getExploreRatio()),
             price = explorePower * Math.pow(1.01, data.level);
         

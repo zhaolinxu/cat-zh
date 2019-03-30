@@ -419,8 +419,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.update();
 	},
 
-	// minimize floating point error 
-	_roundToCentiday() {
+	// minimize floating point error
+	_roundToCentiday: function () {
 		this.day = Math.round(this.day * 100) / 100;
 	},
 

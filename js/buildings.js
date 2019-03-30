@@ -2031,11 +2031,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				name:           bld.label,
 				description:    bld.description,
 				building:       bld.name
-			}
+			};
 			if (typeof(bld.stages) == "object"){
 				props.controller = new classes.ui.btn.StagingBldBtnController(this.game);
 			} else {
-				props.controller = new classes.ui.btn.BuildingBtnModernController(game);
+				props.controller = new classes.ui.btn.BuildingBtnModernController(this.game);
 			}
 			var model = props.controller.fetchModel(props);
 			model.refundPercentage = 1.0;	//full refund for undo

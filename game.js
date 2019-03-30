@@ -3341,7 +3341,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = this._parseLSSaveData()
+		var lsData = this._parseLSSaveData();
 		if (!lsData){
 			lsData = {
 				game: {},

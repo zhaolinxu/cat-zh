@@ -823,7 +823,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 
 			if (promotedKittensCount == 0) {
-				this.game.msg($I(nogold ? "village.kittens.promotion.nogold" : "village.kittens.have.best.rank"));
+				this.game.msg($I(noGold ? "village.kittens.promotion.nogold" : "village.kittens.have.best.rank"));
 			} else if (promotedKittensCount == 1) {
 				this.game.msg($I("village.leader.promoted.one.kitten"));
 			} else {
@@ -1138,6 +1138,7 @@ dojo.declare("classes.village.Map", null, {
             data = this.getTile(x, y);
 
         var toLevel = this.toLevel(x, y),
+            explorePower = 1 * (1 + this.getExploreRatio()),
             explorePrice = this.getExplorationPrice(x, y),
             catpower = this.game.resPool.get("manpower");
 
@@ -1156,7 +1157,7 @@ dojo.declare("classes.village.Map", null, {
 	},
 
 	getExplorationPrice: function(x, y){
-        var data = this.getTile(x,y);
+        var data = this.getTile(x,y),
             explorePower = 1 * (1 + this.getExploreRatio()),
             price = explorePower * Math.pow(1.01, data.level);
 

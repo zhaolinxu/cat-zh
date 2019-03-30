@@ -857,7 +857,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "science", val: 250000000 },
 					{name: "uranium", val: 5000000 }
 				],
-				requiredTech: ["terraformation"],
 				effects: {
 					"tectonicBonus": 0.05
 				},
