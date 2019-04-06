@@ -1291,7 +1291,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var messageLine = this.console.msg(message, type, tag, noBullet);
 
 		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext",[this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
+			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
 		}
 
 		return messageLine;
@@ -3384,7 +3384,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = this._parseLSSaveData()
+		var lsData = this._parseLSSaveData();
 		if (!lsData){
 			lsData = {
 				game: {},
