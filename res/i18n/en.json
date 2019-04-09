@@ -469,7 +469,7 @@
     "science.steel.desc": "Development of the new Steel alloy advances further metal working. Benefits most of the aspects of development.",
     "science.steel.effectDesc": "Unlocks Coal and Steel production",
     "science.steel.label": "Steel",
-    "science.theology.desc": "Theology is the study of religion. Religion is a key concept affecting cultural, scientific and industrial development.",
+    "science.theology.desc": "Theology is the study of religion. Religion is a key concept affecting cultural, scientific and industrial development.<br>(Hint: You don't need to have all of this culture at once)",
     "science.theology.effectDesc": "Unlocks religion",
     "science.theology.flavor": "What is that flaming ball in the sky anyway?",
     "science.theology.label": "Theology",

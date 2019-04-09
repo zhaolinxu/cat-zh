@@ -431,7 +431,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"energyConsumption": {
 				title: $I("effectsMgr.statics.energyConsumption.title"),
-				type: "energy"
+				type: "energy",
+				calculation: "nonProportional"
             },
 
 			"energyProductionRatio": {
@@ -939,7 +940,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"aiLevel" :  {
 				title: $I("effectsMgr.statics.aiLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"gflopsConsumption" :  {
@@ -1096,9 +1098,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true,
+			disableTelemetry: false,
 			enableRedshift: false,
-            useLegacyTwoInRowLayout: false
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1334,13 +1339,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
-			highlightUnavailable: false,
+			highlightUnavailable: true,
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
 			//if true, save file will always be compressed
 			forceLZ: false
 		};

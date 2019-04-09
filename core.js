@@ -1199,6 +1199,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		return undefined;
 	},
 
+	getNextEffectValue: function(model, effectName) {
+		return undefined;
+	},
+
 	createPriceLineModel: function(model, price) {
 		return this._createPriceLineModel(price, model.options.simpleUI);
 	},
@@ -1287,14 +1291,23 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-		var valMultiplier = (this.game.ui.isEffectMultiplierEnabled() && model.on) ? model.on : 1;		
-		for (var effectName in effectsList){
-			var effectValue = effectsList[effectName] * valMultiplier;
-			if (effectValue != 0) {
-				var effectMeta = this.game.getEffectMeta(effectName);
-
+		var isEffectMultiplierEnabled = this.game.ui.isEffectMultiplierEnabled();
+		var valMultiplier = isEffectMultiplierEnabled ? model.on : 1;
+		for (var effectName in effectsList) {
+			var effectMeta = this.game.getEffectMeta(effectName);
+			var effectValue = effectMeta.calculation === "constant"
+				? effectsList[effectName]
+				: effectsList[effectName] * valMultiplier;
+			if (effectValue) {
 				if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
+				}
+
+				if (!isEffectMultiplierEnabled && effectMeta.calculation === "nonProportional") {
+					var nextEffectValue = this.getNextEffectValue(model, effectName);
+					if (nextEffectValue) {
+						effectValue = nextEffectValue * (model.on + 1) - effectValue * model.on;
+					}
 				}
 
 				var displayEffectName = effectMeta.title;
@@ -1676,6 +1689,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 	getEffects: function(model){
 		return model.metadata.effects;
+	},
+
+	getNextEffectValue: function(model, effectName) {
+		var underlying = model.metadata;
+		if (!underlying.updateEffects) {
+			return undefined;
+		}
+
+		underlying.on++;
+		underlying.updateEffects(underlying, this.game);
+		var nextEffectValue = underlying.effects[effectName];
+		underlying.on--;
+		underlying.updateEffects(underlying, this.game);
+		return nextEffectValue;
 	},
 
 	getDescription: function(model){
