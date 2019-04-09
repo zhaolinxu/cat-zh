@@ -1,3 +1,15 @@
+v 1.4.5.3 (9 apr 2019)
+
+changes by Ethaniel_Kavelaars:
+
+Highlight caps in red will be available by default
+Fixed AI core consumption and tooltip
+Added colors to cycle symbols
+Added display for trade effectiveness
+
+Lots and lots of other fixes
+
+
 v 1.4.5.2 (7 feb 2019)
 
 changes by TEXHIK:
