@@ -416,7 +416,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 60}
 		],
 		unlocks: {
-			upgrades: ["electrolyticSmelting", "oxidation", "retorting", "miningDrill"]
+			upgrades: ["electrolyticSmelting", "oxidation", "miningDrill"]
 		}
 	},{
 		name: "combustion",
