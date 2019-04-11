@@ -546,6 +546,13 @@ input[type="checkbox"]:checked + label:before {
     cursor: default;
 }
 
+.achievement-header .star {
+    padding-left: 6px;
+    margin-top: -4px;
+    font-size: 18px;
+    color: orange;
+}
+
 .achievement .star {
     float: right;
     padding-right: 0px;
