@@ -110,6 +110,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	//			   TRANSIENT
 	//=========================================
 	{
+		name : "antimatter",
+		title: $I("resources.antimatter.title"),
+		type : "common",
+		transient: true,
+		visible: true,
+		color: "#5A0EDE"/*,
+		aiCanDestroy: true*/
+	},{
 		name : "manpower",
 		title: $I("resources.manpower.title"),
 		type : "common",
@@ -161,14 +169,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#9A2EFE",
 		calculatePerTick: true
-	},{
-		name : "antimatter",
-		title: $I("resources.antimatter.title"),
-		type : "common",
-		transient: true,
-		visible: true,
-		color: "#5A0EDE"/*,
-		aiCanDestroy: true*/
 	},{
 		name : "temporalFlux",
 		title: $I("resources.temporalFlux.title"),
@@ -409,7 +409,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		title: $I("resources.ship.title"),
 		type : "common",
 		craftable: true,
-		color: "#FF7F50"
+		color: "#FF571A"
 	},{
 		name : "tanker",
 		title: $I("resources.tanker.title"),
@@ -651,6 +651,38 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.energyProd = game.getEffect("energyProduction") * (1 + game.getEffect("energyProductionRatio"));
 		this.energyCons = game.getEffect("energyConsumption");
 
+	},
+
+	//NB: don't forget to update resources before calling in redshift
+	fastforward: function(daysOffset) {
+		// Since workshop requires some resource and we don't want exhaust all resources during workshop so we need a way to consume them.
+		// Idea: relax resource limits temporarily, load the resource and do workshop, after that enforce limits again.
+		var limits = {};
+		for (var i in this.resources) {
+			var res = this.resources[i];
+			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+				if (res.maxValue) {
+					limits[res.name] = Math.max(res.value, res.maxValue);
+				}
+				//console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
+				//console.log("resource before adjustment:", res.value);
+				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, false/*event?*/, true/*preventLimitCheck*/);
+				//console.log("resource after adjustment:", res.value);
+			}
+		}
+		return limits;
+	},
+
+	enforceLimits: function(limits) {
+		for (var i in this.resources) {
+			var res = this.resources[i];
+			if (res.maxValue) {
+				var limit = limits[res.name];
+				if (limit) {
+					res.value = Math.min(res.value, limit);
+				}
+			}
+		}
 	},
 
 	//Hack to reach the maxValue in resTable

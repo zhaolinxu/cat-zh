@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1451e";
+			var version = "1453";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -223,7 +223,9 @@
 				}
 			}
 
-			function dev_boostCalendar(){
+			function dev_boostCalendar() {
+				gamePage.calendar.ticksPerDay = 1/3;
+				// TODO Temporarily kept
 				gamePage.calendar.dayPerTick = 3;
 			}
 
@@ -311,8 +313,8 @@
 					Minor 5:
 						Exploration
 
-					Rev: 1
-						Balance tweaks
+					Rev: 3
+						QoL
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -394,23 +396,6 @@
 				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
 			</div>
 
-			<div id="helpDiv" style="display: none" class="dialog help">
-				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
-				<ul>
-					<li>Q: The game is not working!</li>
-					<li>A: Press Ctrl+F5. Wiping and re-importing the save may also help.</li>
-					<br>
-					<li>Q: Wood is useless. It's more effective to refine catnip! [formula follows]</li>
-					<li>A: Catnip/wood mechanics are much more complicated.</li>
-					<br>
-					<li>Q: What are unicorns for?</li>
-					<li>A: It's a mystery.</li>
-					<br>
-					<li>Q: This game is too slow!</li>
-					<li>A: Things will be better. Just try to think creatively and prioritise goals.</li>
-				</ul>
-			</div>
-
 			<div id="creditsDiv" style="display: none" class="dialog credits">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
@@ -428,6 +413,7 @@
 					<li>ArcanisCz</li>
 					<li>Kida</li>
 					<li>freeroot</li>
+					<li>Ethaniel_Kavelaars</li>
 
 				</ul>
 
@@ -566,7 +552,7 @@
 				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
 				<a href="https://discord.gg/2arBf9K" target="_blank">discord</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
-				<a href="#" onclick="$('#helpDiv').toggle();">help</a> |
+				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
 				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
 				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> <!-- |
 				<a href="classic/" target="_blank">classic</a> -->

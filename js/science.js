@@ -169,10 +169,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		flavor: $I("science.philosophy.flavor")
 	},{
 		name: "machinery",
-		label: "Machinery",
-		description: "Previous advances in metal working and science give birth to the concept of a machine, a device with multiple moving parts. " +
-			"Machinery introduces a concept of automation which reduces routine operations",
-		effectDesc: "Unlocks Steamworks, Crossbows, Printing Press and Factory Automation.",
+		label: $I("science.machinery.label"),
+		description: $I("science.machinery.desc"),
+		effectDesc: $I("science.machinery.effectDesc"),
 		prices: [{name : "science", val: 15000}],
 		unlocks: {
 			buildings: ["steamworks"],
@@ -418,7 +417,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 60}
 		],
 		unlocks: {
-			upgrades: ["electrolyticSmelting", "oxidation", "retorting", "miningDrill"]
+			upgrades: ["electrolyticSmelting", "oxidation", "miningDrill"]
 		}
 	},{
 		name: "combustion",
@@ -1048,12 +1047,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 	},
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 	},
 
 	createTechBtn: function(tech){
-		var self = this;
 		var controller = new com.nuclearunicorn.game.ui.TechButtonController(this.game);
 		var btn = new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: tech.name, controller: controller}, this.game);
 		return btn;

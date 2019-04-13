@@ -52,7 +52,7 @@ WResourceRow = React.createClass({
 
         //wtf is this code
         var perTick = game.calendar.day < 0 ? 0 : game.getResourcePerTick(res.name, true);
-        perTick = game.opts.usePerSecondValues ? perTick * game.getRateUI() : perTick;
+        perTick = game.opts.usePerSecondValues ? perTick * game.getTicksPerSecondUI() : perTick;
         var postfix = game.opts.usePerSecondValues ? "/sec" : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
             perTick = (perTick / res.maxValue * 100).toFixed(2);
@@ -221,7 +221,7 @@ WCraftShortcut = React.createClass({
 
         if (craftPercent == 1){
             elem = this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, "all") : 
+                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
                 $r("div", {className:"res-cell craft-link"});
         }else{
             elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  

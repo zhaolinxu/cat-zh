@@ -188,7 +188,7 @@ dojo.declare("classes.game.Server", null, {
 });
 
 /**
- * Undo Change state. Represents a change in one or multiple
+ * Undo Change state. Represents a change in one or multiple managers
  */
 dojo.declare("classes.game.UndoChange", null, {
     _static:{
@@ -201,11 +201,10 @@ dojo.declare("classes.game.UndoChange", null, {
         this.events = [];
     },
 
-    addEvent: function(managerId, metaId, value){
+    addEvent: function(managerId, data){
         var event = {
             managerId: managerId,
-            metaId: metaId,
-            value: value
+            data: data
         };
 
         this.events.push(event);
@@ -432,7 +431,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"energyConsumption": {
 				title: $I("effectsMgr.statics.energyConsumption.title"),
-				type: "energy"
+				type: "energy",
+				calculation: "nonProportional"
             },
 
 			"energyProductionRatio": {
@@ -735,6 +735,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeImpedance" :  {
+                title: $I("effectsMgr.statics.timeImpedance.title"),
+                type: "fixed"
+            },
+
             "shatterTCGain" :  {
                 title: $I("effectsMgr.statics.shatterTCGain.title"),
                 type: "ratio"
@@ -892,7 +897,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"aiLevel" :  {
 				title: $I("effectsMgr.statics.aiLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"gflopsConsumption" :  {
@@ -947,15 +953,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//global cache
 	globalEffectsCached: {},
 
-	//how much ticks are performed per second ( 5 ticks, 200 ms per tick)
-	rate: 5,
+	//how much ticks are performed per second (5 ticks per second, 200 ms per tick)
+	ticksPerSecond: 5,
 
 	//I wonder why someone may need this
 	isPaused: false,
 
 	isCMBREnabled: false,
 
-	ticksBeforeSave: 400,	//40 seconds ~
+	ticksBeforeSave: 400,	//80 seconds ~
 
 	//in ticks
 	autosaveFrequency: 400,
@@ -1049,9 +1055,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true,
+			disableTelemetry: false,
 			enableRedshift: false,
-            useLegacyTwoInRowLayout: false
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1061,6 +1070,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.resPool = new classes.managers.ResourceManager(this);
 		this.calendar = new com.nuclearunicorn.game.Calendar(this, dojo.byId("calendarDiv"));
+
+		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
+		this.rate = this.ticksPerSecond;
 
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
@@ -1146,8 +1158,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}), 5);		//once per 5 ticks
 
 		this.timer.addEvent(dojo.hitch(this, function(){ this.achievements.update(); }), 50);	//once per 50 ticks, we hardly need this
-		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.rate * 60 * 10);	//reload MOTD and server info every 10 minutes
-		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.rate * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
+		this.timer.addEvent(dojo.hitch(this, function(){ this.server.refresh(); }), this.calendar.ticksPerSecond * 60 * 10);	//reload MOTD and server info every 10 minutes
+		this.timer.addEvent(dojo.hitch(this, function(){ this.heartbeat(); }), this.calendar.ticksPerSecond * 60 * 10);	//send heartbeat every 10 min	//TODO: 30 min eventually
 
 
 		this.effectsMgr = new com.nuclearunicorn.game.EffectsManager(this);
@@ -1241,7 +1253,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var messageLine = this.console.msg(message, type, tag, noBullet);
 
 		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext",[this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
+			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
 		}
 
 		return messageLine;
@@ -1284,13 +1296,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
-			highlightUnavailable: false,
+			highlightUnavailable: true,
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
 			//if true, save file will always be compressed
 			forceLZ: false
 		};
@@ -1550,7 +1564,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImport: function(){
-		if (!window.confirm("Are your sure? This will overwrite your save!")){
+		if (!window.confirm($I("save.msg.confirm"))){
 			return;
 		}
 		var data = $("#importData").val();
@@ -2222,7 +2236,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.workshop.get("spaceManufacturing").researched && res.name != "uranium"){
 			var factory = this.bld.get("factory");
 			spaceRatio *= (1 + factory.on * factory.effects["craftRatio"] * 0.75);
-			spaceRatio -= 1;
 		}
 
 		// +SPACE PerTickBase
@@ -2406,6 +2419,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +AUTOMATED PRODUCTION SPACE
 		var perTickAutoprodSpaceStack = [];
+		var spaceParagonSubStack = [];
 		//---->
 			perTickAutoprodSpaceStack.push({
 				name: $I("res.stack.spaceConvProd"),
@@ -2417,16 +2431,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				type: "ratio",
 				value: spaceRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.spaceParagon"),
 				type: "ratio",
 				value: paragonSpaceProductionRatio - 1
 			});
-			perTickAutoprodSpaceStack.push({
+			spaceParagonSubStack.push({
 				name: $I("res.stack.bonusTransf"),
-				type: "ratio",
+				type: "multiplier",
 				value: this.getEffect("prodTransferBonus")
 			});
+			perTickAutoprodSpaceStack.push(spaceParagonSubStack);
 		//<----
 		stack.push(perTickAutoprodSpaceStack);
 
@@ -2498,7 +2513,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push({
 			name: $I("res.stack.time"),
 			type: "ratio",
-			value: (this.getRateUI() - this.rate) / this.rate
+			value: this.timeAccelerationRatio()
 		});
 
 		return stack;
@@ -2590,8 +2605,17 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.timer.afterUpdate();
 	},
 
-	getRateUI: function(){
-		return this.time.isAccelerated ? this.rate * 1.5 : this.rate;
+	// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
+	getRateUI: function() {
+		return this.getTicksPerSecondUI();
+	},
+
+	getTicksPerSecondUI: function() {
+		return this.ticksPerSecond * (1 + this.timeAccelerationRatio());
+	},
+
+	timeAccelerationRatio: function() {
+		return this.time.isAccelerated ? 0.5 : 0;
 	},
 
 	/**
@@ -2760,18 +2784,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var resStack = this.getResourcePerTickStack(res.name),
 			resString = this.processResourcePerTickStack(resStack, res, 0),
-			resPertick = this.getResourcePerTick(res.name, true);
+			resPerTick = this.getResourcePerTick(res.name, true);
 
 		if (this.opts.usePercentageResourceValues){
-			resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPertick, true, true);
+			resString += "<br> " + $I("res.netGain") + ": " + this.getDisplayValueExt(resPerTick, true, true);
 		}
 
-		if (resPertick < 0) {
-			var toZero = res.value / (-resPertick * this.getRateUI());
+		if (resPerTick < 0) {
+			var toZero = res.value / (-resPerTick * this.getTicksPerSecondUI());
 			resString += "<br>" + $I("res.toZero") + ": " + this.toDisplaySeconds(toZero.toFixed());
 		} else {
 			if (res.maxValue && res.value < res.maxValue) {
-				var toCap = (res.maxValue - res.value) / (resPertick * this.getRateUI());
+				var toCap = (res.maxValue - res.value) / (resPerTick * this.getTicksPerSecondUI());
 				if (toCap){
 					resString += "<br>" + $I("res.toCap") + ": " + this.toDisplaySeconds(toCap.toFixed());
 				}
@@ -2780,29 +2804,34 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return resString;
 	},
 
-	processResourcePerTickStack: function(resStack, res, depth){
+	processResourcePerTickStack: function(resStack, res, depth, hasFixed) {
 		var resString = "";
-		var hasFixed = false;
+		if (depth < 2) {
+			hasFixed = false;
+		}
 
-		for (var i in resStack){
+		for (var i = 0; i < resStack.length; i++) {
 			var stackElem = resStack[i];
 
-			if (stackElem.length){
-				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1);
-				if (subStack.length){
+			if (stackElem.length) {
+				var subStack = this.processResourcePerTickStack(stackElem, res, depth + 1, hasFixed);
+				if (subStack.length) {
 					resString += subStack;
 					hasFixed = true;
 				}
-			}
-
-			if (!stackElem.value || (stackElem.type == "ratio" && !hasFixed)){
 				continue;
 			}
 
-			if (i != 0) {
-				for (var j = 0; j < depth; j++){
-					resString += "|-> ";
-				}
+			if (!stackElem.value || (stackElem.type != "fixed" && !hasFixed)) {
+				continue;
+			}
+
+			var indent = i == 0 ? depth - 1 : depth;
+			for (var j = 0; j < indent - 1; j++) {
+				resString += "<span style='visibility: hidden;'>|-> </span>";
+			}
+			if (indent > 0) {
+				resString += "|-> ";
 			}
 
 			resString += this.getStackElemString(stackElem, res);
@@ -2817,10 +2846,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	getStackElemString: function(stackElem, res){
 		var resString = stackElem.name + ":&nbsp;<div style=\"float: right;\">";
 
-		if (stackElem.type == "fixed"){
+		if (stackElem.type == "fixed") {
 			resString += this.getDisplayValueExt(stackElem.value, true, true);
-		} else {
+		} else if (stackElem.type == "ratio") {
 			resString += this.getDisplayValueExt((stackElem.value * 100).toFixed(), true) + "%";
+		} else if (stackElem.type == "multiplier") {
+			resString += "×" + this.getDisplayValueExt((stackElem.value * 100).toFixed()) + "%";
 		}
 
 		resString += "</div><br>";
@@ -2862,8 +2893,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	toDisplayDays: function(daysRaw){
 		var daysNum = parseInt(daysRaw, 10); // don't forget the second param
 
-		var years   = Math.floor(daysNum / (4*100));
-		var days = daysNum - (years * 4 * 100);
+		var daysPerYear = this.calendar.daysPerSeason * this.calendar.seasonsPerYear;
+		var years = Math.floor(daysNum / daysPerYear);
+		var days = daysNum - years * daysPerYear;
 
 		if (years > 0){
 			years = this.getDisplayValueExt(years);
@@ -2944,22 +2976,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if(!value){ return "0"; }
 
-		if (usePerTickHack){
-			usePerTickHack = this.opts.usePerSecondValues;
+		usePerTickHack &= this.opts.usePerSecondValues;
+		if (usePerTickHack) {
+			value = value * this.ticksPerSecond;
 		}
-		if (usePerTickHack){
-			value = value * this.rate;
-		}
-
-
 
 		postfix = postfix || "";
 		var absValue = Math.abs(value);
 		for(var i = 0; i < this.postfixes.length; i++) {
 			var p = this.postfixes[i];
 			if(absValue >= p.limit){
-				if (usePerTickHack){ // Prevent recursive * this.rate;
-					value = value / this.rate;
+				if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
+					value = value / this.ticksPerSecond;
 				}
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
@@ -3032,7 +3060,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (this.isWebWorkerSupported() && this.useWorkers){	//IE10 has a nasty security issue with running blob workers
 			console.log("starting web worker...");
 			var blob = new Blob([
-				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.rate + "); }"]);	//no shitty external js
+				"onmessage = function(e) { setInterval(function(){ postMessage('tick'); }, 1000 / " + this.ticksPerSecond + "); }"]);	//no shitty external js
 			var blobURL = window.URL.createObjectURL(blob);
 
 			this.worker = new Worker(blobURL);
@@ -3055,7 +3083,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				Would still work bad during the scroll
 			 */
 			clearInterval(this._mainTimer);
-			this._mainTimer = setInterval(dojo.hitch(this, this.tick), (1000 / this.rate));
+			this._mainTimer = setInterval(dojo.hitch(this, this.tick), (1000 / this.ticksPerSecond));
 
 			this._lastFrameTimestamp = this.timestamp();
 		}
@@ -3069,7 +3097,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var now = this.timestamp(),
 			delta = now - this._lastFrameTimestamp;
 
-		if (delta > (1000/this.rate)){
+		if (delta > (1000 / this.ticksPerSecond)) {
 			/*dojo.hitch(this, this.tick)();*/
 			console.log("tick!");
 			this.tick();
@@ -3320,7 +3348,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = this._parseLSSaveData()
+		var lsData = this._parseLSSaveData();
 		if (!lsData){
 			lsData = {
 				game: {},
@@ -3418,6 +3446,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			game : lsData.game,
 			resources: newResources,
 			buildings: [],
+			calendar: {
+				cryptoPrice: this.calendar.cryptoPrice
+			},
 			challenges: {
 				challenges: this.challenges.challenges,
 				currentChallenge: this.challenges.currentChallenge
@@ -3450,7 +3481,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			village :{
 				kittens: newKittens,
-				jobs: []
+				jobs: [],
+				traits: [],
 			},
 			achievements: lsData.achievements,
 			stats: stats,
@@ -3622,7 +3654,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     registerUndoChange: function(){
         var undoChange = new classes.game.UndoChange();
-        undoChange.ttl = undoChange._static.DEFAULT_TTL * this.rate;
+        undoChange.ttl = undoChange._static.DEFAULT_TTL * this.ticksPerSecond;
 
         this.undoChange = undoChange;
 
@@ -3639,7 +3671,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          * I am too tired to write proper logic, let it be simple hashmap of references
          */
         var managers = {
-           "workshop": this.workshop
+		   "workshop": this.workshop,
+		   "building": this.bld
         };
 
         for (var i in this.undoChange.events){
@@ -3647,7 +3680,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
             var mgr = managers[event.managerId];
 
             if (mgr && mgr.undo){
-                mgr.undo(event.metaId, event.value);
+                mgr.undo(event.data);
             }
         }
 

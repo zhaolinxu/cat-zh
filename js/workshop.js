@@ -2116,15 +2116,13 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		return prices;
 	},
 
-	craft: function (res, amt, suppressUndo, forceAll){
-
+	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio({name:res});
-
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
-		if (amt < 0 && this.game.resPool.get(res).value < Math.abs(craftAmt)){
+		if (amt < 0 && this.game.resPool.get(res).value < Math.abs(craftAmt)) {
 			return false;
 		}
 
@@ -2134,31 +2132,33 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			prices[i].val *= amt;
 		}
 
-
-		if (this.game.resPool.hasRes(prices)){
+		if (bypassResourceCheck || this.game.resPool.hasRes(prices)) {
 			this.game.resPool.payPrices(prices);
 			this.game.resPool.addResEvent(res,craftAmt);
 			if (craft.upgrades){
 				this.game.upgrade(craft.upgrades);
 			}
 
-			this.game.stats.getStat("totalCrafts").val += 1;
-			this.game.stats.getStatCurrent("totalCrafts").val += 1;
+			this.game.stats.getStat("totalCrafts").val++;
+			this.game.stats.getStatCurrent("totalCrafts").val++;
 
             if (!suppressUndo) {
                 var undo = this.game.registerUndoChange();
                 undo.addEvent("workshop", /* TODO: use manager.id and pass it in proper way as manager constructor*/
-                    res, amt);
+                    {
+						metaId:res,
+						val: amt
+					}
+				);
             }
 
             return true;
-
-		}else{
-			//console.log("not enough resources for", prices);
-			if (forceAll){
-				this.craftAll(res);
-				return true;
-			}
+		} else if (forceAll) {
+			//console.log("not enough resources for ", prices, ", crafting as much as possible");
+			this.craftAll(res);
+			return true;
+		} else {
+			//console.log("not enough resources for ", prices, ", aborting craft");
 			return false;
 		}
 	},
@@ -2181,13 +2181,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
-			var effectPerTick = ( 1 / (600 * this.game.rate)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
+			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
 
 			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
 		}
 	},
 
-    undo: function(metaId, val){
+    undo: function(data){
+		var metaId = data.metaId,
+			val = data.val;
+			 
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
 			var craftRatio = this.game.getResCraftRatio(res);
@@ -2216,15 +2219,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	//Crafts maximum possible amount for given recipe name
-	craftAll: function(craftName){
+	craftAll: function(craftName) {
 		var minAmt = this.getCraftAllCount(craftName);
-		if (minAmt > 0 && minAmt < Number.MAX_VALUE){
+		if (minAmt > 0 && minAmt < Number.MAX_VALUE) {
 			var craftRatio = this.game.getResCraftRatio({name:craftName});
 			var bonus = minAmt * craftRatio;
 
 			var res = this.game.resPool.get(craftName);
-			this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
-			this.craft(craftName, minAmt);
+			if (this.craft(craftName, minAmt, false /* allow undo */, false /* don't force all */, true /* bypass resource check */)) {
+				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
+			}
 		}
 	},
 
@@ -2236,11 +2240,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-		this.fastforward(this.game.calendar.dayPerTick);
+		this.fastforward(1 / this.game.calendar.ticksPerDay);
 	},
 
 	fastforward: function(daysOffset) {
-		var times = daysOffset / this.game.calendar.dayPerTick;
+		var times = daysOffset * this.game.calendar.ticksPerDay;
 
 		//-------------	 this is a poor place for this kind of functionality ------------
 		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
@@ -2624,7 +2628,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	resTd: null,
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 
 		this.craftBtns = [];
@@ -2691,7 +2694,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			return $I("workshop.craftPanel.header.tooltip");
 		});
 
-		var self = this;
 		var crafts = this.game.workshop.crafts;
 		var controller = new com.nuclearunicorn.game.ui.CraftButtonController(this.game);
 		for (var i = 0; i < crafts.length; i++ ){
@@ -2746,7 +2748,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	},
 
 	createBtn: function(upgrade){
-		var self = this;
 		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
 		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name, controller: controller}, this.game);
 		return btn;

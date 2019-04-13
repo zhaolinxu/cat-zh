@@ -52,7 +52,8 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"zh": "Chinese",
 			"ja": "Japanese",
 			"br": "Portuguese",
-			"fr": "French"
+			"fr": "French",
+			"cz": "Česky"
 		};
 	},
 
@@ -432,25 +433,24 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	/**
 	 * TODO: this logic is very confusing. Ideally the only place devs need to change should be building metadata.
 	 */
-	resetStateStackable: function(bld, isAutomationEnabled, lackResConvert, effects) {
+	resetStateStackable: function(bld) {
 		bld.val = 0;
 		bld.on = 0;
 		if (bld.noStackable == "undefined") {
 			bld.noStackable = false;
 		}
-		if (bld.name == "reactor" ||
-			bld.name == "calciner") {
+		if (bld.isAutomationEnabled != undefined) {
 			bld.isAutomationEnabled = null;
 		}
 
 		// Automatic settings of togglable
 
-		if (lackResConvert != undefined) {
+		if (bld.lackResConvert != undefined) {
 			// Exceptions (when convertion is caused by an upgrade)
 			bld.togglable = (bld.name == "biolab") ? false : true;
 		}
 
-		for (var effect in effects) {
+		for (var effect in bld.effects) {
 			if (effect == "energyConsumption" || effect == "magnetoRatio" || effect == "productionRatio") {
 				// Exceptions (when energyConsumption is caused by an upgrade)
 				bld.togglable = (bld.name == "oilWell" || bld.name == "biolab" || bld.name == "chronosphere" || bld.name == "aiCore") ? false : true;
@@ -479,6 +479,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			},
 			"hunt": {
 				title: "Hunts",
+				enabled: true,
+				unlocked: false
+			},
+			"trade": {
+				title: "Trade",
 				enabled: true,
 				unlocked: false
 			},
@@ -806,19 +811,20 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 		callback(false);
 	},
 
-	refund: function(model){
-		if (model.prices.length){
-			for( var i = 0; i < model.prices.length; i++){
-				var price = model.prices[i];
+	refund: function(model){		
+		if (!model.prices.length){
+			console.warn("unable to refund building, no prices specifed in metadata :O");
+			return;
+		}
+		for( var i = 0; i < model.prices.length; i++){
+			var price = model.prices[i];
 
-				var res = this.game.resPool.get(price.name);
-				if (res.refundable) {
-					this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
-				} else {
-					// No refund at all
-				}
+			var res = this.game.resPool.get(price.name);
+			if (res.refundable) {
+				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
+			} else {
+				// No refund at all
 			}
-			model.prices = this.getPrices(model);
 		}
 	}
 });
@@ -1193,6 +1199,10 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		return undefined;
 	},
 
+	getNextEffectValue: function(model, effectName) {
+		return undefined;
+	},
+
 	createPriceLineModel: function(model, price) {
 		return this._createPriceLineModel(price, model.options.simpleUI);
 	},
@@ -1210,7 +1220,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var resPerTick = this.game.getResourcePerTick(res.name, true);
 		var eta=0;
 		if (!hasRes && resPerTick > 0 && !simpleUI){
-			eta = (price.val-res.value) / (resPerTick * this.game.getRateUI());
+			eta = (price.val - res.value) / (resPerTick * this.game.getTicksPerSecondUI());
 			if (eta >= 1) {
 				displayValue += " (" + this.game.toDisplaySeconds(eta) + ")";
 			}
@@ -1281,14 +1291,23 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-		var valMultiplier = (this.game.ui.isEffectMultiplierEnabled() && model.on) ? model.on : 1;		
-		for (var effectName in effectsList){
-			var effectValue = effectsList[effectName] * valMultiplier;
-			if (effectValue != 0) {
-				var effectMeta = this.game.getEffectMeta(effectName);
-
+		var isEffectMultiplierEnabled = this.game.ui.isEffectMultiplierEnabled();
+		var valMultiplier = isEffectMultiplierEnabled ? model.on : 1;
+		for (var effectName in effectsList) {
+			var effectMeta = this.game.getEffectMeta(effectName);
+			var effectValue = effectMeta.calculation === "constant"
+				? effectsList[effectName]
+				: effectsList[effectName] * valMultiplier;
+			if (effectValue) {
 				if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked){
 					continue;	//hide resource-related effects if we did not unlocked this effect yet
+				}
+
+				if (!isEffectMultiplierEnabled && effectMeta.calculation === "nonProportional") {
+					var nextEffectValue = this.getNextEffectValue(model, effectName);
+					if (nextEffectValue) {
+						effectValue = nextEffectValue * (model.on + 1) - effectValue * model.on;
+					}
 				}
 
 				var displayEffectName = effectMeta.title;
@@ -1305,14 +1324,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
 					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
-					var tempVal = Math.abs(effectValue * this.game.rate), precision;
+					var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
 					if (tempVal >= 0.001) {
 						precision = tempVal < 0.01? 3: 2;
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate, false, false, precision) + "/sec";
+							effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
 					} else {
 						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.rate * 3600, false, false, 2) + "/h";
+							effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/h";
 					}
 				} else if (effectMeta.type === "perDay"){
 					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
@@ -1629,8 +1648,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var self = this;
 		if (typeof(model.metadata.togglableOnOff) != "undefined") {
 			model.togglableOnOffLink = {
-				title:  model.metadata.on ? "on" : "off",
-				tooltip: model.metadata.on ? "Building enabled" : "Building disabled",
+				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
+				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				visible: true,
 				enabled: true,
 				divider: true,
@@ -1642,7 +1661,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
-				tooltip: model.metadata.isAutomationEnabled ? "Automation enabled" : "Automation disabled",
+				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				visible: this.game.workshop.get("factoryAutomation").researched,
 				enabled: true,
 				divider: true,
@@ -1670,6 +1689,20 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 	getEffects: function(model){
 		return model.metadata.effects;
+	},
+
+	getNextEffectValue: function(model, effectName) {
+		var underlying = model.metadata;
+		if (!underlying.updateEffects) {
+			return undefined;
+		}
+
+		underlying.on++;
+		underlying.updateEffects(underlying, this.game);
+		var nextEffectValue = underlying.effects[effectName];
+		underlying.on--;
+		underlying.updateEffects(underlying, this.game);
+		return nextEffectValue;
 	},
 
 	getDescription: function(model){
@@ -1758,7 +1791,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 	sellInternal: function(model, end){
 		var building = model.metadata;
-		while (  building.val > end && this.hasSellLink(model) ) { //religion upgrades can't sell past 1
+		while (  building.val > end /*&& this.hasSellLink(model)*/ ) { //religion upgrades can't sell past 1
 			this.decrementValue(model);
 
 			model.prices = this.getPrices(model);
@@ -1804,13 +1837,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	getSelectedObject: function(){
 		return this.model;
 	},
-
-    undo: function(metaId, val){
-        if (console && console.warn) {
-            console.warn("Not implemented yet!");
-        }
-    },
-
 	/**
 	 * Render button links like off/on and sell
 	 */
@@ -1820,7 +1846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink($I("btn.sell"),
+				this.sellHref = this.addLink($I("btn.sell.minor"),
 					function(event){
 						this.sell(event);
 					});
@@ -1890,8 +1916,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 
 	update: function(){
 		this.inherited(arguments);
-
-		var self = this;
 
 		//we are calling update before render, panic flee
 		if (!this.buttonContent){
