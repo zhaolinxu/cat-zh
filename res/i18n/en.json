@@ -1580,5 +1580,7 @@
     "btn.aon.tooltip": "Automation enabled",
     "btn.aoff.tooltip": "Automation disabled",
     "buildings.dataCenter.label":"Data Center",
-    "buildings.dataCenter.desc":"Increase total effect of compedia on your max science"
+    "buildings.dataCenter.desc":"Increase total effect of compedia on your max science",
+    "workshop.uplink.label":"Uplink",
+    "workshop.uplink.desc":"Increase Data Center science capacity by 250%"
 }
