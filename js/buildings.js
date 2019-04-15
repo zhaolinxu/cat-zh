@@ -520,7 +520,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
 			
 			if (self.stage == 1){
-				effects["scienceMaxCompedia"] = 1000;
+				effects["scienceMax"] = 750;
+				effects["cultureMax"] = 250;
+				
 				if (game.workshop.get("uplink").researched){
 					effects["scienceMaxCompedia"] *= 2.5;
 				}
@@ -532,6 +534,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				if (game.workshop.get("machineLearning").researched){
 					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+
+					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["scienceMaxCompedia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 				}
 			}
