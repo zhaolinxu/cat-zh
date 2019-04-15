@@ -1022,7 +1022,35 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1750 },
-			{ name : "science",  val: 200000 }
+			{ name : "science",  val: 75000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},{
+		name: "cryocomputing",
+		label: $I("workshop.cryocomputing.label"),
+		description: $I("workshop.cryocomputing.desc"),
+		effects: {
+		},
+		prices:[
+			{ name : "eludium",  val: 15 },
+			{ name : "science",  val: 125000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},{
+		name: "machineLearning",
+		label: $I("workshop.machineLearning.label"),
+		description: $I("workshop.machineLearning.desc"),
+		effects: {
+			"dataCenterAIRatio": 0.01
+		},
+		prices:[
+			{ name : "science",     val: 175000 },
+			{ name : "eludium",  	val: 25 },
+			{ name : "antimatter",  val: 125 }
 		],
 		upgrades: {
 			buildings: ["library"]

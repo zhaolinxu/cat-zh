@@ -499,7 +499,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks", "aiEngineers"],
+			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"],
 			buildings: ["aiCore"],
 			tech: ["quantumCryptography"]
 		}
@@ -666,7 +666,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion", "spaceManufacturing"],
+            upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"],
 			tech: ["antimatter"]
 		}
 	},{

@@ -1565,7 +1565,7 @@
     "ai.apocalypse.msg":"IA destruiu {0}% dos seus recursos",
     "science.quantumCryptography.label":"Criptografia Quântica",
     "science.quantumCryptography.desc":"TBD",
-    "science.quantumCryptography.effectDesc":"TBD"
+    "science.quantumCryptography.effectDesc":"TBD",
     "space.planet.helios.heatsink.label":"Dissipador de calor",
     "space.planet.helios.heatsink.desc":"Um sistema de dissipação de calor. Cada Dissipador aumenta o consumo de energia da Câmara de Contensão em 1% e capacidade de armazenamento de antimatéria em 2%",
 

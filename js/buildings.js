@@ -524,6 +524,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("uplink").researched){
 					effects["scienceMaxCompedia"] *= 2.5;
 				}
+
+				effects["energyConsumption"] = 2;
+				if (game.workshop.get("cryocomputing").researched){
+					effects["energyConsumption"] = 1;
+				}
+
+				if (game.workshop.get("machineLearning").researched){
+					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+					effects["scienceMaxCompedia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+				}
 			}
 
 			stageMeta.effects = effects;
