@@ -531,6 +531,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				if (game.workshop.get("cryocomputing").researched){
 					effects["energyConsumption"] = 1;
 				}
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
 
 				if (game.workshop.get("machineLearning").researched){
 					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
