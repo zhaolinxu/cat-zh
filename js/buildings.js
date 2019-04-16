@@ -496,7 +496,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					{ name : "steel", val: 100 }
 				],
 				effects: {
-					"scienceMaxCompedia": 1000,
+					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
 					"energyConsumption": 2
 				},
@@ -523,10 +523,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (self.stage == 1){
 				effects["scienceMax"] *= 3;	//250->750 base science boos for data centers
 				effects["cultureMax"] = 250;
-				effects["scienceMaxCompedia"] = 1000;
+				effects["scienceMaxCompendia"] = 1000;
 				
 				if (game.workshop.get("uplink").researched){
-					effects["scienceMaxCompedia"] *= 2.5;
+					effects["scienceMaxCompendia"] *= 2.5;
 				}
 
 				effects["energyConsumption"] = 2;
@@ -542,7 +542,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
-					effects["scienceMaxCompedia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 				}
 			}
 
