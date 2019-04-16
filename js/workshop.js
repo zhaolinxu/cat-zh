@@ -2280,7 +2280,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			compendiaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
 
 		//iw compedia cap is set to 1000% instead of 100%	
-		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;	
+		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
+		
+		if (this.game.prestige.getPerk("blackScriptures").researched){
+			iwScienceCapRatio *= (1 + 0.05 * game.religion.getTranscendenceLevel());
+		}
 
 		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap)){
 			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);

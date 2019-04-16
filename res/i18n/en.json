@@ -1586,5 +1586,7 @@
     "workshop.cryocomputing.label":"Cryocomputing",
     "workshop.cryocomputing.desc": "Data Center energy consumption reduced by 50%",
     "workshop.machineLearning.label":"Machine Learning",
-    "workshop.machineLearning.desc": "Every level of AI Core will increase Data Center effectivenes by 10%"
+    "workshop.machineLearning.desc": "Every level of AI Core will increase Data Center effectivenes by 10%",
+    "prestige.codexLeviathanianus.label": "Codex Leviathanianus",
+    "prestige.codexLeviathanianus.desc": "Increases compendia cut-off limit by 5% per transcendence tier"
 }
