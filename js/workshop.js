@@ -1045,7 +1045,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: $I("workshop.machineLearning.label"),
 		description: $I("workshop.machineLearning.desc"),
 		effects: {
-			"dataCenterAIRatio": 0.01
+			"dataCenterAIRatio": 0.1
 		},
 		prices:[
 			{ name : "science",     val: 175000 },
