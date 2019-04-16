@@ -1676,7 +1676,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"gflopsPerTickBase": 0.02
 		},
 		upgrades: {
-			spaceBuilding: ["moonBase"]
+			spaceBuilding: ["moonBase"],
+			buildings: ["library"]
 		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, will be systematized later
