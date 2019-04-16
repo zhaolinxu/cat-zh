@@ -2279,8 +2279,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			scienceMaxCompediaCap =  this.game.getEffect("scienceMaxCompedia"),
 			compediaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
 
-		if (compediaScienceMax > (scienceMaxBuilding + scienceMaxCompediaCap)){
-			compediaScienceMax = (scienceMaxBuilding + scienceMaxCompediaCap);
+		//iw compedia cap is set to 1000% instead of 100%	
+		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;	
+
+		if (compediaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompediaCap)){
+			compediaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompediaCap);
 		}
 		//-------------	todo: move somewhere to bld? ------------------------------------
 
