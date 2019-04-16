@@ -514,14 +514,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var effects = {
 				"scienceRatio": 0.1,
 				"scienceMax": 250,
-				"cultureMax": 10
+				"cultureMax": 10,
 			};
+			
 			var libraryRatio = game.getEffect("libraryRatio");
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
 			
 			if (self.stage == 1){
-				effects["scienceMax"] = 750;
+				effects["scienceMax"] *= 3;	//250->750 base science boos for data centers
 				effects["cultureMax"] = 250;
+				effects["scienceMaxCompedia"] = 1000;
 				
 				if (game.workshop.get("uplink").researched){
 					effects["scienceMaxCompedia"] *= 2.5;
