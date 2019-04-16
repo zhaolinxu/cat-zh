@@ -1584,7 +1584,7 @@
     "workshop.uplink.label":"Uplink",
     "workshop.uplink.desc":"Increase Data Center science capacity by 250%",
     "workshop.cryocomputing.label":"Cryocomputing",
-    "workshop.cryocomputing.desc": "Data Center energy consumption reduced by 200%",
+    "workshop.cryocomputing.desc": "Data Center energy consumption reduced by 50%",
     "workshop.machineLearning.label":"Machine Learning",
     "workshop.machineLearning.desc": "Every level of AI Core will increase Data Center effectivenes by 1%"
 }
