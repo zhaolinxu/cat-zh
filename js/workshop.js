@@ -2291,7 +2291,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		}
 		//-------------	todo: move somewhere to bld? ------------------------------------
 
-		this.effectsBase["scienceMax"] = compediaScienceMax;
+		this.effectsBase["scienceMax"] = compendiaScienceMax;
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
