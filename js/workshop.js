@@ -2276,7 +2276,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		//-------------	 this is a poor place for this kind of functionality ------------
 		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
-			scienceMaxCompendiaCap =  this.game.getEffect("scienceMaxCompendia"),
+			scienceMaxCompendiaCap =  this.game.bld.getEffect("scienceMaxCompendia"),
 			compendiaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
 
 		//iw compedia cap is set to 1000% instead of 100%	
