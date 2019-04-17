@@ -2282,7 +2282,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		//iw compedia cap is set to 1000% instead of 100%	
 		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
 		
-		if (this.game.prestige.getPerk("blackScriptures").researched){
+		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
 			iwScienceCapRatio *= (1 + 0.05 * game.religion.getTranscendenceLevel());
 		}
 
