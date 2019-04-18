@@ -600,7 +600,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 				"satelliteRadio", 
 				"astrophysicists", 
 				"solarSatellites", 
-				"spaceEngineers"
+				"spaceEngineers", 
+				"starlink" 
 			]
 		}
 	},{

@@ -1588,5 +1588,7 @@
     "workshop.machineLearning.label":"Machine Learning",
     "workshop.machineLearning.desc": "Every level of AI Core will increase Data Center effectivenes by 10%",
     "prestige.codexLeviathanianus.label": "Codex Leviathanianus",
-    "prestige.codexLeviathanianus.desc": "Increases compendia cut-off limit by 5% per transcendence tier"
+    "prestige.codexLeviathanianus.desc": "Increases compendia cut-off limit by 5% per transcendence tier",
+    "workshop.starlink.label":"Starlink",
+    "workshop.starlink.desc":"Every datacenter will provide additional 1% bonus to research lab"
 }

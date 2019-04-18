@@ -1030,6 +1030,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["library"]
 		}
 	},{
+		name: "starlink",
+		label: $I("workshop.starlink.label"),
+		description: $I("workshop.starlink.desc"),
+		effects: {
+			"uplinkLabRatio": 0.01
+		},
+		prices:[
+			{ name : "alloy", 	 val: 5000 },
+			{ name : "oil", 	 val: 25000 },
+			{ name : "science",  val: 175000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},{
 		name: "cryocomputing",
 		label: $I("workshop.cryocomputing.label"),
 		description: $I("workshop.cryocomputing.desc"),
