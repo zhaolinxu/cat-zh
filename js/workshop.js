@@ -1020,7 +1020,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.uplink.desc"),
 		effects: {
 			"uplinkDCRatio": 0.01,
-			"uplinkLabRatio": 0.1
+			"uplinkLabRatio": 0.01
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1750 },
