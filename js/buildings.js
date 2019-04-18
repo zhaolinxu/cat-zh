@@ -509,6 +509,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			tabs: ["science"],
 			jobs: ["scholar"]
 		},
+		upgrades: {
+			buildings: ["biolab"]
+		},
 		calculateEffects: function(self, game){
 			var stageMeta = self.stages[self.stage];
 			var effects = {
@@ -525,8 +528,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["cultureMax"] = 250;
 				effects["scienceMaxCompendia"] = 1000;
 				
+				var biolabBonus = game.bld.get("biolab").on * 0.01;
 				if (game.workshop.get("uplink").researched){
-					effects["scienceMaxCompendia"] *= 2.5;
+					effects["scienceMaxCompendia"] *= (1+biolabBonus);
+					effects["scienceMax"] *= (1+biolabBonus);
+					effects["cultureMax"] *= (1+biolabBonus);
 				}
 
 				effects["energyConsumption"] = 2;
@@ -623,7 +629,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipPerTickCon": 0,
 			"oilPerTickProd": 0
 		},
+		upgrades: {
+			buildings: ["library"]
+		},
 		calculateEffects: function(self, game){
+			self.effects["scienceMax"] = 1500;
+
 			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
 				energyCons = 1;
@@ -633,6 +644,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.togglable = true;
 			}
 			self.effects["energyConsumption"] = energyCons;
+			var datacenterBonus = game.bld.get("library").on * 0.1;
+			if (game.workshop.get("uplink").researched && game.bld.get("library").stage == 1){
+				self.effects["scienceMax"] *= (1 + datacenterBonus);
+			}
 		},
 		lackResConvert: false,
 		action: function(self, game){
