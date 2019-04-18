@@ -1019,6 +1019,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: $I("workshop.uplink.label"),
 		description: $I("workshop.uplink.desc"),
 		effects: {
+			"uplinkDCRatio": 0.01,
+			"uplinkLabRatio": 0.1
 		},
 		prices:[
 			{ name : "alloy", 	 val: 1750 },
