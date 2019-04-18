@@ -1027,7 +1027,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 75000 }
 		],
 		upgrades: {
-			buildings: ["library"]
+			buildings: ["library", "biolab"]
 		}
 	},{
 		name: "starlink",
@@ -1042,7 +1042,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "science",  val: 175000 }
 		],
 		upgrades: {
-			buildings: ["library"]
+			buildings: ["library","biolab"]
 		}
 	},{
 		name: "cryocomputing",
