@@ -1592,5 +1592,7 @@
     "workshop.starlink.label":"Starlink",
     "workshop.starlink.desc":"Every datacenter will provide additional 1% bonus to research lab",
     "workshop.orbitalGeodesy.label":"Orbital Geodesy",
-    "workshop.orbitalGeodesy.desc":"Qarries will now provide a small amount of uranium"
+    "workshop.orbitalGeodesy.desc":"Qarries will now provide a small amount of uranium",
+    "religion.tu.blackLibrary.label":"Black Library",
+    "religion.tu.blackLibrary.desc":"Every Black Library improves Codex Leviathanianum scaling by 2%"
 }

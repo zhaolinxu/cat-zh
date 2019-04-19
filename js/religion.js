@@ -631,6 +631,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: $I("religion.tu.singularity.flavor")
 	},{
+		name: "blackLibrary",
+		label: $I("religion.tu.blackLibrary.label"),
+		description: $I("religion.tu.blackLibrary.desc"),
+		prices: [
+			{ name : "relic", val: 30000 }
+		],
+		tier: 9,
+		priceRatio: 1.15,
+		effects: {
+			"compendiaTTBoostRatio" : 0.02
+		},
+		unlocked: false,
+		flavor: $I("religion.tu.singularity.flavor")
+	},{
 		name: "blackRadiance",
 		label: $I("religion.tu.blackRadiance.label"),
 		description: $I("religion.tu.blackRadiance.desc"),

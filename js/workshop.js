@@ -2314,7 +2314,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
 		
 		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
-			iwScienceCapRatio *= (1 + 0.05 * game.religion.getTranscendenceLevel());
+			var ttBoostRatio = (0.05 * (1 + game.getEffect("compendiaTTBoostRatio")));
+			iwScienceCapRatio *= (1 + ttBoostRatio * game.religion.getTranscendenceLevel());
 		}
 
 		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap)){
