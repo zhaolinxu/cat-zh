@@ -842,6 +842,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"mineralsRatio": 0.35,
 			"coalPerTickBase": 0.015
 		},
+		calculateEffects: function(self, game){
+			if (game.workshop.get("orbitalGeodesy")){
+				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
+			}
+		},
 		flavor : $I("buildings.quarry.flavor")
 	},
 	{

@@ -580,6 +580,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             tech: ["orbitalEngineering" ],
             upgrades: [ 
 				"photolithography", 
+				"orbitalGeodesy",
 				"uplink" 
 			]
         },

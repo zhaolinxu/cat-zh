@@ -1590,5 +1590,7 @@
     "prestige.codexLeviathanianus.label": "Codex Leviathanianus",
     "prestige.codexLeviathanianus.desc": "Increases compendia cut-off limit by 5% per transcendence tier",
     "workshop.starlink.label":"Starlink",
-    "workshop.starlink.desc":"Every datacenter will provide additional 1% bonus to research lab"
+    "workshop.starlink.desc":"Every datacenter will provide additional 1% bonus to research lab",
+    "workshop.orbitalGeodesy.label":"Orbital Geodesy",
+    "workshop.orbitalGeodesy.desc":"Qarries will now provide a small amount of uranium"
 }

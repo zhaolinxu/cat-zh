@@ -969,7 +969,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "uranium", val: 250 },
 			{ name : "science",  val: 165000 }
 		]
-	},
+	},{
+        name: "orbitalGeodesy",
+        label: $I("workshop.orbitalGeodesy.label"),
+        description: $I("workshop.orbitalGeodesy.desc"),
+        effects: {
+		},
+		upgrades: {
+			buildings: ["quarry"]
+		},
+        prices:[
+            { name : "alloy", 	 val: 1000 },
+			{ name : "oil", 	 val: 35000 },
+            { name : "science",  val: 150000 }
+        ]
+    },
 	//--------------------- automation upgrades ----------------------
 	{
 		name: "printingPress",
