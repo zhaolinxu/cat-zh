@@ -17,6 +17,9 @@ Metaphysics
 Cryptotheology
 - Black Library
 
+Translations (beta)
+- Spanish
+- Chinease
 
 
 v 1.4.5.3 (9 apr 2019)
