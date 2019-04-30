@@ -1120,3 +1120,5 @@ div.hail {
         color: rgb(0,0,0);
     }
 }
+
+#toggle-all-items-build,#toggle-all-items-space,#toggle-all-items-craft,#toggle-all-items-trade,#toggle-all-items-faith{display: none !important;}
