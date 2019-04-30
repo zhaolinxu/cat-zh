@@ -1331,7 +1331,7 @@ var run = function() {
         }else if(chsname == "Manuscript"){
             chsname='手稿';
         }else if(chsname == "Compedium"){
-            chsname='概要';
+            chsname='摘要';
         }else if(chsname == "Blueprint"){
             chsname='蓝图';
         }else if(chsname == "Thorium"){

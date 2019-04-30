@@ -3882,7 +3882,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 概要!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 摘要!";
 				this.resPool.addResEvent("compedium", amt);
 			break;
 		}
