@@ -759,6 +759,26 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.kittenGrowthRatio.title"),
                 type: "ratio"
             },//新增部分
+			"dataCenterAIRatio" :  {
+                title: $I("effectsMgr.statics.dataCenterAIRatio.title"),
+                type: "ratio"
+            },
+			"uplinkDCRatio" :  {
+                title: $I("effectsMgr.statics.uplinkDCRatio.title"),
+                type: "ratio"
+            },
+			"uplinkLabRatio" :  {
+                title: $I("effectsMgr.statics.uplinkLabRatio.title"),
+                type: "ratio"
+            },
+			"scienceMaxCompendia" :  {
+                title: $I("effectsMgr.statics.scienceMaxCompendia.title"),
+                type: "ratio"
+            },
+			"baseMetalMaxRatio" :  {
+                title: $I("effectsMgr.statics.baseMetalMaxRatio.title"),
+                type: "ratio"
+            },
             "eludiumAutomationBonus" :  {
                 title: $I("effectsMgr.workshop.eludiumAutomationBonus.title"),
                 type: "ratio"
