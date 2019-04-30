@@ -92,7 +92,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (
 				(this.game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
 				(this.game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
-				(this.game.bld.get("library").val > 0 && this.game.bld.get("library").stage == 1) &&
 				this.game.bld.get("steamworks").val > 0 &&
 				this.game.bld.get("magneto").val > 0 &&
 				this.game.bld.get("reactor").val > 0 &&
