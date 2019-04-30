@@ -348,7 +348,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"cultureMaxRatioBonus" : 0.01
+			"cultureMaxRatioBonus" : 0.01,
+			"blackLibraryBonus": 0.02
 		},
 		upgrades: {
 			buildings: ["ziggurat"]
