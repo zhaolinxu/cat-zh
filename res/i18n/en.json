@@ -1578,5 +1578,21 @@
     "btn.on.tooltip": "Building enabled",
     "btn.off.tooltip": "Building disabled",
     "btn.aon.tooltip": "Automation enabled",
-    "btn.aoff.tooltip": "Automation disabled"
+    "btn.aoff.tooltip": "Automation disabled",
+    "buildings.dataCenter.label":"Data Center",
+    "buildings.dataCenter.desc":"Increases total effect of compedia on your max science",
+    "workshop.uplink.label":"Uplink",
+    "workshop.uplink.desc":"Data centers and research labs will provide bonus to each other",
+    "workshop.cryocomputing.label":"Cryocomputing",
+    "workshop.cryocomputing.desc": "Data Center energy consumption reduced by 50%",
+    "workshop.machineLearning.label":"Machine Learning",
+    "workshop.machineLearning.desc": "Every level of AI Core will increase Data Center effectivenes by 10%",
+    "prestige.codexLeviathanianus.label": "Codex Leviathanianus",
+    "prestige.codexLeviathanianus.desc": "Increases compendia cut-off limit by 5% per transcendence tier",
+    "workshop.starlink.label":"Starlink",
+    "workshop.starlink.desc":"Every datacenter will provide additional 1% bonus to research lab",
+    "workshop.orbitalGeodesy.label":"Orbital Geodesy",
+    "workshop.orbitalGeodesy.desc":"Qarries will now provide a small amount of uranium",
+    "religion.tu.blackLibrary.label":"Black Library",
+    "religion.tu.blackLibrary.desc":"Every Black Library improves Codex Leviathanianus scaling by 2%"
 }

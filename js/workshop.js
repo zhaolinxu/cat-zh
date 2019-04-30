@@ -969,7 +969,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "uranium", val: 250 },
 			{ name : "science",  val: 165000 }
 		]
-	},
+	},{
+        name: "orbitalGeodesy",
+        label: $I("workshop.orbitalGeodesy.label"),
+        description: $I("workshop.orbitalGeodesy.desc"),
+        effects: {
+		},
+		upgrades: {
+			buildings: ["quarry"]
+		},
+        prices:[
+            { name : "alloy", 	 val: 1000 },
+			{ name : "oil", 	 val: 35000 },
+            { name : "science",  val: 150000 }
+        ]
+    },
 	//--------------------- automation upgrades ----------------------
 	{
 		name: "printingPress",
@@ -1015,6 +1029,65 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			buildings: ["steamworks"]
 		}
 	},{
+		name: "uplink",
+		label: $I("workshop.uplink.label"),
+		description: $I("workshop.uplink.desc"),
+		effects: {
+			"uplinkDCRatio": 0.01,
+			"uplinkLabRatio": 0.01
+		},
+		prices:[
+			{ name : "alloy", 	 val: 1750 },
+			{ name : "science",  val: 75000 }
+		],
+		upgrades: {
+			buildings: ["library", "biolab"]
+		}
+	},{
+		name: "starlink",
+		label: $I("workshop.starlink.label"),
+		description: $I("workshop.starlink.desc"),
+		effects: {
+			"uplinkLabRatio": 0.01
+		},
+		prices:[
+			{ name : "alloy", 	 val: 5000 },
+			{ name : "oil", 	 val: 25000 },
+			{ name : "science",  val: 175000 }
+		],
+		upgrades: {
+			buildings: ["library","biolab"]
+		}
+	},{
+		name: "cryocomputing",
+		label: $I("workshop.cryocomputing.label"),
+		description: $I("workshop.cryocomputing.desc"),
+		effects: {
+		},
+		prices:[
+			{ name : "eludium",  val: 15 },
+			{ name : "science",  val: 125000 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},{
+		name: "machineLearning",
+		label: $I("workshop.machineLearning.label"),
+		description: $I("workshop.machineLearning.desc"),
+		effects: {
+			"dataCenterAIRatio": 0.1
+		},
+		prices:[
+			{ name : "science",     val: 175000 },
+			{ name : "eludium",  	val: 25 },
+			{ name : "antimatter",  val: 125 }
+		],
+		upgrades: {
+			buildings: ["library"]
+		}
+	},
+	{
 		name: "factoryAutomation",
 		label: $I("workshop.factoryAutomation.label"),
 		description: $I("workshop.factoryAutomation.desc"),
@@ -2176,7 +2249,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
     undo: function(data){
 		var metaId = data.metaId,
 			val = data.val;
-			 
+
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
 			var craftRatio = this.game.getResCraftRatio(res);
@@ -2231,7 +2304,26 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	fastforward: function(daysOffset) {
 		var times = daysOffset * this.game.calendar.ticksPerDay;
-		this.effectsBase["scienceMax"] = Math.floor(this.game.resPool.get("compedium").value * 10);
+
+		//-------------	 this is a poor place for this kind of functionality ------------
+		var scienceMaxBuilding = this.game.bld.getEffect("scienceMax"),
+			scienceMaxCompendiaCap =  this.game.bld.getEffect("scienceMaxCompendia"),
+			compendiaScienceMax = Math.floor(this.game.resPool.get("compedium").value * 10);
+
+		//iw compedia cap is set to 1000% instead of 100%
+		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
+
+		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
+			var ttBoostRatio = (0.05 * (1 + this.game.getEffect("compendiaTTBoostRatio")));
+			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
+		}
+
+		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap)){
+			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);
+		}
+		//-------------	todo: move somewhere to bld? ------------------------------------
+
+		this.effectsBase["scienceMax"] = compendiaScienceMax;
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);

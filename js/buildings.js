@@ -473,11 +473,35 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//----------------------------------- Science ----------------------------------------
 	{
 		name: "library",
-		label: $I("buildings.library.label"),
-		description: $I("buildings.library.desc"),
-		unlockRatio: 0.3,
-		prices: [
-			{ name : "wood", val: 25 }
+		stages: [
+			{
+				label: $I("buildings.library.label"),
+				description: $I("buildings.library.desc"),
+				unlockRatio: 0.3,
+				prices: [
+					{ name : "wood", val: 25 }
+				],
+				effects: {
+					"scienceRatio": 0,
+					"scienceMax": 0,
+					"cultureMax": 0
+				},
+				stageUnlocked : true,
+				flavor: $I("buildings.library.flavor")
+			},{
+				label: $I("buildings.dataCenter.label"),
+				description: $I("buildings.dataCenter.desc"),
+				prices: [
+					{ name : "concrate", val: 10 },
+					{ name : "steel", val: 100 }
+				],
+				effects: {
+					"scienceMaxCompendia": 1000,
+					"cultureMax": 25,
+					"energyConsumption": 2
+				},
+				stageUnlocked : false
+			}
 		],
 		priceRatio: 1.15,
 		unlockable: true,
@@ -485,22 +509,51 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			tabs: ["science"],
 			jobs: ["scholar"]
 		},
-		effects: {
-			"scienceRatio": 0,
-			"scienceMax": 0,
-			"cultureMax": 0
+		upgrades: {
+			buildings: ["biolab"]
 		},
 		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
 			var effects = {
 				"scienceRatio": 0.1,
 				"scienceMax": 250,
-				"cultureMax": 10
+				"cultureMax": 10,
 			};
+			
 			var libraryRatio = game.getEffect("libraryRatio");
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
-			self.effects = effects;
-		},
-		flavor: $I("buildings.library.flavor")
+			
+			if (self.stage == 1){
+				effects["scienceMax"] *= 3;	//250->750 base science boos for data centers
+				effects["cultureMax"] = 250;
+				effects["scienceMaxCompendia"] = 1000;
+				
+				var biolabBonus = game.bld.get("biolab").on * game.getEffect("uplinkDCRatio");
+				if (game.workshop.get("uplink").researched){
+					effects["scienceMaxCompendia"] *= (1+biolabBonus);
+					effects["scienceMax"] *= (1+biolabBonus);
+					effects["cultureMax"] *= (1+biolabBonus);
+				}
+
+				effects["energyConsumption"] = 2;
+				if (game.workshop.get("cryocomputing").researched){
+					effects["energyConsumption"] = 1;
+				}
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+
+				if (game.workshop.get("machineLearning").researched){
+					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+
+					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+				}
+			}
+
+			stageMeta.effects = effects;
+		}
 	},{
 		name: "academy",
 		label: $I("buildings.academy.label"),
@@ -576,7 +629,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipPerTickCon": 0,
 			"oilPerTickProd": 0
 		},
+		upgrades: {
+			buildings: ["library"]
+		},
 		calculateEffects: function(self, game){
+			self.effects["scienceMax"] = 1500;
+
 			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
 				energyCons = 1;
@@ -586,6 +644,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.togglable = true;
 			}
 			self.effects["energyConsumption"] = energyCons;
+			var datacenterBonus = game.bld.get("library").on * game.getEffect("uplinkLabRatio");
+			if (game.workshop.get("uplink").researched && game.bld.get("library").stage == 1){
+				self.effects["scienceMax"] *= (1 + datacenterBonus);
+			}
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -750,7 +812,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"mineralsRatio": 0,
 			"coalPerTickBase": 0
-			},
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.2,
@@ -778,7 +840,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		effects: {
 			"mineralsRatio": 0.35,
-			"coalPerTickBase": 0.015
+			"coalPerTickBase": 0.015,
+			"uraniumPerTickBase": 0
+		},
+		action: function(self, game){
+			var effects = {
+				"mineralsRatio": 0.35,
+				"coalPerTickBase": 0.015
+			};
+			if (game.workshop.get("orbitalGeodesy").researched){
+				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
+			}
+			self.effects = effects;
 		},
 		flavor : $I("buildings.quarry.flavor")
 	},
@@ -1634,7 +1707,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"gflopsPerTickBase": 0.02
 		},
 		upgrades: {
-			spaceBuilding: ["moonBase"]
+			spaceBuilding: ["moonBase"],
+			buildings: ["library"]
 		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, will be systematized later
@@ -1855,6 +1929,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 } else {
 			this.game.bld.effectsBase["manpowerMax"] = 100;
 		 }
+	},
+
+	getEffect: function(effectName){
+		var effect = 0;
+		for (var i = 0; i < this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(effectName, this.meta[i]);
+			effect += effectMeta;
+			
+		}
+		return effect;
 	},
 
 	isUnlocked: function(building){

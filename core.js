@@ -48,9 +48,10 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
-			"zh": "简体中文",
-			"ja": "Japanese",
+			"zh": "中文",
+			"ja": "日本語",
 			"br": "Portuguese",
+			"es": "Española",
 			"fr": "French",
 			"cz": "Česky"
 		};

@@ -535,9 +535,13 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         if (this.game.workshop.get("chronoforge").researched) {
             var heatMax = this.game.getEffect("heatMax");
             if(this.game.time.heat > heatMax){
-                this.timeSpan.innerHTML += "<br>热: <span style='color:red;'>" + this.game.time.heat.toFixed(2) + "</span>/" + heatMax;
+                this.timeSpan.innerHTML += "<br>热: <span style='color:red;'>" + 
+                this.game.getDisplayValueExt(this.game.time.heat)
+                 + "</span>/" + heatMax;
             } else {
-                this.timeSpan.innerHTML += "<br>热: " + this.game.time.heat.toFixed(2) + "/" + heatMax;
+                this.timeSpan.innerHTML += "<br>热: " + 
+                    this.game.getDisplayValueExt(this.game.time.heat) 
+                + "/" + heatMax;
             }
         }
 
