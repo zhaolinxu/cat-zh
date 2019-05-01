@@ -128,7 +128,7 @@ var run = function() {
                     magneto:        {require: false,         enabled: false},
 
                     // science
-                    library:        {require: 'wood',        enabled: true},
+                    library:        {require: 'wood',        enabled: true, stage: 0},
                     academy:        {require: 'wood',        enabled: true},
                     observatory:    {require: 'iron',        enabled: true},
 
