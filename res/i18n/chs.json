@@ -1650,7 +1650,7 @@
     "workshop.orbitalGeodesy.desc":"采石场现在将提供少量铀",
     "religion.tu.blackLibrary.label":"黑色图书馆",
     "religion.tu.blackLibrary.desc":"每个色黑图书馆提高利维坦法典比例2%",
-    "workshop.craftBtn.desc.effectivenessBonus": "工艺效果加成: +{0}%"
+    "workshop.craftBtn.desc.effectivenessBonus": "工艺效果加成: +{0}%",
     
     
     "effectsMgr.statics.timeImpedance.title": "时间惩罚延迟",
