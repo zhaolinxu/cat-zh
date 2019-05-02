@@ -907,7 +907,7 @@
     "workshop.crafts.parchment.label": "羊皮纸",
     "workshop.crafts.manuscript.desc": "技术进步所需的书面文件。每一个手稿都会给予一个基于文化点上限的少量奖励（这种效果会持续减少）",
     "workshop.crafts.manuscript.label": "手稿",
-    "workshop.crafts.compedium.desc": "记载着所有猫类现代知识。每个摘要将给予你 +10 最大科技",
+    "workshop.crafts.compedium.desc": "记载着所有猫类现代知识。每个摘要将给予你 +10 最大科技。（这个奖励不能超过您建筑物的最大科学上限）",
     "workshop.crafts.compedium.label": "摘要",
     "workshop.crafts.blueprint.desc": "画着蓝色线条的奇怪的纸",
     "workshop.crafts.blueprint.label": "蓝图",
@@ -1675,6 +1675,7 @@
     "workshop.orbitalGeodesy.desc":"采石场现在将提供少量铀",
     "religion.tu.blackLibrary.label":"黑色图书馆",
     "religion.tu.blackLibrary.desc":"每个色黑图书馆提高利维坦法典比例2%",
+    "workshop.craftBtn.desc.effectivenessBonus": "工艺效果加成: +{0}%"
     
     
     "effectsMgr.statics.timeImpedance.title": "时间惩罚延迟",

@@ -321,7 +321,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"coalRatioGlobal" : {
 				title: $I("effectsMgr.statics.coalRatioGlobal.title"),
 				resName: "coal",
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"coalRatioGlobalReduction" : {
@@ -1438,7 +1439,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.log("压缩存档文件中...");
 			saveDataString = LZString.compressToBase64(saveDataString);
 		}
-		
+
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
 		console.log("游戏已保存");
 
@@ -3055,7 +3056,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-		
+
 		var _value = this.getDisplayValue(value, prefix, precision);
 		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},

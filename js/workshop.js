@@ -2313,8 +2313,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		//iw compedia cap is set to 1000% instead of 100%
 		var iwScienceCapRatio = this.game.ironWill ? 10 : 1;
 
+		var blackLibrary = this.game.religion.getTU("blackLibrary");
 		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
-			var ttBoostRatio = (0.05 * (1 + this.game.getEffect("compendiaTTBoostRatio")));
+			var ttBoostRatio = (
+				0.05 * (
+					1 + 
+					blackLibrary.val * (
+						blackLibrary.effects["compendiaTTBoostRatio"] + 
+						this.game.getEffect("blackLibraryBonus") )
+				)
+			);
 			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
 		}
 
@@ -2489,6 +2497,15 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 	getDescription: function(model){
 		var craft = model.craft;
 		var desc = craft.description;
+
+		var craftBonus = this.game.getResCraftRatio(craft);
+		if (craft.name != "wood"){
+			craftBonus -= this.game.getCraftRatio();
+		}
+
+		if (craftBonus > 0){
+			desc += "<br><br>" + $I("workshop.craftBtn.desc.effectivenessBonus", [this.game.getDisplayValueExt(craftBonus * 100, false, false, 0)]);
+		}
 
 		if (this.game.science.get("mechanization").researched){
 			desc += "<br><br>" + $I("workshop.craftBtn.desc.tier") + ": " + craft.tier;
