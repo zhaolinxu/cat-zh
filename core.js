@@ -1293,7 +1293,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 
 		//-----------------------------------------
 		var isEffectMultiplierEnabled = this.game.ui.isEffectMultiplierEnabled();
-		var valMultiplier = isEffectMultiplierEnabled ? model.metadata.on : 1;
+		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
 			var effectValue = effectMeta.calculation === "constant"
