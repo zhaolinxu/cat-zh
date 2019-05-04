@@ -893,7 +893,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 			"hrProgress": {
 				title: $I("effectsMgr.statics.entangler-hrProgress.title"),
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"aiLevel" :  {
@@ -909,17 +910,20 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"hashrate" :  {
 				title: $I("effectsMgr.statics.hashrate.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"nextHashLevelAt" :  {
 				title: $I("effectsMgr.statics.nextHashLevelAt.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"hashRateLevel" :  {
 				title: $I("effectsMgr.statics.hashrateLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			}
 		}
 	}
