@@ -695,7 +695,8 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 			refundPercentage: 0.5,
 			// ---
 			highlightUnavailable: false,
-			resourceIsLimited: ""
+			resourceIsLimited: "",
+			multiplyEffects: false
 
 		};
 	},
@@ -1292,7 +1293,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		//-----------------------------------------
-		var isEffectMultiplierEnabled = this.game.ui.isEffectMultiplierEnabled();
+		var isEffectMultiplierEnabled = model.multiplyEffects && this.game.ui.isEffectMultiplierEnabled();
 		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
@@ -2000,6 +2001,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
+
+	defaults: function(){
+		var result = this.inherited(arguments);
+
+		result.multiplyEffects = true;
+		return result;
+	},
 
 	getName: function(model){
 		var meta = model.metadata;
