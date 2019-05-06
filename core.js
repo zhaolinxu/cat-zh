@@ -1724,10 +1724,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		// do nothing
 	},
 
-	off: function(model) {
+	off: function(model, amt) {
+		amt = amt || 1;
+
 		var building = model.metadata;
-		if (building.on){
-			building.on--;
+		if (amt > building.on){
+			amt = building.on;
+		}
+
+		if (building.on >= amt){
+			building.on -= amt;
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1743,10 +1749,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 	},
 
 
-	on: function(model) {
+	on: function(model, amt) {
+		amt = amt || 1;
+
+
 		var building = model.metadata;
-		if (building.on < building.val){
-			building.on ++;
+		if (amt > building.val - building.on){
+			amt = building.val - building.on;
+		}
+
+		if (building.on + amt <= building.val ){
+			building.on += amt;
 			this.metadataHasChanged(model);
 			this.game.upgrade(building.upgrades);
 		}
@@ -1871,7 +1884,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				handler: function(){
 					this.controller.off(this.model);
 				}
-			   },{
+			   },
+			   {
+				id: "off25",
+				title: "-25",
+				handler: function(){
+					this.controller.off(this.model,25);
+				}
+			   },
+			   {
 				id: "offAll",
 				title: "-" + $I("btn.all.minor"),
 				handler: function(){
@@ -1887,7 +1908,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				handler: function(){
 					this.controller.on(this.model);
 				}
-			   },{
+			   },
+			   {
+				id: "add25",
+				title: "+25",
+				handler: function(){
+					this.controller.on(this.model,25);
+				}
+			   },
+			   {
 				id: "add",
 				title: "+" + $I("btn.all.minor"),
 				handler: function(){
