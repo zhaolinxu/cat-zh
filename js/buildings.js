@@ -364,6 +364,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (game.calendar.season == 1) {
 					effects["energyProduction"] /= 0.75;
 				}
+
+				var seasonRatio = game.getEffect("solarFarmSeasonRatio");
+				if (game.calendar.season < seasonRatio){
+					effects["energyProduction"] *= (1 + 0.25 * seasonRatio);
+				}
+
                 stageMeta.effects = effects;
 			}
 		}
