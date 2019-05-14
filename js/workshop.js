@@ -483,7 +483,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: $I("workshop.thinFilm.label"),
 		description: $I("workshop.thinFilm.desc"),
 		prices:[
-			{ name : "science", val: 75000 },
+			{ name : "science", val: 125000 },
 			{ name : "unobtainium", val: 200 },
 			{ name : "uranium", val: 1000 }
 		],
@@ -498,7 +498,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: $I("workshop.qdot.label"),
 		description: $I("workshop.qdot.desc"),
 		prices:[
-			{ name : "science", val: 125000 },
+			{ name : "science", val: 175000 },
 			{ name : "eludium", val: 200 },
 			{ name : "thorium", val: 1000 }
 		],
