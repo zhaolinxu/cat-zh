@@ -503,7 +503,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "thorium", val: 1000 }
 		],
 		effects: {
-			"solarFarmSeasonRatio" : 3
+			"solarFarmSeasonRatio" : 2
 		},
 		upgrades: {
 			buildings: ["pasture"]
