@@ -25,7 +25,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            heat: this.heat,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "isAutomationEnabled"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "isAutomationEnabled", "unlocked"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
     },
@@ -92,11 +92,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		for (var i = 0; i < this.chronoforgeUpgrades.length; i++) {
 			var bld = this.chronoforgeUpgrades[i];
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
 		for (var i = 0; i < this.voidspaceUpgrades.length; i++) {
 			var bld = this.voidspaceUpgrades[i];
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
     },
 
@@ -204,6 +204,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         isAutomationEnabled: true,
         action: function(self, game){
 
+            if (self.isAutomationEnabled == null) {
+                self.isAutomationEnabled = true;
+            }
+
             if (self.on < self.val){
                 self.on = self.val;
             }
@@ -234,6 +238,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "timeRatio" : 0.05
         },
+        upgrades: {
+            chronoforge: ["temporalImpedance"]
+        },
         unlocked: true
     },{
         name: "temporalImpedance",
@@ -246,6 +253,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         priceRatio: 1.05,
         effects: {
             "timeImpedance" : 1000
+        },
+        calculateEffects: function(self, game) {
+            self.effects["timeImpedance"] = Math.round(1000 * (1 + game.getEffect("timeRatio")));
         },
         unlocked: false
     },{
@@ -325,6 +335,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         effects: {
             "globalResourceRatio": 0.02,
             "umbraBoostRatio": 0.1
+        },
+        upgrades: {
+            spaceBuilding: ["hrHarvester"]
         },
         unlocked: false
     },{
@@ -526,9 +539,13 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         if (this.game.workshop.get("chronoforge").researched) {
             var heatMax = this.game.getEffect("heatMax");
             if(this.game.time.heat > heatMax){
-                this.timeSpan.innerHTML += "<br>热: <span style='color:red;'>" + this.game.time.heat.toFixed(2) + "</span>/" + heatMax;
+                this.timeSpan.innerHTML += "<br>热: <span style='color:red;'>" +
+                this.game.getDisplayValueExt(this.game.time.heat)
+                 + "</span>/" + heatMax;
             } else {
-                this.timeSpan.innerHTML += "<br>热: " + this.game.time.heat.toFixed(2) + "/" + heatMax;
+                this.timeSpan.innerHTML += "<br>热: " +
+                    this.game.getDisplayValueExt(this.game.time.heat)
+                + "/" + heatMax;
             }
         }
 
@@ -576,7 +593,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
-            var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+            var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
                 var darkYears = this.game.calendar.darkFutureYears(true);
                 if (darkYears > 0) {
@@ -596,7 +613,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 		var pricesTotal = 0;
 
 		var prices_cloned = $.extend(true, [], model.options.prices);
-        var impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+        var impedance = this.game.getEffect("timeImpedance");
         var heatMax = this.game.getEffect("heatMax");
 
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;

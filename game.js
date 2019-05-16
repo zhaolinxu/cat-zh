@@ -321,7 +321,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"coalRatioGlobal" : {
 				title: $I("effectsMgr.statics.coalRatioGlobal.title"),
 				resName: "coal",
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"coalRatioGlobalReduction" : {
@@ -431,7 +432,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"energyConsumption": {
 				title: $I("effectsMgr.statics.energyConsumption.title"),
-				type: "energy"
+				type: "energy",
+				calculation: "nonProportional"
             },
 
 			"energyProductionRatio": {
@@ -734,6 +736,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeImpedance" :  {
+                title: $I("effectsMgr.statics.timeImpedance.title"),
+                type: "fixed"
+            },
+
             "shatterTCGain" :  {
                 title: $I("effectsMgr.statics.shatterTCGain.title"),
                 type: "ratio"
@@ -753,6 +760,26 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.kittenGrowthRatio.title"),
                 type: "ratio"
             },//新增部分
+			"dataCenterAIRatio" :  {
+                title: $I("effectsMgr.statics.dataCenterAIRatio.title"),
+                type: "ratio"
+            },
+			"uplinkDCRatio" :  {
+                title: $I("effectsMgr.statics.uplinkDCRatio.title"),
+                type: "ratio"
+            },
+			"uplinkLabRatio" :  {
+                title: $I("effectsMgr.statics.uplinkLabRatio.title"),
+                type: "ratio"
+            },
+			"scienceMaxCompendia" :  {
+                title: $I("effectsMgr.statics.scienceMaxCompendia.title"),
+                type: "ratio"
+            },
+			"baseMetalMaxRatio" :  {
+                title: $I("effectsMgr.statics.baseMetalMaxRatio.title"),
+                type: "ratio"
+            },
             "eludiumAutomationBonus" :  {
                 title: $I("effectsMgr.workshop.eludiumAutomationBonus.title"),
                 type: "ratio"
@@ -929,12 +956,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 			"hrProgress": {
 				title: $I("effectsMgr.statics.entangler-hrProgress.title"),
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"aiLevel" :  {
 				title: $I("effectsMgr.statics.aiLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"gflopsConsumption" :  {
@@ -944,17 +973,20 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"hashrate" :  {
 				title: $I("effectsMgr.statics.hashrate.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"nextHashLevelAt" :  {
 				title: $I("effectsMgr.statics.nextHashLevelAt.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"hashRateLevel" :  {
 				title: $I("effectsMgr.statics.hashrateLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			}
 		}
 	}
@@ -1091,9 +1123,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true,
+			disableTelemetry: false,
 			enableRedshift: false,
-            useLegacyTwoInRowLayout: false
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1286,7 +1321,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var messageLine = this.console.msg(message, type, tag, noBullet);
 
 		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext",[this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
+			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
 		}
 
 		return messageLine;
@@ -1329,13 +1364,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
-			highlightUnavailable: false,
+			highlightUnavailable: true,
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
 			//if true, save file will always be compressed
 			forceLZ: false
 		};
@@ -1406,7 +1443,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.log("压缩存档文件中...");
 			saveDataString = LZString.compressToBase64(saveDataString);
 		}
-		
+
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
 		console.log("游戏已保存");
 
@@ -2924,8 +2961,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	toDisplayDays: function(daysRaw){
 		var daysNum = parseInt(daysRaw, 10); // don't forget the second param
 
-		var years   = Math.floor(daysNum / (this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear));
-		var days = daysNum - (years * this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear);
+		var daysPerYear = this.calendar.daysPerSeason * this.calendar.seasonsPerYear;
+		var years = Math.floor(daysNum / daysPerYear);
+		var days = daysNum - years * daysPerYear;
 
 		if (years > 0){
 			years = this.getDisplayValueExt(years);
@@ -3022,7 +3060,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-		
+
 		var _value = this.getDisplayValue(value, prefix, precision);
 		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},
@@ -3378,7 +3416,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = this._parseLSSaveData()
+		var lsData = this._parseLSSaveData();
 		if (!lsData){
 			lsData = {
 				game: {},
@@ -3476,6 +3514,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			game : lsData.game,
 			resources: newResources,
 			buildings: [],
+			calendar: {
+				cryptoPrice: this.calendar.cryptoPrice
+			},
 			challenges: {
 				challenges: this.challenges.challenges,
 				currentChallenge: this.challenges.currentChallenge
@@ -3846,7 +3887,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 概要!";
+				var msg = "得到 " + this.getDisplayValueExt(amt) + " 摘要!";
 				this.resPool.addResEvent("compedium", amt);
 			break;
 		}

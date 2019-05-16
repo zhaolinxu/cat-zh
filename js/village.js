@@ -147,6 +147,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
 	senators: null,
 
+	traits: null,
+
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
 	},
@@ -215,6 +217,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.map = new classes.village.Map(game);
 
 		this.senators = [];
+		this.traits = [];
 	},
 
 	getJob: function(jobName){
@@ -549,7 +552,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		saveData.village = {
-			kittens : this.sim.kittens,
+			kittens : kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			map : this.map.villageData
@@ -822,13 +825,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 			}
 
-			if (noGold) {
-				this.game.msg($I("village.kittens.promotion.nogold"));
-			} else if (promotedKittensCount == 0) {
-				this.game.msg($I("village.kittens.have.best.rank"));
+			if (promotedKittensCount == 0) {
+				this.game.msg($I(noGold ? "village.kittens.promotion.nogold" : "village.kittens.have.best.rank"));
+			} else if (promotedKittensCount == 1) {
+				this.game.msg($I("village.leader.promoted.one.kitten"));
 			} else {
-				var promoteMsg = promotedKittensCount == 1 ? $I("village.leader.promoted.one.kitten") : $I("village.leader.promoted.many.kittens", [promotedKittensCount]);
-				this.game.msg(promoteMsg);
+				this.game.msg($I("village.leader.promoted.many.kittens", [promotedKittensCount]));
 			}
 		}
 
@@ -1139,6 +1141,7 @@ dojo.declare("classes.village.Map", null, {
             data = this.getTile(x, y);
 
         var toLevel = this.toLevel(x, y),
+            explorePower = 1 * (1 + this.getExploreRatio()),
             explorePrice = this.getExplorationPrice(x, y),
             catpower = this.game.resPool.get("manpower");
 
@@ -1157,7 +1160,7 @@ dojo.declare("classes.village.Map", null, {
 	},
 
 	getExplorationPrice: function(x, y){
-        var data = this.getTile(x,y);
+        var data = this.getTile(x,y),
             explorePower = 1 * (1 + this.getExploreRatio()),
             price = explorePower * Math.pow(1.01, data.level);
 
@@ -2229,8 +2232,6 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 	x10: null,
 
 	renderLinks: function(){
-		var self = this;
-
 		this.x10 = this.addLink(this.model.x10Link.title,
 			this.model.x10Link.handler, false
 		);
@@ -2276,10 +2277,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	render: function(tabContainer){
-
-		var self = this;
-
-
 		this.advModeButtons = [];
 		this.buttons = [];
 

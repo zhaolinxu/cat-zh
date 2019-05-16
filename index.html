@@ -51,7 +51,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1452b";
+			var version = "1461";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -312,11 +312,11 @@
 						时辰炉
 						时间阻力
 
-					小调整 5:
-						探索
+					小改动 6:
+						科学重构
 
-					Rev: 2
-						质量和再平衡
+					Rev: 0
+						-
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -400,23 +400,6 @@
 				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
 			</div>
 
-			<div id="helpDiv" style="display: none" class="dialog help">
-				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
-				<ul>
-					<li>问: 游戏不运行？</li>
-					<li>答: 按Ctrl + F5。 擦除并重新导入保存也可能有所帮助.</li>
-					<br>
-					<li>问: 木材是没用的。 改进猫薄荷更有效！ [公式如下]</li>
-					<li>答: 猫薄荷/木材机制是很复杂的。.</li>
-					<br>
-					<li>问: 什么是独角兽？</li>
-					<li>答: 这是一个谜。.</li>
-					<br>
-					<li>问: 这个游戏太慢了！</li>
-					<li>答: 事情会变得更好，你可以尝试创造性的思考和优先发展目标。.</li>
-				</ul>
-			</div>
-
 			<div id="creditsDiv" style="display: none" class="dialog credits">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
@@ -433,6 +416,7 @@
 					<li>ArcanisCz</li>
 					<li>Kida</li>
 					<li>freeroot</li>
+					<li>Ethaniel_Kavelaars</li>
 
 				</ul>
 
@@ -500,10 +484,10 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">隐藏“出售”按钮</label>
 				<br>
-<!--				<input id="kxj" type="checkbox" >-->
-<!--				<label id="kxj2" for="kxj">点击启用小猫科学家</label> [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>]-->
-<!--				<span style="color:red;font-size:12px;"><br>* 如果已启用，然后不想用了，请保存游戏并导出存档，复制；然后刷新游戏，导入存档。</span>-->
-            <span style="color:red;font-size:12px;">* 因为新版本修改了一些内容，启用科学家会报错，并且无法运行，所以只能拿掉科学家了。以后大家只能靠科技撸了。</span><br>
+				<input id="kxj" type="checkbox" >
+				<label id="kxj2" for="kxj">点击启用小猫科学家</label> [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>]
+				<span style="color:red;font-size:12px;"><br>* 如果已启用，然后不想用了，请保存游戏并导出存档，复制；然后刷新游戏，导入存档。</span>
+<!--            <span style="color:red;font-size:12px;">* 因为新版本修改了一些内容，启用科学家会报错，并且无法运行，所以只能拿掉科学家了。以后大家只能靠科技撸了。</span><br>-->
             
 				<br>
 
@@ -579,9 +563,10 @@
 			<a href="https://gitee.com/likexia/cat-zh" target="_blank">汉化主页</a> |
 			<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="目前只有部分，其余仍在汉化中">Wiki</a> |
 <!--				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">英文文档</a> |-->
-				<a href="https://discord.gg/2arBf9K" target="_blank">聊天</a> |
+<!--				<a href="https://discord.gg/2arBf9K" target="_blank">聊天</a> |-->
+            <a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
-				<a href="#" onclick="$('#helpDiv').toggle();">帮助</a> |
+				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
 				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
 				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> <!-- |
 				<a href="classic/" target="_blank">classic</a> -->
@@ -602,18 +587,18 @@
            if($(window).width() < 600){
 //               window.location.href="index-app.html";
            }
-//			var ok = false;
-//			$("#kxj2").click(function() {
-//				if(ok != true) {
-//					$("#kxj2").text("小猫科学家已启用")
-//					document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js';
-//					$("#kxj").attr("checked", true);
-//					$("#kxj").attr("disabled", true);
-//					ok = true;
-//				}else{
-//					return ;
-//				}
-//			});
+			var ok = false;
+			$("#kxj2").click(function() {
+				if(ok != true) {
+					$("#kxj2").text("小猫科学家已启用")
+					document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js';
+					$("#kxj").attr("checked", true);
+					$("#kxj").attr("disabled", true);
+					ok = true;
+				}else{
+					return ;
+				}
+			});
 		</script>
 	</body>
 </html>

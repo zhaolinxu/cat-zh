@@ -361,7 +361,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 		if (race.name == "leviathans") {
 			//reset energy to default limit
-			race.duration = Math.min(race.duration, this.game.calendar.daysPerSeason * (this.game.calendar.seasonsPerYear + race.energy))
+			race.duration = Math.min(race.duration, this.game.calendar.daysPerSeason * (this.game.calendar.seasonsPerYear + race.energy));
 		}
 
 		var bonusSuccessProbability = race.attitude === "friendly" ? (race.standing + standingRatio / 2 / 100) : 0;
@@ -520,6 +520,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			ncorns.value--;
 			this.game.msg($I("trade.msg.elders.pleased"), "notice");
 		} else {
+			ncorns.value = 0;
 			this.game.msg($I("trade.msg.elders.displeased"), "notice");
 			elders.duration = 0;
 		}
@@ -765,7 +766,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 	leviathansInfo: null,
 
 	constructor: function(tabName, game){
-		var self = this;
 		this.game = game;
 
 		this.racePanels = [];
@@ -796,6 +796,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		}
 
 		var self = this;
+
+		var div = dojo.create("div", { class: "expandAllBar", style: { float: "left"}}, tabContainer);
+		dojo.create("span", { innerHTML: $I("trade.effectiveness", [this.game.getDisplayValueExt(this.game.diplomacy.getTradeRatio() * 100, false, false, 0)]) }, div);
 
 		// expand all / collapse all panels
 

@@ -358,11 +358,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 var effects = {
                     "energyProduction": 2
                 };
-                effects.energyProduction *= 1 + game.getEffect("solarFarmRatio");
+                effects["energyProduction"] *= 1 + game.getEffect("solarFarmRatio");
 				if (game.calendar.season == 3) {
-					effects.energyProduction *= 0.75;
+					effects["energyProduction"] *= 0.75;
 				} else if (game.calendar.season == 1) {
-					effects.energyProduction /= 0.75;
+					effects["energyProduction"] /= 0.75;
 				}
                 stageMeta.effects = effects;
 			}
@@ -410,7 +410,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
                 var effects = {
                     "energyProduction": 5
                 };
-                effects.energyProduction *= 1 + game.getEffect("hydroPlantRatio");
+                effects["energyProduction"] *= 1 + game.getEffect("hydroPlantRatio");
                 stageMeta.effects = effects;
             }
         }
@@ -473,11 +473,35 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	//----------------------------------- Science ----------------------------------------
 	{
 		name: "library",
-		label: $I("buildings.library.label"),
-		description: $I("buildings.library.desc"),
-		unlockRatio: 0.3,
-		prices: [
-			{ name : "wood", val: 25 }
+		stages: [
+			{
+				label: $I("buildings.library.label"),
+				description: $I("buildings.library.desc"),
+				unlockRatio: 0.3,
+				prices: [
+					{ name : "wood", val: 25 }
+				],
+				effects: {
+					"scienceRatio": 0,
+					"scienceMax": 0,
+					"cultureMax": 0
+				},
+				stageUnlocked : true,
+				flavor: $I("buildings.library.flavor")
+			},{
+				label: $I("buildings.dataCenter.label"),
+				description: $I("buildings.dataCenter.desc"),
+				prices: [
+					{ name : "concrate", val: 10 },
+					{ name : "steel", val: 100 }
+				],
+				effects: {
+					"scienceMaxCompendia": 1000,
+					"cultureMax": 25,
+					"energyConsumption": 2
+				},
+				stageUnlocked : false
+			}
 		],
 		priceRatio: 1.15,
 		unlockable: true,
@@ -485,22 +509,51 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			tabs: ["science"],
 			jobs: ["scholar"]
 		},
-		effects: {
-			"scienceRatio": 0,
-			"scienceMax": 0,
-			"cultureMax": 0
+		upgrades: {
+			buildings: ["biolab"]
 		},
 		calculateEffects: function(self, game){
+			var stageMeta = self.stages[self.stage];
 			var effects = {
 				"scienceRatio": 0.1,
 				"scienceMax": 250,
-				"cultureMax": 10
+				"cultureMax": 10,
 			};
+
 			var libraryRatio = game.getEffect("libraryRatio");
 			effects["scienceMax"] *= (1 + game.bld.get("observatory").on * libraryRatio);
-			self.effects = effects;
-		},
-		flavor: $I("buildings.library.flavor")
+
+			if (self.stage == 1){
+				effects["scienceMax"] *= 3;	//250->750 base science boos for data centers
+				effects["cultureMax"] = 250;
+				effects["scienceMaxCompendia"] = 1000;
+
+				var biolabBonus = game.bld.get("biolab").on * game.getEffect("uplinkDCRatio");
+				if (game.workshop.get("uplink").researched){
+					effects["scienceMaxCompendia"] *= (1+biolabBonus);
+					effects["scienceMax"] *= (1+biolabBonus);
+					effects["cultureMax"] *= (1+biolabBonus);
+				}
+
+				effects["energyConsumption"] = 2;
+				if (game.workshop.get("cryocomputing").researched){
+					effects["energyConsumption"] = 1;
+				}
+				if (game.challenges.currentChallenge == "energy") {
+					effects["energyConsumption"] *= 2;
+				}
+
+				if (game.workshop.get("machineLearning").researched){
+					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+
+					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
+				}
+			}
+
+			stageMeta.effects = effects;
+		}
 	},{
 		name: "academy",
 		label: $I("buildings.academy.label"),
@@ -576,7 +629,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"catnipPerTickCon": 0,
 			"oilPerTickProd": 0
 		},
+		upgrades: {
+			buildings: ["library"]
+		},
 		calculateEffects: function(self, game){
+			self.effects["scienceMax"] = 1500;
+
 			var energyCons = 0;
 			if (game.workshop.get("biofuel").researched){
 				energyCons = 1;
@@ -586,6 +644,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.togglable = true;
 			}
 			self.effects["energyConsumption"] = energyCons;
+			var datacenterBonus = game.bld.get("library").on * game.getEffect("uplinkLabRatio");
+			if (game.workshop.get("uplink").researched && game.bld.get("library").stage == 1){
+				self.effects["scienceMax"] *= (1 + datacenterBonus);
+			}
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -750,7 +812,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"mineralsRatio": 0,
 			"coalPerTickBase": 0
-			},
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"mineralsRatio": 0.2,
@@ -778,7 +840,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		effects: {
 			"mineralsRatio": 0.35,
-			"coalPerTickBase": 0.015
+			"coalPerTickBase": 0.015,
+			"uraniumPerTickBase": 0
+		},
+		action: function(self, game){
+			var effects = {
+				"mineralsRatio": 0.35,
+				"coalPerTickBase": 0.015
+			};
+			if (game.workshop.get("orbitalGeodesy").researched){
+				effects["uraniumPerTickBase"] = 0.0005; //4% of accelerator output
+			}
+			self.effects = effects;
 		},
 		flavor : $I("buildings.quarry.flavor")
 	},
@@ -1424,26 +1497,28 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		],
         action: function(self, game){
-           //very ugly and crappy stuff
-            var btower = self.stages[1];
+			//very ugly and crappy stuff
+			if (self.stage == 1){
+				var btower = self.stages[1];
 
-            btower.effects["cultureMax"] = 300;
-            btower.effects["culturePerTickBase"] = 1;
+				btower.effects["cultureMax"] = 300;
+				btower.effects["culturePerTickBase"] = 1;
 
-            var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
-            if (energyRatio > 1){
-                if (energyRatio > 1.75){
-                    energyRatio = 1.75;
-                }
-                btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
-                btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
-            }
+				var energyRatio = (game.resPool.energyProd / game.resPool.energyCons);
+				if (energyRatio > 1){
+					if (energyRatio > 1.75){
+						energyRatio = 1.75;
+					}
+					btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
+					btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
+				}
 
-            var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
-            var totalRatio = game.space.getBuilding("sattelite").on * broadcastTowerRatio;
+				var broadcastTowerRatio = game.getEffect("broadcastTowerRatio");
+				var totalRatio = game.space.getBuilding("sattelite").on * broadcastTowerRatio;
 
-            btower.effects["cultureMax"] *= ( 1 + totalRatio);
-            btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
+				btower.effects["cultureMax"] *= ( 1 + totalRatio);
+				btower.effects["culturePerTickBase"] *= ( 1 + totalRatio);
+			}
         }
 	},
 	{
@@ -1584,7 +1659,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.25,
 		effects: {
-			cultureMaxRatio: 0.08
+			"cultureMaxRatio": 0.08
 		},
 		calculateEffects: function(self, game) {
 			var effects = {
@@ -1609,7 +1684,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption" : 0,
 			"temporalFluxProduction" : 0
 		},
-		isAutomationEnabled: true,
 		upgrades: {
 			voidSpace: ["cryochambers"]
 		},
@@ -1631,27 +1705,31 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.15,
 		effects: {
-			"energyConsumption" : 2,
+			"energyConsumption": 2,
 			"gflopsPerTickBase": 0.02
 		},
 		upgrades: {
-			spaceBuilding: ["moonBase"]
+			spaceBuilding: ["moonBase"],
+			buildings: ["library"]
 		},
-		action: function(self, game){
-			self.effects["energyConsumption"] = 2 * ( 1 + 0.75 * self.on);
-
+		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
+		// TODO Separation of concerns currently done only for AI Core, will be systematized later
+		updateEffects: function(self, game) {
+			// Core #1: 2   ; Total:  2  ; Average: 2    =  8/4 = (3*1+5)/4
+			// Core #2: 3.5 ; Total:  5.5; Average: 2.75 = 11/4 = (3*2+5)/4
+			// Core #3: 5   ; Total: 10.5; Average: 3.5  = 14/4 = (3*3+5)/4
+			// Core #4: 6.5 ; Total: 17  ; Average: 4.25 = 17/4 = (3*4+5)/4
+			// etc.
+			self.effects["energyConsumption"] = (3 * self.on + 5) / 4;
 			if (game.challenges.currentChallenge == "energy") {
 				self.effects["energyConsumption"] *= 2;
 			}
 
-			var gflops = game.resPool.get("gflops");
-			gflops.value += self.effects["gflopsPerTickBase"] * self.on;
-
-			var aiLevel = 0;
-			if (gflops.value > 1) {
-				aiLevel = Math.round(Math.log(gflops.value));
-			}
-			self.effects["aiLevel"] = aiLevel;
+			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
+		},
+		action: function(self, game) {
+			game.resPool.get("gflops").value += self.effects["gflopsPerTickBase"] * self.on;
+			self.updateEffects(self, game);
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
@@ -1829,7 +1907,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 			}
 
-			if (bld.action && (bld.on > 0 || bld.name == "biolab")){
+			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
 					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
@@ -1853,6 +1931,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 } else {
 			this.game.bld.effectsBase["manpowerMax"] = 100;
 		 }
+	},
+
+	getEffect: function(effectName){
+		var effect = 0;
+		for (var i = 0; i < this.meta.length; i++){
+			var effectMeta = this.getMetaEffect(effectName, this.meta[i]);
+			effect += effectMeta;
+
+		}
+		return effect;
 	},
 
 	isUnlocked: function(building){
@@ -1922,7 +2010,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.isAutomationEnabled = true;
 			}
 
-			this.resetStateStackable(bld, bld.isAutomationEnabled, bld.lackResConvert, bld.effects);
+			this.resetStateStackable(bld);
 		}
 	},
 
@@ -2022,9 +2110,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		amt = data.val;
 
 		var bldMetaRaw = this.get(metaId),
-			bld = new classes.BuildingMeta(bldMetaRaw).getMeta();	
+			bld = new classes.BuildingMeta(bldMetaRaw).getMeta();
 
-		//This is probably the most up-to-date and problemless way to manage building models due to the layers and layers 
+		//This is probably the most up-to-date and problemless way to manage building models due to the layers and layers
 		//and layes	of legacy abstractions. I am not happy with it, but c'est la vie.
 		if (data.action == "build"){
 			var props = {
@@ -2032,18 +2120,18 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				name:           bld.label,
 				description:    bld.description,
 				building:       bld.name
-			}
+			};
 			if (typeof(bld.stages) == "object"){
 				props.controller = new classes.ui.btn.StagingBldBtnController(this.game);
 			} else {
-				props.controller = new classes.ui.btn.BuildingBtnModernController(game);
+				props.controller = new classes.ui.btn.BuildingBtnModernController(this.game);
 			}
 			var model = props.controller.fetchModel(props);
 			model.refundPercentage = 1.0;	//full refund for undo
 
 			//Whoever came with reverse amt notation was probably high. (Was it me?)
 			props.controller.sellInternal(model, model.metadata.val - amt);
-			
+
 		} else if (data.action == "sell"){
 			//tbd
 			console.warn("Not implemented yet");
@@ -2053,7 +2141,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			console.warn("Not implemented yet");
 		}
 	}/*,
-	
+
 	refund: function(bldId, amt, refundPercentage){
 		refundPercentage = refundPercentage || 0.5;
 
@@ -2216,6 +2304,15 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 
 
 		return model;
+	},
+
+	getEffects: function(model){
+		var effects = model.metadata.effects;
+		var currentStage = model.metadata.stages[model.metadata.stage];
+		if (currentStage && currentStage.effects){
+			effects = currentStage.effects;
+		}
+		return effects;
 	},
 
 	getStageLinks: function(model){

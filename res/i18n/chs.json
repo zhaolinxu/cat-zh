@@ -1,13 +1,4 @@
-# 简体中文
-### 操作指南
-* 1、复制下面全部的内容，保存为独立的 `.json` 文件。
-* 2、保持左边引号里面的内容不变，更改右边引号里面的文字为你想要的语言。 
-* 3、然后把这个 `.json` 文件放在游戏源码的 `res/i18n` 目录下。
-* 4、然后在游戏源码打开 `core.js` 文件，找到第31行左右，把 `fallbackLocale: "en"` 后面引号里面的名称，改为你自己的 `.json` 文件的名称。
-
-### 代码
-
-    {
+{
     "buildings.field.label": "猫薄荷田",
     "buildings.field.desc": "在村子里种一些猫薄荷。春季田地产量 +50%，冬季产量 -75%",
     "buildings.field.flavor": "一望无际的猫薄荷。",
@@ -122,7 +113,6 @@
     "buildings.group.other": "其他",
     "buildings.group.megastructures": "超级建筑物",
     "buildings.group.zebraBuildings":"斑马建筑",
-
     "village.job.woodcutter": "伐木工",
     "village.job.woodcutter.desc": "每秒 +0.1 木材",
     "village.job.farmer": "农民",
@@ -138,6 +128,7 @@
     "village.job.geologist": "地质学家",
     "village.job.geologist.desc": "每秒 +0.075 煤炭",
     "village.job.engineer": "工程师",
+    "village.job.engineer.desc": "工程师可以操作一个工厂来自动化资源生产。<br/>在作坊选项卡指派您的工程师，每10分钟他们将自动制作一次。",
     "village.msg.kitten":"只小猫",
     "village.msg.kittens":"只小猫",
     "village.msg.starved":"饿死了。",
@@ -148,7 +139,6 @@
     "village.msg.hunt.ivory": "象牙",
     "village.msg.hunt.gold": "黄金",
     "village.census.filter.all":"所有工作",
-    "village.job.engineer.desc": "工程师可以操作一个工厂来自动化资源生产。<br/>指派您的工程师在工坊选项卡，每10分钟他们将自动制作一次。",
     "village.bonus.desc.engineer": "工艺增益",
     "village.bonus.desc.merchant": "贸易增益",
     "village.bonus.desc.manager": "狩猎增益",
@@ -219,6 +209,7 @@
     "village.leader.promoted.many.kittens": "你的领袖提拔了 {0} 只小猫",
     "village.general.free.kittens.label": "自由职业",
     "village.kittens.have.best.rank": "你的小猫有当前最高的等级",
+    "village.kittens.promotion.nogold": "没有足够的黄金来提升小猫",
     "village.msg.kitten.has.joined": "一只小猫加入了你的村庄",
     "village.tab.clear.job.confirmation": "你确认?",
     "village.trait.chemist": "化学家",
@@ -229,7 +220,7 @@
     "village.trait.none": "无技能",
     "village.trait.scientist": "科学家",
     "village.trait.wise": "哲学家",
-
+    "village.trait.filter.all": "所有特质",
     "stats.kittens.total": "猫总数",
     "stats.kittens.dead":"猫死了",
     "stats.years.total":"玩了这么多年",
@@ -248,7 +239,6 @@
     "stats.time.current":"游戏时间 (小时)",
     "stats.group.all":"全部时间统计",
     "stats.group.current":"当前的游戏状态",
-
     "challendge.1000Years.desc": "目标: 达到1000年。",
     "challendge.1000Years.effect.desc": "待定",
     "challendge.1000Years.label": "千禧年",
@@ -256,7 +246,7 @@
     "challendge.anarchy.effect.desc": "产业用的业猫计算量双倍",
     "challendge.anarchy.label": "无政府状态",
     "challendge.atheism.desc": "重启游戏，失去信仰加成。<br /><br />目标：至少有一个冷冻仓复位。",
-    "challendge.atheism.effect.desc": "每个超越等级提供 10%的伪经加成",
+    "challendge.atheism.effect.desc": "每个超越等级（相当于20个黑色方尖碑）将你的信仰奖励限制提高100％。",
     "challendge.atheism.label": "无神论",
     "challendge.btn.chronosphere.desc": " 你将不会从空间转移器中获得重置游戏的加成。",
     "challendge.btn.chronosphere.with.ironWill.desc": " 你将不会从空间转移器中获得重置游戏的加成。<br />警告: 空间转移器的重置加成将自动被禁用",
@@ -276,7 +266,6 @@
     "challendge.winterIsComing.effect.desc": "温暖的季节更有可能，寒冷的季节更不可能。。",
     "challendge.winterIsComing.label": "冬天已经来了",
     "challendge.panel.label": "挑战",
-
     "space.centaurusSystemMission.desc": "半人马星系是一个温暖的遥远的恒星系统。",
     "space.centaurusSystemMission.label": "探索半人马星系",
     "space.duneMission.desc": "沙丘是一个大而无生命的行星，被沙子和火山岩覆盖。",
@@ -350,10 +339,8 @@
     "space.terminusMission.label": "探索终焉星",
     "space.yarnMission.desc": "纱星是一种具有高度适度气候，海洋和氧气氛围的M类星球。",
     "space.yarnMission.label": "探索纱星",
-
     "void.spaceCathedral.desc": "待定。",
     "void.spaceCathedral.label": "空间大教堂",
-
     "prestige.engeneering.desc": "将所有价格比降低1％，解锁更多的价格升级",
     "prestige.engeneering.label": "工程学",
     "prestige.codexVox.desc": "手稿比例提高25％",
@@ -425,7 +412,6 @@
     "prestige.btn.burnParagon.label": "燃烧领导力",
     "prestige.btn.burnParagon.desc": "丢弃所有的领导力",
     "prestige.panel.label": "玄学",
-
     "science.toggleResearched.label": "隐藏已完成的研究",
     "science.calendar.desc": "发展预测季节何时发生变化的能力，这种能力对先进农业至关重要。",
     "science.calendar.effectDesc": "日历提供了更准确的时间跟踪方式",
@@ -618,7 +604,6 @@
     "science.paradoxalKnowledge.desc": "TBD",
     "science.paradoxalKnowledge.effectDesc": "解锁计时控制和资源检索",
     "science.paradoxalKnowledge.label": "悖论学",
-
     "workshop.toggleResearched.label": "隐藏已完成的升级",
     "workshop.mineralHoes.desc": "提升你的农民 50% 的工作效率",
     "workshop.mineralHoes.label": "矿石锄",
@@ -917,7 +902,7 @@
     "workshop.crafts.parchment.label": "羊皮纸",
     "workshop.crafts.manuscript.desc": "技术进步所需的书面文件。每份手稿将给予最大限度的文化小额奖励（这种效应的收益递减）",
     "workshop.crafts.manuscript.label": "手稿",
-    "workshop.crafts.compedium.desc": "所有现代知识的猫的总和。每个概要都会给最大的科学上限+10",
+    "workshop.crafts.compedium.desc": "所有现代知识的猫的总和。每个概要都会给最大的科学上限+10。（这个奖励不能超过您建筑物的最大科学上限）",
     "workshop.crafts.compedium.label": "概要",
     "workshop.crafts.blueprint.desc": "蓝色线条的奇怪的纸。",
     "workshop.crafts.blueprint.label": "蓝图",
@@ -938,12 +923,8 @@
     "workshop.crafted.msg": "+{0} {1} 已制成",
     "workshop.all.upgrades.unlocked": "所有升级都解锁了!",
     "workshop.craft.effectiveness": "制作效率: +{0}%",
-
     "general.copy.to.clipboard.prompt": "复制到剪贴板: Ctrl+C, Enter",
     "general.food.advisor.text": "食物顾问: 你的猫薄荷储量过低!",
-
-
-
     "resources.catnip.title": "猫薄荷",
     "resources.wood.title": "木材",
     "resources.minerals.title": "矿物",
@@ -999,7 +980,6 @@
     "resources.thorium.title": "钍",
     "resources.megalith.title": "巨石",
     "resources.craftTable.all": "全部",
-
     "effectsMgr.type.resMax": "上限 {0}",
     "effectsMgr.type.resRatio": "{0} 加成",
     "effectsMgr.type.resDemandRatio": "{0} 需求减少",
@@ -1122,7 +1102,6 @@
     "effectsMgr.statics.hrHarvester-energyProduction.title": "HR 收割机 - 能源生产",
     "effectsMgr.statics.entangler-gflopsConsumption.title": "圣纠缠 - 每秒十亿次浮点运算数消耗量",
 	"effectsMgr.statics.spiceRefinery-spicePerTickAutoprodSpace.title": "香料炼油厂 - 香料生产",
-	
     "religion.zu.unicornTomb.desc": "改善你的独角兽繁殖率 5%",
     "religion.zu.unicornTomb.label": "独角兽坟墓",
     "religion.zu.ivoryTower.desc": "改善你的独角兽繁殖率 10%，解锁独角兽峡谷",
@@ -1150,7 +1129,7 @@
     "religion.ru.scholasticism.label": "经院哲学",
     "religion.ru.goldenSpire.desc": "寺庙的信仰存储上限提高 50％",
     "religion.ru.goldenSpire.label": "金色塔尖",
-    "religion.ru.goldenSpire.flavor": "A luxurious spike",
+    "religion.ru.goldenSpire.flavor": "豪华的提升",
     "religion.ru.sunAltar.desc": "每一座寺庙都能将幸福提升0.5％",
     "religion.ru.sunAltar.label": "太阳祭坛",
     "religion.ru.stainedGlass.desc": "每个寺庙都会产生两倍的文化",
@@ -1165,7 +1144,7 @@
     "religion.ru.apocripha.label": "新约外传",
     "religion.ru.transcendence.desc": "解除额外的宗教升级",
     "religion.ru.transcendence.label": "超越",
-    "religion.tu.blackObelisk.desc": "提高你的信仰点产出加成。<br />每个黑色方尖碑都会将你的超越级别的奖励提高5％。",
+    "religion.tu.blackObelisk.desc": "提高你的信仰点加成上限。<br />每个黑色方尖碑都会将你的超越级别的信仰加成上限提高5％。",
     "religion.tu.blackObelisk.label": "黑方尖碑",
     "religion.tu.blackObelisk.flavor": "TBD",
     "religion.tu.blackNexus.desc": "提高时间水晶提炼为圣遗物的速度。<br />每个黑色连结都会通过黑庙塔的数量增加您的遗物提炼效率。<br>这也提高了遗迹站的效果",
@@ -1216,7 +1195,6 @@
     "religion.transcend.confirm.msg": "您确定要放弃您的奖励加成吗？\n\n通过牺牲你的奖励加成，你可以达到一个特殊的超越水平。\n\n每个等级都需要牺牲更多的信仰奖励。\n\n这个加成将通过重置进行堆叠和转移。\n\n单击此按钮将删除您的奖励的信仰加成的一部分。",
     "religion.transcend.msg.success": "你超越了人类的极限。达到超越等级: {0}",	
 	"religion.transcend.msg.failure": "更进一步: {0} ({1}%)",
-			
 	"achievements.theElderLegacy.title": "圣遗产",		
 	"achievements.theElderLegacy.desc": "成为第一个测试猫国建设者手机版的玩家",		
 	"achievements.unicornConspiracy.title": "发现独角兽",		
@@ -1274,7 +1252,6 @@
     "achievements.msg.unlock": "成就解锁: {0}!",
     "achievements.msg.starUnlock": "成就星解锁: {0}!",
     "achievements.header": "成就: {0} / {1}",
-
     "time.cfu.temporalBattery.desc": "提高通量能源容量 25%",
     "time.cfu.temporalBattery.label": "时间电池",
     "time.cfu.blastFurnace.desc": "按计时表操作。将最大热量限制提高100点。",
@@ -1299,7 +1276,6 @@
     "time.AccelerateTimeBtn.desc": "随心所欲地加速和减慢时间（加速+ 50％）",
     "time.AccelerateTimeBtn.label.normal": "光阴似箭",
     "time.AccelerateTimeBtn.label.accelerated": "岁月如梭",
-    
     "trade.race.lizards": "蜥蜴",
     "trade.race.sharks": "鲨鱼",
     "trade.race.griffins": "狮鹫",
@@ -1454,6 +1430,7 @@
     "res.effect":"效果",
     "res.effects":"效果",
     "res.per.sec":"/秒",
+    "res.per.hour":"/小时",
     "reset.prompt":"你确定要重置游戏吗?",
     "reset.prompt.base":"你会得到幸福点奖励，并且保存你的成就和奖励点。",
     "reset.prompt.70":"您将获得额外的幸福和生产奖励",
@@ -1469,7 +1446,6 @@
     "time.fixCryochambers.label":"修复冷冻仓",
     "time.fixCryochambers.desc":"在使用冷冻仓之前，请撕开空间时间。",
     "time.void":"无效",
-
     "time.tc.shatterOne":"时间能量释放，直接跳过一年时间",
     "time.tc.shatter":"时间能量释放，跳过{0}年",
     "time.redshift":"您已经重生{0}天",
@@ -1484,7 +1460,6 @@
     "res.notify.ready":"{0} 准备就绪",
     "res.notify.ready.title":"足够的资源来购买",
     "console.intro":"你是猫薄荷森林里的一只小猫。",
-
     "trade.buys": "购买",
     "trade.sells": "出售",
     "trade.cost": "花费",
@@ -1531,9 +1506,7 @@
     "menu.import.text":"存档文本（粘贴你的存档并保存）",
     "menu.import.btn":"导入存档文本",
     "navbar.observe.short": "Observe",
-
     "workshop.refine.confirmation":"你的小猫会死掉",
-
     "res.per.sec":"秒",
     "res.per.day":"天",
     "res.per.year":"年",
@@ -1558,7 +1531,6 @@
 	"effectsMgr.my.corruptionBoostRatio.title":"提高标识转换死灵兽的几率",
     "effectsMgr.my.umbraBoostRatio.title":"暗影增加比率",
     "effectsMgr.my.voidResonator.title":"虚空共振",
-
     "village.name.Angel":"安杰尔",
     "village.name.Charlie":"查利",
     "village.name.Mittens":"米特斯",
@@ -1576,7 +1548,6 @@
     "village.name.Micha":"米莎",
     "village.name.Tami":"塔米",
     "village.name.Plato":"普拉图",
-
     "village.surname.Smoke":"斯莫克",
     "village.surname.Dust":"杜斯特",
     "village.surname.Chalk":"乔克",
@@ -1588,14 +1559,11 @@
     "village.surname.Scratch":"斯克兰奇",
     "village.surname.Berry":"贝里",
     "village.surname.Shadow":"沙多",
-
 	"eta.year":"年",
     "eta.day":"天",
     "eta.hour":"小时",
     "eta.min":"分钟",
     "eta.sec":"秒",
-  
-  
     "buildings.aicore.label": "AI 核心",
     "buildings.aicore.desc": "猫OS是最先进的人工智能。绝对无害。每级升级将核心能耗提高75％。",
     "buildings.aicore.flavor": "现在把我们的分歧放在科学上了。",
@@ -1610,11 +1578,9 @@
     "science.quantumCryptography.effectDesc":"TBD",
     "space.planet.helios.heatsink.label":"散热器",
     "space.planet.helios.heatsink.desc":"散热系统。每个散热器将遏制舱的功率消耗提高1％，反物质储存容量提高2％",
-
     "achievements.systemShock.title" : "系统冲击",
     "achievements.systemShock.desc": "我很抱歉戴夫，恐怕我不能这样做。",
     "buildings.aicore.attemptsell": "拒绝访问。",
-    
     "space.planet.charon.label": "卡戎",
     "space.charonMission.label":"卡戎任务",
     "space.charonMission.desc":"在赫利俄斯系统的最边缘的小的，令人难以置信的稠密和遥远的矮行星。它是如此的敌视和贫瘠，它有时被称为 ' 死亡之门 '",
@@ -1630,7 +1596,6 @@
     "effectsMgr.statics.hashrate.title": "哈希值",
     "prestige.ascoh.label":"ASCOH",
     "prestige.ascoh.desc":"一个秘密委员会的帽子",
-    
     "time.vsu.voidResonator.label": "虚空共振器",
     "time.vsu.voidResonator.desc": "每个虚空共振器将使无效命令的效果提高10％。将触发一次时间跳跃。",
     "science.blackchain.label": "区块链",
@@ -1641,7 +1606,6 @@
     "trade.buy.ecoin.desc": "用圣遗物兑换黑币",
     "trade.sell.ecoin": "出售黑币",
     "trade.sell.ecoin.desc": "卖掉你的黑币，取回圣遗物。",
-    
     "space.planet.helios.sunforge.label":"太阳锻造",
     "space.planet.helios.sunforge.desc":"利用太阳的热量将材料熔化成超冷凝的等离子体。每一层阳光炉都可以将基本金属的存储空间提高1％",
     "religion.tu.blackRadiance.label" : "黑色光辉",
@@ -1656,12 +1620,55 @@
     "buildings.zebraWorkshop.desc":"解锁各种斑马升级",
     "buildings.zebraForge.label":"斑马锻造厂",
     "buildings.zebraForge.desc":"解锁血石和t-mythril的工艺",
-    "village.new.bloodstone":"你的猎人给你带来了一份奇怪的礼物"
-
-
-
+    "village.new.bloodstone":"你的猎人给你带来了一份奇怪的礼物",
+    "village.tab.title.deities":"神祗",
+    "science.exogeophysics.label":"外因物理学",
+    "science.exogeophysics.desc":"一项对大规模行星天体的地球物理学的研究",
+    "science.exogeophysics.effectDesc":"解锁熔融岩心",
+    "space.planet.centaurusSystem.moltenCore.label":"熔融岩心",
+    "space.planet.centaurusSystem.moltenCore.desc":"每一级熔融岩心都将构造的效率提高5％",
+    "btn.sell.minor":"出售",
+    "btn.on.minor":"开",
+    "btn.off.minor":"关",
+    "btn.on.tooltip": "建筑已启用",
+    "btn.off.tooltip": "建筑已禁用",
+    "btn.aon.tooltip": "自动化已启用",
+    "btn.aoff.tooltip": "自动化已禁用",
+    "buildings.dataCenter.label":"数据中心",
+    "buildings.dataCenter.desc":"增加摘要对你的科学上限的总效果",
+    "workshop.uplink.label":"上行",
+    "workshop.uplink.desc":"数据中心和生物实验室将互相提供奖励",
+    "workshop.cryocomputing.label":"低温计算",
+    "workshop.cryocomputing.desc": "数据中心能源消耗降低50％",
+    "workshop.machineLearning.label":"机器学习",
+    "workshop.machineLearning.desc": "每一级的AI核心都会将数据中心效率提高10％",
+    "prestige.codexLeviathanianus.label": "利维坦法典",
+    "prestige.codexLeviathanianus.desc": "每个超越等级提升5％的概要上限",
+    "workshop.starlink.label":"星链",
+    "workshop.starlink.desc":"每个数据中心都将为生物实验室提供额外的1％奖励",
+    "workshop.orbitalGeodesy.label":"轨道测地学",
+    "workshop.orbitalGeodesy.desc":"采石场现在将提供少量铀",
+    "religion.tu.blackLibrary.label":"黑色图书馆",
+    "religion.tu.blackLibrary.desc":"每个色黑图书馆提高利维坦法典比例2%",
+    "workshop.craftBtn.desc.effectivenessBonus": "工艺效果加成: +{0}%",
+    
+    
+    "effectsMgr.statics.timeImpedance.title": "时间惩罚延迟",
+    "village.trait.filter.all": "所有特质",
+    "trade.effectiveness": "贸易效率: +{0}%",
+    "effectsMgr.my.goldMaxRatio.title":"黄金最大比例",
+    "effectsMgr.my.compediumGlobalCraftRatio.title":"摘要全局工艺比率",
+    "effectsMgr.my.blueprintGlobalCraftRatio.title":"蓝图全局工艺比率",
+    "effectsMgr.my.manuscriptGlobalCraftRatio.title":"手稿全局工艺比率",
+	"effectsMgr.my.corruptionBoostRatio.title":"提高标识转换死灵兽的几率",
+    "effectsMgr.my.umbraBoostRatio.title":"暗影增加比率",
+    "effectsMgr.my.voidResonator.title":"虚空共振",
+    "effectsMgr.statics.dataCenterAIRatio.title":"数据中心AI比率",
+    "effectsMgr.statics.uplinkDCRatio.title":"上行DC比率",
+    "effectsMgr.statics.uplinkLabRatio.title":"上行Lab比率",
+    "effectsMgr.statics.scienceMaxCompendia.title":"概要科学上限",
+    "effectsMgr.statics.baseMetalMaxRatio.title":"基本金属上限比率",
+    "effectsMgr.statics.hydroponics-catnipRatio.title": "水栽培 - 猫薄荷加成",
+    "effectsMgr.statics.hrHarvester-energyProduction.title": "HR 收割机 - 能源生产",
+    "effectsMgr.statics.entangler-gflopsConsumption.title": "圣纠缠 - 每秒十亿次浮点运算数消耗量"
 }
-
-
-
-
