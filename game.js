@@ -924,6 +924,55 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.hashrateLevel.title"),
 				type: "fixed",
 				calculation: "constant"
+			},
+
+			"corruptionBoostRatio": {
+				title: $I("effectsMgr.statics.corruptionBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"blsCorruptionRatio": {
+				title: $I("effectsMgr.statics.blsCorruptionRatio.title"),
+				type: "ratio"
+			},
+
+			"baseMetalMaxRatio": {
+				title: $I("effectsMgr.statics.baseMetalMaxRatio.title"),
+				type: "ratio"
+			},
+
+			"scienceMaxCompendia": {
+				title: $I("effectsMgr.statics.scienceMaxCompendia.title"),
+				type: "fixed"
+			},
+
+			"uplinkDCRatio": {
+				title: $I("effectsMgr.statics.uplinkDCRatio.title"),
+				type: "ratio"
+			},
+
+			"uplinkLabRatio": {
+				title: $I("effectsMgr.statics.uplinkLabRatio.title"),
+				type: "ratio"
+			},
+
+			"dataCenterAIRatio": {
+				title: $I("effectsMgr.statics.dataCenterAIRatio.title"),
+			},
+
+			"compendiaTTBoostRatio": {
+				title: $I("effectsMgr.statics.compendiaTTBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"blackLibraryBonus": {
+				title: $I("effectsMgr.statics.blackLibraryBonus.title"),
+				type: "ratio"
+			},
+
+			"solarFarmSeasonRatio": {
+				title: $I("effectsMgr.statics.solarFarmSeasonRatio.title"),
+				type: "fixed"
 			}
 		}
 	}
