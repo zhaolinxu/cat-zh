@@ -878,11 +878,11 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 			paragonPoints = (kittens - 70);
 		}
 
-        msg += "<br>" + $I("time.reset.karma") + karmaPoints;
-        msg += "<br>" + $I("time.reset.paragon") + paragonPoints;
+        msg += "<br>" + $I("time.reset.karma") + ": " + karmaPoints;
+        msg += "<br>" + $I("time.reset.paragon") + ": " + paragonPoints;
 
         if (this.game.ironWill){
-            msg += "<br>" + $I("time.reset.zebra") + this.game._getBonusZebras();
+            msg += "<br>" + $I("time.reset.zebra") + ": " + this.game._getBonusZebras();
         }
 
 
