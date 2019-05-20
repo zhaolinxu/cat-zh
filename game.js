@@ -973,6 +973,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"solarFarmSeasonRatio": {
 				title: $I("effectsMgr.statics.solarFarmSeasonRatio.title"),
 				type: "fixed"
+			},
+
+			"tectonicBonus": {
+				title: $I("effectsMgr.statics.tectonicBonus.title"),
+				type: "ratio"
 			}
 		}
 	}
