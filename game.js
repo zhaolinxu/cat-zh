@@ -1660,7 +1660,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		var handler = window.addEventListener('message', function(e) {
+		var handler = function(e) {
 			window.removeEventListener('message', handler);
 
 			if (window.location.origin !== e.origin) {
@@ -1678,7 +1678,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					callback("Unable to save file:" + JSON.stringify(error));
 				});
 			}
-		},false);
+		};
+		window.addEventListener('message', handler ,false);
 	},
 
 	saveImportDropbox: function(){
@@ -1699,24 +1700,25 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		var handler = window.addEventListener('message', function(e) {
-				window.removeEventListener('message', handler);
-				if (window.location.origin !== e.origin) {
-					callback("Unable to load file");
-				} else {
-					var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
-					dbxt.filesDownload({path: "/kittens.save"}).then(function (response) {
-						var blob = response.fileBlob;
-						var reader = new FileReader();
-						reader.addEventListener("loadend", function() {
-							game.saveImportDropboxText(reader.result, callback);
-						});
-						reader.readAsText(blob);
-					}).catch(function (error) {
-						callback("Unable to load file:" + JSON.stringify(error));
+		var handler = function(e) {
+			window.removeEventListener('message', handler);
+			if (window.location.origin !== e.origin) {
+				callback("Unable to load file");
+			} else {
+				var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
+				dbxt.filesDownload({path: "/kittens.save"}).then(function (response) {
+					var blob = response.fileBlob;
+					var reader = new FileReader();
+					reader.addEventListener("loadend", function() {
+						game.saveImportDropboxText(reader.result, callback);
 					});
-				}
-		},false);
+					reader.readAsText(blob);
+				}).catch(function (error) {
+					callback("Unable to load file:" + JSON.stringify(error));
+				});
+			}
+		}
+		window.addEventListener('message', handler ,false);
 	},
 
     saveImportDropboxFileRead: function(callback){
