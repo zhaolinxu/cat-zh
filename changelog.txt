@@ -1,3 +1,12 @@
+v 1.4.6.2 (29 may 2019)
+
+TF Cells / QDot Cells
+Esc is back + keypad numbers to change tabs
+Backported Redshift Heat
+40K Runner mode
+
+Minor ui tweaks for dark color theme
+
 v 1.4.6.0 (22 apr 2019)
 
 Compedium science cap will now be limited by 100% of building science
