@@ -169,6 +169,24 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.game.resPool.enforceLimits(resourceLimits);
 
+         // Transfer chronoheat to the forge
+        if (this.heat > 0) {								//if we have spare chronoheat
+            var perTickHeatTransfer = Math.abs(this.game.getEffect("heatPerTick"));
+            var heatAttemptTransfer = daysOffset / this.game.calendar.ticksPerDay * perTickHeatTransfer;
+            var heatTransfer = Math.min(this.heat, heatAttemptTransfer);
+
+            var blastFurance = this.getCFU("blastFurnace");
+            blastFurance.heat += heatTransfer
+            this.heat -= heatTransfer;
+
+            // Shatter time crystals from the heated forge
+            if (blastFurance.on && blastFurance.isAutomationEnabled && blastFurance.heat >= 100){
+                var amt = Math.floor(blastFurance.heat / 100);
+                blastFurance.heat -= 100 * amt;
+                this.game.time.shatter(amt);
+            }
+        }
+
         if (daysOffset > 3) {
             this.game.msg($I("time.redshift", [daysOffset]) + (numberEvents ? $I("time.redshift.ext",[numberEvents]) : ""));
         }

@@ -1660,7 +1660,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		window.addEventListener('message',function(e) {
+		var handler = window.addEventListener('message', function(e) {
+			window.removeEventListener('message', handler);
+
 			if (window.location.origin !== e.origin) {
 				callback("Unable to save file");
 			} else {
@@ -1697,7 +1699,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		window.addEventListener('message',function(e) {
+		var handler = window.addEventListener('message', function(e) {
+				window.removeEventListener('message', handler);
 				if (window.location.origin !== e.origin) {
 					callback("Unable to load file");
 				} else {
