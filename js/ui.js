@@ -193,7 +193,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             
             var isTabNumber = (event.keyCode >= 48 && event.keyCode <= 57);
-            console.log(isTabNumber, event.keyCode);
+            //console.log(isTabNumber, event.keyCode);
 
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
