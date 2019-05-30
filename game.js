@@ -1608,9 +1608,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//btw, ie11 is horrible crap and should not exist
 	saveExport: function(){
-		this.save();
+		var data = this.save();
+		data = JSON.stringify(data);
 
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
         var encodedData;
         if (LZString.compressToBase64) {
             encodedData = LZString.compressToBase64(data);
@@ -1643,7 +1643,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	saveExportDropbox: function(){
 		this.save();
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		var data = this.save();
+		data = JSON.stringify(data);
 		var lzdata = LZString.compressToBase64(data);
 
 
@@ -3151,6 +3152,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this._lastFrameTimestamp = this.timestamp();
 		}
+		this._publish("game/start");
 	},
 
 	/**
