@@ -68,7 +68,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     //current selected game tab
     activeTabId: "Bonfire",
-    
+
     keyStates: {
         shiftKey: false,
         ctrlKey: false,
@@ -191,15 +191,21 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
             }
 
-            
-            var isTabNumber = (event.keyCode >= 48 && event.keyCode <= 57);
+
+            var isTabNumber = ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105));
             //console.log(isTabNumber, event.keyCode);
 
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
                 keybind.action();
             } else if (isTabNumber){
-                this.game.ui.activeTabId = this.game.tabs[event.keyCode == 48 ? 9 : event.keyCode - 49].tabId;
+                var tabIndex = 9;
+                if (event.keyCode >= 97) { //numpad
+                    tabIndex = event.keyCode - 97;
+                } else if (event.keyCode >= 49 && event.keyCode <= 57) { //number row
+                    tabIndex = event.keyCode - 49;
+                }
+                this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
                 this.game.ui.render();
             } else if (keybind && keybind.name != this.game.ui.activeTabId ) {
                 // If a keybound is found and the tab isn't current
@@ -437,7 +443,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         React.render($r(WLeftPanel, {
             game: this.game
-        }), document.getElementById("leftColumnViewport")); 
+        }), document.getElementById("leftColumnViewport"));
     },
 
     //---------------------------------------------------------------
@@ -727,7 +733,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     onLoad: function(){
         var self = this;
         $(document).on("keyup keydown keypress", function(e){
-            
+
             /*if (e.altKey){    //firefox shenenigans
                 e.preventDefault();
                 e.stopPropagation();
