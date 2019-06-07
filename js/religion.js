@@ -116,9 +116,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched) {
-			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
-			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
-			this.game.resPool.addResEvent("faith", -orderBonus);
+			if (!(this.game.calendar.day < 0)){ //do not accumulate faith with active Temporal Paradox
+				var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
+				this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
+				if (this.game.resPool.get("faith").value != this.game.resPool.get("faith").maxValue){ //do not drain faith if it is in cap value
+					this.game.resPool.addResEvent("faith", -orderBonus);
+				}
+			}
 		}
 	},
 
@@ -147,7 +151,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		// Prevents alicorn count to fall to 0, which would stop the per-tick generation
 		var maxAlicornsToCorrupt = Math.ceil(alicorns.value) - 1;
 		var alicornsToCorrupt = Math.floor(Math.min(this.corruption, maxAlicornsToCorrupt));
-		if (alicornsToCorrupt) {
+		if (alicornsToCorrupt > 0) {
 			this.corruption -= alicornsToCorrupt;
 			alicorns.value -= alicornsToCorrupt;
 			this.game.resPool.get("necrocorn").value += alicornsToCorrupt;
@@ -348,7 +352,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"cultureMaxRatioBonus" : 0.01
+			"cultureMaxRatioBonus" : 0.01,
+			"blackLibraryBonus": 0.02
 		},
 		upgrades: {
 			buildings: ["ziggurat"]
@@ -630,6 +635,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		unlocked: false,
 		flavor: $I("religion.tu.singularity.flavor")
+	},{
+		name: "blackLibrary",
+		label: $I("religion.tu.blackLibrary.label"),
+		description: $I("religion.tu.blackLibrary.desc"),
+		prices: [
+			{ name : "relic", val: 30000 }
+		],
+		tier: 9,
+		priceRatio: 1.15,
+		effects: {
+			"compendiaTTBoostRatio" : 0.02
+		},
+		unlocked: false,
+		flavor: $I("religion.tu.blackLibary.flavor")
 	},{
 		name: "blackRadiance",
 		label: $I("religion.tu.blackRadiance.label"),

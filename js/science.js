@@ -1,3 +1,4 @@
+
 /**
  * Weird cat science
  */
@@ -442,7 +443,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-			stages: [{bld:"pasture",stage:1}] // Solar Farm
+			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		}
 	},
 	{
@@ -455,9 +456,23 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 70}
 		],
 		unlocks: {
-			stages: [{bld:"amphitheatre",stage:1}], // Broadcast Tower
-			tech: ["nuclearFission", "rocketry", "robotics"],
-			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
+			stages: [
+				{bld:"amphitheatre",stage:1},	// Broadcast Tower
+				{bld:"library",stage:1}			// Data Center
+			], 
+			tech: [
+				"nuclearFission", 
+				"rocketry", 
+				"robotics"
+			],
+			upgrades: [
+				"cadSystems", 
+				"refrigeration", 
+				"seti", 
+				"factoryLogistics", 
+				"factoryOptimization", 
+				"internet"
+			]
 		}
 	},{
 		name: "robotics",
@@ -484,7 +499,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks", "aiEngineers"],
+			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"],
 			buildings: ["aiCore"],
 			tech: ["quantumCryptography"]
 		}
@@ -563,7 +578,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [ "photolithography" ]
+            upgrades: [ 
+				"photolithography", 
+				"orbitalGeodesy",
+				"uplink",
+				"thinFilm"
+			]
         },
         flavor: $I("science.sattelites.flavor")
     },{
@@ -577,7 +597,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology", "thorium"],
-			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites", "spaceEngineers"]
+			upgrades: [
+				"hubbleTelescope", 
+				"satelliteRadio", 
+				"astrophysicists", 
+				"solarSatellites", 
+				"spaceEngineers", 
+				"starlink" 
+			]
 		}
 	},{
 		name: "thorium",
@@ -590,7 +617,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			crafts: ["thorium"],
-			upgrades: ["thoriumReactors", "thoriumEngine"]
+			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"]
 		}
 	},{
 		name: "exogeology",
@@ -642,7 +669,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion", "spaceManufacturing"],
+            upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"],
 			tech: ["antimatter"]
 		}
 	},{

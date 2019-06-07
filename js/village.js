@@ -147,6 +147,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	leader: null,	//a reference to a leader kitten for fast access, must be restored on load,
 	senators: null,
 
+	traits: null,
+
 	getRankExp: function(rank){
 		return 500 * Math.pow(1.75, rank);
 	},
@@ -215,6 +217,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.map = new classes.village.Map(game);
 
 		this.senators = [];
+		this.traits = [];
 	},
 
 	getJob: function(jobName){
@@ -549,7 +552,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		saveData.village = {
-			kittens : this.sim.kittens,
+			kittens : kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
 			map : this.map.villageData
