@@ -648,7 +648,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"compendiaTTBoostRatio" : 0.02
 		},
 		unlocked: false,
-		flavor: $I("religion.tu.singularity.flavor")
+		flavor: $I("religion.tu.blackLibary.flavor")
 	},{
 		name: "blackRadiance",
 		label: $I("religion.tu.blackRadiance.label"),

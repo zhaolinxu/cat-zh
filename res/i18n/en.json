@@ -1596,6 +1596,7 @@
     "workshop.orbitalGeodesy.desc":"Quarries will now provide a small amount of uranium",
     "religion.tu.blackLibrary.label":"Black Library",
     "religion.tu.blackLibrary.desc":"Every Black Library improves Codex Leviathanianus scaling by 2%. This value is further improved by Unicorn Graveyards.",
+    "religion.tu.blackLibary.flavor":"Maybe it's too dark to read on purpose.",
     "workshop.craftBtn.desc.effectivenessBonus": "Craft effectiveness bonus: +{0}%",
     "workshop.thinFilm.label": "Thin Film Cells",
     "workshop.thinFilm.desc": "Solar Panels are slightly more effective in winter",
