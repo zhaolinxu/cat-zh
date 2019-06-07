@@ -816,7 +816,7 @@
     "workshop.pumpjack.desc": "Improves effectiveness of Oil Wells by 45%. Every Oil Well will consume 1Wt/t.",
     "workshop.pumpjack.label": "Pumpjack",
     "workshop.biofuel.desc": "Bio Labs will convert catnip into oil",
-    "workshop.biofuel.label": "Biofuel processing",
+    "workshop.biofuel.label": "Biofuel Processing",
     "workshop.unicornSelection.desc": "Improves Unicorn Pasture effectiveness by 25%",
     "workshop.unicornSelection.label": "Unicorn Selection",
     "workshop.gmo.desc": "Genetically modified catnip that will improve Bio Lab oil yield by 60%",
@@ -1612,5 +1612,6 @@
     "effectsMgr.statics.compendiaTTBoostRatio.title": "Codex Leviathanianus bonus",
     "effectsMgr.statics.blackLibraryBonus.title": "Black Library bonus",
     "effectsMgr.statics.solarFarmSeasonRatio.title": "Solar Farm seasonal bonus",
-    "effectsMgr.statics.tectonicBonus.title": "Tectonic bonus"
+    "effectsMgr.statics.tectonicBonus.title": "Tectonic bonus",
+    "effectsMgr.statics.umbraBoostRatio.title": "HR Harvester bonus"
 }

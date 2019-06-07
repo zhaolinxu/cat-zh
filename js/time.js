@@ -176,7 +176,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             var heatTransfer = Math.min(this.heat, heatAttemptTransfer);
 
             var blastFurance = this.getCFU("blastFurnace");
-            blastFurance.heat += heatTransfer
+            blastFurance.heat += heatTransfer;
             this.heat -= heatTransfer;
 
             // Shatter time crystals from the heated forge

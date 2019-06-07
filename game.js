@@ -978,6 +978,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"tectonicBonus": {
 				title: $I("effectsMgr.statics.tectonicBonus.title"),
 				type: "ratio"
+			},
+
+			"umbraBoostRatio": {
+				title: $I("effectsMgr.statics.umbraBoostRatio.title"),
+				type: "ratio"
 			}
 		}
 	}
@@ -1718,7 +1723,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					callback("Unable to load file:" + JSON.stringify(error));
 				});
 			}
-		}
+		};
 		window.addEventListener('message', handler ,false);
 	},
 
