@@ -130,6 +130,7 @@ body {
 
 .tabsContainer {
     padding-bottom: 15px;
+    padding-top: 2px;
     position:absolute;
     top: 5px;
 }
@@ -145,8 +146,21 @@ div#gameLog {
     font-size: 13px;
 }
 
-.activeTab {
+.tab {
     text-decoration: none;
+}
+
+.bldTopContainer {
+    padding-bottom: 5px;
+	margin-bottom: 15px;
+}
+
+.bldTopContainer > a, .bldTopContainer > span {
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+.activeTab {
     color: black;
 }
 
@@ -290,7 +304,7 @@ font-size: 13px;
 }
 
 .disabled {
-    color: #999
+    color: #999;
 }
 
 .tipr_content {

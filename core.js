@@ -1623,7 +1623,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	},
 
 	getSelectedObject: function(){
-		return null;
+		return this.model;
 	}
 });
 
@@ -1850,9 +1850,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 	toggleHref: null,
 	hasResourceHover: true,
 
-	getSelectedObject: function(){
-		return this.model;
-	},
 	/**
 	 * Render button links like off/on and sell
 	 */
@@ -2070,7 +2067,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 			var meta = model.metadata;
 
 			if (this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched){
-				this.game.ui.confirm("", "This will end iron will. Are you sure?", function(confirmed) {
+				this.game.ui.confirm("", $I("iron.will.warning.msg"), function(confirmed) {
 					if(!confirmed) {
 						callback(false);
 					} else {
