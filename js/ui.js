@@ -205,8 +205,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 } else if (event.keyCode >= 49 && event.keyCode <= 57) { //number row
                     tabIndex = event.keyCode - 49;
                 }
-                this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
-                this.game.ui.render();
+                if (this.game.tabs[tabIndex].visible){
+                    this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
+                    this.game.ui.render();
+                }
             } else if (keybind && keybind.name != this.game.ui.activeTabId ) {
                 // If a keybound is found and the tab isn't current
                 for (var i = 0; i < this.game.tabs.length; i++){
