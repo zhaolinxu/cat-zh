@@ -844,6 +844,18 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
 
     load: function() {
+        // swap to bonfire if the current tab is not visible
+        var tabs = this.game.tabs;
+        for (var i = 0; i < tabs.length; i++){
+            var tab = tabs[i];
+            if (this.activeTabId == tab.tabId){
+                if (!tab.visible){
+                    this.activeTabId = tabs[0].tabId;
+                }
+                break;
+            }
+        }
+
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {
             uiData = JSON.parse(uiData);
