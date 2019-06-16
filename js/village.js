@@ -161,6 +161,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case "engineer": // Crafting bonus
 						defaultObject = 0.05 * burnedParagonRatio;
 						break;
+					case "metallurgist": // Crafting bonus for metals
+						defaultObject = 0.1 * burnedParagonRatio;
+						break;
+					case "chemist": // Crafting bonus for compounds (kerosene and thorium)
+						defaultObject = 0.075 * burnedParagonRatio;
+						break;
 					case "merchant": // Trading bonus
 						defaultObject = 0.030 * burnedParagonRatio;
 						break;

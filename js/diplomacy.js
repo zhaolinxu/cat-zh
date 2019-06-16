@@ -11,6 +11,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		attitude: "friendly",	//neutral, friendly, hostile
 		standing: 0.25,			//chance of trade success, works differently based on attitude
 		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 100
+		}],
 		unlocked: false,
 		buys: [
 			{name: "minerals", val: 1000}
@@ -23,7 +27,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 					"autumn": 1.15,
 					"winter": 1.05
 			}},{
-				name: "beam", value: 10, chance: 75, delta: 0.15, minLevel: 5
+				name: "beam", value: 10, chance: 25, delta: 0.15, minLevel: 1
 			}
 		],
 		collapsed: false
@@ -32,6 +36,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		title: $I("trade.race.sharks"),
 		attitude: "neutral",
 		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 100
+		}],
 		unlocked: false,
 		buys: [
 			{name: "iron", val: 100}
@@ -42,7 +50,15 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 0.95,
 				"autumn": 1.15,
 				"winter": 1.45
-			}}
+			}},{
+				name: "parchment", value: 5, chance: 25, delta: 0.25, minLevel: 5
+			},{
+				name: "manuscript", value: 5, chance: 15, delta: 0.25, minLevel: 10
+			},{
+				name: "compedium", value: 5, chance: 10, delta: 0.25, minLevel: 15
+			},{
+				name: "oil", value: 100, chance: 25, delta: 0.15, minLevel: 20
+			}
 		],
 		collapsed: false
 	},{
@@ -50,6 +66,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		title: $I("trade.race.griffins"),
 		attitude: "hostile",
 		standing: 0.85,
+		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 1000
+		}],
 		unlocked: false,
 		buys: [
 			{name: "wood", val: 500}
@@ -60,7 +81,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 0.95,
 				"autumn": 1.35,
 				"winter": 0.80
-			}}
+			}},
+			{name: "steel", value: 25, chance: 25, delta: 0.1, minLevel: 5}
 		],
 		collapsed: false
 	},{
@@ -73,6 +95,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		buys: [
 			{name: "ivory", val: 500}
 		],
+		embassyPrices: [{
+			name: "culture",
+			val: 500
+		}],
 		sells:[
 			{name: "minerals", value: 1000, chance: 100, delta: 0.18, seasons:{
 				"spring": 1.25,
@@ -90,6 +116,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		title: $I("trade.race.zebras"),
 		attitude: "hostile",
 		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 25000
+		}],
 		standing: 0.7,			//evil little bastards
 		unlocked: false,
 		buys: [
@@ -117,6 +147,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		title: $I("trade.race.spiders"),
 		attitude: "friendly",
 		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 5000
+		}],
 		standing: 0.15,			//friendly, but not much
 		unlocked: false,
 		buys: [
@@ -128,7 +162,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 1.05,
 				"autumn": 1.15,
 				"winter": 0.95
-			}},
+			}}
 		],
 		collapsed: false
 	},{
@@ -137,6 +171,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		title: $I("trade.race.dragons"),
 		attitude: "neutral",
 		embassyLevel: 0,
+		embassyPrices: [{
+			name: "culture",
+			val: 7500
+		}],
 		standing: 0.25,
 		unlocked: false,
 		buys: [
@@ -145,6 +183,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		sells:[
 			{
 				name: "uranium", value: 1, chance: 95, delta: 0.25
+			},
+			{
+				name: "thorium", value: 1, chance: 50, delta: 0.25, minLevel: 5
 			}
 		],
 		collapsed: false
@@ -153,7 +194,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		hidden: true,
 		title: $I("trade.race.leviathans"),
 		energy: 0,
-		embassyLevel: 0,
 		attitude: "neutral",
 		standing: 0.15,
 		unlocked: false,
@@ -218,6 +258,15 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 		}
 		return false;
+	},
+
+	/**
+	 * Returns true if particular resource can be traded to you by a race
+	 */
+	isValidTrade: function(sell, race){
+		var resName = sell.name;
+		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
+			&& this.game.resPool.get(resName).unlocked;
 	},
 
 	unlockRandomRace: function(){
@@ -368,9 +417,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		for( var i = 0; i < race.sells.length; i++ ){
 			var sellResource = race.sells[i];
 			//you must be this tall to trade this rare resource
-			if (sellResource.minLevel && race.embassyLevel < sellResource.minLevel){
+			if (!this.game.diplomacy.isValidTrade(sell, race)){
 				continue;
 			}
+
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
 
@@ -402,8 +452,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 		//-------------- 10% chance to get blueprint ---------------
 		var blueprintTradeAmount = 
-			Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1)) 
-			* ( 1 + 0.01 * race.embassyLevel );
+			Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
 		boughtResourceCollection["blueprint"] = blueprintTradeAmount;
 
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
@@ -552,6 +601,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
+	embassyButton: null,
 
 	onToggle: function(isToggled){
 		this.race.collapsed = isToggled;
@@ -560,6 +610,9 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 	update: function(){
 		if (this.tradeBtn){
 			this.tradeBtn.update();
+		}
+		if (this.embassyButton){
+			this.embassyButton.update();
 		}
 	}
 });
@@ -726,9 +779,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 		return result;
 	},
 
-	getName: function(model){
-		console.log("model", model);
-		
+	getName: function(model){		
 		var name = this.inherited(arguments),
 			level = model.options.race.embassyLevel;
 		if (!level){ 
@@ -917,7 +968,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 			for (var j = 0; j< race.sells.length; j++){
 				var s = race.sells[j];
-				if (s.minLevel && race.embassyLevel < s.minLevel){
+				if (!this.game.diplomacy.isValidTrade(s, race)){
 					continue;
 				}
 					res = this.game.resPool.get(s.name);
@@ -981,10 +1032,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var embassyButton = new classes.diplomacy.ui.EmbassyButton({
 					name: "Open embassy",
 					description: "Improve your diplomatic relatinships by establishing an embassy",
-					prices: [{
-						name: "culture",
-						val: 100
-					}],
+					prices: race.embassyPrices,
 					race: race,
 					controller: new classes.diplomacy.ui.EmbassyButtonController(this.game),
 					handler: dojo.partial(function(race){

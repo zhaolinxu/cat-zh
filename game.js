@@ -2528,8 +2528,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return 0;
 	},
 
-	getCraftRatio: function() {
-		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
+	getCraftRatio: function(res) {
+		var effect = this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
+		if (res.tags.baseMetal){
+			effect += this.village.getEffectLeader("metallurgist", 0);
+		}
+		if (res.tags.compound){
+			effect += this.village.getEffectLeader("chemist", 0);
+		}
 	},
 
 	getResCraftRatio: function(res){
@@ -2542,7 +2548,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		var ratio = this.getCraftRatio();
+		var ratio = this.getCraftRatio(res);
 
 		if (res.name == "blueprint"){
 			var bpRatio = this.getEffect("cadBlueprintCraftRatio");
