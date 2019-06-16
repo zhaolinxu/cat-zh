@@ -111,7 +111,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}},{
 				name: "slabs", value: 5, chance: 75, delta: 0.15, minLevel: 5
 			},{
-				name: "concrete", value: 5, chance: 25, delta: 0.05, minLevel: 10
+				name: "concrate", value: 5, chance: 25, delta: 0.05, minLevel: 10
 			},{
 				name: "megalith", value: 1, chance: 10, delta: 0.1, minLevel: 15
 			}

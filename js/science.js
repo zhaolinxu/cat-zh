@@ -814,11 +814,22 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	}],
 
+	policies:[{
+		name: "liberty",
+		label: "Liberty",
+		unlocked: false
+	},{
+		name: "tradition",
+		label: "Tradition",
+		unlocked: false
+	}],
+
 	metaCache: null,
 
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
+		this.registerMeta("stackable", this.policies, null);
 	},
 
 	get: function(techName){
@@ -835,6 +846,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 		console.error("Failed to get tech for tech name '"+techName+"'");
 		return null;
+	},
+
+	getPolicy: function(name){
+		return this.getMeta(name, this.policies);
 	},
 
 	getPrices: function(tech) {
@@ -894,6 +909,45 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
+	}
+});
+
+//-------- Policy ----------
+
+dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.science.getPolicy(model.options.id);
+        }
+        return model.metaCached;
+    }
+
+	/*updateVisible: function(model){
+		var meta = model.metadata;
+		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
+			model.visible = false;
+		} else{
+			model.visible = true;
+		}
+
+		if (meta.researched && this.game.science.hideResearched){
+			model.visible = false;
+		}
+	}*/
+});
+
+dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
+	render: function(container){
+		var content = this.inherited(arguments);
+
+		var controller = new classes.ui.PolicyBtnController(this.game);
+		dojo.forEach(this.game.science.policies, function(policy, i){
+			var button = 
+				new com.nuclearunicorn.game.ui.BuildingResearchBtn({
+					id: policy.name, controller: controller}, self.game);
+			button.render(content);
+			self.addChild(button);
+		});
 	}
 });
 
@@ -974,16 +1028,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table);
-
-		var tdLeft = dojo.create("td", null, tr);
-		var tdRight = dojo.create("td", null, tr);
-
-
-		//this.inherited(arguments);
+		var tr = dojo.create("tr", null, table)/*,
+			tdLeft = dojo.create("td", null, tr),
+			tdRight = dojo.create("td", null, tr)*/;
 
 
-		for (var i = 0; i < this.game.science.techs.length; i++){
+		for (var i in this.game.science.techs){
 			var tech = this.game.science.techs[i];
 
 			var btn = this.createTechBtn(tech);
@@ -995,6 +1045,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			btn.render(tr);
 		}
 
+		//-------------- policies ----------------
+
+		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel.game = this.game;
+		this.policyPanel.render(tabContainer);
 
 		//------------ metaphysics ----------------
 		this.metaphysicsPanel = null;
@@ -1011,12 +1066,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 
 		if (showMetaphysics){
-			var metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
-			metaphysicsPanel.game = this.game;
-
-			var content = metaphysicsPanel.render(tabContainer);
-
-			this.metaphysicsPanel = metaphysicsPanel;
+			this.metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
+			this.metaphysicsPanel.game = this.game;
+			this.metaphysicsPanel.render(tabContainer);
 		}
 
         //---------- challenges ------------
@@ -1025,11 +1077,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
         //TODO: use better update/render logic like in Time tab
 		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
 		if (showChallenges){
-			var challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
-			challengesPanel.game = this.game;
-
-			var content = challengesPanel.render(tabContainer);
-			this.challengesPanel = challengesPanel;
+			this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
+			this.challengesPanel.game = this.game;
+			this.challengesPanel.render(tabContainer);
 		}
 
 		this.update();
@@ -1043,6 +1093,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
         if (this.challengesPanel){
 			this.challengesPanel.update();
+		}
+		if (this.policyPanel){
+			this.policyPanel.update();
 		}
 	},
 

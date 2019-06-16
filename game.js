@@ -2530,12 +2530,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getCraftRatio: function(res) {
 		var effect = this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
-		if (res.tags.baseMetal){
+		if (res.tags && res.tags.baseMetal){
 			effect += this.village.getEffectLeader("metallurgist", 0);
 		}
-		if (res.tags.compound){
+		if (res.tags && res.tags.compound){
 			effect += this.village.getEffectLeader("chemist", 0);
 		}
+		return effect;
 	},
 
 	getResCraftRatio: function(res){
