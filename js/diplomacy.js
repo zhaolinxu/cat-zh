@@ -82,7 +82,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.35,
 				"winter": 0.80
 			}},
-			{name: "steel", value: 25, chance: 25, delta: 0.1, minLevel: 5}
+			{name: "steel", value: 25, chance: 25, delta: 0.1, minLevel: 5},
+			{name: "gear", value: 5, chance: 10, delta: 0.25, minLevel: 10}
 		],
 		collapsed: false
 	},{
@@ -107,6 +108,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"winter": 0.95
 			}},{
 				name: "slabs", value: 5, chance: 75, delta: 0.15, minLevel: 5
+			},{
+				name: "concrete", value: 5, chance: 25, delta: 0.05, minLevel: 10
+			},{
+				name: "megalith", value: 1, chance: 10, delta: 0.1, minLevel: 15
 			}
 		],
 		collapsed: false
@@ -138,7 +143,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.05,
 				"winter": 1.25
 			}},
-			{name: "titanium", value: 1, chance: 0, delta: 0}
+			{name: "titanium", value: 1, chance: 0, delta: 0},
+			{name: "alloy", value: 1, chance: 5, delta: 0.05, minLevel: 5}
 		],
 		collapsed: false
 	},{
@@ -814,14 +820,11 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 
 
 dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	race: null,
-	constructor: function(opts, game){
-		this.race = opts.race;
-	}
+	//nothing interesting here, citizen
 });
 
 /** -------------------------------------
- * 			Explorer Button
+ * 			Explore Button
 ----------------------------------------- */
 
 dojo.declare("classes.trade.ui.SendExplorersButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
@@ -894,7 +897,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		/*
 		 * Once race panel is rendered, we will save the panels states.
 		 *
-		 * However races can be unlocked in random order, so once new race appear,
+		 * However races can be unlocked in random order, so after a new race appears
 		 * we will clear array and reinitialise it again
 		 */
 
