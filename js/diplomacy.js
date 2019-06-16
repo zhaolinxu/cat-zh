@@ -421,8 +421,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				continue;
 			}
 
-			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, sellResource.chance / 100),
-				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, sellResource.chance / 100);
+			//can trade chance be grater than 1?
+			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
+			var tradeChance = sellResource.chance * (1 + 0.01 * race.embassyLevel);
+
+			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance / 100),
+				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance / 100);
 
 			if (resourcePassedBonusTradeAmount + resourcePassedNormalTradeAmount == 0) {
 				continue;
@@ -445,8 +449,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			boughtResourceCollection[sellResource.name] = boughtAmount;
 		}
 
-		//-------------------- 35% chance to get spice ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35);
+		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 
+			0.35 * (1 + 0.01 * race.embassyLevel));
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
 
@@ -786,11 +791,11 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 			return name; 
 		}
 
-		return "Embassy level (" + model.options.race.embassyLevel + ")";
+		return $I("trade.embassy",[ model.options.race.embassyLevel ]);
 	},
 
 	getPrices: function(model) {
-		var prices = this.inherited(arguments);
+		var prices = dojo.clone(this.inherited(arguments));
 		for (var i = 0; i < prices.length; i++) {
 			prices[i].val = prices[i].val * Math.pow(1.15, model.options.race.embassyLevel)
 			
@@ -1030,8 +1035,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			//----------------------------------------------------------
 			if (race.name != "leviathans") {
 				var embassyButton = new classes.diplomacy.ui.EmbassyButton({
-					name: "Open embassy",
-					description: "Improve your diplomatic relatinships by establishing an embassy",
+					name: $I("trade.embassy.open"),
+					description: $I("trade.embassy.desc"),
 					prices: race.embassyPrices,
 					race: race,
 					controller: new classes.diplomacy.ui.EmbassyButtonController(this.game),
