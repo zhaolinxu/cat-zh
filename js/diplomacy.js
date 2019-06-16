@@ -27,7 +27,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 					"autumn": 1.15,
 					"winter": 1.05
 			}},{
-				name: "beam", value: 10, chance: 25, delta: 0.15, minLevel: 1
+				name: "beam", value: 10, chance: 25, delta: 0.15, minLevel: 5
+			},{
+				name: "scaffold", value: 1, chance: 10, delta: 0.1, minLevel: 10
 			}
 		],
 		collapsed: false
