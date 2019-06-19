@@ -95,7 +95,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.game.bld.get("steamworks").val > 0 &&
 				this.game.bld.get("magneto").val > 0 &&
 				this.game.bld.get("reactor").val > 0 &&
-				this.game.space.getBuilding("sattelite").val > 0 &&
+				(this.game.space.getBuilding("sattelite").val > 0 && this.game.workshop.get("solarSatellites").researched) &&
 				this.game.space.getBuilding("sunlifter").val > 0 &&
 				this.game.space.getBuilding("tectonic").val > 0 &&
 				this.game.space.getBuilding("hrHarvester").val > 0
@@ -127,6 +127,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.getChallenge(challenge).researched = true;
 			this.currentChallenge = null;
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
+			this.game.calculateAllEffects();
 		}
 	}
 });
