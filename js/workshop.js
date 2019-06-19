@@ -478,6 +478,36 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["pasture"]
 		}
+	},{
+		name: "thinFilm",
+		label: $I("workshop.thinFilm.label"),
+		description: $I("workshop.thinFilm.desc"),
+		prices:[
+			{ name : "science", val: 125000 },
+			{ name : "unobtainium", val: 200 },
+			{ name : "uranium", val: 1000 }
+		],
+		effects: {
+			"solarFarmSeasonRatio" : 1
+		},
+		upgrades: {
+			buildings: ["pasture"]
+		}
+	},{
+		name: "qdot",
+		label: $I("workshop.qdot.label"),
+		description: $I("workshop.qdot.desc"),
+		prices:[
+			{ name : "science", val: 175000 },
+			{ name : "eludium", val: 200 },
+			{ name : "thorium", val: 1000 }
+		],
+		effects: {
+			"solarFarmSeasonRatio" : 1
+		},
+		upgrades: {
+			buildings: ["pasture"]
+		}
 	},
 	{
 		name: "solarSatellites",
@@ -2326,7 +2356,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
 		}
 
-		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap)){
+		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) && !this.game.opts.ch40krun){
 			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);
 		}
 		//-------------	todo: move somewhere to bld? ------------------------------------

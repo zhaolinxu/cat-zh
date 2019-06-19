@@ -4,7 +4,7 @@
 // @description Launch Kitten Scientists
 // @include     *bloodrizer.ru/games/kittens/*
 // @include     file:///*kitten-game*
-// @version     1.3.2
+// @version     1.3.3
 // @grant       none
 // @copyright   2015, cameroncondry
 // ==/UserScript==
@@ -13,7 +13,7 @@
 // Begin Kitten Scientist's Automation Engine
 // ==========================================
 
-var version = '小猫科学家 版本 1.3.2';
+var version = '小猫科学家 版本 1.3.3';
 var address = '19ZBVyaXQhikcuUszY2MVRb1MGL2YqicDX';
 
 // Game will be referenced in loadTest function
@@ -53,6 +53,20 @@ var run = function() {
                 // Should any automation run at all?
                 enabled: false
             },
+            crypto: {
+                // Should crypto exchange be automated?
+                enabled: true,
+                // At what percentage of the relic storage capacity should KS exchange?
+                trigger: 10000
+            },
+			explore: {
+				// Should exploring be automated?
+                enabled: false,
+			},
+			autofeed: {
+				// Should feeding elders be automated?
+                enabled: true,
+            },
             faith: {
                 // Should praising be automated?
                 enabled: true,
@@ -60,17 +74,39 @@ var run = function() {
                 trigger: 0.99,
                 // Which religious upgrades should be researched?
                 items: {
-                    // Order of the Sun
-                    solarchant:      {require: 'faith', enabled: true},
-                    scholasticism:   {require: 'faith', enabled: true},
-                    goldenSpire:     {require: 'faith', enabled: true},
-                    sunAltar:        {require: 'faith', enabled: true},
-                    stainedGlass:    {require: 'faith', enabled: true},
-                    solarRevolution: {require: 'faith', enabled: true},
-                    basilica:        {require: 'faith', enabled: true},
-                    templars:        {require: 'faith', enabled: true},
-                    apocripha:       {require: 'faith', enabled: false},
-                    transcendence:   {require: 'faith', enabled: true},
+                    // Variant denotes which category the building or upgrade falls within in the Religion tab.
+                    // Ziggurats are variant z.
+                    unicornTomb:        {require: false,         enabled: false, variant: 'z'},
+                    ivoryTower:         {require: false,         enabled: false, variant: 'z'},
+                    ivoryCitadel:       {require: false,         enabled: false, variant: 'z'},
+                    skyPalace:          {require: false,         enabled: false, variant: 'z'},
+                    unicornUtopia:      {require: 'gold',        enabled: false, variant: 'z'},
+                    sunspire:           {require: 'gold',        enabled: false, variant: 'z'},
+                    marker:             {require: 'unobtainium', enabled: false, variant: 'z'},
+                    unicornGraveyard:   {require: false,         enabled: false, variant: 'z'},
+                    unicornNecropolis:  {require: false,         enabled: false, variant: 'z'},
+                    blackPyramid:       {require: 'unobtainium', enabled: false, variant: 'z'},
+                    // Order of the Sun is variant s.
+                    solarchant:         {require: 'faith',       enabled: true,  variant: 's'},
+                    scholasticism:      {require: 'faith',       enabled: true,  variant: 's'},
+                    goldenSpire:        {require: 'faith',       enabled: true,  variant: 's'},
+                    sunAltar:           {require: 'faith',       enabled: true,  variant: 's'},
+                    stainedGlass:       {require: 'faith',       enabled: true,  variant: 's'},
+                    solarRevolution:    {require: 'faith',       enabled: true,  variant: 's'},
+                    basilica:           {require: 'faith',       enabled: true,  variant: 's'},
+                    templars:           {require: 'faith',       enabled: true,  variant: 's'},
+                    apocripha:          {require: 'faith',       enabled: false, variant: 's'},
+                    transcendence:      {require: 'faith',       enabled: true,  variant: 's'},
+                    // Cryptotheology is variant c.
+                    blackObelisk:       {require: false,         enabled: false, variant: 'c'},
+                    blackNexus:         {require: false,         enabled: false, variant: 'c'},
+                    blackCore:          {require: false,         enabled: false, variant: 'c'},
+                    singularity:        {require: false,         enabled: false, variant: 'c'},
+                    blackLibrary:       {require: false,         enabled: false, variant: 'c'},
+                    blackRadiance:      {require: false,         enabled: false, variant: 'c'},
+                    blazar:             {require: false,         enabled: false, variant: 'c'},
+                    darkNova:           {require: false,         enabled: false, variant: 'c'},
+                    holyGenocide:       {require: false,         enabled: false, variant: 'c'},
                 }
             },
             festival: {
@@ -129,6 +165,7 @@ var run = function() {
 
                     // science
                     library:        {require: 'wood',        enabled: true, stage: 0},
+                    dataCenter:     {require: false,         enabled: true, stage: 1, name: 'library'},
                     academy:        {require: 'wood',        enabled: true},
                     observatory:    {require: 'iron',        enabled: true},
 
@@ -142,6 +179,7 @@ var run = function() {
                     unicornPasture: {require: false,         enabled: true},
                     ziggurat:       {require: false,         enabled: true},
                     chronosphere:   {require: 'unobtainium', enabled: true},
+                    aiCore:         {require: false,         enabled: false},
 
                     // storage
                     barn:           {require: 'wood',        enabled: true},
@@ -177,6 +215,8 @@ var run = function() {
                     // Helios
                     sunlifter:          {require: 'eludium', enabled: false},
                     containmentChamber: {require: 'science', enabled: false},
+                    heatsink:           {require: 'thorium', enabled: false},
+                    sunforge:           {require: false,     enabled: false},
 
                     // T-Minus
                     cryostation:    {require: 'eludium',     enabled: false},
@@ -188,41 +228,74 @@ var run = function() {
                     terraformingStation: {require: 'antimatter',  enabled: false},
                     hydroponics:         {require: 'kerosene',    enabled: false},
 
+                    // Umbra
+                    hrHarvester:    {require: 'antimatter',  enabled: false},
+
+                    // Charon
+                    entangler:    {require: 'antimatter',  enabled: false},
+
                     // Centaurus
-                    tectonic: {require: 'antimatter', enabled: false}
+                    tectonic:   {require: 'antimatter', enabled: false},
+                    moltenCore: {require: 'uranium',    enabled: false}
+                }
+            },
+            time: {
+                // Should time upgrades be built automatically?
+                enabled: false,
+                trigger: 0.95,
+                items: {
+                    // Variants denote whether these buildings fall within the Chronoforge or Void categories.
+                    // Chronoforge has variant chrono.
+                    temporalBattery:     {require: false,          enabled: false, variant: 'chrono'},
+                    blastFurnace:        {require: false,          enabled: false, variant: 'chrono'},
+                    temporalAccelerator: {require: false,          enabled: false, variant: 'chrono'},
+                    temporalImpedance:   {require: false,          enabled: false, variant: 'chrono'},
+                    ressourceRetrieval:  {require: false,          enabled: false, variant: 'chrono'},
+                    
+                    // Void Space has variant void.
+                    cryochambers:        {require: false,          enabled: false, variant: 'void'},
+                    voidHoover:          {require: 'antimatter',   enabled: false, variant: 'void'},
+                    voidRift:            {require: false,          enabled: false, variant: 'void'},
+                    chronocontrol:       {require: 'temporalFlux', enabled: false, variant: 'void'},
+                    voidResonator:       {require: false,          enabled: false, variant: 'void'}
                 }
             },
             craft: {
-                // Should resources be crafted automatically?
+               //资源是否自动制作？
                 enabled: true,
-                // Every item can define a required resource with the *require* property.
-                // At what percentage of the storage capacity of that required resource should the listed resource be crafted?
+                //每个项目都可以使用* require *属性定义所需的资源。
+                 //应该列出所需资源的存储容量的百分比？
                 trigger: 0.95,
-                // The items that can be crafted.
-                // In addition to the *require* property, which is explained above, items can also define a *max*. If they
-                // do, no more than that resource will be automatically produced. This feature can not be controlled through
-                // the UI and is not used for any resource by default.
-                // The *limited* property tells KS to only craft the resource once per season.
+                //可以制作的物品
+                 //除上述* require *属性之外，项目还可以定义一个* max *。 如果他们
+                 //做，没有更多的资源将被自动生成。 此功能无法通过控制
+                 // UI，默认情况下不用于任何资源。
+                 // *有限*属性告诉KS只能每季度制作资源一次。
+                // to the number of stored components is greater than the limit ratio "limRat".
+                // This means that if limRat is 0.5, then if you have 1000 beams and 500 beams worth of scaffolds, 250 of the beams
+                // will be crafted into scaffolds. If instead limRat is 0.75, 625 of the beams will be crafted into scaffolds for a final result
+                // of 1125 beams-worth of scaffolds and 375 remaining beams.
+                // Currently, limRat is not modifiable through the UI, though if there is demand, perhaps this will be added in the future.
                 items: {
-                    wood:       {require: 'catnip',      max: 0, limited: false, enabled: true},
-                    beam:       {require: 'wood',        max: 0, limited: false, enabled: true},
-                    slab:       {require: 'minerals',    max: 0, limited: false, enabled: true},
-                    steel:      {require: 'coal',        max: 0, limited: false, enabled: true},
-                    plate:      {require: 'iron',        max: 0, limited: false, enabled: true},
-                    alloy:      {require: 'titanium',    max: 0, limited: true,  enabled: false},
-                    concrete:   {require: false,         max: 0, limited: true,  enabled: false},
-                    gear:       {require: false,         max: 0, limited: true,  enabled: false},
-                    scaffold:   {require: false,         max: 0, limited: true,  enabled: false},
-                    ship:       {require: false,         max: 0, limited: true,  enabled: false},
-                    tanker:     {require: false,         max: 0, limited: true,  enabled: false},
-                    parchment:  {require: false,         max: 0, limited: true,  enabled: true},
-                    manuscript: {require: 'culture',     max: 0, limited: true,  enabled: true},
-                    compendium: {require: 'science',     max: 0, limited: true,  enabled: true},
-                    blueprint:  {require: 'science',     max: 0, limited: true,  enabled: false},
-                    kerosene:   {require: 'oil',         max: 0, limited: true,  enabled: false},
-                    megalith:   {require: false,         max: 0, limited: true,  enabled: false},
-                    eludium:    {require: 'unobtainium', max: 0, limited: true,  enabled: false},
-                    thorium:    {require: 'uranium',     max: 0, limited: true,  enabled: false}
+                    wood:       {require: 'catnip',      max: 0, limited: false, limRat: 0.5, enabled: true},
+                    beam:       {require: 'wood',        max: 0, limited: false, limRat: 0.5, enabled: true},
+                    slab:       {require: 'minerals',    max: 0, limited: false, limRat: 0.5, enabled: true},
+                    steel:      {require: 'coal',        max: 0, limited: false, limRat: 0.5, enabled: true},
+                    plate:      {require: 'iron',        max: 0, limited: false, limRat: 0.5, enabled: true},
+                    alloy:      {require: 'titanium',    max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    concrete:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    gear:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    scaffold:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    ship:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    parchment:  {require: false,         max: 0, limited: false, limRat: 0.5, enabled: true},
+                    manuscript: {require: 'culture',     max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    compendium: {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    blueprint:  {require: 'science',     max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    kerosene:   {require: 'oil',         max: 0, limited: false, limRat: 0.5, enabled: false},
+                    megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    eludium:    {require: 'unobtainium', max: 0, limited: false, limRat: 0.5, enabled: false},
+                    thorium:    {require: 'uranium',     max: 0, limited: false, limRat: 0.5, enabled: false}
                 }
             },
             trade: {
@@ -260,6 +333,15 @@ var run = function() {
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true}
                 }
             },
+            upgrade: {
+                //Should KS automatically upgrade?
+                enabled: false,
+                items: {
+                    upgrades:  {enabled: false},
+                    techs:     {enabled: false},
+                    buildings: {enabled: false}
+                }
+            },
             resources: {
                 furs:        {stock: 1000},
                 unobtainium: {consume: 1.0}
@@ -269,16 +351,6 @@ var run = function() {
 
     // GameLog Modification
     // ====================
-
-    // Add a message filter for trades
-    if (!game.console.filters.trade){
-        game.console.filters.trade = {
-            title: "贸易",
-            enabled: true,
-            unlocked: true
-        };
-        game.ui.renderFilters();
-    }
 
     // Increase messages displayed in log
     game.console.maxMessages = 1000;
@@ -330,20 +402,28 @@ var run = function() {
     // =================================
 
     var Engine = function () {
+        this.upgradeManager = new UpgradeManager();
         this.buildManager = new BuildManager();
         this.spaceManager = new SpaceManager();
         this.craftManager = new CraftManager();
         this.tradeManager = new TradeManager();
         this.religionManager = new ReligionManager();
+        this.timeManager = new TimeManager();
+        this.explorationManager = new ExplorationManager();
+        // this.autofeedManager = new AutofeedManager();
         this.villageManager = new TabManager('Village');
     };
 
     Engine.prototype = {
+        upgradeManager: undefined,
         buildManager: undefined,
         spaceManager: undefined,
         craftManager: undefined,
         tradeManager: undefined,
         religionManager: undefined,
+        timeManager: undefined,
+        explorationManager: undefined,
+        // autofeedManager: undefined,
         villageManager: undefined,
         loop: undefined,
         start: function () {
@@ -361,6 +441,7 @@ var run = function() {
         },
         iterate: function () {
             this.observeStars();
+            if (options.auto.upgrade.enabled) this.upgrade();
             if (options.auto.festival.enabled) this.holdFestival();
             if (options.auto.build.enabled) this.build();
             if (options.auto.space.enabled) this.space();
@@ -368,7 +449,74 @@ var run = function() {
             if (options.auto.trade.enabled) this.trade();
             if (options.auto.hunt.enabled) this.hunt();
             if (options.auto.faith.enabled) this.worship();
+            if (options.auto.time.enabled) this.chrono();
+            if (options.auto.crypto.enabled) this.crypto();
+            if (options.auto.explore.enabled) this.explore();
+            if (options.auto.autofeed.enabled) this.autofeed();
         },
+        autofeed: function(){
+        // var manager = this.autofeedManager;
+        // Only feed if it's enabled
+        if (!options.auto.autofeed.enabled) return;
+        if(game.diplomacy.get("leviathans").unlocked && game.resPool.get("necrocorn").value>=1) {
+        if(game.diplomacy.get("leviathans").energy<game.religion.getZU("marker").val * 5 + 5) {
+        game.diplomacy.feedElders();
+        activity('小猫献祭了上古神。 上古神很高兴');
+        }}
+    },
+
+		crypto: function () {
+            var coinPrice = game.calendar.cryptoPrice;
+            var previousRelic = game.resPool.get('relic').value;
+            var previousCoin = game.resPool.get('blackcoin').value;
+            var exchangedCoin = 0.0;
+            var exchangedRelic = 0.0;
+			var waitForBestPrice = false;
+
+            // Only exchange if it's enabled
+            if (!options.auto.crypto.enabled) return;
+
+			// Waits for coin price to drop below a certain treshold before starting the exchange process
+			if (waitForBestPrice == true && coinPrice < 860.0) { waitForBestPrice = false; }
+
+			// Exchanges up to a certain threshold, in order to keep a good exchange rate, then waits for a higher treshold before exchanging for relics.
+            if (waitForBestPrice == false && coinPrice < 950.0 && previousRelic > options.auto.crypto.trigger) {
+                var currentCoin;
+
+                game.diplomacy.buyEcoin();
+
+                currentCoin = game.resPool.get('blackcoin').value;
+                exchangedCoin = Math.round(currentCoin - previousCoin);
+                activity('小猫出售了圣遗物并购买了 '+ exchangedCoin +' 黑币');
+            }
+            else if (coinPrice > 1050.0 && game.resPool.get('blackcoin').value > 0) {
+                var currentRelic;
+
+				waitForBestPrice = true;
+
+                game.diplomacy.sellEcoin();
+
+                currentRelic = game.resPool.get('blackcoin').value;
+                exchangedRelic = Math.round(currentRelic - previousRelic);
+
+                activity('小猫出售了黑币并购买了 '+ exchangedRelic +' 圣遗物');
+            }
+        },
+		explore: function () {
+			var manager = this.explorationManager;
+			var expeditionNode = game.village.map.expeditionNode;
+
+			// Only exchange if it's enabled
+            if (!options.auto.explore.enabled) return;
+
+			if( expeditionNode == null) {
+				manager.getCheapestNode();
+
+				manager.explore(manager.cheapestNodeX, manager.cheapestNodeY);
+
+				activity('你的小猫开始探索地图上的节点 '+ manager.cheapestNodeX +'-'+ manager.cheapestNodeY +'.');
+			}
+		},
         worship: function () {
             var builds = options.auto.faith.items;
             var buildManager = this.religionManager;
@@ -385,7 +533,7 @@ var run = function() {
                 var require = !build.require ? false : craftManager.getResource(build.require);
 
                 if (!require || trigger <= require.value / require.maxValue) {
-                    buildManager.build(name);
+                    buildManager.build(name, build.variant);
                 }
             }
 
@@ -393,9 +541,114 @@ var run = function() {
             var faith = craftManager.getResource('faith');
 
             if (options.auto.faith.trigger <= faith.value / faith.maxValue) {
-                storeForSummary('faith', faith.value * (1 + game.religion.getFaithBonus()));
+                storeForSummary('faith', faith.value);
                 activity('赞美太阳!', 'ks-praise');
                 game.religion.praise();
+            }
+        },
+        chrono: function () {
+            var builds = options.auto.time.items;
+            var buildManager = this.timeManager;
+            var craftManager = this.craftManager;
+            var trigger = options.auto.time.trigger;
+            
+            // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
+            buildManager.manager.render();
+            
+            for (var name in builds) {
+                if (!builds[name].enabled) continue;
+
+                var build = builds[name];
+                var require = !build.require ? false : craftManager.getResource(build.require);
+
+                if (!require || trigger <= require.value / require.maxValue) {
+                    buildManager.build(name, build.variant);
+                }
+            }
+        },
+        upgrade: function () {
+            var upgrades = options.auto.upgrade.items;
+            var upgradeManager = this.upgradeManager;
+            var craftManager = this.craftManager;
+            
+            upgradeManager.workManager.render();
+            upgradeManager.sciManager.render();
+            
+            if (upgrades.upgrades.enabled && gamePage.tabs[3].visible) {
+                var work = game.workshop.upgrades;
+                workLoop:
+                for (var upg in work) {
+                    if (work[upg].researched || !work[upg].unlocked) {continue;}
+                    
+                    var prices = work[upg].prices;
+                    for (var resource in prices) {
+                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
+                    }
+                    upgradeManager.build(work[upg], 'workshop');
+                }
+            }
+            
+            if(upgrades.techs.enabled && gamePage.tabs[2].visible) {
+                var tech = game.science.techs;
+                techLoop:
+                for (var upg in tech) {
+                    if (tech[upg].researched || !tech[upg].unlocked) {continue;}
+                    
+                    var prices = tech[upg].prices;
+                    for (var resource in prices) {
+                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue techLoop;}
+                    }
+                    upgradeManager.build(tech[upg], 'science');
+                }
+            }
+            
+            if (upgrades.buildings.enabled) {
+                var pastureMeta = game.bld.getBuildingExt('pasture').meta;
+                if (pastureMeta.stage === 0) {
+                    if (pastureMeta.stages[1].stageUnlocked) {
+                        pastureMeta.on = 0;
+                        pastureMeta.val = 0;
+                        pastureMeta.stage = 1;
+                        game.render();
+                        activity('将牧场升级为太阳能农场！', 'ks-upgrade');
+                    }
+                }
+                
+                var aqueductMeta = game.bld.getBuildingExt('aqueduct').meta;
+                if (aqueductMeta.stage === 0) {
+                    if (aqueductMeta.stages[1].stageUnlocked) {
+                        aqueductMeta.on = 0
+                        aqueductMeta.val = 0
+                        aqueductMeta.stage = 1
+                        aqueductMeta.calculateEffects(aqueductMeta, game)
+                        game.render()
+                        activity('将水渠升级为水电站！', 'ks-upgrade');
+                    }
+                }
+                
+                var libraryMeta = game.bld.getBuildingExt('library').meta;
+                if (libraryMeta.stage === 0) {
+                    if (libraryMeta.stages[1].stageUnlocked) {
+                        libraryMeta.on = 0
+                        libraryMeta.val = 0
+                        libraryMeta.stage = 1
+                        libraryMeta.calculateEffects(libraryMeta, game)
+                        game.render()
+                        activity('将图书馆升级为数据中心！', 'ks-upgrade');
+                    }
+                    
+                }
+                
+                var amphitheatreMeta = game.bld.getBuildingExt('amphitheatre').meta;
+                if (amphitheatreMeta.stage === 0) {
+                    if (amphitheatreMeta.stages[1].stageUnlocked) {
+                        amphitheatreMeta.on = 0
+                        amphitheatreMeta.val = 0
+                        amphitheatreMeta.stage = 1
+                        game.render()
+                        activity('将剧场升级为广播塔！', 'ks-upgrade');
+                    }
+                }
             }
         },
         build: function () {
@@ -463,7 +716,7 @@ var run = function() {
 
                 // Craft the resource if we meet the trigger requirement
                 if (!require || trigger <= require.value / require.maxValue) {
-                    var amount = manager.getLowestCraftAmount(name,craft.limited);
+                    var amount = manager.getLowestCraftAmount(name, craft.limited, craft.limRat);
 
                     if (amount > 0) {
                         manager.craft(name, amount);
@@ -506,7 +759,9 @@ var run = function() {
             var tradeManager = this.tradeManager;
             var gold = craftManager.getResource('gold');
             var trades = [];
-
+            
+            tradeManager.manager.render();
+            
             // Only trade if it's enabled
             if (!options.auto.trade.enabled) return;
 
@@ -568,9 +823,72 @@ var run = function() {
                 }
             }
 
-            this.tab ? this.render() : warning('无法找到标签 ' + name);
+            this.tab ? this.render() : warning('无法找到标签' + name);
         }
     };
+
+	// Exploration Manager
+	// ===================
+
+	var ExplorationManager = function () {
+		this.manager = new TabManager('Village');
+	};
+
+	ExplorationManager.prototype = {
+		manager: undefined,
+		currentCheapestNode: null,
+		currentCheapestNodeValue: null,
+		cheapestNodeX: null,
+		cheapestNodeY: null,
+		explore: function(x, y) {
+			game.village.map.expeditionNode = {x, y};
+			game.village.map.explore(x, y);
+		},
+		getCheapestNode: function () {
+			var tileArray = game.village.map.villageData;
+			var tileKey = "";
+
+			this.currentCheapestNode = null;
+
+			for (var i in tileArray) {
+				tileKey = i;
+
+				// Discards locked nodes
+				if (i.unlocked == false) { break; }
+
+				// Discards junk nodes
+				if(tileKey.includes('-')) { break; }
+
+				// Acquire node coordinates
+				var regex = /(\d).(\d*)/g;
+				var keyMatch = regex.exec(tileKey);
+				var xCoord = parseInt(keyMatch[1]);
+				var yCoord = parseInt(keyMatch[2]);
+
+				if(this.currentCheapestNode == null) {
+					this.currentCheapestNodeValue = this.getNodeValue(xCoord, yCoord)
+					this.currentCheapestNode = i;
+					this.cheapestNodeX = xCoord;
+					this.cheapestNodeY = yCoord;
+				}
+
+				if (this.currentCheapestNode != null && this.getNodeValue(xCoord, yCoord) < this.currentCheapestNodeValue) {
+					this.currentCheapestNodeValue = this.getNodeValue(xCoord, yCoord)
+					this.currentCheapestNode = i;
+					this.cheapestNodeX = xCoord;
+					this.cheapestNodeY = yCoord;
+				}
+			}
+		},
+		getNodeValue: function (x, y){
+			var nodePrice = game.village.map.toLevel(x, y);
+			var exploreCost = game.village.map.getExplorationPrice(x,y);
+
+			var tileValue = nodePrice / exploreCost;
+
+			return tileValue;
+		}
+	};
 
     // Religion manager
     // ================
@@ -583,34 +901,138 @@ var run = function() {
     ReligionManager.prototype = {
         manager: undefined,
         crafts: undefined,
-        build: function (name) {
-            var build = this.getBuild(name);
-            var button = this.getBuildButton(name);
+        build: function (name, variant) {
+            var build = this.getBuild(name, variant);
+            var button = this.getBuildButton(name, variant);
 
             if (!button || !button.model.enabled) return;
 
             //need to simulate a click so the game updates everything properly
             button.domNode.click(build);
             storeForSummary(name, 1, 'faith');
-
-            activity('小猫已经发现了 ' + build.label, 'ks-faith');
+            if (variant === "s") {
+                activity('小猫已经发现了 ' + build.label, 'ks-faith');
+            } else {
+                activity('小猫建造了一个新的 ' + build.label, 'ks-build');
+            }
         },
-        getBuild: function (name) {
-            return game.religion.getRU(name);
+        getBuild: function (name, variant) {
+            switch (variant) {
+                case 'z':
+                    return game.religion.getZU(name);
+                case 's':
+                    return game.religion.getRU(name);
+                case 'c':
+                    return game.religion.getTU(name);
+            }
         },
-        getBuildButton: function (name) {
-            var buttons = this.manager.tab.rUpgradeButtons;
-            var build = this.getBuild(name);
-
+        getBuildButton: function (name, variant) {
+            switch (variant) {
+                case 'z':
+                    var buttons = this.manager.tab.zgUpgradeButtons;
+                    break;
+                case 's':
+                    var buttons = this.manager.tab.rUpgradeButtons;
+                    break;
+                case 'c':
+                    var buttons = this.manager.tab.children[0].children[0].children;
+            }
+            var build = this.getBuild(name, variant);
             for (var i in buttons) {
                 var haystack = buttons[i].model.name;
-                if (haystack.indexOf(build.label) !== -1){
+                if (haystack.indexOf(build.label) !== -1) {
                     return buttons[i];
                 }
             }
         }
     };
 
+    // Time manager
+    // ============
+    
+    var TimeManager = function () {
+        this.manager = new TabManager('Time');
+        this.crafts = new CraftManager();
+    };
+    
+    TimeManager.prototype = {
+        manager: undefined,
+        crafts: undefined,
+        build: function (name, variant) {
+            var build = this.getBuild(name, variant);
+            var button = this.getBuildButton(name, variant);
+
+            if (!button || !button.model.enabled) return;
+
+            //need to simulate a click so the game updates everything properly
+            button.domNode.click(build);
+            storeForSummary(name, 1, 'build');
+
+            var label = build.label;
+            activity('小猫已经建造了一个新的 ' + label, 'ks-build');
+        },
+        getBuild: function (name, variant) {
+            if (variant === 'chrono') {
+                return game.time.getCFU(name);
+            } else {
+                return game.time.getVSU(name);
+            }
+        },
+        getBuildButton: function (name, variant) {
+            if (variant === 'chrono') {
+                var buttons = this.manager.tab.children[2].children[0].children;
+            } else {
+                var buttons = this.manager.tab.children[3].children[0].children;
+            }
+            var build = this.getBuild(name, variant);
+            for (var i in buttons) {
+                var haystack = buttons[i].model.name;
+                if (haystack.indexOf(build.label) !== -1) {
+                    return buttons[i];
+                }
+            }
+        }
+    };
+    
+    // Upgrade manager
+    // ============
+    
+    var UpgradeManager = function () {
+        this.workManager = new TabManager('Workshop');
+        this.sciManager = new TabManager('Science');
+        this.crafts = new CraftManager();
+    };
+    
+    UpgradeManager.prototype = {
+        manager: undefined,
+        crafts: undefined,
+        build: function (upgrade, variant) {
+            var button = this.getBuildButton(upgrade, variant);
+
+            if (!button || !button.model.enabled) return;
+
+            //need to simulate a click so the game updates everything properly
+            button.domNode.click(upgrade);
+            storeForSummary(build.name, 1, 'upgrade');
+
+            var label = upgrade.label;
+            activity('小猫已经购买了升级 ' + label, 'ks-upgrade');
+        },
+        getBuildButton: function (upgrade, variant) {
+            if (variant === 'workshop') {
+                var buttons = this.workManager.tab.buttons;
+            } else if (variant === 'science') {
+                var buttons = this.sciManager.tab.buttons;
+            }
+            for (var i in buttons) {
+                var haystack = buttons[i].model.name;
+                if (haystack === upgrade.label) {
+                    return buttons[i];
+                }
+            }
+        }
+    };
+    
     // Building manager
     // ================
 
@@ -633,7 +1055,7 @@ var run = function() {
             storeForSummary(name, 1, 'build');
 
             var label = build.meta.label ? build.meta.label : build.meta.stages[0].label;
-            activity('小猫建造了一个新的' + label, 'ks-build');
+            activity('小猫已经建成了一个新的 ' + label, 'ks-build');
         },
         getBuild: function (name) {
             return game.bld.getBuildingExt(name);
@@ -711,7 +1133,9 @@ var run = function() {
             amount = (amount * (1 + ratio)).toFixed(2);
 
             storeForSummary(name, amount, 'craft');
-            activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnItem(ucfirst(name)), 'ks-craft');
+            
+			activity('小猫制作了 ' + game.getDisplayValueExt(amount) + ' ' + cnItem(ucfirst(name)), 'ks-craft');
+
         },
         canCraft: function (name, amount) {
             var craft = this.getCraft(name);
@@ -736,10 +1160,13 @@ var run = function() {
         getCraft: function (name) {
             return game.workshop.getCraft(this.getName(name));
         },
-        getLowestCraftAmount: function (name, limited) {
+        getLowestCraftAmount: function (name, limited, limRat) {
             var amount = Number.MAX_VALUE;
             var materials = this.getMaterials(name);
-
+            
+            var craft = this.getCraft(name);
+            var ratio = game.getResCraftRatio(craft);
+            
             // Safeguard if materials for craft cannot be determined.
             if (!materials) return 0;
 
@@ -752,8 +1179,11 @@ var run = function() {
                     delta = this.getValueAvailable(i) / materials[i];
                 } else {
                     // Take the currently present amount of material to craft into account
-                    // Only craft "half" (TODO: document this behaviour)
-                    delta = (this.getValueAvailable(i) - materials[i] * this.getValueAvailable(res.name)) / (2 * materials[i]);
+                    // Currently this determines the amount of resources that can be crafted such that the produced resources and their components
+                    // in storage both are "worth" the same number of base materials (as determined by price and craft ratio).
+                    // This base material distribution is governed by limRat "limited ratio" which defaults to 0.5, corresponding to half of the possible components being further crafted.
+                    // If this were another value, such as 0.75, then if you had 10000 beams and 0 scaffolds, 7500 of the beams would be crafted into scaffolds.
+                    delta = limRat * ((this.getValueAvailable(i) + (materials[i] / (1 + ratio)) * this.getValueAvailable(res.name)) / materials[i]) - (this.getValueAvailable(res.name) / (1 + ratio));
                 }
 
                 amount = Math.min(delta,amount);
@@ -775,7 +1205,7 @@ var run = function() {
             // Safeguard against craft items that aren't actually available yet.
             if (!craft) return;
 
-            var prices = craft.prices;
+            var prices = game.workshop.getCraftPrice(craft);
 
             for (var i in prices) {
                 var price = prices[i];
@@ -798,7 +1228,7 @@ var run = function() {
                 var res = game.resPool.resources[i];
                 if (res.name === this.getName(name)) return res;
             }
-            warning('unable to find resource ' + name);
+            warning('无法找到资源 ' + name);
             return null;
         },
         getValue: function (name) {
@@ -844,8 +1274,6 @@ var run = function() {
     var TradeManager = function () {
         this.craftManager = new CraftManager();
         this.manager = new TabManager('Trade');
-
-        this.manager.render();
     };
 
     TradeManager.prototype = {
@@ -859,7 +1287,7 @@ var run = function() {
 
             if (!race.unlocked) return;
 
-            var button = this.getTradeButton(race.title);
+            var button = this.getTradeButton(race.name);
 
             if (!button.model.enabled || !options.auto.trade.items[name].enabled) return;
 
@@ -950,10 +1378,10 @@ var run = function() {
             for (var i in this.manager.tab.racePanels) {
                 var panel = this.manager.tab.racePanels[i];
 
-                if (panel.name.indexOf(race) > -1) return panel.tradeBtn;
+                if (panel.race.name === race) return panel.tradeBtn;
             }
 
-            warning('unable to find trade button for ' + name);
+            warning('无法找到交易按钮 ' + race);
         }
     };
 
@@ -961,12 +1389,6 @@ var run = function() {
     // Configure overall page display
     // ==============================
 
-    var container = $('#game');
-    var column = $('.column');
-    var body = $('body');
-    var button = $('.btn.modern');
-    var left = $('#leftColumn');
-    var middle = $('#midColumn');
     var right = $('#rightColumn');
 
     var addRule = function (rule) {
@@ -974,72 +1396,77 @@ var run = function() {
         sheets[0].insertRule(rule, 0);
     };
 
-    if (game.colorScheme !== 'sleek') {
-        container.css({
-            fontFamily: 'monospace',
-            fontSize: '12px',
-            minWidth: '1300px',
-            top: '32px'
-        });
+    var defaultSelector = 'body[data-ks-style]:not(.scheme_sleek)';
 
-        body.css({
-            fontFamily: 'monospace',
-            fontSize: '12px'
-        });
+    addRule(defaultSelector + ' #game {'
+        + 'font-family: monospace;'
+        + 'font-size: 12px;'
+        + 'min-width: 1300px;'
+        + 'top: 32px;'
+        + '}');
 
-        button.css({
-            fontFamily: 'monospace',
-            fontSize: '12px',
-            width: '290px'
-        });
+    addRule(defaultSelector + ' {'
+        + 'font-family: monospace;'
+        + 'font-size: 12px;'
+        + '}');
 
-        column.css({
-            minHeight: 'inherit',
-            maxWidth: 'inherit',
-            padding: '0',
-            margin: 0,
-            overflowY: 'auto'
-        });
+    addRule(defaultSelector + ' .column {'
+        + 'min-height: inherit;'
+        + 'max-width: inherit !important;'
+        + 'padding: 1%;'
+        + 'margin: 0;'
+        + 'overflow-y: auto;'
+        + '}');
 
-        left.css({
-            height: '92%',
-            width: '27%'
-        });
+    addRule(defaultSelector + ' #leftColumn {'
+        + 'height: 92%;'
+        + 'width: 26%;'
+        + '}');
 
-        middle.css({
-            marginTop: '30px',
-            height: '90%',
-            width: '43%'
-        });
+    addRule(defaultSelector + ' #midColumn {'
+        + 'margin-top: 1% !important;'
+        + 'height: 90%;'
+        + 'width: 48%;'
+        + '}');
 
-        right.css({
-            overflowY: 'auto',
-            height: '92%',
-            width: '25%'
-        });
+    addRule(defaultSelector + ' #rightColumn {'
+        + 'overflow-y: scroll;'
+        + 'height: 92%;'
+        + 'width: 19%;'
+        + '}');
 
-        addRule('#gameLog .msg {'
-            + 'display: block;'
-            + '}');
+    addRule(defaultSelector + ' #gameLog .msg {'
+        + 'display: block;'
+        + '}');
 
-        addRule('#gameLog {'
-            + 'overflow-y: hidden !important;'
-            + 'width: 100% !important;'
-            + 'padding-top: 5px !important;'
-            + '}');
+    addRule(defaultSelector + ' #gameLog {'
+        + 'overflow-y: hidden !important;'
+        + 'width: 100% !important;'
+        + 'padding-top: 5px !important;'
+        + '}');
 
-        addRule('#resContainer .maxRes {'
-            + 'color: #676766;'
-            + '}');
+    addRule(defaultSelector + ' #resContainer .maxRes {'
+        + 'color: #676766;'
+        + '}');
 
-        addRule('#game .btn {'
-            + 'border-radius: 0px;'
-            + 'font-family: monospace;'
-            + 'font-size: 12px !important;'
-            + 'margin: 0 5px 7px 0;'
-            + 'width: 290px;'
-            + '}');
-    }
+    addRule(defaultSelector + ' #game .btn {'
+        + 'border-radius: 0px;'
+        + 'font-family: monospace;'
+        + 'font-size: 12px !important;'
+        + 'margin: 0 5px 7px 0;'
+        + 'width: 290px;'
+        + '}');
+
+    addRule(defaultSelector + ' #game .map-viewport {'
+        + 'height: 340px;'
+        + 'max-width: 500px;'
+        + 'overflow: visible;'
+        + '}');
+
+    addRule(' #game .map-dashboard {'
+        + 'height: 120px;'
+        + 'width: 292px;'
+        + '}');
 
     addRule('#ks-options ul {'
         + 'list-style: none;'
@@ -1064,6 +1491,8 @@ var run = function() {
         + 'color: ' + options.stockwarncolor + ';'
         + '}');
 
+    document.body.toggleAttribute("data-ks-style", true);
+
     // Local Storage
     // =============
 
@@ -1071,6 +1500,7 @@ var run = function() {
 
     var kittenStorage = {
         version: kittenStorageVersion,
+        toggles: {},
         items: {},
         resources: {},
         triggers: {}
@@ -1085,13 +1515,30 @@ var run = function() {
     };
 
     var saveToKittenStorage = function () {
+        kittenStorage.toggles = {
+            build: options.auto.build.enabled,
+            space: options.auto.space.enabled,
+            craft: options.auto.craft.enabled,
+            upgrade: options.auto.upgrade.enabled,
+            trade: options.auto.trade.enabled,
+            hunt: options.auto.hunt.enabled,
+            faith: options.auto.faith.enabled,
+            time: options.auto.time.enabled,
+            festival: options.auto.festival.enabled,
+            crypto: options.auto.crypto.enabled,
+            autofeed: options.auto.autofeed.enabled,
+            explore: options.auto.explore.enabled
+        };
         kittenStorage.resources = options.auto.resources;
         kittenStorage.triggers = {
             faith: options.auto.faith.trigger,
+            time: options.auto.time.trigger,
             hunt: options.auto.hunt.trigger,
             build: options.auto.build.trigger,
             space: options.auto.space.trigger,
             craft: options.auto.craft.trigger,
+            crypto: options.auto.crypto.trigger,
+            explore: options.auto.explore.trigger,
             trade: options.auto.trade.trigger
         };
         localStorage['cbc.kitten-scientists'] = JSON.stringify(kittenStorage);
@@ -1101,6 +1548,16 @@ var run = function() {
         var saved = JSON.parse(localStorage['cbc.kitten-scientists'] || 'null');
         if (saved && saved.version == kittenStorageVersion) {
             kittenStorage = saved;
+
+            if (saved.toggles) {
+                for (var toggle in saved.toggles) {
+                    if (toggle !== 'engine' && options.auto[toggle]) {
+                        options.auto[toggle].enabled = !!saved.toggles[toggle];
+                        var el = $('#toggle-' + toggle);
+                        el.prop('checked', options.auto[toggle].enabled);
+                    }
+                }
+            }
 
             for (var item in kittenStorage.items) {
                 var value = kittenStorage.items[item];
@@ -1124,7 +1581,12 @@ var run = function() {
             var list = $("#toggle-list-resources");
             for (var resource in kittenStorage.resources) {
                 var res = kittenStorage.resources[resource];
-
+//                  if(resource=="皮毛"){
+//                      resource="Furs";
+//                  }else if(resource=="难得素"){
+//                      resource="Unobtainium";
+//                  }
+//                console.log(res)
                 if ($('#resource-' + resource).length === 0) {
                     list.append(addNewResourceOption(resource));
                 }
@@ -1138,18 +1600,23 @@ var run = function() {
 
             if (saved.triggers) {
                 options.auto.faith.trigger = saved.triggers.faith;
+                options.auto.time.trigger = saved.triggers.time;
                 options.auto.hunt.trigger = saved.triggers.hunt;
                 options.auto.build.trigger = saved.triggers.build;
                 options.auto.space.trigger = saved.triggers.space;
                 options.auto.craft.trigger = saved.triggers.craft;
                 options.auto.trade.trigger = saved.triggers.trade;
+                options.auto.crypto.trigger = saved.triggers.crypto;
+                options.auto.explore.trigger = saved.triggers.explore;
 
                 $('#trigger-faith')[0].title = options.auto.faith.trigger;
+                $('#trigger-time')[0].title = options.auto.time.trigger;
                 $('#trigger-hunt')[0].title = options.auto.hunt.trigger;
                 $('#trigger-build')[0].title = options.auto.build.trigger;
                 $('#trigger-space')[0].title = options.auto.space.trigger;
                 $('#trigger-craft')[0].title = options.auto.craft.trigger;
                 $('#trigger-trade')[0].title = options.auto.trade.trigger;
+                $('#trigger-crypto')[0].title = options.auto.crypto.trigger;
             }
 
         } else {
@@ -1169,7 +1636,7 @@ var run = function() {
     };
 
     var setStockWarning = function(name, value) {
-        // simplest way to ensure it doesn't stick around too often; always do 
+        // simplest way to ensure it doesn't stick around too often; always do
         // a remove first then re-add only if needed
         $("#resource-" + name).removeClass("stockWarn");
 
@@ -1181,14 +1648,13 @@ var run = function() {
         var n = Number(value);
 
         if (isNaN(n) || n < 0) {
-            warning('ignoring non-numeric or invalid stock value ' + value);
+            warning('忽略非数值或无效的库存价值' + value);
             return;
         }
 
         if (!options.auto.resources[name]) options.auto.resources[name] = {};
         options.auto.resources[name].stock = n;
         $('#stock-value-' + name).text('库存: ' + game.getDisplayValueExt(n));
-
         setStockWarning(name, n);
     };
 
@@ -1196,7 +1662,7 @@ var run = function() {
         var n = parseFloat(value);
 
         if (isNaN(n) || n < 0.0 || n > 1.0) {
-            warning('ignoring non-numeric or invalid consume rate ' + value);
+            warning('忽略非数字或无效消耗率' + value);
             return;
         }
 
@@ -1213,32 +1679,36 @@ var run = function() {
         var res = options.auto.resources[name];
         var stock = res && (res.stock != undefined) ? res.stock : 0;
         var consume = res && (res.consume != undefined) ? res.consume : options.consume;
-
+        var enname=name;
+        if(enname=="难得素"){
+            enname="unobtainium";
+        }else if(enname=="皮毛"){
+            enname="furs";
+        }
         var container = $('<div/>', {
-            id: 'resource-' + name,
+            id: 'resource-' + enname,
             css: {display: 'inline-block', width: '100%'},
         });
-
         var label = $('<div/>', {
-            id: 'resource-label-' + name,
-            text: cnItem(ucfirst(title ? title : name)),
+            id: 'resource-label-' + enname,
+            text: cnItem(ucfirst(name)),
             css: {display: 'inline-block', width: '95px'},
         });
-
+        
         var stock = $('<div/>', {
-            id: 'stock-value-' + name,
+            id: 'stock-value-' + enname,
             text: '库存: ' + game.getDisplayValueExt(stock),
             css: {cursor: 'pointer', display: 'inline-block', width: '80px'},
         });
 
         var consume = $('<div/>', {
-            id: 'consume-rate-' + name,
+            id: 'consume-rate-' + enname,
             text: '消耗: ' + consume.toFixed(2),
             css: {cursor: 'pointer', display: 'inline-block'},
         });
 
         var del = $('<div/>', {
-            id: 'resource-delete-' + name,
+            id: 'resource-delete-' + enname,
             text: '删除',
             css: {cursor: 'pointer',
                 display: 'inline-block',
@@ -1253,7 +1723,7 @@ var run = function() {
         if (res != undefined && res.stock != undefined) setStockWarning(name, res.stock);
 
         stock.on('click', function () {
-            var value = window.prompt('库存 ' + cnItem(ucfirst(title ? title : name)));
+            var value = window.prompt('库存 ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setStockValue(name, value);
                 saveToKittenStorage();
@@ -1261,7 +1731,7 @@ var run = function() {
         });
 
         consume.on('click', function () {
-            var value = window.prompt('消耗率 ' + cnItem(ucfirst(title ? title : name)));
+            var value = window.prompt('消耗率 ' + ucfirst(title ? title : name));
             if (value !== null) {
                 setConsumeRate(name, value);
                 saveToKittenStorage();
@@ -1269,7 +1739,7 @@ var run = function() {
         });
 
         del.on('click', function () {
-            if (window.confirm('删除资源控制 ' + cnItem(ucfirst(title ? title : name) + '?'))) {
+            if (window.confirm('取消自动转换' + ucfirst(title ? title : name) + '?')) {
                 container.remove();
                 removeResourceControl(name);
                 saveToKittenStorage();
@@ -1285,9 +1755,15 @@ var run = function() {
         for (var i in game.resPool.resources) {
             var res = game.resPool.resources[i];
 
-            // Show only new resources that we don't have in the list and that are
-            // visible. This helps cut down on total size.
+            //仅显示列表中没有的新资源
+             //可见 这有助于减少总体尺寸。
             if (res.name && $('#resource-' + res.name).length === 0) {
+                    //添加汉化
+                if(res.name=="hashrates"){
+                    res.title="哈希值";
+                }
+//                console.log("name:"+res.name+",title:"+res.title);
+                
                 var item = $('<div/>', {
                     id: 'resource-add-' + res.name,
                     text: ucfirst(res.title ? res.title : res.name),
@@ -1295,7 +1771,7 @@ var run = function() {
                         textShadow: '3px 3px 4px gray'},
                 });
 
-                // Wrapper function needed to make closure work
+                //包装功能需要使封闭工作
                 (function (res, item) {
                     item.on('click', function () {
                         item.remove();
@@ -1321,7 +1797,7 @@ var run = function() {
 
         var add = $('<div/>', {
             id: 'resources-add',
-            text: '增加资源',
+            text: '添加资源',
             css: {cursor: 'pointer',
                 display: 'inline-block',
                 textShadow: '3px 3px 4px gray',
@@ -1340,8 +1816,8 @@ var run = function() {
 
         clearunused.on('click', function () {
             for (var name in options.auto.resources) {
-                // Only delete resources with unmodified values. Require manual
-                // removal of resources with non-standard values.
+                //仅使用未修改的值删除资源。 需要手册
+                 //使用非标准值删除资源。
                 if (!options.auto.resources[name].stock &&
                     options.auto.resources[name].consume == options.consume ||
                     options.auto.resources[name].consume == undefined) {
@@ -1373,11 +1849,11 @@ var run = function() {
 
     var getToggle = function (toggleName, text) {
         var auto = options.auto[toggleName];
-        var element = $('<li/>');
+        var element = $('<li/>', {id: 'ks-' + toggleName});
 
         var label = $('<label/>', {
             'for': 'toggle-' + toggleName,
-            text: cnItem(text)
+            text: text
         });
 
         var input = $('<input/>', {
@@ -1394,10 +1870,12 @@ var run = function() {
             input.on('change', function () {
                 if (input.is(':checked') && auto.enabled == false) {
                     auto.enabled = true;
-                    message('启用自动 ' + cnItem(ucfirst(text)));
-                } else if (input.not(':checked') && auto.enabled == true) {
+                    message('启用自动化 ' + ucfirst(text));
+                    saveToKittenStorage();
+                } else if ((!input.is(':checked')) && auto.enabled == true) {
                     auto.enabled = false;
-                    message('禁用自动化 ' + cnItem(ucfirst(text)));
+                    message('禁用自动化 ' + ucfirst(text));
+                    saveToKittenStorage();
                 }
             });
         }
@@ -1467,11 +1945,11 @@ var run = function() {
 
             // fill out list with toggle items
             for (var itemName in auto.items) {
-                if (toggleName === 'trade')
+                if (toggleName === 'trade'){
                     list.append(getTradeOption(itemName, auto.items[itemName]));
-                else if (toggleName === 'craft')
+                }else if (toggleName === 'craft'){
                     list.append(getCraftOption(itemName, auto.items[itemName]));
-                else
+                }else
                     list.append(getOption(itemName, auto.items[itemName]));
             }
 
@@ -1480,6 +1958,7 @@ var run = function() {
             });
 
             element.append(toggle, list);
+
             // Add resource controls for crafting, sort of a hack
             if (toggleName === 'craft') {
                 var resources = $('<div/>', {
@@ -1492,7 +1971,7 @@ var run = function() {
                 });
 
                 var resourcesList = getResourceOptions();
-
+               
                 // When we click the items button, make sure we clear resources
                 button.on('click', function () {
                     resourcesList.toggle(false);
@@ -1523,7 +2002,10 @@ var run = function() {
             });
 
             triggerButton.on('click', function () {
-                var value = window.prompt('输入新的触发值，取值范围：0到1之间 ' + cnItem(text) + '。', auto.trigger);
+                var value;
+                if (text == 'Crypto'){value = window.prompt('输入新的触发值 ' + text + '. Corresponds to the amount of Relics needed before the exchange is made.', auto.trigger);}
+                else{value = window.prompt('输入新的触发值 ' + text + '. 取值范围：0到1之间.', auto.trigger);}
+
                 if (value !== null) {
                     auto.trigger = parseFloat(value);
                     saveToKittenStorage();
@@ -1573,7 +2055,6 @@ var run = function() {
 
     var getSeason = function (name, season, option) {
         var element = $('<li/>');
-
         var label = $('<label/>', {
             'for': 'toggle-' + name + '-' + season,
             text: cnItem(ucfirst(season))
@@ -1591,10 +2072,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option[season] == false) {
                 option[season] = true;
-                message('已启用和 ' + cnItem(ucfirst(name)) + ' 交易在 ' + cnItem(ucfirst(season)));
-            } else if (input.not(':checked') && option[season] == true) {
+                message('Enabled trading with ' + ucfirst(name) + ' in the ' + ucfirst(season));
+            } else if ((!input.is(':checked')) && option[season] == true) {
                 option[season] = false;
-                message('已禁用用和 ' + cnItem(ucfirst(name)) + ' 交易在 ' + cnItem(ucfirst(season)));
+                message('在' + cnItem(ucfirst(season)) + '停止和 ' + cnItem(ucfirst(name)) + ' 交易 ');
             }
             kittenStorage.items[input.attr('id')] = option[season];
             saveToKittenStorage();
@@ -1608,7 +2089,6 @@ var run = function() {
     var getOption = function (name, option) {
         var element = $('<li/>');
         var elementLabel = option.label || ucfirst(name);
-
         var label = $('<label/>', {
             'for': 'toggle-' + name,
             text: cnItem(elementLabel),
@@ -1627,10 +2107,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.enabled == false) {
                 option.enabled = true;
-                message('已启用自动 ' + cnItem(elementLabel));
-            } else if (input.not(':checked') && option.enabled == true) {
+                message('启用自动化 ' + cnItem(elementLabel));
+            } else if ((!input.is(':checked')) && option.enabled == true) {
                 option.enabled = false;
-                message('已禁用自动 ' + cnItem(elementLabel));
+                message('禁用自动化 ' + cnItem(elementLabel));
             }
             kittenStorage.items[input.attr('id')] = option.enabled;
             saveToKittenStorage();
@@ -1661,10 +2141,10 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.limited == false) {
                 option.limited = true;
-                message('工艺制作 ' + cnItem(ucfirst(name)) + ': 每个季节限量一次');
-            } else if (input.not(':checked') && option.limited == true) {
+                message('工艺 ' + cnItem(ucfirst(name)) + ': 每个季节限量一次');
+            } else if ((!input.is(':checked')) && option.limited == true) {
                 option.limited = false;
-                message('工艺制作 ' + cnItem(ucfirst(name)) + ': 不限制');
+                message('工艺 ' + cnItem(ucfirst(name)) + ': 不限制');
             }
             kittenStorage.items[input.attr('id')] = option.limited;
             saveToKittenStorage();
@@ -1675,13 +2155,23 @@ var run = function() {
         return element;
     };
 
-    // Grab button labels for religion options
+    // 抢按钮标签宗教选项
     var religionManager = new ReligionManager();
     for (var buildOption in options.auto.faith.items) {
         var buildItem = options.auto.faith.items[buildOption];
-        var build = religionManager.getBuild(buildItem.name || buildOption);
+        var build = religionManager.getBuild(buildItem.name || buildOption, buildItem.variant);
         if (build) {
             options.auto.faith.items[buildOption].label = build.label;
+        }
+    }
+
+    // 抢按钮标签建筑选项
+    var timeManager = new TimeManager();
+    for (var buildOption in options.auto.time.items) {
+        var buildItem = options.auto.time.items[buildOption];
+        var build = timeManager.getBuild(buildItem.name || buildOption, buildItem.variant);
+        if (build) {
+            options.auto.time.items[buildOption].label = build.label;
         }
     }
 
@@ -1698,6 +2188,7 @@ var run = function() {
             }
         }
     }
+
     // Grab button labels for space options
     var spaceManager = new SpaceManager();
     for (var spaceOption in options.auto.space.items) {
@@ -1718,14 +2209,19 @@ var run = function() {
 
     optionsElement.append(optionsTitleElement);
 
-    optionsListElement.append(getToggle('engine',   'Enable Scientists'));
-    optionsListElement.append(getToggle('build',    'Building'));
-    optionsListElement.append(getToggle('space',    'Space'));
-    optionsListElement.append(getToggle('craft',    'Crafting'));
-    optionsListElement.append(getToggle('trade',    'Trading'));
-    optionsListElement.append(getToggle('hunt',     'Hunting'));
-    optionsListElement.append(getToggle('faith',    'Religion'));
-    optionsListElement.append(getToggle('festival', 'Festival'));
+    optionsListElement.append(getToggle('engine',   '启用小猫科学家'));
+    optionsListElement.append(getToggle('build',    '建筑'));
+    optionsListElement.append(getToggle('space',    '太空'));
+    optionsListElement.append(getToggle('craft',    '工艺'));
+    optionsListElement.append(getToggle('upgrade',  '升级'));
+    optionsListElement.append(getToggle('trade',    '贸易'));
+    optionsListElement.append(getToggle('hunt',     '狩猎'));
+    optionsListElement.append(getToggle('faith',    '宗教'));
+    optionsListElement.append(getToggle('time',     '时间'));
+    optionsListElement.append(getToggle('festival', '节日'));
+    optionsListElement.append(getToggle('crypto',   '秘密'));
+    optionsListElement.append(getToggle('autofeed',   '自动献祭'));
+    optionsListElement.append(getToggle('explore',  '探索'));
 
     // add activity button
     // ===================
@@ -1769,12 +2265,12 @@ var run = function() {
 
         // Praise the Sun
         if (activitySummary.other.faith) {
-            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 信仰通过赞美太阳');
+            summary('累计 ' + game.getDisplayValueExt(activitySummary.other.faith) + ' 通过赞美太阳');
         }
 
         // Hunters
         if (activitySummary.other.hunt) {
-            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 批可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : ''));
+            summary('派出 ' + game.getDisplayValueExt(activitySummary.other.hunt) + ' 批可爱的小猫猎人' + (activitySummary.other.hunt == 1 ? '' : 's'));
         }
 
         // Buildings
@@ -1789,7 +2285,7 @@ var run = function() {
 
         // Trading
         for (var name in activitySummary.trade) {
-            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + '次 和' + cnItem(ucfirst(name)));
+            summary('贸易: ' + game.getDisplayValueExt(activitySummary.trade[name]) + 'x ' + cnItem(ucfirst(name)));
         }
 
         // Show time since last run. Assumes that the day and year are always higher.
@@ -1805,16 +2301,16 @@ var run = function() {
             var duration = '';
             if (years > 0) {
                 duration += years + ' ';
-                duration += (years == 1) ? '年' : '年';
+                duration += (years == 1) ? 'year' : 'years';
             }
 
             if (days >= 0) {
-                if (years > 0) duration += ' 和 ';
+                if (years > 0) duration += ' and ';
                 duration += roundToTwo(days) + ' ';
                 duration += (days == 1) ? '天' : '天';
             }
 
-            summary('最近的统计 ' + duration);
+            summary('最后的总结 ' + duration);
         }
 
         // Clear out the old activity
@@ -1859,10 +2355,10 @@ var run = function() {
     activityCheckbox.on('change', function () {
         if (activityCheckbox.is(':checked') && options.showactivity == false) {
             options.showactivity = true;
-            message('显示小猫科学家活动的更新日志');
+            message('Showing Kitten Scientists activity live');
         } else if (activityCheckbox.not(':checked') && options.showactivity == true) {
             options.showactivity = false;
-            message('隐藏小猫科学家活动的更新日志');
+            message('Hiding updates of Kitten Scientists activity');
         }
     });
 
@@ -1875,7 +2371,7 @@ var run = function() {
     // Donation Button
     // ===============
 
-    var donate = $('<li/>').append($('<a/>', {
+    var donate = $('<li/>', {id: "ks-donate"}).append($('<a/>', {
         href: 'bitcoin:' + address + '?amount=0.005&label=Kittens Donation',
         target: '_blank',
         tiltle:'这是猫咪科学家插件作者的比特币捐赠地址',
@@ -1914,7 +2410,8 @@ var run = function() {
 
     loadFromKittenStorage();
 
-    if (console && console.log) console.log(version + " 加载成功！");
+    if (console && console.log) console.log(version + " 加载成功");
+    game._publish("kitten_scientists/ready", version);
 
 }
 

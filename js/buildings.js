@@ -269,6 +269,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	 *
 	 * unlocked MANDATORY: boolean defining if the building is available for the player or not
 	 * unlockable MANDATORY: if true, building will be unlocked automatically once resources are available.
+	 * defaultUnlockable OPTIONAL: if true, building will always be unlockable.
 	 * unlockRatio OPTIONAL: boolean defining percentage of price you must have in stock to unlocked the buiding (see price spec here)
 	 * requiredTech OPTIONAL: list of technologies in game.science which must be researched to unlocked the building
 	 *
@@ -305,7 +306,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		label: $I("buildings.field.label"),
 		description: $I("buildings.field.desc"),
 		unlockRatio: 0.3,
-		unlockable: true,
+		defaultUnlockable: true,
 		prices: [
 			{ name : "catnip", val: 10 }
 		],
@@ -364,6 +365,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (game.calendar.season == 1) {
 					effects["energyProduction"] /= 0.75;
 				}
+
+				var seasonRatio = game.getEffect("solarFarmSeasonRatio");
+				if ((game.calendar.season == 3 && seasonRatio == 1) || (game.calendar.season != 1 && seasonRatio == 2)){
+					effects["energyProduction"] *= (1 + 0.15 * seasonRatio);
+				}
+
                 stageMeta.effects = effects;
 			}
 		}
@@ -425,7 +432,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "wood", val: 5 }
 		],
 		priceRatio: 2.5,
-		unlockable: true,
+		defaultUnlockable: true,
 		unlocks: {
 			//unlock village tab
 			tabs: ["village"]
@@ -504,7 +511,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 		],
 		priceRatio: 1.15,
-		unlockable: true,
+		defaultUnlockable: true,
 		unlocks: {
 			tabs: ["science"],
 			jobs: ["scholar"]
@@ -1210,7 +1217,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "workshop",
 		label: $I("buildings.workshop.label"),
 		description: $I("buildings.workshop.desc"),
-		unlockable: true,
+		defaultUnlockable: true,
 		unlockRatio: 0.0025,
 		prices: [
 			{ name : "wood", val: 100 },
@@ -1892,12 +1899,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 
 	update: function(){
+		var rerender = false;
 		for (var i = 0; i < this.buildingsData.length; i++){
 			var bld = this.buildingsData[i];
 			if (!bld.unlocked){
 				if (this.isUnlocked(bld)){
 					bld.unlocked = true;
-					this.game.render();
+					rerender = true;
 				}
 			}
 			else {
@@ -1920,17 +1928,20 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		 * Manpower hack for Iron Will mode. 1000 manpower is absolutely required for civilisation unlock.
 		 * There may be some microperf tweaks, but let's keep it simple
 		 */
-		 if (this.game.ironWill){
-			 if (this.game.workshop.get("huntingArmor").researched){
-				 this.game.bld.effectsBase["manpowerMax"] = 1000;
-			 } else if (this.game.workshop.get("bolas").researched){
-				 this.game.bld.effectsBase["manpowerMax"] = 400;
-			 } else if (this.game.workshop.get("compositeBow").researched){
-				 this.game.bld.effectsBase["manpowerMax"] = 200;
-			 }
-		 } else {
-			this.game.bld.effectsBase["manpowerMax"] = 100;
-		 }
+		this.game.bld.effectsBase["manpowerMax"] = 100;
+		if (this.game.ironWill){
+			if (this.game.workshop.get("huntingArmor").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 1000;
+			} else if (this.game.workshop.get("bolas").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 400;
+			} else if (this.game.workshop.get("compositeBow").researched){
+				this.game.bld.effectsBase["manpowerMax"] = 200;
+			}
+		}
+
+		if (rerender){
+			this.game.render();
+		}
 	},
 
 	getEffect: function(effectName){
@@ -1970,7 +1981,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},
 
 	isUnlockable: function(building){
-		return this.get(building.name).unlockable;
+		return building.defaultUnlockable || building.unlockable;
 	},
 
 	save: function(saveData){
@@ -1994,6 +2005,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			var bld = this.buildingsData[i];
 
 			bld.unlocked = false;
+			bld.unlockable = bld.defaultUnlockable || false;
 
 			if (typeof(bld.stages) == "object"){
 				bld.stage = 0;
@@ -2428,10 +2440,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		this.bldGroups = [];
 
 		var topContainer = dojo.create("div", {
-			style: {
-				paddingBottom : "5px",
-				marginBottom: "15px"
-			}
+			className: "bldTopContainer"
 		}, content);
 
 		var groups = dojo.clone(this.game.bld.buildingGroups, true);
@@ -2481,7 +2490,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			var separator = null;
 			if (i != 0){
 				separator = dojo.create("span", {
-					innerHTML: " | ",
+					innerHTML: " &#183; ",
 					style: {
 						display: hasVisibleBldngs ? "" : "none"
 					}

@@ -342,7 +342,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	tradeImpl: function(race, totalTradeAmount) {
 		var printMessages = (totalTradeAmount == 1);
 		var standingRatio = this.game.getEffect("standingRatio");
-		
+
 		if (this.game.prestige.getPerk("diplomacy").researched) {
 			standingRatio += 10;
 		}
@@ -623,6 +623,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 dojo.declare("com.nuclearunicorn.game.ui.TradeButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
+		result.hasResourceHover = true;
 		result.simplePrices = false;
 		return result;
 	}
@@ -715,6 +716,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 dojo.declare("classes.trade.ui.SendExplorersButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
+		result.hasResourceHover = true;
 		result.simplePrices = false;
 		return result;
 	},
@@ -967,7 +969,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				"<br />距离离开还有: " + this.game.toDisplayDays(leviathans.duration);
 
 			if (this.game.science.get("antimatter").researched){
-				this.leviathansInfo.innerHTML += "<br/> 黑币价格: <span style='cursor:pointer' title='"+ this.game.calendar.cryptoPrice + "'>" +
+				this.leviathansInfo.innerHTML += "<br /> 黑币价格: <span style='cursor:pointer' title='"+ this.game.calendar.cryptoPrice + "'>" +
 					this.game.getDisplayValueExt(this.game.calendar.cryptoPrice, false, false, 5) + "R</span>";
 			}
 		}
