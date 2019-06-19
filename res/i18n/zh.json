@@ -999,7 +999,7 @@
     "effectsMgr.type.resDemandRatio": "{0} 需求减少",
     "effectsMgr.type.resProduction": "{0} 产出",
     "effectsMgr.type.resConversion": "{0} 转换",
-    "effectsMgr.type.resCraftRatio": "{0} 工艺加成",
+    "effectsMgr.type.resCraftRatio": "{0} 工艺效果",
     "effectsMgr.statics.catnipJobRatio.title": "农夫 工具",
     "effectsMgr.statics.catnipDemandWorkerRatioGlobal.title": "工人 猫薄荷 需求 减少",
     "effectsMgr.statics.woodJobRatio.title": "樵夫 工具",
@@ -1708,6 +1708,11 @@
     "effectsMgr.statics.blackLibraryBonus.title": "黑图书馆加成",
     "effectsMgr.statics.solarFarmSeasonRatio.title": "太阳能农场季节性加成",
     "effectsMgr.statics.tectonicBonus.title": "构造加成",
-    "effectsMgr.statics.umbraBoostRatio.title": "HR 收割机加成"
+    "effectsMgr.statics.umbraBoostRatio.title": "HR 收割机加成",
+    "effectsMgr.statics.eludiumAutomationBonus.title": "E合金工程师制作加成",
+    "effectsMgr.statics.heatMax.title": "热量上限",
+    "effectsMgr.statics.heatPerTick.title": "热量传播",
+    "effectsMgr.statics.voidResonance.title": "虚空奖励的顺序",
+    "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效益加成"
     
 }
