@@ -241,7 +241,6 @@
 			$(window).resize(resetGameLogHeight);
 
 		</script>
-
 		<title>猫国建设者 - a Dark Souls of incremental gaming</title>
 	</head>
 
@@ -600,6 +599,14 @@
 					return ;
 				}
 			});
+            window.onload = function(){ 
+                setTimeout(function(){
+                    var mod = document.createElement('script'); 
+            mod.src = 'NummonCalc.js'; 
+            mod.id = 'modscript_TriggerNotify'; 
+            document.head.appendChild(mod); 
+                },3000)
+            }
 		</script>
 	</body>
 </html>
