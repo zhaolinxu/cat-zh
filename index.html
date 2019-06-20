@@ -241,7 +241,6 @@
 			$(window).resize(resetGameLogHeight);
 
 		</script>
-
 		<title>猫国建设者 - a Dark Souls of incremental gaming</title>
 	</head>
 
@@ -487,7 +486,8 @@
 				<input id="kxj" type="checkbox" >
 				<label id="kxj2" for="kxj">点击启用小猫科学家</label> [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>]
 				<span style="color:red;font-size:12px;"><br>* 如果已启用，然后不想用了，请保存游戏并导出存档，复制；然后刷新游戏，导入存档。</span>
-<!--            <span style="color:red;font-size:12px;">* 因为新版本修改了一些内容，启用科学家会报错，并且无法运行，所以只能拿掉科学家了。以后大家只能靠科技撸了。</span><br>-->
+           <br>
+            <span style="color:green;font-size:12px;">* 因为新版本科学家依赖了谷歌Chrome浏览器的新特性，版本号69以上才能正常使用，如果无法启用科学家，请自行切换/升级谷歌浏览器。</span><br>
             
 				<br>
 
@@ -599,6 +599,14 @@
 					return ;
 				}
 			});
+            window.onload = function(){ 
+                setTimeout(function(){
+                    var mod = document.createElement('script'); 
+            mod.src = 'NummonCalc.js'; 
+            mod.id = 'modscript_TriggerNotify'; 
+            document.head.appendChild(mod); 
+                },3000)
+            }
 		</script>
 	</body>
 </html>

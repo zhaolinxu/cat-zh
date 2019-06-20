@@ -1136,3 +1136,4 @@ div.hail {
 }
 
 /*#toggle-all-items-build,#toggle-all-items-space,#toggle-all-items-craft,#toggle-all-items-trade,#toggle-all-items-faith{display: none !important;}*/
+.tabsContainer{background: #fff;z-index: 3;padding-bottom: 0;}

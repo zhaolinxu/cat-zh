@@ -2220,8 +2220,8 @@ var run = function() {
     optionsListElement.append(getToggle('time',     '时间'));
     optionsListElement.append(getToggle('festival', '节日'));
     optionsListElement.append(getToggle('crypto',   '秘密'));
-    optionsListElement.append(getToggle('autofeed',   '自动献祭'));
-    optionsListElement.append(getToggle('explore',  '探索'));
+    optionsListElement.append(getToggle('autofeed',   '献祭上古神'));
+//    optionsListElement.append(getToggle('explore',  '探索'));
 
     // add activity button
     // ===================
