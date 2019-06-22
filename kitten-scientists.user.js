@@ -480,7 +480,7 @@ var run = function() {
 			if (waitForBestPrice == true && coinPrice < 860.0) { waitForBestPrice = false; }
 
 			// Exchanges up to a certain threshold, in order to keep a good exchange rate, then waits for a higher treshold before exchanging for relics.
-            if (waitForBestPrice == false && coinPrice < 950.0 && previousRelic > options.auto.crypto.trigger) {
+            if (waitForBestPrice == false && coinPrice < 900.0 && previousRelic > options.auto.crypto.trigger) {
                 var currentCoin;
 
                 game.diplomacy.buyEcoin();
@@ -489,7 +489,7 @@ var run = function() {
                 exchangedCoin = Math.round(currentCoin - previousCoin);
                 activity('小猫出售了圣遗物并购买了 '+ exchangedCoin +' 黑币');
             }
-            else if (coinPrice > 1050.0 && game.resPool.get('blackcoin').value > 0) {
+            else if (coinPrice > 1099.9 && game.resPool.get('blackcoin').value > 0) {
                 var currentRelic;
 
 				waitForBestPrice = true;
@@ -2003,7 +2003,7 @@ var run = function() {
 
             triggerButton.on('click', function () {
                 var value;
-                if (text == 'Crypto'){value = window.prompt('输入新的触发值 ' + text + '. Corresponds to the amount of Relics needed before the exchange is made.', auto.trigger);}
+                if (text == '黑币交易'){value = window.prompt('输入新的触发值 ' + text + '. 设置触发黑币交易所需达到的遗物数量。', auto.trigger);}
                 else{value = window.prompt('输入新的触发值 ' + text + '. 取值范围：0到1之间.', auto.trigger);}
 
                 if (value !== null) {
@@ -2219,7 +2219,7 @@ var run = function() {
     optionsListElement.append(getToggle('faith',    '宗教'));
     optionsListElement.append(getToggle('time',     '时间'));
     optionsListElement.append(getToggle('festival', '节日'));
-    optionsListElement.append(getToggle('crypto',   '秘密'));
+    optionsListElement.append(getToggle('crypto',   '黑币交易'));
     optionsListElement.append(getToggle('autofeed',   '献祭上古神'));
 //    optionsListElement.append(getToggle('explore',  '探索'));
 
