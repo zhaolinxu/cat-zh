@@ -897,6 +897,119 @@ var run = function() {
         this.manager = new TabManager('Religion');
         this.crafts = new CraftManager();
     };
+	
+	var getButton = function(tab, buttonName){
+		for(var i in gamePage.tabs[tab].buttons){
+			if(gamePage.tabs[tab].buttons[i].opts.building == buttonName)
+				return parseInt(i);
+		}
+	};
+	
+	var getBestUniBuilding = function(log=false){
+        var validBuildings = ["unicornTomb","ivoryTower","ivoryCitadel","skyPalace","unicornUtopia","sunspire"];
+        var pastureButton = getButton(0, "unicornPasture");
+        var unicornsPerSecond = game.getEffect("unicornsPerTickBase") * gamePage.getRateUI();
+        var globalRatio = game.getEffect("unicornsGlobalRatio")+1;
+        var religionRatio = game.getEffect("unicornsRatioReligion")+1;
+        var paragonRatio = game.prestige.getParagonProductionRatio()+1;
+        var faithBonus = game.religion.getProductionBonus()/100+1;
+        var cycle = 1;
+        if(game.calendar.cycles[game.calendar.cycle].festivalEffects["unicorns"]!=undefined)
+            if(game.prestige.getPerk("numeromancy").researched && game.calendar.festivalDays)
+                cycle=game.calendar.cycles[game.calendar.cycle].festivalEffects["unicorns"];
+        var onZig = Math.max(game.bld.getBuildingExt("ziggurat").meta.on,1);
+        var total = unicornsPerSecond * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
+        var baseUnicornsPerRift = 500 * (1 + game.getEffect("unicornsRatioReligion") * 0.1);
+        var riftChanceRatio = 1;
+        if(game.prestige.getPerk("unicornmancy").researched)
+            riftChanceRatio *= 1.1;
+        var baseRift = game.getEffect("riftChance") * riftChanceRatio / (10000 * 2) * baseUnicornsPerRift;
+        if(log){
+            console.log("Unicorns per second: "+total);
+            console.log("Base rift per second average: "+baseRift);
+        }
+        var bestAmoritization = Infinity;
+        var bestBuilding = "";
+        var pastureAmor = game.bld.getBuildingExt("unicornPasture").meta.effects["unicornsPerTickBase"] * gamePage.getRateUI();
+        pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
+        if(log){
+            console.log("unicornPasture");
+            console.log("\tBonus unicorns per second: "+pastureAmor);
+        }
+        pastureAmor = game.tabs[0].buttons[pastureButton].model.prices[0].val / pastureAmor;
+        if(log){
+            var baseWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / total;
+            var avgWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / (total + baseRift);
+            console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
+            console.log("\tPrice: "+gamePage.tabs[0].buttons[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
+        }
+        if(pastureAmor < bestAmoritization){
+            bestAmoritization = pastureAmor;
+            bestBuilding = "独角兽牧场";
+        }
+        for(var i in game.tabs[5].zgUpgradeButtons){
+            var btn = game.tabs[5].zgUpgradeButtons[i];
+            if(validBuildings.indexOf(btn.id)!=-1){
+                if(btn.model.visible){
+                    unicornPrice = 0;
+                    for(var j in btn.model.prices){
+                        if(btn.model.prices[j].name=="unicorns")
+                            unicornPrice += btn.model.prices[j].val;
+                        if(btn.model.prices[j].name=="tears")
+                            unicornPrice += btn.model.prices[j].val * 2500 / onZig;
+                    }
+                    var bld=game.religion.getZU(btn.id);
+                    var relBonus = religionRatio;
+                    var riftChance = game.getEffect("riftChance");
+                    for(var j in bld.effects){
+                        if(j=="unicornsRatioReligion")
+                            relBonus += bld.effects[j]
+                        if(j=="riftChance")
+                            riftChance += bld.effects[j];
+                    }
+                    var unicornsPerRift = 500 * ((relBonus -1) * 0.1 +1);
+                    var riftBonus = riftChance * riftChanceRatio / (10000 * 2) * unicornsPerRift;
+                    riftBonus -= baseRift;
+                    var amor = unicornsPerSecond * globalRatio * relBonus * paragonRatio * faithBonus * cycle;
+                    amor -= total;
+                    amor = amor + riftBonus;
+                    if(log){
+                        console.log(btn.id);
+                        console.log("\tBonus unicorns per second: "+amor);
+                    }
+                    amor = unicornPrice / amor;
+                    if(log){
+                        var baseWait = unicornPrice / total;
+                        var avgWait = unicornPrice / (total + baseRift);
+                        var amorSeconds = gamePage.toDisplaySeconds(amor);
+                        if(amorSeconds == "")
+                            amorSeconds = "NA";
+                        console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
+                        console.log("\tPrice: "+unicornPrice + " | Amortization: "+amorSeconds);
+                    }
+                    if(amor < bestAmoritization)
+                        if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
+                            bestAmoritization = amor;
+						var cnid = "";
+						if(btn.id == "unicornTomb")
+							{cnid='0';}
+						if(btn.id == "ivoryTower")
+							{cnid='1';}
+						if(btn.id == "ivoryCitadel")
+							{cnid='2';}
+						if(btn.id == "skyPalace")
+							{cnid='3';}
+						if(btn.id == "unicornUtopia")
+							{cnid='4';}
+						if(btn.id == "sunspire")
+							{cnid='5';}
+                            bestBuilding = cnid;
+                        }
+                }
+            }
+        }
+        return bestBuilding;
+    };
 
     ReligionManager.prototype = {
         manager: undefined,
@@ -939,6 +1052,25 @@ var run = function() {
             }
             var build = this.getBuild(name, variant);
             for (var i in buttons) {
+				//判断是否为庙塔
+				if (variant === "z") {
+					//设置庙塔升级ID
+					i = getBestUniBuilding();
+					//检测升级所需眼泪
+					var btn = game.tabs[5].zgUpgradeButtons[i];
+					for(var j in btn.model.prices){
+						if(btn.model.prices[j].name=="tears")
+							var unicornPrice = btn.model.prices[j].val;
+					}
+					//自动献祭独角兽
+					if(gamePage.bld.getBuildingExt("ziggurat").meta.on > 0) {
+						var maxSacrifice = Math.floor(gamePage.resPool.get("unicorns").value/2500);
+						var neededSacrifice = Math.ceil((unicornPrice - gamePage.resPool.get("tears").value) / gamePage.bld.getBuildingExt("ziggurat").meta.on);
+						if(neededSacrifice <= maxSacrifice && neededSacrifice > 0) {
+						gamePage.religionTab.sacrificeBtn.controller.sacrifice(gamePage.religionTab.sacrificeBtn.model,neededSacrifice);
+						}
+					}
+				}
                 var haystack = buttons[i].model.name;
                 if (haystack.indexOf(build.label) !== -1) {
                     return buttons[i];
