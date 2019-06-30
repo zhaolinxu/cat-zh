@@ -1053,7 +1053,7 @@ var run = function() {
             var build = this.getBuild(name, variant);
             for (var i in buttons) {
 				//判断是否为庙塔
-				if (variant === "z") {
+				if (variant === "z" i <= 5) {
 					//设置庙塔升级ID
 					i = getBestUniBuilding();
 					//检测升级所需眼泪
