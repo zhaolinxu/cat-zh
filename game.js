@@ -2528,12 +2528,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return 0;
 	},
 
+	/**
+	 * (Optional) - specific resource for which craft can be boosted
+	 */
 	getCraftRatio: function(res) {
 		var effect = this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
-		if (res.tags && res.tags.baseMetal){
+		if (!res || !res.tags){
+			return effect;
+		}
+
+		if (res.tags.baseMetal){
 			effect += this.village.getEffectLeader("metallurgist", 0);
 		}
-		if (res.tags && res.tags.compound){
+		if (res.tags.compound){
 			effect += this.village.getEffectLeader("chemist", 0);
 		}
 		return effect;
@@ -3572,6 +3579,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		switch(type) {
 			case "tech":
 				return this.science.get(unlockId);
+			case "policies":
+				return this.science.getPolicy(unlockId);
 			case "perks":
 				return this.prestige.getPerk(unlockId);
 			case "jobs":
@@ -3625,7 +3634,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					// do nothing
 				} else {
 					if (!newUnlock){
-						console.warn("unable to evaluate unlock '", newUnlock, "', skipping");
+						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
 					newUnlock.unlocked = true;

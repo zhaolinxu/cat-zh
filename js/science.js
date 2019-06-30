@@ -152,7 +152,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
 			upgrades: ["register"],
-			crafts: ["parchment"]
+			crafts: ["parchment"],
+			policies: ["liberty", "tradition"]
 		},
 		flavor: $I("science.writing.flavor")
 	},{
@@ -814,14 +815,30 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	}],
 
+	/**
+	 * If policy is locked, it means some conflicting policy was researched first
+	 * Once policy is locked, there is no way to unlock it other than reset
+	 */
 	policies:[{
 		name: "liberty",
 		label: "Liberty",
-		unlocked: false
+		description:"Good for large, expansive societies. Halves population penalties. Cancels Tradition.",
+		prices: [
+			{name : "culture", val: 150}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["tradition"]
 	},{
 		name: "tradition",
 		label: "Tradition",
-		unlocked: false
+		description:"Good for small culture oriented societies. Reduces manuscript price and increase their effect. Cancels Liberty.",
+		prices: [
+			{name : "culture", val: 150}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["liberty"]
 	}],
 
 	metaCache: null,
@@ -879,7 +896,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
+			policies: this.filterMetadata(this.policies, ["name", "unlocked", "locked", "researched"]),
 		};
 	},
 
@@ -887,6 +905,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
 			this.loadMetadata(this.techs, saveData.science.techs);
+			this.loadMetadata(this.policies, saveData.science.policies);
 		}
 
 		//re-unlock technologies in case we have modified something
@@ -920,25 +939,52 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
             model.metaCached = this.game.science.getPolicy(model.options.id);
         }
         return model.metaCached;
-    }
+	},
 
-	/*updateVisible: function(model){
+	getName: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
-			model.visible = false;
-		} else{
-			model.visible = true;
+		if (meta.locked){
+			return meta.label + " " + $I("btn.locked.capital");
 		}
 
-		if (meta.researched && this.game.science.hideResearched){
-			model.visible = false;
+		return this.inherited(arguments);
+	},
+	
+	updateVisible: function(model){
+		model.visible = true;
+	},
+
+	updateVisible: function(model){
+		var meta = model.metadata;
+		model.visible = meta.unlocked;
+
+		//uncomment when no longer debugging the code
+		/*
+			if (
+				(meta.researched || meta.locked) && this.game.science.hideResearched
+			){
+				model.visible = false;
+			}
+		*/
+	},
+
+	onPurchase: function(model){
+		this.inherited(arguments);
+		var meta = model.metadata;
+
+		if (meta.locks){
+			for (var i in meta.locks){
+				var policy = this.game.science.getPolicy( meta.locks[i]);
+				policy.locked = true;
+			}
 		}
-	}*/
+	}
 });
 
 dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
-		var content = this.inherited(arguments);
+		var content = this.inherited(arguments),
+			self = this;
 
 		var controller = new classes.ui.PolicyBtnController(this.game);
 		dojo.forEach(this.game.science.policies, function(policy, i){

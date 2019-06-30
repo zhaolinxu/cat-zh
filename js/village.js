@@ -638,7 +638,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		var overpopulation = this.getKittens() - this.maxKittens;
 		if (overpopulation > 0){
-			happiness -= overpopulation * 2;	//overpopulation penalty
+			var overpopulationPenalty = 2;
+			if (this.game.science.getPolicy("liberty").researched){
+				overpopulationPenalty = 1;
+			}
+
+			happiness -= overpopulation * overpopulationPenalty;
 		}
 
 		if (happiness < 25){

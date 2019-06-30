@@ -1583,5 +1583,6 @@
     "buildings.dataCenter.desc":"Increase total effect of compedia on your max science",
     "trade.embassy.open": "Open embassy",
     "trade.embassy":"Embassy level ({0})",
-    "trade.embassy.desc": "Improve your diplomatic relatinships by establishing an embassy"
+    "trade.embassy.desc": "Improve your diplomatic relatinships by establishing an embassy",
+    "btn.locked.capital": "(Locked)"
 }
