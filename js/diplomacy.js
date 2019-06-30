@@ -425,7 +425,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		for( var i = 0; i < race.sells.length; i++ ){
 			var sellResource = race.sells[i];
 			//you must be this tall to trade this rare resource
-			if (!this.game.diplomacy.isValidTrade(sell, race)){
+			if (!this.game.diplomacy.isValidTrade(sellResource, race)){
 				continue;
 			}
 
@@ -1051,6 +1051,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					controller: new classes.diplomacy.ui.EmbassyButtonController(this.game),
 					handler: dojo.partial(function(race){
 						self.game.diplomacy.buildEmbassy(race);
+						self.game.ui.render();
 					}, race)
 				}, this.game);
 				racePanel.embassyButton = embassyButton;
