@@ -1,4 +1,4 @@
-{
+﻿{
     "buildings.field.label": "Pole kocimiętki",
     "buildings.field.desc": "Zasadź trochę kocimiętki w swojej wiosce. Pola produkują +50% kocimiętki na wiosnę i -75% w zimę.",
     "buildings.field.flavor": "Stepy Akociaste",
@@ -206,7 +206,7 @@
     "village.woodcutter.flavor": "Muszę. Oprzeć. Się. Drapaniu.",
     "village.leader.promoted.one.kitten": "Przywódca awansował jednego kotka",
     "village.leader.promoted.many.kittens": "przywódca awansował {0} kotków",
-    "village.general.free.kittens.label": "Darmowy kotek",
+    "village.general.free.kittens.label": "Wolny kotek",
     "village.kittens.have.best.rank": "Twoje kotki mają najwyższą range",
     "village.msg.kitten.has.joined": "Kotek dołączył do twojej wioski ",
     "village.tab.clear.job.confirmation": "Czy jesteś pewny?",
@@ -928,7 +928,7 @@
     "resources.wood.title": "Drewno",
     "resources.minerals.title": "Minerały",
     "resources.coal.title": "Węgiel",
-    "resources.iron.title": "żelazo",
+    "resources.iron.title": "Żelazo",
     "resources.titanium.title": "Tytan",
     "resources.gold.title": "Złoto",
     "resources.oil.title": "Olej",
