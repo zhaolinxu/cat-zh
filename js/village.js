@@ -607,13 +607,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.updateResourceProduction();
 	},
 
+	getUnhappiness: function(){
+		var overpopulationPenalty = 2;
+		if (this.game.science.getPolicy("liberty").researched){
+			overpopulationPenalty = 1;
+		}
+		return ( this.getKittens()-5 ) * overpopulationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
+	},
+
 	/** Calculates a total happiness where result is a value of [0..1] **/
 	updateHappines: function(){
 		var happiness = 100;
 
-		var unhappiness = ( this.getKittens()-5 ) * 2 * (1 + this.game.getEffect("unhappinessRatio"));
-			//limit ratio by 1.0 by 75% hyperbolic falloff
-
+		var unhappiness = this.getUnhappiness();
 		if (this.getKittens() > 5){
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
@@ -642,10 +648,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var overpopulation = this.getKittens() - this.maxKittens;
 		if (overpopulation > 0){
 			var overpopulationPenalty = 2;
-			if (this.game.science.getPolicy("liberty").researched){
-				overpopulationPenalty = 1;
-			}
-
 			happiness -= overpopulation * overpopulationPenalty;
 		}
 
