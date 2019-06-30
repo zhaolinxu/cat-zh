@@ -500,7 +500,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks", "aiEngineers"],
+			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"],
 			buildings: ["aiCore"],
 			tech: ["quantumCryptography"]
 		}
@@ -581,7 +581,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             tech: ["orbitalEngineering" ],
             upgrades: [ 
 				"photolithography", 
-				"uplink" 
+				"orbitalGeodesy",
+				"uplink",
+				"thinFilm"
 			]
         },
         flavor: $I("science.sattelites.flavor")
@@ -601,7 +603,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 				"satelliteRadio", 
 				"astrophysicists", 
 				"solarSatellites", 
-				"spaceEngineers"
+				"spaceEngineers", 
+				"starlink" 
 			]
 		}
 	},{
@@ -615,7 +618,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			crafts: ["thorium"],
-			upgrades: ["thoriumReactors", "thoriumEngine"]
+			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"]
 		}
 	},{
 		name: "exogeology",
@@ -667,7 +670,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion", "spaceManufacturing"],
+            upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"],
 			tech: ["antimatter"]
 		}
 	},{

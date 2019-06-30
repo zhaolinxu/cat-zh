@@ -384,7 +384,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	tradeImpl: function(race, totalTradeAmount) {
 		var printMessages = (totalTradeAmount == 1);
 		var standingRatio = this.game.getEffect("standingRatio");
-		
+
 		if (this.game.prestige.getPerk("diplomacy").researched) {
 			standingRatio += 10;
 		}
@@ -692,6 +692,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 dojo.declare("com.nuclearunicorn.game.ui.TradeButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
+		result.hasResourceHover = true;
 		result.simplePrices = false;
 		return result;
 	}
@@ -832,6 +833,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.Bu
 dojo.declare("classes.trade.ui.SendExplorersButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
+		result.hasResourceHover = true;
 		result.simplePrices = false;
 		return result;
 	},
@@ -929,7 +931,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
 		var collapseAll = dojo.create("a", { innerHTML: "Collapse all", href: "#" }, expandDiv);
 
-		for (var i = 0; i < races.length; i++){
+		dojo.create("div", { class: "clear"}, tabContainer);
+
+		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){
 				continue;
@@ -1115,7 +1119,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration);
 
 			if (this.game.science.get("antimatter").researched){
-				this.leviathansInfo.innerHTML += "<br/> B-coin price: <span style='cursor:pointer' title='"+ this.game.calendar.cryptoPrice + "'>" +
+				this.leviathansInfo.innerHTML += "<br /> B-coin price: <span style='cursor:pointer' title='"+ this.game.calendar.cryptoPrice + "'>" +
 					this.game.getDisplayValueExt(this.game.calendar.cryptoPrice, false, false, 5) + "R</span>";
 			}
 		}
