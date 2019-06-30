@@ -971,6 +971,13 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		*/
 	},
 
+	updateEnabled: function(model){
+		this.inherited(arguments);
+		if (model.metadata.locked){
+			model.enabled = false;
+		}
+	},
+
 	onPurchase: function(model){
 		this.inherited(arguments);
 		var meta = model.metadata;
