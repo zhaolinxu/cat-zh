@@ -608,11 +608,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getUnhappiness: function(){
-		var overpopulationPenalty = 2;
+		var populationPenalty = 2;
 		if (this.game.science.getPolicy("liberty").researched){
-			overpopulationPenalty = 1;
+			populationPenalty = 1;
 		}
-		return ( this.getKittens()-5 ) * overpopulationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
+		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
 	},
 
 	/** Calculates a total happiness where result is a value of [0..1] **/
