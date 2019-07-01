@@ -1,10 +1,10 @@
 # Kittens Game （猫国建设者）  #
 
 ### 网页版本链接 ###
-* 最新汉化版本（V 1.4.6.0）：http://likexia.gitee.io/cat-zh/
+* 最新汉化版本（V 1.4.6.2）：http://likexia.gitee.io/cat-zh/
 * 备用汉化版（V 1.4.5.2b）：http://cnh5.gitee.io/cat-zh/
 * 之前汉化版（V 1.4.0.7）：http://kittens.applinzi.com/
-* 作者最新英文原版（V 1.4.4.2）：http://bloodrizer.ru/games/kittens/
+* 作者最新英文原版（V 1.4.6.2）：http://bloodrizer.ru/games/kittens/
 
 1.4以下版本的存档不能用在最新版上哦~
 * U77汉化版（V 1.0.5.8）http://www.u77.com/game/4649
