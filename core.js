@@ -2118,8 +2118,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
         if (model.enabled && this.hasResources(model) || this.game.devMode ){
 	        while (this.hasResources(model) && maxBld > 0){
-				this.payPrice(model);
 				this.incrementValue(model);
+				this.payPrice(model);
 
 	            counter++;
 	            maxBld--;

@@ -812,6 +812,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
 		var collapseAll = dojo.create("a", { innerHTML: "全部收起", href: "#" }, expandDiv);
 
+		dojo.create("div", { class: "clear"}, tabContainer);
+
 		for (var i = 0; i< races.length; i++){
 			var race = races[i];
 			if (!race.unlocked){

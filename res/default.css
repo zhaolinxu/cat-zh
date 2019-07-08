@@ -631,7 +631,6 @@ h1 {
 
 .expandAllBar {
     float: right;
-    margin-top: -15px;
 }
 
 #gameLog span.msg:not(.type_date)  {
