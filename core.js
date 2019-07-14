@@ -54,7 +54,9 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"br": "Portuguese",
 			"es": "Española",
 			"fr": "French",
-			"cz": "Česky"
+			"cz": "Česky",
+			"pl": "Polskie"
+			
 		};
 	},
 
