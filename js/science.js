@@ -831,7 +831,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocked: false,
 		locked: false,
-		locks:["tradition"]
+		locks:["tradition"],
+		unlocks:{
+			policies:["authocracy", "republic"]
+		}
 	},{
 		name: "tradition",
 		label: "Tradition",
@@ -841,7 +844,40 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocked: false,
 		locked: false,
-		locks:["liberty"]
+		locks:["liberty"],
+		unlocks:{
+			policies:["authocracy", "monarchy"]
+		}
+	},{
+		name: "monarchy",
+		label: "Monarchy",
+		description:"Cancels Authocracy and Republic.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["authocracy", "republic"]
+	},{
+		name: "authocracy",
+		label: "Authocracy",
+		description:"Cancels Monarchy and Republic.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["monarchy", "republic"]
+	},{
+		name: "republic",
+		label: "Republic",
+		description:"Cancels Monarchy and Authocracy.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["monarchy", "authocracy"]
 	}],
 
 	metaCache: null,

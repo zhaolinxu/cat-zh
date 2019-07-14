@@ -431,7 +431,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 			//can trade chance be grater than 1?
 			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
-			var tradeChance = sellResource.chance * (1 + 0.01 * race.embassyLevel);
+			var tradeChance = sellResource.chance * (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel, 0.75));
 
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance / 100);
