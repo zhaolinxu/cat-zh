@@ -172,7 +172,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
          // Transfer chronoheat to the forge
         if (this.heat > 0) {								//if we have spare chronoheat
             var perTickHeatTransfer = Math.abs(this.game.getEffect("heatPerTick"));
-            var heatAttemptTransfer = daysOffset / this.game.calendar.ticksPerDay * perTickHeatTransfer;
+            var heatAttemptTransfer = daysOffset * this.game.calendar.ticksPerDay * perTickHeatTransfer;
             var heatTransfer = Math.min(this.heat, heatAttemptTransfer);
 
             var blastFurance = this.getCFU("blastFurnace");
