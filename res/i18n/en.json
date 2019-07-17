@@ -282,7 +282,7 @@
     "space.moonMission.desc": "Launch a rocket to Redmoon, a Cath planet satellite",
     "space.moonMission.label": "Moon Mission",
     "space.newplanet.log.msg": "You've reached a new planet!",
-    "space.orbitalLaunch.desc": "Launch a rocket to a space.",
+    "space.orbitalLaunch.desc": "Launch a rocket into space.",
     "space.orbitalLaunch.label": "Orbital Launch",
     "space.panel.rorshach.label": "Rorshach",
     "space.piscineMission.desc": "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
@@ -292,7 +292,7 @@
     "space.planet.cath.sattelite.label": "Satellite",
     "space.planet.cath.spaceElevator.desc": "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
     "space.planet.cath.spaceElevator.label": "Space Elevator",
-    "space.planet.cath.spaceStation.desc": "Deploy a space station. Each station generates science and provide a space for 2 astronauts",
+    "space.planet.cath.spaceStation.desc": "Deploy a space station. Each station generates science and provides space for 2 astronauts",
     "space.planet.cath.spaceStation.label": "Space St.",
     "space.planet.centaurusSystem.label": "Centaurus System",
     "space.planet.centaurusSystem.tectonic.desc": "Rip open the planet near the star Centaurus to collect magma energy.",
@@ -984,7 +984,7 @@
     "effectsMgr.type.resDemandRatio": "{0} demand reduction",
     "effectsMgr.type.resProduction": "{0} production",
     "effectsMgr.type.resConversion": "{0} conversion",
-    "effectsMgr.type.resCraftRatio": "{0} craft bonus",
+    "effectsMgr.type.resCraftRatio": "{0} craft effectiveness",
     "effectsMgr.statics.catnipJobRatio.title": "Farmer tools",
     "effectsMgr.statics.catnipDemandWorkerRatioGlobal.title": "Workers catnip demand reduction",
     "effectsMgr.statics.woodJobRatio.title": "Woodcutter tools",
@@ -1613,5 +1613,10 @@
     "effectsMgr.statics.blackLibraryBonus.title": "Black Library bonus",
     "effectsMgr.statics.solarFarmSeasonRatio.title": "Solar Farm seasonal bonus",
     "effectsMgr.statics.tectonicBonus.title": "Tectonic bonus",
-    "effectsMgr.statics.umbraBoostRatio.title": "HR Harvester bonus"
+    "effectsMgr.statics.umbraBoostRatio.title": "HR Harvester bonus",
+    "effectsMgr.statics.eludiumAutomationBonus.title": "Eludium engineer crafting bonus",
+    "effectsMgr.statics.heatMax.title": "Max heat",
+    "effectsMgr.statics.heatPerTick.title": "Heat transfer",
+    "effectsMgr.statics.voidResonance.title": "Order of the Void bonus",
+    "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus"
 }
