@@ -430,14 +430,14 @@ var run = function() {
             if (this.loop) return;
 
             this.loop = setInterval(this.iterate.bind(this), options.interval);
-            message('启用猫咪科学家!');
+            message('启用小猫珂学家!');
         },
         stop: function () {
             if (!this.loop) return;
 
             clearInterval(this.loop);
             this.loop = undefined;
-            message('禁用猫咪科学家!');
+            message('禁用小猫珂学家!');
         },
         iterate: function () {
             this.observeStars();
@@ -461,7 +461,7 @@ var run = function() {
         if(game.diplomacy.get("leviathans").unlocked && game.resPool.get("necrocorn").value>=1) {
         if(game.diplomacy.get("leviathans").energy<game.religion.getZU("marker").val * 5 + 5) {
         game.diplomacy.feedElders();
-        activity('小猫献祭了上古神。 上古神很高兴');
+        activity('小猫向上古神献上祭品。 上古神很高兴');
         }}
     },
 
@@ -480,14 +480,14 @@ var run = function() {
 			if (waitForBestPrice == true && coinPrice < 860.0) { waitForBestPrice = false; }
 
 			// Exchanges up to a certain threshold, in order to keep a good exchange rate, then waits for a higher treshold before exchanging for relics.
-            if (waitForBestPrice == false && coinPrice < 900.0 && previousRelic > options.auto.crypto.trigger) {
+            if (waitForBestPrice == false && coinPrice < 1095.0 && previousRelic > options.auto.crypto.trigger) {
                 var currentCoin;
 
                 game.diplomacy.buyEcoin();
 
                 currentCoin = game.resPool.get('blackcoin').value;
                 exchangedCoin = Math.round(currentCoin - previousCoin);
-                activity('小猫出售了圣遗物并购买了 '+ exchangedCoin +' 黑币');
+                activity('小猫出售了遗物并买入了 '+ exchangedCoin +' 黑币');
             }
             else if (coinPrice > 1099.9 && game.resPool.get('blackcoin').value > 0) {
                 var currentRelic;
@@ -499,7 +499,7 @@ var run = function() {
                 currentRelic = game.resPool.get('blackcoin').value;
                 exchangedRelic = Math.round(currentRelic - previousRelic);
 
-                activity('小猫出售了黑币并购买了 '+ exchangedRelic +' 圣遗物');
+                activity('小猫出售了黑币并买入了 '+ exchangedRelic +' 遗物');
             }
         },
 		explore: function () {
@@ -739,7 +739,7 @@ var run = function() {
         observeStars: function () {
             if (game.calendar.observeBtn != null){
                 game.calendar.observeHandler();
-                activity('小猫科学家观察到一颗星星', 'ks-star');
+                activity('小猫珂学家观察到一颗星星', 'ks-star');
                 storeForSummary('stars', 1);
             }
         },
@@ -2341,7 +2341,7 @@ var run = function() {
 
     optionsElement.append(optionsTitleElement);
 
-    optionsListElement.append(getToggle('engine',   '启用小猫科学家'));
+    optionsListElement.append(getToggle('engine',   '启用小猫珂学家'));
     optionsListElement.append(getToggle('build',    '建筑'));
     optionsListElement.append(getToggle('space',    '太空'));
     optionsListElement.append(getToggle('craft',    '工艺'));
