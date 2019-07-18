@@ -76,6 +76,7 @@ var run = function() {
                 items: {
                     // Variant denotes which category the building or upgrade falls within in the Religion tab.
                     // Ziggurats are variant z.
+                    zdmt:               {require: false,         enabled: false, variant: 'm'},
                     unicornTomb:        {require: false,         enabled: false, variant: 'z'},
                     ivoryTower:         {require: false,         enabled: false, variant: 'z'},
                     ivoryCitadel:       {require: false,         enabled: false, variant: 'z'},
@@ -1053,9 +1054,13 @@ var run = function() {
             var build = this.getBuild(name, variant);
             for (var i in buttons) {
 				//判断是否为庙塔
-				if (variant === "z" && i <= 5 && getBestUniBuilding() <= 5) {
+				if (variant === "z" && i <= 5) {
 					//设置庙塔升级ID
-					i = getBestUniBuilding();
+					if (options.auto.faith.items["zdmt"].enabled && getBestUniBuilding() <= 5) {
+						i = getBestUniBuilding();
+					} else {
+						i = 5;
+					}
 					//检测升级所需眼泪
 					var btn = game.tabs[5].zgUpgradeButtons[i];
 					for(var j in btn.model.prices){
@@ -1063,7 +1068,7 @@ var run = function() {
 							var unicornPrice = btn.model.prices[j].val;
 					}
 					//自动献祭独角兽
-					if(gamePage.bld.getBuildingExt("ziggurat").meta.on > 0) {
+					if (gamePage.bld.getBuildingExt("ziggurat").meta.on > 0) {
 						var maxSacrifice = Math.floor(gamePage.resPool.get("unicorns").value/2500);
 						var neededSacrifice = Math.ceil((unicornPrice - gamePage.resPool.get("tears").value) / gamePage.bld.getBuildingExt("ziggurat").meta.on);
 						if(neededSacrifice <= maxSacrifice && neededSacrifice > 0) {
