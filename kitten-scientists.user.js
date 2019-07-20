@@ -1058,8 +1058,6 @@ var run = function() {
 					//设置庙塔升级ID
 					if (options.auto.faith.items["zdmt"].enabled && getBestUniBuilding() <= 5) {
 						i = getBestUniBuilding();
-					} else {
-						i = 5;
 					}
 					//检测升级所需眼泪
 					var btn = game.tabs[5].zgUpgradeButtons[i];
