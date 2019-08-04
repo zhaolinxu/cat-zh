@@ -1264,9 +1264,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.challenges.currentChallenge == "energy") {
 				effects["energyConsumption"] *= 2;
 			}
-			if (game.workshop.get("neuralNetworks").researched){
-
-			}
 
 			self.effects = effects;
 		}
