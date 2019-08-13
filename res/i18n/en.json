@@ -284,13 +284,13 @@
     "space.newplanet.log.msg": "You've reached a new planet!",
     "space.orbitalLaunch.desc": "Launch a rocket into space.",
     "space.orbitalLaunch.label": "Orbital Launch",
-    "space.panel.rorshach.label": "Rorshach",
+    "space.panel.rorshach.label": "Rorschach",
     "space.piscineMission.desc": "Piscine is a gigantic aquatic planet composed of an acid body and a methane atmosphere",
     "space.piscineMission.label": "Piscine Mission",
     "space.planet.cath.label": "Cath",
     "space.planet.cath.sattelite.desc": "Deploy a Satellite. Satellites improve your Observatory effectiveness by 5% and produce starcharts",
     "space.planet.cath.sattelite.label": "Satellite",
-    "space.planet.cath.spaceElevator.desc": "Every Space Elevator reduces oil requirements for space missions by 5%. Improves all space structures production effectiveness by 1%",
+    "space.planet.cath.spaceElevator.desc": "Every Space Elevator reduces oil requirements for all space projects by 5% and improves all space structures' production efficiency by 1%",
     "space.planet.cath.spaceElevator.label": "Space Elevator",
     "space.planet.cath.spaceStation.desc": "Deploy a space station. Each station generates science and provides space for 2 astronauts",
     "space.planet.cath.spaceStation.label": "Space St.",
@@ -831,7 +831,7 @@
     "workshop.augumentation.label": "Augmentations",
     "workshop.internet.desc": "Kittens learn skills with each other",
     "workshop.internet.label": "Telecommunication",
-    "workshop.neuralNetworks.desc": "Engineers effectiveness doubles at the cost of double energy consumption of factories. Kittens learn from the noosphere.",
+    "workshop.neuralNetworks.desc": "Doubles Engineer effectiveness. Kittens learn from the noosphere.",
     "workshop.neuralNetworks.label": "Neural Networks",
     "workshop.ai.desc": "A state of the art artificial intelligence",
     "workshop.ai.label": "AI",
@@ -1618,5 +1618,6 @@
     "effectsMgr.statics.heatMax.title": "Max heat",
     "effectsMgr.statics.heatPerTick.title": "Heat transfer",
     "effectsMgr.statics.voidResonance.title": "Order of the Void bonus",
-    "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus"
+    "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus",
+    "time.overheat": "!"
 }
