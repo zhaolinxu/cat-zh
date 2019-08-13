@@ -541,7 +541,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				effects["cultureMax"] = 250;
 				effects["scienceMaxCompendia"] = 1000;
 
-				var biolabBonus = game.bld.get("biolab").on * game.getEffect("uplinkDCRatio");
+				var biolabBonus = game.bld.get("biolab").val * game.getEffect("uplinkDCRatio");
 				if (game.workshop.get("uplink").researched){
 					effects["scienceMaxCompendia"] *= (1+biolabBonus);
 					effects["scienceMax"] *= (1+biolabBonus);
@@ -657,7 +657,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.togglable = true;
 			}
 			self.effects["energyConsumption"] = energyCons;
-			var datacenterBonus = game.bld.get("library").on * game.getEffect("uplinkLabRatio");
+			var datacenterBonus = game.bld.get("library").val * game.getEffect("uplinkLabRatio");
 			if (game.workshop.get("uplink").researched && game.bld.get("library").stage == 1){
 				self.effects["scienceMax"] *= (1 + datacenterBonus);
 			}
