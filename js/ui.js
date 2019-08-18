@@ -68,7 +68,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     //current selected game tab
     activeTabId: "Bonfire",
-    
+
     keyStates: {
         shiftKey: false,
         ctrlKey: false,
@@ -86,7 +86,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.game.stats.getStat("totalClicks").val += 1;
         });
 
-        /*dojo.connect($("html")[0], "onkeyup", this, function (event) {
+        dojo.connect($("html")[0], "onkeyup", this, function (event) {
             // Allow user extensibility to keybindings in core events
             var keybinds = [
                 {
@@ -168,17 +168,48 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     action: function(){ $('div.dialog:visible').last().hide(); }
                 }
             ];
-            var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
+
+            //babel someday
+
+            /*var allKeybinds = typeof userKeybinds != 'undefined' ? userKeybinds.concat(keybinds) : keybinds;
             var keybind = allKeybinds.find(function(x){
                 return x.key === event.key &&
                 x.shift == event.shiftKey &&
                 x.alt == event.altKey &&
-                x.control == event.ctrlKey; });
+                x.control == event.ctrlKey; });*/
+
+            var keybind = null;
+            for (var i in keybinds){
+                var k = keybinds[i];
+                if (k.key === event.key &&
+                    k.shift == event.shiftKey &&
+                    k.alt == event.altKey &&
+                    k.control == event.ctrlKey
+                ){
+                    keybind = k;
+                    break;
+                }
+            }
+
+
+            var isTabNumber = ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105));
+            //console.log(isTabNumber, event.keyCode);
 
             if (keybind && keybind.action) {
                 // If a keybind is found and has a specific action
                 keybind.action();
-            } else if (keybind && keybind.name != this.game.ui.activeTabId) {
+            } else if (isTabNumber){
+                var tabIndex = 9;
+                if (event.keyCode >= 97) { //numpad
+                    tabIndex = event.keyCode - 97;
+                } else if (event.keyCode >= 49 && event.keyCode <= 57) { //number row
+                    tabIndex = event.keyCode - 49;
+                }
+                if (this.game.tabs[tabIndex].visible){
+                    this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
+                    this.game.ui.render();
+                }
+            } else if (keybind && keybind.name != this.game.ui.activeTabId ) {
                 // If a keybound is found and the tab isn't current
                 for (var i = 0; i < this.game.tabs.length; i++){
                     if (this.game.tabs[i].tabId === keybind.name && this.game.tabs[i].visible){
@@ -188,7 +219,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     }
                 }
             }
-        });*/
+        });
     },
 
     setGame: function(game){
@@ -279,20 +310,21 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var calendarDiv = dojo.byId("calendarDiv");
             this.calenderDivTooltip = UIUtils.attachTooltip(game, calendarDiv, 0, 320, dojo.hitch(game.calendar, function() {
                 var tooltip = "";
-                if (this.year > 100000){
-                    tooltip = $I("calendar.year") + " " + this.year.toLocaleString();
+                var displayThreshold = 100000;
+                if (this.year > displayThreshold) {
+                    tooltip = $I("calendar.year.tooltip") + " " + this.year.toLocaleString();
                 }
 
-                if (game.science.get("paradoxalKnowledge").researched){
-                    var trueYear = Math.trunc(this.trueYear());
-
-                    if (trueYear > 100000){
-                        trueYear = trueYear.toLocaleString();
-                    }
-                    if (this.year > 100000){
+                if (game.science.get("paradoxalKnowledge").researched) {
+                    if (this.year > displayThreshold) {
                         tooltip += "<br>";
                     }
-                    tooltip += $I("calendar.trueYear")  + " " + trueYear;
+
+                    var trueYear = Math.trunc(this.trueYear());
+                    if (trueYear > displayThreshold) {
+                        trueYear = trueYear.toLocaleString();
+                    }
+                    tooltip += $I("calendar.trueYear") + " " + trueYear;
                 }
                 return tooltip;
             }));
@@ -310,7 +342,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				var tooltip = dojo.create("div", { className: "button_tooltip" }, null);
 
 				var cycleSpan = dojo.create("div", {
-					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear+")",
+					innerHTML: cycle.title + " (" + $I("calendar.year") + " " + this.cycleYear + ")",
 					style: { textAlign: "center", clear: "both"}
 				}, tooltip );
 
@@ -413,7 +445,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         React.render($r(WLeftPanel, {
             game: this.game
-        }), document.getElementById("leftColumnViewport")); 
+        }), document.getElementById("leftColumnViewport"));
     },
 
     //---------------------------------------------------------------
@@ -518,8 +550,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
-            // TODO i18n
-            document.title = "Kittens Game - Year " + calendar.year + ", " + seasonTitle + ", d. " + Math.floor(calendar.day);
+            document.title = "Kittens Game - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -527,8 +558,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             var calendarSignSpan = dojo.byId("calendarSign");
             var cycle = calendar.cycles[calendar.cycle];
-            if (cycle && this.game.science.get("astronomy").researched){
-                calendarSignSpan.innerHTML = cycle.glyph;
+            if (cycle && this.game.science.get("astronomy").researched) {
+            	calendarSignSpan.style = "color: " + calendar.cycleYearColor();
+                calendarSignSpan.innerHTML = cycle.glyph + " ";
             }
         } else {
             calendarDiv.textContent = seasonTitle;
@@ -703,7 +735,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     onLoad: function(){
         var self = this;
         $(document).on("keyup keydown keypress", function(e){
-            
+
             /*if (e.altKey){    //firefox shenenigans
                 e.preventDefault();
                 e.stopPropagation();
@@ -812,6 +844,18 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     },
 
     load: function() {
+        // swap to bonfire if the current tab is not visible
+        var tabs = this.game.tabs;
+        for (var i = 0; i < tabs.length; i++){
+            var tab = tabs[i];
+            if (this.activeTabId == tab.tabId){
+                if (!tab.visible){
+                    this.activeTabId = tabs[0].tabId;
+                }
+                break;
+            }
+        }
+
         var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
         try {
             uiData = JSON.parse(uiData);

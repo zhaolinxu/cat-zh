@@ -29,18 +29,18 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
 			var zu = this.zigguratUpgrades[i];
 			zu.unlocked = zu.defaultUnlocked || false;
-			this.resetStateStackable(zu, zu.isAutomationEnabled, zu.lackResConvert, zu.effects);
+			this.resetStateStackable(zu);
 		}
 
 		for (i = 0; i < this.religionUpgrades.length; i++){
 			var ru = this.religionUpgrades[i];
-			this.resetStateStackable(ru, ru.isAutomationEnabled, ru.lackResConvert, ru.effects);
+			this.resetStateStackable(ru);
 		}
 
 		for (i = 0; i < this.transcendenceUpgrades.length; i++){
 			var tu = this.transcendenceUpgrades[i];
 			tu.unlocked = false;
-			this.resetStateStackable(tu, tu.isAutomationEnabled, tu.lackResConvert, tu.effects);
+			this.resetStateStackable(tu);
 		}
 	},
 
@@ -116,9 +116,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (this.game.prestige.getPerk("voidOrder").researched) {
-			var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
-			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
-			this.game.resPool.addResEvent("faith", -orderBonus);
+			if (!(this.game.calendar.day < 0)){ //do not accumulate faith with active Temporal Paradox
+				var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
+				this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
+				if (this.game.resPool.get("faith").value != this.game.resPool.get("faith").maxValue){ //do not drain faith if it is in cap value
+					this.game.resPool.addResEvent("faith", -orderBonus);
+				}
+			}
 		}
 	},
 
@@ -147,7 +151,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		// Prevents alicorn count to fall to 0, which would stop the per-tick generation
 		var maxAlicornsToCorrupt = Math.ceil(alicorns.value) - 1;
 		var alicornsToCorrupt = Math.floor(Math.min(this.corruption, maxAlicornsToCorrupt));
-		if (alicornsToCorrupt) {
+		if (alicornsToCorrupt > 0) {
 			this.corruption -= alicornsToCorrupt;
 			alicorns.value -= alicornsToCorrupt;
 			this.game.resPool.get("necrocorn").value += alicornsToCorrupt;
@@ -348,7 +352,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		priceRatio: 1.15,
 		effects: {
-			"cultureMaxRatioBonus" : 0.01
+			"cultureMaxRatioBonus" : 0.01,
+			"blackLibraryBonus": 0.02
 		},
 		upgrades: {
 			buildings: ["ziggurat"]
@@ -631,6 +636,20 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: $I("religion.tu.singularity.flavor")
 	},{
+		name: "blackLibrary",
+		label: $I("religion.tu.blackLibrary.label"),
+		description: $I("religion.tu.blackLibrary.desc"),
+		prices: [
+			{ name : "relic", val: 30000 }
+		],
+		tier: 9,
+		priceRatio: 1.15,
+		effects: {
+			"compendiaTTBoostRatio" : 0.02
+		},
+		unlocked: false,
+		flavor: $I("religion.tu.blackLibary.flavor")
+	},{
 		name: "blackRadiance",
 		label: $I("religion.tu.blackRadiance.label"),
 		description: $I("religion.tu.blackRadiance.desc"),
@@ -657,6 +676,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			//Should at least improve impedance scaling by some value (5%? 10%). Probably something else
 			"timeRatio" : 0.10,
 			"rrRatio" : 0.02
+		},
+		upgrades: {
+			chronoforge: ["temporalImpedance"]
 		},
 		unlocked: false,
 		flavor: $I("religion.tu.blazar.flavor")
@@ -931,14 +953,14 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event, callback){
-				self.sacrificeAll(model, event, callback);
+				self.sacrificeAll(this.model, event, callback);
 			}
 		};
 		model.x10Link = {
-			visible: this._canAfford(model) >= 10,
+			visible: self._canAfford(model) >= 10,
 			title: "x10",
 			handler: function(event, callback){
-				self.sacrificeX10(model, event, callback);
+				self.sacrificeX10(this.model, event, callback);
 			}
 		};
 		return model;
@@ -1001,10 +1023,7 @@ dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
-
 		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false, true);
 	},
 
@@ -1023,8 +1042,6 @@ dojo.declare("classes.ui.religion.RefineTCBBtn", com.nuclearunicorn.game.ui.Butt
 	 * Render button links like off/on and sell
 	 */
 	renderLinks: function(){
-		var self = this;
-
 		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
 		this.x25 = this.addLink(this.model.x25Link.title, this.model.x25Link.handler, false, true);
 	},
@@ -1054,14 +1071,14 @@ dojo.declare("classes.ui.religion.SacrificeAlicornsBtnController", com.nuclearun
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event, callback){
-				self.sacrificeAll(model, event, callback);
+				self.sacrificeAll(this.model, event, callback);
 			}
 		};
 		model.x10Link = {
-			visible: this._canAfford(model) >= 10,
+			visible: self._canAfford(model) >= 10,
 			title: "x10",
 			handler: function(event, callback){
-				self.sacrificeX10(model, event, callback);
+				self.sacrificeX10(this.model, event, callback);
 			}
 		};
 		return model;
@@ -1183,14 +1200,14 @@ dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.gam
 			visible: true,
 			title: $I("religion.sacrificeBtn.all"),
 			handler: function(event, callback){
-				self.refineAll(model, event, callback);
+				self.refineAll(this.model, event, callback);
 			}
 		};
 		model.x25Link = {
-			visible: this._canAfford(model) >= 25,
+			visible: self._canAfford(model) >= 25,
 			title: "x25",
 			handler: function(event, callback){
-				self.refineX25(model, event, callback);
+				self.refineX25(this.model, event, callback);
 			}
 		};
 		return model;

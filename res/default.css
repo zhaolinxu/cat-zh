@@ -102,6 +102,7 @@ body {
 
 .tabsContainer {
     padding-bottom: 15px;
+    padding-top: 2px;
     position:absolute;
     top: 5px;
 }
@@ -116,8 +117,21 @@ div#gameLog {
     right: 5px;
 }
 
-.activeTab {
+.tab {
     text-decoration: none;
+}
+
+.bldTopContainer {
+    padding-bottom: 5px;
+	margin-bottom: 15px;
+}
+
+.bldTopContainer > a, .bldTopContainer > span {
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+.activeTab {
     color: black;
 }
 
@@ -260,7 +274,7 @@ select>option {
 }
 
 .disabled {
-    color: #999
+    color: #999;
 }
 
 .tipr_content {
@@ -546,6 +560,13 @@ input[type="checkbox"]:checked + label:before {
     cursor: default;
 }
 
+.achievement-header .star {
+    padding-left: 6px;
+    margin-top: -4px;
+    font-size: 18px;
+    color: orange;
+}
+
 .achievement .star {
     float: right;
     padding-right: 0px;
@@ -572,7 +593,6 @@ h1 {
 
 .expandAllBar {
     float: right;
-    margin-top: -15px;
 }
 
 #gameLog span.msg:not(.type_date)  {

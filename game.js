@@ -286,6 +286,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resname: resname,
 					type: "ratio"
 				};
+			case type == "GlobalCraftRatio":
+				return {
+					title: $I("effectsMgr.type.resGlobalCraftRatio", [restitle]),
+					resname: resname,
+					type: "ratio"
+				};
 			default:
 				return 0;
 		}
@@ -321,7 +327,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"coalRatioGlobal" : {
 				title: $I("effectsMgr.statics.coalRatioGlobal.title"),
 				resName: "coal",
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"coalRatioGlobalReduction" : {
@@ -431,7 +438,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"energyConsumption": {
 				title: $I("effectsMgr.statics.energyConsumption.title"),
-				type: "energy"
+				type: "energy",
+				calculation: "nonProportional"
             },
 
 			"energyProductionRatio": {
@@ -734,6 +742,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "timeImpedance" :  {
+                title: $I("effectsMgr.statics.timeImpedance.title"),
+                type: "fixed"
+            },
+
             "shatterTCGain" :  {
                 title: $I("effectsMgr.statics.shatterTCGain.title"),
                 type: "ratio"
@@ -886,12 +899,14 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
 			"hrProgress": {
 				title: $I("effectsMgr.statics.entangler-hrProgress.title"),
-				type: "ratio"
+				type: "ratio",
+				calculation: "constant"
 			},
 
 			"aiLevel" :  {
 				title: $I("effectsMgr.statics.aiLevel.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"gflopsConsumption" :  {
@@ -901,17 +916,99 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"hashrate" :  {
 				title: $I("effectsMgr.statics.hashrate.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"nextHashLevelAt" :  {
 				title: $I("effectsMgr.statics.nextHashLevelAt.title"),
-				type: "fixed"
+				type: "fixed",
+				calculation: "constant"
 			},
 
 			"hashRateLevel" :  {
 				title: $I("effectsMgr.statics.hashrateLevel.title"),
+				type: "fixed",
+				calculation: "constant"
+			},
+
+			"corruptionBoostRatio": {
+				title: $I("effectsMgr.statics.corruptionBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"blsCorruptionRatio": {
+				title: $I("effectsMgr.statics.blsCorruptionRatio.title"),
+				type: "ratio"
+			},
+
+			"baseMetalMaxRatio": {
+				title: $I("effectsMgr.statics.baseMetalMaxRatio.title"),
+				type: "ratio"
+			},
+
+			"scienceMaxCompendia": {
+				title: $I("effectsMgr.statics.scienceMaxCompendia.title"),
 				type: "fixed"
+			},
+
+			"uplinkDCRatio": {
+				title: $I("effectsMgr.statics.uplinkDCRatio.title"),
+				type: "ratio"
+			},
+
+			"uplinkLabRatio": {
+				title: $I("effectsMgr.statics.uplinkLabRatio.title"),
+				type: "ratio"
+			},
+
+			"dataCenterAIRatio": {
+				title: $I("effectsMgr.statics.dataCenterAIRatio.title"),
+			},
+
+			"compendiaTTBoostRatio": {
+				title: $I("effectsMgr.statics.compendiaTTBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"blackLibraryBonus": {
+				title: $I("effectsMgr.statics.blackLibraryBonus.title"),
+				type: "ratio"
+			},
+
+			"solarFarmSeasonRatio": {
+				title: $I("effectsMgr.statics.solarFarmSeasonRatio.title"),
+				type: "fixed"
+			},
+
+			"tectonicBonus": {
+				title: $I("effectsMgr.statics.tectonicBonus.title"),
+				type: "ratio"
+			},
+
+			"umbraBoostRatio": {
+				title: $I("effectsMgr.statics.umbraBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"eludiumAutomationBonus": {
+				title: $I("effectsMgr.statics.eludiumAutomationBonus.title"),
+				type: "ratio"
+			},
+
+			"heatMax": {
+				title: $I("effectsMgr.statics.heatMax.title"),
+				type: "fixed"
+			},
+
+			"heatPerTick": {
+				title: $I("effectsMgr.statics.heatPerTick.title"),
+				type: "perTick"
+			},
+
+			"voidResonance": {
+				title: $I("effectsMgr.statics.voidResonance.title"),
+				type: "ratio"
 			}
 		}
 	}
@@ -1048,9 +1145,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: true,
+			disableTelemetry: false,
 			enableRedshift: false,
-            useLegacyTwoInRowLayout: false
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
+			//if true, save file will always be compressed
+			forceLZ: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1243,7 +1343,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var messageLine = this.console.msg(message, type, tag, noBullet);
 
 		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext",[this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
+			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
 		}
 
 		return messageLine;
@@ -1286,13 +1386,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
-			highlightUnavailable: false,
+			highlightUnavailable: true,
 			hideSell: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			// Used only in KG Mobile, hence it's absence in the rest of the code
+			useLegacyTwoInRowLayout: false,
 			//if true, save file will always be compressed
 			forceLZ: false
 		};
@@ -1363,7 +1465,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			console.log("compressing the save file...");
 			saveDataString = LZString.compressToBase64(saveDataString);
 		}
-		
+
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
 		console.log("Game saved");
 
@@ -1537,9 +1639,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	//btw, ie11 is horrible crap and should not exist
 	saveExport: function(){
-		this.save();
+		var data = this.save();
+		data = JSON.stringify(data);
 
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
         var encodedData;
         if (LZString.compressToBase64) {
             encodedData = LZString.compressToBase64(data);
@@ -1572,7 +1674,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	saveExportDropbox: function(){
 		this.save();
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		var data = this.save();
+		data = JSON.stringify(data);
 		var lzdata = LZString.compressToBase64(data);
 
 
@@ -1589,7 +1692,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		window.addEventListener('message',function(e) {
+		var handler = function(e) {
+			window.removeEventListener('message', handler);
+
 			if (window.location.origin !== e.origin) {
 				callback("Unable to save file");
 			} else {
@@ -1605,7 +1710,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					callback("Unable to save file:" + JSON.stringify(error));
 				});
 			}
-		},false);
+		};
+		window.addEventListener('message', handler ,false);
 	},
 
 	saveImportDropbox: function(){
@@ -1626,23 +1732,25 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
-		window.addEventListener('message',function(e) {
-				if (window.location.origin !== e.origin) {
-					callback("Unable to load file");
-				} else {
-					var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
-					dbxt.filesDownload({path: "/kittens.save"}).then(function (response) {
-						var blob = response.fileBlob;
-						var reader = new FileReader();
-						reader.addEventListener("loadend", function() {
-							game.saveImportDropboxText(reader.result, callback);
-						});
-						reader.readAsText(blob);
-					}).catch(function (error) {
-						callback("Unable to load file:" + JSON.stringify(error));
+		var handler = function(e) {
+			window.removeEventListener('message', handler);
+			if (window.location.origin !== e.origin) {
+				callback("Unable to load file");
+			} else {
+				var dbxt = new Dropbox.Dropbox({accessToken: e.data["#access_token"]});
+				dbxt.filesDownload({path: "/kittens.save"}).then(function (response) {
+					var blob = response.fileBlob;
+					var reader = new FileReader();
+					reader.addEventListener("loadend", function() {
+						game.saveImportDropboxText(reader.result, callback);
 					});
-				}
-		},false);
+					reader.readAsText(blob);
+				}).catch(function (error) {
+					callback("Unable to load file:" + JSON.stringify(error));
+				});
+			}
+		};
+		window.addEventListener('message', handler ,false);
 	},
 
     saveImportDropboxFileRead: function(callback){
@@ -2881,8 +2989,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	toDisplayDays: function(daysRaw){
 		var daysNum = parseInt(daysRaw, 10); // don't forget the second param
 
-		var years   = Math.floor(daysNum / (this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear));
-		var days = daysNum - (years * this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear);
+		var daysPerYear = this.calendar.daysPerSeason * this.calendar.seasonsPerYear;
+		var years = Math.floor(daysNum / daysPerYear);
+		var days = daysNum - years * daysPerYear;
 
 		if (years > 0){
 			years = this.getDisplayValueExt(years);
@@ -2979,7 +3088,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
 			}
 		}
-		
+
 		var _value = this.getDisplayValue(value, prefix, precision);
 		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
 	},
@@ -3074,6 +3183,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this._lastFrameTimestamp = this.timestamp();
 		}
+		this._publish("game/start");
 	},
 
 	/**
@@ -3335,7 +3445,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// Trigger a save to make sure we're working with most recent data
 		this.save();
 
-		var lsData = this._parseLSSaveData()
+		var lsData = this._parseLSSaveData();
 		if (!lsData){
 			lsData = {
 				game: {},
@@ -3433,6 +3543,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			game : lsData.game,
 			resources: newResources,
 			buildings: [],
+			calendar: {
+				cryptoPrice: this.calendar.cryptoPrice
+			},
 			challenges: {
 				challenges: this.challenges.challenges,
 				currentChallenge: this.challenges.currentChallenge

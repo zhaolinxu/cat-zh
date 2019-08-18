@@ -259,6 +259,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
+					self.on = self.val;
 					self.togglable = false;
 				}
 				else {
@@ -296,6 +297,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					effects["energyConsumption"] *= 2;
 				}
 				self.effects = effects;
+			},
+			unlocks: {
+				tabs: ["village"]
 			},
 			breakIronWill: true
 		}]
@@ -668,8 +672,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "kerosene", 		val: 7500   }
 				],
 				effects: {
-					"starchartPerTickBaseSpace": 0,
-					"scienceMax": 0,
+					"starchartPerTickBaseSpace": 0.125,
+					"scienceMax": 25000,
 					"relicPerDay": 0
 				},
 				action: function(self, game){
@@ -719,6 +723,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						"maxKittens": 1
 					};
 				},
+				unlocks: {
+					tabs: ["village"]
+				},
 				breakIronWill: true
 			},
 			{
@@ -761,7 +768,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {
 					"energyProduction": 1
 				},
-				calculateEffects: function(self, game){
+				calculateEffects: function(self, game) {
 					var yearBonus = game.calendar.darkFutureYears();
 					if (yearBonus < 0){
 						yearBonus = 0;
@@ -793,10 +800,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				effects: {
 					"energyConsumption": 25,
 					"gflopsConsumption": 0.1,
-					hashRateLevel: 0
+					"hashrate": 0,
+					"hashRateLevel": 0,
+					"nextHashLevelAt": 0,
+					"hrProgress": 0
 				},
 				action: function(self, game){
-					var gflopsPerTick = self.effects.gflopsConsumption * self.on;
+					var gflopsPerTick = self.effects["gflopsConsumption"] * self.on;
 					if (game.resPool.get("gflops").value < gflopsPerTick && game.resPool.get("gflops").value > 0){
 						gflopsPerTick = game.resPool.get("gflops").value;
 					}
@@ -810,15 +820,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						difficulty = 1000,
 						rate = 1.6;
 
-					self.effects.hashrate = hr;
-					self.effects.nextHashLevelAt = difficulty * Math.pow(rate, self.effects.hashRateLevel + 1);
-					self.effects.hrProgress = hr / (difficulty * Math.pow(rate, self.effects.hashRateLevel + 1));
+					self.effects["hashrate"] = hr;
+					self.effects["nextHashLevelAt"] = difficulty * Math.pow(rate, self.effects["hashRateLevel"] + 1);
+					self.effects["hrProgress"] = hr / (difficulty * Math.pow(rate, self.effects["hashRateLevel"] + 1));
 					if (hr > difficulty){
-						self.effects.hashRateLevel = Math.floor(Math.log(hr/difficulty) / Math.log(rate));
+						self.effects["hashRateLevel"] = Math.floor(Math.log(hr/difficulty) / Math.log(rate));
 					} else {
-						self.effects.hashRateLevel = 0;
+						self.effects["hashRateLevel"] = 0;
 					}
-					self.effects.gflopsConsumption = 0.1;
+					self.effects["gflopsConsumption"] = 0.1;
 				}
 			}
 		]
@@ -856,7 +866,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "science", val: 250000000 },
 					{name: "uranium", val: 5000000 }
 				],
-				requiredTech: ["terraformation"],
 				effects: {
 					"tectonicBonus": 0.05
 				},
@@ -918,7 +927,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
 			program.noStackable = true;
 
-			this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+			this.resetStateStackable(program);
 		}
 
 		for (i = 0; i < this.planets.length; i++){
@@ -932,7 +941,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					var program = planet.buildings[j];
 					program.unlocked = false;
 
-					this.resetStateStackable(program, program.isAutomationEnabled, program.lackResConvert, program.effects);
+					this.resetStateStackable(program);
 				}
 			}
 		}
@@ -962,8 +971,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		if (!saveData.space){
 			return;
 		}
-
-		var self = this;
 
 		this.hideResearched = saveData.space.hideResearched || false;
 		this.loadMetadata(this.programs, saveData.space.programs);
@@ -1234,7 +1241,7 @@ dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
 
 		var self = this;
 
-		var controller = new classes.ui.space.PlanetBuildingBtnController(self.game);
+		var controller = new classes.ui.space.PlanetBuildingBtnController(this.game);
 		dojo.forEach(this.planet.buildings, function(building, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: building.name, planet: self.planet, controller: controller}, self.game);
 
@@ -1298,7 +1305,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.SpaceTab", com.nuclearunicorn.game.
 
 		this.GCPanel = new com.nuclearunicorn.game.ui.Panel($I("space.ground.control.label"), this.game.space);
 		var content = this.GCPanel.render(container);
-		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(self.game);
+		var controller = new com.nuclearunicorn.game.ui.SpaceProgramBtnController(this.game);
 		dojo.forEach(this.game.space.programs, function(program, i){
 			var button = new com.nuclearunicorn.game.ui.BuildingStackableBtn({id: program.name, controller: controller}, self.game);
 			button.render(content);

@@ -40,7 +40,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			modifiers:{
 				"catnip" : 0.25
 			}
-		}],
+		}
+	],
+
+	cycleYearColors: [
+		"#A00000",
+		"#DBA901",
+		"#14CD61",
+		"#01A9DB",
+		"#9A2EFE"
+	],
 
 	//Charon, Umbra (black hole), Yarn (terraformable?), Helios (Sun), Cath, Redmoon (Cath satellite), Dune, Piscine, Terminus (ice giant), Kairo (dwarf planet)
 	cycles: [
@@ -208,7 +217,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	ticksPerDay: 10,
 	daysPerSeason: 100,
 	seasonsPerYear: null,
-	yearsPerCycle: 5,
+	yearsPerCycle: null,
 	cyclesPerEra: null,
 
 	season: 0,
@@ -295,6 +304,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.displayElement = displayElement;
 
 		this.seasonsPerYear = this.seasons.length;
+		this.yearsPerCycle = this.cycleYearColors.length;
 		this.cyclesPerEra = this.cycles.length;
 
 		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
@@ -307,6 +317,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	update: function() {
 
+	},
+
+	cycleYearColor: function() {
+		return this.cycleYearColors[this.cycleYear];
 	},
 
 	cycleEffectsBasics: function(effects, building_name) {
@@ -345,9 +359,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	darkFutureYears: function(withImpedance) {
-		var impedance = 0;
-                if (withImpedance)
-			impedance = this.game.getEffect("timeImpedance") * (1+ this.game.getEffect("timeRatio"));
+		var impedance = withImpedance ? this.game.getEffect("timeImpedance") : 0;
 		return this.year - (40000 + impedance);
 	},
 
@@ -407,8 +419,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.update();
 	},
 
-	// minimize floating point error 
-	_roundToCentiday() {
+	// minimize floating point error
+	_roundToCentiday: function () {
 		this.day = Math.round(this.day * 100) / 100;
 	},
 
@@ -982,12 +994,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		};
 	},
 
+	// TODO Use loadMetadata
 	load: function(saveData){
 		if (saveData.calendar){
-			this.year  = saveData.calendar.year;
-			this.day  = saveData.calendar.day;
-			this.season  = saveData.calendar.season;
-			this.weather = saveData.calendar.weather;
+			this.year  = saveData.calendar.year || 0;
+			this.day  = saveData.calendar.day || 0;
+			this.season  = saveData.calendar.season || 0;
+			this.weather = saveData.calendar.weather || null;
 			this.festivalDays = saveData.calendar.festivalDays || 0;
 			this.cycle = saveData.calendar.cycle || 0;
 			this.cycleYear = saveData.calendar.cycleYear || 0;
