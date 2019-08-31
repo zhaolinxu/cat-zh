@@ -458,6 +458,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 1,
 			"manpowerMax": 50
 		},
+		unlocks: {
+			tabs: ["village"]
+		},
 		breakIronWill: true,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
@@ -473,6 +476,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"maxKittens": 1,
 			"manpowerMax": 50
+		},
+		unlocks: {
+			tabs: ["village"]
 		},
 		breakIronWill: true,
 		flavor: $I("buildings.mansion.flavor")
@@ -1257,9 +1263,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			effects["energyConsumption"] = 2;
 			if (game.challenges.currentChallenge == "energy") {
 				effects["energyConsumption"] *= 2;
-			}
-			if (game.workshop.get("neuralNetworks").researched){
-
 			}
 
 			self.effects = effects;
