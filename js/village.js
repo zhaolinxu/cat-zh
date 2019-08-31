@@ -1344,6 +1344,13 @@ dojo.declare("classes.village.KittenSim", null, {
 		return killed.length;
 	},
 
+	sortKittensByExp: function() {
+		this.kittens.sort(function(a,b) {
+			var rankDiff = a.rank - b.rank;
+			return rankDiff != 0 ? rankDiff : a.exp - b.exp;
+		});
+	},
+
 	getKittens: function(){
 		return this.kittens.length;
 	},
@@ -1818,7 +1825,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		var kittensLimit = 0;
 
 		var sim = this.game.village.sim;
-		this.sortKittensByExp(sim.kittens);
+		sim.sortKittensByExp();
 
 		for (var i = sim.kittens.length - 1; i >= 0 && kittensLimit < 10; i--) {
 
@@ -1943,19 +1950,6 @@ dojo.declare("classes.ui.village.Census", null, {
                 leaderHref: leaderHref
 			});
 		}
-	},
-
-	sortKittensByExp: function(kittens){
-		var v = this.game.village;
-		kittens.sort(function(a,b){
-		        if (a.rank > b.rank){
-				 return 1;
-			} else if (a.rank < b.rank){
-				 return -1;
-			} else {
-				 return a.exp - b.exp;
-			}
-		});
 	},
 
 	makeLeader: function(kitten){
