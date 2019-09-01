@@ -243,6 +243,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if ( this.hasFreeKittens(amt) && this.getWorkerKittens(job.name) + amt <= this.getJobLimit(job.name) ) {
 			this.sim.assignJob(job.name, amt);
 			jobRef.value += amt;
+			if (job.name == "engineer") {
+				this.game.workshopTab.updateTab();
+			}
 		}
 	},
 
@@ -365,14 +368,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getWorkerKittens: function(jobName) {
-		var engineer = 0;
 		for (var i = this.jobs.length - 1; i >= 0; i--) {
 			if (this.jobs[i].name == jobName) {
-				engineer = this.jobs[i].value;
+				return this.jobs[i].value;
 			}
 		}
-
-		return engineer;
+		return 0;
 	},
 
 	getFreeEngineer: function() {
@@ -1380,7 +1381,7 @@ dojo.declare("classes.village.KittenSim", null, {
 	 */
 	assignJob: function(job, amt){
 		var freeKittens = [];
-		var optimizeJobs = (this.game.workshop.get("register").researched && this.game.village.leader) ? true : false;
+		var optimizeJobs = this.game.workshop.get("register").researched && this.game.village.leader;
 
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
@@ -1390,7 +1391,7 @@ dojo.declare("classes.village.KittenSim", null, {
 					freeKittens.push({"id": i});
 					continue;
 				}
-				var val = kitten.skills[job] ? kitten.skills[job] : 0;
+				var val = kitten.skills[job] || 0;
 				freeKittens.push({"id": i, "val": val});
 			}
 		}
