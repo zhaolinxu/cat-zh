@@ -1168,7 +1168,7 @@
     "religion.refineTearsBtn.refine.msg.failure": "No pasa nada",
     "religion.refineTCsBtn.label": "Refinar cristales del Tiempo",
     "religion.refineTCsBtn.desc": "Refinar cristales del Tiempo en antiguas reliquias",
-    "religion.refineTCsBtn.refine.msg": "{0} reliquias hechas a mano",
+    "religion.refineTCsBtn.refine.msg": "{0} cristales del tiempo refinadas, {1} reliquias hechas a mano",
     "religion.faithResetBtn.label": "[Reiniciar]",
     "religion.praiseBtn.label": "¡Alabado sea el sol!",
     "religion.praiseBtn.desc": "Convierta toda su fe acumulada en el conjunto total",

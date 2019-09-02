@@ -1169,7 +1169,7 @@
     "religion.refineTearsBtn.refine.msg.failure": "Nada aconteceu.",
     "religion.refineTCsBtn.label": "Refinar Cristais do Tempo",
     "religion.refineTCsBtn.desc": "Refina Cristais do tempo em relíquias antigas",
-    "religion.refineTCsBtn.refine.msg": "{0} relíquias fabricadas",
+    "religion.refineTCsBtn.refine.msg": "{0} cristais do tempo refinadas, {1} relíquias fabricadas",
     "religion.faithResetBtn.label": "[Recomeçar]",
     "religion.praiseBtn.label": "Louve o Sol!",
     "religion.praiseBtn.desc": "Converte toda sua fé acumulada para dentro da reserva total",
