@@ -2185,35 +2185,25 @@ dojo.declare("classes.village.ui.VillageButtonController", com.nuclearunicorn.ga
 dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.VillageButtonController, {
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
-
-		var catnipVal = this.game.resPool.get("catnip").value;
-		var catnipCost = model.prices[0].val;
-
-		var isVisible = false;
-		if (this.game.prestige.getPerk("carnivals").researched){
-			isVisible = true;
-			if (!this.hasMultipleResources(10)){
-				isVisible = false;
-			}
-		}
-		else {
-			isVisible = false;
-		}
-		var self = this;
-
-		model.x10Link = {
-			title: "x10",
-			visible: isVisible,
-			handler: function(btn, callback){
-				self.game.villageTab.holdFestival(10);
-				self.game.resPool.addResEvent("manpower", -1500 * 10);
-				self.game.resPool.addResEvent("culture", -5000 * 10);
-				self.game.resPool.addResEvent("parchment", -2500  *10);
-				callback(true);
-			}
-		};
+		model.x10Link = this._newLink(10);
+		model.x100Link = this._newLink(100);
 		return model;
 	},
+
+    _newLink: function(holdQuantity) {
+        var self = this;
+        return {
+        	title: "x" + holdQuantity,
+            visible: this.game.prestige.getPerk("carnivals").researched && this.hasMultipleResources(holdQuantity),
+            handler: function(btn, callback){
+				self.game.villageTab.holdFestival(holdQuantity);
+				self.game.resPool.addResEvent("manpower", -1500 * holdQuantity);
+				self.game.resPool.addResEvent("culture", -5000 * holdQuantity);
+				self.game.resPool.addResEvent("parchment", -2500 * holdQuantity);
+				callback(true);
+			}
+        };
+    },
 
 	updateVisible: function (model) {
 		model.visible = this.game.science.get("drama").researched;
@@ -2229,23 +2219,16 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
 });
 
 dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	x10: null,
-
-	renderLinks: function(){
-		this.x10 = this.addLink(this.model.x10Link.title,
-			this.model.x10Link.handler, false
-		);
+	renderLinks: function() {
+		this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
+		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false);
 	},
 
-	update: function(){
+	update: function() {
 		this.inherited(arguments);
-
-
-		if (this.x10){
-			dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
-		}
+		dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
+		dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
 	}
-
 });
 
 /**
