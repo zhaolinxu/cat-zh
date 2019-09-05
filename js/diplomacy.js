@@ -109,7 +109,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 0.65,
 				"winter": 0.95
 			}},{
-				name: "slabs", value: 5, chance: 75, delta: 0.15, minLevel: 5
+				name: "slab", value: 5, chance: 75, delta: 0.15, minLevel: 5
 			},{
 				name: "concrate", value: 5, chance: 25, delta: 0.05, minLevel: 10
 			},{
@@ -274,7 +274,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
 		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
-			&& this.game.resPool.get(resName).unlocked;
+			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
 	},
 
 	unlockRandomRace: function(){
@@ -431,7 +431,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 			//can trade chance be grater than 1?
 			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
-			var tradeChance = sellResource.chance * (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel, 0.75));
+			var tradeChance = (race.embassyPrices) ? sellResource.chance 
+				* (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel, 0.75)) : sellResource.chance;
 
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance / 100);
@@ -458,8 +459,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 
-			0.35 * (1 + 0.01 * race.embassyLevel));
+		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel) : 0.35;
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, spiceChance);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
 
