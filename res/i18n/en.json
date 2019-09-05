@@ -1619,5 +1619,5 @@
     "effectsMgr.statics.heatPerTick.title": "Heat transfer",
     "effectsMgr.statics.voidResonance.title": "Order of the Void bonus",
     "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus",
-    "time.overheat": "!"
+    "common.warning": " (!)"
 }

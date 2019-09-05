@@ -600,9 +600,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
     getName: function(model) {
         var name = this.inherited(arguments);
-
-        if (this.game.time.heat > this.game.getEffect("heatMax")){
-            name += " " + $I("time.overheat");
+        if (this.game.time.heat > this.game.getEffect("heatMax")) {
+            name += $I("common.warning");
         }
         return name;
     },
