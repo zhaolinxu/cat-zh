@@ -459,7 +459,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel)) : 0.35;
+		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel) : 0.35;
 		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, spiceChance);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
