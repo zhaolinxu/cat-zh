@@ -8,7 +8,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
     //should not be visible to player other than on time tab
     heat: 0,
-    isAccelerated: false,   //do not save this flag or else!
+    isAccelerated: false,
 
     timestamp: null,    /*NO FUCKING timestamp resources*/
 
@@ -25,6 +25,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            timestamp: this.game.pauseTimestamp || Date.now(),
            flux: this.flux,
            heat: this.heat,
+           isAccelerated: this.isAccelerated,
            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "isAutomationEnabled", "unlocked"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
@@ -37,6 +38,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
         this.flux = saveData["time"].flux || 0;
         this.heat = saveData["time"].heat || 0;
+        this.isAccelerated = saveData["time"].isAccelerated || 0;
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
@@ -492,34 +494,43 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 });
 
 dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
-
-    buyItem: function(model, event, callback){
-        if (model.enabled) {
-            this.toggle();
-            callback(true);
-        }
-        callback(false);
-    },
-
-    getName: function(model){
-      return $I(this.game.time.isAccelerated ? "time.AccelerateTimeBtn.label.accelerated" : "time.AccelerateTimeBtn.label.normal");
-    },
-
-    toggle: function() {
-        if (this.game.resPool.get("temporalFlux").value <= 0) {
-            this.game.time.isAccelerated = false;
-            this.game.resPool.get("temporalFlux").value = 0;
-        } else {
-            this.game.time.isAccelerated = !this.game.time.isAccelerated;
-        }
+    fetchModel: function(options) {
+        var model = this.inherited(arguments);
+        var self = this;
+        model.toggle = {
+            title: this.game.time.isAccelerated ? $I("btn.on.minor") : $I("btn.off.minor"),
+            tooltip: this.game.time.isAccelerated ? $I("time.AccelerateTimeBtn.tooltip.accelerated") : $I("time.AccelerateTimeBtn.tooltip.normal"),
+            visible: true,
+            handler: function(btn, callback) {
+                if (self.game.resPool.get("temporalFlux").value <= 0) {
+                    self.game.time.isAccelerated = false;
+                    self.game.resPool.get("temporalFlux").value = 0;
+                } else {
+                    self.game.time.isAccelerated = !self.game.time.isAccelerated;
+                }
+                callback(true);
+            }
+        };
+        return model;
     }
 });
 
+dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
+    renderLinks: function() {
+        this.toggle = this.addLink(this.model.toggle.title, this.model.toggle.handler, false);
+    },
+
+    update: function() {
+        this.inherited(arguments);
+        this.toggle.link.textContent = this.model.toggle.title;
+        this.toggle.link.title = this.model.toggle.tooltip;
+    }
+});
 
 dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAware], {
     constructor: function(game){
-        this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
-            name: "Temporal Control",
+        this.addChild(new classes.ui.time.AccelerateTimeBtn({
+            name: $I("time.AccelerateTimeBtn.label"),
             description: $I("time.AccelerateTimeBtn.desc"),
             prices: [],
             controller: new classes.ui.time.AccelerateTimeBtnController(game)

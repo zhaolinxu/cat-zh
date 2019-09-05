@@ -1264,9 +1264,9 @@
     "time.vsu.chronocontrol.desc": "Aumenta a duração de Paradoxos Temporais",
     "time.vsu.chronocontrol.label": "Cronocontrole",
     "time.AccelerateTimeBtn.desc": "Aumente e diminua a velocidade do tempo como quiser (+50% aceleração)",
-    "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
-    "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
-
+    "time.AccelerateTimeBtn.label": "Tempus Fugit",
+    "time.AccelerateTimeBtn.tooltip.normal": "Normal time flow",
+    "time.AccelerateTimeBtn.tooltip.accelerated": "Accelerated time flow",
     "trade.race.lizards": "Lagartos",
     "trade.race.sharks": "Tubarões",
     "trade.race.griffins": "Grifos",
