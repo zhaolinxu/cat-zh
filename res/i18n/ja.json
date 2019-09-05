@@ -1181,7 +1181,7 @@
     "religion.refineTearsBtn.refine.msg.failure": "何も起こらなかった。",
     "religion.refineTCsBtn.label": "時間結晶の精製",
     "religion.refineTCsBtn.desc": "時間結晶からエルダーレリックを精製します。",
-    "religion.refineTCsBtn.refine.msg": "{0} 個のレリックがクラフトされた。",
+    "religion.refineTCsBtn.refine.msg": "{0} 個の 時間結晶が精製しました、{1} 個のレリックがクラフトされた。",
     "religion.faithResetBtn.label": "[リセット]",
     "religion.praiseBtn.label": "太陽を賛美する!",
     "religion.praiseBtn.desc": "蓄積された信仰値すべてを別の所に移します。",

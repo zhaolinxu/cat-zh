@@ -1170,7 +1170,7 @@
     "religion.refineTearsBtn.refine.msg.failure": "什么都没发生",
     "religion.refineTCsBtn.label": "提炼时间水晶",
     "religion.refineTCsBtn.desc": "将时间水晶提炼为长者遗物。",
-    "religion.refineTCsBtn.refine.msg": "{0} 圣遗物",
+    "religion.refineTCsBtn.refine.msg": "{0} 时间水晶提炼了、{1} 圣遗物",
     "religion.faithResetBtn.label": "[重置]",
     "religion.praiseBtn.label": "赞美太阳!",
     "religion.praiseBtn.desc": "将你的信念转换成信仰总数",
