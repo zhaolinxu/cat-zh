@@ -170,13 +170,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					effect = effectValue * bld.on;
 				}
 
-				// Previously, catnip demand (or other buildings that both effected the same resource)
-				// could have theoretically had more than 100% reduction because they diminished separately,
-				// this takes the total effect and diminishes it as a whole.
-				if(game.isHyperbolic(effectName) && effect < 0) {
-				  effect = game.getHyperbolicEffect(effect, 1.0);
-				}
-
 				//probably not the best place to handle this mechanics
 				//----------- move to separate part? -----------
 				if ((effectName == "productionRatio" || effectName == "magnetoRatio")
