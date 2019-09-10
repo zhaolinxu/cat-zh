@@ -1018,9 +1018,9 @@ dojo.declare("classes.ui.religion.MultiLinkBtn", com.nuclearunicorn.game.ui.Butt
 		this._updateLink(this.all, this.model.allLink);
 	},
 
-	_updateLink: function(link, modelLink) {
-		dojo.attr(link.link, "innerHTML", modelLink.title);
-		dojo.style(link.link, "display", modelLink.visible ? "" : "none");
+	_updateLink: function(buttonLink, modelLink) {
+		buttonLink.link.textContent = modelLink.title;
+		dojo.style(buttonLink.link, "display", modelLink.visible ? "" : "none");
 	}
 });
 
