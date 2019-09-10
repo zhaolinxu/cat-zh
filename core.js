@@ -305,6 +305,13 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 				effect += effectMeta;
 			}
 
+			// Previously, catnip demand (or other buildings that both affect the same resource)
+			// could have theoretically had more than 100% reduction because they diminished separately,
+			// this takes the total effect and diminishes it as a whole.
+			if (this.game.isHyperbolic(name) && effect !== 0) {
+				effect = this.game.getHyperbolicEffect(effect, 1.0);
+			}
+
 			// Add effect from effectsBase
 			if (effectsBase && effectsBase[name]) {
 				effect += effectsBase[name];
