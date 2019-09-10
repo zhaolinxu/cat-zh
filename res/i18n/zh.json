@@ -1265,9 +1265,9 @@
     "time.vsu.chronocontrol.desc": "增加持续时间的时间悖论",
     "time.vsu.chronocontrol.label": "时间控制",
     "time.AccelerateTimeBtn.desc": "在你的想象中加速或者减速 (+50% 加速)",
-    "time.AccelerateTimeBtn.label.normal": "光阴似箭",
-    "time.AccelerateTimeBtn.label.accelerated": "岁月如梭",
-
+    "time.AccelerateTimeBtn.label": "时间过得真快",
+    "time.AccelerateTimeBtn.tooltip.normal": "Normal time flow",
+    "time.AccelerateTimeBtn.tooltip.accelerated": "Accelerated time flow",
     "trade.race.lizards": "蜥蜴",
     "trade.race.sharks": "鲨鱼",
     "trade.race.griffins": "格里芬",
