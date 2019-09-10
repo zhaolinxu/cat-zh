@@ -1179,9 +1179,9 @@
     "religion.refineTearsBtn.label": "Refine Tears",
     "religion.refineTearsBtn.desc": "Refine Unicorn Tears into a Black Liquid Sorrow.",
     "religion.refineTearsBtn.refine.msg.failure": "Nothing happens",
-    "religion.refineTCsBtn.label": "Refine Time Crystals",
+    "religion.refineTCsBtn.label": "Refine TCs",
     "religion.refineTCsBtn.desc": "Refine Time Crystals into elder relics.",
-    "religion.refineTCsBtn.refine.msg": "{0} relics crafted",
+    "religion.refineTCsBtn.refine.msg": "{0} time crystals refined, {1} relics crafted",
     "religion.faithResetBtn.label": "[Faith Reset]",
     "religion.praiseBtn.label": "Praise the sun!",
     "religion.praiseBtn.desc": "Convert all your accumulated faith to the total pool",
@@ -1276,8 +1276,9 @@
     "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger OotV on a time skip.",
     "time.vsu.voidResonator.label": "Void Resonator",
     "time.AccelerateTimeBtn.desc": "Accelerate and slow time at your whim (+50% speed up)",
-    "time.AccelerateTimeBtn.label.normal": "Tempus Fugit",
-    "time.AccelerateTimeBtn.label.accelerated": "Tempus Stasit",
+    "time.AccelerateTimeBtn.label": "Tempus Fugit",
+    "time.AccelerateTimeBtn.tooltip.normal": "Normal time flow",
+    "time.AccelerateTimeBtn.tooltip.accelerated": "Accelerated time flow",
     "trade.effectiveness": "Trade effectiveness: +{0}%",
     "trade.race.lizards": "Lizards",
     "trade.race.sharks": "Sharks",
@@ -1619,5 +1620,5 @@
     "effectsMgr.statics.heatPerTick.title": "Heat transfer",
     "effectsMgr.statics.voidResonance.title": "Order of the Void bonus",
     "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus",
-    "time.overheat": "!"
+    "common.warning": " (!)"
 }
