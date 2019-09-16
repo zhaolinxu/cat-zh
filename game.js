@@ -1006,6 +1006,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			"heatMaxRatio": {
+				title: $I("effectsMgr.statics.heatMaxRatio.title"),
+				type: "ratio"
+			},
+
 			"voidResonance": {
 				title: $I("effectsMgr.statics.voidResonance.title"),
 				type: "ratio"
