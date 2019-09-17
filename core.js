@@ -587,9 +587,6 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 		if (this.messages.length > this.maxMessages){
 			this.messages.shift();
 		}
-		if (this.messages[0].type == "date"){
-			this.messages.shift();
-		}
 
 		this.ui.renderConsoleLog();
 
