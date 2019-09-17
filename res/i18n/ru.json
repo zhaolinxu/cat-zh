@@ -1256,6 +1256,8 @@
     "time.cfu.temporalBattery.label": "Временнáя батарея",
     "time.cfu.blastFurnace.desc": "Работает на хронотепле. Увеличивает максимум хранимого хронотепла на 100.",
     "time.cfu.blastFurnace.label": "Хронопечь",
+    "time.cfu.expansionTank.desc": "Expands the heat capacity of Chrono Furnace.",
+    "time.cfu.expansionTank.label": "Расширительный Бак",
     "time.cfu.temporalAccelerator.desc": "Ускоряет генерацию временно́го потока на 5%",
     "time.cfu.temporalAccelerator.label": "Временно́й ускоритель",
     "time.cfu.temporalImpedance.desc": "Задержать негативные временны́е эффекты темного будущего на 1000 лет.",
