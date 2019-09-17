@@ -1340,23 +1340,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-	msg: function(message, type, tag, noBullet){
-		var hasCalendarTech = this.science.get("calendar").researched;
-		var messageLine = this.console.msg(message, type, tag, noBullet);
+    msg: function(message, type, tag, noBullet){
+        var hasCalendarTech = this.science.get("calendar").researched;
 
-		if (messageLine && hasCalendarTech){
-			var currentDateMes = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
-			if (this.dateMessage === currentDateMes) {return messageLine;}
-			this.console.msg(currentDateMes, "date", null, false);
-			this.dateMessage = currentDateMes;
-		}
+        if (hasCalendarTech){
+            var currentDateMes = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
+            if (this.dateMessage !== currentDateMes) {
+                this.console.msg(currentDateMes, "date", null, false);
+                this.dateMessage = currentDateMes;
+            }
+        }
 
-		return messageLine;
-	},
+        var messageLine = this.console.msg(message, type, tag, noBullet);
 
-	clearLog: function(){
-		this.console.clear();
-	},
+        return messageLine;
+    },
 
 	saveUI: function(){
 		this.save();
