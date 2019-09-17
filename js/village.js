@@ -163,6 +163,12 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case "engineer": // Crafting bonus
 						defaultObject = 0.05 * burnedParagonRatio;
 						break;
+					case "metallurgist": // Crafting bonus for metals
+						defaultObject = 0.1 * burnedParagonRatio;
+						break;
+					case "chemist": // Crafting bonus for compounds (kerosene and thorium)
+						defaultObject = 0.075 * burnedParagonRatio;
+						break;
 					case "merchant": // Trading bonus
 						defaultObject = 0.030 * burnedParagonRatio;
 						break;
@@ -601,13 +607,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.updateResourceProduction();
 	},
 
+	getUnhappiness: function(){
+		var populationPenalty = 2;
+		if (this.game.science.getPolicy("liberty").researched){
+			populationPenalty = 1;
+		}
+		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
+	},
+
 	/** Calculates a total happiness where result is a value of [0..1] **/
 	updateHappines: function(){
 		var happiness = 100;
 
-		var unhappiness = ( this.getKittens()-5 ) * 2 * (1 + this.game.getEffect("unhappinessRatio"));
-			//limit ratio by 1.0 by 75% hyperbolic falloff
-
+		var unhappiness = this.getUnhappiness();
 		if (this.getKittens() > 5){
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
@@ -635,7 +647,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		var overpopulation = this.getKittens() - this.maxKittens;
 		if (overpopulation > 0){
-			happiness -= overpopulation * 2;	//overpopulation penalty
+			var overpopulationPenalty = 2;
+			happiness -= overpopulation * overpopulationPenalty;
 		}
 
 		if (happiness < 25){

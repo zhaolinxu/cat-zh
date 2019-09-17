@@ -712,7 +712,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: $I("religion.tu.holyGenocide.flavor")
 	}
-		//Holy Genocide
+		//Holy Memecide
 	],
 
 	getZU: function(name){
