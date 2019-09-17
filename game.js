@@ -1163,6 +1163,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
 		this.rate = this.ticksPerSecond;
+		
+		this.dateMessage; //Stores the most recent date message to prevent header spam.
 
 		this.village = new classes.managers.VillageManager(this);
 		this.resPool.setVillage(this.village);
@@ -1343,7 +1345,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var messageLine = this.console.msg(message, type, tag, noBullet);
 
 		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
+			var currentDateMes = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
+			if (this.dateMessage === currentDateMes) {return messageLine;}
+			this.console.msg(currentDateMes, "date", null, false);
+			this.dateMessage = currentDateMes;
 		}
 
 		return messageLine;
