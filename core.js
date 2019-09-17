@@ -567,14 +567,6 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
             }
         }
 
-		/**
-		 * This code snippet groups the messages under a single date header based on a date stamp.
-		 * The logic is not straightforward and a bit hacky. Maybe there is a better way to handle it like tracking the reference to a date node
-		 */
-		if (this.messages.length>1 && type == 'date' && message==this.messages[this.messages.length - 2].text) {
-			this.messages.splice(this.messages.length - 2, 1);
-		}
-
 		var hasCalendarTech = this.game.science.get("calendar").researched;
 
 		var logmsg = {
@@ -593,9 +585,6 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 
 		if (this.messages.length > this.maxMessages){
-			this.messages.shift();
-		}
-		if (this.messages[0].type == "date"){
 			this.messages.shift();
 		}
 
