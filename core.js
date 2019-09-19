@@ -494,7 +494,7 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				unlocked: false
 			},
 			"trade": {
-				title: "Trade",
+				title: "贸易",
 				enabled: true,
 				unlocked: false
 			},
