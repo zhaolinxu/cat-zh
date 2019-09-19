@@ -1714,5 +1714,6 @@
     "effectsMgr.statics.heatPerTick.title": "热量传播",
     "effectsMgr.statics.voidResonance.title": "虚空奖励的顺序",
     "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效益加成",
-    "time.overheat": "!"
+    "time.overheat": "!",
+    "common.warning": " (!)"
 }
