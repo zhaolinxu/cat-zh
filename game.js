@@ -3573,21 +3573,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 
-		var newKittens= [];
-		if (this.time.getVSU("cryochambers").on > 0) {
-			var kittens = this.village.sim.kittens;
-
-			var newKittensSort = [];
-			for (i = 0; i < kittens.length; i++) {
-				newKittensSort.push({"id": i, "sort": kittens[i].exp}); // Sorted by exp
-			}
-			newKittensSort.sort(function(a, b){return b.sort-a.sort;});
-
-			for (var j = 0; j < this.time.getVSU("cryochambers").on; j++) {
-				if (j < newKittensSort.length){
-					delete kittens[newKittensSort[j].id].job;
-					newKittens.push(kittens[newKittensSort[j].id]);
-				}
+		var newKittens = [];
+		var cryochambers = this.time.getVSU("cryochambers").on;
+		if (cryochambers > 0) {
+			this.village.sim.sortKittensByExp();
+			newKittens = this.village.sim.kittens.slice(-cryochambers);
+			for (var i in newKittens) {
+				delete newKittens[i].job;
 			}
 		}
 
