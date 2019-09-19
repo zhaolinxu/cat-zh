@@ -155,7 +155,7 @@ var cnItems = {
     'Buildings': '建筑',
     'Techs': '科技',
     'Upgrades': '升级',
-    '': '',
+    'Czxy': '重置信仰',
     '': '',
     '': '',
     '': '',
