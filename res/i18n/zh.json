@@ -1713,6 +1713,7 @@
     "effectsMgr.statics.eludiumAutomationBonus.title": "E合金工程师制作加成",
     "effectsMgr.statics.heatMax.title": "热量上限",
     "effectsMgr.statics.heatPerTick.title": "热量传播",
+    "effectsMgr.statics.heatMaxRatio.title": "最大热量奖励",
     "effectsMgr.statics.voidResonance.title": "虚空奖励的顺序",
     "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效益加成",
     "time.overheat": "!",
