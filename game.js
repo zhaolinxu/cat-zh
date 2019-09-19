@@ -1069,6 +1069,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "perTick"
 			},
 
+			"heatMaxRatio": {
+				title: $I("effectsMgr.statics.heatMaxRatio.title"),
+				type: "ratio"
+			},
+
 			"voidResonance": {
 				title: $I("effectsMgr.statics.voidResonance.title"),
 				type: "ratio"
@@ -1170,6 +1175,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTimeCurrent : 0,
 
 	pauseTimestamp: 0, //time of last pause
+	
+	lastDateMessage: null,  //Stores the most recent date message to prevent header spam
 
 	effectsMgr: null,
 
@@ -1401,20 +1408,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-	msg: function(message, type, tag, noBullet){
-		var hasCalendarTech = this.science.get("calendar").researched;
-		var messageLine = this.console.msg(message, type, tag, noBullet);
+    msg: function(message, type, tag, noBullet){
+        var hasCalendarTech = this.science.get("calendar").researched;
 
-		if (messageLine && hasCalendarTech){
-			this.console.msg($I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]), "date", null, false);
-		}
+        if (hasCalendarTech){
+            var currentDateMessage = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
+            if (this.lastDateMessage !== currentDateMessage) {
+                this.console.msg(currentDateMessage, "date", null, false);
+                this.lastDateMessage = currentDateMessage;
+            }
+        }
 
-		return messageLine;
-	},
+        var messageLine = this.console.msg(message, type, tag, noBullet);
 
-	clearLog: function(){
-		this.console.clear();
-	},
+        return messageLine;
+    },
 
 	saveUI: function(){
 		this.save();

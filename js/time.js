@@ -219,6 +219,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "heatMax" : 100,
             "heatPerTick": -0.02
         },
+        calculateEffects: function(self, game) {
+            self.effects["heatMax"] = 100 * (1 + game.getEffect("heatMaxRatio"));
+        },
         heat: 0,
         on: 0,
         isAutomationEnabled: true,
@@ -245,7 +248,25 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                 game.time.shatter(amt);
             }
         },
+		unlocks: {
+			chronoforge: ["expansionTank"]
+		},
         unlocked: true
+    },{
+        name: "expansionTank",
+        label: $I("time.cfu.expansionTank.label"),
+        description: $I("time.cfu.expansionTank.desc"),
+        prices: [
+            { name: "timeCrystal", val: 100 }
+        ],
+        priceRatio: 1.25,
+        effects: {
+            "heatMaxRatio": 1
+        },
+        upgrades: {
+            chronoforge: ["blastFurnace"]
+        },
+        unlocked: false
     },{
         name: "temporalAccelerator",
         label: $I("time.cfu.temporalAccelerator.label"),

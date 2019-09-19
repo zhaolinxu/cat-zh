@@ -1691,5 +1691,7 @@
     "effectsMgr.statics.heatPerTick.title": "热量传播",
     "effectsMgr.statics.voidResonance.title": "虚空奖励的顺序",
     "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效益加成",
+    "time.cfu.expansionTank.desc": "扩展计时炉的热容量。",
+    "time.cfu.expansionTank.label": "膨胀水箱",
     "common.warning": " (!)"
 }

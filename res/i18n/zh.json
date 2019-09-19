@@ -1265,11 +1265,12 @@
     "achievements.msg.unlock": "成就解锁: {0}!",
     "achievements.msg.starUnlock": "成就星解锁: {0}!",
     "achievements.header": "成就: {0} of {1}",
-
     "time.cfu.temporalBattery.desc": "提高通量能源容量 25%",
     "time.cfu.temporalBattery.label": "时间电池",
     "time.cfu.blastFurnace.desc": "按计时表操作。将最大热量限制提高100点。",
     "time.cfu.blastFurnace.label": "计时炉",
+    "time.cfu.expansionTank.desc": "扩展计时炉的热容量。",
+    "time.cfu.expansionTank.label": "膨胀水箱",
     "time.cfu.temporalAccelerator.desc": "提高通量能源产能 5%",
     "time.cfu.temporalAccelerator.label": "时间加速器",
     "time.cfu.temporalImpedance.desc": "抑制1000年后黑暗未来惩罚的效果。",
@@ -1716,4 +1717,5 @@
     "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效益加成",
     "time.overheat": "!",
     "common.warning": " (!)"
+    
 }
