@@ -1256,6 +1256,8 @@
     "time.cfu.temporalBattery.label": "Časová Baterie",
     "time.cfu.blastFurnace.desc": "Spotřebovává Chronožár. Zvyšuje maximální žár o 100.",
     "time.cfu.blastFurnace.label": "Chronopec",
+    "time.cfu.expansionTank.desc": "Expands the heat capacity of Chrono Furnace.",
+    "time.cfu.expansionTank.label": "Expanzní Nádoba",
     "time.cfu.temporalAccelerator.desc": "Zlepšuje produkci Fluxové energie o 5%",
     "time.cfu.temporalAccelerator.label": "Časový Urychlovač",
     "time.cfu.temporalImpedance.desc": "Oddálí efekty Temné Budoucnosti o 1000 let.",
