@@ -73,6 +73,7 @@ var run = function() {
                 items: {
                     czxy:        {enabled: false},
                     x250:        {enabled: false},
+                    x50:        {enabled: false},
                     x45:        {enabled: false},
                     x5:        {enabled: false}
                 }
@@ -520,23 +521,23 @@ var run = function() {
                     trigger2 = 5;
                 }
 
-                var chronoforge = gamePage.timeTab.cfPanel.children[0].children;
                 var autotime = options.auto.autotime.items;
                 // 检查千禧年完成状态
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
                 // 设置跳跃年份
                 var x = 1;
-                if (gamePage.resPool.get("timeCrystal").value >= 250 && autotime.x250.enabled) {var x = 250}
-                else if (gamePage.resPool.get("timeCrystal").value >= 45 && autotime.x45.enabled) {var x = 45}
-                else if (gamePage.resPool.get("timeCrystal").value >= 5 && autotime.x5.enabled) {var x = 5}
+                if (autotime.x250.enabled && gamePage.resPool.get("timeCrystal").value >= 250) {var x = 250}
+                else if (autotime.x50.enabled && gamePage.resPool.get("timeCrystal").value >= 50) {var x = 50}
+                else if (autotime.x45.enabled && gamePage.resPool.get("timeCrystal").value >= 45) {var x = 45}
+                else if (autotime.x5.enabled && gamePage.resPool.get("timeCrystal").value >= 5) {var x = 5}
                 // 设置周期年份为0年
-                if (x != 250 && gamePage.calendar.cycleYear != 0) {var x = 1}
+                if (gamePage.calendar.cycleYear != 0 && (x != 250 || x != 50)) {var x = 1}
 
-                // 日期大于0(防止跳过时间悖论)、非指定周期、计时炉不过热 或者 日期大于0(防止跳过时间悖论)、指定周期内、计时炉不过热、按trigger值燃烧水晶
-                if (gamePage.calendar.day > 0 && gamePage.calendar.cycle != trigger2 && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * x || (gamePage.calendar.day > 0 && gamePage.calendar.cycle == trigger2 && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * x && (gamePage.calendar.cycleYear >= trigger1 || gamePage.calendar.season >= trigger0 - 1))) {
-                    chronoforge[0].controller.doShatterAmt(chronoforge[0].model, x);
-                    chronoforge[0].update();
+                // 按trigger值燃烧水晶、指定周期内、日期大于0(防止跳过时间悖论)、计时炉不过热 或者 非指定周期、日期大于0(防止跳过时间悖论)、计时炉不过热
+                if ((gamePage.calendar.cycleYear >= trigger1 || gamePage.calendar.season >= trigger0 - 1) && gamePage.calendar.cycle == trigger2 && gamePage.calendar.day > 0 && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * x || gamePage.calendar.cycle != trigger2 && gamePage.calendar.day > 0 && gamePage.getEffect("heatMax") - gamePage.time.heat > factor * x) {
+                    gamePage.timeTab.cfPanel.children[0].children[0].controller.doShatterAmt(gamePage.timeTab.cfPanel.children[0].children[0].model, x);
+                    gamePage.timeTab.cfPanel.children[0].children[0].update();
                     // 自动重置信仰
                     if (autotime.czxy.enabled && gamePage.religion.getRU("apocripha").on && (gamePage.religion.faith / gamePage.religion.getFaithBonus()) >  gamePage.resPool.get("faith").maxValue * 10) {
                         gamePage.religionTab.resetFaithInternal(1.01);
@@ -2583,7 +2584,7 @@ var run = function() {
             triggerButton.on('click', function () {
                 var value;
                 if (text == '黑币交易'){value = window.prompt('输入新的触发值 ' + text + '. 设置触发黑币交易所需达到的遗物数量。', auto.trigger);}
-                else if (text == '自动燃烧水晶'){value = window.prompt('季节(百位)取值范围：1到4之间，5到9为关闭。\n' + '周期年份(十位)取值范围：0到4之间，5到9为关闭。\n' + '周期(个位)取值范围：0到9之间，5为红月。\n', auto.trigger);}
+                else if (text == '自动燃烧水晶'){value = window.prompt('季节(百位)取值范围：1到4之间，5到9为关闭。\n' + '周期年份(十位)取值范围：0到4之间，5到9为关闭。\n' + '周期(个位)取值范围：0到9之间，5为红月。\n' + '\n栗子：挂5年995，1年915，1季215，无限烧195或905（季节或周期年份有1个满足条件就烧）', auto.trigger);}
                 else{value = window.prompt('输入新的触发值 ' + text + '. 取值范围：0到1之间.', auto.trigger);}
 
                 if (value !== null) {
