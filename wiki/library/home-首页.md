@@ -20,12 +20,12 @@
 			</td>
 			<td class="em">
 				<span style="display:block;width:185px">
-							一般信息
+							基本资料
 				</span>
 			</td>
 			<td class="em">
 				<span style="display:block;width:185px">
-							链接到事物
+							其他网站
 				</span>
 			</td>
 			<td class="em">
@@ -37,7 +37,7 @@
 		<tr>
 			<td>
 				<a href="?file=001-猫咪百科/01-建筑物/01-食物生产">
-							营火
+							篝火
 				</a>
 			</td>
 			<td>
@@ -56,9 +56,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/03-科技">
-							科学
-				</a>
+			<a href="?file=001-猫咪百科/02-村庄">
+						村庄
+			</a>
 			</td>
 			<td>
 				<a href="?file=002-常用资料/001-游戏机制">
@@ -76,9 +76,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/04-作坊/01-升级">
-							作坊
-				</a>
+			<a href="?file=001-猫咪百科/03-科技">
+						科学
+			</a>
 			</td>
 			<td>
 				<a href="?file=003-资源大全/005-资源介绍">
@@ -86,7 +86,7 @@
 				</a>
 			</td>
 			<td>
-				<a href="https://www.reddit.com/r/kittensgame/">网页游戏论坛</a>
+				<a href="https://www.reddit.com/r/kittensgame/">网页版讨论（Reddit）</a>
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-ko">
@@ -96,9 +96,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/05-贸易">
-							贸易
-				</a>
+			<a href="?file=001-猫咪百科/04-作坊/01-升级">
+						作坊
+			</a>
 			</td>
 			<td>
 				<a href="?file=001-猫咪百科/03-科技/02-玄学#玄学">
@@ -106,7 +106,7 @@
 				</a>
 			</td>
 			<td>
-			<a href="https://www.reddit.com/r/kgmobile/">手机游戏论坛</a>
+			<a href="https://www.reddit.com/r/kgmobile/">手机版讨论（Reddit）</a>
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-no">
@@ -116,9 +116,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/06-宗教/001-庙塔">
-							宗教
-				</a>
+			<a href="?file=001-猫咪百科/05-贸易">
+						贸易
+			</a>
 			</td>
 			<td>
 				<a href="?file=002-常用资料/007-挑战模式">
@@ -127,7 +127,7 @@
 			</td>
 			<td>
 			<a href="http://irc.lc/irc.canternet.org/kittensgame/Kitten@@@@" class="external">
-						IRC频道
+						IRC 频道
 			</a>
 			</td>
 			<td>
@@ -138,9 +138,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/07-空间/01-地面控制">
-							空间
-				</a>
+			<a href="?file=001-猫咪百科/06-宗教/001-庙塔">
+						宗教
+			</a>
 			</td>
 			<td>
 				<a href="?file=002-常用资料/006-事件介绍">
@@ -149,7 +149,7 @@
 			</td>
 			<td>
 			<a href="http://gaming.stackexchange.com/tags/kittens-game" class="external">
-						游戏问答
+						游戏问答（英文）
 			</a>
 			</td>
 			<td>
@@ -160,9 +160,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/08-时间">
-							时间
-				</a>
+			<a href="?file=001-猫咪百科/07-空间/01-地面控制">
+						空间
+			</a>
 			</td>
 			<td>
 			</td>
@@ -179,9 +179,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/09-成就">
-							成就
-				</a>
+			<a href="?file=001-猫咪百科/08-时间">
+						时间
+			</a>
 			</td>
 			<td>
 				<a href="?file=004-第三方工具/01-第三方工具">
@@ -189,6 +189,7 @@
 				</a>
 			</td>
 			<td>
+			<a href="https://discord.gg/2arBf9K">Discord 频道
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-es">
@@ -198,9 +199,9 @@
 		</tr>
 		<tr>
 			<td>
-				<a href="?file=001-猫咪百科/10-统计">
-							统计
-				</a>
+			<a href="?file=001-猫咪百科/09-成就">
+						成就
+			</a>
 			</td>
 			<td>
 				<a href="?file=002-常用资料/002-手机版">
@@ -218,6 +219,9 @@
 		</tr>
 		<tr>
 			<td>
+			<a href="?file=001-猫咪百科/10-统计">
+						统计
+			</a>
 			</td>
 			<td>
 				<a href="?file=002-常用资料/004-错误反馈">
