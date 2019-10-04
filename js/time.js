@@ -579,12 +579,12 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.inherited(arguments, [btnsContainer]);
     },
 
-    update: function(){
-        this.timeSpan.innerHTML = "Temporal Flux: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        var second = this.game.resPool.get("temporalFlux").value / this.game.ticksPerSecond;
-        if (second >= 1){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
-        }
+    update: function() {
+        var temporalFlux = this.game.resPool.get("temporalFlux");
+        this.timeSpan.innerHTML = "Temporal Flux: " + temporalFlux.value.toFixed(0) + " / " + temporalFlux.maxValue;
+
+        var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
             var heatMax = this.game.getEffect("heatMax");
