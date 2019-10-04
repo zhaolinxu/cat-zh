@@ -587,16 +587,19 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
+            this.timeSpan.innerHTML += "<br>Heat: ";
             var heatMax = this.game.getEffect("heatMax");
-            if(this.game.time.heat > heatMax){
-                this.timeSpan.innerHTML += "<br>Heat: <span style='color:red;'>" +
-                this.game.getDisplayValueExt(this.game.time.heat)
-                 + "</span>/" + heatMax;
+            if (this.game.time.heat > heatMax) {
+                // When innerHTML is appended with a HTML element, it must be completely (START + content + END) in one strike, otherwise the element is automatically closed before its content is appended
+                this.timeSpan.innerHTML += "<span style='color:red;'>" + this.game.getDisplayValueExt(this.game.time.heat) + "</span>";
             } else {
-                this.timeSpan.innerHTML += "<br>Heat: " +
-                    this.game.getDisplayValueExt(this.game.time.heat)
-                + "/" + heatMax;
+                this.timeSpan.innerHTML += this.game.getDisplayValueExt(this.game.time.heat);
             }
+            this.timeSpan.innerHTML += " / " + this.game.getDisplayValueExt(heatMax);
+
+            var heatPerSecond = - this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
+            var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
