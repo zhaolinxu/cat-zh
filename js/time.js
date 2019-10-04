@@ -250,13 +250,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
         },
 		unlocks: {
-			chronoforge: ["expansionTank"]
+			chronoforge: ["timeBoiler"]
 		},
         unlocked: true
     },{
-        name: "expansionTank",
-        label: $I("time.cfu.expansionTank.label"),
-        description: $I("time.cfu.expansionTank.desc"),
+        name: "timeBoiler",
+        label: $I("time.cfu.timeBoiler.label"),
+        description: $I("time.cfu.timeBoiler.desc"),
         prices: [
             { name: "timeCrystal", val: 25000 }
         ],
@@ -269,12 +269,12 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             chronoforge: ["blastFurnace"]
         },
         // TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
-        // TODO Separation of concerns currently done only for AI Core and Expansion Tanks (REQUIRED by non-proportional effect!), will be systematized later
+        // TODO Separation of concerns currently done only for AI Core and Time Boilers (REQUIRED by non-proportional effect!), will be systematized later
         updateEffects: function(self, game) {
-            // ET #1: 10; Total:  10; Average: 10
-            // Et #2: 30; Total:  40; Average: 20
-            // ET #3: 50; Total:  90; Average: 20
-            // ET #4: 90; Total: 160; Average: 20
+            // TB #1: 10; Total:  10; Average: 10
+            // TB #2: 30; Total:  40; Average: 20
+            // TB #3: 50; Total:  90; Average: 30
+            // TB #4: 90; Total: 160; Average: 40
             // etc.
             self.effects["heatMaxExpansion"] = 10 * self.on;
             self.effects["energyConsumption"] = self.on;

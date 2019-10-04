@@ -1246,8 +1246,6 @@
     "time.cfu.temporalBattery.label": "Bateria Temporal",
     "time.cfu.blastFurnace.desc": "Opera com crono-calor. Aumenta o limite máximo de calor em 100.",
     "time.cfu.blastFurnace.label": "Crono Fornalha",
-    "time.cfu.expansionTank.desc": "Expands the heat capacity of Chrono Furnace.",
-    "time.cfu.expansionTank.label": "tanque de Expansão",
     "time.cfu.temporalAccelerator.desc": "Aumenta a geração de energia de fluxo em 5%",
     "time.cfu.temporalAccelerator.label": "Acelerador Temporal",
     "time.cfu.temporalImpedance.desc": "Suprime o efeito da penalidade temporal Futuro Sombrio em 1000 anos.",
