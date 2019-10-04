@@ -1716,12 +1716,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"]
 		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
-		// TODO Separation of concerns currently done only for AI Core, will be systematized later
+		// TODO Separation of concerns currently done only for AI Core and Expansion Tanks (REQUIRED by non-proportional effect!), will be systematized later
 		updateEffects: function(self, game) {
-			// Core #1: 2   ; Total:  2  ; Average: 2    =  8/4 = (3*1+5)/4
-			// Core #2: 3.5 ; Total:  5.5; Average: 2.75 = 11/4 = (3*2+5)/4
-			// Core #3: 5   ; Total: 10.5; Average: 3.5  = 14/4 = (3*3+5)/4
-			// Core #4: 6.5 ; Total: 17  ; Average: 4.25 = 17/4 = (3*4+5)/4
+			// Core #1: 2  ; Total:  2  ; Average: 2    =  8/4 = (3*1+5)/4
+			// Core #2: 3.5; Total:  5.5; Average: 2.75 = 11/4 = (3*2+5)/4
+			// Core #3: 5  ; Total: 10.5; Average: 3.5  = 14/4 = (3*3+5)/4
+			// Core #4: 6.5; Total: 17  ; Average: 4.25 = 17/4 = (3*4+5)/4
 			// etc.
 			self.effects["energyConsumption"] = (3 * self.on + 5) / 4;
 			if (game.challenges.currentChallenge == "energy") {

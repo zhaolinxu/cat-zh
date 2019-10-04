@@ -220,12 +220,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "heatPerTick": -0.02
         },
         calculateEffects: function(self, game) {
-            self.effects["heatMax"] = 100 * (1 + game.getEffect("heatMaxRatio"));
+            self.effects["heatMax"] = 100 + game.getEffect("heatMaxExpansion");
         },
         heat: 0,
         on: 0,
         isAutomationEnabled: false,
-        action: function(self, game){
+        action: function(self, game) {
+            self.calculateEffects(self, game);
 
             if (self.isAutomationEnabled == null) {
                 self.isAutomationEnabled = false;
@@ -257,14 +258,29 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.cfu.expansionTank.label"),
         description: $I("time.cfu.expansionTank.desc"),
         prices: [
-            { name: "timeCrystal", val: 100 }
+            { name: "timeCrystal", val: 25000 }
         ],
         priceRatio: 1.25,
         effects: {
-            "heatMaxRatio": 1
+            "heatMaxExpansion": 10,
+            "energyConsumption": 1
         },
         upgrades: {
             chronoforge: ["blastFurnace"]
+        },
+        // TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
+        // TODO Separation of concerns currently done only for AI Core and Expansion Tanks (REQUIRED by non-proportional effect!), will be systematized later
+        updateEffects: function(self, game) {
+            // ET #1: 10; Total:  10; Average: 10
+            // Et #2: 30; Total:  40; Average: 20
+            // ET #3: 50; Total:  90; Average: 20
+            // ET #4: 90; Total: 160; Average: 20
+            // etc.
+            self.effects["heatMaxExpansion"] = 10 * self.on;
+            self.effects["energyConsumption"] = self.on;
+        },
+        action: function(self, game) {
+            self.updateEffects(self, game);
         },
         unlocked: false
     },{
