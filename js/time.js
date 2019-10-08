@@ -26,7 +26,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
            flux: this.flux,
            heat: this.heat,
            isAccelerated: this.isAccelerated,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "isAutomationEnabled", "unlocked"]),
+           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "unlocked"]),
            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
        };
     },
@@ -177,15 +177,15 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             var heatAttemptTransfer = daysOffset * this.game.calendar.ticksPerDay * perTickHeatTransfer;
             var heatTransfer = Math.min(this.heat, heatAttemptTransfer);
 
-            var blastFurance = this.getCFU("blastFurnace");
-            blastFurance.heat += heatTransfer;
+            var blastFurnace = this.getCFU("blastFurnace");
+            blastFurnace.heat += heatTransfer;
             this.heat -= heatTransfer;
 
             // Shatter time crystals from the heated forge
-            if (blastFurance.on && blastFurance.isAutomationEnabled && blastFurance.heat >= 100){
-                var amt = Math.floor(blastFurance.heat / 100);
-                blastFurance.heat -= 100 * amt;
-                this.game.time.shatter(amt);
+            if (blastFurnace.on && blastFurnace.isAutomationEnabled && blastFurnace.heat >= 100){
+                var amt = Math.floor(blastFurnace.heat / 100);
+                blastFurnace.heat -= 100 * amt;
+                this.shatter(amt);
             }
         }
 
@@ -224,11 +224,11 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         },
         heat: 0,
         on: 0,
-        isAutomationEnabled: true,
+        isAutomationEnabled: false,
         action: function(self, game){
 
             if (self.isAutomationEnabled == null) {
-                self.isAutomationEnabled = true;
+                self.isAutomationEnabled = false;
             }
 
             if (self.on < self.val){

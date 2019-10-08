@@ -3627,8 +3627,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
 			},
 			science: {
-				hideResearched: false,
-				techs: []
+				hideResearched: this.science.hideResearched,
+				techs: [],
+				policies: []
+			},
+			space: {
+				hideResearched: this.space.hideResearched,
+				programs: [],
+				planets: []
 			},
 			time: {
 				cfu: [{
@@ -3643,6 +3649,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				kittens: newKittens,
 				jobs: [],
 				traits: [],
+			},
+			workshop: {
+				hideResearched: this.workshop.hideResearched,
+				upgrades: [],
+				crafts: []
 			},
 			achievements: lsData.achievements,
 			stats: stats,
