@@ -33,6 +33,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
 
     getBestUniBuilding: function(log=false){
+        if (this.game.bld.getBuildingExt("unicornPasture").meta.val == 0) {return "独角兽牧场";}
         var validBuildings = ["unicornTomb","ivoryTower","ivoryCitadel","skyPalace","unicornUtopia","sunspire"];
         var pastureButton = this.getButton(0, "unicornPasture");
         var unicornsPerSecond = this.game.getEffect("unicornsPerTickBase") * this.game.getRateUI();
@@ -117,20 +118,26 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
                     if(amor < bestAmoritization)
                         if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
                             bestAmoritization = amor;
-						var cnid = "";
-						if(btn.id == "unicornTomb")
-							{cnid='独角兽坟墓';}
-						if(btn.id == "ivoryTower")
-							{cnid='象牙塔';}
-						if(btn.id == "ivoryCitadel")
-							{cnid='象牙城堡';}
-						if(btn.id == "skyPalace")
-							{cnid='天空宫殿';}
-						if(btn.id == "unicornUtopia")
-							{cnid='独角兽理想国';}
-						if(btn.id == "sunspire")
-							{cnid='青睐之光';}
-                            bestBuilding = cnid;
+                            switch (btn.id) {
+								case 'unicornTomb':
+									bestBuilding = '独角兽坟墓';
+									break;
+								case 'ivoryTower':
+									bestBuilding = '象牙塔';
+									break;
+								case 'ivoryCitadel':
+									bestBuilding = '象牙城堡';
+									break;
+								case 'skyPalace':
+									bestBuilding = '天空宫殿';
+									break;
+								case 'unicornUtopia':
+									bestBuilding = '独角兽理想国';
+									break;
+								case 'sunspire':
+									bestBuilding = '青睐之光';
+									break;
+							}
                         }
                 }
             }
@@ -649,7 +656,48 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         compCapFinal /= 10;
         return compCapFinal;
     },
-    
+
+	getamsx: function(){
+		if (!this.game.religion.getZU("blackPyramid").val) {return "提升黑金字塔等级";}
+		var next;
+		var bpyramid;
+		var cs = Math.floor(Math.log((12 + this.game.religion.getTU("blackCore").val) / 5) / Math.log(1.15)) + 1;
+		var cs1 = 0;
+		var cs2 = Math.ceil(gamePage.tabs[5].zgUpgradeButtons[9].model.prices[1].val) - this.game.resPool.get("sorrow").maxValue;
+		// 黑色连结价格
+		var bnexus = gamePage.tabs[5].ctPanel.children[0].children[1].model.prices[0].val;
+		// 黑色核心价格
+		var bcore = gamePage.tabs[5].ctPanel.children[0].children[2].model.prices[0].val;
+		// 下一个黑金字塔需要圣遗物数量
+		var a = (Math.pow(1.15,cs2)-1) / 0.15 * bcore;
+		// 黑色连结提升产量
+		var bnexusup = 0.001 * cs / bnexus;
+		// 黑色核心提升产量
+		var bcoreup = 0.001 * this.game.religion.getTU("blackNexus").val / a;
+		if (cs2 > 0 && bnexusup >= bcoreup) {
+			while (bnexusup >= bcoreup) {
+				bnexus = bnexus * 1.15;
+				bnexusup = 0.001 * cs / bnexus;
+				bcoreup += 0.001 / a;
+				cs1++;
+			}
+			next = "黑色连结" + " 次数" + cs1;
+		}
+		else {
+			next = "黑色核心" + " 次数" + cs2;
+			if (cs2 < 1) {next = "提升黑金字塔等级";}
+		}
+        return next;
+    },
+
+	getfutureSeasonTemporalParadox: function(){
+        return this.game.calendar.futureSeasonTemporalParadox;
+    },
+
+	getDarkFutureYears: function(){
+		return this.game.calendar.darkFutureYears(true);
+    },
+
     //==============================================================================================================================================
     //Finally done with calculation functions, now to get down to adding it to the stats tab
     //==============================================================================================================================================
@@ -732,12 +780,12 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
     {
         name: "getCatnipInWarmSpring",
-        title: "暖春中的猫薄荷/秒",
+        title: "暖春的猫薄荷/秒",
         val: 0,
     },
     {
         name: "getCatnipColdWinter",
-        title: "冬天的猫薄荷/秒",
+        title: "寒冬的猫薄荷/秒",
         val: 0,
     },
     {
@@ -758,6 +806,21 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     {
         name: "getMaxComped",
         title: "最大加成的概要数量",
+        val: 0,
+    },
+    {
+        name: "getamsx",
+        title: "提高圣遗物产出推荐奥秘神学",
+        val: 0,
+    },
+    {
+        name: "getfutureSeasonTemporalParadox",
+        title: "时间悖论剩余季节",
+        val: 0,
+    },
+    {
+        name: "getDarkFutureYears",
+        title: "黑暗未来惩罚年份",
         val: 0,
     }],
     
