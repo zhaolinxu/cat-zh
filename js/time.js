@@ -81,7 +81,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
             this.game.msg("你获得了 " + bonusSeconds + " 秒"
-				+ (bonusSeconds > 1 ? "" : "") + "时间加速");
+				+ (bonusSeconds > 1 ? "" : "") + "的时间通量");
         }
     },
 
@@ -565,10 +565,10 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan = timeSpan;
 
         UIUtils.attachTooltip(this.game, this.timeSpan, 0, 200, dojo.hitch(this, function(){
-            var tooltip = "当游戏页面关闭时，可用于时间穿梭的时间可随时间重新生成.";
+            var tooltip = "当游戏页面关闭时，时间通量将随时间流逝重新生成";
 
             if (this.game.workshop.get("chronoforge").researched) {
-                tooltip += "<br>时间热量由时间水晶碎裂产生，随着时间的推移而降低。 每1单位的热量超过极限会增加时间水晶破碎价格1％";
+                tooltip += "<br>时间热由燃烧时间水晶产生，随游戏时间而降低。超过上限的每 1点热度会使燃烧时间水晶的消耗增加 1％";
             }
 
             return tooltip;
@@ -580,7 +580,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
     },
 
     update: function(){
-        this.timeSpan.innerHTML = "时光穿梭: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
+        this.timeSpan.innerHTML = "时间通量: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
         var second = this.game.resPool.get("temporalFlux").value / this.game.ticksPerSecond;
         if (second >= 1){
             this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
@@ -589,11 +589,11 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         if (this.game.workshop.get("chronoforge").researched) {
             var heatMax = this.game.getEffect("heatMax");
             if(this.game.time.heat > heatMax){
-                this.timeSpan.innerHTML += "<br>热: <span style='color:red;'>" +
+                this.timeSpan.innerHTML += "<br>时间热: <span style='color:red;'>" +
                 this.game.getDisplayValueExt(this.game.time.heat)
                  + "</span>/" + heatMax;
             } else {
-                this.timeSpan.innerHTML += "<br>热: " +
+                this.timeSpan.innerHTML += "<br>时间热: " +
                     this.game.getDisplayValueExt(this.game.time.heat)
                 + "/" + heatMax;
             }
@@ -966,7 +966,7 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
 
         //--------------------------
 
-        this.cfPanel = new com.nuclearunicorn.game.ui.Panel("精密锻造");
+        this.cfPanel = new com.nuclearunicorn.game.ui.Panel("时间锻造");
         this.cfPanel.setVisible(false);
         this.addChild(this.cfPanel);
 
@@ -981,7 +981,7 @@ dojo.declare("classes.tab.TimeTab", com.nuclearunicorn.game.ui.tab, {
 
         //--------------------------
 
-        this.vsPanel = new com.nuclearunicorn.game.ui.Panel("虚空");
+        this.vsPanel = new com.nuclearunicorn.game.ui.Panel("虚空领域");
         this.vsPanel.setVisible(false);
         this.addChild(this.vsPanel);
 
