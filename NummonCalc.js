@@ -659,6 +659,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
 	getamsx: function(){
 		if (!this.game.religion.getZU("blackPyramid").val) {return "提升黑金字塔等级";}
+        if (gamePage.tabs[5].zgUpgradeButtons.length == 0) {gamePage.tabs[5].render();}
 		var next;
 		var bpyramid;
 		var cs = Math.floor(Math.log((12 + this.game.religion.getTU("blackCore").val) / 5) / Math.log(1.15)) + 1;
@@ -688,10 +689,6 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 			if (cs2 < 1) {next = "提升黑金字塔等级";}
 		}
         return next;
-    },
-
-	getfutureSeasonTemporalParadox: function(){
-        return this.game.calendar.futureSeasonTemporalParadox;
     },
 
 	getDarkFutureYears: function(){
@@ -811,11 +808,6 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     {
         name: "getamsx",
         title: "提高圣遗物产出推荐奥秘神学",
-        val: 0,
-    },
-    {
-        name: "getfutureSeasonTemporalParadox",
-        title: "时间悖论剩余季节",
         val: 0,
     },
     {

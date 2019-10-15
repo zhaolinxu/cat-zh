@@ -899,7 +899,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 			if (this.cryptoPrice > this.cryptoPriceMax){
 				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
-				this.game.msg("There was a huge crypto market correction");
+				this.game.msg("黑币市场发生了巨大的调整");
 			}
 		}
 	},

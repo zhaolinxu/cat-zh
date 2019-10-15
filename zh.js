@@ -32,7 +32,7 @@ var cnItems = {
     'Antimatter': '反物质',
     'TemporalFlux': '时间通量',
     'Gflops': '浮点运算能力',
-    'Hashrates': '哈希值',
+    'Hashrates': '哈希率',
     'Ivory': '象牙',
     'Spice': '香料',
     'Unicorns': '独角兽',
@@ -62,7 +62,8 @@ var cnItems = {
     'Kerosene': '煤油',
     'Parchment': '羊皮纸',
     'Manuscript': '手稿',
-    'Compendium': '摘要',
+    'Compedium': '概要',
+    'Compendium': '概要',
     'Blueprint': '蓝图',
     'Thorium': '钍',
     'Megalith': '巨石',
@@ -155,8 +156,16 @@ var cnItems = {
     'Buildings': '建筑',
     'Techs': '科技',
     'Upgrades': '升级',
-    'Czxy': '重置信仰',
-    '': '',
+    'Races': '探险队出发！',
+    'Missions': '探索星球',
+    'woodcutter': '伐木工',
+    'farmer': '农民',
+    'scholar': '学者',
+    'hunter': '猎人',
+    'miner': '矿工',
+    'priest': '牧师',
+    'geologist': '地质学家',
+    'engineer': '工程师',
     '': '',
     '': '',
     '': '',
@@ -230,7 +239,7 @@ var cnItem = function () {
 
     /*
         //开启生词打印
-        //console.log(
+        console.log(
             '有需要汉化的英文：', text
         );
     */
