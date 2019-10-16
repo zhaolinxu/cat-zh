@@ -982,8 +982,7 @@ var run = function() {
             if (!game.prestige.getPerk('carnivals').researched && game.calendar.festivalDays > 0) {return;}
           
             var craftManager = this.craftManager;
-            if (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000 
-                || craftManager.getValueAvailable('parchment', true) < 2500) {return;}
+            if (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000) {return;}
           
             var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower'), true) > 1500;
             var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture'), true) > 5000;
@@ -1273,9 +1272,11 @@ var run = function() {
                 var gold = craftManager.getResource('gold');
                 var leader = game.village.leader;
                 if (leader.exp > game.village.getRankExp(leader.rank) && optionVals.leaderPromote.subTrigger <= gold.value / gold.maxValue) {
-                    if (game.village.sim.promote(leader) > 0) {activity('你的领袖被提拔到了 ' + leader.rank + ' 级', 'ks-promote');}
-                    gamePage.tabs[1].censusPanel.census.renderGovernment(gamePage.tabs[1].censusPanel.census);
-                    gamePage.tabs[1].censusPanel.census.update();
+                    if (game.village.sim.promote(leader) > 0) {
+                        activity('你的领袖被提拔到了 ' + leader.rank + ' 级', 'ks-promote');
+                        gamePage.tabs[1].censusPanel.census.renderGovernment(gamePage.tabs[1].censusPanel.census);
+                        gamePage.tabs[1].censusPanel.census.update();
+                    }
                 }
             }
 
