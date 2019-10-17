@@ -100,7 +100,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "helios",
-			title: "太阳神",
+			title: "太阳",
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
@@ -121,7 +121,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "cath",
-			title: "轨道",
+			title: "喵星",
 			glyph: "&#9022;",
 			uglyph: "⌾",
 			effects: {
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "redmoon",
-			title: "红月亮",
+			title: "红月",
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
@@ -164,7 +164,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "piscine",
-			title: "游泳池",
+			title: "碧池",
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
@@ -177,7 +177,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "terminus",
-			title: "终点",
+			title: "终焉",
 			glyph: "&#9053;",
 			uglyph: "⍝",
 			effects: {
