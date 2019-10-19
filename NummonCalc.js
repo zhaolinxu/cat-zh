@@ -659,16 +659,15 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 
 	getamsx: function(){
 		if (!this.game.religion.getZU("blackPyramid").val) {return "提升黑金字塔等级";}
-        if (gamePage.tabs[5].zgUpgradeButtons.length == 0) {gamePage.tabs[5].render();}
+        if (this.game.tabs[5].zgUpgradeButtons.length == 0) {this.game.tabs[5].render();}
 		var next;
-		var bpyramid;
 		var cs = Math.floor(Math.log((12 + this.game.religion.getTU("blackCore").val) / 5) / Math.log(1.15)) + 1;
 		var cs1 = 0;
-		var cs2 = Math.ceil(gamePage.tabs[5].zgUpgradeButtons[9].model.prices[1].val) - this.game.resPool.get("sorrow").maxValue;
+		var cs2 = Math.ceil(this.game.tabs[5].zgUpgradeButtons[9].model.prices[1].val) - this.game.resPool.get("sorrow").maxValue;
 		// 黑色连结价格
-		var bnexus = gamePage.tabs[5].ctPanel.children[0].children[1].model.prices[0].val;
+		var bnexus = this.game.tabs[5].ctPanel.children[0].children[1].model.prices[0].val;
 		// 黑色核心价格
-		var bcore = gamePage.tabs[5].ctPanel.children[0].children[2].model.prices[0].val;
+		var bcore = this.game.tabs[5].ctPanel.children[0].children[2].model.prices[0].val;
 		// 下一个黑金字塔需要圣遗物数量
 		var a = (Math.pow(1.15,cs2)-1) / 0.15 * bcore;
 		// 黑色连结提升产量
@@ -677,7 +676,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
 		var bcoreup = 0.001 * this.game.religion.getTU("blackNexus").val / a;
 		if (cs2 > 0 && bnexusup >= bcoreup) {
 			while (bnexusup >= bcoreup) {
-				bnexus = bnexus * 1.15;
+				bnexus *= 1.15;
 				bnexusup = 0.001 * cs / bnexus;
 				bcoreup += 0.001 / a;
 				cs1++;

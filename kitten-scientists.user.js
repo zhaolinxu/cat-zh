@@ -294,28 +294,28 @@ var run = function() {
                 // are more effective during specific seasons.
                 // The *allowcapped* property allows us to trade even if the sold resources are at their cap.
                 items: {
-                    dragons:    {enabled: false,  require: 'titanium',    allowcapped: false,    limited: true,
+                    dragons:    {enabled: false,  require: 'titanium',    allowcapped: false,    limited: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
-                    zebras:     {enabled: false,  require: false,         allowcapped: false,    limited: true,
+                    zebras:     {enabled: false,  require: false,         allowcapped: false,    limited: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
-                    lizards:    {enabled: false,  require: 'minerals',    allowcapped: false,    limited: true,
+                    lizards:    {enabled: false,  require: 'minerals',    allowcapped: false,    limited: false,
                         summer:  true,  autumn:  false, winter:  false,         spring:      false},
 
-                    sharks:     {enabled: false,  require: 'iron',        allowcapped: false,    limited: true,
+                    sharks:     {enabled: false,  require: 'iron',        allowcapped: false,    limited: false,
                         summer:  false, autumn:  false, winter:  true,          spring:      false},
 
-                    griffins:   {enabled: false,  require: 'wood',        allowcapped: false,    limited: true,
+                    griffins:   {enabled: false,  require: 'wood',        allowcapped: false,    limited: false,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
-                    nagas:      {enabled: false,  require: false,         allowcapped: false,    limited: true,
+                    nagas:      {enabled: false,  require: false,         allowcapped: false,    limited: false,
                         summer:  false, autumn:  false, winter:  false,         spring:      true},
 
-                    spiders:    {enabled: false,  require: false,         allowcapped: false,    limited: true,
+                    spiders:    {enabled: false,  require: false,         allowcapped: false,    limited: false,
                         summer:  false, autumn:  true,  winter:  false,         spring:      false},
 
-                    leviathans: {enabled: false,  require: 'unobtainium', allowcapped: true,     limited: true,
+                    leviathans: {enabled: false,  require: 'unobtainium', allowcapped: true,     limited: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true}
                 }
             },
@@ -339,7 +339,7 @@ var run = function() {
                     autoPraise:         {enabled: true, subTrigger: 0.98,  misc: true, label: '赞美太阳'},
                     autoczxy:           {enabled: false,                   misc: true, label: '自动重置信仰'},
                     autoTranscendence:  {enabled: false,                   misc: true, label: '自动超越'},
-                    shipOverride:       {enabled: true,                    misc: true, label: '强制 243 艘船'},
+                    //shipOverride:       {enabled: true,                    misc: true, label: '强制 243 艘船'},
                     autofeed:           {enabled: true,                    misc: true, label: '献祭上古神'},
                     hunt:               {enabled: true, subTrigger: 0.98,  misc: true, label: '狩猎'},
                     crypto:             {enabled: true, subTrigger: 10000, misc: true, label: '黑币交易'},
@@ -373,11 +373,11 @@ var run = function() {
             resources: {
                 furs:   {stock: 1000},
                 unobtainium: {consume: 1.0}
-            },
+            }/*,
             cache: {
                 cache:    [],
                 cacheSum: {}
-            }
+            }*/
         }
     };
 
@@ -446,9 +446,9 @@ var run = function() {
         this.tradeManager = new TradeManager();
         this.religionManager = new ReligionManager();
         this.timeManager = new TimeManager();
-        this.explorationManager = new ExplorationManager();
+        //this.explorationManager = new ExplorationManager();
         this.villageManager = new TabManager('Village');
-        this.cacheManager = new CacheManager();
+        //this.cacheManager = new CacheManager();
     };
 
     Engine.prototype = {
@@ -460,9 +460,9 @@ var run = function() {
         tradeManager: undefined,
         religionManager: undefined,
         timeManager: undefined,
-        explorationManager: undefined,
+        //explorationManager: undefined,
         villageManager: undefined,
-        cacheManager: undefined,
+        //cacheManager: undefined,
         loop: undefined,
         start: function () {
             if (this.loop) return;
@@ -479,21 +479,21 @@ var run = function() {
         },
         iterate: function () {
             var subOptions = options.auto.options;
-            if (subOptions.enabled && subOptions.items.observe.enabled)  {this.observeStars()};
-            if (options.auto.upgrade.enabled)                            {this.upgrade()};
-            if (subOptions.enabled && subOptions.items.festival.enabled) {this.holdFestival()};
-            if (options.auto.build.enabled)                              {this.build()};
-            if (options.auto.space.enabled)                              {this.space()};
-            if (options.auto.faith.enabled)                              {this.worship()};
-            if (options.auto.craft.enabled)                              {this.craft()};
-            if (options.auto.trade.enabled)                              {this.trade()};
-            if (subOptions.enabled && subOptions.items.hunt.enabled)     {this.hunt()};
-            if (options.auto.time.enabled)                               {this.chrono()};
-            if (subOptions.enabled && subOptions.items.crypto.enabled)   {this.crypto()};
-            //if (subOptions.enabled && subOptions.items.explore.enabled)  {this.explore()};
-            if (subOptions.enabled && subOptions.items.autofeed.enabled) {this.autofeed()};
-            if (subOptions.enabled)                                      {this.miscOptions()};
-            if (options.auto.autotime.enabled)                           {this.autotime()};
+            if (subOptions.enabled && subOptions.items.observe.enabled)  this.observeStars();
+            if (options.auto.upgrade.enabled)                            this.upgrade();
+            if (subOptions.enabled && subOptions.items.festival.enabled) this.holdFestival();
+            if (options.auto.build.enabled)                              this.build();
+            if (options.auto.space.enabled)                              this.space();
+            if (options.auto.faith.enabled)                              this.worship();
+            if (options.auto.craft.enabled)                              this.craft();
+            if (options.auto.trade.enabled)                              this.trade();
+            if (subOptions.enabled && subOptions.items.hunt.enabled)     this.hunt();
+            if (options.auto.time.enabled)                               this.chrono();
+            if (subOptions.enabled && subOptions.items.crypto.enabled)   this.crypto();
+            //if (subOptions.enabled && subOptions.items.explore.enabled)  this.explore();
+            if (subOptions.enabled && subOptions.items.autofeed.enabled) this.autofeed();
+            if (subOptions.enabled)                                      this.miscOptions();
+            if (options.auto.autotime.enabled)                           this.autotime();
         },
         autofeed: function () {
             var levi = game.diplomacy.get("leviathans");
@@ -514,8 +514,6 @@ var run = function() {
             }
         },
         autotime: function(){
-            if (!options.auto.autotime.enabled) {return;}
-
             // 精密锻造已研究、有时间水晶
             if (gamePage.workshop.get("chronoforge").researched && gamePage.resPool.get("timeCrystal").value >= 1) {
                 // 防止输入无效数值
@@ -984,9 +982,9 @@ var run = function() {
             var craftManager = this.craftManager;
             if (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000) {return;}
           
-            var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower'), true) > 1500;
-            var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture'), true) > 5000;
-            var parchProf = 4000 * craftManager.getTickVal(craftManager.getResource('parchment'), true) > 2500;
+            var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower')) > 1500;
+            var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture')) > 5000;
+            var parchProf = 4000 * craftManager.getTickVal(craftManager.getResource('parchment')) > 2500;
           
             if (!(catpowProf && cultureProf && parchProf)) {return;}
           
@@ -1020,7 +1018,7 @@ var run = function() {
                 storeForSummary('hunt', huntCount);
                 activity('派出 ' + huntCount + ' 波小猫去打猎', 'ks-hunt');
 
-                var huntCount = Math.floor(catpower.value/100);
+                /*var huntCount = Math.floor(catpower.value/100);
                 var aveOutput = this.craftManager.getAverageHunt();
                 var trueOutput = {};
               
@@ -1029,7 +1027,7 @@ var run = function() {
                     trueOutput[out] = (res.maxValue > 0) ? Math.min(aveOutput[out] * huntCount, Math.max(res.maxValue - res.value, 0)) : aveOutput[out] * huntCount;
                 }
 
-                this.cacheManager.pushToCache({'materials': trueOutput, 'timeStamp': game.timer.ticksTotal});
+                this.cacheManager.pushToCache({'materials': trueOutput, 'timeStamp': game.timer.ticksTotal});*/
               
                 game.village.huntAll();
             }
@@ -1037,7 +1035,7 @@ var run = function() {
         trade: function () {
             var craftManager = this.craftManager;
             var tradeManager = this.tradeManager;
-            var cacheManager = this.cacheManager;
+            //var cacheManager = this.cacheManager;
             var gold = craftManager.getResource('gold');
             var trades = [];
             var requireTrigger = options.auto.trade.trigger;
@@ -1125,7 +1123,7 @@ var run = function() {
             }
             if (tradesDone.length === 0) {return;}
           
-            var tradeNet = {};
+            /*var tradeNet = {};
             for (var name in tradesDone) {
                 var race = tradeManager.getRace(name);
 
@@ -1143,7 +1141,7 @@ var run = function() {
                 }
             }
 
-            cacheManager.pushToCache({'materials': tradeNet, 'timeStamp': game.timer.ticksTotal});
+            cacheManager.pushToCache({'materials': tradeNet, 'timeStamp': game.timer.ticksTotal});*/
           
             for (var name in tradesDone) {
                 if (tradesDone[name] > 0) {
@@ -1254,9 +1252,11 @@ var run = function() {
                         default:
                             var name = 'priest';
                     }
-                    game.village.assignJob(gamePage.village.getJob(name),kittens);
-                    game.villageTab.updateTab();
-                    activity('分配了 ' + kittens + ' 只小猫到 ' + cnItem(name), 'ks-distribution');
+                    if (game.village.getJob(name).unlocked) {
+                        game.village.assignJob(game.village.getJob(name),kittens);
+                        game.villageTab.updateTab();
+                        activity('分配了 ' + kittens + ' 只小猫到 ' + cnItem(name), 'ks-distribution');
+                    }
                 }
             }
 
@@ -1268,7 +1268,7 @@ var run = function() {
                 }
             }
 
-            if (optionVals.leaderPromote.enabled) {
+            if (optionVals.leaderPromote.enabled && game.science.get('civil').researched) {
                 var gold = craftManager.getResource('gold');
                 var leader = game.village.leader;
                 if (leader.exp > game.village.getRankExp(leader.rank) && optionVals.leaderPromote.subTrigger <= gold.value / gold.maxValue) {
@@ -1802,7 +1802,7 @@ var run = function() {
     // ================
 
     var CraftManager = function () {
-        this.cacheManager = new CacheManager();
+        //this.cacheManager = new CacheManager();
     };
 
     CraftManager.prototype = {
@@ -1861,7 +1861,7 @@ var run = function() {
             var craft = this.getCraft(name);
             var ratio = game.getResCraftRatio(craft);
             var trigger = options.auto.craft.trigger;
-            var optionVal = options.auto.options.enabled && options.auto.options.items.shipOverride.enabled;
+            //var optionVal = options.auto.options.enabled && options.auto.options.items.shipOverride.enabled;
           
             // Safeguard if materials for craft cannot be determined.
             if (!materials) return 0;
@@ -1885,7 +1885,8 @@ var run = function() {
 
             for (var i in materials) {
                 var delta = undefined;
-                if (! limited || (this.getResource(i).maxValue > 0 && aboveTrigger) || (name === 'ship' && optionVal && (this.getResource('ship').value < 243)) ) {
+                //if (!limited || (this.getResource(i).maxValue > 0 && aboveTrigger) || (name === 'ship' && optionVal && (this.getResource('ship').value < 243)) )
+                if (!limited || (this.getResource(i).maxValue > 0 && aboveTrigger)) {
                     // If there is a storage limit, we can just use everything returned by getValueAvailable, since the regulation happens there
                     delta = this.getValueAvailable(i) / materials[i];
                 } else {
@@ -1925,7 +1926,8 @@ var run = function() {
 
             return materials;
         },
-        getTickVal: function (res, preTrade) {
+		//getTickVal: function (res, preTrade)
+        getTickVal: function (res) {
             var prod = game.getResourcePerTick(res.name, true);
             if (res.craftable) {
                 var minProd=Number.MAX_VALUE;
@@ -1939,7 +1941,7 @@ var run = function() {
                 prod += (minProd!==Number.MAX_VALUE) ? minProd : 0;
             }
             if (prod <= 0 && (res.name === 'spice' || res.name === 'blueprint')) {return 'ignore';}
-            if (!preTrade) {prod += this.cacheManager.getResValue(res.name)};
+            //if (!preTrade) {prod += this.cacheManager.getResValue(res.name);}
             return prod;
         },
         getAverageHunt: function() {
@@ -2002,7 +2004,7 @@ var run = function() {
             if ('catnip' === name) {
                 var pastures = (game.bld.getBuildingExt('pasture').meta.stage === 0) ? game.bld.getBuildingExt('pasture').meta.val: 0;
                 var aqueducts = (game.bld.getBuildingExt('aqueduct').meta.stage === 0) ? game.bld.getBuildingExt('aqueduct').meta.val: 0;
-                var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts)
+                var resPerTick = this.getPotentialCatnip(true, pastures, aqueducts);
 
                 if (resPerTick < 0) stock -= resPerTick * 202 * 5;
             }
@@ -2133,12 +2135,21 @@ var run = function() {
                     var priceRatio = build.priceRatio;
                     var source = build.source;
                     for (var p = 0; p < prices.length; p++) {
+                      
+                        var spaceOil = false;
+                        var cryoKarma = false;
                         if (source && source === 'space' && prices[p].name === 'oil') {
-                            var spaceOil = true;
+                            spaceOil = true;
                             var oilPrice = prices[p].val * (1 - game.getHyperbolicEffect(game.getEffect('oilReductionRatio'), 0.75));
+                        } else if (build.id === 'cryochambers' && prices[p].name === 'karma') {
+                            cryoKarma = true;
+                            var karmaPrice = prices[p].val * (1 - game.getHyperbolicEffect(0.01 * game.prestige.getBurnedParagonRatio(), 1.0));
                         }
+                      
                         if (spaceOil) {
                             var nextPriceCheck = (tempPool['oil'] < oilPrice * Math.pow(1.05, k + data.val));
+                        } else if (cryoKarma) {
+                            var nextPriceCheck = (tempPool['karma'] < karmaPrice * Math.pow(priceRatio, k + data.val));
                         } else {
                             var nextPriceCheck = (tempPool[prices[p].name] < prices[p].val * Math.pow(priceRatio, k + data.val));
                         }
@@ -2148,6 +2159,9 @@ var run = function() {
                                 if (source && source === 'space' && prices[p2].name === 'oil') {
                                     var oilPriceRefund = prices[p2].val * (1 - game.getHyperbolicEffect(game.getEffect('oilReductionRatio'), 0.75));
                                     tempPool['oil'] += oilPriceRefund * Math.pow(1.05, k + data.val);
+                                } else if (build.id === 'cryochambers' && prices[p2].name === 'karma') {
+                                    var karmaPriceRefund = prices[p2].val * (1 - game.getHyperbolicEffect(0.01 * game.prestige.getBurnedParagonRatio(), 1.0));
+                                    tempPool['karma'] += karmaPriceRefund * Math.pow(priceRatio, k + data.val);
                                 } else {
                                     var refundVal = prices[p2].val * Math.pow(priceRatio, k + data.val);
                                     tempPool[prices[p2].name] += (prices[p2].name === 'void') ? Math.ceil(refundVal) : refundVal;
@@ -2160,6 +2174,8 @@ var run = function() {
                         }
                         if (spaceOil) {
                             tempPool['oil'] -= oilPrice * Math.pow(1.05, k + data.val);
+                        } else if (cryoKarma) {
+                            tempPool['karma'] -= karmaPrice * Math.pow(priceRatio, k + data.val);
                         } else {
                             var pVal = prices[p].val * Math.pow(priceRatio, k + data.val);
                             tempPool[prices[p].name] -= (prices[p].name === 'void') ? Math.ceil(pVal) : pVal;
@@ -2209,6 +2225,9 @@ var run = function() {
                 if (source && source === 'space' && prices[price].name === 'oil') {
                     var oilPrice = prices[price].val * (1 - game.getHyperbolicEffect(game.getEffect('oilReductionRatio'), 0.75));
                     if (this.craftManager.getValueAvailable('oil', true) < oilPrice * Math.pow(1.05, data.val)) {return false;}
+                } else if (data.name === 'cryochambers' && prices[price].name === 'karma') {
+                    var karmaPrice = prices[price].val * (1 - game.getHyperbolicEffect(0.01 * game.prestige.getBurnedParagonRatio(), 1.0));
+                    if (this.craftManager.getValueAvailable('karma', true) < karmaPrice * Math.pow(priceRatio, data.val)) {return false;}
                 } else {
                     if (this.craftManager.getValueAvailable(prices[price].name, true) < prices[price].val * Math.pow(priceRatio, data.val)) {return false;}
                 }
@@ -2404,7 +2423,7 @@ var run = function() {
     // Cache Manager
     // ===============
 
-    var CacheManager = function () {};
+    /*var CacheManager = function () {};
 
     CacheManager.prototype = {
         pushToCache: function (data) {
@@ -2444,7 +2463,7 @@ var run = function() {
 
             return (cacheSum[res] / (currentTick - startingTick));
         }
-    };
+    };*/
 
     // ==============================
     // Configure overall page display
@@ -3359,7 +3378,7 @@ var run = function() {
     optionsListElement.append(getToggle('time',     '时间'));
     optionsListElement.append(getToggle('options',  '选项'));
     optionsListElement.append(getToggle('autotime', '自动燃烧水晶'));
-    optionsListElement.append(getToggle('filter',   '过滤'));
+    optionsListElement.append(getToggle('filter',   '日志过滤'));
 
     // add activity button
     // ===================
