@@ -28,7 +28,7 @@ invokeCallback = function(callback, args) {
 
 //Localization support
 dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
-	fallbackLocale: "chs",
+	fallbackLocale: "zh",
 	availableLocales: null,
 	availableLocaleLabels: null,
 	language: null,
@@ -48,7 +48,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		this.availableLocaleLabels = {
 			"en" : "English",
 			"ru": "Русский",
-			"zh": "官方中文",
+			"zh": "中文",
 			"chs": "git中文",
 			"ja": "日本語",
 			"br": "Portuguese",
