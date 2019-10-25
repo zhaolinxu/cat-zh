@@ -1680,6 +1680,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.saveImportDropboxText(data, callback);
 	},
 
+	saveToFile: function () {
+		var data = JSON.stringify(this.save());
+		var lzdata = LZString.compressToBase64(data);
+		var blob = new Blob([lzdata], {type: 'text/plain'});
+		var $link = $('#download-link');
+		$link.attr('href', window.URL.createObjectURL(blob));
+		$link.get(0).dispatchEvent(new MouseEvent('click'));
+	},
+
 	saveExportDropbox: function(){
 		this.save();
 		var data = this.save();
