@@ -531,7 +531,7 @@ var run = function() {
                 // 检查千禧年完成状态
                 var factor = gamePage.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
-                // 设置跳跃年份
+                // 设置燃烧倍数
                 var x = 1;
                 if (autotime.x250.enabled && gamePage.resPool.get("timeCrystal").value >= 250) {x = 250;}
                 else if (autotime.x50.enabled && gamePage.resPool.get("timeCrystal").value >= 50) {x = 50;}
@@ -984,9 +984,8 @@ var run = function() {
           
             var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower')) > 1500;
             var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture')) > 5000;
-            var parchProf = 4000 * craftManager.getTickVal(craftManager.getResource('parchment')) > 2500;
           
-            if (!(catpowProf && cultureProf && parchProf)) {return;}
+            if (!(catpowProf && cultureProf)) {return;}
           
             // Render the tab to make sure that the buttons actually exist in the DOM. Otherwise we can't click them.
             this.villageManager.render();
@@ -1271,7 +1270,7 @@ var run = function() {
             if (optionVals.leaderPromote.enabled && game.science.get('civil').researched) {
                 var gold = craftManager.getResource('gold');
                 var leader = game.village.leader;
-                if (leader.exp > game.village.getRankExp(leader.rank) && optionVals.leaderPromote.subTrigger <= gold.value / gold.maxValue) {
+                if (leader != null && leader.exp > game.village.getRankExp(leader.rank) && optionVals.leaderPromote.subTrigger <= gold.value / gold.maxValue) {
                     if (game.village.sim.promote(leader) > 0) {
                         activity('你的领袖被提拔到了 ' + leader.rank + ' 级', 'ks-promote');
                         gamePage.tabs[1].censusPanel.census.renderGovernment(gamePage.tabs[1].censusPanel.census);
@@ -1423,25 +1422,25 @@ var run = function() {
         if(game.prestige.getPerk("unicornmancy").researched)
             riftChanceRatio *= 1.1;
         var baseRift = game.getEffect("riftChance") * riftChanceRatio / (10000 * 2) * baseUnicornsPerRift;
-        if(log){
+        /*if(log){
             console.log("Unicorns per second: "+total);
             console.log("Base rift per second average: "+baseRift);
-        }
+        }*/
         var bestAmoritization = Infinity;
         var bestBuilding = "";
         var pastureAmor = game.bld.getBuildingExt("unicornPasture").meta.effects["unicornsPerTickBase"] * game.getRateUI();
         pastureAmor = pastureAmor * globalRatio * religionRatio * paragonRatio * faithBonus * cycle;
-        if(log){
+        /*if(log){
             console.log("unicornPasture");
             console.log("\tBonus unicorns per second: "+pastureAmor);
-        }
+        }*/
         pastureAmor = game.tabs[0].buttons[pastureButton].model.prices[0].val / pastureAmor;
-        if(log){
-            var baseWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / total;
-            var avgWait = gamePage.tabs[0].buttons[pastureButton].model.prices[0].val / (total + baseRift);
-            console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
-            console.log("\tPrice: "+gamePage.tabs[0].buttons[pastureButton].model.prices[0].val+" | Amortization: "+gamePage.toDisplaySeconds(pastureAmor));
-        }
+        /*if(log){
+            var baseWait = game.tabs[0].buttons[pastureButton].model.prices[0].val / total;
+            var avgWait = game.tabs[0].buttons[pastureButton].model.prices[0].val / (total + baseRift);
+            console.log("\tMaximum time to build: " + game.toDisplaySeconds(baseWait) + " | Average time to build: " + game.toDisplaySeconds(avgWait));
+            console.log("\tPrice: "+game.tabs[0].buttons[pastureButton].model.prices[0].val+" | Amortization: "+game.toDisplaySeconds(pastureAmor));
+        }*/
         if(pastureAmor < bestAmoritization){
             bestAmoritization = pastureAmor;
             bestBuilding = "独角兽牧场";
@@ -1472,12 +1471,12 @@ var run = function() {
                     var amor = unicornsPerSecond * globalRatio * relBonus * paragonRatio * faithBonus * cycle;
                     amor -= total;
                     amor = amor + riftBonus;
-                    if(log){
+                    /*if(log){
                         console.log(btn.id);
                         console.log("\tBonus unicorns per second: "+amor);
-                    }
+                    }*/
                     amor = unicornPrice / amor;
-                    if(log){
+                    /*if(log){
                         var baseWait = unicornPrice / total;
                         var avgWait = unicornPrice / (total + baseRift);
                         var amorSeconds = gamePage.toDisplaySeconds(amor);
@@ -1485,8 +1484,8 @@ var run = function() {
                             amorSeconds = "NA";
                         console.log("\tMaximum time to build: " + gamePage.toDisplaySeconds(baseWait) + " | Average time to build: " + gamePage.toDisplaySeconds(avgWait));
                         console.log("\tPrice: "+unicornPrice + " | Amortization: "+amorSeconds);
-                    }
-                    if(amor < bestAmoritization)
+                    }*/
+                    if(amor < bestAmoritization) {
                         if(riftBonus > 0 || relBonus > religionRatio && unicornPrice > 0){
                             bestAmoritization = amor;
                             switch (btn.id) {
@@ -1510,6 +1509,7 @@ var run = function() {
                                     break;
                             }
                         }
+                    }
                 }
             }
         }
