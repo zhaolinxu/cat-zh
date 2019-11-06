@@ -1847,6 +1847,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     		this.load();
     		this.msg($I("save.import.msg"));
+			//设置附加统计为显示状态
+    		game.tabs[10].visible = true;
 
     		this.render();
 
