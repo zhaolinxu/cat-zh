@@ -1295,63 +1295,62 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var valMultiplier = isEffectMultiplierEnabled && model.metadata ? model.metadata.on : 1;
 		for (var effectName in effectsList) {
 			var effectMeta = this.game.getEffectMeta(effectName);
-			var effectValue = effectMeta.calculation === "constant"
-				? effectsList[effectName]
-				: effectsList[effectName] * valMultiplier;
-			if (effectValue) {
-				if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked){
-					continue;	//hide resource-related effects if we did not unlocked this effect yet
-				}
-
-				if (!isEffectMultiplierEnabled && effectMeta.calculation === "nonProportional") {
-					var nextEffectValue = this.getNextEffectValue(model, effectName);
-					if (nextEffectValue) {
-						effectValue = nextEffectValue * (model.metadata.on + 1) - effectValue * model.metadata.on;
-					}
-				}
-
-				var displayEffectName = effectMeta.title;
-
-				var displayEffectValue = "";
-
-				//display resMax values with global ratios like Refrigeration and Paragon
-				if (effectName.substr(-3) === "Max") {
-					var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
-					if (res != false) { // If res is a resource and not just a variable
-						effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
-					}
-				}
-
-				if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
-					// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
-					var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
-					if (tempVal >= 0.001) {
-						precision = tempVal < 0.01? 3: 2;
-						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
-					} else {
-						displayEffectValue = this.game.getDisplayValueExt(
-							effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/h";
-					}
-				} else if (effectMeta.type === "perDay"){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
-				} else if (effectMeta.type === "perYear"){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
-				} else if ( effectMeta.type === "ratio" ) {
-					displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
-				} else if ( effectMeta.type === "integerRatio" ){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
-				} else if ( effectMeta.type === "energy" ){
-					displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
-				} else {
-					displayEffectValue = this.game.getDisplayValueExt(effectValue);
-				}
-
-				model.effectModels.push({
-					displayEffectName: displayEffectName,
-					displayEffectValue: displayEffectValue
-				});
+			if (effectMeta.resName && !this.game.resPool.get(effectMeta.resName).unlocked) {
+				continue;	//hide resource-related effects if we did not unlocked this effect yet
 			}
+
+			var effectValue = effectsList[effectName] * (effectMeta.calculation === "constant" ? 1 : valMultiplier);
+			if (!isEffectMultiplierEnabled && effectMeta.calculation === "nonProportional") {
+				var nextEffectValue = this.getNextEffectValue(model, effectName);
+				if (nextEffectValue) {
+					effectValue = nextEffectValue * (model.metadata.on + 1) - effectValue * model.metadata.on;
+				}
+			}
+			if (!effectValue) {
+				continue;
+			}
+
+			var displayEffectName = effectMeta.title;
+
+			var displayEffectValue = "";
+
+			//display resMax values with global ratios like Refrigeration and Paragon
+			if (effectName.substr(-3) === "Max") {
+				var res = this.game.resPool.get(effectMeta.resName || effectName.slice(0, -3));
+				if (res != false) { // If res is a resource and not just a variable
+					effectValue = this.game.resPool.addResMaxRatios(res, effectValue);
+				}
+			}
+
+			if (effectMeta.type === "perTick" && this.game.opts.usePerSecondValues) {
+				// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
+				var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
+				if (tempVal >= 0.001) {
+					precision = tempVal < 0.01? 3: 2;
+					displayEffectValue = this.game.getDisplayValueExt(
+						effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
+				} else {
+					displayEffectValue = this.game.getDisplayValueExt(
+						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/h";
+				}
+			} else if (effectMeta.type === "perDay"){
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+			} else if (effectMeta.type === "perYear"){
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
+			} else if ( effectMeta.type === "ratio" ) {
+				displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
+			} else if ( effectMeta.type === "integerRatio" ){
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
+			} else if ( effectMeta.type === "energy" ){
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
+			} else {
+				displayEffectValue = this.game.getDisplayValueExt(effectValue);
+			}
+
+			model.effectModels.push({
+				displayEffectName: displayEffectName,
+				displayEffectValue: displayEffectValue
+			});
 		}
 	},
 
@@ -2135,6 +2134,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 			}
 
 			if (meta.upgrades) {
+				if (meta.updateEffects) {
+					meta.updateEffects(meta, this.game);
+				}
 				this.game.upgrade(meta.upgrades);
 			}
         }

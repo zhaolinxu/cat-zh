@@ -1254,8 +1254,6 @@
     "time.cfu.temporalBattery.label": "Czasowa Bateria",
     "time.cfu.blastFurnace.desc": "Działa na chronoheat. Zwiększa maksymalny limit ciepła o 100.",
     "time.cfu.blastFurnace.label": "Chrono Piec",
-    "time.cfu.expansionTank.desc": "Expands the heat capacity of Chrono Furnace.",
-    "time.cfu.expansionTank.label": "Zbiornik Wyrównawczy",
     "time.cfu.temporalAccelerator.desc": "Poprawia generowanie energii strumienia o 5%",
     "time.cfu.temporalAccelerator.label": "Tymczasowy Akcelerator",
     "time.cfu.temporalImpedance.desc": "Pomiń efekt kary czasowej Mrocznej Przyszłości o 1000 lat.",
