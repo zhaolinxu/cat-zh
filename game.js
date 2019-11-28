@@ -1681,12 +1681,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveToFile: function () {
-		var data = JSON.stringify(this.save());
-		var lzdata = LZString.compressToBase64(data);
-		var blob = new Blob([lzdata], {type: 'text/plain'});
-		var $link = $('#download-link');
-		$link.attr('href', window.URL.createObjectURL(blob));
-		$link.get(0).dispatchEvent(new MouseEvent('click'));
+        var data = JSON.stringify(this.save());
+        var lzdata = LZString.compressToBase64(data);
+        var blob = new Blob([lzdata], {type: 'text/plain'});
+        var $link = $('#download-link');
+        $link.attr('href', window.URL.createObjectURL(blob));
+        var resets = this.stats.getStat("totalResets").val;
+        var fileName = $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
+        if (resets > 0) {
+            fileName += '(reset ' + resets + ')';
+        }
+        $link.attr('download', fileName);
+        $link.get(0).dispatchEvent(new MouseEvent('click'));
 	},
 
 	saveExportDropbox: function(){
