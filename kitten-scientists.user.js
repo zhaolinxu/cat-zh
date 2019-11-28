@@ -54,8 +54,8 @@ var run = function() {
                 items: {
                     x250:        {enabled: false},
                     x50:        {enabled: false},
-                    x45:        {enabled: false},
-                    x5:        {enabled: false}
+                    x5:        {enabled: false},
+                    x2:        {enabled: false}
                 }
             },
             faith: {
@@ -535,8 +535,8 @@ var run = function() {
                 var x = 1;
                 if (autotime.x250.enabled && gamePage.resPool.get("timeCrystal").value >= 250) {x = 250;}
                 else if (autotime.x50.enabled && gamePage.resPool.get("timeCrystal").value >= 50) {x = 50;}
-                else if (autotime.x45.enabled && gamePage.resPool.get("timeCrystal").value >= 45) {x = 45;}
                 else if (autotime.x5.enabled && gamePage.resPool.get("timeCrystal").value >= 5) {x = 5;}
+                else if (autotime.x2.enabled && gamePage.resPool.get("timeCrystal").value >= 2) {x = 2;}
                 // 设置周期年份为0年
                 if (x > 44 && gamePage.calendar.cycle != trigger2) {
                     if (gamePage.calendar.cycle < trigger2) {x = (trigger2 - gamePage.calendar.cycle) * 5 - gamePage.calendar.cycleYear;}
