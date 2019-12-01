@@ -223,7 +223,7 @@
     "stats.kittens.total": "Всего котят",
     "stats.kittens.dead": "Мертвых котят",
     "stats.years.total": "Всего лет прошло",
-    "stats.resets.total": "Раз переиграно",
+    "stats.run.number": "Номер партии",
     "stats.paragon.total": "Всего парагона",
     "stats.events.total": "Наблюдено редких событий",
     "stats.unicorns": "Единорогов пожертвовано",
