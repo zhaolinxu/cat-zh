@@ -1687,7 +1687,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var $link = $('#download-link');
         $link.attr('href', window.URL.createObjectURL(blob));
         if (simple) {
-            $link.attr('download', "Kittens game");
+            $link.attr('download', "Kittens Game");
         } else {
             var fileName;
             var resets = this.stats.getStat("totalResets").val;
