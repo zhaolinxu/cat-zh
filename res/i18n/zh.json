@@ -1257,6 +1257,7 @@
     "time.cfu.blastFurnace.desc": "操作时间热。最大热度上限提高 100 点",
     "time.cfu.blastFurnace.label": "时计炉",
     "time.cfu.timeBoiler.desc": "提升时计炉的热容",
+    "time.cfu.timeBoiler.label": "时间锅炉",
     "time.cfu.temporalAccelerator.desc": "时间通量的产量提升 5%",
     "time.cfu.temporalAccelerator.label": "时空加速器",
     "time.cfu.temporalImpedance.desc": "黑暗未来的时间惩罚延迟 1000 年",
@@ -1619,7 +1620,7 @@
     "effectsMgr.statics.eludiumAutomationBonus.title": "E合金工程师工艺制作加成",
     "effectsMgr.statics.heatMax.title": "热度上限",
     "effectsMgr.statics.heatPerTick.title": "散热速率",
-    "effectsMgr.statics.heatMaxRatio.title": "热度上限加成",
+    "effectsMgr.statics.heatMaxExpansion.title": "热度上限提升",
     "effectsMgr.statics.voidResonance.title": "虚空圣典加成",
     "effectsMgr.type.resGlobalCraftRatio": "{0} 工艺效率加成",
     "common.warning": " (!)"
