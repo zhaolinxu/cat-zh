@@ -42,6 +42,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
+		this.getCFU("timeBoiler").unlocked = this.getCFU("blastFurnace").val > 0;
+
 		if (saveData.time.usedCryochambers) { //after reset
 			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
 		}

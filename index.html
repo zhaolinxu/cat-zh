@@ -511,6 +511,9 @@
 			<div id="exportDiv" style="display: none" class="dialog help">
 				<h1>Export To:</h1>
 				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+				<input type="button" onclick="gamePage.saveToFile(true);" value="File (simple)">
+				<input type="button" onclick="gamePage.saveToFile(false);" value="File (with current time in name)">
+				<a id="download-link" target="_blank" style="display: none"></a>
 				<br>
 				<h1>Text Export:</h1>
 				<br>
