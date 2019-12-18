@@ -223,7 +223,7 @@
     "stats.kittens.total": "小猫总计",
     "stats.kittens.dead": "小猫死亡",
     "stats.years.total": "游戏总年数",
-    "stats.resets.total": "重置次数",
+    "stats.run.number": "游戏号码",
     "stats.paragon.total": "领导力总数",
     "stats.events.total": "罕见事件观察次数",
     "stats.unicorns": "献祭独角兽",
