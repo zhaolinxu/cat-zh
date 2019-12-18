@@ -1090,7 +1090,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			var baseAutomationRate = 0.02;
 			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-			var automationRate = Math.min(baseAutomationRate * self.on, 0.9);
+			var automationRate = Math.min(baseAutomationRate * (self.on + 1), 0.9);
 
 			function newCrafter(consumedResource, craftedResourceName, isAllowed) {
 				var consumedQuantity = consumedResource.value * automationRate;
@@ -2064,7 +2064,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var baseAutomationRate = 0.02;
 		// Cap automation at 90% of resource cap to prevent trying to craft more than you have
-		var automationRate = Math.min(baseAutomationRate * steamworks.on, 0.9);
+		var automationRate = Math.min(baseAutomationRate * (steamworks.on + 1), 0.9);
 
 		var automationDelay = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear / (this.game.workshop.get("advancedAutomation").researched ? 2 : 1);
 		var numberOfAutomations = Math.floor(daysOffset / automationDelay);

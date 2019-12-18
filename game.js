@@ -1681,6 +1681,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.saveImportDropboxText(data, callback);
 	},
 
+    saveToFile: function (simple) {
+        var data = JSON.stringify(this.save());
+        var lzdata = LZString.compressToBase64(data);
+        var blob = new Blob([lzdata], {type: 'text/plain'});
+        var $link = $('#download-link');
+        $link.attr('href', window.URL.createObjectURL(blob));
+        if (simple) {
+            $link.attr('download', "Kittens Game");
+        } else {
+            var fileName;
+            var resets = this.stats.getStat("totalResets").val;
+            fileName = $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
+            if (resets > 0) {
+                fileName += '( ' + resets + ')';
+            }
+            $link.attr('download', fileName);
+        }
+        $link.get(0).dispatchEvent(new MouseEvent('click'));
+	},
+
 	saveExportDropbox: function(){
 		this.save();
 		var data = this.save();
@@ -3822,7 +3842,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.resPool.get("paragon").value >= 100) {
 			gift = "Paragon";
 		}
-		if(this.resPool.get("timeCrystal").value && this.prestige.getPerk("anachronomancy").researched) {
+		if(this.resPool.get("timeCrystal").value && this.prestige.getPerk("anachronomancy").researched && this.workshop.get("stasisChambers").researched) {
 			gift = "TimeCrystal";
 		}
 		if(this.resPool.get("sorrow").value / this.resPool.get("sorrow").maxValue < 0.25 && this.prestige.getPerk("megalomania").researched && this.religion.getZU("blackPyramid").val < 3) {

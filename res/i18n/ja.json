@@ -223,7 +223,7 @@
     "stats.kittens.total": "総子猫数",
     "stats.kittens.dead": "死んだ子猫数",
     "stats.years.total": "総プレイ年数",
-    "stats.resets.total": "リセット回数",
+    "stats.run.number": "ゲーム号",
     "stats.paragon.total": "総パラゴン数",
     "stats.events.total": "珍しい現象の観察数",
     "stats.unicorns": "生贄にしたユニコーン数",
