@@ -10,5 +10,5 @@ pipelines:
               variables:
                 SSH_USER: 'bloodrizer'
                 SERVER: '104.248.76.129'
-                MODE: 'script'
+                MODE: 'command'
                 COMMAND: '/var/www/kittensgame.com/html/deploy.sh'
