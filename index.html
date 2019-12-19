@@ -521,9 +521,12 @@
 			</div>
 
 			<div id="exportDiv" style="display: none" class="dialog help">
-				<!--<h1>Export To:</h1>
-				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">-->
-				<!--<br>-->
+				<h1>导出存档:</h1>
+				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+				<input type="button" onclick="gamePage.saveToFile(false);" value="文件 (短名字)">
+				<input type="button" onclick="gamePage.saveToFile(true);" value="文件 (全名)">
+				<a id="download-link" target="_blank" style="display: none"></a>
+				<br>
 				<h1>文本导出:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>

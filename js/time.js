@@ -42,6 +42,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		this.loadMetadata(this.chronoforgeUpgrades, saveData.time.cfu);
 		this.loadMetadata(this.voidspaceUpgrades, saveData.time.vsu);
 
+		this.getCFU("timeBoiler").unlocked = this.getCFU("blastFurnace").val > 0;
+
 		if (saveData.time.usedCryochambers) { //after reset
 			this.loadMetadata(this.voidspaceUpgrades, saveData.time.usedCryochambers);
 		}
@@ -220,12 +222,13 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             "heatPerTick": -0.02
         },
         calculateEffects: function(self, game) {
-            self.effects["heatMax"] = 100 * (1 + game.getEffect("heatMaxRatio"));
+            self.effects["heatMax"] = 100 + game.getEffect("heatMaxExpansion");
         },
         heat: 0,
         on: 0,
         isAutomationEnabled: false,
-        action: function(self, game){
+        action: function(self, game) {
+            self.calculateEffects(self, game);
 
             if (self.isAutomationEnabled == null) {
                 self.isAutomationEnabled = false;
@@ -249,22 +252,37 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
             }
         },
 		unlocks: {
-			chronoforge: ["expansionTank"]
+			chronoforge: ["timeBoiler"]
 		},
         unlocked: true
     },{
-        name: "expansionTank",
-        label: $I("time.cfu.expansionTank.label"),
-        description: $I("time.cfu.expansionTank.desc"),
+        name: "timeBoiler",
+        label: $I("time.cfu.timeBoiler.label"),
+        description: $I("time.cfu.timeBoiler.desc"),
         prices: [
-            { name: "timeCrystal", val: 100 }
+            { name: "timeCrystal", val: 25000 }
         ],
         priceRatio: 1.25,
         effects: {
-            "heatMaxRatio": 1
+            "heatMaxExpansion": 10,
+            "energyConsumption": 1
         },
         upgrades: {
             chronoforge: ["blastFurnace"]
+        },
+        // TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
+        // TODO Separation of concerns currently done only for AI Core and Time Boilers (REQUIRED by non-proportional effect!), will be systematized later
+        updateEffects: function(self, game) {
+            // TB #1: 10; Total:  10; Average: 10
+            // TB #2: 30; Total:  40; Average: 20
+            // TB #3: 50; Total:  90; Average: 30
+            // TB #4: 90; Total: 160; Average: 40
+            // etc.
+            self.effects["heatMaxExpansion"] = 10 * self.on;
+            self.effects["energyConsumption"] = self.on;
+        },
+        action: function(self, game) {
+            self.updateEffects(self, game);
         },
         unlocked: false
     },{
@@ -579,24 +597,27 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.inherited(arguments, [btnsContainer]);
     },
 
-    update: function(){
-        this.timeSpan.innerHTML = "时间通量: " + this.game.resPool.get("temporalFlux").value.toFixed(0) + "/" + this.game.resPool.get("temporalFlux").maxValue;
-        var second = this.game.resPool.get("temporalFlux").value / this.game.ticksPerSecond;
-        if (second >= 1){
-            this.timeSpan.innerHTML +=  " (" + this.game.toDisplaySeconds(second) + ")";
-        }
+    update: function() {
+        var temporalFlux = this.game.resPool.get("temporalFlux");
+        this.timeSpan.innerHTML = "时间通量: " + temporalFlux.value.toFixed(0) + " / " + temporalFlux.maxValue;
+
+        var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
+            this.timeSpan.innerHTML += "<br>Heat: ";
             var heatMax = this.game.getEffect("heatMax");
-            if(this.game.time.heat > heatMax){
-                this.timeSpan.innerHTML += "<br>时间热: <span style='color:red;'>" +
-                this.game.getDisplayValueExt(this.game.time.heat)
-                 + "</span>/" + heatMax;
+            if (this.game.time.heat > heatMax) {
+                // When innerHTML is appended with a HTML element, it must be completely (START + content + END) in one strike, otherwise the element is automatically closed before its content is appended
+                this.timeSpan.innerHTML += "<span style='color:red;'>" + this.game.getDisplayValueExt(this.game.time.heat) + "</span>";
             } else {
-                this.timeSpan.innerHTML += "<br>时间热: " +
-                    this.game.getDisplayValueExt(this.game.time.heat)
-                + "/" + heatMax;
+                this.timeSpan.innerHTML += this.game.getDisplayValueExt(this.game.time.heat);
             }
+            this.timeSpan.innerHTML += " / " + this.game.getDisplayValueExt(heatMax);
+
+            var heatPerSecond = - this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
+            var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
@@ -615,7 +636,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var model = this.inherited(arguments);
         model.nextCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle);
         model.previousCycleLink = this._newLink(model, this.game.calendar.yearsPerCycle * (this.game.calendar.cyclesPerEra - 1));
-        model.fiveErasLink = this._newLink(model, 5 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
+        model.tenErasLink = this._newLink(model, 10 * this.game.calendar.yearsPerCycle * this.game.calendar.cyclesPerEra);
         return model;
     },
 
@@ -726,7 +747,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
      * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function() {
-        this.fiveEras = this.addLink(this.model.fiveErasLink.title, this.model.fiveErasLink.handler, false);
+        this.tenEras = this.addLink(this.model.tenErasLink.title, this.model.tenErasLink.handler, false);
         this.previousCycle = this.addLink(this.model.previousCycleLink.title, this.model.previousCycleLink.handler, false);
         this.nextCycle = this.addLink(this.model.nextCycleLink.title, this.model.nextCycleLink.handler, false);
     },
@@ -735,7 +756,7 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         this.inherited(arguments);
         dojo.style(this.nextCycle.link, "display", this.model.nextCycleLink.visible ? "" : "none");
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
-        dojo.style(this.fiveEras.link, "display", this.model.fiveErasLink.visible ? "" : "none");
+        dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
     }
 });
 
