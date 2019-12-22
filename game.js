@@ -3285,11 +3285,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var msg = $I("reset.prompt") + "\n\n";
 			msg += $I("reset.prompt.base");
 		if (this.resPool.get("kittens").value > 70){
-			msg += $I("reset.prompt.70");
+			msg += " " + $I("reset.prompt.70");
 		}else if (this.resPool.get("kittens").value > 60){
-			msg += $I("reset.prompt.60");
+			msg += " " + $I("reset.prompt.60");
 		}else if (this.resPool.get("kittens").value <= 35){
-			msg += $I("reset.prompt.35");
+			msg += " " + $I("reset.prompt.35");
 		}
         var game = this;
 
