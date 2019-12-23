@@ -115,14 +115,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			}
 		}
 
-		if (this.game.prestige.getPerk("voidOrder").researched) {
-			if (!(this.game.calendar.day < 0)){ //do not accumulate faith with active Temporal Paradox
-				var orderBonus = this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
-				this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
-				if (this.game.resPool.get("faith").value != this.game.resPool.get("faith").maxValue){ //do not drain faith if it is in cap value
-					this.game.resPool.addResEvent("faith", -orderBonus);
-				}
-			}
+		if (this.game.calendar.day >= 0) {
+			this.triggerOrderOfTheVoid(1);
 		}
 	},
 
@@ -163,10 +157,14 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			this.corruption = 1;
 		}
 
+		this.triggerOrderOfTheVoid(times);
+	},
+
+	// Accumulates the equivalent of 10 % (improved by Void Resonators) of produced faith, but with only a quarter of apocrypha bonus
+	triggerOrderOfTheVoid: function(numberOfTicks) {
 		if (this.game.prestige.getPerk("voidOrder").researched) {
-			var orderBonus = times * this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));	//10% of faith transfer per priest
-			this.faith += orderBonus * (1 + this.getFaithBonus() * 0.25);	//25% of the apocrypha bonus
-			this.game.resPool.addResEvent("faith", -orderBonus);
+			var convertedFaith = numberOfTicks * this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));
+			this.faith += convertedFaith * (1 + this.getApocryphaBonus() / 4);
 		}
 	},
 
@@ -736,7 +734,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return rate;
 	},
 
-	getFaithBonus: function(){
+	getApocryphaBonus: function(){
 		return this.getTriValueReligion(this.faithRatio);
 	},
 
@@ -746,7 +744,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	praise: function(){
 		var faith = this.game.resPool.get("faith");
-		this.faith += faith.value * (1 + this.getFaithBonus()); //starting up from 100% ratio will work surprisingly bad
+		this.faith += faith.value * (1 + this.getApocryphaBonus()); //starting up from 100% ratio will work surprisingly bad
 		this.game.msg($I("religion.praise.msg", [this.game.getDisplayValueExt(faith.value, false, false, 0)]), "", "faith");
 		faith.value = 0.0001;	//have a nice autoclicking
 
@@ -907,7 +905,7 @@ dojo.declare("classes.ui.TranscendenceBtnController", com.nuclearunicorn.game.ui
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	getName: function(model) {
 		if (this.game.religion.faithRatio > 0){
-			return model.options.name + " [" + this.game.getDisplayValueExt(this.game.religion.getFaithBonus()*100, true, false, 3) + "%]";
+			return model.options.name + " [" + this.game.getDisplayValueExt(this.game.religion.getApocryphaBonus()*100, true, false, 3) + "%]";
 		} else {
 			return model.options.name;
 		}
