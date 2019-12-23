@@ -1752,9 +1752,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var blob = new Blob([lzdata], {type: 'text/plain'});
         $link.attr('href', window.URL.createObjectURL(blob));
 
-        var filename = 'Kittens Game';
+        var filename = '猫国建设者';
         if (withFullName) {
-            filename += ' - Run ' + (this.stats.getStat('totalResets').val + 1)
+            filename += ' - 周目 ' + (this.stats.getStat('totalResets').val + 1)
                 + ' - ' + $I('calendar.year.full', [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr('download', filename + '.txt');
