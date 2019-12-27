@@ -344,7 +344,8 @@ var run = function() {
                     hunt:               {enabled: true, subTrigger: 0.98,  misc: true, label: '狩猎'},
                     crypto:             {enabled: true, subTrigger: 10000, misc: true, label: '黑币交易'},
                     catDistribution:    {enabled: false, subTrigger: 5,    misc: true, label: '分配空闲猫咪'},
-                    leaderPromote:      {enabled: true, subTrigger: 0.98,  misc: true, label: '提拔领袖'}
+                    leaderPromote:      {enabled: true, subTrigger: 0.98,  misc: true, label: '提拔领袖'},
+                    xfldc:              {enabled: false,                   misc: true, label: '修复冷冻仓'}
                     // buildEmbassies:     {enabled: true, subTrigger: 0.9,   misc: true, label: '建造大使馆 (测试功能)'},
                     // explore:            {enabled: false,                   misc: true, label: '探索 (废弃功能))'}
                 }
@@ -367,6 +368,7 @@ var run = function() {
                     promoteFilter:       {enabled: false, filter: true, label: '提拔领袖', variant: "ks-activity type_ks-promote"},
                     resetFaithFilter:    {enabled: false, filter: true, label: '重置信仰', variant: "ks-activity type_ks-resetfaith"},
                     transcendenceFilter: {enabled: false, filter: true, label: '超越',     variant: "ks-activity type_ks-transcendence"},
+                    ldcFilter:           {enabled: true,  filter: true, label: '冷冻仓提示',     variant: "ks-activity type_ks-ldc"},
                     miscFilter:          {enabled: false, filter: true, label: '杂项',     variant: "ks-activity"}
                 }
             },
@@ -1295,6 +1297,20 @@ var run = function() {
                     activity('超越到了 ' + game.religion.tclevel + ' 级', 'ks-transcendence');
                 }
             }
+
+            //修复冷冻仓
+            var ldc = game.tabs[7].vsPanel.children[0].children;
+            if (optionVals.xfldc.enabled && game.resPool.get("karma").value < ldc[1].model.prices[2].val && ldc[0].model.visible && game.resPool.get("temporalFlux").value > 6000) {
+                game.timeTab.update();
+				var ldcx = Math.floor((game.resPool.get("temporalFlux").value - 3000) / 3000);
+                for (var i = 0; i < ldcx; i++) {
+					ldc[0].controller.buyItem(ldc[0].model, {}, function() {});
+                }
+            }
+
+			var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+            //修复冷冻仓热量计算
+            if ((ldc[2].model.on * 3000 / game.bld.getBuildingExt('chronosphere').meta.val - (game.time.getCFU("blastFurnace").heat / 100)) * factor < game.getEffect("heatMax") - game.time.heat) {activity('可修复冷冻仓', 'ks-ldc');}
         }
     };
 
