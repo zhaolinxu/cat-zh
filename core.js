@@ -1964,21 +1964,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.removeClass(this.domNode, "bldEnabled");
 				dojo.removeClass(this.domNode, "bldlackResConvert");
 				if (building.lackResConvert) {
-					dojo.toggleClass(this.domNode, "bldlackResConvert", (building.on > 0 ? true : false));
+					dojo.toggleClass(this.domNode, "bldlackResConvert", building.on > 0);
 				} else {
-					dojo.toggleClass(this.domNode, "bldEnabled", (building.on > 0 ? true : false));
+					dojo.toggleClass(this.domNode, "bldEnabled", building.on > 0);
 				}
 			}
 
 			//--------------- toggle ------------
-			/* Always display link, else, when the link disappears, the player can click on the button unintentionally
-			if (this.remove){
-				dojo.style(this.remove["off1"].link, "display", (building.on > 0) ? "" : "none");
+			if (this.add) {
+				dojo.toggleClass(this.add["add1"].link, "enabled", building.on < building.val);
 			}
-			if (this.add){
-				dojo.style(this.add["add1"].link, "display", (building.on < building.val) ? "" : "none");
-			}
-			*/
 
 			if (this.toggle){
 				this.toggle.link.textContent = this.model.togglableOnOffLink.title;
