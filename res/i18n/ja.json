@@ -831,7 +831,7 @@
     "workshop.augumentation.label": "増強",
     "workshop.internet.desc": "子猫たちは各自でスキルを学びます。",
     "workshop.internet.label": "インターネット",
-    "workshop.neuralNetworks.desc": "工場のエネルギー消費を2倍にして、技術者の効果を2倍にします。",
+    "workshop.neuralNetworks.desc": "技術者の効果を2倍にします。子猫はヌースフィアから学びます。",
     "workshop.neuralNetworks.label": "ニューラルネットワーク",
     "workshop.ai.desc": "最先端の人工知能です。",
     "workshop.ai.label": "人工知能",
