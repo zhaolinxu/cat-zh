@@ -1374,7 +1374,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	clearLog: function(){
 		dojo.empty('gameLog');
-		game.lastDateMessage = null;
+		this.console.clear();
+		this.lastDateMessage = null;
 	},
 
 	saveUI: function(){
