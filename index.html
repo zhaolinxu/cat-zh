@@ -51,7 +51,10 @@
 
 		<script type="text/javascript">
 
-			var version = "1470";
+			var version = "1470a";
+			var allowedBranches = ["alpha", "beta", "gamma"];
+			// any value not present in allowedBranches will be considered as official mainline
+			var branch = "gamma";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -100,7 +103,11 @@
 
 			dojo.addOnLoad(function(){
 				$("#tooltip").hide();
-				$("#versionLink").html(version.split('').join('.'));
+				var displayedVersion = version.split('').join('.');
+				if (allowedBranches.indexOf(branch) > -1) {
+					displayedVersion += '-&' + branch + ';';
+				}
+				$("#versionLink").html(displayedVersion);
 
 				SystemJS.config({
 					baseURL: ''
