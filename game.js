@@ -1346,21 +1346,37 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-    msg: function(message, type, tag, noBullet){
-        var hasCalendarTech = this.science.get("calendar").researched;
+	msg: function(message, type, tag, noBullet){
 
-        if (hasCalendarTech){
-            var currentDateMessage = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
-            if (this.lastDateMessage !== currentDateMessage) {
-                this.console.msg(currentDateMessage, "date", null, false);
-                this.lastDateMessage = currentDateMessage;
-            }
-        }
+		var filters = dojo.clone(game.console.filters);
+		if (tag && filters[tag]){
+			var filter = filters[tag];
 
-        var messageLine = this.console.msg(message, type, tag, noBullet);
+			if (!filter.enabled) {
+				return;
+			}
+		}
 
-        return messageLine;
-    },
+		var hasCalendarTech = this.science.get("calendar").researched;
+
+		if (hasCalendarTech){
+			var currentDateMessage = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
+			if (this.lastDateMessage !== currentDateMessage) {
+				this.console.msg(currentDateMessage, "date", null, false);
+				this.lastDateMessage = currentDateMessage;
+			}
+		}
+
+		var messageLine = this.console.msg(message, type, tag, noBullet);
+
+		return messageLine;
+	},
+
+	clearLog: function(){
+		dojo.empty('gameLog');
+		this.console.clear();
+		this.lastDateMessage = null;
+	},
 
 	saveUI: function(){
 		this.save();
