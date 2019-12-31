@@ -1,12 +1,30 @@
+----------
+<font size=4><strong>猫国WIKI目前还在进一步修缮中。如果发现新版WIKI有任何错误或其他建议，欢迎在群里反馈。QQ群:499256691,@QQ号472829157</font></strong><br><br>
+<font color=darkgreen size=4><strong>目前已经完成的页面有(包括子页面):</font></strong><br>
+>猫国萌新指导<br>
+>猫咪百科<br>
+>常用资料
+
+<font color=green size=4><strong>修订进行中的页面：</font></strong><br>
+>资源大全(15%)<br>
+
+<font color=red size=4><strong>以下页面的内容尚未修改：</font></strong><br>
+>第三方工具<br>
+>名词解释<br>
+>常见问题<br>
+
+----------
+
 # 你是一只猫猫在猫咪森林里。
 ### 猫国建设者游戏由bloodrizer开发，是一个村庄模拟管理经营的文字网页游戏。 您在管理一个小猫村，为他们获得资源和开发新技术。 该游戏目前正在开发中，因此价格和平衡可能会发生变化。
 
-==因为工作量大，很多地方翻译的不是很准确，欢迎朋友们指出不对的地方，一起完善游戏百科。==
-
+WIKI中可能会有错误，欢迎修改指正。<br>
 ** 联系方式： **
 * 邮箱：likexiazai@qq.com
 * QQ：505397145
 * QQ群：499256691
+
+**使用左侧导航栏时，请注意清空上方搜索框中的筛选内容，否则导航栏可能会不显示其他内容！**
 
 ### 快速导航
 
@@ -37,7 +55,7 @@
 		<tr>
 			<td>
 				<a href="?file=001-猫咪百科/01-建筑物/01-食物生产">
-							篝火
+							营火
 				</a>
 			</td>
 			<td>
@@ -49,7 +67,7 @@
 				<a href="http://bloodrizer.ru/games/kittens/">玩游戏（英文原版）</a>
 			</td>
 			<td>
-				<a href="?file=006-各国语言包/01-英语">
+				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-en">
 							英语
 				</a>
 			</td>
@@ -76,7 +94,7 @@
 		</tr>
 		<tr>
 			<td>
-			<a href="?file=001-猫咪百科/03-科技">
+			<a href="?file=001-猫咪百科/03-科学/01-科学">
 						科学
 			</a>
 			</td>
@@ -96,12 +114,12 @@
 		</tr>
 		<tr>
 			<td>
-			<a href="?file=001-猫咪百科/04-作坊/01-升级">
-						作坊
+			<a href="?file=001-猫咪百科/04-工坊/01-升级">
+						工坊
 			</a>
 			</td>
 			<td>
-				<a href="?file=001-猫咪百科/03-科技/02-玄学#玄学">
+				<a href="?file=001-猫咪百科/03-科学/02-玄学#玄学">
 							玄学
 				</a>
 			</td>
@@ -110,7 +128,7 @@
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-no">
-							挪威
+							挪威语
 				</a>
 			</td>
 		</tr>
@@ -149,12 +167,12 @@
 			</td>
 			<td>
 			<a href="http://gaming.stackexchange.com/tags/kittens-game" class="external">
-						游戏问答（英文）
+						游戏问答(英文)
 			</a>
 			</td>
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-fr">
-							法国
+							法语
 				</a>
 			</td>
 		</tr>
@@ -185,7 +203,7 @@
 			</td>
 			<td>
 				<a href="?file=004-第三方工具/01-第三方工具">
-							第三方脚本
+							第三方工具
 				</a>
 			</td>
 			<td>
@@ -231,7 +249,7 @@
 			<td>
 				<a href="http://bloodrizer.ru/games/kittens/wiki/index.php?action=search&amp;query="
 				class="external">
-							所有维基页面
+							所有维基页面(英文)
 				</a>
 			</td>
 			<td>
