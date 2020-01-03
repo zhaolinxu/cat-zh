@@ -52,9 +52,13 @@
 		<script type="text/javascript">
 
 			var version = "1470a";
-			var allowedBranches = ["alpha", "beta", "gamma"];
-			// any value not present in allowedBranches will be considered as official mainline
-			var branch = "gamma";
+
+			var branches = {
+				"alpha": "http://kittensgame.com/web/alpha/",
+				"beta": "http://kittensgame.com/web/beta/",
+				"gamma": "http://kittensgame.com/web/",
+				"mainline": "http://bloodrizer.ru/games/kittens/"
+			};
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -101,13 +105,25 @@
 				}
 			}
 
-			dojo.addOnLoad(function(){
-				$("#tooltip").hide();
+			dojo.addOnLoad(function() {
+				var currentBranch = "mainline";
+				for (var branch in branches) {
+					var linkID = "#" + branch + "Branch";
+					$(linkID).attr("target", "_blank");
+					var branchURL = branches[branch];
+					$(linkID).attr("href", branchURL);
+					if (window.location.href.indexOf(branchURL) === 0) {
+						currentBranch = branch;
+					}
+				}
+
 				var displayedVersion = version.split('').join('.');
-				if (allowedBranches.indexOf(branch) > -1) {
-					displayedVersion += '-&' + branch + ';';
+				if (currentBranch != "mainline") {
+					displayedVersion += '-&' + currentBranch + ';';
 				}
 				$("#versionLink").html(displayedVersion);
+
+				$("#tooltip").hide();
 
 				SystemJS.config({
 					baseURL: ''
@@ -262,22 +278,10 @@
 					<!--- a Dark Souls of incremental gaming -->
 
 					<span style="font-size: small;">
-						<a target="_blank" 
-							href="http://kittensgame.com/web/alpha/"
-							title="experimental, unstable"
-						>&alpha;</a>
-						<a target="_blank" 
-							href="http://kittensgame.com/web/beta/"
-							title="experimental, stable"
-						>&beta;</a>
-						<a target="_blank" 
-							href="http://kittensgame.com/web/"
-							title="stable, nighty build"
-						>&gamma;</a>
-						<a target="_blank" 
-							href="http://bloodrizer.ru/games/kittens/"
-							title="stable official mainline"
-						>ML</a>
+						<a id="alphaBranch" title="experimental, unstable">&alpha;</a>
+						<a id="betaBranch" title="experimental, stable">&beta;</a>
+						<a id="gammaBranch" title="stable, nighty build">&gamma;</a>
+						<a id="mainlineBranch" title="stable official mainline">ML</a>
 					</span>
 
 					<a href="#" style="color: red">
