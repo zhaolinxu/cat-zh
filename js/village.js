@@ -2287,7 +2287,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name: $I("village.btn.job.clear"),
 			description: $I("village.btn.job.clear.desc"),
 			handler: dojo.hitch(this, function(){
-				if (this.game.opts.noConfirm || confirm($I("village.tab.clear.job.confirmation"))){
+				if (this.game.opts.noConfirm || window.confirm($I("village.tab.clear.job.confirmation"))){
 					this.game.village.clearJobs(true);
 				}
 			}),

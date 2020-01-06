@@ -171,32 +171,26 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 	},
 
 	buyItem: function(model, event, callback) {
-		if (model.metadata.name != this.game.challenges.currentChallenge && (model.enabled || this.game.devMode)) {
-			//if (confirm("Are you sure you want to start this challenge by resetting the game ?")) {
-			this.game.ui.confirm($I("challendge.btn.confirmation.dlg.title"), $I("challendge.btn.confirmation.dlg.text"), function (confirmed) {
-				if (!confirmed) {
-					callback(false);
-					return;
-				}
-
-				// Set the challenge for after reset
-				if (model.metadata.name == "ironWill") {
-					this.game.challenges.currentChallenge = null;
-				} else {
-					this.game.challenges.currentChallenge = model.metadata.name;
-				}
-				// Reset with any benefit of chronosphere (ressource, kittens, etc...)
-				this.game.bld.get("chronosphere").val = 0;
-				this.game.bld.get("chronosphere").on = 0;
-				this.game.time.getVSU("cryochambers").val = 0;
-				this.game.time.getVSU("cryochambers").on = 0;
-				this.game.resetAutomatic();
-				callback(true);
-			});
-		} else {
+		if (model.metadata.name == this.game.challenges.currentChallenge
+		 || (!model.enabled && !this.game.devMode)
+		 || !window.confirm($I("challendge.btn.confirmation"))) {
 			callback(false);
 			return;
 		}
+
+		// Set the challenge for after reset
+		if (model.metadata.name == "ironWill") {
+			this.game.challenges.currentChallenge = null;
+		} else {
+			this.game.challenges.currentChallenge = model.metadata.name;
+		}
+		// Reset with any benefit of chronosphere (ressource, kittens, etc...)
+		this.game.bld.get("chronosphere").val = 0;
+		this.game.bld.get("chronosphere").on = 0;
+		this.game.time.getVSU("cryochambers").val = 0;
+		this.game.time.getVSU("cryochambers").on = 0;
+		this.game.resetAutomatic();
+		callback(true);
 	},
 
 	updateEnabled: function(model){

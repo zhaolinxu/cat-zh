@@ -12,20 +12,6 @@ if (document.all && !window.localStorage) {
     window.LCstorage.removeItem = function () { };
 }
 
-
-invokeCallback = function(callback, args) {
-	if (!callback){
-		console.warn("Callback must be defined");
-		return;
-	}
-	if (typeof callback == 'function') {
-      	callback.apply(window, args);
-    } else {
-    	var fnArgs = (callback.args? callback.args.slice().concat(args) : args);
-    	callback.handler.apply(callback.ctx, fnArgs);
-    }
-};
-
 //Localization support
 dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	fallbackLocale: "en",
@@ -1774,7 +1760,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 
 	sell: function(event, model){
 		var building = model.metadata;
-		var self = this;
 
 		// Allow buildings to override sell button with custom actions
 		// But, proceed with normal action as well if true returned.
@@ -1788,16 +1773,14 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
 			if (!this.game.opts.noConfirm) {
-				this.game.ui.confirm("", "Are you sure you want to sell all?", function(confirmed){
-					if (confirmed) {
-						self.sellInternal(model, end);
-					}
-				});
+				if (window.confirm("Are you sure you want to sell all?")) {
+					this.sellInternal(model, end);
+				}
 			} else {
-				self.sellInternal(model, end);
+				this.sellInternal(model, end);
 			}
 		} else if (end >= 0) {
-			self.sellInternal(model, end);
+			this.sellInternal(model, end);
 		}
 	},
 
@@ -2053,20 +2036,16 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	},
 
 	buyItem: function(model, event, callback) {
-		var self = this;
 		if (model.enabled && this.hasResources(model) || this.game.devMode ){
 			var meta = model.metadata;
-
 			if (this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched){
-				this.game.ui.confirm("", $I("iron.will.warning.msg"), function(confirmed) {
-					if(!confirmed) {
-						callback(false);
-					} else {
-						self._buyItem_step2(model, event, callback);
-					}
-				});
+				if (window.confirm($I("iron.will.break.confirmation"))) {
+					this._buyItem_step2(model, event, callback);
+				} else {
+					callback(false);
+				}
 			} else {
-				self._buyItem_step2(model, event, callback);
+				this._buyItem_step2(model, event, callback);
 			}
 		} else {
 			callback(false);
@@ -2074,7 +2053,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	},
 
 	_buyItem_step2: function(model, event, callback) {
-		var self = this;
 		var meta = model.metadata;
 		if (!meta.noStackable && event.shiftKey) {
 			var maxBld = 10000;
@@ -2082,14 +2060,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.build(model, maxBld);
 				callback(true);
 			} else {
-				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function (confirmed) {
-					if (confirmed) {
-						self.build(model, maxBld);
-						callback(true);
-					} else {
-						callback(false);
-					}
-				});
+				if (window.confirm("Are you sure you want to construct all buildings?")) {
+					this.build(model, maxBld);
+					callback(true);
+				} else {
+					callback(false);
+				}
 			}
 		} else if (!meta.noStackable && (event.ctrlKey || event.metaKey /*osx tears*/)){
 			this.build(model, this.game.batchSize || 10);

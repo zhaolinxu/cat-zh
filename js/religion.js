@@ -761,39 +761,29 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	transcend: function(){
-
 		var religion = this.game.religion;
-
-		if (!religion.getRU("transcendence").on){
-			return;	//:3
+		if (!religion.getRU("transcendence").on // :3
+		 || !window.confirm($I("religion.transcend.confirmation"))) {
+			return;
 		}
-		var self = this;
-		this.game.ui.confirm($I("religion.transcend.confirm.title"), $I("religion.transcend.confirm.msg"), function(result) {
-			if (!result) {
-				return;
+
+		var tclevel = religion.getTranscendenceLevel();
+		//Transcend one Level at a time
+		var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
+		if (religion.faithRatio > needNextLevel) {
+			religion.faithRatio -= needNextLevel;
+			religion.tcratio += needNextLevel;
+			religion.tclevel += 1;
+			this.game.msg($I("religion.transcend.msg.success", [religion.tclevel]));
+		} else {
+			var progressPercentage = this.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
+			var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
+			if (leftNumber < 0) {
+				leftNumber = 0;
 			}
-			var tclevel = religion.getTranscendenceLevel();
-			//Transcend one Level at a time
-			var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
-			if (religion.faithRatio > needNextLevel) {
-
-				religion.faithRatio -= needNextLevel;
-				religion.tcratio += needNextLevel;
-				religion.tclevel += 1;
-
-				self.game.msg($I("religion.transcend.msg.success", [religion.tclevel]));
-			} else {
-				var progressPercentage = self.game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
-				var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
-				if (leftNumber < 0) {
-					leftNumber = 0;
-				}
-				var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
-				self.game.msg($I("religion.transcend.msg.failure", [progressNumber, progressPercentage]));
-			}
-		});
-
-
+			var progressNumber = leftNumber.toFixed(0) + " / " + (religion.tclevel + 1);
+			this.game.msg($I("religion.transcend.msg.failure", [progressNumber, progressPercentage]));
+		}
 	},
 
 	getTranscendenceLevel: function(){
@@ -1341,18 +1331,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 	resetFaith: function(event){
 		event.preventDefault();
-
-		if (!this.game.religion.getRU("apocripha").on){
-			return;	//trust no one
+		if (this.game.religion.getRU("apocripha").on // trust no one
+		 && window.confirm($I("religion.resetFaith.confirmation"))) {
+			self.resetFaithInternal(1.01);
 		}
-		var self = this;
-		this.game.ui.confirm("", $I("religion.resetFaith.confirm.msg"), function(confirmed){
-				if (confirmed) {
-					self.resetFaithInternal(1.01);
-				}
-			});
-
-
 	},
 
     resetFaithInternal: function(bonusRatio){

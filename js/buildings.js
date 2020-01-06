@@ -2352,17 +2352,10 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		this.game.ui.confirm('', $I('buildings.downgrade.confirmation'), {
-			handler: this.downgradeCallback,
-			ctx: this,
-			args: [model]
-		});
-	},
-
-	downgradeCallback: function(model, result) {
-		if (!result) {
+		if (!window.confirm($I('buildings.downgrade.confirmation'))) {
 			return;
 		}
+
 		var metadataRaw = this.getMetadataRaw(model);
 		metadataRaw.stage = metadataRaw.stage -1 || 0;
 		metadataRaw.val = 0;	//TODO: fix by using separate value flags
@@ -2375,17 +2368,10 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	upgrade: function(model) {
-		this.game.ui.confirm('', $I('buildings.upgrade.confirmation'), {
-			handler: this.upgradeCallback,
-			ctx: this,
-			args: [model]
-		});
-	},
-
-	upgradeCallback: function(model, result) {
-		if (!result) {
+		if (!window.confirm($I('buildings.upgrade.confirmation'))) {
 			return;
 		}
+
 		var metadataRaw = this.getMetadataRaw(model);
 		metadataRaw.stage = metadataRaw.stage || 0;
 		metadataRaw.stage++;
