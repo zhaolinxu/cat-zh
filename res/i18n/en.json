@@ -160,6 +160,7 @@
     "village.btn.promote": "Promote kittens",
     "village.btn.promote.desc": "The leader promotes your kittens and spend gold for celebrations",
     "village.btn.unwrap": "Unwrap present box",
+    "village.btn.unwrap.confirmation": "Are you sure that you want to unwrap your present box right now? Maybe you can have a better gift by waiting a bit!",
     "village.panel.census": "Census",
     "village.panel.management": "Management",
     "village.panel.management.desc": "Happiness affects your workers' production and consumption of catnip.<br />Rare resources will increase this value whilst over-population will reduce it",
