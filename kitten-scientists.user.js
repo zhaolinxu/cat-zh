@@ -1588,7 +1588,7 @@ var run = function() {
             var zdmt = options.auto.faith.items;
             for (var i in buttons) {
                 //判断是否为庙塔
-                if (variant === "z" && i <= 5) {
+                if (variant === "z" && game.bld.get("unicornPasture").val > 0 && i <= 5) {
                     //设置庙塔升级ID
                     if (zdmt["unicornTomb"].enabled && zdmt["ivoryTower"].enabled && zdmt["ivoryCitadel"].enabled && zdmt["skyPalace"].enabled && zdmt["unicornUtopia"].enabled && zdmt["sunspire"].enabled) {
                         if (getBestUniBuilding() <= 5) {
