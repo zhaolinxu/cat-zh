@@ -1366,7 +1366,7 @@
     "calendar.season.spring.short": "Всн",
     "calendar.season.summer.short": "Лто",
     "calendar.season.autumn.short": "Осн",
-    "calendar.msg.starchart": "Ты создал звёздную карту!",
+    "calendar.msg.starchart": "Ты создал {0} звездные карты!",
     "calendar.msg.event": "В небе произошло редкое астрономическое явление",
     "calendar.msg.meteor": "Метеор упал неподалёку от селения",
     "calendar.msg.unicorn": "Единорог пришёл в селение на запах мяты!",

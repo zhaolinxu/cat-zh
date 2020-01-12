@@ -1364,7 +1364,7 @@
     "calendar.season.spring.short":"W",
     "calendar.season.summer.short":"L",
     "calendar.season.autumn.short":"J",
-    "calendar.msg.starchart":"Zrobiłeś wykres gwiazdy!",
+    "calendar.msg.starchart":"Zrobiłeś {0} mapy nieba!",
     "calendar.msg.event":"Na niebie miało miejsce rzadkie wydarzenie astronomiczne",
     "calendar.msg.meteor":"Meteor spadł w pobliżu wioski",
     "calendar.msg.unicorn":"Jednorożec przybywa do twojej wioski przyciągnięty zapachem kocimiętki!",

@@ -1368,7 +1368,7 @@
     "calendar.season.spring.short": "春",
     "calendar.season.summer.short": "夏",
     "calendar.season.autumn.short": "秋",
-    "calendar.msg.starchart": "你制作了一张星图!",
+    "calendar.msg.starchart": "你制作了{0}张星图!",
     "calendar.msg.event": "天空中出现了一种罕见的天文现象",
     "calendar.msg.meteor": "一颗流星落在村庄附近",
     "calendar.msg.unicorn": "一只独角兽被猫薄荷的香气吸引来到你的村庄!",

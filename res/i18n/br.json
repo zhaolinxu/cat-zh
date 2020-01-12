@@ -1359,7 +1359,7 @@
     "calendar.season.spring.short":"Pri",
     "calendar.season.summer.short":"Ver",
     "calendar.season.autumn.short":"Out",
-    "calendar.msg.starchart":"Você fez um mapa estelar!",
+    "calendar.msg.starchart":"Você fez {0} mapas estelares!",
     "calendar.msg.event":"Um evento astronômico raro apareceu no céu",
     "calendar.msg.meteor":"Um meteoro caiu na vila",
     "calendar.msg.unicorn":"Um unicórnio veio à sua vila, atraído pelo cheiro de erva de gato!",

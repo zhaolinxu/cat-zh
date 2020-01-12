@@ -1366,7 +1366,7 @@
     "calendar.season.spring.short": "Jro",
     "calendar.season.summer.short": "Lto",
     "calendar.season.autumn.short": "Pdzm",
-    "calendar.msg.starchart": "Vyrobil jsi hvězdnou mapu!",
+    "calendar.msg.starchart": "Vyrobil jsi {0} hvězdné mapy!",
     "calendar.msg.event": "Vzácný atronomický úkaz nastal na nebi",
     "calendar.msg.meteor": "Meteor spadl blízko vesnice",
     "calendar.msg.unicorn": "Jednorožec, přivábený vůní šanty, se přivandroval k vesnici!",
