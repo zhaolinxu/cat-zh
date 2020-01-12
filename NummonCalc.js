@@ -657,6 +657,23 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return compCapFinal;
     },
 
+    getailvup: function(){
+		var lv = Math.exp(14.5);
+		var g = this.game.resPool.get("gflops").value;
+		var s = this.game.getEffect("gflopsPerTickBase") - this.game.getEffect("gflopsConsumption");
+		var ss;
+		if (s > 0) {
+			if (this.game.bld.get("aiCore").effects["aiLevel"] > 14) {
+				ss = '天网已觉醒';
+			}
+			else {
+				ss = this.game.toDisplaySeconds((lv - g) / (s * this.game.getRateUI()));
+			}
+		}
+		else {ss = '∞';}
+		return ss;
+    },
+
 	getamsx: function(){
 		if (!this.game.religion.getZU("blackPyramid").val) {return "提升黑金字塔等级";}
         if (this.game.tabs[5].zgUpgradeButtons.length == 0) {this.game.tabs[5].render();}
@@ -796,12 +813,17 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     },
     {
         name: "getBlazarsForShatterEngine",
-        title: "耀变体的加成",
+        title: "水晶收支平衡所需耀变体加成",
         val: 0,
     },
     {
         name: "getMaxComped",
         title: "最大加成的概要数量",
+        val: 0,
+    },
+    {
+        name: "getailvup",
+        title: "天网觉醒倒计时",
         val: 0,
     },
     {
