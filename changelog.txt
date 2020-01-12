@@ -1,3 +1,9 @@
+v 1.4.7.0.b
+Minor:
+* Add confirmation pop-up for present box unwrapping
+* Improve contrast of text in sub-buttons
+* Display energy in orange if it will be negative in winter
+
 v 1.4.7.0
 Major:
 * Fix Biofuel Processing (Data Center <-> Biolab synergy now works regardless of powered state)
