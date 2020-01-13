@@ -1333,7 +1333,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		event.preventDefault();
 		if (this.game.religion.getRU("apocripha").on // trust no one
 		 && window.confirm($I("religion.resetFaith.confirmation"))) {
-			self.resetFaithInternal(1.01);
+			this.resetFaithInternal(1.01);
 		}
 	},
 
