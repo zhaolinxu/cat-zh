@@ -3322,14 +3322,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	discardParagon: function(){
 		if (!window.confirm($I("discardParagon.confirmation1"))
 		 || this.resPool.get("paragon").value > 100 && !window.confirm($I("discardParagon.confirmation2"))
-		 || this.ironWill && !window.confirm($I("discardParagon.iw.confirmation"))) {
+		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !window.confirm($I("discardParagon.iw.confirmation"))) {
 			return;
 		}
 
 		this.resPool.get("burnedParagon").value += this.resPool.get("paragon").value;
 		this.resPool.get("paragon").value = 0;
-		this.ironWill = false;
-		//TODO: add some speical hidden effect for this mechanics
+		this.ironWill &= this.achievements.get("spaceOddity").starUnlocked;
+		//TODO: add some special hidden effect for this mechanics
 	},
 
     _getKarmaKittens: function(kittens){
