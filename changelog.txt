@@ -1,4 +1,7 @@
 v 1.4.7.0.b
+Major:
+* Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
+
 Minor:
 * Add confirmation pop-up for present box unwrapping
 * Improve contrast of text in sub-buttons
