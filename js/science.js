@@ -6,7 +6,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	game: null,
 
-	hideResearched: false,	//hide researched techs
+	hideResearched: true,	//hide researched techs
 
 	//list of technologies
 	techs:[{
@@ -861,7 +861,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech.researched = false;
 		}
 
-		this.hideResearched = false;
+		this.hideResearched = true;
 	},
 
 	save: function(saveData){
