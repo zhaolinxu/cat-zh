@@ -3,15 +3,16 @@
 <font color=darkgreen size=4><strong>目前已经完成的页面有(包括子页面):</font></strong><br>
 >猫国萌新指导<br>
 >猫咪百科<br>
->常用资料
+>常用资料<br>
+>常见问题<br>
 
 <font color=green size=4><strong>修订进行中的页面：</font></strong><br>
->资源大全(15%)<br>
+>资源大全(25%)<br>
 
 <font color=red size=4><strong>以下页面的内容尚未修改：</font></strong><br>
+
 >第三方工具<br>
 >名词解释<br>
->常见问题<br>
 
 ----------
 
@@ -24,7 +25,7 @@ WIKI中可能会有错误，欢迎修改指正。<br>
 * QQ：505397145
 * QQ群：499256691
 
-**使用左侧导航栏时，请注意清空上方搜索框中的筛选内容，否则导航栏可能会不显示其他内容！**
+<font color=red><strong>使用左侧导航栏时，请注意清空上方搜索框中的筛选内容，否则导航栏可能会不显示其他内容！</font></strong><br>
 
 ### 快速导航
 
