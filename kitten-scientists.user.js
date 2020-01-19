@@ -158,8 +158,8 @@ var run = function() {
                     temple:         {require: 'gold',        enabled: true},
                     mint:           {require: false,         enabled: false},
                     unicornPasture: {require: false,         enabled: true},
-                    ziggurat:       {require: false,         enabled: true},
-                    chronosphere:   {require: 'unobtainium', enabled: true},
+                    ziggurat:       {require: false,         enabled: false},
+                    chronosphere:   {require: 'unobtainium', enabled: false},
                     aiCore:         {require: false,         enabled: false},
 
                     // storage
@@ -269,15 +269,15 @@ var run = function() {
                     steel:      {require: 'coal',        max: 0, limited: false, limRat: 0.5, enabled: true},
                     plate:      {require: 'iron',        max: 0, limited: false, limRat: 0.5, enabled: true},
                     alloy:      {require: 'titanium',    max: 0, limited: true,  limRat: 0.5, enabled: true},
-                    concrete:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
-                    gear:       {require: false,         max: 0, limited: true,  limRat: 0.25, enabled: false},
-                    scaffold:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
+                    concrete:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
+                    gear:       {require: false,         max: 0, limited: true,  limRat: 0.25, enabled: true},
+                    scaffold:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: true},
                     ship:       {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     tanker:     {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     parchment:  {require: false,         max: 0, limited: false, limRat: 0.5, enabled: true},
                     manuscript: {require: 'culture',     max: 0, limited: false,  limRat: 0.5, enabled: true},
                     compendium: {require: 'science',     max: 0, limited: false,  limRat: 0.5, enabled: true},
-                    blueprint:  {require: 'science',     max: 0, limited: false,  limRat: 0.5, enabled: true},
+                    blueprint:  {require: 'science',     max: 0, limited: false,  limRat: 0.5, enabled: false},
                     kerosene:   {require: 'oil',         max: 0, limited: false, limRat: 0.5, enabled: true},
                     megalith:   {require: false,         max: 0, limited: true,  limRat: 0.5, enabled: false},
                     eludium:    {require: 'unobtainium', max: 0, limited: false, limRat: 0.5, enabled: true},
@@ -286,7 +286,7 @@ var run = function() {
             },
             trade: {
                 // Should KS automatically trade?
-                enabled: true,
+                enabled: false,
                 // Every trade can define a required resource with the *require* property.
                 // At what percentage of the storage capacity of that required resource should the trade happen?
                 trigger: 0.98,
@@ -297,7 +297,7 @@ var run = function() {
                     dragons:    {enabled: false,  require: 'titanium',    allowcapped: false,    limited: false,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
-                    zebras:     {enabled: false,  require: false,         allowcapped: false,    limited: false,
+                    zebras:     {enabled: true,  require: false,         allowcapped: false,    limited: true,
                         summer:  true,  autumn:  true,  winter:  true,          spring:      true},
 
                     lizards:    {enabled: false,  require: 'minerals',    allowcapped: false,    limited: false,
@@ -375,11 +375,11 @@ var run = function() {
             resources: {
                 furs:   {stock: 1000},
                 unobtainium: {consume: 1.0}
-            }/*,
+            },
             cache: {
                 cache:    [],
                 cacheSum: {}
-            }*/
+            }
         }
     };
 
@@ -450,7 +450,7 @@ var run = function() {
         this.timeManager = new TimeManager();
         //this.explorationManager = new ExplorationManager();
         this.villageManager = new TabManager('Village');
-        //this.cacheManager = new CacheManager();
+        this.cacheManager = new CacheManager();
     };
 
     Engine.prototype = {
@@ -464,7 +464,7 @@ var run = function() {
         timeManager: undefined,
         //explorationManager: undefined,
         villageManager: undefined,
-        //cacheManager: undefined,
+        cacheManager: undefined,
         loop: undefined,
         start: function () {
             if (this.loop) return;
@@ -984,8 +984,8 @@ var run = function() {
             var craftManager = this.craftManager;
             if (craftManager.getValueAvailable('manpower', true) < 1500 || craftManager.getValueAvailable('culture', true) < 5000) {return;}
           
-            var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower')) > 1500;
-            var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture')) > 5000;
+            var catpowProf = 4000 * craftManager.getTickVal(craftManager.getResource('manpower'), true) > 1500;
+            var cultureProf = 4000 * craftManager.getTickVal(craftManager.getResource('culture'), true) > 5000;
           
             if (!(catpowProf && cultureProf)) {return;}
           
@@ -1019,7 +1019,7 @@ var run = function() {
                 storeForSummary('hunt', huntCount);
                 activity('派出 ' + huntCount + ' 波小猫去打猎', 'ks-hunt');
 
-                /*var huntCount = Math.floor(catpower.value/100);
+                var huntCount = Math.floor(catpower.value/100);
                 var aveOutput = this.craftManager.getAverageHunt();
                 var trueOutput = {};
               
@@ -1028,7 +1028,7 @@ var run = function() {
                     trueOutput[out] = (res.maxValue > 0) ? Math.min(aveOutput[out] * huntCount, Math.max(res.maxValue - res.value, 0)) : aveOutput[out] * huntCount;
                 }
 
-                this.cacheManager.pushToCache({'materials': trueOutput, 'timeStamp': game.timer.ticksTotal});*/
+                this.cacheManager.pushToCache({'materials': trueOutput, 'timeStamp': game.timer.ticksTotal});
               
                 game.village.huntAll();
             }
@@ -1036,7 +1036,7 @@ var run = function() {
         trade: function () {
             var craftManager = this.craftManager;
             var tradeManager = this.tradeManager;
-            //var cacheManager = this.cacheManager;
+            var cacheManager = this.cacheManager;
             var gold = craftManager.getResource('gold');
             var trades = [];
             var requireTrigger = options.auto.trade.trigger;
@@ -1124,7 +1124,7 @@ var run = function() {
             }
             if (tradesDone.length === 0) {return;}
           
-            /*var tradeNet = {};
+            var tradeNet = {};
             for (var name in tradesDone) {
                 var race = tradeManager.getRace(name);
 
@@ -1142,7 +1142,7 @@ var run = function() {
                 }
             }
 
-            cacheManager.pushToCache({'materials': tradeNet, 'timeStamp': game.timer.ticksTotal});*/
+            cacheManager.pushToCache({'materials': tradeNet, 'timeStamp': game.timer.ticksTotal});
           
             for (var name in tradesDone) {
                 if (tradesDone[name] > 0) {
@@ -1300,17 +1300,17 @@ var run = function() {
 
             //修复冷冻仓
             var ldc = game.tabs[7].vsPanel.children[0].children;
-            if (optionVals.xfldc.enabled && game.resPool.get("karma").value < ldc[1].model.prices[2].val && ldc[0].model.visible && game.resPool.get("temporalFlux").value > 6000) {
+            if (optionVals.xfldc.enabled && game.resPool.get("karma").value < ldc[1].model.prices[2].val && ldc[2].model.visible && game.resPool.get("temporalFlux").value > 6000) {
                 game.timeTab.update();
-				var ldcx = Math.floor((game.resPool.get("temporalFlux").value - 3000) / 3000);
+                var ldcx = Math.floor((game.resPool.get("temporalFlux").value - 3000) / 3000);
                 for (var i = 0; i < ldcx; i++) {
-					ldc[0].controller.buyItem(ldc[0].model, {}, function() {});
+                ldc[0].controller.buyItem(ldc[0].model, {}, function() {});
                 }
             }
 
-			var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+            var factor = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
             //修复冷冻仓热量计算
-            if ((ldc[2].model.on * 3000 / game.bld.getBuildingExt('chronosphere').meta.val - (game.time.getCFU("blastFurnace").heat / 100)) * factor < game.getEffect("heatMax") - game.time.heat) {activity('可修复冷冻仓', 'ks-ldc');}
+            if (ldc[2].model.visible && (ldc[2].model.on * 3000 / game.bld.getBuildingExt('chronosphere').meta.val - (game.time.getCFU("blastFurnace").heat / 100)) * factor < game.getEffect("heatMax") - game.time.heat) {activity('可修复冷冻仓', 'ks-ldc');}
         }
     };
 
@@ -1818,7 +1818,7 @@ var run = function() {
     // ================
 
     var CraftManager = function () {
-        //this.cacheManager = new CacheManager();
+        this.cacheManager = new CacheManager();
     };
 
     CraftManager.prototype = {
@@ -1942,8 +1942,7 @@ var run = function() {
 
             return materials;
         },
-		//getTickVal: function (res, preTrade)
-        getTickVal: function (res) {
+        getTickVal: function (res, preTrade) {
             var prod = game.getResourcePerTick(res.name, true);
             if (res.craftable) {
                 var minProd=Number.MAX_VALUE;
@@ -1957,7 +1956,7 @@ var run = function() {
                 prod += (minProd!==Number.MAX_VALUE) ? minProd : 0;
             }
             if (prod <= 0 && (res.name === 'spice' || res.name === 'blueprint')) {return 'ignore';}
-            //if (!preTrade) {prod += this.cacheManager.getResValue(res.name);}
+            if (!preTrade) {prod += this.cacheManager.getResValue(res.name);}
             return prod;
         },
         getAverageHunt: function() {
@@ -2439,7 +2438,7 @@ var run = function() {
     // Cache Manager
     // ===============
 
-    /*var CacheManager = function () {};
+    var CacheManager = function () {};
 
     CacheManager.prototype = {
         pushToCache: function (data) {
@@ -2462,7 +2461,7 @@ var run = function() {
                         if (!cacheSum[mat]) {cacheSum[mat] = 0;}
                         cacheSum[mat] -= oldMaterials[mat];
                     }
-                    cache.shift;
+                    cache.shift();
                     i--;
                 } else {
                     return;
@@ -2479,7 +2478,7 @@ var run = function() {
 
             return (cacheSum[res] / (currentTick - startingTick));
         }
-    };*/
+    };
 
     // ==============================
     // Configure overall page display
@@ -3281,7 +3280,7 @@ var run = function() {
         input.on('change', function () {
             if (input.is(':checked') && option.limited == false) {
                 option.limited = true;
-                message('每个季节只制作 ' + cnItem(ucfirst(name)) + ' 一次');
+                message('限制 ' + cnItem(ucfirst(name)) + ' 的合成总量');
             } else if ((!input.is(':checked')) && option.limited == true) {
                 option.limited = false;
                 message('制作 ' + cnItem(ucfirst(name)) + ' 不受限制');
