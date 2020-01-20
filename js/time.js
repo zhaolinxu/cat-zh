@@ -551,6 +551,9 @@ dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.g
             }
         };
         return model;
+    },
+
+    buyItem: function() {
     }
 });
 

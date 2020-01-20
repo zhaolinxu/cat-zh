@@ -829,11 +829,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
-
-    confirm: function(title, msg, callback) {
-        invokeCallback(callback, [window.confirm(msg)]);
-    },
-
     //TODO: add dialog and close/bind events
     showDialog: function(id){
         var container = $("#"+id);

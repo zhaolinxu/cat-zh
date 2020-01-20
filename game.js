@@ -1346,21 +1346,37 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	/**
 	 * Display a message in the console. Returns a <span> node of a text container
 	 */
-    msg: function(message, type, tag, noBullet){
-        var hasCalendarTech = this.science.get("calendar").researched;
+	msg: function(message, type, tag, noBullet){
 
-        if (hasCalendarTech){
-            var currentDateMessage = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
-            if (this.lastDateMessage !== currentDateMessage) {
-                this.console.msg(currentDateMessage, "date", null, false);
-                this.lastDateMessage = currentDateMessage;
-            }
-        }
+		var filters = dojo.clone(game.console.filters);
+		if (tag && filters[tag]){
+			var filter = filters[tag];
 
-        var messageLine = this.console.msg(message, type, tag, noBullet);
+			if (!filter.enabled) {
+				return;
+			}
+		}
 
-        return messageLine;
-    },
+		var hasCalendarTech = this.science.get("calendar").researched;
+
+		if (hasCalendarTech){
+			var currentDateMessage = $I("calendar.year.ext", [this.calendar.year.toLocaleString(), this.calendar.getCurSeasonTitle()]);
+			if (this.lastDateMessage !== currentDateMessage) {
+				this.console.msg(currentDateMessage, "date", null, false);
+				this.lastDateMessage = currentDateMessage;
+			}
+		}
+
+		var messageLine = this.console.msg(message, type, tag, noBullet);
+
+		return messageLine;
+	},
+
+	clearLog: function(){
+		dojo.empty('gameLog');
+		this.console.clear();
+		this.lastDateMessage = null;
+	},
 
 	saveUI: function(){
 		this.save();
@@ -1492,19 +1508,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}));
 	},
 
-    wipe: function(){
-        var game = this;
-        this.ui.confirm($I("wipe.prompt.title"), $I("wipe.prompt.msg"), function(confirmed){
-            if (!confirmed) {
-                return;
-            }
-            game.ui.confirm($I("wipe.prompt.title"), $I("wipe.prompt.msg2"), function(confirmed){
-                if (confirmed) {
-                    game._wipe();
-                }
-            });
-        });
-    },
+	wipe: function(){
+		if (window.confirm($I("wipe.confirmation1"))
+		 && window.confirm($I("wipe.confirmation2"))) {
+			this._wipe();
+		}
+	},
 
 	closeOptions: function() {
 		$('#optionsDiv').hide();
@@ -1663,7 +1672,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImport: function(){
-		if (!window.confirm($I("save.msg.confirm"))){
+		if (!window.confirm($I("save.import.confirmation"))){
 			return;
 		}
 		var data = $("#importData").val();
@@ -1742,7 +1751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImportDropbox: function(){
-		if (!window.confirm($I("save.msg.confirm"))){
+		if (!window.confirm($I("save.import.confirmation"))){
 			return;
 		}
 
@@ -2834,18 +2843,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	craftAll: function(resName){
-		var isCanceled = false;
-
 		// some way to protect people from refining all catnip during the winter
-		if (resName == "wood" && this.getResourcePerTick("catnip", true) <= 0){
-			this.ui.confirm($I("kittens.craft.warning.title"), $I("kittens.craft.warning.msg"), function(confirmed){
-				if (!confirmed) {
-					isCanceled = true;
-				}
-			});
-		}
-
-		if (!isCanceled) {
+		if (resName != "wood"
+		 || this.getResourcePerTick("catnip", true) > 0
+		 || window.confirm($I("kittens.craft.confirmation"))) {
 			this.workshop.craftAll(resName);
 			this.updateResources();
 		}
@@ -3282,38 +3283,33 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	reset: function(){
-		var msg = $I("reset.prompt") + "\n\n";
-			msg += $I("reset.prompt.base");
+		var msg = $I("reset.prompt") + "\n\n"
+		        + $I("reset.prompt.base");
 		if (this.resPool.get("kittens").value > 70){
-			msg += $I("reset.prompt.70");
+			msg += " " + $I("reset.prompt.70");
 		}else if (this.resPool.get("kittens").value > 60){
-			msg += $I("reset.prompt.60");
+			msg += " " + $I("reset.prompt.60");
 		}else if (this.resPool.get("kittens").value <= 35){
-			msg += $I("reset.prompt.35");
+			msg += " " + $I("reset.prompt.35");
 		}
-        var game = this;
+        if (!window.confirm(msg)) {
+            return;
+        }
 
-        this.ui.confirm($I("reset.prompt.title"), msg, function(confirmed) {
-            if (!confirmed) {
-                return;
-            }
-            if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
-                game.challenges.getChallenge("atheism").researched = true;
+        if (this.challenges.currentChallenge == "atheism" && this.time.getVSU("cryochambers").on > 0) {
+            this.challenges.getChallenge("atheism").researched = true;
 
-				if (game.ironWill){
-					game.achievements.unlockHat("ivoryTowerHat");
-				}
-            }
-			if (game.calendar.day < 0){
-				game.achievements.unlockHat("fezHat");
+			if (this.ironWill){
+				this.achievements.unlockHat("ivoryTowerHat");
 			}
+        }
+		if (this.calendar.day < 0){
+			this.achievements.unlockHat("fezHat");
+		}
 
-            game.challenges.currentChallenge = null;
-            game.resetAutomatic();
-        });
+        this.challenges.currentChallenge = null;
+        this.resetAutomatic();
 	},
-
-
 
 	resetAutomatic: function() {
 		this.timer.scheduleEvent(dojo.hitch(this, function(){
@@ -3324,27 +3320,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	discardParagon: function(){
-		var msg = $I("discard.prompt");
-		if (!confirm(msg)){
+		if (!window.confirm($I("discardParagon.confirmation1"))
+		 || this.resPool.get("paragon").value > 100 && !window.confirm($I("discardParagon.confirmation2"))
+		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !window.confirm($I("discardParagon.iw.confirmation"))) {
 			return;
-		}
-		if (this.resPool.get("paragon").value > 100){
-			msg = $I("discard.prompt.secondary");
-			if (!confirm(msg)){
-				return;
-			}
-		}
-		if (this.ironWill){
-			msg = $I("discard.prompt.iw");
-			if (!confirm(msg)){
-				return;
-			}
 		}
 
 		this.resPool.get("burnedParagon").value += this.resPool.get("paragon").value;
 		this.resPool.get("paragon").value = 0;
-		this.ironWill = false;
-		//TODO: add some speical hidden effect for this mechanics
+		this.ironWill &= this.achievements.get("spaceOddity").starUnlocked;
+		//TODO: add some special hidden effect for this mechanics
 	},
 
     _getKarmaKittens: function(kittens){

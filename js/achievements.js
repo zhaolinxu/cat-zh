@@ -101,7 +101,6 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             starCondition: function () {
                 return ( this.game.ironWill && this.game.space.getProgram("moonMission").on && this.game.resPool.get("paragon").value < 10);
             },
-            hasStar: true
         }, {
             name: "jupiterAscending",
             title: $I("achievements.jupiterAscending.title"),
@@ -189,7 +188,6 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             starCondition: function () {
                 return (this.game.village.happiness >= 5 && this.game.resPool.get("kittens").value > 35);
             },
-            hasStar: true
         }, {
             name: "cathammer",
             title: $I("achievements.cathammer.title"),
@@ -201,7 +199,6 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             starCondition: function () {
                 return (this.game.calendar.trueYear() >= 40000);
             },
-            hasStar: true
     }],
 
     hats: [
@@ -214,7 +211,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         {   id: 2,
             name: "lotusHat",
             title: "Lotus Hat",
-            description: "Hat in the shape of louts",
+            description: "Hat in the shape of a lotus",
             difficulty: "A",
             condition: function(){
                 return this.game.stats.getStat("totalResets").val >= 50;
@@ -421,7 +418,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
 
                 this.updateStatistics();
             }
-            if (ach.hasStar && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
+            if (ach.starCondition != undefined && !ach.starUnlocked && dojo.hitch(this, ach.starCondition)()) {
                 ach.starUnlocked = true;
                 this.game.msg($I("achievements.msg.starUnlock", [ach.title]));
                 this.game.achievementTab.visible = true;
@@ -586,7 +583,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.AchTab", com.nuclearunicorn.game.ui
 				innerHTML : ach.unlocked ? ach.title : "???"
 			}, div);
 
-			if (!ach.hasStar) {
+			if (ach.starCondition == undefined) {
 				continue;
 			}
 

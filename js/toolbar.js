@@ -11,7 +11,6 @@ dojo.declare("classes.ui.Toolbar", null, {
 		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
-		this.addIcon(new classes.ui.toolbar.ToolbarDonations(game));
 	},
 
 	addIcon: function(icon){
@@ -187,13 +186,14 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		}
 
 		var resPool = this.game.resPool;
-		var energy = resPool.energyProd - resPool.energyCons;
-		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(energy) + "Wt";
+		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "Wt";
 
-		if (energy >= 0){
-			$(this.container).css("color", "green");
-		} else {
+		if (resPool.energyProd < resPool.energyCons) {
 			$(this.container).css("color", "red");
+		} else if (resPool.energyWinterProd < resPool.energyCons) {
+			$(this.container).css("color", "Coral");
+		} else {
+			$(this.container).css("color", "green");
 		}
 	},
 	getTooltip: function(){
@@ -228,23 +228,5 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 			server.motdFreshMessage = false;
 			return "Message of the day:<br />" + server.motdContent;
 		}
-	}
-});
-
-
-dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
-	update: function(){
-		var server = this.game.server,
-			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
-
-		this.container.innerHTML =
-		"<a href='https://www.patreon.com/bloodrizer' data-patreon-widget-type='become-patron-button'>Patreon" +
-		"</a><script async src='https://c6.patreon.com/becomePatronButton.bundle.js'></script>";
-	},
-	getOpts: function(){
-		return {
-			needUpdate: false,
-			hasTooltip: false
-		};
 	}
 });

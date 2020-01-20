@@ -2287,7 +2287,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name: $I("village.btn.job.clear"),
 			description: $I("village.btn.job.clear.desc"),
 			handler: dojo.hitch(this, function(){
-				if (this.game.opts.noConfirm || confirm($I("village.tab.clear.job.confirmation"))){
+				if (this.game.opts.noConfirm || window.confirm($I("village.tab.clear.job.confirmation"))){
 					this.game.village.clearJobs(true);
 				}
 			}),
@@ -2416,9 +2416,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		var redeemGiftBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 			name: $I("village.btn.unwrap"),
 			description: "",
-			handler: dojo.hitch(this, function(){
-				this.game.redeemGift();
-				this.game.render();
+			handler: dojo.hitch(this, function() {
+				if (window.confirm($I("village.btn.unwrap.confirmation"))) {
+					this.game.redeemGift();
+					this.game.render();
+				}
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {

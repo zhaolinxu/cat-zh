@@ -471,6 +471,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	game: null,
 
 	energyProd: 0,
+	energyWinterProd: 0,
 	energyCons: 0,
 
 	isLocked: false,
@@ -648,9 +649,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		game.updateKarma();
 
 		//--------
-		this.energyProd = game.getEffect("energyProduction") * (1 + game.getEffect("energyProductionRatio"));
+		var energyRatio = 1 + game.getEffect("energyProductionRatio");
+		this.energyProd = game.getEffect("energyProduction") * energyRatio;
+		this.energyWinterProd = this.energyProd;
 		this.energyCons = game.getEffect("energyConsumption");
 
+		var currentSeason = game.calendar.season;
+		var solarFarm = game.bld.getBuildingExt("pasture");
+		var calculateEnergyProduction = solarFarm.get("calculateEnergyProduction");
+		if (currentSeason != 3 && calculateEnergyProduction) {
+			var energyLoss = calculateEnergyProduction(game, currentSeason) - calculateEnergyProduction(game, 3);
+			this.energyWinterProd -= solarFarm.get("on") * energyLoss * energyRatio;
+		}
 	},
 
 	//NB: don't forget to update resources before calling in redshift
