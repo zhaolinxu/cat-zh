@@ -829,6 +829,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
+    // This method is overridden in mobile versions, hence parameter "title" unused here but used there
+    confirm: function(title, msg) {
+        return window.confirm(msg);
+    },
+
     //TODO: add dialog and close/bind events
     showDialog: function(id){
         var container = $("#"+id);

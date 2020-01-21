@@ -2350,7 +2350,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		if (!window.confirm($I('buildings.downgrade.confirmation'))) {
+		if (!this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"))) {
 			return;
 		}
 
@@ -2366,7 +2366,7 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	upgrade: function(model) {
-		if (!window.confirm($I('buildings.upgrade.confirmation'))) {
+		if (!this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"))) {
 			return;
 		}
 

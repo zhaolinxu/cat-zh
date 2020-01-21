@@ -173,7 +173,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 	buyItem: function(model, event, callback) {
 		if (model.metadata.name == this.game.challenges.currentChallenge
 		 || (!model.enabled && !this.game.devMode)
-		 || !window.confirm($I("challendge.btn.confirmation"))) {
+		 || !this.game.ui.confirm($I("challendge.btn.confirmation.title"), $I("challendge.btn.confirmation.msg"))) {
 			callback(false);
 			return;
 		}

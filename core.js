@@ -1773,7 +1773,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
 			if (!this.game.opts.noConfirm) {
-				if (window.confirm("Are you sure you want to sell all?")) {
+				if (this.game.ui.confirm("", "Are you sure you want to sell all?")) {
 					this.sellInternal(model, end);
 				}
 			} else {
@@ -2039,7 +2039,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		if (model.enabled && this.hasResources(model) || this.game.devMode ){
 			var meta = model.metadata;
 			if (this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched){
-				if (window.confirm($I("iron.will.break.confirmation"))) {
+				if (this.game.ui.confirm("", $I("iron.will.break.confirmation.msg"))) {
 					this._buyItem_step2(model, event, callback);
 				} else {
 					callback(false);
@@ -2060,7 +2060,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.build(model, maxBld);
 				callback(true);
 			} else {
-				if (window.confirm("Are you sure you want to construct all buildings?")) {
+				if (this.game.ui.confirm("", "Are you sure you want to construct all buildings?")) {
 					this.build(model, maxBld);
 					callback(true);
 				} else {

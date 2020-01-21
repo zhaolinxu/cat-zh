@@ -763,7 +763,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	transcend: function(){
 		var religion = this.game.religion;
 		if (!religion.getRU("transcendence").on // :3
-		 || !window.confirm($I("religion.transcend.confirmation"))) {
+		 || !this.game.ui.confirm($I("religion.transcend.confirmation.title"), $I("religion.transcend.confirmation.msg"))) {
 			return;
 		}
 
@@ -1332,7 +1332,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 	resetFaith: function(event){
 		event.preventDefault();
 		if (this.game.religion.getRU("apocripha").on // trust no one
-		 && window.confirm($I("religion.resetFaith.confirmation"))) {
+		 && this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"))) {
 			this.resetFaithInternal(1.01);
 		}
 	},

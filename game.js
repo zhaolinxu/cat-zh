@@ -1509,8 +1509,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	wipe: function(){
-		if (window.confirm($I("wipe.confirmation1"))
-		 && window.confirm($I("wipe.confirmation2"))) {
+		if (this.ui.confirm($I("wipe.confirmation.title"), $I("wipe.confirmation.msg1"))
+		 && this.ui.confirm($I("wipe.confirmation.title"), $I("wipe.confirmation.msg2"))) {
 			this._wipe();
 		}
 	},
@@ -1672,7 +1672,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImport: function(){
-		if (!window.confirm($I("save.import.confirmation"))){
+		if (!this.ui.confirm("", $I("save.import.confirmation.msg"))){
 			return;
 		}
 		var data = $("#importData").val();
@@ -1751,7 +1751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	saveImportDropbox: function(){
-		if (!window.confirm($I("save.import.confirmation"))){
+		if (!this.ui.confirm("", $I("save.import.confirmation.msg"))){
 			return;
 		}
 
@@ -2846,7 +2846,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// some way to protect people from refining all catnip during the winter
 		if (resName != "wood"
 		 || this.getResourcePerTick("catnip", true) > 0
-		 || window.confirm($I("kittens.craft.confirmation"))) {
+		 || this.ui.confirm($I("kittens.craft.confirmation.title"), $I("kittens.craft.confirmation.msg"))) {
 			this.workshop.craftAll(resName);
 			this.updateResources();
 		}
@@ -3283,16 +3283,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	reset: function(){
-		var msg = $I("reset.prompt") + "\n\n"
-		        + $I("reset.prompt.base");
-		if (this.resPool.get("kittens").value > 70){
-			msg += " " + $I("reset.prompt.70");
-		}else if (this.resPool.get("kittens").value > 60){
-			msg += " " + $I("reset.prompt.60");
-		}else if (this.resPool.get("kittens").value <= 35){
-			msg += " " + $I("reset.prompt.35");
+		var msg = $I("reset.confirmation.title") + "\n\n"
+		        + $I("reset.confirmation.msgbase");
+		if (this.resPool.get("kittens").value > 70) {
+			msg += " " + $I("reset.confirmation.msg70");
+		} else if (this.resPool.get("kittens").value > 60) {
+			msg += " " + $I("reset.confirmation.msg60");
+		} else if (this.resPool.get("kittens").value <= 35) {
+			msg += " " + $I("reset.confirmation.msg35");
 		}
-        if (!window.confirm(msg)) {
+        if (!this.game.ui.confirm($I("reset.confirmation.title"), msg)) {
             return;
         }
 
@@ -3320,9 +3320,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	discardParagon: function(){
-		if (!window.confirm($I("discardParagon.confirmation1"))
-		 || this.resPool.get("paragon").value > 100 && !window.confirm($I("discardParagon.confirmation2"))
-		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !window.confirm($I("discardParagon.iw.confirmation"))) {
+		if (!this.game.ui.confirm("", $I("discardParagon.confirmation.msg1"))
+		 || this.resPool.get("paragon").value > 100 && !this.game.ui.confirm("", $I("discardParagon.confirmation.msg2"))
+		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !this.game.ui.confirm("", $I("discardParagon.confirmation.msgIW"))) {
 			return;
 		}
 
