@@ -2,7 +2,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	game: null,
 
-	hideResearched: true,
+	hideResearched: false,
 
 	upgrades:[
 		//--------------------- food upgrades ----------------------
@@ -2153,7 +2153,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		//ugh
 		this.getCraft("wood").prices = [{name: "catnip", val: 100}];
 
-		this.hideResearched = true;
+		this.hideResearched = false;
 	},
 
 	save: function(saveData){

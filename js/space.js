@@ -12,7 +12,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 
 	game: null,
 
-	hideResearched: true,
+	hideResearched: false,
 
 	spaceBuildingsMap: [],
 
@@ -946,7 +946,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			}
 		}
 
-		this.hideResearched = true;
+		this.hideResearched = false;
 	},
 
 	save: function(saveData){
@@ -972,7 +972,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			return;
 		}
 
-		this.hideResearched = saveData.space.hideResearched && true;
+		this.hideResearched = saveData.space.hideResearched || false;
 		this.loadMetadata(this.programs, saveData.space.programs);
 		this.loadMetadata(this.planets, saveData.space.planets);
 
