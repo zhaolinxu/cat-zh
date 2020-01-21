@@ -1,5 +1,6 @@
 /**
-    class that provides an abstraction layer for UI/model communication
+ * Class that provides an abstraction layer for UI/model communication
+ * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
  */
 dojo.declare("classes.ui.UISystem", null, {
     game: null,
@@ -15,6 +16,18 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     updateOptions: function(){
+    },
+
+    notifyLogEvent: function(logmsg) {
+    },
+
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+    },
+
+    openPopupPage: function(pageName) {
+    },
+
+    pulse: function(node){
     },
 
     displayAutosave: function(){
@@ -36,6 +49,9 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     observeClear: function(){
+    },
+
+    updateCalendar: function(){
     },
 
     updateLanguage: function() {
@@ -829,9 +845,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
     },
 
-    // This method is overridden in mobile versions, hence parameter "title" unused here but used there
-    confirm: function(title, msg) {
-        return window.confirm(msg);
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+        if (window.confirm(msg)) {
+            callbackOk.apply(window);
+        } else if (callbackCancel != undefined) {
+        	callbackCancel.apply(window);
+        }
     },
 
     //TODO: add dialog and close/bind events

@@ -2350,37 +2350,35 @@ dojo.declare("classes.ui.btn.StagingBldBtnController", classes.ui.btn.BuildingBt
 	},
 
 	downgrade: function(model) {
-		if (!this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"))) {
-			return;
-		}
-
-		var metadataRaw = this.getMetadataRaw(model);
-		metadataRaw.stage = metadataRaw.stage -1 || 0;
-		metadataRaw.val = 0;	//TODO: fix by using separate value flags
-		metadataRaw.on = 0;
-		if (metadataRaw.calculateEffects){
-			metadataRaw.calculateEffects(metadataRaw, this.game);
-		}
-        this.game.upgrade(metadataRaw.upgrades);
-		this.game.render();
+		var self = this;
+		this.game.ui.confirm("", $I("buildings.downgrade.confirmation.msg"), function() {
+			var metadataRaw = self.getMetadataRaw(model);
+			metadataRaw.stage = metadataRaw.stage -1 || 0;
+			metadataRaw.val = 0;	//TODO: fix by using separate value flags
+			metadataRaw.on = 0;
+			if (metadataRaw.calculateEffects){
+				metadataRaw.calculateEffects(metadataRaw, self.game);
+			}
+			self.game.upgrade(metadataRaw.upgrades);
+			self.game.render();
+		});
 	},
 
 	upgrade: function(model) {
-		if (!this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"))) {
-			return;
-		}
+		var self = this;
+		this.game.ui.confirm("", $I("buildings.upgrade.confirmation.msg"), function() {
+			var metadataRaw = self.getMetadataRaw(model);
+			metadataRaw.stage = metadataRaw.stage || 0;
+			metadataRaw.stage++;
 
-		var metadataRaw = this.getMetadataRaw(model);
-		metadataRaw.stage = metadataRaw.stage || 0;
-		metadataRaw.stage++;
-
-		metadataRaw.val = 0;	//TODO: fix by using separate value flags
-		metadataRaw.on = 0;
-		if (metadataRaw.calculateEffects){
-			metadataRaw.calculateEffects(metadataRaw, this.game);
-		}
-        this.game.upgrade(metadataRaw.upgrades);
-		this.game.render();
+			metadataRaw.val = 0;	//TODO: fix by using separate value flags
+			metadataRaw.on = 0;
+			if (metadataRaw.calculateEffects){
+				metadataRaw.calculateEffects(metadataRaw, self.game);
+			}
+			self.game.upgrade(metadataRaw.upgrades);
+			self.game.render();
+		});
 	},
 
 	getMetadataRaw: function(model) {

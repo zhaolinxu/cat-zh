@@ -1772,12 +1772,13 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		var end = building.val - 1;
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
-			if (!this.game.opts.noConfirm) {
-				if (this.game.ui.confirm("", "Are you sure you want to sell all?")) {
-					this.sellInternal(model, end);
-				}
-			} else {
+			if (this.game.opts.noConfirm) {
 				this.sellInternal(model, end);
+			} else {
+				var self = this;
+				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
+					self.sellInternal(model, end);
+				});
 			}
 		} else if (end >= 0) {
 			this.sellInternal(model, end);
@@ -2036,14 +2037,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	},
 
 	buyItem: function(model, event, callback) {
-		if (model.enabled && this.hasResources(model) || this.game.devMode ){
+		if (model.enabled && this.hasResources(model) || this.game.devMode) {
 			var meta = model.metadata;
-			if (this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched){
-				if (this.game.ui.confirm("", $I("iron.will.break.confirmation.msg"))) {
-					this._buyItem_step2(model, event, callback);
-				} else {
+			if (this.game.ironWill && meta.effects && meta.effects["maxKittens"] > 0 && this.game.science.get("archery").researched) {
+				var self = this;
+				this.game.ui.confirm("", $I("iron.will.break.confirmation.msg"), function() {
+					self._buyItem_step2(model, event, callback);
+				}, function() {
 					callback(false);
-				}
+				});
 			} else {
 				this._buyItem_step2(model, event, callback);
 			}
@@ -2060,14 +2062,15 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				this.build(model, maxBld);
 				callback(true);
 			} else {
-				if (this.game.ui.confirm("", "Are you sure you want to construct all buildings?")) {
-					this.build(model, maxBld);
+				var self = this;
+				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function() {
+					self.build(model, maxBld);
 					callback(true);
-				} else {
+				}, function() {
 					callback(false);
-				}
+				});
 			}
-		} else if (!meta.noStackable && (event.ctrlKey || event.metaKey /*osx tears*/)){
+		} else if (!meta.noStackable && (event.ctrlKey || event.metaKey /*osx tears*/)) {
 			this.build(model, this.game.batchSize || 10);
 			callback(true);
 		} else {
