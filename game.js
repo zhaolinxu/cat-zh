@@ -3292,7 +3292,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		} else if (this.resPool.get("kittens").value <= 35) {
 			msg += " " + $I("reset.confirmation.msg35");
 		}
-        if (!this.game.ui.confirm($I("reset.confirmation.title"), msg)) {
+        if (!this.ui.confirm($I("reset.confirmation.title"), msg)) {
             return;
         }
 
@@ -3320,9 +3320,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	discardParagon: function(){
-		if (!this.game.ui.confirm("", $I("discardParagon.confirmation.msg1"))
-		 || this.resPool.get("paragon").value > 100 && !this.game.ui.confirm("", $I("discardParagon.confirmation.msg2"))
-		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !this.game.ui.confirm("", $I("discardParagon.confirmation.msgIW"))) {
+		if (!this.ui.confirm("", $I("discardParagon.confirmation.msg1"))
+		 || this.resPool.get("paragon").value > 100 && !this.ui.confirm("", $I("discardParagon.confirmation.msg2"))
+		 || this.ironWill && !this.achievements.get("spaceOddity").starUnlocked && !this.ui.confirm("", $I("discardParagon.confirmation.msgIW"))) {
 			return;
 		}
 
