@@ -67,37 +67,37 @@ var run = function() {
                 items: {
                     // Variant denotes which category the building or upgrade falls within in the Religion tab.
                     // Ziggurats are variant z.
-                    unicornTomb:        {require: false,         enabled: false, variant: 'z'},
-                    ivoryTower:         {require: false,         enabled: false, variant: 'z'},
-                    ivoryCitadel:       {require: false,         enabled: false, variant: 'z'},
-                    skyPalace:          {require: false,         enabled: false, variant: 'z'},
-                    unicornUtopia:      {require: 'gold',        enabled: false, variant: 'z'},
-                    sunspire:           {require: 'gold',        enabled: false, variant: 'z'},
-                    marker:             {require: 'unobtainium', enabled: false, variant: 'z'},
-                    unicornGraveyard:   {require: false,         enabled: false, variant: 'z'},
-                    unicornNecropolis:  {require: false,         enabled: false, variant: 'z'},
-                    blackPyramid:       {require: 'unobtainium', enabled: false, variant: 'z'},
+                    unicornTomb:        {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    ivoryTower:         {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    ivoryCitadel:       {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    skyPalace:          {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    unicornUtopia:      {require: 'gold',        limited: 9999, enabled: false, variant: 'z'},
+                    sunspire:           {require: 'gold',        limited: 9999, enabled: false, variant: 'z'},
+                    marker:             {require: 'unobtainium', limited: 9999, enabled: false, variant: 'z'},
+                    unicornGraveyard:   {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    unicornNecropolis:  {require: false,         limited: 9999, enabled: false, variant: 'z'},
+                    blackPyramid:       {require: 'unobtainium', limited: 9999, enabled: false, variant: 'z'},
                     // Order of the Sun is variant s.
-                    solarchant:         {require: 'faith',       enabled: true,  variant: 's'},
-                    scholasticism:      {require: 'faith',       enabled: true,  variant: 's'},
-                    goldenSpire:        {require: 'faith',       enabled: true,  variant: 's'},
-                    sunAltar:           {require: 'faith',       enabled: true,  variant: 's'},
-                    stainedGlass:       {require: 'faith',       enabled: true,  variant: 's'},
-                    solarRevolution:    {require: 'faith',       enabled: true,  variant: 's'},
-                    basilica:           {require: 'faith',       enabled: true,  variant: 's'},
-                    templars:           {require: 'faith',       enabled: true,  variant: 's'},
-                    apocripha:          {require: 'faith',       enabled: false, variant: 's'},
-                    transcendence:      {require: 'faith',       enabled: true,  variant: 's'},
+                    solarchant:         {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    scholasticism:      {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    goldenSpire:        {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    sunAltar:           {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    stainedGlass:       {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    solarRevolution:    {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    basilica:           {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    templars:           {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
+                    apocripha:          {require: 'faith',       limited: 9999, enabled: false, variant: 's'},
+                    transcendence:      {require: 'faith',       limited: 9999, enabled: true,  variant: 's'},
                     // Cryptotheology is variant c.
-                    blackObelisk:       {require: false,         enabled: false, variant: 'c'},
-                    blackNexus:         {require: false,         enabled: false, variant: 'c'},
-                    blackCore:          {require: false,         enabled: false, variant: 'c'},
-                    singularity:        {require: false,         enabled: false, variant: 'c'},
-                    blackLibrary:       {require: false,         enabled: false, variant: 'c'},
-                    blackRadiance:      {require: false,         enabled: false, variant: 'c'},
-                    blazar:             {require: false,         enabled: false, variant: 'c'},
-                    darkNova:           {require: false,         enabled: false, variant: 'c'},
-                    holyGenocide:       {require: false,         enabled: false, variant: 'c'},
+                    blackObelisk:       {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    blackNexus:         {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    blackCore:          {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    singularity:        {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    blackLibrary:       {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    blackRadiance:      {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    blazar:             {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    darkNova:           {require: false,         limited: 9999, enabled: false, variant: 'c'},
+                    holyGenocide:       {require: false,         limited: 9999, enabled: false, variant: 'c'},
                 }
             },
             build: {
@@ -116,56 +116,56 @@ var run = function() {
                 // property. For other buildings, the key of the item itself is used.
                 items: {
                     // housing
-                    hut:            {require: 'wood',        enabled: false},
-                    logHouse:       {require: 'minerals',    enabled: false},
-                    mansion:        {require: 'titanium',    enabled: false},
+                    hut:            {require: 'wood',        limited: 9999, enabled: false},
+                    logHouse:       {require: 'minerals',    limited: 9999, enabled: false},
+                    mansion:        {require: 'titanium',    limited: 9999, enabled: false},
 
                     // craft bonuses
-                    workshop:       {require: 'minerals',    enabled: true},
-                    factory:        {require: 'titanium',    enabled: true},
+                    workshop:       {require: 'minerals',    limited: 9999, enabled: true},
+                    factory:        {require: 'titanium',    limited: 9999, enabled: true},
 
                     // production
-                    field:          {require: 'catnip',      enabled: true},
-                    pasture:        {require: 'catnip',      enabled: true, stage: 0},
-                    solarFarm:      {require: 'titanium',    enabled: true, stage: 1, name: 'pasture'},
-                    mine:           {require: 'wood',        enabled: true},
-                    lumberMill:     {require: 'minerals',    enabled: true},
-                    aqueduct:       {require: 'minerals',    enabled: true, stage: 0},
-                    hydroPlant:     {require: 'titanium',    enabled: true, stage: 1, name: 'aqueduct'},
-                    oilWell:        {require: 'coal',        enabled: true},
-                    quarry:         {require: 'coal',        enabled: true},
+                    field:          {require: 'catnip',      limited: 9999, enabled: true},
+                    pasture:        {require: 'catnip',      limited: 9999, enabled: true, stage: 0},
+                    solarFarm:      {require: 'titanium',    limited: 9999, enabled: true, stage: 1, name: 'pasture'},
+                    mine:           {require: 'wood',        limited: 9999, enabled: true},
+                    lumberMill:     {require: 'minerals',    limited: 9999, enabled: true},
+                    aqueduct:       {require: 'minerals',    limited: 9999, enabled: true, stage: 0},
+                    hydroPlant:     {require: 'titanium',    limited: 9999, enabled: true, stage: 1, name: 'aqueduct'},
+                    oilWell:        {require: 'coal',        limited: 9999, enabled: true},
+                    quarry:         {require: 'coal',        limited: 9999, enabled: true},
 
                     // conversion
-                    smelter:        {require: 'minerals',    enabled: true},
-                    biolab:         {require: 'science',     enabled: false},
-                    calciner:       {require: 'titanium',    enabled: false},
-                    reactor:        {require: 'titanium',    enabled: false},
-                    accelerator:    {require: 'titanium',    enabled: false},
-                    steamworks:     {require: false,         enabled: false},
-                    magneto:        {require: false,         enabled: false},
+                    smelter:        {require: 'minerals',    limited: 9999, enabled: true},
+                    biolab:         {require: 'science',     limited: 9999, enabled: false},
+                    calciner:       {require: 'titanium',    limited: 9999, enabled: false},
+                    reactor:        {require: 'titanium',    limited: 9999, enabled: false},
+                    accelerator:    {require: 'titanium',    limited: 9999, enabled: false},
+                    steamworks:     {require: false,         limited: 9999, enabled: false},
+                    magneto:        {require: false,         limited: 9999, enabled: false},
 
                     // science
-                    library:        {require: 'wood',        enabled: true, stage: 0},
-                    dataCenter:     {require: false,         enabled: true, stage: 1, name: 'library'},
-                    academy:        {require: 'wood',        enabled: true},
-                    observatory:    {require: 'iron',        enabled: true},
+                    library:        {require: 'wood',        limited: 9999, enabled: true, stage: 0},
+                    dataCenter:     {require: false,         limited: 9999, enabled: true, stage: 1, name: 'library'},
+                    academy:        {require: 'wood',        limited: 9999, enabled: true},
+                    observatory:    {require: 'iron',        limited: 9999, enabled: true},
 
                     // other
-                    amphitheatre:   {require: 'minerals',    enabled: true, stage: 0},
-                    broadcastTower: {require: 'titanium',    enabled: true, stage: 1, name: 'amphitheatre'},
-                    tradepost:      {require: 'gold',        enabled: true},
-                    chapel:         {require: 'minerals',    enabled: true},
-                    temple:         {require: 'gold',        enabled: true},
-                    mint:           {require: false,         enabled: false},
-                    unicornPasture: {require: false,         enabled: true},
-                    ziggurat:       {require: false,         enabled: false},
-                    chronosphere:   {require: 'unobtainium', enabled: false},
-                    aiCore:         {require: false,         enabled: false},
+                    amphitheatre:   {require: 'minerals',    limited: 9999, enabled: true, stage: 0},
+                    broadcastTower: {require: 'titanium',    limited: 9999, enabled: true, stage: 1, name: 'amphitheatre'},
+                    tradepost:      {require: 'gold',        limited: 9999, enabled: true},
+                    chapel:         {require: 'minerals',    limited: 9999, enabled: true},
+                    temple:         {require: 'gold',        limited: 9999, enabled: true},
+                    mint:           {require: false,         limited: 9999, enabled: false},
+                    unicornPasture: {require: false,         limited: 9999, enabled: true},
+                    ziggurat:       {require: false,         limited: 9999, enabled: false},
+                    chronosphere:   {require: 'unobtainium', limited: 9999, enabled: false},
+                    aiCore:         {require: false,         limited: 9999, enabled: false},
 
                     // storage
-                    barn:           {require: 'wood',        enabled: true},
-                    harbor:         {require: false,         enabled: false},
-                    warehouse:      {require: false,         enabled: false}
+                    barn:           {require: 'wood',        limited: 9999, enabled: true},
+                    harbor:         {require: false,         limited: 9999, enabled: false},
+                    warehouse:      {require: false,         limited: 9999, enabled: false}
                 }
             },
             space: {
@@ -176,48 +176,48 @@ var run = function() {
                 trigger: 0,
                 items: {
                     // Cath
-                    spaceElevator:  {require: 'unobtainium', enabled: false},
-                    sattelite:      {require: 'titanium',    enabled: false},
-                    spaceStation:   {require: 'oil',         enabled: false},
+                    spaceElevator:  {require: 'unobtainium', limited: 9999, enabled: false},
+                    sattelite:      {require: 'titanium',    limited: 9999, enabled: false},
+                    spaceStation:   {require: 'oil',         limited: 9999, enabled: false},
 
                     // Moon
-                    moonOutpost:    {require: 'uranium',     enabled: false},
-                    moonBase:       {require: 'unobtainium', enabled: false},
+                    moonOutpost:    {require: 'uranium',     limited: 9999, enabled: false},
+                    moonBase:       {require: 'unobtainium', limited: 9999, enabled: false},
 
                     // Dune
-                    planetCracker:  {require: 'science',     enabled: false},
-                    hydrofracturer: {require: 'science',     enabled: false},
-                    spiceRefinery:  {require: 'science',     enabled: false},
+                    planetCracker:  {require: 'science',     limited: 9999, enabled: false},
+                    hydrofracturer: {require: 'science',     limited: 9999, enabled: false},
+                    spiceRefinery:  {require: 'science',     limited: 9999, enabled: false},
 
                     // Piscine
-                    researchVessel: {require: 'titanium',    enabled: false},
-                    orbitalArray:   {require: 'eludium',     enabled: false},
+                    researchVessel: {require: 'titanium',    limited: 9999, enabled: false},
+                    orbitalArray:   {require: 'eludium',     limited: 9999, enabled: false},
 
                     // Helios
-                    sunlifter:          {require: 'eludium', enabled: false},
-                    containmentChamber: {require: 'science', enabled: false},
-                    heatsink:           {require: 'thorium', enabled: false},
-                    sunforge:           {require: false,     enabled: false},
+                    sunlifter:          {require: 'eludium', limited: 9999, enabled: false},
+                    containmentChamber: {require: 'science', limited: 9999, enabled: false},
+                    heatsink:           {require: 'thorium', limited: 9999, enabled: false},
+                    sunforge:           {require: false,     limited: 9999, enabled: false},
 
                     // T-Minus
-                    cryostation:    {require: 'eludium',     enabled: false},
+                    cryostation:    {require: 'eludium',     limited: 9999, enabled: false},
 
                     // Kairo
-                    spaceBeacon:    {require: 'antimatter',  enabled: false},
+                    spaceBeacon:    {require: 'antimatter',  limited: 9999, enabled: false},
 
                     // Yarn
-                    terraformingStation: {require: 'antimatter',  enabled: false},
-                    hydroponics:         {require: 'kerosene',    enabled: false},
+                    terraformingStation: {require: 'antimatter',  limited: 9999, enabled: false},
+                    hydroponics:         {require: 'kerosene',    limited: 9999, enabled: false},
 
                     // Umbra
-                    hrHarvester:    {require: 'antimatter',  enabled: false},
+                    hrHarvester:    {require: 'antimatter',  limited: 9999, enabled: false},
 
                     // Charon
-                    entangler:    {require: 'antimatter',  enabled: false},
+                    entangler:    {require: 'antimatter',  limited: 9999, enabled: false},
 
                     // Centaurus
-                    tectonic:   {require: 'antimatter', enabled: false},
-                    moltenCore: {require: 'uranium',    enabled: false}
+                    tectonic:   {require: 'antimatter', limited: 9999, enabled: false},
+                    moltenCore: {require: 'uranium',    limited: 9999, enabled: false}
                 }
             },
             time: {
@@ -227,18 +227,19 @@ var run = function() {
                 items: {
                     // Variants denote whether these buildings fall within the Chronoforge or Void categories.
                     // Chronoforge has variant chrono.
-                    temporalBattery:     {require: false,          enabled: false, variant: 'chrono'},
-                    blastFurnace:        {require: false,          enabled: false, variant: 'chrono'},
-                    temporalAccelerator: {require: false,          enabled: false, variant: 'chrono'},
-                    temporalImpedance:   {require: false,          enabled: false, variant: 'chrono'},
-                    ressourceRetrieval:  {require: false,          enabled: false, variant: 'chrono'},
+                    temporalBattery:     {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
+                    blastFurnace:        {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
+                    timeBoiler:          {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
+                    temporalAccelerator: {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
+                    temporalImpedance:   {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
+                    ressourceRetrieval:  {require: false,          limited: 9999, enabled: false, variant: 'chrono'},
                     
                     // Void Space has variant void.
-                    cryochambers:        {require: false,          enabled: false, variant: 'void'},
-                    voidHoover:          {require: 'antimatter',   enabled: false, variant: 'void'},
-                    voidRift:            {require: false,          enabled: false, variant: 'void'},
-                    chronocontrol:       {require: 'temporalFlux', enabled: false, variant: 'void'},
-                    voidResonator:       {require: false,          enabled: false, variant: 'void'}
+                    cryochambers:        {require: false,          limited: 9999, enabled: false, variant: 'void'},
+                    voidHoover:          {require: 'antimatter',   limited: 9999, enabled: false, variant: 'void'},
+                    voidRift:            {require: false,          limited: 9999, enabled: false, variant: 'void'},
+                    chronocontrol:       {require: 'temporalFlux', limited: 9999, enabled: false, variant: 'void'},
+                    voidResonator:       {require: false,          limited: 9999, enabled: false, variant: 'void'}
                 }
             },
             craft: {
@@ -624,7 +625,7 @@ var run = function() {
                 }
             }
             
-            var buildList = bulkManager.bulk(builds, metaData, trigger);
+            var buildList = bulkManager.bulk(builds, metaData, trigger, 'faith');
             
             var refreshRequired = false;
             for (var entry in buildList) {
@@ -656,7 +657,7 @@ var run = function() {
                 metaData[name].tHidden = (!model.visible || !model.enabled || !panel.visible);
             }
             
-            var buildList = bulkManager.bulk(builds, metaData, trigger);
+            var buildList = bulkManager.bulk(builds, metaData, trigger, 'time');
             
             var refreshRequired = false;
             for (var entry in buildList) {
@@ -704,7 +705,7 @@ var run = function() {
                     
                     var prices = tech[upg].prices;
                     for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue techLoop;}
+                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val && prices[resource].name != 'parchment') {continue techLoop;}
                     }
                     upgradeManager.build(tech[upg], 'science');
                 }
@@ -2128,6 +2129,7 @@ var run = function() {
                     countList[counter].prices = prices;
                     countList[counter].priceRatio = priceRatio;
                     countList[counter].source = source;
+                    countList[counter].ISLAND = build.variant;
                     counter++;
                 }
             }
@@ -2144,6 +2146,47 @@ var run = function() {
             while (countList.length !== 0) {
                 bulkLoop:
                 for (var j = 0; j < countList.length; j++) {
+                    var nowNum;
+                    var goalNum;
+                    switch (countList[j].source) {
+                        case 'bonfire':
+                            nowNum = game.bld.get(countList[j].name || countList[j].id).val;
+                            goalNum = options.auto.build.items[countList[j].id].limited;
+                            break;
+                        case 'space':
+                            nowNum = game.space.getBuilding(countList[j].id).val;
+                            goalNum = options.auto.space.items[countList[j].id].limited;
+                            break;
+                        case 'faith':
+                            switch (countList[j].ISLAND) {
+                                case 'z':
+                                    nowNum = game.religion.getZU(countList[j].id).val;
+                                    break;
+                                case 's':
+                                    nowNum = game.religion.getRU(countList[j].id).val;
+                                    break;
+                                case 'c':
+                                    nowNum = game.religion.getTU(countList[j].id).val;
+                                    break;
+                            }
+                            goalNum = options.auto.faith.items[countList[j].id].limited;
+                            break;
+                        case 'time':
+                            if (countList[j].ISLAND == 'chrono') {
+                                nowNum = game.time.getCFU(countList[j].id).val;
+                            }
+                            else {
+                                nowNum = game.time.getVSU(countList[j].id).val;
+                            }
+                            goalNum = options.auto.time.items[countList[j].id].limited;
+                            break;
+                    }
+                    if (nowNum + countList[j].count >= goalNum) {
+                        bList[countList[j].spot].count = countList[j].count;
+                        countList.splice(j, 1);
+                        j--;
+                        continue bulkLoop;
+                    }
                     var build = countList[j];
                     var data = metaData[build.id];
                     var prices = build.prices;
@@ -2672,6 +2715,7 @@ var run = function() {
                 } else {
                     if (name[1] == 'limited') {
                         option.limited = value;
+                        el[0].title = value;
                     } else {
                         option[name[2]] = value;
                     }
@@ -3037,14 +3081,31 @@ var run = function() {
 
             // fill out list with toggle items
             for (var itemName in auto.items) {
-                if (toggleName === 'trade')
-                    list.append(getTradeOption(itemName, auto.items[itemName]));
-                else if (toggleName === 'craft')
-                    list.append(getCraftOption(itemName, auto.items[itemName]));
-                else if (toggleName === 'options')
-                    list.append(getOptionsOption(itemName, auto.items[itemName]));
-                else
-                    list.append(getOption(itemName, auto.items[itemName]));
+                switch (toggleName) {
+                    case 'faith':
+                        list.append(getlimitedOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'build':
+                        list.append(getlimitedOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'space':
+                        list.append(getlimitedOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'time':
+                        list.append(getlimitedOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'trade':
+                        list.append(getTradeOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'craft':
+                        list.append(getCraftOption(itemName, auto.items[itemName]));
+                        break;
+                    case 'options':
+                        list.append(getOptionsOption(itemName, auto.items[itemName]));
+                        break;
+                    default:
+                        list.append(getOption(itemName, auto.items[itemName]));
+                }
             }
 
             button.on('click', function () {
@@ -3260,6 +3321,38 @@ var run = function() {
         return element;
     };
 
+    var getlimitedOption = function (name, option) {
+        var element = getOption(name, option);
+
+        if (option.limited !== undefined) {
+            var limitedButton = $('<div/>', {
+                id: 'toggle-limited-' + name,
+                text: '限制数量',
+                title: option.limited,
+                css: {cursor: 'pointer',
+                    display: 'inline-block',
+                    float: 'right',
+                    paddingRight: '5px',
+                    textShadow: '3px 3px 4px gray'}
+            }).data('option', option);
+                              
+            limitedButton.on('click', function () {
+                var value = window.prompt('输入建造 ' + option.label + ' 的最大数量。 ', option.limited);
+
+                if (value !== null) {
+                    option.limited = parseFloat(value);
+                    kittenStorage.items[limitedButton.attr('id')] = option.limited;
+                    saveToKittenStorage();
+                    limitedButton[0].title = option.limited;
+                }
+            });
+
+            element.append(limitedButton);
+        }
+
+        return element;
+    };
+  
     var getCraftOption = function (name, option) {
         var element = getOption(name, option);
 
