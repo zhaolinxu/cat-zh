@@ -4,8 +4,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	maxKittens: 0,
 
-	kittensPerTick: 0,	//to be updated (also with per day?)
-
 	kittensPerTickBase: 0.01,
 
 	catnipPerKitten: -0.85,	/* amount of catnip per tick that kitten consumes */
@@ -265,8 +263,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	update: function(){
 		//calculate kittens
-		var kittensPerTick = this.kittensPerTick +
-			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
+		var kittensPerTick = this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -334,8 +331,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	fastforward: function(daysOffset){
 		var times = daysOffset * this.game.calendar.ticksPerDay;
 		//calculate kittens
-		var kittensPerTick = this.kittensPerTick +
-			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
+		var kittensPerTick = this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -1208,11 +1204,11 @@ dojo.declare("classes.village.KittenSim", null, {
 			times = 1;
 		}
 
-		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
+		if (this.kittens.length < this.maxKittens) {
 			this.nextKittenProgress += times * kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
 				var kittensToAdd = Math.floor(this.nextKittenProgress);
-				this.nextKittenProgress = 0;
+				this.nextKittenProgress -= kittensToAdd;
 
 				for (var iCat = 0; iCat < kittensToAdd; iCat++) {
 					if (this.kittens.length < this.maxKittens) {
@@ -1222,9 +1218,12 @@ dojo.declare("classes.village.KittenSim", null, {
 						}
 					}
 				}
+
+				if (this.kittens.length >= this.maxKittens) {
+					this.nextKittenProgress = 0;
+				}
 			}
 		}
-
 
 		var learnBasicRatio = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
 		var learnRatio = game.getEffect("learnRatio");
