@@ -285,7 +285,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			animation: "neon-purple 1.5s ease-in-out infinite alternate"
+			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
 		}/*,
 		aiCanDestroy: true*/
 	},{
@@ -296,7 +299,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			animation: "neon-purple 1.5s ease-in-out infinite alternate"
+			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
 		}
 	},{
 		name : "elderBox",
@@ -307,7 +313,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			animation: "neon-pink 1.5s ease-in-out infinite alternate"
+			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -318,7 +327,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			animation: "neon-pink 1.5s ease-in-out infinite alternate"
+			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -338,7 +350,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "red",
 		style: {
-			animation: "neon-red 1.5s ease-in-out infinite alternate"
+			         animation : "neon-red 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
 		},
 		persists: false
 	},

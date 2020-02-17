@@ -658,10 +658,10 @@ a:hover {
 }
 
 .freshMessage {
-  animation: pulse 5s infinite;
+          animation: pulse 5s infinite;
   -webkit-animation: pulse 5s infinite;
-  -moz-animation: pulse 5s infinite;
-  -o-animation: pulse 5s infinite;
+     -moz-animation: pulse 5s infinite;
+       -o-animation: pulse 5s infinite;
 }
 
 @keyframes pulse {
@@ -866,13 +866,25 @@ a.link.collapse:hover {
 }
 
 .res-cell.craft-link:active {
-    animation: pulseShort 0.5s;
+            animation: pulseShort 0.5s;
+    -webkit-animation: pulseShort 0.5s;
+       -moz-animation: pulseShort 0.5s;
+         -o-animation: pulseShort 0.5s;
     user-select: none;
 }
 
 @keyframes pulseShort {
     100% {transform: scale(1.1);}
-  }
+}
+@-webkit-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
+@-moz-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
+@-o-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
 
 .map-viewport {
     border: 1px solid lightgray;
@@ -918,7 +930,10 @@ a.link.collapse:hover {
 }
 
 .map-cell.active {
-    animation: border-pulse 4s infinite;
+            animation: border-pulse 4s infinite;
+    -webkit-animation: border-pulse 4s infinite;
+       -moz-animation: border-pulse 4s infinite;
+         -o-animation: border-pulse 4s infinite;
 }
 
 .map-cell.locked {
@@ -926,6 +941,18 @@ a.link.collapse:hover {
 }
 
 @keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
+}
+@-webkit-keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
+}
+@-moz-keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
+}
+@-o-keyframes border-pulse {
     0%,100% {border: 1px solid lightgray;}
         50% {border: 1px solid red;}
 }
@@ -978,14 +1005,44 @@ a.link.collapse:hover {
 
 
 div.blaze {
-    animation: blaze-rainbow 3s linear infinite;
+            animation: blaze-rainbow 3s linear infinite;
+    -webkit-animation: blaze-rainbow 3s linear infinite;
+       -moz-animation: blaze-rainbow 3s linear infinite;
+         -o-animation: blaze-rainbow 3s linear infinite;
 }
 
 div.hail {
-    animation: hail-rainbow 1.5s linear infinite;
+            animation: hail-rainbow 1.5s linear infinite;
+    -webkit-animation: hail-rainbow 1.5s linear infinite;
+       -moz-animation: hail-rainbow 1.5s linear infinite;
+         -o-animation: hail-rainbow 1.5s linear infinite;
 }
 
 @keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-webkit-keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-moz-keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-o-keyframes blaze-rainbow {
     0%,100% {color: #F00;}
         17% {color: #FF0;}
         33% {color: #0F0;}
@@ -998,8 +1055,62 @@ div.hail {
     0%,100% {color: red;}
         50% {color: black;}
 }
+@-webkit-keyframes hail-rainbow {
+    0%,100% {color: red;}
+        50% {color: black;}
+}
+@-moz-keyframes hail-rainbow {
+    0%,100% {color: red;}
+        50% {color: black;}
+}
+@-o-keyframes hail-rainbow {
+    0%,100% {color: red;}
+        50% {color: black;}
+}
 
 @keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-webkit-keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-moz-keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-o-keyframes neon-purple {
   from {text-shadow:
     0 0 10px #FFFFFF,
     0 0 20px #FFFFFF,
@@ -1028,8 +1139,92 @@ div.hail {
     0 0 20px #FA2E9E,
     0 0 25px #FA2E9E;}
 }
+@-webkit-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+@-moz-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+@-o-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
 
 @keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-webkit-keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-moz-keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-o-keyframes neon-red {
   from {text-shadow:
     0 0 10px white,
     0 0 20px white,
