@@ -1018,6 +1018,13 @@ div.hail {
          -o-animation: hail-rainbow 1.5s linear infinite;
 }
 
+div.pray {
+            animation: pray-rainbow 1.5s linear infinite;
+    -webkit-animation: pray-rainbow 1.5s linear infinite;
+       -moz-animation: pray-rainbow 1.5s linear infinite;
+         -o-animation: pray-rainbow 1.5s linear infinite;
+}
+
 @keyframes blaze-rainbow {
     0%,100% {color: #F00;}
         17% {color: #FF0;}
@@ -1066,6 +1073,23 @@ div.hail {
 @-o-keyframes hail-rainbow {
     0%,100% {color: red; text-shadow: 0 0 10px red;}
         50% {color: black; text-shadow: none;}
+}
+
+@keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-webkit-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-moz-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-o-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
 }
 
 @keyframes neon-purple {
