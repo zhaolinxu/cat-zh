@@ -340,6 +340,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "gold",
+		style: {
+			         animation : "neon-gold 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-gold 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-gold 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-gold 1.5s ease-in-out infinite alternate"
+},
 		persists: false
 	},
 	{

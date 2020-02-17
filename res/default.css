@@ -1182,6 +1182,63 @@ div.hail {
     0 0 25px #FA2E9E;}
 }
 
+@keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-webkit-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-moz-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-o-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+
 @keyframes neon-red {
   from {text-shadow:
     0 0 10px white,
