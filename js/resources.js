@@ -285,8 +285,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			textShadow: "1px 0px 10px #9A2EFE",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			animation: "neon-purple 1.5s ease-in-out infinite alternate"
 		}/*,
 		aiCanDestroy: true*/
 	},{
@@ -297,8 +296,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			textShadow: "1px 0px 10px #9A2EFE",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			animation: "neon-purple 1.5s ease-in-out infinite alternate"
 		}
 	},{
 		name : "elderBox",
@@ -309,8 +307,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			textShadow: "1px 0px 10px #FA2E9E",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			animation: "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -321,8 +318,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			textShadow: "1px 0px 10px #FA2E9E",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			animation: "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -342,8 +338,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "red",
 		style: {
-			textShadow: "1px 0px 10px red",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			animation: "neon-red 1.5s ease-in-out infinite alternate"
 		},
 		persists: false
 	},

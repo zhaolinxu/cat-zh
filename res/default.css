@@ -998,3 +998,48 @@ div.hail {
     0%,100% {color: red;}
         50% {color: black;}
 }
+
+@keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+
+@keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+
+@keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
