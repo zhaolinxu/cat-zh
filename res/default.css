@@ -664,17 +664,21 @@ a:hover {
   -o-animation: pulse 5s infinite;
 }
 
-@keyframes pulse{
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+@keyframes pulse {
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 @-webkit-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 @-moz-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 @-o-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 
 .flavor {
@@ -867,9 +871,7 @@ a.link.collapse:hover {
 }
 
 @keyframes pulseShort {
-    100% {
-        transform: scale(1.1);
-    }
+    100% {transform: scale(1.1);}
   }
 
 .map-viewport {
@@ -923,8 +925,9 @@ a.link.collapse:hover {
     visibility: hidden;
 }
 
-@keyframes border-pulse{
-    0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
+@keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
 }
 
 .map-cell .coord {
@@ -975,60 +978,23 @@ a.link.collapse:hover {
 
 
 div.blaze {
-    animation: rainbow 2.5s linear;
-	animation-iteration-count: infinite;
+    animation: blaze-rainbow 3s linear infinite;
 }
 
 div.hail {
-    animation: redrainbow 1.5s linear;
-	animation-iteration-count: infinite;
+    animation: hail-rainbow 1.5s linear infinite;
 }
 
-@keyframes rainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    8%{
-        color: rgb(255,127,0);
-    }
-    16%{
-        color: rgb(255,255,0);
-    }
-    25%{
-        color: rgb(127,255,0);
-    }
-    33%{
-        color: rgb(0,255,0);
-    }
-    41%{
-        color: rgb(0,255,127);
-    }
-    50%{
-        color: rgb(0,255,255);
-    }
-    58%{
-        color: rgb(0,127,255);
-    }
-    66%{
-        color: rgb(0,0,255);
-    }
-    75%{
-        color: rgb(127,0,255);
-    }
-    83%{
-        color: rgb(255,0,255);
-    }
-    91%{
-        color: rgb(255,0,127);
-    }
+@keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
 }
 
-
-@keyframes redrainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    50%{
-        color: rgb(0,0,0);
-    }
+@keyframes hail-rainbow {
+    0%,100% {color: red;}
+        50% {color: black;}
 }
