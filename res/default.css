@@ -1052,20 +1052,20 @@ div.hail {
 }
 
 @keyframes hail-rainbow {
-    0%,100% {color: red;}
-        50% {color: black;}
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
 }
 @-webkit-keyframes hail-rainbow {
-    0%,100% {color: red;}
-        50% {color: black;}
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
 }
 @-moz-keyframes hail-rainbow {
-    0%,100% {color: red;}
-        50% {color: black;}
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
 }
 @-o-keyframes hail-rainbow {
-    0%,100% {color: red;}
-        50% {color: black;}
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
 }
 
 @keyframes neon-purple {
