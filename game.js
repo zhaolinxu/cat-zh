@@ -911,7 +911,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"gflopsConsumption" :  {
 				title: $I("effectsMgr.statics.gflopsConsumption.title"),
-				type: "fixed"
+				type: "perTick"
 			},
 
 			"hashrate" :  {
@@ -1113,7 +1113,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTimeCurrent : 0,
 
 	pauseTimestamp: 0, //time of last pause
-	
+
 	lastDateMessage: null,  //Stores the most recent date message to prevent header spam
 
 	effectsMgr: null,
@@ -1348,7 +1348,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 */
 	msg: function(message, type, tag, noBullet){
 
-		var filters = dojo.clone(game.console.filters);
+		var filters = dojo.clone(this.console.filters);
 		if (tag && filters[tag]){
 			var filter = filters[tag];
 

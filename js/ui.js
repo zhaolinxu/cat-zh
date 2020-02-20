@@ -817,7 +817,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.attr(msg.span, {innerHTML: msg.text});
         //Destroy child nodes if there are too many.
         var logLength = dojo.byId('gameLog').childNodes.length;
-        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId('gameLog').childNodes[logLength-1])}
+        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId('gameLog').childNodes[logLength-1]);}
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
@@ -825,7 +825,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeStart = _console.maxMessages - fadeCount;
         var fadeInterval = 1 / fadeCount;
 
-        for (i = fadeStart + 1; i < spans.length; i++) {
+        for (var i = fadeStart + 1; i < spans.length; i++) {
             dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
         }
     },

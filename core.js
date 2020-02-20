@@ -42,7 +42,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"fr": "French",
 			"cz": "Česky",
 			"pl": "Polskie"
-			
+
 		};
 	},
 
@@ -1367,7 +1367,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 
 		var res = this.game.resPool.get(price.name);
-		if (res.craftable && res.name != "wood"){
+		if (res.craftable && res.name != "wood" && this.game.workshop.getCraft(price.name).unlocked){
 
 			var ratio = this.game.getResCraftRatio(res);
 			var amt = price.val - res.value;
