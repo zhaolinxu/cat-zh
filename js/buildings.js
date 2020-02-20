@@ -591,28 +591,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"]
 		},
 		effects: {
-			"scienceRatio": 0.25,
 			"starEventChance": 0.002,
 			"starAutoSuccessChance": 0.01,
-			"scienceMax": 1000
 		},
-		action: function(self, game){
-			var effects = {
-				"scienceRatio": 0.25,
-				"starEventChance": 0.002,
-				"starAutoSuccessChance": 0.01,
-				"scienceMax": 1000
-			};
-
-			if (game.workshop.get("astrolabe").researched){
-				effects["scienceMax"] = 1500;
-			}
-
+		action: function(self, game) {
 			var ratio = 1 + game.getEffect("observatoryRatio");
-			effects["scienceMax"] *= ratio;
-			effects["scienceRatio"] *= ratio;
-
-			self.effects = effects;
+			self.effects["scienceMax"] = ratio * (game.workshop.get("astrolabe").researched ? 1500 : 1000);
+			self.effects["scienceRatio"] = ratio * 0.25;
 		},
 		flavor: $I("buildings.observatory.flavor")
 	},{

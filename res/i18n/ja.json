@@ -1368,7 +1368,7 @@
     "calendar.season.spring.short": "春",
     "calendar.season.summer.short": "夏",
     "calendar.season.autumn.short": "秋",
-    "calendar.msg.starchart": "星図を作った!",
+    "calendar.msg.starchart": "{0}枚の星図を作った!",
     "calendar.msg.event": "空に珍しい天体現象が起こった。",
     "calendar.msg.meteor": "隕石が村の近くに落ちた。",
     "calendar.msg.unicorn": "1頭のユニコーンがキャットニップの匂いに誘われて村にやって来た!",

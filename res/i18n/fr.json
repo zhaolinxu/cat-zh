@@ -1368,7 +1368,7 @@
     "calendar.season.spring.short": "Pri",
     "calendar.season.summer.short": "Eté",
     "calendar.season.autumn.short": "Aut",
-    "calendar.msg.starchart": "Vous avez dessiné une carte des étoiles !",
+    "calendar.msg.starchart": "Vous avez dessiné {0} cartes des étoiles !",
     "calendar.msg.event": "A rare astronomical event occurred in the sky",
     "calendar.msg.meteor": "Une météorite est tombée près du village !",
     "calendar.msg.unicorn": "Attirée par l'odeur de l'herbe à chat, une licorne arrive à votre village !",
