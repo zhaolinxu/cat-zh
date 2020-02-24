@@ -716,12 +716,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				],
 				requiredTech: ["terraformation"],
 				effects: {
-					"maxKittens": 0
+					"maxKittens": 1
 				},
-				calculateEffects: function(self, game){
-					self.effects = {
-						"maxKittens": 1
-					};
+				calculateEffects: function(self, game) {
+					self.effects["maxKittens"] = 1 + game.getEffect("terraformingMaxKittensRatio");
 				},
 				unlocks: {
 					tabs: ["village"]
@@ -735,18 +733,14 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				unlocked: false,
 				priceRatio: 1.15,
 				prices: [
-					{name: "kerosene", val: 500 }
+					{name: "kerosene", val: 500 },
+					{name: "unobtainium", val: 1 }
 				],
 				requiredTech: ["hydroponics"],
 				effects: {
-					"catnipMaxRatio" : 0,
-					"catnipRatio" : 0
-				},
-				calculateEffects: function(self, game){
-					self.effects = {
-						"catnipMaxRatio" : 0.1,
-						"catnipRatio" : 0.025
-					};
+					"catnipMaxRatio": 0.1,
+					"catnipRatio": 0.025,
+					"terraformingMaxKittensRatio": 0.01
 				}
 			}
 		]

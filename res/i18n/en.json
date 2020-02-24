@@ -1623,5 +1623,6 @@
     "effectsMgr.statics.heatMaxExpansion.title": "Max heat expansion",
     "effectsMgr.statics.voidResonance.title": "Order of the Void bonus",
     "effectsMgr.type.resGlobalCraftRatio": "{0} craft effectiveness bonus",
+    "effectsMgr.statics.terraformingMaxKittens.title": "Terraforming Station kittens bonus",
     "common.warning": " (!)"
 }

@@ -1015,6 +1015,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"voidResonance": {
 				title: $I("effectsMgr.statics.voidResonance.title"),
 				type: "ratio"
+			},
+
+			"terraformingMaxKittensRatio": {
+				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
+				type: "ratio"
 			}
 		}
 	}
@@ -2766,8 +2771,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//for example, here kitten resources are calculated per effect, this logic could be unified
 
-		var maxKittens = this.getEffect("maxKittens");
-		this.village.maxKittens = maxKittens;
+		this.village.maxKittens = Math.floor(this.getEffect("maxKittens"));
 
 		this.village.update();
 		this.workshop.update();
