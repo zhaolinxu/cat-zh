@@ -9,7 +9,7 @@ Minor:
 * Improve contrast of text in sub-buttons
 * Display energy in orange if it will be negative in winter
 * Fix kittens per tick rate
-* Add special effect on exotic resources and on 777
+* Add special effect on exotic resources and on 777 and 1337
 * Fix gflops consumption display
 
 v 1.4.7.0

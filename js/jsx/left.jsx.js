@@ -128,6 +128,8 @@ WResourceRow = React.createClass({
             specialClass = " hail";
         } else if (res.value == 777) {
             specialClass = " pray";
+        } else if (res.value == 1337) {
+            specialClass = " leet";
         }
 
         return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [

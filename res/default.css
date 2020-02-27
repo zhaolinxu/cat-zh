@@ -1025,6 +1025,13 @@ div.pray {
          -o-animation: pray-rainbow 1.5s linear infinite;
 }
 
+div.leet {
+    font-family: "Lucida Console", Monaco, monospace;
+    text-align: right;
+    color: #33FF00;
+    background-color: #282828;
+}
+
 @keyframes blaze-rainbow {
     0%,100% {color: #F00;}
         17% {color: #FF0;}
