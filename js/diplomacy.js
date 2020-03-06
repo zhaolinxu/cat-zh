@@ -460,29 +460,28 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
 	gainTradeRes: function(yieldResTotal, amtTrade){
-		var output = false;
 		if (yieldResTotal) {
+			var output = false;
 			for (var res in yieldResTotal) {
 				var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
 				if (amt > 0){
-					if (res == "blueprint"){
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
-					} else if (res == "titanium"){
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
-					} else {
-						var resPool = this.game.resPool.get(res);
-						var name = resPool.title || res;
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]), null, "trade", true);
+					var resPool = this.game.resPool.get(res);
+					var name = resPool.title || res;
+					var msg = $I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]);
+					var type = null;
+					if (res == "blueprint" || res == "titanium"){
+						msg += "!";
+						type = "notice";
 					}
+					this.game.msg(msg, type, "trade", true);
 					output = true;
 				}
 			}
-			//var orthographe = amtTrade > 1 ? "s" : "";
-			this.game.msg($I("trade.msg.trade.caravan", [amtTrade]), null, "trade");
-		}
 
-		if (yieldResTotal && !output){
-			this.game.msg($I("trade.msg.trade.empty"), null, "trade");
+			if (!output){
+				this.game.msg($I("trade.msg.trade.empty"), null, "trade", true);
+			}
+			this.game.msg($I("trade.msg.trade.caravan", [amtTrade]), null, "trade");
 		}
 	},
 
