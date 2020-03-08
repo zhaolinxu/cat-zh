@@ -20,15 +20,26 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 		this.setEffectsCachedExisting();
     },
 
-    save: function(saveData){
-       saveData["time"] = {
-           timestamp: this.game.pauseTimestamp || Date.now(),
-           flux: this.flux,
-           heat: this.heat,
-           isAccelerated: this.isAccelerated,
-           cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "unlocked"]),
-           vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
-       };
+    save: function(saveData) {
+        saveData.time = {
+            timestamp: this.game.pauseTimestamp || Date.now(),
+            flux: this.flux,
+            heat: this.heat,
+            isAccelerated: this.isAccelerated,
+            cfu: this.filterMetadata(this.chronoforgeUpgrades, ["name", "val", "on", "heat", "unlocked"]),
+            vsu: this.filterMetadata(this.voidspaceUpgrades, ["name", "val", "on"])
+        };
+        this._forceChronoFurnaceStop(saveData.time.cfu);
+    },
+
+    _forceChronoFurnaceStop: function(cfuSave) {
+        for (var i = 0; i < cfuSave.length; i++) {
+            var upgrade = cfuSave[i];
+            if (upgrade.name == "blastFurnace") {
+                upgrade.isAutomationEnabled = false;
+                return;
+            }
+        }
     },
 
     load: function(saveData){
