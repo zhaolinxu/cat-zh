@@ -160,3 +160,11 @@
 .scheme_dark .tooltip-content {
 	background-color: #201F1D;
 }
+
+.scheme_dark #tooltip .desc {
+	color: gray;
+}
+
+.scheme_dark #tooltip .effectName {
+	color: gray;
+}

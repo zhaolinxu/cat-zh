@@ -233,6 +233,10 @@ select>option {
     color: #FF3030;
 }
 
+.rawRes {
+    color: gray;
+}
+
 .dropdown-link {
     cursor: pointer;
 }
@@ -689,6 +693,8 @@ a:hover {
 .effectName {
     float: left;
     clear: both;
+    font-size: 14px;
+    color: gray;
 }
 
 /*------------------------------*/
@@ -698,6 +704,11 @@ a:hover {
 
 .tooltip-inner .desc {
     max-width: 280px;
+    text-align: center;
+    width: 100%;
+    padding-top: 4px;
+    font-size: 15px;
+    color: gray;
 }
 
 .links-block a{

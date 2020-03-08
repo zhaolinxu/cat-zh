@@ -385,6 +385,14 @@ body.scheme_sleek  {
     border-color: rgba(55, 79, 115, 0.8);
 }
 
+.scheme_sleek #tooltip .desc {
+	color: gray;
+}
+
+.scheme_sleek #tooltip .effectName {
+	color: gray;
+}
+
 .scheme_sleek #tooltip .flavor {
     color: #00b7ff;
 }

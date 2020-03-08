@@ -1402,14 +1402,8 @@ ButtonModernHelper = {
 		// description
 		var descDiv = dojo.create("div", {
 			innerHTML: model.description,
-			className: "desc",
-			style: {
-				textAlign: "center",
-				width: "100%",
-				paddingTop: "4px",
-				fontSize: "15px",
-				color: "gray"
-		}}, tooltip);
+			className: "desc"
+		}, tooltip);
 
 		var prices = model.priceModels;
 		var effects = model.effectModels;
@@ -1484,8 +1478,8 @@ ButtonModernHelper = {
 				for (var k = 0; k < price.children[i].indent; ++k) {
 					compSpan.name.innerHTML = "&nbsp;&nbsp;&nbsp;" + compSpan.name.innerHTML;
 				}
-				compSpan.name.style.color = "gray";	//mark unrolled price component as raw
-
+				//mark unrolled price component as raw
+				compSpan.name.className = "rawRes";
 			}
 
 		}
@@ -1512,19 +1506,13 @@ ButtonModernHelper = {
 
 		//-----------------------------------------
 
-		for (var i =0; i < effectsList.length; i++){
+		for (var i =0; i < effectsList.length; i++) {
 			var effectModel = effectsList[i];
 			var nameSpan = dojo.create("div", {
 				innerHTML: effectModel.displayEffectName + ": " + effectModel.displayEffectValue,
-					className: "effectName",
-					style: {
-						fontSize: "14px",
-						color: "gray"
-					}
-				}, tooltip );
-
+				className: "effectName"
+			}, tooltip);
 		}
-
 	}
 };
 
