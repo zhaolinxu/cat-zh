@@ -999,7 +999,7 @@
     "effectsMgr.statics.temporalFluxProductionChronosphere.title": "Producción de flujo temporal de la cronoesfera",
     "effectsMgr.statics.observatoryRatio.title": "Ratio de Ciencia del Observatorio",
     "effectsMgr.statics.magnetoBoostRatio.title": "Impulso Magneto",
-    "effectsMgr.statics.learnRatio.title": "Aprendizaje de habilidades",
+    "effectsMgr.statics.skillXP.title": "Aprendizaje de habilidades",
     "effectsMgr.statics.refineRatio.title": "Bonificación de refinamiento Catnip",
     "effectsMgr.statics.craftRatio.title": "Bonificación de artesanía",
     "effectsMgr.statics.happiness.title": "Felicidad",

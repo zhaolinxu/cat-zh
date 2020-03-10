@@ -998,7 +998,7 @@
     "effectsMgr.statics.temporalFluxProductionChronosphere.title": "クロノスフィアの時間変位生産",
     "effectsMgr.statics.observatoryRatio.title": "天文台の科学比率",
     "effectsMgr.statics.magnetoBoostRatio.title": "マグネトーブースト",
-    "effectsMgr.statics.learnRatio.title": "技能習得",
+    "effectsMgr.statics.skillXP.title": "技能習得",
     "effectsMgr.statics.refineRatio.title": "キャットニップ精製ボーナス",
     "effectsMgr.statics.craftRatio.title": "クラフトボーナス",
     "effectsMgr.statics.happiness.title": "幸福度",

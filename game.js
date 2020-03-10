@@ -376,8 +376,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio"
 			},
 
-			"learnRatio" : {
-				title: $I("effectsMgr.statics.learnRatio.title"),
+			"skillXP" : {
+				title: $I("effectsMgr.statics.skillXP.title"),
 				type: "perTick"
 			},
 

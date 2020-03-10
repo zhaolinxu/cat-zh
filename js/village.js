@@ -1238,9 +1238,8 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 		}
 
-		var learnBasicRatio = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
-		var learnRatio = game.getEffect("learnRatio");
-		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio * times;
+		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
+		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
 		var skillsCap = 20001;
 
@@ -1271,9 +1270,9 @@ dojo.declare("classes.village.KittenSim", null, {
 				//Learning job's skill
 				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
 					if (kitten.skills[kitten.job] < skillsCap){
-						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillRatio, skillsCap);
+						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillXP, skillsCap);
 					}
-					kitten.exp += skillRatio;
+					kitten.exp += skillXP;
 				}
 				//Other job's skills
 				if (neuralNetworks) {

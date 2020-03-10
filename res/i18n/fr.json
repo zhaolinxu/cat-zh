@@ -998,7 +998,7 @@
     "effectsMgr.statics.temporalFluxProductionChronosphere.title": "Chronosphere's temporal flux production",
     "effectsMgr.statics.observatoryRatio.title": "Observatory science bonus",
     "effectsMgr.statics.magnetoBoostRatio.title": "Magneto boost",
-    "effectsMgr.statics.learnRatio.title": "Skills learning",
+    "effectsMgr.statics.skillXP.title": "Skills learning",
     "effectsMgr.statics.refineRatio.title": "Catnip refine bonus",
     "effectsMgr.statics.craftRatio.title": "Craft bonus",
     "effectsMgr.statics.happiness.title": "Happiness",

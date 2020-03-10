@@ -15,6 +15,7 @@ Minor:
 * Use titanium' and blueprints' translated name in trade messages
 * Move 'return empty-pawed' below the corresponding 'sent x trades' message and remove its bullet
 * Fix Chrono Furnace state when exporting save from web to mobile
+* Fix base skill XP not being multiplied by number of ticks in case of offline progression
 
 v 1.4.7.0
 Major:

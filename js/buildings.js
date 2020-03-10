@@ -571,7 +571,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		effects: {
 			"scienceRatio": 0.2,
-			"learnRatio": 0.05,
+			"skillXP": 0.0005,
 			"cultureMax": 25,
 			"scienceMax": 500
 		},
