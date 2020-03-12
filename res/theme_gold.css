@@ -1,5 +1,5 @@
 /**
- *			Gold 1.0.0 Theme © Volkeyrn
+ *			Gold 1.0.2 Theme © Volkeyrn
  */
 @import url(https://fonts.googleapis.com/css?family=Livvic); 
 
@@ -11,7 +11,8 @@ body.scheme_gold {
 .scheme_gold select,
 .scheme_gold .btn,
 .scheme_gold  .modern,
-.scheme_gold .btn.modern {
+.scheme_gold .btn.modern,
+.scheme_gold input[type='button'] {
     font-family: 'Livvic', sans-serif;  /*+ good size and very nice */	
 }
 
@@ -57,6 +58,9 @@ body.scheme_gold {
 }
 .scheme_gold .disabled div { /* color text on button disabled */
 	color: #706F64;
+}
+.scheme_gold div.leet {
+    color: #33FF00;
 }
 .scheme_gold h1 {
     font-size: 100%;
@@ -451,7 +455,6 @@ body.scheme_gold {
     background: #383838;
 	border-radius: 40px;
 }
-
 .scheme_gold ::-webkit-scrollbar-track {
     background: #202020;
     border-radius: 50px;
