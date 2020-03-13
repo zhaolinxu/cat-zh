@@ -340,6 +340,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					};
 				},
 				calculateEnergyProduction: function(game, season) {
+					if (game.challenges.currentChallenge == "winterIsComing"){
+						season = 3;
+					}
 					var energyProduction = 2 * (1 + game.getEffect("solarFarmRatio"));
 					if (season == 3) {
 						energyProduction *= 0.75;
