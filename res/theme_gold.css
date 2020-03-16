@@ -1,5 +1,5 @@
 /**
- *			Gold 1.0.4 Theme © Volkeyrn
+ *			Gold 1.0.5 Theme © Volkeyrn
  */
 @import url(https://fonts.googleapis.com/css?family=Livvic:ital,wght@100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,900,900italic&display=swap);
 
@@ -12,7 +12,7 @@ body.scheme_gold {
 .scheme_gold  #gamePageContainer,
 .scheme_gold select,
 .scheme_gold .btn,
-.scheme_gold  .modern,
+.scheme_gold .modern,
 .scheme_gold .btn.modern,
 .scheme_gold input[type='button'] {
     font-family: 'Livvic', sans-serif;  /*+ good size and very nice */	
@@ -48,7 +48,8 @@ body.scheme_gold {
 .scheme_gold a {
 	color: #EFEDE8; 
 }
-.scheme_gold a, .scheme_gold .craft-link {
+.scheme_gold a,
+.scheme_gold .craft-link {
     text-decoration: none;
 }
 .scheme_gold a:hover {
@@ -97,7 +98,8 @@ body.scheme_gold {
 	background-color: #383838;
 	overflow: hidden;
 }
-.scheme_gold .help, .scheme_gold .dialog {
+.scheme_gold .help,
+.scheme_gold .dialog {
     /*box-shadow: 4px 4px 4px rgb(11, 11, 11);*/
 	box-shadow: 0 2px 5px 0 rgb(13, 13, 13), 0 2px 10px 0 rgb(24, 24, 24), 0 0 0 9999px rgba(0, 0, 0, 0.8);
     height: auto !important;
@@ -159,7 +161,7 @@ body.scheme_gold {
 	bottom: 6px;
 	background: rgba(56, 56, 56, 0.7); /* color #383838 */ 
 	-webkit-box-shadow: 0 0 4px 4px rgba(56, 56, 56, 0.7); /* color #383838 */ 
-			box-shadow: 0 0 4px 4px rgba(56, 56, 56, 0.7); /* color #383838 */ 
+	        box-shadow: 0 0 4px 4px rgba(56, 56, 56, 0.7); /* color #383838 */ 
 }
 .scheme_gold #footerLinks a:hover {
 	text-shadow: none;
@@ -171,7 +173,8 @@ body.scheme_gold {
 /*************************************************/
 /******************** TOOLTIP ********************/
 /*************************************************/
-.scheme_gold #tooltip, .scheme_gold .tooltip-block div {    
+.scheme_gold #tooltip,
+.scheme_gold .tooltip-block div {    
     border-color:  rgba(223, 206, 153, 0.8); /* color #DFCE99 */
 	box-shadow: 4px 4px 4px rgb(11, 11, 11);
 }
@@ -200,7 +203,8 @@ body.scheme_gold {
 	font-style: italic;
 	padding-left: 10px;
 }
-.scheme_gold .button_tooltip .noRes, .limited { /* on ressource limited or not attainable */
+.scheme_gold .button_tooltip .noRes,
+.scheme_gold .limited { /* on ressource limited or not attainable */
     color: #C83B00;
 }
 .scheme_gold .tooltip-block div{ /* tooltip windows == icon ? on left column near tools icons */
@@ -437,7 +441,8 @@ body.scheme_gold {
 	font-weight: bold;
     text-shadow: 1px 1px #383838;
 }
-.scheme_gold tr.resourceRow:hover, .scheme_gold .res-row:hover {
+.scheme_gold tr.resourceRow:hover,
+.scheme_gold .res-row:hover {
     background-color: rgba(223, 206, 153, 0.15); /* color #DFCE99 */
 	cursor: default;
 }
@@ -500,11 +505,12 @@ body.scheme_gold {
     border-radius: 50px;
 }
 /* Only FireFox */
-.scheme_gold #leftColumn, #rightColumn, #midColumn {
+.scheme_gold #leftColumn,
+.scheme_gold #rightColumn,
+.scheme_gold #midColumn {
    scrollbar-width: thin;
    scrollbar-color: #383838 #202020 !important; 
 }
 .scheme_gold select {
    scrollbar-width: auto !important;
 }
-
