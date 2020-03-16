@@ -3760,7 +3760,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	unlockScheme: function(name, noWarning) {
-		$("#schemeToggle > option[value=" + name + "]").attr("hidden", false);
+		$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
 		if (!noWarning) {
 			this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
 		}
