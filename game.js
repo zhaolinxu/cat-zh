@@ -1655,8 +1655,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
 
-		if (!this.spaceTab.visible && this.colorScheme == "space") {
-			this.relockCurrentScheme();
+		if (!this.spaceTab.visible) {
+			this.relockScheme("space");
 		}
 
 		this.ui.load();
@@ -3766,11 +3766,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	relockCurrentScheme: function() {
-		$("#schemeToggle > option[value=" + this.colorScheme + "]").attr("hidden", "hidden");
-		this.msg($I("opts.theme.relocked") + $I("opts.theme." + this.colorScheme), "important");
-		this.colorScheme = "";
-		this.updateOptionsUI();
+	relockScheme: function(name) {
+		$("#schemeToggle > option[value=" + name + "]").attr("hidden", "hidden");
+		if (this.colorScheme == name) {
+			this.msg($I("opts.theme.relocked") + $I("opts.theme." + name), "important");
+			this.colorScheme = "";
+			this.updateOptionsUI();
+		}
 	},
 
 	upgrade: function(list){
