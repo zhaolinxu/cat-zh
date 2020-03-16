@@ -3,7 +3,8 @@ Major:
 * Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
 * Improve kittens' save compression
 * Make Hydroponics increase kittens capacity of Terraforming Stations
-* New theme: Gold, by Volkeyrn
+* New themes: Gold and Space, by Volkeyrn
+* Fix Solar Farms not being affected by Winter Has Come
 
 Minor:
 * Add confirmation pop-up for present box unwrapping

@@ -1528,9 +1528,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	toggleScheme: function(){
-		var schemeToggle = dojo.byId("schemeToggle");
-		this.colorScheme = schemeToggle.value;
-
+		this.colorScheme = dojo.byId("schemeToggle").value;
 		this.updateOptionsUI();
 	},
 
@@ -1656,6 +1654,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
+
+		if (!this.spaceTab.visible && this.colorScheme == "space") {
+			this.relockCurrentScheme();
+		}
 
 		this.ui.load();
 
@@ -3723,10 +3725,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.religion.getTU(unlockId);
 			case "challenges":
 				return this.challenges.getChallenge(unlockId);
+			case "schemes":
+				return unlockId;
 		}
 	},
 
-	unlock: function(list){
+	unlock: function(list, noWarning){
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3740,6 +3744,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
+				} else if (type == "schemes") {
+					this.unlockScheme(newUnlock, noWarning);
 				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
 					// do nothing
 				} else {
@@ -3751,6 +3757,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
+	},
+
+	unlockScheme: function(name, noWarning) {
+		$("#schemeToggle > option[value=" + name + "]").attr("hidden", false);
+		if (!noWarning) {
+			this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+		}
+	},
+
+	relockCurrentScheme: function() {
+		$("#schemeToggle > option[value=" + this.colorScheme + "]").attr("hidden", "hidden");
+		this.msg($I("opts.theme.relocked") + $I("opts.theme." + this.colorScheme), "important");
+		this.colorScheme = "";
+		this.updateOptionsUI();
 	},
 
 	upgrade: function(list){

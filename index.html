@@ -37,6 +37,7 @@
 		<link rel="stylesheet" href="res/theme_grassy.css?v=5" type="text/css">
 		<link rel="stylesheet" href="res/theme_sleek.css?v=5" type="text/css">
 		<link rel="stylesheet" href="res/theme_gold.css?v=5" type="text/css">
+		<link rel="stylesheet" href="res/theme_space.css?v=5" type="text/css">
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -431,7 +432,7 @@
 			<div id="creditsDiv" style="display: none" class="dialog credits">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				CSS themes: Grassy by <a href="http://www.reddit.com/user/shrx" target="_blank">shrx</a>, Sleek by Kida, Gold by Volkeyrn.<br />
+				CSS themes: Grassy by <a href="http://www.reddit.com/user/shrx" target="_blank">shrx</a>, Sleek by Kida, Gold and Space by Volkeyrn.<br />
 				<br />
 				Code contributions:
 				<ul>
@@ -468,13 +469,13 @@
 				<br>
 
 				<label for="schemeToggle">Color scheme:</label>
-				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
 					<option value="">Classic</option>
 					<option value="dark">Inverted</option>
 					<option value="grassy">Grassy (by shrx)</option>
 					<option value="sleek">Sleek (by Kida)</option>
 					<option value="gold">Gold (by Volkeyrn)</option>
+					<option value="space" hidden="hidden">Space (by Volkeyrn)</option>
 				</select>
 				<br>
 				<br>

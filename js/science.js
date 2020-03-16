@@ -552,7 +552,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
-            upgrades: ["oilDistillation"]
+			schemes: ["space"],
+			upgrades: ["oilDistillation"]
 		}
 	}, {
         name: "oilProcessing",
@@ -884,7 +885,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 				continue;
 			}
 
-			this.game.unlock(tech.unlocks);
+			this.game.unlock(tech.unlocks, true);
 		}
 
 	},
