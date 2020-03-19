@@ -741,6 +741,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"catnipMaxRatio": 0.1,
 					"catnipRatio": 0.025,
 					"terraformingMaxKittensRatio": 0.01
+				},
+				upgrades: {
+					spaceBuilding: ["terraformingStation"]
 				}
 			}
 		]
