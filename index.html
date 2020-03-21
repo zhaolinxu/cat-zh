@@ -32,12 +32,9 @@
 			ga('send', 'pageview');
 		</script>
 
-		<link rel="stylesheet" href="res/default.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_grassy.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_sleek.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_gold.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_space.css?v=5" type="text/css">
+		<link rel="stylesheet" type="text/css" href="res/default.css" />
+		<!--  Dark theme declared here for early use -->
+		<link rel="stylesheet" type="text/css" href="res/theme_dark.css" />
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -161,9 +158,14 @@
 				console.log("Loading...");
 
 				var def = _import("config");
-				def = _import("core", def);
-				var gameLang;
+				def.then(function() {
+					var schemes = new classes.KGConfig().statics.schemes;
+					for (var i = 0; i < schemes.length; ++i) {
+						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i] + ".css").appendTo($("head"));
+					}
+				});
 
+				def = _import("core", def);
 				def.then(function () {
 					console.log("Loading locale system");
 					var langPromise = i18nLang.init(version);
@@ -470,12 +472,6 @@
 
 				<label for="schemeToggle">Color scheme:</label>
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
-					<option value="">Classic</option>
-					<option value="dark">Inverted</option>
-					<option value="grassy">Grassy (by shrx)</option>
-					<option value="sleek">Sleek (by Kida)</option>
-					<option value="gold">Gold (by Volkeyrn)</option>
-					<option value="space" hidden="hidden">Space (by Volkeyrn)</option>
 				</select>
 				<br>
 				<br>

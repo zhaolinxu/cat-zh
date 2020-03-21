@@ -634,7 +634,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var game = this.game;
 
         $("#schemeToggle").val(game.colorScheme);
-        $("body").attr("class", "scheme_" + game.colorScheme);
+        if (game.colorScheme) {
+            $("body").attr("class", "scheme_" + game.colorScheme);
+        } else {
+        	$("body").removeAttr("class");
+        }
 
         $("#workersToggle")[0].checked = game.useWorkers;
         $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
@@ -650,15 +654,26 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var selectedLang = i18nLang.getLanguage();
         var locales = i18nLang.getAvailableLocales();
         var labels = i18nLang.getAvailableLocaleLabels();
-        var $langSelector = $("#languageSelector");
-        $langSelector.empty();
+        var langSelector = $("#languageSelector");
+        langSelector.empty();
         for (var i = 0; i < locales.length; i++) {
-            $('<option />', {
-                value: locales[i],
-                text:labels[locales[i]]
-            }).appendTo($langSelector);
+            $("<option />").attr("value", locales[i]).text(labels[locales[i]]).appendTo(langSelector);
         }
-        $langSelector.val(selectedLang);
+        langSelector.val(selectedLang);
+
+        var schemes = [""].concat(new classes.KGConfig().statics.schemes);
+        var schemeSelect = $("#schemeToggle");
+        schemeSelect.empty();
+        for (var i = 0; i < schemes.length; ++i) {
+        	var scheme = schemes[i] ? schemes[i] : "default";
+            var schemeName = $I("opts.theme." + scheme);
+            var author = $I("opts.theme." + scheme + ".by");
+            if (author.charAt(0) != "$") {
+            	schemeName += " (by " + author + ")";
+            }
+            $("<option />").attr("value", schemes[i]).text(schemeName).appendTo(schemeSelect);
+        }
+        schemeSelect.val(game.colorScheme);
     },
 
     displayAutosave: function(){
