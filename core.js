@@ -799,14 +799,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 
 	refund: function(model){
 		if (!model.prices.length){
-			console.warn("unable to refund building, no prices specifed in metadata :O");
+			console.warn("unable to refund building, no prices specified in metadata :O");
 			return;
 		}
 		for( var i = 0; i < model.prices.length; i++){
 			var price = model.prices[i];
 
 			var res = this.game.resPool.get(price.name);
-			if (res.refundable) {
+			if (res.isRefundable(this.game)) {
 				this.game.resPool.addResEvent(price.name, price.val * model.refundPercentage);
 			} else {
 				// No refund at all

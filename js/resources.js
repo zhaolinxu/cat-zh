@@ -80,7 +80,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		isNotRefundable: true
 	},{
 		name : "uranium",
 		title: $I("resources.uranium.title"),
@@ -115,8 +116,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		transient: true,
 		visible: true,
-		color: "#5A0EDE"/*,
-		aiCanDestroy: true*/
+		color: "#5A0EDE",
+		isRefundable: function(game) {
+			return game.resPool.energyProd >= game.resPool.energyCons;
+		}
 	},{
 		name : "manpower",
 		title: $I("resources.manpower.title"),
@@ -437,7 +440,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         title: $I("resources.kerosene.title"),
         type: "common",
         craftable: true,
-        color: "darkYellow"
+        color: "darkYellow",
+		isNotRefundable: true
 	},{
 		name : "parchment",
 		title: $I("resources.parchment.title"),
@@ -472,7 +476,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		craftable: true,
 		color: "#4EA24E",
-		calculatePerTick: true
+		calculatePerTick: true,
+		isNotRefundable: true
 	},{
 		name : "megalith",
 		title: $I("resources.megalith.title"),
@@ -502,12 +507,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
 			res.unlocked = false;
-			if (res.name == "oil" ||
-				res.name == "kerosene" ||
-				res.name == "thorium") {
-				res.refundable = false;
-			} else {
-				res.refundable = true;
+			if (!res.isRefundable) {
+				res.isRefundable = function(game) {
+					return !this.isNotRefundable;
+				};
 			}
 			this.resources.push(res);
 			this.resourceMap[res.name] = res;
