@@ -885,7 +885,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 				continue;
 			}
 
-			this.game.unlock(tech.unlocks, true);
+			this.game.unlock(tech.unlocks);
 		}
 
 	},

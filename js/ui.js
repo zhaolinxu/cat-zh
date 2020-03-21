@@ -633,8 +633,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateOptions: function() {
         var game = this.game;
 
-        $("#schemeToggle").val(game.colorScheme);
-        if (game.colorScheme) {
+        if (game.unlockedSchemes.indexOf(game.colorScheme) < 0) {
+            game.colorScheme = "default";
+        }
+        if (game.colorScheme != "default") {
             $("body").attr("class", "scheme_" + game.colorScheme);
         } else {
         	$("body").removeAttr("class");
@@ -661,17 +663,22 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
         langSelector.val(selectedLang);
 
-        var schemes = [""].concat(new classes.KGConfig().statics.schemes);
+        var schemes = ["default"].concat(new classes.KGConfig().statics.schemes);
         var schemeSelect = $("#schemeToggle");
         schemeSelect.empty();
         for (var i = 0; i < schemes.length; ++i) {
-        	var scheme = schemes[i] ? schemes[i] : "default";
-            var schemeName = $I("opts.theme." + scheme);
+            var scheme = schemes[i];
+            var schemeDisplay = $I("opts.theme." + scheme);
             var author = $I("opts.theme." + scheme + ".by");
             if (author.charAt(0) != "$") {
-            	schemeName += " (by " + author + ")";
+                schemeDisplay += " (by " + author + ")";
             }
-            $("<option />").attr("value", schemes[i]).text(schemeName).appendTo(schemeSelect);
+
+            var option = $("<option />").attr("value", scheme).text(schemeDisplay);
+            if (game.unlockedSchemes.indexOf(scheme) < 0) {
+                option = option.attr("hidden", "hidden");
+            }
+            option.appendTo(schemeSelect);
         }
         schemeSelect.val(game.colorScheme);
     },

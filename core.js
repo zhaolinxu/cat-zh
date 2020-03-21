@@ -2093,6 +2093,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.unlocks) {
 				this.game.unlock(meta.unlocks);
+				this.game.unlockSchemes(meta.unlocks.schemes);
 			}
 
 			if (meta.upgrades) {
@@ -2172,6 +2173,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuc
 
 			if (meta.unlocks) {
 				this.game.unlock(meta.unlocks);
+				this.game.unlockSchemes(meta.unlocks.schemes);
 			}
 
 			if (meta.upgrades) {

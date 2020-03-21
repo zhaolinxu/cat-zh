@@ -1088,6 +1088,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	forceShowLimits: false,
 	useWorkers: false,
 	colorScheme: "",
+	unlockedSchemes: ["default", "dark"],
 
 	timer: null,
 	_mainTimer: null,	//main timer loop
@@ -1400,6 +1401,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.forceShowLimits = false;
 		this.useWorkers = false;
 		this.colorScheme = "";
+		this.unlockedSchemes = ["default", "dark"];
 		this.karmaKittens = 0;
 		this.karmaZebras = 0;
 		this.ironWill = true;
@@ -1480,6 +1482,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			isCMBREnabled: this.isCMBREnabled,
 			useWorkers: this.useWorkers,
 			colorScheme: this.colorScheme,
+			unlockedSchemes: this.unlockedSchemes,
 			karmaKittens: this.karmaKittens,
 			karmaZebras: this.karmaZebras,
 			ironWill : this.ironWill,
@@ -1619,6 +1622,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			//something should really be done with this mess there
 			this.forceShowLimits = data.forceShowLimits ? data.forceShowLimits : false;
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
+			this.unlockedSchemes = data.unlockedSchemes ? data.unlockedSchemes : ["default", "dark"];
 
 			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
 			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
@@ -1654,10 +1658,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
-
-		if (!this.spaceTab.visible) {
-			this.relockScheme("space");
-		}
 
 		this.ui.load();
 
@@ -3730,7 +3730,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	unlock: function(list, noWarning){
+	unlock: function(list) {
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3745,7 +3745,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
 				} else if (type == "schemes") {
-					this.unlockScheme(newUnlock, noWarning);
+					// Permanent unlock, managed separately by unlockSchemes
 				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
 					// do nothing
 				} else {
@@ -3759,19 +3759,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	unlockScheme: function(name, noWarning) {
-		$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
-		if (!noWarning) {
-			this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
-		}
-	},
-
-	relockScheme: function(name) {
-		$("#schemeToggle > option[value=" + name + "]").attr("hidden", "hidden");
-		if (this.colorScheme == name) {
-			this.msg($I("opts.theme.relocked") + $I("opts.theme." + name), "important");
-			this.colorScheme = "";
-			this.updateOptionsUI();
+	unlockSchemes: function(names) {
+		for (var i = 0; i < names.length; ++i) {
+			var name = names[i];
+			if (this.unlockedSchemes.indexOf(name) < 0) {
+				$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
+				this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+				this.unlockedSchemes.push(name);
+			}
 		}
 	},
 

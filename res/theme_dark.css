@@ -153,7 +153,8 @@
     text-shadow: -0.06ex 0 white, 0.06ex 0 white;
 }
 
-.scheme_dark .map-cell .label, .scheme_dark .map-cell .coord{
+.scheme_dark .map-cell .label,
+.scheme_dark .map-cell .coord{
 	color: #201F1D;
 }
 

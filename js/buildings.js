@@ -1656,6 +1656,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 			effects["cultureMaxRatio"] = 0.08 + game.getEffect("cultureMaxRatioBonus");
 			self.effects = effects;
+		},
+		unlocks: {
+			schemes: ["sleek"]
 		}
 	},{
 		name: "chronosphere",

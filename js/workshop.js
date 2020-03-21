@@ -787,7 +787,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		flavor: $I("workshop.goldOre.flavor")
+		flavor: $I("workshop.goldOre.flavor"),
+		unlocks: {
+			schemes: ["gold"]
+		}
 	},{
 		name: "geodesy",
 		label: $I("workshop.geodesy.label"),

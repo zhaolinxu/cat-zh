@@ -790,6 +790,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 		}
 
+		if (this.season == 1) {
+			this.game.unlockSchemes(["grassy"]);
+		}
 	},
 
 	onNewYear: function(updateUI){
