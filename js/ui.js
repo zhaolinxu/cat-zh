@@ -95,6 +95,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatActive: false,
     isChatVisited: false,
 
+    schemes: [{name: "default"}, {name: "dark"}].concat(new classes.KGConfig().statics.schemes),
+
     constructor: function(containerId){
         this.containerId = containerId;
 
@@ -663,19 +665,17 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
         langSelector.val(selectedLang);
 
-        var schemes = ["default"].concat(new classes.KGConfig().statics.schemes);
         var schemeSelect = $("#schemeToggle");
         schemeSelect.empty();
-        for (var i = 0; i < schemes.length; ++i) {
-            var scheme = schemes[i];
-            var schemeDisplay = $I("opts.theme." + scheme);
-            var author = $I("opts.theme." + scheme + ".by");
-            if (author.charAt(0) != "$") {
-                schemeDisplay += " (by " + author + ")";
+        for (var i = 0; i < this.schemes.length; ++i) {
+            var scheme = this.schemes[i];
+            var schemeDisplay = $I("opts.theme." + scheme.name);
+            if (scheme.author) {
+                schemeDisplay += " (by " + scheme.author + ")";
             }
 
-            var option = $("<option />").attr("value", scheme).text(schemeDisplay);
-            if (game.unlockedSchemes.indexOf(scheme) < 0) {
+            var option = $("<option />").attr("value", scheme.name).text(schemeDisplay);
+            if (game.unlockedSchemes.indexOf(scheme.name) < 0) {
                 option = option.attr("hidden", "hidden");
             }
             option.appendTo(schemeSelect);

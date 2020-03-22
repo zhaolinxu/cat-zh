@@ -33,7 +33,6 @@
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="res/default.css" />
-		<!--  Dark theme declared here for early use -->
 		<link rel="stylesheet" type="text/css" href="res/theme_dark.css" />
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
@@ -161,7 +160,7 @@
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
-						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i] + ".css").appendTo($("head"));
+						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i].name + ".css").appendTo($("head"));
 					}
 				});
 
