@@ -1037,10 +1037,10 @@ div.pray {
 }
 
 div.leet {
-    font-family: "Lucida Console", Monaco, monospace;
-    text-align: right;
-    color: #33FF00;
-    background-color: #282828;
+    font-family: "Lucida Console", Monaco, monospace !important;
+    text-align: right                                !important;
+    color: #33FF00                                   !important;
+    background-color: #282828                        !important;
 }
 
 @keyframes blaze-rainbow {

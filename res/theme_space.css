@@ -82,9 +82,6 @@ body.scheme_space {
 .scheme_space .disabled div { /* color text on button disabled */
 	color: #9FA5D6;
 }
-.scheme_space div.leet { /* for resource at 1337 */
-    color: #33FF00; /* do not change the value ! */
-}
 .scheme_space h1 {
     font-size: 100%;
     color: #C23574; 

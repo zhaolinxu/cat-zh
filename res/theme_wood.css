@@ -87,9 +87,6 @@ body.scheme_wood {
 .scheme_wood .btn.disabled div { /* color text for buttons disabled */
 	color: #666666;
 }
-.scheme_wood div.leet { /* for resource at 1337 */
-	color: #33FF00; /* do not change the value ! */
-}
 .scheme_wood h1 {
 	font-size: 100%;
 	color: #D79E4D; 
