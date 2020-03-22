@@ -499,6 +499,9 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
+				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
+				<label for="hideBGImage">Hide background image (for color schemes where applicable)</label>
+				<br>
                 <br>
 
                 <a href="#" onclick="$('.optsExtra').toggle();">More...</a>

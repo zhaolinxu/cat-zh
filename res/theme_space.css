@@ -20,6 +20,14 @@ body.scheme_space {
 	background-attachment: fixed;
 	background-position: center -300px; */
 }
+
+body.scheme_space.with_background_image {
+	background-image: url('img/theme_space_stars_background.png'); /* source: https://pngtree.com/freebackground/blue-starry-night-sky-background_925273.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: bottom right;
+}
+
 .scheme_space  #gamePageContainer,
 .scheme_space select,
 .scheme_space .btn,

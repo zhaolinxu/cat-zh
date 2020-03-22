@@ -638,10 +638,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         if (game.unlockedSchemes.indexOf(game.colorScheme) < 0) {
             game.colorScheme = "default";
         }
+        $("body").removeClass();
         if (game.colorScheme != "default") {
-            $("body").attr("class", "scheme_" + game.colorScheme);
-        } else {
-        	$("body").removeAttr("class");
+            $("body").addClass("scheme_" + game.colorScheme);
+            if (!game.opts.hideBGImage) {
+                $("body").addClass("with_background_image");
+            }
         }
 
         $("#workersToggle")[0].checked = game.useWorkers;
@@ -650,6 +652,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
+        $("#hideBGImage")[0].checked = game.opts.hideBGImage;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
