@@ -1401,6 +1401,8 @@
     "opts.theme.gold.by": "Volkeyrn",
     "opts.theme.space": "Space",
     "opts.theme.space.by": "Volkeyrn",
+    "opts.theme.wood": "Wood",
+    "opts.theme.wood.by": "Volkeyrn",
     "opts.lang": "Language",
     "opts.percentage": "Use percentage values",
     "opts.percentage.desc": "Game will use % of total resource values, otherwise per second values.",

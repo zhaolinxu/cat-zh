@@ -68,7 +68,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science", val: 20000 },
 			{ name : "steel", val: 75 }
-		]
+		],
+		unlocks: {
+			schemes: ["wood"]
+		}
 	},{
 		name: "reinforcedSaw",
 		label: $I("workshop.reinforcedSaw.label"),
