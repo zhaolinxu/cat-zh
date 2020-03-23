@@ -789,10 +789,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.futureSeasonTemporalParadox = futureSeasonTemporalParadox;
 			}
 		}
-
-		if (this.season == 1) {
-			this.game.unlockSchemes(["grassy"]);
-		}
 	},
 
 	onNewYear: function(updateUI){

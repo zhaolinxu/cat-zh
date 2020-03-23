@@ -268,6 +268,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						self.effects["energyConsumption"] *= 2;
 					}
 				}
+			},
+			unlockScheme: {
+				name: "space",
+				threshold: 24
 			}
 		},{
 			name: "spaceStation",

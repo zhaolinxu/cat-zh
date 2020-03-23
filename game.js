@@ -3746,8 +3746,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
-				} else if (type == "schemes") {
-					// Permanent unlock, managed separately by unlockSchemes
 				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
 					// do nothing
 				} else {
@@ -3761,14 +3759,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	unlockSchemes: function(names) {
-		for (var i = 0; i < names.length; ++i) {
-			var name = names[i];
-			if (this.unlockedSchemes.indexOf(name) < 0) {
-				$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
-				this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
-				this.unlockedSchemes.push(name);
-			}
+	unlockScheme: function(name) {
+		if (this.unlockedSchemes.indexOf(name) < 0) {
+			$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
+			this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+			this.unlockedSchemes.push(name);
 		}
 	},
 

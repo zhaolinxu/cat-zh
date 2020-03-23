@@ -2093,7 +2093,10 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.unlocks) {
 				this.game.unlock(meta.unlocks);
-				this.game.unlockSchemes(meta.unlocks.schemes);
+			}
+
+			if (meta.unlockScheme && meta.val >= meta.unlockScheme.threshold) {
+				this.game.unlockScheme(meta.unlockScheme.name);
 			}
 
 			if (meta.upgrades) {
@@ -2128,7 +2131,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtn", com.nuclearunico
 
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
+dojo.declare("com.nuclearunicorn.game.ui.BuildingNotStackableBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
 
 	getDescription: function(model){
 		var meta = model.metadata;
@@ -2173,7 +2176,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingResearchBtnController", com.nuc
 
 			if (meta.unlocks) {
 				this.game.unlock(meta.unlocks);
-				this.game.unlockSchemes(meta.unlocks.schemes);
 			}
 
 			if (meta.upgrades) {

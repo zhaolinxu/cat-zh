@@ -68,10 +68,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "science", val: 20000 },
 			{ name : "steel", val: 75 }
-		],
-		unlocks: {
-			schemes: ["wood"]
-		}
+		]
 	},{
 		name: "reinforcedSaw",
 		label: $I("workshop.reinforcedSaw.label"),
@@ -790,10 +787,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			{ name : "iron", 	 val: 100 },
 			{ name : "science",  val: 1000 }
 		],
-		flavor: $I("workshop.goldOre.flavor"),
-		unlocks: {
-			schemes: ["gold"]
-		}
+		flavor: $I("workshop.goldOre.flavor")
 	},{
 		name: "geodesy",
 		label: $I("workshop.geodesy.label"),
@@ -2449,7 +2443,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
 
 	defaults: function() {
 		var result = this.inherited(arguments);

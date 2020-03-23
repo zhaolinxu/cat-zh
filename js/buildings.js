@@ -367,6 +367,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (stageMeta.action) {
 				stageMeta.action(stageMeta, game);
 			}
+		},
+		unlockScheme: {
+			name: "grassy",
+			threshold: 42
 		}
 	},{
 		name: "aqueduct",
@@ -1160,7 +1164,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			self.effects["woodRatio"] = 0.1 + game.getEffect("lumberMillRatio") * 0.1;
 		},
-		flavor: $I("buildings.lumberMill.flavor")
+		flavor: $I("buildings.lumberMill.flavor"),
+		unlockScheme: {
+			name: "wood",
+			threshold: 100
+		}
 	},
 	{
 		name: "oilWell",
@@ -1441,6 +1449,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["ivoryPerTickProd"]*=amt;
 
 			return amt;
+		},
+		unlockScheme: {
+			name: "gold",
+			threshold: 24
 		}
 	},
 	//-------------------------- Culture -------------------------------
@@ -1657,8 +1669,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			effects["cultureMaxRatio"] = 0.08 + game.getEffect("cultureMaxRatioBonus");
 			self.effects = effects;
 		},
-		unlocks: {
-			schemes: ["sleek"]
+		unlockScheme: {
+			name: "sleek",
+			threshold: 8
 		}
 	},{
 		name: "chronosphere",
