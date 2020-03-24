@@ -112,9 +112,9 @@ WResourceRow = React.createClass({
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
             if (modifier > 0) {
-                weatherModCss = {color: "green"};
+                weatherModCss = "positive-weather";
             } else if (modifier < 0) {
-                weatherModCss = {color: "red"};
+                weatherModCss = "negative-weather";
             }
         }
 
@@ -157,7 +157,7 @@ WResourceRow = React.createClass({
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
             $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
-            $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
+            $r("div", {className:"res-cell" + (weatherModCss ? " " + weatherModCss : "")}, weatherModValue)
         ]);
     },
     onClickName: function(e){
