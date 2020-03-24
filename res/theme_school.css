@@ -24,14 +24,14 @@ body.scheme_school {
 }
 
 .scheme_school .btn { 
-	color: green;
+	color: gray;
 	margin-bottom:6px;
 	max-height: 36px;
 	background-color: none; /*#888888; */
 	border: solid 1px rgba(107, 112, 122, 0.3); /* color #6B707A */	
 }
 .scheme_school .btn.disabled {
-	color: lime;
+	color: gray;
 	background-color: rgba(85, 85, 85, 0.4); /* color #555555 */ 
 	border: solid 1px rgba(140, 140, 140, 0.2); /* color #8C8C8C */
 }
@@ -612,7 +612,6 @@ body.scheme_school {
 }  
 .scheme_school .craft .ressource-value { /* 2th column of craft table */	
     min-width: 70px; /* for not adjust size of cell in live. Without column move horizontally */
-	color: lime;
  } 
 .scheme_school .craft-link[data-reactid$='.3.0'],
 .scheme_school .craft-link[data-reactid$='.4.0']
