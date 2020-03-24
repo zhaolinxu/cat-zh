@@ -866,6 +866,14 @@ a.link.collapse:hover {
     cursor: pointer;
 }
 
+.res-cell.positive-weather {
+    color: green;
+}
+
+.res-cell.negative-weather {
+    color: red;
+}
+
 .res-cell.craft-link {
     cursor: pointer;
     width: 20px;

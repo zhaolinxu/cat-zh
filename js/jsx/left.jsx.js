@@ -112,9 +112,9 @@ WResourceRow = React.createClass({
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
             if (modifier > 0) {
-                weatherModCss = {color: "green"};
+                weatherModCss = "positive-weather";
             } else if (modifier < 0) {
-                weatherModCss = {color: "red"};
+                weatherModCss = "negative-weather";
             }
         }
 
@@ -132,7 +132,7 @@ WResourceRow = React.createClass({
             specialClass = " leet";
         }
 
-        return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -157,7 +157,7 @@ WResourceRow = React.createClass({
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
             $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
-            $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
+            $r("div", {className:"res-cell" + (weatherModCss ? " " + weatherModCss : "")}, weatherModValue)
         ]);
     },
     onClickName: function(e){
@@ -388,7 +388,7 @@ WCraftRow = React.createClass({
         }
 
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row craft" + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row craft resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {

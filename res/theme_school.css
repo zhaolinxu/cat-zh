@@ -600,18 +600,19 @@ body.scheme_school {
 .scheme_school #fastHuntContainer > a:hover{ 
 	text-shadow: 1px 1px rgba(0, 0, 0, 0.7); /* color #000000 */
 }
-.scheme_school .res-table .res-cell[data-reactid$='.5'] { /* to change the properties of the bonus/penalty cell according to the season */
+.scheme_school .res-cell.positive-weather { /* to change bonus cell according to the season */
 	font-size: 80% !important;
 	max-width: 35px !important;
+	color: #3B7233 !important;
 } 
-.scheme_school .res-table .res-cell[data-reactid$='.5'][style^='color:green' i] { /* to change the color for bonus cell according to the season */
-	color: #3B7233 !important;	
-}
-.scheme_school .res-table .res-cell[data-reactid$='.5'][style^='color:red' i] { /* to change the color for penalty cell according to the season */
+.scheme_school .res-cell.negative-weather { /* to change penalty cell according to the season */
+	font-size: 80% !important;
+	max-width: 35px !important;
 	color: #973B47 !important;	
 }  
-.scheme_school .craft-link[data-reactid$='.2.0'] { /* 2th column of craft table */	
+.scheme_school .craft .ressource-value { /* 2th column of craft table */	
     min-width: 70px; /* for not adjust size of cell in live. Without column move horizontally */
+	color: lime;
  } 
 .scheme_school .craft-link[data-reactid$='.3.0'],
 .scheme_school .craft-link[data-reactid$='.4.0']
@@ -623,22 +624,22 @@ body.scheme_school {
 	color: #A56B5B; 
     min-width: 30px; /* for not adjust size of cell in live. Without column move horizontally */
  } 
-.scheme_school .resource-name[data-reactid='.0.0.1.1.f.1'] { /* change for resource-name = kittens */
-	color: #777777 !important; 
-}
-.scheme_school .resource-name[data-reactid='.0.0.1.1.e.1'] { /* change for resource-name = Faith */
+.scheme_school .resource_kittens .resource-name {
 	color: #777777 !important;
 }
-.scheme_school .resource-name[data-reactid='.0.4.1.0.5.1'] { /* change for resource-name = Steel */
+.scheme_school .resource_faith .resource-name {
 	color: #777777 !important;
 }
-.scheme_school .resource-name[data-reactid='.0.4.1.0.7.1'] { /* change for resource-name = Gear */
+.scheme_school .resource_steel .resource-name {
 	color: #777777 !important;
 }
-.scheme_school .resource-name[data-reactid='.0.4.1.0.8.1'] { /* change for resource-name = Alloy */
+.scheme_school .resource_gear .resource-name {
 	color: #777777 !important;
 }
-.scheme_school .resource-name[data-reactid='.0.4.1.0.j.1'] { /* change for resource-name = Megalith */
+.scheme_school .resource_alloy .resource-name {
+	color: #777777 !important;
+}
+.scheme_school .resource_megalith .resource-name {
 	color: #777777 !important;
 }
 
