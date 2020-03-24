@@ -204,22 +204,20 @@ body.scheme_school {
 /*************************************************/
 .scheme_school #tooltip,
 .scheme_school .tooltip-block div {    
-    border: 1px solid rgba(32, 32, 32, 0.9); /* color #202020 */
+    background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center;
+	color: #828790; /* tooltip windows == left column : left text */
+	background-color: #3E3E3E;
+	font-size: 90%;	
+	border: 1px solid rgba(32, 32, 32, 0.9); /* color #202020 */
 	box-shadow: 0 0 5px rgba(32, 32, 32,0.5), /* color #202020 */
-                 0 -2px 0 #777777 !important; 
+                 0 -2px 0 #777777 !important;
 }
 .scheme_school .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #ABAEB7;
 	font-size: 95%;
-}
-.scheme_school .button_tooltip { /* tooltip windows == left column : left text */
-	color: #828790; 
-	background-color: #3E3E3E;
-	font-size: 90%;
-	background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
-	background-repeat: repeat;
-	background-attachment: fixed;
-	background-position: center;		
 }
 .scheme_school .tooltip-inner .desc {   /* Tooltip Window : title text */ 
     color: #C2C6CF; 
@@ -244,14 +242,6 @@ body.scheme_school {
 }
 .scheme_school #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
     color: #E8BA04;
-}
-.scheme_school .tooltip-block div{ /* tooltip windows == icon ? on left column near tools icons */
-	color: #ABAEB7;
-	background-color: #3E3E3E;
-	background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
-	background-repeat: repeat;
-	background-attachment: fixed;
-	background-position: center;
 }
 
 /*******************************************************/
