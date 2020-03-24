@@ -551,22 +551,22 @@ body.scheme_space.with_background_image {
 	/*color: #E7AF4F; not use with this theme */
 	text-shadow: 1px 1px #333333;
 }
-.scheme_space .resource-name[data-reactid='.0.0.1.1.f.1'] { /* change for resource-name = kittens */
+.scheme_space .resource_kittens .resource-name {
 	color: white !important;
 }
-.scheme_space .resource-name[data-reactid='.0.0.1.1.e.1'] { /* change for resource-name = Faith */
+.scheme_space .resource_faith .resource-name {
 	color: gray !important;
 }
-.scheme_space .resource-name[data-reactid='.0.4.1.0.5.1'] { /* change for resource-name = Steel */
+.scheme_space .resource_steel .resource-name {
 	color: gray !important;
 }
-.scheme_space .resource-name[data-reactid='.0.4.1.0.7.1'] { /* change for resource-name = Gear */
+.scheme_space .resource_gear .resource-name {
 	color: gray !important;
 }
-.scheme_space .resource-name[data-reactid='.0.4.1.0.8.1'] { /* change for resource-name = Alloy */
+.scheme_space .resource_alloy .resource-name {
 	color: gray !important;
 }
-.scheme_space .resource-name[data-reactid='.0.4.1.0.j.1'] { /* change for resource-name = Megalith */
+.scheme_space .resource_megalith .resource-name {
 	color: gray !important;
 }
 
