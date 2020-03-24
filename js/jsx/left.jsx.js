@@ -132,7 +132,7 @@ WResourceRow = React.createClass({
             specialClass = " leet";
         }
 
-        return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -388,7 +388,7 @@ WCraftRow = React.createClass({
         }
 
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row craft" + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row craft resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {
