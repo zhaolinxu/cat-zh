@@ -583,6 +583,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"scienceMax": 500
 		},
 		flavor: $I("buildings.academy.flavor")
+		unlockScheme: {
+			name: "school",
+			threshold: 92
+		}
 	},{
 		name: "observatory",
 		label: $I("buildings.observatory.label"),

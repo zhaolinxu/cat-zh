@@ -1,0 +1,676 @@
+/**
+ *			School 1.0.0 Theme © Volkeyrn
+ */
+
+ @import url(https://fonts.googleapis.com/css?family=Courgette); 
+
+/**********************************************/
+/******************** GAME ********************/
+/**********************************************/
+body.scheme_school {
+	background-color: #292728;
+	background-image: url('img/theme-school.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center;
+}
+.scheme_school  #gamePageContainer,
+.scheme_school select,
+.scheme_school .btn,
+.scheme_school  .modern,
+.scheme_school .btn.modern,
+.scheme_school input[type='button'] {
+	 font-family: 'Courgette', cursive; 
+}
+
+.scheme_school .btn { 
+	color: green;
+	margin-bottom:6px;
+	max-height: 36px;
+	background-color: none; /*#888888; */
+	border: solid 1px rgba(107, 112, 122, 0.3); /* color #6B707A */	
+}
+.scheme_school .btn.disabled {
+	color: lime;
+	background-color: rgba(85, 85, 85, 0.4); /* color #555555 */ 
+	border: solid 1px rgba(140, 140, 140, 0.2); /* color #8C8C8C */
+}
+.scheme_school .btn.disabled:hover {	
+	background-color: rgba(85, 85, 85, 0.4); /* color #555555 */ 
+	border: solid 1px rgba(140, 140, 140, 0.5); /* color #8C8C8C */
+	cursor: inherit;
+}
+.scheme_school .btn:hover{
+	border: solid 1px rgba(209, 214, 223, 0.7); /* color #D1D6DF */
+}
+.scheme_school .btn:not(.disabled):hover span[class='']{ 
+	color: #C2C6CF !important; 
+	font-weight: bold;
+}
+/* for buttons on settlement tab : manage job & promote kittens & unwrap present box */
+/* because selector :: .scheme_school .btn:not(.disabled):hover span[class=''] doesn't work for us! */
+.scheme_school .panelContainer .container .btn.modern:not(.disabled):hover span{
+	color: #C2C6CF !important; 
+	font-weight: bold;
+}
+.scheme_school .highlited { /* higlighting ressources when hover button on center windows */
+	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
+}
+.scheme_school a {
+	color: #6B707A;
+}
+.scheme_school a,
+.scheme_school .craft-link {
+    text-decoration: none;
+}
+.scheme_school a:hover {
+	color: #B5BAC4; 
+	opacity: 1.0;
+}
+.scheme_school div {
+	color: #ABAEB7; /*#B5BAC4; */
+}
+.scheme_school .disabled div { /* color text for disabled */
+	color: #81848C;
+}
+.scheme_school .btn:not(.disabled) div{ /* color text for all buttons not disabled */
+	color: #ABAEB7; 
+}
+.scheme_school .btn.disabled div { /* color text for buttons disabled */
+	color: #81848C;
+}
+.scheme_school h1 {
+    font-size: 100%;
+    color: #D2D2D2; 
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.9); /* color #000000 */
+	font-weight: bold;
+}
+.scheme_school h1:first-child {
+    margin-top: 0px;
+}
+/* if not use line bottom : '.btn.small-text span' then green light color do not change ! why ??*/
+.scheme_school .btn.small-text span { /* text size for multiple buttons */ 
+    font-size: 90%;
+} 
+/*** green and red light for machine on/off ***/
+.scheme_school .btn.bldlackResConvert div.btnContent {
+    padding: 2px;
+    border: 1px solid #973B47; /* color for lack resources convertion */
+}
+.scheme_school .btn.bldEnabled div.btnContent { 
+    padding: 2px;
+    border: 1px solid #3B7233; 
+}
+.scheme_school .btn.bldEnabled.modern div.btnContent, 
+.scheme_school .btn.bldlackResConvert.modern div.btnContent { 
+     border-width: 0px 0px 0px 12px; 
+	 border-radius: 4px;  /* for align with border buttons */
+} 
+/*** end of green light for machine on ***/
+.scheme_school,
+.scheme_school .help { /* window options and version */
+	color: #ABAEB7;	
+	background-color: #3E3E3E;
+	overflow: hidden;
+}
+.scheme_school .help,
+.scheme_school .dialog {
+	box-shadow: 0 2px 5px 0 rgb(13, 13, 13), 0 2px 10px 0 rgb(24, 24, 24), 0 0 0 9999px rgba(0, 0, 0, 0.8);
+    height: auto !important;
+    top: 40% !important;
+    border: solid 2px #444444;
+	background-image: url('img/theme-school_light.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center; 
+}
+.scheme_school .help a,
+.scheme_school .dialog a{
+    font-weight: bold;	
+}
+.scheme_school .help a:hover,
+.scheme_school .dialog a:hover{    
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.9); /* color #000000 */
+}
+.scheme_school select { /* dropdown list on settlement tab and options windows */
+    background-color: #242424;
+    color: #D2D2D2;
+    padding-bottom: 2px;
+	border-color : rgba(20, 20, 20,0.8); /* color #141414 */
+	font-size: 80%;
+	border-radius: 3px;
+}
+.scheme_school select>option {
+    background-color: #242424;
+    color: #ABAEB7;
+	padding: 2px 10px; /* -2 pixel vertical */
+}
+
+/*************************************************/
+/******************** TOP BAR ********************/
+/*************************************************/
+.scheme_school #topBar {
+	background-color: #292728; 
+	font-size: 90%;
+    height: 22px;
+    border-bottom: 1px solid #292728;	
+	top: 0px; /* for no shadow on top */
+}
+.scheme_school #headerLinks .links-block { /* a link separator : | on header links*/
+	color: rgba(86, 89, 92,0.3); /* color #56595C */
+}
+.scheme_school #headerLinks div { /* for color text of MOTD on top bar */
+	color: #D2D2D2;
+}
+.scheme_school #headerLinks>div:first-child:before {
+    color: #A56B5B;
+    content: 'Theme by Volkeyrn  ';
+	text-shadow: none; 
+    text-decoration: none;
+	font-weight: 400;	/* thin if possible with font sizes */
+}
+.scheme_school #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+	color: #D2D2D2;
+}
+.scheme_school #autosaveTooltip { 
+	color: #A56B5B;
+}
+.scheme_school #headerLinks a[onclick="gamePage.ui.displayAppDialog();"]{ /* Get the app */
+	color: #884F33 !important;
+}
+.scheme_school #headerLinks a[onclick="gamePage.ui.displayAppDialog();"]:hover{
+	color: #B5BAC4 !important;
+}
+
+/************************************************/
+/******************** FOOTER ********************/
+/************************************************/
+.scheme_school #footerLinks {
+	font-size: 90%;
+	bottom: 6px;
+	background: rgba(41, 39, 40, 0.7); /* color #292728 */ 
+	-webkit-box-shadow: 0 0 4px 4px rgba(41, 39, 40, 0.7); /* color #292728 */ 
+			box-shadow: 0 0 4px 4px rgba(41, 39, 40, 0.7); /* color #292728 */ 
+}
+.scheme_school #footerLinks a:hover {
+	text-shadow: none;
+}
+.scheme_school #footerLinks { /* a link separator : | on footer links*/
+	color: rgba(86, 89, 92,0.3); /* color #56595C */
+}
+
+/*************************************************/
+/******************** TOOLTIP ********************/
+/*************************************************/
+.scheme_school #tooltip,
+.scheme_school .tooltip-block div {    
+    border: 1px solid rgba(32, 32, 32, 0.9); /* color #202020 */
+	box-shadow: 0 0 5px rgba(32, 32, 32,0.5), /* color #202020 */
+                 0 -2px 0 #777777 !important; 
+}
+.scheme_school .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
+	color: #ABAEB7;
+	font-size: 95%;
+}
+.scheme_school .button_tooltip { /* tooltip windows == left column : left text */
+	color: #828790; 
+	background-color: #3E3E3E;
+	font-size: 90%;
+	background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center;		
+}
+.scheme_school .tooltip-inner .desc {   /* Tooltip Window : title text */ 
+    color: #C2C6CF; 
+	font-size: 100%;
+	border-bottom : 1px solid rgba(86, 89, 92, 0.7) !important; /* color #56595C /* /* border line under title */
+}
+.scheme_school .tooltip-divider { /* border line before effects text */
+	border-bottom : 1px solid rgba(86, 89, 92, 0.7) !important; /* color #56595C */
+}
+.scheme_school .effectName { /* Tooltip Window : effects text */    
+    color: #A56B5B !important; /*#369481 ou 689F38 */
+	font-size: 90% !important;
+}
+.scheme_school .rawRes { /* Tooltip Window == text for all missing resources for primary resource */
+    color: #777777;
+	font-style: italic;
+	padding-left: 12px;
+}
+.scheme_school .button_tooltip .noRes,
+.scheme_school .limited { /* on ressource limited or not attainable */
+    color: #973B47;
+}
+.scheme_school #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
+    color: #E8BA04;
+}
+.scheme_school .tooltip-block div{ /* tooltip windows == icon ? on left column near tools icons */
+	color: #ABAEB7;
+	background-color: #3E3E3E;
+	background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center;
+}
+
+/*******************************************************/
+/******************** CENTER COLUMN ********************/
+/*******************************************************/
+.scheme_school .tab { 
+    font-size: 90%;
+}
+.scheme_school .tabsContainer { /* separator | for tab */
+	color: rgba(86, 89, 92,0.3); /* color #56595C */
+}
+.scheme_school .activeTab { 
+	color: #B5BAC4; 
+	font-weight: bold;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.7); /* color #000000 */
+}
+.scheme_school a.activeTab {
+    border-bottom: solid 1px rgba(187, 192, 202,0.5); /* color #BBC0CA */
+}
+.scheme_school .bldTopContainer { /* under tab */
+    font-size: 90%;
+}
+.scheme_school .bldGroupContainer { /* container for all buttons on center column */
+    padding-top: 10px;
+    border-top: 1px solid rgba(187, 192, 202,0.2); /* color #BBC0CA */
+    margin-top: 10px;
+}
+.scheme_school .btn.modern {
+	border-radius: 5px; /* more rounded buttons for this theme */
+}
+.scheme_school .btn.modern:not(.disabled) {
+   	background-color: rgba(107, 112, 122,0.5); /* color #6B707A */ /* color for all button not disabled*/	
+    cursor: pointer !important;
+}
+.scheme_school .btn.modern:not(.disabled):hover { /* hover on all button in center column */
+	background-color: rgba(107, 112, 122,0.5); /* color #6B707A */	    
+	cursor: pointer !important;
+}
+.scheme_school input[type='button'] {
+	background-color: #D2D2D2 !important; 
+    cursor: pointer !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+    border: solid 1px transparent !important; /* for no offset when border on */
+    border-radius: 7px !important;
+    outline: 0 !important;
+    color: #292728;
+    padding: 5px 20px;
+}
+.scheme_school input[type='button']:hover {
+	background-color: #BBBBBB !important; 
+	border: solid 1px #202020 !important;
+	color: #171516 !important;
+	cursor: pointer !important;
+	font-weight: bold;
+	box-shadow: 1px 1px 3px #292728 inset, 
+                 0 1px 0 rgba(187, 192, 202,0.2) !important; /* color #BBC0CA */
+}
+.scheme_school .modern .btnContent {
+    padding: 10px 0 9px 10px !important; /* -1 pixel on vertical for correct align left border */
+}
+.scheme_school .btn.modern a {
+	color: #6B707A; 
+	background-color: transparent; 
+	padding: 10px 6px 9px 6px !important; /* -1 pixel on vertical for correct align left border */
+}
+.scheme_school .btn.modern:not(.disabled) a {
+	border-color: rgba(156, 159, 169,0.1); /* color #9C9FA9 */
+}
+.scheme_school .btn.modern.disabled a {
+	border-color: rgba(85, 85, 85, 0.4) !important; /* color #555555 */
+}
+.scheme_school .btn.modern a:hover { 
+	color: #B5BAC4;	
+	font-weight: bold;
+	text-shadow: none;
+}
+.scheme_school .btn.modern:not(.disabled) a:hover { 
+	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
+}
+.scheme_school .btn.modern.disabled a:hover { 
+	color: #B5BAC4;
+	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
+}
+.scheme_school .btn.modern:not(.disabled):active,
+.scheme_school input[type='button']:active {
+    border-color: #FFFFFF !important;
+} 
+.scheme_school .tabInner {
+    border: none; /* border for all under tabs in center column */
+}
+.scheme_school .linkContent { /* dropdown list on button */
+    margin-top: 24px !important; /* for correct vertical align dropdown list */    
+    width: auto !important;
+	background-color: #494A4F; /* color pick from button not disabled and hover */
+}
+.scheme_school .btn.modern.disabled .linkContent { /* dropdown list on button disabled*/
+ 	background-color: #3B3B3B; /* color pick from button disabled and hover */
+}
+.scheme_school .linkContent a {
+    color: #B5BAC4;
+    width: 40px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.scheme_school .panelContainer { 
+    background-color: rgba(86, 89, 92,0.3); /* color #56595C */
+    border-color: rgba(187, 192, 202,0.1); /* color #BBC0CA */
+	border-radius: 5px;
+}
+.scheme_school .panelContainer div.title {
+    color: #D2D2D2;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.9); /* color #000000 */
+	font-weight: bold;
+	font-style: italic;
+}
+.scheme_school .panelContainer .toggle {
+    border-color : rgba(187, 192, 202,0.1); /* color #BBC0CA */
+	border-radius: 5px;
+}
+.scheme_school .trade-race .buys {
+    color: #974338;
+}
+.scheme_school .trade-race .sells {
+    color: #3B7233;   
+}
+.scheme_school .trade-race .ammount {
+    color: #777777;
+}
+.scheme_school .attitude { /* text for attitude races int trade tab */
+	color: #4A4A4A !important;
+	text-shadow: none !important;
+}
+/* for container 'Census' -> list of kittens in settlement tab */
+.scheme_school .panelContainer div[style^='border: 1px solid gray;']{
+	border-color: rgba(187, 192, 202,0.3) !important; /* color #BBC0CA */
+	font-size: 90%;
+	border-radius: 5px;
+}
+
+/**********************************************************/
+/******************** ACHIEVEMENTS TAB ********************/
+/**********************************************************/
+.scheme_school .achievement {
+    display: block;
+    margin: 10px;
+    height: 40px;
+    background-color: rgba(187, 192, 202,0.1); /* color #BBC0CA */
+    color: #D2D2D2;
+    text-shadow: rgba(187, 192, 202) 2px 0px 10px; /* color #BBC0CA */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: default !important;
+	border-color : rgba(165, 107, 91, 0.4); /* color #A56B5B; */
+	border-radius: 7px;
+}
+.scheme_school .achievement-header {
+	color: #D2D2D2;
+	text-shadow: 1px 1px rgba(0, 0, 0,0.9); /* color #000000 */
+	font-size: 100%;    
+	font-weight: bold;
+}
+.scheme_school .achievement.unethical {
+    text-shadow: rgb(255, 67, 91) 2px 0px 10px;
+	background-color: rgba(151, 59, 71, 0.1); /* color #973B47 */
+	border-color : rgba(151, 59, 71, 0.5); /* color #973B47 */
+}
+.scheme_school .achievement.unethical:hover {
+    background-color: rgba(184, 72, 87, 0.4); /* color #b84857 */
+	border-color : rgba(151, 59, 71); /* color #973B47 */
+}
+.scheme_school .achievement:hover {
+    background-color: rgba(181, 133, 120, 0.3); /* color #b58578 */
+	border-color : rgba(165, 107, 91); /* color #A56B5B; */
+}
+.scheme_school .achievement[title='???'] {
+    color: rgba(220, 220, 220, 0.5);
+	background-color: rgba(140, 140, 140, 0.1);
+    text-shadow: none;
+	border-color : rgba(140, 140, 140, 0.4);
+}
+.scheme_school .achievement[title='???']:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.scheme_school .achievement:after {
+    display: block;
+    margin-top: 5px;
+    font-size: 90%;
+    color: #FFFFFF;
+    text-shadow: none;
+    text-transform: capitalize;
+    letter-spacing: normal;
+    font-weight: normal !important;
+}
+.scheme_school .achievement.unethical:after {    
+	color: #FFFFFF !important;
+}
+.scheme_school .achievement-header .star {
+     color: #A56B5B; /* orange or dominant color of the theme */
+}
+.scheme_school .achievement .star {   
+	color : #888888; 	
+}
+.scheme_school .achievement.unlocked .star {   
+	color : #A56B5B; /* orange or dominant color of the theme */
+	font-weight: bold;
+	text-shadow: 0px 1px rgba(0, 0, 0,0.9); /* color #000000 */
+}
+
+/******************************************************/
+/******************** RIGHT COLUMN ********************/
+/******************************************************/
+.scheme_school #rightColumn {
+	width: 21%;
+    max-width: 400px;
+    min-width: 250px;
+}
+.scheme_school #calendarDiv {
+    color: #4A4A4A;
+	padding-left: 5px;
+    margin-top: 5px;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.7); /* color #000000 */ 
+	font-weight: bold;
+	font-size: 90%;
+}
+.scheme_school #calendarSign {
+   font-size: 120% ;
+}
+.scheme_school #calendarSign:hover {
+   cursor: default ;
+}
+.scheme_school .right-tab-header { /* Log | Chat link on right column */
+	color: rgba(86, 89, 92,0.5); /* color #56595C */ /* for separator tab | */
+	font-size: 80%;
+ }  
+.scheme_school a[id='logLink'],
+.scheme_school a[id='chatLink']{
+	font-weight: 400 !important; /* thin if possible with font sizes */
+}
+.scheme_school .right-tab-header a.active {
+    color: #B5BAC4; 
+	font-weight: bold !important;	
+}
+.scheme_school div.console-intro { /* Text on right column : "You are a kitten in a catnip forest." */
+	color: #4A4A4A;
+	font-size: 90%;
+	font-weight: 400; /* thin if possible with font sizes */
+	border-top: 1px solid rgba(86, 89, 92,0.5) !important; /* color #56595C */
+	margin-top: 10px;
+}
+.scheme_school #clearLogHref { /* Link in right column : Clear log */
+	font-size: 80%;
+}
+.scheme_school #logFiltersBlock > a { /* Link in right column : [+]Log Filters */
+	font-size: 80%;
+	margin-left: 5px;
+}
+.scheme_school #pauseBtn { /* Link in right column : pawse */
+	margin-left: 5px;
+}
+.scheme_school .msg {
+	font-size: 85%;
+	font-weight: 400; /* thin if possible with font sizes */
+	color: #81848C;
+}
+.scheme_school .msg.type_notice {
+    color: #3E82A1; /* color default : #01A9DB; */
+}
+.scheme_school .msg.type_important {
+    color: #A56B5B; /* color default : coral; */
+}
+.scheme_school .msg.type_alert {
+    color: #973B47; /* color default : red; */
+}
+.scheme_school .msg.type_date {
+    color: #D2D2D2; 
+	font-weight: bold;
+	text-transform: none;
+	text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.7); /* color #000000 */ 
+    border-bottom: solid 1px rgba(187, 192, 202,0.5); /* color #BBC0CA */
+}
+
+/*****************************************************/
+/******************** LEFT COLUMN ********************/
+/*****************************************************/
+ .scheme_school .res-table { 
+    max-width: 352px;    /* +12 pixel */ 
+    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */ 	
+	margin-left: 2px; /* without 0px margin left for all ressources */
+ } 
+ .scheme_school .craftTable {
+	 margin-bottom: 50px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table !*/
+ }
+.scheme_school .res-cell { 
+    padding-left: 1px; /* -1 pixel */
+    padding-right: 1px; /* -1 pixel */  
+}
+.scheme_school .res-cell.craft-link { 
+	color: #6B707A; 
+ } 
+.scheme_school .res-cell.craft-link:hover { /* craft table left column */
+    color: #B5BAC4;
+	text-decoration: none; 
+	font-weight: bold; 
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.9); /* color #000000 */ 
+}
+.scheme_school tr.resourceRow:hover,
+.scheme_school .res-row:hover {
+    background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
+	cursor: default;
+}
+.scheme_school .res-row.craft:hover {
+    background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
+}
+.scheme_school .res-cell.resPerTick:hover {
+	font-weight: normal !important;
+}
+.scheme_school .maxRes {
+	color: #828790;
+	font-size: 90%;
+	min-width:60px; /* for not adjust size of cell in live. Without column move horizontally */
+}
+.scheme_school .resAmount { 
+    color: #ABAEB7;
+	min-width:75px; /* for not adjust size of cell in live. Without column move horizontally */
+}
+.scheme_school .resLimitWarn {
+    color: #A56B5B;
+	font-style: italic;	
+}
+.scheme_school .resLimitNotice {
+    color: #973B47;
+}
+.scheme_school .resPerTick {    
+    color: #ABAEB7;
+	font-size: 90%;
+}
+.scheme_school .res-cell.resPerTick {
+    cursor: default;
+}
+
+.scheme_school #fastHuntContainer > a{ /* Text left column : "Send hunters (xx times)" */
+	font-size: 100%;
+	font-weight: bold;
+}
+.scheme_school #fastHuntContainerCount { /* Text left column : "xx times" from Send hunters */
+	color: #4A4A4A;
+	text-shadow: none !important;
+}
+.scheme_school #fastPraiseContainer > a{ /* Text left column : "Praise the sun!" */
+	font-size: 100%;
+	font-weight: bold;
+}
+.scheme_school #fastPraiseContainer > a:hover{ 
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.7); /* color #000000 */
+}
+.scheme_school #fastHuntContainer > a:hover{ 
+	text-shadow: 1px 1px rgba(0, 0, 0, 0.7); /* color #000000 */
+}
+.scheme_school .res-table .res-cell[data-reactid$='.5'] { /* to change the properties of the bonus/penalty cell according to the season */
+	font-size: 80% !important;
+	max-width: 35px !important;
+} 
+.scheme_school .res-table .res-cell[data-reactid$='.5'][style^='color:green' i] { /* to change the color for bonus cell according to the season */
+	color: #3B7233 !important;	
+}
+.scheme_school .res-table .res-cell[data-reactid$='.5'][style^='color:red' i] { /* to change the color for penalty cell according to the season */
+	color: #973B47 !important;	
+}  
+.scheme_school .craft-link[data-reactid$='.2.0'] { /* 2th column of craft table */	
+    min-width: 70px; /* for not adjust size of cell in live. Without column move horizontally */
+ } 
+.scheme_school .craft-link[data-reactid$='.3.0'],
+.scheme_school .craft-link[data-reactid$='.4.0']
+.scheme_school .craft-link[data-reactid$='.5.0']
+ { /* 3th, 4th and 5th column of craft table */	
+    min-width: 50px; /* for not adjust size of cell in live. Without column move horizontally */
+ } 
+.scheme_school .craft-link[data-reactid$='.6.0'] { /* 6th column of craft table : "all" */
+	color: #A56B5B; 
+    min-width: 30px; /* for not adjust size of cell in live. Without column move horizontally */
+ } 
+.scheme_school .resource-name[data-reactid='.0.0.1.1.f.1'] { /* change for resource-name = kittens */
+	color: #777777 !important; 
+}
+.scheme_school .resource-name[data-reactid='.0.0.1.1.e.1'] { /* change for resource-name = Faith */
+	color: #777777 !important;
+}
+.scheme_school .resource-name[data-reactid='.0.4.1.0.5.1'] { /* change for resource-name = Steel */
+	color: #777777 !important;
+}
+.scheme_school .resource-name[data-reactid='.0.4.1.0.7.1'] { /* change for resource-name = Gear */
+	color: #777777 !important;
+}
+.scheme_school .resource-name[data-reactid='.0.4.1.0.8.1'] { /* change for resource-name = Alloy */
+	color: #777777 !important;
+}
+.scheme_school .resource-name[data-reactid='.0.4.1.0.j.1'] { /* change for resource-name = Megalith */
+	color: #777777 !important;
+}
+
+/***************************************************/
+/******************** SCROLLBAR ********************/
+/***************************************************/
+.scheme_school ::-webkit-scrollbar-thumb {
+    background: #292728;
+	border-radius: 40px;
+}
+.scheme_school ::-webkit-scrollbar-track {
+    background: #242424;
+    border-radius: 50px;
+}
+/* Only FireFox */
+.scheme_school #leftColumn,
+.scheme_school #rightColumn,
+.scheme_school #midColumn {
+   scrollbar-width: thin;
+   scrollbar-color: #292728 #242424 !important;
+}
+.scheme_school select {
+   scrollbar-width: auto !important;
+}
+ 

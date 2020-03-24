@@ -7,7 +7,7 @@ Major:
 * Do not refund AM if energy is negative
 
 Themes:
-* New themes: Gold, Space, Wood
+* New themes: Gold, Space, Wood, School
 * All themes except Classic and Inverted have to be unlocked (permanent unlock)
 * Add an option in order to hide background image (if applicable)
 
