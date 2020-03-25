@@ -215,6 +215,13 @@ body.scheme_school {
 	box-shadow: 0 0 5px rgba(32, 32, 32,0.5), /* color #202020 */
                  0 -2px 0 #777777 !important;
 }
+.scheme_school .button_tooltip {
+	background-color: #3E3E3E;
+	background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-position: center;
+}
 .scheme_school .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #ABAEB7;
 	font-size: 95%;
