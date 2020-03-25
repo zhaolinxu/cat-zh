@@ -830,6 +830,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 						self.effects["hashRateLevel"] = 0;
 					}
 					self.effects["gflopsConsumption"] = 0.1;
+
+					var beacons = game.space.getBuilding("spaceBeacon");
+					beacons.action(beacons, game);
 				}
 			}
 		]
