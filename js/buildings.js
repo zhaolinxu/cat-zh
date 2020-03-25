@@ -307,7 +307,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		effects: {
 			"catnipPerTickBase": 0.125
 		},
-		flavor : $I("buildings.field.flavor")
+		flavor : $I("buildings.field.flavor"),
+		unlockScheme: {
+			name: "grassy",
+			threshold: 42
+		}
 	},
 	{
 		name: "pasture",
@@ -367,10 +371,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (stageMeta.action) {
 				stageMeta.action(stageMeta, game);
 			}
-		},
-		unlockScheme: {
-			name: "grassy",
-			threshold: 42
 		}
 	},{
 		name: "aqueduct",
@@ -585,7 +585,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {
 			name: "school",
-			threshold: 92
+			threshold: 68
 		}
 	},{
 		name: "observatory",
