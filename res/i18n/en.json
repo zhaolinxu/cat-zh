@@ -1398,6 +1398,7 @@
     "opts.theme.gold": "Gold",
     "opts.theme.space": "Space",
     "opts.theme.wood": "Wood",
+	"opts.theme.school": "School",
     "opts.lang": "Language",
     "opts.percentage": "Use percentage values",
     "opts.percentage.desc": "Game will use % of total resource values, otherwise per second values.",
