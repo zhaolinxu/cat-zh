@@ -1,5 +1,5 @@
 /**
- *			Space 1.0.0 Theme © Volkeyrn
+ *			Space 1.0.4 Theme © Volkeyrn
  */
 
  @import url(https://fonts.googleapis.com/css?family=Oxanium:wght@200,300,400,500,600,700,800&display=swap);
@@ -10,14 +10,12 @@
 body.scheme_space {
 	background-color: #081644;
 }
-
 body.scheme_space.with_background_image {
 	background-image: url('img/theme_space_stars_background.png'); /* source: https://pngtree.com/freebackground/blue-starry-night-sky-background_925273.html */
 	background-repeat: repeat;
 	background-attachment: fixed;
-	background-position: bottom right;
+	background-position: top left;
 }
-
 .scheme_space  #gamePageContainer,
 .scheme_space select,
 .scheme_space .btn,
@@ -56,9 +54,6 @@ body.scheme_space.with_background_image {
 .scheme_space .panelContainer .container .btn.modern:not(.disabled):hover span{
 	color: #081644 !important; 
 	font-weight: 800;
-}
-.scheme_space .limited {
-	color: #EA152C; 
 }
 .scheme_space .highlited { /* higlighting ressources when hover button on center windows */
 	background-color: rgba(20, 240, 216, 0.2); /* color #14F0D8 */
@@ -126,9 +121,9 @@ body.scheme_space.with_background_image {
 .scheme_space select { /* dropdown list on settlement tab and options windows */
     background-color: #0A1A4E;
     color: #0FC3B1;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
 	border-color : #0A1A4E;
-	font-size: 90%;
+	font-size: 13px;
 }
 .scheme_space select>option {
     background-color: #0A1A4E;
@@ -198,16 +193,17 @@ body.scheme_space.with_background_image {
 /*************************************************/
 .scheme_space #tooltip,
 .scheme_space .tooltip-block div {    
-    border: 1px solid rgba(11, 74, 104, 0.8); /* color #0B4A68 */
+    color: #167E9D; /* tooltip windows == left column : left text */
+	background-color: #061336;
+	font-size: 95%;
+	border: 1px solid rgba(11, 74, 104, 0.8); /* color #0B4A68 */
 	/*box-shadow: 4px 4px 4px rgb(22, 22, 22); not use for this theme */
+}
+.scheme_space .button_tooltip {
+	background-color: #061336;
 }
 .scheme_space .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #DDDDDD;
-	font-size: 95%;
-}
-.scheme_space .button_tooltip { /* tooltip windows == left column : left text */
-	color: #167E9D; 
-	background-color: #061336;
 	font-size: 95%;
 }
 .scheme_space .tooltip-inner .desc {   /* Tooltip Window : title text */ 
@@ -222,9 +218,8 @@ body.scheme_space.with_background_image {
     color: #F4691A !important;
 	font-size: 90% !important;
 }
-
 .scheme_space #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
-    color: #0A2450;
+    color: #0FC3B1;
 }
 .scheme_space .rawRes { /* Tooltip Window == text for all missing resources for primary resource */
     color: #888888;
@@ -234,10 +229,6 @@ body.scheme_space.with_background_image {
 .scheme_space .button_tooltip .noRes,
 .scheme_space .limited { /* on ressource limited or not attainable */
     color: #EA152C;
-}
-.scheme_space .tooltip-block div{ /* tooltip windows == icon ? on left column near tools icons */
-	color: #167E9D;
-	background-color: #061336;
 }
 
 /*******************************************************/
@@ -316,7 +307,6 @@ body.scheme_space.with_background_image {
 .scheme_space .linkContent { /* dropdown list on button */
     margin-top: 24px !important; /* for correct vertical align dropdown list */    
     width: auto !important;
-	/* background-color: #12E7D1 ;  */
 	background-color: #14F0D8; 
 }
 .scheme_space .btn.modern.disabled .linkContent { /* dropdown list on button disabled*/
@@ -328,20 +318,12 @@ body.scheme_space.with_background_image {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
 }
-/* not use in this theme */
-/* .scheme_space .btn.modern:not(.disabled):active,
-.scheme_space input[type='button']:active {
-    border-color: #C23574 !important;
-}  */
 .scheme_space a.activeTab {
     border-bottom: solid 2px #0B4A68 ! important; 
 }
 .scheme_space .panelContainer { 
     background-color: rgba(4, 10, 32, 0.2) !important; /* color #040A20 */
     border-color: #0A2450; 
-}
-.scheme_space .panelContainer .container {    
-	/*font-size: 85%;*/
 }
 .scheme_space .panelContainer div.title {
     color: #C23574;
@@ -365,6 +347,12 @@ body.scheme_space.with_background_image {
 	border-color: #167E9D !important;
 	font-size: 90%;
 }
+.scheme_space .panelContainer div[style^='border: 1px solid gray;'] span{ /* jobs unasigned */
+	color: #777777;
+}
+.scheme_space .panelContainer div[style^='border: 1px solid gray;'] span[style='font-weight: bold' i]{ /* job assigned */
+	color: #0FC3B1;
+}
 
 /**********************************************************/
 /******************** ACHIEVEMENTS TAB ********************/
@@ -374,7 +362,7 @@ body.scheme_space.with_background_image {
     margin: 10px;
     height: 40px;
     background-color: rgba(18, 231, 209, 0.1); /* color #12E7D1 */
-    color: DDDDDD;
+    color: white;
     text-shadow: rgba(18, 231, 209) 2px 0px 10px; /* color #12E7D1 */
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -383,8 +371,9 @@ body.scheme_space.with_background_image {
 	border-radius: 5px;
 }
 .scheme_space .achievement-header {
-	color: #FFFFFF;
+	color: #C23574;
 	text-shadow: 1px 1px rgba(4, 10, 32); /* color #040A20 */
+	font-size: 100%; 
 }
 .scheme_space .achievement.unethical {
     text-shadow: rgb(255, 67, 91) 2px 0px 10px;
@@ -434,7 +423,6 @@ body.scheme_space.with_background_image {
     margin-top: 5px;
 	text-shadow: 1px 1px rgba(4, 10, 32); /* color #040A20 */
 	font-weight: 400;
-	/*font-size: 90%; */ /* not use with this theme */
 }
 .scheme_space #calendarSign {
    font-size: 120% ;
@@ -548,25 +536,27 @@ body.scheme_space.with_background_image {
 	text-shadow: 2px 0px 10px rgba(255, 255, 255, 0.75); /* color #FFFFFF */
 }
 .scheme_space #fastHuntContainer > a:hover{ 
-	/*color: #E7AF4F; not use with this theme */
 	text-shadow: 1px 1px #333333;
 }
-.scheme_space .resource_kittens .resource-name {
-	color: white !important;
+.scheme_space .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
+	color: #418D79 !important;
 }
-.scheme_space .resource_faith .resource-name {
+.scheme_space .resource_kittens .resource-name { /* change for resource-name = kittens */
+	color: white !important; 
+}
+.scheme_space .resource_faith .resource-name { /* change for resource-name = Faith */
 	color: gray !important;
 }
-.scheme_space .resource_steel .resource-name {
+.scheme_space .resource_steel .resource-name { /* change for resource-name = Steel */
 	color: gray !important;
 }
-.scheme_space .resource_gear .resource-name {
+.scheme_space .resource_gear .resource-name { /* change for resource-name = Gear */
 	color: gray !important;
 }
-.scheme_space .resource_alloy .resource-name {
+.scheme_space .resource_alloy .resource-name { /* change for resource-name = Alloy */
 	color: gray !important;
 }
-.scheme_space .resource_megalith .resource-name {
+.scheme_space .resource_megalith .resource-name { /* change for resource-name = Megalith */
 	color: gray !important;
 }
 
