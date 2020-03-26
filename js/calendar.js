@@ -717,6 +717,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		if (resPool.energyProd >= resPool.energyCons) {
 			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction") * yearsOffset);
 		}
+
+		var beacons = game.space.getBuilding("spaceBeacon");
+		beacons.action(beacons, this.game);
+		this.game.updateCaches();
 		this.game.resPool.addResPerTick("relic", this.game.getEffect("relicPerDay") * daysOffset);
 
 		//not sure if it is a good idea
