@@ -46,7 +46,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		};
 	},
 
-	init: function(version){
+	init: function(timestamp){
 		var self = this;
 		if (navigator.globalization  !== undefined) {
 			var def = $.Deferred();
@@ -63,13 +63,13 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 					def.resolve();
 				}
 			);
-			return def.promise().then(function(){return self._init(version);});
+			return def.promise().then(function(){return self._init(timestamp);});
 		} else {
-			return this._init(version);
+			return this._init(timestamp);
 		}
 	},
 
-	_init: function(version) {
+	_init: function(timestamp) {
 		if (this._deffered) {
 			return this._deffered.promise();
 		}
@@ -96,14 +96,14 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		var self = this;
 		this._deffered = $.Deferred();
 		// now we can try to load it
-		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?v=" + version);
+		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?_=" + timestamp);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
 			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
 			self._deffered.reject("Couldn't load default locale");
 		});
 		var fallbackLocale = this.fallbackLocale;
 		if (this.language != fallbackLocale ) {
-			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?v=" + version).fail(function(e){
+			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?_=" + timestamp).fail(function(e){
 				console.error("Couldn't load user locale '" + lang + "', error:", e);
 			});
 
