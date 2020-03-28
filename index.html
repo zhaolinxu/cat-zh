@@ -32,8 +32,11 @@
 			ga('send', 'pageview');
 		</script>
 
-		<link rel="stylesheet" type="text/css" href="res/default.css" />
-		<link rel="stylesheet" type="text/css" href="res/theme_dark.css" />
+		<script type="text/javascript">
+			var now = Date.now();
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + now).appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_dark.css?_=" + now).appendTo($("head"));
+		</script>
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -89,7 +92,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=_" + version);
+				return System.import(module + ".js?_=" + now);
 			}
 
 			function _import(module, def){
@@ -160,14 +163,14 @@
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
-						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i].name + ".css").appendTo($("head"));
+						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i].name + ".css?_=" + now).appendTo($("head"));
 					}
 				});
 
 				def = _import("core", def);
 				def.then(function () {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(version);
+					var langPromise = i18nLang.init(now);
 					langPromise.done(function() {
 						console.log("Loading game modules");
 						for (var i in modules){
