@@ -3916,9 +3916,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 5;
 				}
-				var pre = this.religion.getFaithBonus();
+				var pre = this.religion.getApocryphaBonus();
 				this.religion.faithRatio += amt;
-				var post = this.religion.getFaithBonus();
+				var post = this.religion.getApocryphaBonus();
 				var apocryphaGained = (post-pre)*100;
 				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
 				break;
