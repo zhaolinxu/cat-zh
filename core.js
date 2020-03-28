@@ -2096,7 +2096,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 			}
 
 			if (meta.unlockScheme && meta.val >= meta.unlockScheme.threshold) {
-				this.game.unlockScheme(meta.unlockScheme.name);
+				this.game.ui.unlockScheme(meta.unlockScheme.name);
 			}
 
 			if (meta.upgrades) {

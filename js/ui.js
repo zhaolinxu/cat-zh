@@ -18,6 +18,12 @@ dojo.declare("classes.ui.UISystem", null, {
     updateOptions: function(){
     },
 
+	unlockScheme: function(name) {
+	},
+
+	relockSchemes: function() {
+	},
+
     notifyLogEvent: function(logmsg) {
     },
 
@@ -95,7 +101,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatActive: false,
     isChatVisited: false,
 
-    schemes: [{name: "default"}, {name: "dark"}].concat(new classes.KGConfig().statics.schemes),
+    defaultSchemes: ["default", "dark"],
+    allSchemes: [{name: "default"}, {name: "dark"}].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -670,8 +677,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         var schemeSelect = $("#schemeToggle");
         schemeSelect.empty();
-        for (var i = 0; i < this.schemes.length; ++i) {
-            var scheme = this.schemes[i];
+        for (var i = 0; i < this.allSchemes.length; ++i) {
+            var scheme = this.allSchemes[i];
             var schemeDisplay = $I("opts.theme." + scheme.name);
             if (scheme.author) {
                 schemeDisplay += " (by " + scheme.author + ")";
@@ -685,6 +692,19 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
         schemeSelect.val(game.colorScheme);
     },
+
+	unlockScheme: function(name) {
+		if (this.game.unlockedSchemes.indexOf(name) < 0) {
+			$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
+			this.game.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+			this.game.unlockedSchemes.push(name);
+		}
+	},
+
+	relockSchemes: function() {
+		this.game.unlockedSchemes = this.defaultSchemes;
+		this.updateOptions();
+	},
 
     displayAutosave: function(){
         dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");

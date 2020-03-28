@@ -1088,7 +1088,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	forceShowLimits: false,
 	useWorkers: false,
 	colorScheme: "",
-	unlockedSchemes: ["default", "dark"],
+	unlockedSchemes: null,
 
 	timer: null,
 	_mainTimer: null,	//main timer loop
@@ -1402,7 +1402,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.forceShowLimits = false;
 		this.useWorkers = false;
 		this.colorScheme = "";
-		this.unlockedSchemes = ["default", "dark"];
+		this.unlockedSchemes = this.ui.defaultSchemes;
 		this.karmaKittens = 0;
 		this.karmaZebras = 0;
 		this.ironWill = true;
@@ -1624,7 +1624,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			//something should really be done with this mess there
 			this.forceShowLimits = data.forceShowLimits ? data.forceShowLimits : false;
 			this.colorScheme = data.colorScheme ? data.colorScheme : null;
-			this.unlockedSchemes = data.unlockedSchemes ? data.unlockedSchemes : ["default", "dark"];
+			this.unlockedSchemes = data.unlockedSchemes ? data.unlockedSchemes : this.ui.defaultSchemes;
 
 			this.karmaKittens = (data.karmaKittens !== undefined) ? data.karmaKittens : 0;
 			this.karmaZebras = (data.karmaZebras !== undefined) ? data.karmaZebras : 0;
@@ -3759,14 +3759,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	unlockScheme: function(name) {
-		if (this.unlockedSchemes.indexOf(name) < 0) {
-			$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
-			this.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
-			this.unlockedSchemes.push(name);
-		}
-	},
-
 	upgrade: function(list){
 		this.updateCaches();
 		for (var type in list) {
@@ -3916,9 +3908,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 5;
 				}
-				var pre = this.religion.getFaithBonus();
+				var pre = this.religion.getApocryphaBonus();
 				this.religion.faithRatio += amt;
-				var post = this.religion.getFaithBonus();
+				var post = this.religion.getApocryphaBonus();
 				var apocryphaGained = (post-pre)*100;
 				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
 				break;

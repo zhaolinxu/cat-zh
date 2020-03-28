@@ -404,7 +404,7 @@
     "prestige.chokhmah.label": "Chokhmah",
     "prestige.keter.desc": "领导力的效能增加 5％",
     "prestige.keter.label": "Keter",
-    "prestige.voidOrder.desc": "每个牧师都会额外产生一个微小的信仰积累效果",
+    "prestige.voidOrder.desc": "添加10％产生的信仰，该信仰会自动累积",
     "prestige.voidOrder.label": "虚空圣典",
     "prestige.adjustmentBureau.desc": "解开额外的游戏挑战",
     "prestige.adjustmentBureau.label": "仲裁局",
