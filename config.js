@@ -20,6 +20,9 @@ dojo.declare("classes.KGConfig", null, {
         }, {
             name: "school",
             author: "Volkeyrn"
+        }, {
+            name: "fluid",
+            author: "Volkeyrn"
         }]
     }
 });
