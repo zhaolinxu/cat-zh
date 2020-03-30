@@ -173,6 +173,11 @@ select>option {
     padding: 4px 10px;
 }
 
+select > option:disabled {
+    font-style: italic;
+    font-size: 60%;
+}
+
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
