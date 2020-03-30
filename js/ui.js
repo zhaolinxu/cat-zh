@@ -808,6 +808,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 altKey: e.altKey
             };
         });
+
+        this.updateLinksBlockLanguage();
+    },
+
+    updateLinksBlockLanguage: function() {
+        $("#save-link").text($I("menu.save"));
+        $("#options-link").text($I("menu.options"));
+        $("#reset-link").text($I("menu.reset"));
+        $("#wipe-link").text($I("menu.wipe"));
+        $("#getTheApp-link").text($I("menu.getTheApp"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){

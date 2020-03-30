@@ -322,13 +322,13 @@
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
 
 					<div class="links-block" style="padding-top:3px;display:inline-block;">
-						<a href="#" onclick="gamePage.saveUI();">Save</a> |
-						<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
+						<a id="save-link" href="#" onclick="gamePage.saveUI();">Save</a> |
+						<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 
-						<a href="#" onclick="gamePage.reset();">Reset</a> |
+						<a id="reset-link" href="#" onclick="gamePage.reset();">Reset</a> |
 						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
-						<a href="#" onclick="wipe();">Wipe</a> |
-						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
+						<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
+						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 
 						<a href="#" onclick="$('#changelogDiv').toggle();">Ver <span id="versionLink">?.?.?.?</span></a>
 					</div>
