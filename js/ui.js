@@ -686,7 +686,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             var option = $("<option />").attr("value", scheme.name).text(schemeDisplay);
             if (game.unlockedSchemes.indexOf(scheme.name) < 0) {
-                option = option.attr("hidden", "hidden");
+                option = option.attr("disabled", "disabled");
             }
             option.appendTo(schemeSelect);
         }
@@ -695,7 +695,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
 	unlockScheme: function(name) {
 		if (this.game.unlockedSchemes.indexOf(name) < 0) {
-			$("#schemeToggle > option[value=" + name + "]").removeAttr("hidden");
+			$("#schemeToggle > option[value=" + name + "]").removeAttr("disabled");
 			this.game.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
 			this.game.unlockedSchemes.push(name);
 		}
