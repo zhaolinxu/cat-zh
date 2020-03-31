@@ -13,6 +13,12 @@ body.scheme_grassy {
 	background-position: center bottom -50px;
 }
 
+.scheme_grassy #topBar > div:first-child > span:first-child:after {
+    content: ' Theme by shrx.';
+    text-decoration: none;
+    text-underline: none;
+}
+
 .scheme_grassy #optionsDiv,
 .scheme_grassy #changelogDiv {
 	padding: 30px;

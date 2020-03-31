@@ -102,7 +102,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatVisited: false,
 
     defaultSchemes: ["default", "dark", "grassy", "sleek"],
-    allSchemes: [{name: "default"}, {name: "dark"}, {name: "grassy", author: "shrx"}, {name: "sleek", author: "Kida"}].concat(new classes.KGConfig().statics.schemes),
+    allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -642,6 +642,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateOptions: function() {
         var game = this.game;
 
+        if (game.unlockedSchemes.indexOf(game.colorScheme) < 0) {
+            game.colorScheme = "default";
+        }
         $("body").removeClass();
         if (game.colorScheme != "default") {
             $("body").addClass("scheme_" + game.colorScheme);
@@ -676,17 +679,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         schemeSelect.empty();
         for (var i = 0; i < this.allSchemes.length; ++i) {
             var scheme = this.allSchemes[i];
-            var schemeDisplay = $I("opts.theme." + scheme.name);
-            if (scheme.author) {
-                schemeDisplay += " (by " + scheme.author + ")";
-            }
-
-            var option = $("<option />").attr("value", scheme.name).text(schemeDisplay);
-            if (game.unlockedSchemes.indexOf(scheme.name) < 0) {
-                option.attr("disabled", "disabled");
-                if (this.defaultSchemes.indexOf(scheme.name) >= 0) {
-                    game.unlockedSchemes.push(scheme.name);
-                    option.removeAttr("disabled", "disabled");
+            var option = $("<option />").attr("value", scheme).text($I("opts.theme." + scheme));
+            if (game.unlockedSchemes.indexOf(scheme) < 0) {
+                if (this.defaultSchemes.indexOf(scheme) >= 0) {
+                    game.unlockedSchemes.push(scheme);
+                } else {
+                    option.attr("disabled", "disabled");
                 }
             }
             option.appendTo(schemeSelect);
