@@ -1,20 +1,19 @@
 /**
- *			Space 1.0.4 Theme © Volkeyrn
+ *			Space 1.1.0 Theme © Volkeyrn
  */
 
- @import url(https://fonts.googleapis.com/css?family=Oxanium:wght@200,300,400,500,600,700,800&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Oxanium:wght@200,300,400,500,600,700,800&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:wght@300,400,500,600,700,800&display=swap);
 
 /**********************************************/
 /******************** GAME ********************/
 /**********************************************/
 body.scheme_space {
-	background-color: #081644;
+	 background-color: rgb(2,5,14); /* color #02050E */	
 }
 body.scheme_space.with_background_image {
-	background-image: url('img/theme_space_stars_background.png'); /* source: https://pngtree.com/freebackground/blue-starry-night-sky-background_925273.html */
-	background-repeat: repeat;
-	background-attachment: fixed;
-	background-position: top left;
+	background: repeat fixed top left url('img/theme_space_stars_background.png'), /* source: https://pngtree.com/freebackground/blue-starry-night-sky-background_925273.html */
+	linear-gradient(90deg, rgba(2,5,14,1) 0%, rgba(8,22,68,1) 25%, rgba(2,5,14,1) 100%);	
 }
 .scheme_space  #gamePageContainer,
 .scheme_space select,
@@ -22,7 +21,7 @@ body.scheme_space.with_background_image {
 .scheme_space .modern,
 .scheme_space .btn.modern,
 .scheme_space input[type='button'] {   
-	 font-family: 'Oxanium', cursive;  /*+ cursive, very good size, clear like computer, very nice !!! */
+	 font-family: 'Oxanium', cursive;
 }
 .scheme_space .btn { 
 	color: #9FA5D6;
@@ -91,7 +90,7 @@ body.scheme_space.with_background_image {
 /*** green and red light for machine on/off ***/
 .scheme_space .btn.bldlackResConvert div.btnContent {
     padding: 4px;
-    border: 1px solid #c2185b; /* color for lack resources convertion */
+    border: 1px solid #EA152C; /* color for lack resources convertion */
 }
 .scheme_space .btn.bldEnabled div.btnContent { 
     padding: 4px;
@@ -107,12 +106,11 @@ body.scheme_space.with_background_image {
 .scheme_space,
 .scheme_space .help { /* window options and version */
 	color: #CCCCCC;	
-	background-color: #081644;
+	background-color: #061030;
 	overflow: hidden;
 }
 .scheme_space .help,
 .scheme_space .dialog {
-    /*box-shadow: 4px 4px 4px rgb(11, 11, 11); not use for this theme */
 	box-shadow: 0 2px 5px 0 rgb(13, 13, 13), 0 2px 10px 0 rgb(24, 24, 24), 0 0 0 9999px rgba(0, 0, 0, 0.8);
     height: auto !important;
     top: 40% !important;
@@ -120,10 +118,11 @@ body.scheme_space.with_background_image {
 }
 .scheme_space select { /* dropdown list on settlement tab and options windows */
     background-color: #0A1A4E;
+	font-family: 'Roboto Slab', serif;
     color: #0FC3B1;
     padding-bottom: 2px;
-	border-color : #0A1A4E;
-	font-size: 13px;
+	border-color : rgba(13,35,110,0.9); /* color #0D236E */
+	font-size: 14px;
 }
 .scheme_space select>option {
     background-color: #0A1A4E;
@@ -135,7 +134,8 @@ body.scheme_space.with_background_image {
 /******************** TOP BAR ********************/
 /*************************************************/
 .scheme_space #topBar {
-	background-color: #0A1A4E;
+	background-color: rgb(10,26,78); /* color #0A1A4E */
+	background: radial-gradient(circle, rgba(10,26,78,1) 0%, rgba(2,5,14,1) 100%);
 	font-size: 90%;
     height: 22px;
     border-bottom: 1px solid #0A2450;
@@ -164,10 +164,10 @@ body.scheme_space.with_background_image {
 .scheme_space #autosaveTooltip { 
 	color: #0FC3B1;
 }
-.scheme_space #headerLinks a[onclick="gamePage.ui.displayAppDialog();"]{ /* Get the app */
+.scheme_space #getTheApp-link { /* Get the app */
 	color: #167E9D !important;
 }
-.scheme_space #headerLinks a[onclick="gamePage.ui.displayAppDialog();"]:hover{ 
+.scheme_space #getTheApp-link:hover { 
 	color: #12E7D1 !important;
 }
 
@@ -177,9 +177,9 @@ body.scheme_space.with_background_image {
 .scheme_space #footerLinks {
 	font-size: 90%;
 	bottom: 6px;
-	background: rgba(10, 26, 78, 0.7); /* color #383838 */ 
-	-webkit-box-shadow: 0 0 4px 4px rgba(10, 26, 78, 0.5); /* color #383838 */ 
-	        box-shadow: 0 0 4px 4px rgba(10, 26, 78, 0.5); /* color #383838 */ 
+	background: rgba(3, 10, 29, 0.8); /* color #030A1D */ 
+	-webkit-box-shadow: 0 0 4px 4px rgba(3, 10, 29, 0.6); /* color #030A1D */ 
+	        box-shadow: 0 0 4px 4px rgba(3, 10, 29, 0.6); /* color #030A1D */ 
 }
 .scheme_space #footerLinks a:hover {
 	text-shadow: none;
@@ -197,10 +197,10 @@ body.scheme_space.with_background_image {
 	background-color: #061336;
 	font-size: 95%;
 	border: 1px solid rgba(11, 74, 104, 0.8); /* color #0B4A68 */
-	/*box-shadow: 4px 4px 4px rgb(22, 22, 22); not use for this theme */
+	border-radius: 5px !important;
 }
 .scheme_space .button_tooltip {
-	background-color: #061336;
+	background-color: transparent;
 }
 .scheme_space .button_tooltip div { /* tooltip window == left column: right text | center column :highlighting text */
 	color: #DDDDDD;
@@ -210,6 +210,7 @@ body.scheme_space.with_background_image {
     color: #167E9D; 
 	font-size: 95%;
 	border-bottom : 1px solid #0A2450 !important; /* border line under title */
+	margin-bottom: 5px;
 }
 .scheme_space .tooltip-divider { /* border line before effects text */
 	border-bottom : 1px solid #0A2450 !important;	
@@ -239,19 +240,29 @@ body.scheme_space.with_background_image {
 }
 .scheme_space .tabsContainer { /* separator | for tab */
 	color: #0A2450 ;
+	padding-bottom: 10px !important; /* default 15px */
 }
 .scheme_space .activeTab { 
 	color: #12E7D1; 
 	font-weight: bold;
 	text-shadow: 1px 1px rgba(4, 10, 32); /* color #040A20 */
 }
+.scheme_space a.activeTab {
+    border-bottom: solid 2px #0B4A68 ! important; 
+}
+.scheme_space a.activeTab:hover {
+    color: #12E7D1; 
+}
 .scheme_space .bldTopContainer { /* under tab */
     font-size: 90%;
 }
+.scheme_space .bldTopContainer a.activeTab:hover { 
+    color: #12E7D1;
+	opacity: 0.7; /* default opacity 0.7 on not hover */ 
+}
 .scheme_space .bldGroupContainer { /* container for all buttons on center column */
-    padding-top: 10px;
+    padding-top: 10px; /* default 15px */
     border-top: 1px solid #0A2450;
-    margin-top: 10px;
 }
 .scheme_space .btn.modern:not(.disabled) {
    	background-color: #1F2F65; /* color for all button not disabled*/	
@@ -318,12 +329,10 @@ body.scheme_space.with_background_image {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
 }
-.scheme_space a.activeTab {
-    border-bottom: solid 2px #0B4A68 ! important; 
-}
 .scheme_space .panelContainer { 
     background-color: rgba(4, 10, 32, 0.2) !important; /* color #040A20 */
-    border-color: #0A2450; 
+    border-color: #0A2450;
+	border-radius: 5px;
 }
 .scheme_space .panelContainer div.title {
     color: #C23574;
@@ -331,7 +340,8 @@ body.scheme_space.with_background_image {
 	font-weight: 400;
 }
 .scheme_space .panelContainer .toggle {
-    border-color : #0A2450; 
+    border-color : #0A2450;
+	border-radius: 3px;
 }
 .scheme_space .trade-race .buys {
     color: #F4691A;
@@ -344,14 +354,19 @@ body.scheme_space.with_background_image {
 }
 /* for container 'Census' -> list of kittens in settlement tab */
 .scheme_space .panelContainer div[style^='border: 1px solid gray;']{
-	border-color: #167E9D !important;
+	border-color: #0D236E !important;
 	font-size: 90%;
+	border-radius: 5px;
+	background-color : rgba(22, 126, 157, 0.2); /* color #167E9D */
 }
 .scheme_space .panelContainer div[style^='border: 1px solid gray;'] span{ /* jobs unasigned */
 	color: #777777;
 }
 .scheme_space .panelContainer div[style^='border: 1px solid gray;'] span[style='font-weight: bold' i]{ /* job assigned */
 	color: #0FC3B1;
+}
+.scheme_space .panelContainer div.title + .container > div[style^='height:']{
+	margin-bottom: 4px; /* for add a margin under the 2 lists (select) in the settlement tab */ 
 }
 
 /**********************************************************/
@@ -373,7 +388,7 @@ body.scheme_space.with_background_image {
 .scheme_space .achievement-header {
 	color: #C23574;
 	text-shadow: 1px 1px rgba(4, 10, 32); /* color #040A20 */
-	font-size: 100%; 
+	font-size: 18px; 
 }
 .scheme_space .achievement.unethical {
     text-shadow: rgb(255, 67, 91) 2px 0px 10px;
@@ -386,13 +401,13 @@ body.scheme_space.with_background_image {
 .scheme_space .achievement:hover {
     background-color: rgba(22, 126, 157, 0.6); /* color #167E9D */
 }
-.scheme_space .achievement[title='???'] {
+.scheme_space .achievement:not(.unlocked) {
     color: rgba(220, 220, 220, 0.5);
 	background-color: rgba(140, 140, 140, 0.1);
     text-shadow: none;
 	border-color : rgba(140, 140, 140, 0.4);
 }
-.scheme_space .achievement[title='???']:hover {
+.scheme_space .achievement:not(.unlocked):hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 .scheme_space .achievement:after {
@@ -408,6 +423,19 @@ body.scheme_space.with_background_image {
 .scheme_space .achievement.unethical:after {    
 	color: #FFFFFF !important;
 }
+.scheme_space .achievement-header .star {
+	/* default font size = font-size: 18px; */
+    color: #F4691A; /* orange or dominant color of the theme */
+}
+.scheme_space .achievement .star { 
+	/* default font size = font-size: 18px; */  
+	color : #888888;
+}
+.scheme_space .achievement.unlocked .star {   
+	color : #F4691A; /* orange or dominant color of the theme */
+	font-weight: bold;
+	text-shadow: 0px 1px rgba(1, 4, 15,1); /* color #01040F */
+}
 
 /******************************************************/
 /******************** RIGHT COLUMN ********************/
@@ -421,8 +449,8 @@ body.scheme_space.with_background_image {
     color: #C23574;
 	padding-left: 5px;
     margin-top: 5px;
-	text-shadow: 1px 1px rgba(4, 10, 32); /* color #040A20 */
-	font-weight: 400;
+	text-shadow: 1px 1px 1px rgba(1, 4, 15,1); /* color #01040F */
+	font-weight: normal;
 }
 .scheme_space #calendarSign {
    font-size: 120% ;
@@ -480,7 +508,7 @@ body.scheme_space.with_background_image {
 	margin-left: 2px; /* without 0px margin left for all ressources */
  } 
  .scheme_space .craftTable {
-	 margin-bottom: 50px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table !*/
+	 margin-bottom: 20px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table !*/
  }
 .scheme_space .res-cell.craft-link {  
      min-width: 30px; /* for not adjust size of cell in live. Without column move horizontally */
@@ -539,7 +567,12 @@ body.scheme_space.with_background_image {
 	text-shadow: 1px 1px #333333;
 }
 .scheme_space .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
+	font-size: 90% !important;
 	color: #418D79 !important;
+}
+.scheme_space .res-cell.negative-weather { /* to change the color for penalty cell according to the season */
+	font-size: 90% !important;	
+	color: #EA152C !important;
 }
 .scheme_space .resource_kittens .resource-name { /* change for resource-name = kittens */
 	color: white !important; 
@@ -564,11 +597,11 @@ body.scheme_space.with_background_image {
 /******************** SCROLLBAR ********************/
 /***************************************************/
 .scheme_space ::-webkit-scrollbar-thumb {
-    background: #111F4C;
+    background: #081644;
 	border-radius: 40px;
 }
 .scheme_space ::-webkit-scrollbar-track {
-    background: #081644;
+    background: #061030;
     border-radius: 50px;
 }
 /* Only FireFox */
@@ -576,7 +609,7 @@ body.scheme_space.with_background_image {
 .scheme_space #rightColumn,
 .scheme_space #midColumn {
    scrollbar-width: thin;
-   scrollbar-color: #111F4C #081644 !important; 
+   scrollbar-color: #081644 #061030 !important; 
 }
 .scheme_space select {
    scrollbar-width: auto !important;
