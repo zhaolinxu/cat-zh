@@ -530,7 +530,8 @@ body.scheme_space.with_background_image {
 .scheme_space .res-cell.resPerTick:hover {
 	font-weight: normal !important;
 }
-.scheme_space .maxRes {
+.scheme_space .maxRes,
+.scheme_space select > option:disabled {
 	color: #999999;
 }
 .scheme_space .resAmount { 

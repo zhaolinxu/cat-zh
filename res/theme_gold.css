@@ -449,7 +449,8 @@ body.scheme_gold {
 .scheme_gold .res-cell.resPerTick:hover {
 	font-weight: normal !important;
 }
-.scheme_gold .maxRes {
+.scheme_gold .maxRes,
+.scheme_gold select > option:disabled {
 	font-size: 90%;
 	color: #919084;
 }

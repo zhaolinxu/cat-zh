@@ -571,7 +571,8 @@ body.scheme_wood {
 .scheme_wood .res-cell.resPerTick:hover {
 	font-weight: normal !important;
 }
-.scheme_wood .maxRes {
+.scheme_wood .maxRes,
+.scheme_wood select > option:disabled {
 	color: #8D7B6F;
 	font-size: 90%;
 }
