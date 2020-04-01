@@ -466,7 +466,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.update();
 
         //-------------------------
-        $(".console-intro").html($I("console.intro"));
+        // April Fools' temporary text
+        $(".console-intro").css("font-size", "300%").addClass("blaze").text("You are a zebra in a savanna full of titanium mines.");
+        //$(".console-intro").html($I("console.intro"));
 
         React.render($r(WLeftPanel, {
             game: this.game
