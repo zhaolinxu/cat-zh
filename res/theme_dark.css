@@ -97,7 +97,8 @@
 	background-color: #201F1D;
 }
 
-.scheme_dark .maxRes {
+.scheme_dark .maxRes,
+.scheme_dark select > option:disabled {
 	color: #555;
 }
 
@@ -131,7 +132,7 @@
     background-color: #201F1D !important;
     cursor: pointer !important;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid grey !important;
+    border: 1px solid gray !important;
     border-radius: 1px !important;
     outline: 0 !important;
     color: white;

@@ -74,7 +74,8 @@
     background-color: #201F1D;
 }
 
-.scheme_sleek .maxRes {
+.scheme_sleek .maxRes,
+.scheme_sleek select > option:disabled {
     color: #555;
 }
 

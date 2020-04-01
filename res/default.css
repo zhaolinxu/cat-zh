@@ -173,11 +173,6 @@ select>option {
     padding: 4px 10px;
 }
 
-select > option:disabled {
-    font-style: italic;
-    font-size: 60%;
-}
-
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -322,8 +317,13 @@ select > option:disabled {
     padding: 10px;
 }
 
-.maxRes {
+.maxRes,
+select > option:disabled {
     color: #AAA;
+}
+
+select > option:disabled {
+    font-style: italic !important;
 }
 
 .achievement {
@@ -548,7 +548,7 @@ label {
 
 label i {
     font-size: 90%;
-    color: grey;
+    color: gray;
 }
 
 label:hover {

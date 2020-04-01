@@ -565,7 +565,8 @@ body.scheme_school {
 .scheme_school .res-cell.resPerTick:hover {
 	font-weight: normal !important;
 }
-.scheme_school .maxRes {
+.scheme_school .maxRes,
+.scheme_school select > option:disabled {
 	color: #828790;
 	font-size: 90%;
 	min-width:60px; /* for not adjust size of cell in live. Without column move horizontally */

@@ -684,7 +684,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 if (this.defaultSchemes.indexOf(scheme) >= 0) {
                     game.unlockedSchemes.push(scheme);
                 } else {
-                    option.attr("disabled", "disabled");
+                    option.html("&nbsp;&nbsp;" + $I("opts.theme." + scheme)).attr("disabled", "disabled");
                 }
             }
             option.appendTo(schemeSelect);
