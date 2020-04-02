@@ -306,11 +306,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.12,
 		effects: {
 			"catnipPerTickBase": 0.125
-		},
-		flavor : $I("buildings.field.flavor"),
-		unlockScheme: {
-			name: "grassy",
-			threshold: 42
 		}
 	},
 	{
@@ -1672,10 +1667,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			};
 			effects["cultureMaxRatio"] = 0.08 + game.getEffect("cultureMaxRatioBonus");
 			self.effects = effects;
-		},
-		unlockScheme: {
-			name: "sleek",
-			threshold: 8
 		}
 	},{
 		name: "chronosphere",
