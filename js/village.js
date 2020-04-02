@@ -1306,16 +1306,11 @@ dojo.declare("classes.village.KittenSim", null, {
 
 	},
 
-	addKitten: function(amount){
-		if (!amount) {
-			amount = 1;
-		}
-		for (var i = amount - 1; i >= 0; i--) {
-			var kitten = new com.nuclearunicorn.game.village.Kitten();
-			this.kittens.push(kitten);
-			if (this.game.village.traits.indexOf(kitten.trait) < 0) {
-				this.game.village.traits.unshift(kitten.trait);
-			}
+	addKitten: function() {
+		var kitten = new com.nuclearunicorn.game.village.Kitten();
+		this.kittens.push(kitten);
+		if (this.game.village.traits.indexOf(kitten.trait) < 0) {
+			this.game.village.traits.unshift(kitten.trait);
 		}
 		this.game.villageTab.updateTab();
 
@@ -1323,7 +1318,7 @@ dojo.declare("classes.village.KittenSim", null, {
             this.game.kongregate.stats.submit("kittens", this.kittens.length);
         }
 
-        this.game.stats.getStat("totalKittens").val += amount;
+        this.game.stats.getStat("totalKittens").val++;
 	},
 
 	killKittens: function(amount){
