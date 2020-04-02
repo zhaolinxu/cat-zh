@@ -306,7 +306,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.12,
 		effects: {
 			"catnipPerTickBase": 0.125
-		}
+		},
+		flavor : $I("buildings.field.flavor")
 	},
 	{
 		name: "pasture",
