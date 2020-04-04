@@ -541,6 +541,7 @@ dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.g
         model.toggle = {
             title: this.game.time.isAccelerated ? $I("btn.on.minor") : $I("btn.off.minor"),
             tooltip: this.game.time.isAccelerated ? $I("time.AccelerateTimeBtn.tooltip.accelerated") : $I("time.AccelerateTimeBtn.tooltip.normal"),
+            cssClass: this.game.time.isAccelerated ? "fugit-on" : "fugit-off",
             handler: function(btn, callback) {
                 if (self.game.resPool.get("temporalFlux").value <= 0) {
                     self.game.time.isAccelerated = false;

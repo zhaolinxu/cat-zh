@@ -1038,6 +1038,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		var link = dojo.create("a", {
 				href: "#",
 				innerHTML: linkModel.title,
+				className: linkModel.cssClass ? linkModel.cssClass : "",
 				style:{
 					paddingLeft: "2px",
 					float: "right",
@@ -1584,6 +1585,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 	updateLink: function(buttonLink, modelLink) {
 		if (buttonLink) {
 			buttonLink.link.textContent = modelLink.title;
+			if (modelLink.cssClass) buttonLink.link.className = modelLink.cssClass;
 			if (modelLink.tooltip) buttonLink.link.title = modelLink.tooltip;
 			dojo.style(buttonLink.link, "display", modelLink.visible === undefined || modelLink.visible ? "" : "none");
 		}
@@ -1620,6 +1622,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.togglableOnOffLink = {
 				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
 				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
+				cssClass: model.metadata.on ? "bld-on" : "bld-off",
 				handler: function(btn){
 					self.handleTogglableOnOffClick(model);
 				}
@@ -1629,6 +1632,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
 				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
+				cssClass: model.metadata.isAutomationEnabled ? "auto-on" : "auto-off",
 				handler: function(btn){
 					self.handleToggleAutomationLinkClick(model);
 				}
