@@ -2474,16 +2474,6 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearun
 	}
 });
 
-
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
-	renderLinks: function(){
-		if (this.game.devMode && !this.devUnlockHref){
-			this.devUnlockHref = this.addLink("[+]", this.unlock);
-		}
-	}
-
-});
-
 dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 
 	defaults: function() {
@@ -2858,10 +2848,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 	},
 
-	createBtn: function(upgrade){
+	createBtn: function(upgrade) {
 		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
-		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name, controller: controller}, this.game);
-		return btn;
+		return new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: upgrade.name, controller: controller}, this.game);
 	},
 
 	update: function(){
