@@ -452,10 +452,6 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     padding: 10px 0px 10px 10px;
 }
 
-.btn.modern .linkBreak{
-    display: none;
-}
-
 .button_tooltip .noRes, .limited {
     color: #FF3030;
 }

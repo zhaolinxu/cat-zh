@@ -2210,8 +2210,7 @@ dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Bu
 	    // -------------- x100 ----------------
 
 		if (!this.x100Href){
-			this.x100Href = this.addLink(this.model.x100Link.title, this.model.x100Link.handler
-				);
+			this.x100Href = this.addLink(this.model.x100Link.title, this.model.x100Link.handler);
 		} else {
 			dojo.style(this.x100Href.link, "display", !this.model.x100Link.visible ? "none" : "");
 		}
@@ -2398,8 +2397,7 @@ dojo.declare("classes.ui.btn.StagingBldBtn", com.nuclearunicorn.game.ui.Building
 
 		for (var i = 0; i < this.model.stageLinks.length; i++){
 			var linkModel = this.model.stageLinks[i];
-			this.stageLinks.push(
-					this.addLink(linkModel.title, linkModel.handler));
+			this.stageLinks.push(this.addLink(linkModel.title, linkModel.handler));
 		}
 	}
 });

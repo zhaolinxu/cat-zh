@@ -2187,19 +2187,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	},
 
-	getCraftPrice: function(craft){
-		if (craft.name != "ship"){
+	getCraftPrice: function(craft) {
+		if (craft.name != "ship") {
 			return craft.prices;
 		}
 
 		//special ship hack
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
-			if (prices[i].name == "starchart"){
-				prices[i].val = prices[i].val *
-					(1 - this.game.getHyperbolicEffect(
-						this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on,
-						0.75));
+			if (prices[i].name == "starchart") {
+				prices[i].val = prices[i].val * (1 - this.game.getHyperbolicEffect(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
 			}
 		}
 		return prices;

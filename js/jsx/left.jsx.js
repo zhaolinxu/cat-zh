@@ -213,7 +213,7 @@ WCraftShortcut = React.createClass({
             craftPercent = this.props.craftPercent,
             allCount = game.workshop.getCraftAllCount(res.name),
             craftRatio = game.getResCraftRatio(res),
-            craftPrices = (res.name == "ship") ? game.workshop.getCraftPrice(recipe) : recipe.prices;   //????????????wat
+            craftPrices = game.workshop.getCraftPrice(recipe);
 
 
         var craftRowAmt = craftFixed;

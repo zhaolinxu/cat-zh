@@ -1033,9 +1033,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	},
 
 	//Fast access snippet to create button links like "on", "off", "sell", etc.
-	addLink: function(title, handler, addBreak){
+	addLink: function(title, handler){
 
-		var linkBreak = null;
 		var link = dojo.create("a", {
 				href: "#",
 				innerHTML: title,
@@ -1062,18 +1061,10 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		}, handler));
 
-		if (addBreak){
-			linkBreak = dojo.create("span", {
-				innerHTML: "|",
-				className: "linkBreak",
-				style: {float: "right", paddingLeft: "2px"}
-			}, this.buttonContent);
-		}
 		dojo.place(link, this.buttonContent);
 
 		return {
 			link: link,
-			linkBreak: linkBreak,
 			linkHandler: linkHandler
 		};
 	},
@@ -1623,9 +1614,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.togglableOnOffLink = {
 				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
 				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
-				visible: true,
-				enabled: true,
-				divider: true,
 				handler: function(btn){
 					self.handleTogglableOnOffClick(model);
 				}
@@ -1635,9 +1623,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
 				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
-				visible: this.game.workshop.get("factoryAutomation").researched,
-				enabled: true,
-				divider: true,
 				handler: function(btn){
 					self.handleToggleAutomationLinkClick(model);
 				}
@@ -1894,17 +1879,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if (this.model.togglableOnOffLink){
-			this.toggle = this.addLink( this.model.togglableOnOffLink.title,
-				this.model.togglableOnOffLink.handler, this.model.togglableOnOffLink.divider	//use | break
-			);
+			this.toggle = this.addLink( this.model.togglableOnOffLink.title, this.model.togglableOnOffLink.handler);
 		}
 
 		if (this.model.toggleAutomationLink){
-			this.toggleAutomation = this.addLink( this.model.toggleAutomationLink.title,
-				this.model.toggleAutomationLink.handler, this.model.toggleAutomationLink.divider	//use | break
-			);
+			this.toggleAutomation = this.addLink( this.model.toggleAutomationLink.title, this.model.toggleAutomationLink.handler);
 		}
-
 	},
 
 	sell: function(event){
