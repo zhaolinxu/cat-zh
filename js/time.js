@@ -560,7 +560,7 @@ dojo.declare("classes.ui.time.AccelerateTimeBtnController", com.nuclearunicorn.g
 
 dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
     renderLinks: function() {
-        this.toggle = this.addLink(this.model.toggle.title, this.model.toggle.handler);
+        this.toggle = this.addLink(this.model.toggle);
     },
 
     update: function() {
@@ -751,9 +751,9 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
      * => the whole button-controller-model stuff will be factorized in order to reduce copy&paste
      */
     renderLinks: function() {
-        this.tenEras = this.addLink(this.model.tenErasLink.title, this.model.tenErasLink.handler);
-        this.previousCycle = this.addLink(this.model.previousCycleLink.title, this.model.previousCycleLink.handler);
-        this.nextCycle = this.addLink(this.model.nextCycleLink.title, this.model.nextCycleLink.handler);
+        this.tenEras = this.addLink(this.model.tenErasLink);
+        this.previousCycle = this.addLink(this.model.previousCycleLink);
+        this.nextCycle = this.addLink(this.model.nextCycleLink);
     },
 
     update: function() {

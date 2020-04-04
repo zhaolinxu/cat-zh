@@ -647,17 +647,18 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	},
 
 	renderLinks: function(){
-		this.tradeAllHref = this.addLink($I("btn.all.minor"),
-			function(){
+		this.tradeAllHref = this.addLink({
+			title: $I("btn.all.minor"),
+			handler: function() {
 				this.game.diplomacy.tradeAll(this.race);
 			}
-		);
+		});
 
 		// 50% template
-		this.tradeHalfHref = this.addLink("","");
+		this.tradeHalfHref = this.addLink({title: "", handler: ""});
 
 		//20% template
-		this.tradeFifthHref = this.addLink("","");
+		this.tradeFifthHref = this.addLink({title: "", handler: ""});
 	},
 
 	update: function(){

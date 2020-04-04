@@ -1033,11 +1033,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	},
 
 	//Fast access snippet to create button links like "on", "off", "sell", etc.
-	addLink: function(title, handler){
+	addLink: function(linkModel) {
 
 		var link = dojo.create("a", {
 				href: "#",
-				innerHTML: title,
+				innerHTML: linkModel.title,
 				style:{
 					paddingLeft: "2px",
 					float: "right",
@@ -1059,7 +1059,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			})();
 
 
-		}, handler));
+		}, linkModel.handler));
 
 		dojo.place(link, this.buttonContent);
 
@@ -1812,10 +1812,12 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		//var sellLinkAdded = false;
 		if (this.model.showSellLink){
 			if (!this.sellHref){
-				this.sellHref = this.addLink($I("btn.sell.minor"),
-					function(event){
+				this.sellHref = this.addLink({
+					title: $I("btn.sell.minor"),
+					handler: function(event) {
 						this.sell(event);
-					});
+					}
+				});
 				//var sellLinkAdded = true;
 			}
 		}
@@ -1879,11 +1881,11 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 		}
 
 		if (this.model.togglableOnOffLink){
-			this.toggle = this.addLink( this.model.togglableOnOffLink.title, this.model.togglableOnOffLink.handler);
+			this.toggle = this.addLink(this.model.togglableOnOffLink);
 		}
 
 		if (this.model.toggleAutomationLink){
-			this.toggleAutomation = this.addLink( this.model.toggleAutomationLink.title, this.model.toggleAutomationLink.handler);
+			this.toggleAutomation = this.addLink(this.model.toggleAutomationLink);
 		}
 	},
 

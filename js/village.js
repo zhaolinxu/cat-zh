@@ -2226,8 +2226,8 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
 
 dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	renderLinks: function() {
-		this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler);
-		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler);
+		this.x100 = this.addLink(this.model.x100Link);
+		this.x10 = this.addLink(this.model.x10Link);
 	},
 
 	update: function() {
