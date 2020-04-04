@@ -565,8 +565,7 @@ dojo.declare("classes.ui.time.AccelerateTimeBtn", com.nuclearunicorn.game.ui.But
 
     update: function() {
         this.inherited(arguments);
-        this.toggle.link.textContent = this.model.toggle.title;
-        this.toggle.link.title = this.model.toggle.tooltip;
+        this.updateLink(this.toggle, this.model.toggle);
     }
 });
 

@@ -1534,8 +1534,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 
-
-
 	attachTooltip: function(container, htmlProvider){
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
@@ -1581,6 +1579,14 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 	renderLinks: function(){
 		//do nothing, implement me
+	},
+
+	updateLink: function(buttonLink, modelLink) {
+		if (buttonLink) {
+			buttonLink.link.textContent = modelLink.title;
+			if (modelLink.tooltip) buttonLink.link.title = modelLink.tooltip;
+			dojo.style(buttonLink.link, "display", modelLink.visible === undefined || modelLink.visible ? "" : "none");
+		}
 	},
 
 	getSelectedObject: function(){
@@ -1929,16 +1935,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 				dojo.toggleClass(this.add["add1"].link, "enabled", building.on < building.val);
 			}
 
-			if (this.toggle){
-				this.toggle.link.textContent = this.model.togglableOnOffLink.title;
-				this.toggle.link.title = this.model.togglableOnOffLink.tooltip;
-			}
-
-			if (this.toggleAutomation){
-				this.toggleAutomation.link.textContent = this.model.toggleAutomationLink.title;
-				this.toggleAutomation.link.title = this.model.toggleAutomationLink.tooltip;
-			}
-
+			this.updateLink(this.toggle, this.model.togglableOnOffLink);
+			this.updateLink(this.toggleAutomation, this.model.toggleAutomationLink);
 		}
 	}
 });
