@@ -996,21 +996,16 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 
 dojo.declare("classes.ui.religion.MultiLinkBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	renderLinks: function() {
-		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
-		this.half = this.addLink(this.model.halfLink.title, this.model.halfLink.handler, false, true);
-		this.fifth = this.addLink(this.model.fifthLink.title, this.model.fifthLink.handler, false, true);
+		this.all = this.addLink(this.model.allLink);
+		this.half = this.addLink(this.model.halfLink);
+		this.fifth = this.addLink(this.model.fifthLink);
 	},
 
 	update: function() {
 		this.inherited(arguments);
-		this._updateLink(this.fifth, this.model.fifthLink);
-		this._updateLink(this.half, this.model.halfLink);
-		this._updateLink(this.all, this.model.allLink);
-	},
-
-	_updateLink: function(buttonLink, modelLink) {
-		buttonLink.link.textContent = modelLink.title;
-		dojo.style(buttonLink.link, "display", modelLink.visible ? "" : "none");
+		this.updateLink(this.fifth, this.model.fifthLink);
+		this.updateLink(this.half, this.model.halfLink);
+		this.updateLink(this.all, this.model.allLink);
 	}
 });
 
