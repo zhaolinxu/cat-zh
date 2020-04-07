@@ -880,7 +880,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtnController", com.nuclearunic
 	},
 
 	updateVisible: function(model){
-		model.visible = this.game.religion.faith >= model.metadata.faith;
+		model.visible = model.metadata.on > 0 || this.game.religion.faith >= model.metadata.faith;
 	}
 });
 
