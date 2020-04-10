@@ -278,7 +278,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			this.game.resPool.addResEvent("starchart", starcharts);
 		}
-	},//this.observeHandler
+	},
 
 	observeTimeout: function(){
 
@@ -451,8 +451,14 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					this.observeTimeout();
 				}
 
+				// nice reminder that astronomical events don't happen
+				if (this.game.challenges.currentChallenge == "blackSky") {
+					// ...however it gets spammy after some progress
+					if (this.game.bld.get('observatory').val < 30) {
+						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
+					}
 				//---------------- SETI hack-------------------
-				if (this.game.workshop.get("seti").researched) {
+				} else if (this.game.workshop.get("seti").researched) {
 					this.observeHandler();
 				} else {
 					this.observeClear();
@@ -613,7 +619,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
             //console.log("eventChance="+eventChance+", autoChance="+autoChance);
             numberEvents = Math.round(daysOffset * eventChance * autoChance);
             //console.log("number of startcharts="+numberEvents);
-            if (numberEvents) {
+            if (numberEvents && this.game.challenges.currentChallenge != "blackSky") {
                 this.game.resPool.addResEvent("starchart", numberEvents);
             }
 
@@ -825,12 +831,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.stats.getStat("totalParagon").val++;
 		}
 
-		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
-		var markerVal = this.game.religion.getZU("marker").val;
-		if ( pyramidVal > 0 ){
-			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
+		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
+		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
+
+		//3.5% per year per BP, +10% per marker
+		if (pyramidVal > 0) {
+			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)) {
 				this.game.diplomacy.unlockElders();
 			}
+		}
+
+		if (this.game.diplomacy.get("leviathans").unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
 		}
 
 		if (++this.cycleYear >= this.yearsPerCycle) {

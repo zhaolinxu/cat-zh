@@ -3,6 +3,7 @@ Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
 * Make gamma the new mainline
 * Make engineers work during time skips
+* Add new challenge: Black Sky
 
 Themes:
 * New themes: Anthracite, Black
