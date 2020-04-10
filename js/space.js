@@ -502,7 +502,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"starchartPerTickBaseSpace": 0.01,
 					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio"))
 				};
-            }
+            },
+			unlockScheme: {
+				name: "vessel",
+				threshold: 20
+			}
         },{
             name: "orbitalArray",
             label: $I("space.planet.piscine.orbitalArray.label"),
