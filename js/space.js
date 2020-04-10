@@ -497,10 +497,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"scienceMax": 0,
 				"starchartPerTickBaseSpace": 0
 			},
-            calculateEffects: function(self, game){
+			calculateEffects: function(self, game) {
 				self.effects = {
 					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio")),
-					"starchartPerTickBaseSpace": 0.01
+					"starchartPerTickBaseSpace": game.challenges.currentChallenge == "blackSky" ? 0 : 0.01
 				};
             },
 			unlockScheme: {
@@ -691,7 +691,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				action: function(self, game){
 
 					var rPerDay = game.getEffect("beaconRelicsPerDay");
-					var rrBoost = (1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").val * 0.1);	//10% per BP * BN combo
+					var rrBoost = 1 + game.getEffect("relicRefineRatio") * game.religion.getZU("blackPyramid").getEffectiveValue(game) * 0.1;	//10% per BP * BN combo
 
 					//lol
 					var amMax = game.resPool.get("antimatter").maxValue;
@@ -1161,11 +1161,18 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
             if (prices[i].name == "oil"){
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
-            }
-        }
+			}
+		}
 
-        return prices;
-    },
+		if (this.game.challenges.currentChallenge == "blackSky"
+		 && model.metadata.name == "orbitalLaunch") {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "starchart" ? 0 : 11;
+			}
+		}
+
+		return prices;
+	},
 
 	updateVisible: function(model){
 		var meta = model.metadata;
@@ -1242,10 +1249,18 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
-        }
+		}
 
-        return prices;
-    }
+		if (this.game.challenges.currentChallenge == "blackSky"
+		 && meta.name == "sattelite"
+		 && meta.val == 0) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "starchart" ? 0 : 14;
+			}
+		}
+
+		return prices;
+	}
 });
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {

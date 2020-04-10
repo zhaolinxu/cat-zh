@@ -1882,13 +1882,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var prices = [];
 
-		for (var i = 0; i< bldPrices.length; i++){
+		for (var i = 0; i < bldPrices.length; i++) {
 			prices.push({
 				val: bldPrices[i].val * Math.pow(ratio, bld.get('val')),
 				name: bldPrices[i].name
 			});
 		}
-	    return prices;
+
+		if (this.game.challenges.currentChallenge == "blackSky"
+		 && bld.get('name') == "calciner"
+		 && bld.get('val') == 0) {
+			for (var i = 0; i < prices.length; i++) {
+				prices[i].val *= prices[i].name == "titanium" ? 0 : 11;
+			}
+		}
+
+		return prices;
 	 },
 
 
