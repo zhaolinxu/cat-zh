@@ -456,8 +456,16 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 					this.observeTimeout();
 				}
 
+				// nice reminder that astronomical events don't happen
+				if (this.game.challenges.currentChallenge == "blackSky") {
+
+					// ...however it gets spammy after some progress
+					if (this.game.bld.get('observatory').val < 30) {
+						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
+					}
+
 				//---------------- SETI hack-------------------
-				if (this.game.workshop.get("seti").researched) {
+				} else if (this.game.workshop.get("seti").researched) {
 					this.observeHandler();
 				} else {
 					this.observeClear();
@@ -820,6 +828,17 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
 		var markerVal = this.game.religion.getZU("marker").val;
+		var elders = this.game.diplomacy.get('leviathans');
+
+		if (elders.unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
+		}
+
+		if (this.game.challenges.getChallenge("blackSky").researched) {
+			pyramidVal += 1;
+			markerVal *= 1.1;
+		}
+
 		if ( pyramidVal > 0 ){
 			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
 				this.game.diplomacy.unlockElders();

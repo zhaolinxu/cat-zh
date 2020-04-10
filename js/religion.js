@@ -343,6 +343,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"corruptionRatio" : 0.000001
 		},
+		calculateEffects: function(self, game){
+			var effects = {
+				"corruptionRatio" : 0.000001
+			};
+			if (game.challenges.getChallenge("blackSky").researched) {
+				effects["corruptionRatio"] *= 1.1;
+			}
+			self.effects = effects;
+		},
 		unlocked: false
 	},{
 		name: "unicornGraveyard",
@@ -1175,7 +1184,13 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						model.visible = this.hasResources(model);
 					},
 					gainMultiplier: function() {
-						return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val;
+
+						var pyramidVal = this.game.religion.getZU("blackPyramid").val;
+						if (this.game.challenges.getChallenge("blackSky").researched) {
+							pyramidVal += 1;
+						}
+
+						return 1 + this.game.getEffect("relicRefineRatio") * pyramidVal;
 					},
 					gainedResource: "relic",
 					logTextID: "religion.refineTCsBtn.refine.msg"

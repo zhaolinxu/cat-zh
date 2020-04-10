@@ -1898,7 +1898,21 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				name: bldPrices[i].name
 			});
 		}
-	    return prices;
+
+		if (bld.get('val') == 0
+			&& bld.get('name') == 'calciner'
+			&& this.game.challenges.currentChallenge == "blackSky") {
+
+			for (var i = 0; i < bldPrices.length; i++) {
+				if (prices[i].name == 'titanium') {
+					prices[i].val = 0;
+				} else {
+					prices[i].val *= 11;
+				}
+			}
+		}
+
+		return prices;
 	 },
 
 
