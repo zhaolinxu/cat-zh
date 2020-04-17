@@ -1,3 +1,31 @@
+v 1.4.7.0.b
+Major:
+* Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
+* Improve kittens' save compression
+* Make Hydroponics increase kittens capacity of Terraforming Stations
+* Fix Solar Farms not being affected by Winter Has Come
+* Do not refund AM if energy is negative
+
+Themes:
+* New themes: Gold, Space, Wood, School, Fluid, Vessel
+* All themes except Classic and Inverted have to be unlocked (permanent unlock)
+* Add an option in order to hide background image (if applicable)
+
+Minor:
+* Add confirmation pop-up for present box unwrapping
+* Improve contrast of text in sub-buttons
+* Display energy in orange if it will be negative in winter
+* Fix kittens per tick rate
+* Add special effect on exotic resources and on 777 and 1337
+* Fix gflops consumption display
+* Always display science tab if you have the calendar or chronophysics sciences
+* Use titanium' and blueprints' translated name in trade messages
+* Move 'return empty-pawed' below the corresponding 'sent x trades' message and remove its bullet
+* Fix Chrono Furnace state when exporting save from web to mobile
+* Fix base skill XP not being multiplied by number of ticks in case of offline progression
+* Remove regular faith consumption by OotV, making it a pure bonus as originally implemented
+* Fix confusion about regular faith in left column vs. accumulated faith in Order of the Sun panel (all languages)
+
 v 1.4.7.0
 Major:
 * Fix Biofuel Processing (Data Center <-> Biolab synergy now works regardless of powered state)
