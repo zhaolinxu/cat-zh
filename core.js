@@ -1105,7 +1105,8 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 				display: "block",
 				float: "right"
 			},
-			innerHTML: links[0].title
+			innerHTML: links[0].title,
+			title: links[0].alt || links[0].title
 		}, linksDiv);
 
 		linksTooltip.style.left = link.offsetLeft;	//hack hack hack
@@ -1135,6 +1136,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			var link = dojo.create("a", {
 				href: "#",
 				innerHTML: links[i].title,
+				title: links[i].alt || links[i].title,
 				className:"dropdown-link",
 				style:{
 					display: "block",
