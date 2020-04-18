@@ -4,8 +4,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	maxKittens: 0,
 
-	kittensPerTick: 0,	//to be updated (also with per day?)
-
 	kittensPerTickBase: 0.01,
 
 	catnipPerKitten: -0.85,	/* amount of catnip per tick that kitten consumes */
@@ -265,8 +263,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	update: function(){
 		//calculate kittens
-		var kittensPerTick = this.kittensPerTick +
-			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
+		var kittensPerTick = this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -334,8 +331,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	fastforward: function(daysOffset){
 		var times = daysOffset * this.game.calendar.ticksPerDay;
 		//calculate kittens
-		var kittensPerTick = this.kittensPerTick +
-			this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
+		var kittensPerTick = this.kittensPerTickBase * (1 + this.game.getEffect("kittenGrowthRatio"));
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
@@ -556,7 +552,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittens : kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
-			map : this.map.villageData
+			//map : this.map.villageData
 		};
 	},
 
@@ -594,9 +590,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
 
-			if (saveData.village.map){
+			/*if (saveData.village.map){
 				this.map.villageData = saveData.village.map;
-			}
+			}*/
 		}
 
 		this.updateResourceProduction();
@@ -923,20 +919,33 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+
+		for (var job in this.skills){
+			if (this.skills[job] > 20001){
+				this.skills[job] = 20001;
+			}
+		}
 	},
 
 	save: function(){
+		//only save positive job skills to reduce save code size
+		var saveSkills = {};
+		for (var job in this.skills){
+			if (this.skills[job] > 0){
+				saveSkills[job] = this.skills[job];
+			}
+		}
 		return {
 			name: this.name,
 			surname: this.surname,
 			age: this.age,
-			skills: this.skills,
+			skills: saveSkills,
 			exp: this.exp,
 			trait: {name: this.trait.name},
 			job: this.job || null,
-			engineerSpeciality: this.engineerSpeciality,
+			engineerSpeciality: this.engineerSpeciality || undefined, //don't serialize when falsy
 			rank: this.rank,
-			isLeader: this.isLeader
+			isLeader: this.isLeader || undefined //ditto
 		};
 	}
 });
@@ -1208,11 +1217,11 @@ dojo.declare("classes.village.KittenSim", null, {
 			times = 1;
 		}
 
-		if (this.kittens.length < this.maxKittens) { //Don't do maths if Maxed.
+		if (this.kittens.length < this.maxKittens) {
 			this.nextKittenProgress += times * kittensPerTick;
 			if (this.nextKittenProgress >= 1) {
 				var kittensToAdd = Math.floor(this.nextKittenProgress);
-				this.nextKittenProgress = 0;
+				this.nextKittenProgress -= kittensToAdd;
 
 				for (var iCat = 0; iCat < kittensToAdd; iCat++) {
 					if (this.kittens.length < this.maxKittens) {
@@ -1222,14 +1231,17 @@ dojo.declare("classes.village.KittenSim", null, {
 						}
 					}
 				}
+
+				if (this.kittens.length >= this.maxKittens) {
+					this.nextKittenProgress = 0;
+				}
 			}
 		}
 
-
-		var learnBasicRatio = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 100, 1) : 1;
-		var learnRatio = game.getEffect("learnRatio");
-		var skillRatio = 0.01 * learnBasicRatio + 0.01 * learnRatio * times;
+		var baseSkillXP = game.workshop.get("internet").researched ? Math.max(this.getKittens() / 10000, 0.01) : 0.01;
+		var skillXP = (baseSkillXP + game.getEffect("skillXP")) * times;
 		var neuralNetworks = game.workshop.get("neuralNetworks").researched;
+		var skillsCap = 20001;
 
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
@@ -1257,8 +1269,10 @@ dojo.declare("classes.village.KittenSim", null, {
 				}
 				//Learning job's skill
 				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
-					kitten.skills[kitten.job] += skillRatio;
-					kitten.exp += skillRatio;
+					if (kitten.skills[kitten.job] < skillsCap){
+						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillXP, skillsCap);
+					}
+					kitten.exp += skillXP;
 				}
 				//Other job's skills
 				if (neuralNetworks) {
@@ -1268,12 +1282,14 @@ dojo.declare("classes.village.KittenSim", null, {
 							var job = game.village.jobs[j].name;
 							var jobValue = game.village.jobs[j].value;
 
-							if (!kitten.skills[job]){
-								kitten.skills[job] = 0;
-							}
+							if (jobValue > 0 && kitten.skills[job] !== skillsCap){
+								if (!kitten.skills[job]){
+									kitten.skills[job] = 0;
+								}
 
-							var skillExp = times * 0.001 * jobValue;
-							kitten.skills[job] += skillExp;
+								var skillExp = times * 0.001 * jobValue;
+								kitten.skills[job] = Math.min(kitten.skills[job] + skillExp, skillsCap);
+							}
 						}
 					}
 				} else {//Forget other skills
@@ -1290,16 +1306,11 @@ dojo.declare("classes.village.KittenSim", null, {
 
 	},
 
-	addKitten: function(amount){
-		if (!amount) {
-			amount = 1;
-		}
-		for (var i = amount - 1; i >= 0; i--) {
-			var kitten = new com.nuclearunicorn.game.village.Kitten();
-			this.kittens.push(kitten);
-			if (this.game.village.traits.indexOf(kitten.trait) < 0) {
-				this.game.village.traits.unshift(kitten.trait);
-			}
+	addKitten: function() {
+		var kitten = new com.nuclearunicorn.game.village.Kitten();
+		this.kittens.push(kitten);
+		if (this.game.village.traits.indexOf(kitten.trait) < 0) {
+			this.game.village.traits.unshift(kitten.trait);
 		}
 		this.game.villageTab.updateTab();
 
@@ -1307,7 +1318,7 @@ dojo.declare("classes.village.KittenSim", null, {
             this.game.kongregate.stats.submit("kittens", this.kittens.length);
         }
 
-        this.game.stats.getStat("totalKittens").val += amount;
+        this.game.stats.getStat("totalKittens").val++;
 	},
 
 	killKittens: function(amount){
@@ -1680,6 +1691,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 		  {
 				id: "unassign",
 				title: "[&ndash;]",
+				alt: "minus",
 				handler: function(){
 					self.unassignJobs(model, 1);
 				}
@@ -1707,6 +1719,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 			{
 				id: "assign",
 				title: "[+]",
+				alt: "plus",
 				handler: function(){
 					self.assignJobs(model, 1);
 				}
@@ -2215,8 +2228,8 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
 
 dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.ButtonModern, {
 	renderLinks: function() {
-		this.x100 = this.addLink(this.model.x100Link.title, this.model.x100Link.handler, false);
-		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false);
+		this.x100 = this.addLink(this.model.x100Link);
+		this.x10 = this.addLink(this.model.x10Link);
 	},
 
 	update: function() {
@@ -2286,9 +2299,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var btn = new com.nuclearunicorn.game.ui.ButtonModern({ name: $I("village.btn.job.clear"),
 			description: $I("village.btn.job.clear.desc"),
-			handler: dojo.hitch(this, function(){
-				if (this.game.opts.noConfirm || window.confirm($I("village.tab.clear.job.confirmation"))){
-					this.game.village.clearJobs(true);
+			handler: dojo.hitch(this, function() {
+				var game = this.game;
+				if (game.opts.noConfirm) {
+					game.village.clearJobs(true);
+				} else {
+					game.ui.confirm("", $I("village.tab.clear.job.confirmation.msg"), function() {
+						game.village.clearJobs(true);
+					});
 				}
 			}),
 			controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game)
@@ -2417,10 +2435,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			name: $I("village.btn.unwrap"),
 			description: "",
 			handler: dojo.hitch(this, function() {
-				if (window.confirm($I("village.btn.unwrap.confirmation"))) {
-					this.game.redeemGift();
-					this.game.render();
-				}
+				var game = this.game;
+				game.ui.confirm("", $I("village.btn.unwrap.confirmation.msg"), function() {
+					game.redeemGift();
+					game.render();
+				});
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
@@ -2452,7 +2471,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		if (this.happinessStats){
 			var happiness = this.game.village.happiness * 100;
-			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ":  " + Math.floor(happiness) + "%";
+			var happinessVal = happiness < 10000 ? Math.floor(happiness) : this.game.getDisplayValueExt(happiness);
+			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ":  " + happinessVal + "%";
 		}
 
 		var festivalDays = this.game.calendar.festivalDays;

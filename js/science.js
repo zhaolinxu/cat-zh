@@ -6,7 +6,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	game: null,
 
-	hideResearched: true,	//hide researched techs
+	hideResearched: false,
 
 	//list of technologies
 	techs:[{
@@ -552,7 +552,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
-            upgrades: ["oilDistillation"]
+			upgrades: ["oilDistillation"]
 		}
 	}, {
         name: "oilProcessing",
@@ -861,7 +861,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech.researched = false;
 		}
 
-		this.hideResearched = true;
+		this.hideResearched = false;
 	},
 
 	save: function(saveData){
@@ -900,7 +900,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
 
 	defaults: function() {
 		var result = this.inherited(arguments);

@@ -112,9 +112,9 @@ WResourceRow = React.createClass({
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
             if (modifier > 0) {
-                weatherModCss = {color: "green"};
+                weatherModCss = "positive-weather";
             } else if (modifier < 0) {
-                weatherModCss = {color: "red"};
+                weatherModCss = "negative-weather";
             }
         }
 
@@ -122,13 +122,17 @@ WResourceRow = React.createClass({
         //----------------------------------------------------------------------------
 
         var specialClass = "";
-        if (res.value == 420){
+        if (res.value == 420) {
             specialClass = " blaze";
-		} else if (res.value == 666){
+        } else if (res.value == 666) {
             specialClass = " hail";
-		}
+        } else if (res.value == 777) {
+            specialClass = " pray";
+        } else if (res.value == 1337) {
+            specialClass = " leet";
+        }
 
-        return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -153,7 +157,7 @@ WResourceRow = React.createClass({
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
             $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
-            $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
+            $r("div", {className:"res-cell" + (weatherModCss ? " " + weatherModCss : "")}, weatherModValue)
         ]);
     },
     onClickName: function(e){
@@ -209,7 +213,7 @@ WCraftShortcut = React.createClass({
             craftPercent = this.props.craftPercent,
             allCount = game.workshop.getCraftAllCount(res.name),
             craftRatio = game.getResCraftRatio(res),
-            craftPrices = (res.name == "ship") ? game.workshop.getCraftPrice(recipe) : recipe.prices;   //????????????wat
+            craftPrices = game.workshop.getCraftPrice(recipe);
 
 
         var craftRowAmt = craftFixed;
@@ -221,12 +225,12 @@ WCraftShortcut = React.createClass({
 
         if (craftPercent == 1){
             elem = this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
-                $r("div", {className:"res-cell craft-link"});
+                $r("div", {className:"res-cell craft-link all", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
+                $r("div", {className:"res-cell craft-link all"});
         }else{
             elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  
             $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, 
-                "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
+                $r("span", {className:"plusPrefix"}, "+"), game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
             : $r("div", {className:"res-cell craft-link"});
         }
 
@@ -384,7 +388,8 @@ WCraftRow = React.createClass({
         }
 
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row craft" + (this.props.isRequired ? " highlited" : "")}, [
+        var resVal = game.getDisplayValueExt(res.value);
+        return $r("div", {className:"res-row craft resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {
@@ -401,7 +406,7 @@ WCraftRow = React.createClass({
             }, 
                 res.title || res.name
             ),
-            $r("div", {className:"res-cell resource-value", ref:"perTickNode"}, game.getDisplayValueExt(res.value)),
+            $r("div", {className:"res-cell resource-value", ref:"perTickNode", title: resVal}, resVal),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:1, craftPercent: 0.01}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:25, craftPercent: 0.05}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:100, craftPercent: 0.1}),

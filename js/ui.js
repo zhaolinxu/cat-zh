@@ -1,5 +1,6 @@
 /**
-    class that provides an abstraction layer for UI/model communication
+ * Class that provides an abstraction layer for UI/model communication
+ * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
  */
 dojo.declare("classes.ui.UISystem", null, {
     game: null,
@@ -15,6 +16,24 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     updateOptions: function(){
+    },
+
+	unlockScheme: function(name) {
+	},
+
+	relockSchemes: function() {
+	},
+
+    notifyLogEvent: function(logmsg) {
+    },
+
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+    },
+
+    openPopupPage: function(pageName) {
+    },
+
+    pulse: function(node){
     },
 
     displayAutosave: function(){
@@ -36,6 +55,9 @@ dojo.declare("classes.ui.UISystem", null, {
     },
 
     observeClear: function(){
+    },
+
+    updateCalendar: function(){
     },
 
     updateLanguage: function() {
@@ -78,6 +100,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isDisplayOver: false,
     isChatActive: false,
     isChatVisited: false,
+
+    defaultSchemes: ["default", "dark", "grassy", "sleek"],
+    allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
         this.containerId = containerId;
@@ -352,7 +377,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: $I("cycle.effects.title") + ":",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -441,7 +466,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.update();
 
         //-------------------------
-        $(".console-intro").html($I("console.intro"));
+        var now = new Date();
+        if (now.getDate() == 1 && now.getMonth() == 3) {
+            $(".console-intro").css("font-size", "300%").addClass("blaze").text("You are a zebra in a savanna full of titanium mines.");
+        } else {
+            $(".console-intro").text($I("console.intro"));
+        }
 
         React.render($r(WLeftPanel, {
             game: this.game
@@ -617,8 +647,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     updateOptions: function() {
         var game = this.game;
 
-        $("#schemeToggle").val(game.colorScheme);
-        $("body").attr("class", "scheme_" + game.colorScheme);
+        if (game.unlockedSchemes.indexOf(game.colorScheme) < 0) {
+            game.colorScheme = "default";
+        }
+        $("body").removeClass();
+        if (game.colorScheme != "default") {
+            $("body").addClass("scheme_" + game.colorScheme);
+            if (!game.opts.hideBGImage) {
+                $("body").addClass("with_background_image");
+            }
+        }
 
         $("#workersToggle")[0].checked = game.useWorkers;
         $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
@@ -626,6 +664,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
+        $("#hideBGImage")[0].checked = game.opts.hideBGImage;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
@@ -634,16 +673,42 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var selectedLang = i18nLang.getLanguage();
         var locales = i18nLang.getAvailableLocales();
         var labels = i18nLang.getAvailableLocaleLabels();
-        var $langSelector = $("#languageSelector");
-        $langSelector.empty();
+        var langSelector = $("#languageSelector");
+        langSelector.empty();
         for (var i = 0; i < locales.length; i++) {
-            $('<option />', {
-                value: locales[i],
-                text:labels[locales[i]]
-            }).appendTo($langSelector);
+            $("<option />").attr("value", locales[i]).text(labels[locales[i]]).appendTo(langSelector);
         }
-        $langSelector.val(selectedLang);
+        langSelector.val(selectedLang);
+
+        var schemeSelect = $("#schemeToggle");
+        schemeSelect.empty();
+        for (var i = 0; i < this.allSchemes.length; ++i) {
+            var scheme = this.allSchemes[i];
+            var option = $("<option />").attr("value", scheme).text($I("opts.theme." + scheme));
+            if (game.unlockedSchemes.indexOf(scheme) < 0) {
+                if (this.defaultSchemes.indexOf(scheme) >= 0) {
+                    game.unlockedSchemes.push(scheme);
+                } else {
+                    option.html("&nbsp;&nbsp;" + $I("opts.theme." + scheme)).attr("disabled", "disabled");
+                }
+            }
+            option.appendTo(schemeSelect);
+        }
+        schemeSelect.val(game.colorScheme);
     },
+
+	unlockScheme: function(name) {
+		if (this.game.unlockedSchemes.indexOf(name) < 0) {
+			$("#schemeToggle > option[value=" + name + "]").removeAttr("disabled");
+			this.game.msg($I("opts.theme.unlocked") + $I("opts.theme." + name), "important");
+			this.game.unlockedSchemes.push(name);
+		}
+	},
+
+	relockSchemes: function() {
+		this.game.unlockedSchemes = this.defaultSchemes;
+		this.updateOptions();
+	},
 
     displayAutosave: function(){
         dojo.style(dojo.byId("autosaveTooltip"), "opacity", "1");
@@ -747,6 +812,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 altKey: e.altKey
             };
         });
+
+        this.updateLinksBlockLanguage();
+    },
+
+    updateLinksBlockLanguage: function() {
+        $("#save-link").text($I("menu.save"));
+        $("#options-link").text($I("menu.options"));
+        $("#reset-link").text($I("menu.reset"));
+        $("#wipe-link").text($I("menu.wipe"));
+        $("#getTheApp-link").text($I("menu.getTheApp"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){
@@ -801,7 +876,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.attr(msg.span, {innerHTML: msg.text});
         //Destroy child nodes if there are too many.
         var logLength = dojo.byId('gameLog').childNodes.length;
-        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId('gameLog').childNodes[logLength-1])}
+        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId('gameLog').childNodes[logLength-1]);}
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
@@ -809,7 +884,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeStart = _console.maxMessages - fadeCount;
         var fadeInterval = 1 / fadeCount;
 
-        for (i = fadeStart + 1; i < spans.length; i++) {
+        for (var i = fadeStart + 1; i < spans.length; i++) {
             dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
         }
     },
@@ -826,6 +901,14 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             $("#exportData").select();
         } else {
             window.prompt($I("general.copy.to.clipboard.prompt"), encodedData);
+        }
+    },
+
+    confirm: function(title, msg, callbackOk, callbackCancel) {
+        if (window.confirm(msg)) {
+            callbackOk.apply(window);
+        } else if (callbackCancel != undefined) {
+        	callbackCancel.apply(window);
         }
     },
 
@@ -872,7 +955,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
-           isChatVisited: this.isChatVisited
+           isChatVisited: this.isChatVisited,
+           theme: this.game.colorScheme
         });
     },
 

@@ -80,7 +80,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		visible: true,
 		calculatePerTick: true,
-		aiCanDestroy: true
+		aiCanDestroy: true,
+		isNotRefundable: true
 	},{
 		name : "uranium",
 		title: $I("resources.uranium.title"),
@@ -115,8 +116,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		type : "common",
 		transient: true,
 		visible: true,
-		color: "#5A0EDE"/*,
-		aiCanDestroy: true*/
+		color: "#5A0EDE",
+		isRefundable: function(game) {
+			return game.resPool.energyProd >= game.resPool.energyCons;
+		}
 	},{
 		name : "manpower",
 		title: $I("resources.manpower.title"),
@@ -285,8 +288,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			textShadow: "1px 0px 10px #9A2EFE",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
 		}/*,
 		aiCanDestroy: true*/
 	},{
@@ -297,8 +302,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#5A0EDE",
 		style: {
-			textShadow: "1px 0px 10px #9A2EFE",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
 		}
 	},{
 		name : "elderBox",
@@ -309,8 +316,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			textShadow: "1px 0px 10px #FA2E9E",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -321,8 +330,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "#FA0EDE",
 		style: {
-			textShadow: "1px 0px 10px #FA2E9E",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
 		},
 		persists: true
 	},{
@@ -332,6 +343,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "gold",
+		style: {
+			         animation : "neon-gold 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-gold 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-gold 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-gold 1.5s ease-in-out infinite alternate"
+},
 		persists: false
 	},
 	{
@@ -342,8 +359,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		color: "red",
 		style: {
-			textShadow: "1px 0px 10px red",
-			animation: "neon1 1.5s ease-in-out infinite alternate"
+			         animation : "neon-red 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
 		},
 		persists: false
 	},
@@ -421,7 +440,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         title: $I("resources.kerosene.title"),
         type: "common",
         craftable: true,
-        color: "darkYellow"
+        color: "darkYellow",
+		isNotRefundable: true
 	},{
 		name : "parchment",
 		title: $I("resources.parchment.title"),
@@ -456,7 +476,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		craftable: true,
 		color: "#4EA24E",
-		calculatePerTick: true
+		calculatePerTick: true,
+		isNotRefundable: true
 	},{
 		name : "megalith",
 		title: $I("resources.megalith.title"),
@@ -486,12 +507,10 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
 			res.unlocked = false;
-			if (res.name == "oil" ||
-				res.name == "kerosene" ||
-				res.name == "thorium") {
-				res.refundable = false;
-			} else {
-				res.refundable = true;
+			if (!res.isRefundable) {
+				res.isRefundable = function(game) {
+					return !this.isNotRefundable;
+				};
 			}
 			this.resources.push(res);
 			this.resourceMap[res.name] = res;
