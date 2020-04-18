@@ -9,6 +9,12 @@ body {
     background-color: #FFFFFF;
 }
 
+img.loader {
+    -ms-interpolation-mode: bicubic;
+    width: 16px;
+    height: 16px;
+}
+
 #gamePageContainer {
     border: 0 none;
     font: inherit;

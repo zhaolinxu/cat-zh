@@ -1533,8 +1533,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.render();
 	},
 
-	toggleScheme: function(){
-		this.colorScheme = dojo.byId("schemeToggle").value;
+	toggleScheme: function(themeId){
+		this.colorScheme = themeId;
 		this.updateOptionsUI();
 	},
 
