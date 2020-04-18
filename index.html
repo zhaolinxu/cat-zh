@@ -101,7 +101,8 @@
 					return def.then(function(){
 						return loadModule(module);
 					}).catch(function(err){
-						console.error(err);
+						console.error("_import#: unable to load module:", module);
+						console.trace(err);
 					});
 				}
 			}
