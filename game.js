@@ -1563,18 +1563,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * TODO: use save file markers and check integrity (md5? versioning?)
 	 */
 	decompressLZData: function(lzdata){
-		console.log("utf16 save detected, decompressing...");
-		
-
+		console.log("trying to parse base64 format first, decompressing...");
 		var data = LZString.decompressFromBase64(lzdata);
-		
-		console.log("utf16 data:", data);
 
 		if (!data){
-			console.log("older version of save, trying to use base64 decoder, decompressing...");
+			console.log("unable to parse base64, attempting to decompress utf-16...");
 			data = LZString.decompressFromUTF16(lzdata);
 		}
-		console.log("base64 data:", data);
 
 		return data;
 	},
@@ -1853,7 +1848,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             callback();
         } catch (e) {
-            console.log("Couldn't import the save of the game:" + e.stack);
+            console.log("Couldn't import the save of the game:", e.stack);
             callback(e);
         }
 	},
