@@ -1499,7 +1499,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//5mb limit workaround
 		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = this.compressLZData(saveDataString);
+			saveDataString = this.compressLZData(saveDataString);	
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1572,16 +1572,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (!data){
 			console.log("older version of save, trying to use base64 decoder, decompressing...");
-			data = LZString.decompressFromUTF16(base32k.decode(lzdata));
+			data = LZString.decompressFromUTF16(lzdata);
 		}
 		console.log("base64 data:", data);
 
 		return data;
 	},
 
-	compressLZData: function(json){
+	compressLZData: function(json, useBase64){
 		//todo check game compatibility flags
-		return base32k.encode(LZString.compressToUTF16(json));
+		//console.log("base64 length:", LZString.compressToBase64(json).length, "utf-16 length:", LZString.compressToUTF16(json).length);
+		if (useBase64){
+			return LZString.compressToBase64(json);
+		}
+		return LZString.compressToUTF16(json);
 	},
 
 	_parseLSSaveData: function(){
@@ -1703,7 +1707,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = this.save();
 		data = JSON.stringify(data);
 
-        var encodedData = this.compressLZData(data);
+        var encodedData = this.compressLZData(data, true /*base64*/);
         this.ui.saveExport(encodedData);
 
 	},
@@ -1725,7 +1729,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var $link = $('#download-link');
 
         var data = JSON.stringify(this.save());
-        var lzdata = this.compressLZData(data);
+        var lzdata = this.compressLZData(data, true /*base64*/);
         var blob = new Blob([lzdata], {type: 'text/plain'});
         $link.attr('href', window.URL.createObjectURL(blob));
 
@@ -1743,7 +1747,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.save();
 		var data = this.save();
 		data = JSON.stringify(data);
-		var lzdata = this.compressLZData(data);
+		var lzdata = this.compressLZData(data, true /*base64*/);
 
 
         var callback = function() {
