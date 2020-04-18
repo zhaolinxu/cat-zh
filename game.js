@@ -1497,9 +1497,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveDataString = JSON.stringify(saveData);
 		//5mb limit workaround
-		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
+		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = LZString.compressToBase64(saveDataString);
+			saveDataString = this.compressLZData(saveDataString);	
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1556,15 +1556,45 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this._publish("game/options", this);
 	},
 
-	_parseLSSaveData: function(){
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+	/**
+	 * Returns a save data JSON from a base64 or base32k compressed lz blob
+	 * Use this instead of LZString.decompressX
+	 * 
+	 * TODO: use save file markers and check integrity (md5? versioning?)
+	 */
+	decompressLZData: function(lzdata){
+		console.log("trying to parse base64 format first, decompressing...");
+		var data = LZString.decompressFromBase64(lzdata);
 
-		if (data && data[0] != '{'){
-			console.log("base-64 save detected, decompressing...");
-			data = LZString.decompressFromBase64(data);
+		if (!data){
+			console.log("unable to parse base64, attempting to decompress utf-16...");
+			data = LZString.decompressFromUTF16(lzdata);
 		}
 
+		return data;
+	},
+
+	compressLZData: function(json, useBase64){
+		//todo check game compatibility flags
+		//console.log("base64 length:", LZString.compressToBase64(json).length, "utf-16 length:", LZString.compressToUTF16(json).length);
+		if (useBase64){
+			return LZString.compressToBase64(json);
+		}
+		return LZString.compressToUTF16(json);
+	},
+
+	_parseLSSaveData: function(){
+		var data = null;
+		var localStorageData = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+
+		if (localStorageData && localStorageData[0] == '{'){
+			data = localStorageData;
+		} else {
+			data = this.decompressLZData(localStorageData);
+		}
 		var saveData = JSON.parse(data);
+		
+		console.log("Parse complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
 
@@ -1672,13 +1702,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = this.save();
 		data = JSON.stringify(data);
 
-        var encodedData;
-        if (LZString.compressToBase64) {
-            encodedData = LZString.compressToBase64(data);
-        } else {
-            encodedData = btoa(data);
-        }
-
+        var encodedData = this.compressLZData(data, true /*base64*/);
         this.ui.saveExport(encodedData);
 
 	},
@@ -1700,7 +1724,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var $link = $('#download-link');
 
         var data = JSON.stringify(this.save());
-        var lzdata = LZString.compressToBase64(data);
+        var lzdata = this.compressLZData(data, true /*base64*/);
         var blob = new Blob([lzdata], {type: 'text/plain'});
         $link.attr('href', window.URL.createObjectURL(blob));
 
@@ -1718,7 +1742,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.save();
 		var data = this.save();
 		data = JSON.stringify(data);
-		var lzdata = LZString.compressToBase64(data);
+		var lzdata = this.compressLZData(data, true /*base64*/);
 
 
         var callback = function() {
@@ -1810,8 +1834,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//TODO: add some additional checks and stuff?
 	_loadSaveJson: function(lzdata, callback){
         try {
-    		var json = LZString.decompressFromBase64(lzdata);
-    		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+			var jsonString = this.decompressLZData(lzdata);
+			if (jsonString && jsonString[0] == '{'){
+				LCstorage["com.nuclearunicorn.kittengame.savedata"] = lzdata;
+			} else {
+				throw "Integrity check failure";
+			}
 
     		this.load();
     		this.msg($I("save.import.msg"));
@@ -1820,7 +1848,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             callback();
         } catch (e) {
-            console.log("Couldn't import the save of the game:"+e.stack);
+            console.log("Couldn't import the save of the game:", e.stack);
             callback(e);
         }
 	},
