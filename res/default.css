@@ -712,6 +712,11 @@ a:hover {
     color: gray;
 }
 
+.tooltip-inner .desc.small {
+    font-size: 60%;
+    opacity: 0.8;
+}
+
 .links-block a{
     text-decoration: none;
     padding-left: 2px;

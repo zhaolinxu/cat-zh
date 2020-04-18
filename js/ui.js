@@ -377,7 +377,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: $I("cycle.effects.title") + ":",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 

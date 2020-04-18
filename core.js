@@ -1399,6 +1399,14 @@ ButtonModernHelper = {
 			className: "desc"
 		}, tooltip);
 
+
+		if (model.metadata && model.metadata.isAutomationEnabled !== undefined){	//TODO: use proper metadata flag
+			var descDiv = dojo.create("div", {
+				innerHTML: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
+				className: "desc small"
+			}, tooltip);
+		}
+
 		var prices = model.priceModels;
 		var effects = model.effectModels;
 		var flavor = model.flavor;

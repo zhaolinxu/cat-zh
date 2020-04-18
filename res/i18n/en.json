@@ -1637,5 +1637,7 @@
     "common.expand.all": "Expand all",
     "common.collapse.all": "Collapse all",
     "time.flux": "Temporal Flux",
-    "time.flux.desc": "Temporal flux can be regenerated over time when game page is closed"
+    "time.flux.desc": "Temporal flux can be regenerated over time when game page is closed",
+    "cycle.effects.title":"Cycle Effects",
+    "log.clear":"Clear log"
 }
