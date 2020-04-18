@@ -2471,7 +2471,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		if (this.happinessStats){
 			var happiness = this.game.village.happiness * 100;
-			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ":  " + Math.floor(happiness) + "%";
+			var happinessVal = happiness < 10000 ? Math.floor(happiness) : this.game.getDisplayValueExt(happiness);
+			this.happinessStats.innerHTML = $I("village.census.lbl.happiness") + ":  " + happinessVal + "%";
 		}
 
 		var festivalDays = this.game.calendar.festivalDays;
