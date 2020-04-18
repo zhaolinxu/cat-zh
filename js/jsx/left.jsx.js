@@ -148,7 +148,8 @@ WResourceRow = React.createClass({
             $r("div", {
                 className:"res-cell resource-name", 
                 style:resNameCss,
-                onClick: this.onClickName
+                onClick: this.onClickName,
+                title: res.title || res.name
             }, 
                 res.title || res.name
             ),
@@ -401,8 +402,9 @@ WCraftRow = React.createClass({
                 ) : null,
             $r("div", {
                 className:"res-cell resource-name", 
-                style:resNameCss,
-                onClick: this.onClickName
+                style: resNameCss,
+                onClick: this.onClickName,
+                title: res.title || res.name
             }, 
                 res.title || res.name
             ),
