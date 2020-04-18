@@ -1557,30 +1557,21 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	/**
-	 * Returns a save data JSON from a base64 or base32k compressed lz blob
+	 * Returns a save data JSON from a base64 or utf16 compressed lz blob
 	 * Use this instead of LZString.decompressX
-	 * 
-	 * TODO: use save file markers and check integrity (md5? versioning?)
 	 */
-	decompressLZData: function(lzdata){
-		console.log("trying to parse base64 format first, decompressing...");
-		var data = LZString.decompressFromBase64(lzdata);
-
-		if (!data){
-			console.log("unable to parse base64, attempting to decompress utf-16...");
-			data = LZString.decompressFromUTF16(lzdata);
-		}
-
-		return data;
+	decompressLZData: function(lzData) {
+		return lzData.slice(0, 16) == "N4IgzghgbgpgajAT"
+			? LZString.decompressFromBase64(lzData)
+			: LZString.decompressFromUTF16(lzData);
 	},
 
-	compressLZData: function(json, useBase64){
+	compressLZData: function(json, useBase64) {
 		//todo check game compatibility flags
 		//console.log("base64 length:", LZString.compressToBase64(json).length, "utf-16 length:", LZString.compressToUTF16(json).length);
-		if (useBase64){
-			return LZString.compressToBase64(json);
-		}
-		return LZString.compressToUTF16(json);
+		return useBase64
+			? LZString.compressToBase64(json)
+			: LZString.compressToUTF16(json);
 	},
 
 	_parseLSSaveData: function(){
