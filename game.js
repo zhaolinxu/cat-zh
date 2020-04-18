@@ -241,55 +241,55 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					//title to be displayed for effect, id if not defined
 					title: restitle,
 					//effect will be hidden if resource is not unlocked
-					resname: resname,
+					resName: resname,
 					//value will be affected by opts.usePerSecondValues
 					type: "perTick"
 				};
 			case type == "PerTick":
 				return {
 					title: restitle,
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case type == "Max":
 				return {
 					title: $I("effectsMgr.type.resMax", [restitle]),
-					resname: resname
+					resName: resname
 				};
 			case type == "Ratio":
 				return {
 					title: $I("effectsMgr.type.resRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case type == "DemandRatio":
 				return {
 					title: $I("effectsMgr.type.resDemandRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
 					title: $I("effectsMgr.type.resProduction", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: $I("effectsMgr.type.resConversion", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case type == "CraftRatio":
 				return {
 					title: $I("effectsMgr.type.resCraftRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case type == "GlobalCraftRatio":
 				return {
 					title: $I("effectsMgr.type.resGlobalCraftRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			default:
@@ -514,7 +514,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
             "catnipMaxRatio" : {
                 title: $I("effectsMgr.statics.catnipMaxRatio.title"),
-                type: "ratio"
+				type: "ratio",
+				resName:"catnip"
             },
 
             "hunterRatio" : {
