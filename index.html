@@ -49,6 +49,22 @@
 			firebase.initializeApp(config);
 		</script>
 
+		<script>
+			/**
+			 * Workaround for IE9 local storage :V
+			 *
+			 * This fix is intended for IE in general and especially for IE9,
+			 * where localStorage is defined as system variable.
+			 *
+			 */
+
+			window.LCstorage = window.localStorage;
+			if (document.all && !window.localStorage) {
+				window.LCstorage = {};
+				window.LCstorage.removeItem = function () { };
+			}
+		</script>
+
 		<script type="text/javascript">
 
 			var version = "1470a";
@@ -107,6 +123,14 @@
 				}
 			}
 
+			function loadTheme(themeId, timestamp){
+				$("<link />")
+					.attr("rel", "stylesheet")
+					.attr("type", "text/css")
+					.attr("href", "res/theme_" + themeId + ".css?_=" + timestamp)
+					.appendTo($("head"));
+			}
+
 			dojo.addOnLoad(function() {
 				var currentBranch = "mainline";
 				for (var branch in branches) {
@@ -159,11 +183,24 @@
 				progressMax = modules.length + 2;
 				console.log("Loading...");
 
+				//------ preload theme id ---------
+				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
+				var uiSettings = uiData && JSON.parse(uiData);
+				if (uiSettings){
+					if (uiSettings.theme){
+						$("body").addClass("scheme_" + uiSettings.theme);
+						loadTheme(uiSettings.theme, now);
+					}
+				}
+
 				var def = _import("config");
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
-						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i] + ".css?_=" + now).appendTo($("head"));
+						//todo: skip theme if preloaded
+						if (!uiSettings || uiSettings.theme != schemes[i]){
+							loadTheme(schemes[i], now);
+						}
 					}
 				});
 
@@ -360,7 +397,7 @@
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
 					<div id="loadingProgressInfo">Setting up game engine...</div>
@@ -481,7 +518,7 @@
 				<br>
 
 				<label for="schemeToggle">Color scheme:</label>
-				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
+				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select>
 				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
 				<br><i><span style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>

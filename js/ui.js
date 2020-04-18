@@ -955,7 +955,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
-           isChatVisited: this.isChatVisited
+           isChatVisited: this.isChatVisited,
+           theme: this.game.colorScheme
         });
     },
 
