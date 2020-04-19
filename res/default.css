@@ -639,6 +639,11 @@ h1 {
     text-decoration: none;
 }
 
+.right-tab {
+    height: calc(100% - 150px);
+    overflow-y: hidden;
+}
+
 #sorrowTooltip {
 	color: black;
 }
@@ -872,7 +877,7 @@ a.link.collapse:hover {
 
 .res-cell.resource-name {
     width: 60px;
-    max-width: 60px;
+    max-width: 85px;
 }
 
 .res-cell.resource-value {
