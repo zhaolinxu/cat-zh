@@ -1020,7 +1020,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"terraformingMaxKittensRatio": {
 				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
-				type: "ratio"
+				type: "ratio",
+				calculation: "nonProportional"
 			}
 		}
 	}
