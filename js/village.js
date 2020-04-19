@@ -552,7 +552,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			kittens : kittens,
 			maxKittens: this.maxKittens,
 			jobs: this.filterMetadata(this.jobs, ["name", "unlocked", "value"]),
-			map : this.map.villageData
+			//map : this.map.villageData
 		};
 	},
 
@@ -590,9 +590,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.maxKittens  = saveData.village.maxKittens;
 			this.loadMetadata(this.jobs, saveData.village.jobs);
 
-			if (saveData.village.map){
+			/*if (saveData.village.map){
 				this.map.villageData = saveData.village.map;
-			}
+			}*/
 		}
 
 		this.updateResourceProduction();

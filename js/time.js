@@ -778,7 +778,7 @@ dojo.declare("classes.ui.time.ChronoforgeBtnController", com.nuclearunicorn.game
     getName: function(model){
         var meta = model.metadata;
         if (meta.heat){
-            return this.inherited(arguments) + " [" + meta.heat.toFixed(0) + "%]";
+            return this.inherited(arguments) + " [" + this.game.getDisplayValueExt(meta.heat) + "%]";
         }
         return this.inherited(arguments);
     }
