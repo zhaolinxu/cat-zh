@@ -684,7 +684,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					{name: "kerosene", 		val: 7500   }
 				],
 				effects: {
-					"starchartPerTickBaseSpace": 0.125,
+					"starchartPerTickBaseSpace": 0.025,
 					"scienceMax": 25000,
 					"relicPerDay": 0
 				},
@@ -764,6 +764,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					// 100 HP = +100%
 					// 300 HP = +200%
 					self.effects["terraformingMaxKittensRatio"] = game.getTriValue(self.on, 100) / self.on;
+					// Reset each tick because of cycle effect (from Yarn and Piscine) being applied continuously, due to presence of method "action"
+					self.effects["catnipRatio"] = 0.025;
 				},
 				action: function(self, game) {
 					self.updateEffects(self, game);
