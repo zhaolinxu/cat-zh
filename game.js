@@ -1166,8 +1166,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			enableRedshift: false,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1431,8 +1431,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			enableRedshift: false,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.resPool.resetState();
