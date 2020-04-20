@@ -1,3 +1,15 @@
+v 1.4.7.1 (19 apr 2020)
+
+Minor:
+* Fixed a lot of visual issues related to large resource values, layout and localization
+* Saves bigger than 5MB should now fit into the localstorage
+* Players now have a small chance of getting a rare kitten
+
+Themes:
+* Theme will now apply to the loading screen
+
+__
+
 v 1.4.7.0.b
 Major:
 * Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
