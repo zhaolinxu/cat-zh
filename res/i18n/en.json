@@ -1394,6 +1394,7 @@
     "opts.theme.unlocked": "Color scheme permanently unlocked: ",
     "opts.theme.default": "Classic",
     "opts.theme.dark": "Inverted",
+    "opts.theme.oledblack": "OLED Black", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.theme.grassy": "Grassy",
     "opts.theme.sleek": "Sleek",
     "opts.theme.gold": "Gold",

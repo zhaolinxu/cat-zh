@@ -511,10 +511,9 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				tab.update();
 			}
         }
-        var leaderTrait = game.village.leader.trait.name;
-        if (leaderTrait) {
+        if (this.game.village.leader && this.game.village.leader.trait.name) {
             dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");		
-            switch (leaderTrait) {
+            switch (this.game.village.leader.trait.name) {
                 case "engineer": // Crafting bonus
                     dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
                     break;

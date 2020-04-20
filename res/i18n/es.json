@@ -1374,6 +1374,7 @@
     "opts.theme": "Esquema de colores",
     "opts.theme.default": "Clasico",
     "opts.theme.dark": "Invertido",
+    "opts.theme.oledblack": "OLED Black", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.lang": "Idioma",
     "opts.percentage": "Usar valores porcentuales",
     "opts.percentage.desc": "El juego usará el% de los valores totales de los recursos, de lo contrario, los valores por segundo.",
