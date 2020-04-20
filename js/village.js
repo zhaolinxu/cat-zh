@@ -2020,7 +2020,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				innerHTML: ""
 			}, container );
 
-			dojo.addClass(div,(kitten.isLeader ? "sim simLeader" : "sim"));
+			dojo.addClass(div,(kitten.isLeader ? " simLeader" : ""));
 			//--------- content -----------
 
 			var content = dojo.create("div", {
