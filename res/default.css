@@ -226,6 +226,15 @@ select>option {
     display: inline-block;
 }
 
+.btn .btnContent a.small {
+    font-size: 0.7em;
+    line-height: 16px;
+}
+
+/*.btn .btnContent .btnTitle {
+
+}*/
+
 .btn.small-text span {
     font-size: 90%;
 }

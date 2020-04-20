@@ -900,7 +900,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = this.model.resourceIsLimited ? "limited" : "";
+		this.buttonTitle.className = "btnTitle" + (this.model.resourceIsLimited ? " limited" : "");
 	},
 
 	update: function() {
@@ -941,6 +941,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		this.buttonTitle = dojo.create("span", {
 			innerHTML: this.model.name,
+			className: "btnTitle",
 			style: {}
 		}, this.buttonContent);
 
@@ -1035,10 +1036,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	//Fast access snippet to create button links like "on", "off", "sell", etc.
 	addLink: function(linkModel) {
 
+		var longTitleClass = (linkModel.title.length > 3) ? "small" : "";
 		var link = dojo.create("a", {
 				href: "#",
 				innerHTML: linkModel.title,
-				className: linkModel.cssClass ? linkModel.cssClass : "",
+				className: longTitleClass + (linkModel.cssClass ? (" " + linkModel.cssClass) : ""),
 				style:{
 					paddingLeft: "2px",
 					float: "right",
