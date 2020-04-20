@@ -850,7 +850,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
 			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar", 
-			 "Plato", "Rica", "Rabi", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
+			 "Plato", "Rikka", "Ruby", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
 	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain", 
 				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
 
