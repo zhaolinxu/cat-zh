@@ -1955,7 +1955,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			this.renderGovernment(container);
 		}
 		//--------------------------------------------
-		var navbar = dojo.create("div", { style: {
+		var navbar = dojo.create("div", { className: "censusFilters", style: {
 			height: "24px"
 		}}, container);
 
@@ -2020,6 +2020,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				innerHTML: ""
 			}, container );
 
+			dojo.addClass(div,(kitten.isLeader ? "sim simLeader" : "sim"));
 			//--------- content -----------
 
 			var content = dojo.create("div", {
@@ -2040,6 +2041,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			if (this.game.challenges.currentChallenge != "anarchy") {
 				var leaderHref = dojo.create("a", {
 					href: "#", innerHTML: "",
+					className: "leaderHref",
 					style: {
 						float: "right"
 					},
@@ -2049,6 +2051,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			var unassignHref = dojo.create("a", {
 				href: "#", innerHTML:  $I("village.btn.unassign.job"),
+				className: "unassignHref",
 				style: {
 					display: kitten.job ? "block" : "none",
 					clear: "both"
@@ -2076,6 +2079,8 @@ dojo.declare("classes.ui.village.Census", null, {
 					census.makeLeader(kitten);
 
 					census.renderGovernment(census.container);
+					this.render(this.container);
+					game.ui.updateTabs();
 					census.update();
 				}, this, i));
 			}
@@ -2176,7 +2181,7 @@ dojo.declare("classes.ui.village.Census", null, {
 	renderGovernment: function(container){
 		var governmentDiv = this.governmentDiv;
 		if (!this.governmentDiv){
-			governmentDiv = dojo.create("div", { style: {
+			governmentDiv = dojo.create("div", { className: "currentGovernment", style: {
 				paddingBottom: "10px"
 			}}, container);
 			this.governmentDiv = governmentDiv;
@@ -2184,7 +2189,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			dojo.empty(governmentDiv);
 		}
 
-		this.leaderDiv = dojo.create("div", null, governmentDiv);
+		this.leaderDiv = dojo.create("div", {className: "currentLeader"}, governmentDiv);
 		//------------------------------------
 		var leader = this.game.village.leader;
 		var gold = this.game.resPool.get("gold");

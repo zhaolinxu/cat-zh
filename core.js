@@ -1103,6 +1103,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//------------- root href --------------
 		var link = dojo.create("a", {
 			href: "#",
+			className: links[0].id ? (links[0].id + "Link") : "",
 			style: {
 				display: "block",
 				float: "right"
@@ -1405,7 +1406,7 @@ ButtonModernHelper = {
 		if (model.metadata && model.metadata.isAutomationEnabled !== undefined){	//TODO: use proper metadata flag
 			var descDiv = dojo.create("div", {
 				innerHTML: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
-				className: "desc small"
+				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
 			}, tooltip);
 		}
 
@@ -1841,6 +1842,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					}
 				});
 				//var sellLinkAdded = true;
+				dojo.addClass(this.domNode, "hasSellLink");
 			}
 		}
 

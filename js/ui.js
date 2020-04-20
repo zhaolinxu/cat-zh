@@ -286,13 +286,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var tabLink = dojo.create("a", {
                 href:"#",
                 innerHTML: tab.tabName,
-                className: "tab",
+                className: "tab " + tab.tabId,
                 style : {
                     whiteSpace: "nowrap"
                 }
             }, tabNavigationDiv);
             tab.domNode = tabLink;
-
+            
             if (this.activeTabId == tab.tabId){
                 dojo.addClass(tabLink, "activeTab");
             }
@@ -312,7 +312,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
             }
         }
-
 
         for (var i = 0; i < game.tabs.length; i++){
             var tab = game.tabs[i];
@@ -511,7 +510,28 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			if (tab.tabId == this.activeTabId){
 				tab.update();
 			}
-		}
+        }
+        var leaderTrait = game.village.leader.trait.name;
+        if (leaderTrait) {
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");		
+            switch (leaderTrait) {
+                case "engineer": // Crafting bonus
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
+                    break;
+                case "merchant": // Trading bonus
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus");
+                    break;
+                case "manager": // Hunting bonus
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus");
+                    break;
+                case "scientist": // Science prices bonus
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus");
+                    break;
+                case "wise": // Religion bonus
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
+                    break;
+                }	
+        }
 	},
 
     updateFastHunt: function(){

@@ -132,7 +132,23 @@ WResourceRow = React.createClass({
             specialClass = " leet";
         }
 
-        return $r("div", {className:"res-row resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
+        var resLeaderBonus ="";
+        var currentLeader = game.village.leader;
+        
+        if (currentLeader){
+            if(currentLeader.job) {
+                var currentLeaderJob = game.village.getJob(currentLeader.job);
+                if(currentLeaderJob) {
+                    for (var jobResName in currentLeaderJob.modifiers){
+                        if ( res.name == jobResName ){
+                            resLeaderBonus = " resLeaderBonus "
+                        }
+                    }                                      
+                }
+            }
+        }
+
+        return $r("div", {className:"res-row resource_" + res.name + resLeaderBonus + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -387,10 +403,10 @@ WCraftRow = React.createClass({
                 resNameCss[styleKey] = res.style[styleKey];
             }
         }
-
         //----------------------------------------------------------------------------
         var resVal = game.getDisplayValueExt(res.value);
-        return $r("div", {className:"res-row craft resource_" + res.name + (this.props.isRequired ? " highlited" : "")}, [
+        return $r("div", {className:"res-row craft resource_" + res.name + (game.workshop.getEffectEngineer(res.name) !=0 ? " craftEngineer " : "")
+        + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {

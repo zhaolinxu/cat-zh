@@ -737,7 +737,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = game.resPool.addBarnWarehouseRatio(effects);
 		},
-		flavor: $I("buildings.warehouse.flavor")
+		flavor: $I("buildings.warehouse.flavor"),
+		unlockScheme: {
+			name: "minimalist",
+			threshold: 10
+		}
 	},
 	{
 		name: "harbor",
