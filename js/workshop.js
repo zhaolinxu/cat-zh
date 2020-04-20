@@ -2520,26 +2520,26 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 			craftBonus -= this.game.getCraftRatio();
 		}
 
-		if (craftBonus > 0){
-			desc += "<br><br>" + $I("workshop.craftBtn.desc.effectivenessBonus", [this.game.getDisplayValueExt(craftBonus * 100, false, false, 0)]);
+		if (craftBonus > 0) {
+			desc += "<br /><br />" + $I("workshop.craftBtn.desc.effectivenessBonus", [this.game.getDisplayValueExt(100 * craftBonus, false, false, 0)]);
 		}
 
 		if (this.game.science.get("mechanization").researched){
-			desc += "<br><br>" + $I("workshop.craftBtn.desc.tier") + ": " + craft.tier;
+			desc += "<br /><br />" + $I("workshop.craftBtn.desc.tier") + ": " + craft.tier;
 
 			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 1;
 			if (tierBonus != 1) {
-				desc += "<br>" + $I("workshop.craftBtn.desc.craftRatio") + ": " + this.game.getDisplayValueExt(((tierBonus-1)* 100).toFixed(), true) + "%";
+				desc += "<br />" + $I("workshop.craftBtn.desc.craftRatio") + ": " + this.game.getDisplayValueExt((100 * (tierBonus - 1)).toFixed(), true) + "%";
 			}
 
 			if (craft.progressHandicap != 1) {
-				var difficulty = this.game.getDisplayValueExt(((-(1 - (1 / craft.progressHandicap)))* 100).toFixed(2), true);
-				desc += "<br>" + $I("workshop.craftBtn.desc.progressHandicap") + ": " + difficulty + "%";
+				var difficulty = this.game.getDisplayValueExt((-100 * (1 - 1 / craft.progressHandicap)).toFixed(2), true);
+				desc += "<br />" + $I("workshop.craftBtn.desc.progressHandicap") + ": " + difficulty + "%";
 			}
 
 			if (craft.value != 0) {
-				var countdown = (1 / (this.game.workshop.getEffectEngineer(craft.name, false) * 5)).toFixed(0);
-				desc += "<br>=> " + $I("workshop.craftBtn.desc.countdown", [countdown]);
+				var countdown = (1 / (this.game.workshop.getEffectEngineer(craft.name, false) * this.game.getTicksPerSecondUI())).toFixed(0);
+				desc += "<br />=> " + $I("workshop.craftBtn.desc.countdown", [countdown]);
 			}
 		}
 		return desc;
@@ -2740,7 +2740,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: $I("workshop.craft.effectiveness", [this.game.getDisplayValueExt(this.game.getCraftRatio() * 100, false, false, 0)]) }, div);
+		dojo.create("span", {innerHTML: $I("workshop.craft.effectiveness", [this.game.getDisplayValueExt(100 * this.game.getCraftRatio(), false, false, 0)])}, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);
