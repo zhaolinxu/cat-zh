@@ -2169,7 +2169,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}
 			else {}
 
-			info +="<span title='" + exp.toFixed(2) + "'" + style + ">"
+			info +="<span class='skill' title='" + exp.toFixed(2) + "'" + style + ">"
 				+ this.game.village.getJob(skillsArr[j].name).title + bonus
 				+ " (" + this.game.villageTab.skillToText(exp) + " " + expPercent.toFixed() + "%)"
 				+ "</span><br>";
@@ -2271,13 +2271,12 @@ dojo.declare("classes.ui.village.Census", null, {
 			}*/
 
 			record.content.innerHTML =
-				"<span class='color-" + (kitten.color ? kitten.colors[kitten.color+1].color : "none") + "'>" +
+				"<div class='info'><span class='color-" + (kitten.color ? kitten.colors[kitten.color+1].color : "none") + "'>" +
 					":3 " + kitten.name + " " + kitten.surname +
-				"</span>"
+				"</span>" +
 				 ", " + kitten.age + " years old, "
             	+ kitten.trait["title"]
-            	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")")
-            	+ "<br>";
+            	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
             var skillsArr = kitten.job 	? this.game.village.sim.getSkillsSortedWithJob(kitten.skills, kitten.job)
