@@ -1388,6 +1388,7 @@
     "opts.theme": "Тема",
     "opts.theme.default": "Классика",
     "opts.theme.dark": "Инверсия",
+    "opts.theme.oledblack": "OLED Черный", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.lang": "Язык",
     "opts.percentage": "Показывать прибыль в %",
     "opts.percentage.desc": "Игра будет показывать прибыль в % от общего возможного запаса, а не в единицах в секунду.",
