@@ -1387,3 +1387,27 @@ div.leet {
     0 0 20px red,
     0 0 25px red;}
 }
+
+.census-block {
+    border: 1px solid gray;
+    margin-bottom: 5px;
+    padding: 5px;
+    min-height: 80px;
+}
+
+   
+.census-block .color-brown {
+    color:#856341;
+}
+.census-block .color-cream {
+    color:lightcoral;
+}
+.census-block .color-black {
+    color:darkgrey;
+}
+.census-block .color-fawn {
+    color:gainsboro;
+}
+.census-block .color-white {
+    color:floralwhite
+}

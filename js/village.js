@@ -844,9 +844,15 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
  */
 dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
-	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly", "Jasper",
-			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha", "Tami", "Plato" ],
-	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow"],
+	statics: {
+		SAVE_PACKET_OFFSET: 100
+	},
+
+	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
+			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar", 
+			 "Plato", "Rikka", "Ruby", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
+	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain", 
+				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
 
 	traits: [{
 		name: "scientist",
@@ -874,6 +880,20 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		title: $I("village.trait.none")
 	}],
 
+	colors: [{
+		color: "brown"
+	},{
+		color: "cinamon"
+	},{
+		color: "cream"
+	},{
+		color: "black"
+	},{
+		color: "fawn"
+	},{
+		color: "white"
+	}],
+
 	name: "Undefined",
 	surname: "Undefined",
 
@@ -886,15 +906,44 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	exp: 0,
 	rank: 0,
 
+	rarity: 0,	//a growth/skill potential, 0 if none
+	color: 0,	//kitten color, the higher the rarer, 0 if none
+	variety: 0,	//rare kitten pattern variety
+
+
 	isLeader: false,
+	//obsolete
 	isSenator: false,
+
 
 	constructor: function(){
 		this.name = this.names[this.rand(this.names.length)];
 		this.surname = this.surnames[this.rand(this.surnames.length)];
 		this.trait = this.traits[this.rand(this.traits.length)];
 
-		this.age = 16 + this.rand(30);
+		//kittens tend to be on the younger side with some basic minimal age
+
+		this.age = 5 + this.rand(10);
+		if (this.rand(100) < 30){
+			this.age += this.rand(30);
+		}
+
+		//10% of chance to generate one of 6 primary colors (rare colors TBD)
+		if (this.rand(100) <= 10){
+			this.color = this.rand(6) + 1;
+
+			//10% of chance of colored cat to be one of 5 rare varieties (dual, tabby, torbie, calico, spots)
+			if (this.rand(100) <= 10){
+				this.variety = this.rand(4) + 1;
+			}
+		}
+		//5% of kitten to be rarity 1 or 2, and extra 10% on top of it to be extra rare
+		if (this.rand(100) <= 5){
+			this.rarity = this.rand(2) + 1;
+			if (this.rand(100) <= 10){
+				this.rarity += 1;
+			}
+		}
 
 		this.exp = 0;
 		this.skills = {};
@@ -924,6 +973,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+		this.color = 	data.color || 0;
+		this.variety = 	data.variety || 0;
+		this.rarity = data.rarity || 0;
 
 		for (var job in this.skills){
 			if (this.skills[job] > 20001){
@@ -933,11 +985,14 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	loadCompressed: function(data, jobNames) {
-		var ssn = this._splitValues(data.ssn, 4, 100);
+		var ssn = this._splitValues(data.ssn, 7, this.statics.SAVE_PACKET_OFFSET);
 		this.name = this.names[ssn[0]];
 		this.surname = this.surnames[ssn[1]];
 		this.age = ssn[2];
 		this.trait = this.traits[ssn[3]];
+		this.color = ssn[4];
+		this.variety = ssn[5];
+		this.rarity = ssn[6];
 
 		this.skills = {};
 		var dataSkills = data.skills || 0;
@@ -986,6 +1041,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			name: this.name,
 			surname: this.surname,
 			age: this.age,
+			color: this.color || undefined,
+			variety: this.variety || undefined,
+			rariry: this.rarity || undefined,
 			skills: saveSkills,
 			exp: this.exp || undefined,
 			trait: {name: this.trait.name},
@@ -1012,7 +1070,18 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 		// don't serialize falsy values
 		return {
-			ssn: this._mergeValues([this.names.indexOf(this.name), this.surnames.indexOf(this.surname), this.age, this._getTraitIndex(this.trait.name)], 100),
+			ssn: this._mergeValues(
+				[
+					this.names.indexOf(this.name), 
+					this.surnames.indexOf(this.surname), 
+					this.age, 
+					this._getTraitIndex(this.trait.name),
+					this.color,
+					this.variety,
+					this.rarity
+				], 
+				this.statics.SAVE_PACKET_OFFSET
+			),
 			skills: skills || undefined,
 			exp: this.exp || undefined,
 			job: this.job ? jobNames.indexOf(this.job) : undefined,
@@ -1022,6 +1091,11 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		};
 	},
 
+	/**
+	 * 
+	 * @param {*} values 
+	 * @param {*} shift 
+	 */
 	_mergeValues: function(values, shift) {
 		var result = 0;
 		for (var i = values.length - 1; i >= 0; --i) {
@@ -1942,12 +2016,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			kittensLimit++;
 
 			var div = dojo.create("div", {
-				style: {
-					border: "1px solid gray",
-					marginBottom: "5px",
-					padding: "5px",
-					minHeight: "80px"
-				},
+				className: "census-block",
 				innerHTML: ""
 			}, container );
 
@@ -1986,15 +2055,6 @@ dojo.declare("classes.ui.village.Census", null, {
 				}
 			}, linksDiv);
 
-			/*if (this.game.challenges.currentChallenge != "anarchy") {
-				var senatorHref = dojo.create("a", {
-					href: "#", innerHTML: $I("village.btn.senator"),
-					style: {
-						display: kitten.isLeader || kitten.isSenator ? "none" : "block"
-					}
-				}, linksDiv);
-			}*/
-
 			dojo.connect(unassignHref, "onclick", this, dojo.partial(function(game, i, event){
 				event.preventDefault();
 				game.village.unassignJob(game.village.sim.kittens[i]);
@@ -2019,32 +2079,6 @@ dojo.declare("classes.ui.village.Census", null, {
 					census.update();
 				}, this, i));
 			}
-			//rankExp
-
-			/*if (this.game.challenges.currentChallenge != "anarchy") {
-				dojo.connect(senatorHref, "onclick", this, dojo.partial(function(census, i, event){
-					event.preventDefault();
-
-					var game = census.game;
-
-					var kitten = game.village.sim.kittens[i];
-					if (game.village.senators.length < 5){
-
-						for (i in game.village.senators){
-							if (game.village.senators[i] === kitten){
-								return;
-							}
-						}
-
-						game.village.senators.push(kitten);
-						kitten.isSenator = true;
-					}
-
-					census.renderGovernment(census.container);
-					census.update();
-
-				}, this, i));
-			}*/
 
 			this.records.push({
 				content: content,
@@ -2231,8 +2265,11 @@ dojo.declare("classes.ui.village.Census", null, {
 				dojo.style(record.senatorHref, "display", "none");
 			}*/
 
-            record.content.innerHTML =
-            	":3 " + kitten.name + " " + kitten.surname + ", " + kitten.age + " years old, "
+			record.content.innerHTML =
+				"<span class='color-" + (kitten.color ? kitten.colors[kitten.color+1].color : "none") + "'>" +
+					":3 " + kitten.name + " " + kitten.surname +
+				"</span>"
+				 ", " + kitten.age + " years old, "
             	+ kitten.trait["title"]
             	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")")
             	+ "<br>";
