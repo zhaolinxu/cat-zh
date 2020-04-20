@@ -373,7 +373,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "plate",
 		title: $I("resources.plate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "metallurgist"
 	},{
 		name : "steel",
 		title: $I("resources.steel.title"),
@@ -381,32 +382,37 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		visible: false,
 		color: "gray",
-		calculatePerTick: true
+		calculatePerTick: true,
+		tag: "metallurgist"
 	},{
 		name : "concrate",
 		title: $I("resources.concrate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "chemist"
 	},{
 		name : "gear",
 		title: $I("resources.gear.title"),
 		type : "common",
 		craftable: true,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "alloy",
 		title: $I("resources.alloy.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "eludium",
 		title: $I("resources.eludium.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "darkViolet"
+		color: "darkViolet",
+		tag: "chemist"
 	},{
 		name : "scaffold",
 		title: $I("resources.scaffold.title"),
@@ -431,7 +437,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         type: "common",
         craftable: true,
         color: "darkYellow",
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "parchment",
 		title: $I("resources.parchment.title"),
@@ -467,7 +474,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#4EA24E",
 		calculatePerTick: true,
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "megalith",
 		title: $I("resources.megalith.title"),

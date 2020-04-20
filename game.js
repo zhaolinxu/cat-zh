@@ -2683,8 +2683,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return 0;
 	},
 
-	getCraftRatio: function() {
-		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
+	getCraftRatio: function(tag) {
+		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0) + this.village.getEffectLeader(tag, 0);
 	},
 
 	getResCraftRatio: function(craftedResName) {
@@ -2695,7 +2695,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				: refineRatio;
 		}
 
-		var ratio = this.getCraftRatio();
+		var ratio = this.getCraftRatio(this.resPool.get(craftedResName).tag);
 
 		if (craftedResName == "blueprint") {
 			var bpRatio = this.getEffect("cadBlueprintCraftRatio");

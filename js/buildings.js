@@ -1020,7 +1020,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					);
 					self.effects["ironPerTickCon"]*=amt;
 					self.effects["coalPerTickCon"]*=amt;
-					self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
+					// Automated production, metallurgist leader won't help here
+					self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
 
 					amtFinal = (amtFinal + amt) / 2;
 				}
@@ -1086,7 +1087,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
 			var automationRate = Math.min(baseAutomationRate * (self.on + 1), 0.9);
 
-			function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+			var newCrafter = function(consumedResource, craftedResourceName, isAllowed) {
 				var consumedQuantity = consumedResource.value * automationRate;
 				return {
 					numberOfCrafts: isAllowed && consumedResource.value >= consumedResource.maxValue * (1 - baseAutomationRate)
@@ -1095,6 +1096,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					craft: function() {
 						if (this.numberOfCrafts > 0) {
 							game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+							// Automated production, metallurgist leader won't help here
 							game.msg($I("bld.msg.automation." + craftedResourceName + "s", [game.getDisplayValueExt(consumedQuantity), game.getDisplayValueExt(this.numberOfCrafts * (1 + game.getCraftRatio()))]), null, "workshopAutomation", true);
 						}
 					}

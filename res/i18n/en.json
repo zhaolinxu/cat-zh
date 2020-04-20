@@ -139,6 +139,8 @@
     "village.msg.hunt.gold": "gold",
     "village.census.filter.all": "All jobs",
     "village.bonus.desc.engineer": "Crafting bonus",
+    "village.bonus.desc.metallurgist": "Metallic crafting bonus",
+    "village.bonus.desc.chemist": "Chemical crafting bonus",
     "village.bonus.desc.merchant": "Trading bonus",
     "village.bonus.desc.manager": "Hunting bonus",
     "village.bonus.desc.scientist": "Science prices bonus",

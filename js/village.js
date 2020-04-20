@@ -162,8 +162,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case "engineer": // Crafting bonus
 						defaultObject = 0.05 * burnedParagonRatio;
 						break;
+					case "metallurgist": // Crafting bonus for non x-ium metallic stuff (plate, steel, gear, alloy)
+						defaultObject = 0.1 * burnedParagonRatio;
+						break;
+					case "chemist": // Crafting bonus for "chemical" stuff (concrete, eludium, kerosene, thorium)
+						defaultObject = 0.075 * burnedParagonRatio;
+						break;
 					case "merchant": // Trading bonus
-						defaultObject = 0.030 * burnedParagonRatio;
+						defaultObject = 0.03 * burnedParagonRatio;
 						break;
 					case "manager": // Hunting bonus
 						defaultObject = 0.5 * burnedParagonRatio;
@@ -191,23 +197,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	updateEffectCached: function(){
 		this.map.updateEffectCached();
-	},
-
-	getLeaderDescription: function(job) {
-		switch (job) {
-			case "engineer":
-				return $I("village.bonus.desc.engineer");
-			case "merchant":
-				return $I("village.bonus.desc.merchant");
-			case "manager":
-				return $I("village.bonus.desc.manager");
-			case "scientist":
-				return $I("village.bonus.desc.scientist");
-			case "wise":
-				return $I("village.bonus.desc.wise");
-			default:
-				return "";
-		}
 	},
 
 	constructor: function(game){
@@ -2119,24 +2108,25 @@ dojo.declare("classes.ui.village.Census", null, {
 		game.village.leader = kitten;
 	},
 
-	getGovernmentInfo: function(){
+	getGovernmentInfo: function() {
 		//update leader stats
-		var leaderInfo = "N/A";
+		var leaderInfo = "YOU!";
 		var leader = this.game.village.leader;
 
-		if (leader){
-			var title = leader.trait.name == "none" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
+		if (leader) {
+			var title = leader.trait.name == "none"
+				? $I("village.census.trait.none")
+				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = this.getStyledName(leader, true /*is leader*/) + ", " + title +
-				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
+				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
 
-			if( nextRank > leader.exp) {
-				leaderInfo += " (" + Math.floor(leader.exp / nextRank * 100 ) + "%)";
+			if (nextRank > leader.exp) {
+				leaderInfo += " (" + Math.floor(100 * leader.exp / nextRank) + "%)";
 			}
 
-			if (leader.rank > 0){
-				leaderInfo += "<br><br>" + $I("village.job.bonus") + ": x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" +
-					( leader.job ? this.game.village.getJob(leader.job).title : "" ) + ")";
+			if (leader.rank > 0) {
+				leaderInfo += "<br /><br />" + $I("village.job.bonus") + ": x" + this.game.village.getLeaderBonus(leader.rank).toFixed(1) + " (" + (leader.job ? this.game.village.getJob(leader.job).title : "") + ")";
 			}
 		}
 
