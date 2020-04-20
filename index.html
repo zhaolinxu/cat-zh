@@ -567,10 +567,14 @@
 					<label for="disableTelemetry">Disable game statistics.</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-					<label for="enableRedshift" style="font-size: 8px;">Enable offline progression (Experimental)</label>
+					<label for="enableRedshift">Enable offline progression</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
-					<label for="forceLZ" style="font-size: 8px;">Always compress save files (Experimental)</label>
+					<label for="forceLZ" style="font-size: 75%;">Always compress in-memory save <i>(experimental)</i></label>
+					<br>
+					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
+					<label for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
+						WARNING: it generates save files that are NOT COMPATIBLE with older versions, like mobile versions.</i></label>
 				</div>
 
 				<br>

@@ -737,7 +737,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = game.resPool.addBarnWarehouseRatio(effects);
 		},
-		flavor: $I("buildings.warehouse.flavor")
+		flavor: $I("buildings.warehouse.flavor"),
+		unlockScheme: {
+			name: "minimalist",
+			threshold: 10
+		}
 	},
 	{
 		name: "harbor",
@@ -1714,7 +1718,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"]
 		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
-		// TODO Separation of concerns currently done only for AI Core and Time Boilers (REQUIRED by non-proportional effect!), will be systematized later
+		// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
 		updateEffects: function(self, game) {
 			// Core #1: 2  ; Total:  2  ; Average: 2    =  8/4 = (3*1+5)/4
 			// Core #2: 3.5; Total:  5.5; Average: 2.75 = 11/4 = (3*2+5)/4
