@@ -851,7 +851,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
 			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar", 
 			 "Plato", "Rica", "Rabi", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
-	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Puff", "Rain", 
+	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain", 
 				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
 
 	traits: [{
@@ -928,8 +928,21 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			this.age += this.rand(30);
 		}
 
-		if (this.rand(100) <= 50){
-			this.color = this.rand(5) + 1;
+		//10% of chance to generate one of 6 primary colors (rare colors TBD)
+		if (this.rand(100) <= 10){
+			this.color = this.rand(6) + 1;
+
+			//10% of chance of colored cat to be one of 5 rare varieties (dual, tabby, torbie, calico, spots)
+			if (this.rand(100) <= 10){
+				this.variety = this.rand(4) + 1;
+			}
+		}
+		//5% of kitten to be rarity 1 or 2, and extra 10% on top of it to be extra rare
+		if (this.rand(100) <= 5){
+			this.rarity = this.rand(2) + 1;
+			if (this.rand(100) <= 10){
+				this.rarity += 1;
+			}
 		}
 
 		this.exp = 0;
@@ -961,6 +974,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
 		this.color = 	data.color || 0;
+		this.variety = 	data.variety || 0;
+		this.rarity = data.rarity || 0;
 
 		for (var job in this.skills){
 			if (this.skills[job] > 20001){
@@ -970,12 +985,14 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	loadCompressed: function(data, jobNames) {
-		var ssn = this._splitValues(data.ssn, 5, this.statics.SAVE_PACKET_OFFSET);
+		var ssn = this._splitValues(data.ssn, 7, this.statics.SAVE_PACKET_OFFSET);
 		this.name = this.names[ssn[0]];
 		this.surname = this.surnames[ssn[1]];
 		this.age = ssn[2];
 		this.trait = this.traits[ssn[3]];
 		this.color = ssn[4];
+		this.variety = ssn[5];
+		this.rarity = ssn[6];
 
 		this.skills = {};
 		var dataSkills = data.skills || 0;
@@ -1025,6 +1042,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			surname: this.surname,
 			age: this.age,
 			color: this.color || undefined,
+			variety: this.variety || undefined,
+			rariry: this.rarity || undefined,
 			skills: saveSkills,
 			exp: this.exp || undefined,
 			trait: {name: this.trait.name},
@@ -1057,7 +1076,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 					this.surnames.indexOf(this.surname), 
 					this.age, 
 					this._getTraitIndex(this.trait.name),
-					this.color
+					this.color,
+					this.variety,
+					this.rarity
 				], 
 				this.statics.SAVE_PACKET_OFFSET
 			),
