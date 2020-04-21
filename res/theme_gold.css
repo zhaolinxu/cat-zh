@@ -1,8 +1,8 @@
 /**
- *			Gold 1.1.0 Theme © Volkeyrn
+ *			Gold 1.1.1 Theme © Volkeyrn
  */
 
-@import url(https://fonts.googleapis.com/css?family=Barlow+Semi-Condensed:ital,wght@100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&display=swap);
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:ital,wght@400,400italic,700&display=swap);
 
 /**********************************************/
 /******************** GAME ********************/
@@ -16,7 +16,7 @@ body.scheme_gold {
 .scheme_gold .modern,
 .scheme_gold .btn.modern,
 .scheme_gold input[type='button'] {
-    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-family: 'PT Sans', sans-serif;
 }
 .scheme_gold .btn {
 	color: gray;
@@ -24,14 +24,13 @@ body.scheme_gold {
 	max-height: 36px;
 	background-color: transparent;
     border: solid 1px transparent;
-    font-size: 13px !important;
 }
 .scheme_gold .btn:hover{
 	border: solid 1px transparent;
 }
 .scheme_gold .btn.modern {
 	border-radius: 5px;
-	/* default font size = font-size: 14px; */
+    /* default font-size: 14px; */
 }
 .scheme_gold .btn.disabled {
 	color: #919084;
@@ -57,7 +56,7 @@ body.scheme_gold {
     background-color: rgba(223, 206, 153, 0.3); /* color #DFCE99 */	
     border: solid 1px #DFCE99;
     cursor: pointer;
-    text-shadow: 0px 1px 1px #000000;
+    text-shadow: 0 1px 1px #000000;
 }
 .scheme_gold a {
 	color: #EFEDE8;
@@ -88,11 +87,7 @@ body.scheme_gold {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
 }
 .scheme_gold h1:first-child {
-    margin-top: 0px;
-}
-/* if not use line bottom : '.btn.small-text span' then green light color do not change ! why ??*/
-.scheme_gold .btn.small-text span { /* text size for multiple buttons */
-    font-size: 90%; /*default font-size = font-size: 90% of 14px font size;*/
+    margin-top: 0;
 }
 /*** green and red light for machine on/off ***/
 .scheme_gold .btn.bldEnabled div.btnContent,
