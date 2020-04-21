@@ -35,6 +35,7 @@ body.scheme_minimalist,
 	border: solid 1px transparent;
 }
 .scheme_minimalist .btn.modern {
+	/* default font-size: 14px; */
 	border-radius: 7px;
 	width: 300px; /* +10px gained from left column +15px gained from padding default width: 264px; */
 }
@@ -104,11 +105,6 @@ body.scheme_minimalist,
 }
 .scheme_minimalist h1:first-child {
     margin-top: 0p;
-}
-/* if not use line bottom : '.btn.small-text span' then green light color do not change ! why ??*/
-.scheme_minimalist .btn.small-text span { /* text size for multiple buttons */
-    /*default font-size = font-size: 90% of 14px font size;*/
-	font-size: 100%;
 }
 /*** green and red light for machine on/off ***/
 .scheme_minimalist .btn.bldEnabled div.btnContent,
@@ -407,6 +403,7 @@ body.scheme_minimalist,
 }
 .scheme_minimalist .btn.modern a {
 	color: #808799;
+	font-size: 12px;
 	font-weight: 300;
 	background-color: transparent;
 	padding: 10px 2px 10px 2px !important; /* default :  padding: 10px 6px 10px 6px !important; */
@@ -446,7 +443,7 @@ body.scheme_minimalist,
 }
 .scheme_minimalist .linkContent a {
     color: #B5BAC4;
-    width: 30px !important;
+    width: 36px !important;
     margin-top: 0 !important;
 	margin-bottom: 0 !important;
 	border-left: none; /* default border-left: 1px solid #888; */
@@ -456,7 +453,7 @@ body.scheme_minimalist,
 }
 .scheme_minimalist .btn:not(.disabled).bldEnabled .linkContent,
 .scheme_minimalist .btn:not(.disabled).bldlackResConvert .linkContent { /* dropdown list on button not disabled with on/off link */
-	margin-top: 25px !important;
+	margin-top: 26px !important;
 }
 .scheme_minimalist .container .btn:not(.disabled).bldEnabled .linkContent,
 .scheme_minimalist .container .btn:not(.disabled).bldlackResConvert .linkContent { /* dropdown list on button not disabled with on/off link in container*/
@@ -472,7 +469,7 @@ body.scheme_minimalist,
 }
 .scheme_minimalist .btn.disabled.bldEnabled .linkContent,
 .scheme_minimalist .btn.disabled.bldlackResConvert .linkContent { /* dropdown list on button disabled with on/off link */
-	margin-top: 25px !important;
+	margin-top: 26px !important;
 }
 .scheme_minimalist .container .btn.disabled.bldEnabled .linkContent,
 .scheme_minimalist .container .btn.disabled.bldlackResConvert .linkContent { /* dropdown list on button disabled with on/off link in container */
@@ -497,7 +494,7 @@ body.scheme_minimalist,
 	border-radius: 0 7px 7px 0;
 }
 .scheme_minimalist .btn.modern.hasSellLink span.btnTitle + a { /* font larger for sell link */
-	font-size: 1em; /* default font-size: 0.7em; */
+	font-size: 0.9em; /* default font-size: 0.7em; */
 	/* default line-height: 16px; */
 }
 .scheme_minimalist .panelContainer {
@@ -529,8 +526,8 @@ body.scheme_minimalist,
 .scheme_minimalist .panelContainer .toggle {
 	font-size: 10px;
 	margin: 7px 7px 0 0; /* default margin: 4px; */
-	padding-left:  4px; /* default padding-left 6px */
-    padding-right: 4px; /* default padding-right 6px */
+	padding-left:  5px; /* default padding-left 6px */
+    padding-right: 5px; /* default padding-right 6px */
 	border: 1px solid rgba(200, 200, 200, 0.8); /* color #C8C8C8 */
 	background: rgba(24, 25, 32, 1);
 	background: padding-box radial-gradient(circle, #101115 0%,#101115 50%, #51515E 80%,#646474 90%,#646474 100%);
