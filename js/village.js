@@ -892,6 +892,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		color: "fawn"
 	},{
 		color: "white"
+	},{
+		color: "lilac"
 	}],
 
 	name: "Undefined",
@@ -2271,7 +2273,8 @@ dojo.declare("classes.ui.village.Census", null, {
 			}*/
 
 			record.content.innerHTML =
-				"<div class='info'><span class='color-" + (kitten.color ? kitten.colors[kitten.color+1].color : "none") + "'>" +
+				"<div class='info'><span class='color-" + 
+					((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + "'>" +
 					":3 " + kitten.name + " " + kitten.surname +
 				"</span>" +
 				 ", " + kitten.age + " years old, "
