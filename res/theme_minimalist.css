@@ -2,8 +2,7 @@
  *			Minimalist 1.00 Theme © Volkeyrn
  */
 
- @import url(https://fonts.googleapis.com/css?family=Opens+Sans:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic&display=swap);
- @import url(https://fonts.googleapis.com/css?family=Opens+Sans+Condensed:ital,wght@300,700,300italic&display=swap);
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:ital,wght@300,400,700,300italic,400italic,700italic&display=swap);
 
 /**********************************************/
 /******************** GAME ********************/
@@ -71,7 +70,7 @@ body.scheme_minimalist,
 	box-shadow: 1px 0 2px #DD836C,
                   -1px 0 2px #DD836C;
 }
-.scheme_minimalist .btn:not(.disabled):hover span { /* to change only the properties of the button name for buttons enabled */
+.scheme_minimalist .btn:not(.disabled):hover span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #C8D4E4;
 }
 .scheme_minimalist a {
@@ -109,7 +108,7 @@ body.scheme_minimalist,
 /* if not use line bottom : '.btn.small-text span' then green light color do not change ! why ??*/
 .scheme_minimalist .btn.small-text span { /* text size for multiple buttons */
     /*default font-size = font-size: 90% of 14px font size;*/
-	font-size: 90% !important;
+	font-size: 100%;
 }
 /*** green and red light for machine on/off ***/
 .scheme_minimalist .btn.bldEnabled div.btnContent,
@@ -317,7 +316,7 @@ body.scheme_minimalist,
 	width: 650px; /* +20px gained from left column. default width: 630px */
 }
 .scheme_minimalist .tab { 
-    font-size: 14px;
+    font-size: 13px;
 }
 .scheme_minimalist .tabInner {
     border: none; /* border for all under tabs in center column */
@@ -336,12 +335,14 @@ body.scheme_minimalist,
 .scheme_minimalist .activeTab {
 	color: #b7b9c4;
 	text-shadow: 1px 1px 1px rgba(12, 13, 16, 0.8); /* color #0C0D10 */
+	border-bottom: solid 1px #5D56A9;
 }
 .scheme_minimalist a.activeTab:hover {
     color: #b7b9c4;
 }
-.scheme_minimalist .tab.traitLeaderBonus {
-	border-bottom: solid 1px #5D56A9;
+.scheme_minimalist .tab.traitLeaderBonus::before {
+	content: "\2605"; /* BLACK STAR */
+	color: #5D56A9;
 }
 .scheme_minimalist .bldTopContainer { /* under tab */
     font-size: 90%;
@@ -402,19 +403,18 @@ body.scheme_minimalist,
 .scheme_minimalist .btn .btnContent a {
     max-width: 90px; /* default max-width: 50px; */
     /* default overflow-x: hidden; */
-    text-overflow: clip; /* default text-overflow: ellipsis; */
+    /* default text-overflow: ellipsis; */
 }
 .scheme_minimalist .btn.modern a {
-	color: #70788c;
+	color: #808799;
 	font-weight: 300;
-	font-stretch: condensed;
 	background-color: transparent;
 	padding: 10px 2px 10px 2px !important; /* default :  padding: 10px 6px 10px 6px !important; */
 	text-shadow: none;	
 }
 .scheme_minimalist .btn.modern:not(.disabled) a {
-	color: #70788c;
-	border-color: rgba(164, 164, 164, 0.1); /* color #A4A4A4 */
+	color: #808799;
+	border-color: rgba(164, 164, 164, 0.2); /* color #A4A4A4 */
 }
 .scheme_minimalist .btn.modern.disabled a {
 	border-color: rgba(85, 85, 85, 0.4) !important; /* color #555555 */
@@ -487,15 +487,18 @@ body.scheme_minimalist,
 	border-radius: 0 0 5px 5px;
 }
 /* Apply the right border radius of the button to the rightmost link */
-.scheme_minimalist .btn.modern.hasSellLink span + a,
-.scheme_minimalist .btn.modern:not(.hasSellLink) span + a,
-.scheme_minimalist .btn.modern:not(.hasSellLink) a.off1Link,
-.scheme_minimalist .btn.modern:not(.hasSellLink) a.unassignLink {
+.scheme_minimalist .btn.modern span.btnTitle + a,
+.scheme_minimalist .btn.modern:not(.hasSellLink) a.off1Link, /* link minus on buildings buttons */
+.scheme_minimalist .btn.modern:not(.hasSellLink) a.unassignLink { /* link minus on kittens jobs buttons */
 	/* buttons border-radius: 7px; */
 	border-radius: 0 7px 7px 0;
 }
-.scheme_minimalist .btn.modern:not(.hasSellLink) a[style*='display: none'] + a { /* for Combust TC button on Time tab */
+.scheme_minimalist .btn.modern .btnContent a.rightestLink { /* for Combust TC button on Time tab */
 	border-radius: 0 7px 7px 0;
+}
+.scheme_minimalist .btn.modern.hasSellLink span.btnTitle + a { /* font larger for sell link */
+	font-size: 1em; /* default font-size: 0.7em; */
+	/* default line-height: 16px; */
 }
 .scheme_minimalist .panelContainer {
 	margin-top: 4px;
@@ -537,7 +540,7 @@ body.scheme_minimalist,
 .scheme_minimalist .container {
 	padding: 5px; /* default padding: 10px; */
 }
-.scheme_minimalist .container div[style^='padding-bottom'] { /* for padding-bottom too height */
+.scheme_minimalist .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
 }
 .scheme_minimalist .trade-race .buys {
@@ -557,8 +560,12 @@ body.scheme_minimalist,
 	color: #636A7C !important;
 	text-shadow: none !important;
 }
-/* for container 'Census' -> list of kittens in settlement tab */
-.scheme_minimalist .panelContainer div.sim {
+.scheme_minimalist .panelContainer div.censusFilters {
+	margin-bottom: 3px; /* for add a margin under the 2 lists (select) in the settlement tab */
+}
+/* ---------- Village ----------*/
+/* container 'Census' -> list of kittens in settlement tab */
+.scheme_minimalist .census-block {
 	background-color : rgba(61, 61, 80, 0.3); /* color #3D3D50 */
 	border-radius: 7px;
 	border-color: #33333C !important;
@@ -566,24 +573,42 @@ body.scheme_minimalist,
 	padding: 3px !important; /* default padding: 5px; */
 	margin-bottom: 3px !important; /* default margin-bottom: 5px; */
 }
-.scheme_minimalist .panelContainer div.sim.simLeader {
-	background-color : rgba(93, 86, 169, 0.4); /* color #5D56A9; */
+.scheme_minimalist .census-block.simLeader {
+	background-color : rgba(93, 86, 169, 0.3); /* color #5D56A9; */
 }
-.scheme_minimalist .panelContainer div.sim.simLeader a.leaderHref {
-	color: #DD836C;
+.scheme_minimalist .census-block.simLeader a.leaderHref {
+	color: #5D56A9;
 }
-.scheme_minimalist .panelContainer div.sim div { /* name of kitten */
+.scheme_minimalist .census-block .info { /* info of kitten */
 	color: #B6B4BE;
 }
-.scheme_minimalist .panelContainer div.sim span { /* jobs unasigned */
+.scheme_minimalist .census-block .skill { /* jobs unasigned */
 	color: #808080;
 }
-.scheme_minimalist .panelContainer div.sim span:first-of-type { /* job assigned */
-	color: #DD836C;
+.scheme_minimalist .census-block .skill:first-of-type { /* job assigned */
+	color: #5D56A9;
 	font-weight: normal !important;
 }
-.scheme_minimalist .panelContainer div.censusFilters {
-	margin-bottom: 3px; /* for add a margin under the 2 lists (select) in the settlement tab */
+.scheme_minimalist .census-block.simLeader .skill:first-of-type { /* Leader job assigned */
+	font-size: 1em; /* default font-size: 0.8em; */
+}
+.scheme_minimalist .census-block .color-none { /* name of kitten */
+    color: #B6B4BE;
+}
+.scheme_minimalist .census-block .color-brown {
+    color: #955628;
+}
+.scheme_minimalist .census-block .color-cream {
+    color: #c8ad7f;
+}
+.scheme_minimalist .census-block .color-black {
+    color: #614b3a;
+}
+.scheme_minimalist .census-block .color-fawn {
+    color: #ad4f09;
+}
+.scheme_minimalist .census-block .color-white {
+    color: #EEEEEE;
 }
 .scheme_minimalist .btn.modern a.bld-on,
 .scheme_minimalist .btn.modern a.auto-on,
@@ -604,6 +629,23 @@ body.scheme_minimalist,
 .scheme_minimalist .btn.modern:hover a.auto-off,
 .scheme_minimalist .btn.modern:hover a.fugit-off {
 	color: #d0172a;
+}
+.scheme_minimalist .btn.modern.craftOn .btnTitle { /* all buttons with engineer(s) in workshop tab */
+	color: #749148;	
+}
+.scheme_minimalist .btn.modern.craftOn:hover .btnTitle {
+	color: #90b23e;
+	text-shadow: 1px 1px 1px #181920;
+}
+.scheme_minimalist td.craftStuffPanel > span { /* title of craft stuff panel */
+	color: #DD836C;
+}
+.scheme_minimalist td.craftStuffPanel > table { /* craft stuff panel */
+	background-color : rgba(61, 61, 80, 0.3); /* color #3D3D50 */
+	border-radius: 7px;
+	border: solid 1px #33333C;
+	margin-top: 10px;
+	padding: 10px 20px; /* default padding-top: 20px; */
 }
 
 /**********************************************************/
@@ -682,6 +724,9 @@ body.scheme_minimalist,
 	top: 0;
 	margin-top: 16px;
 }
+.scheme_minimalist .toggleCenter {
+    opacity: 0.3; /* default opacity: 0.2; */
+}
 .scheme_minimalist #calendarDiv {
     color: #838592;
 	padding-left: 5px;
@@ -725,16 +770,21 @@ body.scheme_minimalist,
 .scheme_minimalist #pauseBtn { /* Link in right column : pawse */
 	margin-left: 5px;
 }
-.scheme_minimalist #gameLog {
-	margin-top: 6px;
+.scheme_minimalist div#gameLog {
+	/* default overflow-y: auto !important; */
+	margin: 6px 5px 5px 0;
 	border: 1px solid rgba(200, 200, 200, 0.5); /* color #C8C8C8 */
 	background: rgba (24, 25, 32, 0.8); /* color #181920 */
 	border-radius: 11px;
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.6);
 	padding: 0 4px 4px 4px;
+	min-height: 5% !important; 
+	height: unset !important;
+	max-height: calc(100% -80px) !important;
 }
 .scheme_minimalist #gameLog span.msg:not(.type_date)  {
-    margin-left: 1.2em;
+	font-size: 80%;
+	margin-left: 1.2em;
 	list-style-type: disc;
 	padding-left: 0.3em;
 }
@@ -743,7 +793,6 @@ body.scheme_minimalist,
 	list-style-type: '\25AA' !important; /* black small square */
 }
 .scheme_minimalist .msg {
-	font-size: 85%;
 	font-weight: 400; /* thin if possible with font sizes */
 	color: #B0B0B0;
 }
@@ -758,7 +807,7 @@ body.scheme_minimalist,
 }
 .scheme_minimalist .msg.type_date {
 	color: #DD836C;
-	font-size: 95%; /* default font size = font-size: 90%; */
+	/* default font size = font-size: 90%; */
 	text-transform: none;
 	text-shadow: 0 1px 0 rgba(12, 13, 16, 0.7); /* color #0C0D10 */
 	border-bottom: solid 1px #636A7C;
@@ -772,6 +821,9 @@ body.scheme_minimalist,
 	margin-top: 0;
 	max-width: 380px; /* -20px gained on res-table (12px) with border collapse and padding-right (8px). default max-width: 400px; */
 	padding-right: 12px; /* -8px gained on res-toolbar.right padding-right default padding right : 20px */
+}
+.scheme_minimalist a.link.collapse {
+    opacity: 0.5; /* default opacity: 0.2; */
 }
 .scheme_minimalist .res-table {
 	/* default max-width: 340px; */
@@ -849,7 +901,7 @@ body.scheme_minimalist,
 .scheme_minimalist .resPerTick,
 .scheme_minimalist .res-cell.resource-value,
 .scheme_minimalist .res-cell.craft-link {
-	font-stretch: condensed;
+	font-size: 14px;
 }
 .scheme_minimalist .maxRes {
 	color: #838493;
@@ -875,7 +927,7 @@ body.scheme_minimalist,
 	color: #5D56A9;
 }
 .scheme_minimalist .res-row.craftEngineer .res-cell.resource-value {
-	color: #DD836C;
+	color: #5D743A;
 }
 .scheme_minimalist .res-cell.resource-value {
 	/* default width: 75px; */
@@ -911,7 +963,6 @@ body.scheme_minimalist,
 	font-size: 90%; /* default font-size: 80%; */
 	opacity: 1; /* default opacity: 0.4; */
 	color: #DD836C;
-	font-stretch: normal;
 }
 
 /***************************************************/
