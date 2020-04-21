@@ -123,7 +123,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 1.05,
 				"autumn": 1.15,
 				"winter": 0.95
-			}},
+			}}
 		],
 		collapsed: false
 	},{

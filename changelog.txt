@@ -30,6 +30,7 @@ Minor:
 * Saves bigger than 5MB should now fit into the localstorage
 * Add option for even better compression, but generates save files incompatible with older versions
 * Players now have a small chance of getting a rare kitten
+* Make Molten Cores 10 times cheaper in science
 
 v 1.4.7.0
 Major:
