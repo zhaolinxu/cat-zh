@@ -1,8 +1,7 @@
 /**
- *			Fluid 1.0.0 Theme © Volkeyrn
+ *			Fluid 1.0.1 Theme © Volkeyrn
  */
- @import url(https://fonts.googleapis.com/css?family=Lato:ital,wght@300,300italic,400,400italic,700,700italic,900,900italic&display=swap);
- @import url(https://fonts.googleapis.com/css?family=Opens+Sans+Condensed:ital,wght@300,700,300italic&display=swap);
+ @import url(https://fonts.googleapis.com/css?family=Lato:ital,wght@300,400,400italic,700,700italic&display=swap);
 
 /**********************************************/
 /******************** GAME ********************/
@@ -381,8 +380,7 @@ body.scheme_fluid,
 }
 .scheme_fluid .btn.modern a {
 	color: #808080;
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-weight: normal;
+	font-weight: 300;
 	background-color: transparent; 
 	padding: 10px 2px 10px 2px !important; /* default :  padding: 10px 6px 10px 6px !important; */
 	/* default min-width: 20px; */
