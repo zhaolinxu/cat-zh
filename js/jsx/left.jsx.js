@@ -508,7 +508,7 @@ WResourceTable = React.createClass({
                 ),
                 $r("div", {className:"res-toolbar right"}, 
                     $r("a", {
-                        className:"link", 
+                        className: "link" + (this.state.isEditMode ? " toggled" : ""), 
                         onClick: this.toggleEdit
                     }, "⚙"),
                     $r(WTooltip, {body:"?"}, 
@@ -581,7 +581,7 @@ WCraftTable = React.createClass({
                 ),
                 $r("div", {className:"res-toolbar right"}, 
                     $r("a", {
-                        className:"link", 
+                        className: "link" + (this.state.isEditMode ? " toggled" : ""), 
                         onClick: this.toggleEdit
                     }, "⚙")
                 )

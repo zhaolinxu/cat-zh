@@ -566,19 +566,24 @@ label:hover {
     opacity: 0.7;
 }
 
-input[type="checkbox"] {
+#optionsDiv {
+    height: auto;
+    margin-top:-170px; 
+}
+
+#optionsDiv input[type="checkbox"] {
 	display: none;
 }
 
-input[type="checkbox"] + label:before {
-	content: "x";
+#optionsDiv input[type="checkbox"] + label:before {
+    content: "·";
 	display: inline-block;
 	font: 16px sans-serif;
 	margin: 0px 6px 0px 2px;
 }
 
-input[type="checkbox"]:checked + label:before {
-	content: "\2713";
+#optionsDiv input[type="checkbox"]:checked + label:before {
+	content: "v";
 	font: 12px sans-serif;
 }
 
@@ -845,12 +850,17 @@ a.link.collapse:hover {
 
 .res-toolbar {
     display: inline-block;
+    user-select: none;
 }
 
 .res-toolbar.right {
     text-align: right;
     margin-right:-18px;
     float: right;
+}
+
+.res-toolbar .link.toggled {
+    color: darkred;
 }
 
 .res-toolbar.left {
