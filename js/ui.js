@@ -493,7 +493,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.game.tooltipUpdateFunc();
         }
 
-        $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
+        //not relevant anymore
+        //$(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
 
         //wat
         /*React.render($r(WLeftPanel, {
@@ -795,7 +796,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         /*<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width:100%; height:450px;"></iframe>*/
         this.isChatActive = true;
-        this.isChatVisited = true;
+        //this.isChatVisited = true;
     },
 
     resetConsole: function(){
