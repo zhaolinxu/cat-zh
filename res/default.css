@@ -642,15 +642,33 @@ h1 {
 }
 
 .right-tab-header {
-    padding: 5px;
+    margin-top: 10px;
 }
 
 .right-tab-header a {
     padding: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .right-tab-header a.active {
     text-decoration: none;
+    border-top: 1px solid rgba(128,128,128, 0.4);
+
+    /*Looks a bit visually noisy - vvv*/
+
+    /*border-right: 1px solid rgba(128,128,128, 0.4);
+    border-left: 1px solid rgba(128,128,128, 0.4);*/
+}
+.right-tab-header a:not(.active) {
+    text-decoration: none;
+    /*border-bottom: 1px solid lightgray;*/
+}
+
+#observeButton {
+    text-align: center; 
+    margin-top: 15px; 
+    height: 30px;
 }
 
 .right-tab {
