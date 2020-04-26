@@ -2370,6 +2370,13 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 		this.inherited(arguments);
 		dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
+		
+        if  (this.model.x100Link.visible) {
+			dojo.addClass(this.x100.link,"rightestLink");
+			dojo.removeClass(this.x10.link,"rightestLink");
+        } else if (this.model.x10Link.visible) {
+            dojo.addClass(this.x10.link,"rightestLink");
+        }
 	}
 });
 
