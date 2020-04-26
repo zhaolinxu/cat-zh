@@ -7,10 +7,14 @@
 /**********************************************/
 /******************** GAME ********************/
 /**********************************************/
-body.scheme_minimalist,
+body.scheme_minimalist {
+	background-color: #0C0D10;
+}
+body.scheme_minimalist.with_background_image,
 .scheme_minimalist .help,
 .scheme_minimalist .dialog {
-	background: linear-gradient(90deg, #0C0D10 0%, #0C0D10 20%, #101115 35%, #181920 55%, #252732 100%);
+	background-color: #0C0D10;
+	background-image: linear-gradient(90deg, #0C0D10 0%, #0C0D10 20%, #101115 35%, #181920 55%, #252732 100%);
 }
 .scheme_minimalist #game,
 .scheme_minimalist #loadingContainer {
@@ -106,10 +110,14 @@ body.scheme_minimalist,
 .scheme_minimalist h1:first-child {
     margin-top: 0p;
 }
+.scheme_minimalist .modern .btnContent {
+    padding: 10px 0 10px 1px !important; /* 1px left for buttons without power background-image */
+}
 /*** green and red light for machine on/off ***/
 .scheme_minimalist .btn.bldEnabled div.btnContent,
 .scheme_minimalist .btn.bldlackResConvert div.btnContent {
-	border: none;
+	padding: 10px 0 10px 13px !important; /* 13px left for power background-image (linear-gradient) */
+	border: none;	
 }
 .scheme_minimalist .btn.disabled.bldlackResConvert { /* color #BE4151*/ /* color for lack resources convertion */	
 	background: no-repeat border-box linear-gradient(90deg, #BE4151 0%, #BE4151 10px, #21212B 12px, #21212B 50%, #313140 95%, #313140 100%);
@@ -393,9 +401,6 @@ body.scheme_minimalist,
 	box-shadow: 2px 3px 6px rgba(17, 138, 194, 1), /* color #118AC2; */
                  0 1px 0 #118AC2 !important;
 }
-.scheme_minimalist .modern .btnContent {
-    padding: 10px 0 10px 13px !important; /* 13px left for power background-image (linear-gradient) */
-}
 .scheme_minimalist .btn .btnContent a {
     max-width: 90px; /* default max-width: 50px; */
     /* default overflow-x: hidden; */
@@ -490,7 +495,7 @@ body.scheme_minimalist,
 	/* buttons border-radius: 7px; */
 	border-radius: 0 7px 7px 0;
 }
-.scheme_minimalist .btn.modern .btnContent a.rightestLink { /* for Combust TC button on Time tab */
+.scheme_minimalist .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab*/
 	border-radius: 0 7px 7px 0;
 }
 .scheme_minimalist .btn.modern.hasSellLink span.btnTitle + a { /* font larger for sell link */

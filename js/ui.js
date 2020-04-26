@@ -319,7 +319,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             if (this.activeTabId == tab.tabId){
 
                 var divContainer = dojo.create("div", {
-                    className: "tabInner"
+                    className: "tabInner " + tab.tabId
                 }, container);
 
                 tab.render(divContainer);

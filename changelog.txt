@@ -7,7 +7,7 @@ Major:
 * Do not refund AM if energy is negative
 
 Themes:
-* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist
+* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist, Oil
 * All themes except Classic and Inverted have to be unlocked (permanent unlock)
 * Add an option in order to hide background image (if applicable)
 * Theme will now apply to the loading screen
