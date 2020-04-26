@@ -1207,7 +1207,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				? game.challenges.currentChallenge == "energy" ? 2 : 1
 				: 0;
 		},
-		flavor: $I("buildings.oilWell.flavor")
+		flavor: $I("buildings.oilWell.flavor"),
+		unlockScheme: {
+			name: "oil",
+			threshold: 73
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
