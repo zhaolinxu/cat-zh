@@ -1388,6 +1388,7 @@
     "opts.theme": "カラースキーム",
     "opts.theme.default": "クラシック",
     "opts.theme.dark": "白黒反転",
+    "opts.theme.oledblack": "有機EL Black", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.lang": "言語",
     "opts.percentage": "パーセンテージ表示を使用する",
     "opts.percentage.desc": "秒単位表示の代わりに資源の最大限度からみた割合を%で表示します。",

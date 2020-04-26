@@ -1391,6 +1391,7 @@
     "opts.theme": "配色方案",
     "opts.theme.default": "经典",
     "opts.theme.dark": "翻转",
+    "opts.theme.oledblack": "数码黑", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.lang": "语言",
     "opts.percentage": "使用百分比数值",
     "opts.percentage.desc": "游戏数值将使用资源总量的 % 而不是每秒的产量来表示",

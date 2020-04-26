@@ -49,9 +49,25 @@
 			firebase.initializeApp(config);
 		</script>
 
+		<script>
+			/**
+			 * Workaround for IE9 local storage :V
+			 *
+			 * This fix is intended for IE in general and especially for IE9,
+			 * where localStorage is defined as system variable.
+			 *
+			 */
+
+			window.LCstorage = window.localStorage;
+			if (document.all && !window.localStorage) {
+				window.LCstorage = {};
+				window.LCstorage.removeItem = function () { };
+			}
+		</script>
+
 		<script type="text/javascript">
 
-			var version = "1470a";
+			var version = "1471";
 
 			// Warning: As the URL of gamma is contained in URLs of alpha and beta, gamma MUST be declared before them
 			var branches = {
@@ -101,9 +117,18 @@
 					return def.then(function(){
 						return loadModule(module);
 					}).catch(function(err){
-						console.error(err);
+						console.error("_import#: unable to load module:", module);
+						console.trace(err);
 					});
 				}
+			}
+
+			function loadTheme(themeId, timestamp){
+				$("<link />")
+					.attr("rel", "stylesheet")
+					.attr("type", "text/css")
+					.attr("href", "res/theme_" + themeId + ".css?_=" + timestamp)
+					.appendTo($("head"));
 			}
 
 			dojo.addOnLoad(function() {
@@ -158,11 +183,24 @@
 				progressMax = modules.length + 2;
 				console.log("Loading...");
 
+				//------ preload theme id ---------
+				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
+				var uiSettings = uiData && JSON.parse(uiData);
+				if (uiSettings){
+					if (uiSettings.theme){
+						$("body").addClass("scheme_" + uiSettings.theme);
+						loadTheme(uiSettings.theme, now);
+					}
+				}
+
 				var def = _import("config");
 				def.then(function() {
 					var schemes = new classes.KGConfig().statics.schemes;
 					for (var i = 0; i < schemes.length; ++i) {
-						$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/theme_" + schemes[i] + ".css?_=" + now).appendTo($("head"));
+						//todo: skip theme if preloaded
+						if (!uiSettings || uiSettings.theme != schemes[i]){
+							loadTheme(schemes[i], now);
+						}
 					}
 				});
 
@@ -350,8 +388,8 @@
 					Minor 7:
 						Time Boiler
 
-					Rev: 0
-						-
+					Rev: 1
+						UI
 
 				</pre>
 				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
@@ -359,7 +397,7 @@
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;Loading...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
 					<div id="loadingProgressInfo">Setting up game engine...</div>
@@ -403,10 +441,10 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>&nbsp;|
+						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>
 						<a id="chatLink" class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>
 					</div>
-					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
+					<div id="observeButton"></div>
 					<div class="right-tab" id="rightTabLog">
 						<div>
 							<div class="console-intro" style="padding-top: 10px; border-top: 1px solid gray;">
@@ -468,7 +506,7 @@
 			</div>
 
 
-			<div id="optionsDiv" style="display: none; height: 380px; margin-top:-190px" class="dialog help">
+			<div id="optionsDiv" style="display: none;" class="dialog help">
 				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="languageSelector">Language:</label>
@@ -480,7 +518,7 @@
 				<br>
 
 				<label for="schemeToggle">Color scheme:</label>
-				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
+				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select>
 				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
 				<br><i><span style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
@@ -529,10 +567,14 @@
 					<label for="disableTelemetry">Disable game statistics.</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-					<label for="enableRedshift" style="font-size: 8px;">Enable offline progression (Experimental)</label>
+					<label for="enableRedshift">Enable offline progression</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
-					<label for="forceLZ" style="font-size: 8px;">Always compress save files (Experimental)</label>
+					<label for="forceLZ" style="font-size: 75%;">Always compress in-memory save <i>(experimental)</i></label>
+					<br>
+					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
+					<label for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
+						WARNING: it generates save files that are NOT COMPATIBLE with older versions, like mobile versions.</i></label>
 				</div>
 
 				<br>

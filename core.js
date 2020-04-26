@@ -901,7 +901,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//		a bit hackish place for price highlight
 		//---------------------------------------------------
 		//---- now highlight some stuff in vanilla js way ---
-		this.buttonTitle.className = this.model.resourceIsLimited ? "limited" : "";
+		this.buttonTitle.className = "btnTitle" + (this.model.resourceIsLimited ? " limited" : "");
 	},
 
 	update: function() {
@@ -942,6 +942,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 
 		this.buttonTitle = dojo.create("span", {
 			innerHTML: this.model.name,
+			className: "btnTitle",
 			style: {}
 		}, this.buttonContent);
 
@@ -1036,10 +1037,11 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	//Fast access snippet to create button links like "on", "off", "sell", etc.
 	addLink: function(linkModel) {
 
+		var longTitleClass = (linkModel.title.length > 3) ? "small" : "";
 		var link = dojo.create("a", {
 				href: "#",
 				innerHTML: linkModel.title,
-				className: linkModel.cssClass ? linkModel.cssClass : "",
+				className: longTitleClass + (linkModel.cssClass ? (" " + linkModel.cssClass) : ""),
 				style:{
 					paddingLeft: "2px",
 					float: "right",
@@ -1102,11 +1104,13 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		//------------- root href --------------
 		var link = dojo.create("a", {
 			href: "#",
+			className: links[0].id ? (links[0].id + "Link") : "",
 			style: {
 				display: "block",
 				float: "right"
 			},
-			innerHTML: links[0].title
+			innerHTML: links[0].title,
+			title: links[0].alt || links[0].title
 		}, linksDiv);
 
 		linksTooltip.style.left = link.offsetLeft;	//hack hack hack
@@ -1136,6 +1140,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 			var link = dojo.create("a", {
 				href: "#",
 				innerHTML: links[i].title,
+				title: links[i].alt || links[i].title,
 				className:"dropdown-link",
 				style:{
 					display: "block",
@@ -1397,6 +1402,14 @@ ButtonModernHelper = {
 			innerHTML: model.description,
 			className: "desc"
 		}, tooltip);
+
+
+		if (model.metadata && model.metadata.isAutomationEnabled !== undefined){	//TODO: use proper metadata flag
+			var descDiv = dojo.create("div", {
+				innerHTML: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
+				className: "desc small" + (model.metadata.isAutomationEnabled ? " auto-on" : " auto-off")
+			}, tooltip);
+		}
 
 		var prices = model.priceModels;
 		var effects = model.effectModels;
@@ -1830,6 +1843,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 					}
 				});
 				//var sellLinkAdded = true;
+				dojo.addClass(this.domNode, "hasSellLink");
 			}
 		}
 

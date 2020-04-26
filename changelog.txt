@@ -1,4 +1,4 @@
-v 1.4.7.0.b
+v 1.4.7.1 (19 apr 2020)
 Major:
 * Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
 * Improve kittens' save compression
@@ -7,9 +7,10 @@ Major:
 * Do not refund AM if energy is negative
 
 Themes:
-* New themes: Gold, Space, Wood, School, Fluid, Vessel
+* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist
 * All themes except Classic and Inverted have to be unlocked (permanent unlock)
 * Add an option in order to hide background image (if applicable)
+* Theme will now apply to the loading screen
 
 Minor:
 * Add confirmation pop-up for present box unwrapping
@@ -25,6 +26,11 @@ Minor:
 * Fix base skill XP not being multiplied by number of ticks in case of offline progression
 * Remove regular faith consumption by OotV, making it a pure bonus as originally implemented
 * Fix confusion about regular faith in left column vs. accumulated faith in Order of the Sun panel (all languages)
+* Fixed a lot of visual issues related to large resource values, layout and localization
+* Saves bigger than 5MB should now fit into the localstorage
+* Add option for even better compression, but generates save files incompatible with older versions
+* Players now have a small chance of getting a rare kitten
+* Make Molten Cores 10 times cheaper in science
 
 v 1.4.7.0
 Major:

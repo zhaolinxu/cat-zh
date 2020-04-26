@@ -928,9 +928,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 
 
-		var expandAll = dojo.create("a", { innerHTML: "Expand all", href: "#" }, expandDiv);
+		var expandAll = dojo.create("a", { innerHTML: $I("common.expand.all"), href: "#" }, expandDiv);
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
-		var collapseAll = dojo.create("a", { innerHTML: "Collapse all", href: "#" }, expandDiv);
+		var collapseAll = dojo.create("a", { innerHTML: $I("common.collapse.all"), href: "#" }, expandDiv);
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 

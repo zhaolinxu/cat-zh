@@ -1387,6 +1387,7 @@
     "opts.theme":"Schemat kolorów",
     "opts.theme.default":"Klasyczny",
     "opts.theme.dark":"Odwrócone",
+    "opts.theme.oledblack":"OLED Czarny", "opts.theme.oledblack_comment": "Used for mobile",
     "opts.lang":"Język",
     "opts.percentage":"Użyj wartości procentowych",
     "opts.percentage.desc":"Gra użyje % całkowitych wartości zasobów, zamiast wartości na sekundę.",

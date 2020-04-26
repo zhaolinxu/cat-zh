@@ -286,13 +286,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             var tabLink = dojo.create("a", {
                 href:"#",
                 innerHTML: tab.tabName,
-                className: "tab",
+                className: "tab " + tab.tabId,
                 style : {
                     whiteSpace: "nowrap"
                 }
             }, tabNavigationDiv);
             tab.domNode = tabLink;
-
+            
             if (this.activeTabId == tab.tabId){
                 dojo.addClass(tabLink, "activeTab");
             }
@@ -312,7 +312,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
             }
         }
-
 
         for (var i = 0; i < game.tabs.length; i++){
             var tab = game.tabs[i];
@@ -377,7 +376,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 					dojo.style(cycleSpan, "paddingBottom", "4px");
 
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Effects:",
+						innerHTML: $I("cycle.effects.title") + ":",
 						style: { textAlign: "center", paddingTop: "4px"}
 					}, tooltip );
 
@@ -494,7 +493,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             this.game.tooltipUpdateFunc();
         }
 
-        $(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
+        //not relevant anymore
+        //$(".chatLink").css("font-weight", this.isChatVisited ? "normal" : "bold");
 
         //wat
         /*React.render($r(WLeftPanel, {
@@ -511,7 +511,27 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			if (tab.tabId == this.activeTabId){
 				tab.update();
 			}
-		}
+        }
+        if (this.game.village.leader && this.game.village.leader.trait.name) {
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");		
+            switch (this.game.village.leader.trait.name) {
+                case "engineer": // Crafting bonus
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
+                    break;
+                case "merchant": // Trading bonus
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus");
+                    break;
+                case "manager": // Hunting bonus
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus");
+                    break;
+                case "scientist": // Science prices bonus
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus");
+                    break;
+                case "wise": // Religion bonus
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
+                    break;
+                }	
+        }
 	},
 
     updateFastHunt: function(){
@@ -666,6 +686,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#hideSell")[0].checked = game.opts.hideSell;
         $("#hideBGImage")[0].checked = game.opts.hideBGImage;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
+        $("#forceLZ")[0].checked = game.opts.forceLZ;
+        $("#compressSaveFile")[0].checked = game.opts.compressSaveFile;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
@@ -774,7 +796,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //swfobject.embedSWF("lib/lightirc/lightIRC.swf", $chat[0], 600, height - 150, 10, "lib/lightirc/expressInstall.swf", params);
         /*<iframe src="https://kiwiirc.com/client/irc.canternet.org/?nick=kitten_?#kittensgame" style="border:0; width:100%; height:450px;"></iframe>*/
         this.isChatActive = true;
-        this.isChatVisited = true;
+        //this.isChatVisited = true;
     },
 
     resetConsole: function(){
@@ -955,7 +977,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
-           isChatVisited: this.isChatVisited
+           isChatVisited: this.isChatVisited,
+           theme: this.game.colorScheme
         });
     },
 

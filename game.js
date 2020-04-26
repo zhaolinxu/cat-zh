@@ -241,55 +241,55 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					//title to be displayed for effect, id if not defined
 					title: restitle,
 					//effect will be hidden if resource is not unlocked
-					resname: resname,
+					resName: resname,
 					//value will be affected by opts.usePerSecondValues
 					type: "perTick"
 				};
 			case type == "PerTick":
 				return {
 					title: restitle,
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case type == "Max":
 				return {
 					title: $I("effectsMgr.type.resMax", [restitle]),
-					resname: resname
+					resName: resname
 				};
 			case type == "Ratio":
 				return {
 					title: $I("effectsMgr.type.resRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case type == "DemandRatio":
 				return {
 					title: $I("effectsMgr.type.resDemandRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case (type == "PerTickBase" || type == "PerTickBaseSpace"):
 				return {
 					title: $I("effectsMgr.type.resProduction", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case (type == "PerTickCon" || type == "PerTickAutoprod" || type == "PerTickProd" || type == "PerTickSpace" || type == "PerTickAutoprodSpace"):
 				return {
 					title: $I("effectsMgr.type.resConversion", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "perTick"
 				};
 			case type == "CraftRatio":
 				return {
 					title: $I("effectsMgr.type.resCraftRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			case type == "GlobalCraftRatio":
 				return {
 					title: $I("effectsMgr.type.resGlobalCraftRatio", [restitle]),
-					resname: resname,
+					resName: resname,
 					type: "ratio"
 				};
 			default:
@@ -514,7 +514,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
             "catnipMaxRatio" : {
                 title: $I("effectsMgr.statics.catnipMaxRatio.title"),
-                type: "ratio"
+				type: "ratio",
+				resName:"catnip"
             },
 
             "hunterRatio" : {
@@ -1019,7 +1020,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"terraformingMaxKittensRatio": {
 				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
-				type: "ratio"
+				type: "ratio",
+				calculation: "nonProportional"
 			}
 		}
 	}
@@ -1164,8 +1166,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			enableRedshift: false,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1429,8 +1431,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			enableRedshift: false,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
-			//if true, save file will always be compressed
-			forceLZ: false
+			forceLZ: false,
+			compressSaveFile: false
 		};
 
 		this.resPool.resetState();
@@ -1496,9 +1498,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var saveDataString = JSON.stringify(saveData);
 		//5mb limit workaround
-		if ((saveDataString.length > 5000000 || this.opts.forceLZ) && LZString.compressToBase64) {
+		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = LZString.compressToBase64(saveDataString);
+			saveDataString = this.compressLZData(saveDataString);	
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1532,8 +1534,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.render();
 	},
 
-	toggleScheme: function(){
-		this.colorScheme = dojo.byId("schemeToggle").value;
+	toggleScheme: function(themeId){
+		this.colorScheme = themeId;
 		this.updateOptionsUI();
 	},
 
@@ -1555,15 +1557,36 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         this._publish("game/options", this);
 	},
 
+	/**
+	 * Returns a save data JSON from a base64 or utf16 compressed lz blob
+	 * Use this instead of LZString.decompressX
+	 */
+	decompressLZData: function(lzData) {
+		return lzData.slice(0, 16) == "N4IgzghgbgpgajAT"
+			? LZString.decompressFromBase64(lzData)
+			: LZString.decompressFromUTF16(lzData);
+	},
+
+	compressLZData: function(json, useBase64) {
+		//todo check game compatibility flags
+		//console.log("base64 length:", LZString.compressToBase64(json).length, "utf-16 length:", LZString.compressToUTF16(json).length);
+		return useBase64
+			? LZString.compressToBase64(json)
+			: LZString.compressToUTF16(json);
+	},
+
 	_parseLSSaveData: function(){
-		var data = LCstorage["com.nuclearunicorn.kittengame.savedata"];
+		var data = null;
+		var localStorageData = LCstorage["com.nuclearunicorn.kittengame.savedata"];
 
-		if (data && data[0] != '{'){
-			console.log("base-64 save detected, decompressing...");
-			data = LZString.decompressFromBase64(data);
+		if (localStorageData && localStorageData[0] == '{'){
+			data = localStorageData;
+		} else {
+			data = this.decompressLZData(localStorageData);
 		}
-
 		var saveData = JSON.parse(data);
+		
+		console.log("Parse complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
 
@@ -1671,13 +1694,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var data = this.save();
 		data = JSON.stringify(data);
 
-        var encodedData;
-        if (LZString.compressToBase64) {
-            encodedData = LZString.compressToBase64(data);
-        } else {
-            encodedData = btoa(data);
-        }
-
+        var encodedData = this.compressLZData(data, true /*base64*/);
         this.ui.saveExport(encodedData);
 
 	},
@@ -1699,7 +1716,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var $link = $('#download-link');
 
         var data = JSON.stringify(this.save());
-        var lzdata = LZString.compressToBase64(data);
+        var lzdata = this.compressLZData(data, true /*base64*/);
         var blob = new Blob([lzdata], {type: 'text/plain'});
         $link.attr('href', window.URL.createObjectURL(blob));
 
@@ -1717,7 +1734,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.save();
 		var data = this.save();
 		data = JSON.stringify(data);
-		var lzdata = LZString.compressToBase64(data);
+		var lzdata = this.compressLZData(data, true /*base64*/);
 
 
         var callback = function() {
@@ -1809,8 +1826,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//TODO: add some additional checks and stuff?
 	_loadSaveJson: function(lzdata, callback){
         try {
-    		var json = LZString.decompressFromBase64(lzdata);
-    		LCstorage["com.nuclearunicorn.kittengame.savedata"] = json;
+			var jsonString = this.decompressLZData(lzdata);
+			if (jsonString && jsonString[0] == '{'){
+				LCstorage["com.nuclearunicorn.kittengame.savedata"] = lzdata;
+			} else {
+				throw "Integrity check failure";
+			}
 
     		this.load();
     		this.msg($I("save.import.msg"));
@@ -1819,7 +1840,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
             callback();
         } catch (e) {
-            console.log("Couldn't import the save of the game:"+e.stack);
+            console.log("Couldn't import the save of the game:", e.stack);
             callback(e);
         }
 	},

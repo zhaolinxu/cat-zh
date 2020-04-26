@@ -2825,7 +2825,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		//resources go there
-		var td = dojo.create("td", { style: {paddingLeft: "50px"}}, table);
+		var td = dojo.create("td", { className: "craftStuffPanel", style: {paddingLeft: "50px"}}, table);
 		this.resTd = td;
 		this.renderResources(this.resTd);
 
@@ -2867,9 +2867,15 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	update: function(){
 		this.inherited(arguments);
-
+		
 		for (var i = this.craftBtns.length - 1; i >= 0; i--) {
-			this.craftBtns[i].update();
+			var craftBtn = this.craftBtns[i];
+			craftBtn.update();
+			if (craftBtn.model.craft.value > 0 ) {
+				dojo.addClass(craftBtn.domNode, "craftOn")
+			} else {
+				dojo.removeClass(craftBtn.domNode,"craftOn")
+			}
 		}
 
 		if (this.resTd){
