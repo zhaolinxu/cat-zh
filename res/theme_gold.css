@@ -519,7 +519,7 @@ body.scheme_gold {
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_gold #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 }
