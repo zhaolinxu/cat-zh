@@ -2127,7 +2127,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		if (leader){
 			var title = leader.trait.name == "none" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
-			leaderInfo = this.getStyledName(leader) + ", " + title +
+			leaderInfo = this.getStyledName(leader, true /*is leader*/) + ", " + title +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if( nextRank > leader.exp) {
@@ -2253,12 +2253,12 @@ dojo.declare("classes.ui.village.Census", null, {
 		}
 	},
 
-	getStyledName: function(kitten){
-		return "<span class='color-" + 
+	getStyledName: function(kitten, isLeader){
+		return "<span class='name color-" + 
 			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
 			" variety-" + ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
 			"'>" +
-			":3 " + kitten.name + " " + kitten.surname +
+			(isLeader ? "" : ":3 ") + kitten.name + " " + kitten.surname +
 		"</span>";
 	},
 
