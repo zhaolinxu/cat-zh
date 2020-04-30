@@ -2127,7 +2127,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		if (leader){
 			var title = leader.trait.name == "none" ? $I("village.census.trait.none") : leader.trait.title + " (" + this.game.village.getLeaderDescription(leader.trait.name) + ") [" + $I("village.census.rank")+" " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
-			leaderInfo = leader.name + " " + leader.surname + ", " + title +
+			leaderInfo = this.getStyledName(leader) + ", " + title +
 				"<br> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if( nextRank > leader.exp) {
@@ -2253,6 +2253,15 @@ dojo.declare("classes.ui.village.Census", null, {
 		}
 	},
 
+	getStyledName: function(kitten){
+		return "<span class='color-" + 
+			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
+			" variety-" ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
+			"'>" +
+			":3 " + kitten.name + " " + kitten.surname +
+		"</span>";
+	},
+
 	update: function(){
 
 		//update leader stats
@@ -2285,12 +2294,7 @@ dojo.declare("classes.ui.village.Census", null, {
 			}*/
 
 			record.content.innerHTML =
-				"<div class='info'><span class='color-" + 
-					((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
-					" variety-" ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
-					"'>" +
-					":3 " + kitten.name + " " + kitten.surname +
-				"</span>" +
+				"<div class='info'>" + this.getStyledName(kitten) +
 				 ", " + kitten.age + " years old, "
             	+ kitten.trait["title"]
             	+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")") + "</div>";
