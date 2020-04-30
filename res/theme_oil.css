@@ -35,9 +35,6 @@ body.scheme_oil,
 	background-color: transparent;
 	border: solid 1px transparent;
 }
-.scheme_oil .btn:hover {
-	border: solid 1px transparent;
-}
 .scheme_oil .btn.modern {
 	/* default font-size: 14px; */
 	border-radius: 13px;
@@ -118,23 +115,14 @@ body.scheme_oil,
 	background: no-repeat local left 3px top 8px url('img/theme_oil_drop_on.png'); /* source of images for graphic design : https://pngtree.com/freepng/cartoon-oil-drop-product_4438330.html Volkeyrn: permanent premium member */
 }
 /*** end of green light for machine on ***/
-.scheme_oil,
-.scheme_oil .help { /* window options and version */
-	color: #ABAEB7;
-	overflow: hidden;
-}
-.scheme_oil .help,
 .scheme_oil .dialog {
 	box-shadow: inset 1px 1px 4px #fc8d00, inset -1px -1px 3px rgba(252, 141, 0, 0.5),
 	-1px -1px 3px #ffc900, 1px 1px 3px #292929, 0 0 0 9999px rgba(0, 0, 0, 0.9);
-	height: auto !important;
-    top: 40% !important;
 	border: solid 1px #ffc900;
 	border-right-color: rgba(255, 201, 0, 0.7);
 	border-bottom-color: rgba(255, 201, 0, 0.7);
 	border-radius: 19px;
 }
-.scheme_oil .help a,
 .scheme_oil .dialog a {
     font-weight: bold;
 }
@@ -293,7 +281,6 @@ body.scheme_oil,
 }
 .scheme_oil #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
     color: #fc8d00;
-	font-size: 18px;
 	padding-right: 7px;
 }
 
@@ -365,7 +352,6 @@ body.scheme_oil,
 	-1px -1px 1px #797979, 1px 1px 1px #191919 !important;
     border: solid 1px transparent !important; /* for no offset when border on */
     border-radius: 7px !important;
-    outline: 0 !important;
 	color: #D9D9D9;
 	padding: 5px 20px;
 	font-weight: normal !important;
@@ -713,7 +699,7 @@ body.scheme_oil,
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_oil #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 	top: 20px; /*default top: 20px; */
@@ -858,7 +844,7 @@ body.scheme_oil,
 .scheme_oil div.tooltip-block:hover > span {
 	font-weight: bold;
 }
-.res-toolbar .link.toggled {
+.scheme_oil .res-toolbar .link.toggled {
     color: #ffc900;
 }
 .scheme_oil .res-table {
