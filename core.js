@@ -1036,7 +1036,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 	//Fast access snippet to create button links like "on", "off", "sell", etc.
 	addLink: function(linkModel) {
 
-		var longTitleClass = (linkModel.title.length > 3) ? "small" : "";
+		var longTitleClass = (linkModel.title.length > 4) ? "small" : "";
 		var link = dojo.create("a", {
 				href: "#",
 				innerHTML: linkModel.title,

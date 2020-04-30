@@ -99,7 +99,8 @@ img.loader {
 }
 
 #rightColumn {
-    width: 250px;
+    min-width: 250px;
+    max-width: 400px;
     vertical-align: top;
     padding-left: 8px;
     top: 20px;
@@ -945,7 +946,7 @@ a.link.collapse:hover {
 }
 
 .res-cell.craft-link.all{
-    font-size: 80%;
+    font-size: 85%;
     opacity: 0.4;
 }
 
@@ -1001,19 +1002,19 @@ a.link.collapse:hover {
     font-size: 0.8em;
 }
    
-.census-block .color-brown {
+.name.color-brown {
     color:#856341;
 }
-.census-block .color-cream {
+.name.color-cream {
     color:lightcoral;
 }
-.census-block .color-black {
+.name.color-black {
     color:darkgrey;
 }
-.census-block .color-fawn {
+.name.color-fawn {
     color:gainsboro;
 }
-.census-block .color-white {
+.name.color-white {
     color:floralwhite
 }
 

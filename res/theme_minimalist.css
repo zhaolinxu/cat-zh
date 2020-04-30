@@ -720,7 +720,7 @@ body.scheme_minimalist.with_background_image,
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_minimalist #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 	top: 0;

@@ -585,7 +585,7 @@ body.scheme_fluid,
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_fluid #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 	background-image: url('img/theme_fluid_border_left_background.png');

@@ -46,14 +46,7 @@ body.scheme_wood {
 	border: solid 1px #EFEBDB; 
 	color: gray;	
 }
-.scheme_wood .btn:not(.disabled):hover span[class='']{ 
-	color: rgba(239, 235, 219, 0.8) !important; /* color #EFEBDB */
-	text-shadow: 0px 1px 0px rgba(62, 48, 42,0.8); /* color #3E302A */
-	font-weight: bold;
-}
-/* for buttons on settlement tab : manage job & promote kittens & unwrap present box */
-/* because selector :: .scheme_wood .btn:not(.disabled):hover span[class=''] doesn't work for us! */
-.scheme_wood .panelContainer .container .btn.modern:not(.disabled):hover span{
+.scheme_wood .btn:not(.disabled):hover span.btnTitle { 
 	color: rgba(239, 235, 219, 0.8) !important; /* color #EFEBDB */
 	text-shadow: 0px 1px 0px rgba(62, 48, 42,0.8); /* color #3E302A */
 	font-weight: bold;
@@ -474,7 +467,7 @@ body.scheme_wood {
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_wood #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 }
