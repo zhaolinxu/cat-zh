@@ -2256,7 +2256,7 @@ dojo.declare("classes.ui.village.Census", null, {
 	getStyledName: function(kitten){
 		return "<span class='color-" + 
 			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
-			" variety-" ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
+			" variety-" + ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
 			"'>" +
 			":3 " + kitten.name + " " + kitten.surname +
 		"</span>";
