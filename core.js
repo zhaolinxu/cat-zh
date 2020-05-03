@@ -1356,20 +1356,18 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		}
 	},
 
-	_precraftRes: function(price){
-		if (price.children){
-			for (var i in price.children){
+	_precraftRes: function(price) {
+		if (price.children) {
+			for (var i in price.children) {
 				this._precraftRes(price.children[i]);
 			}
 		}
 
 		var res = this.game.resPool.get(price.name);
-		if (res.craftable && res.name != "wood" && this.game.workshop.getCraft(price.name).unlocked){
-
-			var ratio = this.game.getResCraftRatio(res);
+		if (res.craftable && res.name != "wood" && this.game.workshop.getCraft(res.name).unlocked) {
 			var amt = price.val - res.value;
-			if (amt > 0){
-				var baseAmt = amt / ratio;
+			if (amt > 0) {
+				var baseAmt = amt / (1 + this.game.getResCraftRatio(res));
 				this.game.workshop.craft(res.name, baseAmt, false /*no undo*/, true /*force all*/);
 			}
 		}
