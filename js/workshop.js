@@ -2204,7 +2204,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
-		var craftRatio = this.game.getResCraftRatio({name:res});
+		var craftRatio = this.game.getResCraftRatio(res);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
@@ -2269,7 +2269,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
 			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
 
-			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
+			return afterCraft ? effectPerTick * this.game.getResCraftRatio(resName) : effectPerTick;
 		}
 	},
 
@@ -2279,7 +2279,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
-			var craftRatio = this.game.getResCraftRatio(res);
+			var craftRatio = this.game.getResCraftRatio(metaId);
 			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
 		}
     },
@@ -2307,13 +2307,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//Crafts maximum possible amount for given recipe name
 	craftAll: function(craftName) {
 		var minAmt = this.getCraftAllCount(craftName);
-		if (minAmt > 0 && minAmt < Number.MAX_VALUE) {
-			var craftRatio = this.game.getResCraftRatio({name:craftName});
-			var bonus = minAmt * craftRatio;
-
+		if (0 < minAmt && minAmt < Number.MAX_VALUE) {
+			var craftRatio = this.game.getResCraftRatio(craftName);
 			var res = this.game.resPool.get(craftName);
 			if (this.craft(craftName, minAmt, false /* allow undo */, false /* don't force all */, true /* bypass resource check */)) {
-				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
+				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt * (1 + craftRatio)), (res.title || craftName)]), null, "craft");
 			}
 		}
 	},
@@ -2511,12 +2509,12 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 		}
 	},
 
-	getDescription: function(model){
+	getDescription: function(model) {
 		var craft = model.craft;
 		var desc = craft.description;
 
-		var craftBonus = this.game.getResCraftRatio(craft);
-		if (craft.name != "wood"){
+		var craftBonus = this.game.getResCraftRatio(craft.name);
+		if (craft.name != "wood") {
 			craftBonus -= this.game.getCraftRatio();
 		}
 

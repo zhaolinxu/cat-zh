@@ -1229,7 +1229,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		if (!hasRes && res.craftable && !simpleUI && res.name != "wood"){
 			var craft = this.game.workshop.getCraft(res.name);
 			if (craft.unlocked) {
-				var craftRatio = this.game.getResCraftRatio(res);
+				var craftRatio = this.game.getResCraftRatio(res.name);
 				result.title = "+ " + result.title;
 				result.children = [];
 
@@ -1367,7 +1367,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		if (res.craftable && res.name != "wood" && this.game.workshop.getCraft(res.name).unlocked) {
 			var amt = price.val - res.value;
 			if (amt > 0) {
-				var baseAmt = amt / (1 + this.game.getResCraftRatio(res));
+				var baseAmt = amt / (1 + this.game.getResCraftRatio(res.name));
 				this.game.workshop.craft(res.name, baseAmt, false /*no undo*/, true /*force all*/);
 			}
 		}

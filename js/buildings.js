@@ -2042,9 +2042,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.game.resPool.get("catnip").value++;
 	},
 
-	refineCatnip: function(){
-		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-		this.game.resPool.addResEvent("wood", (1 * craftRatio));
+	refineCatnip: function() {
+		var craftRatio = this.game.getResCraftRatio("wood");
+		this.game.resPool.addResEvent("wood", 1 + craftRatio);
 	},
 
 	fastforward: function(daysOffset) {
@@ -2199,14 +2199,14 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var catnipCost = model.prices[0].val;
 
-		if (catnipVal < (catnipCost * 100)){
+		if (catnipVal < 100 * catnipCost) {
 			this.game.msg("not enough catnip!");
 		}
 
-		this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
+		this.game.resPool.addResEvent("catnip", -100 * catnipCost);
 
-		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-		this.game.resPool.addResEvent("wood", (100 * craftRatio));
+		var craftRatio = this.game.getResCraftRatio("wood");
+		this.game.resPool.addResEvent("wood", 100 * (1 + craftRatio));
 	}
 });
 
