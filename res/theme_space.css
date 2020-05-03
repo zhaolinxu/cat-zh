@@ -44,14 +44,8 @@ body.scheme_space.with_background_image {
 	border: solid 1px #0E8B94;
 	color: gray;	
 }
-.scheme_space .btn:not(.disabled):hover span[class=""]{
+.scheme_space .btn:not(.disabled):hover span.btnTitle {
 	color: #081644 !important;
-	font-weight: 800;
-}
-/* for buttons on settlement tab : manage job & promote kittens & unwrap present box */
-/* because selector :: .scheme_sleek .btn:not(.disabled):hover span[class=''] doesn't work for us! */
-.scheme_space .panelContainer .container .btn.modern:not(.disabled):hover span{
-	color: #081644 !important; 
 	font-weight: 800;
 }
 .scheme_space .highlited { /* higlighting ressources when hover button on center windows */
@@ -441,7 +435,7 @@ body.scheme_space.with_background_image {
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_space #rightColumn {
-	width: 21%;
+	width: 25%;
     max-width: 400px;
     min-width: 250px;
 }

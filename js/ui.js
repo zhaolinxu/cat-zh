@@ -319,7 +319,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             if (this.activeTabId == tab.tabId){
 
                 var divContainer = dojo.create("div", {
-                    className: "tabInner"
+                    className: "tabInner " + tab.tabId
                 }, container);
 
                 tab.render(divContainer);
@@ -512,10 +512,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				tab.update();
 			}
         }
-        if (this.game.village.leader && this.game.village.leader.trait.name) {
+        if (this.game.village.leader) {
             dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");		
             switch (this.game.village.leader.trait.name) {
-                case "engineer": // Crafting bonus
+                case "engineer": // Crafting bonuses
+                case "metallurgist":
+                case "chemist":
                     dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
                     break;
                 case "merchant": // Trading bonus

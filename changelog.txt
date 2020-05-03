@@ -1,3 +1,14 @@
+v 1.4.8.0 (?? may 2020)
+Major:
+* Fix precrafted amount
+* Implement Metallurgist and Chemist traits
+
+Minor:
+* Gear icon will now have a toggle indicator
+* Fix options dialog overflow
+* Clear up checkbox indicators
+* Clear up chat/log slightly
+
 v 1.4.7.1 (19 apr 2020)
 Major:
 * Allow to burn paragon without breaking Iron Will mode if insane Space Oddity has already been achieved
@@ -7,7 +18,7 @@ Major:
 * Do not refund AM if energy is negative
 
 Themes:
-* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist
+* New themes: Gold, Space, Wood, School, Fluid, Vessel, Minimalist, Oil
 * All themes except Classic and Inverted have to be unlocked (permanent unlock)
 * Add an option in order to hide background image (if applicable)
 * Theme will now apply to the loading screen
@@ -26,7 +37,7 @@ Minor:
 * Fix base skill XP not being multiplied by number of ticks in case of offline progression
 * Remove regular faith consumption by OotV, making it a pure bonus as originally implemented
 * Fix confusion about regular faith in left column vs. accumulated faith in Order of the Sun panel (all languages)
-* Fixed a lot of visual issues related to large resource values, layout and localization
+* Fix a lot of visual issues related to large resource values, layout and localization
 * Saves bigger than 5MB should now fit into the localstorage
 * Add option for even better compression, but generates save files incompatible with older versions
 * Players now have a small chance of getting a rare kitten

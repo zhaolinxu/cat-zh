@@ -1020,7 +1020,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					);
 					self.effects["ironPerTickCon"]*=amt;
 					self.effects["coalPerTickCon"]*=amt;
-					self.effects["steelPerTickProd"]*=(amt*(1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus")));
+					// Automated production, metallurgist leader won't help here
+					self.effects["steelPerTickProd"] *= amt * (1 + game.getCraftRatio() * game.getEffect("calcinerSteelCraftRatio") + game.bld.get("reactor").on * game.getEffect("calcinerSteelReactorBonus"));
 
 					amtFinal = (amtFinal + amt) / 2;
 				}
@@ -1086,7 +1087,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			// Cap automation at 90% of resource cap to prevent trying to craft more than you have
 			var automationRate = Math.min(baseAutomationRate * (self.on + 1), 0.9);
 
-			function newCrafter(consumedResource, craftedResourceName, isAllowed) {
+			var newCrafter = function(consumedResource, craftedResourceName, isAllowed) {
 				var consumedQuantity = consumedResource.value * automationRate;
 				return {
 					numberOfCrafts: isAllowed && consumedResource.value >= consumedResource.maxValue * (1 - baseAutomationRate)
@@ -1095,6 +1096,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					craft: function() {
 						if (this.numberOfCrafts > 0) {
 							game.workshop.craft(craftedResourceName, this.numberOfCrafts);
+							// Automated production, metallurgist leader won't help here
 							game.msg($I("bld.msg.automation." + craftedResourceName + "s", [game.getDisplayValueExt(consumedQuantity), game.getDisplayValueExt(this.numberOfCrafts * (1 + game.getCraftRatio()))]), null, "workshopAutomation", true);
 						}
 					}
@@ -1207,7 +1209,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				? game.challenges.currentChallenge == "energy" ? 2 : 1
 				: 0;
 		},
-		flavor: $I("buildings.oilWell.flavor")
+		flavor: $I("buildings.oilWell.flavor"),
+		unlockScheme: {
+			name: "oil",
+			threshold: 73
+		}
 	},
 	//----------------------------------- Other ----------------------------------------
 	{
@@ -2038,9 +2044,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.game.resPool.get("catnip").value++;
 	},
 
-	refineCatnip: function(){
-		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-		this.game.resPool.addResEvent("wood", (1 * craftRatio));
+	refineCatnip: function() {
+		var craftRatio = this.game.getResCraftRatio("wood");
+		this.game.resPool.addResEvent("wood", 1 + craftRatio);
 	},
 
 	fastforward: function(daysOffset) {
@@ -2195,14 +2201,14 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var catnipCost = model.prices[0].val;
 
-		if (catnipVal < (catnipCost * 100)){
+		if (catnipVal < 100 * catnipCost) {
 			this.game.msg("not enough catnip!");
 		}
 
-		this.game.resPool.addResEvent("catnip", -(catnipCost * 100));
+		this.game.resPool.addResEvent("catnip", -100 * catnipCost);
 
-		var craftRatio = this.game.getResCraftRatio({name: "wood"}) + 1;
-		this.game.resPool.addResEvent("wood", (100 * craftRatio));
+		var craftRatio = this.game.getResCraftRatio("wood");
+		this.game.resPool.addResEvent("wood", 100 * (1 + craftRatio));
 	}
 });
 

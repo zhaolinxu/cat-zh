@@ -2683,56 +2683,37 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return 0;
 	},
 
-	/**
-	 * (Optional) - specific resource for which craft can be boosted
-	 */
-	getCraftRatio: function(res) {
-		var effect = this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0);
-		if (!res || !res.tags){
-			return effect;
-		}
-
-		if (res.tags.baseMetal){
-			effect += this.village.getEffectLeader("metallurgist", 0);
-		}
-		if (res.tags.compound){
-			effect += this.village.getEffectLeader("chemist", 0);
-		}
-		return effect;
+	getCraftRatio: function(tag) {
+		return this.getEffect("craftRatio") + this.village.getEffectLeader("engineer", 0) + this.village.getEffectLeader(tag, 0);
 	},
 
-	getResCraftRatio: function(res){
-		if (res.name == "wood"){
+	getResCraftRatio: function(craftedResName) {
+		if (craftedResName == "wood") {
 			var refineRatio = this.getEffect("refineRatio");
-			if (this.ironWill){
-				return ( (1 + refineRatio) * (1 + this.getEffect("woodRatio")) ) - 1;
-			} else {
-				return refineRatio;
-			}
+			return this.ironWill
+				? ((1 + refineRatio) * (1 + this.getEffect("woodRatio"))) - 1
+				: refineRatio;
 		}
 
-		var ratio = this.getCraftRatio(res);
+		var ratio = this.getCraftRatio(this.resPool.get(craftedResName).tag);
 
-		if (res.name == "blueprint"){
+		if (craftedResName == "blueprint") {
 			var bpRatio = this.getEffect("cadBlueprintCraftRatio");
-			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val +
-				this.bld.get("observatory").val + this.bld.get("biolab").val;
-
+			var scienceBldAmt = this.bld.get("library").val + this.bld.get("academy").val + this.bld.get("observatory").val + this.bld.get("biolab").val;
 			ratio += scienceBldAmt * bpRatio;
 		}
 
-		if (res.name == "kerosene"){
-			var fRatio = this.getEffect("factoryRefineRatio");
-
+		if (craftedResName == "kerosene") {
+			var fRatio = 0.75 * this.getEffect("factoryRefineRatio");	//25% penalty
 			var amt = this.bld.get("factory").on;
-
-			ratio *= (1 + amt * fRatio * 0.75);	//25% penalty
+			ratio *= 1 + amt * fRatio;
 		}
 
-        //get resource specific craft ratio (like factory bonus)
-        var resCraftRatio = this.getEffect(res.name + "CraftRatio") || 0;
+		//get resource specific craft ratio (like factory bonus)
+		ratio += this.getEffect(craftedResName + "CraftRatio") || 0;
+		ratio *= 1 + this.getEffect(craftedResName + "GlobalCraftRatio") || 0;
 
-		return (ratio + resCraftRatio) * (1 + ( this.getEffect(res.name + "GlobalCraftRatio") || 0 ));
+		return ratio;
 	},
 
 	/**
