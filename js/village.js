@@ -995,8 +995,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 	loadCompressed: function(data, jobNames) {
 		var ssn = this._splitSSN(data.ssn, 7);
-		this.name = this.names[ssn[0]];
-		this.surname = this.surnames[ssn[1]];
+		this.name = data.name || this.names[ssn[0]];
+		this.surname = data.surname || this.surnames[ssn[1]];
 		this.age = ssn[2];
 		this.trait = this.traits[ssn[3]];
 		this.color = ssn[4];
@@ -1080,11 +1080,13 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			skills = maxSkill;
 		}
 
+		var nameIndex = this.names.indexOf(this.name);
+		var surnameIndex = this.surnames.indexOf(this.surname);
 		// don't serialize falsy values
-		return {
+		var compressedSave = {
 			ssn: this._mergeSSN([
-				this.names.indexOf(this.name),
-				this.surnames.indexOf(this.surname),
+				nameIndex > -1 ? nameIndex : 0,
+				surnameIndex > -1 ? surnameIndex : 0,
 				this.age,
 				this._getTraitIndex(this.trait.name),
 				this.color,
@@ -1097,6 +1099,12 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			rank: this.rank || undefined,
 			isLeader: this.isLeader || undefined
 		};
+		// Custom sur/names
+		if (nameIndex <= 0 || surnameIndex <= 0) {
+			compressedSave.name = this.name;
+			compressedSave.surname = this.surname;
+		}
+		return compressedSave;
 	},
 
 	/**
