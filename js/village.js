@@ -837,11 +837,17 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		SAVE_PACKET_OFFSET: 100
 	},
 
-	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
-			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar",
-			 "Plato", "Rikka", "Ruby", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
-	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain",
-				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
+	// 100 names MAX!
+	// Add new names at the end of the list
+	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly", "Jasper",
+			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha", "Tami", "Plato",
+			"Bea", "Cedar", "Cleo", "Dali", "Fiona", "Hazel", "Iggi", "Jasmine", "Kali", "Luna",
+			"Reilly", "Reo", "Rikka", "Ruby", "Tammy"],
+	// 100 surnames MAX!
+	// Add new surnames at the end of the list
+	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow",
+				"Ash", "Bark", "Bowl", "Brass", "Dusk", "Gaze", "Gleam", "Grass", "Moss", "Plaid", "Puff", "Rain", 
+				"Silk", "Silver", "Speck", "Stripes", "Tingle", "Wool", "Yarn"],
 
 	traits: [{
 		name: "scientist",
@@ -980,15 +986,15 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.variety = 	data.variety || 0;
 		this.rarity = data.rarity || 0;
 
-		for (var job in this.skills){
-			if (this.skills[job] > 20001){
+		for (var job in this.skills) {
+			if (this.skills[job] > 20001) {
 				this.skills[job] = 20001;
 			}
 		}
 	},
 
 	loadCompressed: function(data, jobNames) {
-		var ssn = this._splitValues(data.ssn, 7, this.statics.SAVE_PACKET_OFFSET);
+		var ssn = this._splitSSN(data.ssn, 7);
 		this.name = this.names[ssn[0]];
 		this.surname = this.surnames[ssn[1]];
 		this.age = ssn[2];
@@ -1016,12 +1022,15 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.isSenator = false;
 	},
 
-	_splitValues: function(mergedResult, numberOfValues, shift) {
+	/**
+	 * As the max possible integer in JS is 2^53 ~= 90.07*100^7, with a packet offset of 100 only 7 numbers in 0..99 can be compressed, and the 8th number is limited to 0..89
+	 */
+	_splitSSN: function(mergedResult, numberOfValues) {
 		var values = [];
 		for (var i = 0; i < numberOfValues; ++i) {
-			var value = mergedResult % shift;
+			var value = mergedResult % this.statics.SAVE_PACKET_OFFSET;
 			mergedResult -= value;
-			mergedResult /= shift;
+			mergedResult /= this.statics.SAVE_PACKET_OFFSET;
 			values.push(value);
 		}
 		return values;
@@ -1073,18 +1082,14 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 
 		// don't serialize falsy values
 		return {
-			ssn: this._mergeValues(
-				[
-					this.names.indexOf(this.name),
-					this.surnames.indexOf(this.surname),
-					this.age,
-					this._getTraitIndex(this.trait.name),
-					this.color,
-					this.variety,
-					this.rarity
-				],
-				this.statics.SAVE_PACKET_OFFSET
-			),
+			ssn: this._mergeSSN([
+				this.names.indexOf(this.name),
+				this.surnames.indexOf(this.surname),
+				this.age,
+				this._getTraitIndex(this.trait.name),
+				this.color,
+				this.variety,
+				this.rarity]),
 			skills: skills || undefined,
 			exp: this.exp || undefined,
 			job: this.job ? jobNames.indexOf(this.job) : undefined,
@@ -1095,14 +1100,12 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	/**
-	 *
-	 * @param {*} values
-	 * @param {*} shift
+	 * As the max possible integer in JS is 2^53 ~= 90.07*100^7, with a packet offset of 100 only 7 numbers in 0..99 can be compressed, and the 8th number is limited to 0..89
 	 */
-	_mergeValues: function(values, shift) {
+	_mergeSSN: function(values) {
 		var result = 0;
 		for (var i = values.length - 1; i >= 0; --i) {
-			result *= shift;
+			result *= this.statics.SAVE_PACKET_OFFSET;
 			result += values[i];
 		}
 		return result;
