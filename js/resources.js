@@ -51,9 +51,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "titanium",
 		title: $I("resources.titanium.title"),
@@ -61,9 +59,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "gold",
 		title: $I("resources.gold.title"),
@@ -71,9 +67,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		visible: true,
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "oil",
 		title: $I("resources.oil.title"),
@@ -90,9 +84,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#4EA24E",
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},{
 		name : "unobtainium",
 		title: $I("resources.unobtainium.title"),
@@ -102,9 +94,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "#A00000",
 		calculatePerTick: true,
 		aiCanDestroy: true,
-		tags:{
-			baseMetal: true
-		}
+		tag: "baseMetal"
 	},
 
 	//=========================================
@@ -383,7 +373,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		name : "plate",
 		title: $I("resources.plate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "metallurgist"
 	},{
 		name : "steel",
 		title: $I("resources.steel.title"),
@@ -391,32 +382,37 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		visible: false,
 		color: "gray",
-		calculatePerTick: true
+		calculatePerTick: true,
+		tag: "metallurgist"
 	},{
 		name : "concrate",
 		title: $I("resources.concrate.title"),
 		type : "common",
-		craftable: true
+		craftable: true,
+		tag: "chemist"
 	},{
 		name : "gear",
 		title: $I("resources.gear.title"),
 		type : "common",
 		craftable: true,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "alloy",
 		title: $I("resources.alloy.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "gray"
+		color: "gray",
+		tag: "metallurgist"
 	},{
 		name : "eludium",
 		title: $I("resources.eludium.title"),
 		type : "common",
 		craftable: true,
 		visible: false,
-		color: "darkViolet"
+		color: "darkViolet",
+		tag: "chemist"
 	},{
 		name : "scaffold",
 		title: $I("resources.scaffold.title"),
@@ -441,7 +437,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
         type: "common",
         craftable: true,
         color: "darkYellow",
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "parchment",
 		title: $I("resources.parchment.title"),
@@ -477,7 +474,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		color: "#4EA24E",
 		calculatePerTick: true,
-		isNotRefundable: true
+		isNotRefundable: true,
+		tag: "chemist"
 	},{
 		name : "megalith",
 		title: $I("resources.megalith.title"),
@@ -764,29 +762,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	 * Multiplies maxValue by global ratios
 	 * Called in tooltips for more accurate per-building resMax increases
 	 */
-	addResMaxRatios: function(res, maxValue){
-		if (res && res.name == "temporalFlux") {
+	addResMaxRatios: function(res, maxValue) {
+		if (res.name == "temporalFlux") {
 			return maxValue;
 		}
 
-		maxValue += maxValue * this.game.prestige.getParagonStorageRatio();
+		maxValue *= 1 + this.game.prestige.getParagonStorageRatio();
 
 		//+COSMIC RADIATION
 		if (!this.game.opts.disableCMBR) {
-			maxValue *= (1 + this.game.getCMBRBonus());
+			maxValue *= 1 + this.game.getCMBRBonus();
 		}
 
-		if (res){
-			//Stuff for Refrigiration and (potentially) similar effects
-			maxValue *= ( 1 + this.game.getEffect(res.name + "MaxRatio") );
+		//Stuff for Refrigiration and (potentially) similar effects
+		maxValue *= 1 + this.game.getEffect(res.name + "MaxRatio");
 
-			if (!this.isNormalCraftableResource(res) && !res.transient){
-				maxValue *= (1 + this.game.getEffect("globalResourceRatio"));
-			}
+		if (!this.isNormalCraftableResource(res) && !res.transient) {
+			maxValue *= 1 + this.game.getEffect("globalResourceRatio");
 		}
 
-		if (res.tags && res.tags.baseMetal){
-			maxValue *= ( 1 + this.game.getEffect("baseMetalMaxRatio") );
+		if (res.tag == "baseMetal") {
+			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
 		}
 
 		return maxValue;

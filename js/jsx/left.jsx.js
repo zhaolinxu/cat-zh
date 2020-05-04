@@ -222,33 +222,31 @@ WCraftShortcut = React.createClass({
         return {resource: null, craftFixed: null, craftPercent: null};
     },
 
-    render: function(){
+    render: function() {
         var res = this.props.resource,
             recipe = this.props.recipe;
 
         var craftFixed = this.props.craftFixed,
             craftPercent = this.props.craftPercent,
             allCount = game.workshop.getCraftAllCount(res.name),
-            craftRatio = game.getResCraftRatio(res),
+            craftRatio = game.getResCraftRatio(res.name),
             craftPrices = game.workshop.getCraftPrice(recipe);
 
 
         var craftRowAmt = craftFixed;
-        if (craftFixed < allCount * craftPercent ){
+        if (craftFixed < allCount * craftPercent) {
             craftRowAmt = Math.floor(allCount * craftPercent);
         }
 
         var elem = null;
-
-        if (craftPercent == 1){
-            elem = this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link all", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
-                $r("div", {className:"res-cell craft-link all"});
-        }else{
-            elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  
-            $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, 
-                $r("span", {className:"plusPrefix"}, "+"), game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
-            : $r("div", {className:"res-cell craft-link"});
+        if (craftPercent == 1) {
+            elem = this.hasMinAmt(recipe)
+                ? $r("div", {className:"res-cell craft-link all", onClick: this.doCraftAll}, $I("resources.craftTable.all"))
+                : $r("div", {className:"res-cell craft-link all"});
+        } else {
+            elem = game.resPool.hasRes(craftPrices, craftRowAmt)
+                ? $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, $r("span", {className:"plusPrefix"}, "+"), game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
+                : $r("div", {className:"res-cell craft-link"});
         }
 
         return $r("div", {ref:"linkBlock", style: {display:"contents"}}, elem);
