@@ -277,12 +277,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
-		}/*,
+		}*//*,
 		aiCanDestroy: true*/
 	},{
 		name : "void",
@@ -291,12 +291,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#5A0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-purple 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-purple 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-purple 1.5s ease-in-out infinite alternate"
-		}
+		}*/
 	},{
 		name : "elderBox",
 		title: $I("resources.elderBox.title"),
@@ -305,12 +305,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#FA0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
-		},
+		},*/
 		persists: true
 	},{
 		name : "wrappingPaper",
@@ -319,12 +319,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "#FA0EDE",
-		style: {
+		/*style: {
 			         animation : "neon-pink 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-pink 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-pink 1.5s ease-in-out infinite alternate"
-		},
+		},*/
 		persists: true
 	},{
 		name : "blackcoin",
@@ -333,12 +333,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: false,
 		visible: true,
 		color: "gold",
-		style: {
+		/*style: {
 			         animation : "neon-gold 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-gold 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-gold 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-gold 1.5s ease-in-out infinite alternate"
-},
+		},*/
 		persists: false
 	},
 	{
@@ -348,12 +348,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		craftable: true,
 		visible: true,
 		color: "red",
-		style: {
+		/*style: {
 			         animation : "neon-red 1.5s ease-in-out infinite alternate",
 			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
 			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
 			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
-		},
+		},*/
 		persists: false
 	},
 	//=========================================
