@@ -838,9 +838,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
-			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar", 
+			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar",
 			 "Plato", "Rikka", "Ruby", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
-	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain", 
+	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain",
 				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
 
 	traits: [{
@@ -885,7 +885,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		color: "lilac"
 	}],
 
-	variety: [{
+	varieties: [{
 		style: "dual"
 	},{
 		style: "tabby"
@@ -1046,7 +1046,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			age: this.age,
 			color: this.color || undefined,
 			variety: this.variety || undefined,
-			rariry: this.rarity || undefined,
+			rarity: this.rarity || undefined,
 			skills: saveSkills,
 			exp: this.exp || undefined,
 			trait: {name: this.trait.name},
@@ -1075,14 +1075,14 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		return {
 			ssn: this._mergeValues(
 				[
-					this.names.indexOf(this.name), 
-					this.surnames.indexOf(this.surname), 
-					this.age, 
+					this.names.indexOf(this.name),
+					this.surnames.indexOf(this.surname),
+					this.age,
 					this._getTraitIndex(this.trait.name),
 					this.color,
 					this.variety,
 					this.rarity
-				], 
+				],
 				this.statics.SAVE_PACKET_OFFSET
 			),
 			skills: skills || undefined,
@@ -1095,9 +1095,9 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	},
 
 	/**
-	 * 
-	 * @param {*} values 
-	 * @param {*} shift 
+	 *
+	 * @param {*} values
+	 * @param {*} shift
 	 */
 	_mergeValues: function(values, shift) {
 		var result = 0;
@@ -2244,9 +2244,9 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	getStyledName: function(kitten, isLeader){
-		return "<span class='name color-" + 
-			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
-			" variety-" + ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
+		return "<span class='name color-" +
+			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") +
+			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety+1]) ? kitten.varieties[kitten.variety+1].style : "none") +
 			"'>" +
 			(isLeader ? "" : ":3 ") + kitten.name + " " + kitten.surname +
 		"</span>";
@@ -2378,7 +2378,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 		this.inherited(arguments);
 		dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
-		
+
         if  (this.model.x100Link.visible) {
 			dojo.addClass(this.x100.link,"rightestLink");
 			dojo.removeClass(this.x10.link,"rightestLink");

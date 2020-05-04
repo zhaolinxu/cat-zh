@@ -1501,7 +1501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//5mb limit workaround
 		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = this.compressLZData(saveDataString);	
+			saveDataString = this.compressLZData(saveDataString);
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1586,7 +1586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			data = this.decompressLZData(localStorageData);
 		}
 		var saveData = JSON.parse(data);
-		
+
 		console.log("Parse complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
