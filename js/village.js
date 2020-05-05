@@ -2129,7 +2129,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				? $I("village.census.trait.none")
 				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
-			leaderInfo = this.getStyledName(leader, true /*is leader*/) + ", " + title +
+			leaderInfo = this.getStyledName(leader, true /*is leader panel*/) + ", " + title +
 				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if (nextRank > leader.exp) {
@@ -2254,12 +2254,12 @@ dojo.declare("classes.ui.village.Census", null, {
 		}
 	},
 
-	getStyledName: function(kitten, isLeader){
+	getStyledName: function(kitten, isLeaderPanel){
 		return "<span class='name color-" +
 			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") +
 			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety+1]) ? kitten.varieties[kitten.variety+1].style : "none") +
 			"'>" +
-			(isLeader ? "" : ":3 ") + kitten.name + " " + kitten.surname +
+			(isLeaderPanel ? ":3 " : "") + kitten.name + " " + kitten.surname +
 		"</span>";
 	},
 
