@@ -26,6 +26,17 @@ dojo.declare("classes.ui.Toolbar", null, {
 			if (icon.getOpts().hasTooltip) {
 				this.attachToolbarTooltip(iconContainer, this.icons[i]);
 			}
+			switch (i) {
+				case "0": // MOTD
+					dojo.addClass(iconContainer, "motd");
+					break;
+				case "1": // Happiness
+					dojo.addClass(iconContainer, "happiness");
+					break;
+				case "2": // Energy
+					dojo.addClass(iconContainer, "energy");
+					break;				
+			}		
 		}
 
 		this.update(true /*forceUpdate*/);
@@ -46,7 +57,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
-		$("#sorrowTooltip").css("color", isMax ? "red" : "");
+		$("#sorrowTooltip").addClass(isMax ? "max" : "");
 	},
 
 
@@ -128,7 +139,6 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		}
 
 		this.container.innerHTML = "(:3)&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
-		$(this.container).css("color", "Coral");
 	},
 
 	getTooltip: function(){
@@ -189,11 +199,14 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "Wt";
 
 		if (resPool.energyProd < resPool.energyCons) {
-			$(this.container).css("color", "red");
+			$(this.container).removeClass("warningWinter")
+			$(this.container).addClass("warning")
 		} else if (resPool.energyWinterProd < resPool.energyCons) {
-			$(this.container).css("color", "Coral");
+			$(this.container).removeClass("warning")
+			$(this.container).addClass("warningWinter")
 		} else {
-			$(this.container).css("color", "green");
+			$(this.container).removeClass("warning")
+			$(this.container).removeClass("warningWinter")
 		}
 	},
 	getTooltip: function(){
@@ -201,10 +214,10 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var energy = resPool.energyProd - resPool.energyCons;
 
         var delta = this.game.resPool.getEnergyDelta();
-		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
+		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span class='energyPenalty'>-" + Math.floor( (1-delta) * 100) + "%</span>";
 
-		return "Production: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
-			   "<br>Consumption: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
+		return "Production: <span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
+			   "<br>Consumption: <span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
 	}
 });
 
