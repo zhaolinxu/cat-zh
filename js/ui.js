@@ -292,7 +292,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 }
             }, tabNavigationDiv);
             tab.domNode = tabLink;
-            
+
             if (this.activeTabId == tab.tabId){
                 dojo.addClass(tabLink, "activeTab");
             }
@@ -513,7 +513,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			}
         }
         if (this.game.village.leader) {
-            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");		
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");
             switch (this.game.village.leader.trait.name) {
                 case "engineer": // Crafting bonuses
                 case "metallurgist":
@@ -532,7 +532,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                 case "wise": // Religion bonus
                     dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
                     break;
-                }	
+                }
         }
 	},
 

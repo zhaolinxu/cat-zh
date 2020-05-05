@@ -2342,9 +2342,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
 			var ttBoostRatio = (
 				0.05 * (
-					1 + 
+					1 +
 					blackLibrary.val * (
-						blackLibrary.effects["compendiaTTBoostRatio"] + 
+						blackLibrary.effects["compendiaTTBoostRatio"] +
 						this.game.getEffect("blackLibraryBonus") )
 				)
 			);
@@ -2853,14 +2853,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	update: function(){
 		this.inherited(arguments);
-		
+
 		for (var i = this.craftBtns.length - 1; i >= 0; i--) {
 			var craftBtn = this.craftBtns[i];
 			craftBtn.update();
 			if (craftBtn.model.craft.value > 0 ) {
-				dojo.addClass(craftBtn.domNode, "craftOn")
+				dojo.addClass(craftBtn.domNode, "craftOn");
 			} else {
-				dojo.removeClass(craftBtn.domNode,"craftOn")
+				dojo.removeClass(craftBtn.domNode,"craftOn");
 			}
 		}
 

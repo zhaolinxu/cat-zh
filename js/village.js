@@ -837,11 +837,17 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		SAVE_PACKET_OFFSET: 100
 	},
 
-	names: ["Angel", "Amber", "Bea", "Charlie", "Cassie", "Cleo", "Cedar", "Dali", "Ellie", "Fiona", "Hazel", "Iggi", "Jasmine", "Jasper",
-			 "Kali", "Luna", "Lily", "Molly", "Mittens", "Maddie", "Meeko", "Micha", "Oreo", "Oscar", 
-			 "Plato", "Rikka", "Ruby", "Reo", "Reilly", "Theo", "Timber", "Tami", "Tammy"],
-	surnames: ["Ash", "Bark", "Brass", "Bowl", "Chalk", "Clay", "Dust", "Dusk", "Fur", "Gaze", "Gleam", "Grass", "Moss", "Paws", "Plaid", "Puff", "Rain", 
-				"Shadow", "Sand", "Silk", "Smoke", "Speck", "Silver", "Stripes", "Tails", "Tingle", "Yarn", "Wool"],
+	// 100 names MAX!
+	// Add new names at the end of the list
+	names: ["Angel", "Charlie", "Mittens", "Oreo", "Lily", "Ellie", "Amber", "Molly", "Jasper",
+			"Oscar", "Theo", "Maddie", "Cassie", "Timber", "Meeko", "Micha", "Tami", "Plato",
+			"Bea", "Cedar", "Cleo", "Dali", "Fiona", "Hazel", "Iggi", "Jasmine", "Kali", "Luna",
+			"Reilly", "Reo", "Rikka", "Ruby", "Tammy"],
+	// 100 surnames MAX!
+	// Add new surnames at the end of the list
+	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow",
+				"Ash", "Bark", "Bowl", "Brass", "Dusk", "Gaze", "Gleam", "Grass", "Moss", "Plaid", "Puff", "Rain", 
+				"Silk", "Silver", "Speck", "Stripes", "Tingle", "Wool", "Yarn"],
 
 	traits: [{
 		name: "scientist",
@@ -885,7 +891,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		color: "lilac"
 	}],
 
-	variety: [{
+	varieties: [{
 		style: "dual"
 	},{
 		style: "tabby"
@@ -980,17 +986,17 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.variety = 	data.variety || 0;
 		this.rarity = data.rarity || 0;
 
-		for (var job in this.skills){
-			if (this.skills[job] > 20001){
+		for (var job in this.skills) {
+			if (this.skills[job] > 20001) {
 				this.skills[job] = 20001;
 			}
 		}
 	},
 
 	loadCompressed: function(data, jobNames) {
-		var ssn = this._splitValues(data.ssn, 7, this.statics.SAVE_PACKET_OFFSET);
-		this.name = this.names[ssn[0]];
-		this.surname = this.surnames[ssn[1]];
+		var ssn = this._splitSSN(data.ssn, 7);
+		this.name = data.name || this.names[ssn[0]];
+		this.surname = data.surname || this.surnames[ssn[1]];
 		this.age = ssn[2];
 		this.trait = this.traits[ssn[3]];
 		this.color = ssn[4];
@@ -1016,12 +1022,15 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.isSenator = false;
 	},
 
-	_splitValues: function(mergedResult, numberOfValues, shift) {
+	/**
+	 * As the max possible integer in JS is 2^53 ~= 90.07*100^7, with a packet offset of 100 only 7 numbers in 0..99 can be compressed, and the 8th number is limited to 0..89
+	 */
+	_splitSSN: function(mergedResult, numberOfValues) {
 		var values = [];
 		for (var i = 0; i < numberOfValues; ++i) {
-			var value = mergedResult % shift;
+			var value = mergedResult % this.statics.SAVE_PACKET_OFFSET;
 			mergedResult -= value;
-			mergedResult /= shift;
+			mergedResult /= this.statics.SAVE_PACKET_OFFSET;
 			values.push(value);
 		}
 		return values;
@@ -1046,7 +1055,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			age: this.age,
 			color: this.color || undefined,
 			variety: this.variety || undefined,
-			rariry: this.rarity || undefined,
+			rarity: this.rarity || undefined,
 			skills: saveSkills,
 			exp: this.exp || undefined,
 			trait: {name: this.trait.name},
@@ -1071,20 +1080,18 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			skills = maxSkill;
 		}
 
+		var nameIndex = this.names.indexOf(this.name);
+		var surnameIndex = this.surnames.indexOf(this.surname);
 		// don't serialize falsy values
-		return {
-			ssn: this._mergeValues(
-				[
-					this.names.indexOf(this.name), 
-					this.surnames.indexOf(this.surname), 
-					this.age, 
-					this._getTraitIndex(this.trait.name),
-					this.color,
-					this.variety,
-					this.rarity
-				], 
-				this.statics.SAVE_PACKET_OFFSET
-			),
+		var compressedSave = {
+			ssn: this._mergeSSN([
+				nameIndex > -1 ? nameIndex : 0,
+				surnameIndex > -1 ? surnameIndex : 0,
+				this.age,
+				this._getTraitIndex(this.trait.name),
+				this.color,
+				this.variety,
+				this.rarity]),
 			skills: skills || undefined,
 			exp: this.exp || undefined,
 			job: this.job ? jobNames.indexOf(this.job) : undefined,
@@ -1092,17 +1099,21 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			rank: this.rank || undefined,
 			isLeader: this.isLeader || undefined
 		};
+		// Custom sur/names
+		if (nameIndex <= 0 || surnameIndex <= 0) {
+			compressedSave.name = this.name;
+			compressedSave.surname = this.surname;
+		}
+		return compressedSave;
 	},
 
 	/**
-	 * 
-	 * @param {*} values 
-	 * @param {*} shift 
+	 * As the max possible integer in JS is 2^53 ~= 90.07*100^7, with a packet offset of 100 only 7 numbers in 0..99 can be compressed, and the 8th number is limited to 0..89
 	 */
-	_mergeValues: function(values, shift) {
+	_mergeSSN: function(values) {
 		var result = 0;
 		for (var i = values.length - 1; i >= 0; --i) {
-			result *= shift;
+			result *= this.statics.SAVE_PACKET_OFFSET;
 			result += values[i];
 		}
 		return result;
@@ -2118,7 +2129,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				? $I("village.census.trait.none")
 				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
-			leaderInfo = this.getStyledName(leader, true /*is leader*/) + ", " + title +
+			leaderInfo = this.getStyledName(leader, true /*is leader panel*/) + ", " + title +
 				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if (nextRank > leader.exp) {
@@ -2243,12 +2254,12 @@ dojo.declare("classes.ui.village.Census", null, {
 		}
 	},
 
-	getStyledName: function(kitten, isLeader){
-		return "<span class='name color-" + 
-			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") + 
-			" variety-" + ((kitten.variety && kitten.variety[kitten.variety+1]) ? kitten.variety[kitten.variety+1].style : "none") + 
+	getStyledName: function(kitten, isLeaderPanel){
+		return "<span class='name color-" +
+			((kitten.color && kitten.colors[kitten.color+1]) ? kitten.colors[kitten.color+1].color : "none") +
+			" variety-" + ((kitten.variety && kitten.varieties[kitten.variety+1]) ? kitten.varieties[kitten.variety+1].style : "none") +
 			"'>" +
-			(isLeader ? "" : ":3 ") + kitten.name + " " + kitten.surname +
+			(isLeaderPanel ? ":3 " : "") + kitten.name + " " + kitten.surname +
 		"</span>";
 	},
 
@@ -2378,7 +2389,7 @@ dojo.declare("classes.village.ui.FestivalButton", com.nuclearunicorn.game.ui.But
 		this.inherited(arguments);
 		dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
 		dojo.style(this.x100.link, "display", this.model.x100Link.visible ? "" : "none");
-		
+
         if  (this.model.x100Link.visible) {
 			dojo.addClass(this.x100.link,"rightestLink");
 			dojo.removeClass(this.x10.link,"rightestLink");

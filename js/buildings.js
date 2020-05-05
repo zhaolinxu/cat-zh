@@ -1101,7 +1101,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 						}
 					}
 				};
-			}
+			};
 
 			var beamCrafter = newCrafter(wood, "beam", true);
 			var slabCrafter = newCrafter(minerals, "slab", true);
