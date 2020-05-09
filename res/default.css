@@ -374,10 +374,23 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 }
 
 #tooltip {
-    position: absolute;
+    position: absolute !important;
     border: 1px solid gray;
     padding: 5px;
     pointer-events: none;
+}
+
+#tooltip.tooltip-in-right-column {
+    min-height: initial !important;
+    max-height: initial !important;
+    height: auto !important;
+    min-width: initial !important;
+    max-width: initial !important;
+    width: auto !important;
+    top: 30px !important;
+    right: 20px !important;
+    bottom: auto !important;
+    left: auto !important;
 }
 
 .msg {

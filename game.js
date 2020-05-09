@@ -1159,6 +1159,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: true,
 			hideSell: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
@@ -1424,6 +1425,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			highlightUnavailable: true,
 			hideSell: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
@@ -1662,9 +1664,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
 
 			// ora ora
-			if (data.opts){
-				for (var opt in data.opts){
+			if (data.opts) {
+				for (var opt in data.opts) {
 					this.opts[opt] = data.opts[opt];
+				}
+				if (data.opts.tooltipsInRightColumn == undefined) {
+					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
 

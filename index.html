@@ -434,6 +434,7 @@
 						</div>
 					</div>
 				</div>
+
 				<!-- RIGHT -->
 				<div id="rightColumn" class="column">
 					<div>
@@ -550,7 +551,10 @@
 				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
 				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
-				<label for="hideBGImage">Hide background image (for color schemes where applicable)</label>
+				<label for="hideBGImage">Hide background image <i>(for color schemes where applicable)</i></label>
+				<br>
+				<input id="tooltipsInRightColumn" type="checkbox" onclick="gamePage.opts.tooltipsInRightColumn = $('#tooltipsInRightColumn')[0].checked; gamePage.ui.updateOptions();">
+				<label for="tooltipsInRightColumn">Move tooltips in right column <i>(do NOT deactivate it with Sleek, the result is weird and needs to be fixed)</i></label>
 				<br>
                 <br>
 

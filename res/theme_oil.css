@@ -701,7 +701,6 @@ body.scheme_oil,
 .scheme_oil #rightColumn {
 	width: calc(50 - 355px);
 	max-width: 440px;
-	top: 20px; /*default top: 20px; */
 }
 .scheme_oil #toggleCenter,
 .scheme_oil span.toggleCenter {

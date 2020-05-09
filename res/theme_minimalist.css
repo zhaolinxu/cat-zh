@@ -723,7 +723,7 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist #rightColumn {
 	width: calc(50 - 345px);
 	max-width: 440px;
-	top: 0;
+	top: 5px;
 	margin-top: 16px;
 }
 .scheme_minimalist .toggleCenter {
