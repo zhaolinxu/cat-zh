@@ -373,7 +373,7 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     opacity: 0.75;
 }
 
-.tooltipExt {
+#tooltip {
     position: absolute;
     border: 1px solid gray;
     padding: 5px;
