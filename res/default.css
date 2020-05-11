@@ -157,7 +157,6 @@ div#gameLog {
 }
 
 .dialog input[type="button"] {
-    cursor: pointer;
     background-color: #fff !important;
     cursor: pointer !important;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
@@ -502,6 +501,25 @@ table.craftTable tr:hover td {
     cursor: default;
 }
 
+.toolbarIcon.happiness {
+    color: coral;
+}
+
+.toolbarIcon.energy,
+.button_tooltip .energyProduction {
+    color: green;
+}
+
+.toolbarIcon.energy.warningWinter {
+    color: coral;
+}
+
+.toolbarIcon.energy.warning,
+.button_tooltip .energyConsumption,
+.button_tooltip .energyPenalty {
+    color: red;
+}
+
 .attitude {
     color: #777;
     font-size: 90%;
@@ -679,6 +697,10 @@ h1 {
 
 #sorrowTooltip {
 	color: black;
+}
+
+#sorrowTooltip.max {
+    color: red;
 }
 
 #adsColumn {
