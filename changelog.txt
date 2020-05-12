@@ -12,6 +12,7 @@ Minor:
 * Fix options dialog overflow
 * Clear up checkbox indicators
 * Clear up chat/log slightly
+* Fix tooltip out of window in some conditions
 
 v 1.4.7.1 (19 apr 2020)
 Major:
