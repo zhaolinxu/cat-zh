@@ -2281,8 +2281,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
 			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
-
-			return afterCraft ? effectPerTick * this.game.getResCraftRatio(resName) : effectPerTick;
+			if (afterCraft) {
+				var craftRatio = this.game.getResCraftRatio(resName);
+				effectPerTick *= 1 + craftRatio;
+			}
+			return effectPerTick;
 		}
 	},
 
