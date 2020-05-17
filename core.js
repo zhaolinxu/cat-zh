@@ -37,11 +37,11 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"ru": "Русский",
 			"zh": "中文",
 			"ja": "日本語",
-			"br": "Portuguese",
-			"es": "Española",
-			"fr": "French",
-			"cz": "Česky",
-			"pl": "Polskie"
+			"br": "Português",
+			"es": "Español",
+			"fr": "Français",
+			"cz": "Čeština",
+			"pl": "Polski"
 
 		};
 	},
@@ -1530,7 +1530,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 
 		this.renderLinks();
 
-		this.attachTooltip(this.domNode, dojo.partial( ButtonModernHelper.getTooltipHTML, this.controller, this.model));
+		this.attachTooltip(dojo.partial(ButtonModernHelper.getTooltipHTML, this.controller, this.model));
 
 		this.buttonContent.title = "";	//no old title for modern buttons :V
 
@@ -1546,35 +1546,38 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModern", com.nuclearunicorn.game.
 		}
 	},
 
-	attachTooltip: function(container, htmlProvider){
+	attachTooltip: function(htmlProvider) {
 		var tooltip = dojo.byId("tooltip");
 		var btn = this;
-
-		var H_OFFSET = 300;
+		var container = this.domNode;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			this.game.tooltipUpdateFunc = function(){
 				btn.updateTooltip(container, tooltip, htmlProvider);
 			};
 			this.game.tooltipUpdateFunc();
+
 			var pos = $(container).position();
+			pos.left += 300;
 
 			//prevent tooltip from leaving the window area
-			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
-			var scrollRight = $(window).scrollLeft() + $(window).width() - 25;	//25px padding-bottom
+			var maxTooltipTop = $(window).scrollTop() + $(window).height() - $(tooltip).height() - 50; //50px padding-bottom
+			var maxTooltipLeft = $(window).scrollLeft() + $(window).width() - $(tooltip).width() - 25; //25px padding-right
 
-			if (pos.top + $(tooltip).height() >= scrollBottom){
-				pos.top = scrollBottom - $(tooltip).height();
+			if (pos.left <= maxTooltipLeft) {
+				pos.top = Math.min(pos.top + 15, maxTooltipTop);
+			} else {
+				pos.left = maxTooltipLeft;
+				var vOffset = 35;
+				if (pos.top + vOffset <= maxTooltipTop) {
+					pos.top += vOffset;
+				} else {
+					pos.top -= $(tooltip).height() + 10;
+				}
 			}
 
-			var V_OFFSET = 15;
-			if (pos.left + $(tooltip).width() + H_OFFSET >= scrollRight){
-				pos.left = scrollRight - $(tooltip).width() - H_OFFSET;
-				V_OFFSET = 35;
-			}
-
-			dojo.style(tooltip, "left", (pos.left + H_OFFSET) + "px");
-			dojo.style(tooltip, "top",  (pos.top + V_OFFSET ) + "px");
+			dojo.style(tooltip, "top", pos.top + "px");
+			dojo.style(tooltip, "left", pos.left + "px");
 
 			dojo.style(tooltip, "display", "");
 		});
@@ -2433,31 +2436,25 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
  * }
  */
 UIUtils = {
-	attachTooltip: function(game, container, topPosition, leftPosition, htmlProvider){
+	attachTooltip: function(game, container, topPosition, leftPosition, htmlProvider) {
 		var tooltip = dojo.byId("tooltip");
-		var btn = this;
 
 		dojo.connect(container, "onmouseover", this, function() {
 			game.tooltipUpdateFunc = function(){
 				tooltip.innerHTML = dojo.hitch(game, htmlProvider)();
 			};
 			game.tooltipUpdateFunc();
+
 			var pos = $(container).offset();
+			pos.top += topPosition;
+			pos.left += leftPosition;
 
 			//prevent tooltip from leaving the window area
-			var scrollBottom = $(window).scrollTop() + $(window).height() - 50;	//50px padding-bottom
-			var scrollRight = $(window).scrollLeft() + $(window).width() - 25;	//25px padding-bottom
+			pos.top = Math.min(pos.top, $(window).scrollTop() + $(window).height() - $(tooltip).height() - 50); //50px padding-bottom
+			pos.left = Math.min(pos.left, $(window).scrollLeft() + $(window).width() - $(tooltip).width() - 25); //25px padding-right
 
-			if (pos.top + $(tooltip).height() >= scrollBottom){
-				pos.top = scrollBottom - $(tooltip).height();
-			}
-
-			if (pos.left + $(tooltip).width() + 320 >= scrollRight){
-				pos.left = scrollRight - $(tooltip).width() - 320;
-			}
-
-			dojo.style(tooltip, "left", (pos.left + leftPosition) + "px");
-			dojo.style(tooltip, "top",  (pos.top + topPosition) + "px");
+			dojo.style(tooltip, "top", pos.top + "px");
+			dojo.style(tooltip, "left", pos.left + "px");
 
 			if (tooltip.innerHTML) {
 				dojo.style(tooltip, "display", "");

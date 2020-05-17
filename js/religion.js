@@ -290,6 +290,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		defaultUnlocked: false,
 		unlocks: {
 			"zigguratUpgrades": ["sunspire"]
+		},
+		unlockScheme: {
+			name: "unicorn",
+			threshold: 1
 		}
 	},{
 		name: "sunspire",

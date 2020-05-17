@@ -680,6 +680,12 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
         }
 
+        if (game.opts.tooltipsInRightColumn) {
+            $("#tooltip").detach().appendTo("#rightColumn").addClass("tooltip-in-right-column");
+        } else {
+            $("#tooltip").detach().appendTo("#game").removeClass("tooltip-in-right-column");
+        }
+
         $("#workersToggle")[0].checked = game.useWorkers;
         $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
         $("#usePerSecondValues")[0].checked = game.opts.usePerSecondValues;
@@ -687,6 +693,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
         $("#hideBGImage")[0].checked = game.opts.hideBGImage;
+        $("#tooltipsInRightColumn")[0].checked = game.opts.tooltipsInRightColumn;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
         $("#forceLZ")[0].checked = game.opts.forceLZ;
         $("#compressSaveFile")[0].checked = game.opts.compressSaveFile;
