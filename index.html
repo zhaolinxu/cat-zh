@@ -67,7 +67,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1471";
+			var version = "1471b";
 
 			// Warning: As the URL of gamma is contained in URLs of alpha and beta, gamma MUST be declared before them
 			var branches = {
@@ -258,12 +258,6 @@
 
 
 					var host = window.location.hostname;
-					if (host.indexOf("kongregate") > -1){
-						$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
-							console.log("loading Kongregate API...");
-							gamePage.initKongregateApi();
-						});
-					}
 					gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 					if (gamePage.isLocalhost){
 						$("#devModeButton").show();
@@ -405,7 +399,7 @@
 			</div>
 
 			<div id="game" style="display:none;">
-				<div id="tooltip" class="button_tooltip"></div>
+				<div id="tooltip" class="tooltipExt button_tooltip"></div>
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
@@ -434,7 +428,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- RIGHT -->
 				<div id="rightColumn" class="column">
 					<div>
