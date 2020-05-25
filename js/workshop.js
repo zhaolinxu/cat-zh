@@ -2205,6 +2205,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio(res);
+		amt = Math.ceil(amt);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
