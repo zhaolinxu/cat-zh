@@ -18,6 +18,7 @@ Minor:
 * Fix failing load of very old save files
 * Complete description of the no confirmation” option
 * Add option allowing to always show festivals/trade/sacrifice/shatter buttons even if not applicable
+* Add option allowing to display craft/trade/sacrifice buttons as percentage
 
 v 1.4.7.1 (19 apr 2020)
 Major:
