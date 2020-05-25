@@ -14,6 +14,7 @@ Minor:
 * Clear up chat/log slightly
 * Fix tooltip out of window in some conditions
 * Add option allowing to modify the ×10 purchase multiplier for Ctrl key
+* Add option allowing to hide downgrade buttons
 
 v 1.4.7.1 (19 apr 2020)
 Major:
