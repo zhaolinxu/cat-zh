@@ -690,6 +690,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#forceHighPrecision")[0].checked = game.opts.forceHighPrecision;
         $("#usePerSecondValues")[0].checked = game.opts.usePerSecondValues;
         $("#usePercentageResourceValues")[0].checked = game.opts.usePercentageResourceValues;
+        $("#showNonApplicableButtons")[0].checked = game.opts.showNonApplicableButtons;
         $("#highlightUnavailable")[0].checked = game.opts.highlightUnavailable;
         $("#hideSell")[0].checked = game.opts.hideSell;
         $("#hideDowngrade")[0].checked = game.opts.hideDowngrade;

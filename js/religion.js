@@ -951,7 +951,7 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 		var transformations = Math.floor(this._canAfford(model) / divider);
 		var self = this;
 		return {
-			visible: transformations > 1,
+			visible: this.game.opts.showNonApplicableButtons || transformations > 1,
 			title: divider == 1 ? $I("religion.sacrificeBtn.all") : "x" + this.game.getDisplayValueExt(transformations, null, false, 0),
 			handler: function(event, callback) {
 				self.transform(model, divider, event, callback);
