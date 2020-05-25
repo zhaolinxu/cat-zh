@@ -558,7 +558,7 @@
 
                 <a href="#" onclick="$('.optsExtra').toggle();">More...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
-				<div class="optsExtra" style="display:none">
+				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
 					<label for="noConfirm">Do not confirm when clearing all jobs</label>
 					<br>
@@ -566,10 +566,13 @@
                     <label for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-					<label for="disableTelemetry">Disable game telemetry.</label>
+					<label for="disableTelemetry">Disable game telemetry</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label for="enableRedshift">Enable offline progression</label>
+					<br>
+					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
+					 <label for="batchSize">Batch size of Ctrl-click</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
 					<label for="forceLZ" style="font-size: 75%;">Always compress in-memory save <i>(experimental)</i></label>

@@ -2058,7 +2058,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				});
 			}
 		} else if (!meta.noStackable && (event.ctrlKey || event.metaKey /*osx tears*/)) {
-			this.build(model, this.game.batchSize || 10);
+			this.build(model, this.game.opts.batchSize || 10);
 			callback(true);
 		} else {
             this.build(model, 1);

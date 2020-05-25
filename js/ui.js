@@ -695,6 +695,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#hideBGImage")[0].checked = game.opts.hideBGImage;
         $("#tooltipsInRightColumn")[0].checked = game.opts.tooltipsInRightColumn;
         $("#enableRedshift")[0].checked = game.opts.enableRedshift;
+        $("#batchSize")[0].value = game.opts.batchSize;
         $("#forceLZ")[0].checked = game.opts.forceLZ;
         $("#compressSaveFile")[0].checked = game.opts.compressSaveFile;
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;

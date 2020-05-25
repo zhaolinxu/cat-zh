@@ -1069,9 +1069,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	//ctrl-click batch size
-	batchSize: 10,
-
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
 	selectedBuilding: null,
@@ -1165,6 +1162,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
@@ -1431,6 +1429,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
