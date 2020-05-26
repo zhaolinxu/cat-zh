@@ -1069,9 +1069,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	//ctrl-click batch size
-	batchSize: 10,
-
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
 	selectedBuilding: null,
@@ -1158,6 +1155,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePercentageResourceValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
 			tooltipsInRightColumn: false,
 			noConfirm: false,
@@ -1165,6 +1163,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
@@ -1424,6 +1423,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePercentageResourceValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
 			tooltipsInRightColumn: false,
 			noConfirm: false,
@@ -1431,6 +1431,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
@@ -1752,10 +1753,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.exportToDropbox(lzdata, callback);
 	},
 
+	getDropboxAuthUrl(){
+		var host = window.location.host;
+		var redirectUrl = "/games/kittens/dropboxauth_v2.html";
+		if (host.indexOf("kittensgame") > -1){
+			redirectUrl = "/dropboxauth_v2.html";
+		}
+		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
+		return authUrl;
+	},
+
 	exportToDropbox: function(lzdata, callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
-
+		var authUrl = game.getDropboxAuthUrl();
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		var handler = function(e) {
 			window.removeEventListener('message', handler);
@@ -1791,7 +1801,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	importFromDropbox: function (callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
+		var authUrl = game.getDropboxAuthUrl();
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		var handler = function(e) {

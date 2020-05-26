@@ -3,6 +3,10 @@
 
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
@@ -67,7 +71,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1471";
+			var version = "1471b";
 
 			// Warning: As the URL of gamma is contained in URLs of alpha and beta, gamma MUST be declared before them
 			var branches = {
@@ -258,12 +262,6 @@
 
 
 					var host = window.location.hostname;
-					if (host.indexOf("kongregate") > -1){
-						$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
-							console.log("loading Kongregate API...");
-							gamePage.initKongregateApi();
-						});
-					}
 					gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 					if (gamePage.isLocalhost){
 						$("#devModeButton").show();
@@ -550,6 +548,9 @@
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label for="hideSell">Hide 'sell' buttons</label>
 				<br>
+				<input id="hideDowngrade" type="checkbox" onclick="gamePage.opts.hideDowngrade = $('#hideDowngrade')[0].checked;">
+				<label for="hideDowngrade">Hide 'downgrade' buttons</label>
+				<br>
 				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
 				<label for="hideBGImage">Hide background image <i>(for color schemes where applicable)</i></label>
 				<br>
@@ -560,7 +561,7 @@
 
                 <a href="#" onclick="$('.optsExtra').toggle();">More...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
-				<div class="optsExtra" style="display:none">
+				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
 					<label for="noConfirm">Do not confirm when clearing all jobs</label>
 					<br>
@@ -568,10 +569,13 @@
                     <label for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-					<label for="disableTelemetry">Disable game telemetry.</label>
+					<label for="disableTelemetry">Disable game telemetry</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label for="enableRedshift">Enable offline progression</label>
+					<br>
+					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
+					 <label for="batchSize">Batch size of Ctrl-click</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
 					<label for="forceLZ" style="font-size: 75%;">Always compress in-memory save <i>(experimental)</i></label>
