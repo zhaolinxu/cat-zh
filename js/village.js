@@ -2355,8 +2355,12 @@ dojo.declare("classes.village.ui.FestivalButtonController", classes.village.ui.V
         var self = this;
         return {
         	title: "x" + holdQuantity,
-            visible: this.game.prestige.getPerk("carnivals").researched && this.hasMultipleResources(holdQuantity),
+            visible: this.game.prestige.getPerk("carnivals").researched && (this.game.opts.showNonApplicableButtons || this.hasMultipleResources(holdQuantity)),
             handler: function(btn, callback){
+				if (!self.hasMultipleResources(holdQuantity)) {
+					callback(false);
+					return;
+				}
 				self.game.villageTab.holdFestival(holdQuantity);
 				self.game.resPool.addResEvent("manpower", -1500 * holdQuantity);
 				self.game.resPool.addResEvent("culture", -5000 * holdQuantity);
