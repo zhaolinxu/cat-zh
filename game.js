@@ -1753,13 +1753,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.exportToDropbox(lzdata, callback);
 	},
 
-	getDropboxAuthUrl(){
+	getDropboxAuthUrl: function (){
 		var host = window.location.host;
 		var redirectUrl = "/games/kittens/dropboxauth_v2.html";
 		if (host.indexOf("kittensgame") > -1){
 			redirectUrl = "/dropboxauth_v2.html";
 		}
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
+		var authUrl = this.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
 		return authUrl;
 	},
 
