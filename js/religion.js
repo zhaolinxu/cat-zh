@@ -951,8 +951,13 @@ dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.ga
 		var transformations = Math.floor(this._canAfford(model) / divider);
 		var self = this;
 		return {
-			visible: transformations > 1,
-			title: divider == 1 ? $I("religion.sacrificeBtn.all") : "x" + this.game.getDisplayValueExt(transformations, null, false, 0),
+			visible: this.game.opts.showNonApplicableButtons || transformations > 1,
+			title: divider == 1
+				? $I("religion.sacrificeBtn.all")
+				: this.game.opts.usePercentageConsumptionValues
+					? (100 / divider) + "%"
+					: "x" + this.game.getDisplayValueExt(transformations, null, false, 0),
+			tooltip:  divider == 1 || this.game.opts.usePercentageConsumptionValues ? "x" + this.game.getDisplayValueExt(transformations, null, false, 0) : (100 / divider) + "%",
 			handler: function(event, callback) {
 				self.transform(model, divider, event, callback);
 			}

@@ -666,10 +666,14 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		var tradeMax = this.game.diplomacy.getMaxTradeAmt(this.race);
 
+		// Change button content
+		this.tradeAllHref.link.title = "x" + this.game.getDisplayValueExt(tradeMax, null, false, 0);
+
 		// Update tradeHalfHref Link
 		var tradeHalf = Math.floor(tradeMax / 2);
-		// Change button innerHTML
-		this.tradeHalfHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0);
+		// Change button content
+		this.tradeHalfHref.link.textContent = this.game.opts.usePercentageConsumptionValues ? "50%" : "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0);
+		this.tradeHalfHref.link.title = this.game.opts.usePercentageConsumptionValues ? "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0) : "50%";
 		// Change handler
 		dojo.disconnect(this.tradeHalfHref.linkHandler);
 		this.tradeHalfHref.linkHandler = dojo.connect(this.tradeHalfHref.link, "onclick", this, dojo.partial(function(event){
@@ -685,12 +689,13 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.style(this.tradeHalfHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
+		dojo.style(this.tradeHalfHref.link, "display", this.game.opts.showNonApplicableButtons || this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
 
 		// Update tradeFifthHref Link
 		var tradeFifth = Math.floor(tradeMax / 5);
-		// Change button innerHTML
-		this.tradeFifthHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0);
+		// Change button content
+		this.tradeFifthHref.link.textContent = this.game.opts.usePercentageConsumptionValues ? "20%" : "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0);
+		this.tradeFifthHref.link.title = this.game.opts.usePercentageConsumptionValues ? "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0) : "20%";
 		// Change handler
 		dojo.disconnect(this.tradeFifthHref.linkHandler);
 		this.tradeFifthHref.linkHandler = dojo.connect(this.tradeFifthHref.link, "onclick", this, dojo.partial(function(event){
@@ -706,7 +711,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.style(this.tradeFifthHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
+		dojo.style(this.tradeFifthHref.link, "display", this.game.opts.showNonApplicableButtons || this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
 
 	}
 });

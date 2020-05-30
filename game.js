@@ -1153,6 +1153,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
 			hideDowngrade: false,
@@ -1421,6 +1423,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
 			hideDowngrade: false,
@@ -1566,8 +1570,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Use this instead of LZString.decompressX
 	 */
 	decompressLZData: function(lzData) {
-		return lzData.slice(0, 16) == "N4IgzghgbgpgajAT"
-			? LZString.decompressFromBase64(lzData)
+		var decompressedAsBase64 = LZString.decompressFromBase64(lzData);
+		return decompressedAsBase64 != null
+			? decompressedAsBase64
 			: LZString.decompressFromUTF16(lzData);
 	},
 
@@ -1639,7 +1644,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				console.trace();
 			}
 
-			this.msg("Unable to load save data. Close the page and contact the dev.");
+			this.msg("Unable to load save data. Contact the devs and provide the faulty save file.", "important");
 			success = false;
 		}
 
@@ -1753,13 +1758,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.exportToDropbox(lzdata, callback);
 	},
 
-	getDropboxAuthUrl(){
+	getDropboxAuthUrl: function (){
 		var host = window.location.host;
 		var redirectUrl = "/games/kittens/dropboxauth_v2.html";
 		if (host.indexOf("kittensgame") > -1){
 			redirectUrl = "/dropboxauth_v2.html";
 		}
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
+		var authUrl = this.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
 		return authUrl;
 	},
 
