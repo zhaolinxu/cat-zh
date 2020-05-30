@@ -112,6 +112,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         });
 
         dojo.connect($("html")[0], "onkeyup", this, function (event) {
+			// ignore hotkeys when focused in a textarea or a text/number input element
+			if (event.target.tagName === "TEXTAREA" || (event.target.tagName === "INPUT" && (event.target.type === "text" || event.target.type === "number"))) {
+				return;
+			}
+
             // Allow user extensibility to keybindings in core events
             var keybinds = [
                 {
