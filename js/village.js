@@ -982,6 +982,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+		this.isAdopted = data.isAdopted || false;
 		this.color = 	data.color || 0;
 		this.variety = 	data.variety || 0;
 		this.rarity = data.rarity || 0;
@@ -1020,6 +1021,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank = data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+		this.isAdopted = data.isAdopted || false;
 	},
 
 	/**
@@ -1062,7 +1064,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			job: this.job || undefined,
 			engineerSpeciality: this.engineerSpeciality || undefined,
 			rank: this.rank || undefined,
-			isLeader: this.isLeader || undefined
+			isLeader: this.isLeader || undefined,
+			isAdopted: this.isAdopted || undefined
 		};
 	},
 
@@ -1097,7 +1100,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			job: this.job ? jobNames.indexOf(this.job) : undefined,
 			engineerSpeciality: this.engineerSpeciality || undefined,
 			rank: this.rank || undefined,
-			isLeader: this.isLeader || undefined
+			isLeader: this.isLeader || undefined,
+			isAdopted: this.isAdopted || undefined
 		};
 		// Custom sur/names
 		if (nameIndex <= 0 || surnameIndex <= 0) {
