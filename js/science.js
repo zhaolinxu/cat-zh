@@ -460,18 +460,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			stages: [
 				{bld:"amphitheatre",stage:1},	// Broadcast Tower
 				{bld:"library",stage:1}			// Data Center
-			], 
+			],
 			tech: [
-				"nuclearFission", 
-				"rocketry", 
+				"nuclearFission",
+				"rocketry",
 				"robotics"
 			],
 			upgrades: [
-				"cadSystems", 
-				"refrigeration", 
-				"seti", 
-				"factoryLogistics", 
-				"factoryOptimization", 
+				"cadSystems",
+				"refrigeration",
+				"seti",
+				"factoryLogistics",
+				"factoryOptimization",
 				"internet"
 			]
 		}
@@ -579,8 +579,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [ 
-				"photolithography", 
+            upgrades: [
+				"photolithography",
 				"orbitalGeodesy",
 				"uplink",
 				"thinFilm"
@@ -599,12 +599,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["exogeology", "thorium"],
 			upgrades: [
-				"hubbleTelescope", 
-				"satelliteRadio", 
-				"astrophysicists", 
-				"solarSatellites", 
-				"spaceEngineers", 
-				"starlink" 
+				"hubbleTelescope",
+				"satelliteRadio",
+				"astrophysicists",
+				"solarSatellites",
+				"spaceEngineers",
+				"starlink"
 			]
 		}
 	},{

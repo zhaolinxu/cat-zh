@@ -77,31 +77,31 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	guid: null,
 	game: null,
 
-	constructor: function(game){
+	constructor: function(game) {
 		this.guid = this.generateGuid();
 		this.game = game;
 	},
 
-	generateGuid: function(){
+	// See https://www.ietf.org/rfc/rfc4122.txt, section 4.4
+	generateGuid: function() {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
+			return (c == 'x' ? 16 * Math.random() | 0 : 4 * Math.random() | 8).toString(16);
 		});
 	},
 
-	save: function(data){
+	save: function(data) {
 		data["telemetry"] = {
 			guid: this.guid
 		};
 	},
 
-	load: function(data){
-		if (data["telemetry"]){
+	load: function(data) {
+		if (data["telemetry"]) {
 			this.guid = data["telemetry"].guid || this.generateGuid();
 		}
 	},
 
-	logEvent: function(eventType, payload){
+	logEvent: function(eventType, payload) {
 		var event = {
 			guid: this.guid,
 			type: eventType,
@@ -1069,9 +1069,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//in ticks
 	autosaveFrequency: 400,
 
-	//ctrl-click batch size
-	batchSize: 10,
-
 	//current building selected in the Building tab by a mouse cursor, should affect resource table rendering
 	//TODO: move me to UI
 	selectedBuilding: null,
@@ -1156,14 +1153,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
@@ -1421,14 +1423,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usePerSecondValues: true,
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
+			showNonApplicableButtons: false,
+			usePercentageConsumptionValues: false,
 			highlightUnavailable: true,
 			hideSell: false,
+			hideDowngrade: false,
 			hideBGImage: false,
+			tooltipsInRightColumn: false,
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
@@ -1476,6 +1483,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.village.save(saveData);
 		this.calendar.save(saveData);
 		this.console.save(saveData);
+		this.telemetry.save(saveData);
 
         for (var i in this.managers){
             this.managers[i].save(saveData);
@@ -1500,7 +1508,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//5mb limit workaround
 		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
 			console.log("compressing the save file...");
-			saveDataString = this.compressLZData(saveDataString);	
+			saveDataString = this.compressLZData(saveDataString);
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
@@ -1562,8 +1570,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 * Use this instead of LZString.decompressX
 	 */
 	decompressLZData: function(lzData) {
-		return lzData.slice(0, 16) == "N4IgzghgbgpgajAT"
-			? LZString.decompressFromBase64(lzData)
+		var decompressedAsBase64 = LZString.decompressFromBase64(lzData);
+		return decompressedAsBase64 != null
+			? decompressedAsBase64
 			: LZString.decompressFromUTF16(lzData);
 	},
 
@@ -1585,7 +1594,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			data = this.decompressLZData(localStorageData);
 		}
 		var saveData = JSON.parse(data);
-		
+
 		console.log("Parse complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
@@ -1618,6 +1627,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.village.load(saveData);
 				this.calendar.load(saveData);
 				this.console.load(saveData);
+				this.telemetry.load(saveData);
 				this.ui.renderFilters();
 
                 for (var i in this.managers){
@@ -1634,7 +1644,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				console.trace();
 			}
 
-			this.msg("Unable to load save data. Close the page and contact the dev.");
+			this.msg("Unable to load save data. Contact the devs and provide the faulty save file.", "important");
 			success = false;
 		}
 
@@ -1660,9 +1670,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			this.isCMBREnabled = (data.isCMBREnabled !== undefined) ? data.isCMBREnabled : true;	//true for all existing games
 
 			// ora ora
-			if (data.opts){
-				for (var opt in data.opts){
+			if (data.opts) {
+				for (var opt in data.opts) {
 					this.opts[opt] = data.opts[opt];
+				}
+				if (data.opts.tooltipsInRightColumn == undefined) {
+					this.opts.tooltipsInRightColumn = this.colorScheme == "sleek";
 				}
 			}
 
@@ -1745,10 +1758,19 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.exportToDropbox(lzdata, callback);
 	},
 
+	getDropboxAuthUrl: function (){
+		var host = window.location.host;
+		var redirectUrl = "/games/kittens/dropboxauth_v2.html";
+		if (host.indexOf("kittensgame") > -1){
+			redirectUrl = "/dropboxauth_v2.html";
+		}
+		var authUrl = this.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + redirectUrl);
+		return authUrl;
+	},
+
 	exportToDropbox: function(lzdata, callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
-
+		var authUrl = game.getDropboxAuthUrl();
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		var handler = function(e) {
 			window.removeEventListener('message', handler);
@@ -1784,7 +1806,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	importFromDropbox: function (callback) {
 		var game = this;
-		var authUrl = game.dropBoxClient.getAuthenticationUrl('https://' + window.location.host + '/games/kittens/dropboxauth_v2.html');
+		var authUrl = game.getDropboxAuthUrl();
 
 		window.open(authUrl, 'DropboxAuthPopup', 'dialog=yes,dependent=yes,scrollbars=yes,location=yes');
 		var handler = function(e) {
@@ -3632,7 +3654,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			achievements: lsData.achievements,
 			stats: stats,
-			statsCurrent: statsCurrent
+			statsCurrent: statsCurrent,
+			telemetry: {
+				guid: this.telemetry.guid
+			}
 		};
 
 		if (anachronomancy.researched){
