@@ -1637,6 +1637,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
 				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				cssClass: model.metadata.on ? "bld-on" : "bld-off",
+				//reserved for mobile
+				enabled: model.metadata.val > 0,
 				handler: function(btn){
 					self.handleTogglableOnOffClick(model);
 				}
@@ -1646,6 +1648,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
 				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
+				//reserved for mobile
+				enabled: model.metadata.val > 0,
 				cssClass: model.metadata.isAutomationEnabled ? "auto-on" : "auto-off",
 				handler: function(btn){
 					self.handleToggleAutomationLinkClick(model);
