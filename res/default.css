@@ -713,7 +713,7 @@ h1 {
 }
 
 #sorrowTooltip.max {
-    color: red;
+    color: red !important;
 }
 
 #adsColumn {
