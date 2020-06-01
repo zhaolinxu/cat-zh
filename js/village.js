@@ -152,7 +152,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return 500 * Math.pow(1.75, rank);
 	},
 
+	//---------------------------------------------------------
+	//please dont pass params by reference or I will murder you
+	//---------------------------------------------------------
 	getEffectLeader: function(trait, defaultObject){
+		var leaderRatio = 1;
+		if (this.game.science.getPolicy("monarchy").researched){
+			leaderRatio = 1.95;
+		}
 		if(this.leader) {
 			var leaderTrait = this.leader.trait.name;
 			if (leaderTrait == trait) {
@@ -160,31 +167,33 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				// Modify the defautlObject depends on trait
 				switch (trait) {
 					case "engineer": // Crafting bonus
-						defaultObject = 0.05 * burnedParagonRatio;
+						defaultObject = 0.05 * burnedParagonRatio * leaderRatio;
 						break;
 					case "metallurgist": // Crafting bonus for non x-ium metallic stuff (plate, steel, gear, alloy)
-						defaultObject = 0.1 * burnedParagonRatio;
+						defaultObject = 0.1 * burnedParagonRatio * leaderRatio;
 						break;
 					case "chemist": // Crafting bonus for "chemical" stuff (concrete, eludium, kerosene, thorium)
-						defaultObject = 0.075 * burnedParagonRatio;
+						defaultObject = 0.075 * burnedParagonRatio * leaderRatio;
 						break;
 					case "merchant": // Trading bonus
-						defaultObject = 0.03 * burnedParagonRatio;
+						defaultObject = 0.03 * burnedParagonRatio * leaderRatio;
 						break;
 					case "manager": // Hunting bonus
-						defaultObject = 0.5 * burnedParagonRatio;
+						defaultObject = 0.5 * burnedParagonRatio * leaderRatio;
 						break;
 					case "scientist": // Science prices bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "science") {
-								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.05 * burnedParagonRatio, 1.0); //5% before BP
+								defaultObject[i].val -= defaultObject[i].val 
+									* this.game.getHyperbolicEffect(0.05 * burnedParagonRatio  * leaderRatio, 1.0); //5% before BP
 							}
 						}
 						break;
 					case "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "faith" || defaultObject[i].name == "gold") {
-								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.09 + 0.01 * burnedParagonRatio, 1.0); //10% before BP
+								defaultObject[i].val -= defaultObject[i].val 
+									* this.game.getHyperbolicEffect(0.09 + 0.01 * burnedParagonRatio * leaderRatio, 1.0); //10% before BP
 							}
 						}
 						break;
@@ -501,8 +510,13 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		this.traits = traits;
 	},
 
+	//leader production bonus in the assigned job
 	getLeaderBonus: function(rank){
-		return rank == 0 ? 1.0 : (rank + 1) / 1.4;
+		var bonus = rank == 0 ? 1.0 : (rank + 1) / 1.4;
+		if (this.game.science.getPolicy("autocracy").researched){
+			bonus *= 2;
+		}
+		return bonus;
 	},
 
 	/**
@@ -596,6 +610,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var populationPenalty = 2;
 		if (this.game.science.getPolicy("liberty").researched){
 			populationPenalty = 1;
+		}
+		if (this.game.science.getPolicy("fascism").researched) {
+			return 0;
 		}
 		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
 	},

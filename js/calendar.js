@@ -220,6 +220,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	yearsPerCycle: null,
 	cyclesPerEra: null,
 
+	//seasons start with zero cause fuck you
 	season: 0,
 	cycle: 0,
 	cycleYear: 0,
@@ -884,6 +885,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			mod =  0.15;
 		} else if (this.weather == "cold"){
 			mod = -0.15;
+
+			if (this.game.science.getPolicy("communism").researched && season == 3){
+				mod = -0.95;
+			}
 		}
 		return mod;
 	},
