@@ -145,8 +145,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"autumn": 1.05,
 				"winter": 1.25
 			}},
-			{name: "titanium", value: 1, chance: 0, delta: 0},
-			{name: "alloy", value: 1, chance: 5, delta: 0.05, minLevel: 5}
+			{name: "titanium", value: 0.25, chance: 0, delta: 0},
+			{name: "alloy", value: 0.25, chance: 5, delta: 0.05, minLevel: 5}
 		],
 		collapsed: false
 	},{
@@ -422,6 +422,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			raceRatio = race.name === "leviathans" ? (1 + 0.02 * race.energy) : 1,
 			currentSeason = this.game.calendar.getCurSeason().name;
 
+		var iwEmbassyPenalty = 1;
+		if (this.game.ironWill){
+			iwEmbassyPenalty = 0.25;
+		}
 		for( var i = 0; i < race.sells.length; i++ ){
 			var sellResource = race.sells[i];
 			//you must be this tall to trade this rare resource
@@ -431,8 +435,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 			//can trade chance be grater than 1?
 			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
+			
 			var tradeChance = (race.embassyPrices) ? sellResource.chance 
-				* (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel, 0.75)) : sellResource.chance;
+				* (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel * iwEmbassyPenalty, 0.75)) : sellResource.chance;
 
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance / 100);
@@ -459,7 +464,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel) : 0.35;
+		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel * iwEmbassyPenalty) : 0.35;
 		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, spiceChance);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
