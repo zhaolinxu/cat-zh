@@ -513,7 +513,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	//leader production bonus in the assigned job
 	getLeaderBonus: function(rank){
 		var bonus = rank == 0 ? 1.0 : (rank + 1) / 1.4;
-		if (this.game.science.getPolicy("autocracy").researched){
+		if (this.game.science.getPolicy("authocracy").researched){
 			bonus *= 2;
 		}
 		return bonus;
