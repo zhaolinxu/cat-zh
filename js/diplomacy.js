@@ -551,8 +551,22 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
 
+	constructor: function(race) {
+		this.race = race;
+		this.name = race.title;
+	},
+
 	onToggle: function(isToggled){
 		this.race.collapsed = isToggled;
+	},
+
+	render: function(container) {
+		var attitude = this.race.attitude;
+		if (attitude == "hostile" && 100 * (1 - this.race.standing) < this.game.getEffect("standingRatio") + (this.game.prestige.getPerk("diplomacy").researched ? 10 : 0)) {
+			attitude = "not longer hostile, now neutral";
+		}
+		this.name = this.race.title + " <span class='attitude'>" + attitude + "</span>";
+		return this.inherited(arguments);
 	},
 
 	update: function(){
@@ -824,13 +838,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}
 
 			var racePanel = this.racePanels[i];
-			if (!racePanel){
-				if (race.name === "leviathans") {
-					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
-					racePanel.setGame(this.game);
-				} else {
-					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+race.attitude+"</span>");
-				}
+			if (!racePanel) {
+				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);
+				racePanel.setGame(this.game);
 				this.racePanels.push(racePanel);
 			}
 			var content = racePanel.render(tabContainer);
