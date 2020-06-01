@@ -1255,11 +1255,6 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		return result;
 	},
 
-	fetchModel: function(options) {
-		var model = this.inherited(arguments);
-		return model;
-	},
-
 	fetchExtendedModel: function(model) {
 		this.inherited(arguments);
 		model.flavor = this.getFlavor(model);
@@ -1817,7 +1812,6 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.ui.ButtonModern, {
 	sellHref: null,
 	toggleHref: null,
-	hasResourceHover: true,
 
 	/**
 	 * Render button links like off/on and sell
