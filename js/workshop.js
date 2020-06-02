@@ -2881,7 +2881,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.tabName = $I("tab.name.workshop");
 		var freeEngineers = this.game.village.getFreeEngineers();
 		if (freeEngineers > 0) {
-			this.tabName += " (" + this.game.getDisplayValueExt(freeEngineers, false, false, 0) + ")";
+			this.tabName += " <span class='genericWarning'>(" + this.game.getDisplayValueExt(freeEngineers, false, false, 0) + ")</span>";
 		}
 		if (this.domNode) {
 			this.domNode.innerHTML = this.tabName;

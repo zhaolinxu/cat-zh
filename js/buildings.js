@@ -2633,10 +2633,5 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 	update: function(){
 		this.inherited(arguments);
-	},
-
-	getTabName: function(){
-		//TODO: calculate count and fetch the result
-		return $I("buildings.tabName");
 	}
 });

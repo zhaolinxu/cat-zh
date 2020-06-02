@@ -527,6 +527,7 @@ table.craftTable tr:hover td {
     color: coral;
 }
 
+span.genericWarning,
 .toolbarIcon.energy.warning,
 .button_tooltip .energyConsumption,
 .button_tooltip .energyPenalty {

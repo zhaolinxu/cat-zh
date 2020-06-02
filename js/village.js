@@ -2680,22 +2680,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	updateTab: function(){
-		//-------- update tab title -------
-		var tabName = this.getTabName();
-		this.tabName = tabName;
+		this.tabName = this.getVillageTitle();
+		var freeKittens = this.game.village.getFreeKittens();
+		if (freeKittens > 0) {
+			this.tabName += " <span class='genericWarning'>(" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")</span>";
+		}
 		if (this.domNode) {
-			this.domNode.innerHTML = tabName;
+			this.domNode.innerHTML = this.tabName;
 		}
-	},
-
-	getTabName: function(){
-		var tabName = this.getVillageTitle(),
-			freeKittens = this.game.village.getFreeKittens();
-
-		if (freeKittens){
-			tabName = this.getVillageTitle() + " (" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")";
-		}
-		return tabName;
 	},
 
 	getVillageTitle: function(){
