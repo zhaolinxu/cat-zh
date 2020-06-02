@@ -2230,12 +2230,6 @@ dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Bu
 });
 
 dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
-	defaults: function() {
-		var result = this.inherited(arguments);
-		result.simplePrices = false;
-		return result;
-	},
-
     getMetadata: function(model){
     	model.metaAccessor = this.game.bld.getBuildingExt(model.options.building);
 
@@ -2452,6 +2446,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 			buildings: []
 		});
 		groups.unshift({
+			name: "available",
+			title: $I("ui.filter.available"),
+			buildings: []
+		});
+		groups.unshift({
 			name: "all",
 			title: $I("ui.filter.all"),
 			buildings: []
@@ -2528,6 +2527,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		for( var i = 0; i< this.bldGroups.length; i++){
 			if (this.bldGroups[i].group.name != this.activeGroup){
 				if (this.activeGroup != "all" &&
+					this.activeGroup != "available" &&
 					this.activeGroup != "allEnabled" &&
 					this.activeGroup != "togglable" &&
 					this.activeGroup != "iw"){
@@ -2565,6 +2565,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 				}
 				var mdl = btn.controller.fetchModel(btn.opts);
 
+				if (this.activeGroup == "available") {
+					if (mdl.resourceIsLimited) {
+						continue;
+					}
+				}
 				if (this.activeGroup == "allEnabled"){
 
 					if (!mdl.enabled){
@@ -2628,10 +2633,5 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 
 	update: function(){
 		this.inherited(arguments);
-	},
-
-	getTabName: function(){
-		//TODO: calculate count and fetch the result
-		return $I("buildings.tabName");
 	}
 });

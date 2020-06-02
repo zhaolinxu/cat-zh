@@ -523,14 +523,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 	},
 
-	buyEcoin: function(){
+	buyBcoin: function(){
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
 		this.game.msg("You've bought " + this.game.getDisplayValueExt(amt) + " blackcoins");
 	},
 
-	sellEcoin: function(){
+	sellBcoin: function(){
 		var amt = this.game.resPool.get("blackcoin").value * this.game.calendar.cryptoPrice;
 		this.game.resPool.get("relic").value += amt;
 		this.game.resPool.get("blackcoin").value = 0;
@@ -594,28 +594,25 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		feedBtn.render(content);
 
 		if (this.game.science.get("blackchain").researched || this.game.resPool.get("blackcoin").value > 0) {
-
-			var buyEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.buy.ecoin"),
-				description: $I("trade.buy.ecoin.desc"),
+			this.buyBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.buy.bcoin"),
+				description: $I("trade.buy.bcoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.buyEcoin();
+					self.game.diplomacy.buyBcoin();
 				}
 			}, this.game);
-			buyEcoin.render(content);
-			this.buyEcoin = buyEcoin;
+			this.buyBcoin.render(content);
 
-			var sellEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.sell.ecoin"),
-				description: $I("trade.sell.ecoin.desc"),
+			this.sellBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.sell.bcoin"),
+				description: $I("trade.sell.bcoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.sellEcoin();
+					self.game.diplomacy.sellBcoin();
 				}
 			}, this.game);
-			sellEcoin.render(content);
-			this.sellEcoin = sellEcoin;
+			this.sellBcoin.render(content);
 		}
 
 		this.feedBtn = feedBtn;
@@ -922,12 +919,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			racePanel.race = race;
 			racePanel.collapse(race.collapsed);
 
-			if (racePanel.buyEcoin && racePanel.sellEcoin){
+			if (racePanel.buyBcoin && racePanel.sellBcoin){
 				var tradePanel = dojo.create("div", {className:"crypto-trade" /*, style:{display:"none"}*/ }, null);
 				dojo.place(tradePanel, rightColumn, "last");
 
-				dojo.place(racePanel.buyEcoin.domNode, tradePanel, "last");
-				dojo.place(racePanel.sellEcoin.domNode, tradePanel, "last");
+				dojo.place(racePanel.buyBcoin.domNode, tradePanel, "last");
+				dojo.place(racePanel.sellBcoin.domNode, tradePanel, "last");
 			}
 		}
 

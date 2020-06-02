@@ -521,8 +521,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.blackchain.desc"),
 		effectDesc: $I("science.blackchain.effectDesc"),
 		prices: [
-			{name : "science", val: 5000000},
-			{name: 	"relic", val: 5000}
+			{name: "science", val: 5000000},
+			{name: "relic", val: 4096}
 		],
 		unlocks: {
 		}
