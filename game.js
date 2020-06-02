@@ -1571,7 +1571,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	 */
 	decompressLZData: function(lzData) {
 		var decompressedAsBase64 = LZString.decompressFromBase64(lzData);
-		return decompressedAsBase64 != null
+		return decompressedAsBase64 && decompressedAsBase64[0] == '{'
 			? decompressedAsBase64
 			: LZString.decompressFromUTF16(lzData);
 	},
