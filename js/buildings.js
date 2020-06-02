@@ -2230,12 +2230,6 @@ dojo.declare("classes.game.ui.RefineCatnipButton", com.nuclearunicorn.game.ui.Bu
 });
 
 dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
-	defaults: function() {
-		var result = this.inherited(arguments);
-		result.simplePrices = false;
-		return result;
-	},
-
     getMetadata: function(model){
     	model.metaAccessor = this.game.bld.getBuildingExt(model.options.building);
 

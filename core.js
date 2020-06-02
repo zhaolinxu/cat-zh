@@ -1953,10 +1953,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtn", com.nuclearunicorn.game.u
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
-
 	defaults: function(){
 		var result = this.inherited(arguments);
-
+		result.simplePrices = false;
 		result.multiplyEffects = true;
 		return result;
 	},

@@ -782,6 +782,7 @@ dojo.declare("classes.ui.time.ChronoforgeBtnController", com.nuclearunicorn.game
         }
         return model.metaCached;
     },
+
     getName: function(model){
         var meta = model.metadata;
         if (meta.heat){
