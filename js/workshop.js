@@ -2362,7 +2362,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 
 		//sanity check
-		if (this.game.village.getFreeEngineer() < 0){
+		if (this.game.village.getFreeEngineers() < 0){
 			this.clearEngineers();
 		}
 
@@ -2546,7 +2546,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 	assignCraftJob: function(model, value) { //TODO, assign one kitten, not just a value to manage with exp
 		var craft = model.craft;
 
-		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
+		var valueCorrected = this.game.village.getFreeEngineers() > value ? value : this.game.village.getFreeEngineers();
 
 		var valueAdded = 0;
 		for (var i = 0; i < valueCorrected; i++) {
@@ -2869,7 +2869,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		if (this.tdTop && this.game.science.get("mechanization").researched) {
-			this.tdTop.innerHTML = $I("workshop.craftPanel.header.freeEngineers") + ": " + this.game.village.getFreeEngineer() + " / " + this.game.village.getWorkerKittens("engineer");
+			this.tdTop.innerHTML = $I("workshop.craftPanel.header.freeEngineers") + ": " + this.game.village.getFreeEngineers() + " / " + this.game.village.getWorkerKittens("engineer");
 		} else {
 			this.tdTop.innerHTML = "";
 		}
@@ -2879,8 +2879,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	updateTab: function() {
 		this.tabName = $I("tab.name.workshop");
-		if (this.game.village.getFreeEngineer() > 0) {
-			this.tabName += $I("common.warning");
+		var freeEngineers = this.game.village.getFreeEngineers();
+		if (freeEngineers > 0) {
+			this.tabName += " (" + this.game.getDisplayValueExt(freeEngineers, false, false, 0) + ")";
 		}
 		if (this.domNode) {
 			this.domNode.innerHTML = this.tabName;

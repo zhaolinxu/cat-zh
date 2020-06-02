@@ -366,7 +366,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return 0;
 	},
 
-	getFreeEngineer: function() {
+	getFreeEngineers: function() {
 		var engineerNoFree = 0;
 		for (var i = this.game.workshop.crafts.length -1; i >= 0; i--) {
 			engineerNoFree += this.game.workshop.crafts[i].value;
@@ -1678,9 +1678,9 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 			return true;
 		} else {
-			//TODO: check free kittens and compare them with game.village.getFreeEngineer()
+			//TODO: check free kittens and compare them with game.village.getFreeEngineers()
 			//------------- hack start (todo: remove me someday -----
-			/*if (this.game.village.getFreeEngineer() > 0){
+			/*if (this.game.village.getFreeEngineers() > 0){
 				var job = this.game.village.getJob("engineer"),
 					amt = job.value;
 				for (var i = 0; i< amt; i++) {
