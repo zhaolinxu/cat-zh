@@ -1583,8 +1583,8 @@
     "science.blackchain.desc": "Todos los gatos geniales están extrayendo esto, así que creo que es algún tipo de mineral",
     "science.blackchain.effectDesc": "Desbloquea cryptomineria y intercambiar blackcoin",
     "resources.blackcoin.title": "Blackcoin",
-    "trade.buy.ecoin": "Comprar Bcoin",
-    "trade.buy.ecoin.desc": "Intercambia tus reliquias por blackcoins",
-    "trade.sell.ecoin": "Vender Bcoin",
-    "trade.sell.ecoin.desc": "Vende tus blackcoins y recupera las reliquias"
+    "trade.buy.bcoin": "Comprar Bcoin",
+    "trade.buy.bcoin.desc": "Intercambia tus reliquias por blackcoins",
+    "trade.sell.bcoin": "Vender Bcoin",
+    "trade.sell.bcoin.desc": "Vende tus blackcoins y recupera las reliquias"
 }

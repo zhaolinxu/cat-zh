@@ -366,7 +366,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		return 0;
 	},
 
-	getFreeEngineer: function() {
+	getFreeEngineers: function() {
 		var engineerNoFree = 0;
 		for (var i = this.game.workshop.crafts.length -1; i >= 0; i--) {
 			engineerNoFree += this.game.workshop.crafts[i].value;
@@ -982,6 +982,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank =		data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+		this.isAdopted = data.isAdopted || false;
 		this.color = 	data.color || 0;
 		this.variety = 	data.variety || 0;
 		this.rarity = data.rarity || 0;
@@ -1020,6 +1021,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 		this.rank = data.rank || 0;
 		this.isLeader = data.isLeader || false;
 		this.isSenator = false;
+		this.isAdopted = data.isAdopted || false;
 	},
 
 	/**
@@ -1062,7 +1064,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			job: this.job || undefined,
 			engineerSpeciality: this.engineerSpeciality || undefined,
 			rank: this.rank || undefined,
-			isLeader: this.isLeader || undefined
+			isLeader: this.isLeader || undefined,
+			isAdopted: this.isAdopted || undefined
 		};
 	},
 
@@ -1097,7 +1100,8 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 			job: this.job ? jobNames.indexOf(this.job) : undefined,
 			engineerSpeciality: this.engineerSpeciality || undefined,
 			rank: this.rank || undefined,
-			isLeader: this.isLeader || undefined
+			isLeader: this.isLeader || undefined,
+			isAdopted: this.isAdopted || undefined
 		};
 		// Custom sur/names
 		if (nameIndex <= 0 || surnameIndex <= 0) {
@@ -1674,9 +1678,9 @@ dojo.declare("classes.village.KittenSim", null, {
 			}
 			return true;
 		} else {
-			//TODO: check free kittens and compare them with game.village.getFreeEngineer()
+			//TODO: check free kittens and compare them with game.village.getFreeEngineers()
 			//------------- hack start (todo: remove me someday -----
-			/*if (this.game.village.getFreeEngineer() > 0){
+			/*if (this.game.village.getFreeEngineers() > 0){
 				var job = this.game.village.getJob("engineer"),
 					amt = job.value;
 				for (var i = 0; i< amt; i++) {
@@ -2676,22 +2680,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	updateTab: function(){
-		//-------- update tab title -------
-		var tabName = this.getTabName();
-		this.tabName = tabName;
+		this.tabName = this.getVillageTitle();
+		var freeKittens = this.game.village.getFreeKittens();
+		if (freeKittens > 0) {
+			this.tabName += " <span class='genericWarning'>(" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")</span>";
+		}
 		if (this.domNode) {
-			this.domNode.innerHTML = tabName;
+			this.domNode.innerHTML = this.tabName;
 		}
-	},
-
-	getTabName: function(){
-		var tabName = this.getVillageTitle(),
-			freeKittens = this.game.village.getFreeKittens();
-
-		if (freeKittens){
-			tabName = this.getVillageTitle() + " (" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")";
-		}
-		return tabName;
 	},
 
 	getVillageTitle: function(){

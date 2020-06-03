@@ -2,6 +2,7 @@ v 1.4.8.0 (?? may 2020)
 Major:
 * Fix precrafted amount
 * Implement Metallurgist and Chemist traits
+* Allow to crash BC market
 
 Themes:
 * New theme: Unicorn
@@ -16,9 +17,10 @@ Minor:
 * Add option allowing to modify the ×10 purchase multiplier for Ctrl key
 * Add option allowing to hide downgrade buttons
 * Fix failing load of very old save files
-* Complete description of the no confirmation” option
+* Complete description of the “no confirmation” option
 * Add option allowing to always show festivals/trade/sacrifice/shatter buttons even if not applicable
 * Add option allowing to display craft/trade/sacrifice buttons as percentage
+* In case of unassigned engineers, display the actual number instead of just (!)
 
 v 1.4.7.1 (19 apr 2020)
 Major:

@@ -1147,13 +1147,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclearunicorn.game.ui.BuildingStackableBtnController, {
-	defaults: function() {
-		var result = this.inherited(arguments);
-
-		result.simplePrices = false;
-		return result;
-	},
-
     getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.space.getProgram(model.options.id);

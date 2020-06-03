@@ -236,7 +236,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	futureSeasonTemporalParadox: -1,
 
 	cryptoPrice: 1000,
-	cryptoPriceMax: 1100,
 
 	observeBtn: null,
 	observeRemainingTime: 0,
@@ -589,7 +588,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		this.game.diplomacy.onNewDay();
 
-		this.adjustCryptoPrices();
+		this.adjustCryptoPrice();
 	},
 
 	fastForward: function(daysOffset){
@@ -861,21 +860,19 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
-	adjustCryptoPrices: function() {
+	adjustCryptoPrice: function() {
 		if (this.game.science.get("antimatter").researched) {
-			var marketFluctuation = this.game.rand(100000);
-
-			if (marketFluctuation < 30000 ) {
-				this.cryptoPrice -= this.cryptoPrice * Math.random() * 0.01 / 400;
-			} else if (marketFluctuation > 60000) {
-				this.cryptoPrice += this.cryptoPrice * Math.random() * 0.01 / 400;
-			}
-
-			if (this.cryptoPrice > this.cryptoPriceMax){
-				this.cryptoPrice -= this.cryptoPrice * (0.2 + (Math.random() * 0.1));
-				this.game.msg("There was a huge crypto market correction");
+			// 3 times -1, 3 times 0, 4 times +1
+			this.cryptoPrice += this.cryptoPrice * (1 - (this.game.rand(10) % 3)) * Math.random() / 40000;
+			if (this.cryptoPrice > 1100) {
+				this.correctCryptoPrice();
 			}
 		}
+	},
+
+	correctCryptoPrice: function() {
+		this.cryptoPrice *= 0.7 + 0.1 * Math.random();
+		this.game.msg("There was a huge crypto market correction", "important");
 	},
 
 	getWeatherMod: function(){

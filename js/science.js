@@ -521,8 +521,21 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.blackchain.desc"),
 		effectDesc: $I("science.blackchain.effectDesc"),
 		prices: [
-			{name : "science", val: 5000000},
-			{name: 	"relic", val: 5000}
+			{name: "science", val: 5000000},
+			{name: "relic", val: 4096}
+		],
+		unlocks: {
+			tech: ["invisibleBlackHand"]
+		}
+	},{
+		name: "invisibleBlackHand",
+		label: $I("science.invisibleBlackHand.label"),
+		description: $I("science.invisibleBlackHand.desc"),
+		effectDesc: $I("science.invisibleBlackHand.effectDesc"),
+		prices: [
+			{name: "science", val: 10000000},
+			{name: "blackcoin",   val: 64},
+			{name: "timeCrystal", val: 128}
 		],
 		unlocks: {
 		}
