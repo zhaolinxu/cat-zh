@@ -886,7 +886,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		} else if (this.weather == "cold"){
 			mod = -0.15;
 
-			if (this.game.science.getPolicy("communism").researched && season == 3){
+			if (this.game.science.getPolicy("communism").researched && this.season == 3){
 				mod = -0.95;
 			}
 		}
