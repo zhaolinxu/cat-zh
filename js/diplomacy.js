@@ -615,7 +615,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 			this.sellBcoin.render(content);
 		}
 
-		if (this.game.science.get("antimatter").researched && this.game.science.get("invisibleBlackHand").researched) {
+		if (false && this.game.science.get("antimatter").researched && this.game.science.get("invisibleBlackHand").researched) {
 			this.smashBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("trade.smash.bcoin"),
 				description: $I("trade.smash.bcoin.desc"),
