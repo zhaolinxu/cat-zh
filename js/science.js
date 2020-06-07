@@ -525,19 +525,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: "relic", val: 4096}
 		],
 		unlocks: {
-			tech: ["invisibleBlackHand"]
-		}
-	},{
-		name: "invisibleBlackHand",
-		label: $I("science.invisibleBlackHand.label"),
-		description: $I("science.invisibleBlackHand.desc"),
-		effectDesc: $I("science.invisibleBlackHand.effectDesc"),
-		prices: [
-			{name: "science", val: 10000000},
-			{name: "blackcoin",   val: 64},
-			{name: "timeCrystal", val: 128}
-		],
-		unlocks: {
+			upgrades: ["invisibleBlackHand"]
 		}
 	},{
 		name: "nuclearFission",

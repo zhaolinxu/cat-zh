@@ -1863,7 +1863,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         upgrades: {
             buildings: ["chronosphere"]
         }
-    }
+        //---------------- Blackcoin ---------------
+    },{
+		name: "invisibleBlackHand",
+		label: $I("workshop.invisibleBlackHand.label"),
+		description: $I("workshop.invisibleBlackHand.desc"),
+		prices: [
+			{name: "void", val: 32},
+			{name: "blackcoin", val: 64},
+			{name: "timeCrystal", val: 128},
+			{name: "temporalFlux", val: 4096}
+		],
+		unlocks: {
+		}
+	}
     ],
 
 	//=============================================================
