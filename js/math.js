@@ -20,64 +20,50 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
         return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
     },
 
-    irwinHallRandom: function(count) {
-        // Irwin-Hall distribution is sum of a number of independent random uniformly distributed variables with
-        // mean = count / 2 and deviation = count / 12.
-        // If count is high enough, it can be approximated with gaussian distribution.
-        // Otherwise just use old good loop to give more stable results, which is also good more majority of players.
-
-        var approximationBound = 1000;
-        if (count > approximationBound) {
-            var sum = this.standardGaussianRandom() * Math.sqrt(count / 12) + count / 2;
-
-            // There is small chance that gaussian number will be outside the range, resample in such case.
-            if (sum < 0 || sum > count) {
-                return this.irwinHallRandom(count);
-            }
-
-            return sum;
-        }
-
-        sum = 0;
-        for (var i = 0; i < count; ++ i) {
-            sum += Math.random();
-        }
-
-        return sum;
+    // Irwin-Hall distribution is the sum of a number of independent random uniformly distributed variables in [0,1]
+    irwinHallRandom: function(trials) {
+        return this.loopOrGaussianApproximation(trials, false, 1/2, 1/12, 0, 1, function() {
+            return Math.random();
+        });
     },
 
-    binominalRandomInteger: function(experiments, probability) {
-        if (probability >= 1) {
-            return experiments;
-        }
-        else if (probability <= 0) {
-            return 0;
+    binominalRandomInteger: function(trials, successProbability) {
+        return successProbability <= 0
+            ? 0
+            : successProbability >= 1
+                ? trials
+                : this.loopOrGaussianApproximation(trials, true, successProbability, successProbability * (1 - successProbability), 0, 1, function() {
+                    return Math.random() < successProbability ? 1 : 0;
+                });
+    },
+
+    // Parameters mean, variance, lowerBound and upperBound are the characteristics of the base distribution, not of the global sum
+    loopOrGaussianApproximation: function(trials, isDiscrete, mean, variance, lowerBound, upperBound, baseDistribution) {
+        var globalMean = trials * mean;
+        var globalStandardDeviation = Math.sqrt(trials * variance);
+        var globalLowerBound = trials * lowerBound;
+        var globalUpperBound = trials * upperBound;
+
+        // If the Gaussian approximation cannot be good enough, just use good ol' loop
+        if (trials < 100
+         || globalMean - 5 * globalStandardDeviation < globalLowerBound
+         || globalMean + 5 * globalStandardDeviation > globalUpperBound) {
+            var result = 0;
+            for (var i = trials; i > 0; --i) {
+                result += baseDistribution();
+            }
+            return result;
         }
 
-        // Binominal distribution can be approximated by gaussian if condition below is met (everything within 4 sigma inside the possible range).
-        // Otherwise just use old good loop.
-        var failureProbability = 1 - probability;
-        if (experiments >= 20
-         && experiments * probability > 16 * failureProbability
-         && experiments * failureProbability > 16 * probability)
-        {
-            var mean = experiments * probability;
-            var variance = experiments * probability * failureProbability;
-            var successNumber = Math.round(this.standardGaussianRandom() * Math.sqrt(variance) + mean);
-
-            // There is small chance that gaussian number will be outside the range, resample in such case.
-            return 0 <= successNumber && successNumber <= experiments
-                ? successNumber
-                : this.binominalRandomInteger(experiments, probability);
-        }
-
-        var successes = 0;
-        for (var i = 0; i < experiments; ++i) {
-            if (Math.random() < probability) {
-                ++successes;
+        // If the Gaussian approximation gives a result outside the bounds, just retry
+        while (true) {
+            var result = globalStandardDeviation * this.standardGaussianRandom() + globalMean;
+            if (isDiscrete) {
+                result = Math.round(result);
+            }
+            if (globalLowerBound <= result && result <= globalUpperBound) {
+                return result;
             }
         }
-
-        return successes;
     }
 });
