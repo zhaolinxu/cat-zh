@@ -52,22 +52,21 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
             return 0;
         }
 
-        // Binominal distribution can be approximated by gaussian if condition below is met.
+        // Binominal distribution can be approximated by gaussian if condition below is met (everything within 4 sigma inside the possible range).
         // Otherwise just use old good loop.
         var failureProbability = 1 - probability;
-        if ((experiments > 9 * failureProbability / probability) &&
-            (experiments > 9 * probability / failureProbability))
+        if (experiments >= 20
+         && experiments * probability > 16 * failureProbability
+         && experiments * failureProbability > 16 * probability)
         {
             var mean = experiments * probability;
             var variance = experiments * probability * failureProbability;
-            var successNumber = this.standardGaussianRandom() * Math.sqrt(variance) + mean;
+            var successNumber = Math.round(this.standardGaussianRandom() * Math.sqrt(variance) + mean);
 
             // There is small chance that gaussian number will be outside the range, resample in such case.
-            if (successNumber < 0 || successNumber > experiments) {
-                return this.binominalRandomInteger(experiments, probability);
-            }
-
-            return Math.floor(successNumber);
+            return 0 <= successNumber && successNumber <= experiments
+                ? successNumber
+                : this.binominalRandomInteger(experiments, probability);
         }
 
         var successes = 0;
