@@ -6,6 +6,8 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
     },
 
     uniformRandomInteger: function(min, max) {
+        min = Math.round(min);
+        max = Math.round(max);
         return min + Math.floor(Math.random() * (max - min));
     },
 
