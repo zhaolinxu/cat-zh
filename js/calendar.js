@@ -728,8 +728,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var daysBetweenParadox = daysInParadox + 100 * Math.max( 1 , 100 / this.game.bld.get("chronosphere").on );
 		var percentTimeInParadox = daysInParadox / daysBetweenParadox;
 
-                this.game.resPool.addResEvent("void",
-	                Math.floor(this.game.resPool.getVoidQuantityStatistically() * daysOffset * percentTimeInParadox));
+		this.game.resPool.addResEvent("void", Math.floor(this.game.resPool.getVoidQuantityStatistically() * daysOffset * percentTimeInParadox));
 
 		//==================== other calendar stuff ========================
 		//cap years skipped in 1000 years
