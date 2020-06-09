@@ -49,8 +49,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
-        researched: false,
-        unlocked: false
+		researched: false,
+		unlocked: false
+	},{
+		name: "blackSky",
+		label: $I("challendge.blackSky.label"),
+		description: $I("challendge.blackSky.desc"),
+		effectDesc: $I("challendge.blackSky.effect.desc"),
+		researched: false,
+		unlocked: false
 	}],
 
 	game: null,
@@ -106,8 +113,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.game.bld.get("aiCore").val > 0){
 				this.researchChallenge("anarchy");
 			}
-
+		} else if (this.currentChallenge == "blackSky") {
+			if (this.game.space.getBuilding('spaceBeacon').val > 0){
+				this.researchChallenge("blackSky");
+			}
 		}
+
 		// winterIsComing
 		if (this.currentChallenge == "winterIsComing") {
 			if (this.game.space.getPlanet("helios").reached){

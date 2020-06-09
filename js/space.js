@@ -497,11 +497,15 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"starchartPerTickBaseSpace": 0,
 				"scienceMax": 0
 			},
-            calculateEffects: function(self, game){
+			calculateEffects: function(self, game){
 				self.effects = {
 					"starchartPerTickBaseSpace": 0.01,
 					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio"))
 				};
+
+				if (game.challenges.currentChallenge == "blackSky") {
+					self.effects.starchartPerTickBaseSpace = 0;
+				}
             },
 			unlockScheme: {
 				name: "vessel",
@@ -1165,11 +1169,23 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
             if (prices[i].name == "oil"){
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
-            }
-        }
+			}
+		}
 
-        return prices;
-    },
+		if (model.metadata.name == "orbitalLaunch"
+			&& this.game.challenges.currentChallenge == "blackSky") {
+
+			for (var i = 0; i < prices.length; i++) {
+				if (prices[i].name == "starchart") {
+					prices[i].val = 0;
+				} else {
+					prices[i].val *= 11;
+				}
+			}
+		}
+
+		return prices;
+	},
 
 	updateVisible: function(model){
 		var meta = model.metadata;
@@ -1246,10 +1262,23 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
-        }
+		}
 
-        return prices;
-    }
+		if (meta.val == 0
+			&& meta.name == "sattelite"
+			&& this.game.challenges.currentChallenge == "blackSky") {
+
+			for (var i = 0; i < prices.length; i++) {
+				if (prices[i].name == "starchart") {
+					prices[i].val = 0;
+				} else {
+					prices[i].val *= 14;
+				}
+			}
+		}
+
+		return prices;
+	}
 });
 
 dojo.declare("classes.ui.space.PlanetPanel", com.nuclearunicorn.game.ui.Panel, {
