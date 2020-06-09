@@ -11,7 +11,6 @@ dojo.declare("classes.ui.Toolbar", null, {
 		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
-		this.addIcon(new classes.ui.toolbar.ToolbarDonations(game));
 	},
 
 	addIcon: function(icon){
@@ -27,6 +26,17 @@ dojo.declare("classes.ui.Toolbar", null, {
 			if (icon.getOpts().hasTooltip) {
 				this.attachToolbarTooltip(iconContainer, this.icons[i]);
 			}
+			switch (i) {
+				case "0": // MOTD
+					dojo.addClass(iconContainer, "motd");
+					break;
+				case "1": // Happiness
+					dojo.addClass(iconContainer, "happiness");
+					break;
+				case "2": // Energy
+					dojo.addClass(iconContainer, "energy");
+					break;				
+			}		
 		}
 
 		this.update(true /*forceUpdate*/);
@@ -47,7 +57,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
-		$("#sorrowTooltip").css("color", isMax ? "red" : "");
+		$("#sorrowTooltip").addClass(isMax ? "max" : "");
 	},
 
 
@@ -128,8 +138,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 			dojo.style(this.container, "display", "");
 		}
 
-		this.container.innerHTML = "幸福度: " + Math.floor(this.game.village.happiness * 100) + "%";
-		$(this.container).css("color", "Coral");
+		this.container.innerHTML = "(:3)&nbsp;" + Math.floor(this.game.village.happiness * 100) + "%";
 	},
 
 	getTooltip: function(){
@@ -187,13 +196,17 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		}
 
 		var resPool = this.game.resPool;
-		var energy = resPool.energyProd - resPool.energyCons;
-		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(energy) + "瓦";
+		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "瓦";
 
-		if (energy >= 0){
-			$(this.container).css("color", "green");
+		if (resPool.energyProd < resPool.energyCons) {
+			$(this.container).removeClass("warningWinter")
+			$(this.container).addClass("warning")
+		} else if (resPool.energyWinterProd < resPool.energyCons) {
+			$(this.container).removeClass("warning")
+			$(this.container).addClass("warningWinter")
 		} else {
-			$(this.container).css("color", "red");
+			$(this.container).removeClass("warning")
+			$(this.container).removeClass("warningWinter")
 		}
 	},
 	getTooltip: function(){
@@ -201,10 +214,10 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var energy = resPool.energyProd - resPool.energyCons;
 
         var delta = this.game.resPool.getEnergyDelta();
-		var penalty = energy >= 0 ? "" :"<br><br>生产奖励削减: <span style='color:red;'>-" + Math.floor( (1-delta) * 100) + "%</span>";
+		var penalty = energy >= 0 ? "" :"<br><br>生产奖励削减: <span class='energyPenalty'>-" + Math.floor( (1-delta) * 100) + "%</span>";
 
-		return "产出: <span style='color:green;'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "瓦</span>" +
-			   "<br>消耗: <span style='color:#D00000;'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "瓦</span>" + penalty;
+		return "Production: <span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "瓦</span>" +
+			   "<br>消耗: <span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "瓦</span>" + penalty;
 	}
 });
 
@@ -228,23 +241,5 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 			server.motdFreshMessage = false;
 			return "每日一语:<br />" + server.motdContent;
 		}
-	}
-});
-
-
-dojo.declare("classes.ui.toolbar.ToolbarDonations", classes.ui.ToolbarIcon, {
-	update: function(){
-		var server = this.game.server,
-			nextTier = Math.floor((server.donateAmt || 0) / 100) + 1;
-
-		this.container.innerHTML =
-		"<a href='https://www.patreon.com/bloodrizer' data-patreon-widget-type='become-patron-button' target='_blank'>作者主页" +
-		"</a><script async src='https://c6.patreon.com/becomePatronButton.bundle.js'></script>";
-	},
-	getOpts: function(){
-		return {
-			needUpdate: false,
-			hasTooltip: false
-		};
 	}
 });

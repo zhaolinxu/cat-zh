@@ -2,10 +2,17 @@ html, body {
     height: 100%;
     overflow-y: hidden;
 }
+
 body {
     margin: 0;
     padding: 0;
     background-color: #FFFFFF;
+}
+
+img.loader {
+    -ms-interpolation-mode: bicubic;
+    width: 16px;
+    height: 16px;
 }
 
 #gamePageContainer {
@@ -27,11 +34,8 @@ body {
     width: 100%;
     border-bottom: 1px solid gray;
 
-    -webkit-box-shadow: 1px 0px 2px #888;
-
-            box-shadow: 1px 0px 2px #888;
+    box-shadow: 1px 0px 2px #888;
     min-width: 1180px;
-    font-size: 13px;
 }
 
 #game, #loadingContainer {
@@ -49,23 +53,10 @@ body {
 }
 
 #loadingContainer .content{
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     min-height: 100vh;
 
@@ -78,14 +69,8 @@ body {
 }
 
 #game.centered {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    justify-content: center;
 }
 
 .column {
@@ -97,35 +82,29 @@ body {
 }
 
 #leftColumn {
-    width: 28%;
-/*    max-width: 400px;*/
-/*    min-width: 300px;*/
+    width: 25%;
+    max-width: 400px;
+    min-width: 300px;
     padding-right: 20px;
-    font-size: 13px !important;
+
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 #midColumn {
+    width: 630px;
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 30px;
-    font-size: 13px;
-    
-/*    width: 630px;*/
-    width: 43%;
 }
 
 #rightColumn {
-/*    width: 250px;*/
-    width: 22%;
+    min-width: 250px;
+    max-width: 400px;
     vertical-align: top;
     padding-left: 8px;
     top: 20px;
     position: relative;
-    font-size: 13px;
-    overflow-x: hidden;
-    padding: 0 10px;
 }
 
 .tabsContainer {
@@ -143,7 +122,6 @@ div#gameLog {
     position: absolute;
     bottom: 10px;
     right: 5px;
-    font-size: 13px;
 }
 
 .tab {
@@ -179,11 +157,9 @@ div#gameLog {
 }
 
 .dialog input[type="button"] {
-    cursor: pointer;
     background-color: #fff !important;
     cursor: pointer !important;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
-            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3), 0 2px 10px 0 rgba(0, 0, 0, 0.3) !important;
     border: none !important;
     border-radius: 1px !important;
     outline: 0 !important;
@@ -206,6 +182,7 @@ select>option {
 .nosel {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -245,10 +222,18 @@ select>option {
 .btn .btnContent a {
     max-width: 50px;
     overflow-x: hidden;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     display: inline-block;
 }
+
+.btn .btnContent a.small {
+    font-size: 0.7em;
+    line-height: 16px;
+}
+
+/*.btn .btnContent .btnTitle {
+
+}*/
 
 .btn.small-text span {
     font-size: 90%;
@@ -261,6 +246,10 @@ select>option {
 
 .btn .noRes {
     color: #FF3030;
+}
+
+.rawRes {
+    color: gray;
 }
 
 .dropdown-link {
@@ -279,7 +268,7 @@ select>option {
 .dialog {
     position: absolute;
     border: 1px solid black;
-font-size: 13px;
+
     left: 50%;
     top: 50%;
 
@@ -343,9 +332,13 @@ font-size: 13px;
     padding: 10px;
 }
 
-.maxRes {
+.maxRes,
+select > option:disabled {
     color: #AAA;
-    font-size: 12px;
+}
+
+select > option:disabled {
+    font-style: italic !important;
 }
 
 .achievement {
@@ -363,8 +356,6 @@ font-size: 13px;
 @media screen {
   .achievement[title]::after{
     content: ' ' attr(title);
-    -webkit-transition: opacity 0.25s;
-    -o-transition: opacity 0.25s;
     transition: opacity 0.25s;
     opacity: 0;
   }
@@ -375,7 +366,6 @@ font-size: 13px;
 
 td.resLimitNotice, .res-cell.resLimitNotice {
     color: orange;
-    font-size: 12px;
 }
 
 td.resLimitWarn, .res-cell.resLimitWarn  {
@@ -383,11 +373,24 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     opacity: 0.75;
 }
 
-.tooltipExt {
-    position: absolute;
+#tooltip {
+    position: absolute !important;
     border: 1px solid gray;
     padding: 5px;
     pointer-events: none;
+}
+
+#tooltip.tooltip-in-right-column {
+    min-height: initial !important;
+    max-height: initial !important;
+    height: auto !important;
+    min-width: initial !important;
+    max-width: initial !important;
+    width: auto !important;
+    top: 30px !important;
+    right: 20px !important;
+    bottom: auto !important;
+    left: auto !important;
 }
 
 .msg {
@@ -431,13 +434,12 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 
 .btn.modern {
     font-family: Helvetica;
-    font-size: 13px;
+    font-size: 14px;
     border-radius: 3px;
     border: 1px solid #888;
     padding: 0;
     width: 264px;
 }
-
 
 .btn.modern:hover {
     border-color: #777;
@@ -452,13 +454,13 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     border-color: #aaa;
     background: inherit;
 }
-.bldGroupContainer .btn.modern {
-    width: 80% !important;
-}
+
 .modern .btnContent {
     padding: 10px 0 10px 10px;
 }
+
 .btn.modern a {
+    color: #555;
     background-color: #EEE;
     border-left: 1px solid #888;
     padding: 10px 6px 10px 6px !important;
@@ -467,14 +469,15 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     text-decoration: none;
 }
 
+.btn.modern a.enabled {
+    color: initial;
+	font-weight: bold;
+}
+
 .btn.bldEnabled.modern div.btnContent,
 .btn.bldlackResConvert.modern div.btnContent{
     border-width: 0 0 0 8px;
     padding: 10px 0px 10px 10px;
-}
-
-.btn.modern .linkBreak{
-    display: none;
 }
 
 .button_tooltip .noRes, .limited {
@@ -490,8 +493,7 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 .toggleCenter {
     opacity: 0.2;
     cursor:pointer;
-/*    width:200px;*/
-    width: 100%;
+    width:200px;
 }
 
 table.craftTable tr:hover td {
@@ -512,6 +514,26 @@ table.craftTable tr:hover td {
     cursor: default;
 }
 
+.toolbarIcon.happiness {
+    color: coral;
+}
+
+.toolbarIcon.energy,
+.button_tooltip .energyProduction {
+    color: green;
+}
+
+.toolbarIcon.energy.warningWinter {
+    color: coral;
+}
+
+span.genericWarning,
+.toolbarIcon.energy.warning,
+.button_tooltip .energyConsumption,
+.button_tooltip .energyPenalty {
+    color: red;
+}
+
 .attitude {
     color: #777;
     font-size: 90%;
@@ -526,12 +548,12 @@ table.craftTable tr:hover td {
 }
 
 .trade-race > .left {
-    width: 40%;
+    width: 50%;
     float: left;
 }
 
 .trade-race > .right {
-    width: 60%;
+    width: 50%;
     float: right;
 }
 
@@ -570,26 +592,31 @@ label {
 
 label i {
     font-size: 90%;
-    color: grey;
+    color: gray;
 }
 
 label:hover {
     opacity: 0.7;
 }
 
-input[type="checkbox"] {
+#optionsDiv {
+    height: auto;
+    margin-top:-170px; 
+}
+
+#optionsDiv input[type="checkbox"] {
 	display: none;
 }
 
-input[type="checkbox"] + label:before {
-	content: "x";
+#optionsDiv input[type="checkbox"] + label:before {
+    content: "·";
 	display: inline-block;
 	font: 16px sans-serif;
 	margin: 0px 6px 0px 2px;
 }
 
-input[type="checkbox"]:checked + label:before {
-	content: "\2713";
+#optionsDiv input[type="checkbox"]:checked + label:before {
+	content: "v";
 	font: 12px sans-serif;
 }
 
@@ -648,19 +675,46 @@ h1 {
 }
 
 .right-tab-header {
-    padding: 5px;
+    margin-top: 10px;
 }
 
 .right-tab-header a {
     padding: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .right-tab-header a.active {
     text-decoration: none;
+    border-top: 1px solid rgba(128,128,128, 0.4);
+
+    /*Looks a bit visually noisy - vvv*/
+
+    /*border-right: 1px solid rgba(128,128,128, 0.4);
+    border-left: 1px solid rgba(128,128,128, 0.4);*/
+}
+.right-tab-header a:not(.active) {
+    text-decoration: none;
+    /*border-bottom: 1px solid lightgray;*/
+}
+
+#observeButton {
+    text-align: center; 
+    margin-top: 15px; 
+    height: 30px;
+}
+
+.right-tab {
+    height: calc(100% - 150px);
+    overflow-y: hidden;
 }
 
 #sorrowTooltip {
 	color: black;
+}
+
+#sorrowTooltip.max {
+    color: red !important;
 }
 
 #adsColumn {
@@ -689,17 +743,27 @@ a:hover {
 }
 
 .freshMessage {
-  animation: pulse 5s infinite;
+          animation: pulse 5s infinite;
   -webkit-animation: pulse 5s infinite;
-  -moz-animation: pulse 5s infinite;
-  -o-animation: pulse 5s infinite;
+     -moz-animation: pulse 5s infinite;
+       -o-animation: pulse 5s infinite;
 }
 
-@keyframes pulse{
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+@keyframes pulse {
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 @-webkit-keyframes pulse {
-  0% {color: #001F3F;}		50% {color: #FF4136;}		100%{color: #001F3F;}
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
+}
+@-moz-keyframes pulse {
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
+}
+@-o-keyframes pulse {
+  0%,100% {color: #001F3F;}
+      50% {color: #FF4136;}
 }
 
 .flavor {
@@ -710,6 +774,8 @@ a:hover {
 .effectName {
     float: left;
     clear: both;
+    font-size: 14px;
+    color: gray;
 }
 
 /*------------------------------*/
@@ -719,6 +785,16 @@ a:hover {
 
 .tooltip-inner .desc {
     max-width: 280px;
+    text-align: center;
+    width: 100%;
+    padding-top: 4px;
+    font-size: 15px;
+    color: gray;
+}
+
+.tooltip-inner .desc.small {
+    font-size: 60%;
+    opacity: 0.8;
 }
 
 .links-block a{
@@ -739,8 +815,7 @@ a:hover {
 
 progress[value] {
     -webkit-appearance: none;
-    -moz-appearance: none;
-         appearance: none;
+    appearance: none;
     height: 2px;
     display: block;
     width: 100%;
@@ -830,12 +905,17 @@ a.link.collapse:hover {
 
 .res-toolbar {
     display: inline-block;
+    user-select: none;
 }
 
 .res-toolbar.right {
     text-align: right;
-    margin-right:0px;
+    margin-right:-18px;
     float: right;
+}
+
+.res-toolbar .link.toggled {
+    color: darkred;
 }
 
 .res-toolbar.left {
@@ -843,7 +923,7 @@ a.link.collapse:hover {
 }
 
 .res-table {
-    max-width: 100%;
+    max-width: 340px;
     width: 100%;
     display: table;
     border-collapse: separate;
@@ -863,24 +943,47 @@ a.link.collapse:hover {
     padding-left: 2px;
     padding-right: 2px;
     display:table-cell;
+    white-space: nowrap !important;
+
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .res-cell.resource-name {
     width: 60px;
+    max-width: 85px;
 }
 
 .res-cell.resource-value {
     width: 75px;
+    max-width: 90px;
 }
 
 .res-cell.resPerTick {
     cursor: pointer;
-    font-size: 12px;
+}
+
+.res-cell.positive-weather {
+    color: green;
+}
+
+.res-cell.negative-weather {
+    color: red;
 }
 
 .res-cell.craft-link {
     cursor: pointer;
-    width: 30px;
+    width: 20px;
+    max-width: 60px;
+}
+
+.res-cell.craft-link .plusPrefix {
+    font-size: 80%;
+}
+
+.res-cell.craft-link.all{
+    font-size: 85%;
+    opacity: 0.4;
 }
 
 .res-cell.craft-link:hover {
@@ -889,33 +992,68 @@ a.link.collapse:hover {
 }
 
 .res-cell.craft-link:active {
-    -webkit-animation: pulseShort 0.5s;
             animation: pulseShort 0.5s;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    -webkit-animation: pulseShort 0.5s;
+       -moz-animation: pulseShort 0.5s;
+         -o-animation: pulseShort 0.5s;
+    user-select: none;
 }
 
-@-webkit-keyframes pulseShort {
-    100% {
-        -webkit-transform: scale(1.1);
-                transform: scale(1.1);
-    }
-  }
-
 @keyframes pulseShort {
-    100% {
-        -webkit-transform: scale(1.1);
-                transform: scale(1.1);
-    }
-  }
+    100% {transform: scale(1.1);}
+}
+@-webkit-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
+@-moz-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
+@-o-keyframes pulseShort {
+    100% {transform: scale(1.1);}
+}
 
 .map-viewport {
     border: 1px solid lightgray;
     height: 250px;
     padding: 20px;
 }
+
+/*--------------------------------------
+                Village
+---------------------------------------*/
+
+.census-block {
+    border: 1px solid gray;
+	margin-bottom: 5px;
+	padding: 5px;
+	min-height: 80px;
+}
+
+
+.census-block .info {
+    padding-bottom: 5px;
+}
+
+.census-block .skill{
+    font-size: 0.8em;
+}
+   
+.name.color-brown {
+    color:#856341;
+}
+.name.color-cream {
+    color:lightcoral;
+}
+.name.color-black {
+    color:darkgrey;
+}
+.name.color-fawn {
+    color:gainsboro;
+}
+.name.color-white {
+    color:floralwhite
+}
+
 
 /*--------------------------------------
                 Map
@@ -943,10 +1081,7 @@ a.link.collapse:hover {
     cursor: pointer;
 
     fill: lightgray;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    user-select: none;
 }
 
 .map-cell.focused {
@@ -958,20 +1093,31 @@ a.link.collapse:hover {
 }
 
 .map-cell.active {
-    -webkit-animation: border-pulse 4s infinite;
             animation: border-pulse 4s infinite;
+    -webkit-animation: border-pulse 4s infinite;
+       -moz-animation: border-pulse 4s infinite;
+         -o-animation: border-pulse 4s infinite;
 }
 
 .map-cell.locked {
     visibility: hidden;
 }
 
-@-webkit-keyframes border-pulse{
-    0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
+@keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
 }
-
-@keyframes border-pulse{
-    0% {border: 1px solid lightgray}		50% {border: 1px solid red}		100%{border: 1px solid lightgray}
+@-webkit-keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
+}
+@-moz-keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
+}
+@-o-keyframes border-pulse {
+    0%,100% {border: 1px solid lightgray;}
+        50% {border: 1px solid red;}
 }
 
 .map-cell .coord {
@@ -989,8 +1135,7 @@ a.link.collapse:hover {
     width: 100%;
     margin-bottom: -1px;
     -webkit-appearance: none;
-    -moz-appearance: none;
-         appearance: none;
+    appearance: none;
 }
 
 .map-cell .tooltip-content {
@@ -1023,116 +1168,324 @@ a.link.collapse:hover {
 
 
 div.blaze {
-    -webkit-animation: rainbow 2.5s linear;
-            animation: rainbow 2.5s linear;
-	-webkit-animation-iteration-count: infinite;
-	        animation-iteration-count: infinite;
+            animation: blaze-rainbow 3s linear infinite;
+    -webkit-animation: blaze-rainbow 3s linear infinite;
+       -moz-animation: blaze-rainbow 3s linear infinite;
+         -o-animation: blaze-rainbow 3s linear infinite;
 }
 
 div.hail {
-    -webkit-animation: redrainbow 1.5s linear;
-            animation: redrainbow 1.5s linear;
-	-webkit-animation-iteration-count: infinite;
-	        animation-iteration-count: infinite;
+            animation: hail-rainbow 1.5s linear infinite;
+    -webkit-animation: hail-rainbow 1.5s linear infinite;
+       -moz-animation: hail-rainbow 1.5s linear infinite;
+         -o-animation: hail-rainbow 1.5s linear infinite;
 }
 
-@-webkit-keyframes rainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    8%{
-        color: rgb(255,127,0);
-    }
-    16%{
-        color: rgb(255,255,0);
-    }
-    25%{
-        color: rgb(127,255,0);
-    }
-    33%{
-        color: rgb(0,255,0);
-    }
-    41%{
-        color: rgb(0,255,127);
-    }
-    50%{
-        color: rgb(0,255,255);
-    }
-    58%{
-        color: rgb(0,127,255);
-    }
-    66%{
-        color: rgb(0,0,255);
-    }
-    75%{
-        color: rgb(127,0,255);
-    }
-    83%{
-        color: rgb(255,0,255);
-    }
-    91%{
-        color: rgb(255,0,127);
-    }
+div.pray {
+            animation: pray-rainbow 1.5s linear infinite;
+    -webkit-animation: pray-rainbow 1.5s linear infinite;
+       -moz-animation: pray-rainbow 1.5s linear infinite;
+         -o-animation: pray-rainbow 1.5s linear infinite;
 }
 
-@keyframes rainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    8%{
-        color: rgb(255,127,0);
-    }
-    16%{
-        color: rgb(255,255,0);
-    }
-    25%{
-        color: rgb(127,255,0);
-    }
-    33%{
-        color: rgb(0,255,0);
-    }
-    41%{
-        color: rgb(0,255,127);
-    }
-    50%{
-        color: rgb(0,255,255);
-    }
-    58%{
-        color: rgb(0,127,255);
-    }
-    66%{
-        color: rgb(0,0,255);
-    }
-    75%{
-        color: rgb(127,0,255);
-    }
-    83%{
-        color: rgb(255,0,255);
-    }
-    91%{
-        color: rgb(255,0,127);
-    }
+div.leet {
+    font-family: "Lucida Console", Monaco, monospace !important;
+    text-align: right                                !important;
+    color: #33FF00                                   !important;
+    background-color: #282828                        !important;
 }
 
-
-@-webkit-keyframes redrainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    50%{
-        color: rgb(0,0,0);
-    }
+@keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-webkit-keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-moz-keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
+}
+@-o-keyframes blaze-rainbow {
+    0%,100% {color: #F00;}
+        17% {color: #FF0;}
+        33% {color: #0F0;}
+        50% {color: #0FF;}
+        67% {color: #00F;}
+        83% {color: #F0F;}
 }
 
-
-@keyframes redrainbow{
-    100%,0%{
-        color: rgb(255,0,0);
-    }
-    50%{
-        color: rgb(0,0,0);
-    }
+@keyframes hail-rainbow {
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
+}
+@-webkit-keyframes hail-rainbow {
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
+}
+@-moz-keyframes hail-rainbow {
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
+}
+@-o-keyframes hail-rainbow {
+    0%,100% {color: red; text-shadow: 0 0 10px red;}
+        50% {color: black; text-shadow: none;}
 }
 
-/*#toggle-all-items-build,#toggle-all-items-space,#toggle-all-items-craft,#toggle-all-items-trade,#toggle-all-items-faith{display: none !important;}*/
-.tabsContainer{z-index: 3;padding-bottom: 0;}
+@keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-webkit-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-moz-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+@-o-keyframes pray-rainbow {
+    0%,100% {color: gold; text-shadow: 0 0 10px gold;}
+        50% {color: silver; text-shadow: none;}
+}
+
+@keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-webkit-keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-moz-keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+@-o-keyframes neon-purple {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #9A2EFE,
+    0 0 40px #9A2EFE,
+    0 0 50px #9A2EFE;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #9A2EFE,
+    0 0 20px #9A2EFE,
+    0 0 25px #9A2EFE;}
+}
+
+@keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+@-webkit-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+@-moz-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+@-o-keyframes neon-pink {
+  from {text-shadow:
+    0 0 10px #FFFFFF,
+    0 0 20px #FFFFFF,
+    0 0 30px #FA2E9E,
+    0 0 40px #FA2E9E,
+    0 0 50px #FA2E9E;}
+  to {text-shadow:
+    0 0  5px #FFFFFF,
+    0 0 10px #FFFFFF,
+    0 0 15px #FA2E9E,
+    0 0 20px #FA2E9E,
+    0 0 25px #FA2E9E;}
+}
+
+@keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-webkit-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-moz-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+@-o-keyframes neon-gold {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px gold,
+    0 0 40px gold,
+    0 0 50px gold;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px gold,
+    0 0 20px gold,
+    0 0 25px gold;}
+}
+
+@keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-webkit-keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-moz-keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}
+@-o-keyframes neon-red {
+  from {text-shadow:
+    0 0 10px white,
+    0 0 20px white,
+    0 0 30px red,
+    0 0 40px red,
+    0 0 50px red;}
+  to {text-shadow:
+    0 0  5px white,
+    0 0 10px white,
+    0 0 15px red,
+    0 0 20px red,
+    0 0 25px red;}
+}

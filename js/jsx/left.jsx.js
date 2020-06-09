@@ -112,9 +112,9 @@ WResourceRow = React.createClass({
             weatherModValue = modifier ? "[" + (modifier > 0 ? "+" : "") + modifier.toFixed() + "%]" : "";
 
             if (modifier > 0) {
-                weatherModCss = {color: "green"};
+                weatherModCss = "positive-weather";
             } else if (modifier < 0) {
-                weatherModCss = {color: "red"};
+                weatherModCss = "negative-weather";
             }
         }
 
@@ -122,13 +122,33 @@ WResourceRow = React.createClass({
         //----------------------------------------------------------------------------
 
         var specialClass = "";
-        if (res.value == 420){
+        if (res.value == 420) {
             specialClass = " blaze";
-		} else if (res.value == 666){
+        } else if (res.value == 666) {
             specialClass = " hail";
-		}
+        } else if (res.value == 777) {
+            specialClass = " pray";
+        } else if (res.value == 1337) {
+            specialClass = " leet";
+        }
 
-        return $r("div", {className:"res-row" + (this.props.isRequired ? " highlited" : "")}, [
+        var resLeaderBonus ="";
+        var currentLeader = game.village.leader;
+        
+        if (currentLeader){
+            if(currentLeader.job) {
+                var currentLeaderJob = game.village.getJob(currentLeader.job);
+                if(currentLeaderJob) {
+                    for (var jobResName in currentLeaderJob.modifiers){
+                        if ( res.name == jobResName ){
+                            resLeaderBonus = " resLeaderBonus "
+                        }
+                    }                                      
+                }
+            }
+        }
+
+        return $r("div", {className:"res-row resource_" + res.name + resLeaderBonus + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     /*$r("input", {type:"checkbox"})*/
@@ -144,7 +164,8 @@ WResourceRow = React.createClass({
             $r("div", {
                 className:"res-cell resource-name", 
                 style:resNameCss,
-                onClick: this.onClickName
+                onClick: this.onClickName,
+                title: res.title || res.name
             }, 
                 res.title || res.name
             ),
@@ -153,7 +174,7 @@ WResourceRow = React.createClass({
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
             $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
-            $r("div", {className:"res-cell", style: weatherModCss}, weatherModValue)
+            $r("div", {className:"res-cell" + (weatherModCss ? " " + weatherModCss : "")}, weatherModValue)
         ]);
     },
     onClickName: function(e){
@@ -201,33 +222,36 @@ WCraftShortcut = React.createClass({
         return {resource: null, craftFixed: null, craftPercent: null};
     },
 
-    render: function(){
+    render: function() {
         var res = this.props.resource,
             recipe = this.props.recipe;
 
         var craftFixed = this.props.craftFixed,
             craftPercent = this.props.craftPercent,
             allCount = game.workshop.getCraftAllCount(res.name),
-            craftRatio = game.getResCraftRatio(res),
-            craftPrices = (res.name == "ship") ? game.workshop.getCraftPrice(recipe) : recipe.prices;   //????????????wat
+            craftRatio = game.getResCraftRatio(res.name),
+            craftPrices = game.workshop.getCraftPrice(recipe);
 
 
         var craftRowAmt = craftFixed;
-        if (craftFixed < allCount * craftPercent ){
+        if (craftFixed < allCount * craftPercent) {
             craftRowAmt = Math.floor(allCount * craftPercent);
         }
 
         var elem = null;
-
-        if (craftPercent == 1){
-            elem = this.hasMinAmt(recipe) ? 
-                $r("div", {className:"res-cell craft-link", onClick: this.doCraftAll}, $I("resources.craftTable.all")) : 
-                $r("div", {className:"res-cell craft-link"});
-        }else{
-            elem = game.resPool.hasRes(craftPrices, craftRowAmt) ?  
-            $r("div", {className:"res-cell craft-link", onClick: this.doCraft}, 
-                "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
-            : $r("div", {className:"res-cell craft-link"});
+        var cssClasses = "res-cell craft-link ";
+        if (craftPercent == 1) {
+            cssClasses += "all";
+            elem = this.hasMinAmt(recipe)
+                ? $r("div", {className: cssClasses, onClick: this.doCraftAll, title: "+" + game.getDisplayValueExt(allCount * (1 + craftRatio), null, null, 0)}, $I("resources.craftTable.all"))
+                : $r("div", {className: cssClasses});
+        } else {
+            cssClasses += (craftPercent * 100) + "pc";
+            elem = game.resPool.hasRes(craftPrices, craftRowAmt)
+                ? game.opts.usePercentageConsumptionValues
+                    ? $r("div", {className: cssClasses, onClick: this.doCraft, title: "+" + game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0)}, (craftPercent * 100) + "%")
+                    : $r("div", {className: cssClasses, onClick: this.doCraft, title: (craftPercent * 100) + "%"}, $r("span", {className:"plusPrefix"}, "+"), game.getDisplayValueExt(craftRowAmt * (1 + craftRatio), null, null, 0))
+                : $r("div", {className: cssClasses});
         }
 
         return $r("div", {ref:"linkBlock", style: {display:"contents"}}, elem);
@@ -382,9 +406,10 @@ WCraftRow = React.createClass({
                 resNameCss[styleKey] = res.style[styleKey];
             }
         }
-
         //----------------------------------------------------------------------------
-        return $r("div", {className:"res-row craft" + (this.props.isRequired ? " highlited" : "")}, [
+        var resVal = game.getDisplayValueExt(res.value);
+        return $r("div", {className:"res-row craft resource_" + res.name + (game.workshop.getEffectEngineer(res.name) !=0 ? " craftEngineer " : "")
+        + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
                     $r("input", {
@@ -396,12 +421,13 @@ WCraftRow = React.createClass({
                 ) : null,
             $r("div", {
                 className:"res-cell resource-name", 
-                style:resNameCss,
-                onClick: this.onClickName
+                style: resNameCss,
+                onClick: this.onClickName,
+                title: res.title || res.name
             }, 
                 res.title || res.name
             ),
-            $r("div", {className:"res-cell resource-value", ref:"perTickNode"}, game.getDisplayValueExt(res.value)),
+            $r("div", {className:"res-cell resource-value", ref:"perTickNode", title: resVal}, resVal),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:1, craftPercent: 0.01}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:25, craftPercent: 0.05}),
             $r(WCraftShortcut, {resource: res, recipe: recipe, craftFixed:100, craftPercent: 0.1}),
@@ -485,7 +511,7 @@ WResourceTable = React.createClass({
                 ),
                 $r("div", {className:"res-toolbar right"}, 
                     $r("a", {
-                        className:"link", 
+                        className: "link" + (this.state.isEditMode ? " toggled" : ""), 
                         onClick: this.toggleEdit
                     }, "⚙"),
                     $r(WTooltip, {body:"?"}, 
@@ -557,7 +583,7 @@ WCraftTable = React.createClass({
                 ),
                 $r("div", {className:"res-toolbar right"}, 
                     $r("a", {
-                        className:"link", 
+                        className: "link" + (this.state.isEditMode ? " toggled" : ""), 
                         onClick: this.toggleEdit
                     }, "⚙")
                 )

@@ -6,7 +6,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 	game: null,
 
-	hideResearched: false,	//hide researched techs
+	hideResearched: false,
 
 	//list of technologies
 	techs:[{
@@ -459,18 +459,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			stages: [
 				{bld:"amphitheatre",stage:1},	// Broadcast Tower
 				{bld:"library",stage:1}			// Data Center
-			], 
+			],
 			tech: [
-				"nuclearFission", 
-				"rocketry", 
+				"nuclearFission",
+				"rocketry",
 				"robotics"
 			],
 			upgrades: [
-				"cadSystems", 
-				"refrigeration", 
-				"seti", 
-				"factoryLogistics", 
-				"factoryOptimization", 
+				"cadSystems",
+				"refrigeration",
+				"seti",
+				"factoryLogistics",
+				"factoryOptimization",
 				"internet"
 			]
 		}
@@ -521,10 +521,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.blackchain.desc"),
 		effectDesc: $I("science.blackchain.effectDesc"),
 		prices: [
-			{name : "science", val: 5000000},
-			{name: 	"relic", val: 5000}
+			{name: "science", val: 5000000},
+			{name: "relic", val: 4096}
 		],
 		unlocks: {
+			upgrades: ["invisibleBlackHand"]
 		}
 	},{
 		name: "nuclearFission",
@@ -552,7 +553,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
-            upgrades: ["oilDistillation"]
+			upgrades: ["oilDistillation"]
 		}
 	}, {
         name: "oilProcessing",
@@ -578,8 +579,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [ 
-				"photolithography", 
+            upgrades: [
+				"photolithography",
 				"orbitalGeodesy",
 				"uplink",
 				"thinFilm"
@@ -598,12 +599,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			tech: ["exogeology", "thorium"],
 			upgrades: [
-				"hubbleTelescope", 
-				"satelliteRadio", 
-				"astrophysicists", 
-				"solarSatellites", 
-				"spaceEngineers", 
-				"starlink" 
+				"hubbleTelescope",
+				"satelliteRadio",
+				"astrophysicists",
+				"solarSatellites",
+				"spaceEngineers",
+				"starlink"
 			]
 		}
 	},{
@@ -900,7 +901,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
 
 	defaults: function() {
 		var result = this.inherited(arguments);

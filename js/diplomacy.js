@@ -123,7 +123,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 1.05,
 				"autumn": 1.15,
 				"winter": 0.95
-			}},
+			}}
 		],
 		collapsed: false
 	},{
@@ -460,31 +460,28 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 * Prints a formatted output of a trade results based on a resource map
 	 */
 	gainTradeRes: function(yieldResTotal, amtTrade){
-		var output = false;
 		if (yieldResTotal) {
+			var output = false;
 			for (var res in yieldResTotal) {
 				var amt = this.game.resPool.addResEvent(res, yieldResTotal[res]);
 				if (amt > 0){
-					if (res == "blueprint"){
-                        res="蓝图";
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
-					} else if (res == "titanium"){
-                        res="钛";
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), res]) + "!", "notice", "trade", true);
-					} else {
-						var resPool = this.game.resPool.get(res);
-						var name = resPool.title || res;
-						this.game.msg($I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]), null, "trade", true);
+					var resPool = this.game.resPool.get(res);
+					var name = resPool.title || res;
+					var msg = $I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]);
+					var type = null;
+					if (res == "blueprint" || res == "titanium"){
+						msg += "!";
+						type = "notice";
 					}
+					this.game.msg(msg, type, "trade", true);
 					output = true;
 				}
 			}
-			//var orthographe = amtTrade > 1 ? "s" : "";
-			this.game.msg($I("trade.msg.trade.caravan", [amtTrade]), null, "trade");
-		}
 
-		if (yieldResTotal && !output){
-			this.game.msg($I("trade.msg.trade.empty"), null, "trade");
+			if (!output){
+				this.game.msg($I("trade.msg.trade.empty"), null, "trade", true);
+			}
+			this.game.msg($I("trade.msg.trade.caravan", [amtTrade]), null, "trade");
 		}
 	},
 
@@ -526,14 +523,14 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 	},
 
-	buyEcoin: function(){
+	buyBcoin: function(){
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
 		this.game.msg("你购买了 " + this.game.getDisplayValueExt(amt) + " 黑币");
 	},
 
-	sellEcoin: function(){
+	sellBcoin: function(){
 		var amt = this.game.resPool.get("blackcoin").value * this.game.calendar.cryptoPrice;
 		this.game.resPool.get("relic").value += amt;
 		this.game.resPool.get("blackcoin").value = 0;
@@ -554,8 +551,22 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel, {
 	tradeBtn: null,
 
+	constructor: function(race) {
+		this.race = race;
+		this.name = race.title;
+	},
+
 	onToggle: function(isToggled){
 		this.race.collapsed = isToggled;
+	},
+
+	render: function(container) {
+		var attitude = this.race.attitude;
+		if (attitude == "hostile" && 100 * (1 - this.race.standing) < this.game.getEffect("standingRatio") + (this.game.prestige.getPerk("diplomacy").researched ? 10 : 0)) {
+			attitude = "not longer hostile, now neutral";
+		}
+		this.name = this.race.title + " <span class='attitude'>" + attitude + "</span>";
+		return this.inherited(arguments);
 	},
 
 	update: function(){
@@ -572,7 +583,7 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		var content = this.inherited(arguments);
 
 		var self = this;
-		var feedBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+		this.feedBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("trade.msg.elders.feed"),
 				description: $I("trade.msg.elders.feed.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
@@ -580,43 +591,96 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 					self.game.diplomacy.feedElders();
 				}
 			}, this.game);
-		feedBtn.render(content);
+		this.feedBtn.render(content);
 
 		if (this.game.science.get("blackchain").researched || this.game.resPool.get("blackcoin").value > 0) {
-
-			var buyEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.buy.ecoin"),
-				description: $I("trade.buy.ecoin.desc"),
+			this.buyBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.buy.bcoin"),
+				description: $I("trade.buy.bcoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.buyEcoin();
+					self.game.diplomacy.buyBcoin();
 				}
 			}, this.game);
-			buyEcoin.render(content);
-			this.buyEcoin = buyEcoin;
+			this.buyBcoin.render(content);
 
-			var sellEcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.sell.ecoin"),
-				description: $I("trade.sell.ecoin.desc"),
+			this.sellBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.sell.bcoin"),
+				description: $I("trade.sell.bcoin.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
-					self.game.diplomacy.sellEcoin();
+					self.game.diplomacy.sellBcoin();
 				}
 			}, this.game);
-			sellEcoin.render(content);
-			this.sellEcoin = sellEcoin;
+			this.sellBcoin.render(content);
 		}
 
-		this.feedBtn = feedBtn;
+		if (this.game.science.get("antimatter").researched && this.game.workshop.get("invisibleBlackHand").researched) {
+			this.crashBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.crash.bcoin"),
+				description: $I("trade.crash.bcoin.desc"),
+				controller: new com.nuclearunicorn.game.ui.CrashBcoinButtonController(this.game),
+				handler: function () {
+					self.game.calendar.correctCryptoPrice();
+				}
+			}, this.game);
+			this.crashBcoin.render(content);
+		}
+
 		return content;
 	},
 
-	update: function(){
+	update: function() {
 		this.inherited(arguments);
-		if (this.feedBtn){
+		if (this.feedBtn) {
 			this.feedBtn.update();
 		}
+		if (this.crashBcoin) {
+			this.crashBcoin.update();
+		}
+	}
+});
 
+dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.hasResourceHover = true;
+		result.simplePrices = true;
+		return result;
+	},
+
+	updateEnabled: function(model) {
+		this.inherited(arguments);
+		model.enabled &= game.calendar.cryptoPrice > 550;
+	},
+
+	fetchExtendedModel: function(model) {
+		model.prices = this.getPrices();
+		this.inherited(arguments);
+	},
+
+	getPrices: function() {
+		var tcPerStandardYear = 0.002401 * game.space.getBuilding("moonOutpost").val;
+		tcPerStandardYear *= 1 + game.space.getBuilding("spaceElevator").val * 0.01 + game.space.getBuilding("orbitalArray").val * 0.02;
+		tcPerStandardYear *= 1 + game.bld.get("factory").val * 0.045;
+		tcPerStandardYear *= 1.03 + game.getEffect("tradeRatio") + game.prestige.getBurnedParagonRatio() * 0.03;
+		tcPerStandardYear *= 1 + game.diplomacy.get("leviathans").energy * 0.02;
+
+		var ticksPerYear = game.calendar.ticksPerDay * game.calendar.daysPerSeason * game.calendar.seasonsPerYear;
+		var tcPerTick_phase0 = 1.13 * tcPerStandardYear / ticksPerYear;
+		var tcPerTick_phase1 = (2.4 * tcPerStandardYear - 9) / ticksPerYear;
+
+		var heatPerShatter = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+		var tcPerSkip = 1.13 * tcPerStandardYear * game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+		var tcPerShatter = (1 + heatPerShatter / 100) * tcPerSkip - 1;
+		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * game.getEffect("heatPerTick");
+
+		var tcPerTick = Math.max(tcPerTick_phase0, tcPerTick_phase1, tcPerTick_phase2);
+		// game.calendar.ticksPerDay / (0.4 * (40000 + 1) * Math.log1p(1/40000) - 0.3 * (40000 - 1) * Math.log1p(-1/40000) - 0.7) = 8000466.692810739, but Math.log1p is ES6
+		var ticksUntilNextNaturalCrash = 8000466.692810739 * Math.log(1100 / game.calendar.cryptoPrice);
+		var tcBasePrice = Math.max(256, tcPerTick * ticksUntilNextNaturalCrash);
+		var tcPrice = Math.pow(2, Math.ceil(Math.log(tcBasePrice) * Math.LOG2E));
+		return [{name: "timeCrystal", val: tcPrice}];
 	}
 });
 
@@ -650,17 +714,18 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	},
 
 	renderLinks: function(){
-		this.tradeAllHref = this.addLink($I("btn.all.minor"),
-			function(){
+		this.tradeAllHref = this.addLink({
+			title: $I("btn.all.minor"),
+			handler: function() {
 				this.game.diplomacy.tradeAll(this.race);
 			}
-		);
+		});
 
 		// 50% template
-		this.tradeHalfHref = this.addLink("","");
+		this.tradeHalfHref = this.addLink({title: "", handler: ""});
 
 		//20% template
-		this.tradeFifthHref = this.addLink("","");
+		this.tradeFifthHref = this.addLink({title: "", handler: ""});
 	},
 
 	update: function(){
@@ -668,10 +733,14 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 
 		var tradeMax = this.game.diplomacy.getMaxTradeAmt(this.race);
 
+		// Change button content
+		this.tradeAllHref.link.title = "x" + this.game.getDisplayValueExt(tradeMax, null, false, 0);
+
 		// Update tradeHalfHref Link
 		var tradeHalf = Math.floor(tradeMax / 2);
-		// Change button innerHTML
-		this.tradeHalfHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0);
+		// Change button content
+		this.tradeHalfHref.link.textContent = this.game.opts.usePercentageConsumptionValues ? "50%" : "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0);
+		this.tradeHalfHref.link.title = this.game.opts.usePercentageConsumptionValues ? "x" + this.game.getDisplayValueExt(tradeHalf, null, false, 0) : "50%";
 		// Change handler
 		dojo.disconnect(this.tradeHalfHref.linkHandler);
 		this.tradeHalfHref.linkHandler = dojo.connect(this.tradeHalfHref.link, "onclick", this, dojo.partial(function(event){
@@ -687,12 +756,13 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.style(this.tradeHalfHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
+		dojo.style(this.tradeHalfHref.link, "display", this.game.opts.showNonApplicableButtons || this.game.diplomacy.hasMultipleResources(this.race, 50) ? "" : "none");
 
 		// Update tradeFifthHref Link
 		var tradeFifth = Math.floor(tradeMax / 5);
-		// Change button innerHTML
-		this.tradeFifthHref.link.innerHTML = "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0);
+		// Change button content
+		this.tradeFifthHref.link.textContent = this.game.opts.usePercentageConsumptionValues ? "20%" : "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0);
+		this.tradeFifthHref.link.title = this.game.opts.usePercentageConsumptionValues ? "x" + this.game.getDisplayValueExt(tradeFifth, null, false, 0) : "20%";
 		// Change handler
 		dojo.disconnect(this.tradeFifthHref.linkHandler);
 		this.tradeFifthHref.linkHandler = dojo.connect(this.tradeFifthHref.link, "onclick", this, dojo.partial(function(event){
@@ -708,7 +778,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 			this.update();
 		}));
 		// Change display
-		dojo.style(this.tradeFifthHref.link, "display", this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
+		dojo.style(this.tradeFifthHref.link, "display", this.game.opts.showNonApplicableButtons || this.game.diplomacy.hasMultipleResources(this.race, 25) ? "" : "none");
 
 	}
 });
@@ -808,9 +878,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 
 
-		var expandAll = dojo.create("a", { innerHTML: "全部展开", href: "#" }, expandDiv);
+		var expandAll = dojo.create("a", { innerHTML: $I("common.expand.all"), href: "#" }, expandDiv);
 		dojo.create("span", { innerHTML: " | " }, expandDiv );
-		var collapseAll = dojo.create("a", { innerHTML: "全部收起", href: "#" }, expandDiv);
+		var collapseAll = dojo.create("a", { innerHTML: $I("common.collapse.all"), href: "#" }, expandDiv);
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
@@ -821,13 +891,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}
 
 			var racePanel = this.racePanels[i];
-			if (!racePanel){
-				if (race.name === "leviathans") {
-					racePanel = new classes.diplomacy.ui.EldersPanel(race.title+" <span class='attitude'>"+cnItem(race.attitude)+"</span>");
-					racePanel.setGame(this.game);
-				} else {
-					racePanel = new classes.diplomacy.ui.RacePanel(race.title+" <span class='attitude'>"+cnItem(race.attitude)+"</span>");
-				}
+			if (!racePanel) {
+				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);
+				racePanel.setGame(this.game);
 				this.racePanels.push(racePanel);
 			}
 			var content = racePanel.render(tabContainer);
@@ -909,12 +975,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			racePanel.race = race;
 			racePanel.collapse(race.collapsed);
 
-			if (racePanel.buyEcoin && racePanel.sellEcoin){
+			if (racePanel.buyBcoin && racePanel.sellBcoin) {
 				var tradePanel = dojo.create("div", {className:"crypto-trade" /*, style:{display:"none"}*/ }, null);
 				dojo.place(tradePanel, rightColumn, "last");
 
-				dojo.place(racePanel.buyEcoin.domNode, tradePanel, "last");
-				dojo.place(racePanel.sellEcoin.domNode, tradePanel, "last");
+				dojo.place(racePanel.buyBcoin.domNode, tradePanel, "last");
+				dojo.place(racePanel.sellBcoin.domNode, tradePanel, "last");
+			}
+
+			if (racePanel.crashBcoin) {
+				dojo.place(racePanel.crashBcoin.domNode, rightColumn, "last");
 			}
 		}
 

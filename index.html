@@ -3,8 +3,12 @@
 
 	<head>
 		<meta charset="utf-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
         <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link rel="shortcut icon" href="res/favicon.gif" type="image/x-icon">
 
@@ -32,10 +36,10 @@
 			ga('send', 'pageview');
 		</script>-->
 
-		<link rel="stylesheet" href="res/default.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_dark.css?v=5" type="text/css">
-        <link rel="stylesheet" href="res/theme_grassy.css?v=5" type="text/css">
-		<link rel="stylesheet" href="res/theme_sleek.css?v=5" type="text/css">
+		<script type="text/javascript">
+			var now = Date.now();
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + now).appendTo($("head"));
+		</script>
 
 		<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 		<script>
@@ -49,9 +53,33 @@
 			firebase.initializeApp(config);
 		</script>
 
+		<script>
+			/**
+			 * Workaround for IE9 local storage :V
+			 *
+			 * This fix is intended for IE in general and especially for IE9,
+			 * where localStorage is defined as system variable.
+			 *
+			 */
+
+			window.LCstorage = window.localStorage;
+			if (document.all && !window.localStorage) {
+				window.LCstorage = {};
+				window.LCstorage.removeItem = function () { };
+			}
+		</script>
+
 		<script type="text/javascript">
 
-			var version = "1462d";
+			var version = "1471b";
+
+			// Warning: As the URL of gamma is contained in URLs of alpha and beta, gamma MUST be declared before them
+			var branches = {
+				"mainline": "http://bloodrizer.ru/games/kittens/",
+				"gamma": "http://kittensgame.com/web/",
+				"beta": "http://kittensgame.com/web/beta/",
+				"alpha": "http://kittensgame.com/web/alpha/"
+			};
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -83,7 +111,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?v=_" + version);
+				return System.import(module + ".js?_=" + now);
 			}
 
 			function _import(module, def){
@@ -93,14 +121,39 @@
 					return def.then(function(){
 						return loadModule(module);
 					}).catch(function(err){
-						console.error(err);
+						console.error("_import#: unable to load module:", module);
+						console.trace(err);
 					});
 				}
 			}
 
-			dojo.addOnLoad(function(){
+			function loadTheme(themeId, timestamp){
+				$("<link />")
+					.attr("rel", "stylesheet")
+					.attr("type", "text/css")
+					.attr("href", "res/theme_" + themeId + ".css?_=" + timestamp)
+					.appendTo($("head"));
+			}
+
+			dojo.addOnLoad(function() {
+				var currentBranch = "mainline";
+				for (var branch in branches) {
+					var linkID = "#" + branch + "Branch";
+					$(linkID).attr("target", "_blank");
+					var branchURL = branches[branch];
+					$(linkID).attr("href", branchURL);
+					if (window.location.href.indexOf(branchURL) === 0) {
+						currentBranch = branch;
+					}
+				}
+
+				var displayedVersion = version.split('').join('.');
+				if (currentBranch != "mainline") {
+					displayedVersion += '-&' + currentBranch + ';';
+				}
+				$("#versionLink").html(displayedVersion);
+
 				$("#tooltip").hide();
-				$("#versionLink").html(version.split('').join('.'));
 
 				SystemJS.config({
 					baseURL: ''
@@ -134,13 +187,31 @@
 				progressMax = modules.length + 2;
 				console.log("加载中...");
 
-				var def = _import("config");
-				def = _import("core", def);
-				var gameLang;
+				//------ preload theme id ---------
+				var uiData = LCstorage["com.nuclearunicorn.kittengame.ui"];
+				var uiSettings = uiData && JSON.parse(uiData);
+				if (uiSettings){
+					if (uiSettings.theme){
+						$("body").addClass("scheme_" + uiSettings.theme);
+						loadTheme(uiSettings.theme, now);
+					}
+				}
 
+				var def = _import("config");
+				def.then(function() {
+					var schemes = new classes.KGConfig().statics.schemes;
+					for (var i = 0; i < schemes.length; ++i) {
+						//todo: skip theme if preloaded
+						if (!uiSettings || uiSettings.theme != schemes[i]){
+							loadTheme(schemes[i], now);
+						}
+					}
+				});
+
+				def = _import("core", def);
 				def.then(function () {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(version);
+					var langPromise = i18nLang.init(now);
 					langPromise.done(function() {
 						console.log("Loading game modules");
 						for (var i in modules){
@@ -191,13 +262,6 @@
 
 
 					var host = window.location.hostname;
-					if (host.indexOf("kongregate") > -1){
-						$.getScript("http://www.kongregate.com/javascripts/kongregate_api.js", function() {
-//							$.getScript("js/kongregate_api.js", function() {
-							console.log("loading Kongregate API...");
-							gamePage.initKongregateApi();
-						});
-					}
 					gamePage.isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
 					if (gamePage.isLocalhost){
 						$("#devModeButton").show();
@@ -254,6 +318,13 @@
 					猫国建设者 <span style="font-size: small;">by <a href="http://bloodrizer.ru/" class="copyright" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
+					<span style="font-size: small;">
+						<a id="alphaBranch" title="experimental, unstable">&alpha;</a>
+						<a id="betaBranch" title="experimental, stable">&beta;</a>
+						<a id="gammaBranch" title="stable, nighty build">&gamma;</a>
+						<a id="mainlineBranch" title="stable official mainline">ML</a>
+					</span>
+
 					<a href="#" style="color: red">
 						<!-- nothing exceptional there so far -->
 					</a>
@@ -270,6 +341,7 @@
 							<a href="#" onclick="gamePage.workshop.unlockAll();">全部升级</a>
 							<a href="#" onclick="gamePage.resPool.maxAll();">全部资源</a>
                             <a href="#" onclick="gamePage.bld.devAddStorage();">More storage</a>
+							<a href="#" onclick="gamePage.unlockedSchemes = gamePage.ui.allSchemes; gamePage.ui.updateOptions();">All themes</a>
 						</div>
 					</div>
 
@@ -285,13 +357,13 @@
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">已保存!</span>
 
 					<div class="links-block" style="padding-top:3px;display:inline-block;">
-						<a href="#" onclick="gamePage.saveUI();">保存</a> |
-						<a href="#" onclick="$('#optionsDiv').toggle();">选项</a> |
+						<a id="save-link" href="#" onclick="gamePage.saveUI();">保存</a> |
+						<a id="options-link" href="#" onclick="$('#optionsDiv').toggle();">选项</a> |
 
-						<a href="#" onclick="gamePage.reset();">重置</a> |
-						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();"  title="加速模式开启后，点天数后面的 >>> 游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
-						<a href="#" onclick="wipe();"  title="此操作会清除你的所有游戏进度。">删档</a> |
-						<a href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
+						<a id="reset-link" href="#" onclick="gamePage.reset();">重置</a> |
+						<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();" title="加速模式开启后，点天数后面的 >>> 游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
+						<a id="wipe-link" href="#" onclick="wipe();">删档</a> |
+						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">手机版</a> |
 
 						<a href="#" onclick="$('#changelogDiv').toggle();">版本号 <span id="versionLink">?.?.?.?</span></a>
 					</div>
@@ -304,18 +376,15 @@
 				<br>
 				<pre>
 
-					版本: 1
-						太空
-
 					主要: 4
-						时辰炉
-						时间阻力
+						计时炉
+						时间阻抗
 
-					小改动 6:
-						科学重构
+					次要 7:
+						时间锅炉
 
-					Rev: 0
-						-
+					其它: 1
+						界面
 
 				</pre>
 				<a href="changelog.html" target="_blank" style="position: relative; top: -15px;">显示全部日志</a>
@@ -323,7 +392,7 @@
 
 			<div id="loadingContainer">
 				<div class="content">
-					<span style="font-size:18px;"><img src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
+					<span style="font-size:18px;"><img class="loader" width="16" height="16" src="res/ajax-loader.gif">&nbsp;加载中...<br></span>
 					<br>
 					<progress id="loadingProgressBar" value="0" max="100"></progress>
 					<div id="loadingProgressInfo">设置游戏引擎...</div>
@@ -331,7 +400,7 @@
 			</div>
 
 			<div id="game" style="display:none;">
-				<div id="tooltip" class="tooltipExt button_tooltip"></div>
+				<div id="tooltip" class="button_tooltip"></div>
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
@@ -342,18 +411,25 @@
 				<div id="midColumn" style="vertical-align: top;" class="column">
 					<div id="gameContainerId" style="border: 1px solid gray;">
 						<span>糟糕!</span>
-						<div id="gameContainerHelp" style="font-size:12px; color: gray; display:none;">
-							如果卡在这个界面太久，有可能是程序挂掉了，不用担心，试试这几个办法：<br>
+						<div id="gameContainerHelp" style="font-size:150%;">
+							看起来像游戏不工作。但是别担心。<br>
 							<ul>
 								<li>检查浏览器的JavaScript选项是否已启用，或者浏览器广告拦截器是否已关闭。</li>
 								<li>使用 Ctrl+F5 强制刷新。</li>
-								<li>过十几分中后再打开游戏。</li>
-								<li>导出你的存档，保存好，清空游戏数据，再重新导入存档。</li>
-								<li>如果这些方法都不好使，请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入猫国交流群寻求帮助，或者前往猫国的英文Reddit论坛寻求帮助。</li>
+								<li>过10-15分钟后再打开游戏。</li>
+								<li>如果这些方法都不好使，请点击<a href="https://jq.qq.com/?_wv=1027&k=47jg387">这个链接</a>加入猫国交流群寻求帮助，或者前往猫国的英文Reddit论坛寻求帮助。
+									<ul>
+										<li>按F12打开网页控制台，</li>
+										<li>切换到 "Console" 标签, 中文是："控制台"</li>
+										<li>截图所有错误(红色文字)，</li>
+										<li>把它们贴在Discord。</li>
+									</ul>
+								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
+
 				<!-- RIGHT -->
 				<div id="rightColumn" class="column">
 					<div>
@@ -361,11 +437,10 @@
 						<a id="dev_boostCalendar" href="#" onclick="dev_boostCalendar();" style="display: none; text-decoration: none; position: relative; left: 5px;">&gt;&gt;&gt;</a>
 					</div>
 					<div class="right-tab-header">
-						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">日志</a>&nbsp;|
-<!--						<a id="chatLink" class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>-->
-<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
+						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">日志</a>
+						<a id="chatLink" class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
 					</div>
-					<div id="observeButton" style="text-align: center; margin-top: 5px; height: 30px;"></div>
+					<div id="observeButton"></div>
 					<div class="right-tab" id="rightTabLog">
 						<div>
 							<div class="console-intro" style="padding-top: 10px; border-top: 1px solid gray;">
@@ -402,41 +477,33 @@
 			<div id="creditsDiv" style="display: none" class="dialog credits">
 				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
-				整洁主题由 Kida 提供, 草绿主题由 <a href="http://www.reddit.com/user/shrx" target="_blank">shrx</a> 提供 <br/>
-				<br>
+				CSS主题:shrx, Kida, Volkeyrn(见每个主题的顶部栏)。<br />
+				<br />
 				代码贡献者:
-				<br>
 				<ul>
 					<li><a href="http://www.reddit.com/user/Zusias" target="_blank">Zusias</a></li>
 					<li>Duke</li>
 					<li><a href="http://www.reddit.com/user/xranti" target="_blank">xranti</a></li>
-                    <li><a href="http://www.reddit.com/user/klusark" target="_blank">klusark</a></li>
+					<li><a href="http://www.reddit.com/user/klusark" target="_blank">klusark</a></li>
 					<li><a href="https://coderpatsy.bitbucket.io/" target="_blank">coderpatsy</a></li>
 					<li>ArcanisCz</li>
 					<li>Kida</li>
 					<li>freeroot</li>
-					<li>Ethaniel_Kavelaars</li>
-
+					<li>Ethaniel</li>
 				</ul>
 
-				非常感谢 4chan/igg 这样的好人。
-				<br>
-				非常感谢/ r/kittensgame社区的所有提供反馈和测试的小伙伴们。
-				<br>
-				tumblr图标来源 <a href="https://moonlight-pendent13.deviantart.com">Moonlight-pendent13</a>
-				<br>
-
-				最热烈的感谢<a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a>长期的支持和反馈。
-				<br>
-				<br>
-				最后，我永远感谢给Waraiko.
-				<br>
-
+				Thanks a lot to 4chan/igg for being such a nice guys.<br >
+				Thanks a lot to /r/kittensgame community for all the feedback and testing.<br />
+				tumblr icon by <a href="https://moonlight-pendent13.deviantart.com">Moonlight-pendent13</a><br />
+				<br />
+				Warmest thanks to <a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback.<br />
+				<br />
+				And finally, my undying gratitude to Waraiko.
 			</div>
 
 
-			<div id="optionsDiv" style="display: none; height: 380px; margin-top:-190px" class="dialog help">
-				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">关闭</a>
+			<div id="optionsDiv" style="display: none;" class="dialog help">
+				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="languageSelector">选择语言:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -445,14 +512,12 @@
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">保存更改</a>
 				<br>
 				<br>
+
 				<label for="schemeToggle">更换主题:</label>
-				<!-- <input id="schemeToggle" type="checkbox" onclick="gamePage.toggleScheme()"> Inverted <br><br><br> -->
-				<select id="schemeToggle" onchange="gamePage.toggleScheme()">
-					<option value="">默认</option>
-					<option value="dark">反色</option>
-					<option value="grassy">草绿</option>
-					<option value="sleek">整洁 (By Kida)</option>
+				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select>
+				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
+				<br><i><span style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
 				<br>
 				<br>
 
@@ -477,6 +542,12 @@
 				<input id="usePercentageResourceValues" type="checkbox" onclick="gamePage.opts.usePercentageResourceValues = $('#usePercentageResourceValues')[0].checked;">
 				<label for="usePercentageResourceValues">按百分比显示资源变化</label>
 				<br>
+				<input id="showNonApplicableButtons" type="checkbox" onclick="gamePage.opts.showNonApplicableButtons = $('#showNonApplicableButtons')[0].checked;">
+				<label for="showNonApplicableButtons">Always show festivals/trade/sacrifice/shatter buttons even if not applicable</label>
+				<br>
+				<input id="usePercentageConsumptionValues" type="checkbox" onclick="gamePage.opts.usePercentageConsumptionValues = $('#usePercentageConsumptionValues')[0].checked;">
+				<label for="usePercentageConsumptionValues">Use percentage values for craft/trade/sacrifice buttons</label>
+				<br>
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
 				<label for="highlightUnavailable">建筑物存储空间不足时，高亮显示</label>
 				<br>
@@ -492,24 +563,41 @@
             <span style="color:green;font-size:12px;">* 因为新版本科学家1.4.2依赖了谷歌Chrome浏览器的新特性，谷歌浏览器版本号69以上才能正常使用，如果无法启用科学家，请使用旧的1.3.2版本。或者自行切换/升级谷歌浏览器。</span>
 				<span style="color:blue;font-size:12px;"><br>* 只能同时启用一个小猫科学家，如要切换，请保存后，刷新游戏再开启另一个科学家。。</span>
 				<br>
+				<input id="hideDowngrade" type="checkbox" onclick="gamePage.opts.hideDowngrade = $('#hideDowngrade')[0].checked;">
+				<label for="hideDowngrade">隐藏“降级”按钮</label>
+				<br>
+				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
+				<label for="hideBGImage">隐藏背景图片 <i>(适用于配色方案)</i></label>
+				<br>
+				<input id="tooltipsInRightColumn" type="checkbox" onclick="gamePage.opts.tooltipsInRightColumn = $('#tooltipsInRightColumn')[0].checked; gamePage.ui.updateOptions();">
+				<label for="tooltipsInRightColumn">移动工具提示到右列</label>
+				<br>
+                <br>
 
                 <a href="#" onclick="$('.optsExtra').toggle();">更多设置...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
-				<div class="optsExtra" style="display:none">
+				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					<label for="noConfirm">清除所有工作时不需要确认提示</label>
+					<label for="noConfirm">不要在清除所有工作或全部出售时进行确认(Shift + 点击)</label>
 					<br>
                     <input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
                     <label for="IWSmelter">在钢铁意志模式下，熔炉会在铁储量不足95%时关闭</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-					<label for="disableTelemetry">停用游戏的统计功能</label>
+					<label for="disableTelemetry">禁用游戏遥测</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-					<label for="enableRedshift">启用脱机进程（实验性功能）</label>
+					<label for="enableRedshift">启用离线进度</label>
+					<br>
+					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
+					<label for="batchSize">批处理大小 Ctrl + 单击</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
-					<label for="forceLZ" style="font-size: 8px;">始终压缩保存文件（实验）</label>
+					<label for="forceLZ" style="font-size: 75%;">始终以UTF-16压缩内存保存 <i>(实验性的)</i></label>
+					<br>
+					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
+					<label for="compressSaveFile" style="font-size: 75%;">压缩导出的存档文件 <i>(实验性的)<br>
+						警告：它会生成与旧版本不兼容的存档文件。</i></label>
 				</div>
 
 				<br>
@@ -564,17 +652,17 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">新闻</a> |
-			<a href="https://gitee.com/likexia/cat-zh" target="_blank">汉化主页</a> |
-			<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="猫国百科全书">Wiki</a> |
-<!--				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">英文文档</a> |-->
-<!--				<a href="https://discord.gg/2arBf9K" target="_blank">聊天</a> |-->
-            <a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
+				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
+				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
+				<a href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
+			<a href="https://g8hh.com" target="_blank">锅巴汉化</a> |
+				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
-				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> <!-- |
-				<a href="classic/" target="_blank">classic</a> -->
+				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> |
+				<a href="https://www.patreon.com/bloodrizer" target="_blank">Patreon</a>
+				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
     <!--客服 开始-->
@@ -582,6 +670,11 @@
     <script src="https://likexia.gitee.io/game/js/jquery.min.js"></script>
     <script src="https://likexia.gitee.io/game/js/kf.js"></script>
     <script src="zh.js"></script>
+    <style>
+        #optionsDiv{
+            margin-top: -300px;
+        }    
+    </style>
  <!-- 客服 结束 -->
     <!--统计代码 start-->
     <div style="display:none;"><script src="https://s19.cnzz.com/z_stat.php?id=1267958737&web_id=1267958737" language="JavaScript"></script></div>

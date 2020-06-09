@@ -1863,7 +1863,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         upgrades: {
             buildings: ["chronosphere"]
         }
-    }
+        //---------------- Blackcoin ---------------
+    },{
+		name: "invisibleBlackHand",
+		label: $I("workshop.invisibleBlackHand.label"),
+		description: $I("workshop.invisibleBlackHand.desc"),
+		prices: [
+			{name: "void", val: 32},
+			{name: "blackcoin", val: 64},
+			{name: "timeCrystal", val: 128},
+			{name: "temporalFlux", val: 4096}
+		],
+		unlocks: {
+		}
+	}
     ],
 
 	//=============================================================
@@ -2187,19 +2200,16 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	},
 
-	getCraftPrice: function(craft){
-		if (craft.name != "ship"){
+	getCraftPrice: function(craft) {
+		if (craft.name != "ship") {
 			return craft.prices;
 		}
 
 		//special ship hack
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
-			if (prices[i].name == "starchart"){
-				prices[i].val = prices[i].val *
-					(1 - this.game.getHyperbolicEffect(
-						this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on,
-						0.75));
+			if (prices[i].name == "starchart") {
+				prices[i].val = prices[i].val * (1 - this.game.getHyperbolicEffect(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
 			}
 		}
 		return prices;
@@ -2207,7 +2217,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
-		var craftRatio = this.game.getResCraftRatio({name:res});
+		var craftRatio = this.game.getResCraftRatio(res);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
@@ -2272,7 +2282,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
 			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
 
-			return afterCraft ? effectPerTick * this.game.getResCraftRatio({name:resName}) : effectPerTick;
+			return afterCraft ? effectPerTick * this.game.getResCraftRatio(resName) : effectPerTick;
 		}
 	},
 
@@ -2282,7 +2292,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
-			var craftRatio = this.game.getResCraftRatio(res);
+			var craftRatio = this.game.getResCraftRatio(metaId);
 			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
 		}
     },
@@ -2310,13 +2320,11 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	//Crafts maximum possible amount for given recipe name
 	craftAll: function(craftName) {
 		var minAmt = this.getCraftAllCount(craftName);
-		if (minAmt > 0 && minAmt < Number.MAX_VALUE) {
-			var craftRatio = this.game.getResCraftRatio({name:craftName});
-			var bonus = minAmt * craftRatio;
-
+		if (0 < minAmt && minAmt < Number.MAX_VALUE) {
+			var craftRatio = this.game.getResCraftRatio(craftName);
 			var res = this.game.resPool.get(craftName);
 			if (this.craft(craftName, minAmt, false /* allow undo */, false /* don't force all */, true /* bypass resource check */)) {
-				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt + bonus), (res.title || craftName)]), null, "craft");
+				this.game.msg( $I("workshop.crafted.msg", [this.game.getDisplayValueExt(minAmt * (1 + craftRatio)), (res.title || craftName)]), null, "craft");
 			}
 		}
 	},
@@ -2347,9 +2355,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (this.game.prestige.getPerk("codexLeviathanianus").researched){
 			var ttBoostRatio = (
 				0.05 * (
-					1 + 
+					1 +
 					blackLibrary.val * (
-						blackLibrary.effects["compendiaTTBoostRatio"] + 
+						blackLibrary.effects["compendiaTTBoostRatio"] +
 						this.game.getEffect("blackLibraryBonus") )
 				)
 			);
@@ -2367,7 +2375,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 
 		//sanity check
-		if (this.game.village.getFreeEngineer() < 0){
+		if (this.game.village.getFreeEngineers() < 0){
 			this.clearEngineers();
 		}
 
@@ -2443,7 +2451,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearunicorn.game.ui.BuildingResearchBtnController, {
+dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
 
 	defaults: function() {
 		var result = this.inherited(arguments);
@@ -2475,16 +2483,6 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearun
 			model.visible = false;
 		}
 	}
-});
-
-
-dojo.declare("com.nuclearunicorn.game.ui.UpgradeButton", com.nuclearunicorn.game.ui.BuildingResearchBtn, {
-	renderLinks: function(){
-		if (this.game.devMode && !this.devUnlockHref){
-			this.devUnlockHref = this.addLink("[+]", this.unlock);
-		}
-	}
-
 });
 
 dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
@@ -2524,35 +2522,35 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 		}
 	},
 
-	getDescription: function(model){
+	getDescription: function(model) {
 		var craft = model.craft;
 		var desc = craft.description;
 
-		var craftBonus = this.game.getResCraftRatio(craft);
-		if (craft.name != "wood"){
+		var craftBonus = this.game.getResCraftRatio(craft.name);
+		if (craft.name != "wood") {
 			craftBonus -= this.game.getCraftRatio();
 		}
 
-		if (craftBonus > 0){
-			desc += "<br><br>" + $I("workshop.craftBtn.desc.effectivenessBonus", [this.game.getDisplayValueExt(craftBonus * 100, false, false, 0)]);
+		if (craftBonus > 0) {
+			desc += "<br /><br />" + $I("workshop.craftBtn.desc.effectivenessBonus", [this.game.getDisplayValueExt(100 * craftBonus, false, false, 0)]);
 		}
 
 		if (this.game.science.get("mechanization").researched){
-			desc += "<br><br>" + $I("workshop.craftBtn.desc.tier") + ": " + craft.tier;
+			desc += "<br /><br />" + $I("workshop.craftBtn.desc.tier") + ": " + craft.tier;
 
 			var tierBonus = this.game.getEffect("t" + craft.tier + "CraftRatio") || 1;
 			if (tierBonus != 1) {
-				desc += "<br>" + $I("workshop.craftBtn.desc.craftRatio") + ": " + this.game.getDisplayValueExt(((tierBonus-1)* 100).toFixed(), true) + "%";
+				desc += "<br />" + $I("workshop.craftBtn.desc.craftRatio") + ": " + this.game.getDisplayValueExt((100 * (tierBonus - 1)).toFixed(), true) + "%";
 			}
 
 			if (craft.progressHandicap != 1) {
-				var difficulty = this.game.getDisplayValueExt(((-(1 - (1 / craft.progressHandicap)))* 100).toFixed(2), true);
-				desc += "<br>" + $I("workshop.craftBtn.desc.progressHandicap") + ": " + difficulty + "%";
+				var difficulty = this.game.getDisplayValueExt((-100 * (1 - 1 / craft.progressHandicap)).toFixed(2), true);
+				desc += "<br />" + $I("workshop.craftBtn.desc.progressHandicap") + ": " + difficulty + "%";
 			}
 
 			if (craft.value != 0) {
-				var countdown = (1 / (this.game.workshop.getEffectEngineer(craft.name, false) * 5)).toFixed(0);
-				desc += "<br>=> " + $I("workshop.craftBtn.desc.countdown", [countdown]);
+				var countdown = (1 / (this.game.workshop.getEffectEngineer(craft.name, false) * this.game.getTicksPerSecondUI())).toFixed(0);
+				desc += "<br />=> " + $I("workshop.craftBtn.desc.countdown", [countdown]);
 			}
 		}
 		return desc;
@@ -2561,7 +2559,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 	assignCraftJob: function(model, value) { //TODO, assign one kitten, not just a value to manage with exp
 		var craft = model.craft;
 
-		var valueCorrected = this.game.village.getFreeEngineer() > value ? value : this.game.village.getFreeEngineer();
+		var valueCorrected = this.game.village.getFreeEngineers() > value ? value : this.game.village.getFreeEngineers();
 
 		var valueAdded = 0;
 		for (var i = 0; i < valueCorrected; i++) {
@@ -2753,7 +2751,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		this.buttons = [];
 
 		var div = dojo.create("div", { style: { float: "left"}}, tabContainer);
-		dojo.create("span", { innerHTML: $I("workshop.craft.effectiveness", [this.game.getDisplayValueExt(this.game.getCraftRatio() * 100, false, false, 0)]) }, div);
+		dojo.create("span", {innerHTML: $I("workshop.craft.effectiveness", [this.game.getDisplayValueExt(100 * this.game.getCraftRatio(), false, false, 0)])}, div);
 
 		//--------------------------------------------------------------------
 		var divCombobox = dojo.create("div", {style: { height: "20px"}} , tabContainer);
@@ -2826,7 +2824,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		//resources go there
-		var td = dojo.create("td", { style: {paddingLeft: "50px"}}, table);
+		var td = dojo.create("td", { className: "craftStuffPanel", style: {paddingLeft: "50px"}}, table);
 		this.resTd = td;
 		this.renderResources(this.resTd);
 
@@ -2861,17 +2859,22 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 	},
 
-	createBtn: function(upgrade){
+	createBtn: function(upgrade) {
 		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
-		var btn = new com.nuclearunicorn.game.ui.UpgradeButton({id: upgrade.name, controller: controller}, this.game);
-		return btn;
+		return new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: upgrade.name, controller: controller}, this.game);
 	},
 
 	update: function(){
 		this.inherited(arguments);
 
 		for (var i = this.craftBtns.length - 1; i >= 0; i--) {
-			this.craftBtns[i].update();
+			var craftBtn = this.craftBtns[i];
+			craftBtn.update();
+			if (craftBtn.model.craft.value > 0 ) {
+				dojo.addClass(craftBtn.domNode, "craftOn");
+			} else {
+				dojo.removeClass(craftBtn.domNode,"craftOn");
+			}
 		}
 
 		if (this.resTd){
@@ -2879,7 +2882,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 		}
 
 		if (this.tdTop && this.game.science.get("mechanization").researched) {
-			this.tdTop.innerHTML = $I("workshop.craftPanel.header.freeEngineers") + ": " + this.game.village.getFreeEngineer() + " / " + this.game.village.getWorkerKittens("engineer");
+			this.tdTop.innerHTML = $I("workshop.craftPanel.header.freeEngineers") + ": " + this.game.village.getFreeEngineers() + " / " + this.game.village.getWorkerKittens("engineer");
 		} else {
 			this.tdTop.innerHTML = "";
 		}
@@ -2889,8 +2892,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	updateTab: function() {
 		this.tabName = $I("tab.name.workshop");
-		if (this.game.village.getFreeEngineer() > 0) {
-			this.tabName += $I("common.warning");
+		var freeEngineers = this.game.village.getFreeEngineers();
+		if (freeEngineers > 0) {
+			this.tabName += " <span class='genericWarning'>(" + this.game.getDisplayValueExt(freeEngineers, false, false, 0) + ")</span>";
 		}
 		if (this.domNode) {
 			this.domNode.innerHTML = this.tabName;
