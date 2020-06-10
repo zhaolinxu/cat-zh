@@ -343,16 +343,13 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"corruptionRatio" : 0.000001
 		},
-		calculateEffects: function(self, game){
-			var effects = {
-				"corruptionRatio" : 0.000001
-			};
-			if (game.challenges.getChallenge("blackSky").researched) {
-				effects["corruptionRatio"] *= 1.1;
-			}
-			self.effects = effects;
+		calculateEffects: function(self, game) {
+			self.effects["corruptionRatio"] = 0.000001 * (game.challenges.getChallenge("blackSky").researched ? 1.1 : 1);
 		},
-		unlocked: false
+		unlocked: false,
+		getEffectiveValue: function(game) {
+			return this.val * (game.challenges.getChallenge("blackSky").researched ? 1.1 : 1);
+		}
 	},{
 		name: "unicornGraveyard",
 		label: $I("religion.zu.unicornGraveyard.label"),
@@ -405,7 +402,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			spaceBuilding: ["spaceBeacon"]
 		},
 		unlocked: false,
-		flavor: $I("religion.zu.blackPyramid.flavor")
+		flavor: $I("religion.zu.blackPyramid.flavor"),
+		getEffectiveValue: function(game) {
+			return this.val + (game.challenges.getChallenge("blackSky").researched ? 1 : 0);
+		}
 	}],
 
 	religionUpgrades:[{
@@ -1184,13 +1184,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 						model.visible = this.hasResources(model);
 					},
 					gainMultiplier: function() {
-
-						var pyramidVal = this.game.religion.getZU("blackPyramid").val;
-						if (this.game.challenges.getChallenge("blackSky").researched) {
-							pyramidVal += 1;
-						}
-
-						return 1 + this.game.getEffect("relicRefineRatio") * pyramidVal;
+						return 1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 					},
 					gainedResource: "relic",
 					logTextID: "religion.refineTCsBtn.refine.msg"

@@ -826,23 +826,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.stats.getStat("totalParagon").val++;
 		}
 
-		var pyramidVal = this.game.religion.getZU("blackPyramid").val;
-		var markerVal = this.game.religion.getZU("marker").val;
-		var elders = this.game.diplomacy.get('leviathans');
+		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
+		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
 
-		if (elders.unlocked) {
-			this.game.challenges.getChallenge("blackSky").unlocked = true;
-		}
-
-		if (this.game.challenges.getChallenge("blackSky").researched) {
-			pyramidVal += 1;
-			markerVal *= 1.1;
-		}
-
-		if ( pyramidVal > 0 ){
-			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)){   //3.5% per year per BP, x10% per marker
+		//3.5% per year per BP, +10% per marker
+		if (pyramidVal > 0) {
+			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)) {
 				this.game.diplomacy.unlockElders();
 			}
+		}
+
+		if (this.game.diplomacy.get('leviathans').unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
 		}
 
 		if (++this.cycleYear >= this.yearsPerCycle) {
