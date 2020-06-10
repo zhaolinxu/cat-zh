@@ -615,16 +615,16 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 			this.sellBcoin.render(content);
 		}
 
-		if (false && this.game.science.get("antimatter").researched && this.game.science.get("invisibleBlackHand").researched) {
-			this.smashBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.smash.bcoin"),
-				description: $I("trade.smash.bcoin.desc"),
-				controller: new com.nuclearunicorn.game.ui.SmashBcoinButtonController(this.game),
+		if (this.game.science.get("antimatter").researched && this.game.workshop.get("invisibleBlackHand").researched) {
+			this.crashBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
+				name: $I("trade.crash.bcoin"),
+				description: $I("trade.crash.bcoin.desc"),
+				controller: new com.nuclearunicorn.game.ui.CrashBcoinButtonController(this.game),
 				handler: function () {
 					self.game.calendar.correctCryptoPrice();
 				}
 			}, this.game);
-			this.smashBcoin.render(content);
+			this.crashBcoin.render(content);
 		}
 
 		return content;
@@ -635,18 +635,23 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 		if (this.feedBtn) {
 			this.feedBtn.update();
 		}
-		if (this.smashBcoin) {
-			this.smashBcoin.update();
+		if (this.crashBcoin) {
+			this.crashBcoin.update();
 		}
 	}
 });
 
-dojo.declare("com.nuclearunicorn.game.ui.SmashBcoinButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
 		result.hasResourceHover = true;
 		result.simplePrices = true;
 		return result;
+	},
+
+	updateEnabled: function(model) {
+		this.inherited(arguments);
+		model.enabled &= game.calendar.cryptoPrice > 550;
 	},
 
 	fetchExtendedModel: function(model) {
@@ -655,23 +660,27 @@ dojo.declare("com.nuclearunicorn.game.ui.SmashBcoinButtonController", com.nuclea
 	},
 
 	getPrices: function() {
-		var uoMultiplier = this.game.calendar.cycleEffectsBasics({unobtainiumPerTickSpace: 1}, "moonOutpost").unobtainiumPerTickSpace * this.game.calendar.cycleEffectsFestival({unobtainium: 1}).unobtainium;
-		var merchantTradeRatio = 1 + this.game.getEffect("tradeRatio") + 0.03 * (1 + this.game.prestige.getBurnedParagonRatio());
-		var tcPerStandardYear = 0.196 * this.game.getResourcePerTick("unobtainium") / uoMultiplier * merchantTradeRatio * (1 + this.game.diplomacy.get("leviathans").energy * 0.02);
+		var tcPerStandardYear = 0.002401 * game.space.getBuilding("moonOutpost").val;
+		tcPerStandardYear *= 1 + game.space.getBuilding("spaceElevator").val * 0.01 + game.space.getBuilding("orbitalArray").val * 0.02;
+		tcPerStandardYear *= 1 + game.bld.get("factory").val * 0.045;
+		tcPerStandardYear *= 1.03 + game.getEffect("tradeRatio") + game.prestige.getBurnedParagonRatio() * 0.03;
+		tcPerStandardYear *= 1 + game.diplomacy.get("leviathans").energy * 0.02;
 
-		var ticksPerYear = this.game.calendar.ticksPerDay * this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear;
+		var ticksPerYear = game.calendar.ticksPerDay * game.calendar.daysPerSeason * game.calendar.seasonsPerYear;
 		var tcPerTick_phase0 = 1.13 * tcPerStandardYear / ticksPerYear;
 		var tcPerTick_phase1 = (2.4 * tcPerStandardYear - 9) / ticksPerYear;
 
-		var heatPerShatter = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-		var tcPerSkip = 1.13 * tcPerStandardYear * this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
+		var heatPerShatter = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+		var tcPerSkip = 1.13 * tcPerStandardYear * game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
 		var tcPerShatter = (1 + heatPerShatter / 100) * tcPerSkip - 1;
-		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * this.game.getEffect("heatPerTick");
+		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * game.getEffect("heatPerTick");
 
 		var tcPerTick = Math.max(tcPerTick_phase0, tcPerTick_phase1, tcPerTick_phase2);
-		// this.game.calendar.ticksPerDay / (0.4 * (40000 + 1) * Math.log1p(1/40000) - 0.3 * (40000 - 1) * Math.log1p(-1/40000) - 0.7) = 8000466.692810739, but Math.log1p is ES6
-		var ticksUntilNextNaturalCrash = 8000466.692810739 * Math.log(1100 / this.game.calendar.cryptoPrice);
-		return [{name: "timeCrystal", val: tcPerTick * ticksUntilNextNaturalCrash}];
+		// game.calendar.ticksPerDay / (0.4 * (40000 + 1) * Math.log1p(1/40000) - 0.3 * (40000 - 1) * Math.log1p(-1/40000) - 0.7) = 8000466.692810739, but Math.log1p is ES6
+		var ticksUntilNextNaturalCrash = 8000466.692810739 * Math.log(1100 / game.calendar.cryptoPrice);
+		var tcBasePrice = Math.max(256, tcPerTick * ticksUntilNextNaturalCrash);
+		var tcPrice = Math.pow(2, Math.ceil(Math.log(tcBasePrice) * Math.LOG2E));
+		return [{name: "timeCrystal", val: tcPrice}];
 	}
 });
 
@@ -974,8 +983,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				dojo.place(racePanel.sellBcoin.domNode, tradePanel, "last");
 			}
 
-			if (racePanel.smashBcoin) {
-				dojo.place(racePanel.smashBcoin.domNode, rightColumn, "last");
+			if (racePanel.crashBcoin) {
+				dojo.place(racePanel.crashBcoin.domNode, rightColumn, "last");
 			}
 		}
 

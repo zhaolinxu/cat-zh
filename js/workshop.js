@@ -1863,7 +1863,20 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
         upgrades: {
             buildings: ["chronosphere"]
         }
-    }
+        //---------------- Blackcoin ---------------
+    },{
+		name: "invisibleBlackHand",
+		label: $I("workshop.invisibleBlackHand.label"),
+		description: $I("workshop.invisibleBlackHand.desc"),
+		prices: [
+			{name: "void", val: 32},
+			{name: "blackcoin", val: 64},
+			{name: "timeCrystal", val: 128},
+			{name: "temporalFlux", val: 4096}
+		],
+		unlocks: {
+		}
+	}
     ],
 
 	//=============================================================
@@ -2268,8 +2281,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 			// (One * bonus / handicap) crafts per engineer per 10 minutes
 			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
-
-			return afterCraft ? effectPerTick * this.game.getResCraftRatio(resName) : effectPerTick;
+			return effectPerTick * (1 + (afterCraft ? this.game.getResCraftRatio(resName) : 0));
 		}
 	},
 
