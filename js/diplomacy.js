@@ -676,8 +676,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * game.getEffect("heatPerTick");
 
 		var tcPerTick = Math.max(tcPerTick_phase0, tcPerTick_phase1, tcPerTick_phase2);
-		// game.calendar.ticksPerDay / (0.4 * (40000 + 1) * Math.log1p(1/40000) - 0.3 * (40000 - 1) * Math.log1p(-1/40000) - 0.7) = 8000466.692810739, but Math.log1p is ES6
-		var ticksUntilNextNaturalCrash = 8000466.692810739 * Math.log(1100 / game.calendar.cryptoPrice);
+		// game.calendar.ticksPerDay / 1.2499270834635280e-6
+		var ticksUntilNextNaturalCrash = 8000466.693057134 * Math.log(1100 / game.calendar.cryptoPrice);
 		var tcBasePrice = Math.max(256, tcPerTick * ticksUntilNextNaturalCrash);
 		var tcPrice = Math.pow(2, Math.ceil(Math.log(tcBasePrice) * Math.LOG2E));
 		return [{name: "timeCrystal", val: tcPrice}];
