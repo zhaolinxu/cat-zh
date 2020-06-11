@@ -1408,6 +1408,7 @@
     "opts.theme.minimalist": "Minimalist",
     "opts.theme.oil": "Oil",
     "opts.theme.unicorn": "Unicorn",
+    "opts.theme.anthracite": "Anthracite",
     "opts.lang": "Language",
     "opts.percentage": "Use percentage values",
     "opts.percentage.desc": "Game will use % of total resource values, otherwise per second values.",

@@ -826,7 +826,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			self.effects = effects;
 		},
-		flavor: $I("buildings.mine.flavor")
+		flavor: $I("buildings.mine.flavor"),
+		unlockScheme: {
+			name: "anthracite",
+			threshold: 92 // 92% carbon content in coal to have anthracite
+		}
 	},{
 		name: "quarry",
 		label: $I("buildings.quarry.label"),
