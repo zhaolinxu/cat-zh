@@ -1,4 +1,4 @@
-v 1.4.8.0 (?? may 2020)
+v 1.4.8.0 (11 june 2020)
 Major:
 * Fix precrafted amount
 * Implement Metallurgist and Chemist traits
