@@ -3,6 +3,8 @@ Major:
 * Fix precrafted amount
 * Implement Metallurgist and Chemist traits
 * Allow to crash BC market
+* Make BC market evolve during offline progression
+* Make Divine Proportion 16:9 (all hail TV!)
 
 Themes:
 * New theme: Unicorn
