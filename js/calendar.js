@@ -280,7 +280,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			}
 			this.game.resPool.addResEvent("starchart", starcharts);
 		}
-	},//this.observeHandler
+	},
 
 	observeTimeout: function(){
 
@@ -458,12 +458,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 				// nice reminder that astronomical events don't happen
 				if (this.game.challenges.currentChallenge == "blackSky") {
-
 					// ...however it gets spammy after some progress
 					if (this.game.bld.get('observatory').val < 30) {
 						this.game.msg($I("challendge.blackSky.event"), "astronomicalEvent");
 					}
-
 				//---------------- SETI hack-------------------
 				} else if (this.game.workshop.get("seti").researched) {
 					this.observeHandler();
@@ -626,7 +624,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
             //console.log("eventChance="+eventChance+", autoChance="+autoChance);
             numberEvents = Math.round(daysOffset * eventChance * autoChance);
             //console.log("number of startcharts="+numberEvents);
-            if (numberEvents) {
+            if (numberEvents && this.game.challenges.currentChallenge != "blackSky") {
                 this.game.resPool.addResEvent("starchart", numberEvents);
             }
 
