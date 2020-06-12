@@ -111,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["vitruvianFeline"]
 		},
 		effects:{
-			"priceRatio" : -0.017
+			"priceRatio" : -16/900
 		}
 	},{
 		name: "vitruvianFeline",
