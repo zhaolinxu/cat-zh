@@ -750,7 +750,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				effect *= warehouseRatio;
 			}
 
-			if (name == "coalMax" || name == "goldMax" || name == "titaniumMax"){
+			if (name == "coalMax" || name == "titaniumMax" || name == "goldMax"){
 				effect *= warehouseRatio;
 			}
 			newEffects[name] = effect;

@@ -133,10 +133,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "unobtainium", val: 5000}
 		],
 		sells:[
+			{name: "starchart", value: 250, chance: 0.5, width: 0.8},
 			{name: "timeCrystal", value: 0.25, chance: 0.98, width: 0.15},
 			{name: "sorrow", value: 1, chance: 0.15, width: 0.1},
-            {name: "starchart", value: 250, chance: 0.5, width: 0.8},
-			{name: "relic", value: 1, chance: 0.05, width: 0}
+			{name: "relic", value: 1, chance: 0.05, width: 0},
 		],
 		collapsed: false
     }],
@@ -379,8 +379,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
  	},
 
 	hasMultipleResources: function(race, amt){
-		return (this.game.resPool.get("manpower").value >= 50 * amt &&
-			this.game.resPool.get("gold").value >= 15 * amt &&
+		return (this.game.resPool.get("gold").value >= 15 * amt &&
+			this.game.resPool.get("manpower").value >= 50 * amt &&
 			this.game.resPool.get(race.buys[0].name).value >= race.buys[0].val * amt);
 	},
 
@@ -401,7 +401,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 					var name = resPool.title || res;
 					var msg = $I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]);
 					var type = null;
-					if (res == "blueprint" || res == "titanium"){
+					if (res == "titanium" || res == "blueprint"){
 						msg += "!";
 						type = "notice";
 					}
@@ -419,8 +419,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	getMaxTradeAmt: function(race){
 		var amt = [
-			Math.floor(this.game.resPool.get("manpower").value / 50),
 			Math.floor(this.game.resPool.get("gold").value / 15),
+			Math.floor(this.game.resPool.get("manpower").value / 50),
 			Math.floor(this.game.resPool.get(race.buys[0].name).value / race.buys[0].val)
 		];
 		var min = Number.MAX_VALUE;
