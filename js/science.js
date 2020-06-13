@@ -16,8 +16,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.calendar.effectDesc"),
 		prices: [{name : "science", val: 30}],
 		unlocks: {
-			tech: ["agriculture"],
-			tabs: ["time"]
+			tabs: ["time"],
+			tech: ["agriculture"]
 		},
         flavor: $I("science.calendar.flavor")
 
@@ -29,8 +29,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 100}],
 		unlocks: {
 			buildings: ["barn"],
-			tech: ["mining", "archery"],
-			jobs: ["farmer"]
+			jobs: ["farmer"],
+			tech: ["mining", "archery"]
 		},
         flavor: $I("science.agriculture.flavor")
 	},{
@@ -40,9 +40,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.archery.effectDesc"),
 		prices: [{name : "science", val: 300}],
 		unlocks: {
-			tech: ["animal"],
 			buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"],
-			jobs: ["hunter"]
+			jobs: ["hunter"],
+			tech: ["animal"]
 		},
 		flavor: $I("science.archery.flavor")
 	},{
@@ -105,9 +105,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.math.effectDesc"),
 		prices: [{name : "science", val: 1000}],
 		unlocks: {
+			tabs: ["stats"],
 			buildings: ["academy"],
-			upgrades: ["celestialMechanics"],
-			tabs: ["stats"]
+			upgrades: ["celestialMechanics"]
 		},
 		flavor: $I("science.math.flavor")
 	},{
@@ -198,8 +198,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"manuscript", val: 35}
 		],
 		unlocks: {
-			tech: ["astronomy", "cryptotheology"],
-			jobs: ["priest"]
+			jobs: ["priest"],
+			tech: ["astronomy", "cryptotheology"]
 		},
 		upgrades: {
 			buildings: ["temple"]
@@ -230,9 +230,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["harbor"],
 			tech: ["physics", "archeology", "architecture"],
-			crafts: ["ship"],
 			upgrades: ["caravanserai", "cargoShips", "astrolabe",
-						"titaniumMirrors", "titaniumAxe"]
+						"titaniumMirrors", "titaniumAxe"],
+			crafts: ["ship"]
 		}
 	},{
 		name: "architecture",
@@ -259,8 +259,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["chemistry", "electricity", "metaphysics"],
-			crafts: ["blueprint"],
-			upgrades: ["pneumaticPress", "pyrolysis", "steelSaw"]
+			upgrades: ["pneumaticPress", "pyrolysis", "steelSaw"],
+			crafts: ["blueprint"]
 		}
 	},{
 		name: "metaphysics",
@@ -268,8 +268,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.metaphysics.desc"),
 		effectDesc: $I("science.metaphysics.effectDesc"),
 		prices: [
-			{name : "science", val: 55000},
-			{name: 	"unobtainium", val: 5}
+			{name: 	"unobtainium", val: 5},
+			{name : "science", val: 55000}
 		],
 	},{
 		name: "chemistry",
@@ -318,8 +318,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["quarry"],
-			tech: ["biology"],
 			jobs: ["geologist"],
+			tech: ["biology"],
 			upgrades:["geodesy"]
 		},
 		flavor: $I("science.archeology.flavor")
@@ -402,10 +402,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["factory"],
+			jobs: ["engineer"],
 			tech: ["electronics"],
-			crafts: ["concrate"],
 			upgrades: ["pumpjack", "strenghtenBuild"],
-			jobs: ["engineer"]
+			crafts: ["concrate"]
 		}
 	},{
 		name: "metalurgy",
@@ -429,8 +429,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
-			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"],
-			tech: ["ecology"]
+			tech: ["ecology"],
+			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"]
 		}
 	},
 	{
@@ -457,22 +457,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [
-				{bld:"amphitheatre",stage:1},	// Broadcast Tower
-				{bld:"library",stage:1}			// Data Center
+				{bld:"library",stage:1},		// Data Center
+				{bld:"amphitheatre",stage:1}	// Broadcast Tower
 			],
-			tech: [
-				"nuclearFission",
-				"rocketry",
-				"robotics"
-			],
-			upgrades: [
-				"cadSystems",
-				"refrigeration",
-				"seti",
-				"factoryLogistics",
-				"factoryOptimization",
-				"internet"
-			]
+			tech: ["nuclearFission", "rocketry", "robotics"],
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
 		}
 	},{
 		name: "robotics",
@@ -485,9 +474,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"aqueduct",stage:1}], // Hydro Plant
-			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
-			crafts: ["tanker"],
 			tech: ["ai"],
+			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
+			crafts: ["tanker"]
 		}
 	},{
 		name: "ai",
@@ -499,9 +488,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"],
 			buildings: ["aiCore"],
-			tech: ["quantumCryptography"]
+			tech: ["quantumCryptography"],
+			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"]
 		}
 	},{
 		name: "quantumCryptography",
@@ -551,8 +540,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
-			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
+			tech: ["sattelites", "oilProcessing"],
 			upgrades: ["oilDistillation"]
 		}
 	}, {
@@ -565,8 +554,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name: 	"blueprint", val: 150}
         ],
         unlocks: {
-            crafts: ["kerosene"],
-            upgrades: [ "factoryProcessing" ]
+            upgrades: [ "factoryProcessing" ],
+            crafts: ["kerosene"]
         }
     },{
         name: "sattelites",
@@ -579,12 +568,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [
-				"photolithography",
-				"orbitalGeodesy",
-				"uplink",
-				"thinFilm"
-			]
+            upgrades: ["photolithography", "orbitalGeodesy", "uplink", "thinFilm"]
         },
         flavor: $I("science.sattelites.flavor")
     },{
@@ -598,14 +582,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology", "thorium"],
-			upgrades: [
-				"hubbleTelescope",
-				"satelliteRadio",
-				"astrophysicists",
-				"solarSatellites",
-				"spaceEngineers",
-				"starlink"
-			]
+			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites", "spaceEngineers", "starlink"]
 		}
 	},{
 		name: "thorium",
@@ -617,8 +594,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 375}
 		],
 		unlocks: {
-			crafts: ["thorium"],
-			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"]
+			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"],
+			crafts: ["thorium"]
 		}
 	},{
 		name: "exogeology",
@@ -670,8 +647,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"],
-			tech: ["antimatter"]
+			tech: ["antimatter"],
+			upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"]
 		}
 	},{
 		name: "antimatter",
@@ -683,8 +660,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
-			upgrades: ["amReactors", "amBases", "amDrive", "amFission"],
-			tech: ["terraformation"]
+			tech: ["terraformation"],
+			upgrades: ["amReactors", "amBases", "amDrive", "amFission"]
 		}
 	},{
 		name: "terraformation",
@@ -812,9 +789,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "void",   val: 250}
 		],
 		unlocks: {
+			upgrades: ["distorsion"],
 			chronoforge: ["ressourceRetrieval"],
-			voidSpace: ["chronocontrol", "voidResonator"],
-			upgrades: ["distorsion"]
+			voidSpace: ["chronocontrol", "voidResonator"]
 		}
 	}],
 
