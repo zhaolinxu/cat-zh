@@ -304,9 +304,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.seasonsPerYear = this.seasons.length;
 		this.yearsPerCycle = this.cycleYearColors.length;
 		this.cyclesPerEra = this.cycles.length;
-
-		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
-		this.dayPerTick = 1 / this.ticksPerDay;
 	},
 
 	render: function() {
