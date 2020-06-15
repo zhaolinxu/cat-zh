@@ -563,7 +563,7 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 	render: function(container) {
 		var attitude = this.race.attitude;
 		if (attitude == "hostile" && 100 * (1 - this.race.standing) < this.game.getEffect("standingRatio") + (this.game.prestige.getPerk("diplomacy").researched ? 10 : 0)) {
-			attitude = "not longer hostile, now neutral";
+			attitude = "now neutral";
 		}
 		this.name = this.race.title + " <span class='attitude'>" + attitude + "</span>";
 		return this.inherited(arguments);
@@ -660,6 +660,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 	},
 
 	getPrices: function() {
+		// 0.007 × 1.75 × 0.98 × 0.25 × 800 × 5 / 5000
 		var tcPerStandardYear = 0.002401 * game.space.getBuilding("moonOutpost").val;
 		tcPerStandardYear *= 1 + game.space.getBuilding("spaceElevator").val * 0.01 + game.space.getBuilding("orbitalArray").val * 0.02;
 		tcPerStandardYear *= 1 + game.bld.get("factory").val * 0.045;
@@ -667,6 +668,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 		tcPerStandardYear *= 1 + game.diplomacy.get("leviathans").energy * 0.02;
 
 		var ticksPerYear = game.calendar.ticksPerDay * game.calendar.daysPerSeason * game.calendar.seasonsPerYear;
+		// (8 × 1 + 1 × 0.9 + 1 × 2.4) / 10
 		var tcPerTick_phase0 = 1.13 * tcPerStandardYear / ticksPerYear;
 		var tcPerTick_phase1 = (2.4 * tcPerStandardYear - 9) / ticksPerYear;
 
