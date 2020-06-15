@@ -2125,7 +2125,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 	getGovernmentInfo: function() {
 		//update leader stats
-		var leaderInfo = "YOU!";
+		var leaderInfo = "%username%";
 		var leader = this.game.village.leader;
 
 		if (leader) {
