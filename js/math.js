@@ -22,9 +22,7 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
 
     // Irwin-Hall distribution is the sum of a number of independent random uniformly distributed variables in [0,1]
     irwinHallRandom: function(trials) {
-        return this.loopOrGaussianApproximation(trials, false, 1/2, 1/12, 0, 1, function() {
-            return Math.random();
-        });
+        return this.loopOrGaussianApproximation(trials, false, 1/2, 1/12, 0, 1, Math.random);
     },
 
     binominalRandomInteger: function(trials, successProbability) {
@@ -65,5 +63,26 @@ dojo.declare("com.nuclearunicorn.game.Math", null, {
                 return result;
             }
         }
+    },
+
+    log1p: function(p) {
+        if (Math.abs(p) > 0.25) {
+            return Math.log(1 + p);
+        }
+
+        var power = p;
+        var minusP = -p;
+        var coefficients = [0, power];
+        var n = 1 + Math.ceil(-52 * Math.LN2 / Math.log(Math.abs(p)));
+        for (var i = 2; i <= n; ++i) {
+            power *= minusP;
+            coefficients[i] = power / i;
+        }
+
+        var result = coefficients[n];
+        for (var i = n - 1; i >= 1; --i) {
+        	result += coefficients[i];
+        }
+        return result;
     }
 });
