@@ -304,9 +304,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.seasonsPerYear = this.seasons.length;
 		this.yearsPerCycle = this.cycleYearColors.length;
 		this.cyclesPerEra = this.cycles.length;
-
-		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
-		this.dayPerTick = 1 / this.ticksPerDay;
 	},
 
 	render: function() {
@@ -659,8 +656,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			totalNumberOfEvents+=numberEvents;
 		}
 
-
-
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
 		var zebras = this.game.resPool.get("zebras");
 
@@ -728,8 +723,21 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		var daysBetweenParadox = daysInParadox + 100 * Math.max( 1 , 100 / this.game.bld.get("chronosphere").on );
 		var percentTimeInParadox = daysInParadox / daysBetweenParadox;
 
-                this.game.resPool.addResEvent("void",
-	                Math.floor(this.game.resPool.getVoidQuantityStatistically() * daysOffset * percentTimeInParadox));
+		this.game.resPool.addResEvent("void", Math.floor(this.game.resPool.getVoidQuantityStatistically() * daysOffset * percentTimeInParadox));
+
+		// Adjust crypto price
+		if (this.game.science.get("antimatter").researched) {
+			var logIncrease = this.game.math.loopOrGaussianApproximation(daysOffset - 1, false, 1.2499270834635280e-6, 1.4427062504448777e-10, this.game.math.log1p(-1/40000), this.game.math.log1p(1/40000), function() {
+				var y = Math.random();
+				return y < 0.3
+					? this.game.math.log1p((y - 0.3) / (0.3 * 40000))
+					: y < 0.6
+						? 0
+						: this.game.math.log1p((y - 0.6) / (0.4 * 40000));
+			});
+			this.game.calendar.cryptoPrice *= Math.exp(logIncrease);
+			this.adjustCryptoPrice();
+		}
 
 		//==================== other calendar stuff ========================
 		//cap years skipped in 1000 years
