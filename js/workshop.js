@@ -2693,16 +2693,6 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 		this.craftName = opts.craft;
 	},
 
-	onClick: function(event){
-		var self = this;
-		this.animate();
-		this.controller.buyItem(this.model, event, function(result){
-			if (result){
-				self.update();
-			}
-		});
-	},
-
 	setEnabled: function(enabled){
 		this.inherited(arguments);
 

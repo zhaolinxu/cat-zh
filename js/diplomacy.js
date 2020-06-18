@@ -651,7 +651,7 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 
 	updateEnabled: function(model) {
 		this.inherited(arguments);
-		model.enabled &= game.calendar.cryptoPrice > 550;
+		model.enabled &= this.game.calendar.cryptoPrice > 550;
 	},
 
 	fetchExtendedModel: function(model) {
@@ -661,25 +661,25 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 
 	getPrices: function() {
 		// 0.007 × 1.75 × 0.98 × 0.25 × 800 × 5 / 5000
-		var tcPerStandardYear = 0.002401 * game.space.getBuilding("moonOutpost").val;
-		tcPerStandardYear *= 1 + game.space.getBuilding("spaceElevator").val * 0.01 + game.space.getBuilding("orbitalArray").val * 0.02;
-		tcPerStandardYear *= 1 + game.bld.get("factory").val * 0.045;
-		tcPerStandardYear *= 1.03 + game.getEffect("tradeRatio") + game.prestige.getBurnedParagonRatio() * 0.03;
-		tcPerStandardYear *= 1 + game.diplomacy.get("leviathans").energy * 0.02;
+		var tcPerStandardYear = 0.002401 * this.game.space.getBuilding("moonOutpost").val;
+		tcPerStandardYear *= 1 + this.game.space.getBuilding("spaceElevator").val * 0.01 + this.game.space.getBuilding("orbitalArray").val * 0.02;
+		tcPerStandardYear *= 1 + this.game.bld.get("factory").val * 0.045;
+		tcPerStandardYear *= 1.03 + this.game.getEffect("tradeRatio") + this.game.prestige.getBurnedParagonRatio() * 0.03;
+		tcPerStandardYear *= 1 + this.game.diplomacy.get("leviathans").energy * 0.02;
 
-		var ticksPerYear = game.calendar.ticksPerDay * game.calendar.daysPerSeason * game.calendar.seasonsPerYear;
+		var ticksPerYear = this.game.calendar.ticksPerDay * this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear;
 		// (8 × 1 + 1 × 0.9 + 1 × 2.4) / 10
 		var tcPerTick_phase0 = 1.13 * tcPerStandardYear / ticksPerYear;
 		var tcPerTick_phase1 = (2.4 * tcPerStandardYear - 9) / ticksPerYear;
 
-		var heatPerShatter = game.challenges.getChallenge("1000Years").researched ? 5 : 10;
-		var tcPerSkip = 1.13 * tcPerStandardYear * game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+		var heatPerShatter = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
+		var tcPerSkip = 1.13 * tcPerStandardYear * this.game.getEffect("shatterTCGain") * (1 + this.game.getEffect("rrRatio"));
 		var tcPerShatter = (1 + heatPerShatter / 100) * tcPerSkip - 1;
-		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * game.getEffect("heatPerTick");
+		var tcPerTick_phase2 = tcPerTick_phase0 + tcPerShatter / heatPerShatter * this.game.getEffect("heatPerTick");
 
 		var tcPerTick = Math.max(tcPerTick_phase0, tcPerTick_phase1, tcPerTick_phase2);
 		// game.calendar.ticksPerDay / 1.2499270834635280e-6
-		var ticksUntilNextNaturalCrash = 8000466.693057134 * Math.log(1100 / game.calendar.cryptoPrice);
+		var ticksUntilNextNaturalCrash = 8000466.693057134 * Math.log(1100 / this.game.calendar.cryptoPrice);
 		var tcBasePrice = Math.max(256, tcPerTick * ticksUntilNextNaturalCrash);
 		var tcPrice = Math.pow(2, Math.ceil(Math.log(tcBasePrice) * Math.LOG2E));
 		return [{name: "timeCrystal", val: tcPrice}];
