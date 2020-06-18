@@ -1391,22 +1391,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"tradeRatio" : 0.015,
 			"standingRatio": 0
 		},
-		calculateEffects: function(self, game){
-			var effects = {
-				"fursDemandRatio"   : -0.04,
-				"ivoryDemandRatio"  : -0.04,
-				"spiceDemandRatio"  : -0.04,
-				/*"silkDemandRatio"   : -0.04,*/
-				"tradeRatio" : 0.015,
-				"standingRatio": 0
-			};
-
-			var seri = game.workshop.get("caravanserai");
-			if (seri.researched){
-				effects["standingRatio"] = seri.effects["standingRatio"];
+		calculateEffects: function(self, game) {
+			if (game.workshop.get("caravanserai").researched) {
+				self.effects["standingRatio"] = 0.0035;
 			}
-
-			self.effects = effects;
 		},
         flavor: $I("buildings.tradepost.flavor")
 	},{

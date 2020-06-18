@@ -749,7 +749,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		label: $I("workshop.caravanserai.label"),
 		description: $I("workshop.caravanserai.desc"),
 		effects: {
-			"standingRatio" : 0.35	//0.35% per tradepost
 		},
 		prices:[
 			{ name : "science", val: 25000 },
