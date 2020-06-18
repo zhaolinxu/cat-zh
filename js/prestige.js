@@ -144,6 +144,9 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		unlocked: true,
 		defaultUnlocked: true,
 		researched: false,
+		effects:{
+			"standingRatio" : 0.1
+		},
 		unlocks: {
 			"perks": ["zebraDiplomacy"]
 		}
