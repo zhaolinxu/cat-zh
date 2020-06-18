@@ -231,8 +231,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	assignJob: function(job, amt){
 		var jobRef = this.getJob(job.name); 	//probably will fix missing ref on loading
+		amt = Math.min(amt, this.getFreeKittens(), this.getJobLimit(job.name) - jobRef.value);
 
-		if ( this.hasFreeKittens(amt) && this.getWorkerKittens(job.name) + amt <= this.getJobLimit(job.name) ) {
+		if (amt > 0) {
 			this.sim.assignJob(job.name, amt);
 			jobRef.value += amt;
 			if (job.name == "engineer") {
@@ -302,10 +303,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		//check job limits
 		for (var i = 0; i < this.jobs.length; i++) {
-			var jobName = this.jobs[i].name;
+			var job = this.jobs[i];
+			var jobName = job.name;
 			var limit = this.getJobLimit(jobName);
-			while (this.getWorkerKittens(jobName) > limit) {
-				this.sim.removeJob(jobName);
+			if (job.value > limit) {
+				this.sim.removeJob(jobName, job.value - limit);
 			}
 		}
 
@@ -815,7 +817,7 @@ dojo.declare("com.nuclearunicorn.game.village.Kitten", null, {
 	// 100 surnames MAX!
 	// Add new surnames at the end of the list
 	surnames: ["Smoke", "Dust", "Chalk", "Fur", "Clay", "Paws", "Tails", "Sand", "Scratch", "Berry", "Shadow",
-				"Ash", "Bark", "Bowl", "Brass", "Dusk", "Gaze", "Gleam", "Grass", "Moss", "Plaid", "Puff", "Rain", 
+				"Ash", "Bark", "Bowl", "Brass", "Dusk", "Gaze", "Gleam", "Grass", "Moss", "Plaid", "Puff", "Rain",
 				"Silk", "Silver", "Speck", "Stripes", "Tingle", "Wool", "Yarn"],
 
 	traits: [{
@@ -1501,6 +1503,7 @@ dojo.declare("classes.village.KittenSim", null, {
 			}*/
 		}
 		this.game.villageTab.updateTab();
+		this.game.workshopTab.updateTab();
 		this.game.village.updateResourceProduction();
 		this.game.village.updateTraits();
 		this.game.updateResources();
@@ -1552,7 +1555,6 @@ dojo.declare("classes.village.KittenSim", null, {
 		var freeKittens = [];
 		var optimizeJobs = this.game.workshop.get("register").researched && this.game.village.leader;
 
-
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
 			if (!kitten.job){
@@ -1561,11 +1563,14 @@ dojo.declare("classes.village.KittenSim", null, {
 					continue;
 				}
 				var val = kitten.skills[job] || 0;
-				freeKittens.push({"id": i, "val": val});
+				freeKittens.push({"id": i, "val": val, "leader": kitten.isLeader});
 			}
 		}
 
-		freeKittens.sort(function(a, b){return b.val-a.val;});
+		if (optimizeJobs) {
+			//sort leader before other kittens with the same skill level so it gets assigned before them
+			freeKittens.sort(function(a, b){return b.val-a.val||b.leader-a.leader;});
+		}
 
 		amt = amt || 1;
 		for (var i = amt - 1; i >= 0; i--) {
@@ -1586,23 +1591,25 @@ dojo.declare("classes.village.KittenSim", null, {
 	 */
 	removeJob: function(job, amt){
 		var jobKittens = [];
-		var optimizeJobs = (this.game.workshop.get("register").researched && this.game.village.leader) ? true : false;
+		var optimizeJobs = (this.game.workshop.get("register").researched && this.game.village.leader);
 
-		var register = this.game.workshop.get("register");
 		for (var i = this.kittens.length - 1; i >= 0; i--) {
 			var kitten = this.kittens[i];
-            if (kitten.job == job){
+			if (kitten.job == job){
 				if (!optimizeJobs) {
 					jobKittens.push({"id": i});
 					continue;
 				}
-                var val = kitten.skills[job] ? kitten.skills[job] : 0;
-                jobKittens.push({"id": i, "val": val});
-            }
+				var val = kitten.skills[job] ? kitten.skills[job] : 0;
+				jobKittens.push({"id": i, "val": val, "leader": kitten.isLeader});
+			}
 		}
 
-		//probably a bad idea to sort 50K kittens
-		jobKittens.sort(function(a, b){return a.val-b.val;});
+		if (optimizeJobs) {
+			//sort leader after other kittens with the same skill level so it gets unassigned after them
+			//probably a bad idea to sort 50K kittens
+			jobKittens.sort(function(a, b){return a.val-b.val||a.leader-b.leader;});
+		}
 
 		amt = amt || 1;
 		for (var i = amt - 1; i >= 0; i--) {
@@ -1617,6 +1624,9 @@ dojo.declare("classes.village.KittenSim", null, {
 		}
 
 		this.game.village.updateResourceProduction();   //out of synch, refresh instantly
+		if (job == "engineer") {
+			this.game.workshopTab.updateTab();
+		}
 	},
 
 	assignCraftJob: function(craft) {
@@ -1819,7 +1829,9 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 			amt = job.value;
 		}
 
-		this.game.village.sim.removeJob(job.name, amt);
+		if (amt > 0) {
+			this.game.village.sim.removeJob(job.name, amt);
+		}
 	},
 
 	unassignAllJobs: function(model){
