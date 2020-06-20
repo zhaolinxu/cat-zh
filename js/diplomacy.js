@@ -856,7 +856,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var buys = race.buys[0];
 			var res = this.game.resPool.get(buys.name);
 			dojo.create("div", {
-				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='ammount'>" + buys.val + "</span>"
+				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='tradeAmount'>" + buys.val + "</span>"
 			}, leftColumn);
 
 			for (var j = 0; j < race.sells.length; j++) {
@@ -866,7 +866,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 				var prefix = j == 0 ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
 				dojo.create("div", {
-						innerHTML: prefix + (res.title || res.name) + " <span class='ammount'>"
+						innerHTML: prefix + (res.title || res.name) + " <span class='tradeAmount'>"
 							+ this.game.getDisplayValueExt(average * (1 - s.width / 2), false, false, 0) + " - "
 							+ this.game.getDisplayValueExt(average * (1 + s.width / 2), false, false, 0) + "</span>"
 					}, leftColumn);
@@ -875,7 +875,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var titanium = this.game.resPool.get("titanium");
 				var displayedVal = this.game.getDisplayValueExt(1.5 + this.game.resPool.get("ship").value * 0.03, false, false, 0);
 				dojo.create("div", {
-						innerHTML: "<span class='sells'></span>" + (titanium.title || titanium.name) + " <span class='ammount'>" + displayedVal + " - " + displayedVal + "</span>"
+						innerHTML: "<span class='sells'></span>" + (titanium.title || titanium.name) + " <span class='tradeAmount'>" + displayedVal + " - " + displayedVal + "</span>"
 					}, leftColumn);
 			}
 
