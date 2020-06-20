@@ -1,4 +1,7 @@
 v 1.4.8.1 (?? july 2020)
+Themes:
+* New theme: Anthracite
+
 Minor:
 * Caravanserai does not count anymore as a free Tradepost
 * Fix display of Standing ratio for Tradeposts
@@ -12,7 +15,7 @@ Major:
 * Make Divine Proportion 16:9 (all hail TV!)
 
 Themes:
-* New theme: Unicorn, Anthracite
+* New theme: Unicorn
 * Add an option in order to move tooltip in right column, like Sleek does by default
 
 Minor:
