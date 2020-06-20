@@ -558,7 +558,7 @@ body.scheme_vessel.with_background_image {
 	color: #007B3E;
 	font-size: smaller;
 }
-.scheme_vessel .trade-race .ammount {
+.scheme_vessel .trade-race .tradeAmount {
     color: #909090;
 }
 .scheme_vessel table.statTable {
