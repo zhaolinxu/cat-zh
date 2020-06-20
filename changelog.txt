@@ -12,7 +12,7 @@ Major:
 * Make Divine Proportion 16:9 (all hail TV!)
 
 Themes:
-* New theme: Unicorn
+* New theme: Unicorn, Anthracite
 * Add an option in order to move tooltip in right column, like Sleek does by default
 
 Minor:
