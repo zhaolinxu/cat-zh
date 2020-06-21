@@ -328,11 +328,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				continue;
 			}
 
-			var normalizedBoughtAmount = resourcePassedNormalTradeAmount + sellResource.width * this.game.math.irwinHallRandom(resourcePassedNormalTradeAmount, true);
-			var normalizedBonusBoughtAmount = resourcePassedNormalTradeAmount + sellResource.width * this.game.math.irwinHallRandom(resourcePassedBonusTradeAmount, true);
-
+			var fuzzedNormalAmount = this._fuzzGainedAmount(resourcePassedNormalTradeAmount, sellResource.width);
+			var fuzzedBonusAmount = this._fuzzGainedAmount(resourcePassedBonusTradeAmount, sellResource.width);
 			var resourceSeasonTradeRatio = 1 + (sellResource.seasons ? sellResource.seasons[currentSeason] : 0);
-			boughtResources[sellResource.name] = (normalizedBoughtAmount + normalizedBonusBoughtAmount * 1.25) * sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
+			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) * sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
 		}
 
 		//-------------------- 35% chance to get spice ------------------
@@ -353,6 +352,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.game.stats.getStatCurrent("totalTrades").val += successfullTradeAmount;
 
 		return boughtResources;
+	},
+
+	_fuzzGainedAmount: function(amount, width) {
+		return amount + width * (this.game.math.irwinHallRandom(amount) - amount / 2);
 	},
 
 	trade: function(race){
