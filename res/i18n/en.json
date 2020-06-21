@@ -1296,7 +1296,7 @@
     "trade.attitude.friendly": "friendly",
     "trade.attitude.neutral": "neutral",
     "trade.attitude.hostile": "hostile",
-    "trade.attitude.neutralNow": "now neutral",
+    "trade.attitude.nowNeutral": "now neutral",
     "trade.msg.emissary": "An emissary of {0} comes to your village",
     "trade.msg.elders": "Elder gods have arrived",
     "trade.msg.elders.departed": "Elder gods have departed",
