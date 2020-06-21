@@ -499,7 +499,7 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 				? "neutral"
 				: this.race.standing + this.game.getEffect("standingRatio") < 0
 					? "hostile"
-					: "neutralNow";
+					: "nowNeutral";
 		this.name = this.race.title + " <span class='attitude'>" + $I("trade.attitude." + attitude) + "</span>";
 		return this.inherited(arguments);
 	},
