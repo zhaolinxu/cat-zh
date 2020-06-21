@@ -1396,11 +1396,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"standingRatio": 0
 		},
 		calculateEffects: function(self, game) {
-			var standingRatio = 0;
-			if (game.workshop.get("caravanserai").researched) {
-				standingRatio = 0.0035;
-			}
-			self.effects["standingRatio"] = standingRatio;
+			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
 		},
         flavor: $I("buildings.tradepost.flavor")
 	},{
