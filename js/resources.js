@@ -541,8 +541,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addRes: function(res, addedValue, event, preventLimitCheck) {
-		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
+	addRes: function(res, addedValue, allowDuringParadoxes, preventLimitCheck) {
+		if (this.game.calendar.day < 0 && !allowDuringParadoxes || addedValue == 0) {
 			return 0;
 		}
 
@@ -693,7 +693,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				}
 				//console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
 				//console.log("resource before adjustment:", res.value);
-				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, false/*event?*/, true/*preventLimitCheck*/);
+				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, true/*allowDuringParadoxes*/, true/*preventLimitCheck*/);
 				//console.log("resource after adjustment:", res.value);
 			}
 		}
