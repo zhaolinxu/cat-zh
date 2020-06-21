@@ -752,6 +752,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
 		this.year += yearsOffset;
+		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
 
         return totalNumberOfEvents;
