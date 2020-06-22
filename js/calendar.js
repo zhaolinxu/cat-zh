@@ -59,8 +59,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9049;",
 			uglyph: "⍙",
 			effects: {
-				"entangler-gflopsConsumption": 2,
-				"moonOutpost-unobtainiumPerTickSpace": 0.9
+				"moonOutpost-unobtainiumPerTickSpace": 0.9,
+				"entangler-gflopsConsumption": 2
 			},
 			festivalEffects: {
 				"catnip": 1.5,
@@ -74,9 +74,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9062;",
 			uglyph: "⍦",
 			effects: {
-				"hrHarvester-energyProduction": 1.5,
+				"hydrofracturer-oilPerTickAutoprodSpace": 0.75,
 				"planetCracker-uraniumPerTickSpace": 0.9,
-				"hydrofracturer-oilPerTickAutoprodSpace": 0.75
+				"hrHarvester-energyProduction": 1.5
 			},
 			festivalEffects: {
 				"coal": 1.5,
@@ -104,15 +104,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
-				"sunlifter-energyProduction": 1.5,
 				"cryostation-woodMax": 0.9,
 				"cryostation-mineralsMax": 0.9,
-				"cryostation-ironMax": 0.9,
 				"cryostation-coalMax": 0.9,
-				"cryostation-uraniumMax": 0.9,
+				"cryostation-ironMax": 0.9,
 				"cryostation-titaniumMax": 0.9,
 				"cryostation-oilMax": 0.9,
-				"cryostation-unobtainiumMax": 0.9
+				"cryostation-uraniumMax": 0.9,
+				"cryostation-unobtainiumMax": 0.9,
+				"sunlifter-energyProduction": 1.5
 			},
 			festivalEffects: {
 				"faith": 2,
@@ -125,11 +125,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9022;",
 			uglyph: "⌾",
 			effects: {
-				"spaceElevator-prodTransferBonus": 2,
-				"sattelite-starchartPerTickBaseSpace": 2,
-				"sattelite-observatoryRatio": 2,
 				"spaceStation-scienceRatio": 1.5,
-				"spaceBeacon-starchartPerTickBaseSpace": 0.1
+				"sattelite-observatoryRatio": 2,
+				"sattelite-starchartPerTickBaseSpace": 2,
+				"spaceBeacon-starchartPerTickBaseSpace": 0.1,
+				"spaceElevator-prodTransferBonus": 2
 			},
 			festivalEffects: {
 				"manpower": 2
@@ -154,8 +154,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9067;",
 			uglyph: "⍫",
 			effects: {
-				"planetCracker-uraniumPerTickSpace": 1.1,
 				"hydrofracturer-oilPerTickAutoprodSpace": 1.5,
+				"planetCracker-uraniumPerTickSpace": 1.1,
 				"hrHarvester-energyProduction": 0.75
 			},
 			festivalEffects: {
@@ -168,8 +168,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
-				"researchVessel-starchartPerTickBaseSpace": 1.5,
-				"hydroponics-catnipRatio": 0.5
+				"hydroponics-catnipRatio": 0.5,
+				"researchVessel-starchartPerTickBaseSpace": 1.5
 			},
 			festivalEffects: {
 				"science": 2
@@ -183,11 +183,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			effects: {
 				"cryostation-woodMax": 1.2,
 				"cryostation-mineralsMax": 1.2,
-				"cryostation-ironMax": 1.2,
 				"cryostation-coalMax": 1.2,
-				"cryostation-uraniumMax": 1.2,
+				"cryostation-ironMax": 1.2,
 				"cryostation-titaniumMax": 1.2,
 				"cryostation-oilMax": 1.2,
+				"cryostation-uraniumMax": 1.2,
 				"cryostation-unobtainiumMax": 1.2,
 				"sunlifter-energyProduction": 0.5
 			},
@@ -201,11 +201,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			glyph: "&#8483;",
 			uglyph: "℣",
 			effects: {
-				"spaceBeacon-starchartPerTickBaseSpace": 5,
-				"spaceElevator-prodTransferBonus": 0.5,
-				"sattelite-starchartPerTickBaseSpace": 0.75,
+				"spaceStation-scienceRatio": 0.75,
 				"sattelite-observatoryRatio": 0.75,
-				"spaceStation-scienceRatio": 0.75
+				"sattelite-starchartPerTickBaseSpace": 0.75,
+				"spaceBeacon-starchartPerTickBaseSpace": 5,
+				"spaceElevator-prodTransferBonus": 0.5
 			},
 			festivalEffects: {
 				"starchart": 5
@@ -304,9 +304,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.seasonsPerYear = this.seasons.length;
 		this.yearsPerCycle = this.cycleYearColors.length;
 		this.cyclesPerEra = this.cycles.length;
-
-		// TODO Temporarily kept for compatibility with scripts, WILL BE REMOVED in next minor version (1.4.6.0)
-		this.dayPerTick = 1 / this.ticksPerDay;
 	},
 
 	render: function() {
@@ -755,6 +752,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.stats.getStat("totalParagon").val += paragon;
 		}
 		this.year += yearsOffset;
+		this.game.stats.getStat("totalYears").val += yearsOffset;
 		//------------------------------------------------------------------
 
         return totalNumberOfEvents;

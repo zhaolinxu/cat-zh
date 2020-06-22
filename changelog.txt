@@ -1,3 +1,17 @@
+v 1.4.8.1 (?? july 2020)
+Major:
+* Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
+* Make gamma the new mainline
+
+Themes:
+* New theme: Anthracite
+
+Minor:
+* Caravanserai does not count anymore as a free Tradepost
+* Fix display of Standing ratio for Tradeposts
+* Increase years in stats during offline progression
+* Arrange price lists in buildings and upgrades in the same order as in the left column
+
 v 1.4.8.0 (11 june 2020)
 Major:
 * Fix precrafted amount
