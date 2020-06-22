@@ -101,7 +101,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatActive: false,
     isChatVisited: false,
 
-    defaultSchemes: ["default", "dark", "grassy", "sleek"],
+    defaultSchemes: ["default", "dark", "grassy", "sleek", "black"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
