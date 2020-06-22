@@ -2265,23 +2265,18 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var craft = this.getCraft(resName);
 		if (craft == null) {
 			return 0;
-		} else {
-			var resMapProduction = this.game.village.getResProduction();
-			var kittenResProduction = resMapProduction["ES" + resName] ? resMapProduction["ES" + resName] : 0;
-
-			if (this.game.workshop.get("neuralNetworks").researched){
-				kittenResProduction *= 2.0;
-			}
-
-			var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
-			if (tierCraftRatio == 0) {
-				tierCraftRatio = 1;
-			}
-
-			// (One * bonus / handicap) crafts per engineer per 10 minutes
-			var effectPerTick = ( 1 / (600 * this.game.ticksPerSecond)) * (kittenResProduction * tierCraftRatio) / craft.progressHandicap;
-			return effectPerTick * (1 + (afterCraft ? this.game.getResCraftRatio(resName) : 0));
 		}
+
+		var kittenResProduction = (this.game.village.getResProduction()["ES" + resName] || 0) * (this.game.workshop.get("neuralNetworks").researched ? 2 : 1);
+
+		var tierCraftRatio = this.game.getEffect("t" + craft.tier + "CraftRatio") || 0;
+		if (tierCraftRatio == 0) {
+			tierCraftRatio = 1;
+		}
+
+		// One (bonus / handicap) crafts per engineer per 10 minutes
+		var effectPerTick = kittenResProduction * tierCraftRatio / (600 * this.game.ticksPerSecond * craft.progressHandicap);
+		return effectPerTick * (1 + (afterCraft ? this.game.getResCraftRatio(resName) : 0));
 	},
 
     undo: function(data){
@@ -2377,7 +2372,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			this.clearEngineers();
 		}
 
-		for (var i = 0; i < this.crafts.length; i++){
+		for (var i = 0; i < this.crafts.length; i++) {
 			var craft = this.crafts[i];
 
 			var prices = this.getCraftPrice(craft);
@@ -2390,34 +2385,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			}
 
 			var currentProgress = Math.max(craft.progress, 0) + times * this.getEffectEngineer(craft.name, false);
-			if(currentProgress >= 1) {
-				var units = Math.floor(currentProgress), maxOfWhatCanCraft = currentProgress;
-				if (units > 1) {
-					// It has fraction part
-					maxOfWhatCanCraft = this._getCraftAllCountInternal(craft, prices);
-					if (maxOfWhatCanCraft < currentProgress) {
-						units = Math.floor(maxOfWhatCanCraft);
-					} else {
-						maxOfWhatCanCraft = currentProgress;
-					}
+			if (currentProgress >= 1) {
+				var currentProgress = Math.min(currentProgress, this._getCraftAllCountInternal(craft, prices));
+				var units = Math.floor(currentProgress);
+				if (!craft.isLimited && this.craft(craft.name, units, true)) {
+					craft.progress = currentProgress - units;
 				}
-
-				var craftSuccess = craft.isLimited ? false : this.craft(craft.name, units, true);
-				if (craftSuccess) {
-					craft.progress = maxOfWhatCanCraft - units;
-				} else {
-					continue;
-				}
+			} else if (this.game.resPool.hasRes(prices, currentProgress)) {
+				craft.isLimitedAmt = false;
+				craft.progress = currentProgress;
 			} else {
-				if (this.game.resPool.hasRes(prices, currentProgress)) {
-					craft.isLimitedAmt = false;
-					craft.progress = currentProgress;
-				} else {
-					craft.isLimitedAmt = true;
-				}
+				craft.isLimitedAmt = true;
 			}
 		}
-
 	},
 
 	unlock: function(upgrade){
