@@ -4,7 +4,7 @@ Major:
 * Make gamma the new mainline
 
 Themes:
-* New theme: Anthracite
+* New theme: Anthracite, Black
 
 Minor:
 * Caravanserai does not count anymore as a free Tradepost
