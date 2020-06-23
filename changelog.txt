@@ -2,9 +2,10 @@ v 1.4.8.1 (?? july 2020)
 Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
 * Make gamma the new mainline
+* Make engineers work during time skips
 
 Themes:
-* New theme: Anthracite, Black
+* New themes: Anthracite, Black
 
 Minor:
 * Caravanserai does not count anymore as a free Tradepost

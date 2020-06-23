@@ -497,6 +497,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     var resName = game.resPool.resources[j].name;
                     game.resPool.addResEvent(resName, game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain);
                 }
+                if (this.game.workshop.get("chronoEngineers").researched) {
+                    this.game.workshop.craftByEngineers(remainingTicksInCurrentYear * shatterTCGain);
+                }
             }
 
             if (triggersOrderOfTheVoid) {
