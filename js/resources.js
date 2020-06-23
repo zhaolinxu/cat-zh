@@ -548,20 +548,11 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		var prevValue = res.value || 0;
 
-		if(res.maxValue) {
-			//if already overcap, allow to remain that way unless removing resources.
-			if(res.value > res.maxValue) {
-				if(addedValue < 0 ) {
-					res.value += addedValue;
-				}
-			} else {
-				res.value += addedValue;
-				if(res.value > res.maxValue && !preventLimitCheck) {
-					res.value = res.maxValue;
-				}
-			}
-		} else {
-			res.value += addedValue;
+		//if already overcap, allow to remain that way unless removing resources.
+		var limit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+		res.value += addedValue;
+		if (!preventLimitCheck) {
+			res.value = Math.min(res.value, limit);
 		}
 
 		if (res.name == "void") { // Always an integer
