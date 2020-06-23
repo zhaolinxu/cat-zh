@@ -2371,7 +2371,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (this.game.village.getFreeEngineers() < 0){
 			this.clearEngineers();
 		}
+		this.craftByEngineers(times);
+	},
 
+	craftByEngineers: function(times) {
 		for (var i = 0; i < this.crafts.length; i++) {
 			var craft = this.crafts[i];
 
