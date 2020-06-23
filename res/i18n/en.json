@@ -783,7 +783,7 @@
     "workshop.factoryRobotics.label": "Factory Robotics",
     "workshop.spaceEngineers.desc": "Improves Engineer's effectiveness",
     "workshop.spaceEngineers.label": "Space Engineers",
-    "workshop.chronoEngineers.desc": "Improves Engineer's effectiveness",
+    "workshop.chronoEngineers.desc": "Improves Engineer's effectiveness and make them work during time skip",
     "workshop.chronoEngineers.label": "Chronoengineers",
     "workshop.spaceManufacturing.desc": "Factories are providing bonus to Space Elevators and Orbital Arrays",
     "workshop.spaceManufacturing.label": "Space Manufacturing",
