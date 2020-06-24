@@ -4,6 +4,7 @@ Major:
 * Make gamma the new mainline
 * Make engineers work during time skips
 * Add new challenge: Black Sky
+* Implement Zebra Outpost
 
 Themes:
 * New themes: Anthracite, Black
