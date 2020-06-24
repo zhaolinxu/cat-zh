@@ -225,8 +225,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.25,
         effects: {
-            "heatMax" : 100,
-            "heatPerTick": 0.02
+            "heatPerTick": 0.02,
+            "heatMax" : 100
         },
         calculateEffects: function(self, game) {
             self.effects["heatMax"] = 100 + game.getEffect("heatMaxExpansion");
@@ -344,9 +344,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.cryochambers.label"),
         description: $I("time.vsu.cryochambers.desc"),
         prices: [
+            { name : "karma", val: 1 },
             { name : "timeCrystal", val: 2 },
-            { name : "void", val: 100 },
-            { name : "karma", val: 1 }
+            { name : "void", val: 100 }
         ],
         priceRatio: 1.25,
         limitBuild: 0,
@@ -381,9 +381,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidHoover.label"),
         description: $I("time.vsu.voidHoover.desc"),
         prices: [
+			{ name: "antimatter", val: 1000 },
 			{ name: "timeCrystal", val: 10 },
-			{ name: "void", val: 250 },
-			{ name: "antimatter", val: 1000 }
+			{ name: "void", val: 250 }
         ],
         priceRatio: 1.25,
         effects: {
@@ -399,8 +399,8 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         ],
         priceRatio: 1.3,
         effects: {
-            "globalResourceRatio": 0.02,
-            "umbraBoostRatio": 0.1
+            "umbraBoostRatio": 0.1,
+            "globalResourceRatio": 0.02
         },
         upgrades: {
             spaceBuilding: ["hrHarvester"]
@@ -411,9 +411,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.chronocontrol.label"),
         description: $I("time.vsu.chronocontrol.desc"),
         prices: [
+			{ name: "temporalFlux", val: 3000},
 			{ name: "timeCrystal", val: 30 },
-			{ name: "void", val: 500 },
-			{ name: "temporalFlux", val: 3000}
+			{ name: "void", val: 500 }
         ],
         priceRatio: 1.25,
         effects: {
@@ -439,9 +439,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidResonator.label"),
         description: $I("time.vsu.voidResonator.desc"),
         prices: [
-            { name: "void", val: 50 },
             { name: "timeCrystal", val: 1000 },
-            { name: "relic", val: 10000 }
+            { name: "relic", val: 10000 },
+            { name: "void", val: 50 }
         ],
         priceRatio: 1.25,
         effects: {
@@ -451,9 +451,9 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
     }],
 
 	effectsBase: {
-		"temporalFluxMax": 60 * 10 * 5,  //10 minutes (5 == this.game.ticksPerSecond)
-        "heatMax": 100,
-        "heatPerTick" : 0.01
+		"heatPerTick" : 0.01,
+		"heatMax": 100,
+		"temporalFluxMax": 60 * 10 * 5  //10 minutes (5 == this.game.ticksPerSecond)
 	},
 
     getCFU: function(id){
@@ -493,9 +493,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // ShatterTC gain
             if (shatterTCGain > 0) {
+                // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+                var limits = {};
                 for (var j = 0; j < game.resPool.resources.length; j++) {
-                    var resName = game.resPool.resources[j].name;
-                    game.resPool.addResEvent(resName, game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain);
+                    var res = game.resPool.resources[j];
+                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * remainingTicksInCurrentYear * shatterTCGain, false, true);
+                }
+                if (this.game.workshop.get("chronoEngineers").researched) {
+                    this.game.workshop.craftByEngineers(remainingTicksInCurrentYear * shatterTCGain);
+                }
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    res.value = Math.min(res.value, limits[res.name]);
                 }
             }
 
@@ -892,9 +902,9 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
             name: "Fix Cryochamber",
             description: $I("time.fixCryochambers.desc"),
             prices: [
-				{name: "timeCrystal", val: 100},
-				{name: "void", val: 500},
 				{name: "temporalFlux", val: 3000},
+				{name: "timeCrystal", val: 100},
+				{name: "void", val: 500}
             ],
             controller: new classes.ui.time.FixCryochamberBtnController(game)
         }, game));

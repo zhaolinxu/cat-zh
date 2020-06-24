@@ -73,14 +73,6 @@
 
 			var version = "1480";
 
-			// Warning: As the URL of gamma is contained in URLs of alpha and beta, gamma MUST be declared before them
-			var branches = {
-				"mainline": "http://bloodrizer.ru/games/kittens/",
-				"gamma": "http://kittensgame.com/web/",
-				"beta": "http://kittensgame.com/web/beta/",
-				"alpha": "http://kittensgame.com/web/alpha/"
-			};
-
 			var loadingProgress = 0,
 				progressMax = 0;
 
@@ -136,20 +128,11 @@
 			}
 
 			dojo.addOnLoad(function() {
-				var currentBranch = "mainline";
-				for (var branch in branches) {
-					var linkID = "#" + branch + "Branch";
-					$(linkID).attr("target", "_blank");
-					var branchURL = branches[branch];
-					$(linkID).attr("href", branchURL);
-					if (window.location.href.indexOf(branchURL) === 0) {
-						currentBranch = branch;
-					}
-				}
-
 				var displayedVersion = version.split('').join('.');
-				if (currentBranch != "mainline") {
-					displayedVersion += '-&' + currentBranch + ';';
+				if (window.location.href.indexOf("alpha") >= 0) {
+					displayedVersion += "-&alpha;";
+				} else if (window.location.href.indexOf("beta") >= 0) {
+					displayedVersion += "-&beta;";
 				}
 				$("#versionLink").html(displayedVersion);
 
@@ -318,10 +301,10 @@
 					<!--- a Dark Souls of incremental gaming -->
 
 					<span style="font-size: small;">
-						<a id="alphaBranch" title="experimental, unstable">&alpha;</a>
-						<a id="betaBranch" title="experimental, stable">&beta;</a>
-						<a id="gammaBranch" title="stable, nighty build">&gamma;</a>
-						<a id="mainlineBranch" title="stable official mainline">ML</a>
+						<a href="http://kittensgame.com/alpha" title="experimental, unstable" target="_blank">&alpha;</a>
+						<a href="http://kittensgame.com/beta" title="experimental, stable" target="_blank">&beta;</a>
+						<a href="http://kittensgame.com/web" title="stable mainline, nighty build" target="_blank">ML</a>
+						<a href="http://bloodrizer.ru/games/kittens" title="stable backup, may lag behind mainline by several months" target="_blank">BU</a>
 					</span>
 
 					<a href="#" style="color: red">
@@ -364,31 +347,9 @@
 						<a id="wipe-link" href="#" onclick="wipe();">Wipe</a> |
 						<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 
-						<a href="#" onclick="$('#changelogDiv').toggle();">Ver <span id="versionLink">?.?.?.?</span></a>
+						<a href="changelog.txt" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
 					</div>
 				</div>
-			</div>
-			<div id="changelogDiv" class="dialog help" style="display: none; z-index: 9999">
-				<a href="#" onclick="$('#changelogDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
-
-				<b>Changelog/features:</b>
-				<br>
-				<pre>
-					Version: 1
-						Space
-
-					Major: 4
-						Chrono Furnace
-						Time Impedance
-
-					Minor 7:
-						Time Boiler
-
-					Rev: 1
-						UI
-
-				</pre>
-				<a href="changelog.txt" target="_blank" style="position: relative; top: -15px;">full changelog</a>
 			</div>
 
 			<div id="loadingContainer">
