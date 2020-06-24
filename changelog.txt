@@ -13,6 +13,7 @@ Minor:
 * Fix display of Standing ratio for Tradeposts
 * Increase years in stats during offline progression
 * Arrange price lists in buildings and upgrades in the same order as in the left column
+* Prevent food advisor to move stuff in left column
 
 v 1.4.8.0 (11 june 2020)
 Major:

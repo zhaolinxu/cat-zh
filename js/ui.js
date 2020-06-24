@@ -650,9 +650,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             "catnip" : 0.25
         }});	//calculate estimate winter per tick for catnip;
 
-        if (this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0) {
-            advDiv.innerHTML = "<span>" + $I("general.food.advisor.text") + "<span>";
-        }
+        var visibility = this.game.resPool.get("catnip").value + winterDays * catnipPerTick * calendar.ticksPerDay <= 0 ? "visible" : "hidden";
+        advDiv.innerHTML = "<span style='visibility: " + visibility + "'>" + $I("general.food.advisor.text") + "<span>";
     },
 
     updateLanguage: function(){
