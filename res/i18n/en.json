@@ -70,8 +70,8 @@
     "bld.msg.automation.slabs": "Spent {0} minerals, +{1} slabs!",
 
     "btn.all": "All",
-    "btn.all.assign": "[+all]",
     "btn.all.minor": "all",
+    "btn.all.assign": "[+all]",
     "btn.all.unassign": "[-all]",
     "btn.aoff.tooltip": "Automation disabled",
     "btn.aon.tooltip": "Automation enabled",
