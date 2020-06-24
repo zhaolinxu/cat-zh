@@ -1754,7 +1754,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		],
 		priceRatio: 1.35,
 		zebraRequired: 5,
-		effects: {}
+		effects: {
+			"hunterRatio" : 0.05
+		}
 	},{
 		name: "zebraWorkshop",
 		label: $I("buildings.zebraWorkshop.label"),
