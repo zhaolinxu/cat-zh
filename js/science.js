@@ -16,8 +16,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.calendar.effectDesc"),
 		prices: [{name : "science", val: 30}],
 		unlocks: {
-			tech: ["agriculture"],
-			tabs: ["time"]
+			tabs: ["time"],
+			tech: ["agriculture"]
 		},
         flavor: $I("science.calendar.flavor")
 
@@ -29,8 +29,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 100}],
 		unlocks: {
 			buildings: ["barn"],
-			tech: ["mining", "archery"],
-			jobs: ["farmer"]
+			jobs: ["farmer"],
+			tech: ["mining", "archery"]
 		},
         flavor: $I("science.agriculture.flavor")
 	},{
@@ -40,9 +40,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.archery.effectDesc"),
 		prices: [{name : "science", val: 300}],
 		unlocks: {
-			tech: ["animal"],
 			buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"],
-			jobs: ["hunter"]
+			jobs: ["hunter"],
+			tech: ["animal"]
 		},
 		flavor: $I("science.archery.flavor")
 	},{
@@ -105,9 +105,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.math.effectDesc"),
 		prices: [{name : "science", val: 1000}],
 		unlocks: {
+			tabs: ["stats"],
 			buildings: ["academy"],
-			upgrades: ["celestialMechanics"],
-			tabs: ["stats"]
+			upgrades: ["celestialMechanics"]
 		},
 		flavor: $I("science.math.flavor")
 	},{
@@ -152,8 +152,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
 			upgrades: ["register"],
-			crafts: ["parchment"],
-			policies: ["liberty", "tradition"]
+			crafts: ["parchment"]
 		},
 		flavor: $I("science.writing.flavor")
 	},{
@@ -199,8 +198,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"manuscript", val: 35}
 		],
 		unlocks: {
-			tech: ["astronomy", "cryptotheology"],
-			jobs: ["priest"]
+			jobs: ["priest"],
+			tech: ["astronomy", "cryptotheology"]
 		},
 		upgrades: {
 			buildings: ["temple"]
@@ -231,9 +230,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["harbor"],
 			tech: ["physics", "archeology", "architecture"],
-			crafts: ["ship"],
 			upgrades: ["caravanserai", "cargoShips", "astrolabe",
-						"titaniumMirrors", "titaniumAxe"]
+						"titaniumMirrors", "titaniumAxe"],
+			crafts: ["ship"]
 		}
 	},{
 		name: "architecture",
@@ -260,8 +259,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["chemistry", "electricity", "metaphysics"],
-			crafts: ["blueprint"],
-			upgrades: ["pneumaticPress", "pyrolysis", "steelSaw"]
+			upgrades: ["pneumaticPress", "pyrolysis", "steelSaw"],
+			crafts: ["blueprint"]
 		}
 	},{
 		name: "metaphysics",
@@ -269,8 +268,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.metaphysics.desc"),
 		effectDesc: $I("science.metaphysics.effectDesc"),
 		prices: [
-			{name : "science", val: 55000},
-			{name: 	"unobtainium", val: 5}
+			{name: 	"unobtainium", val: 5},
+			{name : "science", val: 55000}
 		],
 	},{
 		name: "chemistry",
@@ -319,8 +318,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["quarry"],
-			tech: ["biology"],
 			jobs: ["geologist"],
+			tech: ["biology"],
 			upgrades:["geodesy"]
 		},
 		flavor: $I("science.archeology.flavor")
@@ -403,11 +402,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["factory"],
-			tech: ["electronics"],
-			crafts: ["concrate"],
-			upgrades: ["pumpjack", "strenghtenBuild"],
 			jobs: ["engineer"],
-			policies: ["liberalism", "communism", "fascism"]
+			tech: ["electronics"],
+			upgrades: ["pumpjack", "strenghtenBuild"],
+			crafts: ["concrate"]
 		}
 	},{
 		name: "metalurgy",
@@ -431,8 +429,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
-			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"],
-			tech: ["ecology"]
+			tech: ["ecology"],
+			upgrades: ["offsetPress", "fuelInjectors", "oilRefinery"]
 		}
 	},
 	{
@@ -459,22 +457,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [
-				{bld:"amphitheatre",stage:1},	// Broadcast Tower
-				{bld:"library",stage:1}			// Data Center
+				{bld:"library",stage:1},		// Data Center
+				{bld:"amphitheatre",stage:1}	// Broadcast Tower
 			],
-			tech: [
-				"nuclearFission",
-				"rocketry",
-				"robotics"
-			],
-			upgrades: [
-				"cadSystems",
-				"refrigeration",
-				"seti",
-				"factoryLogistics",
-				"factoryOptimization",
-				"internet"
-			]
+			tech: ["nuclearFission", "rocketry", "robotics"],
+			upgrades: ["cadSystems", "refrigeration", "seti", "factoryLogistics", "factoryOptimization", "internet"]
 		}
 	},{
 		name: "robotics",
@@ -487,9 +474,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			stages: [{bld:"aqueduct",stage:1}], // Hydro Plant
-			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
-			crafts: ["tanker"],
 			tech: ["ai"],
+			upgrades: ["steelPlants", "rotaryKiln", "assistance", "factoryRobotics"],
+			crafts: ["tanker"]
 		}
 	},{
 		name: "ai",
@@ -501,9 +488,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
-			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"],
 			buildings: ["aiCore"],
-			tech: ["quantumCryptography"]
+			tech: ["quantumCryptography"],
+			upgrades: ["neuralNetworks", "aiEngineers", "machineLearning"]
 		}
 	},{
 		name: "quantumCryptography",
@@ -523,10 +510,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.blackchain.desc"),
 		effectDesc: $I("science.blackchain.effectDesc"),
 		prices: [
-			{name : "science", val: 5000000},
-			{name: 	"relic", val: 5000}
+			{name: "science", val: 5000000},
+			{name: "relic", val: 4096}
 		],
 		unlocks: {
+			upgrades: ["invisibleBlackHand"]
 		}
 	},{
 		name: "nuclearFission",
@@ -552,8 +540,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
-			tech: ["sattelites", "oilProcessing"],
 			tabs: ["space"],
+			tech: ["sattelites", "oilProcessing"],
 			upgrades: ["oilDistillation"]
 		}
 	}, {
@@ -566,8 +554,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name: 	"blueprint", val: 150}
         ],
         unlocks: {
-            crafts: ["kerosene"],
-            upgrades: [ "factoryProcessing" ]
+            upgrades: [ "factoryProcessing" ],
+            crafts: ["kerosene"]
         }
     },{
         name: "sattelites",
@@ -580,12 +568,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         unlocks: {
             tech: ["orbitalEngineering" ],
-            upgrades: [
-				"photolithography",
-				"orbitalGeodesy",
-				"uplink",
-				"thinFilm"
-			]
+            upgrades: ["photolithography", "orbitalGeodesy", "uplink", "thinFilm"]
         },
         flavor: $I("science.sattelites.flavor")
     },{
@@ -599,14 +582,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			tech: ["exogeology", "thorium"],
-			upgrades: [
-				"hubbleTelescope",
-				"satelliteRadio",
-				"astrophysicists",
-				"solarSatellites",
-				"spaceEngineers",
-				"starlink"
-			]
+			upgrades: ["hubbleTelescope", "satelliteRadio", "astrophysicists", "solarSatellites", "spaceEngineers", "starlink"]
 		}
 	},{
 		name: "thorium",
@@ -618,8 +594,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 375}
 		],
 		unlocks: {
-			crafts: ["thorium"],
-			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"]
+			upgrades: ["thoriumReactors", "thoriumEngine", "qdot"],
+			crafts: ["thorium"]
 		}
 	},{
 		name: "exogeology",
@@ -671,8 +647,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
-            upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"],
-			tech: ["antimatter"]
+			tech: ["antimatter"],
+			upgrades: ["coldFusion", "spaceManufacturing", "cryocomputing"]
 		}
 	},{
 		name: "antimatter",
@@ -684,8 +660,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "relic",   val: 1}
 		],
 		unlocks: {
-			upgrades: ["amReactors", "amBases", "amDrive", "amFission"],
-			tech: ["terraformation"]
+			tech: ["terraformation"],
+			upgrades: ["amReactors", "amBases", "amDrive", "amFission"]
 		}
 	},{
 		name: "terraformation",
@@ -813,156 +789,17 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "void",   val: 250}
 		],
 		unlocks: {
+			upgrades: ["distorsion"],
 			chronoforge: ["ressourceRetrieval"],
-			voidSpace: ["chronocontrol", "voidResonator"],
-			upgrades: ["distorsion"]
+			voidSpace: ["chronocontrol", "voidResonator"]
 		}
 	}],
-
-	/**
-	 * If policy is locked, it means some conflicting policy was researched first
-	 * Once policy is locked, there is no way to unlock it other than reset
-	 */
-	policies:[
-	{
-		name: "liberty",
-		label: "Liberty",
-		description:"Good for large, expansive societies. Halves population penalties. Cancels Tradition.",
-		prices: [
-			{name : "culture", val: 150}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["tradition"],
-		unlocks:{
-			policies:["authocracy", "republic"]
-		}
-	},{
-		name: "tradition",
-		label: "Tradition",
-		description:"Good for small culture oriented societies. Reduces manuscript price and increase their effect. Cancels Liberty.",
-		prices: [
-			{name : "culture", val: 150}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["liberty"],
-		unlocks:{
-			policies:["authocracy", "monarchy"]
-		}
-	},
-	//----------------	classical age --------------------
-	{
-		name: "monarchy",
-		label: "Monarchy",
-		description:"Best for societies benefitting from past universes. Makes the leader's trait twice as powerful. Cancels Authocracy and Republic.",
-		prices: [
-			{name : "culture", val: 1500}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["authocracy", "republic", "communism"]
-	},{
-		name: "authocracy",
-		label: "Autocracy",
-		description:"Best for societies with highly promoted kittens. Makes the leader twice as good at their job. Cancels Monarchy and Republic.",
-		prices: [
-			{name : "culture", val: 1500}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["monarchy", "republic", "liberalism"],
-		unlocks:{
-			policies:["socialism"]
-		}
-	},{
-		name: "republic",
-		label: "Republic",
-		description:"Best for large societies. Highly promoted leaders will provide a small bonus to the production of all kittens. Cancels Monarchy and Authocracy.",
-		prices: [
-			{name : "culture", val: 1500}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["monarchy", "authocracy", "fascism"],
-		unlocks:{
-			policies:["socialism"]
-		}
-	},
-	//----------------	meme --------------------
-	{
-		name: "socialism",
-		label: "Socialism",
-		description:"Has no effect",
-		prices: [
-			{name : "culture", val: 7500}
-		],
-		unlocked: false,
-		locked: false,
-	},
-	//----------------	industrial age --------------------
-	{
-		name: "liberalism",
-		label: "Liberalism",
-		description:"A peaceful and open society. Gains better relations with all trade partners and makes buildings require less gold.",
-		prices: [
-			{name : "culture", val: 15000}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["communism", "fascism"]
-	},{
-		name: "communism",
-		label: "Communism",
-		description:"Industrialization at all costs. Increases production of iron, coal, and titanium, and makes factories cheaper.",
-		prices: [
-			{name : "culture", val: 15000}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["liberalism", "fascism"]
-	},{
-		name: "fascism",
-		label: "Fascism",
-		description:"Lebensraum! Population penalties to happiness are eliminated, and log cabins cost half as much.",
-		prices: [
-			{name : "culture", val: 15000}
-		],
-		unlocked: false,
-		locked: false,
-		locks:["liberalism", "communism"]
-	},
-	//----------------	information age --------------------
-	{
-		name: "technocracy",
-		label: "Technocracy",
-		description:"",
-		prices: [
-			{name : "culture", val: 150000}
-		],
-	},{
-		name: "theocracy",
-		label: "Theocracy",
-		description:"",
-		prices: [
-			{name : "culture", val: 150000}
-		],
-	},{
-		name: "expansionism",
-		label: "Expansionism",
-		description:"",
-		prices: [
-			{name : "culture", val: 150000}
-		],
-	}
-],
 
 	metaCache: null,
 
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
-		this.registerMeta("stackable", this.policies, null);
 	},
 
 	get: function(techName){
@@ -979,10 +816,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 		console.error("Failed to get tech for tech name '"+techName+"'");
 		return null;
-	},
-
-	getPolicy: function(name){
-		return this.getMeta(name, this.policies);
 	},
 
 	getPrices: function(tech) {
@@ -1012,8 +845,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
-			policies: this.filterMetadata(this.policies, ["name", "unlocked", "locked", "researched"]),
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
 		};
 	},
 
@@ -1021,7 +853,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
 			this.loadMetadata(this.techs, saveData.science.techs);
-			this.loadMetadata(this.policies, saveData.science.policies);
 		}
 
 		//re-unlock technologies in case we have modified something
@@ -1044,79 +875,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
-	}
-});
-
-//-------- Policy ----------
-
-dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
-	getMetadata: function(model){
-        if (!model.metaCached){
-            model.metaCached = this.game.science.getPolicy(model.options.id);
-        }
-        return model.metaCached;
-	},
-
-	getName: function(model){
-		var meta = model.metadata;
-		if (meta.locked){
-			return meta.label + " " + $I("btn.locked.capital");
-		}
-
-		return this.inherited(arguments);
-	},
-	
-	updateVisible: function(model){
-		model.visible = true;
-	},
-
-	updateVisible: function(model){
-		var meta = model.metadata;
-		model.visible = meta.unlocked;
-
-		//uncomment when no longer debugging the code
-		/*
-			if (
-				(meta.researched || meta.locked) && this.game.science.hideResearched
-			){
-				model.visible = false;
-			}
-		*/
-	},
-
-	updateEnabled: function(model){
-		this.inherited(arguments);
-		if (model.metadata.locked){
-			model.enabled = false;
-		}
-	},
-
-	onPurchase: function(model){
-		this.inherited(arguments);
-		var meta = model.metadata;
-
-		if (meta.locks){
-			for (var i in meta.locks){
-				var policy = this.game.science.getPolicy( meta.locks[i]);
-				policy.locked = true;
-			}
-		}
-	}
-});
-
-dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
-	render: function(container){
-		var content = this.inherited(arguments),
-			self = this;
-
-		var controller = new classes.ui.PolicyBtnController(this.game);
-		dojo.forEach(this.game.science.policies, function(policy, i){
-			var button = 
-				new com.nuclearunicorn.game.ui.BuildingResearchBtn({
-					id: policy.name, controller: controller}, self.game);
-			button.render(content);
-			self.addChild(button);
-		});
 	}
 });
 
@@ -1197,12 +955,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table)/*,
-			tdLeft = dojo.create("td", null, tr),
-			tdRight = dojo.create("td", null, tr)*/;
+		var tr = dojo.create("tr", null, table);
+
+		var tdLeft = dojo.create("td", null, tr);
+		var tdRight = dojo.create("td", null, tr);
 
 
-		for (var i in this.game.science.techs){
+		//this.inherited(arguments);
+
+
+		for (var i = 0; i < this.game.science.techs.length; i++){
 			var tech = this.game.science.techs[i];
 
 			var btn = this.createTechBtn(tech);
@@ -1214,11 +976,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			btn.render(tr);
 		}
 
-		//-------------- policies ----------------
-
-		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
-		this.policyPanel.game = this.game;
-		this.policyPanel.render(tabContainer);
 
 		//------------ metaphysics ----------------
 		this.metaphysicsPanel = null;
@@ -1235,9 +992,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 
 		if (showMetaphysics){
-			this.metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
-			this.metaphysicsPanel.game = this.game;
-			this.metaphysicsPanel.render(tabContainer);
+			var metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
+			metaphysicsPanel.game = this.game;
+
+			var content = metaphysicsPanel.render(tabContainer);
+
+			this.metaphysicsPanel = metaphysicsPanel;
 		}
 
         //---------- challenges ------------
@@ -1246,9 +1006,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
         //TODO: use better update/render logic like in Time tab
 		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
 		if (showChallenges){
-			this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
-			this.challengesPanel.game = this.game;
-			this.challengesPanel.render(tabContainer);
+			var challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
+			challengesPanel.game = this.game;
+
+			var content = challengesPanel.render(tabContainer);
+			this.challengesPanel = challengesPanel;
 		}
 
 		this.update();
@@ -1262,9 +1024,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
         if (this.challengesPanel){
 			this.challengesPanel.update();
-		}
-		if (this.policyPanel){
-			this.policyPanel.update();
 		}
 	},
 
