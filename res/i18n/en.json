@@ -446,6 +446,18 @@
     "effectsMgr.type.resProduction": "{0} production",
     "effectsMgr.type.resRatio": "{0} bonus",
 
+    "filter.alicornRift": "Alicorn Rifts",
+    "filter.astronomicalEvent": "Astronomical Events",
+    "filter.craft": "Craft",
+    "filter.faith": "Faith",
+    "filter.hunt": "Hunts",
+    "filter.ivoryMeteor": "Ivory Meteors",
+    "filter.meteor": "Meteors",
+    "filter.tc": "Time Crystals",
+    "filter.trade": "Trade",
+    "filter.unicornRift": "Unicorn Rifts",
+    "filter.workshopAutomation": "Workshop Automation",
+
     "general.copy.to.clipboard.prompt": "Copy to clipboard: Ctrl+C, Enter",
     "general.food.advisor.text": "Food advisor: 'Your catnip supply is too low!'",
 
