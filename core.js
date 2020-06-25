@@ -469,57 +469,57 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		filters: {
 			"astronomicalEvent": {
-				title: "Astronomical Events",
+				title: $I("filter.astronomicalEvent"),
 				enabled: true,
 				unlocked: false
 			},
 			"hunt": {
-				title: "Hunts",
+				title: $I("filter.hunt"),
 				enabled: true,
 				unlocked: false
 			},
 			"trade": {
-				title: "Trade",
+				title: $I("filter.trade"),
 				enabled: true,
 				unlocked: false
 			},
 			"craft": {
-				title: "Craft",
+				title: $I("filter.craft"),
 				enabled: true,
 				unlocked: false
 			},
 			"workshopAutomation": {
-				title: "Workshop Automation",
+				title: $I("filter.workshopAutomation"),
 				enabled: true,
 				unlocked: false
 			},
 			"meteor": {
-				title: "Meteors",
+				title: $I("filter.meteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"ivoryMeteor": {
-				title: "Ivory Meteors",
+				title: $I("filter.ivoryMeteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"unicornRift": {
-				title: "Unicorn Rifts",
+				title: $I("filter.unicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"alicornRift": {
-				title: "Alicorn Rifts",
+				title: $I("filter.alicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"tc": {
-				title: "Time Crystals",
+				title: $I("filter.tc"),
 				enabled: true,
 				unlocked: false
 			},
 			"faith": {
-				title: "Faith",
+				title: $I("filter.faith"),
 				enabled: true,
 				unlocked: false
 			}
@@ -1306,21 +1306,21 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				if (tempVal >= 0.001) {
 					precision = tempVal < 0.01? 3: 2;
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
+						effectValue * this.game.ticksPerSecond, false, false, precision) + $I("res.per.sec");
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/h";
+						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + $I("res.per.hour");
 				}
 			} else if (effectMeta.type === "perDay"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.day");
 			} else if (effectMeta.type === "perYear"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.year");
 			} else if ( effectMeta.type === "ratio" ) {
 				displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 			} else if ( effectMeta.type === "integerRatio" ){
 				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 			} else if ( effectMeta.type === "energy" ){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.energy.watts");
 			} else {
 				displayEffectValue = this.game.getDisplayValueExt(effectValue);
 			}
@@ -1491,7 +1491,7 @@ ButtonModernHelper = {
 
 		if (!hideTitle){
 			dojo.create("div", {
-				innerHTML: $I("res.effects") + ":",
+				innerHTML: $I("res.effects"),
 				className: "tooltip-divider",
 				style: {
 					textAlign: "center",
@@ -1631,7 +1631,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		}
 		if (typeof(model.metadata.isAutomationEnabled) != "undefined" && model.metadata.isAutomationEnabled !== null) {
 			model.toggleAutomationLink = {
-				title: model.metadata.isAutomationEnabled ? "A" : "*",
+				title: model.metadata.isAutomationEnabled ? $I("btn.aon") : "*",
 				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
 				cssClass: model.metadata.isAutomationEnabled ? "auto-on" : "auto-off",
 				handler: function(btn){
@@ -1760,7 +1760,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 				this.sellInternal(model, end);
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
+				this.game.ui.confirm("", $I("ui.confirm.sellAll"), function() {
 					self.sellInternal(model, end);
 				});
 			}
@@ -2035,7 +2035,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				callback(true);
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function() {
+				this.game.ui.confirm("", $I("ui.confirm.constAll"), function() {
 					self.build(model, maxBld);
 					callback(true);
 				}, function() {
@@ -2068,7 +2068,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg($I("bld.msg.constructed", [meta.label, counter]), "notice");
 			}
 
 			if (meta.breakIronWill) {
@@ -2120,7 +2120,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingNotStackableBtnController", com
 	getDescription: function(model){
 		var meta = model.metadata;
 		if (meta.effectDesc && meta.researched){
-			return this.inherited(arguments) + "<br>" + $I("res.effect") + ": " + meta.effectDesc;
+			return this.inherited(arguments) + "<br>" + $I("res.effect") + " " + meta.effectDesc;
 		} else {
 			return this.inherited(arguments);
 		}
@@ -2369,7 +2369,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
 
 	tabId: 		null,
 	tabName: 	null,
-	domNode:  null,
+	domNode:    null,
 	visible: 	true,
 
 	constructor: function(opts, game){
