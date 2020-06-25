@@ -152,7 +152,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
 			upgrades: ["register"],
-			crafts: ["parchment"]
+			crafts: ["parchment"],
+			policies: ["liberty", "tradition"]
 		},
 		flavor: $I("science.writing.flavor")
 	},{
@@ -405,7 +406,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			jobs: ["engineer"],
 			tech: ["electronics"],
 			upgrades: ["pumpjack", "strenghtenBuild"],
-			crafts: ["concrate"]
+			crafts: ["concrate"],
+			policies: ["liberalism", "communism", "fascism"]
 		}
 	},{
 		name: "metalurgy",
@@ -795,11 +797,150 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	}],
 
+	/**
+	 * If policy is locked, it means some conflicting policy was researched first
+	 * Once policy is locked, there is no way to unlock it other than reset
+	 */
+	policies:[
+	{
+		name: "liberty",
+		label: "Liberty",
+		description:"Good for large, expansive societies. Halves population penalties. Cancels Tradition.",
+		prices: [
+			{name : "culture", val: 150}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["tradition"],
+		unlocks:{
+			policies:["authocracy", "republic"]
+		}
+	},{
+		name: "tradition",
+		label: "Tradition",
+		description:"Good for small culture oriented societies. Reduces manuscript price and increase their effect. Cancels Liberty.",
+		prices: [
+			{name : "culture", val: 150}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["liberty"],
+		unlocks:{
+			policies:["authocracy", "monarchy"]
+		}
+	},
+	//----------------	classical age --------------------
+	{
+		name: "monarchy",
+		label: "Monarchy",
+		description:"Best for societies benefitting from past universes. Makes the leader's trait twice as powerful. Cancels Authocracy and Republic.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["authocracy", "republic", "communism"]
+	},{
+		name: "authocracy",
+		label: "Autocracy",
+		description:"Best for societies with highly promoted kittens. Makes the leader twice as good at their job. Cancels Monarchy and Republic.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["monarchy", "republic", "liberalism"],
+		unlocks:{
+			policies:["socialism"]
+		}
+	},{
+		name: "republic",
+		label: "Republic",
+		description:"Best for large societies. Highly promoted leaders will provide a small bonus to the production of all kittens. Cancels Monarchy and Authocracy.",
+		prices: [
+			{name : "culture", val: 1500}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["monarchy", "authocracy", "fascism"],
+		unlocks:{
+			policies:["socialism"]
+		}
+	},
+	//----------------	meme --------------------
+	{
+		name: "socialism",
+		label: "Socialism",
+		description:"Has no effect",
+		prices: [
+			{name : "culture", val: 7500}
+		],
+		unlocked: false,
+		locked: false,
+	},
+	//----------------	industrial age --------------------
+	{
+		name: "liberalism",
+		label: "Liberalism",
+		description:"A peaceful and open society. Gains better relations with all trade partners and makes buildings require less gold.",
+		prices: [
+			{name : "culture", val: 15000}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["communism", "fascism"]
+	},{
+		name: "communism",
+		label: "Communism",
+		description:"Industrialization at all costs. Increases production of iron, coal, and titanium, and makes factories cheaper.",
+		prices: [
+			{name : "culture", val: 15000}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["liberalism", "fascism"]
+	},{
+		name: "fascism",
+		label: "Fascism",
+		description:"Lebensraum! Population penalties to happiness are eliminated, and log cabins cost half as much.",
+		prices: [
+			{name : "culture", val: 15000}
+		],
+		unlocked: false,
+		locked: false,
+		locks:["liberalism", "communism"]
+	},
+	//----------------	information age --------------------
+	{
+		name: "technocracy",
+		label: "Technocracy",
+		description:"",
+		prices: [
+			{name : "culture", val: 150000}
+		],
+	},{
+		name: "theocracy",
+		label: "Theocracy",
+		description:"",
+		prices: [
+			{name : "culture", val: 150000}
+		],
+	},{
+		name: "expansionism",
+		label: "Expansionism",
+		description:"",
+		prices: [
+			{name : "culture", val: 150000}
+		],
+	}
+],
+
 	metaCache: null,
 
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
+		this.registerMeta("stackable", this.policies, null);
 	},
 
 	get: function(techName){
@@ -816,6 +957,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 		console.error("Failed to get tech for tech name '"+techName+"'");
 		return null;
+	},
+
+	getPolicy: function(name){
+		return this.getMeta(name, this.policies);
 	},
 
 	getPrices: function(tech) {
@@ -845,7 +990,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
-			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"])
+			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
+			policies: this.filterMetadata(this.policies, ["name", "unlocked", "locked", "researched"]),
 		};
 	},
 
@@ -853,6 +999,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
 			this.loadMetadata(this.techs, saveData.science.techs);
+			this.loadMetadata(this.policies, saveData.science.policies);
 		}
 
 		//re-unlock technologies in case we have modified something
@@ -875,6 +1022,79 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
+	}
+});
+
+//-------- Policy ----------
+
+dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.science.getPolicy(model.options.id);
+        }
+        return model.metaCached;
+	},
+
+	getName: function(model){
+		var meta = model.metadata;
+		if (meta.locked){
+			return meta.label + " " + $I("btn.locked.capital");
+		}
+
+		return this.inherited(arguments);
+	},
+	
+	updateVisible: function(model){
+		model.visible = true;
+	},
+
+	updateVisible: function(model){
+		var meta = model.metadata;
+		model.visible = meta.unlocked;
+
+		//uncomment when no longer debugging the code
+		/*
+			if (
+				(meta.researched || meta.locked) && this.game.science.hideResearched
+			){
+				model.visible = false;
+			}
+		*/
+	},
+
+	updateEnabled: function(model){
+		this.inherited(arguments);
+		if (model.metadata.locked){
+			model.enabled = false;
+		}
+	},
+
+	onPurchase: function(model){
+		this.inherited(arguments);
+		var meta = model.metadata;
+
+		if (meta.locks){
+			for (var i in meta.locks){
+				var policy = this.game.science.getPolicy( meta.locks[i]);
+				policy.locked = true;
+			}
+		}
+	}
+});
+
+dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
+	render: function(container){
+		var content = this.inherited(arguments),
+			self = this;
+
+		var controller = new classes.ui.PolicyBtnController(this.game);
+		dojo.forEach(this.game.science.policies, function(policy, i){
+			var button = 
+				new com.nuclearunicorn.game.ui.BuildingResearchBtn({
+					id: policy.name, controller: controller}, self.game);
+			button.render(content);
+			self.addChild(button);
+		});
 	}
 });
 
@@ -955,13 +1175,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table);
-
-		var tdLeft = dojo.create("td", null, tr);
-		var tdRight = dojo.create("td", null, tr);
-
-
-		//this.inherited(arguments);
+		var tr = dojo.create("tr", null, table)/*,
+			tdLeft = dojo.create("td", null, tr),
+			tdRight = dojo.create("td", null, tr)*/;
 
 
 		for (var i = 0; i < this.game.science.techs.length; i++){
@@ -976,6 +1192,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			btn.render(tr);
 		}
 
+		//-------------- policies ----------------
+
+		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel.game = this.game;
+		this.policyPanel.render(tabContainer);
 
 		//------------ metaphysics ----------------
 		this.metaphysicsPanel = null;
@@ -992,12 +1213,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 
 		if (showMetaphysics){
-			var metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
-			metaphysicsPanel.game = this.game;
-
-			var content = metaphysicsPanel.render(tabContainer);
-
-			this.metaphysicsPanel = metaphysicsPanel;
+			this.metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
+			this.metaphysicsPanel.game = this.game;
+			this.metaphysicsPanel.render(tabContainer);
 		}
 
         //---------- challenges ------------
@@ -1006,11 +1224,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
         //TODO: use better update/render logic like in Time tab
 		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
 		if (showChallenges){
-			var challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
-			challengesPanel.game = this.game;
-
-			var content = challengesPanel.render(tabContainer);
-			this.challengesPanel = challengesPanel;
+			this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
+			this.challengesPanel.game = this.game;
+			this.challengesPanel.render(tabContainer);
 		}
 
 		this.update();
@@ -1024,6 +1240,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
         if (this.challengesPanel){
 			this.challengesPanel.update();
+		}
+		if (this.policyPanel){
+			this.policyPanel.update();
 		}
 	},
 

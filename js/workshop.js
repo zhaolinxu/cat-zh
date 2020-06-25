@@ -2200,8 +2200,15 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getCraftPrice: function(craft) {
-		if (craft.name != "ship") {
+		if (craft.name != "ship" && craft.name != "manuscript") {
 			return craft.prices;
+		}
+
+		if (craft.name == "manuscript" && this.game.science.getPolicy("tradition").researched){
+			return [
+				{name: "parchment", val: 20},
+				{name: "culture", val: 300}
+			];
 		}
 
 		//special ship hack
@@ -2217,6 +2224,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio(res);
+		amt = Math.ceil(amt);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
@@ -2364,8 +2372,12 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 		this.effectsBase["scienceMax"] = compendiaScienceMax;
-		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
+		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
+
+		if (this.game.science.getPolicy("tradition").researched){
+			this.effectsBase["cultureMax"] *= 2;
+		}
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){
