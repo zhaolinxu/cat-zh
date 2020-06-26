@@ -3783,7 +3783,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					// do nothing
 				} else {
 					if (!newUnlock){
-						console.warn("unable to evaluate unlock '", newUnlock, "', skipping");
+						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
 					newUnlock.unlocked = true;

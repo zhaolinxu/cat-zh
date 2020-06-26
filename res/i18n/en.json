@@ -1272,7 +1272,7 @@
     "village.happiness.rare.resources": "Rare resources",
     "village.job.bonus": "Job bonus",
     "village.job.engineer": "Engineer",
-    "village.job.engineer.desc": "Engineer can operate one factory to automate resource production.<br>Assign your engineers in workshop tab, they will craft automatically one time every 10 minutes.",
+    "village.job.engineer.desc": "Engineers can automate resource crafting (once per 10 minute). Every factory unlocks one engineer slot",
     "village.job.farmer": "Farmer",
     "village.job.farmer.desc": "+5 catnip per second",
     "village.job.geologist": "Geologist",

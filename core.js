@@ -377,7 +377,8 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	loadMetadata: function(meta, saveMeta){
 		if (!saveMeta){
 			console.trace(saveMeta);
-			throw "Unable to load save metadata, meta is empty";
+			console.error("Unable to load save metadata, meta is empty");
+			return;
 		}
 
 		for(var i = 0; i< saveMeta.length; i++){
@@ -1625,6 +1626,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 				title:  model.metadata.on ? $I("btn.on.minor") : $I("btn.off.minor"),
 				tooltip: model.metadata.on ? $I("btn.on.tooltip") : $I("btn.off.tooltip"),
 				cssClass: model.metadata.on ? "bld-on" : "bld-off",
+				//reserved for mobile
+				enabled: model.metadata.val > 0,
 				handler: function(btn){
 					self.handleTogglableOnOffClick(model);
 				}
@@ -1634,6 +1637,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			model.toggleAutomationLink = {
 				title: model.metadata.isAutomationEnabled ? "A" : "*",
 				tooltip: model.metadata.isAutomationEnabled ? $I("btn.aon.tooltip") : $I("btn.aoff.tooltip"),
+				//reserved for mobile
+				enabled: model.metadata.val > 0,
 				cssClass: model.metadata.isAutomationEnabled ? "auto-on" : "auto-off",
 				handler: function(btn){
 					self.handleToggleAutomationLinkClick(model);
@@ -2151,26 +2156,30 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingNotStackableBtnController", com
 		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
 			this.payPrice(model);
 
-			var meta = model.metadata;
-
-			meta.researched = true;
-
-			if (meta.handler){
-				meta.handler(this.game, meta);
-			}
-
-			if (meta.unlocks) {
-				this.game.unlock(meta.unlocks);
-			}
-
-			if (meta.upgrades) {
-				this.game.upgrade(meta.upgrades);
-			}
+			this.onPurchase(model);
+			
 			callback(true);
 			this.game.render();
 			return;
 		}
 		callback(false);
+	},
+
+	onPurchase: function(model){
+		var meta = model.metadata;
+		meta.researched = true;
+
+		if (meta.handler){
+			meta.handler(this.game, meta);
+		}
+
+		if (meta.unlocks) {
+			this.game.unlock(meta.unlocks);
+		}
+
+		if (meta.upgrades) {
+			this.game.upgrade(meta.upgrades);
+		}
 	}
 });
 

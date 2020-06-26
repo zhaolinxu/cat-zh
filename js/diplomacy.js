@@ -136,7 +136,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "starchart", value: 250, chance: 0.5, width: 0.8},
 			{name: "timeCrystal", value: 0.25, chance: 0.98, width: 0.15},
 			{name: "sorrow", value: 1, chance: 0.15, width: 0.1},
-			{name: "relic", value: 1, chance: 0.05, width: 0},
+			{name: "relic", value: 1, chance: 0.05, width: 0}
 		],
 		collapsed: false
     }],
@@ -621,6 +621,10 @@ dojo.declare("com.nuclearunicorn.game.ui.CrashBcoinButtonController", com.nuclea
 	}
 });
 
+/** -------------------------------------
+ * 			Trade Button
+----------------------------------------- */
+
 dojo.declare("com.nuclearunicorn.game.ui.TradeButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
@@ -720,6 +724,10 @@ dojo.declare("com.nuclearunicorn.game.ui.TradeButton", com.nuclearunicorn.game.u
 	}
 });
 
+/** -------------------------------------
+ * 			Explore Button
+----------------------------------------- */
+
 dojo.declare("classes.trade.ui.SendExplorersButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
@@ -789,7 +797,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 		/*
 		 * Once race panel is rendered, we will save the panels states.
 		 *
-		 * However races can be unlocked in random order, so once new race appear,
+		 * However races can be unlocked in random order, so after a new race appears
 		 * we will clear array and reinitialise it again
 		 */
 
@@ -895,6 +903,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					self.game.diplomacy.trade(race);
 				}, race)
 			}, this.game);
+
 			tradeBtn.render(rightColumn);	//TODO: attach it to the panel and do a lot of update stuff
 			racePanel.tradeBtn = tradeBtn;
 			racePanel.race = race;
@@ -937,7 +946,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			prices: [{ name: "manpower", val: 1000}],
 			controller: new classes.trade.ui.SendExplorersButtonController(this.game)
 		}, this.game);
-		var btn = exploreBtn.render(tabContainer);
+		exploreBtn.render(tabContainer);
 		this.exploreBtn = exploreBtn;
 
 		var clear1 = dojo.create("div",{}, tabContainer);
