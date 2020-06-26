@@ -955,13 +955,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 
-		var tr = dojo.create("tr", null, table);
-
-		var tdLeft = dojo.create("td", null, tr);
-		var tdRight = dojo.create("td", null, tr);
-
-
-		//this.inherited(arguments);
+		var tr = dojo.create("tr", null, table)/*,
+			tdLeft = dojo.create("td", null, tr),
+			tdRight = dojo.create("td", null, tr)*/;
 
 
 		for (var i = 0; i < this.game.science.techs.length; i++){
@@ -992,12 +988,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 		}
 
 		if (showMetaphysics){
-			var metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
-			metaphysicsPanel.game = this.game;
-
-			var content = metaphysicsPanel.render(tabContainer);
-
-			this.metaphysicsPanel = metaphysicsPanel;
+			this.metaphysicsPanel = new classes.ui.PrestigePanel($I("prestige.panel.label"), this.game.prestige);
+			this.metaphysicsPanel.game = this.game;
+			this.metaphysicsPanel.render(tabContainer);
 		}
 
         //---------- challenges ------------
@@ -1006,11 +999,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
         //TODO: use better update/render logic like in Time tab
 		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
 		if (showChallenges){
-			var challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
-			challengesPanel.game = this.game;
-
-			var content = challengesPanel.render(tabContainer);
-			this.challengesPanel = challengesPanel;
+			this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
+			this.challengesPanel.game = this.game;
+			this.challengesPanel.render(tabContainer);
 		}
 
 		this.update();

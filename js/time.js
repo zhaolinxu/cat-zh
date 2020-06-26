@@ -395,7 +395,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidRift.label"),
         description: $I("time.vsu.voidRift.desc"),
         prices: [
-            { name: "void", val: 75 },
+            { name: "void", val: 75 }
         ],
         priceRatio: 1.3,
         effects: {

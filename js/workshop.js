@@ -457,7 +457,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "unobtainium", val: 100 },
 			{ name : "science", val: 250000 },
-			{ name : "alloy", val: 150 },
+			{ name : "alloy", val: 150 }
 		],
 		upgrades: {
 			buildings: ["accelerator"]
@@ -1289,7 +1289,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.celestialMechanics.desc"),
 		effects: {},
 		prices:[
-			{ name : "science",  val: 250 },
+			{ name : "science",  val: 250 }
 		]
 	},{
 		name: "astrolabe",
@@ -2217,6 +2217,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio(res);
+		amt = Math.ceil(amt);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
@@ -2364,8 +2365,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 		this.effectsBase["scienceMax"] = compendiaScienceMax;
-		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
+		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){
