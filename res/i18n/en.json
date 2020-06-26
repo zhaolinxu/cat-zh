@@ -1220,6 +1220,9 @@
     "trade.sell.bcoin.desc": "Sell your blackcoins and get relics back",
     "trade.crash.bcoin": "Annoy the Invisible Black Hand",
     "trade.crash.bcoin.desc": "Force blackcoin market crash",
+    "trade.embassy.open": "Open embassy",
+    "trade.embassy":"Embassy level ({0})",
+    "trade.embassy.desc": "Improve your diplomatic relationships by establishing an embassy",
 
     "ui.filter.all": "All",
     "ui.filter.available": "Available",
