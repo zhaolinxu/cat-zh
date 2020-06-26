@@ -888,8 +888,6 @@ dojo.declare("classes.trade.ui.SendExplorersButton", com.nuclearunicorn.game.ui.
 //									DIPLOMACY
 //==================================================================================
 
-
-
 dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game.ui.tab, {
 
 	racePanels: null,

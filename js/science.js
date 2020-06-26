@@ -151,9 +151,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
+			policies: ["liberty", "tradition"],
 			upgrades: ["register"],
-			crafts: ["parchment"],
-			policies: ["liberty", "tradition"]
+			crafts: ["parchment"]
 		},
 		flavor: $I("science.writing.flavor")
 	},{
@@ -405,9 +405,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"],
 			jobs: ["engineer"],
 			tech: ["electronics"],
+			policies: ["liberalism", "communism", "fascism"],
 			upgrades: ["pumpjack", "strenghtenBuild"],
-			crafts: ["concrate"],
-			policies: ["liberalism", "communism", "fascism"]
+			crafts: ["concrate"]
 		}
 	},{
 		name: "metalurgy",

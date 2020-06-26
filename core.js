@@ -377,7 +377,6 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		if (!saveMeta){
 			console.trace(saveMeta);
 			console.error("Unable to load save metadata, meta is empty");
-			
 			return;
 		}
 

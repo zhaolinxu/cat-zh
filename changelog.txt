@@ -5,6 +5,7 @@ Major:
 * Make engineers work during time skips
 * Add new challenge: Black Sky
 * Implement Zebra Outpost
+* Add embassies
 
 Themes:
 * New themes: Anthracite, Black
