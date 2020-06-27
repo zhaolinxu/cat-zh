@@ -452,6 +452,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 1,
 			"manpowerMax": 50
 		},
+		calculateEffects: function(self, game){
+			if(game.science.getPolicy("fascism").researched){
+				game.getPriceAdjustment("N/A", self.prices, game.science.getPolicy("fascism").effects["logCabinCostReduction"], true);
+			}
+		},
 		unlocks: {
 			tabs: ["village"]
 		},
@@ -1248,6 +1253,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"craftRatio": 0,
 			"energyConsumption": 0
 		},
+		unlocks:{
+			policies:[]
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"craftRatio": 0.05
@@ -1263,6 +1271,27 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+			if(game.science.getPolicy("communism").researched){
+				game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.science.getPolicy("communism").effects["factoryCostReduction"], true /*this IS the whole building cost reduction*/);
+			}
+			if(game.science.getPolicy("monarchy").researched==true){
+				var unlocksTemp = {
+					policies:["liberalism", "fascism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
+			if(game.science.getPolicy("republic").researched==true){
+				var unlocksTemp = {
+					policies:["liberalism", "communism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
+			if(game.science.getPolicy("authocracy").researched==true){
+				var unlocksTemp = {
+					policies:["communism", "fascism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
 		}
 	},{
 		name: "reactor",
@@ -1407,6 +1436,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+			if(game.science.getPolicy("liberalism").researched==true){
+				game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //effecet of "goldCostReduction" is unfinished!
+			} //effect of the liberalism; Maybe should be somewhere else?
 		},
         flavor: $I("buildings.tradepost.flavor")
 	},{
@@ -1428,6 +1460,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
+			if(game.science.getPolicy("liberalism").researched==true){
+                game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //doing it this way because effect is unfinished!
+			}//Effect of the liberalism; maybe this should be somehere else?
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1638,6 +1673,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+			
+            if(game.science.getPolicy("liberalism").researched==true){
+                game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //TODO! Finish the effect
+            } //effect of the liberalism; Maybe should be somewhere else?
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
@@ -1735,7 +1774,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.challenges.currentChallenge == "energy") {
 				self.effects["energyConsumption"] *= 2;
 			}
-
+                     var gflopsPerTickBase = 0.02;
+			if(game.science.getPolicy("transKittenism").researched){
+			self.effects["gflopsPerTickBase"]=gflopsPerTickBase*(1+game.science.getPolicy("transKittenism").effects[
+"aiCoreProductivness"]||0);
+			
+			}
 			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
 		},
 		action: function(self, game) {
@@ -1836,6 +1880,17 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             }
         }
     },
+	/*
+	*Applies a discount to a price
+	*/
+	giveADiscount: function(resName, prices, discount){
+		for(var i = 0; i< prices.length; i++){
+			if (prices[i].name==resName){
+				prices[i].val*=(1-discount);
+				return 0;
+			}
+		}
+	},
 
 	getAutoProductionRatio: function(){
 		var autoProdRatio = 1;
