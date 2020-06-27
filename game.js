@@ -1022,6 +1022,62 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
 				type: "ratio",
 				calculation: "nonProportional"
+			},
+			//tier 2 policy effects
+			"boostFromLeader": {
+			title: "Boost From Leader",
+			type: "ratio"
+			},
+			//tier 3 policy effects
+			"goldCostReduction": {
+			title: "Reduction in gold cost",
+			type: "ratio"
+			},
+			"tradeRelationBoost":{
+			title: "Relation boost",			
+			type: "fixed"
+			},
+			"factoryCostReduction":{
+			title: "Factory cost reduction",			
+			type: "ratio"
+			},
+			"logCabinCostReduction":{
+			title: "Log Cabin cost reduction",			
+			type: "ratio"
+			},
+			"communismProductionBonus":{
+			title: "communismProductionBonus",			
+			type: "ratio"
+			},
+			//tier 4 policy effects
+			"technocracyScienceCap":{
+			title: "Science cap bonus",			
+			type: "ratio"
+			},
+			"expansionismUnobtainiumProductionBonus":{
+			title: "Unobtainium production bonus",			
+			type: "ratio"
+			},
+			"theocracyFaithProductionBonus":{
+			title: "Faith production bonus",			
+			type: "ratio"
+			},
+			//tier 5 policy effects
+			"aiCoreProductivness":{
+			title: "AI core productivness",			
+			type: "ratio"
+			},
+			"aiRebelionEffects":{
+			title: "Rebelion ratio",			
+			type: "ratio"
+			},
+			"blsProductionBonus":{
+			title: "BLS production bonus",			
+			type: "ratio"
+			},
+			"holyGenocideBonus":{
+			title: "Holy Genocide bonus",			
+			type: "ratio"
 			}
 		}
 	}
@@ -1302,7 +1358,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-
+	//function that applies discount to anything with a price. 
+	getPriceAdjustment: function(resName, prices, discount, theWholeBuilding = false/* If true, all costst of the thing will be decreased! resName would be irrelevant then*/){
+		for(var i = 0; i< prices.length; i++){
+			if ((prices[i].name==resName)||theWholeBuilding){
+				prices[i].val*=(1-discount);
+			}
+		}
+	},
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
@@ -1318,6 +1381,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
+        this.science.updateEffectCached(); //doesn't actually work for some reason; for now buildings will just call effect of the policies directly!
 
 		this.updateResources();
 	},
@@ -2371,9 +2435,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
-
+		
+		if((game.science.getPolicy("communism").researched)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
+			perTick*=(1+game.science.getPolicy("communism").effects["communismProductionBonus"]);
+		}
+		if((game.science.getPolicy("theocracy").researched)&&(resName=="faith")){
+			perTick*=(1+game.science.getPolicy("theocracy").effects["theocracyFaithProductionBonus"]);
+		}
+		if((game.science.getPolicy("expansionism").researched)&&(resName=="unobtainium")){
+			perTick*=(1+game.science.getPolicy("expansionism").effects["expansionismUnobtainiumProductionBonus"]);
+		}
+        if(game.science.getPolicy("necrocracy").researched){
+             perTick*=(1+(game.resPool.get("sorrow").value * game.science.getPolicy("necrocracy").effects["blsProductionBonus"]||0));
+        }
 		perTick += resConsumption;
-
 		if (isNaN(perTick)){
 			return 0;
 		}
