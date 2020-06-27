@@ -3938,6 +3938,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					}
                     if((!newUnlock.needsUnlocks)||(newUnlock.needsUnlocks<2)){
                         newUnlock.unlocked = true;
+                        newUnlock.needsUnlocks = 0;
                     }else{
                         newUnlock.needsUnlocks-=1;
                     }
