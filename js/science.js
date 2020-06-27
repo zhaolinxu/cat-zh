@@ -809,8 +809,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150}
 		],
 		unlocked: false,
-		locked: false,
-		locks:["tradition"],
+		blocked: false,
+		blocks:["tradition"],
 		unlocks:{
 			policies:["authocracy", "republic"]
 		}
@@ -822,8 +822,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150}
 		],
 		unlocked: false,
-		locked: false,
-		locks:["liberty"],
+		blocked: false,
+		blocks:["liberty"],
 		unlocks:{
 			policies:["authocracy", "monarchy"]
 		}
@@ -837,8 +837,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500}
 		],
 		unlocked: false,
-		locked: false,
-		locks:["authocracy", "republic", "communism"]
+		blocked: false,
+		blocks:["authocracy", "republic", "communism"]
 	},{
 		name: "authocracy",
 		label: $I("policy.autocracy.label"),
@@ -847,8 +847,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500}
 		],
 		unlocked: false,
-		locked: false,
-		locks:["monarchy", "republic", "liberalism"],
+		blocked: false,
+		blocks:["monarchy", "republic", "liberalism"],
 		unlocks:{
 			policies:["socialism"]
 		}
@@ -863,8 +863,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			"boostFromLeader":0.01
 		},
 		unlocked: false,
-		locked: false,
-		locks:["monarchy", "authocracy", "fascism"],
+		blocked: false,
+		blocks:["monarchy", "authocracy", "fascism"],
 		unlocks:{
 			policies:["socialism"]
 		}
@@ -878,7 +878,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 7500}
 		],
 		unlocked: false,
-		locked: false,
+		blocked: false,
 	},
 	//----------------	industrial age --------------------
 	{
@@ -893,8 +893,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			"tradeRelationBoost" : 10
 		},
 		unlocked: false,
-		locked: false,
-		locks:["communism", "fascism"]
+		blocked: false,
+		blocks:["communism", "fascism"]
 	},{
 		name: "communism",
         label: $I("policy.communism.label"),
@@ -907,8 +907,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			"communismProductionBonus" :0.25
 		},
 		unlocked: false,
-		locked: false,
-		locks:["liberalism", "fascism"]
+		blocked: false,
+		blocks:["liberalism", "fascism"]
 	},{
 		name: "fascism",
         label: $I("policy.fascism.label"),
@@ -920,8 +920,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			"logCabinCostReduction" : 0.5
 		},
 		unlocked: false,
-		locked: false,
-		locks:["liberalism", "communism"]
+		blocked: false,
+		blocks:["liberalism", "communism"]
 	},
 	//----------------	information age --------------------
 	{
@@ -935,8 +935,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"technocracyScienceCap": 0.2
 		},
 		unlocked: false,
-		locked: false,
-		locks:["theocracy", "expansionism"]
+		blocked: false,
+		blocks:["theocracy", "expansionism"]
 	},{
 		name: "theocracy",
         label: $I("policy.theocracy.label"),
@@ -948,9 +948,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"theocracyFaithProductionBonus": 0.2
 		},
 		unlocked: false,
-		locked: false,
+		blocked: false,
 		requiredLeaderJob :"priest",
-		locks:["technocracy", "expansionism"]
+		blocks:["technocracy", "expansionism"]
 	},{
 		name: "expansionism",
         label: $I("policy.expansionism.label"),
@@ -962,8 +962,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"expansionismUnobtainiumProductionBonus": 0.15
 		},
 		unlocked: false,
-		locked: false,
-		locks:["technocracy", "theocracy"]
+		blocked: false,
+		blocks:["technocracy", "theocracy"]
 	},
 	//----------------	tier 5 age --------------------
 	{
@@ -977,8 +977,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"aiCoreProductivness" : 1
 		},
 		unlocked: false,
-		locked: false,
-		locks:["necrocracy", "radicalXenophobia"]
+		blocked: false,
+		blocks:["necrocracy", "radicalXenophobia"]
 	},
 	{
 		name: "necrocracy",
@@ -991,8 +991,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"blsProductionBonus" : 0.001
 		},
 		unlocked: false,
-		locked: false,
-		locks:["transkittenism", "radicalXenophobia"]
+		blocked: false,
+		blocks:["transkittenism", "radicalXenophobia"]
 	},
 	{
 		name: "radicalXenophobia",
@@ -1005,8 +1005,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		"holyGenocideBonus" : 1
 		},
 		unlocked: false,
-		locked: false,
-		locks:["transkittenism", "necrocracy"]
+		blocked: false,
+		blocks:["transkittenism", "necrocracy"]
 	}
 ],
 
@@ -1077,7 +1077,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		saveData.science = {
 			hideResearched: this.hideResearched,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
-			policies: this.filterMetadata(this.policies, ["name", "unlocked", "locked", "researched"]),
+			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
 		};
 	},
 
@@ -1123,8 +1123,8 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 	getName: function(model){
 		var meta = model.metadata;
-		if (meta.locked){
-			return meta.label + " " + $I("btn.locked.capital");
+		if (meta.blocked){
+			return meta.label + " " + $I("btn.blocked.capital");
 		}
 
 		return this.inherited(arguments);
@@ -1150,20 +1150,26 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 	updateEnabled: function(model){
 		this.inherited(arguments);
-		if (model.metadata.locked){
+		if (model.metadata.blocked){
 			model.enabled = false;
 		}
 	},
 
 	onPurchase: function(model){
-		if((model.metadata.locked!=true)&&((game.village.leader==null||!model.metadata.requiredLeaderJob)||(game.village.leader.job||"")==model.metadata.requiredLeaderJob)){
+		if((model.metadata.blocked!=true)&&((game.village.leader==null||!model.metadata.requiredLeaderJob)||(game.village.leader.job||"")==model.metadata.requiredLeaderJob)){
+             for(var i = 0; i< model.metadata.blocks.length; i++){
+                if(game.science.getPolicy(model.metadata.blocks[i]).researched){
+                    model.metadata.blocked=true;
+                    return;
+                }
+             }
 			this.inherited(arguments);
 			var meta = model.metadata;
 
-			if (meta.locks){
-				for (var i in meta.locks){
-					var policy = this.game.science.getPolicy( meta.locks[i]);
-					policy.locked = true;
+			if (meta.blocks){
+				for (var i in meta.blocks){
+					var policy = this.game.science.getPolicy( meta.blocks[i]);
+					policy.blocked = true;
 				}
 			}
 		}

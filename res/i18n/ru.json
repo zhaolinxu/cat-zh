@@ -1578,7 +1578,7 @@
     "btn.off.tooltip": "Здание неактивно",
     "btn.aon.tooltip": "Автоматизация активна",
     "btn.aoff.tooltip": "Автоматизация неактивна",
-    "btn.locked.capital": "(Блокировано)",
+    "btn.blocked.capital": "(Заблокировано)",
     "effectsMgr.statics.boostFromLeader.title": "Бонус от лидера",
     "effectsMgr.statics.goldCostReduction.title": "Скидка на строительство в золоте",
     "effectsMgr.statics.tradeRelationBoost.title": "Бонус к дипломатии",

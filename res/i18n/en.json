@@ -97,7 +97,7 @@
     "btn.sell": "Sell",
     "btn.sell.minor": "sell",
     "btn.trade": "Trade",
-    "btn.locked.capital": "(Locked)",
+    "btn.blocked.capital": "(Blocked)",
 
     "buildings.academy.label": "Academy",
     "buildings.academy.desc": "Improves your research ratio and the speed of your kitten skills growth. Each upgrade level improves your science output by 20%",
