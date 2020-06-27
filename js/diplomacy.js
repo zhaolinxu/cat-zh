@@ -215,6 +215,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
             {name: "starchart", value: 250, chance: 50, delta: 0.8},
 			{name: "relic", value: 1, chance: 5, delta: 0}
 		],
+		unlocks:{
+ 			policies:["transKittenism", "necrocracy", "radicalXenophobia"]
+ 		},
 		collapsed: false
     }],
 
@@ -273,7 +276,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
+		var relationBoost = 0; //relationBoost from liberalism!
+		if(game.science.getPolicy("liberalism").researched){
+			relationBoost = game.science.getPolicy("liberalism").effects["tradeRelationBoost"];
+		}
+		return !(sell.minLevel && (race.embassyLevel+relationBoost) < sell.minLevel)
 			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
 	},
 
@@ -382,6 +389,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	tradeImpl: function(race, totalTradeAmount) {
+		if(race.unlocks){
+			for(var i = 0; i< race.unlocks.policies.length; i++){
+				game.science.getPolicy(race.unlocks.policies[i]).unlocked=true;
+			}
+		}
 		var printMessages = (totalTradeAmount == 1);
 		var standingRatio = this.game.getEffect("standingRatio");
 
@@ -436,8 +448,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			//can trade chance be grater than 1?
 			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
 			
+			var relationBoost = 0; //relationBoost from liberalism!
+			if(game.science.getPolicy("liberalism").researched){
+				relationBoost = game.science.getPolicy("liberalism").effects["tradeRelationBoost"];
+			}
 			var tradeChance = (race.embassyPrices) ? sellResource.chance 
-				* (1 + this.game.getHyperbolicEffect(0.01 * race.embassyLevel * iwEmbassyPenalty, 0.75)) : sellResource.chance;
+				* (1 + this.game.getHyperbolicEffect(0.01 * (race.embassyLevel+relationBoost) * iwEmbassyPenalty, 0.75)) : sellResource.chance;
 
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance / 100),
 				resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance / 100);
@@ -463,8 +479,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			boughtResourceCollection[sellResource.name] = boughtAmount;
 		}
 
+		var relationBoost = 0; //relationBoost from liberalism!
+		if(game.science.getPolicy("liberalism").researched){
+			relationBoost = game.science.getPolicy("liberalism").effects["tradeRelationBoost"];
+		}
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * race.embassyLevel * iwEmbassyPenalty) : 0.35;
+		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * (race.embassyLevel+relationBoost) * iwEmbassyPenalty) : 0.35;
 		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, spiceChance);
 		boughtResourceCollection["spice"] = 25 * spiceTradeAmount +
 			50 * this.game.math.irwinHallRandom(spiceTradeAmount) * tradeRatio;
