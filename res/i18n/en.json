@@ -535,8 +535,8 @@
     "opts.yes": "Yes",
     "opts.no": "No",
 
-    "policy.authocracy.label" : "",
-    "policy.authocracy.desc" : "",
+    "policy.autocracy.label" : "",
+    "policy.autocracy.desc" : "",
     "policy.bigStickPolicy.label" : "",
     "policy.bigStickPolicy.desc" : "",
     "policy.cityOnAHill.label" : "",
