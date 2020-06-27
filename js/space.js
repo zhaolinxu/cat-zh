@@ -250,6 +250,9 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0,
 				"energyProduction": 0
 			},
+            unlocks:{
+                policies:["outerSpaceTreaty","militarizeSpace"]
+            },
 			calculateEffects: function(self, game){
 				self.effects = {
 					"observatoryRatio": 0.05,

@@ -140,6 +140,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 2200}],
 		unlocks: {
 			buildings: ["tradepost"],
+           policies:["diplomacy","isolationism"],
 			upgrades: ["goldOre"]
 		}
 	},{
@@ -217,7 +218,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["observatory"],
-			tech: ["navigation"]
+			tech: ["navigation"],
+            policies:["knowledgeSharing", "culturalExchange", "bigStickPolicy", "cityOnAHill"]
 		}
 	},{
 		name: "navigation",
@@ -1007,7 +1009,151 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		blocked: false,
 		blocks:["transkittenism", "necrocracy"]
-	}
+	},
+    //----------------    Foreign Policy --------------------
+    {
+        name: "diplomacy",
+        label: $I("policy.diplomacy.label"),
+        description: $I("policy.diplomacy.desc"),
+        prices: [
+            {name : "culture", val: 1600}
+        ],
+        effects:{
+            "tradeCatpowerDiscount" : 5
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["isolationism"],
+        unlocks:{
+            policies:["knowledgeSharing", "culturalExchange"]
+        }
+    },{
+        name: "isolationism",
+        label: $I("policy.isolationism.label"),
+        description: $I("policy.isolationism.desc"),
+        prices: [
+            {name : "culture", val: 1600}
+        ],
+        effects:{
+            "tradeGoldDiscount" : 1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["diplomacy"],
+        unlocks:{
+            policies:["bigStickPolicy", "cityOnAHill"]
+        }
+    },{
+        name: "zebraRelationsAppeasement",
+        label: $I("policy.zebraRelationsAppeasement.label"),
+        description: $I("policy.zebraRelationsAppeasement.desc"),
+        prices: [
+            {name : "culture", val: 5000}
+        ],
+        effects:{
+            "zebraAppeasedGoldPenalty" : 0.05,
+            "zebraRelationModifier" : 15
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["zebraRelationsBellicosity"]
+    },{
+        name: "zebraRelationsBellicosity",
+        label: $I("policy.zebraRelationsBellicosity.label"),
+        description: $I("policy.zebraRelationsBellicosity.desc"),
+        prices: [
+            {name : "culture", val: 5000}
+        ],
+        effects:{
+            "nonZebraRelationModifier" : 5,
+            "zebraRelationModifier" : -10
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["zebraRelationsAppeasement"]
+    },{
+        name: "knowledgeSharing",
+        label: $I("policy.knowledgeSharing.label"),
+        description: $I("policy.knowledgeSharing.desc"),
+        prices: [
+            {name : "culture", val: 4000}
+        ],
+        effects:{
+            "sharedKnowledgeBonus" : 0.05,
+        },
+        needsUnlocks : 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["culturalExchange"]
+    },{
+        name: "culturalExchange",
+        label: $I("policy.culturalExchange.label"),
+        description: $I("policy.culturalExchange.desc"),
+        prices: [
+            {name : "culture", val: 4000}
+        ],
+        effects:{
+            "culturalExchangeBonus" : 0.05,
+        },
+        needsUnlocks : 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["knowledgeSharing"]
+    },{
+        name: "bigStickPolicy",
+        label: $I("policy.bigStickPolicy.label"),
+        description: $I("policy.bigStickPolicy.desc"),
+        prices: [
+            {name : "culture", val: 4000}
+        ],
+        effects:{
+            "embassyCostReduction" : 0.15,
+        },
+        needsUnlocks : 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["cityOnAHill"]
+    },{
+        name: "cityOnAHill",
+        label: $I("policy.zebraRelationsBellicosity.label"),
+        description: $I("policy.zebraRelationsBellicosity.desc"),
+        prices: [
+            {name : "culture", val: 4000}
+        ],
+        effects:{
+              "onAHillCultureCap" : 0.05
+        },
+        needsUnlocks : 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["bigStickPolicy"]
+    },{
+        name: "outerSpaceTreaty",
+        label: $I("policy.outerSpaceTreaty.label"),
+        description: $I("policy.outerSpaceTreaty.desc"),
+        prices: [
+                {name : "culture", val: 10000}
+        ],
+        effects:{
+            "spaceRelationsBonus" : 10
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["militarizeSpace"]
+    },{
+        name: "militarizeSpace",
+        label: $I("policy.militarizeSpace.label"),
+        description: $I("policy.militarizeSpace.desc"),
+        prices: [
+            {name : "culture", val: 10000}
+        ],
+        effects:{
+            "sateliteSynergyBonus" : 0.1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["outerSpaceTreaty"]
+    }
 ],
 
 	metaCache: null,
@@ -1077,7 +1223,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		saveData.science = {
 			hideResearched: this.hideResearched,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
-			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
+			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched", "needsUnlocks"]),
 		};
 	},
 

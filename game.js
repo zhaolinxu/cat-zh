@@ -1023,58 +1023,103 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio",
 				calculation: "nonProportional"
 			},
-			//tier 2 policy effects
+			//age 2 policy effects
 			"boostFromLeader": {
-			title: $I("effectsMgr.statics.boostFromLeader.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.boostFromLeader.title"),
+                type: "ratio"
 			},
-			//tier 3 policy effects
+			//age 3 policy effects
 			"goldCostReduction": {
-			title: $I("effectsMgr.statics.goldCostReduction.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.goldCostReduction.title"),
+                type: "ratio"
 			},
 			"tradeRelationBoost":{
-			title: $I("effectsMgr.statics.tradeRelationBoost.title"),
-			type: "fixed"
+                title: $I("effectsMgr.statics.tradeRelationBoost.title"),
+                type: "fixed"
 			},
 			"factoryCostReduction":{
-			title: $I("effectsMgr.statics.factoryCostReduction.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.factoryCostReduction.title"),
+                type: "ratio"
 			},
 			"logCabinCostReduction":{
-			title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
-			type: "ratio"
+                title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+                type: "ratio"
 			},
 			"communismProductionBonus":{
-			title: $I("effectsMgr.statics.communismProductionBonus.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.communismProductionBonus.title"),
+                type: "ratio"
 			},
-			//tier 4 policy effects
+			//age 4 policy effects
 			"technocracyScienceCap":{
-			title: $I("effectsMgr.statics.technocracyScienceCap.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.technocracyScienceCap.title"),
+                type: "ratio"
 			},
 			"expansionismUnobtainiumProductionBonus":{
-			title: $I("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
+                type: "ratio"
 			},
 			"theocracyFaithProductionBonus":{
-			title: $I("effectsMgr.statics.theocracyFaithProductionBonus.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.theocracyFaithProductionBonus.title"),
+                type: "ratio"
 			},
-			//tier 5 policy effects
+			//age 5 policy effects
 			"aiCoreProductivness":{
-			title: $I("effectsMgr.statics.aiCoreProductivity.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.aiCoreProductivity.title"),
+                type: "ratio"
 			},
 			"blsProductionBonus":{
-			title: $I("effectsMgr.statics.blsProductionBonus.title"),
-			type: "ratio"
+                title: $I("effectsMgr.statics.blsProductionBonus.title"),
+                type: "ratio"
 			},
 			"holyGenocideBonus":{
-			title: $I("effectsMgr.statics.holyGenocideBonus.title"),
-			type: "ratio"
-			}
+                title: $I("effectsMgr.statics.holyGenocideBonus.title"),
+                type: "ratio"
+			},
+            //foreign policy effects
+            "tradeCatpowerDiscount":{
+                title: $I("effectsMgr.statics.tradeCatpowerDiscount.title"),
+                type: "fixed"
+            },
+            "tradeGoldDiscount":{
+                title: $I("effectsMgr.statics.tradeGoldDiscount.title"),
+                type: "fixed"
+            },
+            "zebraAppeasedGoldPenalty":{
+                title: $I("effectsMgr.statics.zebraAppeasedGoldPenalty.title"),
+                type: "fixed"
+            },
+            "zebraRelationModifier":{
+                title: $I("effectsMgr.statics.zebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "nonZebraRelationModifier":{
+                title: $I("effectsMgr.statics.nonZebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "sharedKnowledgeBonus":{
+                title: $I("effectsMgr.statics.sharedKnowledgeBonus.title"),
+                type: "ratio"
+            },
+            "culturalExchangeBonus":{
+                title: $I("effectsMgr.statics.culturalExchangeBonus.title"),
+                type: "ratio"
+            },
+            "embassyCostReduction":{
+                title: $I("effectsMgr.statics.embassyCostReduction.title"),
+                type: "ratio"
+            },
+            "onAHillCultureCap":{
+                title: $I("effectsMgr.statics.onAHillCultureCap.title"),
+                type: "ratio"
+            },
+            "sateliteSynergyBonus":{
+                title: $I("effectsMgr.statics.sateliteSynergyBonus.title"),
+                type: "ratio"
+            },
+            "spaceRelationsBonus":{
+            title: $I("effectsMgr.statics.spaceRelationsBonus.title"),
+                type: "fixed"
+            }
 		}
 	}
 });
@@ -3891,7 +3936,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
-					newUnlock.unlocked = true;
+                    if((!newUnlock.needsUnlocks)||(newUnlock.needsUnlocks<2)){
+                        newUnlock.unlocked = true;
+                    }else{
+                        newUnlock.needsUnlocks-=1;
+                    }
 				}
 			}
 		}

@@ -125,6 +125,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}},
 			{name: "alloy", value: 0.25, chance: 0.05, width: 0.05, minLevel: 5}
 		],
+        unlocks:{
+            policies:["zebraRelationsAppeasement", "zebraRelationsBellicosity"]
+        },
 		collapsed: false
 	},{
 		name: "spiders",
@@ -277,6 +280,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
 			zebras.unlocked = true;
 			this.game.workshop.get("caravanserai").unlocked = true;
+            game.science.getPolicy("zebraRelationsAppeasement").unlocked=true;
+            game.science.getPolicy("zebraRelationsBellicosity").unlocked=true;
 			return zebras;
 		}
 
