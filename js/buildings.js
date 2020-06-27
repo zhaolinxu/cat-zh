@@ -1765,8 +1765,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				self.effects["energyConsumption"] *= 2;
 			}
                      var gflopsPerTickBase = 0.02;
-			if(game.science.getPolicy("transKittenism").researched){
-			self.effects["gflopsPerTickBase"]=gflopsPerTickBase*(1+game.science.getPolicy("transKittenism").effects[
+			if(game.science.getPolicy("transkittenism").researched){
+			self.effects["gflopsPerTickBase"]=gflopsPerTickBase*(1+game.science.getPolicy("transkittenism").effects[
 "aiCoreProductivness"]||0);
 			
 			}
@@ -1778,7 +1778,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
-			if (self.effects["aiLevel"] < 15){
+			if ((game.getPolicy("transkittenism").researched==true)||(self.effects["aiLevel"] < 15)){
 				return true;
 			}
 			game.systemShockMode = true;

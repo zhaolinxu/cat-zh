@@ -968,8 +968,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 	//----------------	tier 5 age --------------------
 	{
-		name: "transKittenism",
-		label: "Trans Kittenism",
+		name: "transkittenism",
+		label: "Transkittenism",
 		description:"Give up kittenhood and merge with the AI. AI cores are twice as effective, and there is no downside for AI level.",
 		prices: [
 			{name : "culture", val: 1500000}
@@ -994,7 +994,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		},
 		unlocked: false,
 		locked: false,
-		locks:["transKittenism", "radicalXenophobia"]
+		locks:["transkittenism", "radicalXenophobia"]
 	},
 	{
 		name: "radicalXenophobia",
@@ -1008,7 +1008,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		},
 		unlocked: false,
 		locked: false,
-		locks:["transKittenism", "necrocracy"]
+		locks:["transkittenism", "necrocracy"]
 	}
 ],
 

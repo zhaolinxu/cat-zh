@@ -180,7 +180,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "relic", value: 1, chance: 0.05, width: 0}
 		],
 		unlocks:{
- 			policies:["transKittenism", "necrocracy", "radicalXenophobia"]
+ 			policies:["transkittenism", "necrocracy", "radicalXenophobia"]
  		},
 		collapsed: false
     }],
