@@ -804,8 +804,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	policies:[
 	{
 		name: "liberty",
-		label: "Liberty",
-		description:"Good for large, expansive societies. Halves population penalties. Cancels Tradition.",
+		label: $I("policy.liberty.label"),
+		description: $I("policy.liberty.desc"),
 		prices: [
 			{name : "culture", val: 150}
 		],
@@ -817,8 +817,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	},{
 		name: "tradition",
-		label: "Tradition",
-		description:"Good for small culture oriented societies. Reduces manuscript price and increase their effect. Cancels Liberty.",
+		label: $I("policy.tradition.label"),
+		description:$I("policy.tradition.desc"),
 		prices: [
 			{name : "culture", val: 150}
 		],
@@ -832,8 +832,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	//----------------	classical age --------------------
 	{
 		name: "monarchy",
-		label: "Monarchy",
-		description:"Best for societies benefitting from past universes. Makes the leader's trait twice as powerful. Cancels Authocracy and Republic.",
+		label: $I("policy.monarchy.label"),
+		description: $I("policy.monarchy.desc"),
 		prices: [
 			{name : "culture", val: 1500}
 		],
@@ -842,8 +842,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		locks:["authocracy", "republic", "communism"]
 	},{
 		name: "authocracy",
-		label: "Autocracy",
-		description:"Best for societies with highly promoted kittens. Makes the leader twice as good at their job. Cancels Monarchy and Republic.",
+		label: $I("policy.autocracy.label"),
+		description: $I("policy.autocracy.desc"),
 		prices: [
 			{name : "culture", val: 1500}
 		],
@@ -855,8 +855,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 	},{
 		name: "republic",
-		label: "Republic",
-		description:"Best for large societies. Highly promoted leaders will provide a small bonus to the production of all kittens. Cancels Monarchy and Authocracy.",
+        label: $I("policy.republic.label"),
+        description: $I("policy.republic.desc"),
 		prices: [
 			{name : "culture", val: 1500}
 		],
@@ -873,8 +873,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	//----------------	meme --------------------
 	{
 		name: "socialism",
-		label: "Socialism",
-		description:"Has no effect",
+        label: $I("policy.socialism.label"),
+        description: $I("policy.socialism.desc"),
 		prices: [
 			{name : "culture", val: 7500}
 		],
@@ -884,8 +884,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	//----------------	industrial age --------------------
 	{
 		name: "liberalism",
-		label: "Liberalism",
-		description:"A peaceful and open society. Gains better relations with all trade partners and makes buildings require less gold.",
+        label: $I("policy.liberalism.label"),
+        description: $I("policy.liberalism.desc"),
 		prices: [
 			{name : "culture", val: 15000}
 		],
@@ -898,8 +898,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		locks:["communism", "fascism"]
 	},{
 		name: "communism",
-		label: "Communism",
-		description:"Industrialization at all costs. Increases production of iron, coal, and titanium, and makes factories cheaper.",
+        label: $I("policy.communism.label"),
+        description: $I("policy.communism.desc"),
 		prices: [
 			{name : "culture", val: 15000}
 		],
@@ -912,8 +912,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		locks:["liberalism", "fascism"]
 	},{
 		name: "fascism",
-		label: "Fascism",
-		description:"Lebensraum! Population penalties to happiness are eliminated, and log cabins cost half as much.",
+        label: $I("policy.fascism.label"),
+        description: $I("policy.fascism.desc"),
 		prices: [
 			{name : "culture", val: 15000}
 		],
@@ -927,9 +927,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	//----------------	information age --------------------
 	{
 		name: "technocracy",
-		label: "Technocracy",
-		description:"Your government is taken over by scientists, increasing your science cap.",
-		prices: [
+        label: $I("policy.technocracy.label"),
+        description: $I("policy.technocracy.desc"),
+        prices: [
 			{name : "culture", val: 150000}
 		],
 		effects:{
@@ -940,8 +940,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		locks:["theocracy", "expansionism"]
 	},{
 		name: "theocracy",
-		label: "Order of The Stars",
-		description:"Your astronauts have seen horrible things in the distant skies. Let the priests take over, and faith production will be increased.",
+        label: $I("policy.theocracy.label"),
+        description: $I("policy.theocracy.desc"),
 		prices: [
 			{name : "culture", val: 150000}
 		],
@@ -954,8 +954,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		locks:["technocracy", "expansionism"]
 	},{
 		name: "expansionism",
-		label: "Cosmoliberalism",
-		description:"Privatize the moon! Nothing changes on Cath, but unobtainium production will be increased.",
+        label: $I("policy.expansionism.label"),
+        description: $I("policy.expansionism.desc"),
 		prices: [
 			{name : "culture", val: 150000}
 		],
@@ -969,8 +969,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	//----------------	tier 5 age --------------------
 	{
 		name: "transkittenism",
-		label: "Transkittenism",
-		description:"Give up kittenhood and merge with the AI. AI cores are twice as effective, and there is no downside for AI level.",
+        label: $I("policy.transkittenism.label"),
+        description: $I("policy.transkittenism.desc"),
 		prices: [
 			{name : "culture", val: 1500000}
 		],
@@ -998,8 +998,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 	{
 		name: "radicalXenophobia",
-		label: "Radical Xenophobia",
-		description:"Reject unhinged AI and vicious aliens. Holy genocide is twice as effective",
+        label: $I("policy.necrocracy.label"),
+        description: $I("policy.necrocracy.desc"),
 		prices: [
 			{name : "culture", val: 1500000}
 		],
