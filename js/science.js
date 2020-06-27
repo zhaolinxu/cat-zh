@@ -974,8 +974,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"aiCoreProductivness" : 1,
-		"aiRebelionEffects" : -1
+		"aiCoreProductivness" : 1
 		},
 		unlocked: false,
 		locked: false,
