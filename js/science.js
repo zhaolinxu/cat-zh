@@ -406,8 +406,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			tech: ["electronics"],
 			crafts: ["concrate"],
 			upgrades: ["pumpjack", "strenghtenBuild"],
-			jobs: ["engineer"],
-			policies: ["liberalism", "communism", "fascism"]
+			jobs: ["engineer"]
 		}
 	},{
 		name: "metalurgy",
@@ -882,6 +881,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+		effects:{
+			"boostFromLeader":0.01
+		},
 		unlocked: false,
 		locked: false,
 		locks:["monarchy", "authocracy", "fascism"],
@@ -908,6 +910,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 15000}
 		],
+		effects:{
+			"goldCostReduction": 0.2,
+			"tradeRelationBoost" : 10
+		},
 		unlocked: false,
 		locked: false,
 		locks:["communism", "fascism"]
@@ -918,6 +924,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 15000}
 		],
+		effects:{
+			"factoryCostReduction" : 0.3,
+			"communismProductionBonus" :0.25
+		},
 		unlocked: false,
 		locked: false,
 		locks:["liberalism", "fascism"]
@@ -928,6 +938,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 15000}
 		],
+		effects:{
+			"logCabinCostReduction" : 0.5
+		},
 		unlocked: false,
 		locked: false,
 		locks:["liberalism", "communism"]
@@ -936,33 +949,107 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	{
 		name: "technocracy",
 		label: "Technocracy",
-		description:"",
+		description:"Your government is taken over by scientists, increasing your science cap.",
 		prices: [
 			{name : "culture", val: 150000}
 		],
+		effects:{
+		"technocracyScienceCap": 0.2
+		},
+		unlocked: false,
+		locked: false,
+		locks:["theocracy", "expansionism"]
 	},{
 		name: "theocracy",
-		label: "Theocracy",
-		description:"",
+		label: "Order of The Stars",
+		description:"Your astronauts have seen horrible things in the distant skies. Let the priests take over, and faith production will be increased.",
 		prices: [
 			{name : "culture", val: 150000}
 		],
+		effects:{
+		"theocracyFaithProductionBonus": 0.2
+		},
+		unlocked: false,
+		locked: false,
+		requieresLeaderJob :"priest",
+		locks:["technocracy", "expansionism"]
 	},{
 		name: "expansionism",
-		label: "Expansionism",
-		description:"",
+		label: "Cosmoliberalism",
+		description:"Privatize the moon! Nothing changes on Cath, but unobtainium production will be increased.",
 		prices: [
 			{name : "culture", val: 150000}
 		],
+		effects:{
+		"expansionismUnobtainiumProductionBonus": 0.15
+		},
+		unlocked: false,
+		locked: false,
+		locks:["technocracy", "theocracy"]
+	},
+	//----------------	tier 5 age --------------------
+	{
+		name: "transKittenism",
+		label: "Trans Kittenism",
+		description:"Give up kittenhood and merge with the AI. AI cores are twice as effective, and there is no downside for AI level.",
+		prices: [
+			{name : "culture", val: 1500000}
+		],
+		effects:{
+		"aiCoreProductivness" : 1,
+		"aiRebelionEffects" : -1
+		},
+		unlocked: false,
+		locked: false,
+		locks:["necrocracy", "radicalXenophobia"]
+	},
+	{
+		name: "necrocracy",
+		label: "Necrocracy",
+		description:"Your society is nothing compared to the leviathans. You surrender without a fight. Under their rule, your production will get boost based on BLS",
+		prices: [
+			{name : "culture", val: 1500000}
+		],
+		effects:{
+		"blsProductionBonus" : 0.001
+		},
+		unlocked: false,
+		locked: false,
+		locks:["transKittenism", "radicalXenophobia"]
+	},
+	{
+		name: "radicalXenophobia",
+		label: "Radical Xenophobia",
+		description:"Reject unhinged AI and vicious aliens. Holy genocide is twice as effective",
+		prices: [
+			{name : "culture", val: 1500000}
+		],
+		effects:{
+		"holyGenocideBonus" : 1
+		},
+		unlocked: false,
+		locked: false,
+		locks:["transKittenism", "necrocracy"]
 	}
 ],
 
 	metaCache: null,
-
+	effectsBase: {
+	"boostFromLeader":0,
+	"goldCostReduction" : 0,
+	"tradeRelationBoost" : 0,
+	"factoryCostReduction" : 0,
+	"communismProductionBonus" :0,
+	"logCabbinCostReduction": 0,
+	"technocracyScienceCap": 0,
+	"theocracyFaithProductionBonus": 0,
+	"expansionismUnobtainiumProductionBonus": 0
+	},
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
 		this.registerMeta("stackable", this.policies, null);
+		this.setEffectsCachedExisting();
 	},
 
 	get: function(techName){
@@ -1092,13 +1179,15 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		this.inherited(arguments);
-		var meta = model.metadata;
+		if((model.metadata.locked!=true)&&((game.village.leader==null||!model.metadata.requieresLeaderJob)||(game.village.leader.job||"")==model.metadata.requieresLeaderJob)){
+			this.inherited(arguments);
+			var meta = model.metadata;
 
-		if (meta.locks){
-			for (var i in meta.locks){
-				var policy = this.game.science.getPolicy( meta.locks[i]);
-				policy.locked = true;
+			if (meta.locks){
+				for (var i in meta.locks){
+					var policy = this.game.science.getPolicy( meta.locks[i]);
+					policy.locked = true;
+				}
 			}
 		}
 	}
