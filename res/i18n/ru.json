@@ -1577,5 +1577,19 @@
     "btn.on.tooltip": "Здание активно",
     "btn.off.tooltip": "Здание неактивно",
     "btn.aon.tooltip": "Автоматизация активна",
-    "btn.aoff.tooltip": "Автоматизация неактивна"
+    "btn.aoff.tooltip": "Автоматизация неактивна",
+    "btn.locked.capital": "(Блокировано)",
+    "effectsMgr.statics.boostFromLeader.title": "Бонус от лидера",
+    "effectsMgr.statics.goldCostReduction.title": "Скидка на строительство в золоте",
+    "effectsMgr.statics.tradeRelationBoost.title": "Бонус к дипломатии",
+    "effectsMgr.statics.factoryCostReduction.title": "Скидка на строительство фабрики",
+    "effectsMgr.statics.logCabinCostReduction.title": "Скидка стоимости избужки",
+    "effectsMgr.statics.communismProductionBonus.title": "Бонус к продуктивности от комунизма",
+    "effectsMgr.statics.technocracyScienceCap.title": "Бонус к максимуму науки",
+    "effectsMgr.statics.expansionismUnobtainiumProductionBonus.title": "Бонус к продукции недостания",
+    "effectsMgr.statics.theocracyFaithProductionBonus.title": "Бонус к производству веры",
+    "effectsMgr.statics.aiCoreProductivity.title": "Бонус к производству ядер ИИ",
+    "effectsMgr.statics.aiRebelionEffects.title": "Коэфициент востанния",
+    "effectsMgr.statics.blsProductionBonus.title": "Бонус к производству от печали",
+    "effectsMgr.statics.holyGenocideBonus.title": "Бонус к святому геноциду"
 }

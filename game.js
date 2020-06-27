@@ -1025,58 +1025,58 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			//tier 2 policy effects
 			"boostFromLeader": {
-			title: "Boost From Leader",
+			title: $("effectsMgr.statics.boostFromLeader.title"),
 			type: "ratio"
 			},
 			//tier 3 policy effects
 			"goldCostReduction": {
-			title: "Reduction in gold cost",
+			title: $("effectsMgr.statics.goldCostReduction.title"),
 			type: "ratio"
 			},
 			"tradeRelationBoost":{
-			title: "Relation boost",			
+			title: $("effectsMgr.statics.tradeRelationBoost.title"),
 			type: "fixed"
 			},
 			"factoryCostReduction":{
-			title: "Factory cost reduction",			
+			title: $("effectsMgr.statics.factoryCostReduction.title"),
 			type: "ratio"
 			},
 			"logCabinCostReduction":{
-			title: "Log Cabin cost reduction", //yes, it is log house!	
+			title: $("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
 			type: "ratio"
 			},
 			"communismProductionBonus":{
-			title: "communismProductionBonus",			
+			title: $("effectsMgr.statics.communismProductionBonus.title"),
 			type: "ratio"
 			},
 			//tier 4 policy effects
 			"technocracyScienceCap":{
-			title: "Science cap bonus",			
+			title: $("effectsMgr.statics.technocracyScienceCap.title"),
 			type: "ratio"
 			},
 			"expansionismUnobtainiumProductionBonus":{
-			title: "Unobtainium production bonus",			
+			title: $("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
 			type: "ratio"
 			},
 			"theocracyFaithProductionBonus":{
-			title: "Faith production bonus",			
+			title: $("effectsMgr.statics.theocracyFaithProductionBonus.title"),
 			type: "ratio"
 			},
 			//tier 5 policy effects
 			"aiCoreProductivness":{
-			title: "AI core productivness",			
+			title: $("effectsMgr.statics.aiCoreProductivity.title"),
 			type: "ratio"
 			},
 			"aiRebelionEffects":{
-			title: "Rebelion ratio",			
+			title: $("effectsMgr.statics.aiRebelionEffects.title"),
 			type: "ratio"
 			},
 			"blsProductionBonus":{
-			title: "BLS production bonus",			
+			title: $("effectsMgr.statics.blsProductionBonus.title"),
 			type: "ratio"
 			},
 			"holyGenocideBonus":{
-			title: "Holy Genocide bonus",			
+			title: $("effectsMgr.statics.holyGenocideBonus.title"),			
 			type: "ratio"
 			}
 		}
