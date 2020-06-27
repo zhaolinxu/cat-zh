@@ -56,7 +56,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		unlocks: {
             planet: ["dune"],
-            spaceMission: ["heliosMission"]
+            spaceMission: ["heliosMission"],
+			policies:["technocracy", "theocracy", "expansionism"]
         }
 	},{
 		name: "piscineMission",
