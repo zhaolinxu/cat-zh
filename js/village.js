@@ -257,7 +257,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (!job){
 			return;
 		}
-
 		game.village.getJob(job).value--;
 		game.village.sim.unassignCraftJobIfEngineer(job, kitten);
 
@@ -437,6 +436,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		for (var i in this.sim.kittens){
 			var kitten = this.sim.kittens[i];
+			if ((kitten.isLeader)&&(game.science.getPolicy("theocracy").researched)&&((kitten.job||"")!=game.science.getPolicy("theocracy").requieresLeaderJob)){
+				kitten.isLeader= false;
+				game.village.leader=null;
+			}
 			if(kitten.job) {
 				var job = this.getJob(kitten.job);
 				if(job) {
@@ -452,6 +455,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
+                            if ((!kitten.isLeader)&&(game.science.getPolicy("republic").researched==true)){
+                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)*
+		game.science.getPolicy("republic").effects["boostFromLeader"]);
+                            }
 							diff *= this.happiness;	//alter positive resource production from jobs
 						}
 
@@ -479,6 +486,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
+                            if ((!kitten.isLeader)&&(game.science.getPolicy("republic").researched==true)){
+                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)*
+		game.science.getPolicy("republic").effects["boostFromLeader"]);
+                            }
 							diff *= this.happiness;	//alter positive resource production from jobs
 						}
 
@@ -584,9 +595,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if (this.game.village.traits.indexOf(newKitten.trait) < 0) {
 					this.game.village.traits.unshift(newKitten.trait);
 				}
-
+	
 				if (newKitten.isLeader){
-					this.game.village.leader = newKitten;
+						this.game.village.leader = newKitten;
 				}
 				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
@@ -2138,20 +2149,23 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	makeLeader: function(kitten){
+		if((this.game.science.getPolicy("theocracy").researched)&&(kitten.job!="priest")){ //can't assign non-priest leaders if orderOfTheStars is researched
+			return;
+		}
 		var game = this.game;
 		if (game.village.leader){
 			game.village.leader.isLeader = false;
 		}
-
+		
 		kitten.isLeader = true;
 		game.village.leader = kitten;
+		
 	},
 
 	getGovernmentInfo: function() {
 		//update leader stats
 		var leaderInfo = "YOU!";
 		var leader = this.game.village.leader;
-
 		if (leader) {
 			var title = leader.trait.name == "none"
 				? $I("village.census.trait.none")
@@ -2207,6 +2221,9 @@ dojo.declare("classes.ui.village.Census", null, {
 				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 				bonus = (mod-1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
+				if(game.science.getPolicy("republic").researched==true){
+					bonus = bonus > 0 && !kitten.isLeader ? ((1-this.game.village.getLeaderBonus(game.village.leader.rank)*0.01+1) * (bonus+1) - 1) : bonus;
+				}
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}
