@@ -1025,58 +1025,58 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			//tier 2 policy effects
 			"boostFromLeader": {
-			title: $("effectsMgr.statics.boostFromLeader.title"),
+			title: $I("effectsMgr.statics.boostFromLeader.title"),
 			type: "ratio"
 			},
 			//tier 3 policy effects
 			"goldCostReduction": {
-			title: $("effectsMgr.statics.goldCostReduction.title"),
+			title: $I("effectsMgr.statics.goldCostReduction.title"),
 			type: "ratio"
 			},
 			"tradeRelationBoost":{
-			title: $("effectsMgr.statics.tradeRelationBoost.title"),
+			title: $I("effectsMgr.statics.tradeRelationBoost.title"),
 			type: "fixed"
 			},
 			"factoryCostReduction":{
-			title: $("effectsMgr.statics.factoryCostReduction.title"),
+			title: $I("effectsMgr.statics.factoryCostReduction.title"),
 			type: "ratio"
 			},
 			"logCabinCostReduction":{
-			title: $("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+			title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
 			type: "ratio"
 			},
 			"communismProductionBonus":{
-			title: $("effectsMgr.statics.communismProductionBonus.title"),
+			title: $I("effectsMgr.statics.communismProductionBonus.title"),
 			type: "ratio"
 			},
 			//tier 4 policy effects
 			"technocracyScienceCap":{
-			title: $("effectsMgr.statics.technocracyScienceCap.title"),
+			title: $I("effectsMgr.statics.technocracyScienceCap.title"),
 			type: "ratio"
 			},
 			"expansionismUnobtainiumProductionBonus":{
-			title: $("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
+			title: $I("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
 			type: "ratio"
 			},
 			"theocracyFaithProductionBonus":{
-			title: $("effectsMgr.statics.theocracyFaithProductionBonus.title"),
+			title: $I("effectsMgr.statics.theocracyFaithProductionBonus.title"),
 			type: "ratio"
 			},
 			//tier 5 policy effects
 			"aiCoreProductivness":{
-			title: $("effectsMgr.statics.aiCoreProductivity.title"),
+			title: $I("effectsMgr.statics.aiCoreProductivity.title"),
 			type: "ratio"
 			},
 			"aiRebelionEffects":{
-			title: $("effectsMgr.statics.aiRebelionEffects.title"),
+			title: $I("effectsMgr.statics.aiRebelionEffects.title"),
 			type: "ratio"
 			},
 			"blsProductionBonus":{
-			title: $("effectsMgr.statics.blsProductionBonus.title"),
+			title: $I("effectsMgr.statics.blsProductionBonus.title"),
 			type: "ratio"
 			},
 			"holyGenocideBonus":{
-			title: $("effectsMgr.statics.holyGenocideBonus.title"),			
+			title: $I("effectsMgr.statics.holyGenocideBonus.title"),
 			type: "ratio"
 			}
 		}
@@ -2764,7 +2764,39 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.timeAccelerationRatio()
 		});
-
+             //policy effects:
+             //communims
+             if((game.science.getPolicy("communism").researched)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
+             stack.push({
+                    name: $I("res.stack.communism"), //"res.stack.communism": "Communism bonus",
+                    type: "ratio",
+                    value: game.science.getPolicy("communism").effects["communismProductionBonus"],
+                        });
+             }
+             //theocracy AKA cosmoliberalism
+             if((game.science.getPolicy("theocracy").researched)&&(resName=="faith")){
+             stack.push({
+                        name: $I("res.stack.theocracy"), //    "res.stack.theocracy": "Order of The Stars bonus",
+                        type: "ratio",
+                        value: game.science.getPolicy("theocracy").effects["theocracyFaithProductionBonus"],
+                        });
+             }
+             //expansionism AKA cosmoliberalism
+             if((game.science.getPolicy("expansionism").researched)&&(resName=="unobtainium")){
+             stack.push({
+                        name: $I("res.stack.expansionism"), //    "res.stack.expansionism" : "Cosmoliberalism bonus"
+                        type: "ratio",
+                        value: game.science.getPolicy("expansionism").effects["expansionismUnobtainiumProductionBonus"],
+                        });
+             }
+             //necrocracy
+             if(game.science.getPolicy("necrocracy").researched){
+             stack.push({
+                        name: $I("res.stack.necrocracy"), //    "res.stack.necrocracy" : "BLS production bonus",
+                        type: "ratio",
+                        value: game.science.getPolicy("necrocracy").effects["blsProductionBonus"]*game.resPool.get("sorrow").value,
+                        });
+             }
 		return stack;
 	},
 
