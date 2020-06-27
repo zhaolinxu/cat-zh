@@ -114,7 +114,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.researchChallenge("anarchy");
 			}
 		} else if (this.currentChallenge == "blackSky") {
-			if (this.game.space.getBuilding('spaceBeacon').val > 0){
+			if (this.game.space.getBuilding('spaceBeacon').val > 0) {
 				this.researchChallenge("blackSky");
 			}
 		}

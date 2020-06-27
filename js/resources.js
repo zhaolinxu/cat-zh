@@ -541,27 +541,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res;
 	},
 
-	addRes: function(res, addedValue, event, preventLimitCheck) {
-		if (this.game.calendar.day < 0 && !event || addedValue == 0) {
+	addRes: function(res, addedValue, allowDuringParadoxes, preventLimitCheck) {
+		if (this.game.calendar.day < 0 && !allowDuringParadoxes || addedValue == 0) {
 			return 0;
 		}
 
 		var prevValue = res.value || 0;
 
-		if(res.maxValue) {
-			//if already overcap, allow to remain that way unless removing resources.
-			if(res.value > res.maxValue) {
-				if(addedValue < 0 ) {
-					res.value += addedValue;
-				}
-			} else {
-				res.value += addedValue;
-				if(res.value > res.maxValue && !preventLimitCheck) {
-					res.value = res.maxValue;
-				}
-			}
-		} else {
-			res.value += addedValue;
+		//if already overcap, allow to remain that way unless removing resources.
+		var limit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+		res.value += addedValue;
+		if (!preventLimitCheck) {
+			res.value = Math.min(res.value, limit);
 		}
 
 		if (res.name == "void") { // Always an integer
@@ -693,7 +684,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				}
 				//console.log("Adjusting resource", res.name, "delta",res.perTickCached, "max value", res.maxValue, "days offset", daysOffset);
 				//console.log("resource before adjustment:", res.value);
-				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, false/*event?*/, true/*preventLimitCheck*/);
+				this.addRes(res, res.perTickCached * daysOffset * this.game.calendar.ticksPerDay, true/*allowDuringParadoxes*/, true/*preventLimitCheck*/);
 				//console.log("resource after adjustment:", res.value);
 			}
 		}
@@ -750,7 +741,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 				effect *= warehouseRatio;
 			}
 
-			if (name == "coalMax" || name == "goldMax" || name == "titaniumMax"){
+			if (name == "coalMax" || name == "titaniumMax" || name == "goldMax"){
 				effect *= warehouseRatio;
 			}
 			newEffects[name] = effect;
@@ -905,20 +896,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
     },
 
     getVoidQuantity: function() {
-		// -1, 0, 1, 2, 3 at start, 1 on average
-		var maxPerDay = 2 + this.game.getEffect("temporalParadoxVoid");
-		var i = this.game.rand(maxPerDay + 2) - 1;
-
-		// Only integer
-		return i;
+		// -1, 0, 1, 2 at start, 0.5 on average
+		return this.game.rand(this.game.getEffect("temporalParadoxVoid") + 4) - 1;
     },
 
     // getVoidQuantity is good for day -by day evaluation but it cannot be used for redshift which requires statistical distribution over large number of days
-    // The valus range of getVoidQuantity is: -1, 0, 1, 2 .. n, where n is (2 + temporalParadoxVoid -1) . The values are  equally distributed so we can get a median out of them. (-1 + n) /2
+    // The values range of getVoidQuantity is: -1, 0, 1, 2 .. n, where n is (2 + temporalParadoxVoid) . The values are  equally distributed so we can get a median out of them. (-1 + n) /2
     getVoidQuantityStatistically: function() {
-		// -1, 0, 1, 2, 3 at start, 1 on average
-		// Only integer
-		return (2 + this.game.getEffect("temporalParadoxVoid") - 1) / 2 ;
+		return (this.game.getEffect("temporalParadoxVoid") + 1) / 2 ;
     },
 
 	setDisplayAll: function() {
