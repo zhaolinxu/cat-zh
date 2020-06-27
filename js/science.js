@@ -949,7 +949,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		},
 		unlocked: false,
 		locked: false,
-		requieresLeaderJob :"priest",
+		requiredLeaderJob :"priest",
 		locks:["technocracy", "expansionism"]
 	},{
 		name: "expansionism",
@@ -1156,7 +1156,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		if((model.metadata.locked!=true)&&((game.village.leader==null||!model.metadata.requieresLeaderJob)||(game.village.leader.job||"")==model.metadata.requieresLeaderJob)){
+		if((model.metadata.locked!=true)&&((game.village.leader==null||!model.metadata.requiredLeaderJob)||(game.village.leader.job||"")==model.metadata.requiredLeaderJob)){
 			this.inherited(arguments);
 			var meta = model.metadata;
 

@@ -438,7 +438,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		for (var i in this.sim.kittens){
 			var kitten = this.sim.kittens[i];
-			if ((kitten.isLeader)&&(game.science.getPolicy("theocracy").researched)&&((kitten.job||"")!=game.science.getPolicy("theocracy").requieresLeaderJob)){
+			if ((kitten.isLeader)&&(game.science.getPolicy("theocracy").researched)&&((kitten.job||"")!=game.science.getPolicy("theocracy").requiredLeaderJob)){
 				kitten.isLeader= false;
 				game.village.leader=null;
 			}
