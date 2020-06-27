@@ -1042,7 +1042,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			type: "ratio"
 			},
 			"logCabinCostReduction":{
-			title: "Log Cabin cost reduction",			
+			title: "Log Cabin cost reduction", //yes, it is log house!	
 			type: "ratio"
 			},
 			"communismProductionBonus":{
