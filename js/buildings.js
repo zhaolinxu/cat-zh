@@ -1872,18 +1872,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             }
         }
     },
-	/*
-	*Applies a discount to a price
-	*/
-	giveADiscount: function(resName, prices, discount){
-		for(var i = 0; i< prices.length; i++){
-			if (prices[i].name==resName){
-				prices[i].val*=(1-discount);
-				return 0;
-			}
-		}
-	},
-
 	getAutoProductionRatio: function(){
 		var autoProdRatio = 1;
 		//	faith

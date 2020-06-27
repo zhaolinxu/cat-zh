@@ -390,8 +390,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				continue;
 			}
 
-			//can trade chance be grater than 1?
-			//-- X% chance to get regular trade resources + 1% per embaasy, uncapped, can be 100%+ 
 			
 			var relationBoost = 0; //relationBoost from liberalism!
 			if(game.science.getPolicy("liberalism").researched){
@@ -417,8 +415,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			relationBoost = game.science.getPolicy("liberalism").effects["tradeRelationBoost"];
 		}
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceChance = (race.embassyPrices) ? 0.35 * (1 + 0.01 * (race.embassyLevel+relationBoost) * iwEmbassyPenalty) : 0.35;
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + ((race.embassyPrices+relationBoost) ? (race.embassyLevel+relationBoost) * embassyEffect : 0)));
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  (race.embassyLevel+relationBoost) * embassyEffect : 0)));
 		boughtResources["spice"] = 25 * spiceTradeAmount + 50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
 
 		//-------------- 10% chance to get blueprint ---------------

@@ -405,7 +405,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["factory"],
 			jobs: ["engineer"],
 			tech: ["electronics"],
-			policies: ["liberalism", "communism", "fascism"],
 			upgrades: ["pumpjack", "strenghtenBuild"],
 			crafts: ["concrate"]
 		}
