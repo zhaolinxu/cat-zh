@@ -460,7 +460,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         var goldCost = 15;
         if(this.game.science.getPolicy("diplomacy").researched){
             manpowerCost -= this.game.science.getPolicy("diplomacy").effects["tradeCatpowerDiscount"];
-            console.log(manpowerCost);
         }
         if(this.game.science.getPolicy("isolationism").researched){
              goldCost -= this.game.science.getPolicy("isolationism").effects["tradeGoldDiscount"];
@@ -515,18 +514,16 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	getMaxTradeAmt: function(race){
         var manpowerCost = 50;
         var goldCost = 15;
-             //console.log(manpowerCost);
-             //console.log(goldCost);
 		var amt = [
 			Math.floor(this.game.resPool.get("gold").value / 15),
 			Math.floor(this.game.resPool.get("manpower").value / 50),
 			Math.floor(this.game.resPool.get(race.buys[0].name).value / race.buys[0].val)
 		];
         if(this.game.science.getPolicy("diplomacy").researched){
-             amt[0] = Math.floor(this.game.resPool.get("gold").value / (15-game.science.getPolicy("diplomacy").effects["goldCostReduction"]));
+             amt[1] = Math.floor(this.game.resPool.get("manpower").value / (15-game.science.getPolicy("diplomacy").effects["catpowerCostReduction"]));
              }
              if(this.game.science.getPolicy("isolationism").researched){
-             amt[1] = Math.floor(this.game.resPool.get("gold").value / (50-game.science.getPolicy("isolationism").effects["catpowerCostReduction"]));
+             amt[0] = Math.floor(this.game.resPool.get("gold").value / (50-game.science.getPolicy("isolationism").effects["tradeGoldDiscount"]));
              }
 		var min = Number.MAX_VALUE;
 		for (var i = 0; i < amt.length; i++){
@@ -1068,10 +1065,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
              if(this.game.science.getPolicy("diplomacy").researched){
-             tradePrices["manpower"] -= this.game.science.getPolicy("diplomacy").effects["tradeCatpowerDiscount"];
+             tradePrices[0].val -= this.game.science.getPolicy("diplomacy").effects["tradeCatpowerDiscount"];
              }
              if(this.game.science.getPolicy("isolationism").researched){
-             tradePrices["gold"] -= this.game.science.getPolicy("isolationism").effects["tradeGoldDiscount"];
+             tradePrices[1].val -= this.game.science.getPolicy("isolationism").effects["tradeGoldDiscount"];
              }
 			tradePrices = tradePrices.concat(race.buys);
 

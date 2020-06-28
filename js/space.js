@@ -257,7 +257,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 var observatoryRatioTemp = 0.05
                 if(game.science.getPolicy("militarizeSpace").researched){
                     observatoryRatioTemp *= (1+game.science.getPolicy("militarizeSpace").effects["sateliteSynergyBonus"]||0);
-                    console.log(observatoryRatioTemp);
                 }
 				self.effects = {
 					"observatoryRatio": observatoryRatioTemp,
