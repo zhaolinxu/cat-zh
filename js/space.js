@@ -254,13 +254,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 policies:["outerSpaceTreaty","militarizeSpace"]
             },
 			calculateEffects: function(self, game){
+                var observatoryRatioTemp = 0.05
+                if(game.science.getPolicy("militarizeSpace").researched){
+                    observatoryRatioTemp *= (1+game.science.getPolicy("militarizeSpace").effects["sateliteSynergyBonus"]||0);
+                    console.log(observatoryRatioTemp);
+                }
 				self.effects = {
-					"observatoryRatio": 0.05,
+					"observatoryRatio": observatoryRatioTemp,
 					"starchartPerTickBaseSpace": 0.001,
 					"energyConsumption": 0,
 					"energyProduction": 0
-				};
-
+				}
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
 					self.on = self.val;

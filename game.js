@@ -1086,7 +1086,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             },
             "zebraAppeasedGoldPenalty":{
                 title: $I("effectsMgr.statics.zebraAppeasedGoldPenalty.title"),
-                type: "fixed"
+                type: "ratio"
             },
             "zebraRelationModifier":{
                 title: $I("effectsMgr.statics.zebraRelationModifier.title"),
@@ -2473,7 +2473,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
-		
+		//policy effects
 		if((game.science.getPolicy("communism").researched)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
 			perTick*=(1+game.science.getPolicy("communism").effects["communismProductionBonus"]);
 		}
@@ -2485,6 +2485,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
         if(game.science.getPolicy("necrocracy").researched){
              perTick*=(1+(game.resPool.get("sorrow").value * game.science.getPolicy("necrocracy").effects["blsProductionBonus"]||0));
+        }
+        if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(resName=="gold")){
+             perTick=perTick*(1-game.science.getPolicy("zebraRelationsAppeasement").effects["zebraAppeasedGoldPenalty"]||0);
+        }
+        if((game.science.getPolicy("knowledgeSharing").researched)&&(resName=="science")){
+             perTick=perTick*(1+game.science.getPolicy("knowledgeSharing").effects["sharedKnowledgeBonus"]||0);
+        }
+        if((game.science.getPolicy("culturalExchange").researched)&&(resName=="cultural")){
+             perTick=perTick*(1+game.science.getPolicy("culturalExchange").effects["culturalExchangeBonus"]||0);
         }
 		perTick += resConsumption;
 		if (isNaN(perTick)){
@@ -2836,6 +2845,30 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                         name: $I("res.stack.necrocracy"), //    "res.stack.necrocracy" : "BLS production bonus",
                         type: "ratio",
                         value: game.science.getPolicy("necrocracy").effects["blsProductionBonus"]*game.resPool.get("sorrow").value,
+                        });
+             }
+             //zebra appeasement
+             if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(resName=="gold")){
+             stack.push({
+                        name: $I("res.stack.zebraRelationsAppeasementPenalty"), //        "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
+                        type: "ratio",
+                        value: -game.science.getPolicy("zebraRelationsAppeasement").effects["zebraAppeasedGoldPenalty"],
+                        });
+             }
+             //knowledge sharing
+             if((game.science.getPolicy("knowledgeSharing").researched)&&(resName=="science")){
+             stack.push({
+                        name: $I("res.stack.sharedKnowledge"), //        "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
+                        type: "ratio",
+                        value: game.science.getPolicy("knowledgeSharing").effects["sharedKnowledgeBonus"],
+                        });
+             }
+             //cultural exchange
+             if((game.science.getPolicy("culturalExchange").researched)&&(resName=="culture")){
+             stack.push({
+                        name: $I("res.stack.culturalExchanges"), //        "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
+                        type: "ratio",
+                        value: game.science.getPolicy("culturalExchange").effects["culturalExchange"],
                         });
              }
 		return stack;

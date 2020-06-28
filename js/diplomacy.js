@@ -353,12 +353,10 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	tradeImpl: function(race, totalTradeAmount) {
 		if(race.unlocks){
-			for(var i = 0; i< race.unlocks.policies.length; i++){
-				game.science.getPolicy(race.unlocks.policies[i]).unlocked=true;
-			}
+             game.unlock(race.unlocks);
 		}
 		var printMessages = totalTradeAmount == 1;
-		var standingRatio = this.game.getEffect("standingRatio");
+		var standingRatio = this.game.getEffect("standingRatio") + this.game.diplomacy.calculateStandingFromPolicies(this.race, this.game);
 
 		var failedTradeAmount = race.standing < 0 ? this.game.math.binominalRandomInteger(totalTradeAmount, -(race.standing + standingRatio)) : 0;
 		var successfullTradeAmount = totalTradeAmount - failedTradeAmount;
@@ -458,9 +456,17 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		//-------------- pay prices ------------------
-
-		this.game.resPool.addResEvent("manpower", -50 * amt);
-		this.game.resPool.addResEvent("gold", -15 * amt);
+        var manpowerCost = 50;
+        var goldCost = 15;
+        if(this.game.science.getPolicy("diplomacy").researched){
+            manpowerCost -= this.game.science.getPolicy("diplomacy").effects["tradeCatpowerDiscount"];
+            console.log(manpowerCost);
+        }
+        if(this.game.science.getPolicy("isolationism").researched){
+             goldCost -= this.game.science.getPolicy("isolationism").effects["tradeGoldDiscount"];
+        }
+		this.game.resPool.addResEvent("manpower", -manpowerCost * amt);
+		this.game.resPool.addResEvent("gold", -goldCost * amt);
 		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
 
 		//---------- calculate yield -----------------
@@ -507,11 +513,21 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	getMaxTradeAmt: function(race){
+        var manpowerCost = 50;
+        var goldCost = 15;
+             //console.log(manpowerCost);
+             //console.log(goldCost);
 		var amt = [
 			Math.floor(this.game.resPool.get("gold").value / 15),
 			Math.floor(this.game.resPool.get("manpower").value / 50),
 			Math.floor(this.game.resPool.get(race.buys[0].name).value / race.buys[0].val)
 		];
+        if(this.game.science.getPolicy("diplomacy").researched){
+             amt[0] = Math.floor(this.game.resPool.get("gold").value / (15-game.science.getPolicy("diplomacy").effects["goldCostReduction"]));
+             }
+             if(this.game.science.getPolicy("isolationism").researched){
+             amt[1] = Math.floor(this.game.resPool.get("gold").value / (50-game.science.getPolicy("isolationism").effects["catpowerCostReduction"]));
+             }
 		var min = Number.MAX_VALUE;
 		for (var i = 0; i < amt.length; i++){
 			if (min > amt[i]) { min = amt[i]; }
@@ -520,7 +536,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (min == Number.MAX_VALUE || min == 0){
 			return;
 		}
-
 		return min;
 	},
 
@@ -565,7 +580,23 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 		this.get("leviathans").duration = 10000;
 		this.game.msg("All trade partners are unlocked");
-	}
+	},
+    calculateStandingFromPolicies: function(race, game){
+        var standingFromPolicies = 0;
+        if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(race.name=="zebras")){
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsAppeasement").effects["zebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+        }
+        if((game.science.getPolicy("zebraRelationsBellicosity").researched)&&(race.name=="zebras")){
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["zebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+        }
+        if((game.science.getPolicy("zebraRelationsBellicosity").researched)&&(race.name!="zebras")){
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["nonZebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+        }
+        if(game.science.getPolicy("outerSpaceTreaty").researched){
+             standingFromPolicies+=(game.science.getPolicy("outerSpaceTreaty").effects["spaceRelationsBonus"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+        }
+        return standingFromPolicies;
+    }
 });
 
 
@@ -581,13 +612,14 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 	onToggle: function(isToggled){
 		this.race.collapsed = isToggled;
 	},
-
+            
 	render: function(container) {
+        var attitudeFromPolicies = this.game.diplomacy.calculateStandingFromPolicies(this.race, this.game);
 		var attitude = this.race.standing > 0
 			? "friendly"
 			: this.race.standing == 0
 				? "neutral"
-				: this.race.standing + this.game.getEffect("standingRatio") < 0
+				: this.race.standing + this.game.getEffect("standingRatio") + attitudeFromPolicies < 0
 					? "hostile"
 					: "nowNeutral";
 		this.name = this.race.title + " <span class='attitude'>" + $I("trade.attitude." + attitude) + "</span>";
@@ -840,9 +872,12 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 
 	getPrices: function(model) {
 		var prices = dojo.clone(this.inherited(arguments));
+        var priceCoeficient = 1;
+        if(game.science.getPolicy("bigStickPolicy").researched){
+             priceCoeficient -= game.science.getPolicy("bigStickPolicy").effects["embassyCostReduction"]||0;
+        }
 		for (var i = 0; i < prices.length; i++) {
-			prices[i].val = prices[i].val * Math.pow(1.15, model.options.race.embassyLevel)
-			
+			prices[i].val = prices[i].val * priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel)
 		}
 		return prices;
 	},
@@ -1032,6 +1067,12 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			}
 
 			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
+             if(this.game.science.getPolicy("diplomacy").researched){
+             tradePrices["manpower"] -= this.game.science.getPolicy("diplomacy").effects["tradeCatpowerDiscount"];
+             }
+             if(this.game.science.getPolicy("isolationism").researched){
+             tradePrices["gold"] -= this.game.science.getPolicy("isolationism").effects["tradeGoldDiscount"];
+             }
 			tradePrices = tradePrices.concat(race.buys);
 
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({

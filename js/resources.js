@@ -775,10 +775,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (res.tag == "baseMetal") {
 			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
 		}
+        //policies
 		//technocracy policy bonus
 		if((game.science.getPolicy("technocracy").researched)&&(res.name=="science")){
 			maxValue*=(1+game.science.getPolicy("technocracy").effects["technocracyScienceCap"]||0);
 		}
+        if((game.science.getPolicy("cityOnAHill").researched)&&(res.name=="culture")){
+             maxValue*=(1+game.science.getPolicy("cityOnAHill").effects["onAHillCultureCap"]||0);
+             }
 		return maxValue;
 	},
 

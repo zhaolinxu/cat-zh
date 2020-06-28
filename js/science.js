@@ -1115,8 +1115,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocks:["cityOnAHill"]
     },{
         name: "cityOnAHill",
-        label: $I("policy.zebraRelationsBellicosity.label"),
-        description: $I("policy.zebraRelationsBellicosity.desc"),
+        label: $I("policy.cityOnAHill.label"),
+        description: $I("policy.cityOnAHill.desc"),
         prices: [
             {name : "culture", val: 4000}
         ],

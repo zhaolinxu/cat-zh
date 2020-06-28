@@ -828,6 +828,7 @@
     "res.stack.production": "Production",
     "res.stack.reactors": "Reactors",
     "res.stack.religion": "Religion",
+    "res.stack.sharedKnowledge": "Shared Knowledge",
     "res.stack.spaceConvProd": "Space Conversion Production",
     "res.stack.spaceParagon": "Space Paragon",
     "res.stack.spaceProdBonus": "Space production bonus",
@@ -840,6 +841,7 @@
     "res.stack.upgrades": "Upgrades",
     "res.stack.village": "(:3) Village",
     "res.stack.weather": "Weather",
+    "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
     "res.toCap": "To cap",
     "res.toZero": "To zero",
 
