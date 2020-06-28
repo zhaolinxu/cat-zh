@@ -556,7 +556,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 
 				if (game.workshop.get("machineLearning").researched){
-					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+                     var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+                     
+                     if (game.science.getPolicy("transkittenism").researched){
+                        dataCenterAIRatio*=(1+game.science.getPolicy("transkittenism").effects["aiCoreUpgradeBonus"]);
+                     }
 
 					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);

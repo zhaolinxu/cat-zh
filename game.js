@@ -1067,6 +1067,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.aiCoreProductivity.title"),
                 type: "ratio"
 			},
+            "aiCoreUpgradeBonus":{
+            title: $I("effectsMgr.statics.aiCoreUpgradeBonus.title"),
+            type: "ratio"
+            },
 			"blsProductionBonus":{
                 title: $I("effectsMgr.statics.blsProductionBonus.title"),
                 type: "ratio"

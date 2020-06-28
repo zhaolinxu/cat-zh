@@ -976,7 +976,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"aiCoreProductivness" : 1
+		"aiCoreProductivness" : 1,
+        "aiCoreUpgradeBonus" : 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -998,8 +999,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 	{
 		name: "radicalXenophobia",
-        label: $I("policy.necrocracy.label"),
-        description: $I("policy.necrocracy.desc"),
+        label: $I("policy.radicalXenophobia.label"),
+        description: $I("policy.radicalXenophobia.desc"),
 		prices: [
 			{name : "culture", val: 1500000}
 		],

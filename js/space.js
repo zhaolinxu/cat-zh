@@ -405,9 +405,13 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 
 				if (game.workshop.get("aiBases").researched){
+                    var aiBasesModifier = 1;
+                    if (game.science.getPolicy("transkittenism").researched){
+                        aiBasesModifier+= game.science.getPolicy("transkittenism").effects["aiCoreUpgradeBonus"];
+                    }
 					for (var key in effects){
 						if (key != "energyConsumption" ){
-							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1);
+							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1*aiBasesModifier);
 						}
 					}
 				}
