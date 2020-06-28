@@ -581,16 +581,16 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
     calculateStandingFromPolicies: function(race, game){
         var standingFromPolicies = 0;
         if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(race.name=="zebras")){
-             standingFromPolicies+=(game.science.getPolicy("zebraRelationsAppeasement").effects["zebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsAppeasement").effects["zebraRelationModifier"]*0.0035);
         }
         if((game.science.getPolicy("zebraRelationsBellicosity").researched)&&(race.name=="zebras")){
-             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["zebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["zebraRelationModifier"]*0.0035);
         }
         if((game.science.getPolicy("zebraRelationsBellicosity").researched)&&(race.name!="zebras")){
-             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["nonZebraRelationModifier"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+             standingFromPolicies+=(game.science.getPolicy("zebraRelationsBellicosity").effects["nonZebraRelationModifier"]*0.0035);
         }
         if(game.science.getPolicy("outerSpaceTreaty").researched){
-             standingFromPolicies+=(game.science.getPolicy("outerSpaceTreaty").effects["spaceRelationsBonus"]*game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"]);
+             standingFromPolicies+=(game.science.getPolicy("outerSpaceTreaty").effects["spaceRelationsBonus"]*0.0035);
         }
         return standingFromPolicies;
     }
