@@ -457,9 +457,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
-                            if ((!kitten.isLeader)&&(game.science.getPolicy("republic").researched==true)){
-                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)*
-		game.science.getPolicy("republic").effects["boostFromLeader"]);
+                            if (!kitten.isLeader){
+                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)* game.getEffect("boostFromLeader"));
                             }
 							diff *= this.happiness;	//alter positive resource production from jobs
 						}
@@ -488,9 +487,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
-                            if ((!kitten.isLeader)&&(game.science.getPolicy("republic").researched==true)){
-                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)*
-		game.science.getPolicy("republic").effects["boostFromLeader"]);
+                            if (!kitten.isLeader){
+                                diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)* game.getEffect("boostFromLeader"));
                             }
 							diff *= this.happiness;	//alter positive resource production from jobs
 						}
@@ -538,13 +536,16 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-
+        var philosophyLuxuryModifier = 1;
+        if((resName="furs")||(resName=="ivory")||(resName=="spice")){
+             philosophyLuxuryModifier *= (1-game.getEffect("luxuryConsuptionReduction"));
+        }
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
-			"furs" : -0.01 * kittens,
-			"ivory" : -0.007 * kittens,
-			"spice" : -0.001 * kittens
-		};
+			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
+			"ivory" : -0.007 * kittens * philosophyLuxuryModifier,
+			"spice" : -0.001 * kittens * philosophyLuxuryModifier
+             };
 		return res;
 	},
 
@@ -620,14 +621,15 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getUnhappiness: function(){
+        var environmentalUnhappiness = game.getEffect("environmentUnhappiness") * game.getEffect("environmentUnhappinessModifier");
 		var populationPenalty = 2;
 		if (this.game.science.getPolicy("liberty").researched){
 			populationPenalty = 1;
 		}
 		if (this.game.science.getPolicy("fascism").researched) {
-			return 0;
+			return environmentalUnhappiness;
 		}
-		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
+		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio")) + environmentalUnhappiness;
 	},
 
 	/** Calculates a total happiness where result is a value of [0..1] **/
@@ -639,16 +641,19 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
 
-		var happinessBonus = this.game.getEffect("happiness");
+		var happinessBonus = this.game.getEffect("happiness") + game.getEffect("environmentHappinessBonus") *game.getEffect("environmentHappinessBonusModifier");
 		happiness += happinessBonus;
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
+        var happinessPerLuxury = 10;
+        //philosophy epicurianism effect
+        happinessPerLuxury +=game.getEffect("luxuryHappinessBonus");
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
-				happiness += 10;
+				happiness += happinessPerLuxury;
 				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
-					happiness-=10; // Present Boxes and Wrapping Paper do not stack.
+					happiness-=happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
 		}
@@ -2202,9 +2207,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 				bonus = (mod-1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
-				if(game.science.getPolicy("republic").researched==true){
-					bonus = bonus > 0 && !kitten.isLeader ? ((1-this.game.village.getLeaderBonus(game.village.leader.rank)*0.01+1) * (bonus+1) - 1) : bonus;
-				}
+                bonus = bonus > 0 && !kitten.isLeader ? ((1-this.game.village.getLeaderBonus(game.village.leader.rank)*game.getEffect("boostFromLeader")+1) * (bonus+1) - 1) : bonus;
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}

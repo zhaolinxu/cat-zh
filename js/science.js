@@ -130,6 +130,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 1500}],
 		unlocks: {
 			buildings: ["aqueduct"],
+            policies:["stripMining","clearCutting","environmentalism"],
 			tech: ["writing"]
 		}
 	},{
@@ -140,7 +141,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 2200}],
 		unlocks: {
 			buildings: ["tradepost"],
-           policies:["diplomacy","isolationism"],
+            policies:["diplomacy","isolationism"],
 			upgrades: ["goldOre"]
 		}
 	},{
@@ -166,6 +167,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["temple"],
 			tech: ["theology"],
+            policies: ["stoicism", "epicurianism"],
 			crafts: ["compedium"]
 		},
 		flavor: $I("science.philosophy.flavor")
@@ -391,6 +393,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 25}
 		],
 		unlocks: {
+            policies:["sustainability","fullIndustrialization"],
 			tech: ["mechanization", "metalurgy", "combustion"],
 			upgrades: ["barges", "advancedAutomation", "logistics"]
 		}
@@ -446,6 +449,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
+            policies:["conservation","openWoodlands"],
 			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		}
 	},
@@ -881,6 +885,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocked: false,
 		blocked: false,
+        blocks:[]
 	},
 	//----------------	industrial age --------------------
 	{
@@ -1154,25 +1159,228 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["outerSpaceTreaty"]
-    }
+    },
+    //----------------   Philosophy   --------------------
+    {
+        name: "stoicism",
+        label: $I("policy.stoicism.label"),
+        description: $I("policy.stoicism.desc"),
+        prices: [
+            {name : "culture", val: 2000}
+        ],
+        effects:{
+            "luxuryConsuptionReduction" : 0.5
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["epicurianism"],
+        unlocks:{
+            policies:["rationality", "mysticism"]
+        }
+    },{
+        name: "epicurianism",
+        label: $I("policy.epicurianism.label"),
+        description: $I("policy.epicurianism.desc"),
+        prices: [
+            {name : "culture", val: 2000}
+        ],
+        effects:{
+            "luxuryHappinessBonus" : 1
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["stoicism"],
+        unlocks:{
+            policies:["rationality", "mysticism"]
+        }
+    },{
+        name: "rationality",
+        label: $I("policy.rationality.label"),
+        description: $I("policy.rationality.desc"),
+        prices: [
+            {name : "culture", val: 3000}
+        ],
+        effects:{
+            "rationalityBonus" : 0.05
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["mysticism"]
+    },{
+        name: "mysticism",
+        label: $I("policy.mysticism.label"),
+        description: $I("policy.mysticism.desc"),
+        prices: [
+            {name : "culture", val: 3000}
+        ],
+        effects:{
+            "mysticismBonus" : 0.05
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["rationality"]
+    },
+    //----------------   Environmental Policy   --------------------
+    {
+        name: "stripMining",
+        label: $I("policy.stripMining.label"),
+        description: $I("policy.stripMining.desc"),
+        prices: [
+            {name : "science", val: 2000}
+        ],
+        effects:{
+            "environmentUnhappiness" : -5,
+            "environmentMineralBonus" : 0.25
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["clearCutting","environmentalism"],
+        unlocks: {
+            policies:["sustainability","fullIndustrialization"]
+        }
+    },{
+        name: "clearCutting",
+        label: $I("policy.clearCutting.label"),
+        description: $I("policy.clearCutting.desc"),
+        prices: [
+            {name : "science", val: 2000}
+        ],
+        effects:{
+            "environmentUnhappiness" : -5,
+            "environmentWoodBonus" : 0.25
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["stripMining","environmentalism"],
+        unlocks: {
+            policies:["sustainability","fullIndustrialization"]
+        }
+    },{
+        name: "environmentalism",
+        label: $I("policy.environmentalism.label"),
+        description: $I("policy.environmentalism.desc"),
+        prices: [
+            {name : "science", val: 2000}
+        ],
+        effects:{
+            "environmentHappinessBonus" : 5
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["stripMining", "clearCutting"],
+        unlocks:{
+            policies:["conservation","openWoodlands"]
+        }
+    },{
+        name: "sustainability",
+        label: $I("policy.sustainability.label"),
+        description: $I("policy.sustainability.desc"),
+        prices: [
+            {name : "culture", val: 10000}
+        ],
+        effects:{
+            "environmentUnhappinessModifier" : -1
+        },
+        needsUnlocks: 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["fullIndustrialization"]
+    },{
+        name: "fullIndustrialization",
+        label: $I("policy.fullIndustrialization.label"),
+        description: $I("policy.fullIndustrialization.desc"),
+        prices: [
+            {name : "culture", val: 10000}
+        ],
+        effects:{
+            "environmentFactoryCraftBonus" : 0.05
+        },
+        needsUnlocks: 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["sustainability"]
+    },{
+        name: "conservation",
+        label: $I("policy.conservation.label"),
+        description: $I("policy.conservation.desc"),
+        prices: [
+            {name : "culture", val: 10000}
+        ],
+        effects:{
+            "environmentHappinessBonusModifier" : 1
+        },
+        needsUnlocks: 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["openWoodlands"]
+    },{
+        name: "openWoodlands",
+        label: $I("policy.openWoodlands.label"),
+        description: $I("policy.openWoodlands.desc"),
+        prices: [
+            {name : "culture", val: 10000}
+        ],
+        effects:{
+            "environmentMineralBonus" : 0.125,
+            "environmentWoodBonus" : 0.125
+        },
+        needsUnlocks: 2,
+        unlocked: false,
+        blocked: false,
+        blocks:["conservation"]
+    },{
+        name: "spaceBasedTerraforming",
+        label: $I("policy.spaceBasedTerraforming.label"),
+        description: $I("policy.spaceBasedTerraforming.desc"),
+        prices: [
+            {name : "culture", val: 45000}
+        ],
+        effects:{
+            "mysticismBonus" : 0.05
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["clearSkies"]
+    },{
+        name: "clearSkies",
+        label: $I("policy.clearSkies.label"),
+        description: $I("policy.clearSkies.desc"),
+        prices: [
+            {name : "culture", val: 45000}
+        ],
+        effects:{
+            "mysticismBonus" : 0.05
+        },
+        unlocked: false,
+        blocked: false,
+        blocks:["spaceBasedTerraforming"]
+        }
 ],
 
 	metaCache: null,
 	effectsBase: {
-	"boostFromLeader":0,
-	"goldCostReduction" : 0,
-	"tradeRelationBoost" : 0,
-	"factoryCostReduction" : 0,
-	"communismProductionBonus" :0,
-	"logCabbinCostReduction": 0,
-	"technocracyScienceCap": 0,
-	"theocracyFaithProductionBonus": 0,
-	"expansionismUnobtainiumProductionBonus": 0
+        "environmentHappinessBonusModifier" : 1,
+        "environmentUnhappinessModifier" : 1
 	},
 	constructor: function(game){
 		this.game = game;
 		this.metaCache = {};
-		this.registerMeta("stackable", this.policies, null);
+        this.registerMeta("research", this.techs, {
+            getEffect: function(meta, name){
+                var effect = 0;
+                if (meta.effect){
+                    effect = meta.effects[name] || 0;
+                }
+                          return effect;
+                }});
+             this.registerMeta("research", this.policies,{
+                getEffect: function(meta, name){
+                    var effect = 0;
+                    if (meta.effect){
+                        effect = meta.effects[name] || 0;
+                    }
+                    return effect;
+                }});
 		this.setEffectsCachedExisting();
 	},
 
@@ -1205,7 +1413,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		return prices_result;
 	},
-
+    /*getEffect: function(effectName){
+        var effect = 0;
+        for (var i = 0; i < this.meta.length; i++){
+            var effectMeta = this.getMetaEffect(effectName, this.meta[i]);
+            effect += effectMeta;
+        }
+        return effect;
+    },*/
 	resetState: function(){
 		for (var i = 0; i < this.techs.length; i++){
 			var tech = this.techs[i];
@@ -1224,7 +1439,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		saveData.science = {
 			hideResearched: this.hideResearched,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
-			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched", "needsUnlocks"]),
+			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
 		};
 	},
 
@@ -1255,7 +1470,37 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			this.game.unlock(tech.unlocks);
 		}
 		this.game.msg("All techs are unlocked!");
-	}
+	},
+    /*updateEffectCached: function() {
+        var effectsBase = this.effectsBase;
+        if (effectsBase){
+             effectsBase = this.game.resPool.addBarnWarehouseRatio(effectsBase);
+        }
+             
+        for (var name in this.effectsCachedExisting) {
+             // Add effect from meta
+             var effect = 0;
+             for (var i = 0; i < this.meta.length; i++){
+                var effectMeta = this.getMetaEffect(name, this.meta[i]);
+                effect += effectMeta;
+             }
+             
+             // Previously, catnip demand (or other buildings that both affect the same resource)
+             // could have theoretically had more than 100% reduction because they diminished separately,
+             // this takes the total effect and diminishes it as a whole.
+             if (this.game.isHyperbolic(name) && effect !== 0) {
+             effect = this.game.getHyperbolicEffect(effect, 1.0);
+             }
+             
+             // Add effect from effectsBase
+             if (effectsBase && effectsBase[name]) {
+             effect += effectsBase[name];
+             }
+             
+             // Add effect in globalEffectsCached, in addition of other managers
+             this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
+             }
+             }*/
 });
 
 //-------- Policy ----------
@@ -1327,7 +1572,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-
+        
 		var controller = new classes.ui.PolicyBtnController(this.game);
 		dojo.forEach(this.game.science.policies, function(policy, i){
 			var button = 

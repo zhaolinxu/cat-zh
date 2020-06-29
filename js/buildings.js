@@ -453,9 +453,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 1
 		},
 		calculateEffects: function(self, game){
-			if(game.science.getPolicy("fascism").researched){
-				game.getPriceAdjustment("N/A", self.prices, game.science.getPolicy("fascism").effects["logCabinCostReduction"], true);
-			}
+            game.getPriceAdjustment("N/A", self.prices, game.getEffect("logCabinCostReduction"), true);
 		},
 		unlocks: {
 			tabs: ["village"]
@@ -556,12 +554,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 
 				if (game.workshop.get("machineLearning").researched){
-                     var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
-                     
-                     if (game.science.getPolicy("transkittenism").researched){
-                        dataCenterAIRatio*=(1+game.science.getPolicy("transkittenism").effects["aiCoreUpgradeBonus"]);
-                     }
-
+                    var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+                    dataCenterAIRatio*=(1+game.getEffect("aiCoreUpgradeBonus")||0);
 					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
@@ -1266,11 +1260,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			var effects = {
-				"craftRatio": 0.05
+				"craftRatio": 0.05 * (1+ game.getEffect("environmentFactoryCraftBonus"))
 			};
 
 			if (game.workshop.get("factoryLogistics").researched){
-				effects["craftRatio"] = 0.06;
+				effects["craftRatio"] = 0.06 * (1+ game.getEffect("environmentFactoryCraftBonus"));
 			}
 
 			effects["energyConsumption"] = 2;
@@ -1279,9 +1273,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-			if(game.science.getPolicy("communism").researched){
-				game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.science.getPolicy("communism").effects["factoryCostReduction"], true /*this IS the whole building cost reduction*/);
-			}
+				game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.getEffect("factoryCostReduction"), true /*this IS the whole building cost reduction*/);
 			if(game.science.getPolicy("monarchy").researched==true){
 				var unlocksTemp = {
 					policies:["liberalism", "fascism"]
@@ -1430,10 +1422,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
-            if(game.science.getPolicy("liberalism").researched==true){
-                game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //effecet of "goldCostReduction" is unfinished!
-        } //effect of the liberalism; Maybe should be somewhere else?
-		},
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
+                     },
         flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
@@ -1454,9 +1444,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
-			if(game.science.getPolicy("liberalism").researched==true){
-                game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //doing it this way because effect is unfinished!
-			}//Effect of the liberalism; maybe this should be somehere else?
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1667,10 +1655,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-			
-            if(game.science.getPolicy("liberalism").researched==true){
-                game.getPriceAdjustment("gold", self.prices, game.science.getPolicy("liberalism").effects["goldCostReduction"]); //TODO! Finish the effect
-            } //effect of the liberalism; Maybe should be somewhere else?
+
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
@@ -1768,12 +1754,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.challenges.currentChallenge == "energy") {
 				self.effects["energyConsumption"] *= 2;
 			}
-                     var gflopsPerTickBase = 0.02;
-			if(game.science.getPolicy("transkittenism").researched){
-			self.effects["gflopsPerTickBase"]=gflopsPerTickBase*(1+game.science.getPolicy("transkittenism").effects[
-"aiCoreProductivness"]||0);
-			
-			}
+            var gflopsPerTickBase = 0.02*(1+game.getEffect("aiCoreProductivness"));
+            self.effects["gflopsPerTickBase"]=gflopsPerTickBase;
 			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
 		},
 		action: function(self, game) {

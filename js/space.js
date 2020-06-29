@@ -254,10 +254,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 policies:["outerSpaceTreaty","militarizeSpace"]
             },
 			calculateEffects: function(self, game){
-                var observatoryRatioTemp = 0.05
-                if(game.science.getPolicy("militarizeSpace").researched){
-                    observatoryRatioTemp *= (1+game.science.getPolicy("militarizeSpace").effects["sateliteSynergyBonus"]||0);
-                }
+                var observatoryRatioTemp = 0.05 * (1+game.getEffect("sateliteSynergyBonus")||0);
 				self.effects = {
 					"observatoryRatio": observatoryRatioTemp,
 					"starchartPerTickBaseSpace": 0.001,
@@ -404,10 +401,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 
 				if (game.workshop.get("aiBases").researched){
-                    var aiBasesModifier = 1;
-                    if (game.science.getPolicy("transkittenism").researched){
-                        aiBasesModifier+= game.science.getPolicy("transkittenism").effects["aiCoreUpgradeBonus"];
-                    }
+                    var aiBasesModifier = 1 + game.getEffect("aiCoreUpgradeBonus");
 					for (var key in effects){
 						if (key != "energyConsumption" ){
 							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1*aiBasesModifier);

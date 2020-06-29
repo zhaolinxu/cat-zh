@@ -777,11 +777,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
         //policies
 		//technocracy policy bonus
-		if((game.science.getPolicy("technocracy").researched)&&(res.name=="science")){
-			maxValue*=(1+game.science.getPolicy("technocracy").effects["technocracyScienceCap"]||0);
+		if(res.name=="science"){
+			maxValue*=(1+game.getEffect("technocracyScienceCap")||0);
 		}
-        if((game.science.getPolicy("cityOnAHill").researched)&&(res.name=="culture")){
-             maxValue*=(1+game.science.getPolicy("cityOnAHill").effects["onAHillCultureCap"]||0);
+        //city on a hill bonus
+        if(res.name=="culture"){
+             maxValue*=(1+game.getEffect("onAHillCultureCap")||0);
              }
 		return maxValue;
 	},

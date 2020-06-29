@@ -150,11 +150,14 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		//----------------------
 		var resHappiness = 0;
 		var resources = this.game.resPool.resources;
+        var happinessPerLuxury = 10;
+        //philosophy epicurianism effect
+        happinessPerLuxury +=game.getEffect("luxuryHappinessBonus");
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
-				resHappiness += 10;
+				resHappiness += happinessPerLuxury;
 				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
-					resHappiness -= 10; // Present Boxes and Wrapping Paper do not stack.
+					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
 		}
