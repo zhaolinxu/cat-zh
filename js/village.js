@@ -438,7 +438,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		for (var i in this.sim.kittens){
 			var kitten = this.sim.kittens[i];
-			if ((kitten.isLeader)&&(game.science.getPolicy("theocracy").researched)&&((kitten.job||"")!=game.science.getPolicy("theocracy").requiredLeaderJob)){
+			if ((kitten.isLeader)&&(game.science.getPolicy("theocracy").researched)&&(kitten.job!=game.science.getPolicy("theocracy").requiredLeaderJob)){
 				kitten.isLeader= false;
 				game.village.leader=null;
 			}
@@ -457,7 +457,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
-                            if (!kitten.isLeader){
+                            if ((!kitten.isLeader)&&(game.village.leader)){
                                 diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)* game.getEffect("boostFromLeader"));
                             }
 							diff *= this.happiness;	//alter positive resource production from jobs
@@ -487,7 +487,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							if (kitten.isLeader){
 								diff *= this.getLeaderBonus(kitten.rank);
 							}
-                            if (!kitten.isLeader){
+                            if ((!kitten.isLeader)&&(game.village.leader)){
                                 diff *= (1+(this.getLeaderBonus(game.village.leader.rank)-1)* game.getEffect("boostFromLeader"));
                             }
 							diff *= this.happiness;	//alter positive resource production from jobs
@@ -2136,7 +2136,8 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	makeLeader: function(kitten){
-		if((this.game.science.getPolicy("theocracy").researched)&&(kitten.job!="priest")){ //can't assign non-priest leaders if orderOfTheStars is researched
+		if((this.game.science.getPolicy("theocracy").researched)&&(kitten.job!="priest")){
+             //can't assign non-priest leaders if orderOfTheStars is researched
 			return;
 		}
 		var game = this.game;
@@ -2208,7 +2209,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
 				bonus = (mod-1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus+1) - 1) : bonus;
-                bonus = bonus > 0 && !kitten.isLeader ? ((1-this.game.village.getLeaderBonus(game.village.leader.rank)*game.getEffect("boostFromLeader")+1) * (bonus+1) - 1) : bonus;
+                bonus = bonus > 0 && !kitten.isLeader && game.village.leader ? ((1-this.game.village.getLeaderBonus((game.village.leader||0).rank)*game.getEffect("boostFromLeader")+1) * (bonus+1) - 1) : bonus;
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}

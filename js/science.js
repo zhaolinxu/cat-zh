@@ -477,7 +477,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		},
         upgrades:{
-            policies:"environmentalism"
+            policies:["environmentalism"]
         },
         calculateEffects: function(self, game){
            if(game.science.getPolicy("environmentalism").researched){
@@ -1070,12 +1070,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "tradeCatpowerDiscount" : 5
         },
         unlocked: false,
+        unlocks:{},
         upgrades: {
             tech: ["astronomy"]
         },
-        calculateEffects(self, game){
+        calculateEffects: function(self, game){
               if(game.science.get("astronomy").researched){
-              self.unlocks["policies"]=["knowledgeSharing","culturalExchange"];
+                self.unlocks["policies"]=["knowledgeSharing","culturalExchange"];
               }
               self.unlocks
         },
@@ -1094,14 +1095,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["diplomacy"],
+        unlocks:{},
         upgrades:{
             tech:["astronomy"]
         },
-        calculateEffects(self, game){
+        calculateEffects: function(self, game){
             if(game.science.get("astronomy").researched){
               self.unlocks["policies"]=["bigStickPolicy","cityOnAHill"];
             }
-            self.unlocks
+              game.unlock(self.unlocks);
         }
     },{
         name: "zebraRelationsAppeasement",
@@ -1283,13 +1285,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "environmentMineralBonus" : 0.25
         },
         unlocked: false,
+        unlocks:{},
         blocked: false,
         blocks:["clearCutting","environmentalism"],
         upgrades:{
               tech:["industrialization"]
         },
         calculateEffects: function(self, game){
-            if(game.science.getPolicy("industrialization").researched){
+            if(game.science.get("industrialization").researched){
                 self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
             }
             game.unlock(self.unlocks);
@@ -1306,13 +1309,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "environmentWoodBonus" : 0.25
         },
         unlocked: false,
+        unlocks:{},
         blocked: false,
         blocks:["stripMining","environmentalism"],
         upgrades:{
             tech:["industrialization"]
         },
         calculateEffects: function(self, game){
-            if(game.science.getPolicy("industrialization").researched){
+            if(game.science.get("industrialization").researched){
               self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
             }
             game.unlock(self.unlocks);
@@ -1328,6 +1332,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "environmentHappinessBonus" : 5
         },
         unlocked: false,
+        unlocks:{},
         blocked: false,
         blocks:["stripMining", "clearCutting"],
         upgrades:{
@@ -1612,7 +1617,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		if((model.metadata.blocked!=true)&&((game.village.leader==null||!model.metadata.requiredLeaderJob)||(game.village.leader.job||"")==model.metadata.requiredLeaderJob)){
+		if((model.metadata.blocked!=true)&&((game.village.leader==null||!model.metadata.requiredLeaderJob)||(game.village.leader.job==model.metadata.requiredLeaderJob))&&((!model.metadata.name=="transkittenusm")||(game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"]<15))){
              for(var i = 0; i< model.metadata.blocks.length; i++){
                 if(game.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked=true;
