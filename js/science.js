@@ -221,8 +221,23 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks: {
 			buildings: ["observatory"],
 			tech: ["navigation"],
-            policies:["knowledgeSharing", "culturalExchange", "bigStickPolicy", "cityOnAHill"]
-		}
+            //policies:["knowledgeSharing", "culturalExchange", "bigStickPolicy", "cityOnAHill"]
+        },
+        upgrades:{
+           policies: ["diplomacy", "isolationism"]
+        },
+           //for things that need double unlocks:
+        calculateEffects: function(self, game){
+           if(game.science.getPolicy("diplomacy").researched){
+                self.unlocks["policies"]=["knowledgeSharing","culturalExchange"];
+           }
+           if(game.science.getPolicy("isolationism").researched){
+                self.unlocks["policies"]=["bigStickPolicy","cityOnAHill"];
+           }
+           if(game.unlock(self.unlocks)){
+                console.log(self.unlocks);
+           }
+        }
 	},{
 		name: "navigation",
 		label: $I("science.navigation.label"),
@@ -393,10 +408,19 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 25}
 		],
 		unlocks: {
-            policies:["sustainability","fullIndustrialization"],
+            //policies:["sustainability","fullIndustrialization"],
 			tech: ["mechanization", "metalurgy", "combustion"],
 			upgrades: ["barges", "advancedAutomation", "logistics"]
-		}
+		},
+        upgrades:{
+           policies:["stripMining", "clearCutting"]
+        },
+        calculateEffects: function(self, game){
+           if((game.science.getPolicy("stripMining").researched)||(game.science.getPolicy("clearCutting").researched)){
+                self.unlocks["policies"] = ["sustainability","fullIndustrialization"];
+           }
+           game.unlock(self.unlocks);
+        }
 	},{
 		name: "mechanization",
 		label: $I("science.mechanization.label"),
@@ -449,9 +473,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-            policies:["conservation","openWoodlands"],
+            //policies:["conservation","openWoodlands"],
 			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
-		}
+		},
+        upgrades:{
+            policies:"environmentalism"
+        },
+        calculateEffects: function(self, game){
+           if(game.science.getPolicy("environmentalism").researched){
+                self.unlocks["policies"]=["conservation","openWoodlands"];
+           }
+           game.unlock(self.unlocks);
+        }
 	},
 	{
 		name: "electronics",
@@ -843,6 +876,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500}
 		],
 		unlocked: false,
+        upgrades:{
+            buildings: ["factory"]
+        },
 		blocked: false,
 		blocks:["authocracy", "republic", "communism"]
 	},{
@@ -853,6 +889,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500}
 		],
 		unlocked: false,
+        upgrades:{
+            buildings: ["factory"]
+        },
 		blocked: false,
 		blocks:["monarchy", "republic", "liberalism"],
 		unlocks:{
@@ -869,6 +908,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			"boostFromLeader":0.01
 		},
 		unlocked: false,
+        upgrades:{
+            buildings: ["factory"]
+        },
 		blocked: false,
 		blocks:["monarchy", "authocracy", "fascism"],
 		unlocks:{
@@ -1028,11 +1070,17 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "tradeCatpowerDiscount" : 5
         },
         unlocked: false,
+        upgrades: {
+            tech: ["astronomy"]
+        },
+        calculateEffects(self, game){
+              if(game.science.get("astronomy").researched){
+              self.unlocks["policies"]=["knowledgeSharing","culturalExchange"];
+              }
+              self.unlocks
+        },
         blocked: false,
-        blocks:["isolationism"],
-        unlocks:{
-            policies:["knowledgeSharing", "culturalExchange"]
-        }
+        blocks:["isolationism"]
     },{
         name: "isolationism",
         label: $I("policy.isolationism.label"),
@@ -1046,8 +1094,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["diplomacy"],
-        unlocks:{
-            policies:["bigStickPolicy", "cityOnAHill"]
+        upgrades:{
+            tech:["astronomy"]
+        },
+        calculateEffects(self, game){
+            if(game.science.get("astronomy").researched){
+              self.unlocks["policies"]=["bigStickPolicy","cityOnAHill"];
+            }
+            self.unlocks
         }
     },{
         name: "zebraRelationsAppeasement",
@@ -1087,7 +1141,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "sharedKnowledgeBonus" : 0.05,
         },
-        needsUnlocks : 2,
         unlocked: false,
         blocked: false,
         blocks:["culturalExchange"]
@@ -1101,7 +1154,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "culturalExchangeBonus" : 0.05,
         },
-        needsUnlocks : 2,
         unlocked: false,
         blocked: false,
         blocks:["knowledgeSharing"]
@@ -1115,7 +1167,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "embassyCostReduction" : 0.15,
         },
-        needsUnlocks : 2,
         unlocked: false,
         blocked: false,
         blocks:["cityOnAHill"]
@@ -1129,7 +1180,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
               "onAHillCultureCap" : 0.05
         },
-        needsUnlocks : 2,
         unlocked: false,
         blocked: false,
         blocks:["bigStickPolicy"]
@@ -1235,8 +1285,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["clearCutting","environmentalism"],
-        unlocks: {
-            policies:["sustainability","fullIndustrialization"]
+        upgrades:{
+              tech:["industrialization"]
+        },
+        calculateEffects: function(self, game){
+            if(game.science.getPolicy("industrialization").researched){
+                self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
+            }
+            game.unlock(self.unlocks);
         }
     },{
         name: "clearCutting",
@@ -1252,8 +1308,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["stripMining","environmentalism"],
-        unlocks: {
-            policies:["sustainability","fullIndustrialization"]
+        upgrades:{
+            tech:["industrialization"]
+        },
+        calculateEffects: function(self, game){
+            if(game.science.getPolicy("industrialization").researched){
+              self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
+            }
+            game.unlock(self.unlocks);
         }
     },{
         name: "environmentalism",
@@ -1268,8 +1330,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["stripMining", "clearCutting"],
-        unlocks:{
-            policies:["conservation","openWoodlands"]
+        upgrades:{
+            tech: ["ecology"]
+        },
+        calculateEffects: function(self, game){
+            if(game.science.get("ecology").researched){
+                self.unlocks["policies"]=["conservation","openWoodlands"];
+            }
+            game.unlock(self.unlocks);
         }
     },{
         name: "sustainability",
@@ -1281,7 +1349,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "environmentUnhappinessModifier" : -1
         },
-        needsUnlocks: 2,
         unlocked: false,
         blocked: false,
         blocks:["fullIndustrialization"]
@@ -1295,7 +1362,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "environmentFactoryCraftBonus" : 0.05
         },
-        needsUnlocks: 2,
         unlocked: false,
         blocked: false,
         blocks:["sustainability"]
@@ -1309,7 +1375,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         effects:{
             "environmentHappinessBonusModifier" : 1
         },
-        needsUnlocks: 2,
         unlocked: false,
         blocked: false,
         blocks:["openWoodlands"]
@@ -1324,7 +1389,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "environmentMineralBonus" : 0.125,
             "environmentWoodBonus" : 0.125
         },
-        needsUnlocks: 2,
         unlocked: false,
         blocked: false,
         blocks:["conservation"]

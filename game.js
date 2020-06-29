@@ -2909,6 +2909,23 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("culturalExchangeBonus"),
                 });
         }
+        //philosophy
+        //mysticism bonus
+        if((game.getEffect("mysticismBonus")>0)&&((resName=="culture")||(resName=="faith"))){
+        stack.push({
+                name: $I("res.stack.mysticism"),
+                type: "ratio",
+                value: game.getEffect("mysticismBonus"),
+                });
+        }
+        //rationalism bonus
+        if((game.getEffect("rationalityBonus")>0)&&((resName=="science")||(resName=="iron"))){
+        stack.push({
+                name: $I("res.stack.rationality"),
+                type: "ratio",
+                value: game.getEffect("rationalityBonus"),
+                });
+        }
         //environment minerals bonus
         if(resName=="minerals"){
         stack.push({
@@ -2925,6 +2942,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("environmentWoodBonus"),
                 });
         }
+             "res.stack.rationality"
+             "res.stack.mysticism"
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
@@ -4048,12 +4067,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
-                    if((!newUnlock.needsUnlocks)||(newUnlock.needsUnlocks<2)){
-                        newUnlock.unlocked = true;
-                        newUnlock.needsUnlocks = 0;
-                    }else{
-                        newUnlock.needsUnlocks-=1;
-                    }
+                    newUnlock.unlocked = true;
 				}
 			}
 		}

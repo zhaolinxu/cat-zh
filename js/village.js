@@ -621,17 +621,18 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getUnhappiness: function(){
-        var environmentalUnhappiness = game.getEffect("environmentUnhappiness") * game.getEffect("environmentUnhappinessModifier");
 		var populationPenalty = 2;
 		if (this.game.science.getPolicy("liberty").researched){
 			populationPenalty = 1;
 		}
 		if (this.game.science.getPolicy("fascism").researched) {
-			return environmentalUnhappiness;
+			return 0;
 		}
-		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio")) + environmentalUnhappiness;
+		return ( this.getKittens()-5 ) * populationPenalty * (1 + this.game.getEffect("unhappinessRatio"));
 	},
-
+    getEnvironmentEffect: function(){
+        return game.getEffect("environmentHappiness") * game.getEffect("environmentHappiness") + game.getEffect("environmentUnhappiness") * game.getEffect("environmentUnhappinessModifier");
+    },
 	/** Calculates a total happiness where result is a value of [0..1] **/
 	updateHappines: function(){
 		var happiness = 100;
@@ -640,9 +641,9 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		if (this.getKittens() > 5){
 			happiness -= unhappiness;	//every kitten takes 2% of production rate if >5
 		}
-
-		var happinessBonus = this.game.getEffect("happiness") + game.getEffect("environmentHappinessBonus") *game.getEffect("environmentHappinessBonusModifier");
-		happiness += happinessBonus;
+        var enviromentalEffect = this.getEnvironmentEffect();
+		var happinessBonus = this.game.getEffect("happiness");
+		happiness += (happinessBonus + enviromentalEffect);
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
