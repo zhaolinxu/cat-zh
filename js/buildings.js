@@ -1758,9 +1758,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             var gflopsPerTickBase = 0.02*(1+game.getEffect("aiCoreProductivness"));
             self.effects["gflopsPerTickBase"]=gflopsPerTickBase;
 			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
-            if(game.getEffect("aiCoreUpgradeBonus")>0){
-                self.effects["aiCoreUpgradeBonus"] = Math.max(0, self.effects["aiLevel"] - 14) * 0.001;
-            }
 		},
 		action: function(self, game) {
 			game.resPool.get("gflops").value += self.effects["gflopsPerTickBase"] * self.on;
