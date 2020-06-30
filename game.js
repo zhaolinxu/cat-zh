@@ -1470,7 +1470,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
-        this.science.updateEffectCached(); //doesn't actually work for some reason; for now buildings will just call effect of the policies directly!
+        this.science.updateEffectCached();
 
 		this.updateResources();
 	},
