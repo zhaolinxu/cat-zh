@@ -2861,7 +2861,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("communismProductionBonus"),
                 });
         }
-        //theocracy AKA cosmoliberalism
+        //theocracy AKA order of the stars
         if((game.getEffect("theocracyFaithProductionBonus")>0)&&(resName=="faith")){
         stack.push({
                 name: $I("res.stack.theocracy"),
@@ -2869,7 +2869,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("theocracyFaithProductionBonus"),
                 });
         }
-        //expansionism AKA cosmoliberalism
+        //expansionism AKA cosmological liberalism
         if((game.science.getPolicy("expansionism").researched)&&(resName=="unobtainium")){
         stack.push({
                 name: $I("res.stack.expansionism"),
@@ -2909,7 +2909,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("culturalExchangeBonus"),
                 });
         }
-        //philosophy
+        //philosophy policies effects:
         //mysticism bonus
         if((game.getEffect("mysticismBonus")>0)&&((resName=="culture")||(resName=="faith"))){
         stack.push({
@@ -2942,8 +2942,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("environmentWoodBonus"),
                 });
         }
-             "res.stack.rationality"
-             "res.stack.mysticism"
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
@@ -4067,7 +4065,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
 						continue;
 					}
-                    newUnlock.unlocked = true;
+					newUnlock.unlocked = true;
 				}
 			}
 		}
