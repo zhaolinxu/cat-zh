@@ -14,7 +14,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.calendar.label"),
 		description: $I("science.calendar.desc"),
 		effectDesc: $I("science.calendar.effectDesc"),
-		prices: [{name : "science", val: 30}],
+		prices: [{name: "science", val: 30}],
 		unlocks: {
 			tabs: ["time"],
 			tech: ["agriculture"]
@@ -26,7 +26,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.agriculture.label"),
 		description: $I("science.agriculture.desc"),
 		effectDesc: $I("science.agriculture.effectDesc"),
-		prices: [{name : "science", val: 100}],
+		prices: [{name: "science", val: 100}],
 		unlocks: {
 			buildings: ["barn"],
 			jobs: ["farmer"],
@@ -38,7 +38,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.archery.label"),
 		description: $I("science.archery.desc"),
 		effectDesc: $I("science.archery.effectDesc"),
-		prices: [{name : "science", val: 300}],
+		prices: [{name: "science", val: 300}],
 		unlocks: {
 			buildings: ["zebraOutpost", "zebraWorkshop", "zebraForge"],
 			jobs: ["hunter"],
@@ -50,7 +50,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.mining.label"),
 		description: $I("science.mining.desc"),
 		effectDesc: $I("science.mining.effectDesc"),
-		prices: [{name : "science", val: 500}],
+		prices: [{name: "science", val: 500}],
 		unlocks: {
 			buildings: ["mine", "workshop"],
 			tech: ["metal"],
@@ -62,7 +62,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.metal.label"),
 		description: $I("science.metal.desc"),
 		effectDesc: $I("science.metal.effectDesc"),
-		prices: [{name : "science", val: 900}],
+		prices: [{name: "science", val: 900}],
 		unlocks: {
 			buildings: ["smelter"],
 			upgrades: ["huntingArmor"]
@@ -73,7 +73,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.animal.label"),
 		description: $I("science.animal.desc"),
 		effectDesc: $I("science.animal.effectDesc"),
-		prices: [{name : "science", val: 500}],	//mostly does nothing, so price is lower
+		prices: [{name: "science", val: 500}],	//mostly does nothing, so price is lower
 		unlocks: {
 			buildings: ["pasture", "unicornPasture"],
 			tech: ["civil", "math", "construction"]
@@ -85,7 +85,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.brewery.label"),
 		description: $I("science.brewery.desc"),
 		effectDesc: $I("science.brewery.effectDesc"),
-		prices: [{name : "science", val: 1200 }]
+		prices: [{name: "science", val: 1200 }]
 	},
 	//--------------------------------------------------
 	{
@@ -93,7 +93,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.civil.label"),
 		description: $I("science.civil.desc"),
 		effectDesc: $I("science.civil.effectDesc"),
-		prices: [{name : "science", val: 1500}],
+		prices: [{name: "science", val: 1500}],
 		unlocks: {
 			tech: ["currency"]	//currency
 		},
@@ -103,7 +103,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.math.label"),
 		description: $I("science.math.desc"),
 		effectDesc: $I("science.math.effectDesc"),
-		prices: [{name : "science", val: 1000}],
+		prices: [{name: "science", val: 1000}],
 		unlocks: {
 			tabs: ["stats"],
 			buildings: ["academy"],
@@ -115,7 +115,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.construction.label"),
 		description: $I("science.construction.desc"),
 		effectDesc: $I("science.construction.effectDesc"),
-		prices: [{name : "science", val: 1300}],
+		prices: [{name: "science", val: 1300}],
 		unlocks: {
 			buildings: ["logHouse", "warehouse", "lumberMill", "ziggurat"],
 			tech: ["engineering"],
@@ -127,7 +127,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.engineering.label"),
 		description: $I("science.engineering.desc"),
 		effectDesc: $I("science.engineering.effectDesc"),
-		prices: [{name : "science", val: 1500}],
+		prices: [{name: "science", val: 1500}],
 		unlocks: {
 			buildings: ["aqueduct"],
             policies:["stripMining","clearCutting","environmentalism"],
@@ -138,7 +138,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.currency.label"),
 		description: $I("science.currency.desc"),
 		effectDesc: $I("science.currency.effectDesc"),
-		prices: [{name : "science", val: 2200}],
+		prices: [{name: "science", val: 2200}],
 		unlocks: {
 			buildings: ["tradepost"],
             policies:["diplomacy","isolationism"],
@@ -149,7 +149,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.writing.label"),
 		description: $I("science.writing.desc"),
 		effectDesc: $I("science.writing.effectDesc"),
-		prices: [{name : "science", val: 3600}],
+		prices: [{name: "science", val: 3600}],
 		unlocks: {
 			buildings: ["amphitheatre"],
 			tech: ["philosophy", "machinery", "steel"],
@@ -163,7 +163,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.philosophy.label"),
 		description: $I("science.philosophy.desc"),
 		effectDesc: $I("science.philosophy.effectDesc"),
-		prices: [{name : "science", val: 9500}],
+		prices: [{name: "science", val: 9500}],
 		unlocks: {
 			buildings: ["temple"],
 			tech: ["theology"],
@@ -176,7 +176,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.machinery.label"),
 		description: $I("science.machinery.desc"),
 		effectDesc: $I("science.machinery.effectDesc"),
-		prices: [{name : "science", val: 15000}],
+		prices: [{name: "science", val: 15000}],
 		unlocks: {
 			buildings: ["steamworks"],
 			upgrades: ["printingPress", "factoryAutomation", "crossbow"]
@@ -186,7 +186,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("science.steel.label"),
 		description: $I("science.steel.desc"),
 		effectDesc: $I("science.steel.effectDesc"),
-		prices: [{name : "science", val: 12000}],
+		prices: [{name: "science", val: 12000}],
 		unlocks: {
 			upgrades: ["deepMining", "coalFurnace", "combustionEngine",
 						"reinforcedWarehouses", "steelAxe", "steelArmor"],
@@ -198,7 +198,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.theology.desc"),
 		effectDesc: $I("science.theology.effectDesc"),
 		prices: [
-			{name : "science", val: 20000},
+			{name: "science", val: 20000},
 			{name: 	"manuscript", val: 35}
 		],
 		unlocks: {
@@ -215,13 +215,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.astronomy.desc"),
 		effectDesc: $I("science.astronomy.effectDesc"),
 		prices: [
-			{name : "science", val: 28000},
+			{name: "science", val: 28000},
 			{name: 	"manuscript", val: 65}
 		],
 		unlocks: {
 			buildings: ["observatory"],
 			tech: ["navigation"],
-            //policies:["knowledgeSharing", "culturalExchange", "bigStickPolicy", "cityOnAHill"]
         },
         upgrades:{
            policies: ["diplomacy", "isolationism"]
@@ -234,9 +233,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            if(game.science.getPolicy("isolationism").researched){
                 self.unlocks["policies"]=["bigStickPolicy","cityOnAHill"];
            }
-           if(game.unlock(self.unlocks)){
-                console.log(self.unlocks);
-           }
+           game.unlock(self.unlocks);
         }
 	},{
 		name: "navigation",
@@ -244,7 +241,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.navigation.desc"),
 		effectDesc: $I("science.navigation.effectDesc"),
 		prices: [
-			{name : "science", val: 35000},
+			{name: "science", val: 35000},
 			{name: 	"manuscript", val: 100}
 		],
 		unlocks: {
@@ -260,7 +257,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.architecture.desc"),
 		effectDesc: $I("science.architecture.effectDesc"),
 		prices: [
-			{name : "science", val: 42000},
+			{name: "science", val: 42000},
 			{name: 	"compedium", val: 10}
 		],
 		unlocks: {
@@ -274,7 +271,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.physics.desc"),
 		effectDesc: $I("science.physics.effectDesc"),
 		prices: [
-			{name : "science", val: 50000},
+			{name: "science", val: 50000},
 			{name: 	"compedium", val: 35}
 		],
 		unlocks: {
@@ -289,7 +286,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		effectDesc: $I("science.metaphysics.effectDesc"),
 		prices: [
 			{name: 	"unobtainium", val: 5},
-			{name : "science", val: 55000}
+			{name: "science", val: 55000}
 		],
 	},{
 		name: "chemistry",
@@ -297,7 +294,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.chemistry.desc"),
 		effectDesc: $I("science.chemistry.effectDesc"),
 		prices: [
-			{name : "science", val: 60000},
+			{name: "science", val: 60000},
 			{name: 	"compedium", val: 50}
 		],
 		unlocks: {
@@ -311,7 +308,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.acoustics.desc"),
 		effectDesc: $I("science.acoustics.effectDesc"),
 		prices: [
-			{name : "science", val: 60000},
+			{name: "science", val: 60000},
 			{name: 	"compedium", val: 60}
 		],
 		unlocks: {
@@ -324,7 +321,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.drama.desc"),
 		effectDesc: $I("science.drama.effectDesc"),
 		prices: [
-			{name : "science", val: 90000},
+			{name: "science", val: 90000},
 			{name: 	"parchment", val: 5000}
 		],
 	},{
@@ -333,7 +330,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.archeology.desc"),
 		effectDesc: $I("science.archeology.effectDesc"),
 		prices: [
-			{name : "science", val: 65000},
+			{name: "science", val: 65000},
 			{name: 	"compedium", val: 65}
 		],
 		unlocks: {
@@ -349,7 +346,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.electricity.desc"),
 		effectDesc: $I("science.electricity.effectDesc"),
 		prices: [
-			{name : "science", val: 75000},
+			{name: "science", val: 75000},
 			{name: 	"compedium", val: 85}
 		],
 		unlocks: {
@@ -363,7 +360,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.biology.desc"),
 		effectDesc: $I("science.biology.effectDesc"),
 		prices: [
-			{name : "science", val: 85000},
+			{name: "science", val: 85000},
 			{name: 	"compedium", val: 100}
 		],
 		unlocks: {
@@ -377,7 +374,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.biochemistry.desc"),
 		effectDesc: $I("science.biochemistry.effectDesc"),
 		prices: [
-			{name : "science", val: 145000},
+			{name: "science", val: 145000},
 			{name: 	"compedium", val: 500}
 		],
 		unlocks: {
@@ -391,7 +388,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.genetics.desc"),
 		effectDesc: $I("science.genetics.effectDesc"),
 		prices: [
-			{name : "science", val: 190000},
+			{name: "science", val: 190000},
 			{name: 	"compedium", val: 1500}
 		],
 		unlocks: {
@@ -404,11 +401,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.industrialization.desc"),
 		effectDesc: $I("science.industrialization.effectDesc"),
 		prices: [
-			{name : "science", val: 100000},
+			{name: "science", val: 100000},
 			{name: 	"blueprint", val: 25}
 		],
 		unlocks: {
-            //policies:["sustainability","fullIndustrialization"],
 			tech: ["mechanization", "metalurgy", "combustion"],
 			upgrades: ["barges", "advancedAutomation", "logistics"]
 		},
@@ -427,7 +423,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.mechanization.desc"),
 		effectDesc: $I("science.mechanization.effectDesc"),
 		prices: [
-			{name : "science", val: 115000},
+			{name: "science", val: 115000},
 			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
@@ -443,7 +439,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.metalurgy.desc"),
 		effectDesc: $I("science.metalurgy.effectDesc"),
 		prices: [
-			{name : "science", val: 125000},
+			{name: "science", val: 125000},
 			{name: 	"blueprint", val: 60}
 		],
 		unlocks: {
@@ -455,7 +451,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.combustion.desc"),
 		effectDesc: $I("science.combustion.effectDesc"),
 		prices: [
-			{name : "science", val: 115000},
+			{name: "science", val: 115000},
 			{name: 	"blueprint", val: 45}
 		],
 		unlocks: {
@@ -469,11 +465,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.ecology.desc"),
 		effectDesc: $I("science.ecology.effectDesc"),
 		prices: [
-			{name : "science", val: 125000},
+			{name: "science", val: 125000},
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-            //policies:["conservation","openWoodlands"],
 			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		},
         upgrades:{
@@ -492,7 +487,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.electronics.desc"),
 		effectDesc: $I("science.electronics.effectDesc"),
 		prices: [
-			{name : "science", val: 135000},
+			{name: "science", val: 135000},
 			{name: 	"blueprint", val: 70}
 		],
 		unlocks: {
@@ -509,7 +504,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.robotics.desc"),
 		effectDesc: $I("science.robotics.effectDesc"),
 		prices: [
-			{name : "science", val: 140000},
+			{name: "science", val: 140000},
 			{name: 	"blueprint", val: 80}
 		],
 		unlocks: {
@@ -524,7 +519,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.ai.desc"),
 		effectDesc: $I("science.ai.effectDesc"),
 		prices: [
-			{name : "science", val: 250000},
+			{name: "science", val: 250000},
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
@@ -538,7 +533,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.quantumCryptography.desc"),
 		effectDesc: $I("science.quantumCryptography.effectDesc"),
 		prices: [
-			{name : "science", val: 1250000},
+			{name: "science", val: 1250000},
 			{name: 	"relic", val: 1024}
 		],
 		unlocks: {
@@ -562,7 +557,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.nuclearFission.desc"),
 		effectDesc: $I("science.nuclearFission.effectDesc"),
 		prices: [
-			{name : "science", val: 150000},
+			{name: "science", val: 150000},
 			{name: 	"blueprint", val: 100}
 		],
 		unlocks: {
@@ -576,7 +571,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.rocketry.desc"),
 		effectDesc: $I("science.rocketry.effectDesc"),
 		prices: [
-			{name : "science", val: 175000},
+			{name: "science", val: 175000},
 			{name: 	"blueprint", val: 125}
 		],
 		unlocks: {
@@ -590,7 +585,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         description: $I("science.oilProcessing.desc"),
         effectDesc: $I("science.oilProcessing.effectDesc"),
         prices: [
-            {name : "science", val: 215000},
+            {name: "science", val: 215000},
             {name: 	"blueprint", val: 150}
         ],
         unlocks: {
@@ -603,7 +598,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         description: $I("science.sattelites.desc"),
         effectDesc: $I("science.sattelites.effectDesc"),
         prices: [
-            {name : "science", val: 190000},
+            {name: "science", val: 190000},
             {name: 	"blueprint", val: 125}
         ],
         unlocks: {
@@ -617,7 +612,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.orbitalEngineering.desc"),
 		effectDesc: $I("science.orbitalEngineering.effectDesc"),
 		prices: [
-			{name : "science", val: 250000},
+			{name: "science", val: 250000},
 			{name: 	"blueprint", val: 250}
 		],
 		unlocks: {
@@ -630,7 +625,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.thorium.desc"),
 		effectDesc: $I("science.thorium.effectDesc"),
 		prices: [
-			{name : "science", val: 375000},
+			{name: "science", val: 375000},
 			{name: 	"blueprint", val: 375}
 		],
 		unlocks: {
@@ -643,7 +638,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.exogeology.desc"),
 		effectDesc: $I("science.exogeology.effectDesc"),
 		prices: [
-			{name : "science", val: 275000},
+			{name: "science", val: 275000},
 			{name: 	"blueprint", val: 250}
 		],
 		unlocks: {
@@ -656,7 +651,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.advExogeology.desc"),
 		effectDesc: $I("science.advExogeology.effectDesc"),
 		prices: [
-			{name : "science", val: 325000},
+			{name: "science", val: 325000},
 			{name: 	"blueprint", val: 350}
 		],
 		unlocks: {
@@ -670,7 +665,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.nanotechnology.desc"),
 		effectDesc: $I("science.nanotechnology.effectDesc"),
 		prices: [
-			{name : "science", val: 200000},
+			{name: "science", val: 200000},
 			{name: 	"blueprint", val: 150}
 		],
 		unlocks: {
@@ -683,7 +678,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.superconductors.desc"),
 		effectDesc: $I("science.superconductors.effectDesc"),
 		prices: [
-			{name : "science", val: 225000},
+			{name: "science", val: 225000},
 			{name: 	"blueprint", val: 175}
 		],
 		unlocks: {
@@ -696,8 +691,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.antimatter.desc"),
 		effectDesc: $I("science.antimatter.effectDesc"),
 		prices: [
-			{name : "science", val: 500000},
-			{name : "relic",   val: 1}
+			{name: "science", val: 500000},
+			{name: "relic",   val: 1}
 		],
 		unlocks: {
 			tech: ["terraformation"],
@@ -709,8 +704,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.terraformation.desc"),
 		effectDesc: $I("science.terraformation.effectDesc"),
 		prices: [
-			{name : "science", val: 750000},
-			{name : "relic",   val: 5}
+			{name: "science", val: 750000},
+			{name: "relic",   val: 5}
 		],
 		unlocks: {
 			tech: ["hydroponics"]
@@ -721,8 +716,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.hydroponics.desc"),
 		effectDesc: $I("science.hydroponics.effectDesc"),
 		prices: [
-			{name : "science", val: 1000000},
-			{name : "relic",   val: 25}
+			{name: "science", val: 1000000},
+			{name: "relic",   val: 25}
 		],
 		unlocks: {
 			tech: ["exogeophysics"]
@@ -733,8 +728,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.exogeophysics.desc"),
 		effectDesc: $I("science.exogeophysics.effectDesc"),
 		prices: [
-			{name : "science", val: 25000000},
-			{name : "relic",   val: 500}
+			{name: "science", val: 25000000},
+			{name: "relic",   val: 500}
 		]
 	},
 	{
@@ -743,7 +738,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.particlePhysics.desc"),
 		effectDesc: $I("science.particlePhysics.effectDesc"),
 		prices: [
-			{name : "science", val: 185000},
+			{name: "science", val: 185000},
 			{name: 	"blueprint", val: 135}
 		],
 		unlocks: {
@@ -757,7 +752,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.dimensionalPhysics.desc"),
 		effectDesc: $I("science.dimensionalPhysics.effectDesc"),
 		prices: [
-			{name : "science", val: 235000}
+			{name: "science", val: 235000}
 		],
 		unlocks: {
 			upgrades: ["energyRifts", "lhc"]
@@ -768,7 +763,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.chronophysics.desc"),
 		effectDesc: $I("science.chronophysics.effectDesc"),
 		prices: [
-			{name : "science", val: 250000},
+			{name: "science", val: 250000},
 			{name: 	"timeCrystal", val: 5}
 		],
 		unlocks: {
@@ -782,9 +777,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.tachyonTheory.desc"),
 		effectDesc: $I("science.tachyonTheory.effectDesc"),
 		prices: [
-			{name : "science", val: 750000},
+			{name: "science", val: 750000},
 			{name: 	"timeCrystal", val: 25},
-			{name : "relic",   val: 1}
+			{name: "relic",   val: 1}
 		],
 		unlocks: {
 			tech: ["voidSpace"],
@@ -796,8 +791,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.cryptotheology.desc"),
 		effectDesc: $I("science.cryptotheology.effectDesc"),
 		prices: [
-			{name : "science", val: 650000},
-			{name : "relic",   val: 5}
+			{name: "science", val: 650000},
+			{name: "relic",   val: 5}
 		],
 		unlocks: {
 			upgrades: ["relicStation"]
@@ -808,9 +803,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.voidSpace.desc"),
 		effectDesc: $I("science.voidSpace.effectDesc"),
 		prices: [
-			{name : "science", val: 800000},
+			{name: "science", val: 800000},
 			{name: 	"timeCrystal", val: 30},
-			{name : "void",   val: 100}
+			{name: "void",   val: 100}
 		],
 		unlocks: {
 			tech: ["paradoxalKnowledge"],
@@ -824,9 +819,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		description: $I("science.paradoxalKnowledge.desc"),
 		effectDesc: $I("science.paradoxalKnowledge.effectDesc"),
 		prices: [
-			{name : "science", val: 1000000},
+			{name: "science", val: 1000000},
 			{name: 	"timeCrystal", val: 40},
-			{name : "void",   val: 250}
+			{name: "void",   val: 250}
 		],
 		unlocks: {
 			upgrades: ["distorsion"],
@@ -845,7 +840,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("policy.liberty.label"),
 		description: $I("policy.liberty.desc"),
 		prices: [
-			{name : "culture", val: 150}
+			{name: "culture", val: 150}
 		],
 		unlocked: false,
 		blocked: false,
@@ -858,7 +853,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("policy.tradition.label"),
 		description:$I("policy.tradition.desc"),
 		prices: [
-			{name : "culture", val: 150}
+			{name: "culture", val: 150}
 		],
 		unlocked: false,
 		blocked: false,
@@ -873,7 +868,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("policy.monarchy.label"),
 		description: $I("policy.monarchy.desc"),
 		prices: [
-			{name : "culture", val: 1500}
+			{name: "culture", val: 1500}
 		],
 		unlocked: false,
         upgrades:{
@@ -886,7 +881,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		label: $I("policy.autocracy.label"),
 		description: $I("policy.autocracy.desc"),
 		prices: [
-			{name : "culture", val: 1500}
+			{name: "culture", val: 1500}
 		],
 		unlocked: false,
         upgrades:{
@@ -902,7 +897,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.republic.label"),
         description: $I("policy.republic.desc"),
 		prices: [
-			{name : "culture", val: 1500}
+			{name: "culture", val: 1500}
 		],
 		effects:{
 			"boostFromLeader":0.01
@@ -923,7 +918,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.socialism.label"),
         description: $I("policy.socialism.desc"),
 		prices: [
-			{name : "culture", val: 7500}
+			{name: "culture", val: 7500}
 		],
 		unlocked: false,
 		blocked: false,
@@ -935,7 +930,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.liberalism.label"),
         description: $I("policy.liberalism.desc"),
 		prices: [
-			{name : "culture", val: 15000}
+			{name: "culture", val: 15000}
 		],
 		effects:{
 			"goldCostReduction": 0.2,
@@ -949,7 +944,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.communism.label"),
         description: $I("policy.communism.desc"),
 		prices: [
-			{name : "culture", val: 15000}
+			{name: "culture", val: 15000}
 		],
 		effects:{
 			"factoryCostReduction" : 0.3,
@@ -963,7 +958,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.fascism.label"),
         description: $I("policy.fascism.desc"),
 		prices: [
-			{name : "culture", val: 15000}
+			{name: "culture", val: 15000}
 		],
 		effects:{
 			"logCabinCostReduction" : 0.5
@@ -978,7 +973,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.technocracy.label"),
         description: $I("policy.technocracy.desc"),
         prices: [
-			{name : "culture", val: 150000}
+			{name: "culture", val: 150000}
 		],
 		effects:{
 		"technocracyScienceCap": 0.2
@@ -991,7 +986,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.theocracy.label"),
         description: $I("policy.theocracy.desc"),
 		prices: [
-			{name : "culture", val: 150000}
+			{name: "culture", val: 150000}
 		],
 		effects:{
 		"theocracyFaithProductionBonus": 0.2
@@ -1005,10 +1000,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.expansionism.label"),
         description: $I("policy.expansionism.desc"),
 		prices: [
-			{name : "culture", val: 150000}
+			{name: "culture", val: 150000}
 		],
 		effects:{
-		"expansionismUnobtainiumProductionBonus": 0.15
+            "expansionismUnobtainiumProductionBonus": 0.15
 		},
 		unlocked: false,
 		blocked: false,
@@ -1020,11 +1015,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.transkittenism.label"),
         description: $I("policy.transkittenism.desc"),
 		prices: [
-			{name : "culture", val: 1500000}
+			{name: "culture", val: 1500000}
 		],
 		effects:{
-		"aiCoreProductivness" : 1,
-        "aiCoreUpgradeBonus" : 0.1
+            "aiCoreProductivness" : 1,
+            "aiCoreUpgradeBonus" : 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -1032,10 +1027,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 	{
 		name: "necrocracy",
-		label: "Necrocracy",
-		description:"Your society is nothing compared to the leviathans. You surrender without a fight. Under their rule, your production will get boost based on BLS",
+		label: "policy.necrocracy.label",
+		description: "policy.necrocracy.desc",
 		prices: [
-			{name : "culture", val: 1500000}
+			{name: "culture", val: 1500000}
 		],
 		effects:{
 		"blsProductionBonus" : 0.001
@@ -1049,7 +1044,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.radicalXenophobia.label"),
         description: $I("policy.radicalXenophobia.desc"),
 		prices: [
-			{name : "culture", val: 1500000}
+			{name: "culture", val: 1500000}
 		],
 		effects:{
 		"holyGenocideBonus" : 1
@@ -1064,7 +1059,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.diplomacy.label"),
         description: $I("policy.diplomacy.desc"),
         prices: [
-            {name : "culture", val: 1600}
+            {name: "culture", val: 1600}
         ],
         effects:{
             "tradeCatpowerDiscount" : 5
@@ -1078,7 +1073,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
               if(game.science.get("astronomy").researched){
                 self.unlocks["policies"]=["knowledgeSharing","culturalExchange"];
               }
-              self.unlocks
+              game.unlock(self.unlocks);
         },
         blocked: false,
         blocks:["isolationism"]
@@ -1087,7 +1082,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.isolationism.label"),
         description: $I("policy.isolationism.desc"),
         prices: [
-            {name : "culture", val: 1600}
+            {name: "culture", val: 1600}
         ],
         effects:{
             "tradeGoldDiscount" : 1
@@ -1110,7 +1105,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.zebraRelationsAppeasement.label"),
         description: $I("policy.zebraRelationsAppeasement.desc"),
         prices: [
-            {name : "culture", val: 5000}
+            {name: "culture", val: 5000}
         ],
         effects:{
             "zebraAppeasedGoldPenalty" : 0.05,
@@ -1124,7 +1119,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.zebraRelationsBellicosity.label"),
         description: $I("policy.zebraRelationsBellicosity.desc"),
         prices: [
-            {name : "culture", val: 5000}
+            {name: "culture", val: 5000}
         ],
         effects:{
             "nonZebraRelationModifier" : 5,
@@ -1138,7 +1133,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.knowledgeSharing.label"),
         description: $I("policy.knowledgeSharing.desc"),
         prices: [
-            {name : "culture", val: 4000}
+            {name: "culture", val: 4000}
         ],
         effects:{
             "sharedKnowledgeBonus" : 0.05,
@@ -1151,7 +1146,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.culturalExchange.label"),
         description: $I("policy.culturalExchange.desc"),
         prices: [
-            {name : "culture", val: 4000}
+            {name: "culture", val: 4000}
         ],
         effects:{
             "culturalExchangeBonus" : 0.05,
@@ -1164,7 +1159,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.bigStickPolicy.label"),
         description: $I("policy.bigStickPolicy.desc"),
         prices: [
-            {name : "culture", val: 4000}
+            {name: "culture", val: 4000}
         ],
         effects:{
             "embassyCostReduction" : 0.15,
@@ -1177,7 +1172,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.cityOnAHill.label"),
         description: $I("policy.cityOnAHill.desc"),
         prices: [
-            {name : "culture", val: 4000}
+            {name: "culture", val: 4000}
         ],
         effects:{
               "onAHillCultureCap" : 0.05
@@ -1190,7 +1185,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.outerSpaceTreaty.label"),
         description: $I("policy.outerSpaceTreaty.desc"),
         prices: [
-                {name : "culture", val: 10000}
+                {name: "culture", val: 10000}
         ],
         effects:{
             "spaceRelationsBonus" : 10
@@ -1203,7 +1198,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.militarizeSpace.label"),
         description: $I("policy.militarizeSpace.desc"),
         prices: [
-            {name : "culture", val: 10000}
+            {name: "culture", val: 10000}
         ],
         effects:{
             "sateliteSynergyBonus" : 0.1
@@ -1218,7 +1213,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.stoicism.label"),
         description: $I("policy.stoicism.desc"),
         prices: [
-            {name : "culture", val: 2000}
+            {name: "culture", val: 2000}
         ],
         effects:{
             "luxuryConsuptionReduction" : 0.5
@@ -1234,7 +1229,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.epicurianism.label"),
         description: $I("policy.epicurianism.desc"),
         prices: [
-            {name : "culture", val: 2000}
+            {name: "culture", val: 2000}
         ],
         effects:{
             "luxuryHappinessBonus" : 1
@@ -1250,7 +1245,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.rationality.label"),
         description: $I("policy.rationality.desc"),
         prices: [
-            {name : "culture", val: 3000}
+            {name: "culture", val: 3000}
         ],
         effects:{
             "rationalityBonus" : 0.05
@@ -1263,7 +1258,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.mysticism.label"),
         description: $I("policy.mysticism.desc"),
         prices: [
-            {name : "culture", val: 3000}
+            {name: "culture", val: 3000}
         ],
         effects:{
             "mysticismBonus" : 0.05
@@ -1278,7 +1273,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.stripMining.label"),
         description: $I("policy.stripMining.desc"),
         prices: [
-            {name : "science", val: 2000}
+            {name: "science", val: 2000}
         ],
         effects:{
             "environmentUnhappiness" : -5,
@@ -1302,7 +1297,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.clearCutting.label"),
         description: $I("policy.clearCutting.desc"),
         prices: [
-            {name : "science", val: 2000}
+            {name: "science", val: 2000}
         ],
         effects:{
             "environmentUnhappiness" : -5,
@@ -1326,7 +1321,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.environmentalism.label"),
         description: $I("policy.environmentalism.desc"),
         prices: [
-            {name : "science", val: 2000}
+            {name: "science", val: 2000}
         ],
         effects:{
             "environmentHappinessBonus" : 5
@@ -1349,7 +1344,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.sustainability.label"),
         description: $I("policy.sustainability.desc"),
         prices: [
-            {name : "culture", val: 10000}
+            {name: "culture", val: 10000}
         ],
         effects:{
             "environmentUnhappinessModifier" : -1
@@ -1362,7 +1357,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.fullIndustrialization.label"),
         description: $I("policy.fullIndustrialization.desc"),
         prices: [
-            {name : "culture", val: 10000}
+            {name: "culture", val: 10000}
         ],
         effects:{
             "environmentFactoryCraftBonus" : 0.05
@@ -1375,7 +1370,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.conservation.label"),
         description: $I("policy.conservation.desc"),
         prices: [
-            {name : "culture", val: 10000}
+            {name: "culture", val: 10000}
         ],
         effects:{
             "environmentHappinessBonusModifier" : 1
@@ -1388,7 +1383,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.openWoodlands.label"),
         description: $I("policy.openWoodlands.desc"),
         prices: [
-            {name : "culture", val: 10000}
+            {name: "culture", val: 10000}
         ],
         effects:{
             "environmentMineralBonus" : 0.125,
@@ -1402,7 +1397,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.spaceBasedTerraforming.label"),
         description: $I("policy.spaceBasedTerraforming.desc"),
         prices: [
-            {name : "culture", val: 45000}
+            {name: "culture", val: 45000}
         ],
         effects:{
             "mysticismBonus" : 0.05
@@ -1415,7 +1410,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.clearSkies.label"),
         description: $I("policy.clearSkies.desc"),
         prices: [
-            {name : "culture", val: 45000}
+            {name: "culture", val: 45000}
         ],
         effects:{
             "mysticismBonus" : 0.05
@@ -1482,14 +1477,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 		return prices_result;
 	},
-    /*getEffect: function(effectName){
-        var effect = 0;
-        for (var i = 0; i < this.meta.length; i++){
-            var effectMeta = this.getMetaEffect(effectName, this.meta[i]);
-            effect += effectMeta;
-        }
-        return effect;
-    },*/
 	resetState: function(){
 		for (var i = 0; i < this.techs.length; i++){
 			var tech = this.techs[i];
@@ -1540,36 +1527,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		}
 		this.game.msg("All techs are unlocked!");
 	},
-    /*updateEffectCached: function() {
-        var effectsBase = this.effectsBase;
-        if (effectsBase){
-             effectsBase = this.game.resPool.addBarnWarehouseRatio(effectsBase);
-        }
-             
-        for (var name in this.effectsCachedExisting) {
-             // Add effect from meta
-             var effect = 0;
-             for (var i = 0; i < this.meta.length; i++){
-                var effectMeta = this.getMetaEffect(name, this.meta[i]);
-                effect += effectMeta;
-             }
-             
-             // Previously, catnip demand (or other buildings that both affect the same resource)
-             // could have theoretically had more than 100% reduction because they diminished separately,
-             // this takes the total effect and diminishes it as a whole.
-             if (this.game.isHyperbolic(name) && effect !== 0) {
-             effect = this.game.getHyperbolicEffect(effect, 1.0);
-             }
-             
-             // Add effect from effectsBase
-             if (effectsBase && effectsBase[name]) {
-             effect += effectsBase[name];
-             }
-             
-             // Add effect in globalEffectsCached, in addition of other managers
-             this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
-             }
-             }*/
 });
 
 //-------- Policy ----------
@@ -1641,7 +1598,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-        
+
 		var controller = new classes.ui.PolicyBtnController(this.game);
 		dojo.forEach(this.game.science.policies, function(policy, i){
 			var button = 

@@ -1448,9 +1448,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 	//function that applies discount to anything with a price. 
-	getPriceAdjustment: function(resName, prices, discount, theWholeBuilding = false/* If true, all costst of the thing will be decreased! resName would be irrelevant then*/){
+	getPriceAdjustment: function(prices, discount, resName = null){ //if you do not write resName, function discounts everything
 		for(var i = 0; i< prices.length; i++){
-			if ((prices[i].name==resName)||theWholeBuilding){
+             if ((!resName)||(prices[i].name==resName)){
 				prices[i].val*=(1-discount);
 			}
 		}

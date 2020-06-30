@@ -600,7 +600,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				}
 	
 				if (newKitten.isLeader){
-						this.game.village.leader = newKitten;
+                    this.game.village.leader = newKitten;
 				}
 				/*if (newKitten.isSenator){
 					this.game.village.senators.unshift(newKitten);
