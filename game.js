@@ -2856,7 +2856,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //communims
         if((game.getEffect("communismProductionBonus")>0)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
         stack.push({
-                name: $I("res.stack.communism"), //"res.stack.communism": "Communism bonus",
+                name: $I("res.stack.communism"),
                 type: "ratio",
                 value: game.getEffect("communismProductionBonus"),
                 });
@@ -2864,7 +2864,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //theocracy AKA cosmoliberalism
         if((game.getEffect("theocracyFaithProductionBonus")>0)&&(resName=="faith")){
         stack.push({
-                name: $I("res.stack.theocracy"), //    "res.stack.theocracy": "Order of The Stars bonus",
+                name: $I("res.stack.theocracy"),
                 type: "ratio",
                 value: game.getEffect("theocracyFaithProductionBonus"),
                 });
@@ -2872,7 +2872,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //expansionism AKA cosmoliberalism
         if((game.science.getPolicy("expansionism").researched)&&(resName=="unobtainium")){
         stack.push({
-                name: $I("res.stack.expansionism"), //    "res.stack.expansionism" : "Cosmoliberalism bonus"
+                name: $I("res.stack.expansionism"),
                 type: "ratio",
                 value: game.getEffect("expansionismUnobtainiumProductionBonus"),
                 });
@@ -2880,7 +2880,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //necrocracy
         if(game.science.getPolicy("necrocracy").researched){
         stack.push({
-                name: $I("res.stack.necrocracy"), //    "res.stack.necrocracy" : "BLS production bonus",
+                name: $I("res.stack.necrocracy"),
                 type: "ratio",
                 value: game.getEffect("blsProductionBonus")*game.resPool.get("sorrow").value,
                 });
@@ -2888,7 +2888,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //zebra appeasement
         if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(resName=="gold")){
         stack.push({
-                name: $I("res.stack.zebraRelationsAppeasementPenalty"), //        "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
+                name: $I("res.stack.zebraRelationsAppeasementPenalty"),
                 type: "ratio",
                 value: -game.getEffect("zebraAppeasedGoldPenalty"),
                 });
@@ -2896,7 +2896,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         //knowledge sharing
         if((game.science.getPolicy("knowledgeSharing").researched)&&(resName=="science")){
         stack.push({
-                name: $I("res.stack.sharedKnowledge"), //        "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
+                name: $I("res.stack.sharedKnowledge"), 
                 type: "ratio",
                 value: game.getEffect("sharedKnowledgeBonus"),
                 });
