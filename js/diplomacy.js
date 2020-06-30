@@ -243,7 +243,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		var relationBoost =game.getEffect("tradeRelationBoost");//relationBoost from liberalism!
+		var relationBoost = 0; //relationBoost from liberalism!
+        relationBoost = game.getEffect("tradeRelationBoost");
 		return !(sell.minLevel && (race.embassyLevel+relationBoost) < sell.minLevel)
 			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
 	},
@@ -277,8 +278,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (!zebras.unlocked && this.game.resPool.get("ship").value >= 1){
 			zebras.unlocked = true;
 			this.game.workshop.get("caravanserai").unlocked = true;
-            this.game.science.getPolicy("zebraRelationsAppeasement").unlocked=true;
-            this.game.science.getPolicy("zebraRelationsBellicosity").unlocked=true;
+            game.science.getPolicy("zebraRelationsAppeasement").unlocked=true;
+            game.science.getPolicy("zebraRelationsBellicosity").unlocked=true;
 			return zebras;
 		}
 
@@ -391,7 +392,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			
-			var relationBoost = game.getEffect("tradeRelationBoost"); // from liberalism
+			var relationBoost = 0; //relationBoost from liberalism!
+            relationBoost = game.getEffect("tradeRelationBoost");
 			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getHyperbolicEffect((race.embassyLevel+relationBoost) * embassyEffect, 0.75) : 0));
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
@@ -410,7 +412,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var relationBoost = 0; //relationBoost from liberalism!
         relationBoost = game.getEffect("tradeRelationBoost");
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ? (race.embassyLevel+relationBoost) * embassyEffect : 0)));
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  (race.embassyLevel+relationBoost) * embassyEffect : 0)));
 		boughtResources["spice"] = 25 * spiceTradeAmount + 50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
 
 		//-------------- 10% chance to get blueprint ---------------
@@ -448,8 +450,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		//-------------- pay prices ------------------
-        var manpowerCost = Math.max(0.0000001, 50 - game.getEffect("tradeCatpowerDiscount"));
-        var goldCost = Math.max(0.0000001, 15 - game.getEffect("tradeGoldDiscount"));
+        var manpowerCost = 50 - game.getEffect("culturalExchangeBonus")||0;
+        var goldCost = 15 - game.getEffect("tradeGoldDiscount")||0;
 		this.game.resPool.addResEvent("manpower", -manpowerCost * amt);
 		this.game.resPool.addResEvent("gold", -goldCost * amt);
 		this.game.resPool.addResEvent(race.buys[0].name, -race.buys[0].val * amt);
@@ -498,11 +500,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 
 	getMaxTradeAmt: function(race){
-        var manpowerCost = Math.max(0.0000001, 50 - game.getEffect("tradeCatpowerDiscount")); //dividing by zero would be also bad
-        var goldCost = Math.max(0.0000001, 15 - game.getEffect("tradeGoldDiscount"));
+        var manpowerCost = 50;
+        var goldCost = 15;
 		var amt = [
-			Math.floor(this.game.resPool.get("gold").value / manpowerCost, 1)),
-			Math.floor(this.game.resPool.get("manpower").value / goldCost||0, 1)),
+			Math.floor(this.game.resPool.get("gold").value / Math.max(15-game.getEffect("catpowerCostReduction")||0, 1)),
+			Math.floor(this.game.resPool.get("manpower").value / Math.max(50-game.getEffect("tradeGoldDiscount")||0, 1)),
 			Math.floor(this.game.resPool.get(race.buys[0].name).value / race.buys[0].val)
 		];
 
@@ -564,7 +566,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         if(race.name=="zebras"){
              standingFromPolicies+=(game.getEffect("zebraRelationModifier")*0.0035);
         }
-        else{
+        if(race.name!="zebras"){
              standingFromPolicies+=(game.getEffect("nonZebraRelationModifier")*0.0035);
         }
         standingFromPolicies+=(game.getEffect("spaceRelationsBonus")*0.0035);
@@ -845,10 +847,10 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 
 	getPrices: function(model) {
 		var prices = dojo.clone(this.inherited(arguments));
-        var priceCoefficient = 1;
-        priceCoefficient -= game.getEffect("embassyCostReduction")||0;
+        var priceCoeficient = 1;
+        priceCoeficient -= game.getEffect("embassyCostReduction")||0;
 		for (var i = 0; i < prices.length; i++) {
-			prices[i].val = prices[i].val * priceCoefficient * Math.pow(1.15, model.options.race.embassyLevel)
+			prices[i].val = prices[i].val * priceCoeficient * Math.pow(1.15, model.options.race.embassyLevel)
 		}
 		return prices;
 	},
@@ -1036,10 +1038,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 						innerHTML: "<span class='sells'></span>" + (titanium.title || titanium.name) + " <span class='tradeAmount'>" + displayedVal + " - " + displayedVal + "</span>"
 					}, leftColumn);
 			}
-             
-            var manpowerCost = Math.max(0.0000001, 50 - game.getEffect("tradeCatpowerDiscount")); //dividing by zero would be also bad
-            var goldCost = Math.max(0.0000001, 15 - game.getEffect("tradeGoldDiscount"));
-			var tradePrices = [{ name: "manpower", val: manpowerCost}, { name: "gold", val: goldCost}];
+
+			var tradePrices = [{ name: "manpower", val: 50}, { name: "gold", val: 15}];
+             tradePrices[0].val -= this.game.getEffect("tradeCatpowerDiscount");
+             tradePrices[1].val -= this.game.getEffect("tradeGoldDiscount");
 			tradePrices = tradePrices.concat(race.buys);
 
 			var tradeBtn = new com.nuclearunicorn.game.ui.TradeButton({
