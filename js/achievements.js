@@ -120,7 +120,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: $I("achievements.sunGod.title"),
             description: $I("achievements.sunGod.desc"),
             condition: function () {
-                return ( this.game.religion.faith >= 696342 );
+                return ( this.game.resPool.get("worship").value >= 696342 );
             }
         }, {
             name: "heartOfDarkness",

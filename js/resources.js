@@ -143,6 +143,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "gray",
 		calculatePerTick: true
 	},{
+		name : "worship",
+		title: $I("resources.worship.title"),
+		type : "common",
+		visible: false,
+		color: "gray",
+		persists: true
+	},{
 		name : "kittens",
 		title: $I("resources.kittens.title"),
 		type : "common",
