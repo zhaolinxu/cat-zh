@@ -144,8 +144,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 0.05,
 				"autumn": 0.15,
 				"winter": -0.05
-			},
-			{name: "oil", value: 100, chance: 0.25, width: 0.15, minLevel: 5}}
+			}},
+			{name: "oil", value: 100, chance: 0.25, width: 0.15, minLevel: 5}
 		],
 		collapsed: false
 	},{
