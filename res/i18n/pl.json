@@ -1378,7 +1378,7 @@
     "calendar.msg.alicorn":"Alicorn zstąpił z nieba!",
     "calendar.msg.ivoryMeteor": "Meteoryt z koścmi spadł w pobliżu wioski, + {0} kości!",
     "time.reset.desc": "Zresetuj oś czasu.",
-    "time.reset.instructional": "Zresetowanie osi czasu rozpocznie grę od zera. Zachowasz wszystkie statystyki i osiągnięcia. Możesz otrzymać różne bonusy do gry. <br> Resetowanie w tym momencie da ci:",
+    "time.reset.instructional": "Zresetowanie osi czasu rozpocznie grę od zera. Zachowasz wszystkie statystyki i osiągnięcia. Możesz otrzymać różne bonusy do gry.<br><br>Resetowanie w tym momencie da ci:",
     "time.reset.karma":"Punkty Karma",
     "time.reset.paragon":"Punkty Paragon" ,
     "time.reset.zebra":"Myśliwi Zebra",
