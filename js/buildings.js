@@ -1829,20 +1829,22 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
         }
     },
 
-	getAutoProductionRatio: function(){
+	getAutoProductionRatio: function() {
 		var autoProdRatio = 1;
-		//	faith
-			autoProdRatio *= ( 1 + this.game.religion.getProductionBonus() / 100);
+
+		//	Solar Revolution
+		autoProdRatio *= 1 + this.game.religion.getSolarRevolutionRatio();
+
 		//	SW
 		var steamworks = this.get("steamworks");
 		var swRatio = steamworks.on > 0 ? (1+ steamworks.effects["magnetoBoostRatio"] * this.get("steamworks").on) : 1;
-			autoProdRatio *= (1 + this.game.getEffect("magnetoRatio") * swRatio);
+		autoProdRatio *= 1 + this.game.getEffect("magnetoRatio") * swRatio;
 
 		// paragon (25%)
-			autoProdRatio *= (1 + this.game.prestige.getParagonProductionRatio() * 0.25);
+		autoProdRatio *= 1 + this.game.prestige.getParagonProductionRatio() * 0.25;
 
 		// reactors
-			autoProdRatio *= (1 + this.game.getEffect("productionRatio"));
+		autoProdRatio *= 1 + this.game.getEffect("productionRatio");
 
 		return autoProdRatio;
 		//This function must stay atm for Steel Plants

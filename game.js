@@ -728,6 +728,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "solarRevolutionLimit" : {
+                title: $I("effectsMgr.statics.solarRevolutionLimit.title"),
+                type: "ratio"
+            },
+
 			"relicRefineRatio" :  {
                 title: $I("effectsMgr.statics.relicRefineRatio.title"),
                 type: "ratio"
@@ -2324,7 +2329,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + (this.religion.getProductionBonus() / 100);
+		perTick *= 1 + this.religion.getSolarRevolutionRatio();
 
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2332,7 +2337,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
 
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
@@ -2563,9 +2568,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +*FAITH BONUS
 		stack.push({
-			name: $I("res.stack.faith"),
+			name: $I("res.stack.solarRevolution"),
 			type: "ratio",
-			value: this.religion.getProductionBonus() / 100
+			value: this.religion.getSolarRevolutionRatio()
 		});
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2577,7 +2582,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
 
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({

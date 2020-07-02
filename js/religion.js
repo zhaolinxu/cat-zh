@@ -601,7 +601,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		tier: 1,
 		priceRatio: 1.15,
-		effects: {},
+		effects: {
+			"solarRevolutionLimit": 0.05
+		},
 		unlocked: false,
 		flavor: $I("religion.tu.blackObelisk.flavor")
 	},{
@@ -741,13 +743,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		return this.getMeta(name, this.transcendenceUpgrades);
 	},
 
-	getProductionBonus: function(){
-		var rate = this.getRU("solarRevolution").on ? this.game.getTriValue(this.game.resPool.get("worship").value, 1000) : 0;
-		//Solar Revolution capped to 1000% so it doesn't become game-breaking
-		var atheismBonus = this.game.challenges.getChallenge("atheism").researched ? this.getTranscendenceLevel() * 0.1 : 0;
-		var blackObeliskBonus = this.getTranscendenceLevel() * this.getTU("blackObelisk").val * 0.005;
-		rate = this.game.getHyperbolicEffect(rate, 1000) * (1 + atheismBonus + blackObeliskBonus);
-		return rate;
+	getSolarRevolutionRatio: function() {
+		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getTriValue(this.game.resPool.get("worship").value, 1000) / 100 : 0;
+		return this.game.getHyperbolicEffect(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") * this.getTranscendenceLevel());
 	},
 
 	getApocryphaBonus: function(){
@@ -1317,9 +1315,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				this.faithCount.innerHTML = "";
 			}
 
-			var bonus = religion.getProductionBonus();
+			var bonus = religion.getSolarRevolutionRatio();
 			if (bonus != 0) {
-				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(bonus) + "% " + $I("religion.faithCount.bonus") + ")" );
+				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(100 * bonus) + "% " + $I("religion.faithCount.bonus") + ")" );
 			}
 
 			if (religion.getRU("apocripha").on){

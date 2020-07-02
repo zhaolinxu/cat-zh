@@ -42,6 +42,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.atheism.label"),
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
+		effects: {
+			"solarRevolutionLimit": 1
+		},
         researched: false,
         unlocked: false
 	},{
