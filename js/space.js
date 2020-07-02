@@ -254,7 +254,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
                 policies:["outerSpaceTreaty","militarizeSpace"]
             },
 			calculateEffects: function(self, game){
-                var observatoryRatioTemp = 0.05 * (1+game.getEffect("sateliteSynergyBonus")||0);
+                var observatoryRatioTemp = 0.05 * (1+game.getEffect("satelliteSynergyBonus")||0);
 				self.effects = {
 					"observatoryRatio": observatoryRatioTemp,
 					"starchartPerTickBaseSpace": 0.001,

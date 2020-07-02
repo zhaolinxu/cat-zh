@@ -1206,7 +1206,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "sateliteSynergyBonus" : 0.1
+            "satelliteSynergyBonus" : 0.1
         },
         unlocked: false,
         blocked: false,

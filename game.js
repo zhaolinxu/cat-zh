@@ -1116,8 +1116,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.onAHillCultureCap.title"),
                 type: "ratio"
             },
-            "sateliteSynergyBonus":{
-                title: $I("effectsMgr.statics.sateliteSynergyBonus.title"),
+            "satelliteSynergyBonus":{
+                title: $I("effectsMgr.statics.satelliteSynergyBonus.title"),
                 type: "ratio"
             },
             "spaceRelationsBonus":{
