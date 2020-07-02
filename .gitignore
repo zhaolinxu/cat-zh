@@ -1,6 +1,7 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+.gitignore
 
 *.rej
 /.idea/
