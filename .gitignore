@@ -3,5 +3,6 @@
 /workspace.xml
 
 /.idea/
+/res/i18n/*.rej
 /res/i18n/revised/
 /res/i18n/wiki/
