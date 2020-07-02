@@ -219,6 +219,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	seasonsPerYear: null,
 	yearsPerCycle: null,
 	cyclesPerEra: null,
+	darkFutureBeginning: 40000,
 
 	season: 0,
 	cycle: 0,
@@ -354,8 +355,8 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	},
 
 	darkFutureYears: function(withImpedance) {
-		var impedance = withImpedance ? this.game.getEffect("timeImpedance") : 0;
-		return this.year - (40000 + impedance);
+		var darkFutureActualBeginning = this.darkFutureBeginning + (withImpedance ? this.game.getEffect("timeImpedance") : 0);
+		return this.year - darkFutureActualBeginning;
 	},
 
 	tick: function() {

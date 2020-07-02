@@ -780,7 +780,7 @@
     "workshop.factoryRobotics.label": "Фабричная робототехника",
     "workshop.spaceEngineers.desc": "Увеличивает эффективность инженеров.",
     "workshop.spaceEngineers.label": "Космические инженеры",
-    "workshop.chronoEngineers.desc": "Увеличивает эффективность инженеров.",
+    "workshop.chronoEngineers.desc": "Увеличивает эффективность инженеров и они работают во время пропуска времени",
     "workshop.chronoEngineers.label": "Хроноинженеры",
     "workshop.spaceManufacturing.desc": "Фабрики дают бонус космическим лифтам и орбитальным поясам.",
     "workshop.spaceManufacturing.label": "Космическое Производство",

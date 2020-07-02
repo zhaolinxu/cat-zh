@@ -120,7 +120,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             title: $I("achievements.sunGod.title"),
             description: $I("achievements.sunGod.desc"),
             condition: function () {
-                return ( this.game.religion.faith >= 696342 );
+                return ( this.game.resPool.get("worship").value >= 696342 );
             }
         }, {
             name: "heartOfDarkness",
@@ -194,10 +194,10 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             description: $I("achievements.cathammer.desc"),
             starDescription: $I("achievements.cathammer.starDesc"),
             condition: function () {
-                return this.game.stats.getStat("totalYears").val >= 40000;
+                return this.game.stats.getStat("totalYears").val >= this.game.calendar.darkFutureBeginning;
             },
             starCondition: function () {
-                return (this.game.calendar.trueYear() >= 40000);
+                return (this.game.calendar.trueYear() >= this.game.calendar.darkFutureBeginning);
             },
     }],
 
