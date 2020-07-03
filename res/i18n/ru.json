@@ -1182,7 +1182,6 @@
     "religion.refineTCsBtn.label": "Преобразовать кристаллы времени",
     "religion.refineTCsBtn.desc": "Преобразовать кристаллы времени в древние реликвии.",
     "religion.refineTCsBtn.refine.msg": "{0} кристаллы времени преобразованы, реликвий создано - {1}",
-    "religion.faithResetBtn.label": "[Сброс Веру]",
     "religion.praiseBtn.label": "Восхвалим Солнце!",
     "religion.praiseBtn.desc": "Собрать текущую веру.",
     "religion.transcendBtn.label": "Взойти",

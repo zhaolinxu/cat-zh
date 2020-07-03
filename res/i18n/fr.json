@@ -1186,7 +1186,6 @@
     "religion.refineTCsBtn.label": "Raffiner les cristaux temporels",
     "religion.refineTCsBtn.desc": "Raffine les cristaux temporels en reliques des Anciens.",
     "religion.refineTCsBtn.refine.msg": "{0} cristaux temporels raffinés, {1} reliques fabriquées",
-    "religion.faithResetBtn.label": "[Faith Reset]",
     "religion.praiseBtn.label": "Prière au soleil",
     "religion.praiseBtn.desc": "Convert all your accumulated faith to the total pool",
     "religion.transcendBtn.label": "Transcender",

@@ -598,9 +598,10 @@
     "prestige.zebraDiplomacy.label": "Zebra Diplomacy",
     "prestige.zebraDiplomacy.desc": "Some zebras hunters will stay in the village. (You need to unlock zebra hunters first to use this upgrade).",
 
+    "religion.adoreBtn.label": "Adore the galaxy",
+    "religion.adoreBtn.desc": "Former [Faith Reset]",
     "religion.faithCount.bonus": "bonus",
     "religion.faithCount.pool": "Accumulated faith: {0}",
-    "religion.faithResetBtn.label": "[Faith Reset]",
     "religion.msg.corruption": "Your alicorn was corrupted by the markers!",
     "religion.panel.cryptotheology.label": "Cryptotheology",
     "religion.panel.orderOfTheSun.label": "Order of the Sun",

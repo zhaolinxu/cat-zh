@@ -1182,7 +1182,6 @@
     "religion.refineTCsBtn.label": "Rafinovat Časové Krystaly",
     "religion.refineTCsBtn.desc": "Rafinovat Časové Krystaly do prastarých Relikvijí.",
     "religion.refineTCsBtn.refine.msg": "{0} časové krystaly rafinovaný, {1} relikvijí vyrobeno",
-    "religion.faithResetBtn.label": "[Resetovat víru]",
     "religion.praiseBtn.label": "Modlit se ke slunci!",
     "religion.praiseBtn.desc": "Převést všechnu víru do nahromaděných zásob",
     "religion.transcendBtn.label": "Transcendovat",

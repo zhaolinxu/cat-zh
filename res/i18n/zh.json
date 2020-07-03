@@ -1182,7 +1182,6 @@
     "religion.refineTCsBtn.label": "精炼时间水晶",
     "religion.refineTCsBtn.desc": "将时间水晶精炼为上古遗物",
     "religion.refineTCsBtn.refine.msg": "精炼了 {0} 颗时间水晶，得到了 {1} 份遗物",
-    "religion.faithResetBtn.label": "[重置信仰池]",
     "religion.praiseBtn.label": "赞美太阳!",
     "religion.praiseBtn.desc": "将积累的信仰转换进入信仰总量",
     "religion.transcendBtn.label": "次元超越",
