@@ -2320,7 +2320,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
-			perTick *= (1 + this.getCMBRBonus());
+			perTick *= 1 + this.getCMBRBonus();
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
@@ -2685,13 +2685,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return stack;
 	},
 
-	//CMBR is capped by 20%
-
-	getCMBRBonus: function(){
-		if (this.isCMBREnabled) {
-			return this.getLimitedDR(1.0, 0.2);
-		}
-		return 0;
+	getCMBRBonus: function() {
+		return this.isCMBREnabled ? 0.2 : 0;
 	},
 
 	getCraftRatio: function(tag) {
