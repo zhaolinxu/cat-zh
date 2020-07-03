@@ -3532,29 +3532,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
 
-		//TODO: use persists flag
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "gflops", "hashrates"];
-
-
 		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		var fluxCondensator = this.workshop.get("fluxCondensator");
-		for (var i in this.resPool.resources){
+		for (var i in this.resPool.resources) {
 			var res = this.resPool.resources[i];
 
-			if ((res.craftable && res.name != "wood" && !fluxCondensator.researched) ||
-				dojo.indexOf(ignoreResources, res.name) >= 0){
+			// undefined is NOT falsy here
+			if (res.persists === false
+			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
 				continue;	//>:
 			}
 			var value = 0;
 
-			if (res.name == "timeCrystal"){
-				if (anachronomancy.researched){
+			if (res.name == "timeCrystal") {
+				if (anachronomancy.researched) {
 					value = res.value;
 				}
-			} else if (res.persists){
+			} else if (res.persists) {
 				value = res.value;
 			} else {
-				if (!res.craftable || res.name == "wood"){
+				if (!res.craftable || res.name == "wood") {
 					value = res.value * saveRatio;
 					if (res.name == "void") {
 						value = Math.floor(value);
@@ -3564,11 +3561,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			if (addRes[res.name] > 0){
+			if (addRes[res.name] > 0) {
 				value += addRes[res.name];
 			}
 
-			if (value > 0){
+			if (value > 0) {
 				var newRes = this.resPool.createResource(res.name);
 				newRes.value = value;
 				newResources.push(newRes);
