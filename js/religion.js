@@ -604,6 +604,9 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"solarRevolutionLimit": 0.05
 		},
+		calculateEffects: function(self, game) {
+			self.effects["solarRevolutionLimit"] = 0.05 * game.religion.getTranscendenceLevel();
+		},
 		unlocked: false,
 		flavor: $I("religion.tu.blackObelisk.flavor")
 	},{
@@ -745,7 +748,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getSolarRevolutionRatio: function() {
 		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getTriValue(this.game.resPool.get("worship").value, 1000) / 100 : 0;
-		return this.game.getHyperbolicEffect(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") * this.getTranscendenceLevel());
+		return this.game.getHyperbolicEffect(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
 	},
 
 	getApocryphaBonus: function(){
@@ -786,6 +789,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				religion.faithRatio -= needNextLevel;
 				religion.tcratio += needNextLevel;
 				religion.tclevel += 1;
+
+				var atheism = game.challenges.getChallenge("atheism");
+				atheism.calculateEffects(atheism, game);
+				var blackObelisk = religion.getTU("blackObelisk");
+				blackObelisk.calculateEffects(blackObelisk, game);
+
 				game.msg($I("religion.transcend.msg.success", [religion.tclevel]));
 			} else {
 				var progressPercentage = game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);

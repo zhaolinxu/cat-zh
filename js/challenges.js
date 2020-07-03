@@ -45,6 +45,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effects: {
 			"solarRevolutionLimit": 1
 		},
+		calculateEffects: function(self, game) {
+			self.effects["solarRevolutionLimit"] = game.religion.getTranscendenceLevel();
+		},
         researched: false,
         unlocked: false
 	},{
