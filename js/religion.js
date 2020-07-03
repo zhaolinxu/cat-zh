@@ -5,7 +5,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	game: null,
 
-	faithRatio : 0,
 	tcratio: 0,
 	corruption: 0,
 
@@ -21,7 +20,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	resetState: function(){
 		this.corruption = 0;
-		this.faithRatio = 0;
 		this.tcratio = 0;
 
 		for (var i = 0; i < this.zigguratUpgrades.length; i++){
@@ -47,7 +45,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			// Duplicated save, for older versions like mobile
 			faith: this.game.resPool.get("worship").value,
 			corruption: this.corruption,
-			faithRatio: this.faithRatio,
+			// Duplicated save, for older versions like mobile
+			faithRatio: this.game.resPool.get("epiphany").value,
 			tcratio: this.tcratio,
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
@@ -60,11 +59,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			return;
 		}
 
-		if (!this.game.resPool.get("worship").unlocked) {
+		// Read old save
+		if (this.game.resPool.get("worship").value <= 0) {
 			this.game.resPool.get("worship").value = saveData.religion.faith || 0;
 		}
 		this.corruption = saveData.religion.corruption || 0;
-		this.faithRatio = saveData.religion.faithRatio || 0;
+		// Read old save
+		if (this.game.resPool.get("epiphany").value <= 0) {
+			this.game.resPool.get("epiphany").value = saveData.religion.faithRatio || 0;
+		}
 		this.tcratio = saveData.religion.tcratio || 0;
 		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
 		this.loadMetadata(this.religionUpgrades, saveData.religion.ru);
@@ -752,7 +755,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getApocryphaBonus: function(){
-		return this.getTriValueReligion(this.faithRatio);
+		return this.getTriValueReligion(this.game.resPool.get("epiphany").value);
 	},
 
 	getTriValueReligion: function(ratio){
@@ -784,10 +787,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		game.ui.confirm($I("religion.transcend.confirmation.title"), $I("religion.transcend.confirmation.msg"), function() {
 			var tclevel = religion.getTranscendenceLevel();
 			//Transcend one Level at a time
-			var needNextLevel = religion.getTranscendenceRatio(tclevel+1) - religion.getTranscendenceRatio(tclevel);
-			if (religion.faithRatio > needNextLevel) {
-				religion.faithRatio -= needNextLevel;
-				religion.tcratio += needNextLevel;
+			var epiphanyPrice = religion.getTranscendenceRatio(tclevel + 1) - religion.getTranscendenceRatio(tclevel);
+			if (epiphanyPrice <= game.resPool.get("epiphany").value) {
+				game.resPool.addResEvent("epiphany", -epiphanyPrice);
+				religion.tcratio += epiphanyPrice;
 				religion.tclevel += 1;
 
 				var atheism = game.challenges.getChallenge("atheism");
@@ -797,8 +800,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 				game.msg($I("religion.transcend.msg.success", [religion.tclevel]));
 			} else {
-				var progressPercentage = game.toDisplayPercentage(religion.faithRatio / needNextLevel, 2, true);
-				var leftNumber = (religion.faithRatio / needNextLevel) * (religion.tclevel + 1) - 1;
+				var progressPercentage = game.toDisplayPercentage(game.resPool.get("epiphany").value / epiphanyPrice, 2, true);
+				var leftNumber = (game.resPool.get("epiphany").value / epiphanyPrice) * (religion.tclevel + 1) - 1;
 				if (leftNumber < 0) {
 					leftNumber = 0;
 				}
@@ -920,8 +923,8 @@ dojo.declare("classes.ui.TranscendenceBtnController", com.nuclearunicorn.game.ui
 
 dojo.declare("com.nuclearunicorn.game.ui.PraiseBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	getName: function(model) {
-		if (this.game.religion.faithRatio > 0){
-			return model.options.name + " [" + this.game.getDisplayValueExt(this.game.religion.getApocryphaBonus()*100, true, false, 3) + "%]";
+		if (this.game.resPool.get("epiphany").value > 0) {
+			return model.options.name + " [" + this.game.getDisplayValueExt(100 * this.game.religion.getApocryphaBonus(), true, false, 3) + "%]";
 		} else {
 			return model.options.name;
 		}
@@ -1355,8 +1358,8 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 		}
 	},
 
-    resetFaithInternal: function(bonusRatio){
-        this.game.religion.faithRatio += this.game.religion.getApocryphaResetBonus(bonusRatio);
-        this.game.resPool.get("worship").value = 0.01;
-    }
+	resetFaithInternal: function(bonusRatio) {
+		this.game.resPool.addResEvent("epiphany", this.game.religion.getApocryphaResetBonus(bonusRatio));
+		this.game.resPool.get("worship").value = 0.01;
+	}
 });

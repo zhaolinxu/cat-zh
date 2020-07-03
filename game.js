@@ -3500,10 +3500,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaZebras += bonusZebras;
 		}
 
-		var faithRatio = this.religion.faithRatio;
 		//pre-reset faith so people who forgot to do it properly would not be screwed
-		if (this.religion.getRU("apocripha").on){
-			faithRatio += this.religion.getApocryphaResetBonus(1);
+		if (this.religion.getRU("apocripha").on) {
+			this.religionTab.resetFaithInternal(1);
 		}
 		//------------------------------------------------------------------------------------------------------
 
@@ -3611,7 +3610,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks
 			},
 			religion: {
-				faithRatio: faithRatio,
 				tcratio: this.religion.tcratio,
 				zu: [],
 				ru: [],
@@ -3938,13 +3936,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 
 			case "Apocrypha":
-				if(this.religion.faithRatio > 10) {
-					var amt = 4 * Math.min(this.religion.faithRatio, 1000);
-				} else {
-					var amt = 5;
-				}
+				var amt = this.game.resPool.get("epiphany").value > 10
+					? 4 * Math.min(this.game.resPool.get("epiphany").value, 1000)
+					: 5;
 				var pre = this.religion.getApocryphaBonus();
-				this.religion.faithRatio += amt;
+				this.game.resPool.addResEvent("epiphany", amt);
 				var post = this.religion.getApocryphaBonus();
 				var apocryphaGained = (post-pre)*100;
 				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
