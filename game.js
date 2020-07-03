@@ -2100,11 +2100,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 12) {
 			if (save.religion && save.religion.tcratio && save.religion.tu) {
-				var transcendenceLevel = this.religion.getTriValueReligion(save.religion.tcratio) * 100;
-				transcendenceLevel = Math.round(Math.log(transcendenceLevel));
-					if (transcendenceLevel < 0) {
-						transcendenceLevel = 0;
-					}
+				var transcendenceLevel = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(save.religion.tcratio, 0.1))));
 				for (var i = 0; i < save.religion.tu.length; i++) {
 					if (transcendenceLevel >= this.religion.getTU(save.religion.tu[i].name).tier) {
 						save.religion.tu[i].unlocked = true;
@@ -3669,7 +3665,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//Karma has no menu. You get served what you deserve.
 	updateKarma: function(){
 		var stripe = 5;	//initial amount of kittens per stripe
-		var karma = this.getTriValue(this.karmaKittens, stripe);
+		var karma = this.getUnlimitedDR(this.karmaKittens, stripe);
 
 		this.resPool.get("karma").value = karma;
 
@@ -3678,12 +3674,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	getTriValue: function(value, stripe){
-		return (Math.sqrt(1+8 * value / stripe)-1)/2;
+	// Unlimited Diminishing Return
+	getUnlimitedDR: function(value, stripe) {
+		return (Math.sqrt(1 + 8 * value / stripe) - 1) / 2;
 	},
 
-	getTriValueOrigin: function(value, stripe) {
-		return (Math.pow(value * 2 + 1, 2) - 1) * stripe / 8;
+	getInverseUnlimitedDR: function(value, stripe) {
+		return value * (value + 1) * stripe / 2;
 	},
 
 	getTab: function(name) {
@@ -3904,7 +3901,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 5000;
 				}
-				var karmaGained = this.getTriValue(this.karmaKittens + amt, 5) - this.getTriValue(this.karmaKittens, 5);
+				var karmaGained = this.getUnlimitedDR(this.karmaKittens + amt, 5) - this.getUnlimitedDR(this.karmaKittens, 5);
 				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
 				this.karmaKittens += amt;
 				break;

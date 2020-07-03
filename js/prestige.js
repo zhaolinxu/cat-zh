@@ -484,7 +484,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
     },
 
 	getBurnedParagonRatio: function(){
-		return this.game.getTriValue(this.game.resPool.get("burnedParagon").value, 500);
+		return this.game.getUnlimitedDR(this.game.resPool.get("burnedParagon").value, 500);
 	},
 
 	getParagonProductionRatio: function(){

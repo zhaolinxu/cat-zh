@@ -592,8 +592,8 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}
 
 		if (res.name == "karma"){
-			this.game.karmaKittens = Math.round(this.game.getTriValueOrigin(res.value, 5));
-			res.value = this.game.getTriValue(this.game.karmaKittens, 5);
+			this.game.karmaKittens = Math.round(this.game.getInverseUnlimitedDR(res.value, 5));
+			res.value = this.game.getUnlimitedDR(this.game.karmaKittens, 5);
 		}
 
 		return res.value - prevValue;

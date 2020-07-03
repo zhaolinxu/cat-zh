@@ -49,7 +49,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.game.resPool.get("epiphany").value,
 			transcendenceTier: this.transcendenceTier,
 			// Duplicated save, for older versions like mobile
-			tcratio: this.game.getTriValueOrigin(Math.exp(this.transcendenceTier) / 10, 0.1),
+			tcratio: this._getEpiphanyTotalPrice(this.transcendenceTier),
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
 			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -73,7 +73,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.transcendenceTier = saveData.religion.transcendenceTier || 0;
 		// Read old save
 		if (this.transcendenceTier == 0 && saveData.religion.tcratio > 0) {
-			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getTriValue(saveData.religion.tcratio, 0.1))));
+			this.transcendenceTier = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(saveData.religion.tcratio, 0.1))));
 		}
 
 		this.loadMetadata(this.zigguratUpgrades, saveData.religion.zu);
@@ -755,16 +755,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getSolarRevolutionRatio: function() {
-		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getTriValue(this.game.resPool.get("worship").value, 1000) / 100 : 0;
+		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.game.resPool.get("worship").value, 1000) / 100 : 0;
 		return this.game.getHyperbolicEffect(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
 	},
 
 	getApocryphaBonus: function(){
-		return this.getTriValueReligion(this.game.resPool.get("epiphany").value);
-	},
-
-	getTriValueReligion: function(ratio){
-		return this.game.getTriValue(ratio, 0.1)*0.1;
+		return 0.1 * this.game.getUnlimitedDR(this.game.resPool.get("epiphany").value, 0.1);
 	},
 
 	praise: function(){
@@ -791,7 +787,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		var game = this.game;
 		game.ui.confirm($I("religion.transcend.confirmation.title"), $I("religion.transcend.confirmation.msg"), function() {
 			//Transcend one Level at a time
-			var epiphanyPrice = religion._getTranscendenceRatio(religion.transcendenceTier + 1) - religion._getTranscendenceRatio(religion.transcendenceTier);
+			var epiphanyPrice = religion._getEpiphanyTotalPrice(religion.transcendenceTier + 1) - religion._getEpiphanyTotalPrice(religion.transcendenceTier);
 			if (epiphanyPrice <= game.resPool.get("epiphany").value) {
 				game.resPool.addResEvent("epiphany", -epiphanyPrice);
 				religion.transcendenceTier += 1;
@@ -808,8 +804,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		});
 	},
 
-	_getTranscendenceRatio: function(tier) {
-		return this.game.getTriValueOrigin(Math.exp(tier) / 10, 0.1);
+	_getEpiphanyTotalPrice: function(tier) {
+		return this.game.getInverseUnlimitedDR(Math.exp(tier) / 10, 0.1);
 	},
 
 	unlockAll: function(){
