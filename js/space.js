@@ -1159,7 +1159,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
 			}
 		}
@@ -1246,7 +1246,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
              } else {
                 prices[i].val = prices[i].val * Math.pow(1.05, meta.val);
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
 		}

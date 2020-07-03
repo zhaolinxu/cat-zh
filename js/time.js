@@ -850,7 +850,7 @@ dojo.declare("classes.ui.time.VoidSpaceBtnController", com.nuclearunicorn.game.u
 		if (model.metadata.name == "cryochambers") {
 			for (var i = 0; i < prices.length; i++) {
 				if (prices[i].name == "karma") {
-					prices[i].val -= prices[i].val * this.game.getHyperbolicEffect(0.01 * this.game.prestige.getBurnedParagonRatio(), 1.0);
+					prices[i].val -= prices[i].val * this.game.getLimitedDR(0.01 * this.game.prestige.getBurnedParagonRatio(), 1);
 				}
 			}
 		}

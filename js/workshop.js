@@ -2208,7 +2208,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart") {
-				prices[i].val = prices[i].val * (1 - this.game.getHyperbolicEffect(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
+				prices[i].val = prices[i].val * (1 - this.game.getLimitedDR(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
 			}
 		}
 		return prices;

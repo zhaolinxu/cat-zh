@@ -1324,9 +1324,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.updateResources();
 	},
 
-	// Returns a parabolic-approaching value of the effect that heads to the limit, but unable to approach it completely
-	// Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
-	getHyperbolicEffect: function(effect, limit){
+	// Unlimited Diminishing Return
+	getLimitedDR: function(effect, limit) {
 		var absEffect = Math.abs(effect);
 
 		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
@@ -1346,14 +1345,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var totalEffect = maxUndiminished+diminishedEffect;
 
 		return effect < 0 ? -totalEffect : totalEffect;
-	},
-
-	isHyperbolic: function(name) {
-		return (name == "catnipDemandRatio" ||
-			name == "fursDemandRatio" ||
-			name == "ivoryDemandRatio" ||
-			name == "spiceDemandRatio" ||
-			name == "unhappinessRatio");
 	},
 
 	/**
@@ -2698,7 +2689,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 	getCMBRBonus: function(){
 		if (this.isCMBREnabled) {
-			return this.getHyperbolicEffect(1.0, 0.2);
+			return this.getLimitedDR(1.0, 0.2);
 		}
 		return 0;
 	},
@@ -3437,7 +3428,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
+		bonusZebras += Math.floor(this.getLimitedDR(totalScience / 10000, 100));
 		return bonusZebras;
 	},
 

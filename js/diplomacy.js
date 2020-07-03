@@ -378,7 +378,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				continue;
 			}
 
-			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getHyperbolicEffect(race.embassyLevel * embassyEffect, 0.75) : 0));
+			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 0));
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance);

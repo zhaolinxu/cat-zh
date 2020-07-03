@@ -756,7 +756,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getSolarRevolutionRatio: function() {
 		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.game.resPool.get("worship").value, 1000) / 100 : 0;
-		return this.game.getHyperbolicEffect(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
+		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
 	},
 
 	getApocryphaBonus: function(){

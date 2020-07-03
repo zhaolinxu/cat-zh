@@ -781,7 +781,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 				//100% to 225% with slow falldown on the 75%
 				var limit = 2.25 + game.getEffect("shipLimit") * game.bld.get("reactor").on;
-				var ratio = 1 + game.getHyperbolicEffect(cargoShips.effects["harborRatio"] * shipVal, limit);
+				var ratio = 1 + game.getLimitedDR(cargoShips.effects["harborRatio"] * shipVal, limit);
 
 				effects["catnipMax"] *= ratio;
 				effects["woodMax"] *= ratio;
@@ -1867,7 +1867,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			this.game.getEffect("priceRatio") +
 			this.game.getEffect("mapPriceReduction");
 
-		ratioDiff = this.game.getHyperbolicEffect(ratioDiff, ratioBase);
+		ratioDiff = this.game.getLimitedDR(ratioDiff, ratioBase);
 		return ratio + ratioDiff;
 	},
 

@@ -177,14 +177,14 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 					case "scientist": // Science prices bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "science") {
-								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.05 * burnedParagonRatio, 1.0); //5% before BP
+								defaultObject[i].val -= defaultObject[i].val * this.game.getLimitedDR(0.05 * burnedParagonRatio, 1); //5% before BP
 							}
 						}
 						break;
 					case "wise": // Religion bonus
 						for (var i = 0; i < defaultObject.length; i++) {
 							if (defaultObject[i].name == "faith" || defaultObject[i].name == "gold") {
-								defaultObject[i].val -= defaultObject[i].val * this.game.getHyperbolicEffect(0.09 + 0.01 * burnedParagonRatio, 1.0); //10% before BP
+								defaultObject[i].val -= defaultObject[i].val * this.game.getLimitedDR(0.09 + 0.01 * burnedParagonRatio, 1); //10% before BP
 							}
 						}
 						break;
@@ -412,7 +412,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			res["manpower"] += 0.15;	//zebras are a bit stronger than kittens
 		}
 		if (zebras.value > 1){
-			 res["manpower"] += this.game.getHyperbolicEffect((zebras.value-1) * 0.05, 2);
+			 res["manpower"] += this.game.getLimitedDR((zebras.value-1) * 0.05, 2);
 		}
 
 		return res;
