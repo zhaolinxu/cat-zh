@@ -1194,7 +1194,7 @@
     "religion.transcend.confirmation.msg": "Отказаться от бонуса к молитвам?\n\nЭто приведет к росту уровня восхождения.\n\nКаждый следующий уровень требует пропорционально большего взноса.\n\nСброс не повлияет на уровни восхождения.\n\nНАЖАТИЕ НА ЭТУ КНОПКУ УБЕРЕТ ЧАСТЬ БОНУСА К МОЛИТВАМ.",
     "religion.transcend.confirmation.title": "Взойти?",
     "religion.transcend.msg.success": "Пределы смертных превзойдены. Уровень восхождения: {0}",
-    "religion.transcend.msg.failure": "На шаг ближе: {0} ({1}%)",
+    "religion.transcend.msg.failure": "На шаг ближе: {0}%",
     "achievements.theElderLegacy.title": "Наследие Древних",
     "achievements.theElderLegacy.desc": "Будь первым тестировщиком мобильной версии игры",
     "achievements.unicornConspiracy.title": "Заговор единорогов",

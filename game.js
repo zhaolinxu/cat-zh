@@ -3610,7 +3610,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks
 			},
 			religion: {
-				tcratio: this.religion.tcratio,
+				transcendenceTier: this.religion.transcendenceTier,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -3887,7 +3887,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.religion.getRU("apocripha").on) {
 			gift = "Apocrypha";
 		}
-		if(this.religion.getRU("transcendence").on && this.religion.getTranscendenceLevel() <= 10) {
+		if (this.religion.getRU("transcendence").on && this.religion.transcendenceTier <= 10) {
 			gift = "Transcendence";
 		}
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
@@ -3947,10 +3947,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 
 			case "Transcendence":
-				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
-				this.religion.tcratio += amt;
-				this.religion.tclevel += 4;
-				var msg = "Transcendence Level increased by 4!";
+				this.religion.transcendenceTier += 4;
+				var msg = "Transcendence Tier increased by 4!";
 				break;
 
 			case "Metaphysics":

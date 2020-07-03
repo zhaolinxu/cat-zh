@@ -1194,7 +1194,7 @@
     "religion.transcend.confirmation.msg": "Jseš si jistý/á, že chceš odstranit tvůj bonus k hromadění víry?\n\nMůžeš dosáhnout speciálních úrovní transcendence tím, že obětuješ část tvého bonusu k hromadění víry.\n\nKaždá úroveň zlepší účinnost resetů hromadění víry.\n\nKaždá úroveň vyžaduje obětovat neúměrně více věrnostního bonusu.\n\nTento bonus se postupně sčítá a přetrvává přes resety.\n\nKLIKNUTÍ NA TOTO TLAČÍTKO ODSTRANÍ ČÍST TVÉHO VĚRNOSTNÍHO BONUSU K HROMADĚNÍ VÍRY.",
     "religion.transcend.confirmation.title": "Transcendovat?",
     "religion.transcend.msg.success": "Překonal jsi smrtelné limity. Úroveň Transcendence: {0}",
-    "religion.transcend.msg.failure": "O krok blíže: {0} ({1}%)",
+    "religion.transcend.msg.failure": "O krok blíže: {0}%",
     "achievements.theElderLegacy.title": "Odkaz Moudrých",
     "achievements.theElderLegacy.desc": "Buď jeden z prvních, kteří testovali Kittens Game pro mobil.",
     "achievements.unicornConspiracy.title": "Jednorožčí spiknutí",

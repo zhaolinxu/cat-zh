@@ -2355,7 +2355,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						this.game.getEffect("blackLibraryBonus") )
 				)
 			);
-			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
+			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
 		}
 
 		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) && !this.game.opts.ch40krun){

@@ -1194,7 +1194,7 @@
     "religion.transcend.confirmation.msg": "确定要舍弃赞美太阳加成吗?\n\n通过牺牲一部分赞美太阳加成将可以提升到新的超越等级。\n每个超越等级都将提升信仰重置的效率。\n每次提升超越等级都需要牺牲更多的信仰加成。\n\n此加成可以累积并在游戏重置时保留。\n\n点击此按钮将移除一部分赞美太阳加成。",
     "religion.transcend.confirmation.title": "要进行次元超越吗?",
     "religion.transcend.msg.success": "超越了猫类的极限。达到超越等级: {0}",
-    "religion.transcend.msg.failure": "更近一步: {0} ({1}%)",
+    "religion.transcend.msg.failure": "更近一步: {0}%",
     "achievements.theElderLegacy.title": "上古遗产",
     "achievements.theElderLegacy.desc": "成为第一批测试猫国建设者手机版的玩家",
     "achievements.unicornConspiracy.title": "独角兽的阴谋",

@@ -1182,7 +1182,7 @@
     "religion.transcend.confirmation.msg": "Tem certeza que quer descartar seu bônus de louvor?\n\nVocê pode alcançar um nível especial de transcendência ao sacrificar seu bônus se louvor.\n\nCada nível requer proporcionalmente mais bônus de fé para ser sacrificado.\n\nEste bônus se acumula e continua ativo entre recomeços.\n\nCLICAR NESTE BOTÃO APAGARÁ UMA PARTE DO BÔNUS DE FÉ EM LOUVOR.",
     "religion.transcend.confirmation.title": "Transcender?",
     "religion.transcend.msg.success": "Você transcende os limites mortais. Nível-T: {0}",
-    "religion.transcend.msg.failure": "Chegando perto: {0} ({1}%)",
+    "religion.transcend.msg.failure": "Chegando perto: {0}%",
 
     "achievements.theElderLegacy.title": "Legado do Ancião",
     "achievements.theElderLegacy.desc": "Seja um dos primeiros a testar Kittens Game em seu celular",

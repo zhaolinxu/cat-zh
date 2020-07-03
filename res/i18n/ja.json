@@ -1194,7 +1194,7 @@
     "religion.transcend.confirmation.msg": "本当に賛美ボーナスを捨てますか?\n\n賛美ボーナスを犠牲にして特別な超越レベルに達します。\n\nレベルが上がるにつれ、より信仰ボーナスを犠牲にすることを要求します。\n\nこのボーナスはリセット後も積み上がり、受け継がれます。\n\nこのボタンをクリックすると祈りの信仰ボーナスの一部をが消えます。",
     "religion.transcend.confirmation.title": "超越しますか?",
     "religion.transcend.msg.success": "あなたは死の淵を超越した T-level: {0}",
-    "religion.transcend.msg.failure": "次のステップまで: {0} ({1}%)",
+    "religion.transcend.msg.failure": "次のステップまで: {0}%",
     "achievements.theElderLegacy.title": "ザ エルダー レガシー",
     "achievements.theElderLegacy.desc": "Kittens Game Mobileをテストする最初のプレイヤーになろう。",
     "achievements.unicornConspiracy.title": "ユニコーンの陰謀",

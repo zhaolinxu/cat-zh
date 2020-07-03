@@ -1192,7 +1192,7 @@
     "religion.transcend.confirmation.msg": "Czy na pewno chcesz odrzucić premię pochwały?\n\nMożesz osiągnąć specjalny poziom transcendencji poświęcając swój bonus pochwały.\n\nKażdy poziom wymaga proporcjonalnie więcej premii za wiarę, aby zostać poświęconym.\n\nTa premia zostanie ułożona i przeniesiona przez reset.\n\nKLIKNIĘCIE TEGO PRZYCISKU BĘDZIE USUWAĆ CZĘŚĆ SWOJEGO POŚWIĘCENIA BONUSU WIARY.",
     "religion.transcend.confirmation.title": "Przekroczyć?",
     "religion.transcend.msg.success": "Przekroczyłeś granice śmiertelności. Poziom T: {0}",
-    "religion.transcend.msg.failure": "Jeden krok bliżej: {0} ({1}%)",
+    "religion.transcend.msg.failure": "Jeden krok bliżej: {0}%",
     "achievements.theElderLegacy.title": "Starsze dziedzictwo",
     "achievements.theElderLegacy.desc": "Bądź pierwszym graczem, który przetestuje Kittens Game na komórce",
     "achievements.unicornConspiracy.title": "Spisek jednorożca",
