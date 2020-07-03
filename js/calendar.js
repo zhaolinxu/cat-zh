@@ -474,7 +474,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 					dojo.connect(this.observeBtn, "onclick", this, this.observeHandler);
 
-					this.observeRemainingTime = 300;
+					this.observeRemainingTime = this.game.ironWill ? 600 : 300;
 
 					this.game.ui.observeCallback(this.observeHandler);
 				}
