@@ -508,7 +508,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		this.resources = [];
 		this.resourceMap = {};
 
-		for (var i = 0; i< this.resourceData.length; i++){
+		for (var i = 0; i < this.resourceData.length; i++){
 			var res = dojo.clone(this.resourceData[i]);
 			res.value = 0;
 			res.unlocked = false;
@@ -532,7 +532,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		// }
 
 		//if no resource found, return false
-		return res? res : false;
+		return res ? res : false;
 	},
 
 	createResource: function(name){
@@ -782,15 +782,17 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		if (res.tag == "baseMetal") {
 			maxValue *= 1 + this.game.getEffect("baseMetalMaxRatio");
 		}
+		
         //policies
 		//technocracy policy bonus
-		if(res.name=="science"){
-			maxValue*=(1+game.getEffect("technocracyScienceCap")||0);
+		if(res.name == "science"){
+			maxValue *= (1 + this.game.getEffect("technocracyScienceCap"));
 		}
+
         //city on a hill bonus
-        if(res.name=="culture"){
-             maxValue*=(1+game.getEffect("onAHillCultureCap")||0);
-             }
+        if(res.name == "culture"){
+            maxValue *= (1 + this.getEffect("onAHillCultureCap"));
+        }
 		return maxValue;
 	},
 
@@ -884,7 +886,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 	},
 
 	maxAll: function(){
-		for(var i = 0; i< this.resources.length; i++){
+		for(var i = 0; i < this.resources.length; i++){
 			var res = this.resources[i];
 			if (res.maxValue && res.value < res.maxValue){
 				res.value = res.maxValue;
@@ -919,7 +921,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
     },
 
 	setDisplayAll: function() {
-		for(var i = 0; i< this.resources.length; i++){
+		for(var i = 0; i < this.resources.length; i++){
 			this.resources[i].isHidden = false;
 		}
 	},
