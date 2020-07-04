@@ -6,7 +6,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 	constructor: function(game){
 		this.game = game;
 
-		this.icons= [];
+		this.icons = [];
 
 		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
@@ -152,11 +152,11 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		var resources = this.game.resPool.resources;
         var happinessPerLuxury = 10;
         //philosophy epicurianism effect
-        happinessPerLuxury +=game.getEffect("luxuryHappinessBonus");
+        happinessPerLuxury += this.game.getEffect("luxuryHappinessBonus");
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
 				resHappiness += happinessPerLuxury;
-				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
+				if(resources[i].name == "elderBox" && this.game.resPool.get("wrappingPaper").value){
 					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
@@ -175,14 +175,14 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
 			unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
         var environmentEffect = this.game.village.getEnvironmentEffect();
-		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
+		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness + unhappinessReduction, false, false, 0) + "%<br>";
 
         tooltip += "* " + $I("village.happiness.penalty.base") + ": -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
 		tooltip += "* " + $I("village.happiness.penalty.mitigated") + ": " + this.game.getDisplayValueExt(-unhappinessReduction, false, false, 0) + "%<br>";
         tooltip += $I("village.happiness.environment") + ": " + this.game.getDisplayValueExt(environmentEffect, false, false, 0) + "%<br>";
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
-            tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation*2 + "%<br>";
+            tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation * 2 + "%<br>";
         }
 
         return tooltip;
@@ -216,7 +216,7 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var energy = resPool.energyProd - resPool.energyCons;
 
         var delta = this.game.resPool.getEnergyDelta();
-		var penalty = energy >= 0 ? "" :"<br><br>Production bonuses cuts: <span class='energyPenalty'>-" + Math.floor( (1-delta) * 100) + "%</span>";
+		var penalty = energy >= 0 ? "" : "<br><br>Production bonuses cuts: <span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
 		return "Production: <span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "Wt</span>" +
 			   "<br>Consumption: <span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "Wt</span>" + penalty;
