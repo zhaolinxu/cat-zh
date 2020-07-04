@@ -154,13 +154,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "gray",
 		persists: false
 	},{
-		name : "epiphany",
-		title: $I("resources.epiphany.title"),
-		type : "common",
-		visible: false,
-		color: "gray",
-		persists: true
-	},{
 		name : "kittens",
 		title: $I("resources.kittens.title"),
 		type : "common",

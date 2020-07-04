@@ -3653,8 +3653,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//pre-reset faith so people who forgot to do it properly would not be screwed
+		var faithRatio = this.religion.faithRatio;
 		if (this.religion.getRU("apocripha").on) {
-			this.religion.adore(1, false);
+			faithRatio += this.religion.getApocryphaResetBonus(1);
 		}
 		//------------------------------------------------------------------------------------------------------
 
@@ -3763,6 +3764,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			religion: {
 				transcendenceTier: this.religion.transcendenceTier,
+				faithRatio: faithRatio,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -4077,11 +4079,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 
 			case "Apocrypha":
-				var amt = this.game.resPool.get("epiphany").value > 10
-					? 4 * Math.min(this.game.resPool.get("epiphany").value, 1000)
-					: 5;
+				if(this.religion.faithRatio > 10) {
+					var amt = 4 * Math.min(this.religion.faithRatio, 1000);
+				} else {
+					var amt = 5;
+				}
 				var pre = this.religion.getApocryphaBonus();
-				this.game.resPool.addResEvent("epiphany", amt);
+				this.religion.faithRatio += amt;
 				var post = this.religion.getApocryphaBonus();
 				var apocryphaGained = (post - pre) * 100;
 				var msg = "Apocrypha Bonus increased by " + this.getDisplayValueExt(apocryphaGained) + "%!";
