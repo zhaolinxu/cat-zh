@@ -233,8 +233,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            if(game.science.getPolicy("isolationism").researched){
                 self.unlocks["policies"] = ["bigStickPolicy","cityOnAHill"];
            }
-           if(game.unlock(self.unlocks)){
-                console.log(self.unlocks);
+           if(this.researched){
+				game.unlock(self.unlocks);
            }
         }
 	},{
@@ -417,7 +417,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            if((game.science.getPolicy("stripMining").researched) || (game.science.getPolicy("clearCutting").researched)){
                 self.unlocks["policies"] = ["sustainability","fullIndustrialization"];
            }
-           game.unlock(self.unlocks);
+           if(this.researched){
+				game.unlock(self.unlocks);
+           }
         }
 	},{
 		name: "mechanization",
@@ -480,7 +482,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            if(game.science.getPolicy("environmentalism").researched){
                 self.unlocks["policies"] = ["conservation","openWoodlands"];
            }
-           game.unlock(self.unlocks);
+           if(this.researched){
+				game.unlock(self.unlocks);
+           }
         }
 	},
 	{
@@ -1077,7 +1081,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
               if(game.science.get("astronomy").researched){
                 self.unlocks["policies"] = ["knowledgeSharing","culturalExchange"];
               }
-              self.unlocks;
+			  if(this.researched){
+				   game.unlock(self.unlocks);
+			  }
         },
         blocked: false,
         blocks:["isolationism"]
@@ -1102,7 +1108,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             if(game.science.get("astronomy").researched){
               self.unlocks["policies"] = ["bigStickPolicy","cityOnAHill"];
             }
-              game.unlock(self.unlocks);
+			if(this.researched){
+				 game.unlock(self.unlocks);
+			}
         }
     },{
         name: "zebraRelationsAppeasement",
@@ -1297,7 +1305,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             if(game.science.get("industrialization").researched){
                 self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
             }
-            game.unlock(self.unlocks);
+			if(this.researched){
+				 game.unlock(self.unlocks);
+			}
         }
     },{
         name: "clearCutting",
@@ -1321,7 +1331,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             if(game.science.get("industrialization").researched){
               self.unlocks["policies"] = ["sustainability", "fullIndustrialization"];
             }
-            game.unlock(self.unlocks);
+			if(this.researched){
+				 game.unlock(self.unlocks);
+			}
         }
     },{
         name: "environmentalism",
@@ -1344,7 +1356,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             if(game.science.get("ecology").researched){
                 self.unlocks["policies"] = ["conservation","openWoodlands"];
             }
-            game.unlock(self.unlocks);
+			if(this.researched){
+				 game.unlock(self.unlocks);
+			}
         }
     },{
         name: "sustainability",
