@@ -85,8 +85,6 @@ Someone will be able to farm trillions of them.
 
 ### Consistency
 * With code formatting, it's nice to have, but it's not critical.
-* For more information and specific guidelines, click the relevant link below:
-    * [Resource Order](./Resource-Order.md)
 
 ### Themes
 In a grim and dark future of catkind, no one can hear you scream.
