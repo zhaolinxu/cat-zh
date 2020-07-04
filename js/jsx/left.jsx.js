@@ -13,7 +13,7 @@
 WResourceRow = React.createClass({
 
     getDefaultProperties: function(){
-        return {resource: null, isEditMode: false, isRequired: false};
+        return {resource: null, isEditMode: false, isRequired: false, showHiddenResources: false};
     },
 
     getInitialState: function(){
@@ -31,6 +31,7 @@ WResourceRow = React.createClass({
             oldRes.perTickCached == newRes.perTickCached &&
             this.props.isEditMode == nextProp.isEditMode &&
             this.props.isRequired == nextProp.isRequired &&
+            this.props.showHiddenResources == nextProp.showHiddenResources &&
             this.state.visible == nextState.visible;
 
         if (isEqual){
@@ -47,7 +48,7 @@ WResourceRow = React.createClass({
     render: function(){
         var res = this.props.resource;
 
-        if (!res.visible){
+        if (!res.visible && !this.props.showHiddenResources){
             return null;
         }
 
@@ -159,11 +160,14 @@ WResourceRow = React.createClass({
             }
         }
 
-        return $r("div", {className:"res-row resource_" + res.name + resLeaderBonus + (this.props.isRequired ? " highlited" : "")}, [
+        var resRowClass = "res-row resource_" + res.name + resLeaderBonus + 
+            (this.props.isRequired ? " highlited" : "") +
+            (!res.visible ? " hidden" : "")
+        ;
+
+        return $r("div", {className: resRowClass}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
-                    /*$r("input", {type:"checkbox"})*/
-
                     $r("input", {
                         type:"checkbox", 
                         checked: this.state.visible,
@@ -172,6 +176,7 @@ WResourceRow = React.createClass({
                         style:{display:"inline-block"},
                     })
                 ) : null,
+
             $r("div", {
                 className:"res-cell resource-name", 
                 style:resNameCss,
@@ -486,7 +491,8 @@ WResourceTable = React.createClass({
     getInitialState: function(){
         return {
             isEditMode: false,
-            isCollapsed: false
+            isCollapsed: false,
+            showHiddenResources: false
         };
     },
     render: function(){
@@ -495,9 +501,16 @@ WResourceTable = React.createClass({
             var res = this.props.resources[i];
             var isRequired = (this.props.reqRes.indexOf(res.name) >= 0);
             resRows.push(
-                $r(WResourceRow, {resource: res, isEditMode: this.state.isEditMode, isRequired: isRequired})
+                $r(WResourceRow, {
+                    resource: res, 
+                    isEditMode: this.state.isEditMode, 
+                    isRequired: isRequired,
+                    showHiddenResources: this.state.showHiddenResources
+                })
             );
         }
+        //TODO: mixing special stuff like fatih and such here
+        
         return $r("div", null, [
             $r("div", null,[
                 $r("div", {
@@ -520,13 +533,26 @@ WResourceTable = React.createClass({
                 
                 )
             ]),
-            this.state.isCollapsed ? null :
-            $r("div", null, [
-                this.state.isEditMode ? $r("div", {style:{"textAlign":"right"}}, [
-                    $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
-                    $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
-                ]) : null,
-                $r("div", {className:"res-table"}, resRows)
+            (!this.state.isCollapsed) &&
+                $r("div", null, [
+                    this.state.isEditMode && $r("div", {style:{"textAlign":"right"}}, [
+                        $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
+                        $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
+                    ]),
+                    $r("div", {className:"res-table"}, resRows)
+                ]),
+
+            //TODO: this stuff should not be exposed to beginner player to not overwhelm them
+            //we can enable it later like we normally, if, say, year is >1k or paragon > 0
+            (!this.state.isCollapsed && this.state.isEditMode) && 
+            $r("div", {className:"res-toggle-hidden"}, [
+                $r("input", {
+                    type:"checkbox", 
+                    checked: this.state.showHiddenResources,
+                    onClick: this.toggleHiddenResources,
+                    style:{display:"inline-block"},
+                }),
+                $I("res.show.hidden")
             ])
         ]);
     },
@@ -537,6 +563,10 @@ WResourceTable = React.createClass({
 
     toggleCollapsed: function(){
         this.setState({isCollapsed: !this.state.isCollapsed});
+    },
+
+    toggleHiddenResources: function(e){
+        this.setState({showHiddenResources: e.target.checked});
     }
 });
 

@@ -864,6 +864,7 @@
     "res.stack.zebraRelationsAppeasementPenalty": "Zebra relations appeasement penalty",
     "res.toCap": "To cap",
     "res.toZero": "To zero",
+    "res.show.hidden": "Show hidden resources",
 
     "reset.confirmation.title": "Are you sure that you want to reset?",
     "reset.confirmation.msgbase": "You will get bonus points for happiness. You will also save your achievements and bonus points.",
