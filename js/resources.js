@@ -549,6 +549,20 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return res ? res : false;
 	},
 
+	//put your custom fake resources there
+	getPseudoResources: function(){
+		return [
+			{
+				name: "worship",
+				title: "resources.worship.title",
+				value: this.game.religion.faithRatio,
+				unlocked: true,
+				visible: false
+			}
+		];
+		//TODO: mixin unlocked and visible automatically
+	},
+
 	createResource: function(name){
 		var res = {
 			name: name,

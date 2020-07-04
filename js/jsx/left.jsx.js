@@ -497,6 +497,7 @@ WResourceTable = React.createClass({
     },
     render: function(){
         var resRows = [];
+
         for (var i in this.props.resources){
             var res = this.props.resources[i];
             var isRequired = (this.props.reqRes.indexOf(res.name) >= 0);
@@ -643,12 +644,22 @@ WLeftPanel = React.createClass({
     getInitialState: function(){
         return {game: this.props.game};
     },
+
+    getResources: function(){
+        var resPool = [];
+        var game = this.state.game;
+        
+        resPool = resPool.concat(game.resPool.resources);
+        resPool = resPool.concat(game.resPool.getPseudoResources());
+        return resPool;
+    },
+
     render: function(){
         var game = this.state.game,
             reqRes = game.getRequiredResources(game.selectedBuilding);
 
         return $r("div", null, [
-            $r(WResourceTable, {resources: game.resPool.resources, reqRes: reqRes}),
+            $r(WResourceTable, {resources: this.getResources(), reqRes: reqRes}),
 
             $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
             $r("div", {id:"fastHuntContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
