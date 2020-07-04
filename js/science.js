@@ -1627,7 +1627,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 			)
 		){
              for(var i = 0; i < model.metadata.blocks.length; i++){
-                if(this.science.getPolicy(model.metadata.blocks[i]).researched){
+                if(this.game.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked = true;
                     return;
                 }
