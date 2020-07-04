@@ -20,8 +20,11 @@
             "error",
             "always"
         ],
-        "no-mixed-spaces-and-tabs": "warn",
+        "no-mixed-spaces-and-tabs": [
+            "warn", "smart-tabs"
+        ],
         "no-unused-vars": "warn",
+        "no-prototype-builtins":"warn",
         "no-redeclare": "off"
     },
     "globals": {
@@ -35,11 +38,12 @@
         "LZString": "readonly",
 
         "$I": "writable",
+        "$r": "readonly",
         "i18nLang": "writable",
         "UIUtils": "writable",
+        "ButtonModernHelper": "writable",
 
         "config": "readonly",
-        "ButtonModernHelper": "readonly",
         
         "com": "readonly",
         "classes": "readonly",

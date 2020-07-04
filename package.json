@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint *.js js/*.js",
+    "lint": "eslint *.js js/*.js --quiet",
     "start": "http-server"
   },
   "repository": {

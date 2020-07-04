@@ -198,14 +198,14 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "Wt";
 
 		if (resPool.energyProd < resPool.energyCons) {
-			$(this.container).removeClass("warningWinter")
-			$(this.container).addClass("warning")
+			$(this.container).removeClass("warningWinter");
+			$(this.container).addClass("warning");
 		} else if (resPool.energyWinterProd < resPool.energyCons) {
-			$(this.container).removeClass("warning")
-			$(this.container).addClass("warningWinter")
+			$(this.container).removeClass("warning");
+			$(this.container).addClass("warningWinter");
 		} else {
-			$(this.container).removeClass("warning")
-			$(this.container).removeClass("warningWinter")
+			$(this.container).removeClass("warning");
+			$(this.container).removeClass("warningWinter");
 		}
 	},
 	getTooltip: function(){

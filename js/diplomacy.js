@@ -297,7 +297,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	update: function() {
 		if (!this.hasUnlockedRaces()) {
 
-			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 1 : this.game.karmaKittens > 0 ? 5 : 20
+			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 
+				1 : this.game.karmaKittens > 0 ? 5 : 20;
+
 			if (this.game.calendar.year < unlockYear) {
 				return;
 			}
@@ -815,14 +817,13 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 	getPrices: function(model) {
 		var prices = dojo.clone(this.inherited(arguments));
 		for (var i = 0; i < prices.length; i++) {
-			prices[i].val = prices[i].val * Math.pow(1.15, model.options.race.embassyLevel)
-			
+			prices[i].val = prices[i].val * Math.pow(1.15, model.options.race.embassyLevel);
 		}
 		return prices;
 	},
 
 	hasSellLink: function(model){
-		return false
+		return false;
 	},
 
 	updateVisible: function(model){

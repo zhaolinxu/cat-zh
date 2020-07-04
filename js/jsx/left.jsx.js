@@ -1,3 +1,14 @@
+/* global 
+
+    $r,
+    WResourceRow:writable, 
+    WCraftRow:writable, 
+    WResourceTable:writable,
+    WCraftTable:writable,
+    WLeftPanel:writable,
+    WTooltip:writable
+
+*/
 WResourceRow = React.createClass({
 
     getDefaultProperties: function(){
@@ -141,7 +152,7 @@ WResourceRow = React.createClass({
                 if(currentLeaderJob) {
                     for (var jobResName in currentLeaderJob.modifiers){
                         if ( res.name == jobResName ){
-                            resLeaderBonus = " resLeaderBonus "
+                            resLeaderBonus = " resLeaderBonus ";
                         }
                     }                                      
                 }
@@ -461,16 +472,6 @@ WCraftRow = React.createClass({
                 game.attachResourceTooltip(node, this.props.resource);
             }
         }
-    }
-});
-
-/*=======================================================
-                    GENERAL TABLE
-=======================================================*/
-
-WResourceTable = React.createClass({
-    render: function(){
-        return null;
     }
 });
 
