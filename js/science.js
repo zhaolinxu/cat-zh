@@ -1589,10 +1589,6 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 	
 	updateVisible: function(model){
-		model.visible = true;
-	},
-
-	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
 

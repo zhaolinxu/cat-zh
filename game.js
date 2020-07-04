@@ -84,8 +84,8 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 
 	// See https://www.ietf.org/rfc/rfc4122.txt, section 4.4
 	generateGuid: function() {
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			return (c == 'x' ? 16 * Math.random() | 0 : 4 * Math.random() | 8).toString(16);
+		return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+			return (c == "x" ? 16 * Math.random() | 0 : 4 * Math.random() | 8).toString(16);
 		});
 	},
 
@@ -1281,8 +1281,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
     //==========    external API's ========
     dropBoxClient: null,
-
-    kongregate: null,
 
 	/*
 		Whether the game is in developer mode or no
@@ -4132,22 +4130,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this._publish("server/undoStateChanged");
     },
 
-    //-----------------------------------------------------------------
-
-    initKongregateApi: function(){
-        var self = this;
-        kongregateAPI.loadAPI(function(){
-            self.kongregate = kongregateAPI.getAPI();
-
-            console.log("Kongregate API initialized successfully, updating stats...");
-
-            self.kongregate.stats.submit("paragon", self.resPool.get("paragon").value);
-            self.kongregate.stats.submit("karma", self.karmaKittens);
-
-            self.achievements.updateStatistics();
-        });
-    },
-
+	//-----------------------------------------------------------------
+	
 	redeemGift: function(){
 		if (this.resPool.get("elderBox").value == 0) {
 			return;

@@ -47,8 +47,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}},
 			{name: "parchment", value: 5, chance: 0.25, width: 0.25, minLevel: 5},
 			{name: "manuscript", value: 5, chance: 0.15, width: 0.25, minLevel: 10},
-			{name: "compedium", value: 5, chance: 0.1, width: 0.25, minLevel: 15},
-			{name: "oil", value: 100, chance: 0.25, width: 0.15, minLevel: 20}
+			{name: "compedium", value: 5, chance: 0.1, width: 0.25, minLevel: 15}
 		],
 		collapsed: false
 	},{
@@ -148,7 +147,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"summer": 0.05,
 				"autumn": 0.15,
 				"winter": -0.05
-			}}
+			}},
+			{name: "oil", value: 100, chance: 0.25, width: 0.15, minLevel: 5}
 		],
 		collapsed: false
 	},{
@@ -307,7 +307,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	update: function() {
 		if (!this.hasUnlockedRaces()) {
 
-			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 1 : this.game.karmaKittens > 0 ? 5 : 20
+			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 
+				1 : this.game.karmaKittens > 0 ? 5 : 20;
+
 			if (this.game.calendar.year < unlockYear) {
 				return;
 			}
@@ -856,7 +858,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 	},
 
 	hasSellLink: function(model){
-		return false
+		return false;
 	},
 
 	updateVisible: function(model){

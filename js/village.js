@@ -2213,7 +2213,6 @@ dojo.declare("classes.ui.village.Census", null, {
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}
-			else {}
 
 			info +="<span class='skill' title='" + exp.toFixed(2) + "'" + style + ">"
 				+ this.game.village.getJob(skillsArr[j].name).title + bonus
@@ -2518,19 +2517,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.tdTop = tdTop;
 
 		//--------------------------	map ---------------------------
-		var isMapVisible = this.game.science.get("archery").researched &&
-			this.game.resPool.get("paragon").value >= 5;
+		/*var isMapVisible = this.game.science.get("archery").researched &&
+			this.game.resPool.get("paragon").value >= 5; */
 
 		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
 		this.mapPanel.setVisible(false);
 
-		if (this.mapPanelViewport){
+		/*if (this.mapPanelViewport){
 			React.unmountComponentAtNode(this.mapPanelViewport);
 		}
 		this.mapPanelViewport = this.mapPanel.render(tabContainer);
 		React.render($r(WMapSection, {
             game: this.game
-        }), this.mapPanelViewport);
+        }), this.mapPanelViewport);*/
 
 		//----------------- happiness and things ----------------------
 
@@ -2672,7 +2671,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 
 		var festivalDays = this.game.calendar.festivalDays;
 		if (festivalDays){
-			this.happinessStats.innerHTML += "<br\><br\> "+$I("village.census.lbl.festival.duration") + " "+ this.game.toDisplayDays(festivalDays);
+			this.happinessStats.innerHTML += "<br><br> "+$I("village.census.lbl.festival.duration") + " "+ this.game.toDisplayDays(festivalDays);
 		}
 
 		if (this.statisticsPanel){
