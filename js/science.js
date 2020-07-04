@@ -1032,8 +1032,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	},
 	{
 		name: "necrocracy",
-		label: "Necrocracy",
-		description:"Your society is nothing compared to the leviathans. You surrender without a fight. Under their rule, your production will get boost based on BLS",
+		label: $I("policy.necrocracy.label"),
+		description:$I("policy.necrocracy.desc"),
 		prices: [
 			{name : "culture", val: 1500000}
 		],
