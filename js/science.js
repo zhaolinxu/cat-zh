@@ -414,12 +414,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            policies: ["stripMining", "clearCutting"]
         },
         calculateEffects: function(self, game){
-           if((game.science.getPolicy("stripMining").researched) || (game.science.getPolicy("clearCutting").researched)){
+           	if((game.science.getPolicy("stripMining").researched) || (game.science.getPolicy("clearCutting").researched)){
                 self.unlocks["policies"] = ["sustainability","fullIndustrialization"];
-		   }
-		   if(self.researched){
-			game.unlock(self.unlocks);
-		}
+		   	}
+		   	if(self.researched){
+				game.unlock(self.unlocks);
+		   	}
         }
 	},{
 		name: "mechanization",
@@ -479,12 +479,12 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             policies: ["environmentalism"]
         },
         calculateEffects: function(self, game){
-           if(game.science.getPolicy("environmentalism").researched){
+           	if(game.science.getPolicy("environmentalism").researched){
                 self.unlocks["policies"] = ["conservation","openWoodlands"];
-		   }
-		   if(self.researched){
-			game.unlock(self.unlocks);
-		}
+		   	}
+			if(self.researched){
+				game.unlock(self.unlocks);
+		   	}
         }
 	},
 	{
@@ -1077,6 +1077,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         upgrades: {
             tech: ["astronomy"]
         },
+        blocked: false,
+        blocks:["isolationism"],
         calculateEffects: function(self, game){
               if(game.science.get("astronomy").researched){
                 self.unlocks["policies"] = ["knowledgeSharing","culturalExchange"];
@@ -1084,9 +1086,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			  if(self.researched){
 				  game.unlock(self.unlocks);
 			  }
-        },
-        blocked: false,
-        blocks:["isolationism"]
+        }
     },{
         name: "isolationism",
         label: $I("policy.isolationism.label"),
@@ -1111,6 +1111,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			if(self.researched){
 				game.unlock(self.unlocks);
 			}
+		}
     },{
         name: "zebraRelationsAppeasement",
         label: $I("policy.zebraRelationsAppeasement.label"),
