@@ -452,6 +452,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"manpowerMax": 50,
 			"maxKittens": 1
 		},
+		calculateEffects: function(self, game){
+            game.getPriceAdjustment("N/A", self.prices, game.getEffect("logCabinCostReduction"), true);
+		},
 		unlocks: {
 			tabs: ["village"]
 		},
@@ -551,8 +554,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				}
 
 				if (game.workshop.get("machineLearning").researched){
-					var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
-
+                    var dataCenterAIRatio = game.getEffect("dataCenterAIRatio");
+                    dataCenterAIRatio*=(1+game.getEffect("aiCoreUpgradeBonus")||0);
 					effects["scienceMaxCompendia"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["scienceMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
 					effects["cultureMax"] *= (1 + game.bld.get("aiCore").on * dataCenterAIRatio);
@@ -1252,13 +1255,16 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"craftRatio": 0,
 			"energyConsumption": 0
 		},
+		unlocks:{
+			policies:[]
+		},
 		calculateEffects: function(self, game){
 			var effects = {
-				"craftRatio": 0.05
+				"craftRatio": 0.05 * (1+ game.getEffect("environmentFactoryCraftBonus"))
 			};
 
 			if (game.workshop.get("factoryLogistics").researched){
-				effects["craftRatio"] = 0.06;
+				effects["craftRatio"] = 0.06 * (1+ game.getEffect("environmentFactoryCraftBonus"));
 			}
 
 			effects["energyConsumption"] = 2;
@@ -1267,6 +1273,26 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+				game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.getEffect("factoryCostReduction"), true /*this IS the whole building cost reduction*/);
+			if(game.science.getPolicy("monarchy").researched==true){
+				var unlocksTemp = {
+					policies:["liberalism", "fascism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
+			if(game.science.getPolicy("republic").researched==true){
+				var unlocksTemp = {
+					policies:["liberalism", "communism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
+			if(game.science.getPolicy("authocracy").researched==true){
+				var unlocksTemp = {
+					policies:["communism", "fascism"]
+				}
+				self.unlocks=unlocksTemp;
+			}
+        game.unlock(self.unlocks);
 		}
 	},{
 		name: "reactor",
@@ -1397,7 +1423,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
-		},
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
+                     },
         flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
@@ -1418,6 +1445,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1628,6 +1656,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
+
+            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
@@ -1725,7 +1755,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (game.challenges.currentChallenge == "energy") {
 				self.effects["energyConsumption"] *= 2;
 			}
-
+            var gflopsPerTickBase = 0.02*(1+game.getEffect("aiCoreProductivness"));
+            self.effects["gflopsPerTickBase"]=gflopsPerTickBase;
 			self.effects["aiLevel"] = Math.round(Math.log(Math.max(game.resPool.get("gflops").value, 1)));
 		},
 		action: function(self, game) {
@@ -1734,7 +1765,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
-			if (self.effects["aiLevel"] < 15){
+			if ((game.getPolicy("transkittenism").researched==true)||(self.effects["aiLevel"] < 15)){
 				return true;
 			}
 			game.systemShockMode = true;
@@ -1828,7 +1859,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
             }
         }
     },
-
 	getAutoProductionRatio: function(){
 		var autoProdRatio = 1;
 		//	faith

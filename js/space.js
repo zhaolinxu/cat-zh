@@ -56,7 +56,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		],
 		unlocks: {
             planet: ["dune"],
-            spaceMission: ["heliosMission"]
+            spaceMission: ["heliosMission"],
+			policies:["technocracy", "theocracy", "expansionism"]
         }
 	},{
 		name: "piscineMission",
@@ -249,14 +250,17 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				"energyConsumption": 0,
 				"energyProduction": 0
 			},
+            unlocks:{
+                policies:["outerSpaceTreaty","militarizeSpace"]
+            },
 			calculateEffects: function(self, game){
+                var observatoryRatioTemp = 0.05 * (1+game.getEffect("satelliteSynergyBonus")||0);
 				self.effects = {
-					"observatoryRatio": 0.05,
+					"observatoryRatio": observatoryRatioTemp,
 					"starchartPerTickBaseSpace": 0.001,
 					"energyConsumption": 0,
 					"energyProduction": 0
-				};
-
+				}
 				if (game.workshop.get("solarSatellites").researched) {
 					self.effects["energyProduction"] = 1;
 					self.on = self.val;
@@ -397,9 +401,10 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 
 				if (game.workshop.get("aiBases").researched){
+                    var aiBasesModifier = 1 + game.getEffect("aiCoreUpgradeBonus");
 					for (var key in effects){
 						if (key != "energyConsumption" ){
-							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1);
+							effects[key] *= (1 + game.bld.get("aiCore").on * 0.1*aiBasesModifier);
 						}
 					}
 				}

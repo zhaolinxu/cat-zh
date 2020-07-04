@@ -1022,7 +1022,155 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.terraformingMaxKittens.title"),
 				type: "ratio",
 				calculation: "nonProportional"
-			}
+			},
+			//age 2 policy effects
+			"boostFromLeader": {
+                title: $I("effectsMgr.statics.boostFromLeader.title"),
+                type: "ratio"
+			},
+			//age 3 policy effects
+			"goldCostReduction": {
+                title: $I("effectsMgr.statics.goldCostReduction.title"),
+                type: "ratio"
+			},
+			"tradeRelationBoost":{
+                title: $I("effectsMgr.statics.tradeRelationBoost.title"),
+                type: "fixed"
+			},
+			"factoryCostReduction":{
+                title: $I("effectsMgr.statics.factoryCostReduction.title"),
+                type: "ratio"
+			},
+			"logCabinCostReduction":{
+                title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+                type: "ratio"
+			},
+			"communismProductionBonus":{
+                title: $I("effectsMgr.statics.communismProductionBonus.title"),
+                type: "ratio"
+			},
+			//age 4 policy effects
+			"technocracyScienceCap":{
+                title: $I("effectsMgr.statics.technocracyScienceCap.title"),
+                type: "ratio"
+			},
+			"expansionismUnobtainiumProductionBonus":{
+                title: $I("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
+                type: "ratio"
+			},
+			"theocracyFaithProductionBonus":{
+                title: $I("effectsMgr.statics.theocracyFaithProductionBonus.title"),
+                type: "ratio"
+			},
+			//age 5 policy effects
+			"aiCoreProductivness":{
+                title: $I("effectsMgr.statics.aiCoreProductivity.title"),
+                type: "ratio"
+			},
+            "aiCoreUpgradeBonus":{
+            title: $I("effectsMgr.statics.aiCoreUpgradeBonus.title"),
+            type: "ratio"
+            },
+			"blsProductionBonus":{
+                title: $I("effectsMgr.statics.blsProductionBonus.title"),
+                type: "ratio"
+			},
+			"holyGenocideBonus":{
+                title: $I("effectsMgr.statics.holyGenocideBonus.title"),
+                type: "ratio"
+			},
+            //foreign policy effects
+            "tradeCatpowerDiscount":{
+                title: $I("effectsMgr.statics.tradeCatpowerDiscount.title"),
+                type: "fixed"
+            },
+            "tradeGoldDiscount":{
+                title: $I("effectsMgr.statics.tradeGoldDiscount.title"),
+                type: "fixed"
+            },
+            "zebraAppeasedGoldPenalty":{
+                title: $I("effectsMgr.statics.zebraAppeasedGoldPenalty.title"),
+                type: "ratio"
+            },
+            "zebraRelationModifier":{
+                title: $I("effectsMgr.statics.zebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "nonZebraRelationModifier":{
+                title: $I("effectsMgr.statics.nonZebraRelationModifier.title"),
+                type: "fixed"
+            },
+            "sharedKnowledgeBonus":{
+                title: $I("effectsMgr.statics.sharedKnowledgeBonus.title"),
+                type: "ratio"
+            },
+            "culturalExchangeBonus":{
+                title: $I("effectsMgr.statics.culturalExchangeBonus.title"),
+                type: "ratio"
+            },
+            "embassyCostReduction":{
+                title: $I("effectsMgr.statics.embassyCostReduction.title"),
+                type: "ratio"
+            },
+            "onAHillCultureCap":{
+                title: $I("effectsMgr.statics.onAHillCultureCap.title"),
+                type: "ratio"
+            },
+            "satelliteSynergyBonus":{
+                title: $I("effectsMgr.statics.satelliteSynergyBonus.title"),
+                type: "ratio"
+            },
+            "spaceRelationsBonus":{
+            title: $I("effectsMgr.statics.spaceRelationsBonus.title"),
+                type: "fixed"
+            },
+            //philosophy
+             "luxuryConsuptionReduction":{
+                title: $I("effectsMgr.statics.luxuryConsuptionReduction.title"),
+                type: "ratio"
+             },
+            "luxuryHappinessBonus":{
+                title: $I("effectsMgr.statics.luxuryHappinessBonus.title"),
+                type: "fixed"
+             },
+            "rationalityBonus":{
+                title: $I("effectsMgr.statics.rationalityBonus.title"),
+                type: "ratio"
+             },
+             "mysticismBonus":{
+                title: $I("effectsMgr.statics.mysticismBonus.title"),
+                type: "ratio"
+             },
+             //environment policy
+             "environmentMineralBonus":{
+                title: $I("effectsMgr.statics.environmentMineralBonus.title"),
+                type: "ratio"
+             },
+             "environmentWoodBonus":{
+             title: $I("effectsMgr.statics.environmentWoodBonus.title"),
+             type: "ratio"
+             },
+             "environmentHappinessBonus":{
+                title: $I("effectsMgr.statics.environmentHappinessBonus.title"),
+                type: "fixed"
+             },
+             "environmentHappinessBonusModifier":{
+                title: $I("effectsMgr.statics.environmentHappinessBonusModifier.title"),
+                type: "ratio"
+             },
+             "environmentUnhappiness":{
+                title: $I("effectsMgr.statics.environmentUnhappiness.title"),
+                type: "fixed"
+             },
+             "environmentUnhappinessModifier":{
+                title: $I("effectsMgr.statics.environmentUnhappinessModifier.title"),
+                type: "ratio"
+             },
+             "environmentFactoryCraftBonus":{
+             title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
+             type: "ratio"
+             },
+             
 		}
 	}
 });
@@ -1297,7 +1445,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-
+	//function that applies discount to anything with a price. 
+	getPriceAdjustment: function(resName, prices, discount, theWholeBuilding = false/* If true, all costst of the thing will be decreased! resName would be irrelevant then*/){
+		for(var i = 0; i< prices.length; i++){
+			if ((prices[i].name==resName)||theWholeBuilding){
+				prices[i].val*=(1-discount);
+			}
+		}
+	},
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
@@ -1313,6 +1468,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.space.updateEffectCached();
 		this.time.updateEffectCached();
 		this.village.updateEffectCached();
+        this.science.updateEffectCached();
 
 		this.updateResources();
 	},
@@ -2366,9 +2522,42 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
 			}
 		}
-
+		//policy effects
+        perTick*=(1+(game.resPool.get("sorrow").value * game.getEffect("blsProductionBonus")||0)); //necrocracy global effect
+		if((resName=="coal")||(resName=="iron")||(resName=="titanium")){
+			perTick*=(1+game.getEffect("communismProductionBonus"));
+		}
+		if(resName=="faith"){
+			perTick*=(1+game.getEffect("theocracyFaithProductionBonus"));
+		}
+		if(resName=="unobtainium"){
+			perTick*=(1+game.getEffect("expansionismUnobtainiumProductionBonus"));
+		}
+        if(resName=="gold"){
+             perTick=perTick*(1-game.getEffect("zebraAppeasedGoldPenalty")||0);
+        }
+        //foreign policy effects
+        if(resName=="science"){
+             perTick=perTick*(1+game.getEffect("sharedKnowledgeBonus")||0);
+        }
+        if(resName=="culture"){
+             perTick=perTick*(1+game.getEffect("culturalExchangeBonus")||0);
+        }
+        //philosophy effects
+        if((resName == "science")||(resName == "iron")){
+             perTick*=(1+ game.getEffect("rationalityBonus")||0);
+        }
+        if((resName == "culture")||(resName == "faith")){
+             perTick*=(1+ game.getEffect("mysticismBonus")||0);
+        }
+        //environmental policy effects
+        if(resName=="minerals"){
+             perTick*=(1+ game.getEffect("environmentMineralBonus"));
+        }
+        if(resName =="wood"){
+             perTick*=(1+game.getEffect("environmentWoodBonus"));
+        }
 		perTick += resConsumption;
-
 		if (isNaN(perTick)){
 			return 0;
 		}
@@ -2576,7 +2765,97 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
-
+		
+        //policy effects:
+        //necrocracy global effect
+        if(game.science.getPolicy("necrocracy").researched){
+            stack.push({
+                name: $I("res.stack.necrocracy"),
+                type: "ratio",
+                value: game.getEffect("blsProductionBonus")*game.resPool.get("sorrow").value,
+            });
+        }
+        //communims
+        if((game.getEffect("communismProductionBonus")>0)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
+        stack.push({
+                name: $I("res.stack.communism"),
+                type: "ratio",
+                value: game.getEffect("communismProductionBonus"),
+                });
+        }
+        //theocracy AKA order of the stars
+        if((game.getEffect("theocracyFaithProductionBonus")>0)&&(resName=="faith")){
+        stack.push({
+                name: $I("res.stack.theocracy"),
+                type: "ratio",
+                value: game.getEffect("theocracyFaithProductionBonus"),
+                });
+        }
+        //expansionism AKA cosmological liberalism
+        if((game.science.getPolicy("expansionism").researched)&&(resName=="unobtainium")){
+        stack.push({
+                name: $I("res.stack.expansionism"),
+                type: "ratio",
+                value: game.getEffect("expansionismUnobtainiumProductionBonus"),
+                });
+        }
+        //zebra appeasement
+        if((game.science.getPolicy("zebraRelationsAppeasement").researched)&&(resName=="gold")){
+        stack.push({
+                name: $I("res.stack.zebraRelationsAppeasementPenalty"),
+                type: "ratio",
+                value: -game.getEffect("zebraAppeasedGoldPenalty"),
+                });
+        }
+        //knowledge sharing
+        if((game.science.getPolicy("knowledgeSharing").researched)&&(resName=="science")){
+        stack.push({
+                name: $I("res.stack.sharedKnowledge"), 
+                type: "ratio",
+                value: game.getEffect("sharedKnowledgeBonus"),
+                });
+        }
+        //cultural exchange
+        if((game.science.getPolicy("culturalExchange").researched)&&(resName=="culture")){
+        stack.push({
+                name: $I("res.stack.culturalExchanges"),
+                type: "ratio",
+                value: game.getEffect("culturalExchangeBonus"),
+                });
+        }
+        //philosophy policies effects:
+        //mysticism bonus
+        if((game.getEffect("mysticismBonus")>0)&&((resName=="culture")||(resName=="faith"))){
+        stack.push({
+                name: $I("res.stack.mysticism"),
+                type: "ratio",
+                value: game.getEffect("mysticismBonus"),
+                });
+        }
+        //rationalism bonus
+        if((game.getEffect("rationalityBonus")>0)&&((resName=="science")||(resName=="iron"))){
+        stack.push({
+                name: $I("res.stack.rationality"),
+                type: "ratio",
+                value: game.getEffect("rationalityBonus"),
+                });
+        }
+        //environment minerals bonus
+        if(resName=="minerals"){
+        stack.push({
+                name: $I("res.stack.environmentPolicy"),
+                type: "ratio",
+                value: game.getEffect("environmentMineralBonus"),
+                });
+        }
+        //environment wood bonus
+        if(resName=="wood"){
+        stack.push({
+                name: $I("res.stack.environmentPolicy"),
+                type: "ratio",
+                value: game.getEffect("environmentWoodBonus"),
+                });
+        }
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
 			name: $I("res.stack.convProd"),
@@ -2661,7 +2940,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "fixed",
 			value: this.workshop.getEffectEngineer(res.name, true)
 		});
-
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
@@ -2687,7 +2965,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			type: "ratio",
 			value: this.timeAccelerationRatio()
 		});
-
 		return stack;
 	},
 

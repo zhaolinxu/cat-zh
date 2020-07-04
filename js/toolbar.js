@@ -150,11 +150,14 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		//----------------------
 		var resHappiness = 0;
 		var resources = this.game.resPool.resources;
+        var happinessPerLuxury = 10;
+        //philosophy epicurianism effect
+        happinessPerLuxury +=game.getEffect("luxuryHappinessBonus");
 		for (var i = resources.length - 1; i >= 0; i--) {
 			if (resources[i].type != "common" && resources[i].value > 0){
-				resHappiness += 10;
+				resHappiness += happinessPerLuxury;
 				if(resources[i].name=="elderBox" && this.game.resPool.get("wrappingPaper").value){
-					resHappiness -= 10; // Present Boxes and Wrapping Paper do not stack.
+					resHappiness -= happinessPerLuxury; // Present Boxes and Wrapping Paper do not stack.
 				}
 			}
 		}
@@ -171,12 +174,12 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 
         var unhappiness = this.game.village.getUnhappiness() / (1 + this.game.getEffect("unhappinessRatio")),
 			unhappinessReduction = unhappiness * this.game.getEffect("unhappinessRatio", true);
-			
+        var environmentEffect = this.game.village.getEnvironmentEffect();
 		tooltip += $I("village.happiness.penalty") + ": -" + this.game.getDisplayValueExt(unhappiness+unhappinessReduction, false, false, 0) + "%<br>";
 
         tooltip += "* " + $I("village.happiness.penalty.base") + ": -" + this.game.getDisplayValueExt(unhappiness, false, false, 0) + "%<br>";
 		tooltip += "* " + $I("village.happiness.penalty.mitigated") + ": " + this.game.getDisplayValueExt(-unhappinessReduction, false, false, 0) + "%<br>";
-
+        tooltip += $I("village.happiness.environment") + ": " + this.game.getDisplayValueExt(environmentEffect, false, false, 0) + "%<br>";
         var overpopulation = this.game.village.getKittens() - this.game.village.maxKittens;
         if (overpopulation > 0){
             tooltip += $I("village.happiness.overpopulation") + ": -" + overpopulation*2 + "%<br>";
