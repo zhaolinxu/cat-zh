@@ -2767,91 +2767,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 4/4
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
-
-		// +AUTOMATED PRODUCTION BUILDING
-		stack.push({
-			name: $I("res.stack.convProd"),
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTickProd")
-		});
-		stack.push({ // extra-compare with this.calcResourcePerTick
-			name: $I("res.stack.convCons"),
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTickCon")
-		});
-
-		// +AUTOMATED PRODUCTION SPACE
-		var perTickAutoprodSpaceStack = [];
-		var spaceParagonSubStack = [];
-		//---->
-			perTickAutoprodSpaceStack.push({
-				name: $I("res.stack.spaceConvProd"),
-				type: "fixed",
-				value: this.getEffect(res.name + "PerTickAutoprodSpace")
-			});
-			perTickAutoprodSpaceStack.push({
-				name: $I("res.stack.spaceProdBonus"),
-				type: "ratio",
-				value: spaceRatio - 1
-			});
-			spaceParagonSubStack.push({
-				name: $I("res.stack.spaceParagon"),
-				type: "ratio",
-				value: paragonSpaceProductionRatio - 1
-			});
-			spaceParagonSubStack.push({
-				name: $I("res.stack.bonusTransf"),
-				type: "multiplier",
-				value: this.getEffect("prodTransferBonus")
-			});
-			perTickAutoprodSpaceStack.push(spaceParagonSubStack);
-		//<----
-		stack.push(perTickAutoprodSpaceStack);
-
-		// +AUTOMATED PRODUCTION SPACE
-		var perTickSpace = [];
-		//---->
-			perTickSpace.push({
-				name: $I("res.stack.spaceConvProd"),
-				type: "fixed",
-				value: this.getEffect(res.name + "PerTickSpace")
-			});
-			perTickSpace.push({
-				name: $I("res.stack.spaceProdBonus"),
-				type: "ratio",
-				value: spaceRatio - 1
-			});
-		//<----
-		stack.push(perTickSpace);
-
-		//CYCLE EFFECT
-		// Can't be displayed because it's space building improvements.
-
-		//CYCLE FESTIVAL EFFECTS
-		var effects = {};
-		effects[res.name] = 1;
-		this.calendar.cycleEffectsFestival(effects);
-		var cycleEffect = effects[resName]-1;
-
-		stack.push({
-			name: $I("res.stack.festival"),
-			type: "ratio",
-			value: cycleEffect
-		});
-
-		// +BUILDING AND SPACE PerTick
-		stack.push({
-			name: $I("res.stack.baseline"),
-			type: "fixed",
-			value: this.getEffect(res.name + "PerTick")
-		});
-
-		// +CRAFTING JOB PRODUCTION
-		stack.push({
-			name: $I("res.stack.engineer"),
-			type: "fixed",
-			value: this.workshop.getEffectEngineer(res.name, true)
-		});
+		
         //policy effects:
         //communims
         if((game.getEffect("communismProductionBonus")>0)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
@@ -2942,6 +2858,90 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 value: game.getEffect("environmentWoodBonus"),
                 });
         }
+		// +AUTOMATED PRODUCTION BUILDING
+		stack.push({
+			name: $I("res.stack.convProd"),
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickProd")
+		});
+		stack.push({ // extra-compare with this.calcResourcePerTick
+			name: $I("res.stack.convCons"),
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTickCon")
+		});
+
+		// +AUTOMATED PRODUCTION SPACE
+		var perTickAutoprodSpaceStack = [];
+		var spaceParagonSubStack = [];
+		//---->
+			perTickAutoprodSpaceStack.push({
+				name: $I("res.stack.spaceConvProd"),
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickAutoprodSpace")
+			});
+			perTickAutoprodSpaceStack.push({
+				name: $I("res.stack.spaceProdBonus"),
+				type: "ratio",
+				value: spaceRatio - 1
+			});
+			spaceParagonSubStack.push({
+				name: $I("res.stack.spaceParagon"),
+				type: "ratio",
+				value: paragonSpaceProductionRatio - 1
+			});
+			spaceParagonSubStack.push({
+				name: $I("res.stack.bonusTransf"),
+				type: "multiplier",
+				value: this.getEffect("prodTransferBonus")
+			});
+			perTickAutoprodSpaceStack.push(spaceParagonSubStack);
+		//<----
+		stack.push(perTickAutoprodSpaceStack);
+
+		// +AUTOMATED PRODUCTION SPACE
+		var perTickSpace = [];
+		//---->
+			perTickSpace.push({
+				name: $I("res.stack.spaceConvProd"),
+				type: "fixed",
+				value: this.getEffect(res.name + "PerTickSpace")
+			});
+			perTickSpace.push({
+				name: $I("res.stack.spaceProdBonus"),
+				type: "ratio",
+				value: spaceRatio - 1
+			});
+		//<----
+		stack.push(perTickSpace);
+
+		//CYCLE EFFECT
+		// Can't be displayed because it's space building improvements.
+
+		//CYCLE FESTIVAL EFFECTS
+		var effects = {};
+		effects[res.name] = 1;
+		this.calendar.cycleEffectsFestival(effects);
+		var cycleEffect = effects[resName]-1;
+
+		stack.push({
+			name: $I("res.stack.festival"),
+			type: "ratio",
+			value: cycleEffect
+		});
+
+		// +BUILDING AND SPACE PerTick
+		stack.push({
+			name: $I("res.stack.baseline"),
+			type: "fixed",
+			value: this.getEffect(res.name + "PerTick")
+		});
+
+		// +CRAFTING JOB PRODUCTION
+		stack.push({
+			name: $I("res.stack.engineer"),
+			type: "fixed",
+			value: this.workshop.getEffectEngineer(res.name, true)
+		});
 		// -EARTH CONSUMPTION && -SPACE CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
 		var resConsumption = resMapConsumption[res.name] || 0;
