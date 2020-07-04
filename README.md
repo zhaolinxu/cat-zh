@@ -43,6 +43,13 @@ yarn start
 1. No meanies and baddies
 2. No bureocracy
 
+### Repo access
+
+As a general rule, all changes should go through the PR.
+If you have a write access, you can submit small changes directly without approval. Major changes are still advised to be pushed through PR.
+
+Please run all major UI changes through Blood first or you will risk loosing your direct write access.
+
 ### No ES6, please
 The KG ecosystem must support about 20.000 different Android devices, iOS, and various OS and browser versions dating from 1980, including Chrome/FF/IE/Edge/webkit of all possible releases.
 
