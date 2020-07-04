@@ -1054,23 +1054,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.technocracyScienceCap.title"),
                 type: "ratio"
 			},
-			"expansionismUnobtainiumProductionBonus":{
-                title: $I("effectsMgr.statics.expansionismUnobtainiumProductionBonus.title"),
-                type: "ratio"
-			},
-			"theocracyFaithProductionBonus":{
-                title: $I("effectsMgr.statics.theocracyFaithProductionBonus.title"),
-                type: "ratio"
-			},
 			//age 5 policy effects
 			"aiCoreProductivness":{
                 title: $I("effectsMgr.statics.aiCoreProductivity.title"),
                 type: "ratio"
 			},
-            "aiCoreUpgradeBonus":{
-            title: $I("effectsMgr.statics.aiCoreUpgradeBonus.title"),
-            type: "ratio"
-            },
+			"aiCoreUpgradeBonus":{
+				title: $I("effectsMgr.statics.aiCoreUpgradeBonus.title"),
+				type: "ratio"
+			},
 			"blsProductionBonus":{
                 title: $I("effectsMgr.statics.blsProductionBonus.title"),
                 type: "ratio"
@@ -1087,10 +1079,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "tradeGoldDiscount":{
                 title: $I("effectsMgr.statics.tradeGoldDiscount.title"),
                 type: "fixed"
-            },
-            "zebraAppeasedGoldPenalty":{
-                title: $I("effectsMgr.statics.zebraAppeasedGoldPenalty.title"),
-                type: "ratio"
             },
             "zebraRelationModifier":{
                 title: $I("effectsMgr.statics.zebraRelationModifier.title"),
@@ -2536,13 +2524,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//necrocracy global effect
 		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus"))); 
-		
-		//policy ration effects
-		perTick *= (1 + (res.name + this.getEffect("PolicyRatio")));	
-        if(resName == "gold"){
-             perTick = perTick * (1 - this.getEffect("zebraAppeasedGoldPenalty"));
-		}
-		
+
 		perTick += resConsumption;
 		if (isNaN(perTick)){
 			return 0;
@@ -2753,95 +2735,22 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 		
         //policy effects:
-        //necrocracy global effect
+		//necrocracy global effect
+		//TODO: consider moving it to calculateEffects
         if(this.science.getPolicy("necrocracy").researched){
             stack.push({
                 name: $I("res.stack.necrocracy"),
                 type: "ratio",
                 value: this.getEffect("blsProductionBonus") * this.resPool.get("sorrow").value,
             });
-        }
-        //communims
-        if((this.getEffect("communismProductionBonus") > 0) && ((resName == "coal") || (resName == "iron") || (resName == "titanium"))){
-        stack.push({
-                name: $I("res.stack.communism"),
-                type: "ratio",
-                value: this.getEffect("communismProductionBonus"),
-                });
-        }
-        //theocracy AKA order of the stars
-        if((this.getEffect("theocracyFaithProductionBonus") > 0) && (resName == "faith")){
-        stack.push({
-                name: $I("res.stack.theocracy"),
-                type: "ratio",
-                value: this.getEffect("theocracyFaithProductionBonus"),
-                });
-        }
-        //expansionism AKA cosmological liberalism
-        if((this.science.getPolicy("expansionism").researched) && (resName == "unobtainium")){
-        stack.push({
-                name: $I("res.stack.expansionism"),
-                type: "ratio",
-                value: this.getEffect("expansionismUnobtainiumProductionBonus"),
-                });
-        }
-        //zebra appeasement
-        if((this.science.getPolicy("zebraRelationsAppeasement").researched) && (resName == "gold")){
-        stack.push({
-                name: $I("res.stack.zebraRelationsAppeasementPenalty"),
-                type: "ratio",
-                value: -this.getEffect("zebraAppeasedGoldPenalty"),
-                });
-        }
-        //knowledge sharing
-        if((this.science.getPolicy("knowledgeSharing").researched) && (resName == "science")){
-        stack.push({
-                name: $I("res.stack.sharedKnowledge"), 
-                type: "ratio",
-                value: this.getEffect("sharedKnowledgeBonus"),
-                });
-        }
-        //cultural exchange
-        if((this.science.getPolicy("culturalExchange").researched) && (resName == "culture")){
-        stack.push({
-                name: $I("res.stack.culturalExchanges"),
-                type: "ratio",
-                value: this.getEffect("culturalExchangeBonus"),
-                });
-        }
-        //philosophy policies effects:
-        //mysticism bonus
-        if((this.getEffect("mysticismBonus") > 0) && ((resName == "culture") || (resName == "faith"))){
-        stack.push({
-                name: $I("res.stack.mysticism"),
-                type: "ratio",
-                value: this.getEffect("mysticismBonus"),
-                });
-        }
-        //rationalism bonus
-        if((this.getEffect("rationalityBonus") > 0) && ((resName == "science") || (resName == "iron"))){
-        stack.push({
-                name: $I("res.stack.rationality"),
-                type: "ratio",
-                value: this.getEffect("rationalityBonus"),
-                });
-        }
-        //environment minerals bonus
-        if(resName == "minerals"){
-        stack.push({
-                name: $I("res.stack.environmentPolicy"),
-                type: "ratio",
-                value: this.getEffect("environmentMineralBonus"),
-                });
-        }
-        //environment wood bonus
-        if(resName == "wood"){
-        stack.push({
-                name: $I("res.stack.environmentPolicy"),
-                type: "ratio",
-                value: this.getEffect("environmentWoodBonus"),
-                });
-        }
+		}
+		// +*POLICY
+		stack.push({
+			name: $I("res.stack.policy"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PolicyRatio")
+		});
+		
 		// +AUTOMATED PRODUCTION BUILDING
 		stack.push({
 			name: $I("res.stack.convProd"),
@@ -3172,7 +3081,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (this.getResourcePerTick(resRef.name, false) != 0
 				|| this.getResourcePerTickConvertion(resRef.name) != 0
 				|| this.workshop.getEffectEngineer(resRef.name) != 0
-				){
+			){
 
 				tooltip.innerHTML = this.getDetailedResMap(resRef);
 

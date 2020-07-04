@@ -1112,7 +1112,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 5000}
         ],
         effects:{
-            "zebraAppeasedGoldPenalty" : 0.05,
+            "goldPolicyRatio" : -0.05,
             "zebraRelationModifier" : 15
         },
         unlocked: false,
@@ -1442,16 +1442,18 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
                 if (meta.effect){
                     effect = meta.effects[name] || 0;
                 }
-                          return effect;
-                }});
-             this.registerMeta("research", this.policies,{
-                getEffect: function(meta, name){
-                    var effect = 0;
-                    if (meta.effect){
-                        effect = meta.effects[name] || 0;
-                    }
-                    return effect;
-                }});
+				return effect;
+			}
+		});
+		this.registerMeta("research", this.policies,{
+			getEffect: function(meta, name){
+				var effect = 0;
+				if (meta.effect){
+					effect = meta.effects[name] || 0;
+				}
+				return effect;
+			}
+		});
 		this.setEffectsCachedExisting();
 	},
 
@@ -1615,9 +1617,17 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		if((model.metadata.blocked != true) && ((game.village.leader == null || !model.metadata.requiredLeaderJob) || (game.village.leader.job == model.metadata.requiredLeaderJob)) && ((!model.metadata.name == "transkittenusm") || (game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15))){
+		if((model.metadata.blocked != true) && 
+			(
+				(this.village.leader == null || !model.metadata.requiredLeaderJob) || 
+				(this.village.leader.job == model.metadata.requiredLeaderJob)
+			) && (
+				(!model.metadata.name == "transkittenusm") || 
+				(this.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
+			)
+		){
              for(var i = 0; i < model.metadata.blocks.length; i++){
-                if(game.science.getPolicy(model.metadata.blocks[i]).researched){
+                if(this.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked = true;
                     return;
                 }
