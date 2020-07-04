@@ -3459,8 +3459,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (tsDiff < 10) {tsDiff = 10;}
             fpsElement = $("#devPanelFPS")[0];
             if (fpsElement) {
-                fpsElement.textContent = "update time: " + tsDiff + " ms,"
-                + " avg: " + avg.toFixed() + " ms [ " + avg0.toFixed() + " | " + avg1.toFixed() + " | " + avg2.toFixed() + " | " + avg3.toFixed() + " | " + avg4.toFixed() + "] (click to restart)";
+                fpsElement.textContent = "fps: " + tsDiff + " ms,"
+				+ " avg: " + avg.toFixed() + 
+				" ms [" + avg0.toFixed() + 
+				"." + avg1.toFixed() + 
+				"." + avg2.toFixed() + 
+				"." + avg3.toFixed() + 
+				"." + avg4.toFixed() + "] (Cl. to res.)";
             }
 		}
 	},
