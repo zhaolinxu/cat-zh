@@ -768,7 +768,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					// 0 HP = +0%
 					// 100 HP = +100%
 					// 300 HP = +200%
-					self.effects["terraformingMaxKittensRatio"] = game.getTriValue(self.on, 100) / self.on;
+					self.effects["terraformingMaxKittensRatio"] = game.getUnlimitedDR(self.on, 100) / self.on;
 					// Reset each tick because of cycle effect (from Yarn and Piscine) being applied continuously, due to presence of method "action"
 					self.effects["catnipRatio"] = 0.025;
 				},
@@ -802,7 +802,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getTriValue(yearBonus, 0.075) * 0.01) *
+						1 * ( 1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
 							( 1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
@@ -1164,7 +1164,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 
         for (var i = 0; i < prices.length; i++){
             if (prices[i].name == "oil"){
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
 			}
 		}
@@ -1251,7 +1251,7 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 prices[i].val = prices[i].val * Math.pow(ratio, meta.val);
              } else {
                 prices[i].val = prices[i].val * Math.pow(1.05, meta.val);
-                var reductionRatio = this.game.getHyperbolicEffect(this.game.getEffect("oilReductionRatio"), 0.75);
+                var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
 		}
