@@ -22,8 +22,8 @@
 
 ### Prereq
 
-[NodeJS](https://nodejs.org/) v10+
-[yarn](https://yarnpkg.com/)
+* [NodeJS](https://nodejs.org/) v10+
+* [yarn](https://yarnpkg.com/)
 
 ### Installation
 
@@ -40,8 +40,8 @@ yarn start
 
 ### Rules
 
-* 1. No meanies and baddies
-* 2. No bureocracy
+1. No meanies and baddies
+2. No bureocracy
 
 ### No ES6, please
 The KG ecosystem must support about 20.000 different Android devices, iOS, and various OS and browser versions dating from 1980, including Chrome/FF/IE/Edge/webkit of all possible releases.
