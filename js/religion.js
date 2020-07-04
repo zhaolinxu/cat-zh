@@ -171,7 +171,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.triggerOrderOfTheVoid(times);
 	},
 
-	// Accumulates the equivalent of 10 % (improved by Void Resonators) of produced faith, but with only a quarter of apocrypha bonus
+	// Converts the equivalent of 10 % (improved by Void Resonators) of produced faith, but with only a quarter of apocrypha bonus
 	triggerOrderOfTheVoid: function(numberOfTicks) {
 		if (this.game.prestige.getPerk("voidOrder").researched) {
 			var convertedFaith = numberOfTicks * this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));
@@ -776,7 +776,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	adore: function(bonusRatio, withConfirmation) {
 		if (withConfirmation) {
 			var self = this;
-			this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"), function() {
+			this.game.ui.confirm("", $I("religion.adore.confirmation.msg"), function() {
 				self._adore(bonusRatio);
 			});
 		} else {
@@ -1224,9 +1224,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var religionPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
 			var content = religionPanel.render(container);
 
-			var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
-			this.faithCount = faithCount;
-
 			this.praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("religion.praiseBtn.label"),
 				description: $I("religion.praiseBtn.desc"),
@@ -1333,12 +1330,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 			if (this.transcendBtn) {
 				this.transcendBtn.update();
-			}
-
-			if (this.game.resPool.get("worship").value && this.faithCount) {
-				this.faithCount.innerHTML = $I("religion.faithCount.pool", [this.game.getDisplayValueExt(this.game.resPool.get("worship").value)]);
-			} else {
-				this.faithCount.innerHTML = "";
 			}
 
 			dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });

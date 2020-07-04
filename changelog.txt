@@ -7,6 +7,7 @@ Major:
 * Implement Zebra Outpost
 * Add embassies
 * Double timeout of the “Observe the sky” button for Iron Will
+* Clarify interactions between Praise, Solar Revolution, Apocrypha and Transcend
 
 Themes:
 * New themes: Anthracite, Black
