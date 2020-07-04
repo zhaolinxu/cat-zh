@@ -1623,7 +1623,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 				(this.game.village.leader.job == model.metadata.requiredLeaderJob)
 			) && (
 				(!model.metadata.name == "transkittenusm") || 
-				(this.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
+				(this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
 			)
 		){
              for(var i = 0; i < model.metadata.blocks.length; i++){
