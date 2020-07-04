@@ -13,27 +13,34 @@
             "unix"
         ],
         "quotes": [
-            "error",
+            "warn",
             "double"
         ],
         "semi": [
             "error",
             "always"
         ],
-        "no-mixed-spaces-and-tabs": "off",
+        "no-mixed-spaces-and-tabs": "warn",
+        "no-unused-vars": "warn",
         "no-redeclare": "off"
     },
     "globals": {
         "dojo": "readonly",
-        "$I": "readonly",
-        "i18nLang": "readonly",
+        "React": "readonly",
+        "Dropbox": "readonly",
         "$": "readonly",
+        "jQuery": "readonly",
+
         "LCstorage": "readonly",
         "LZString": "readonly",
-        "React": "readonly",
+
+        "$I": "writable",
+        "i18nLang": "writable",
+        "UIUtils": "writable",
+
         "config": "readonly",
-        "UIUtils": "readonly",
         "ButtonModernHelper": "readonly",
+        
         "com": "readonly",
         "classes": "readonly",
         "mixin": "readonly"

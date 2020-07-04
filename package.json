@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint *.js js/*.js"
+    "lint": "eslint *.js js/*.js",
+    "start": "http-server"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "license": "SEE LICENSE IN license.txt",
   "homepage": "https://bitbucket.org/bloodrizer/kitten-game#readme",
   "devDependencies": {
-    "eslint": "^7.4.0"
+    "eslint": "^7.4.0",
+    "http-server": "^0.12.3"
   }
 }
