@@ -4,7 +4,7 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 6
+        "ecmaVersion": 5
     },
     "ignorePatterns": ["lib/**/*", "node_modules/**/*"],
     "rules": {
