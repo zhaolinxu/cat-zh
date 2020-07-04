@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "ignorePatterns": ["lib/**/*", "node_modules/**/*"],
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-mixed-spaces-and-tabs": "off",
+        "no-redeclare": "off"
+    },
+    "globals": {
+        "dojo": "readonly",
+        "$I": "readonly",
+        "i18nLang": "readonly",
+        "$": "readonly",
+        "LCstorage": "readonly",
+        "LZString": "readonly",
+        "React": "readonly",
+        "config": "readonly",
+        "UIUtils": "readonly",
+        "ButtonModernHelper": "readonly",
+        "com": "readonly",
+        "classes": "readonly",
+        "mixin": "readonly"
+    }
+}
