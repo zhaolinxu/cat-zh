@@ -791,7 +791,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
         //city on a hill bonus
         if(res.name == "culture"){
-            maxValue *= (1 + this.getEffect("onAHillCultureCap"));
+            maxValue *= (1 + this.game.getEffect("onAHillCultureCap"));
         }
 		return maxValue;
 	},

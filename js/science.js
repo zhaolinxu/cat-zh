@@ -1619,8 +1619,8 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	onPurchase: function(model){
 		if((model.metadata.blocked != true) && 
 			(
-				(this.village.leader == null || !model.metadata.requiredLeaderJob) || 
-				(this.village.leader.job == model.metadata.requiredLeaderJob)
+				(this.game.village.leader == null || !model.metadata.requiredLeaderJob) || 
+				(this.game.village.leader.job == model.metadata.requiredLeaderJob)
 			) && (
 				(!model.metadata.name == "transkittenusm") || 
 				(this.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
