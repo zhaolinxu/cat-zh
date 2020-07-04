@@ -287,15 +287,14 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			// Add effect from meta
 			var effect = 0;
 			for (var i = 0; i < this.meta.length; i++){
-				var effectMeta = this.getMetaEffect(name, this.meta[i]);
-				effect += effectMeta;
+				effect += this.getMetaEffect(name, this.meta[i]);
 			}
 
 			// Previously, catnip demand (or other buildings that both affect the same resource)
 			// could have theoretically had more than 100% reduction because they diminished separately,
 			// this takes the total effect and diminishes it as a whole.
-			if (this.game.isHyperbolic(name) && effect !== 0) {
-				effect = this.game.getHyperbolicEffect(effect, 1.0);
+			if (this._hasLimitedDiminishingReturn(name) && effect !== 0) {
+				effect = this.game.getLimitedDR(effect, 1);
 			}
 
 			// Add effect from effectsBase
@@ -306,6 +305,14 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 			// Add effect in globalEffectsCached, in addition of other managers
 			this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
 		}
+	},
+
+	_hasLimitedDiminishingReturn: function(name) {
+		return name == "catnipDemandRatio"
+		    || name == "fursDemandRatio"
+		    || name == "ivoryDemandRatio"
+		    || name == "spiceDemandRatio"
+		    || name == "unhappinessRatio";
 	},
 
 	/**

@@ -728,6 +728,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "solarRevolutionLimit" : {
+                title: $I("effectsMgr.statics.solarRevolutionLimit.title"),
+                type: "ratio"
+            },
+
 			"relicRefineRatio" :  {
                 title: $I("effectsMgr.statics.relicRefineRatio.title"),
                 type: "ratio"
@@ -1460,9 +1465,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.updateResources();
 	},
 
-	// Returns a parabolic-approaching value of the effect that heads to the limit, but unable to approach it completely
-	// Updated 7/8/2014: Update for limits that aren't 1. They would scale at the same speed as a limit of 1 and wouldn't properly approach the limit.
-	getHyperbolicEffect: function(effect, limit){
+	// Unlimited Diminishing Return
+	getLimitedDR: function(effect, limit) {
 		var absEffect = Math.abs(effect);
 
 		var maxUndiminished = 0.75 * limit; //first 75% is free from diminishing returns
@@ -1482,14 +1486,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var totalEffect = maxUndiminished + diminishedEffect;
 
 		return effect < 0 ? -totalEffect : totalEffect;
-	},
-
-	isHyperbolic: function(name) {
-		return (name == "catnipDemandRatio" ||
-			name == "fursDemandRatio" ||
-			name == "ivoryDemandRatio" ||
-			name == "spiceDemandRatio" ||
-			name == "unhappinessRatio");
 	},
 
 	/**
@@ -2247,11 +2243,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		if (save.saveVersion == 12) {
 			if (save.religion && save.religion.tcratio && save.religion.tu) {
-				var transcendenceLevel = this.religion.getTriValueReligion(save.religion.tcratio) * 100;
-				transcendenceLevel = Math.round(Math.log(transcendenceLevel));
-					if (transcendenceLevel < 0) {
-						transcendenceLevel = 0;
-					}
+				var transcendenceLevel = Math.max(0, Math.round(Math.log(10 * this.game.getUnlimitedDR(save.religion.tcratio, 0.1))));
 				for (var i = 0; i < save.religion.tu.length; i++) {
 					if (transcendenceLevel >= this.religion.getTU(save.religion.tu[i].name).tier) {
 						save.religion.tu[i].unlocked = true;
@@ -2476,15 +2468,15 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		// +*FAITH BONUS
-		perTick *= 1 + (this.religion.getProductionBonus() / 100);
+		perTick *= 1 + this.religion.getSolarRevolutionRatio();
 
 		//+COSMIC RADIATION
 		if (!this.opts.disableCMBR && res.name != "coal") {
-			perTick *= (1 + this.getCMBRBonus());
+			perTick *= 1 + this.getCMBRBonus();
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
 
 		// +AUTOMATED PRODUCTION BUILDING
 		perTick += this.getEffect(res.name + "PerTickProd");
@@ -2718,9 +2710,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// +*FAITH BONUS
 		stack.push({
-			name: $I("res.stack.faith"),
+			name: $I("res.stack.solarRevolution"),
 			type: "ratio",
-			value: this.religion.getProductionBonus() / 100
+			value: this.religion.getSolarRevolutionRatio()
 		});
 
 		if (!this.opts.disableCMBR && res.name != "coal") {
@@ -2732,7 +2724,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		//ParagonSpaceProductionRatio definition 4/4
-		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
+		paragonSpaceProductionRatio *= 1 + this.religion.getSolarRevolutionRatio();
 		
         //policy effects:
 		//necrocracy global effect
@@ -2863,13 +2855,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		return stack;
 	},
 
-	//CMBR is capped by 20%
-
-	getCMBRBonus: function(){
-		if (this.isCMBREnabled) {
-			return this.getHyperbolicEffect(1.0, 0.2);
-		}
-		return 0;
+	getCMBRBonus: function() {
+		return this.isCMBREnabled ? 0.2 : 0;
 	},
 
 	getCraftRatio: function(tag) {
@@ -3606,7 +3593,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
-		bonusZebras += Math.floor(this.getHyperbolicEffect(totalScience / 10000, 100));
+		bonusZebras += Math.floor(this.getLimitedDR(totalScience / 10000, 100));
 		return bonusZebras;
 	},
 
@@ -3665,9 +3652,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			karmaZebras += bonusZebras;
 		}
 
-		var faithRatio = this.religion.faithRatio;
 		//pre-reset faith so people who forgot to do it properly would not be screwed
-		if (this.religion.getRU("apocripha").on){
+		var faithRatio = this.religion.faithRatio;
+		if (this.religion.getRU("apocripha").on) {
 			faithRatio += this.religion.getApocryphaResetBonus(1);
 		}
 		//------------------------------------------------------------------------------------------------------
@@ -3697,29 +3684,26 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		//------------ we can now carry some of the resources through reset ------------
 		var newResources = [];
 
-		//TODO: use persists flag
-		var ignoreResources = ["kittens", "zebras", "unicorns", "alicorn", "tears", "furs", "ivory", "spice", "karma", "necrocorn", "gflops", "hashrates"];
-
-
 		var anachronomancy = this.prestige.getPerk("anachronomancy");
 		var fluxCondensator = this.workshop.get("fluxCondensator");
-		for (var i in this.resPool.resources){
+		for (var i in this.resPool.resources) {
 			var res = this.resPool.resources[i];
 
-			if ((res.craftable && res.name != "wood" && !fluxCondensator.researched) ||
-				dojo.indexOf(ignoreResources, res.name) >= 0){
+			// undefined is NOT falsy here
+			if (res.persists === false
+			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
 				continue;	//>:
 			}
 			var value = 0;
 
-			if (res.name == "timeCrystal"){
-				if (anachronomancy.researched){
+			if (res.name == "timeCrystal") {
+				if (anachronomancy.researched) {
 					value = res.value;
 				}
-			} else if (res.persists){
+			} else if (res.persists) {
 				value = res.value;
 			} else {
-				if (!res.craftable || res.name == "wood"){
+				if (!res.craftable || res.name == "wood") {
 					value = res.value * saveRatio;
 					if (res.name == "void") {
 						value = Math.floor(value);
@@ -3729,11 +3713,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			if (addRes[res.name] > 0){
+			if (addRes[res.name] > 0) {
 				value += addRes[res.name];
 			}
 
-			if (value > 0){
+			if (value > 0) {
 				var newRes = this.resPool.createResource(res.name);
 				newRes.value = value;
 				newResources.push(newRes);
@@ -3779,8 +3763,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				perks: this.prestige.perks
 			},
 			religion: {
+				transcendenceTier: this.religion.transcendenceTier,
 				faithRatio: faithRatio,
-				tcratio: this.religion.tcratio,
 				zu: [],
 				ru: [],
 				tu: this.religion.filterMetadata(this.religion.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -3839,7 +3823,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	//Karma has no menu. You get served what you deserve.
 	updateKarma: function(){
 		var stripe = 5;	//initial amount of kittens per stripe
-		var karma = this.getTriValue(this.karmaKittens, stripe);
+		var karma = this.getUnlimitedDR(this.karmaKittens, stripe);
 
 		this.resPool.get("karma").value = karma;
 
@@ -3848,12 +3832,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 	},
 
-	getTriValue: function(value, stripe){
+	// Unlimited Diminishing Return
+	getUnlimitedDR: function(value, stripe) {
 		return (Math.sqrt(1 + 8 * value / stripe) - 1) / 2;
 	},
 
-	getTriValueOrigin: function(value, stripe) {
-		return (Math.pow(value * 2 + 1, 2) - 1) * stripe / 8;
+	getInverseUnlimitedDR: function(value, stripe) {
+		return value * (value + 1) * stripe / 2;
 	},
 
 	getTab: function(name) {
@@ -4045,7 +4030,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.religion.getRU("apocripha").on) {
 			gift = "Apocrypha";
 		}
-		if(this.religion.getRU("transcendence").on && this.religion.getTranscendenceLevel() <= 10) {
+		if (this.religion.getRU("transcendence").on && this.religion.transcendenceTier <= 10) {
 			gift = "Transcendence";
 		}
 		if(this.prestige.getPerk("engeneering").researched && !this.prestige.getPerk("renaissance").researched) {
@@ -4062,7 +4047,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 5000;
 				}
-				var karmaGained = this.getTriValue(this.karmaKittens + amt, 5) - this.getTriValue(this.karmaKittens, 5);
+				var karmaGained = this.getUnlimitedDR(this.karmaKittens + amt, 5) - this.getUnlimitedDR(this.karmaKittens, 5);
 				var msg = "Got " + this.getDisplayValueExt(karmaGained) + " Karma!";
 				this.karmaKittens += amt;
 				break;
@@ -4107,10 +4092,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				break;
 
 			case "Transcendence":
-				var amt = this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel() + 4) - this.religion.getTranscendenceRatio(this.religion.getTranscendenceLevel());
-				this.religion.tcratio += amt;
-				this.religion.tclevel += 4;
-				var msg = "Transcendence Level increased by 4!";
+				this.religion.transcendenceTier += 4;
+				var msg = "Transcendence Tier increased by 4!";
 				break;
 
 			case "Metaphysics":

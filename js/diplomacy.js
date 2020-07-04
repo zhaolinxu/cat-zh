@@ -394,7 +394,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 			
 			var relationBoost = this.game.getEffect("tradeRelationBoost"); //relationBoost from liberalism!
-			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getHyperbolicEffect((race.embassyLevel + relationBoost) * embassyEffect, 0.75) : 0));
+			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR((race.embassyLevel + relationBoost) * embassyEffect, 0.75) : 0));
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance);

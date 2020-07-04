@@ -6,8 +6,9 @@
     WResourceTable:writable,
     WCraftTable:writable,
     WLeftPanel:writable,
-    WTooltip:writable
-
+    WTooltip:writable,
+    WCraftShortcut:writable,
+    game
 */
 WResourceRow = React.createClass({
 
@@ -129,7 +130,6 @@ WResourceRow = React.createClass({
             }
         }
 
-
         //----------------------------------------------------------------------------
 
         var specialClass = "";
@@ -143,7 +143,7 @@ WResourceRow = React.createClass({
             specialClass = " leet";
         }
 
-        var resLeaderBonus ="";
+        var resLeaderBonus = "";
         var currentLeader = game.village.leader;
         
         if (currentLeader){
@@ -288,7 +288,7 @@ WCraftShortcut = React.createClass({
 				var prices = game.workshop.getCraftPrice(recipe);
 
 				var allCount = game.workshop.getCraftAllCount(recipe.name);
-				var ratioCount = Math.floor(allCount*ratio);
+				var ratioCount = Math.floor(allCount * ratio);
 				if (num < ratioCount){
 					num = ratioCount;
 				}
@@ -329,7 +329,7 @@ WCraftShortcut = React.createClass({
     
     doCraft: function(event){
         var res = this.props.resource;
-        var allCount = game.workshop.getCraftAllCount(res.name);
+        var allCount = game.workshop.getCraftAllCount(res.name),
             ratioCount = Math.floor(allCount * this.props.craftPercent);
         
         var num = this.props.craftFixed;
@@ -419,7 +419,7 @@ WCraftRow = React.createClass({
         }
         //----------------------------------------------------------------------------
         var resVal = game.getDisplayValueExt(res.value);
-        return $r("div", {className:"res-row craft resource_" + res.name + (game.workshop.getEffectEngineer(res.name) !=0 ? " craftEngineer " : "")
+        return $r("div", {className:"res-row craft resource_" + res.name + (game.workshop.getEffectEngineer(res.name) != 0 ? " craftEngineer " : "")
         + (this.props.isRequired ? " highlited" : "")}, [
             this.props.isEditMode ? 
                 $r("div", {className:"res-cell"},
@@ -525,7 +525,7 @@ WResourceTable = React.createClass({
                 this.state.isEditMode ? $r("div", {style:{"textAlign":"right"}}, [
                     $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
                     $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
-                ]): null,
+                ]) : null,
                 $r("div", {className:"res-table"}, resRows)
             ])
         ]);
@@ -665,7 +665,7 @@ WTooltip = React.createClass({
             this.props.body || $r("div", {className: "tooltip-icon"}, "[?]"),
             this.state.showTooltip ? $r("div", {className: "tooltip-content"}, 
                 this.props.children
-            ): null
+            ) : null
         ]);
     },
 

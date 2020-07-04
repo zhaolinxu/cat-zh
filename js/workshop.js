@@ -2215,7 +2215,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart") {
-				prices[i].val = prices[i].val * (1 - this.game.getHyperbolicEffect(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
+				prices[i].val = prices[i].val * (1 - this.game.getLimitedDR(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
 			}
 		}
 		return prices;
@@ -2362,7 +2362,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						this.game.getEffect("blackLibraryBonus") )
 				)
 			);
-			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
+			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
 		}
 
 		var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
@@ -2373,7 +2373,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 		this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMax);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
-		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
+		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
 
 		if (this.game.science.getPolicy("tradition").researched){
 			this.effectsBase["cultureMax"] *= 2;
