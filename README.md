@@ -12,9 +12,36 @@
     * [LINKS](#links)
 
 ## General Information
+* [Discord](https://discord.gg/Y8bTG3) - * check it first! *
 * [Kittens Game subreddit](https://www.reddit.com/r/kittensgame)
 * [dojo Reference Guide](https://dojotoolkit.org/reference-guide/1.7/dojo/index.html)
     * (I'm using mostly pre-1.7 dojo functionality.)
+
+
+## Setup
+
+### Prereq
+
+[NodeJS](https://nodejs.org/) v10+
+[yarn](https://yarnpkg.com/)
+
+### Installation
+
+```
+yarn install
+```
+To run the local developer server:
+
+```
+yarn start
+```
+
+## Contribution
+
+### Rules
+
+* 1. No meanies and baddies
+* 2. No bureocracy
 
 ### No ES6, please
 The KG ecosystem must support about 20.000 different Android devices, iOS, and various OS and browser versions dating from 1980, including Chrome/FF/IE/Edge/webkit of all possible releases.
@@ -51,7 +78,6 @@ Someone will be able to farm trillions of them.
 
 ### Consistency
 * With code formatting, it's nice to have, but it's not critical.
-* With other things, we insist upon it.
 * For more information and specific guidelines, click the relevant link below:
     * [Resource Order](./Resource-Order.md)
 
