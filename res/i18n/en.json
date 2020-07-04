@@ -399,7 +399,8 @@
     "effectsMgr.statics.smelterRatio.title": "Smelter bonus",
     "effectsMgr.statics.solarFarmRatio.title": "Solar Farm bonus",
     "effectsMgr.statics.solarFarmSeasonRatio.title": "Solar Farm seasonal bonus",
-    "effectsMgr.statics.solarRevolutionLimit.title": "Solar Revolution limit effect",
+    "effectsMgr.statics.solarRevolutionLimit.title": "Solar Revolution limit increase",
+    "effectsMgr.statics.solarRevolutionRatio.title": "Production bonus",
     "effectsMgr.statics.spaceBeacon-starchartPerTickBaseSpace.title": "Space Beacon - Starchart production",
     "effectsMgr.statics.spaceElevator-prodTransferBonus.title": "Space Elevator - Transferred production bonus",
     "effectsMgr.statics.spaceRatio.title": "Space production bonus",
@@ -600,7 +601,6 @@
 
     "religion.adoreBtn.label": "Adore the galaxy",
     "religion.adoreBtn.desc": "Former [Faith Reset]",
-    "religion.faithCount.bonus": "bonus",
     "religion.faithCount.pool": "Accumulated faith: {0}",
     "religion.msg.corruption": "Your alicorn was corrupted by the markers!",
     "religion.panel.cryptotheology.label": "Cryptotheology",

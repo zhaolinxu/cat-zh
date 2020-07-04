@@ -733,6 +733,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "solarRevolutionRatio" : {
+                title: $I("effectsMgr.statics.solarRevolutionRatio.title"),
+                type: "ratio"
+            },
+
 			"relicRefineRatio" :  {
                 title: $I("effectsMgr.statics.relicRefineRatio.title"),
                 type: "ratio"

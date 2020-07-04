@@ -1187,7 +1187,6 @@
     "religion.transcendBtn.label": "次元超越",
     "religion.transcendBtn.desc": "除非超越猫类的极限",
     "religion.faithCount.pool": "信仰总量: {0}",
-    "religion.faithCount.bonus": "信仰加成",
     "religion.praise.msg": "你积累了 +{0} 信仰",
     "religion.resetFaith.confirmation.msg": "确定要重置信仰池吗?\n\n通过赞美太阳积累的信仰池将会转化为赞美太阳加成。\n\n此加成将会在游戏重置时保留。\n\n点击此按钮将清空已经积累的信仰池。",
     "religion.transcend.confirmation.msg": "确定要舍弃赞美太阳加成吗?\n\n通过牺牲一部分赞美太阳加成将可以提升到新的超越等级。\n每个超越等级都将提升信仰重置的效率。\n每次提升超越等级都需要牺牲更多的信仰加成。\n\n此加成可以累积并在游戏重置时保留。\n\n点击此按钮将移除一部分赞美太阳加成。",

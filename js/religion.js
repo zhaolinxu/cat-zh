@@ -525,7 +525,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		worshipUnlock: 1000,
 		effects: {
-			//none
+			"solarRevolutionRatio": 0
+		},
+		calculateEffects: function(self, game) {
+			self.effects["solarRevolutionRatio"] = game.religion.getSolarRevolutionRatio();
 		},
 		noStackable: true
 	},{
@@ -1300,19 +1303,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		var religion = this.game.religion;
 
-		if (this.sacrificeBtn){
+		if (this.sacrificeBtn) {
 			this.sacrificeBtn.update();
 		}
 
-		if (this.sacrificeAlicornsBtn){
+		if (this.sacrificeAlicornsBtn) {
 			this.sacrificeAlicornsBtn.update();
 		}
 
-		if (this.refineBtn){
+		if (this.refineBtn) {
 			this.refineBtn.update();
 		}
 
-		if (this.refineTCBtn){
+		if (this.refineTCBtn) {
 			this.refineTCBtn.update();
 		}
 
@@ -1320,6 +1323,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			if (this.praiseBtn) {
 				this.praiseBtn.update();
 			}
+
+			var sr = this.game.religion.getRU("solarRevolution");
+			sr.calculateEffects(sr, this.game);
 
 			if (this.adoreBtn) {
 				this.adoreBtn.update();
@@ -1333,11 +1339,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				this.faithCount.innerHTML = $I("religion.faithCount.pool", [this.game.getDisplayValueExt(this.game.resPool.get("worship").value)]);
 			} else {
 				this.faithCount.innerHTML = "";
-			}
-
-			var bonus = religion.getSolarRevolutionRatio();
-			if (bonus != 0) {
-				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(100 * bonus) + "% " + $I("religion.faithCount.bonus") + ")" );
 			}
 
 			dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
