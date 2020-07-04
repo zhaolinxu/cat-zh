@@ -12,6 +12,11 @@
     "lint": "eslint *.js js/*.js --quiet",
     "start": "http-server"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/bloodrizer/kitten-game.git"
@@ -25,6 +30,7 @@
   "homepage": "https://bitbucket.org/bloodrizer/kitten-game#readme",
   "devDependencies": {
     "eslint": "^7.4.0",
-    "http-server": "^0.12.3"
+    "http-server": "^0.12.3",
+    "husky": "^4.2.5"
   }
 }
