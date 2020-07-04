@@ -130,8 +130,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 1500}],
 		unlocks: {
 			buildings: ["aqueduct"],
-            policies:["stripMining","clearCutting","environmentalism"],
-			tech: ["writing"]
+			tech: ["writing"],
+            policies: ["stripMining","clearCutting","environmentalism"],
 		}
 	},{
 		name: "currency",
@@ -141,7 +141,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [{name : "science", val: 2200}],
 		unlocks: {
 			buildings: ["tradepost"],
-            policies:["diplomacy","isolationism"],
+            policies: ["diplomacy","isolationism"],
 			upgrades: ["goldOre"]
 		}
 	},{
@@ -220,8 +220,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		unlocks: {
 			buildings: ["observatory"],
-			tech: ["navigation"],
-            //policies:["knowledgeSharing", "culturalExchange", "bigStickPolicy", "cityOnAHill"]
+			tech: ["navigation"]
         },
         upgrades:{
            policies: ["diplomacy", "isolationism"]
@@ -408,12 +407,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 25}
 		],
 		unlocks: {
-            //policies:["sustainability","fullIndustrialization"],
 			tech: ["mechanization", "metalurgy", "combustion"],
 			upgrades: ["barges", "advancedAutomation", "logistics"]
 		},
         upgrades:{
-           policies:["stripMining", "clearCutting"]
+           policies: ["stripMining", "clearCutting"]
         },
         calculateEffects: function(self, game){
            if((game.science.getPolicy("stripMining").researched)||(game.science.getPolicy("clearCutting").researched)){
@@ -473,11 +471,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"blueprint", val: 55}
 		],
 		unlocks: {
-            //policies:["conservation","openWoodlands"],
 			stages: [{bld:"pasture",stage:1}] 	// Solar Farm
 		},
         upgrades:{
-            policies:["environmentalism"]
+            policies: ["environmentalism"]
         },
         calculateEffects: function(self, game){
            if(game.science.getPolicy("environmentalism").researched){
@@ -839,7 +836,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	 * If policy is locked, it means some conflicting policy was researched first
 	 * Once policy is locked, there is no way to unlock it other than reset
 	 */
-	policies:[
+	policies: [
 	{
 		name: "liberty",
 		label: $I("policy.liberty.label"),
@@ -851,7 +848,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocked: false,
 		blocks:["tradition"],
 		unlocks:{
-			policies:["authocracy", "republic"]
+			policies: ["authocracy", "republic"]
 		}
 	},{
 		name: "tradition",
@@ -864,7 +861,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocked: false,
 		blocks:["liberty"],
 		unlocks:{
-			policies:["authocracy", "monarchy"]
+			policies: ["authocracy", "monarchy"]
 		}
 	},
 	//----------------	classical age --------------------
@@ -895,7 +892,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocked: false,
 		blocks:["monarchy", "republic", "liberalism"],
 		unlocks:{
-			policies:["socialism"]
+			policies: ["socialism"]
 		}
 	},{
 		name: "republic",
@@ -914,7 +911,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocked: false,
 		blocks:["monarchy", "authocracy", "fascism"],
 		unlocks:{
-			policies:["socialism"]
+			policies: ["socialism"]
 		}
 	},
 	//----------------	meme --------------------
@@ -1227,7 +1224,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["epicurianism"],
         unlocks:{
-            policies:["rationality", "mysticism"]
+            policies: ["rationality", "mysticism"]
         }
     },{
         name: "epicurianism",
@@ -1243,7 +1240,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["stoicism"],
         unlocks:{
-            policies:["rationality", "mysticism"]
+            policies: ["rationality", "mysticism"]
         }
     },{
         name: "rationality",

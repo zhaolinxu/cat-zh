@@ -2525,6 +2525,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 		//policy effects
+        perTick*=(1+(game.resPool.get("sorrow").value * game.getEffect("blsProductionBonus")||0)); //necrocracy global effect
 		if((resName=="coal")||(resName=="iron")||(resName=="titanium")){
 			perTick*=(1+game.getEffect("communismProductionBonus"));
 		}
@@ -2534,7 +2535,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(resName=="unobtainium"){
 			perTick*=(1+game.getEffect("expansionismUnobtainiumProductionBonus"));
 		}
-        perTick*=(1+(game.resPool.get("sorrow").value * game.getEffect("blsProductionBonus")||0));
         if(resName=="gold"){
              perTick=perTick*(1-game.getEffect("zebraAppeasedGoldPenalty")||0);
         }
@@ -2769,6 +2769,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		paragonSpaceProductionRatio += paragonSpaceProductionRatio * this.religion.getProductionBonus() / 100;
 		
         //policy effects:
+        //necrocracy global effect
+        if(game.science.getPolicy("necrocracy").researched){
+            stack.push({
+                name: $I("res.stack.necrocracy"),
+                type: "ratio",
+                value: game.getEffect("blsProductionBonus")*game.resPool.get("sorrow").value,
+            });
+        }
         //communims
         if((game.getEffect("communismProductionBonus")>0)&&((resName=="coal")||(resName=="iron")||(resName=="titanium"))){
         stack.push({
@@ -2791,14 +2799,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
                 name: $I("res.stack.expansionism"),
                 type: "ratio",
                 value: game.getEffect("expansionismUnobtainiumProductionBonus"),
-                });
-        }
-        //necrocracy
-        if(game.science.getPolicy("necrocracy").researched){
-        stack.push({
-                name: $I("res.stack.necrocracy"),
-                type: "ratio",
-                value: game.getEffect("blsProductionBonus")*game.resPool.get("sorrow").value,
                 });
         }
         //zebra appeasement
