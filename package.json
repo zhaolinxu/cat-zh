@@ -30,7 +30,6 @@
   "license": "SEE LICENSE IN license.txt",
   "homepage": "https://bitbucket.org/bloodrizer/kitten-game#readme",
   "devDependencies": {
-    "declare": "^0.0.3",
     "eslint": "^7.4.0",
     "http-server": "^0.12.3",
     "husky": "^4.2.5",
