@@ -5,11 +5,15 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	game: null,
 
+	//your TT level!
 	transcendenceTier: 0,
 
-	//a number of converted faith obtained through the faith reset (variable name is a subject to change)
+	//an amount of faith temporarily moved to a praised pool (aka worship)
 	faith: 0,
+
+	//an amount of converted faith obtained through the faith reset (aka eupyphany)
 	faithRatio : 0,
+
 	corruption: 0,
 
 	alicornCounter: 0,
@@ -756,11 +760,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getApocryphaBonus: function(){
-		return this.getTriValueReligion(this.faithRatio);
-	},
-
-	getTriValueReligion: function(ratio){
-		return this.game.getUnlimitedDR(ratio, 0.1) * 0.1;
+		this.game.getUnlimitedDR(this.faithRatio, 0.1) * 0.1;
 	},
 
 	praise: function(){
@@ -776,7 +776,25 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		if (this.getRU("transcendence").on) {
 			bonusRatio *= Math.pow((1 + this.getTranscendenceLevel()), 2);
 		}
-		return (this.faith/100000) * 0.1 * bonusRatio;
+		return (this.faith / 100000) * 0.1 * bonusRatio;
+	},
+
+
+	resetFaith: function(bonusRatio, withConfirmation) {
+		if (withConfirmation) {
+			var self = this;
+			this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"), function() {
+				self._resetFaithInternal(bonusRatio);
+			});
+		} else {
+			this._resetFaithInternal(bonusRatio);
+		}
+	},
+
+	_resetFaithInternal: function(bonusRatio) {
+		var ttPlus1 = (this.game.religion.getRU("transcendence").on ? this.game.religion.transcendenceTier : 0) + 1;
+		this.tcratio += this.faith / 1000000 * ttPlus1 * ttPlus1 * bonusRatio;
+		this.faith = 0.01;
 	},
 
 	transcend: function(){
@@ -1348,21 +1366,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
 
-	},
-
-	resetFaith: function(event){
-		event.preventDefault();
-		if (this.game.religion.getRU("apocripha").on) { // trust no one
-			var self = this;
-			this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"), function() {
-				self.resetFaithInternal(1.01);
-			});
 	}
-	},
-
-    resetFaithInternal: function(bonusRatio){
-        this.game.religion.faithRatio += this.game.religion.getApocryphaResetBonus(bonusRatio);
-		this.game.religion.faith = 0.01;
-    }
 
 });

@@ -548,6 +548,13 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			{
 				name: "worship",
 				title: "resources.worship.title",
+				value: this.game.religion.faith,
+				unlocked: true,
+				visible: false
+			},
+			{
+				name: "epiphany",
+				title: "resources.epiphany.title",
 				value: this.game.religion.faithRatio,
 				unlocked: true,
 				visible: false
