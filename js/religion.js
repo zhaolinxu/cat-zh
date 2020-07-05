@@ -57,7 +57,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			faithRatio: this.faithRatio,
 			transcendenceTier: this.transcendenceTier,
 			// Duplicated save, for older versions like mobile
-			tcratio: this._getEpiphanyTotalPrice(this.transcendenceTier),
+			tcratio: this._getTranscendTotalPrice(this.transcendenceTier),
 			zu: this.filterMetadata(this.zigguratUpgrades, ["name", "val", "on", "unlocked"]),
 			ru: this.filterMetadata(this.religionUpgrades, ["name", "val", "on"]),
 			tu: this.filterMetadata(this.transcendenceUpgrades, ["name", "val", "on", "unlocked"])
@@ -793,7 +793,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	_resetFaithInternal: function(bonusRatio) {
 		var ttPlus1 = (this.game.religion.getRU("transcendence").on ? this.game.religion.transcendenceTier : 0) + 1;
-		this.tcratio += this.faith / 1000000 * ttPlus1 * ttPlus1 * bonusRatio;
+		this.faithRatio += this.faith / 1000000 * ttPlus1 * ttPlus1 * bonusRatio;
 		this.faith = 0.01;
 	},
 
@@ -807,8 +807,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		game.ui.confirm($I("religion.transcend.confirmation.title"), $I("religion.transcend.confirmation.msg"), function() {
 			//Transcend one Level at a time
 			var needNextLevel = 
-				religion.getTranscendenceRatio(religion.transcendenceTier + 1) - 
-				religion.getTranscendenceRatio(religion.transcendenceTier);
+				religion._getTranscendTotalPrice(religion.transcendenceTier + 1) - 
+				religion._getTranscendTotalPrice(religion.transcendenceTier);
 
 			if (religion.faithRatio > needNextLevel) {
 				religion.faithRatio -= needNextLevel;
@@ -829,7 +829,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		});
 	},
 
-	_getEpiphanyTotalPrice: function(tier) {
+	_getTranscendTotalPrice: function(tier) {
 		return this.game.getInverseUnlimitedDR(Math.exp(tier) / 10, 0.1);
 	},
 
