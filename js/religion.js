@@ -755,12 +755,12 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getSolarRevolutionRatio: function() {
-		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.faith.value, 1000) / 100 : 0;
+		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.faith, 1000) / 100 : 0;
 		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
 	},
 
 	getApocryphaBonus: function(){
-		this.game.getUnlimitedDR(this.faithRatio, 0.1) * 0.1;
+		return this.game.getUnlimitedDR(this.faithRatio, 0.1) * 0.1;
 	},
 
 	praise: function(){
@@ -774,7 +774,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	getApocryphaResetBonus: function(bonusRatio){
 		//100% Bonus per Transcendence Level
 		if (this.getRU("transcendence").on) {
-			bonusRatio *= Math.pow((1 + this.getTranscendenceLevel()), 2);
+			bonusRatio *= Math.pow((1 + this.transcendenceTier), 2);
 		}
 		return (this.faith / 100000) * 0.1 * bonusRatio;
 	},
