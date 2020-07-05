@@ -1250,11 +1250,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}, game);
 
 			var buttonAssociations = {
-				"apocripha": this.adoreBtn,
 				"transcendence": this.transcendBtn
 			};
 
 			this.praiseBtn.render(content);
+			this.adoreBtn.render(content);
 
 			var controller = new com.nuclearunicorn.game.ui.ReligionBtnController(game);
 			var upgrades = game.religion.religionUpgrades;
@@ -1351,7 +1351,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"), function() {
 				self.resetFaithInternal(1.01);
 			});
-		}
+	}
 	},
 
     resetFaithInternal: function(bonusRatio){
