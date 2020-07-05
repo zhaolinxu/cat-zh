@@ -1354,6 +1354,8 @@
     "trade.embassy.open": "Open embassy",
     "trade.embassy":"Embassy level ({0})",
     "trade.embassy.desc": "Improve your diplomatic relationships by establishing an embassy",
+    "trade.embassy.pinned": "Pinned",
+    "trade.embassy.unpinned": "Uninned",
 
     "ui.filter.all": "All",
     "ui.filter.available": "Available",
