@@ -147,13 +147,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "gray",
 		calculatePerTick: true
 	},{
-		name : "worship",
-		title: $I("resources.worship.title"),
-		type : "common",
-		visible: false,
-		color: "gray",
-		persists: false
-	},{
 		name : "kittens",
 		title: $I("resources.kittens.title"),
 		type : "common",
@@ -554,7 +547,14 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		return [
 			{
 				name: "worship",
-				title: "resources.worship.title",
+				title: $I("resources.worship.title"),
+				value: this.game.religion.faith,
+				unlocked: true,
+				visible: false
+			},
+			{
+				name: "epiphany",
+				title: $I("resources.epiphany.title"),
 				value: this.game.religion.faithRatio,
 				unlocked: true,
 				visible: false

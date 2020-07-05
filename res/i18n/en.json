@@ -928,6 +928,7 @@
     "resources.void.title": "void",
     "resources.wood.title": "wood",
     "resources.worship.title": "worship",
+    "resources.epiphany.title": "epiphany",
     "resources.wrappingPaper.title": "wrapping paper",
     "resources.zebras.title": "zebras",
 
@@ -1354,6 +1355,8 @@
     "trade.embassy.open": "Open embassy",
     "trade.embassy":"Embassy level ({0})",
     "trade.embassy.desc": "Improve your diplomatic relationships by establishing an embassy",
+    "trade.embassy.pinned": "Pinned",
+    "trade.embassy.unpinned": "Uninned",
 
     "ui.filter.all": "All",
     "ui.filter.available": "Available",
