@@ -50,14 +50,14 @@ try {
         subscribe: function(){}
     };
 
-    require("../lib/lz-string.js");
+    global.LZString = require("../lib/lz-string.js");
     require("../lib/dropbox_v2.js");
     require("../lib/system.js");
 
-    window.LCstorage = window.localStorage;
+    global.LCstorage = window.localStorage;
     if (document.all && !window.localStorage) {
-        window.LCstorage = {};
-        window.LCstorage.removeItem = function () { };
+        global.LCstorage = {};
+        global.LCstorage.removeItem = function () { };
     }
 
     require("../config");
@@ -91,9 +91,10 @@ try {
     require("../js/ui");
     require("../js/toolbar");
 
-    global.gamePage = global.game = new com.nuclearunicorn.game.ui.GamePage();
-    //TODO: use special UI system specifically for unit tests
-    game.setUI(new classes.ui.UISystem("gameContainerId"));
+
+    jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn());
+    jest.spyOn(global.console, 'trace').mockImplementation(() => jest.fn());
+    jest.spyOn(global.console, 'warn').mockImplementation(() => jest.fn());
 }
 catch (e) {
     console.log("oh no big error");

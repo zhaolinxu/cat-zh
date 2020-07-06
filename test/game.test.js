@@ -2,11 +2,24 @@
 
     test,
     expect,
-    game
+    game,
+    LCstorage
 */
-test("basic sanity check", () => {
+
+
+beforeEach(() => {
+    global.gamePage = global.game = new com.nuclearunicorn.game.ui.GamePage();
+    //TODO: use special UI system specifically for unit tests
+    game.setUI(new classes.ui.UISystem("gameContainerId"));
+});
+
+test("basic sanity check, game must load hoglasave without crashing", () => {
+    var hoglasave = require("./res/save.js");
+    LCstorage["com.nuclearunicorn.kittengame.savedata"] = hoglasave;
+
     game.load();
 });
+
 
 //--------------------------------
 //      Basic faith stuff

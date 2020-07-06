@@ -1519,8 +1519,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-			this.loadMetadata(this.techs, saveData.science.techs);
-			this.loadMetadata(this.policies, saveData.science.policies);
+			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
+			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
 
 		//re-unlock technologies in case we have modified something

@@ -380,10 +380,10 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		console.error("Could not find metadata for ", name, "in", metadata);
 	},
 
-	loadMetadata: function(meta, saveMeta){
+	loadMetadata: function(meta, saveMeta, metaId){
 		if (!saveMeta){
-			console.trace(saveMeta);
-			console.error("Unable to load save metadata, meta is empty");
+			console.trace();
+			console.warn("Unable to load metadata table '"+metaId+"', save record is empty");
 			return;
 		}
 
