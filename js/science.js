@@ -414,7 +414,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
            policies: ["stripMining", "clearCutting"]
         },
         calculateEffects: function(self, game){
-           	if((game.science.getPolicy("stripMining").researched) || (game.science.getPolicy("clearCutting").researched)){
+        	if((game.science.getPolicy("stripMining").researched) || (game.science.getPolicy("clearCutting").researched)){
                 self.unlocks["policies"] = ["sustainability","fullIndustrialization"];
 		   	}
 		   	if(self.researched){
@@ -1106,7 +1106,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         },
         calculateEffects: function(self, game){
             if(game.science.get("astronomy").researched){
-              self.unlocks["policies"] = ["bigStickPolicy","cityOnAHill"];
+            	self.unlocks["policies"] = ["bigStickPolicy","cityOnAHill"];
             }
 			if(self.researched){
 				game.unlock(self.unlocks);
