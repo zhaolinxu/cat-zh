@@ -26,7 +26,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "beam", value: 10, chance: 0.25, width: 0.15, minLevel: 5},
 			{name: "scaffold", value: 1, chance: 0.1, width: 0.1, minLevel: 10}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "sharks",
 		title: $I("trade.race.sharks"),
@@ -49,7 +50,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "manuscript", value: 5, chance: 0.15, width: 0.25, minLevel: 10},
 			{name: "compedium", value: 5, chance: 0.1, width: 0.25, minLevel: 15}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "griffins",
 		title: $I("trade.race.griffins"),
@@ -71,7 +73,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "steel", value: 25, chance: 0.25, width: 0.1, minLevel: 5},
 			{name: "gear", value: 5, chance: 0.1, width: 0.25, minLevel: 10}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "nagas",
 		title: $I("trade.race.nagas"),
@@ -95,7 +98,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "concrate", value: 5, chance: 0.25, width: 0.05, minLevel: 10},
 			{name: "megalith", value: 1, chance: 0.1, width: 0.1, minLevel: 15}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "zebras",
 		hidden: true,
@@ -127,7 +131,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         unlocks:{
             policies:["zebraRelationsAppeasement", "zebraRelationsBellicosity"]
         },
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "spiders",
 		hidden: true,
@@ -150,7 +155,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}},
 			{name: "oil", value: 100, chance: 0.25, width: 0.15, minLevel: 5}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "dragons",
 		hidden: true,
@@ -167,7 +173,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			{name: "uranium", value: 1, chance: 0.95, width: 0.25},
 			{name: "thorium", value: 1, chance: 0.5, width: 0.25, minLevel: 5}
 		],
-		collapsed: false
+		collapsed: false,
+		pinned: false
 	},{
 		name: "leviathans",
 		hidden: true,
@@ -185,7 +192,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		unlocks:{
 			policies:["transkittenism", "necrocracy", "radicalXenophobia"]
 		},
-		collapsed: false
+		collapsed: false,
+		pinned: false
     }],
 
 	constructor: function(game){
@@ -219,7 +227,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 
 	save: function(saveData){
 		saveData.diplomacy = {
-			races: this.game.bld.filterMetadata(this.races, ["name", "embassyLevel", "unlocked", "collapsed", "energy", "duration"])
+			races: this.game.bld.filterMetadata(this.races, [
+				"name", "embassyLevel", "unlocked", "collapsed", "energy", "duration", "pinned"
+			])
 		};
 	},
 
@@ -321,6 +331,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			this.game.msg($I("trade.msg.emissary", [race.title]), "notice");
 		}
 	},
+
     //------------ IDK, silly gimmickish stuff -----------
     unlockElders : function(){
         var elders = this.get("leviathans");
@@ -870,7 +881,31 @@ dojo.declare("classes.diplomacy.ui.EmbassyButtonController", com.nuclearunicorn.
 
 
 dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.ButtonModern, {
-	//nothing interesting here, citizen
+	pinLinkHref: null,
+	race: null,
+
+	constructor: function(opts, game){
+		this.race = opts.race;
+		console.log("race:", this.race);
+	},
+
+
+	renderLinks: function(){
+		this.pinLinkHref = this.addLink({
+			title: "&#9733;",
+			handler: function() {
+				this.race.pinned = !this.race.pinned;
+				console.log("toggled pin for race:", this.game.diplomacy.races);
+			}
+		});
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		this.pinLinkHref.link.textContent = this.race.pinned ? "[v]" : "[ ]";
+		this.pinLinkHref.link.title = this.race.pinned ? 
+			$I("trade.embassy.pinned") : $I("trade.embassy.unpinned");
+	}
 });
 
 /** -------------------------------------

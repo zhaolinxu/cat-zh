@@ -147,13 +147,6 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		color: "gray",
 		calculatePerTick: true
 	},{
-		name : "worship",
-		title: $I("resources.worship.title"),
-		type : "common",
-		visible: false,
-		color: "gray",
-		persists: false
-	},{
 		name : "kittens",
 		title: $I("resources.kittens.title"),
 		type : "common",
@@ -547,6 +540,27 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 
 		//if no resource found, return false
 		return res ? res : false;
+	},
+
+	//put your custom fake resources there
+	getPseudoResources: function(){
+		return [
+			{
+				name: "worship",
+				title: $I("resources.worship.title"),
+				value: this.game.religion.faith,
+				unlocked: true,
+				visible: false
+			},
+			{
+				name: "epiphany",
+				title: $I("resources.epiphany.title"),
+				value: this.game.religion.faithRatio,
+				unlocked: true,
+				visible: false
+			}
+		];
+		//TODO: mixin unlocked and visible automatically
 	},
 
 	createResource: function(name){

@@ -1292,7 +1292,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				};
 				self.unlocks = unlocksTemp;
 			}
-        if(self.val>0){game.unlock(self.unlocks)};
+        	if(self.val>0){
+				game.unlock(self.unlocks);
+			}
 		}
 	},{
 		name: "reactor",
