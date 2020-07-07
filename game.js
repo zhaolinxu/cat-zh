@@ -1343,8 +1343,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 
             this[manager.id] = new window["classes"]["managers"][manager.class](this);
-
-            this.managers.push(this[manager.id]);
+			var managerRef = this[manager.id];
+			managerRef.id = manager.id;
+            this.managers.push(managerRef);
         }
 
 		//very sloppy design, could we just use an array for tab managers?
@@ -1730,7 +1731,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var saveData = JSON.parse(data);
 
-		console.log("Parse complete, data:", data, "saveData:", saveData);
+		//console.log("Parse _parseLSSaveData complete, data:", data, "saveData:", saveData);
 		return saveData;
 	},
 
@@ -1746,9 +1747,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		try {
 			var saveData = this._parseLSSaveData();
-
-			//console.log("restored save data:", localStorage);
 			if (saveData){
+
+				console.log("game#load - Successfully parsed local storage data, loading tab managers...");
 
 				if (saveData.server){
 					this.server.motdContentPrevious = saveData.server.motdContent;
@@ -1766,6 +1767,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.ui.renderFilters();
 
                 for (var i in this.managers){
+					console.log("game#load - Processing", this.managers[i].id, "...");
                     this.managers[i].load(saveData);
                 }
 
