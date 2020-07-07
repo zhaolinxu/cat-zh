@@ -1283,8 +1283,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -5,
-			"mineralsPolicyRatio" : 0.25,
-			"woodPolicyRatio" : 0.25
+			"mineralsPolicyRatio" : 0.25
         },
         unlocked: false,
         unlocks:{},
@@ -1308,7 +1307,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         ],
         effects:{
             "environmentUnhappiness" : -5,
-            "environmentWoodBonus" : 0.25
+			"woodPolicyRatio" : 0.25
         },
         unlocked: false,
         unlocks:{},
