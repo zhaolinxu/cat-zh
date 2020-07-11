@@ -430,6 +430,16 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "fixed"
 			},
 
+			"festivalRatio":{
+				title: $I("effectsMgr.statics.festivalRatio.title"),
+				type: "ratio"
+			},
+
+			"festivalArrivalRatio":{
+				title: $I("effectsMgr.statics.festivalArrivalRatio.title"),
+				type: "ratio"
+			},
+
 			// energy
 
 			"energyProduction": {
