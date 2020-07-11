@@ -326,6 +326,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "science", val: 90000},
 			{name: 	"parchment", val: 5000}
 		],
+		unlocks: {
+			buildings: ["tavern"]
+		}
 	},{
 		name: "archeology",
 		label: $I("science.archeology.label"),

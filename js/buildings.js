@@ -1486,25 +1486,41 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		name: "tavern",
 		label: $I("buildings.tavern.label"),
 		description: $I("buildings.tavern.desc"),
-		defaultUnlockable: true,
-		unlockRatio: 0,
+		unlockRatio: 0.2,
 		prices: [
-			{ name : "minerals", val: 5000 },
-			{ name : "gold", val: 500 },
-			{ name : "plate", val: 200 }
+			{ name : "wood", val: 1000 },
+			{ name : "culture", val: 750 },
+			{ name : "spice", val: 5 },
+			{ name : "parchment", val: 375 }
 		],
 		priceRatio: 1.5,
 		effects: {
-			"catnipPerTickCon" : -0.1,
+			"catnipPerTickCon" : -1,
 			"spicePerTickCon" : -0.1,
-			"festivalRatio" : 0.01
+			"festivalRatio" : 0.01,
+			"festivalArrivalRatio" : 0.0001
 		},		
+		togglable: true,
+		lackResConvert: false,
 		action: function(self, game) {
-			if ((game.resPool.get("catnip").value + self.effects["catnipPerTick"] <= 0)||(game.resPool.get("spice").value + self.effects["spicePerTick"] <= 0)) {
-				self.on--;
-				console.log(self.on);
+			self.effects = {
+				"catnipPerTickCon" : -1,
+				"spicePerTickCon" : -0.1,
+				"festivalRatio" : 0.01,
+				"festivalArrivalRatio" : 0.001
 			}
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
+				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],
+				self.on
+			);
+			self.effects["catnipPerTickCon"] *= amt; 
+			self.effects["spicePerTickCon"] *= amt; 
+			self.effects["festivalRatio"] *= amt; 
+			self.effects["festivalArrivalRatio"] *= amt; 
+			return amt;
 		},
+		//togglable: true,
 		flavor: $I("buildings.tavern.flavor")
 	},
 	//-------------------------- Culture -------------------------------
