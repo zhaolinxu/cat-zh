@@ -215,7 +215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "other",
 		title: $I("buildings.group.other"),
-		buildings: ["workshop", "tradepost", "mint", "unicornPasture", "tavern"]
+		buildings: ["workshop", "tradepost", "mint", "unicornPasture", "brewery"]
 	},{
 		name: "megastructures",
 		title: $I("buildings.group.megastructures"),
@@ -1483,9 +1483,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			threshold: 24
 		}
 	},{
-		name: "tavern",
-		label: $I("buildings.tavern.label"),
-		description: $I("buildings.tavern.desc"),
+		name: "brewery",
+		label: $I("buildings.brewery.label"),
+		description: $I("buildings.brewery.desc"),
 		unlockRatio: 0.2,
 		prices: [
 			{ name : "wood", val: 1000 },
@@ -1520,7 +1520,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["festivalArrivalRatio"] *= amt; 
 			return amt;
 		},
-		flavor: $I("buildings.tavern.flavor")
+		flavor: $I("buildings.brewery.flavor")
 	},
 	//-------------------------- Culture -------------------------------
 	{
