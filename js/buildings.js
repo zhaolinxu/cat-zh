@@ -1520,7 +1520,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["festivalArrivalRatio"] *= amt; 
 			return amt;
 		},
-		//togglable: true,
 		flavor: $I("buildings.tavern.flavor")
 	},
 	//-------------------------- Culture -------------------------------
