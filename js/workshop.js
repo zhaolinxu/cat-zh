@@ -2112,7 +2112,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.upgrades[i];
 			}
 		}
-		console.error("Failed to get upgrade for id '"+upgradeName+"'");
+		console.error("Failed to get upgrade for id '" + upgradeName + "'");
 		return null;
 	},
 
@@ -2294,7 +2294,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
 			var craftRatio = this.game.getResCraftRatio(metaId);
-			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
+			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1 + craftRatio)), (res.title || res.name)]));
 		}
     },
 
@@ -2365,13 +2365,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
 		}
 
-		var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
+		/*var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
 		// Quadratic increase, so that deep enough run will eventually unnerf the compendia cap
-		var scienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) * darkFutureRatio * darkFutureRatio;
+		var scienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) * darkFutureRatio * darkFutureRatio;*/
+
+		//ch40krun should not be explosed to regular players
+		//there is a lot of ungoing discussing about the necessity of compedia un-nerf, and the original intention was never to allow it
+
+		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) /*&& !this.game.opts.ch40krun*/){
+			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);
+		}
 		//-------------	todo: move somewhere to bld? ------------------------------------
 
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
-		this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMax);
+		this.effectsBase["scienceMax"] = compendiaScienceMax;
+		//this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMax);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
 
@@ -2482,8 +2490,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 
 	defaults: function() {
 		var result = this.inherited(arguments);
-		result.hasResourceHover= true;
-		result.simplePrices= false;
+		result.hasResourceHover = true;
+		result.simplePrices = false;
 		return result;
 	},
 
