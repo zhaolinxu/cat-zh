@@ -602,7 +602,7 @@
     "policy.liberty.label" : "Liberty",
     "policy.liberty.desc" : "Good for large, expansive societies. Halves population penalties. This will affect what policies are available in the future!",
     "policy.militarizeSpace.label" : "Militarize Space",
-    "policy.militarizeSpace.desc" : "Try to take over the skies. Your satellites ",
+    "policy.militarizeSpace.desc" : "Try to take over the skies. Your satellites science bonus to observatories is 10% more powerful.",
     "policy.monarchy.label" : "Monarchy",
     "policy.monarchy.desc" : "Best for societies benefiting from past experiences. Makes the leader's trait twice as powerful.",
     "policy.mysticism.label" : "Mysticism",
