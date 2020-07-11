@@ -327,7 +327,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name: 	"parchment", val: 5000}
 		],
 		unlocks: {
-			buildings: ["tavern"]
+			buildings: ["brewery"]
 		}
 	},{
 		name: "archeology",
