@@ -670,7 +670,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		if (this.game.calendar.festivalDays){
-			happiness += 30;
+			happiness += 30 * (1+this.game.getEffect("festivalRatio"));
 		}
 
 		var karma = this.game.resPool.get("karma");

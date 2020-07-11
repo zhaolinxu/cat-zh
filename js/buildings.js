@@ -215,7 +215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "other",
 		title: $I("buildings.group.other"),
-		buildings: ["workshop", "tradepost", "mint", "unicornPasture"]
+		buildings: ["workshop", "tradepost", "mint", "unicornPasture", "tavern"]
 	},{
 		name: "megastructures",
 		title: $I("buildings.group.megastructures"),
@@ -1425,7 +1425,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
             game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
                      },
-        flavor: $I("buildings.tradepost.flavor")
+		flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
 		label: $I("buildings.mint.label"),
@@ -1482,6 +1482,30 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			name: "gold",
 			threshold: 24
 		}
+	},{
+		name: "tavern",
+		label: $I("buildings.tavern.label"),
+		description: $I("buildings.tavern.desc"),
+		defaultUnlockable: true,
+		unlockRatio: 0,
+		prices: [
+			{ name : "minerals", val: 5000 },
+			{ name : "gold", val: 500 },
+			{ name : "plate", val: 200 }
+		],
+		priceRatio: 1.5,
+		effects: {
+			"catnipPerTickCon" : -0.1,
+			"spicePerTickCon" : -0.1,
+			"festivalRatio" : 0.01
+		},		
+		action: function(self, game) {
+			if ((game.resPool.get("catnip").value + self.effects["catnipPerTick"] <= 0)||(game.resPool.get("spice").value + self.effects["spicePerTick"] <= 0)) {
+				self.on--;
+				console.log(self.on);
+			}
+		},
+		flavor: $I("buildings.tavern.flavor")
 	},
 	//-------------------------- Culture -------------------------------
 	{
