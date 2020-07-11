@@ -3938,6 +3938,28 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			for (var i = list[type].length - 1; i >= 0; i--) {
 				var unlockId = list[type][i];
 				var newUnlock = this.getUnlockByName(unlockId, type);
+
+				/** 
+				 * Multi-unlock mechanism:
+				 * 
+				 * Source provides _SIGNAL_ throught the .unlocks property
+				 * 
+				 * e.g.:
+				 * 
+				 * meta1 -> game.unlock() ->	target meta
+				 * meta2 -> game.unlock() /
+				 * 
+				 * by default any unlock() signal from source should mark target meta as unlocked
+				 * 
+				 * in case there are complex unlock conditions (say policies),
+				 * target meta should evaluate the signal through the evaluateLocks()
+				 * and return cancel if not all unlock conditions are satisfied
+				 * 
+				*/
+				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks()){
+					continue;
+				}
+
 				if (type == "tabs") {
 					newUnlock.visible = true;
 				} else if (type == "buildings") {
