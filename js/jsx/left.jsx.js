@@ -1,15 +1,46 @@
 /* global 
 
     $r,
+    WCollapsiblePanel: writable,
     WResourceRow:writable, 
     WCraftRow:writable, 
     WResourceTable:writable,
     WCraftTable:writable,
     WLeftPanel:writable,
+    WPins: writable,
     WTooltip:writable,
     WCraftShortcut:writable,
     game
 */
+
+WCollapsiblePanel = React.createClass({
+    getInitialState: function(){
+        return {isCollapsed: false};
+    },
+
+    render: function(){
+        return $r("div", null, [
+            $r("div", null,[
+                $r("div", {
+                    className:  "left"
+                    }, 
+                    $r("a", {
+                            className:"link collapse", 
+                            onClick: this.toggleCollapsed
+                        },
+                        this.state.isCollapsed ? ">(" +  this.props.title + ")" : "v"
+                    )
+                )
+            ]),
+            !this.state.isCollapsed && this.props.children
+        ]);
+    },
+
+    toggleCollapsed: function(){
+        this.setState({isCollapsed: !this.state.isCollapsed});
+    },
+});
+
 WResourceRow = React.createClass({
 
     getDefaultProperties: function(){
@@ -637,6 +668,40 @@ WCraftTable = React.createClass({
     }
 });
 
+WPins = React.createClass({
+    getPins: function(){
+        var pins = [];
+        for (var i in this.props.game.diplomacy.races){
+            var race = this.props.game.diplomacy.races[i];
+
+            if (race.pinned){
+                pins.push({
+                    title: "Trade with " + race.title, 
+                    handler: function(){ this.diplomacy.tradeAll(race); }
+                });
+            }
+        }
+        return pins;
+    },
+    render: function(){
+        var pins = this.getPins();
+        var pinLinks = [];
+        for (var i in pins){
+            var pin = pins[i];
+            pinLinks.push(
+                $r("div", {className:"pin-link"},
+                    $r("a", {href:"#", onClick: pin.handler.bind(this.props.game)},
+                        pin.title
+                    )
+                )   
+            );
+        }
+        return (
+            $r(WCollapsiblePanel, {title:"pins"}, pinLinks)
+        );
+    }
+});
+
 WLeftPanel = React.createClass({
     getDefaultProperties: function(){
         return {game: null};
@@ -662,18 +727,19 @@ WLeftPanel = React.createClass({
             $r(WResourceTable, {resources: this.getResources(), reqRes: reqRes}),
 
             $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
-            $r("div", {id:"fastHuntContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
+            $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.huntAll.bind(game)},
                     "Send hunters (",
                     $r("span", {id:"fastHuntContainerCount"}),
                     ")"
                 )
             ),
-            $r("div", {id:"fastPraiseContainer", style:{paddingLeft: "5px", visibility:"hidden"}},
+            $r("div", {id:"fastPraiseContainer", className:"pin-link", style:{visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.praise.bind(game)},
                     "Praise the sun!"
                 )
             ),              
+            $r(WPins, {game: game}),
             $r(WCraftTable, {resources: game.resPool.resources, reqRes: reqRes})
         ]);
     },
