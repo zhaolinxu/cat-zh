@@ -2529,6 +2529,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//necrocracy global effect
 		perTick *= (1 + (this.resPool.get("sorrow").value * this.getEffect("blsProductionBonus"))); 
+		//policy ratio effects
+		perTick *= (1 + this.getEffect(res.name + "PolicyRatio"));
 
 		perTick += resConsumption;
 		if (isNaN(perTick)){
