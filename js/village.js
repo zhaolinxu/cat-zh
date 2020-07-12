@@ -270,7 +270,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
-			kittensPerTick = kittensPerTick * 2;
+			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
 
 		this.sim.maxKittens = this.maxKittens;
@@ -339,7 +339,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 		//Allow festivals to double birth rate.
 		if (this.game.calendar.festivalDays > 0) {
-			kittensPerTick = kittensPerTick * 2;
+			kittensPerTick = kittensPerTick * (2 + this.game.getEffect("festivalArrivalRatio"));
 		}
 
 		this.sim.maxKittens = this.maxKittens;
@@ -420,7 +420,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			res["manpower"] += 0.15;	//zebras are a bit stronger than kittens
 		}
 		if (zebras.value > 1){
-			 res["manpower"] += this.game.getLimitedDR((zebras.value-1) * 0.05, 2);
+			 res["manpower"] += this.game.getLimitedDR((zebras.value - 1) * 0.05, 2);
 		}
 
 		return res;
@@ -542,7 +542,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getResConsumption: function(){
 		var kittens = this.getKittens();
-		var philosophyLuxuryModifier = this.game.getEffect("luxuryConsuptionReduction");
+		var philosophyLuxuryModifier = 1 - this.game.getEffect("luxuryConsuptionReduction");
 		var res = {
 			"catnip" : this.catnipPerKitten * kittens,
 			"furs" : -0.01 * kittens * philosophyLuxuryModifier,
@@ -670,7 +670,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		if (this.game.calendar.festivalDays){
-			happiness += 30;
+			happiness += 30 * (1 + this.game.getEffect("festivalRatio"));
 		}
 
 		var karma = this.game.resPool.get("karma");

@@ -215,7 +215,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 	},{
 		name: "other",
 		title: $I("buildings.group.other"),
-		buildings: ["workshop", "tradepost", "mint", "unicornPasture"]
+		buildings: ["workshop", "tradepost", "mint", "unicornPasture", "brewery"]
 	},{
 		name: "megastructures",
 		title: $I("buildings.group.megastructures"),
@@ -1292,7 +1292,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				};
 				self.unlocks = unlocksTemp;
 			}
-        game.unlock(self.unlocks);
+        	if(self.val > 0){
+				game.unlock(self.unlocks);
+			}
 		}
 	},{
 		name: "reactor",
@@ -1425,7 +1427,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
             game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
                      },
-        flavor: $I("buildings.tradepost.flavor")
+		flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
 		label: $I("buildings.mint.label"),
@@ -1482,6 +1484,45 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			name: "gold",
 			threshold: 24
 		}
+	},{
+		name: "brewery",
+		label: $I("buildings.brewery.label"),
+		description: $I("buildings.brewery.desc"),
+		unlockRatio: 0.2,
+		prices: [
+			{ name : "wood", val: 1000 },
+			{ name : "culture", val: 750 },
+			{ name : "spice", val: 5 },
+			{ name : "parchment", val: 375 }
+		],
+		priceRatio: 1.5,
+		effects: {
+			"catnipPerTickCon" : -1,
+			"spicePerTickCon" : -0.1,
+			"festivalRatio" : 0.01,
+			"festivalArrivalRatio" : 0.0001
+		},		
+		togglable: true,
+		lackResConvert: false,
+		action: function(self, game) {
+			self.effects = {
+				"catnipPerTickCon" : -1,
+				"spicePerTickCon" : -0.1,
+				"festivalRatio" : 0.01,
+				"festivalArrivalRatio" : 0.001
+			};
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
+				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],
+				self.on
+			);
+			self.effects["catnipPerTickCon"] *= amt; 
+			self.effects["spicePerTickCon"] *= amt; 
+			self.effects["festivalRatio"] *= amt; 
+			self.effects["festivalArrivalRatio"] *= amt; 
+			return amt;
+		},
+		flavor: $I("buildings.brewery.flavor")
 	},
 	//-------------------------- Culture -------------------------------
 	{
