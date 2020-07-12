@@ -48,7 +48,9 @@ WResourceRow = React.createClass({
     },
 
     getInitialState: function(){
-        return {visible: !this.props.resource.isHidden};
+        return {
+            visible: !this.props.resource.isHidden
+        };
     },
 
     //this is a bit ugly, probably React.PureComponent + immutable would be a much better approach
@@ -63,6 +65,7 @@ WResourceRow = React.createClass({
             this.props.isEditMode == nextProp.isEditMode &&
             this.props.isRequired == nextProp.isRequired &&
             this.props.showHiddenResources == nextProp.showHiddenResources &&
+            this.props.isTemporalParadox != nextProp.isTemporalParadox &&
             this.state.visible == nextState.visible;
 
         if (isEqual){
@@ -95,7 +98,9 @@ WResourceRow = React.createClass({
         }
 
         //wtf is this code
-        var perTick = game.calendar.day < 0 ? 0 : game.getResourcePerTick(res.name, true);
+        var isTimeParadox = this.props.isTemporalParadox;
+        
+        var perTick = isTimeParadox ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getTicksPerSecondUI() : perTick;
         var postfix = game.opts.usePerSecondValues ? "/sec" : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
@@ -220,7 +225,8 @@ WResourceRow = React.createClass({
             $r("div", {className:"res-cell maxRes"}, 
                 res.maxValue ? "/" + game.getDisplayValueExt(res.maxValue) : ""
             ),
-            $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, perTickVal),
+            $r("div", {className:"res-cell resPerTick", ref:"perTickNode"}, 
+                isTimeParadox ? "???" : perTickVal),
             $r("div", {className:"res-cell" + (weatherModCss ? " " + weatherModCss : "")}, weatherModValue)
         ]);
     },
@@ -537,7 +543,8 @@ WResourceTable = React.createClass({
                     resource: res, 
                     isEditMode: this.state.isEditMode, 
                     isRequired: isRequired,
-                    showHiddenResources: this.state.showHiddenResources
+                    showHiddenResources: this.state.showHiddenResources,
+                    isTemporalParadox: game.calendar.day < 0
                 })
             );
         }

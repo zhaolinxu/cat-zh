@@ -1292,7 +1292,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				};
 				self.unlocks = unlocksTemp;
 			}
-        	if(self.val>0){
+        	if(self.val > 0){
 				game.unlock(self.unlocks);
 			}
 		}
@@ -1510,7 +1510,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"spicePerTickCon" : -0.1,
 				"festivalRatio" : 0.01,
 				"festivalArrivalRatio" : 0.001
-			}
+			};
 			var amt = game.resPool.getAmtDependsOnStock(
 				[{res: "catnip", amt: -self.effects["catnipPerTickCon"]},
 				 {res: "spice", amt: -self.effects["spicePerTickCon"]}],

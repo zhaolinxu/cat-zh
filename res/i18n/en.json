@@ -722,7 +722,7 @@
     "religion.adoreBtn.desc": "Former [Faith Reset]",
     "religion.faithCount.bonus": "bonus",
     "religion.faithCount.pool": "Accumulated faith: {0}",
-    "religion.msg.corruption": "Your alicorn was corrupted by the markers!",
+    "religion.msg.corruption": "Your alicorn has been corrupted by the markers!",
     "religion.panel.cryptotheology.label": "Cryptotheology",
     "religion.panel.orderOfTheSun.label": "Order of the Sun",
     "religion.panel.ziggurat.label": "Ziggurats",
