@@ -637,8 +637,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
     getEnvironmentEffect: function(){
 		var game = this.game;
 
-		return game.getEffect("environmentHappiness") * 
-			game.getEffect("environmentHappiness") + 
+		return game.getEffect("environmentHappinessBonus") * 
+			game.getEffect("environmentHappinessBonusModifier") + 
 			game.getEffect("environmentUnhappiness") * 
 			game.getEffect("environmentUnhappinessModifier");
 	},
