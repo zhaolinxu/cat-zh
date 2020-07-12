@@ -684,7 +684,9 @@ WPins = React.createClass({
             if (race.pinned){
                 pins.push({
                     title: "Trade with " + race.title, 
-                    handler: function(){ this.diplomacy.tradeAll(race); }
+                    handler: function(race){ 
+                        this.props.game.diplomacy.tradeAll(race); 
+                    }.bind(this, race)
                 });
             }
         }
@@ -697,7 +699,7 @@ WPins = React.createClass({
             var pin = pins[i];
             pinLinks.push(
                 $r("div", {className:"pin-link"},
-                    $r("a", {href:"#", onClick: pin.handler.bind(this.props.game)},
+                    $r("a", {href:"#", onClick: pin.handler},
                         pin.title
                     )
                 )   
