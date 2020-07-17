@@ -390,7 +390,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResources = {};
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + calculateTradeBonusFromPolicies(race.name, this.game);
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
 		var raceRatio = 1 + race.energy * 0.02;
 		var currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -575,22 +575,21 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	},
 	calculatePhantomTradeposts: function(raceName, game){
 		var phantomTradeposts = 0;
+        phantomTradeposts += game.getEffect("globalRelationsBonus");
         if(raceName == "zebras"){
 			phantomTradeposts += game.getEffect("zebraRelationModifier");
-        }
-        if(raceName != "zebras"){
+        }else{
 			phantomTradeposts += game.getEffect("nonZebraRelationModifier");
         }
-        phantomTradeposts += game.getEffect("globalRelationsBonus");
 		return phantomTradeposts;
 	},
     calculateStandingFromPolicies: function(raceName, game){
-		var tradepostStandingRatio = game.bld.getBuilding("tradepost").effects["standingRatio"];
+		var tradepostStandingRatio = game.bld.getBuildingExt("tradepost").meta.effects["standingRatio"];
 		var phantomTradeposts = game.diplomacy.calculatePhantomTradeposts(raceName, game);
         return phantomTradeposts * tradepostStandingRatio;
 	},
 	calculateTradeBonusFromPolicies: function(raceName, game){
-		var tradepostsTradeRatio = game.bld.getBuilding("tradepost").effects["tradeRatio"];
+		var tradepostsTradeRatio = game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
 		var phantomTradeposts = game.diplomacy.calculatePhantomTradeposts(raceName, game);
 		return phantomTradeposts * tradepostsTradeRatio;
 	}
@@ -611,7 +610,7 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 	},
             
 	render: function(container) {
-        var attitudeFromPolicies = this.game.diplomacy.calculateStandingFromPolicies(race.name, this.game);
+        var attitudeFromPolicies = this.game.diplomacy.calculateStandingFromPolicies(this.race.name, this.game);
 		var attitude = this.race.standing > 0
 			? "friendly"
 			: this.race.standing == 0
@@ -1023,14 +1022,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
 		var currentSeason = this.game.calendar.getCurSeason().name;
 		for (var i = 0; i < races.length; i++) {
 			var race = races[i];
 			if (!race.unlocked) {
 				continue;
 			}
-
+			tradeRatio += this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);
