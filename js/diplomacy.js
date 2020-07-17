@@ -428,7 +428,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
 		if (race.name == "zebras") {
 			var shipAmount = this.game.resPool.get("ship").value;
-			boughtResources["titanium"] = (1.5 + shipAmount * 0.03) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
+			var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier")*this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+			boughtResources["titanium"] = (1.5 + shipAmount * 0.03)*(1+zebraRelationModifierTitanium) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
 		}
 
 		//Update Trade Stats
