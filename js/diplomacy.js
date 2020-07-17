@@ -253,8 +253,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		var relationBoost = this.game.getEffect("tradeRelationBoost"); //relationBoost from liberalism!
-		return !(sell.minLevel && (race.embassyLevel + relationBoost) < sell.minLevel)
+		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
 			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
 	},
 
@@ -366,7 +365,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
             this.game.unlock(race.unlocks);
 		}
 		var printMessages = totalTradeAmount == 1;
-		var standingRatio = this.game.getEffect("standingRatio") + this.game.diplomacy.calculateStandingFromPolicies(race, this.game);
+		var standingRatio = this.game.getEffect("standingRatio") + this.game.diplomacy.calculateStandingFromPolicies(race.name, this.game);
 
 		var failedTradeAmount = race.standing < 0 ? this.game.math.binominalRandomInteger(totalTradeAmount, -(race.standing + standingRatio)) : 0;
 		var successfullTradeAmount = totalTradeAmount - failedTradeAmount;
@@ -391,7 +390,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResources = {};
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + calculateTradeBonusFromPolicies(race.name, this.game);
 		var raceRatio = 1 + race.energy * 0.02;
 		var currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -404,8 +403,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			
-			var relationBoost = this.game.getEffect("tradeRelationBoost"); //relationBoost from liberalism!
-			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR((race.embassyLevel + relationBoost) * embassyEffect, 0.75) : 0));
+			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 0));
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance);
@@ -420,9 +418,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) * sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
 		}
 
-		var relationBoost = this.game.getEffect("tradeRelationBoost"); //relationBoost from liberalism!
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  (race.embassyLevel + relationBoost) * embassyEffect : 0)));
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  race.embassyLevel * embassyEffect : 0)));
 		boughtResources["spice"] = 25 * spiceTradeAmount + 50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
 
 		//-------------- 10% chance to get blueprint ---------------
@@ -576,17 +573,27 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.get("leviathans").duration = 10000;
 		this.game.msg("All trade partners are unlocked");
 	},
-    calculateStandingFromPolicies: function(race, game){
-        var standingFromPolicies = 0;
-        if(race.name == "zebras"){
-             standingFromPolicies += (game.getEffect("zebraRelationModifier") * 0.0035);
+	calculatePhantomTradeposts: function(raceName, game){
+		var phantomTradeposts = 0;
+        if(raceName == "zebras"){
+			phantomTradeposts += game.getEffect("zebraRelationModifier");
         }
-        if(race.name != "zebras"){
-             standingFromPolicies += (game.getEffect("nonZebraRelationModifier") * 0.0035);
+        if(raceName != "zebras"){
+			phantomTradeposts += game.getEffect("nonZebraRelationModifier");
         }
-        standingFromPolicies += (game.getEffect("spaceRelationsBonus") * 0.0035);
-        return standingFromPolicies;
-    }
+        phantomTradeposts += game.getEffect("globalRelationsBonus");
+		return phantomTradeposts;
+	},
+    calculateStandingFromPolicies: function(raceName, game){
+		var tradepostStandingRatio = game.bld.getBuilding("tradepost").effects["standingRatio"];
+		var phantomTradeposts = game.diplomacy.calculatePhantomTradeposts(raceName, game);
+        return phantomTradeposts * tradepostStandingRatio;
+	},
+	calculateTradeBonusFromPolicies: function(raceName, game){
+		var tradepostsTradeRatio = game.bld.getBuilding("tradepost").effects["tradeRatio"];
+		var phantomTradeposts = game.diplomacy.calculatePhantomTradeposts(raceName, game);
+		return phantomTradeposts * tradepostsTradeRatio;
+	}
 });
 
 
@@ -604,7 +611,7 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 	},
             
 	render: function(container) {
-        var attitudeFromPolicies = this.game.diplomacy.calculateStandingFromPolicies(this.race, this.game);
+        var attitudeFromPolicies = this.game.diplomacy.calculateStandingFromPolicies(race.name, this.game);
 		var attitude = this.race.standing > 0
 			? "friendly"
 			: this.race.standing == 0
@@ -1016,7 +1023,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
 		var currentSeason = this.game.calendar.getCurSeason().name;
 		for (var i = 0; i < races.length; i++) {
 			var race = races[i];
