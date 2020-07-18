@@ -905,6 +905,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ReligionBtnController", com.nuclearunic
 	},
 
 	getPrices: function(model){
+		this.game.getPriceAdjustment("gold", model.metadata.prices, this.game.getEffect("goldCostReduction"));
 		return this.game.village.getEffectLeader("wise", this.inherited(arguments));
 	},
 
