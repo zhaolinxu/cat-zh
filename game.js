@@ -3978,8 +3978,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
-				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
-					// do nothing
 				} else {
 					if (!newUnlock){
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
