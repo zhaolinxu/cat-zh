@@ -84,8 +84,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		},
 		value: 0,
 		unlocked: false,
-		evaluateLocks: function(){
-			return this.game.challenges.currentChallenge!="atheism";
+		evaluateLocks: function(game){
+			return game.challenges.currentChallenge!="atheism";
 		}
 	},{
 		name: "geologist",
