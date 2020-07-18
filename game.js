@@ -1048,10 +1048,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.goldCostReduction.title"),
                 type: "ratio"
 			},
-			"tradeRelationBoost":{
-                title: $I("effectsMgr.statics.tradeRelationBoost.title"),
-                type: "fixed"
-			},
 			"factoryCostReduction":{
                 title: $I("effectsMgr.statics.factoryCostReduction.title"),
                 type: "ratio"
@@ -1123,8 +1119,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.satelliteSynergyBonus.title"),
                 type: "ratio"
             },
-            "spaceRelationsBonus":{
-            title: $I("effectsMgr.statics.spaceRelationsBonus.title"),
+            "globalRelationsBonus":{
+            title: $I("effectsMgr.statics.globalRelationsBonus.title"),
                 type: "fixed"
             },
             //philosophy
