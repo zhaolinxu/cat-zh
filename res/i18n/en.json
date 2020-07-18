@@ -564,6 +564,10 @@
     "opts.yes": "Yes",
     "opts.no": "No",
 
+    "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
+    "msg.policy.kittenNotMadeLeader" : " can only be lead by a ",
+    "msg.policy.wrongLeaderJobDemoted" : " can only be lead by a ",
+    "msg.policy.wrongLeaderJobForResearch" : " can only be researched if your leader is a ",
     "policy.autocracy.label" : "Autocracy",
     "policy.autocracy.desc" : "Best for societies with highly promoted kittens. Makes the leader twice as good at their job.",
     "policy.bigStickPolicy.label" : "Big Stick Policy",

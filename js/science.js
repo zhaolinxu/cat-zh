@@ -1657,6 +1657,12 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 				}
 			}
 		}
+		else if(this.game.village.leader && this.game.village.leader.job != model.metadata.requiredLeaderJob){
+			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
+			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
+		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
+			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai")
+		}
 	}
 });
 

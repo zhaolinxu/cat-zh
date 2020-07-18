@@ -445,6 +445,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			{
 				kitten.isLeader = false;
 				this.game.village.leader = null;
+				var jobTitle = this.game.village.getJob(theocracy.requiredLeaderJob).title;
+				this.game.msg(theocracy.label + $I("msg.policy.wrongLeaderJobDemoted") + jobTitle, "important");
 			}
 			if(kitten.job) {
 				var job = this.getJob(kitten.job);
@@ -2146,7 +2148,10 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	makeLeader: function(kitten){
-		if((this.game.science.getPolicy("theocracy").researched) && (kitten.job != "priest")){
+		var theocracy =this.game.science.getPolicy("theocracy");
+		if((theocracy.researched) && (kitten.job != theocracy.requiredLeaderJob)){
+			var jobTitle = this.game.village.getJob(theocracy.requiredLeaderJob).title;
+			this.game.msg(theocracy.label + $I("msg.policy.kittenNotMadeLeader") + jobTitle, "important");
              //can't assign non-priest leaders if orderOfTheStars is researched
 			return;
 		}
