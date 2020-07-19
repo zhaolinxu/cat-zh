@@ -101,7 +101,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.game.resPool.energyProd != 0 || this.game.resPool.energyCons != 0) {
 				this.getChallenge("energy").unlocked = true;
 			}
-		} else if (this.currentChallenge == "energy") {
+		} 
+		if (this.currentChallenge == "energy") {
 			if (
 				(this.game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
 				(this.game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
