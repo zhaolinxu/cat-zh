@@ -457,7 +457,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{ name : "wood", val: 200 },
 				{ name : "minerals", val: 250 }
 			];
-            game.getPriceAdjustment("N/A", self.prices, game.getEffect("logCabinCostReduction"), true);
+            game.getPriceAdjustment(self, game.getEffect("logCabinCostReduction"));
 		},
 		unlocks: {
 			tabs: ["village"]
@@ -1282,7 +1282,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{ name : "plate", val: 2500},
 				{ name : "concrate", val: 15}
 			];
-			game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.getEffect("factoryCostReduction"), true /*this IS the whole building cost reduction*/);
+			game.getPriceAdjustment(self, game.getEffect("factoryCostReduction"));
 			if(game.science.getPolicy("monarchy").researched == true){
 				var unlocksTemp = {
 					policies:["liberalism", "fascism"]
@@ -1439,7 +1439,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{ name : "minerals", val: 200 },
 				{ name : "gold", val: 10 }
 			];
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
+            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
                      },
 		flavor: $I("buildings.tradepost.flavor")
 	},{
@@ -1466,7 +1466,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{ name : "gold", val: 500 },
 				{ name : "plate", val: 200 }
 			];
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
+            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1722,7 +1722,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				{ name : "plate", val: 15 },
 				{ name : "manuscript", val: 10 }
 			];
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
+            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
