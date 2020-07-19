@@ -942,7 +942,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		effects:{
 			"goldCostReduction": 0.2,
-			"tradeRelationBoost" : 10
+			"globalRelationsBonus" : 10
 		},
 		unlocked: false,
 		blocked: false,
@@ -1202,7 +1202,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "spaceRelationsBonus" : 10
+            "globalRelationsBonus" : 10
         },
         unlocked: false,
         blocked: false,
@@ -1637,7 +1637,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 				(this.game.village.leader == null || !model.metadata.requiredLeaderJob) || 
 				(this.game.village.leader.job == model.metadata.requiredLeaderJob)
 			) && (
-				(!model.metadata.name == "transkittenusm") || 
+				(!model.metadata.name == "transkittenism") || 
 				(this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
 			)
 		){
