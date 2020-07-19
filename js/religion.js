@@ -171,7 +171,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		this.triggerOrderOfTheVoid(times);
 	},
 
-	// Accumulates the equivalent of 10 % (improved by Void Resonators) of produced faith, but with only a quarter of apocrypha bonus
+	// Converts the equivalent of 10 % (improved by Void Resonators) of produced faith, but with only a quarter of apocrypha bonus
 	triggerOrderOfTheVoid: function(numberOfTicks) {
 		if (this.game.prestige.getPerk("voidOrder").researched) {
 			var convertedFaith = numberOfTicks * this.game.calcResourcePerTick("faith") * 0.1 * (1 + this.game.getEffect("voidResonance"));
@@ -525,7 +525,10 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		],
 		faith: 1000,
 		effects: {
-			//none
+			"solarRevolutionRatio": 0
+		},
+		calculateEffects: function(self, game) {
+			self.effects["solarRevolutionRatio"] = game.religion.getSolarRevolutionRatio();
 		},
 		noStackable: true
 	},{
@@ -783,7 +786,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	resetFaith: function(bonusRatio, withConfirmation) {
 		if (withConfirmation) {
 			var self = this;
-			this.game.ui.confirm("", $I("religion.resetFaith.confirmation.msg"), function() {
+			this.game.ui.confirm("", $I("religion.adore.confirmation.msg"), function() {
 				self._resetFaithInternal(bonusRatio);
 			});
 		} else {
@@ -1316,19 +1319,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 
 		var religion = this.game.religion;
 
-		if (this.sacrificeBtn){
+		if (this.sacrificeBtn) {
 			this.sacrificeBtn.update();
 		}
 
-		if (this.sacrificeAlicornsBtn){
+		if (this.sacrificeAlicornsBtn) {
 			this.sacrificeAlicornsBtn.update();
 		}
 
-		if (this.refineBtn){
+		if (this.refineBtn) {
 			this.refineBtn.update();
 		}
 
-		if (this.refineTCBtn){
+		if (this.refineTCBtn) {
 			this.refineTCBtn.update();
 		}
 
@@ -1336,6 +1339,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			if (this.praiseBtn) {
 				this.praiseBtn.update();
 			}
+
+			var sr = this.game.religion.getRU("solarRevolution");
+			sr.calculateEffects(sr, this.game);
 
 			if (this.adoreBtn) {
 				this.adoreBtn.update();
