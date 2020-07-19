@@ -1360,7 +1360,7 @@
     "trade.embassy":"Embassy level ({0})",
     "trade.embassy.desc": "Improve your diplomatic relationships by establishing an embassy",
     "trade.embassy.pinned": "Pinned",
-    "trade.embassy.unpinned": "Uninned",
+    "trade.embassy.unpinned": "Unpinned",
 
     "ui.filter.all": "All",
     "ui.filter.available": "Available",
