@@ -1240,6 +1240,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var religionPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
 			var content = religionPanel.render(container);
 
+			var faithCount = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+			this.faithCount = faithCount;
+
 			this.praiseBtn = new com.nuclearunicorn.game.ui.ButtonModern({
 				name: $I("religion.praiseBtn.label"),
 				description: $I("religion.praiseBtn.desc"),
