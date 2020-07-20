@@ -1057,8 +1057,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.factoryCostReduction.title"),
                 type: "ratio"
 			},
-			"logCabinCostReduction":{
-                title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+			"logHouseCostReduction":{
+                title: $I("effectsMgr.statics.logHouseCostReduction.title"), //yes, it is log house!
                 type: "ratio"
 			},
 			"communismProductionBonus":{
@@ -1451,7 +1451,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 	/*function that applies discount to anything with a price. 
 	After calling every price adjustments, make self.priceAdjusted = true*/
-	getPriceAdjustment: function(self, game, prices, discount, resName){ //resName is not nessecary. If it isn't provided, all prices are decriased.
+	/*getPriceAdjustment: function(self, game, prices, discount, resName){ //resName is not nessecary. If it isn't provided, all prices are decriased.
 		if(self.pricesAdjusted){
 			return;
 		}
@@ -1461,7 +1461,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				prices[i].val *= (1 - discount);
 			}
 		}
-	},
+	},*/
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},

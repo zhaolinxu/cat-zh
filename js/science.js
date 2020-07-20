@@ -971,7 +971,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 15000}
 		],
 		effects:{
-			"logCabinCostReduction" : 0.5
+			"logHouseCostReduction" : 0.5
 		},
 		unlocked: false,
 		blocked: false,
