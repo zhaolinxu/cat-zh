@@ -3948,6 +3948,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	unlock: function(list) {
+		var game = this; 
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3973,7 +3974,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				 * and return cancel if not all unlock conditions are satisfied
 				 * 
 				*/
-				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks()){
+				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks(game)){
 					continue;
 				}
 
@@ -3983,8 +3984,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
-				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
-					// do nothing
 				} else {
 					if (!newUnlock){
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
