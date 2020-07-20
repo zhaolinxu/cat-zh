@@ -1449,19 +1449,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-	/*function that applies discount to anything with a price. 
-	After calling every price adjustments, make self.priceAdjusted = true*/
-	/*getPriceAdjustment: function(self, game, prices, discount, resName){ //resName is not nessecary. If it isn't provided, all prices are decriased.
-		if(self.pricesAdjusted){
-			return;
-		}
-		discount = game.getLimitedDR(discount, 1); //just in case... dem ret at > 0.75
-		for(var i = 0; i < prices.length; i++){
-			if ((!resName)||(prices[i].name == resName)){
-				prices[i].val *= (1 - discount);
-			}
-		}
-	},*/
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
