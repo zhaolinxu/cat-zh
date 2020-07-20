@@ -1632,15 +1632,12 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		if((model.metadata.blocked != true) && 
-			(
-				(this.game.village.leader == null || !model.metadata.requiredLeaderJob) || 
-				(this.game.village.leader.job == model.metadata.requiredLeaderJob)
-			) && (
-				(!model.metadata.name == "transkittenism") || 
-				(this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] < 15)
-			)
-		){
+		if(this.game.village.leader && this.game.village.leader.job != model.metadata.requiredLeaderJob){
+			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
+			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
+		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
+			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai")
+		}else if(model.metadata.blocked != true) {
              for(var i = 0; i < model.metadata.blocks.length; i++){
                 if(this.game.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked = true;
@@ -1656,12 +1653,6 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 					policy.blocked = true;
 				}
 			}
-		}
-		else if(this.game.village.leader && this.game.village.leader.job != model.metadata.requiredLeaderJob){
-			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
-			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
-		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
-			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai")
 		}
 	}
 });
