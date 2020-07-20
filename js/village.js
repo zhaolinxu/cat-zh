@@ -83,7 +83,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			"faith" : 0.0015
 		},
 		value: 0,
-		unlocked: false
+		unlocked: false,
+		evaluateLocks: function(game){
+			return game.challenges.currentChallenge!="atheism";
+		}
 	},{
 		name: "geologist",
 		title: $I("village.job.geologist"),
