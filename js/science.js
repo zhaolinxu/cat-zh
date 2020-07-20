@@ -839,8 +839,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	}],
 
 	/**
-	 * If policy is locked, it means some conflicting policy was researched first
-	 * Once policy is locked, there is no way to unlock it other than reset
+	 * If policy is blocked, it means some conflicting policy was researched first
+	 * Once policy is blocked, there is no way to unlock it other than reset
 	 */
 	policies: [
 	{

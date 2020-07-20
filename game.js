@@ -1449,35 +1449,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-	//function that applies discount to anything with a price. 
-	getPriceAdjustment: function(self, discount, resName){
-		if(!self.originalPrices){
-			self.originalPrices = self.prices; //saving original prices so that discount isn't applied multiple times.
+	/*function that applies discount to anything with a price. 
+	After calling every price adjustments, make self.priceAdjusted = true*/
+	getPriceAdjustment: function(self, game, prices, discount, resName){ //resName is not nessecary. If it isn't provided, all prices are decriased.
+		if(self.pricesAdjusted){
+			return;
 		}
-		var prices = self.originalPrices;
-		//If there is no resName, all costst of the thing will be decreased!
+		discount = game.getLimitedDR(discount, 1); //just in case... dem ret at > 0.75
 		for(var i = 0; i < prices.length; i++){
 			if ((!resName)||(prices[i].name == resName)){
 				prices[i].val *= (1 - discount);
 			}
 		}
-		self.prices = prices;
-	},
-	getPriceAdjustments: function(self, discountList){ //discount list will have to be array of dictionaries with name of resources and discount amount; 
-		if(!self.originalPrices){
-			self.originalPrices = self.prices; //saving original prices so that discount isn't applied multiple times.
-		}
-		var prices = self.originalPrices;
-		for(var j = 0; j < discountList.length; j++){
-			resName = discountList[j]["name"];
-			discount = discountList[j]["discount"];
-			for(var i = 0; i < prices.length; i++){
-				if ((prices[i].name == resName)){
-					prices[i].val *= (1 - discount);
-				}
-			}
-		}
-		self.prices = prices;
 	},
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;

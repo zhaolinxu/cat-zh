@@ -453,11 +453,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"maxKittens": 1
 		},
 		calculateEffects: function(self, game){
-			self.prices = [
-				{ name : "wood", val: 200 },
-				{ name : "minerals", val: 250 }
-			];
-            game.getPriceAdjustment(self, game.getEffect("logCabinCostReduction"));
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("logCabinCostReduction"));
+			self.pricesAdjusted = true;
 		},
 		unlocks: {
 			tabs: ["village"]
@@ -1277,12 +1274,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-			self.prices = [
-				{ name : "titanium", val: 2000 },
-				{ name : "plate", val: 2500},
-				{ name : "concrate", val: 15}
-			];
-			game.getPriceAdjustment(self, game.getEffect("factoryCostReduction"));
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("factoryCostReduction"));
+			self.pricesAdjusted = true;
 			if(game.science.getPolicy("monarchy").researched == true){
 				var unlocksTemp = {
 					policies:["liberalism", "fascism"]
@@ -1434,13 +1427,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
-			self.prices = [
-				{ name : "wood", val: 500 },
-				{ name : "minerals", val: 200 },
-				{ name : "gold", val: 10 }
-			];
-            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
-                     },
+            game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
+       },
 		flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
@@ -1461,12 +1450,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
-			self.prices = [
-				{ name : "minerals", val: 5000 },
-				{ name : "gold", val: 500 },
-				{ name : "plate", val: 200 }
-			];
-            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+            game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1716,13 +1701,8 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-			self.prices = [
-				{ name : "gold", val: 50 },
-				{ name : "slab", val: 25 },
-				{ name : "plate", val: 15 },
-				{ name : "manuscript", val: 10 }
-			];
-            game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+            game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
@@ -2088,7 +2068,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	save: function(saveData){
 		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
-
 		if (!saveData.bldData){
 			saveData.bldData = {};
 		}

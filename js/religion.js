@@ -296,7 +296,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				effects["alicornPerTick"] = 0.000025;
 			}
 			self.effects = effects;
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -338,7 +339,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				effects["alicornPerTick"] = 0.00005;
 			}
 			self.effects = effects;
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		unlocked: false,
 		defaultUnlocked: false
@@ -473,7 +475,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true,
 		priceRatio: 2.5,
@@ -495,7 +498,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true,
 		priceRatio: 2.5
@@ -516,7 +520,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true,
 		priceRatio: 2.5
@@ -536,7 +541,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			self.effects["solarRevolutionRatio"] = game.religion.getSolarRevolutionRatio();
 		},
 		calculateEffects(self, game){
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true
 	},{
@@ -556,7 +562,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true,
 		priceRatio: 2.5
@@ -577,7 +584,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		},
 		calculateEffects: function(self, game) {
 			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
 		},
 		noStackable: true,
 		priceRatio: 2.5
@@ -594,7 +601,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			//none
 		},
 		calculateEffects(self, game){
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true
 	},{
@@ -613,7 +621,8 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			religion: ["solarchant", "scholasticism", "goldenSpire", "sunAltar", "stainedGlass", "basilica", "templars"]
 		},
 		calculateEffects(self, game){
-			game.getPriceAdjustment(self, game.getEffect("goldCostReduction"), "gold");
+			game.getPriceAdjustment(self, game, self.prices, game.getEffect("goldCostReduction"), "gold");
+			self.pricesAdjusted = true;
 		},
 		noStackable: true
 	}],
