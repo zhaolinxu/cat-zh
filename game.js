@@ -1494,7 +1494,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var delta = 0.25 * limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1 - (delta / (diminishedPortion + delta))) * 0.25 * limit;
+		var diminishedEffect = (1 - (delta / (diminishedPortion + delta))) * delta;
 
 		var totalEffect = maxUndiminished + diminishedEffect;
 
