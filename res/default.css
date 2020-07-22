@@ -288,8 +288,17 @@ select>option {
     width: 600px;
     height: 400px;
 
+
+    overflow-y: scroll;
+
     margin-top: -200px;
     margin-left: -300px;
+}
+
+.credits li {
+    text-decoration: underline;
+    text-decoration-color: gainsboro;
+    cursor: pointer;
 }
 
 .disabled {
@@ -600,7 +609,8 @@ label:hover {
 }
 
 #optionsDiv {
-    height: auto;
+    overflow-y: scroll;
+    height: 400px;
     margin-top:-170px; 
 }
 
@@ -930,6 +940,10 @@ a.link.collapse:hover {
     border-spacing: 3px;
 }
 
+.res-toggle-hidden {
+    margin-top: 10px;
+}
+
 .res-row {
     padding-bottom: 4px;
     display:table-row;
@@ -952,6 +966,11 @@ a.link.collapse:hover {
 .res-cell.resource-name {
     width: 60px;
     max-width: 85px;
+}
+
+.res-row.hidden .res-cell.resource-name {
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .res-cell.resource-value {
@@ -1488,4 +1507,8 @@ div.leet {
     0 0 15px red,
     0 0 20px red,
     0 0 25px red;}
+}
+
+.pin-link {
+    padding-left: 5px;
 }
