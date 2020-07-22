@@ -1806,7 +1806,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		flavor: $I("buildings.aicore.flavor"),
 		canSell: function(self, game){
-			if ((game.getPolicy("transkittenism").researched == true) || (self.effects["aiLevel"] < 15)){
+			if ((game.science.getPolicy("transkittenism").researched == true) || (self.effects["aiLevel"] < 15)){
 				return true;
 			}
 			game.systemShockMode = true;
