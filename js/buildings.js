@@ -452,9 +452,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"manpowerMax": 50,
 			"maxKittens": 1
 		},
-		calculateEffects: function(self, game){
-            game.getPriceAdjustment("N/A", self.prices, game.getEffect("logCabinCostReduction"), true);
-		},
 		unlocks: {
 			tabs: ["village"]
 		},
@@ -1273,7 +1270,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-				game.getPriceAdjustment("N/A" /*Doesn't matter for whole building cost reduction*/, self.prices, game.getEffect("factoryCostReduction"), true /*this IS the whole building cost reduction*/);
 			if(game.science.getPolicy("monarchy").researched == true){
 				var unlocksTemp = {
 					policies:["liberalism", "fascism"]
@@ -1425,8 +1421,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game) {
 			self.effects["standingRatio"] = game.workshop.get("caravanserai").researched ? 0.0035 : 0;
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
-                     },
+       },
 		flavor: $I("buildings.tradepost.flavor")
 	},{
 		name: "mint",
@@ -1447,7 +1442,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function (self, game){
 			self.effects["goldMax"] = 100 * (1 + game.getEffect("warehouseRatio"));
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		lackResConvert: false,
 		action: function(self, game){
@@ -1697,8 +1691,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			}
 
 			self.effects = effects;
-
-            game.getPriceAdjustment("gold", self.prices, game.getEffect("goldCostReduction"));
 		},
 		flavor: $I("buildings.temple.flavor")
 	},
@@ -2064,7 +2056,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 	save: function(saveData){
 		saveData.buildings = this.filterMetadata(this.buildingsData, ["name", "unlocked", "val", "on", "stage", "jammed", "isAutomationEnabled"]);
-
 		if (!saveData.bldData){
 			saveData.bldData = {};
 		}

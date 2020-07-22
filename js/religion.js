@@ -566,9 +566,6 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		upgrades: {
 			buildings: ["temple"]
 		},
-		calculateEffects: function(self, game) {
-			self.noStackable = (game.religion.getRU("transcendence").on == 0);
-		},
 		noStackable: true,
 		priceRatio: 2.5
 	},{
