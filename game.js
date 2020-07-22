@@ -1057,8 +1057,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.factoryCostReduction.title"),
                 type: "ratio"
 			},
-			"logCabinCostReduction":{
-                title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+			"logHouseCostReduction":{
+                title: $I("effectsMgr.statics.logHouseCostReduction.title"), //yes, it is log house!
                 type: "ratio"
 			},
 			"communismProductionBonus":{
@@ -1446,15 +1446,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				return this.effectsMgr.statics.effectMeta[effectName];
 			} else {
 				return { title: effectName };
-			}
-		}
-	},
-	//function that applies discount to anything with a price. 
-	getPriceAdjustment: function(resName, prices, discount, theWholeBuilding){
-		//If true, all costst of the thing will be decreased! resName would be irrelevant then
-		for(var i = 0; i < prices.length; i++){
-			if ((prices[i].name == resName) || theWholeBuilding){
-				prices[i].val *= (1 - discount);
 			}
 		}
 	},
