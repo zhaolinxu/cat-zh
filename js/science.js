@@ -1661,7 +1661,8 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-        
+		var test = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+		test.innerHTML = $I("msg.policy.exclusivity");
 		var controller = new classes.ui.PolicyBtnController(this.game);
 		dojo.forEach(this.game.science.policies, function(policy, i){
 			var button = 
