@@ -564,7 +564,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//-------------------------  -------------------
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
-		if (this.game.rand(10000) < riftChance * unicornChanceRatio){
+		if (this.game.rand(10000) < riftChance * 10000 * unicornChanceRatio){
 			var unicornBonus = 500 * (1 + this.game.getEffect("unicornsRatioReligion") * 0.1);
 			this.game.msg($I("calendar.msg.rift", [this.game.getDisplayValueExt(unicornBonus)]), "notice", "unicornRift");
 
@@ -572,7 +572,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
-		if (this.game.rand(100000) < aliChance){
+		if (this.game.rand(100000) < aliChance * 100000){
 			this.game.msg($I("calendar.msg.alicorn"), "important", "alicornRift");
 
 			this.game.resPool.addResEvent("alicorn", 1);
@@ -583,7 +583,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		// -------------- ivory meteors ---------------
 		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
-		if (this.game.rand(10000) < meteorChance * unicornChanceRatio){
+		if (this.game.rand(10000) < meteorChance * 10000 * unicornChanceRatio){
 
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
 			this.game.msg($I("calendar.msg.ivoryMeteor", [this.game.getDisplayValueExt(ivory)]), "notice", "ivoryMeteor");
@@ -688,13 +688,13 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		//-------------------------  -------------------
 
 		var riftChance = this.game.getEffect("riftChance");	//5 OPTK
-		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio / 10000);
+		numberEvents = Math.round(daysOffset * riftChance * unicornChanceRatio);
 		this.game.resPool.addResEvent("unicorns", numberEvents * 500);
 		totalNumberOfEvents += numberEvents;
 
 		//----------------------------------------------
 		var aliChance = this.game.getEffect("alicornChance");	//0.2 OPTK
-		numberEvents = Math.round(daysOffset * aliChance / 100000);
+		numberEvents = Math.round(daysOffset * aliChance);
 		if (numberEvents >= 1) {
 			this.game.resPool.addResEvent("alicorn", numberEvents);
 			this.game.upgrade({
@@ -705,7 +705,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		// -------------- ivory meteors ---------------
 		var meteorChance = 0 + this.game.getEffect("ivoryMeteorChance");	//5 OPTK
-		numberEvents = Math.round(daysOffset * meteorChance * unicornChanceRatio / 10000);
+		numberEvents = Math.round(daysOffset * meteorChance * unicornChanceRatio);
 		if (numberEvents){
 			var ivory = (250 + this.game.rand(1500) * (1 + this.game.getEffect("ivoryMeteorRatio")));
 			this.game.resPool.addResEvent("ivory", ivory * numberEvents);

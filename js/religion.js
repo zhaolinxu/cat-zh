@@ -207,7 +207,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 0.1,
-			"riftChance" : 5
+			"riftChance" : 0.0005
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -225,7 +225,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		priceRatio: 1.15,
 		effects: {
 			"unicornsRatioReligion" : 0.25,
-			"ivoryMeteorChance" : 5
+			"ivoryMeteorChance" : 0.0005
 		},
 		unlocked: false,
 		defaultUnlocked: false,
@@ -253,7 +253,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			var effects = {
 				"goldMaxRatio": 0.01,
 				"unicornsRatioReligion" : 0.5,
-				"alicornChance" : 10,
+				"alicornChance" : 0.0001,
 				"alicornPerTick" : 0,
 				"ivoryMeteorRatio" : 0.05
 			};
@@ -287,7 +287,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			var effects = {
 				"unicornsRatioReligion" : 2.5,
-				"alicornChance" : 15,
+				"alicornChance" : 0.00015,
 				"alicornPerTick" : 0,
 				"tcRefineRatio" : 0.05,
 				"ivoryMeteorRatio" : 0.15
@@ -328,7 +328,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		calculateEffects: function(self, game) {
 			var effects = {
 				"unicornsRatioReligion" : 5,
-				"alicornChance" : 30,
+				"alicornChance" : 0.00030,
 				"alicornPerTick" : 0,
 				"tcRefineRatio" : 0.1,
 				"ivoryMeteorRatio" : 0.5
