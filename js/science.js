@@ -1638,30 +1638,58 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		}
 	},
 
-	onPurchase: function(model){
+	shouldBeBough: function(model, game){ //fail checks:
 		if(this.game.village.leader && model.metadata.requiredLeaderJob && this.game.village.leader.job != model.metadata.requiredLeaderJob){
 			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
 			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
+			return false;
 		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
-			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai")
+			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai");
+			return false;
 		}else if(model.metadata.blocked != true) {
              for(var i = 0; i < model.metadata.blocks.length; i++){
                 if(this.game.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked = true;
-                    return;
+                    return false;
                 }
-             }
-			this.inherited(arguments);
-			var meta = model.metadata;
+			}
+			var confirmed = false; //confirmation:
+			if(game.opts.noConfirm){
+				return true;
+			}
+			game.ui.confirm($I("reset.confirmation.title"), $I("policy.confirmation.title"), function() {
+				confirmed = true;
+			});
+		}
+		return confirmed;
+	},
+	buyItem: function(model, event, callback) {
+		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
+			if(!this.shouldBeBough(model, game)){
+				callback(false);
+				return;
+			}
+			this.payPrice(model);
 
+			this.onPurchase(model);
+			
+			callback(true);
+			this.game.render();
+			return;
+		}
+		callback(false);
+	},
+	onPurchase: function(model){
+		this.inherited(arguments);
+		var meta = model.metadata;
 			if (meta.blocks){
 				for (var i in meta.blocks){
 					var policy = this.game.science.getPolicy( meta.blocks[i]);
 					policy.blocked = true;
 				}
 			}
+
 		}
-	}
 });
 
 dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
