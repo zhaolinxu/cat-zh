@@ -1632,7 +1632,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 
 	onPurchase: function(model){
-		if(this.game.village.leader && this.game.village.leader.job != model.metadata.requiredLeaderJob){
+		if(this.game.village.leader && model.metadata.requiredLeaderJob && this.game.village.leader.job != model.metadata.requiredLeaderJob){
 			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
 			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
 		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
