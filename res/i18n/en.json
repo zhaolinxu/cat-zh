@@ -566,7 +566,7 @@
     "opts.no": "No",
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
-    "msg.policy.exclusivity" : "Policies with same cost are mutually exclusive",
+    "msg.policy.exclusivity" : "Policies with the same cost are mutually exclusive",
     "msg.policy.kittenNotMadeLeader" : " can only be lead by a ",
     "msg.policy.wrongLeaderJobDemoted" : " can only be lead by a ",
     "msg.policy.wrongLeaderJobForResearch" : " can only be researched if your leader is a ",
