@@ -1667,7 +1667,7 @@
     "workshop.factoryOptimization.label": "Factory Optimization",
     "workshop.factoryOptimization.desc": "Improves Engineer's effectiveness",
     "workshop.factoryProcessing.label": "Factory Processing",
-    "workshop.factoryProcessing.desc": "Every factory will increase oil refinement effectiveness by 5%.",
+    "workshop.factoryProcessing.desc": "Every factory will increase oil refinement to kerosene effectiveness by 5%.",
     "workshop.factoryRobotics.label": "Factory Robotics",
     "workshop.factoryRobotics.desc": "Improves Engineer's effectiveness",
     "workshop.fluidizedReactors.label": "Fluidized Reactors",
