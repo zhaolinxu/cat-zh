@@ -947,6 +947,8 @@
     "save.import.confirmation.msg": "Are your sure? This will overwrite your save!",
     "save.import.msg": "Save import successful!",
 
+    "science.policyToggleBlocked.label": "Hide blocked policies",
+    "science.policyToggleResearched.label": "Hide researched policies",
     "science.toggleResearched.label": "Hide researched techs",
     "science.acoustics.label": "Acoustics",
     "science.acoustics.desc": "Acoustics is the study of sound. Though not obviously useful, in a long run it may benefit civilizations thriving for cultural and religious development.",

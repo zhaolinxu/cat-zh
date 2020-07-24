@@ -6,6 +6,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	game: null,
 
 	hideResearched: false,
+	policyToggleBlocked: false,
+	policyToggleResearched: false,
 
 	//list of technologies
 	techs:[{
@@ -1613,7 +1615,12 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
-
+		if (meta.researched && this.game.science.policyToggleResearched){
+			model.visible = false;
+		}
+		if (meta.blocked && this.game.science.policyToggleBlocked){
+			model.visible = false;
+		}
 		//uncomment when no longer debugging the code
 		/*
 			if (
@@ -1661,8 +1668,47 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-		var test = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
-		test.innerHTML = $I("msg.policy.exclusivity");
+		var msg = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+		msg.innerHTML = $I("msg.policy.exclusivity");
+
+		var div = dojo.create("div", { style: { float: "right"}}, content);
+		var groupCheckbox = dojo.create("input", {
+            id : "policyToggleResearched",
+            type: "checkbox",
+            checked: this.game.science.policyToggleResearched,
+            style: {
+                //display: hasCivil ? "" : "none"
+            }
+        }, div);
+
+        dojo.connect(groupCheckbox, "onclick", this, function(){
+            this.game.science.policyToggleResearched = !this.game.science.policyToggleResearched;
+
+            dojo.empty(content);
+            game.render(content);
+        });
+
+		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label")+"<br>", for: "policyToggleResearched"}, div);
+		
+		var groupCheckbox1 = dojo.create("input", {
+            id : "policyToggleBlocked",
+            type: "checkbox",
+            checked: this.game.science.policyToggleBlocked,
+            style: {
+                //display: hasCivil ? "" : "none"
+            }
+        }, div);
+
+        dojo.connect(groupCheckbox1, "onclick", this, function(){
+            this.game.science.policyToggleBlocked = !this.game.science.policyToggleBlocked;
+
+            dojo.empty(content);
+            game.render(content);
+        });
+
+        dojo.create("label", { innerHTML: $I("science.policyToggleBlocked.label"), for: "policyToggleBlocked"}, div);
+
+
 		var controller = new classes.ui.PolicyBtnController(this.game);
 		dojo.forEach(this.game.science.policies, function(policy, i){
 			var button = 
