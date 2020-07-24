@@ -1696,8 +1696,8 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-		var msg = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
-		msg.innerHTML = $I("msg.policy.exclusivity");
+		var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+		msgBox.innerHTML = $I("msg.policy.exclusivity");
 
 		var div = dojo.create("div", { style: { float: "right"}}, content);
 		var groupCheckbox = dojo.create("input", {
