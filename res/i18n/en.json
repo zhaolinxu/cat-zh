@@ -571,7 +571,7 @@
     "msg.policy.wrongLeaderJobDemoted" : " can only be lead by a ",
     "msg.policy.wrongLeaderJobForResearch" : " can only be researched if your leader is a ",
 
-    "policy.confirmation.title" : "Are you sure? You cannot tiptoe away from the grasp of your history.",
+    "policy.confirmation.title" : "Are you sure? You cannot tiptoe away from the grasp of your history.\nPolicy effects are permanent, and you cannot switch policies until you reset.",
 
     "policy.autocracy.label" : "Autocracy",
     "policy.autocracy.desc" : "Best for societies with highly promoted kittens. Makes the leader twice as good at their job.",
