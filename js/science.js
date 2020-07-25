@@ -1657,7 +1657,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 			if(game.opts.noConfirm){
 				return true;
 			}
-			game.ui.confirm($I("reset.confirmation.title"), $I("policy.confirmation.title"), function() {
+			game.ui.confirm($I("policy.confirmation.title"), $I("policy.confirmation.title"), function() {
 				confirmed = true;
 			});
 		}
