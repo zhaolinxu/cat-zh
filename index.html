@@ -497,7 +497,7 @@
 
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
-				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">关闭</a>
 
 				<label for="languageSelector">选择语言:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -510,8 +510,8 @@
 				<label for="schemeToggle">更换主题:</label>
 				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select>
-				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
-				<br><i><span style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
+				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">重新锁定主题</a>
+				<br><i><span style="font-size: 70%;">主题可以通过特定操作解锁</span></i>
 				<br>
 				<br>
 
@@ -537,10 +537,10 @@
 				<label for="usePercentageResourceValues">按百分比显示资源变化</label>
 				<br>
 				<input id="showNonApplicableButtons" type="checkbox" onclick="gamePage.opts.showNonApplicableButtons = $('#showNonApplicableButtons')[0].checked;">
-				<label for="showNonApplicableButtons">Always show festivals/trade/sacrifice/shatter buttons even if not applicable</label>
+				<label for="showNonApplicableButtons">始终显示批量操作按钮(x10, x100)</label>
 				<br>
 				<input id="usePercentageConsumptionValues" type="checkbox" onclick="gamePage.opts.usePercentageConsumptionValues = $('#usePercentageConsumptionValues')[0].checked;">
-				<label for="usePercentageConsumptionValues">Use percentage values for craft/trade/sacrifice buttons</label>
+				<label for="usePercentageConsumptionValues">批量操作按钮使用百分比值</label>
 				<br>
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
 				<label for="highlightUnavailable">建筑物存储空间不足时，高亮显示</label>
@@ -646,16 +646,14 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
-				<a href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
-			<a href="https://g8hh.com" target="_blank">锅巴汉化</a> |
+				<a href="http://likexia.gitee.io/cat-zh/wiki/" target="_blank" title="猫国百科全书">百科</a> |
+				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">Wiki</a> |
 				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
-				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> |
-				<a href="https://www.patreon.com/bloodrizer" target="_blank">Patreon</a>
+				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
+				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
