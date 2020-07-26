@@ -960,10 +960,9 @@ dojo.declare("com.nuclearunicorn.game.ui.TranscendBtnController", com.nuclearuni
 	}
 });
 
-dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
+dojo.declare("classes.ui.religion.TransformBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
 		var result = this.inherited(arguments);
-
 		result.hasResourceHover = true;
 		result.simplePrices = false;
 		return result;
@@ -971,6 +970,14 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 
 	fetchModel: function(options) {
 		var model = this.inherited(arguments);
+		model.fifthLink = this._newLink(model, 5);
+		model.halfLink = this._newLink(model, 2);
+		model.allLink = this._newLink(model, 1);
+		return model;
+	},
+
+	_newLink: function(model, divider) {
+		var transformations = Math.floor(this._canAfford(model) / divider);
 		var self = this;
 		return {
 			visible: this.game.opts.showNonApplicableButtons || transformations > 1,
@@ -984,82 +991,44 @@ dojo.declare("classes.ui.religion.SacrificeBtnController", com.nuclearunicorn.ga
 				self.transform(model, divider, event, callback);
 			}
 		};
-		model.x10Link = {
-			visible: self._canAfford(model) >= 10,
-			title: "x10",
-			handler: function(event, callback){
-				self.sacrificeX10(this.model, event, callback);
-			}
-		};
-		return model;
 	},
 
 	buyItem: function(model, event, callback){
 		if (model.enabled && this.hasResources(model)) {
-			callback(this.sacrifice(model, 1));
+			callback(this._transform(model, 1));
 		}
 		callback(false);
 	},
 
 	_canAfford: function(model) {
-		return Math.floor(this.game.resPool.get("unicorns").value / model.prices[0].val);
+		return Math.floor(this.game.resPool.get(model.prices[0].name).value / model.prices[0].val);
 	},
 
-	sacrificeX10: function(model, event, callback){
-		if (model.enabled && this._canAfford(model) >= 10) {
-			callback(this.sacrifice(model, 10));
+	transform: function(model, divider, event, callback) {
+		var amt = Math.floor(this._canAfford(model) / divider);
+		if (model.enabled && amt >= 1) {
+			callback(this._transform(model, amt));
 		}
 		callback(false);
 	},
 
-	sacrificeAll: function(model, event, callback){
-		if (model.enabled && this.hasResources(model)) {
-			var result = this.sacrifice(model, this._canAfford(model));
-			callback(result);
-		}
-		callback(false);
-	},
-
-	sacrifice: function(model, amt){
-		var prices = model.prices;
-		amt = amt || 1;
-
-		var unicornCount = prices[0].val * amt;
-
-		if (unicornCount > this.game.resPool.get("unicorns").value) {
+	_transform: function(model, amt) {
+		var priceCount = model.prices[0].val * amt;
+		if (priceCount > this.game.resPool.get(model.prices[0].name).value) {
 			return false;
 		}
 
-		var tearCount = this.game.bld.get("ziggurat").on * amt;
+		var gainCount = this.controllerOpts.gainMultiplier.call(this) * amt;
 
-		this.game.resPool.addResEvent("unicorns", -unicornCount);
-		this.game.resPool.addResEvent("tears", tearCount);
-		this.game.stats.getStat("unicornsSacrificed").val += unicornCount;
+		this.game.resPool.addResEvent(model.prices[0].name, -priceCount);
+		this.game.resPool.addResEvent(this.controllerOpts.gainedResource, gainCount);
 
-		this.game.msg($I("religion.sacrificeBtn.sacrifice.msg", [this.game.getDisplayValueExt(unicornCount), this.game.getDisplayValueExt(tearCount)]));
-		return true;
-	}
-
-});
-
-
-
-dojo.declare("classes.ui.religion.SacrificeBtn", com.nuclearunicorn.game.ui.ButtonModern, {
-	x10: null,
-
-	/**
-	 * Render button links like off/on and sell
-	 */
-	renderLinks: function(){
-		this.all = this.addLink(this.model.allLink.title, this.model.allLink.handler, false, true);
-		this.x10 = this.addLink(this.model.x10Link.title, this.model.x10Link.handler, false, true);
-	},
-
-	update: function(){
-		this.inherited(arguments);
-		if (this.x10){
-			dojo.style(this.x10.link, "display", this.model.x10Link.visible ? "" : "none");
+		if (this.controllerOpts.applyAtGain) {
+			this.controllerOpts.applyAtGain.call(this, priceCount);
 		}
+
+		this.game.msg($I(this.controllerOpts.logTextID, [this.game.getDisplayValueExt(priceCount), this.game.getDisplayValueExt(gainCount)]));
+		return true;
 	}
 });
 
@@ -1070,15 +1039,13 @@ dojo.declare("classes.ui.religion.MultiLinkBtn", com.nuclearunicorn.game.ui.Butt
 		this.fifth = this.addLink(this.model.fifthLink);
 	},
 
-	update: function(){
+	update: function() {
 		this.inherited(arguments);
 		this.updateLink(this.fifth, this.model.fifthLink);
 		this.updateLink(this.half, this.model.halfLink);
 		this.updateLink(this.all, this.model.allLink);
 	}
-
 });
-
 
 dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
 	defaults: function() {
@@ -1106,100 +1073,7 @@ dojo.declare("classes.ui.religion.RefineTearsBtnController", com.nuclearunicorn.
 
 	refine: function(){
 		this.game.resPool.get("sorrow").value++; //resPool.update() force below maxValue
-	},
-
-	updateVisible: function(model){
-		model.visible = this.game.religion.getZU("blackPyramid").unlocked;
 	}
-
-});
-
-dojo.declare("classes.ui.religion.RefineTCBtnController", com.nuclearunicorn.game.ui.ButtonModernController, {
-	defaults: function() {
-		var result = this.inherited(arguments);
-
-		result.hasResourceHover = true;
-		return result;
-	},
-
-	buyItem: function(model, event, callback){
-		if (model.enabled && this.hasResources(model)) {
-			this.payPrice(model);
-			this.refine();
-
-			callback(true);
-		}
-		callback(false);
-	},
-
-	fetchModel: function(options) {
-		var model = this.inherited(arguments);
-		var self = this;
-		model.allLink = {
-			visible: true,
-			title: $I("religion.sacrificeBtn.all"),
-			handler: function(event, callback){
-				self.refineAll(this.model, event, callback);
-			}
-		};
-		model.x25Link = {
-			visible: self._canAfford(model) >= 25,
-			title: "x25",
-			handler: function(event, callback){
-				self.refineX25(this.model, event, callback);
-			}
-		};
-		return model;
-	},
-
-	refine: function(){
-		//TODO: use #_refine
-		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val);
-		this.game.resPool.addResEvent("relic", relicsCount);
-		this.game.msg($I("religion.refineTCsBtn.refine.msg", [this.game.getDisplayValueExt(relicsCount)]));
-	},
-
-	_canAfford: function(model) {
-		return Math.floor(this.game.resPool.get("timeCrystal").value / model.prices[0].val);
-	},
-
-	refineX25: function(model, event, callback){
-		if (model.enabled && this._canAfford(model) >= 25) {
-			callback(this._refine(model, 25));
-		}
-		callback(false);
-	},
-
-	refineAll: function(model, event, callback){
-		if (model.enabled && this.hasResources(model)) {
-			var result = this._refine(model, this._canAfford(model));
-			callback(result);
-		}
-		callback(false);
-	},
-
-	_refine: function(model, amt){
-		var prices = model.prices;
-		amt = amt || 1;
-
-		var tcPriceCount = prices[0].val * amt;
-
-		if (tcPriceCount > this.game.resPool.get("timeCrystal").value) {
-			return;
-		}
-
-		var relicsCount = (1 + this.game.getEffect("relicRefineRatio") * this.game.religion.getZU("blackPyramid").val) * amt;
-
-		this.game.resPool.addResEvent("timeCrystal", -tcPriceCount);
-		this.game.resPool.addResEvent("relic", relicsCount);
-		this.game.msg($I("religion.refineTCsBtn.refine.msg", [relicsCount]));
-		return true;
-	},
-
-	updateVisible: function(model){
-		model.visible = this.game.resPool.get("timeCrystal").value >= 25;
-	}
-
 });
 
 dojo.declare("classes.ui.CryptotheologyWGT", [mixin.IChildrenAware, mixin.IGameAware], {
@@ -1266,20 +1140,43 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			var zigguratPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.ziggurat.label"), game.religion);
 			var content = zigguratPanel.render(container);
 
-			var sacrificeBtn = new classes.ui.religion.SacrificeBtn({
+			var sacrificeBtn = new classes.ui.religion.MultiLinkBtn({
 				name: $I("religion.sacrificeBtn.label"),
 				description: $I("religion.sacrificeBtn.desc"),
 				prices: [{ name: "unicorns", val: 2500}],
-				controller: new classes.ui.religion.SacrificeBtnController(game)
+				controller: new classes.ui.religion.TransformBtnController(game, {
+					gainMultiplier: function() {
+						return this.game.bld.get("ziggurat").on;
+					},
+					gainedResource: "tears",
+					applyAtGain: function(priceCount) {
+						this.game.stats.getStat("unicornsSacrificed").val += priceCount;
+					},
+					logTextID: "religion.sacrificeBtn.sacrifice.msg"
+				})
 			}, game);
 			sacrificeBtn.render(content);
 			this.sacrificeBtn = sacrificeBtn;
 
-			var sacrificeAlicornsBtn = classes.ui.religion.SacrificeBtn({
+			var sacrificeAlicornsBtn = classes.ui.religion.MultiLinkBtn({
 				name: $I("religion.sacrificeAlicornsBtn.label"),
 				description: $I("religion.sacrificeAlicornsBtn.desc"),
 				prices: [{ name: "alicorn", val: 25}],
-				controller: new classes.ui.religion.SacrificeAlicornsBtnController(game)
+				controller: new classes.ui.religion.TransformBtnController(game, {
+					updateVisible: function(model) {
+						model.visible = this.hasResources(model) || (this.game.resPool.get("alicorn").value > 0 && this.game.resPool.get("timeCrystal").unlocked);
+					},
+					gainMultiplier: function() {
+						return 1 + this.game.getEffect("tcRefineRatio");
+					},
+					gainedResource: "timeCrystal",
+					applyAtGain: function() {
+						this.game.upgrade({
+							zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
+						});
+					},
+					logTextID: "religion.sacrificeAlicornsBtn.sacrifice.msg"
+				})
 			}, game);
 			sacrificeAlicornsBtn.render(content);
 			this.sacrificeAlicornsBtn = sacrificeAlicornsBtn;
@@ -1288,12 +1185,16 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				name: $I("religion.refineTearsBtn.label"),
 				description: $I("religion.refineTearsBtn.desc"),
 				prices: [{ name: "tears", val: 10000}],
-				controller: new classes.ui.religion.RefineTearsBtnController(game)
+				controller: new classes.ui.religion.RefineTearsBtnController(game, {
+					updateVisible: function(model) {
+						model.visible = this.game.religion.getZU("blackPyramid").unlocked;
+					}
+				})
 			}, game);
 			refineBtn.render(content);
 			this.refineBtn = refineBtn;
 
-			var refineTCBtn = new classes.ui.religion.RefineTCBBtn({
+			var refineTCBtn = new classes.ui.religion.MultiLinkBtn({
 				name: $I("religion.refineTCsBtn.label"),
 				description: $I("religion.refineTCsBtn.desc"),
 				prices: [{ name: "timeCrystal", val: 25}],
