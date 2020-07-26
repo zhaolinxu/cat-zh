@@ -43,7 +43,7 @@ var cnItems = {
     'Paragon': '领导力',
     'BurnedParagon': '燃烧领导力',
     'TimeCrystal': '时间水晶',
-    'Sorrow': '悲伤',
+    'Sorrow': 'BLS',
     'Relic': '圣遗物',
     'Void': '虚空',
     'ElderBox': '礼盒',
