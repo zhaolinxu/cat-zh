@@ -457,7 +457,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		prices:[
 			{ name : "unobtainium", val: 100 },
 			{ name : "science", val: 250000 },
-			{ name : "alloy", val: 150 },
+			{ name : "alloy", val: 150 }
 		],
 		upgrades: {
 			buildings: ["accelerator"]
@@ -1289,7 +1289,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.celestialMechanics.desc"),
 		effects: {},
 		prices:[
-			{ name : "science",  val: 250 },
+			{ name : "science",  val: 250 }
 		]
 	},{
 		name: "astrolabe",
@@ -2112,7 +2112,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.upgrades[i];
 			}
 		}
-		console.error("Failed to get upgrade for id '"+upgradeName+"'");
+		console.error("Failed to get upgrade for id '" + upgradeName + "'");
 		return null;
 	},
 
@@ -2200,15 +2200,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	},
 
 	getCraftPrice: function(craft) {
-		if (craft.name != "ship") {
+		if (craft.name != "ship" && craft.name != "manuscript") {
 			return craft.prices;
+		}
+
+		if (craft.name == "manuscript" && this.game.science.getPolicy("tradition").researched){
+			return [
+				{name: "parchment", val: 20},
+				{name: "culture", val: 300}
+			];
 		}
 
 		//special ship hack
 		var prices = dojo.clone(craft.prices);
 		for (var i = prices.length - 1; i >= 0; i--) {
 			if (prices[i].name == "starchart") {
-				prices[i].val = prices[i].val * (1 - this.game.getHyperbolicEffect(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
+				prices[i].val = prices[i].val * (1 - this.game.getLimitedDR(this.game.getEffect("satnavRatio") * this.game.space.getBuilding("sattelite").on, 0.75));
 			}
 		}
 		return prices;
@@ -2217,6 +2224,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 	craft: function (res, amt, suppressUndo, forceAll, bypassResourceCheck) {
 		var craft = this.getCraft(res);
 		var craftRatio = this.game.getResCraftRatio(res);
+		amt = Math.ceil(amt);
 		var craftAmt = amt * (1 + craftRatio);
 
 		//prevent undo giving free res
@@ -2286,7 +2294,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		if (this.craft(metaId, -val, true /*do not create cyclic undo*/)){
 			var res = this.game.resPool.get(metaId);
 			var craftRatio = this.game.getResCraftRatio(metaId);
-			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1+craftRatio)), (res.title || res.name)]));
+			this.game.msg( $I("workshop.undo.msg", [this.game.getDisplayValueExt(val * (1 + craftRatio)), (res.title || res.name)]));
 		}
     },
 
@@ -2354,24 +2362,39 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 						this.game.getEffect("blackLibraryBonus") )
 				)
 			);
-			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.getTranscendenceLevel());
+			iwScienceCapRatio *= (1 + ttBoostRatio * this.game.religion.transcendenceTier);
 		}
 
-		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) && !this.game.opts.ch40krun){
+		/*var darkFutureRatio = Math.max(this.game.calendar.year / this.game.calendar.darkFutureBeginning, 1);
+		// Quadratic increase, so that deep enough run will eventually unnerf the compendia cap
+		var scienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) * darkFutureRatio * darkFutureRatio;*/
+
+		//ch40krun should not be explosed to regular players
+		//there is a lot of ungoing discussing about the necessity of compedia un-nerf, and the original intention was never to allow it
+
+		if (compendiaScienceMax > (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap) /*&& !this.game.opts.ch40krun*/){
 			compendiaScienceMax = (scienceMaxBuilding * iwScienceCapRatio + scienceMaxCompendiaCap);
 		}
 		//-------------	todo: move somewhere to bld? ------------------------------------
 
 		this.effectsBase["oilMax"] = Math.floor(this.game.resPool.get("tanker").value * 500);
 		this.effectsBase["scienceMax"] = compendiaScienceMax;
-		this.effectsBase["cultureMax"] = this.game.getTriValue(cultureBonusRaw, 0.01);
+		//this.effectsBase["scienceMax"] = Math.min(compendiaScienceMax, scienceMax);
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
+		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
+
+		if (this.game.science.getPolicy("tradition").researched){
+			this.effectsBase["cultureMax"] *= 2;
+		}
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){
 			this.clearEngineers();
 		}
+		this.craftByEngineers(times);
+	},
 
+	craftByEngineers: function(times) {
 		for (var i = 0; i < this.crafts.length; i++) {
 			var craft = this.crafts[i];
 
@@ -2467,8 +2490,8 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButtonController", com.nuclearunic
 
 	defaults: function() {
 		var result = this.inherited(arguments);
-		result.hasResourceHover= true;
-		result.simplePrices= false;
+		result.hasResourceHover = true;
+		result.simplePrices = false;
 		return result;
 	},
 

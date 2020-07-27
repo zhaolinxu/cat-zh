@@ -395,7 +395,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         label: $I("time.vsu.voidRift.label"),
         description: $I("time.vsu.voidRift.desc"),
         prices: [
-            { name: "void", val: 75 },
+            { name: "void", val: 75 }
         ],
         priceRatio: 1.3,
         effects: {
@@ -493,9 +493,19 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
             // ShatterTC gain
             if (shatterTCGain > 0) {
+                // XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+                var limits = {};
                 for (var j = 0; j < game.resPool.resources.length; j++) {
-                    var resName = game.resPool.resources[j].name;
-                    game.resPool.addResEvent(resName, game.getResourcePerTick(resName, true) * remainingTicksInCurrentYear * shatterTCGain);
+                    var res = game.resPool.resources[j];
+                    limits[res.name] = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    game.resPool.addRes(res, game.getResourcePerTick(res.name, true) * remainingTicksInCurrentYear * shatterTCGain, false, true);
+                }
+                if (this.game.workshop.get("chronoEngineers").researched) {
+                    this.game.workshop.craftByEngineers(remainingTicksInCurrentYear * shatterTCGain);
+                }
+                for (var j = 0; j < game.resPool.resources.length; j++) {
+                    var res = game.resPool.resources[j];
+                    res.value = Math.min(res.value, limits[res.name]);
                 }
             }
 
@@ -840,7 +850,7 @@ dojo.declare("classes.ui.time.VoidSpaceBtnController", com.nuclearunicorn.game.u
 		if (model.metadata.name == "cryochambers") {
 			for (var i = 0; i < prices.length; i++) {
 				if (prices[i].name == "karma") {
-					prices[i].val -= prices[i].val * this.game.getHyperbolicEffect(0.01 * this.game.prestige.getBurnedParagonRatio(), 1.0);
+					prices[i].val -= prices[i].val * this.game.getLimitedDR(0.01 * this.game.prestige.getBurnedParagonRatio(), 1);
 				}
 			}
 		}
@@ -952,8 +962,8 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
 
         var kittens = this.game.resPool.get("kittens").value;
         var stripe = 5;
-        var karmaPointsPresent = this.game.getTriValue(this.game.karmaKittens, stripe);
-        var karmaPointsAfter = this.game.getTriValue(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
+        var karmaPointsPresent = this.game.getUnlimitedDR(this.game.karmaKittens, stripe);
+        var karmaPointsAfter = this.game.getUnlimitedDR(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
 		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) *100)/100;
         var paragonPoints = 0;
 

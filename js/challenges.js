@@ -42,6 +42,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.atheism.label"),
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
+		effects: {
+			"solarRevolutionLimit": 1
+		},
+		calculateEffects: function(self, game) {
+			self.effects["solarRevolutionLimit"] = game.religion.transcendenceTier;
+		},
         researched: false,
         unlocked: false
 	},{
@@ -49,8 +55,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
-        researched: false,
-        unlocked: false
+		researched: false,
+		unlocked: false
+	},{
+		name: "blackSky",
+		label: $I("challendge.blackSky.label"),
+		description: $I("challendge.blackSky.desc"),
+		effectDesc: $I("challendge.blackSky.effect.desc"),
+		researched: false,
+		unlocked: false
 	}],
 
 	game: null,
@@ -88,7 +101,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.game.resPool.energyProd != 0 || this.game.resPool.energyCons != 0) {
 				this.getChallenge("energy").unlocked = true;
 			}
-		} else if (this.currentChallenge == "energy") {
+		} 
+		if (this.currentChallenge == "energy") {
 			if (
 				(this.game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
 				(this.game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
@@ -106,8 +120,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.game.bld.get("aiCore").val > 0){
 				this.researchChallenge("anarchy");
 			}
-
+		} else if (this.currentChallenge == "blackSky") {
+			if (this.game.space.getBuilding('spaceBeacon').val > 0) {
+				this.researchChallenge("blackSky");
+			}
 		}
+
 		// winterIsComing
 		if (this.currentChallenge == "winterIsComing") {
 			if (this.game.space.getPlanet("helios").reached){
