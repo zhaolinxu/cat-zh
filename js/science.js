@@ -1229,7 +1229,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.stoicism.label"),
         description: $I("policy.stoicism.desc"),
         prices: [
-            {name : "culture", val: 2000}
+            {name : "culture", val: 2500}
         ],
         effects:{
             "luxuryConsuptionReduction" : 0.5
@@ -1245,7 +1245,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.epicurianism.label"),
         description: $I("policy.epicurianism.desc"),
         prices: [
-            {name : "culture", val: 2000}
+            {name : "culture", val: 2500}
         ],
         effects:{
             "luxuryHappinessBonus" : 1
@@ -1343,7 +1343,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         label: $I("policy.environmentalism.label"),
         description: $I("policy.environmentalism.desc"),
         prices: [
-            {name : "science", val: 2000}
+            {name : "culture", val: 2000}
         ],
         effects:{
             "environmentHappinessBonus" : 5
