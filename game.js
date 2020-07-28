@@ -155,7 +155,7 @@ dojo.declare("classes.game.Server", null, {
 	refresh: function(){
 		var self = this;
 
-		console.log("加载服务器设置...");
+		console.log("Loading server settings...");
 		$.ajax({
 			cache: false,
 			url: "server.json",
@@ -786,70 +786,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"kittenGrowthRatio" :  {
                 title: $I("effectsMgr.statics.kittenGrowthRatio.title"),
                 type: "ratio"
-            },//新增部分
-			"dataCenterAIRatio" :  {
-                title: $I("effectsMgr.statics.dataCenterAIRatio.title"),
-                type: "ratio"
             },
-			"uplinkDCRatio" :  {
-                title: $I("effectsMgr.statics.uplinkDCRatio.title"),
-                type: "ratio"
-            },
-			"uplinkLabRatio" :  {
-                title: $I("effectsMgr.statics.uplinkLabRatio.title"),
-                type: "ratio"
-            },
-			"scienceMaxCompendia" :  {
-                title: $I("effectsMgr.statics.scienceMaxCompendia.title"),
-                type: "ratio"
-            },
-			"baseMetalMaxRatio" :  {
-                title: $I("effectsMgr.statics.baseMetalMaxRatio.title"),
-                type: "ratio"
-            },
-            "eludiumAutomationBonus" :  {
-                title: $I("effectsMgr.workshop.eludiumAutomationBonus.title"),
-                type: "ratio"
-            },
-             "goldMaxRatio" :  {
-                title: $I("effectsMgr.my.goldMaxRatio.title"),
-                type: "ratio"
-            },
-             "heatMax" :  {
-                title: $I("effectsMgr.heatMax.title"),
-                type: "fixed"
-            },
-            "heatPerTick" :  {
-                title: $I("effectsMgr.heatPerTick.title"),
-                type: "fixed"
-            },
-            "compediumGlobalCraftRatio" :  {
-                title: $I("effectsMgr.my.compediumGlobalCraftRatio.title"),
-                type: "fixed"
-            },
-            "blueprintGlobalCraftRatio" :  {
-                title: $I("effectsMgr.my.blueprintGlobalCraftRatio.title"),
-                type: "fixed"
-            },
-            "manuscriptGlobalCraftRatio" :  {
-                title: $I("effectsMgr.my.manuscriptGlobalCraftRatio.title"),
-                type: "fixed"
-            },
-            "corruptionBoostRatio" :  {
-                title: $I("effectsMgr.my.corruptionBoostRatio.title"),
-                type: "fixed"
-            },
-            "umbraBoostRatio" :  {
-                title: $I("effectsMgr.my.umbraBoostRatio.title"),
-                type: "fixed"
-            },
-            "voidResonance" :  {
-                title: $I("effectsMgr.my.voidResonator.title"),
-                type: "fixed"
-            },
-            
-            
-            //自己加结束
 
 			"t1CraftRatio" :  {
                 title: $I("effectsMgr.statics.t1CraftRatio.title"),
@@ -1708,7 +1645,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var saveDataString = JSON.stringify(saveData);
 		//5mb limit workaround
 		if (saveDataString.length > 5000000 || this.opts.forceLZ) {
-			console.log("压缩存档文件中...");
+			console.log("compressing the save file...");
 			saveDataString = this.compressLZData(saveDataString, true);
 		}
 
@@ -1846,7 +1783,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				console.trace();
 			}
 
-			this.msg("无法加载存档数据。 与开发人员联系，并提供错误的存档文件。", "important");
+			this.msg("Unable to load save data. Contact the devs and provide the faulty save file.", "important");
 			success = false;
 		}
 
@@ -1935,10 +1872,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var blob = new Blob([lzdata], {type: "text/plain"});
         $link.attr("href", window.URL.createObjectURL(blob));
 
-        var filename = '猫国建设者';
+        var filename = "猫国建设者";
         if (withFullName) {
-            filename += ' - 周目 ' + (this.stats.getStat('totalResets').val + 1)
-                + ' - ' + $I('calendar.year.full', [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
+            filename += " - 周目 " + (this.stats.getStat("totalResets").val + 1)
+                + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr("download", filename + ".txt");
 
