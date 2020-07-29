@@ -624,7 +624,7 @@
     "policy.spaceBasedTerraforming.label" : "Space-based terraforming",
     "policy.spaceBasedTerraforming.desc" : "Put giant mirrors in the sky, boosting solar farms consistency. Unlocks Space Mirrors.",
     "policy.stoicism.label" : "Stoicism",
-    "policy.stoicism.desc" : "The stoics teach that we ought to ensure hardship without complaint. Halve consumption of luxury resources.",
+    "policy.stoicism.desc" : "The stoics teach that we ought to endure hardship without complaint. Halve consumption of luxury resources.",
     "policy.stripMining.label" : "Strip Mining",
     "policy.stripMining.desc" : "Decapitate the hills in an effort to improve your mineral production.",
     "policy.sustainability.label" : "Sustainability",
