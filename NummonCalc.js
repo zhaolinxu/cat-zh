@@ -5,80 +5,118 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
     i18ng: null,
     i18nData: {
         "en": {
-            "best.none": "No Building",
-            "infinity": "Infinity",
-            "sec": "/sec",
+            "catnip": "Catnip / Sec",
+
             "getCatnipInWarmSpring": "During Warm Spring",
             "getCatnipColdWinter": "During Cold Winter",
+
+            "science": "Science",
+
             "getCelestialPerDay": "Chance of Celestial Events",
             "getCelestialAutoSuccess": "Celestial Event Auto Success Rate",
             "getMaxComped": "Maximum Helpful Compediums",
             "getBlueprintCraft": "Blueprints Per Craft",
+
+            "titanium": "Titanium",
+
             "getTitPerZebraTrade": "Titanium Per Zebra Trade",
             "getZebraTradesLeftToMaxTit": "Trades Left to Cap Titanium",
             "getZebraTradesToMaxTit": "Max Zebra Trades to Cap Titanium",
+            
+            "unicorns": "Unicorns",
+
             "getBestUniBuilding": "Best Unicorn Building",
             "getBestAliBuilding": "Best Alicorn Building Per Ivory Cost",
             "getNecrocornsPerSecond": "Necrocorns Per Second",
             "getNecrocornTime": "Time Until Next Necrocorn",
             "getLeviChance": "Chance per year of Leviathans",
+
+            "religion": "Religion",
+
             "getReligionProductionBonusCap": "Solar Revolution Limit",
             "getApocryphaProgress": "Apocrypha Progress",
             "getNextTranscendTierProgress": "Progress to Next Transcendence Tier",
+            
+            "paragon": "Paragon Bonus",
+
             "getParagonProductionBonus": "Production Bonus",
             "getParagonStorageBonus": "Storage Bonus",
+            
+            "time": "Time",
+
             "getTCPerSacrifice": "Time Crystals per Sacrifice",
             "getRelicPerTCRefine": "Relics Per Time Crystal Refine",
             "getBlazarsForShatterEngine": "Blazars for Shatter Engine",
+            
+            "others": "Others",
+
             "getBestMagnetoBuilding": "Best Magneto/Steamwork Building",
             "getUraniumForThoriumReactors": "Uranium/Sec for Thorium Reactors",
+            "getDarkFutureYears": "Years until Dark Future",
             "getGflops": "GFlops",
-            "catnip": "Catnip / Sec",
-            "science": "Science",
-            "titanium": "Titanium",
-            "unicorns": "Unicorns",
-            "religion": "Religion",
-            "paragon": "Paragon Bonus",
-            "time": "Time",
-            "others": "Others",
+            "getAIlv15Time": "Time until AI level 15",
+
+            "best.none": "No Building",
+            "infinity": "Infinity",
+            "sec": "/sec",
+            "done": "Done",
         },
         "zh": {
-            "best.none": "无",
-            "infinity": "∞",
-            "sec": "/秒",
+            "catnip": "猫薄荷 / 秒",
+
             "getCatnipInWarmSpring": "暖春",
             "getCatnipColdWinter": "寒冬",
+
+            "science": "科学",
+
             "getCelestialPerDay": "天文事件几率",
             "getCelestialAutoSuccess": "天文事件自动观测几率",
             "getMaxComped": "最大加成所需概要数量",
             "getBlueprintCraft": "每次工艺制作的蓝图",
+
+            "titanium": "钛",
+
             "getTitPerZebraTrade": "每次和斑马贸易获得的钛",
             "getZebraTradesLeftToMaxTit": "达到钛上限的剩余斑马交易次数",
             "getZebraTradesToMaxTit": "达到钛上限的斑马交易次数",
+
+            "unicorns": "独角兽",
+
             "getBestUniBuilding": "最佳独角兽建筑",
             "getBestAliBuilding": "象牙性价比最高天角兽建筑",
             "getNecrocornsPerSecond": "每秒获得的死灵兽",
             "getNecrocornTime": "距离下一个死灵兽的时间",
             "getLeviChance": "利维坦每年到来降临的几率",
+
+            "religion": "宗教",
+
             "getReligionProductionBonusCap": "太阳革命极限加成",
             "getApocryphaProgress": "新约外传进度",
             "getNextTranscendTierProgress": "到达下一超越等级的进度",
+
+            "paragon": "领导力加成",
+
             "getParagonProductionBonus": "生产加成",
             "getParagonStorageBonus": "库存加成",
+
+            "time": "时间",
+
             "getTCPerSacrifice": "每次献祭得到的时间水晶",
             "getRelicPerTCRefine": "每次时间水晶精炼得到遗物",
             "getBlazarsForShatterEngine": "水晶收支平衡所需耀变体",
+
+            "others": "其他",
+
             "getBestMagnetoBuilding": "最佳磁电机/蒸汽工坊",
             "getUraniumForThoriumReactors": "钍反应堆每秒耗铀",
+            "getDarkFutureYears": "距离黑暗未来到来年份",
             "getGflops": "GFlops",
-            "catnip": "猫薄荷 / 秒",
-            "science": "科学",
-            "titanium": "钛",
-            "unicorns": "独角兽",
-            "religion": "宗教",
-            "paragon": "领导力加成",
-            "time": "时间",
-            "others": "其他",
+            "getAIlv15Time": "天网觉醒倒计时",
+
+            "best.none": "无",
+            "infinity": "∞",
+            "sec": "/秒",
+            "done": "已完成",
         },
     },
 
@@ -781,8 +819,25 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         return needed;
     },
 
+    getDarkFutureYears: function(){
+        var yearsLeft = this.game.calendar.darkFutureYears(true);
+        return yearsLeft < 0 ? this.game.getDisplayValueExt(-yearsLeft) : this.i18n("done");
+    },
+
     getGflops: function(){
         return game.resPool.get("gflops").value;
+    },
+
+    getAIlv15Time: function(){
+        var lv15Gflops = Math.exp(14.5);
+        var gflopsHave = this.game.resPool.get("gflops").value;
+        var gflopsproduction = this.game.getEffect("gflopsPerTickBase") - this.game.getEffect("gflopsConsumption");
+        if (this.game.bld.get("aiCore").effects["aiLevel"] >= 15)
+            return this.i18n("done");
+        if (gflopsproduction > 0)
+            return this.game.toDisplaySeconds((lv15Gflops - gflopsHave) / (gflopsproduction * this.game.getRateUI()));
+        else
+            return this.i18n("infinity");
     },
     
     //==============================================================================================================================================
@@ -793,178 +848,187 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
         catnip: [
             {
                 name: "getCatnipInWarmSpring",
-                title: "During Warm Spring",
+                // title: "During Warm Spring",
                 val: 0,
             },
             {
                 name: "getCatnipColdWinter",
-                title: "During Cold Winter",
+                // title: "During Cold Winter",
                 val: 0,
             }
         ],
         science: [
             {
                 name: "getCelestialPerDay",
-                title: "Chance of Celestial Events",
+                // title: "Chance of Celestial Events",
                 val: 0,
             },
             {
                 name: "getCelestialAutoSuccess",
-                title: "Celestial Event Auto Success Rate",
+                // title: "Celestial Event Auto Success Rate",
                 val: 0,
             },
             {
                 name: "getMaxComped",
-                title: "Maximum Helpful Compediums",
+                // title: "Maximum Helpful Compediums",
                 val: 0,
             },
             {
                 name: "getBlueprintCraft",
-                title: "Blueprints Per Craft",
+                // title: "Blueprints Per Craft",
                 val: 0,
             }
         ],
         titanium: [
             {
                 name: "getTitPerZebraTrade",
-                title: "Titanium Per Zebra Trade",
+                // title: "Titanium Per Zebra Trade",
                 val: 0,
             },
             {
                 name: "getZebraTradesLeftToMaxTit",
-                title: "Trades Left to Cap Titanium",
+                // title: "Trades Left to Cap Titanium",
                 val: 0,
             },
             {
                 name: "getZebraTradesToMaxTit",
-                title: "Max Zebra Trades to Cap Titanium",
+                // title: "Max Zebra Trades to Cap Titanium",
                 val: 0,
             },
         ],
         unicorns: [
             {
                 name: "getBestUniBuilding",
-                title: "Best Unicorn Building",
+                // title: "Best Unicorn Building",
                 val: 0,
             },
             {
                 name: "getBestAliBuilding",
-                title: "Best Alicorn Building Per Ivory Cost",
+                // title: "Best Alicorn Building Per Ivory Cost",
                 val: 0,
             },
             {
                 name: "getNecrocornsPerSecond",
-                title: "Necrocorns Per Second",
+                // title: "Necrocorns Per Second",
                 val: 0,
             },
             {
                 name: "getNecrocornTime",
-                title: "Time Until Next Necrocorn",
+                // title: "Time Until Next Necrocorn",
                 val: 0,
             },
             {
                 name: "getLeviChance",
-                title: "Chance per year of Leviathans",
+                // title: "Chance per year of Leviathans",
                 val: 0,
             },
         ],
         religion: [
             {
                 name: "getReligionProductionBonusCap",
-                title: "Solar Revolution Limit",
+                // title: "Solar Revolution Limit",
                 val: 0,
             },
             {
                 name: "getApocryphaProgress",
-                title: "Apocrypha Progress",
+                // title: "Apocrypha Progress",
                 val: 0,
             },
             {
                 name: "getNextTranscendTierProgress",
-                title: "Progress to Next Transcendence Tier",
+                // title: "Progress to Next Transcendence Tier",
                 val: 0,
             },
         ],
         paragon: [
             {
                 name: "getParagonProductionBonus",
-                title: "Production Bonus",
+                // title: "Production Bonus",
                 val: 0,
             },
             {
                 name: "getParagonStorageBonus",
-                title: "Storage Bonus",
+                // title: "Storage Bonus",
                 val: 0,
             },
         ],
         time: [
             {
                 name: "getTCPerSacrifice",
-                title: "Time Crystals per Sacrifice",
+                // title: "Time Crystals per Sacrifice",
                 val: 0,
             },
             {
                 name: "getRelicPerTCRefine",
-                title: "Relics Per Time Crystal Refine",
+                // title: "Relics Per Time Crystal Refine",
                 val: 0,
             },
             {
                 name: "getBlazarsForShatterEngine",
-                title: "Blazars for Shatter Engine",
+                // title: "Blazars for Shatter Engine",
                 val: 0,
             },
         ],
         others: [
             {
                 name: "getBestMagnetoBuilding",
-                title: "Best Magneto/Steamwork Building",
+                // title: "Best Magneto/Steamwork Building",
                 val: 0,
             },
             {
                 name: "getUraniumForThoriumReactors",
-                title: "Uranium/Sec for Thorium Reactors",
+                // title: "Uranium/Sec for Thorium Reactors",
+                val: 0,
+            },
+            {
+                name: "getDarkFutureYears",
+                // title: "Years untile Dark Future",
                 val: 0,
             },
             {
                 name: "getGflops",
-                title: "GFlops",
+                // title: "GFlops",
                 val: 0,
             },
+            {
+                name: "getAIlv15Time",
+                val: 0,
+            }
         ]  
     },
 
     statDefinitions : [
         {
             name: "catnip",
-            title: "Catnip / Sec"
+            // title: "Catnip / Sec"
         },
         {
             name: "science",
-            title: "Science"
+            // title: "Science"
         },
         {
             name: "titanium",
-            title: "Titanium"
+            // title: "Titanium"
         },
         {
             name: "unicorns",
-            title: "Unicorns"
+            // title: "Unicorns"
         },
         {
             name: "religion",
-            title: "Religion"
+            // title: "Religion"
         },
         {
             name: "paragon",
-            title: "Paragon Bonus"
+            // title: "Paragon Bonus"
         },
         {
             name: "time",
-            title: "Time"
+            // title: "Time"
         },
         {
             name: "others",
-            title: "Others"
+            // title: "Others"
         }
     ],
     
