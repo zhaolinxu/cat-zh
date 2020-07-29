@@ -721,7 +721,7 @@
     "religion.adoreBtn.label": "赞美群星",
     "religion.adoreBtn.desc": "旧版 [重置信仰]",
     "religion.faithCount.bonus": "加成",
-    "religion.faithCount.pool": "信仰总量: {0}",
+    "religion.faithCount.pool": "虔诚: {0}",
     "religion.adore.confirmation.msg": "确定要将所有虔诚转化为顿悟吗?\n\n顿悟的总量会决定信仰转换 (赞美太阳) 加成。\n\n顿悟和加成在游戏重置时会保留。\n\n单击此按钮将清空所有虔诚和太阳革命加成。",
     "religion.msg.corruption": "你的天角兽被神印腐化了!",
     "religion.panel.cryptotheology.label": "奥秘神学",
