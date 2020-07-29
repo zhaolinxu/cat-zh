@@ -581,7 +581,7 @@ dojo.declare("classes.managers.NummonStatsManager", com.nuclearunicorn.core.TabM
             }
         }
         if (bestBuilding != unicornPastureKey)
-            bestBuilding = "religion.zu." + bestBuilding + ".label";
+            bestBuilding = "$religion.zu." + bestBuilding + ".label";
         return this.i18n(bestBuilding);
     },
 
