@@ -97,7 +97,7 @@
     "btn.sell": "卖出",
     "btn.sell.minor": "出售",
     "btn.trade": "贸易",
-    "btn.blocked.capital": "(Blocked)",
+    "btn.blocked.capital": "(冲突)",
 
     "buildings.academy.label": "研究院",
     "buildings.academy.desc": "增加研究效率和小猫工作技能的成长速率。每一级使科学产出增加 20%",
@@ -565,6 +565,14 @@
     "opts.yes": "是",
     "opts.no": "否",
 
+    "msg.policy.aiNotMerges": "AI 拒绝与猫猫融合",
+    "msg.policy.exclusivity": "相同价格的政策是互斥的",
+    "msg.policy.kittenNotMadeLeader" : "{0} 要求领袖必须担任 {1} 的工作",
+    "msg.policy.wrongLeaderJobDemoted" : "{0} 要求领袖必须担任 {1} 的工作",
+    "msg.policy.wrongLeaderJobForResearch" : "必须由 {1} 担任领袖才能研究 {0}",
+
+    "policy.confirmation.title": "Are you sure? You cannot tiptoe away from the grasp of your history.\nPolicy effects are permanent, and you cannot switch policies until you reset.",
+
     "policy.autocracy.label": "专制",
     "policy.autocracy.desc": "最适合有高等级猫猫的社会。领袖的工作能力翻倍",
     "policy.bigStickPolicy.label": "巨棒外交",
@@ -942,6 +950,8 @@
     "save.import.confirmation.msg": "确定吗?这样做会覆盖你当前游戏数据!",
     "save.import.msg": "存档导入成功!",
 
+    "science.policyToggleBlocked.label": "隐藏冲突的政策",
+    "science.policyToggleResearched.label": "隐藏已完成的政策",
     "science.toggleResearched.label": "隐藏已完成的科技",
     "science.acoustics.label": "声学",
     "science.acoustics.desc": "声学是研究声音的科学。尽管用途不明显，但从长远来看能够推动文化与宗教的发展，实现文明的繁荣",
