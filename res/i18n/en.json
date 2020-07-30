@@ -565,6 +565,14 @@
     "opts.yes": "Yes",
     "opts.no": "No",
 
+    "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
+    "msg.policy.exclusivity" : "Policies with the same numerical cost are mutually exclusive",
+    "msg.policy.kittenNotMadeLeader" : " can only be lead by a ",
+    "msg.policy.wrongLeaderJobDemoted" : " can only be lead by a ",
+    "msg.policy.wrongLeaderJobForResearch" : " can only be researched if your leader is a ",
+
+    "policy.confirmation.title" : "Are you sure? You cannot tiptoe away from the grasp of your history.\nPolicy effects are permanent, and you cannot switch policies until you reset.",
+
     "policy.autocracy.label" : "Autocracy",
     "policy.autocracy.desc" : "Best for societies with highly promoted kittens. Makes the leader twice as good at their job.",
     "policy.bigStickPolicy.label" : "Big Stick Policy",
@@ -624,7 +632,7 @@
     "policy.spaceBasedTerraforming.label" : "Space-based terraforming",
     "policy.spaceBasedTerraforming.desc" : "Put giant mirrors in the sky, boosting solar farms consistency. Unlocks Space Mirrors.",
     "policy.stoicism.label" : "Stoicism",
-    "policy.stoicism.desc" : "The stoics teach that we ought to ensure hardship without complaint. Halve consumption of luxury resources.",
+    "policy.stoicism.desc" : "The stoics teach that we ought to endure hardship without complaint. Halve consumption of luxury resources.",
     "policy.stripMining.label" : "Strip Mining",
     "policy.stripMining.desc" : "Decapitate the hills in an effort to improve your mineral production.",
     "policy.sustainability.label" : "Sustainability",
@@ -721,7 +729,7 @@
     "religion.adoreBtn.label": "Adore the galaxy",
     "religion.adoreBtn.desc": "Former [Faith Reset]",
     "religion.faithCount.bonus": "bonus",
-    "religion.faithCount.pool": "Accumulated faith: {0}",
+    "religion.faithCount.pool": "Worship: {0}",
     "religion.adore.confirmation.msg": "Are you sure you want to convert all worship to epiphany?\n\nYou will get a bonus to faith convertion (Praise the sun) based on your total amount of epiphany.\n\nEpiphany and this bonus will carry over through resets.\n\nCLICKING THIS BUTTON WILL ERASE ALL WORSHIP AND RESET SOLAR REVOLUTION PRODUCTION BONUS.",
     "religion.msg.corruption": "Your alicorn has been corrupted by the markers!",
     "religion.panel.cryptotheology.label": "Cryptotheology",
@@ -942,6 +950,8 @@
     "save.import.confirmation.msg": "Are your sure? This will overwrite your save!",
     "save.import.msg": "Save import successful!",
 
+    "science.policyToggleBlocked.label": "Hide blocked policies",
+    "science.policyToggleResearched.label": "Hide researched policies",
     "science.toggleResearched.label": "Hide researched techs",
     "science.acoustics.label": "Acoustics",
     "science.acoustics.desc": "Acoustics is the study of sound. Though not obviously useful, in a long run it may benefit civilizations thriving for cultural and religious development.",
