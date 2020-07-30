@@ -571,7 +571,7 @@
     "msg.policy.wrongLeaderJobDemoted" : "{0} 要求领袖必须担任 {1} 的工作",
     "msg.policy.wrongLeaderJobForResearch" : "必须由 {1} 担任领袖才能研究 {0}",
 
-    "policy.confirmation.title": "Are you sure? You cannot tiptoe away from the grasp of your history.\nPolicy effects are permanent, and you cannot switch policies until you reset.",
+    "policy.confirmation.title": "你确定吗? 猫史不能重来。\n政策效果是永久的，只有在重置后才能切换政策",
 
     "policy.autocracy.label": "专制",
     "policy.autocracy.desc": "最适合有高等级猫猫的社会。领袖的工作能力翻倍",
