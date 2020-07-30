@@ -729,7 +729,7 @@
     "religion.adoreBtn.label": "Adore the galaxy",
     "religion.adoreBtn.desc": "Former [Faith Reset]",
     "religion.faithCount.bonus": "bonus",
-    "religion.faithCount.pool": "Accumulated faith: {0}",
+    "religion.faithCount.pool": "Worship: {0}",
     "religion.adore.confirmation.msg": "Are you sure you want to convert all worship to epiphany?\n\nYou will get a bonus to faith convertion (Praise the sun) based on your total amount of epiphany.\n\nEpiphany and this bonus will carry over through resets.\n\nCLICKING THIS BUTTON WILL ERASE ALL WORSHIP AND RESET SOLAR REVOLUTION PRODUCTION BONUS.",
     "religion.msg.corruption": "Your alicorn has been corrupted by the markers!",
     "religion.panel.cryptotheology.label": "Cryptotheology",
