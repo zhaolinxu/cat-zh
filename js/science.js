@@ -1383,6 +1383,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         prices: [
             {name : "culture", val: 10000}
         ],
+		upgrades: {
+			buildings: ["temple"]
+		},
         effects:{
             "environmentFactoryCraftBonus" : 0.05
         },
