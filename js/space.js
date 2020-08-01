@@ -1256,8 +1256,6 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
-
-			 
 			 var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(prices[i].name+"CostReduction"), 1);
 			 var resPriceModifier = 1 - resPriceDiscount;
 			 prices[i].val *= priceModifier * resPriceModifier; //CostReduction effects
