@@ -1383,6 +1383,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         prices: [
             {name : "culture", val: 10000}
         ],
+		upgrades: {
+			buildings: ["temple"]
+		},
         effects:{
             "environmentFactoryCraftBonus" : 0.05
         },
@@ -1641,7 +1644,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	shouldBeBough: function(model, game){ //fail checks:
 		if(this.game.village.leader && model.metadata.requiredLeaderJob && this.game.village.leader.job != model.metadata.requiredLeaderJob){
 			var jobTitle = this.game.village.getJob(model.metadata.requiredLeaderJob).title;
-			this.game.msg(model.metadata.label+ $I("msg.policy.wrongLeaderJobForResearch") +jobTitle, "important");
+			this.game.msg($I("msg.policy.wrongLeaderJobForResearch", [model.metadata.label, jobTitle]), "important");
 			return false;
 		}else if(model.metadata.name == "transkittenism" && this.game.bld.getBuildingExt("aiCore").meta.effects["aiLevel"] >= 15){
 			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai");

@@ -567,9 +567,9 @@
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
     "msg.policy.exclusivity" : "Policies with the same numerical cost are mutually exclusive",
-    "msg.policy.kittenNotMadeLeader" : " can only be lead by a ",
-    "msg.policy.wrongLeaderJobDemoted" : " can only be lead by a ",
-    "msg.policy.wrongLeaderJobForResearch" : " can only be researched if your leader is a ",
+    "msg.policy.kittenNotMadeLeader" : "{0} can only be lead by a {1}",
+    "msg.policy.wrongLeaderJobDemoted" : "{0} can only be lead by a {1}",
+    "msg.policy.wrongLeaderJobForResearch" : "{0} can only be researched if your leader is a {1}",
 
     "policy.confirmation.title" : "Are you sure? You cannot tiptoe away from the grasp of your history.\nPolicy effects are permanent, and you cannot switch policies until you reset.",
 
