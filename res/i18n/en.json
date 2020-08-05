@@ -354,10 +354,8 @@
     
     "effectsMgr.statics.environmentFactoryCraftBonus.title" : "Factory craft effectiveness",
     "effectsMgr.statics.environmentHappinessBonus.title" : "Happiness bonus",
-    "effectsMgr.statics.environmentHappinessBonusModifier.title" : "Happiness from environment modifier",
     "effectsMgr.statics.environmentMineralBonus.title" : "Mineral production",
     "effectsMgr.statics.environmentUnhappiness.title" : "Unhappiness",
-    "effectsMgr.statics.environmentUnhappinessModifier.title" : "Unhappiness from environment modifier",
     "effectsMgr.statics.environmentWoodBonus.title" : "Wood production",
     
     "effectsMgr.statics.expansionismUnobtainiumProductionBonus.title": "Unobtainium production bonus",
