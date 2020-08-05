@@ -1949,7 +1949,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 		var prices = [];
 
-		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.name + "CostReduction")), 1);
+		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(bld.get("name") + "CostReduction")), 1);
 		var priceModifier = 1 - pricesDiscount;
 
 		for (var i = 0; i < bldPrices.length; i++) {
