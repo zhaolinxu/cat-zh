@@ -1294,8 +1294,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "science", val: 2000}
         ],
         effects:{
-            "environmentUnhappiness" : -5,
-			"mineralsPolicyRatio" : 0.25
+            "environmentUnhappiness" : -2,
+			"mineralsPolicyRatio" : 0.3
         },
         unlocked: false,
         unlocks:{},
@@ -1320,8 +1320,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "science", val: 2000}
         ],
         effects:{
-            "environmentUnhappiness" : -5,
-			"woodPolicyRatio" : 0.25
+            "environmentUnhappiness" : -2,
+			"woodPolicyRatio" : 0.3
         },
         unlocked: false,
         unlocks:{},
@@ -1346,7 +1346,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 3
         },
         unlocked: false,
         unlocks:{},
@@ -1371,7 +1371,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentUnhappinessModifier" : -1
+            "environmentHappinessBonus" : 5
         },
         unlocked: false,
         blocked: false,
@@ -1400,7 +1400,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonusModifier" : 1
+            "environmentHappinessBonus" : 5
         },
         unlocked: false,
         blocked: false,
