@@ -491,7 +491,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 					var name = resPool.title || res;
 					var msg = $I("trade.msg.resources", [this.game.getDisplayValueExt(amt), name]);
 					var type = null;
-					if (res == "titanium" || res == "blueprint"){
+					if (res == "titanium" || res == "blueprint" || res == "relic"){
 						msg += "!";
 						type = "notice";
 					}
