@@ -642,7 +642,10 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
     getEnvironmentEffect: function(){
 		var game = this.game;
 
-		return game.getEffect("environmentHappinessBonus") + game.getEffect("environmentUnhappiness") ;
+		return game.getEffect("environmentHappinessBonus") * 
+		game.getEffect("environmentHappinessBonusModifier") + 
+		game.getEffect("environmentUnhappiness") * 
+		game.getEffect("environmentUnhappinessModifier");
 	},
 	
 	/** Calculates a total happiness where result is a value of [0..1] **/
