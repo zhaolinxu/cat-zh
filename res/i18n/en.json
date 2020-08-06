@@ -547,6 +547,7 @@
     "opts.theme.anthracite": "Anthracite",
     "opts.theme.black": "Black",
     "opts.theme.dark": "Inverted",
+    "opts.theme.chocolate": "Chocolate",
     "opts.theme.default": "Classic",
     "opts.theme.fluid": "Fluid",
     "opts.theme.gold": "Gold",
