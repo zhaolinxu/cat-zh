@@ -1524,8 +1524,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			}
 			tech.researched = false;
 		}
-
+		for (var i = 0; i < this.policies.length; i++){
+			var policy = this.policies[i];
+			policy.unlocked = false;
+			policy.blocked = false;
+			policy.researched = false;
+		}
 		this.hideResearched = false;
+		this.policyToggleBlocked = false;
+		this.policyToggleResearched = false;
 	},
 
 	save: function(saveData){
