@@ -1516,7 +1516,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["festivalArrivalRatio"] *= amt; 
 			return amt;
 		},
-		flavor: $I("buildings.brewery.flavor")
+		flavor: $I("buildings.brewery.flavor"),
+		unlockScheme: {
+			name: "chocolate",
+			threshold: 10
+		}
 	},
 	//-------------------------- Culture -------------------------------
 	{

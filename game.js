@@ -1158,17 +1158,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.environmentHappinessBonus.title"),
                 type: "fixed"
             },
-            "environmentHappinessBonusModifier":{
-                title: $I("effectsMgr.statics.environmentHappinessBonusModifier.title"),
-                type: "ratio"
-            },
             "environmentUnhappiness":{
                 title: $I("effectsMgr.statics.environmentUnhappiness.title"),
                 type: "fixed"
-            },
-            "environmentUnhappinessModifier":{
-                title: $I("effectsMgr.statics.environmentUnhappinessModifier.title"),
-                type: "ratio"
             },
             "environmentFactoryCraftBonus":{
 				title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
