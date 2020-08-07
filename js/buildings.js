@@ -2354,6 +2354,18 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 		});
 	},
 
+	sell: function(event, model){
+		var selled = this.inherited(arguments);
+		if (selled) {
+			var undo = this.game.registerUndoChange();
+			undo.addEvent("building", {
+				action: "sell",
+				metaId: model.metadata.name,
+				val: 1
+			});
+		}
+	},
+
     decrementValue: function(model) {
     	this.inherited(arguments);
     	model.metaAccessor.set("val", model.metadata.val);
