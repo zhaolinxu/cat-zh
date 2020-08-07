@@ -1030,8 +1030,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"aiCoreProductivness" : 1,
-        "aiCoreUpgradeBonus" : 0.1
+			"aiCoreProductivness" : 1,
+        	"aiCoreUpgradeBonus" : 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -1045,7 +1045,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"blsProductionBonus" : 0.001
+			"blsProductionBonus" : 0.001,
+			"leviathansEnergyModifier" : 0.05
 		},
 		unlocked: false,
 		blocked: false,
@@ -1059,7 +1060,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"holyGenocideBonus" : 1
+			"holyGenocideBonus" : 1
 		},
 		unlocked: false,
 		blocked: false,
