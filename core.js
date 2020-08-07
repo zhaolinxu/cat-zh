@@ -1761,24 +1761,29 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		// But, proceed with normal action as well if true returned.
 		if (building.canSell) {
 			if(!building.canSell(building, this.game)) {
-				return;
+				return false;
 			}
 		}
 
+		var selled = false;
 		var end = building.val - 1;
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
 			if (this.game.opts.noConfirm) {
 				this.sellInternal(model, end);
+				selled = true;
 			} else {
 				var self = this;
 				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
 					self.sellInternal(model, end);
+					selled = true;
 				});
 			}
 		} else if (end >= 0) {
 			this.sellInternal(model, end);
+			selled = true;
 		}
+		return selled;
 	},
 
 	sellInternal: function(model, end){

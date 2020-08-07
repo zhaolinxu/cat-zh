@@ -1516,7 +1516,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["festivalArrivalRatio"] *= amt; 
 			return amt;
 		},
-		flavor: $I("buildings.brewery.flavor")
+		flavor: $I("buildings.brewery.flavor"),
+		unlockScheme: {
+			name: "chocolate",
+			threshold: 10
+		}
 	},
 	//-------------------------- Culture -------------------------------
 	{
@@ -2352,6 +2356,18 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 			metaId: model.options.building,
 			val: counter
 		});
+	},
+
+	sell: function(event, model){
+		var selled = this.inherited(arguments);
+		if (selled) {
+			var undo = this.game.registerUndoChange();
+			undo.addEvent("building", {
+				action: "sell",
+				metaId: model.metadata.name,
+				val: 1
+			});
+		}
 	},
 
     decrementValue: function(model) {

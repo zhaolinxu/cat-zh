@@ -899,7 +899,7 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
     constructor: function(game){
 
 		this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
-            name: "修复冷冻仓",
+            name: $I("time.fixCryochambers.label"),
             description: $I("time.fixCryochambers.desc"),
             prices: [
 				{name: "temporalFlux", val: 3000},
