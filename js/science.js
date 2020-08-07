@@ -1031,7 +1031,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		],
 		effects:{
 			"aiCoreProductivness" : 1,
-        	"aiCoreUpgradeBonus" : 0.1
+			"aiCoreUpgradeBonus" : 0.1
 		},
 		unlocked: false,
 		blocked: false,
