@@ -1083,6 +1083,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.blsProductionBonus.title"),
                 type: "ratio"
 			},
+			"leviathansEnergyModifier":{
+                title: $I("effectsMgr.statics.leviathansEnergyModifier.title"),
+                type: "ratio"
+			},
 			"holyGenocideBonus":{
                 title: $I("effectsMgr.statics.holyGenocideBonus.title"),
                 type: "ratio"
