@@ -787,6 +787,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#IRCChatInner").css("visibility", "hidden");
         $("#logLink").toggleClass("active", true);
         $("#chatLink").toggleClass("active", false);
+        $("#rightTabChat").hide();
     },
 
     loadChat: function(){
