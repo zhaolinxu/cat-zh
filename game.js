@@ -743,6 +743,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "solarRevolutionRatio" : {
+                title: $I("effectsMgr.statics.solarRevolutionRatio.title"),
+                type: "ratio"
+            },
+
 			"relicRefineRatio" :  {
                 title: $I("effectsMgr.statics.relicRefineRatio.title"),
                 type: "ratio"
@@ -1048,16 +1053,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.goldCostReduction.title"),
                 type: "ratio"
 			},
-			"tradeRelationBoost":{
-                title: $I("effectsMgr.statics.tradeRelationBoost.title"),
-                type: "fixed"
-			},
 			"factoryCostReduction":{
                 title: $I("effectsMgr.statics.factoryCostReduction.title"),
                 type: "ratio"
 			},
-			"logCabinCostReduction":{
-                title: $I("effectsMgr.statics.logCabinCostReduction.title"), //yes, it is log house!
+			"logHouseCostReduction":{
+                title: $I("effectsMgr.statics.logHouseCostReduction.title"), //yes, it is log house!
                 type: "ratio"
 			},
 			"communismProductionBonus":{
@@ -1080,6 +1081,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"blsProductionBonus":{
                 title: $I("effectsMgr.statics.blsProductionBonus.title"),
+                type: "ratio"
+			},
+			"leviathansEnergyModifier":{
+                title: $I("effectsMgr.statics.leviathansEnergyModifier.title"),
                 type: "ratio"
 			},
 			"holyGenocideBonus":{
@@ -1123,8 +1128,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.satelliteSynergyBonus.title"),
                 type: "ratio"
             },
-            "spaceRelationsBonus":{
-            title: $I("effectsMgr.statics.spaceRelationsBonus.title"),
+            "globalRelationsBonus":{
+            title: $I("effectsMgr.statics.globalRelationsBonus.title"),
                 type: "fixed"
             },
             //philosophy
@@ -1157,17 +1162,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 title: $I("effectsMgr.statics.environmentHappinessBonus.title"),
                 type: "fixed"
             },
-            "environmentHappinessBonusModifier":{
-                title: $I("effectsMgr.statics.environmentHappinessBonusModifier.title"),
-                type: "ratio"
-            },
             "environmentUnhappiness":{
                 title: $I("effectsMgr.statics.environmentUnhappiness.title"),
                 type: "fixed"
-            },
-            "environmentUnhappinessModifier":{
-                title: $I("effectsMgr.statics.environmentUnhappinessModifier.title"),
-                type: "ratio"
             },
             "environmentFactoryCraftBonus":{
 				title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
@@ -1448,15 +1445,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}
 		}
 	},
-	//function that applies discount to anything with a price. 
-	getPriceAdjustment: function(resName, prices, discount, theWholeBuilding){
-		//If true, all costst of the thing will be decreased! resName would be irrelevant then
-		for(var i = 0; i < prices.length; i++){
-			if ((prices[i].name == resName) || theWholeBuilding){
-				prices[i].val *= (1 - discount);
-			}
-		}
-	},
 	getEffect: function(effectName){
 		 return this.globalEffectsCached[effectName] || 0;
 	},
@@ -1493,7 +1481,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		var delta = 0.25 * limit; //Lower values will approach 1 more quickly.
 
 		// The last 25% will approach .25 but cannot actually reach it
-		var diminishedEffect = (1 - (delta / (diminishedPortion + delta))) * 0.25 * limit;
+		var diminishedEffect = (1 - (delta / (diminishedPortion + delta))) * delta;
 
 		var totalEffect = maxUndiminished + diminishedEffect;
 
@@ -3943,6 +3931,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	unlock: function(list) {
+		var game = this; 
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3968,7 +3957,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				 * and return cancel if not all unlock conditions are satisfied
 				 * 
 				*/
-				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks()){
+				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks(game)){
 					continue;
 				}
 
@@ -3978,8 +3967,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					newUnlock.unlockable = true;
 				} else if (type == "stages") {
 					newUnlock.stages[unlockId.stage].stageUnlocked = true;
-				} else if (type == "jobs" && unlockId == "priest" && this.challenges.currentChallenge == "atheism") {
-					// do nothing
 				} else {
 					if (!newUnlock){
 						console.warn("unable to evaluate unlock '", unlockId, "', skipping");
