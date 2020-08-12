@@ -1013,6 +1013,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					game.calendar.cycleEffectsFestival(effectsTemp);
 					difference = effectsTemp["iron"];
 
+					//necrocracy global effect
+					difference *= (1 + (game.resPool.get("sorrow").value * game.getEffect("blsProductionBonus")));
+					//policy ratio effects
+					difference *= (1 + game.getEffect("ironPolicyRatio"));
+
 					self.effects["coalPerTickCon"] = -difference;
 					self.effects["ironPerTickCon"] = -difference;
 					self.effects["steelPerTickProd"] = difference / 100;
@@ -1908,7 +1913,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		autoProdRatio *= 1 + this.game.getEffect("magnetoRatio") * swRatio;
 
 		// paragon (25%)
-		autoProdRatio *= 1 + this.game.prestige.getParagonProductionRatio() * 0.25;
+		autoProdRatio *= 1 + this.game.prestige.getParagonProductionRatio() * 0.05;
 
 		// reactors
 		autoProdRatio *= 1 + this.game.getEffect("productionRatio");
