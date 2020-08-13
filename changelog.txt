@@ -1,4 +1,4 @@
-v 1.4.8.1 (?? july 2020)
+v 1.4.8.1 (18 july 2020)
 Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
 * Make gamma the new mainline
@@ -10,7 +10,7 @@ Major:
 * Clarify interactions between Praise, Solar Revolution, Apocrypha and Transcend
 
 Themes:
-* New themes: Anthracite, Black
+* New themes: Anthracite, Black, Chocolate
 
 Minor:
 * Caravanserai does not count anymore as a free Tradepost

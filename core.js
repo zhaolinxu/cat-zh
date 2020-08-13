@@ -83,7 +83,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			var parts = defaultLocale.split("[-_]");
 			lang = this.fallbackLocale;
 
-			for (var j =0; j < this.availableLocales.length; j++) {
+			for (var j = 0; j < this.availableLocales.length; j++) {
 				if (this.availableLocales[j] == parts[0].toLowerCase()) {
 					lang = this.availableLocales[j];
 					break;
@@ -96,14 +96,14 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		var self = this;
 		this._deffered = $.Deferred();
 		// now we can try to load it
-		var defferedForDefaultLocale = $.getJSON( "res/i18n/"+this.fallbackLocale+".json?_=" + timestamp);
+		var defferedForDefaultLocale = $.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp);
 		defferedForDefaultLocale.fail(function(def, errMrs, err){
 			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
 			self._deffered.reject("Couldn't load default locale");
 		});
 		var fallbackLocale = this.fallbackLocale;
 		if (this.language != fallbackLocale ) {
-			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?_=" + timestamp).fail(function(e){
+			var defferedForUserLocale = $.getJSON( "res/i18n/" + lang + ".json?_=" + timestamp).fail(function(e){
 				console.error("Couldn't load user locale '" + lang + "', error:", e);
 			});
 
@@ -148,7 +148,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	},
 
 	isAvailable: function(lang) {
-		for (var i =0; i < this.availableLocales.length; i++) {
+		for (var i = 0; i < this.availableLocales.length; i++) {
 			if (this.availableLocales[i] == lang) {
 				return true;
 			}
@@ -159,13 +159,13 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	msg: function(key, args) {
 		var msg = this.messages[key];
 		if (!msg) {
-			console.error("Key '"+key+"' wasn't found");
-			return "$"+key;
+			console.error("Key '" + key + "' wasn't found");
+			return "$" + key;
 		}
 
 		if (args) {
 			for (var i = 0; i < args.length; i++) {
-				msg = msg.replace("{"+i+"}", args[i]);
+				msg = msg.replace("{" + i + "}", args[i]);
 			}
 		}
 		return msg;
@@ -215,7 +215,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	 * Constructors are INHERITED automatically and CHAINED in the class hierarchy
 	 */
 	constructor: function(){
-		this.effectsCachedExisting= {};
+		this.effectsCachedExisting = {};
 		this.meta = [];
 		this.panelData = {};
 	},
@@ -263,7 +263,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	setEffectsCachedExisting: function() {
 		// Set effectsCachedExisting based on meta
 		for (var a = 0; a < this.meta.length; a++){
-			for (var i = 0; i< this.meta[a].meta.length; i++){
+			for (var i = 0; i < this.meta[a].meta.length; i++){
 				for (var effect in this.meta[a].meta[i].effects) {
 					this.effectsCachedExisting[effect] = 0;
 				}
@@ -380,14 +380,14 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 		console.error("Could not find metadata for ", name, "in", metadata);
 	},
 
-	loadMetadata: function(meta, saveMeta){
+	loadMetadata: function(meta, saveMeta, metaId){
 		if (!saveMeta){
-			console.trace(saveMeta);
-			console.error("Unable to load save metadata, meta is empty");
+			console.trace();
+			console.warn("Unable to load metadata table '"+metaId+"', save record is empty");
 			return;
 		}
 
-		for(var i = 0; i< saveMeta.length; i++){
+		for(var i = 0; i < saveMeta.length; i++){
 			var savedMetaElem = saveMeta[i];
 
 			if (savedMetaElem != null){
@@ -417,7 +417,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 
 	filterMetadata: function(meta, fields){
 		var filtered = [];
-		for(var i = 0; i< meta.length; i++){
+		for(var i = 0; i < meta.length; i++){
 			var clone = {};
 
 			for (var j = 0; j < fields.length; j++){
@@ -568,11 +568,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			type: type,
 			tag: tag,
 			noBullet: noBullet,
-			id: "consoleMessage_"+ (this.messageIdCounter++),
+			id: "consoleMessage_" + (this.messageIdCounter++),
 			hasCalendarTech: hasCalendarTech,
-			year: hasCalendarTech? this.game.calendar.year.toLocaleString(): null,
-			seasonTitle: hasCalendarTech? this.game.calendar.getCurSeasonTitle() : null,
-			seasonTitleShorten: hasCalendarTech? this.game.calendar.getCurSeasonTitleShorten() : null
+			year: hasCalendarTech ? this.game.calendar.year.toLocaleString() : null,
+			seasonTitle: hasCalendarTech ? this.game.calendar.getCurSeasonTitle() : null,
+			seasonTitleShorten: hasCalendarTech ? this.game.calendar.getCurSeasonTitleShorten() : null
 
 		};
 		this.messages.push(logmsg);
@@ -1142,7 +1142,7 @@ dojo.declare("com.nuclearunicorn.game.ui.Button", com.nuclearunicorn.core.Contro
 		dojo.connect(linksDiv, "onmouseover", this, dojo.partial(function(tooltip){ dojo.style(tooltip, "display", "block"); }, linksTooltip));
 		dojo.connect(linksDiv, "onmouseout", this,  dojo.partial(function(tooltip){ dojo.style(tooltip, "display", "none"); }, linksTooltip));
 
-		for (var i = 1; i< links.length; i++){
+		for (var i = 1; i < links.length; i++){
 
 			var link = dojo.create("a", {
 				href: "#",
@@ -1177,7 +1177,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 		var result = this.inherited(arguments);
 
 		result.simplePrices = true;
-		result.hasResourceHover= false;
+		result.hasResourceHover = false;
 		result.tooltipName = false;
 		return result;
 	},
@@ -1312,7 +1312,7 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				// avoid mantisa if we can, later on this can be changed to show scaled up values, e.g. minutes, hours
 				var tempVal = Math.abs(effectValue * this.game.ticksPerSecond), precision;
 				if (tempVal >= 0.001) {
-					precision = tempVal < 0.01? 3: 2;
+					precision = tempVal < 0.01 ? 3 : 2;
 					displayEffectValue = this.game.getDisplayValueExt(
 						effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
 				} else {
@@ -1512,7 +1512,7 @@ ButtonModernHelper = {
 
 		//-----------------------------------------
 
-		for (var i =0; i < effectsList.length; i++) {
+		for (var i = 0; i < effectsList.length; i++) {
 			var effectModel = effectsList[i];
 			var nameSpan = dojo.create("div", {
 				innerHTML: effectModel.displayEffectName + ": " + effectModel.displayEffectValue,
@@ -1983,7 +1983,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 					(meta.val < 10000 ? ((meta.val/1000).toFixed(1) + "K") : this.game.getDisplayValueExt(meta.val)) +
 				")";
 			}*/
-			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+			return meta.label + " (" + meta.on + "/" + meta.val + ")";
 		} else {
 			return meta.label + " (" + meta.on + ")";
 		}
@@ -1993,12 +1993,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		var meta = model.metadata;
         var ratio = meta.priceRatio || 1;
         var prices = [];
+		var pricesDiscount = this.game.getLimitedDR((this.game.getEffect(meta.name + "CostReduction")), 1);
+		var priceModifier = 1 - pricesDiscount;
 
-        for (var i = 0; i< meta.prices.length; i++){
+        for (var i = 0; i < meta.prices.length; i++){
+			var resPriceDiscount = this.game.getEffect(meta.prices[i].name+"CostReduction");
+			resPriceDiscount = this.game.getLimitedDR(resPriceDiscount, 1);
+			var resPriceModifier = 1 - resPriceDiscount;
             prices.push({
-            	val: meta.prices[i].val * Math.pow(ratio, meta.val),
+            	val: meta.prices[i].val * Math.pow(ratio, meta.val) * resPriceModifier * priceModifier,
             	name: meta.prices[i].name
-            });
+			});
         }
         return prices;
     },
@@ -2407,7 +2412,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab", [com.nuclearunicorn.game.ui.Conte
 		/*--------------------------
 		Todo: this stuff is really deprecated, move it to the BLDv2 tab?
 		---------------------------*/
-		for (var i = 0; i<this.buttons.length; i++){
+		for (var i = 0; i < this.buttons.length; i++){
 			var button = this.buttons[i];
 			button.update();
 		}
