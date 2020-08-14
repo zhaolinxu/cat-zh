@@ -890,7 +890,16 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
                     this.game.resPool.resources[i].value = resCache[i];
                 }
             }            
-        } 
+        } else {
+            var resPerYear = cal.getPruductionPerYear();
+            for (var i = 0; i < this.game.resPool.resources.length; i++) {
+                var res = this.game.resPool.resources[i];
+                if (res.name in resPerYear) {
+                    var limit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    res.value = Math.min(res.value + resPerYear[res.name]*amt, limit);
+                }
+            }
+        }
         // else if (aiApocalypseLevel) { // shatterTCGain < 0
         if (aiApocalypseLevel) {
             
