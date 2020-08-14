@@ -811,60 +811,53 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
-	onNewYear: function(updateUI){
-
+	onNewYearStackable: function(years){
 		var ty = this.game.stats.getStat("totalYears");
-		ty.val++;
+		ty.val += years;
 
 		if (ty.val < this.year){
 			ty.val = this.year;
 		}
 
-		if (this.darkFutureYears() >= 0) {
-			this.game.unlock({chronoforge: ["temporalImpedance"]});
-		}
-
-		if (this.game.bld.get("steamworks").jammed) {
-			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
-		}
-
-		if ( this.year % 1000 === 0 ){
-			this.game.resPool.addResEvent("paragon", 1);
-			this.game.stats.getStat("totalParagon").val++;
+		// if (this.year % 1000 === 0 || ){
+		var years1000Passby = Math.floor(this.year / 1000) - Math.floor((this.year - years) / 1000);
+		if (years1000Passby !== 0) {
+			this.game.resPool.addResEvent("paragon", years1000Passby);
+			this.game.stats.getStat("totalParagon").val += years1000Passby;
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
 
 		//3.5% per year per BP, +10% per marker
-		if (pyramidVal > 0) {
-			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)) {
+		if (pyramidVal > 0 && !this.game.diplomacy.get("leviathans").duration) {
+			var p = 35 * pyramidVal * (1 + 0.1 * markerVal);
+			if (p < 1 && years > 1) {
+				p = 1 - Math.pow(1-p, years); // time to Leviathans leave is static during shatter
+			}
+			if (this.game.rand(1000) < p) {
 				this.game.diplomacy.unlockElders();
 			}
 		}
+	},
 
-		if (this.game.diplomacy.get("leviathans").unlocked) {
-			this.game.challenges.getChallenge("blackSky").unlocked = true;
-		}
-
-		if (++this.cycleYear >= this.yearsPerCycle) {
-			this.cycleYear = 0;
-			if (++this.cycle >= this.cyclesPerEra) {
-				this.cycle = 0;
-			}
-		}
-
-		// Apply cycleEffect for the newYear
-		this.game.upgrade({
-			spaceBuilding: this.game.space.spaceBuildingsMap
-		});
-
+	getPruductionPerYear: function(){
 		var resPool = this.game.resPool;
+		var production = {};
 		if (resPool.energyProd >= resPool.energyCons) {
-			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
+			production["antimatter"] = this.game.getEffect("antimatterProduction");
 		}
+		production["temporalFlux"] = this.game.getEffect("temporalFluxProduction");
 
-		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
+		return production;
+	},
+
+	onNewYearAddResources: function() {
+		var resPool = this.game.resPool;
+		var resPerYear = this.getPruductionPerYear();
+		for (var resName in resPerYear){
+			resPool.addResEvent(resName, resPerYear[resName]);
+		}
 
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
@@ -877,6 +870,52 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 		}
+	},
+
+	onNewYearNotStackable: function(){
+		if (this.darkFutureYears() >= 0) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
+
+		if (this.game.bld.get("steamworks").jammed) {
+			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		}
+
+		if (this.game.diplomacy.get("leviathans").unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
+		}
+
+	},
+
+	updateCycle(years){
+		this.cycleYear += years;
+		if (this.cycleYear >= this.yearsPerCycle) {
+			// new cycle
+			this.cycle += Math.floor(this.cycleYear / this.yearsPerCycle);
+			this.cycleYear %= this.yearsPerCycle
+			if (this.cycle >= this.cyclesPerEra) {
+				this.cycle %= this.cyclesPerEra;
+			}
+
+			// Apply cycleEffect for the new cycle
+			this.game.upgrade({
+				spaceBuilding: this.game.space.spaceBuildingsMap
+			});
+		}
+
+	},
+
+	onNewYear: function(updateUI){
+		// split origin onNewYear funtion to [onNewYearStackable, getPruductionPerYear, onNewYearAddResources, onNewYearNotStackable, updateCycle]
+		// in order to improve the efficieny of time.js: shatter();
+		// shatter() will call onNewYearStackable, getPruductionPerYear, onNewYearNotStackable and updateCycle;
+		// shatter() copy some of aiApocalypse code from the onNewYearAddResources and this.game.ui.render();
+		this.onNewYearStackable(1, true);
+
+		this.updateCycle(1);
+		this.onNewYearAddResources();
+
+		this.onNewYearNotStackable();
 
 		if (updateUI) {
 			this.game.ui.render();

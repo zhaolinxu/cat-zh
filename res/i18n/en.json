@@ -62,6 +62,7 @@
     "achievements.youMonster.desc": "Poor kittens.",
 
     "ai.apocalypse.msg": "AI has destroyed {0}% of your resources",
+    "ai.apocalypse.shatter.msg": "AI has destroyed your resources {0} times",
 
     "bld.msg.automation": "Activating workshop automation",
     "bld.msg.automation.beams": "Spent {0} wood, +{1} beams!",
