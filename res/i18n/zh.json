@@ -62,6 +62,7 @@
     "achievements.youMonster.desc": "可怜的小猫们",
 
     "ai.apocalypse.msg": "AI 已经摧毁了你资源的 {0}%",
+    "ai.apocalypse.shatter.msg": "AI 摧毁你的资源 {0} 次",
 
     "bld.msg.automation": "启动工坊自动化",
     "bld.msg.automation.beams": "消耗 {0} 木材, +{1} 木梁!",
