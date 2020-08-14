@@ -64,6 +64,9 @@ dojo.declare("classes.ui.UISystem", null, {
     updateLanguage: function() {
     },
 
+    updateNotation: function() {
+    },
+
     load: function(){
 
     },
@@ -674,6 +677,11 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         window.location.reload();
     },
 
+    updateNotation: function() {
+        var notationSelector = $("#notationSelector");
+        this.game.opts.notation = notationSelector.val();
+    },
+
 
     updateOptions: function() {
         var game = this.game;
@@ -723,6 +731,16 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             $("<option />").attr("value", locales[i]).text(labels[locales[i]]).appendTo(langSelector);
         }
         langSelector.val(selectedLang);
+
+        var selectedNotation = game.opts.notation;
+        var notationSelect = $('#notationSelector');
+        notationSelect.empty();
+        var notations = new classes.KGConfig().statics.notations;
+        for (var i in notations) {
+            $("<option />").attr("value", notations[i]).text($I("opts.notation." + notations[i])).appendTo(notationSelect);
+        }
+        notationSelect.val(selectedNotation);
+
 
         var schemeSelect = $("#schemeToggle");
         schemeSelect.empty();

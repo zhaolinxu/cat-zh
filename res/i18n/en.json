@@ -565,6 +565,10 @@
     "opts.theme.wood": "Wood",
     "opts.yes": "Yes",
     "opts.no": "No",
+    "opts.notation.si": "SI",
+    "opts.notation.e": "E",
+    "opts.notation.sie": "SI+E",
+    
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
     "msg.policy.exclusivity" : "Policies with the same numerical cost are mutually exclusive",
