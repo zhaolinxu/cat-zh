@@ -428,8 +428,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
 		if (race.name == "zebras") {
 			var shipAmount = this.game.resPool.get("ship").value;
-			var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier")*this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
-			boughtResources["titanium"] = (1.5 + shipAmount * 0.03)*(1+zebraRelationModifierTitanium) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
+			var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier") * this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+			boughtResources["titanium"] = (1.5 + shipAmount * 0.03) * (1 + zebraRelationModifierTitanium) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
 		}
 
 		//Update Trade Stats
@@ -538,7 +538,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = Math.floor((this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) * (1 + game.getEffect("leviathansEnergyModifier")));
+			var markerCap = Math.floor(
+				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+				(1 + this.game.getEffect("leviathansEnergyModifier"))
+			);
+			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
 			}
@@ -1081,9 +1085,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					}, leftColumn);
 			}
 			if (race.name == "zebras") {
-				var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier")*this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+				var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier") * this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
 				var titanium = this.game.resPool.get("titanium");
-				var displayedVal = this.game.getDisplayValueExt((1.5 + this.game.resPool.get("ship").value * 0.03)*(1+zebraRelationModifierTitanium), false, false, 0);
+				var displayedVal = this.game.getDisplayValueExt((1.5 + this.game.resPool.get("ship").value * 0.03) * (1 + zebraRelationModifierTitanium), false, false, 0);
 				dojo.create("div", {
 						innerHTML: "<span class='sells'></span>" + (titanium.title || titanium.name) + " <span class='tradeAmount'>" + displayedVal + " - " + displayedVal + "</span>"
 					}, leftColumn);
@@ -1187,7 +1191,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = Math.floor((this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) * (1 + game.getEffect("leviathansEnergyModifier")));
+			var markerCap = Math.floor(
+				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+				(1 + this.game.getEffect("leviathansEnergyModifier"))
+			);
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = "Energy: " + leviathansInfoEnergy +
 				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration);

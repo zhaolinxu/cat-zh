@@ -383,7 +383,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	loadMetadata: function(meta, saveMeta, metaId){
 		if (!saveMeta){
 			console.trace();
-			console.warn("Unable to load metadata table '"+metaId+"', save record is empty");
+			console.warn("Unable to load metadata table '" + metaId + "', save record is empty");
 			return;
 		}
 
@@ -1754,6 +1754,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		}
 	},
 
+	/**
+	 * Returns true if building was sold
+	 */
 	sell: function(event, model){
 		var building = model.metadata;
 
@@ -1765,25 +1768,23 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			}
 		}
 
-		var selled = false;
 		var end = building.val - 1;
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
 			if (this.game.opts.noConfirm) {
 				this.sellInternal(model, end);
-				selled = true;
+				return true;
 			} else {
 				var self = this;
 				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
 					self.sellInternal(model, end);
-					selled = true;
+					return true;
 				});
 			}
 		} else if (end >= 0) {
 			this.sellInternal(model, end);
-			selled = true;
+			return true;
 		}
-		return selled;
 	},
 
 	sellInternal: function(model, end){
@@ -2002,7 +2003,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		var priceModifier = 1 - pricesDiscount;
 
         for (var i = 0; i < meta.prices.length; i++){
-			var resPriceDiscount = this.game.getEffect(meta.prices[i].name+"CostReduction");
+			var resPriceDiscount = this.game.getEffect(meta.prices[i].name + "CostReduction");
 			resPriceDiscount = this.game.getLimitedDR(resPriceDiscount, 1);
 			var resPriceModifier = 1 - resPriceDiscount;
             prices.push({
