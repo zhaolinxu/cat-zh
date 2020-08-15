@@ -897,7 +897,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.Bu
 
 	constructor: function(opts, game){
 		this.race = opts.race;
-		console.log("race:", this.race);
+		// console.log("race:", this.race);
 	},
 
 
