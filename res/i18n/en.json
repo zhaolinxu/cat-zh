@@ -1,7 +1,7 @@
 {
     "console.intro": "You are a kitten in a catnip forest.",
     "console.intro.zebra": "You are a zebra in a savanna full of titanium mines.",
-
+    
     "achievements.header": "Achievements: {0} out of {1}",
     "achievements.msg.unlock": "Achievement unlocked: {0}!",
     "achievements.msg.starUnlock": "Achievement star unlocked: {0}!",
@@ -1399,6 +1399,8 @@
     
     "ui.autosave.tooltip": "autosaving...",
     "ui.save.tooltip": "Saved!",
+    "ui.energy.tooltip": "Energy",
+    "ui.sorrow.tooltip": "Black liquid sorrow",
     "ui.log.link": "Log",
     "ui.chat.link": "Chat",
     "ui.clear.log": "Clear log",

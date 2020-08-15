@@ -863,6 +863,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
         $("#saveTooltip").text($I("ui.save.tooltip"));
+        $("#energyTooltip").attr("title", $I("ui.energy.tooltip"));
+        $("#sorrowTooltip").attr("title", $I("ui.sorrow.tooltip"));
         $("#logLink").text($I("ui.log.link"));
         $("#chatLink").text($I("ui.chat.link"));
         $("#clearLogHref").text($I("ui.clear.log"));
@@ -896,20 +898,20 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionBatchSize").text($I("ui.option.batch.size"));
         $("#optionForceLZ").text($I("ui.option.force.lz"));
         $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
-        $("#exportButton").prop("value", $I("ui.option.export.button"));
-        $("#importButton").prop("value", $I("ui.option.import.button"));
+        $("#exportButton").attr("value", $I("ui.option.export.button"));
+        $("#importButton").attr("value", $I("ui.option.import.button"));
         $("#exportTo").text($I("ui.option.export"));
-        $("#exportToDropbox").prop("value", $I("ui.option.export.dropbox"));
-        $("#exportToSimpleFile").prop("value", $I("ui.option.export.simple.file"));
-        $("#exportToFullFile").prop("value", $I("ui.option.export.full.file"));
+        $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
+        $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
+        $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
         $("#exportToEext").text($I("ui.option.export.text"));
-        $("#closeButton").prop("value", $I("ui.option.close.button"));
+        $("#closeButton").attr("value", $I("ui.option.close.button"));
         $("#importWarning").text($I("ui.option.import.warning"));
         $("#importFrom").text($I("ui.option.import.from"));
-        $("#importFromDropbox").prop("value", $I("ui.option.import.from.dropbox"));
+        $("#importFromDropbox").attr("value", $I("ui.option.import.from.dropbox"));
         $("#importFromText").text($I("ui.option.import.from.text"));
-        $("#doImportButton").prop("value",$I("ui.option.do.import.button"));
-        $("#cancelButton").prop("value",$I("ui.option.cancel.button"));
+        $("#doImportButton").attr("value",$I("ui.option.do.import.button"));
+        $("#cancelButton").attr("value",$I("ui.option.cancel.button"));
         $("#appText").text($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
