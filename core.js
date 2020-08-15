@@ -6,12 +6,6 @@
  *
  */
 
-window.LCstorage = window.localStorage;
-if (document.all && !window.localStorage) {
-    window.LCstorage = {};
-    window.LCstorage.removeItem = function () { };
-}
-
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 	//Base control class. Must be a superclass for all game components.
 });
@@ -311,57 +305,57 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		filters: {
 			"astronomicalEvent": {
-				title: "Astronomical Events",
+				title: $I("console.filter.astronomicalEvent"),
 				enabled: true,
 				unlocked: false
 			},
 			"hunt": {
-				title: "Hunts",
+				title: $I("console.filter.hunt"),
 				enabled: true,
 				unlocked: false
 			},
 			"trade": {
-				title: "Trade",
+				title: $I("console.filter.trade"),
 				enabled: true,
 				unlocked: false
 			},
 			"craft": {
-				title: "Craft",
+				title: $I("console.filter.craft"),
 				enabled: true,
 				unlocked: false
 			},
 			"workshopAutomation": {
-				title: "Workshop Automation",
+				title: $I("console.filter.workshopAutomation"),
 				enabled: true,
 				unlocked: false
 			},
 			"meteor": {
-				title: "Meteors",
+				title: $I("console.filter.meteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"ivoryMeteor": {
-				title: "Ivory Meteors",
+				title: $I("console.filter.ivoryMeteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"unicornRift": {
-				title: "Unicorn Rifts",
+				title: $I("console.filter.unicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"alicornRift": {
-				title: "Alicorn Rifts",
+				title: $I("console.filter.alicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"tc": {
-				title: "Time Crystals",
+				title: $I("console.filter.tc"),
 				enabled: true,
 				unlocked: false
 			},
 			"faith": {
-				title: "Faith",
+				title: $I("console.filter.faith"),
 				enabled: true,
 				unlocked: false
 			}
@@ -1148,21 +1142,21 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				if (tempVal >= 0.001) {
 					precision = tempVal < 0.01 ? 3 : 2;
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond, false, false, precision) + "/sec";
+						effectValue * this.game.ticksPerSecond, false, false, precision) + $I("res.per.sec");
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/h";
+						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + $I("res.per.h");
 				}
 			} else if (effectMeta.type === "perDay"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/day";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.day");
 			} else if (effectMeta.type === "perYear"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/year";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.year");
 			} else if ( effectMeta.type === "ratio" ) {
 				displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 			} else if ( effectMeta.type === "integerRatio" ){
 				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 			} else if ( effectMeta.type === "energy" ){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "Wt";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("unit.watt");
 			} else {
 				displayEffectValue = this.game.getDisplayValueExt(effectValue);
 			}
