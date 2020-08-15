@@ -564,9 +564,9 @@
     "opts.theme.wood": "Wood",
     "opts.yes": "Yes",
     "opts.no": "No",
-    "opts.notation.si": "SI",
-    "opts.notation.e": "E",
-    "opts.notation.sie": "SI+E",
+    "opts.notation.si": "Classic",
+    "opts.notation.e": "Scientific",
+    "opts.notation.sie": "Simplified (SI+E)",
     
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
