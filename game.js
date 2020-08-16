@@ -695,12 +695,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"riftChance" :  {
                 title: $I("effectsMgr.statics.riftChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
 			"ivoryMeteorChance" :  {
                 title: $I("effectsMgr.statics.ivoryMeteorChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
             "ivoryMeteorRatio" :  {
@@ -715,7 +715,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"alicornChance" :  {
                 title: $I("effectsMgr.statics.alicornChance.title"),
-                type: "fixed"
+                type: "ratio"
             },
 
 			"tcRefineRatio" :  {
