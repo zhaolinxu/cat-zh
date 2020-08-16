@@ -519,6 +519,12 @@
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
+				
+				<label for="notationSelector">Notation:</label>
+				<select id="notationSelector" onchange="gamePage.ui.updateNotation()">
+				</select>
+				<br>
+				<br>
 
 				<label id="optionScheme" for="schemeToggle">Color scheme:</label>
 				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">

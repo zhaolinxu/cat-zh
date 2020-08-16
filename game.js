@@ -1296,6 +1296,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: 'si',
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,
@@ -3299,17 +3300,50 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if (usePerTickHack) {
 			value = value * this.ticksPerSecond;
 		}
-
 		postfix = postfix || "";
-		var absValue = Math.abs(value);
-		for(var i = 0; i < this.postfixes.length; i++) {
-			var p = this.postfixes[i];
-			if(absValue >= p.limit){
-				if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
-					value = value / this.ticksPerSecond;
+
+		switch (this.opts.notation) {
+			case "e":
+				var l = Math.floor(Math.log10(value));
+				if (l >= 4) {
+					value /= Math.pow(10, l);
+					postfix = "e" + l;
 				}
-				return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
-			}
+				break;
+			case "sie":
+				var l = Math.floor(Math.log10(value));
+				if (value < 9000) {
+					postfix = "";
+				} else if (9000 <= value && l < 6) {
+					value /= 1000;
+					postfix = "K";
+				} else if (6 <= l && l < 9) {
+					value /= 1000 * 1000;
+					postfix = "M";
+				} else if (9 <= l && l < 12) {
+					value /= 1000 * 1000 * 1000;
+					postfix = "G";
+				} else if (12 <= l && l < 15) {
+					value /= 1000 * 1000 * 1000 * 1000;
+					postfix = "T";
+				} else {
+					value = value / Math.pow(10, l);
+					postfix = 'e' + l;
+				}
+				break;
+			case "si":
+			default:
+				var absValue = Math.abs(value);
+				for(var i = 0; i < this.postfixes.length; i++) {
+					var p = this.postfixes[i];
+					if(absValue >= p.limit){
+						if (usePerTickHack) { // Prevent recursive * this.ticksPerSecond;
+							value = value / this.ticksPerSecond;
+						}
+						return this.getDisplayValueExt(value / p.divisor, prefix, usePerTickHack, precision, postfix + p.postfix[0]);
+					}
+				}
+				break;
 		}
 
 		var _value = this.getDisplayValue(value, prefix, precision);
