@@ -1461,6 +1461,7 @@
     "ui.option.app.text": "猫国建设者移动版已经发布！单击链接获取:",
     "ui.option.app.android": "Android",
     "ui.option.app.ios": "iOS",
+    "ui.option.notation": "计数制:",
 
     "console.filter.astronomicalEvent": "天文事件",
     "console.filter.hunt": "狩猎",

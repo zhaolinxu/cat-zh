@@ -6,6 +6,12 @@
  *
  */
 
+window.LCstorage = window.localStorage;
+if (document.all && !window.localStorage) {
+    window.LCstorage = {};
+    window.LCstorage.removeItem = function () { };
+}
+
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 	//Base control class. Must be a superclass for all game components.
 });

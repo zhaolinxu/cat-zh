@@ -933,7 +933,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appText").text($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
-        
+        $("#optionNotation").text($I("ui.option.notation"));        
     },
 
     _createFilter: function(filter, fId, filtersDiv){

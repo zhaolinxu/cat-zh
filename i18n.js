@@ -2,12 +2,6 @@
  * FOR FULL I18N!
  */
 
-window.LCstorage = window.localStorage;
-if (document.all && !window.localStorage) {
-    window.LCstorage = {};
-    window.LCstorage.removeItem = function () { };
-}
-
 //Localization support
 dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 	fallbackLocale: "en",

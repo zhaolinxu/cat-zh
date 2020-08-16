@@ -1462,6 +1462,7 @@
     "ui.option.app.text": "Kittens Game Mobile has been released! Click on the link to follow:",
     "ui.option.app.android": "Android",
     "ui.option.app.ios": "iOS",
+    "ui.option.notation": "Notation:",
 
     "console.filter.astronomicalEvent": "Astronomical Events",
     "console.filter.hunt": "Hunts",
