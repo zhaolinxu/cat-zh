@@ -746,6 +746,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 	},
 
 	getName: function(model){
+		if (this.controllerOpts.getName){
+			return this.controllerOpts.getName.apply(this, arguments);
+		}
 		return model.options.name;
 	},
 

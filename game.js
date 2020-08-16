@@ -1418,8 +1418,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		var game = this;
 		dojo.forEach(tabRegistry, function(tab){
-			console.log("tab class:", tab.class);
-
 			var tabProp = new tab.class({
 				name: $I(tab.name),
 				id: tab.id

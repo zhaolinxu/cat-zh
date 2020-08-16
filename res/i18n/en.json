@@ -258,6 +258,9 @@
     "calendar.year.tooltip": "Year:",
 
     "challendge.panel.label": "Challenges",
+    "challendge.pending": "Pending",
+    "challendge.applyPending.label": "Apply Pending Changes ({0})",
+    "challendge.applyPending.desc": "Turn on Challenges/Conditions marked as Pending immediately",
     "challendge.1000Years.label": "1000 years",
     "challendge.1000Years.desc": "Restart the game with a half-life time.<br><br>Goal: Reach year 1000.",
     "challendge.1000Years.effect.desc": "Colder combustion of Time Crystal.",
@@ -292,7 +295,7 @@
     "challendge.btn.desc": "<br>Gain: {0}<br><br>Your game will be reset in order to enable this challenge. {1}",
     "challendge.btn.log.message.on.complete": "Congratulations! You complete the challenge {0}.",
     "challendge.btn.name.complete": "{0} (Complete)",
-    "challendge.btn.name.current": "{0} (Current)",
+    "challendge.btn.name.current": "{0} (Active)",
 
     "common.collapse.all": "Collapse all",
     "common.expand.all": "Expand all",

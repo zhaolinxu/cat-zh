@@ -89,7 +89,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	save: function(saveData){
 		saveData.challenges = {
-			challenges: this.filterMetadata(this.challenges, ["name", "researched", "val", "unlocked"]),
+			challenges: this.filterMetadata(this.challenges, [
+				"name", 
+				"researched", 	//deprecated
+				"val", 
+				"unlocked", 
+				"active"		//if currently active or not
+			]),
 			currentChallenge: this.currentChallenge
 		};
 	},
@@ -158,6 +164,34 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
 			this.game.calculateAllEffects();
 		}
+	},
+
+	/**
+	 * Apply challenges marked by player as pending
+	 */
+	applyPending: function(){
+		var game = this.game;
+		game.ui.confirm(
+			$I("challendge.btn.confirmation.title"), 
+			$I("challendge.btn.confirmation.msg"), function() 
+		{
+			// Set the challenge for after reset
+			for (var i = 0; i < this.game.challenges.challenges.length; i++){
+				var challenge = this.game.challenges.challenges[i];
+				if (challenge.pending){
+					challenge.active = true;
+				}
+			}
+			// Reset with any benefit of chronosphere (resources, kittens, etc...)
+
+			game.bld.get("chronosphere").val = 0;
+			game.bld.get("chronosphere").on = 0;
+			game.time.getVSU("cryochambers").val = 0;
+			game.time.getVSU("cryochambers").on = 0;
+
+			game.resetAutomatic();
+		}, function() {
+		});
 	}
 });
 
@@ -182,13 +216,16 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 	getName: function(model){
 
 		var meta = model.metadata;
-		if (meta.name == this.game.challenges.currentChallenge) {
-			return $I("challendge.btn.name.current", [meta.label]);
+		var name = meta.label;
+		if (meta.name == this.game.challenges.active) {
+			name = $I("challendge.btn.name.current", [meta.label]);
 		} else if (meta.researched){
-			return $I("challendge.btn.name.complete", [meta.label]);
-		} else {
-			return meta.label;
+			name = $I("challendge.btn.name.complete", [meta.label]);
+		} 
+		if (meta.pending){
+			name += " (" + $I("challendge.pending") + ")";
 		}
+		return name;
 	},
 
 	updateVisible: function(model){
@@ -200,7 +237,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 	},
 
 	buyItem: function(model, event, callback) {
-		if (model.metadata.name == this.game.challenges.currentChallenge
+		/*if (model.metadata.name == this.game.challenges.currentChallenge
 		 || (!model.enabled && !this.game.devMode)) {
 			callback(false);
 			return;
@@ -221,7 +258,16 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 			callback(true);
 		}, function() {
 			callback(false);
-		});
+		});*/
+
+		this.togglePending(model);
+	},
+
+	togglePending: function(model){
+		if (model.metadata.name == "ironWill") {
+			return;
+		}
+		model.metadata.pending = !model.metadata.pending;
 	},
 
 	updateEnabled: function(model){
@@ -259,9 +305,11 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 		this.challengesPanel.game = this.game;
 		this.challengesPanel.render(container);
 
-		this.conditionsPanel = new classes.ui.ConditionPanel($I("challendge.condition.panel.label"), this.game.challenges);
+		//consition panel to be reviewed
+
+		/*this.conditionsPanel = new classes.ui.ConditionPanel($I("challendge.condition.panel.label"), this.game.challenges);
 		this.conditionsPanel.game = this.game;
-		this.conditionsPanel.render(container);
+		this.conditionsPanel.render(container);*/
 
 		dojo.create("div", { style: {
 				marginBottom: "15px"
@@ -281,11 +329,15 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 							model.visible = true;
 						}
 					}
-					for (var i = 0; i < this.game.challenges.conditions.length; i++){
-						if (this.game.challenges.conditions[i].pending){
-							model.visible = true;
+				}, 
+				getName: function(){
+					var numPending = 0;
+					for (var i = 0; i < this.game.challenges.challenges.length; i++){
+						if (this.game.challenges.challenges[i].pending){
+							numPending++;
 						}
 					}
+					return $I("challendge.applyPending.label", [numPending]);
 				}
 			})
 		}, this.game);
@@ -295,8 +347,7 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 
 	update: function(){
 		this.challengesPanel.update();
-		this.conditionsPanel.update();
+		//this.conditionsPanel.update();
 		this.applyPendingBtn.update();
-
 	}
 });
