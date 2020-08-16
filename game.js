@@ -3443,6 +3443,14 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		tab.game = this;
 	},
 
+	getTabById: function(tabId){
+		for (var i in this.tabs){
+			if (this.tabs[i].id == tabId){
+				return this.tabs[i];
+			}
+		}
+	},
+
 	isWebWorkerSupported: function(){
 		//return false;
 		return !dojo.isIE && window.Worker;
@@ -4032,6 +4040,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				 * and return cancel if not all unlock conditions are satisfied
 				 * 
 				*/
+				if (!newUnlock){
+					console.trace();
+					console.error("unable to evaluate locks for unlockId", unlockId, "type", type);
+				}
 				if (newUnlock.evaluateLocks && !newUnlock.evaluateLocks(game)){
 					continue;
 				}

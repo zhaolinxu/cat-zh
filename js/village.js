@@ -433,7 +433,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Get cumulative resource production per village population
 	 */
 	updateResourceProduction: function(){
-
 		var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 
 		var res = {
@@ -456,7 +455,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if(job) {
 					// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 					//TODO: move to the village manager
-					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
+					var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
 
 					for (var jobResMod in job.modifiers){
 
@@ -849,6 +848,44 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 
+	},
+
+	getValueModifierPerSkill: function(value){
+		switch (true) {
+		case value < 100:
+			return 1.0;
+		case value < 500:
+			return 1.05;	//5%
+		case value < 1200:
+			return 1.10;
+		case value < 2500:
+			return 1.18;
+		case value < 5000:
+			return 1.30;
+		case value < 9000:
+			return 1.50;
+		default:
+			return 1.75;
+		}
+	},
+
+	getSkillExpRange: function(value){
+		switch (true) {
+		case value < 100:
+			return [0,100];
+		case value < 500:
+			return [100,500];
+		case value < 2500:
+			return [500,2500];
+		case value < 5000:
+			return [2500,5000];
+		case value < 9000:
+			return [5000,9000];
+		case value < 20000:
+			return [9000,20000];
+		default:
+			return [20000,value];
+		}
 	}
 });
 
@@ -2208,7 +2245,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				break;
 			}
 
-			var skillExp = this.game.villageTab.getSkillExpRange(exp);
+			var skillExp = this.game.village.getSkillExpRange(exp);
 			var prevExp = skillExp[0];
 			var nextExp = skillExp[1];
 
@@ -2221,7 +2258,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				style = "style='font-weight: bold'";
 
 				var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
-				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+				var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job]);
 				bonus = (mod - 1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus + 1) - 1) : bonus;
 
@@ -2236,7 +2273,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			info += "<span class='skill' title='" + exp.toFixed(2) + "'" + style + ">"
 				+ this.game.village.getJob(skillsArr[j].name).title + bonus
-				+ " (" + this.game.villageTab.skillToText(exp) + " " + expPercent.toFixed() + "%)"
+				+ " (" + this.game.village.skillToText(exp) + " " + expPercent.toFixed() + "%)"
 				+ "</span><br>";
 		}
 
@@ -2805,44 +2842,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return $I("village.skill.proficient");
 		default:
 			return $I("village.skill.master");
-		}
-	},
-
-	getSkillExpRange: function(value){
-		switch (true) {
-		case value < 100:
-			return [0,100];
-		case value < 500:
-			return [100,500];
-		case value < 2500:
-			return [500,2500];
-		case value < 5000:
-			return [2500,5000];
-		case value < 9000:
-			return [5000,9000];
-		case value < 20000:
-			return [9000,20000];
-		default:
-			return [20000,value];
-		}
-	},
-
-	getValueModifierPerSkill: function(value){
-		switch (true) {
-		case value < 100:
-			return 1.0;
-		case value < 500:
-			return 1.05;	//5%
-		case value < 1200:
-			return 1.10;
-		case value < 2500:
-			return 1.18;
-		case value < 5000:
-			return 1.30;
-		case value < 9000:
-			return 1.50;
-		default:
-			return 1.75;
 		}
 	},
 
