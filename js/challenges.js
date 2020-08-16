@@ -2,7 +2,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 	constructor: function(game){
 		this.game = game;
-		this.registerMeta("research", this.challenges, null);
+		this.registerMeta("stackable", this.challenges, null);
 		this.setEffectsCachedExisting();
 	},
 
@@ -21,6 +21,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.winterIsComing.label"),
 		description: $I("challendge.winterIsComing.desc"),
 		effectDesc: $I("challendge.winterIsComing.effect.desc"),
+		repeatEffectDesc: $I("challendge.winterIsComing.repeatEffect.desc"),
 		researched: false,
 		unlocked: true
 	},{
@@ -28,6 +29,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.anarchy.label"),
 		description: $I("challendge.anarchy.desc"),
 		effectDesc: $I("challendge.anarchy.effect.desc"),
+		repeatEffectDesc: $I("challendge.anarchy.repeatEffect.desc"),
 		researched: false,
 		unlocked: true
 	},{
@@ -35,13 +37,20 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.energy.label"),
 		description: $I("challendge.energy.desc"),
 		effectDesc: $I("challendge.energy.effect.desc"),
+		repeatEffectDesc: $I("challendge.energy.repeatEffect.desc"),
         researched: false,
-		unlocked: false
+		unlocked: false,
+		upgrades: {
+			buildings: ["library", "biolab", "calciner", "oilWell", "factory", "accelerator", "chronosphere", "aiCore"],
+			spaceBuilding: ["sattelite", "spaceStation", "moonOutpost", "moonBase", "orbitalArray", "containmentChamber"],
+			voidSpace: ["chronocontrol"]
+		}
 	},{
 		name: "atheism",
 		label: $I("challendge.atheism.label"),
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
+		repeatEffectDesc: $I("challendge.atheism.repeatEffect.desc"),
 		effects: {
 			"solarRevolutionLimit": 1
 		},
@@ -55,6 +64,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
+		repeatEffectDesc: $I("challendge.1000Years.repeatEffect.desc"),
 		researched: false,
 		unlocked: false
 	},{
@@ -72,13 +82,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for (var i = 0; i < this.challenges.length; i++){
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
+			this.resetStateStackable(challenge);
 		}
 		this.currentChallenge = null;
 	},
 
 	save: function(saveData){
 		saveData.challenges = {
-			challenges: this.filterMetadata(this.challenges, ["name", "researched", "unlocked"]),
+			challenges: this.filterMetadata(this.challenges, ["name", "researched", "val", "unlocked"]),
 			currentChallenge: this.currentChallenge
 		};
 	},
@@ -121,7 +132,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.researchChallenge("anarchy");
 			}
 		} else if (this.currentChallenge == "blackSky") {
-			if (this.game.space.getBuilding('spaceBeacon').val > 0) {
+			if (this.game.space.getBuilding("spaceBeacon").val > 0) {
 				this.researchChallenge("blackSky");
 			}
 		}
@@ -161,7 +172,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
     getDescription: function(model) {
 		if (this.game.bld.get("chronosphere").val > 0) {
-			var msgChronosphere = model.metadata.name == "ironWill" ? $I("challendge.btn.chronosphere.with.ironWill.desc"): $I("challendge.btn.chronosphere.desc");
+			var msgChronosphere = model.metadata.name == "ironWill" ? $I("challendge.btn.chronosphere.with.ironWill.desc") : $I("challendge.btn.chronosphere.desc");
 		} else {
 			var msgChronosphere = "";
 		}
@@ -240,4 +251,52 @@ dojo.declare("classes.ui.ChallengePanel", com.nuclearunicorn.game.ui.Panel, {
 
 	}
 
+});
+
+dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
+	render: function(container){
+		this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
+		this.challengesPanel.game = this.game;
+		this.challengesPanel.render(container);
+
+		this.conditionsPanel = new classes.ui.ConditionPanel($I("challendge.condition.panel.label"), this.game.challenges);
+		this.conditionsPanel.game = this.game;
+		this.conditionsPanel.render(container);
+
+		dojo.create("div", { style: {
+				marginBottom: "15px"
+		} }, container);
+
+		var applyPendingBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("challendge.applyPending.label"),
+			description: $I("challendge.applyPending.desc"),
+			handler: dojo.hitch(this, function(){
+				this.game.challenges.applyPending();
+			}),
+			controller: new com.nuclearunicorn.game.ui.ButtonController(this.game, {
+				updateVisible: function (model) {
+					model.visible = false;
+					for (var i = 0; i < this.game.challenges.challenges.length; i++){
+						if (this.game.challenges.challenges[i].pending){
+							model.visible = true;
+						}
+					}
+					for (var i = 0; i < this.game.challenges.conditions.length; i++){
+						if (this.game.challenges.conditions[i].pending){
+							model.visible = true;
+						}
+					}
+				}
+			})
+		}, this.game);
+		applyPendingBtn.render(container);
+		this.applyPendingBtn = applyPendingBtn;
+	},
+
+	update: function(){
+		this.challengesPanel.update();
+		this.conditionsPanel.update();
+		this.applyPendingBtn.update();
+
+	}
 });

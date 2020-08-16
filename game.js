@@ -1296,7 +1296,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
-			notation: 'si',
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,
@@ -1357,46 +1357,81 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 		//very sloppy design, could we just use an array for tab managers?
-		var bldTabV2 = new com.nuclearunicorn.game.ui.tab.BuildingsModern({name:$I("buildings.tabName"),id:"Bonfire"}, this);
-		this.addTab(bldTabV2);
 
-		this.villageTab = new com.nuclearunicorn.game.ui.tab.Village({name:$I("village.tab.title.smallvillage"),id:"Village"}, this);
-		this.villageTab.visible = false;
-		this.addTab(this.villageTab);
+		var tabRegistry = [
+			{class: com.nuclearunicorn.game.ui.tab.BuildingsModern,
+				name: "buildings.tabName",
+				id: "Bonfire",
+				prop: "bldTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Village,
+				name: "village.tab.title.smallvillage",
+				id: "Village",
+				prop: "villageTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Library,
+				name: "tab.name.science",
+				id: "Science",
+				prop: "libraryTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Workshop,
+				name: "tab.name.workshop",
+				id: "Workshop",
+				prop: "workshopTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.Diplomacy,
+				name: "tab.name.trade",
+				id: "Trade",
+				prop: "diplomacyTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.ReligionTab,
+				name: "tab.name.religion",
+				id: "Trade",
+				prop: "religionTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.SpaceTab,
+				name: "tab.name.space",
+				id: "Space",
+				prop: "spaceTab"
+			},
+			{class: classes.tab.TimeTab,
+				name: "tab.name.time",
+				id: "Time",
+				prop: "timeTab"
+			},
+			{class: classes.tab.ChallengesTab,
+				name: "tab.name.challenges",
+				id: "Challenges",
+				prop: "challengesTab"
+			},
+			{class: com.nuclearunicorn.game.ui.tab.AchTab,
+				name: "tab.name.achievements",
+				id: "Achievements",
+				prop: "achievementTab"
+			},
+			{class: classes.tab.StatsTab,
+				name: "tab.name.stats",
+				id: "Stats",
+				prop: "statsTab"
+			}
+		];
 
-		this.libraryTab = new com.nuclearunicorn.game.ui.tab.Library({name:$I("tab.name.science"),id:"Science"}, this);
-		this.libraryTab.visible = false;
-		this.addTab(this.libraryTab);
+		var game = this;
+		dojo.forEach(tabRegistry, function(tab){
+			console.log("tab class:", tab.class);
 
-		this.workshopTab = new com.nuclearunicorn.game.ui.tab.Workshop({name:$I("tab.name.workshop"), id:"Workshop"}, this);
-		this.workshopTab.visible = false;
-		this.addTab(this.workshopTab);
+			var tabProp = new tab.class({
+				name: $I(tab.name),
+				id: tab.id
+			}, game);
+			tabProp.visible = true;
+			game[tab.prop] = tabProp;
+			//TODO: please don't rely on game.xxxTab, it's a candidate for removal
 
-		this.diplomacyTab = new com.nuclearunicorn.game.ui.tab.Diplomacy({name:$I("tab.name.trade"), id:"Trade"}, this);
-		this.diplomacyTab.visible = false;
-		this.addTab(this.diplomacyTab);
+			game.addTab(tabProp);
+		});
 
-		this.religionTab = new com.nuclearunicorn.game.ui.tab.ReligionTab({name:$I("tab.name.religion"), id:"Religion"}, this);
-		this.religionTab.visible = false;
-		this.addTab(this.religionTab);
-
-		this.spaceTab = new com.nuclearunicorn.game.ui.tab.SpaceTab({name:$I("tab.name.space"), id:"Space"}, this);
-		this.spaceTab.visible = false;
-		this.addTab(this.spaceTab);
-
-		this.timeTab = new classes.tab.TimeTab({name:$I("tab.name.time"), id:"Time"}, this);
-		this.timeTab.visible = false;
-		this.addTab(this.timeTab);
-
-		this.achievementTab = new com.nuclearunicorn.game.ui.tab.AchTab({name:$I("tab.name.achievements"), id:"Achievements"}, this);
-		this.achievementTab.visible = false;
-		this.addTab(this.achievementTab);
-
-        this.statsTab = new classes.tab.StatsTab({name:$I("tab.name.stats"), id:"Stats"}, this);
-        this.statsTab.visible = false;
-        this.addTab(this.statsTab);
-
-		//vvvv do not forget to toggle tab visibility below
+		//vvvv do not forget to toggle tab visibility below (see load method)
 
 		this.timer = new classes.game.Timer();
 
@@ -1829,9 +1864,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.statsTab.visible = (this.karmaKittens > 0 || this.science.get("math").researched);
 
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
-		this.religionTab.visible = (this.resPool.get("faith").value > 0 || this.challenges.currentChallenge == "atheism" && this.bld.get("ziggurat").val > 0);
+		this.religionTab.visible = (
+			this.resPool.get("faith").value > 0 || 
+			this.challenges.currentChallenge == "atheism" && 
+			this.bld.get("ziggurat").val > 0);
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
-		this.timeTab.visible = (this.science.get("calendar").researched || this.time.getVSU("usedCryochambers").val > 0);
+		this.timeTab.visible = (
+			this.science.get("calendar").researched || 
+			this.time.getVSU("usedCryochambers").val > 0);
+			
+		this.challengesTab.visible = (
+			this.prestige.getPerk("adjustmentBureau").researched || 
+			this.prestige.getPerk("adjustmentBureau").reserve);
 
 		this.ui.load();
 
@@ -3328,7 +3372,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					postfix = "T";
 				} else {
 					value = value / Math.pow(10, l);
-					postfix = 'e' + l;
+					postfix = "e" + l;
 				}
 				break;
 			case "si":
