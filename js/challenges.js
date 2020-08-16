@@ -44,6 +44,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			buildings: ["library", "biolab", "calciner", "oilWell", "factory", "accelerator", "chronosphere", "aiCore"],
 			spaceBuilding: ["sattelite", "spaceStation", "moonOutpost", "moonBase", "orbitalArray", "containmentChamber"],
 			voidSpace: ["chronocontrol"]
+		},
+		effects: {
+			"challengeReward": -0.1
 		}
 	},{
 		name: "atheism",
@@ -95,8 +98,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				"val", 
 				"unlocked", 
 				"active"		//if currently active or not
-			]),
-			currentChallenge: this.currentChallenge
+			])
 		};
 	},
 
@@ -107,8 +109,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 		this.loadMetadata(this.challenges, saveData.challenges.challenges);
 
-		if (saveData.challenges.currentChallenge){
-			this.currentChallenge = saveData.challenges.currentChallenge;
+		//legacy saves compatibility mode
+		var currentChallenge = saveData.challenges.currentChallenge;
+		if (currentChallenge){
+			this.getChallenge(currentChallenge).active = true;
 		}
 	},
 
@@ -157,6 +161,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		return this.getMeta(name, this.challenges);
 	},
 
+	/*
+		returns true if challenge currently in progress
+	*/
+	isActive: function(name){
+		return !!this.getChallenge(name).active;
+	},
+
 	researchChallenge: function(challenge) {
 		if (challenge == this.currentChallenge){
 			this.getChallenge(challenge).researched = true;
@@ -192,6 +203,30 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			game.resetAutomatic();
 		}, function() {
 		});
+	},
+
+	getEnergyMod: function() {
+		return (
+			this.isActive("energy") ? 2 : 1
+		) * 
+			this.getChallengeReward("energy");
+	},
+
+	//TODO: rewrite using the general getEffect logic
+
+	/*getChallengeEffect: function(name, type) {
+		var challenge = this.getChallenge(name);
+		if (name == "energy") {
+			return 2 + 0.1 * challenge.val;
+		}
+	},*/
+
+	getChallengeReward: function(name){
+		var challenge = this.getChallenge(name);
+		return 1 + this.game.getLimitedDR(
+			challenge.val * challenge.effects["challengeReward"], 
+			challenge.effects["challengeRewardLimit"] || 1
+		);
 	}
 });
 

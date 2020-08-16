@@ -91,7 +91,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 	},
 
 	update: function(){
-		if (this.game.resPool.get("faith").value > 0 || this.game.challenges.currentChallenge == "atheism" && this.game.bld.get("ziggurat").val > 0){
+		if (this.game.resPool.get("faith").value > 0 || this.game.challenges.isActive("atheism") && this.game.bld.get("ziggurat").val > 0){
 			this.game.religionTab.visible = true;
 		}
 
@@ -1235,7 +1235,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 		}	//eo zg upgrades
 
-		if (game.challenges.currentChallenge != "atheism") {
+		if (game.challenges.isActive("atheism")) {
 			//------------------- religion -------------------
 			var religionPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
 			var content = religionPanel.render(container);
@@ -1335,7 +1335,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			this.refineTCBtn.update();
 		}
 
-		if (this.game.challenges.currentChallenge != "atheism") {
+		if (!this.game.challenges.isActive("atheism")) {
 			if (this.praiseBtn) {
 				this.praiseBtn.update();
 			}

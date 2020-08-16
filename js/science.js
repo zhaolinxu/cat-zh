@@ -1590,7 +1590,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              // could have theoretically had more than 100% reduction because they diminished separately,
              // this takes the total effect and diminishes it as a whole.
              if (this.game.isHyperbolic(name) && effect !== 0) {
-             effect = this.game.getHyperbolicEffect(effect, 1.0);
+             effect = this.game.getLimitedDR(effect, 1.0);
              }
              
              // Add effect from effectsBase

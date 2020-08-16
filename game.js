@@ -1500,6 +1500,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	// Unlimited Diminishing Return
+	//getHyperbolicEffect
 	getLimitedDR: function(effect, limit) {
 		var absEffect = Math.abs(effect);
 
@@ -1864,8 +1865,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.diplomacyTab.visible = (this.diplomacy.hasUnlockedRaces());
 		this.religionTab.visible = (
 			this.resPool.get("faith").value > 0 || 
-			this.challenges.currentChallenge == "atheism" && 
+			this.challenges.isActive("atheism") && 
 			this.bld.get("ziggurat").val > 0);
+
 		this.spaceTab.visible = (this.science.get("rocketry").researched);
 		this.timeTab.visible = (
 			this.science.get("calendar").researched || 
@@ -2223,7 +2225,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				save.challenges = [];
 			}
 			save.challenges.currentChallenge = null;
-
 			save.saveVersion = 9;
 		}
 
@@ -2474,7 +2475,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
+		if (resName == "catnip" && this.challenges.isActive("winterIsComing")) {
 			paragonProductionRatio = 0; //winter has come
 		}
 
@@ -2550,7 +2551,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
-			if (this.challenges.currentChallenge == "anarchy") {
+			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
@@ -2695,7 +2696,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		// *PARAGON BONUS
 		var paragonProductionRatio = this.prestige.getParagonProductionRatio();
-		if (resName == "catnip" && this.challenges.currentChallenge == "winterIsComing") {
+		if (resName == "catnip" && this.challenges.isActive("winterIsComing")) {
 			paragonProductionRatio = 0; //winter has come
 		}
 
@@ -2879,7 +2880,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		resConsumption *= 1 + this.getEffect(res.name + "DemandRatio");
 		if (res.name == "catnip" && this.village.sim.kittens.length > 0 && this.village.happiness > 1) {
 			var hapinnessConsumption = Math.max(this.village.happiness - 1, 0);
-			if (this.challenges.currentChallenge == "anarchy") {
+			if (this.challenges.isActive("anarchy")) {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal"));
 			} else {
 				resConsumption += resConsumption * hapinnessConsumption * (1 + this.getEffect(res.name + "DemandWorkerRatioGlobal")) * (1 - this.village.getFreeKittens() / this.village.sim.kittens.length);
@@ -3570,18 +3571,16 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 		var game = this;
 		game.ui.confirm($I("reset.confirmation.title"), msg, function() {
-			if (game.challenges.currentChallenge == "atheism" && game.time.getVSU("cryochambers").on > 0) {
+			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
 				if (game.ironWill) {
 					game.achievements.unlockHat("ivoryTowerHat");
 				}
-			}
+			}*/
 			if (game.calendar.day < 0) {
 				game.achievements.unlockHat("fezHat");
 			}
-
-			game.challenges.currentChallenge = null;
 			game.resetAutomatic();
 		});
 	},
@@ -3837,8 +3836,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				cryptoPrice: this.calendar.cryptoPrice
 			},
 			challenges: {
-				challenges: this.challenges.challenges,
-				currentChallenge: this.challenges.currentChallenge
+				challenges: this.challenges.challenges
 			},
 			diplomacy: {
 				races: []
@@ -3917,6 +3915,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	// Unlimited Diminishing Return
+	//getTriValue
 	getUnlimitedDR: function(value, stripe) {
 		return (Math.sqrt(1 + 8 * value / stripe) - 1) / 2;
 	},
