@@ -47,8 +47,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"winter": 0.45
 			}},
 			{name: "parchment", value: 5, chance: 0.25, width: 0.25, minLevel: 5},
-			{name: "manuscript", value: 5, chance: 0.15, width: 0.25, minLevel: 10},
-			{name: "compedium", value: 5, chance: 0.1, width: 0.25, minLevel: 15}
+			{name: "manuscript", value: 3, chance: 0.15, width: 0.25, minLevel: 10},
+			{name: "compedium", value: 1, chance: 0.1, width: 0.25, minLevel: 15}
 		],
 		collapsed: false,
 		pinned: false
@@ -403,7 +403,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			
-			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 0));
+			var tradeChance = sellResource.chance * 
+				(1 + (
+					race.embassyPrices ? 
+					this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 
+					0)
+				);
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance);
@@ -415,15 +420,22 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			var fuzzedNormalAmount = this._fuzzGainedAmount(resourcePassedNormalTradeAmount, sellResource.width);
 			var fuzzedBonusAmount = this._fuzzGainedAmount(resourcePassedBonusTradeAmount, sellResource.width);
 			var resourceSeasonTradeRatio = 1 + (sellResource.seasons ? sellResource.seasons[currentSeason] : 0);
-			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) * sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
+			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) 
+				* sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
 		}
 
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  race.embassyLevel * embassyEffect : 0)));
-		boughtResources["spice"] = 25 * spiceTradeAmount + 50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(
+			successfullTradeAmount, 
+			0.35 * (1 + (race.embassyPrices ?  race.embassyLevel * embassyEffect : 0))
+		);
+		boughtResources["spice"] = 25 * spiceTradeAmount + 
+			50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
 
 		//-------------- 10% chance to get blueprint ---------------
-		boughtResources["blueprint"] = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
+		boughtResources["blueprint"] = Math.floor(
+			this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1)
+		);
 
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
 		if (race.name == "zebras") {

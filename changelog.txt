@@ -1,3 +1,9 @@
+v 1.4.8.2 (15 aug 2020)
+Major:
+
+Minor:
+* Added an option for the scientific notation (cirn0)
+
 v 1.4.8.1 (18 july 2020)
 Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
