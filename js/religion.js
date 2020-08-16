@@ -120,7 +120,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 				this.game.upgrade({
 					zigguratUpgrades: ["skyPalace", "unicornUtopia", "sunspire"]
 				});
-				this.game.msg($I("religion.msg.corruption"), "important");
+				this.game.msg($I("religion.msg.corruption"), "important", "alicornCorruption");
 			} else {
 				this.corruption = 1;
 			}

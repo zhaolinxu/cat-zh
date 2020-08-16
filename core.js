@@ -521,6 +521,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"alicornCorruption":{
+				title: "Alicorn Corruption",
+				enabled: true,
+				unlocked: false
+			},
 			"tc": {
 				title: "Time Crystals",
 				enabled: true,
