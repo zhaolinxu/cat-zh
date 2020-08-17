@@ -895,7 +895,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	correctCryptoPrice: function() {
 		this.cryptoPrice *= 0.7 + 0.1 * Math.random();
-		this.game.msg("There was a huge crypto market correction", "important");
+		this.game.msg($I("trade.correct.bcoin"), "important");
 	},
 
 	getWeatherMod: function(){
