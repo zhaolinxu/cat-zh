@@ -245,12 +245,12 @@
 					if (gamePage.isEldermass()){
 						if (gamePage.resPool.get("elderBox").value == 0){
 							gamePage.resPool.get("elderBox").value++;
-							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+							gamePage.msg($I("gift.get"), "important");
 						}
 					} else {
 						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
 							gamePage.resPool.get("elderBox").value = 1;
-							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+							gamePage.msg(I("gift.repaired"), "important");
 						}
 					}
 					//---------------------------------
