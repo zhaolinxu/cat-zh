@@ -2861,7 +2861,20 @@ var run = function() {
                     countList[counter].name = build.name;
                     countList[counter].count = 0;
                     countList[counter].spot = counter;
-                    countList[counter].prices = prices;
+
+                    // countList[counter].prices = prices;
+                    countList[counter].prices = [];
+                    var pricesDiscount = game.getLimitedDR((game.getEffect(build.name + "CostReduction")), 1);
+                    var priceModifier = 1 - pricesDiscount;
+                    for (var i in prices) {
+                        var resPriceDiscount = game.getLimitedDR(game.getEffect(prices[i].name+"CostReduction"), 1);
+                        var resPriceModifier = 1 - resPriceDiscount;
+                        countList[counter].prices.push({
+                            val: prices[i].val * priceModifier * resPriceModifier,
+                            name: prices[i].name
+                        });
+                    }
+
                     countList[counter].priceRatio = priceRatio;
                     countList[counter].source = source;
                     countList[counter].limit = build.max || 0;
@@ -3139,7 +3152,10 @@ var run = function() {
             return Math.floor(amount);
         },
         getMaterials: function (name) {
-            var materials = {manpower: 50, gold: 15};
+            var materials = {
+                manpower: 50 - game.getEffect("tradeCatpowerDiscount"),
+                gold: 15 - game.getEffect("tradeGoldDiscount")
+            };
 
             if (name === undefined)
                 return materials;
