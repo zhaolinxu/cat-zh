@@ -463,7 +463,502 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         return this.getMeta(id, this.voidspaceUpgrades);
     },
 
-    shatter: function(amt){
+    shatter: function(amt) {
+        // fast shatter
+        amt = amt || 1;
+
+        var game = this.game;
+        var cal = game.calendar;
+
+        var shatterTCGain = game.getEffect("shatterTCGain") * (1 + game.getEffect("rrRatio"));
+        var aiApocalypseLevel = 0;
+        var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
+        if (aiLevel > 14 && (this.game.science.getPolicy("transkittenism").researched != true)){
+			var aiApocalypseLevel = aiLevel - 14;
+		}
+        var destroyRatio = aiApocalypseLevel * 0.01;
+
+        var daysPerYear = cal.daysPerSeason * cal.seasonsPerYear;
+        var ticksPerYear = daysPerYear * cal.ticksPerDay;
+        var ticksPerCycle = ticksPerYear * cal.yearsPerCycle;
+        var yearsPerEra = cal.yearsPerCycle * cal.cyclesPerEra;
+
+        var firstCycle = cal.cycle;
+        var firstCycleYear = cal.cycleYear;
+        var remainingYearsInFirstCycle = cal.yearsPerCycle - firstCycleYear;
+        var remainingDaysInFirstYear = cal.daysPerSeason * (cal.seasonsPerYear - cal.season) - cal.day;
+        var remainingTicksInFirstYear = remainingDaysInFirstYear * cal.ticksPerDay;
+        var totalDays = remainingDaysInFirstYear + (amt - 1) * daysPerYear;
+        var totalTicks = totalDays * cal.ticksPerDay;
+        if (amt < remainingYearsInFirstCycle) { // not cross cycle
+            var finalCycle = firstCycle;
+            var finalCycleYear = firstCycleYear + amt;
+        } else { // cross cycle
+            var remainingYearsLastEra = (amt - remainingYearsInFirstCycle) % yearsPerEra;
+            var remainingCycles = Math.floor(remainingYearsLastEra / cal.yearsPerCycle);
+            // incomplete cycle in last era
+            var finalCycle = (firstCycle + remainingCycles + 1) % cal.cyclesPerEra;
+            var finalCycleYear = remainingYearsLastEra % cal.yearsPerCycle
+        }
+
+
+        cal.day = 0;
+        cal.season = 0;
+
+        // ShatterTC gain
+        if (shatterTCGain > 0) {
+            // ===================================================================================================
+            //
+            // First, the fast shatter calculates the total years of each cycle and builds a cache of resource production for each cycle.
+            // Then the fast shatter will first try the FAST MODE:
+            //   multiply the production cache and the total year to obtain the final resource amount.
+            //   If the final resource amount is not negative, the attempt is considered successful, otherwise it enters the SLOW MODE.
+            //   If the fast shatter is successful and have AI apocalypse, the function will try to FAST AI:
+            //     if a resource has a maximum value and the annual production is greater than the maximum value that AI can destroy:
+            //       only calculate the last year of AI destruction
+            //     Otherwise(no maximum or the annual production is not greater than AI can destroy)
+            //       the function will recalculate this resource from the first year.
+            //     If a negative value appears during the calculation, it also enters the SLOW MODE.
+            // SLOW MODE:
+            //   SLOW MODE calculation will first try WHOLE CYCLE MODE: calculate whole cycle at a time.
+            //   If AI apocalypse, or a negative value appears during the calculation, WHOLE CYCLE MODE failed. then enter YEAR BY YEAR MODE
+            //   YEAR BY YEAR MODE:
+            //     Calculate production year by year.
+            //     if the positive and negative of resources change, the cache will be updated in the next year's calculation
+            // 
+            //
+            // copy from origin shatter function:
+            //   XXX Partially duplicates resources#fastforward and #enforceLimits, some nice factorization is probably possible
+            //   
+            // ===================================================================================================
+
+
+            var remainingYears = amt;
+            var resourcesLimit = [];
+
+            // var productionPerTickInCycle = {};
+            //  productionPerYearInCycle
+            var prodPYInCycle = {}; // gen per tick {cycle id: [resources production per year], }
+            // var prodPYEnginnerCache = {}; // { resource name: prodution, }
+            var prodPYEnginner = {}; // { resource name: [production, {price name: price, }], }
+            var resourcesIndexTable = {}; // {name: index}
+            // var fastCache = {}; // total production, if no negative production.
+            var negativeProdruction = false; // 
+            var negativeEnginner = false; // 
+            // var ticksInCycles = {};
+            var yearsInCycles = {};
+            var negative = false;
+            var update = function(dict, key, value) {if (key in dict) {dict[key] += value} else {dict[key] = value}};
+            
+
+
+            // =========================================================================================
+            // calculates the total years of each cycle
+            // =========================================================================================
+
+            if (remainingYears < remainingYearsInFirstCycle) { // not cross cycle
+                yearsInCycles[firstCycle] = remainingYears - 1;
+            } else { // cross cycle
+                // full eras
+                var eras = Math.floor((remainingYears - remainingYearsInFirstCycle) / yearsPerEra);
+                for (var i = 0; i < cal.cyclesPerEra; i++) {
+                    yearsInCycles[i] = eras * cal.yearsPerCycle;
+                }
+
+                // incomplete era
+                // first cycle
+                update(yearsInCycles, firstCycle, remainingYearsInFirstCycle - 1); // exclude first year
+                // full cycles in last era
+                for (var i = 0; i < remainingCycles; i++) {
+                    update(yearsInCycles, (firstCycle + i + 1) % cal.cyclesPerEra, cal.yearsPerCycle);
+                }
+                // incomplete cycle in last era
+                update(yearsInCycles, finalCycle, finalCycleYear);
+            }
+            
+            // =========================================================================================
+            // build production cache
+            // =========================================================================================
+
+            // enginner craft production cache
+            var maxCraftPerYear = {};
+            var maxCraftFirstYear = {};
+            var craftRelate = {}; // {resource name: [related resources]}
+            for (var i in this.game.workshop.crafts) {
+                var craft = this.game.workshop.crafts[i]
+                if (craft.value > 0) {
+                    craftRelate[craft.name] = [];
+                    var unitsPerTick = this.game.workshop.getEffectEngineer(craft.name, false) * shatterTCGain;
+                    // var unitsPerYear = Math.floor(unitsPerTick * ticksPerYear);
+                    var unitsPerYear = unitsPerTick * ticksPerYear;
+                    maxCraftPerYear[craft.name] = unitsPerYear;
+                    // var unitsFirstYear = Math.floor(unitsPerTick * remainingTicksInFirstYear);
+                    var unitsFirstYear = unitsPerTick * remainingTicksInFirstYear;
+                    maxCraftFirstYear[craft.name] = unitsFirstYear;
+                    var ratio = this.game.getResCraftRatio(craft.name);
+                    // var productionPerYear = unitsPerYear * ratio;
+                    // var productionFirstYear = unitsFirstYear * ratio;
+                    // update(prodFirstYearEnginner, craft.name, productionFirstYear);
+                    // update(prodPYEnginnerCache, craft.name, productionPerYear);
+                    prodPYEnginner[craft.name] = [ratio, {}];
+                    for (var j in craft.prices) {
+                        price = craft.prices[j];
+                        craftRelate[craft.name].push(price.name);
+                        // update(prodFirstYearEnginner, price.name, -price.val*unitsFirstYear);
+                        // update(prodPYEnginnerCache, price.name, -price.val*unitsPerYear);
+                        prodPYEnginner[craft.name][1][price.name] = price.val;
+                    }
+                }
+            }
+
+            // total production cache
+            var resCache = [];
+            var firstLoop = true;
+            var prodFirstYear = [];
+            var cycles = Object.keys(yearsInCycles).length;
+            for (var x = 0; x < cycles; x++) {
+                var currentCycle = cal.cycle;
+                prodPYInCycle[currentCycle] = [];
+                // fastCache[currentCycle] = [];
+                var resPerYear = cal.getPruductionPerYear();
+                for (var i = 0; i < this.game.resPool.resources.length; i++) {
+                    var res = this.game.resPool.resources[i];
+                    var productionPerTick = this.game.getResourcePerTick(res.name, true) * shatterTCGain;
+                    var productionPerYear = productionPerTick * ticksPerYear;
+                    var specialProduction = (res.name in resPerYear) ? resPerYear[res.name] : 0
+                    var totalProduction = productionPerYear + specialProduction
+                    // var enginnerProduction = (res.name in prodPYEnginnerCache) ? prodPYEnginnerCache[res.name] : 0;
+                    prodPYInCycle[currentCycle].push(totalProduction);
+                    if (firstLoop) {
+                        prodFirstYear.push(productionPerTick * remainingTicksInFirstYear + specialProduction);
+                        resourcesIndexTable[res.name] = i;
+                        resCache.push(res.value);
+                        resLimit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                        // resLimit = res.maxValue || Number.POSITIVE_INFINITY;
+                        resourcesLimit.push(resLimit);
+                    }
+                    
+                    // var finalProduction = totalProduction + enginnerProduction;
+                    // fastCache[currentCycle].push(finalProduction);
+                }
+                cal.updateCycle(cal.yearsPerCycle);
+                firstLoop = false;
+            }
+
+            // set time back
+            cal.cycle = firstCycle;
+            cal.updateCycle(0);
+
+
+            // ============================================================================
+            // calc total produtcions
+            // ============================================================================
+            var fastEnginnerCraft = function (resName, resPool, maxTimes) {
+                var craft = prodPYEnginner[resName];
+                var prod = craft[0];
+
+                var prodIndex = resourcesIndexTable[resName];
+                var units = (resourcesLimit[resIndex] - resPool[prodIndex]) / prod;
+                if (units == 0)
+                    return;
+
+                var prices = craft[1];
+                for (var priceName in prices) {
+                    var price = prices[priceName];
+                    var priceIndex = resourcesIndexTable[priceName];
+                    units = Math.min(resPool[priceIndex] / price, units);
+                }
+                units = Math.min(Math.floor(units), maxTimes);
+
+                if (units) {
+                    resPool[prodIndex] += prod * units;
+                    for (var priceName in prices) {
+                        var price = prices[priceName];
+                        var resIndex = resourcesIndexTable[priceName];
+                        resPool[resIndex] -= price * units;
+                    }
+                }
+            };
+            var fastEnginnerCraftAll = function (resPool, maxTimesFunc) {
+                for (var resName in prodPYEnginner) {
+                    fastEnginnerCraft(resName, resPool, maxTimesFunc(resName));
+                }
+            };
+
+            var successed = (function fastCalc(){
+                // try run in FAST MODE
+
+                // first year remaining days
+                for (var i in prodFirstYear) {
+                    var res = this.game.resPool.resources[i];
+                    // var productionEnginner = (i in prodFirstYearEnginner) ? prodFirstYearEnginner[i] : 0;
+                    res.value += prodFirstYear[i]; // + productionEnginner;
+                    res.value = Math.min(res.value, resourcesLimit[i]);
+                }
+
+                // full years
+                for (var resourceIndex in resCache) {
+                    var res = this.game.resPool.resources[resourceIndex];
+                    // for (var cycleIndex in fastCache) {
+                    for (var cycleIndex in prodPYInCycle) {
+                        // res.value += fastCache[cycleIndex][resourceIndex] * yearsInCycles[cycleIndex];
+                        res.value += prodPYInCycle[cycleIndex][resourceIndex] * yearsInCycles[cycleIndex];
+                        if (res.value > resourcesLimit[resourceIndex]) {
+                            res.value = resourcesLimit[resourceIndex];
+                            break;
+                        }
+                        if (res.value < 0) {
+                            // failed
+                            return false;
+                        }
+                    }
+                }
+                
+                // enginner craft
+                fastEnginnerCraftAll(this.game.resPool.resources, function (x) { return (amt-1)*maxCraftPerYear[x] + maxCraftFirstYear[x] });
+                return true;
+            })();
+
+            if (aiApocalypseLevel && successed) {
+                var recalcList = [];
+                for (var i in resCache) {
+                    var res = this.game.resPool.resources[i];
+                    if (res.aiCanDestroy) {
+                        if (res.maxValue) {
+                            // for (var cycleIndex in fastCache) {
+                            for (var cycleIndex in prodPYInCycle) {
+                                // if (fastCache[cycleIndex][i] < res.maxValue * destroyRatio) {
+                                if (prodPYInCycle[cycleIndex][i] < res.maxValue * destroyRatio) {
+                                    // insufficient production
+                                    recalcList.push(i);
+                                    for (var j in craftRelate[res.name]) {
+                                        var index = resourceIndex[craftRelate[res.name][j]]
+                                        if (!(index in recalcList)) {
+                                            recalcList.push(index);
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            if (!(i in recalcList)) {
+                                res.value -= res.value * destroyRatio;
+                            }
+                        } else {
+                            // unlimited resources
+                            recalcList.push(i);
+                        }
+                    }
+                }
+                var remainingYears = amt;
+                // var resCache2 = resCache.slice();
+                var firstLoop = true;
+                FastAI:
+                while (remainingYears > 0) {
+                    var currentCycle = cal.cycle;
+                    for (var i in recalcList) {
+                        var resourceIndex = recalcList[i];
+                        var res = this.game.resPool.resources[resourceIndex];
+                        if (firstLoop) res.value = resCache[resourceIndex];
+                        // res.value += fastCache[currentCycle][resourceIndex];
+                        res.value += prodPYInCycle[currentCycle][resourceIndex];
+                        res.value = Math.min(res.value, resourcesLimit[resourceIndex]);
+                        if (res.name in prodPYEnginner) {
+                            fastEnginnerCraft(
+                                res.name,
+                                this.game.resPool.resources,
+                                maxCraftPerYear[res.name]
+                            );
+                        }
+                        res.value -= res.value * destroyRatio;
+                        if (res.value < 0) {
+                            successed = false;
+                            break FastAI;
+                        }
+                    }
+                    firstLoop = false;
+                    remainingYears -= 1;
+                }
+            }
+
+            if (!successed) {
+                // SLOW MODE
+                var cacheInvalide = false;
+                var needUpdate = false;
+                // var resCache = [];
+
+                // first year remaining days
+                for (var i in prodFirstYear) {
+                    // var res = this.game.resPool.resources[i];
+                    // var productionEnginner = (i in prodFirstYearEnginner) ? prodFirstYearEnginner[i] : 0;
+                    resCache[i] += prodFirstYear[i]; // + productionEnginner;
+                    resCache[i] = Math.min(resCache[i], resourcesLimit[i]);
+                    if (aiApocalypseLevel && this.game.resPool.resources[i].aiCanDestroy) {
+                        resCache[i] -= resCache[i] * destroyRatio;
+                    }
+                    if (resCache[i] < 0) {
+                        resCache[i] = 0;
+                        cacheInvalide = true;
+                    }
+                }
+                fastEnginnerCraftAll(resCache, function (x) { return  maxCraftFirstYear[x] });
+
+                // var resCache2 = resCache.slice();
+                needUpdate = cacheInvalide;
+                cacheInvalide = false;
+                var remainingYears = amt - 1;
+                var remainingYearsInCycle = cal.yearsPerCycle - firstCycleYear - 1;
+                cal.updateCycle(1);
+
+                while (remainingYears > 0) {
+                    var currentCycle = cal.cycle;
+                    var failed = false;
+
+                    if (!aiApocalypseLevel) {
+                        resCache2 = resCache.slice();
+                        // try calc full cycle if no ai
+                        TryFullCycle:
+                        for (var resourceIndex in resCache) {
+                            // var res = this.game.resPool.resources[resourceIndex];
+                            // resCache2[resourceIndex] += fastCache[currentCycle][resourceIndex] * remainingYearsInCycle;
+                            resCache2[resourceIndex] += prodPYInCycle[currentCycle][resourceIndex] * remainingYearsInCycle;
+                            if (resCache2[resourceIndex] > resourcesLimit[resourceIndex]) {
+                                resCache2[resourceIndex] = resourcesLimit[resourceIndex];
+                                break;
+                            }
+                            if (resCache2[resourceIndex] < 0 ) {
+                                failed = true;
+                                break TryFullCycle;
+                            }
+                        }
+                        fastEnginnerCraftAll(resCache, function (x) { return maxCraftPerYear[x] * remainingYearsInCycle});
+                    } else {
+                        failed = true;
+                    }
+                    if (failed) {
+                        resCache2 = resCache.slice();
+                        // needUpdate = true;
+                        // cacheInvalide = false;
+                        for (var x = 0; x < remainingYearsInCycle; x++) {
+
+                            // production without enginners
+                            if (needUpdate) var resPerYear = cal.getPruductionPerYear();
+                            for (var i in resCache) {
+                                var nagetive = resCache2[i] < 0;
+                                if (needUpdate) {
+                                    resName = this.game.resPool.resources[i].name;
+                                    prodPYInCycle[currentCycle][i] = this.game.getResourcePerTick(resName, true) * shatterTCGain * ticksPerYear;
+                                    if (resName in resPerYear) {
+                                        prodPYInCycle[currentCycle][i] += resPerYear[resName];
+                                    }
+                                }
+                                var prod = prodPYInCycle[currentCycle][i];
+                                resCache2[i] += prod;
+                                resCache2[i] = Math.min(resCache2[i], resourcesLimit[i]);
+                                if (nagetive != resCache2[i] < 0) {
+                                    resCache2[i] = 0;
+                                    cacheInvalide = true;
+                                }
+                            }
+
+                            // enginner craft
+                            fastEnginnerCraftAll(resCache2, function (x) { return maxCraftPerYear[x] });
+                            // ai
+                            if (aiApocalypseLevel) {
+                                for (var i in resCache) {
+                                    if (this.game.resPool.resources[i].aiCanDestroy) {
+                                        resCache2[i] -= resCache2[i] * destroyRatio;
+                                    }
+                                }
+                            }
+
+                            needUpdate = cacheInvalide;
+                            cacheInvalide = false;
+                        }
+                    }
+                    resCache = resCache2;
+                    cal.updateCycle(remainingYearsInCycle);
+                    remainingYears -= remainingYearsInCycle;
+                    if (remainingYears > cal.yearsPerCycle) {
+                        remainingYearsInCycle = cal.yearsPerCycle;
+                    } else {
+                        remainingYearsInCycle = remainingYears;
+                    }
+                }
+                // store resources
+                for (var i = 0; i < resCache.length; i++) {
+                    this.game.resPool.resources[i].value = resCache[i];
+                }
+            }            
+        } else {
+            var resPerYear = cal.getPruductionPerYear();
+            for (var i = 0; i < this.game.resPool.resources.length; i++) {
+                var res = this.game.resPool.resources[i];
+                if (res.name in resPerYear) {
+                    var limit = Math.max(res.value, res.maxValue || Number.POSITIVE_INFINITY);
+                    res.value = Math.min(res.value + resPerYear[res.name]*amt, limit);
+                }
+            }
+        }
+        // else if (aiApocalypseLevel) { // shatterTCGain < 0
+        if (aiApocalypseLevel) {
+            
+            if (!(shatterTCGain > 0)) {
+                for (var i in this.game.resPool.resources){
+                    var res = this.game.resPool.resources[i];
+                    if (res.aiCanDestroy) {
+                        res.value = Math.max(res.value*Math.pow(1 - destroyRatio, amt), 0);
+                    }
+                }
+            }
+
+            if (amt == 1) {
+                this.game.msg($I("ai.apocalypse.msg", [aiApocalypseLevel]), "alert", "ai");
+            } else {
+                this.game.msg($I("ai.apocalypse.shatter.msg", [amt]), "alert", "ai");
+            }
+        }
+
+        // set time
+        cal.year += amt;
+        cal.cycle = finalCycle;
+        cal.cycleYear = finalCycleYear;
+        cal.updateCycle(0);
+
+        // Space ETA
+        var routeSpeed = game.getEffect("routeSpeed") || 1;
+        for (var i in game.space.planets) {
+            var planet = game.space.planets[i];
+            if (planet.unlocked && !planet.reached) {
+                planet.routeDays = Math.max(0, planet.routeDays - totalDays * routeSpeed);
+            }
+        }
+
+        var triggersOrderOfTheVoid = game.getEffect("voidResonance") > 0;
+        if (triggersOrderOfTheVoid) {
+            game.religion.triggerOrderOfTheVoid(totalTicks);
+        }
+
+
+        this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
+
+        game.challenges.getChallenge("1000Years").unlocked = true;
+        if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
+            game.challenges.researchChallenge("1000Years");
+        }
+
+        // split from calendar.js: onNewYear()
+        cal.onNewYearStackable(amt);
+        cal.onNewYearNotStackable();
+        this.game.ui.render();
+
+        if (amt == 1) {
+            game.msg($I("time.tc.shatterOne"), "", "tc");
+        } else {
+            game.msg($I("time.tc.shatter",[amt]), "", "tc");
+        }
+    },
+
+    slowShatter: function(amt){
         amt = amt || 1;
 
         var game = this.game;
