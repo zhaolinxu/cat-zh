@@ -235,8 +235,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         {   id: 5,
             name: "voidHat",
-            title: "虚空帽子",
-            description: "帽子是由虚空制作的",
+            title: "Void Hat",
+            description: "Hat is made of void",
             difficulty: ""
         },
         {   id: 6,
@@ -247,8 +247,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         {   id: 7,
             name: "betaHat",
-            title: "测试版帽子",
-            description: "这顶帽子是周围的边缘有点出问题和粗糙",
+            title: "Beta Hat",
+            description: "The hat is a bit glitchy and rough around the edges",
             difficulty: "B",
             condition: function(){
                 return (this.game.server.donateAmt == 0);
@@ -491,7 +491,7 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         for (var i in this.achievements){
             this.achievements[i].unlocked = true;
         }
-        this.game.msg("所有成就已经解锁！");
+        this.game.msg("All achievements are unlocked");
     }
 });
 

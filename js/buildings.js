@@ -2281,7 +2281,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 
 		if (catnipVal < 100 * catnipCost) {
-			this.game.msg("没有足够的猫薄荷!");
+			this.game.msg("not enough catnip!");
 		}
 
 		this.game.resPool.addResEvent("catnip", -100 * catnipCost);
@@ -2528,7 +2528,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		groups.unshift({
 			name: "togglable",
-			title: "可切换",
+			title: $I("ui.filter.togglable"),
 			buildings: []
 		});
 		groups.unshift({

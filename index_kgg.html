@@ -210,7 +210,7 @@
 					<a href="#" onclick="gamePage.saveUI();">Save</a> |
 					<a href="#" onclick="$('#optionsDiv').toggle();">Options</a> |
 					<a href="#" onclick="gamePage.reset();">Reset</a> |
-					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();" title="开启后游戏将会加速，想要停止，请保存进度后刷新页面。">作弊</a> |</span>
+					<span id="devModeButton" style="display: none;"><a href="#" id="devBtn" onclick="dev();">DEV</a> |</span>
 					<a href="#" onclick="wipe();">Wipe</a> |
 
 					<a href="#" onclick="$('#changelogDiv').toggle();">Ver 1.4.0.0</a>
@@ -218,7 +218,7 @@
 				</div>
 			</div>
 			<div id="changelogDiv" class="dialog help" style="display: none; z-index: 9999">
-				<a href="#" onclick="$('#changelogDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
+				<a href="#" onclick="$('#changelogDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<b>Changelog/features:</b>
 				<br>
@@ -301,7 +301,7 @@
 					<div class="right-tab" id="rightTabLog">
 						<div>
 							<div style="padding-top: 10px; border-top: 1px solid gray;">
-								你是一只在薄荷森林里的小猫。
+								You are a kitten in a catnip forest.
 							</div>
 
 							<span id="clearLog">
@@ -343,7 +343,7 @@
 			</div>
 
 			<div id="helpDiv" style="display: none" class="dialog help">
-				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
+				<a href="#" onclick="$('#helpDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 				<ul>
 					<li>Q: The game is not working!</li>
 					<li>A: Press Ctrl+F5. Wiping and re-importing the save may also help.</li>
@@ -360,7 +360,7 @@
 			</div>
 
 			<div id="creditsDiv" style="display: none" class="dialog credits">
-				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">关闭</a>
+				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				CSS themes: Grassy by <a href="http://www.reddit.com/user/shrx" target="_blank">shrx</a>, Sleek by Kida.<br />
 				<br />
@@ -387,7 +387,7 @@
 
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
-				<a href="#" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">关闭</a>
+				<a href="#" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				<label for="schemeToggle">Color scheme:</label>
 				<select id="schemeToggle" onchange="gamePage.toggleScheme()">

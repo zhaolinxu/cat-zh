@@ -1,3 +1,10 @@
+v 1.4.8.2 (15 aug 2020)
+Major:
+
+Minor:
+* Added an option for the scientific notation (Cirn09)
+* Shark embassies scaling was reduced from 5-5-5 to 5-3-1
+
 v 1.4.8.1 (18 july 2020)
 Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox
@@ -295,8 +302,8 @@ v 1.4.4.2
 changes by coderpatsy:
 
 - Fix error when importing save without hats
-- 修正index.html中的错字（https://redd.it/72c4if）
-- 修复村庄的全局小漏洞
+- Fix typo in index.html (https://redd.it/72c4if)
+- Fix minor global leak in village
 - Only check neural networks once per village sim update
 
 Balance tweaks
@@ -409,7 +416,7 @@ Black Nova effect should be now applicable
 
 
 v 1.4.0.4 (25 jan 2017)
-Turn Smoothly was renamed to 时空领域
+Turn Smoothly was renamed to Chronosurge
 Blazar will now boost RR by 2%
 Black Nova will now boost energy production by 2%
 Unicorn Rifts will now get a 10% synergy from the Ziggurat buildings
@@ -593,7 +600,7 @@ Nuclear Plants
 v 1.2.0.0b (23 jul)
 
 changes by bzbarsky:
-Make the time crystal refining effects of Unicorn Utopia and 青睐之光 actually work.
+Make the time crystal refining effects of Unicorn Utopia and Sunspire actually work.
 
 v 1.2.0.0 (20 jul)
 
@@ -606,7 +613,7 @@ v 1.1.9.4 (20 jul)
 UU was split into two upgrades
 UU price was reduced from 65K tears to 5K tears.
 
-UU and 青睐之光 will now increase alicorn to tc refine ratio by 10% and 25%
+UU and Sunspire will now increase alicorn to tc refine ratio by 10% and 25%
 
 
 v 1.1.9.3 (15 jul)
@@ -898,7 +905,7 @@ Changes by Roman Chang:
 
 Changes by coderpatsy:
 
-- Events observed stat increments on manual and 搜寻地外文明计划 observations as well
+- Events observed stat increments on manual and SETI observations as well
 - Fix Dead kittens stat recording more deaths than kittens
 - Add effectMeta for scholar starcharts
 
@@ -1473,7 +1480,7 @@ Space Elevators
 
 v 1.0.3.2 (15 nov)
 
-Fixed 搜寻地外文明计划 preventing other random events
+Fixed SETI preventing other random events
 Religion upgrades will not give double bonuses if transcendence is not researched
 Moon base will now grant storage bonus
 
@@ -1790,7 +1797,7 @@ Log size will be limited to 50 entries
 Fixed CAD SYS not applying correct bonus to the craft
 
 Refrigeration
-搜寻地外文明计划
+SETI
 
 v 0.9.1.2 (31 jul)
 

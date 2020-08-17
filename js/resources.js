@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		persists: true
 	},{
 		name : "gflops",
-		title: "GFlops",
+		title: "gigaflops",
 		type : "common",
 		transient: true,
 		craftable: false,

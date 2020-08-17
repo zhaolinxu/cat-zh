@@ -12,172 +12,6 @@ if (document.all && !window.localStorage) {
     window.LCstorage.removeItem = function () { };
 }
 
-//Localization support
-dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
-	fallbackLocale: "zh",
-	availableLocales: null,
-	availableLocaleLabels: null,
-	language: null,
-	messages: null,
-	_deffered: null,
-	platformLocale: null,
-
-	//TODO: move to the configuration file
-	constructor: function(){   
-		var config = new classes.KGConfig();
-		this.availableLocales = [this.fallbackLocale];
-
-		console.log("Available locales:", config.statics.locales);
-		for (var i in config.statics.locales ){
-			this.availableLocales.push(config.statics.locales[i]);
-		}
-		this.availableLocaleLabels = {
-			"en" : "English",
-			"ru": "Русский",
-			"zh": "中文",
-			"ja": "日本語",
-			"br": "Português",
-			"es": "Español",
-			"fr": "Français",
-			"cz": "Čeština",
-			"pl": "Polski"
-
-		};
-	},
-
-	init: function(timestamp){
-		var self = this;
-		if (navigator.globalization  !== undefined) {
-			var def = $.Deferred();
-
-			navigator.globalization.getPreferredLanguage(
-				function (language) {
-					//console.log("platform locale:", language);
-					self.platformLocale = language.value;
-
-					def.resolve();
-				},
-				function (err) {
-					console.error("Unable to get platform locale", err);
-					def.resolve();
-				}
-			);
-			return def.promise().then(function(){return self._init(timestamp);});
-		} else {
-			return this._init(timestamp);
-		}
-	},
-
-	_init: function(timestamp) {
-		if (this._deffered) {
-			return this._deffered.promise();
-		}
-		// check if user already selected the locale
-		var lang = LCstorage["com.nuclearunicorn.kittengame.language"];
-		if (!lang || !this.isAvailable(lang)) {
-
-			//console.log("navigator:", navigator, "platform:", this.platformLocale);
-			var defaultLocale = this.platformLocale || navigator.language || navigator.userLanguage;
-			// find closes match
-			var parts = defaultLocale.split("[-_]");
-			lang = this.fallbackLocale;
-
-			for (var j = 0; j < this.availableLocales.length; j++) {
-				if (this.availableLocales[j] == parts[0].toLowerCase()) {
-					lang = this.availableLocales[j];
-					break;
-				}
-			}
-			LCstorage["com.nuclearunicorn.kittengame.language"] = lang;
-		}
-		// at this point we always have correct lang selected
-		this.language = lang;
-        console.log(lang)
-		var self = this;
-		this._deffered = $.Deferred();
-		// now we can try to load it
-		var defferedForDefaultLocale = $.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp);
-		defferedForDefaultLocale.fail(function(def, errMrs, err){
-			console.error("不能加载默认语言文件 '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
-			self._deffered.reject("不能加载默认语言文件");
-		});
-		var fallbackLocale = this.fallbackLocale;
-		if (this.language != fallbackLocale ) {
-			var defferedForUserLocale = $.getJSON( "res/i18n/"+lang+".json?_=" + timestamp).fail(function(e){
-				console.error("不能加载用户自定义语言文件 '" + lang + "', 错误信息:", e);
-			});
-
-			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
-				console.log("locale arguments:", arguments);
-				// merge locales
-				$.extend( fallbackLocale[0], userLocale[0] );
-				self.messages = fallbackLocale[0];
-				self._deffered.resolve();
-			}, function(e1, e2) {
-				if (defferedForDefaultLocale.state() == "resolved") {
-					// default locale was loaded correctly
-					self.messages = fallbackLocale;
-					self._deffered.resolve();
-				}
-			});
-		} else {
-			defferedForDefaultLocale.done(function(fallbackLocale) {
-				self.messages = fallbackLocale;
-				self._deffered.resolve();
-			});
-		}
-
-		return this._deffered.promise();
-	},
-
-	getAvailableLocales: function() {
-		return this.availableLocales;
-	},
-
-	getAvailableLocaleLabels: function() {
-		return this.availableLocaleLabels;
-	},
-
-	getLanguage: function() {
-		return this.language;
-	},
-
-	updateLanguage: function(lang) {
-		this.language = lang;
-		LCstorage["com.nuclearunicorn.kittengame.language"] = lang;
-	},
-
-	isAvailable: function(lang) {
-		for (var i = 0; i < this.availableLocales.length; i++) {
-			if (this.availableLocales[i] == lang) {
-				return true;
-			}
-		}
-		return false;
-	},
-
-	msg: function(key, args) {
-		var msg = this.messages[key];
-		if (!msg) {
-			console.error("Key '" + key + "' wasn't found");
-			return "$" + key;
-		}
-
-		if (args) {
-			for (var i = 0; i < args.length; i++) {
-				msg = msg.replace("{" + i + "}", args[i]);
-			}
-		}
-		return msg;
-	}
-});
-
-i18nLang = new com.nuclearunicorn.i18n.Lang();
-
-$I = function(key, args) {
-	return i18nLang.msg(key, args);
-};
-
 dojo.declare("com.nuclearunicorn.core.Control", null, {
 	//Base control class. Must be a superclass for all game components.
 });
@@ -383,7 +217,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	loadMetadata: function(meta, saveMeta, metaId){
 		if (!saveMeta){
 			console.trace();
-			console.warn("Unable to load metadata table '"+metaId+"', save record is empty");
+			console.warn("Unable to load metadata table '" + metaId + "', save record is empty");
 			return;
 		}
 
@@ -477,57 +311,57 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 
 		filters: {
 			"astronomicalEvent": {
-				title: "天文事件",
+				title: $I("console.filter.astronomicalEvent"),
 				enabled: true,
 				unlocked: false
 			},
 			"hunt": {
-				title: "狩猎",
+				title: $I("console.filter.hunt"),
 				enabled: true,
 				unlocked: false
 			},
 			"trade": {
-				title: "贸易",
+				title: $I("console.filter.trade"),
 				enabled: true,
 				unlocked: false
 			},
 			"craft": {
-				title: "制造",
+				title: $I("console.filter.craft"),
 				enabled: true,
 				unlocked: false
 			},
 			"workshopAutomation": {
-				title: "车间自动化",
+				title: $I("console.filter.workshopAutomation"),
 				enabled: true,
 				unlocked: false
 			},
 			"meteor": {
-				title: "流星",
+				title: $I("console.filter.meteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"ivoryMeteor": {
-				title: "象牙流星",
+				title: $I("console.filter.ivoryMeteor"),
 				enabled: true,
 				unlocked: false
 			},
 			"unicornRift": {
-				title: "独角兽裂痕",
+				title: $I("console.filter.unicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"alicornRift": {
-				title: "翼角兽裂痕",
+				title: $I("console.filter.alicornRift"),
 				enabled: true,
 				unlocked: false
 			},
 			"tc": {
-				title: "时间晶体",
+				title: $I("console.filter.tc"),
 				enabled: true,
 				unlocked: false
 			},
 			"faith": {
-				title: "信仰",
+				title: $I("console.filter.faith"),
 				enabled: true,
 				unlocked: false
 			}
@@ -1314,21 +1148,21 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				if (tempVal >= 0.001) {
 					precision = tempVal < 0.01 ? 3 : 2;
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond, false, false, precision) + "/秒";
+						effectValue * this.game.ticksPerSecond, false, false, precision) + "/" + $I("unit.sec");
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/小时";
+						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/" + $I("unit.h");
 				}
 			} else if (effectMeta.type === "perDay"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/天";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/" + $I("unit.day");
 			} else if (effectMeta.type === "perYear"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/年";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/" + $I("unit.year");
 			} else if ( effectMeta.type === "ratio" ) {
 				displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 			} else if ( effectMeta.type === "integerRatio" ){
 				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "%";
 			} else if ( effectMeta.type === "energy" ){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "瓦";
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("unit.watt");
 			} else {
 				displayEffectValue = this.game.getDisplayValueExt(effectValue);
 			}
@@ -1754,6 +1588,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		}
 	},
 
+	/**
+	 * Returns true if building was sold
+	 */
 	sell: function(event, model){
 		var building = model.metadata;
 
@@ -1765,25 +1602,23 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			}
 		}
 
-		var selled = false;
 		var end = building.val - 1;
 		if (end > 0 && event && event.shiftKey) { //no need to confirm if selling just 1
 			end = 0;
 			if (this.game.opts.noConfirm) {
 				this.sellInternal(model, end);
-				selled = true;
+				return true;
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
+				this.game.ui.confirm($("sell.all.confirmation.title"), $I("sell.all.confirmation.msg"), function() {
 					self.sellInternal(model, end);
-					selled = true;
+					return true;
 				});
 			}
 		} else if (end >= 0) {
 			this.sellInternal(model, end);
-			selled = true;
+			return true;
 		}
-		return selled;
 	},
 
 	sellInternal: function(model, end){
@@ -2002,7 +1837,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		var priceModifier = 1 - pricesDiscount;
 
         for (var i = 0; i < meta.prices.length; i++){
-			var resPriceDiscount = this.game.getEffect(meta.prices[i].name+"CostReduction");
+			var resPriceDiscount = this.game.getEffect(meta.prices[i].name + "CostReduction");
 			resPriceDiscount = this.game.getLimitedDR(resPriceDiscount, 1);
 			var resPriceModifier = 1 - resPriceDiscount;
             prices.push({
@@ -2057,7 +1892,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				callback(true);
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function() {
+				this.game.ui.confirm($I("construct.all.confirmation.title"), $I("construct.all.confirmation.msg"), function() {
 					self.build(model, maxBld);
 					callback(true);
 				}, function() {
@@ -2090,7 +1925,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg($I("construct.all.msg", [meta.label, counter]), "notice");
 			}
 
 			if (meta.breakIronWill) {

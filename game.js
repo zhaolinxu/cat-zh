@@ -1169,6 +1169,46 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "environmentFactoryCraftBonus":{
 				title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
 				type: "ratio"
+			},
+            "coalPolicyRatio":{
+				title: $I("effectsMgr.statics.coalPolicyRatio.title"),
+				type: "ratio"
+            },
+            "ironPolicyRatio":{
+				title: $I("effectsMgr.statics.ironPolicyRatio.title"),
+				type: "ratio"
+            },
+            "titaniumPolicyRatio":{
+				title: $I("effectsMgr.statics.titaniumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "faithPolicyRatio":{
+				title: $I("effectsMgr.statics.faithPolicyRatio.title"),
+				type: "ratio"
+            },
+            "unobtainiumPolicyRatio":{
+				title: $I("effectsMgr.statics.unobtainiumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "sciencePolicyRatio":{
+				title: $I("effectsMgr.statics.sciencePolicyRatio.title"),
+				type: "ratio"
+            },
+            "culturePolicyRatio":{
+				title: $I("effectsMgr.statics.culturePolicyRatio.title"),
+				type: "ratio"
+            },
+            "mineralsPolicyRatio":{
+				title: $I("effectsMgr.statics.mineralsPolicyRatio.title"),
+				type: "ratio"
+            },
+            "woodPolicyRatio":{
+				title: $I("effectsMgr.statics.woodPolicyRatio.title"),
+				type: "ratio"
+            },
+            "goldPolicyRatio":{
+				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
+				type: "ratio"
             }
 		}
 	}
@@ -1647,7 +1687,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		LCstorage["com.nuclearunicorn.kittengame.savedata"] = saveDataString;
-		console.log("游戏已保存");
+		console.log("Game saved");
 
 		this.ui.save();
 
@@ -1685,7 +1725,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	togglePause: function(){
 		var pauseBtn = dojo.byId("pauseBtn");
 		this.isPaused = !this.isPaused;
-		pauseBtn.innerHTML = this.isPaused ? "继续游戏" : "暂停游戏";
+		pauseBtn.innerHTML = this.isPaused ? $I("ui.unpause") : $I("ui.pause");
 
 		if (this.isPaused){
 			this.pauseTimestamp = Date.now();
@@ -1869,9 +1909,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         var blob = new Blob([lzdata], {type: "text/plain"});
         $link.attr("href", window.URL.createObjectURL(blob));
 
-        var filename = "猫国建设者";
+        var filename = "Kittens Game";
         if (withFullName) {
-            filename += " - 周目 " + (this.stats.getStat("totalResets").val + 1)
+            filename += " - Run " + (this.stats.getStat("totalResets").val + 1)
                 + " - " + $I("calendar.year.full", [this.calendar.year, this.calendar.getCurSeasonTitle(), Math.floor(this.calendar.day)]);
         }
         $link.attr("download", filename + ".txt");
@@ -2127,7 +2167,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				if (!changement) {
 					var resTE = {
 						name : "temporalFlux",
-						title: "temporal flux",
+						title:  $I("resources.temporalFlux.title"),
 						description: "",
 						type : "exotic",
 						craftable: false,
@@ -3195,12 +3235,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
         }
 
 	    var timeFormated = "";
-        if ( years ) { timeFormated = years + "年 "; }
-	    if ( days ) { timeFormated += days + "天 "; }
+        if ( years ) { timeFormated = years + $I("unit.y") + " "; }
+	    if ( days ) { timeFormated += days + $I("unit.d") + " "; }
         if ( !years ){
-            if ( hours ) {  timeFormated += hours + "小时 "; }
-            if ( minutes) { timeFormated += minutes + "分 "; }
-            if ( seconds ) { timeFormated += seconds + "秒 "; }
+            if ( hours ) {  timeFormated += hours + $I("unit.h") + " "; }
+            if ( minutes) { timeFormated += minutes + $I("unit.m") + " "; }
+            if ( seconds ) { timeFormated += seconds + $I("unit.s") + " "; }
         }
 
 	    return timeFormated;
@@ -3222,8 +3262,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var timeFormated = "";
-		if ( years ) { timeFormated = years + "年 "; }
-		if ( days ) { timeFormated += days + "天 "; }
+		if ( years ) { timeFormated = years + $I("unit.y") + " "; }
+		if ( days ) { timeFormated += days + $I("unit.d") + " "; }
 
 		return timeFormated;
 	},
@@ -3347,7 +3387,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		}
 
 		var _value = this.getDisplayValue(value, prefix, precision);
-		return _value + postfix + (usePerTickHack ? $I("res.per.sec") : "");
+		return _value + postfix + (usePerTickHack ? "/" + $I("unit.sec") : "");
 	},
 
 	/**
@@ -4102,6 +4142,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		if(this.bld.get("chronosphere").on) {
 			gift = "Compendiums";
 		}
+		var ucfirst = function (string) { return string.charAt(0).toUpperCase() + string.slice(1); };
 
 		switch (gift) {
 			case "Karma":
@@ -4111,7 +4152,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					var amt = 5000;
 				}
 				var karmaGained = this.getUnlimitedDR(this.karmaKittens + amt, 5) - this.getUnlimitedDR(this.karmaKittens, 5);
-				var msg = "得到 " + this.getDisplayValueExt(karmaGained) + " 业!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(karmaGained), ucfirst($I("resources.karma.title"))]);
+
 				this.karmaKittens += amt;
 				break;
 
@@ -4121,7 +4163,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100;
 				}
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 领导力!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.paragon.title"))]);
 				this.resPool.addResEvent("paragon", amt);
 				break;
 
@@ -4131,13 +4173,13 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 50;
 				}
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 时间水晶!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.timeCrystal.title"))]);
 				this.resPool.addResEvent("timeCrystal", amt);
 				break;
 
 			case "BLS" :
 				amt = this.resPool.get("sorrow").maxValue - this.resPool.get("sorrow").value;
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 黑色液体悲伤!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.sorrow.full"))]);
 				this.resPool.addResEvent("sorrow", amt);
 				break;
 
@@ -4151,12 +4193,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				this.religion.faithRatio += amt;
 				var post = this.religion.getApocryphaBonus();
 				var apocryphaGained = (post - pre) * 100;
-				var msg = "新约外传奖励增加 " + this.getDisplayValueExt(apocryphaGained) + "%!";
+				var msg = $I("gift.apocrypha", [this.getDisplayValueExt(apocryphaGained)]);
 				break;
 
 			case "Transcendence":
 				this.religion.transcendenceTier += 4;
-				var msg = "超越等级增加 4!";
+				var msg = "Transcendence Tier increased by 4!";
 				break;
 
 			case "Metaphysics":
@@ -4179,7 +4221,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					this.prestige.getPerk("renaissance").researched = true;
 					var perk = "Renaissance";
 				}
-				var msg = "解锁 " + perk + "!";
+				var msg = $I("gift.metaphysics");
 				break;
 
 			case "Compendiums":
@@ -4188,7 +4230,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				} else {
 					var amt = 100000;
 				}
-				var msg = "得到 " + this.getDisplayValueExt(amt) + " 摘要!";
+				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.karma.title"))]);
 				this.resPool.addResEvent("compedium", amt);
 			break;
 		}

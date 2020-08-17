@@ -53,7 +53,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 		var sorrowRes = this.game.resPool.get("sorrow"),
 			sorrow = sorrowRes.value;
 		$("#sorrowTooltip").html(sorrow ?
-			"BLS: " + sorrow.toFixed() + "%" :
+			$I("resources.sorrow.short") + ": " + sorrow.toFixed() + "%" :
 			""
 		);
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
@@ -199,7 +199,7 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		}
 
 		var resPool = this.game.resPool;
-		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + "瓦";
+		this.container.innerHTML = "&#9889;&nbsp;" + this.game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt");
 
 		if (resPool.energyProd < resPool.energyCons) {
 			$(this.container).removeClass("warningWinter");
@@ -217,10 +217,10 @@ dojo.declare("classes.ui.toolbar.ToolbarEnergy", classes.ui.ToolbarIcon, {
 		var energy = resPool.energyProd - resPool.energyCons;
 
         var delta = this.game.resPool.getEnergyDelta();
-		var penalty = energy >= 0 ? "" : "<br><br>生产加成削减: <span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
+		var penalty = energy >= 0 ? "" : "<br><br>" + $I("navbar.energy.penalty") + "<span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
-		return "Production: <span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + "瓦</span>" +
-			   "<br>消耗: <span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + "瓦</span>" + penalty;
+		return $I("navbar.energy.prod") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
+			   "<br>" + $I("navbar.energy.cons") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
 	}
 });
 
@@ -242,7 +242,7 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 		var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "每日一语:<br />" + server.motdContent;
+			return "Message of the day:<br />" + server.motdContent;
 		}
 	}
 });

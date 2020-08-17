@@ -26,7 +26,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		},
 		effects:{
 			"manuscriptCraftRatio" : 0.25,
-			"手稿制作效率提高": 0.05
+			"manuscriptGlobalCraftRatio": 0.05
 		}
 	},{
 		name: "codexLogos",
@@ -515,7 +515,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		for (var i in this.perks){
 			this.perks[i].unlocked = true;
 		}
-		this.game.msg("所有升级都已解锁！");
+		this.game.msg("All meta upgrades are unlocked!");
 	}
 });
 

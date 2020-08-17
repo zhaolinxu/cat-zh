@@ -277,7 +277,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		this.sim.maxKittens = this.maxKittens;
-        this.sim.update(kittensPerTick);
+
 		var catnipPerTick = this.game.getResourcePerTick("catnip", true);
 		var catnipVal = this.game.resPool.get("catnip").value;
 		var resDiff = catnipVal + catnipPerTick;
@@ -2175,7 +2175,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = this.getStyledName(leader, true /*is leader panel*/) + ", " + title +
-				"<br /> 经验值: " + this.game.getDisplayValueExt(leader.exp);
+				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
 
 			if (nextRank > leader.exp) {
 				leaderInfo += " (" + Math.floor(100 * leader.exp / nextRank) + "%)";
@@ -2342,9 +2342,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + kitten.age + " 岁, "
+				 ", " + kitten.age + " " + $I("village.census.age") + ", "
 				+ kitten.trait["title"]
-				+ (kitten.rank == 0 ? "" : " (等级 " + kitten.rank + ")") + "</div>";
+				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
 			/*
@@ -2483,7 +2483,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons = [];
 		this.buttons = [];
 
-		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("工作", this.game.village);
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.job"), this.game.village);
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
 		}
@@ -2538,7 +2538,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		/*var isMapVisible = this.game.science.get("archery").researched &&
 			this.game.resPool.get("paragon").value >= 5; */
 
-		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("地图", this.game.village);
+		this.mapPanel = new com.nuclearunicorn.game.ui.Panel("Map", this.game.village);
 		this.mapPanel.setVisible(false);
 
 		/*if (this.mapPanelViewport){

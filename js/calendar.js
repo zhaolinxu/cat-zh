@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycles: [
 		{
 			name: "charon",
-			title: "卡戎",
+			title: $I("space.planet.charon.label"),
 			glyph: "&#9049;",
 			uglyph: "⍙",
 			effects: {
@@ -70,7 +70,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "umbra",
-			title: "暗影",
+			title: $I("space.planet.umbra.label"),
 			glyph: "&#9062;",
 			uglyph: "⍦",
 			effects: {
@@ -87,7 +87,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "yarn",
-			title: "纱星",
+			title: $I("space.planet.yarn.label"),
 			glyph: "&#9063;",
 			uglyph: "⍧",
 			effects: {
@@ -100,7 +100,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "helios",
-			title: "太阳",
+			title: $I("space.planet.helios.label"),
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
@@ -121,7 +121,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "cath",
-			title: "喵星",
+			title: $I("space.planet.cath.label"),
 			glyph: "&#9022;",
 			uglyph: "⌾",
 			effects: {
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "redmoon",
-			title: "红月",
+			title: $I("space.planet.redmoon.label"),
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
@@ -150,7 +150,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "dune",
-			title: "沙丘",
+			title: $I("space.planet.dune.label"),
 			glyph: "&#9067;",
 			uglyph: "⍫",
 			effects: {
@@ -164,7 +164,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "piscine",
-			title: "碧池",
+			title: $I("space.planet.piscine.label"),
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
@@ -177,7 +177,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "terminus",
-			title: "终焉",
+			title: $I("space.planet.terminus.label"),
 			glyph: "&#9053;",
 			uglyph: "⍝",
 			effects: {
@@ -197,7 +197,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "kairo",
-			title: "开罗",
+			title: $I("space.planet.kairo.label"),
 			glyph: "&#8483;",
 			uglyph: "℣",
 			effects: {
@@ -260,7 +260,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var isSilent = this.game.workshop.get("seti").researched;
 		if (sciGain > 0 && !isSilent){
-			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " 科学!", "", "astronomicalEvent", true);
+			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " science!", "", "astronomicalEvent", true);
 		}
 
 		if (this.game.science.get("astronomy").researched) {
@@ -811,53 +811,60 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
-	onNewYearStackable: function(years){
+	onNewYear: function(updateUI){
+
 		var ty = this.game.stats.getStat("totalYears");
-		ty.val += years;
+		ty.val++;
 
 		if (ty.val < this.year){
 			ty.val = this.year;
 		}
 
-		// if (this.year % 1000 === 0 || ){
-		var years1000Passby = Math.floor(this.year / 1000) - Math.floor((this.year - years) / 1000);
-		if (years1000Passby !== 0) {
-			this.game.resPool.addResEvent("paragon", years1000Passby);
-			this.game.stats.getStat("totalParagon").val += years1000Passby;
+		if (this.darkFutureYears() >= 0) {
+			this.game.unlock({chronoforge: ["temporalImpedance"]});
+		}
+
+		if (this.game.bld.get("steamworks").jammed) {
+			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
+		}
+
+		if ( this.year % 1000 === 0 ){
+			this.game.resPool.addResEvent("paragon", 1);
+			this.game.stats.getStat("totalParagon").val++;
 		}
 
 		var pyramidVal = this.game.religion.getZU("blackPyramid").getEffectiveValue(this.game);
 		var markerVal = this.game.religion.getZU("marker").getEffectiveValue(this.game);
 
 		//3.5% per year per BP, +10% per marker
-		if (pyramidVal > 0 && !this.game.diplomacy.get("leviathans").duration) {
-			var p = 35 * pyramidVal * (1 + 0.1 * markerVal);
-			if (p < 1 && years > 1) {
-				p = 1 - Math.pow(1-p, years); // time to Leviathans leave is static during shatter
-			}
-			if (this.game.rand(1000) < p) {
+		if (pyramidVal > 0) {
+			if (this.game.rand(1000) < 35 * pyramidVal * (1 + 0.1 * markerVal)) {
 				this.game.diplomacy.unlockElders();
 			}
 		}
-	},
 
-	getPruductionPerYear: function(){
+		if (this.game.diplomacy.get("leviathans").unlocked) {
+			this.game.challenges.getChallenge("blackSky").unlocked = true;
+		}
+
+		if (++this.cycleYear >= this.yearsPerCycle) {
+			this.cycleYear = 0;
+			if (++this.cycle >= this.cyclesPerEra) {
+				this.cycle = 0;
+			}
+		}
+
+		// Apply cycleEffect for the newYear
+		this.game.upgrade({
+			spaceBuilding: this.game.space.spaceBuildingsMap
+		});
+
 		var resPool = this.game.resPool;
-		var production = {};
 		if (resPool.energyProd >= resPool.energyCons) {
-			production["antimatter"] = this.game.getEffect("antimatterProduction");
+			resPool.addResEvent("antimatter", this.game.getEffect("antimatterProduction"));
 		}
-		production["temporalFlux"] = this.game.getEffect("temporalFluxProduction");
 
-		return production;
-	},
-
-	onNewYearAddResources: function() {
-		var resPool = this.game.resPool;
-		var resPerYear = this.getPruductionPerYear();
-		for (var resName in resPerYear){
-			resPool.addResEvent(resName, resPerYear[resName]);
-		}
+		resPool.addResEvent("temporalFlux", this.game.getEffect("temporalFluxProduction"));
 
 		var aiLevel = this.game.bld.get("aiCore").effects["aiLevel"];
 		if ((aiLevel > 14) && (this.game.science.getPolicy("transkittenism").researched != true)){
@@ -870,52 +877,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				}
 			}
 		}
-	},
-
-	onNewYearNotStackable: function(){
-		if (this.darkFutureYears() >= 0) {
-			this.game.unlock({chronoforge: ["temporalImpedance"]});
-		}
-
-		if (this.game.bld.get("steamworks").jammed) {
-			this.game.bld.get("steamworks").jammed = false;	//reset jammed status
-		}
-
-		if (this.game.diplomacy.get("leviathans").unlocked) {
-			this.game.challenges.getChallenge("blackSky").unlocked = true;
-		}
-
-	},
-
-	updateCycle(years){
-		this.cycleYear += years;
-		if (this.cycleYear >= this.yearsPerCycle) {
-			// new cycle
-			this.cycle += Math.floor(this.cycleYear / this.yearsPerCycle);
-			this.cycleYear %= this.yearsPerCycle
-			if (this.cycle >= this.cyclesPerEra) {
-				this.cycle %= this.cyclesPerEra;
-			}
-
-			// Apply cycleEffect for the new cycle
-			this.game.upgrade({
-				spaceBuilding: this.game.space.spaceBuildingsMap
-			});
-		}
-
-	},
-
-	onNewYear: function(updateUI){
-		// split origin onNewYear funtion to [onNewYearStackable, getPruductionPerYear, onNewYearAddResources, onNewYearNotStackable, updateCycle]
-		// in order to improve the efficieny of time.js: shatter();
-		// shatter() will call onNewYearStackable, getPruductionPerYear, onNewYearNotStackable and updateCycle;
-		// shatter() copy some of aiApocalypse code from the onNewYearAddResources and this.game.ui.render();
-		this.onNewYearStackable(1, true);
-
-		this.updateCycle(1);
-		this.onNewYearAddResources();
-
-		this.onNewYearNotStackable();
 
 		if (updateUI) {
 			this.game.ui.render();
@@ -934,7 +895,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	correctCryptoPrice: function() {
 		this.cryptoPrice *= 0.7 + 0.1 * Math.random();
-		this.game.msg("There was a huge crypto market correction", "important");
+		this.game.msg($I("trade.correct.bcoin"), "important");
 	},
 
 	getWeatherMod: function(){
