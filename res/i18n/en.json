@@ -583,7 +583,6 @@
     "opts.notation.si": "Classic",
     "opts.notation.e": "Scientific",
     "opts.notation.sie": "Simplified (SI+E)",
-    
 
     "msg.policy.aiNotMerges" : "AI does not want to merge with kittens.",
     "msg.policy.exclusivity" : "Policies with the same numerical cost are mutually exclusive",

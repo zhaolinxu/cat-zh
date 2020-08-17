@@ -868,11 +868,6 @@
     "res.notify.ready": "{0} 已就绪",
     "res.notify.unavailable": "该建筑所需资源的存储上限不足因此无法建造。请稍后再试。",
     "res.notify.unavailableTime": "该建筑将会在 ({0}+ 天) 后可建造。请稍后再试。",
-    "res.per.hour": "/小时",
-    "res.per.sec": "/秒",
-    "res.per.h": "/小时",
-    "res.per.day": "/天",
-    "res.per.year": "/年",
     "res.stack.baseline": "基础值",
     "res.stack.bonusTransf": "转移加成",
     "res.stack.boost": "增益",
@@ -980,6 +975,14 @@
     "resources.epiphany.title": "顿悟",
     "resources.wrappingPaper.title": "包装纸",
     "resources.zebras.title": "斑马",
+
+    "resources.sorrow.full": "黑色悲伤液体",
+    "resources.sorrow.short": "BLS",
+
+    "gift.resources": "获得 {1} 个 {0}!",
+    "gift.apocrypha": "新月外传加成增加 {0}%!",
+    "gift.transcendence": "超越等级增加 4!",
+    "gift.metaphysics": "解锁 {0}!",
 
     "save.export.msg": "存档导出成功!",
     "save.import.confirmation.msg": "确定吗?这样做会覆盖你当前游戏数据!",
@@ -1442,7 +1445,6 @@
     "ui.autosave.tooltip": "自动保存...",
     "ui.save.tooltip": "已保存!",
     "ui.energy.tooltip": "能量",
-    "ui.sorrow.tooltip": "黑色悲伤液体",
     "ui.log.link": "日志",
     "ui.chat.link": "聊天",
     "ui.clear.log": "清空日志",
@@ -1500,6 +1502,8 @@
 
     "left.resources": "资源",
     "left.resources.tip": "Ctrl+单击 可以隐藏资源, 点击齿轮图标显示详细设置",
+    "left.font.inc": "font+",
+    "left.font.dec": "font-",
     "left.craft": "工艺制作",
     "left.trade": "固定",
     "left.trade.do": "快速贸易 - {0}",
