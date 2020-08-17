@@ -55,7 +55,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	cycles: [
 		{
 			name: "charon",
-			title: "Charon",
+			title: $I("space.planet.charon.label"),
 			glyph: "&#9049;",
 			uglyph: "⍙",
 			effects: {
@@ -70,7 +70,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "umbra",
-			title: "Umbra",
+			title: $I("space.planet.umbra.label"),
 			glyph: "&#9062;",
 			uglyph: "⍦",
 			effects: {
@@ -87,7 +87,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "yarn",
-			title: "Yarn",
+			title: $I("space.planet.yarn.label"),
 			glyph: "&#9063;",
 			uglyph: "⍧",
 			effects: {
@@ -100,7 +100,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "helios",
-			title: "Helios",
+			title: $I("space.planet.helios.label"),
 			glyph: "&#8978;",
 			uglyph: "⌒",
 			effects: {
@@ -121,7 +121,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "cath",
-			title: "Cath",
+			title: $I("space.planet.cath.label"),
 			glyph: "&#9022;",
 			uglyph: "⌾",
 			effects: {
@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "redmoon",
-			title: "Redmoon",
+			title: $I("space.planet.redmoon.label"),
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
@@ -150,7 +150,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "dune",
-			title: "Dune",
+			title: $I("space.planet.dune.label"),
 			glyph: "&#9067;",
 			uglyph: "⍫",
 			effects: {
@@ -164,7 +164,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "piscine",
-			title: "Piscine",
+			title: $I("space.planet.piscine.label"),
 			glyph: "&#9096;",
 			uglyph: "⎈",
 			effects: {
@@ -177,7 +177,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "terminus",
-			title: "Terminus",
+			title: $I("space.planet.terminus.label"),
 			glyph: "&#9053;",
 			uglyph: "⍝",
 			effects: {
@@ -197,7 +197,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "kairo",
-			title: "Kairo",
+			title: $I("space.planet.kairo.label"),
 			glyph: "&#8483;",
 			uglyph: "℣",
 			effects: {

@@ -988,7 +988,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150000}
 		],
 		effects:{
-		"technocracyScienceCap": 0.2
+			"technocracyScienceCap": 0.2
 		},
 		unlocked: false,
 		blocked: false,
@@ -1855,7 +1855,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		//-------------- policies ----------------
 
-		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel = new classes.ui.PolicyPanel($I("policy.panel.label"), this.game.science);
 		this.policyPanel.game = this.game;
 		this.policyPanel.render(tabContainer);
 

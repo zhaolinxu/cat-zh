@@ -1169,6 +1169,46 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "environmentFactoryCraftBonus":{
 				title: $I("effectsMgr.statics.environmentFactoryCraftBonus.title"),
 				type: "ratio"
+			},
+            "coalPolicyRatio":{
+				title: $I("effectsMgr.statics.coalPolicyRatio.title"),
+				type: "ratio"
+            },
+            "ironPolicyRatio":{
+				title: $I("effectsMgr.statics.ironPolicyRatio.title"),
+				type: "ratio"
+            },
+            "titaniumPolicyRatio":{
+				title: $I("effectsMgr.statics.titaniumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "faithPolicyRatio":{
+				title: $I("effectsMgr.statics.faithPolicyRatio.title"),
+				type: "ratio"
+            },
+            "unobtainiumPolicyRatio":{
+				title: $I("effectsMgr.statics.unobtainiumPolicyRatio.title"),
+				type: "ratio"
+            },
+            "sciencePolicyRatio":{
+				title: $I("effectsMgr.statics.sciencePolicyRatio.title"),
+				type: "ratio"
+            },
+            "culturePolicyRatio":{
+				title: $I("effectsMgr.statics.culturePolicyRatio.title"),
+				type: "ratio"
+            },
+            "mineralsPolicyRatio":{
+				title: $I("effectsMgr.statics.mineralsPolicyRatio.title"),
+				type: "ratio"
+            },
+            "woodPolicyRatio":{
+				title: $I("effectsMgr.statics.woodPolicyRatio.title"),
+				type: "ratio"
+            },
+            "goldPolicyRatio":{
+				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
+				type: "ratio"
             }
 		}
 	}

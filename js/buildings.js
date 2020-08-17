@@ -2528,7 +2528,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		groups.unshift({
 			name: "togglable",
-			title: "Togglable",
+			title: $I("ui.filter.togglable"),
 			buildings: []
 		});
 		groups.unshift({

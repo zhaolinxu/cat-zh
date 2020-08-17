@@ -102,7 +102,7 @@ WResourceRow = React.createClass({
         
         var perTick = isTimeParadox ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getTicksPerSecondUI() : perTick;
-        var postfix = game.opts.usePerSecondValues ? "/sec" : "";
+        var postfix = game.opts.usePerSecondValues ? "/" + $I("unit.sec") : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
             perTick = (perTick / res.maxValue * 100).toFixed(2);
             postfix = "%" + postfix;
@@ -559,7 +559,7 @@ WResourceTable = React.createClass({
                             className:"link collapse", 
                             onClick: this.toggleCollapsed
                         },
-                        this.state.isCollapsed ? ">(resources)" : "v"
+                        this.state.isCollapsed ? ">(" + $I("left.resources") + ")" : "v"
                     )
                 ),
                 $r("div", {className:"res-toolbar right"}, 
@@ -568,15 +568,15 @@ WResourceTable = React.createClass({
                         onClick: this.toggleEdit
                     }, "⚙"),
                     $r(WTooltip, {body:"?"}, 
-                        "Ctrl+click resource to hide it, use gear icon for more settings.")
+                        $I("left.resources.tip"))
                 
                 )
             ]),
             (!this.state.isCollapsed) &&
                 $r("div", null, [
                     this.state.isEditMode && $r("div", {style:{"textAlign":"right"}}, [
-                        $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, "font+"),
-                        $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, "font-"),
+                        $r("a", {className:"link", onClick: game.ui.zoomUp.bind(game.ui)}, $I("left.font.inc")),
+                        $r("a", {className:"link", onClick: game.ui.zoomDown.bind(game.ui)}, $I("left.font.dec")),
                     ]),
                     $r("div", {className:"res-table"}, resRows)
                 ]),
@@ -649,7 +649,7 @@ WCraftTable = React.createClass({
                             className:"link collapse", 
                             onClick: this.toggleCollapsed
                         },
-                        this.state.isCollapsed ? ">(craft)" : "v"
+                        this.state.isCollapsed ? ">(" + $I("left.craft") + ")" : "v"
                     )
                 ),
                 $r("div", {className:"res-toolbar right"}, 
@@ -683,7 +683,7 @@ WPins = React.createClass({
 
             if (race.pinned){
                 pins.push({
-                    title: "Trade with " + race.title, 
+                    title: $I("left.trade.do", [race.title]),
                     handler: function(race){ 
                         this.props.game.diplomacy.tradeAll(race); 
                     }.bind(this, race)
@@ -706,7 +706,7 @@ WPins = React.createClass({
             );
         }
         return (
-            $r(WCollapsiblePanel, {title:"pins"}, pinLinks)
+            $r(WCollapsiblePanel, {title: $I("left.trade")}, pinLinks)
         );
     }
 });
@@ -738,14 +738,14 @@ WLeftPanel = React.createClass({
             $r("div", {id:"advisorsContainer",style:{paddingTop: "10px"}}),        
             $r("div", {id:"fastHuntContainer", className:"pin-link", style:{visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.huntAll.bind(game)},
-                    "Send hunters (",
+                    $I("left.hunt") + " (",
                     $r("span", {id:"fastHuntContainerCount"}),
                     ")"
                 )
             ),
             $r("div", {id:"fastPraiseContainer", className:"pin-link", style:{visibility:"hidden"}},
                 $r("a", {href:"#", onClick: game.praise.bind(game)},
-                    "Praise the sun!"
+                    $I("left.praise")
                 )
             ),              
             $r(WPins, {game: game}),

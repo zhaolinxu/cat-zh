@@ -561,7 +561,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
             var huntCount = Math.floor(catpower.value / 100);
             $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + (huntCount === 1 ? " time" : " times");
+                + " " + (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"));
         } else {
             if (this.fastHuntContainer.style.visibility == "visible"){
                 this.fastHuntContainer.style.visibility = "hidden";
@@ -608,7 +608,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
-            document.title = "Kittens Game - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
+            document.title = $I("navbar.title") + " - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -888,8 +888,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#clearLogHref").text($I("ui.clear.log"));
         $("#logFiltersBlockText").html($I("ui.log.filters.block"));
         $("#pauseBtn").text($I("ui.pause"));
-        $("#pauseBtn").title = $I("ui.pause.title");
-        $("#undoBtn").title = $I("ui.undo.title");
+        $("#pauseBtn").attr("title", $I("ui.pause.title"));
+        $("#undoBtn").attr("title", $I("ui.undo.title"));
         $(".close").text($I("ui.close"));
         $("#optionLanguage").text($I("ui.option.language"));
         $("#addTranslationLink").text($I("ui.option.language.add"));
