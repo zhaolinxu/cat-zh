@@ -882,7 +882,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
         $("#saveTooltip").text($I("ui.save.tooltip"));
         $("#energyTooltip").attr("title", $I("ui.energy.tooltip"));
-        $("#sorrowTooltip").attr("title", $I("ui.sorrow.tooltip"));
+        $("#sorrowTooltip").attr("title", $I("resources.sorrow.full"));
         $("#logLink").text($I("ui.log.link"));
         $("#chatLink").text($I("ui.chat.link"));
         $("#clearLogHref").text($I("ui.clear.log"));

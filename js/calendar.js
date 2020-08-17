@@ -137,7 +137,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		},
 		{
 			name: "redmoon",
-			title: $I("space.planet.redmoon.label"),
+			title: $I("space.planet.moon.label"),
 			glyph: "&#9052;",
 			uglyph: "⍜",
 			effects: {
