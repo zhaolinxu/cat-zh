@@ -412,7 +412,7 @@
 					</div>
 					<div class="right-tab-header">
 						<a id="logLink" href="#" class="active" onclick="gamePage.ui.hideChat();">Log</a>
-						<a id="chatLink" class="chatLink" href="#" onclick="gamePage.ui.loadChat();">Chat</a>
+						<a id="chatLink" class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">聊天</a>
 					</div>
 					<div id="observeButton"></div>
 					<div class="right-tab" id="rightTabLog">
@@ -564,6 +564,9 @@
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
+				<input id="set-ks-enable" type="checkbox" >
+				<label id="ks-label" for="set-ks-enable" style="color:red;">启用小猫珂学家</label> <!-- [<a href="https://gitee.com/likexia/cbc-kitten-scientists" target="_blank" style="color:blue;text-decoration:none;" title="点击查看">教程</a>] -->
+				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label id="optionHideSell" for="hideSell">Hide 'sell' buttons</label>
 				<br>
@@ -655,17 +658,59 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a id="reddit" href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a id="wiki" href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
-				<a id="discord" href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
+				<a href="wiki/" target="_blank" title="猫国百科全书">百科</a> |
+				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">Wiki</a> |
+				<a class="chatLink" href="//shang.qq.com/wpa/qunwpa?idkey=2b9f0b27b1aabbce582429184ec05344fa384f59bf410f44071f42b271866338" target="_blank" title="点击加入猫薄荷同好会QQ群：499256691">Q群</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
-				<a id="credits" href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
-				<a id="donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> |
-				<a id="patreon" href="https://www.patreon.com/bloodrizer" target="_blank">Patreon</a>
+				<a href="#" onclick="$('#creditsDiv').toggle();">人员</a> |
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">捐赠</a> |
+				<a href="https://www.patreon.com/bloodrizer" target="_blank">支持</a>
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+		<!--客服 开始-->
+		 <link rel="stylesheet" href="https://likexia.gitee.io/game/css/kf.css" type="text/css" media="screen" charset="utf-8">
+		<script src="https://likexia.gitee.io/game/js/kf.js"></script>
+		<style>
+			#optionsDiv{
+				margin-top: -300px;
+			}    
+		</style>
+	 <!-- 客服 结束 -->
+		<script type="text/javascript">
+			var enableKS = function () { 
+				localStorage['zh.ks.enable'] = 'enable';
+				$("#ks-label").text("可爱的猫猫科学家为您服务");
+				$("#set-ks-enable").attr("checked", true);
+				document.body.appendChild(document.createElement('script')).src = 'kitten-scientists.user.js';
+			};
+			var disableKS = function () {
+				localStorage['zh.ks.enable'] = 'disable';
+				$("#ks-label").text("小猫科学家将在页面刷新后关闭");
+				$("#set-ks-enable").attr("checked", false);
+			};
+
+			if(localStorage['zh.ks.enable'] === 'enable') {
+				enableKS()
+			}
+			$("#set-ks-enable").on('change', function() {
+				if(localStorage['zh.ks.enable'] === 'enable') {
+					disableKS();
+                    alert("请在保存游戏后刷新页面");
+				} else {
+					enableKS()
+				}
+			});
+            window.onload = function(){ 
+                setTimeout(function(){
+                    var mod = document.createElement('script'); 
+					mod.src = 'NummonCalc.js'; 
+					mod.id = 'modscript_TriggerNotify'; 
+					document.head.appendChild(mod); 
+                },3000)
+            }
+		</script>
 
 	</body>
 </html>
