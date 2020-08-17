@@ -1491,10 +1491,17 @@
     "menu.import.btn":"Importar texto",
     "navbar.observe.short": "Observar",
 
-    "res.per.sec":"seg",
-    "res.per.day":"dia",
-    "res.per.year":"ano",
-    "res.energy.wt":"Wt",
+    "unit.watt": "Wt",
+    "unit.sec": "seg",
+    "unit.s": "s",
+    "unit.min": "min",
+    "unit.m": "m",
+    
+    "unit.h": "h",
+    "unit.day": "dia",
+    "unit.d": "d",
+    "unit.year": "ano",
+    "unit.y": "a",
 
     "menu.language":"Idioma",
     "about.title":"Kittens Game por Nuclear Unicorn",
@@ -1539,13 +1546,6 @@
     "village.surname.Scratch":"Scratch",
     "village.surname.Berry":"Berry",
     "village.surname.Shadow":"Shadow",
-
-    "eta.year":"a",
-    "eta.day":"d",
-    "eta.hour":"h",
-    "eta.min":"m",
-    "eta.sec":"s",
-
 
     "buildings.aicore.label": "Núcleo IA",
     "buildings.aicore.desc": "GatOS, inteligência artificial de ponta. Completamente inofensivo. Cada nível de melhoria aumenta o consumo de energia pelo núcleo em 75%.",

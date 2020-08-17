@@ -1430,8 +1430,15 @@
     "res.stack.time": "Время",
     "res.effect": "Эффект",
     "res.effects": "Эффекты",
-    "res.per.sec": "/сек",
-    "res.per.hour": "/hour",
+
+    "unit.sec": "сек",
+    
+    "unit.hour": "hour",
+    "unit.h": "h",
+    "unit.day": "day",
+    "unit.d": "d",
+    "unit.year": "year",
+    "unit.y": "y",
     "reset.confirmation.msgbase": "Будут получены бонусы за счастье. Кроме того, сохранятся достижения и очки бонуса.",
     "reset.confirmation.msg70": "Ты получишь дополнительное счастье и бонус к производству.",
     "reset.confirmation.msg60": "Ты получишь дополнительное счастье.",

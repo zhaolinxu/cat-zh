@@ -1148,15 +1148,15 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonModernController", com.nuclearuni
 				if (tempVal >= 0.001) {
 					precision = tempVal < 0.01 ? 3 : 2;
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond, false, false, precision) + $I("res.per.sec");
+						effectValue * this.game.ticksPerSecond, false, false, precision) + "/" + $I("unit.sec");
 				} else {
 					displayEffectValue = this.game.getDisplayValueExt(
-						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + $I("res.per.h");
+						effectValue * this.game.ticksPerSecond * 3600, false, false, 2) + "/" + $I("unit.h");
 				}
 			} else if (effectMeta.type === "perDay"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.day");
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/" + $I("unit.day");
 			} else if (effectMeta.type === "perYear"){
-				displayEffectValue = this.game.getDisplayValueExt(effectValue) + $I("res.per.year");
+				displayEffectValue = this.game.getDisplayValueExt(effectValue) + "/" + $I("unit.year");
 			} else if ( effectMeta.type === "ratio" ) {
 				displayEffectValue = this.game.toDisplayPercentage(effectValue, 2 , false) + "%";
 			} else if ( effectMeta.type === "integerRatio" ){
@@ -1610,7 +1610,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 				return true;
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
+				this.game.ui.confirm($("sell.all.confirmation.title"), $I("sell.all.confirmation.msg"), function() {
 					self.sellInternal(model, end);
 					return true;
 				});
@@ -1892,7 +1892,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 				callback(true);
 			} else {
 				var self = this;
-				this.game.ui.confirm("", "Are you sure you want to construct all buildings?", function() {
+				this.game.ui.confirm($I("construct.all.confirmation.title"), $I("construct.all.confirmation.msg"), function() {
 					self.build(model, maxBld);
 					callback(true);
 				}, function() {
@@ -1925,7 +1925,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 	        }
 
 	        if (counter > 1) {
-		        this.game.msg(meta.label + " x" + counter + " constructed.", "notice");
+		        this.game.msg($I("construct.all.msg", [meta.label, counter]), "notice");
 			}
 
 			if (meta.breakIronWill) {

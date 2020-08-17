@@ -1429,8 +1429,13 @@
     "res.stack.time":"Czas",
     "res.effect":"Efekt",
     "res.effects":"efekty",
-    "res.per.sec":"/sekundę",
-    "res.per.hour": "/godzinę",
+    "unit.sec": "sekundę",
+    "unit.s": "s",
+    "unit.m": "m",
+    "unit.hour": "godzinę",
+    "unit.h": "g",
+    "unit.d": "d",
+    "unit.y": "R",
     "reset.confirmation.msgbase":"Otrzymasz dodatkowe punkty za szczęście. Możesz także zapisać swoje osiągnięcia i punkty bonusowe.",
     "reset.confirmation.msg70":"Otrzymasz dodatkowe szczęście i bonus do produkcji.",
     "reset.confirmation.msg60":"Otrzymasz dodatkowy premii szczęścia.",
@@ -1653,10 +1658,5 @@
     "village.surname.Sand":"Piasek",
     "village.surname.Scratch":"Drapak",
     "village.surname.Berry":"Jagoda",
-    "village.surname.Shadow":"Cień",
-    "eta.year":"R",
-    "eta.day":"d",
-    "eta.hour":"g",
-    "eta.min":"m",
-    "eta.sec":"s"
+    "village.surname.Shadow":"Cień"
 }

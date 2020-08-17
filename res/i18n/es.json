@@ -1484,10 +1484,18 @@
     "menu.import.btn": "Importar desde texto",
     "navbar.observe.short": "Observar",
 
-    "res.per.sec": "est",
-    "res.per.day": "día",
-    "res.per.year": "año",
-    "res.energy.wt": "Wt",
+    "unit.watt": "Wt",
+    "unit.sec": "est",
+    "unit.s": "s",
+    
+    "unit.m": "m",
+    
+    "unit.h": "h",
+    "unit.day": "día",
+    "unit.d": "d",
+    "unit.year": "año",
+    "unit.y": "a",
+
     "menu.language": "Idioma",
     "about.title": "Kittens Game por Nuclear Unicorn",
     "about.title.studio": "Estudio",
