@@ -979,6 +979,8 @@
     "resources.sorrow.full": "Black liquid sorrow",
     "resources.sorrow.short": "BLS",
 
+    "gift.get": "XOXOXO! Elder Gods have send you a gift box!",
+    "gift.repaire": "Elder Gods have repaired your gift box",
     "gift.resources": "Got {0} {1}!",
     "gift.apocrypha": "Apocrypha Bonus increased by {0}%!",
     "gift.transcendence": "Transcendence Tier increased by 4!",
