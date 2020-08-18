@@ -1,5 +1,5 @@
 ---
-<font color=red size=4><strong>Wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br><br>
+<font color=red size=4><strong>Wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br>
 #### [更新中的新版攻略](http://note.youdao.com/s/WpGHMOIx)
 
 ---
