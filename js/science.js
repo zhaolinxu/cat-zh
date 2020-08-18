@@ -1611,7 +1611,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 		var result = this.inherited(arguments);
 		result.tooltipName = true;
 		result.simplePrices = false;
-		return result
+		return result;
 	},
 
 	getMetadata: function(model){
