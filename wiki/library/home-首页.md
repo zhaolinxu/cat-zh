@@ -1,9 +1,9 @@
 ---
-<font color=red size=4><strong>Wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br>
+<font color=red size=4><strong>wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br>
 #### [更新中的新版攻略](http://note.youdao.com/s/WpGHMOIx)
 
 ---
-<font size=4><strong>猫国WIKI目前还在进一步修缮中。如果发现新版WIKI有任何错误或其他建议，欢迎在群里反馈。QQ群:499256691</font></strong><br><br>
+<font size=4><strong>猫国wiki目前还在进一步修缮中。如果发现新版WIKI有任何错误或其他建议，欢迎在群里反馈。QQ群：499256691</font></strong><br><br>
 <font color=darkgreen size=4><strong>目前已经完成的页面有(包括子页面):</font></strong><br>
 > 猫国萌新指导<br>
 > 猫咪百科<br>
