@@ -2273,7 +2273,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			info += "<span class='skill' title='" + exp.toFixed(2) + "'" + style + ">"
 				+ this.game.village.getJob(skillsArr[j].name).title + bonus
-				+ " (" + this.game.village.skillToText(exp) + " " + expPercent.toFixed() + "%)"
+				+ " (" + this.game.villageTab.skillToText(exp) + " " + expPercent.toFixed() + "%)"
 				+ "</span><br>";
 		}
 
