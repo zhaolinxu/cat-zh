@@ -424,7 +424,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
+						innerHTML: $I("cycle.effects.festival.title"),
 						style: { textAlign: "center"}
 					}, tooltip );
 

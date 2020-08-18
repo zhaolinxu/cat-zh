@@ -302,6 +302,7 @@
     "common.warning": " <span class='genericWarning'>(!)</span>",
 
     "cycle.effects.title": "周期效果",
+    "cycle.effects.festival.title": "周期节日效果:",
 
     "discardParagon.confirmation.msg1": "确定要舍弃所有的领导力吗?此操作无法撤消。",
     "discardParagon.confirmation.msg2": "你有很多领导力，你真的确定吗?",
