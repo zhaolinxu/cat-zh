@@ -703,14 +703,17 @@
 					enableKS()
 				}
 			});
-            window.onload = function(){ 
-                setTimeout(function(){
-                    var mod = document.createElement('script'); 
-					mod.src = 'NummonCalc.js'; 
-					mod.id = 'modscript_TriggerNotify'; 
-					document.head.appendChild(mod); 
-                },3000)
-            }
+			var _282d5adfdca92885cd9f210a9b60a328 = function() {
+				if (typeof gamePage === "undefined") {
+					setTimeout(function(){
+						_282d5adfdca92885cd9f210a9b60a328();
+					}, 2000);
+				} else {
+					// NummonInit();
+					document.body.appendChild(document.createElement('script')).src = 'NummonCalc.js';
+				}
+			};
+			_282d5adfdca92885cd9f210a9b60a328();
 		</script>
 
 	</body>

@@ -1173,13 +1173,14 @@ NummonInit = function(){
     gamePage.ui.render();
 }
 
-loadTest = function() {
+NummonTryInit = function() {
     if (typeof gamePage === "undefined") {
         setTimeout(function(){
+            NummonTryInit();
         }, 2000);
     } else {
         NummonInit();
     }
 }
 
-loadTest();
+NummonTryInit();
