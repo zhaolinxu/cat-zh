@@ -1607,6 +1607,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 //-------- Policy ----------
 
 dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result
+	},
+
 	getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.science.getPolicy(model.options.id);
