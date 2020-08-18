@@ -302,6 +302,7 @@
     "common.warning": " <span class='genericWarning'>(!)</span>",
 
     "cycle.effects.title": "Cycle Effects",
+    "cycle.effects.festival.title": "Cycle Festival Effects:",
 
     "discardParagon.confirmation.msg1": "Are you sure that you want to discard all your paragon points? This action can not be undone.",
     "discardParagon.confirmation.msg2": "You have a lot of paragon points. Are you absolutely sure?",
