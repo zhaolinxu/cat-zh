@@ -260,7 +260,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		var isSilent = this.game.workshop.get("seti").researched;
 		if (sciGain > 0 && !isSilent){
-			this.game.msg(this.game.getDisplayValueExt(sciGain, true) + " science!", "", "astronomicalEvent", true);
+			this.game.msg($I("calendar.msg.science", [this.game.getDisplayValueExt(sciGain)]), "", "astronomicalEvent", true);
 		}
 
 		if (this.game.science.get("astronomy").researched) {
