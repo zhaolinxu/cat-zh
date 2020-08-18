@@ -243,6 +243,7 @@
     "calendar.msg.meteor": "A meteor fell near the village",
     "calendar.msg.rift": "A rift to the Unicorn Dimension has opened in your village, +{0} unicorns!",
     "calendar.msg.starchart": "You've made {0} starcharts!",
+    "calendar.msg.science": "+{0} science!",
     "calendar.msg.unicorn": "A unicorn comes to your village attracted by the catnip scent!",
     "calendar.msg.zebra.hunter": "A mysterious hunter from zebra tribe decides to stop over in the village.",
     "calendar.msg.zebra.hunter.departed": "Zebra hunter has departed from your village.",
@@ -511,6 +512,8 @@
 
     "kittens.craft.confirmation.title": "Are you sure?",
     "kittens.craft.confirmation.msg": "Your kittens will DIE",
+
+    "craft.msg.notEnoughCatnip": "not enough catnip!",
 
     "log.clear": "Clear log",
 

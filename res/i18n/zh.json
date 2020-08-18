@@ -243,6 +243,7 @@
     "calendar.msg.meteor": "一颗流星落在村庄附近",
     "calendar.msg.rift": "一道通往独角兽维度的裂隙在你的村庄打开了， +{0}只独角兽!",
     "calendar.msg.starchart": "你制作了{0}张星图!",
+    "calendar.msg.science": "获得 {0} 科学!",
     "calendar.msg.unicorn": "一只独角兽被猫薄荷的香气吸引来到你的村庄!",
     "calendar.msg.zebra.hunter": "一个来自斑马部落的神秘猎人决定停留在村里。",
     "calendar.msg.zebra.hunter.departed": "斑马猎人已离开你的村庄。",
@@ -511,6 +512,8 @@
 
     "kittens.craft.confirmation.title": "确定要这样做吗?",
     "kittens.craft.confirmation.msg": "你的小猫会死",
+
+    "craft.msg.notEnoughCatnip": "猫薄荷不足!",
 
     "log.clear": "清除日志",
 
