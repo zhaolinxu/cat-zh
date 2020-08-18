@@ -20,7 +20,7 @@
 
 ---
 > 你是猫薄荷森林中的一只小猫。
-### **《猫国建设者》**是一款由bloodrizer开发的文字放置村庄管理网页游戏。在游戏里，你管理着一个村庄的猫咪，它们会不断地获取资源、学习技术。该游戏目前仍在开发中，因此价格和平衡都可能会发生变化。
+### <strong>《猫国建设者》</strong>是一款由bloodrizer开发的文字放置村庄管理网页游戏。在游戏里，你管理着一个村庄的猫咪，它们会不断地获取资源、学习技术。该游戏目前仍在开发中，因此价格和平衡都可能会发生变化。
 
 <font color=red><strong>使用左侧导航栏时，请注意清空上方搜索框中的筛选内容，否则导航栏可能会不显示其他内容！</font></strong><br>
 
@@ -97,4 +97,4 @@
 	</tr>
     </tbody>
 </table>
-[ [猫国建设者游戏 英文版百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page) ]
+[猫国建设者游戏 英文版百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page)
