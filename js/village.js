@@ -2342,9 +2342,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + kitten.age + " years old, "
+				 ", " + kitten.age + " " + $I("village.census.age") + ", "
 				+ kitten.trait["title"]
-				+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")") + "</div>";
+				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
 			/*
@@ -2483,7 +2483,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons = [];
 		this.buttons = [];
 
-		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs", this.game.village);
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.job"), this.game.village);
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
 		}

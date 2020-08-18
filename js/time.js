@@ -93,8 +93,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
-            this.game.msg("You have recharged " + bonusSeconds + " second"
-				+ (bonusSeconds > 1 ? "s" : "") + " of temporal flux");
+            this.game.msg($I("time.redshift.temporalFlux", [bonusSeconds]));
         }
     },
 
