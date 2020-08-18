@@ -1479,7 +1479,7 @@
     "ui.option.hide.bgimage": "隐藏背景图片",
     "ui.option.tooltips.right": "移动提示窗到右侧",
     "ui.option.more": "更多设置..",
-    "ui.option.no.confirm": "清楚所有工作或全部出售时无需确认(Shift+单击)",
+    "ui.option.no.confirm": "清除所有工作或全部出售时无需确认(Shift+单击)",
     "ui.option.iw.smelter": "钢铁意志模式下，铁储量不足95%时关闭熔炉",
     "ui.option.disable.telemetry": "禁用游戏遥测",
     "ui.option.enable.redshift": "启用离线进度",
