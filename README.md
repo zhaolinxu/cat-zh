@@ -1,4 +1,9 @@
-# Kittens Game （猫国建设者）  #
+# Kittens Game （猫国建设者
+
+A fork from https://bitbucket.org/bloodrizer/kitten-game/
+
+A fork from https://gitee.com/likexia/cat-zh
+
 
 ### 网页版本链接 ###
 * 最新汉化版本（v 1.4.6.2.d (29 may 2019)）：http://likexia.gitee.io/cat-zh/
