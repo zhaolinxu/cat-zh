@@ -1,25 +1,12 @@
 ---
 <font color=red size=4><strong>wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br>
-#### [更新中的新版攻略](http://note.youdao.com/s/WpGHMOIx)
-
+** [<a href="?file=000-猫国萌新指导/01-猫国萌新指导">更新中的萌新指导</a>] **<br>
+** [<a href="?file=004-第三方工具/02-小猫科学家">小猫珂学家使用教程</a>] **<br>
 ---
 <font size=4><strong>猫国wiki目前还在进一步修缮中。如果发现新版WIKI有任何错误或其他建议，欢迎在群里反馈。QQ群：499256691</font></strong><br><br>
-<font color=darkgreen size=4><strong>目前已经完成的页面有(包括子页面):</font></strong><br>
-> 猫国萌新指导<br>
-> 猫咪百科<br>
-> 常用资料<br>
-> 常见问题<br>
-
-<font color=green size=4><strong>修订进行中的页面：</font></strong><br>
-> 资源大全(25%)<br>
-
-<font color=red size=4><strong>以下页面的内容尚未修改：</font></strong><br>
-
-> 第三方工具<br>
-> 名词解释<br>
 
 ---
-> 你是猫薄荷森林中的一只小猫。<br>
+> ######你是猫薄荷森林中的一只小猫。<br>
 
 <strong>《猫国建设者》</strong>是一款由bloodrizer开发的文字放置村庄管理网页游戏。在游戏里，你管理着一个村庄的猫咪，它们会不断地获取资源、学习技术。该游戏目前仍在开发中，因此价格和平衡都可能会发生变化。
 
@@ -30,7 +17,7 @@
 <table class="wikitable">
     <tbody>
         <tr>
-            <td class="em"><span style="display:block;width:185px">游戏标签</span></td>
+        <td class="em"><span style="display:block;width:185px">游戏标签</span></td>
 	    <td class="em"><span style="display:block;width:185px">基本资料</span></td>
 	    <td class="em"><span style="display:block;width:185px">其他网站</span></td>
 	    <td class="em"><span style="display:block;width:185px">多语言</span></td>
@@ -38,7 +25,7 @@
 	<tr>
 	    <td><a href="?file=001-猫咪百科/01-建筑物/01-食物生产">营火</a></td>
 	    <td><a href="?file=002-常用资料/003-游戏标签">游戏标签</a></td>
-            <td><a href="http://bloodrizer.ru/games/kittens/">玩游戏（英文原版）</a></td>
+        <td><a href="http://bloodrizer.ru/games/kittens/">玩游戏（英文原版）</a></td>
 	    <td><a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-en">英语</a></td>
 	</tr>
 	<tr>
@@ -55,7 +42,7 @@
 	</tr>
 	<tr>
 	    <td><a href="?file=001-猫咪百科/04-工坊/01-升级">工坊</a></td>
-            <td><a href="?file=001-猫咪百科/03-科学/02-玄学#玄学">玄学</a></td>
+        <td><a href="?file=001-猫咪百科/03-科学/02-玄学#玄学">玄学</a></td>
 	    <td><a href="https://www.reddit.com/r/kgmobile/">手机版讨论（Reddit）</a></td>
 	    <td><a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locale-no">挪威语</a>
 	    </td>
@@ -63,7 +50,7 @@
 	<tr>
 	    <td><a href="?file=001-猫咪百科/05-贸易">贸易</a></td>
 	    <td><a href="?file=002-常用资料/007-挑战模式">挑战</a></td>
-            <td><a href="http://irc.lc/irc.canternet.org/kittensgame/Kitten@@@@" class="external">IRC 频道</a></td>
+        <td><a href="http://irc.lc/irc.canternet.org/kittensgame/Kitten@@@@" class="external">IRC 频道</a></td>
 	    <td><a href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=Deutsch">德语</a></td>
 	</tr>
 	<tr>
@@ -98,4 +85,5 @@
 	</tr>
     </tbody>
 </table>
+
 [猫国建设者游戏 英文版百科](http://bloodrizer.ru/games/kittens/wiki/index.php?page=Main+page)
