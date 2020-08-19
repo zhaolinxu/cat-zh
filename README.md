@@ -1,9 +1,19 @@
 # Kittens Game （猫国建设者
 
+[游戏地址](https://kitten-game-cn.now.sh/#)
+
 A fork from https://bitbucket.org/bloodrizer/kitten-game/
 
 A fork from https://gitee.com/likexia/cat-zh
 
+
+kitten-scientists: https://github.com/Cirn09/cbc-kitten-scientists
+
+NummonCalc: https://github.com/Cirn09/NummonCalc
+
+---
+
+以下为原汉化版信息，现已过期
 
 ### 网页版本链接 ###
 * 最新汉化版本（v 1.4.6.2.d (29 may 2019)）：http://likexia.gitee.io/cat-zh/
