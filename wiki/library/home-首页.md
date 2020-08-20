@@ -1,3 +1,5 @@
+# 猫国建设者游戏百科
+
 ---
 <font color=red size=4><strong>wiki对应游戏版本：1.4.8.1，目前部分内容已经过时，正在更新中</font></strong><br>
 
