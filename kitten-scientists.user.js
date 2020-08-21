@@ -1594,8 +1594,9 @@ var run = function() {
                     if (work[upg].researched || !work[upg].unlocked) {continue;}
 
                     var prices = work[upg].prices;
-                    for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue workLoop;}
+                    var rightPrices = game.village.getEffectLeader("scientist", prices);
+                    for (var resource in rightPrices) {
+                        if (craftManager.getValueAvailable(rightPrices[resource].name, true) < rightPrices[resource].val) {continue workLoop;}
                     }
                     upgradeManager.build(work[upg], 'workshop');
                 }
@@ -1608,8 +1609,9 @@ var run = function() {
                     if (tech[upg].researched || !tech[upg].unlocked) {continue;}
 
                     var prices = tech[upg].prices;
-                    for (var resource in prices) {
-                        if (craftManager.getValueAvailable(prices[resource].name, true) < prices[resource].val) {continue techLoop;}
+                    var rightPrices = game.village.getEffectLeader("scientist", prices);
+                    for (var resource in rightPrices) {
+                        if (craftManager.getValueAvailable(rightPrices[resource].name, true) < rightPrices[resource].val) {continue techLoop;}
                     }
                     upgradeManager.build(tech[upg], 'science');
                 }
@@ -2864,7 +2866,7 @@ var run = function() {
 
                     // countList[counter].prices = prices;
                     countList[counter].prices = [];
-                    var pricesDiscount = game.getLimitedDR((game.getEffect(name + "CostReduction")), 1);
+                    var pricesDiscount = game.getLimitedDR(game.getEffect(name + "CostReduction"), 1);
                     var priceModifier = 1 - pricesDiscount;
                     for (var i in prices) {
                         var resPriceDiscount = game.getLimitedDR(game.getEffect(prices[i].name+"CostReduction"), 1);
@@ -3250,17 +3252,22 @@ var run = function() {
 
     var defaultSelector = 'body[data-ks-style]:not(.scheme_sleek)';
 
-    addRule(defaultSelector + ' #game {'
+    addRule('body {' // low priority. make sure it can be covered by the theme
         + 'font-family: monospace;'
         + 'font-size: 12px;'
+        + '}');
+        
+    addRule(defaultSelector + ' #game {'
+        // + 'font-family: monospace;'
+        // + 'font-size: 12px;'
         + 'min-width: 1300px;'
         + 'top: 32px;'
         + '}');
 
-    addRule(defaultSelector + ' {'
-        + 'font-family: monospace;'
-        + 'font-size: 12px;'
-        + '}');
+    // addRule(defaultSelector + ' {'
+    //     + 'font-family: monospace;'
+    //     + 'font-size: 12px;'
+    //     + '}');
 
     addRule(defaultSelector + ' .column {'
         + 'min-height: inherit;'
@@ -3282,14 +3289,18 @@ var run = function() {
         + '}');
 
     addRule(defaultSelector + ' #rightColumn {'
-        + 'overflow-y: scroll;'
+        + 'overflow-y: auto;'
         + 'height: 92%;'
         + 'width: 19%;'
         + '}');
 
-    addRule(defaultSelector + ' #gameLog .msg {'
-        + 'display: block;'
+    addRule('body #gamePageContainer #game #rightColumn {'
+        + 'overflow-y: auto'
         + '}');
+
+    // addRule(defaultSelector + ' #gameLog .msg {'
+    //     + 'display: block;'
+    //     + '}');
 
     addRule(defaultSelector + ' #gameLog {'
         + 'overflow-y: hidden !important;'
@@ -3406,7 +3417,7 @@ var run = function() {
 
     var loadFromKittenStorage = function () {
         var saved = JSON.parse(localStorage['cbc.kitten-scientists'] || 'null');
-        if (saved.version == 1) {
+        if (saved && saved.version == 1) {
             saved.version = 2;
             saved.reset = {
                 reset: false,
