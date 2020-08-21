@@ -1608,7 +1608,7 @@ var run = function() {
                 for (var upg in tech) {
                     if (tech[upg].researched || !tech[upg].unlocked) {continue;}
 
-                    var prices = work[upg].prices;
+                    var prices = tech[upg].prices;
                     var rightPrices = game.village.getEffectLeader("scientist", prices);
                     for (var resource in rightPrices) {
                         if (craftManager.getValueAvailable(rightPrices[resource].name, true) < rightPrices[resource].val) {continue techLoop;}
