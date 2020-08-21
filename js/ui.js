@@ -104,6 +104,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isDisplayOver: false,
     isChatActive: false,
     isChatVisited: false,
+    isCenter: false,
 
     defaultSchemes: ["default", "dark", "grassy", "sleek", "black"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
@@ -1058,23 +1059,37 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             this.fontSize = uiData.fontSize || 16;
             this.isChatVisited = uiData.isChatVisited || false;
+            this.isCenter = uiData.isCenter || false;
         } catch (ex) {
             console.error("unable to load ui data");
         }
         this.updateFontSize();
+        this.updateCenter();
     },
 
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
            isChatVisited: this.isChatVisited,
+           isCenter: this.isCenter,
            theme: this.game.colorScheme
         });
     },
 
+    updateCenter: function(){
+        if (this.isCenter) {
+            $("#game").addClass("centered");
+            $("#toggleCenter").html("&lt;");
+        } else {
+            $("#game").removeClass("centered");
+            $("#toggleCenter").html("&gt;");
+        }
+
+    },
+
     toggleCenter: function(){
-        $("#game").toggleClass("centered");
-        $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
+        this.isCenter = !this.isCenter;
+        this.updateCenter();
     },
 
     isEffectMultiplierEnabled: function(){
