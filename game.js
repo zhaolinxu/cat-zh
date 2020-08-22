@@ -3853,8 +3853,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			science: {
 				hideResearched: this.science.hideResearched,
-				hidePolicyReserched: this.science.policyToggleResearched,
-				hidePolicyBlocked: this.science.policyToggleBlocked,
+				policyToggleResearched: this.science.policyToggleResearched,
+				policyToggleBlocked: this.science.policyToggleBlocked,
 				techs: [],
 				policies: []
 			},
