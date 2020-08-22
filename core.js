@@ -383,7 +383,7 @@ dojo.declare("com.nuclearunicorn.core.TabManager", com.nuclearunicorn.core.Contr
 	loadMetadata: function(meta, saveMeta, metaId){
 		if (!saveMeta){
 			console.trace();
-			console.warn("Unable to load metadata table '"+metaId+"', save record is empty");
+			console.warn("Unable to load metadata table '" + metaId + "', save record is empty");
 			return;
 		}
 
@@ -518,6 +518,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 			},
 			"alicornRift": {
 				title: "Alicorn Rifts",
+				enabled: true,
+				unlocked: false
+			},
+			"alicornCorruption":{
+				title: "Alicorn Corruption",
 				enabled: true,
 				unlocked: false
 			},
@@ -741,6 +746,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 	},
 
 	getName: function(model){
+		if (this.controllerOpts.getName){
+			return this.controllerOpts.getName.apply(this, arguments);
+		}
 		return model.options.name;
 	},
 
@@ -1754,6 +1762,9 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		}
 	},
 
+	/**
+	 * Returns true if building was sold
+	 */
 	sell: function(event, model){
 		var building = model.metadata;
 
@@ -1761,7 +1772,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 		// But, proceed with normal action as well if true returned.
 		if (building.canSell) {
 			if(!building.canSell(building, this.game)) {
-				return;
+				return false;
 			}
 		}
 
@@ -1770,14 +1781,17 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingBtnController", com.nuclearunic
 			end = 0;
 			if (this.game.opts.noConfirm) {
 				this.sellInternal(model, end);
+				return true;
 			} else {
 				var self = this;
 				this.game.ui.confirm("", "Are you sure you want to sell all?", function() {
 					self.sellInternal(model, end);
+					return true;
 				});
 			}
 		} else if (end >= 0) {
 			this.sellInternal(model, end);
+			return true;
 		}
 	},
 
@@ -1997,7 +2011,7 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 		var priceModifier = 1 - pricesDiscount;
 
         for (var i = 0; i < meta.prices.length; i++){
-			var resPriceDiscount = this.game.getEffect(meta.prices[i].name+"CostReduction");
+			var resPriceDiscount = this.game.getEffect(meta.prices[i].name + "CostReduction");
 			resPriceDiscount = this.game.getLimitedDR(resPriceDiscount, 1);
 			var resPriceModifier = 1 - resPriceDiscount;
             prices.push({

@@ -1590,7 +1590,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              // could have theoretically had more than 100% reduction because they diminished separately,
              // this takes the total effect and diminishes it as a whole.
              if (this.game.isHyperbolic(name) && effect !== 0) {
-             effect = this.game.getHyperbolicEffect(effect, 1.0);
+             effect = this.game.getLimitedDR(effect, 1.0);
              }
              
              // Add effect from effectsBase
@@ -1676,7 +1676,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 	buyItem: function(model, event, callback) {
 		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
-			if(!this.shouldBeBough(model, game)){
+			if(!this.shouldBeBough(model, this.game)){
 				callback(false);
 				return;
 			}
@@ -1724,10 +1724,10 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleResearched = !this.game.science.policyToggleResearched;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
-		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label")+"<br>", for: "policyToggleResearched"}, div);
+		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label") + "<br>", for: "policyToggleResearched"}, div);
 		
 		var groupCheckbox1 = dojo.create("input", {
             id : "policyToggleBlocked",
@@ -1742,7 +1742,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleBlocked = !this.game.science.policyToggleBlocked;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
         dojo.create("label", { innerHTML: $I("science.policyToggleBlocked.label"), for: "policyToggleBlocked"}, div);
@@ -1878,18 +1878,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 			this.metaphysicsPanel.game = this.game;
 			this.metaphysicsPanel.render(tabContainer);
 		}
-
-        //---------- challenges ------------
-		this.challengesPanel = null;
-
-        //TODO: use better update/render logic like in Time tab
-		var showChallenges = this.game.prestige.getPerk("adjustmentBureau").researched;
-		if (showChallenges){
-			this.challengesPanel = new classes.ui.ChallengePanel($I("challendge.panel.label"), this.game.challenges);
-			this.challengesPanel.game = this.game;
-			this.challengesPanel.render(tabContainer);
-		}
-
 		this.update();
 	},
 
@@ -1898,9 +1886,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		if (this.metaphysicsPanel){
 			this.metaphysicsPanel.update();
-		}
-        if (this.challengesPanel){
-			this.challengesPanel.update();
 		}
 		if (this.policyPanel){
 			this.policyPanel.update();
