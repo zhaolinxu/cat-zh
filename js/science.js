@@ -1539,6 +1539,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
+			hidePolicyReserched: this.policyToggleResearched,
+			hidePolicyBlocked: this.policyToggleBlocked,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
 			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
 		};
@@ -1547,6 +1549,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
+			this.policyToggleResearched = saveData.science.hidePolicyReserched,
+			this.policyToggleBlocked = saveData.science.hidePolicyBlocked,
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
