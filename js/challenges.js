@@ -252,7 +252,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
 		var meta = model.metadata;
 		var name = meta.label;
-		if (meta.active || this.game.challenges.currentChallenge == meta.name) {
+		if (meta.active || meta.name == this.game.challenges.active) {
 			name = $I("challendge.btn.name.current", [meta.label]);
 		} else if (meta.researched){
 			name = $I("challendge.btn.name.complete", [meta.label]);
