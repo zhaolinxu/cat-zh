@@ -93,8 +93,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
-            this.game.msg("You have recharged " + bonusSeconds + " second"
-				+ (bonusSeconds > 1 ? "s" : "") + " of temporal flux");
+            this.game.msg($I("time.redshift.temporalFlux", [bonusSeconds]));
         }
     },
 
@@ -899,7 +898,7 @@ dojo.declare("classes.ui.VoidSpaceWgt", [mixin.IChildrenAware, mixin.IGameAware]
     constructor: function(game){
 
 		this.addChild(new com.nuclearunicorn.game.ui.ButtonModern({
-            name: "Fix Cryochamber",
+            name: $I("time.fixCryochambers.label"),
             description: $I("time.fixCryochambers.desc"),
             prices: [
 				{name: "temporalFlux", val: 3000},

@@ -1013,6 +1013,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					game.calendar.cycleEffectsFestival(effectsTemp);
 					difference = effectsTemp["iron"];
 
+					//necrocracy global effect
+					difference *= (1 + (game.resPool.get("sorrow").value * game.getEffect("blsProductionBonus")));
+					//policy ratio effects
+					difference *= (1 + game.getEffect("ironPolicyRatio"));
+
 					self.effects["coalPerTickCon"] = -difference;
 					self.effects["ironPerTickCon"] = -difference;
 					self.effects["steelPerTickProd"] = difference / 100;
@@ -1908,7 +1913,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		autoProdRatio *= 1 + this.game.getEffect("magnetoRatio") * swRatio;
 
 		// paragon (25%)
-		autoProdRatio *= 1 + this.game.prestige.getParagonProductionRatio() * 0.25;
+		autoProdRatio *= 1 + this.game.prestige.getParagonProductionRatio() * 0.05;
 
 		// reactors
 		autoProdRatio *= 1 + this.game.getEffect("productionRatio");
@@ -2276,7 +2281,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 
 		if (catnipVal < 100 * catnipCost) {
-			this.game.msg("not enough catnip!");
+			this.game.msg($I("craft.msg.notEnoughCatnip"));
 		}
 
 		this.game.resPool.addResEvent("catnip", -100 * catnipCost);
@@ -2356,6 +2361,18 @@ dojo.declare("classes.ui.btn.BuildingBtnModernController", com.nuclearunicorn.ga
 			metaId: model.options.building,
 			val: counter
 		});
+	},
+
+	sell: function(event, model){
+		var selled = this.inherited(arguments);
+		if (selled) {
+			var undo = this.game.registerUndoChange();
+			undo.addEvent("building", {
+				action: "sell",
+				metaId: model.metadata.name,
+				val: 1
+			});
+		}
 	},
 
     decrementValue: function(model) {
@@ -2511,7 +2528,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.BuildingsModern", com.nuclearunicor
 		}
 		groups.unshift({
 			name: "togglable",
-			title: "Togglable",
+			title: $I("ui.filter.togglable"),
 			buildings: []
 		});
 		groups.unshift({

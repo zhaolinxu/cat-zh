@@ -988,7 +988,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150000}
 		],
 		effects:{
-		"technocracyScienceCap": 0.2
+			"technocracyScienceCap": 0.2
 		},
 		unlocked: false,
 		blocked: false,
@@ -1607,6 +1607,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 //-------- Policy ----------
 
 dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
+	},
+
 	getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.science.getPolicy(model.options.id);
@@ -1676,7 +1683,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 	buyItem: function(model, event, callback) {
 		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
-			if(!this.shouldBeBough(model, game)){
+			if(!this.shouldBeBough(model, this.game)){
 				callback(false);
 				return;
 			}
@@ -1724,10 +1731,10 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleResearched = !this.game.science.policyToggleResearched;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
-		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label")+"<br>", for: "policyToggleResearched"}, div);
+		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label") + "<br>", for: "policyToggleResearched"}, div);
 		
 		var groupCheckbox1 = dojo.create("input", {
             id : "policyToggleBlocked",
@@ -1742,7 +1749,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleBlocked = !this.game.science.policyToggleBlocked;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
         dojo.create("label", { innerHTML: $I("science.policyToggleBlocked.label"), for: "policyToggleBlocked"}, div);
@@ -1855,7 +1862,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		//-------------- policies ----------------
 
-		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel = new classes.ui.PolicyPanel($I("policy.panel.label"), this.game.science);
 		this.policyPanel.game = this.game;
 		this.policyPanel.render(tabContainer);
 
