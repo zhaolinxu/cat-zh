@@ -1235,7 +1235,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 			}
 		}	//eo zg upgrades
 
-		if (game.challenges.isActive("atheism")) {
+		if (!game.challenges.isActive("atheism")) {
 			//------------------- religion -------------------
 			var religionPanel = new com.nuclearunicorn.game.ui.Panel($I("religion.panel.orderOfTheSun.label"), game.religion);
 			var content = religionPanel.render(container);

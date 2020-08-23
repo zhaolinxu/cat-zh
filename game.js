@@ -1386,7 +1386,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			},
 			{class: com.nuclearunicorn.game.ui.tab.ReligionTab,
 				name: "tab.name.religion",
-				id: "Trade",
+				id: "Religion",
 				prop: "religionTab"
 			},
 			{class: com.nuclearunicorn.game.ui.tab.SpaceTab,
