@@ -123,7 +123,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.getChallenge("energy").unlocked = true;
 			}
 		} 
-		if (this.currentChallenge == "energy") {
+		if (this.isActive("energy")) {
 			if (
 				(this.game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
 				(this.game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
@@ -137,18 +137,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
-		} else if (this.currentChallenge == "anarchy") {
+		} else if (this.isActive("anarchy")) {
 			if (this.game.bld.get("aiCore").val > 0){
 				this.researchChallenge("anarchy");
 			}
-		} else if (this.currentChallenge == "blackSky") {
+		} else if (this.isActive("blackSky")) {
 			if (this.game.space.getBuilding("spaceBeacon").val > 0) {
 				this.researchChallenge("blackSky");
 			}
 		}
 
 		// winterIsComing
-		if (this.currentChallenge == "winterIsComing") {
+		if (this.isActive("winterIsComing")) {
 			if (this.game.space.getPlanet("helios").reached){
 				this.researchChallenge("winterIsComing");
 			}
@@ -169,9 +169,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	},
 
 	researchChallenge: function(challenge) {
-		if (challenge == this.currentChallenge){
+		if (this.isActive(challenge)){
 			this.getChallenge(challenge).researched = true;
-			this.currentChallenge = null;
+			this.getChallenge(challenge).active = false;
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
 			this.game.calculateAllEffects();
 		}
