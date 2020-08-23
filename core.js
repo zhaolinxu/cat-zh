@@ -521,6 +521,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"alicornCorruption":{
+				title: "Alicorn Corruption",
+				enabled: true,
+				unlocked: false
+			},
 			"tc": {
 				title: "Time Crystals",
 				enabled: true,
@@ -741,6 +746,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 	},
 
 	getName: function(model){
+		if (this.controllerOpts.getName){
+			return this.controllerOpts.getName.apply(this, arguments);
+		}
 		return model.options.name;
 	},
 
