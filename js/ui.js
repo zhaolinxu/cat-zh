@@ -907,7 +907,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionHighlightUnavailable").text($I("ui.option.highlight.unavailable"));
         $("#optionHideSell").text($I("ui.option.hide.sell"));
         $("#optionHideDowngrade").text($I("ui.option.hide.downgrade"));
-        $("#optionHideBGImage").text($I("ui.option.hide.bgimage"));
+        $("#optionHideBGImage").html($I("ui.option.hide.bgimage"));
         $("#optionTooltipsInRightColumn").text($I("ui.option.tooltips.right"));
         $("#optionMore").text($I("ui.option.more"));
         $("#optionNoConfirm").text($I("ui.option.no.confirm"));
