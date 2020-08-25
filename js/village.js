@@ -789,7 +789,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.game.village.clearJobs(false);
 
-		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){
+		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){//hack for theocracy; so that it stop being soo annoying
 			this.game.village.leader.job = "priest"
 			situationJobs["priest"] = situationJobs["priest"] - 1;
 			this.game.village.getJob("priest").value += 1;
