@@ -789,6 +789,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.game.village.clearJobs(false);
 
+		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){//hack for theocracy; so that it stop being soo annoying
+			this.game.village.leader.job = "priest"
+			situationJobs["priest"] = situationJobs["priest"] - 1;
+			this.game.village.getJob("priest").value += 1;
+		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 				for (var job in situationJobs) {
