@@ -85,7 +85,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		value: 0,
 		unlocked: false,
 		evaluateLocks: function(game){
-			return game.challenges.currentChallenge!="atheism";
+			return !game.challenges.isActive("atheism");
 		}
 	},{
 		name: "geologist",
@@ -283,7 +283,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var resDiff = catnipVal + catnipPerTick;
 
 		if (this.sim.getKittens() > 0){
-			if (resDiff < 0 || this.game.challenges.currentChallenge == "winterIsComing" && this.sim.getKittens() > this.sim.maxKittens && this.game.calendar.weather == "cold") {
+			if (resDiff < 0 || this.game.challenges.isActive("winterIsComing") && this.sim.getKittens() > this.sim.maxKittens && this.game.calendar.weather == "cold") {
 
 				var starvedKittens = Math.abs(Math.round(resDiff));
 				if (starvedKittens > 1){
@@ -355,7 +355,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			workingKittens += this.jobs[i].value;
 		}
 
-		var diligentKittens = this.game.challenges.currentChallenge == "anarchy"
+		var diligentKittens = this.game.challenges.isActive("anarchy")
 			? Math.floor(this.getKittens() / 2)
 			: this.getKittens();
 
@@ -433,7 +433,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Get cumulative resource production per village population
 	 */
 	updateResourceProduction: function(){
-
 		var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 
 		var res = {
@@ -456,7 +455,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if(job) {
 					// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 					//TODO: move to the village manager
-					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
+					var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
 
 					for (var jobResMod in job.modifiers){
 
@@ -849,6 +848,44 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 
+	},
+
+	getValueModifierPerSkill: function(value){
+		switch (true) {
+		case value < 100:
+			return 1.0;
+		case value < 500:
+			return 1.05;	//5%
+		case value < 1200:
+			return 1.10;
+		case value < 2500:
+			return 1.18;
+		case value < 5000:
+			return 1.30;
+		case value < 9000:
+			return 1.50;
+		default:
+			return 1.75;
+		}
+	},
+
+	getSkillExpRange: function(value){
+		switch (true) {
+		case value < 100:
+			return [0,100];
+		case value < 500:
+			return [100,500];
+		case value < 2500:
+			return [500,2500];
+		case value < 5000:
+			return [2500,5000];
+		case value < 9000:
+			return [5000,9000];
+		case value < 20000:
+			return [9000,20000];
+		default:
+			return [20000,value];
+		}
 	}
 });
 
@@ -1468,7 +1505,7 @@ dojo.declare("classes.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job && game.calendar.day >= 0 && game.challenges.currentChallenge != "anarchy"){
+			if (kitten.job && game.calendar.day >= 0 && !game.challenges.isActive("anarchy")){
 				//Initialisation of job's skill
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
@@ -2003,7 +2040,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		//--------------------------------------------------------------------------------------
 		this.governmentDiv = null;
-		if (this.game.challenges.currentChallenge != "anarchy") {
+		if (!this.game.challenges.isActive("anarchy")) {
 			this.renderGovernment(container);
 		}
 		//--------------------------------------------
@@ -2090,7 +2127,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				}
 			}, div);
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				var leaderHref = dojo.create("a", {
 					href: "#", innerHTML: "",
 					className: "leaderHref",
@@ -2118,7 +2155,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			}, this.game, i));
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				dojo.connect(leaderHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 					var game = census.game;
@@ -2148,7 +2185,7 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	makeLeader: function(kitten){
-		var theocracy =this.game.science.getPolicy("theocracy");
+		var theocracy = this.game.science.getPolicy("theocracy");
 		if((theocracy.researched) && (kitten.job != theocracy.requiredLeaderJob)){
 			var jobTitle = this.game.village.getJob(theocracy.requiredLeaderJob).title;
 			this.game.msg($I("msg.policy.kittenNotMadeLeader", [theocracy.label, jobTitle]), "important");
@@ -2208,7 +2245,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				break;
 			}
 
-			var skillExp = this.game.villageTab.getSkillExpRange(exp);
+			var skillExp = this.game.village.getSkillExpRange(exp);
 			var prevExp = skillExp[0];
 			var nextExp = skillExp[1];
 
@@ -2221,7 +2258,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				style = "style='font-weight: bold'";
 
 				var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
-				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
+				var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job]);
 				bonus = (mod - 1) * productionRatio;
 				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus + 1) - 1) : bonus;
 
@@ -2323,7 +2360,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		//TODO: promote leader link
 		var govInfo = this.getGovernmentInfo();
 
-		if (this.game.challenges.currentChallenge != "anarchy") {
+		if (!this.game.challenges.isActive("anarchy")) {
 			this.leaderDiv.innerHTML = "<strong>" + $I("village.census.lbl.leader") + ":</strong> " + govInfo.leaderInfo;
 		}
 
@@ -2355,7 +2392,7 @@ dojo.declare("classes.ui.village.Census", null, {
             var skillInfo = this.getSkillInfo(kitten);
 			record.content.innerHTML += skillInfo;
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				record.leaderHref.innerHTML = kitten.isLeader ? "&#9733;" : "&#9734;"; //star-shaped link to reduce visual noise
 			}
 
@@ -2618,7 +2655,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader != undefined 
+					&& this.game.workshop.get("register").researched 
+					&& !this.game.challenges.isActive("anarchy");
 				}
 			})
 		}, this.game);
@@ -2634,7 +2673,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader !== undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader !== undefined && 
+					this.game.workshop.get("register").researched && 
+					!this.game.challenges.isActive("anarchy");
 				}
 			})
 		}, this.game);
@@ -2801,44 +2842,6 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			return $I("village.skill.proficient");
 		default:
 			return $I("village.skill.master");
-		}
-	},
-
-	getSkillExpRange: function(value){
-		switch (true) {
-		case value < 100:
-			return [0,100];
-		case value < 500:
-			return [100,500];
-		case value < 2500:
-			return [500,2500];
-		case value < 5000:
-			return [2500,5000];
-		case value < 9000:
-			return [5000,9000];
-		case value < 20000:
-			return [9000,20000];
-		default:
-			return [20000,value];
-		}
-	},
-
-	getValueModifierPerSkill: function(value){
-		switch (true) {
-		case value < 100:
-			return 1.0;
-		case value < 500:
-			return 1.05;	//5%
-		case value < 1200:
-			return 1.10;
-		case value < 2500:
-			return 1.18;
-		case value < 5000:
-			return 1.30;
-		case value < 9000:
-			return 1.50;
-		default:
-			return 1.75;
 		}
 	},
 

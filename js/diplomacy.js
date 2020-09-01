@@ -47,8 +47,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 				"winter": 0.45
 			}},
 			{name: "parchment", value: 5, chance: 0.25, width: 0.25, minLevel: 5},
-			{name: "manuscript", value: 5, chance: 0.15, width: 0.25, minLevel: 10},
-			{name: "compedium", value: 5, chance: 0.1, width: 0.25, minLevel: 15}
+			{name: "manuscript", value: 3, chance: 0.15, width: 0.25, minLevel: 10},
+			{name: "compedium", value: 1, chance: 0.1, width: 0.25, minLevel: 15}
 		],
 		collapsed: false,
 		pinned: false
@@ -403,7 +403,12 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 
 			
-			var tradeChance = sellResource.chance * (1 + (race.embassyPrices ? this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 0));
+			var tradeChance = sellResource.chance * 
+				(1 + (
+					race.embassyPrices ? 
+					this.game.getLimitedDR(race.embassyLevel * embassyEffect, 0.75) : 
+					0)
+				);
 
 			var resourcePassedNormalTradeAmount = this.game.math.binominalRandomInteger(normalTradeAmount, tradeChance);
 			var resourcePassedBonusTradeAmount = this.game.math.binominalRandomInteger(bonusTradeAmount, tradeChance);
@@ -415,21 +420,28 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			var fuzzedNormalAmount = this._fuzzGainedAmount(resourcePassedNormalTradeAmount, sellResource.width);
 			var fuzzedBonusAmount = this._fuzzGainedAmount(resourcePassedBonusTradeAmount, sellResource.width);
 			var resourceSeasonTradeRatio = 1 + (sellResource.seasons ? sellResource.seasons[currentSeason] : 0);
-			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) * sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
+			boughtResources[sellResource.name] = (fuzzedNormalAmount + fuzzedBonusAmount * 1.25) 
+				* sellResource.value * tradeRatio * raceRatio * resourceSeasonTradeRatio;
 		}
 
 		//-------------------- 35% chance to get spice + 1% per embassy lvl ------------------
-		var spiceTradeAmount = this.game.math.binominalRandomInteger(successfullTradeAmount, 0.35 * (1 + (race.embassyPrices ?  race.embassyLevel * embassyEffect : 0)));
-		boughtResources["spice"] = 25 * spiceTradeAmount + 50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
+		var spiceTradeAmount = this.game.math.binominalRandomInteger(
+			successfullTradeAmount, 
+			0.35 * (1 + (race.embassyPrices ?  race.embassyLevel * embassyEffect : 0))
+		);
+		boughtResources["spice"] = 25 * spiceTradeAmount + 
+			50 * tradeRatio * this.game.math.irwinHallRandom(spiceTradeAmount);
 
 		//-------------- 10% chance to get blueprint ---------------
-		boughtResources["blueprint"] = Math.floor(this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1));
+		boughtResources["blueprint"] = Math.floor(
+			this.game.math.binominalRandomInteger(successfullTradeAmount, 0.1)
+		);
 
 		//-------------- 15% + 0.35% chance per ship to get titanium ---------------
 		if (race.name == "zebras") {
 			var shipAmount = this.game.resPool.get("ship").value;
-			var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier")*this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
-			boughtResources["titanium"] = (1.5 + shipAmount * 0.03)*(1+zebraRelationModifierTitanium) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
+			var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier") * this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+			boughtResources["titanium"] = (1.5 + shipAmount * 0.03) * (1 + zebraRelationModifierTitanium) * this.game.math.binominalRandomInteger(successfullTradeAmount, 0.15 + shipAmount * 0.0035);
 		}
 
 		//Update Trade Stats
@@ -538,7 +550,11 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = Math.floor((this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) * (1 + game.getEffect("leviathansEnergyModifier")));
+			var markerCap = Math.floor(
+				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+				(1 + this.game.getEffect("leviathansEnergyModifier"))
+			);
+			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
 			}
@@ -893,7 +909,7 @@ dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.Bu
 
 	constructor: function(opts, game){
 		this.race = opts.race;
-		console.log("race:", this.race);
+		// console.log("race:", this.race);
 	},
 
 
@@ -1081,9 +1097,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 					}, leftColumn);
 			}
 			if (race.name == "zebras") {
-				var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier")*this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
+				var zebraRelationModifierTitanium = this.game.getEffect("zebraRelationModifier") * this.game.bld.getBuildingExt("tradepost").meta.effects["tradeRatio"];
 				var titanium = this.game.resPool.get("titanium");
-				var displayedVal = this.game.getDisplayValueExt((1.5 + this.game.resPool.get("ship").value * 0.03)*(1+zebraRelationModifierTitanium), false, false, 0);
+				var displayedVal = this.game.getDisplayValueExt((1.5 + this.game.resPool.get("ship").value * 0.03) * (1 + zebraRelationModifierTitanium), false, false, 0);
 				dojo.create("div", {
 						innerHTML: "<span class='sells'></span>" + (titanium.title || titanium.name) + " <span class='tradeAmount'>" + displayedVal + " - " + displayedVal + "</span>"
 					}, leftColumn);
@@ -1187,7 +1203,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = Math.floor((this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) * (1 + game.getEffect("leviathansEnergyModifier")));
+			var markerCap = Math.floor(
+				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+				(1 + this.game.getEffect("leviathansEnergyModifier"))
+			);
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = "Energy: " + leviathansInfoEnergy +
 				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration);
