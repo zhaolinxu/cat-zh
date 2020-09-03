@@ -3975,7 +3975,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	},
 
 	upgrade: function(list){
-		this.updateCaches();
+		// this.updateCaches();
 		for (var type in list) {
 			if (list[type].length == 0) {
 				return;
@@ -3990,6 +3990,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 		}
+		this.updateCaches();
 	},
 
 	toggleFilters: function(){

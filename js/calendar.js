@@ -822,7 +822,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		// if (this.year % 1000 === 0 || ){
 		var years1000Passby = Math.floor(this.year / 1000) - Math.floor((this.year - years) / 1000);
 		if (years1000Passby !== 0) {
-			this.game.resPool.addResEvent("paragon", years1000Passby);
+			// this.game.resPool.addResEvent("paragon", years1000Passby);
 			this.game.stats.getStat("totalParagon").val += years1000Passby;
 		}
 
@@ -841,7 +841,22 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 	},
 
-	getPruductionPerYear: function(){
+	// addResPer1000Year: function(_1000years) {
+	getProductionPer1000Year: function() {
+		// this.game.resPool.addResEvent("paragon", _1000years);
+		// this.game.stats.getStat("totalParagon").val += _1000years;
+		return {"paragon": 1};
+	},
+
+	onNew1000YearAddResources: function() {
+		var resPool = this.game.resPool;
+		var resPer1000Year = this.getProductionPer1000Year();
+		for (var resName in resPer1000Year){
+			resPool.addResEvent(resName, resPer1000Year[resName]);
+		}
+	},
+
+	getProductionPerYear: function(){
 		var resPool = this.game.resPool;
 		var production = {};
 		if (resPool.energyProd >= resPool.energyCons) {
@@ -854,7 +869,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	onNewYearAddResources: function() {
 		var resPool = this.game.resPool;
-		var resPerYear = this.getPruductionPerYear();
+		var resPerYear = this.getProductionPerYear();
 		for (var resName in resPerYear){
 			resPool.addResEvent(resName, resPerYear[resName]);
 		}
@@ -887,8 +902,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 	},
 
-	updateCycle(years){
+	updateCycle(years, force){
 		this.cycleYear += years;
+		force = typeof(force) === "undefined" ? false : force;
 		if (this.cycleYear >= this.yearsPerCycle) {
 			// new cycle
 			this.cycle += Math.floor(this.cycleYear / this.yearsPerCycle);
@@ -901,16 +917,24 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.upgrade({
 				spaceBuilding: this.game.space.spaceBuildingsMap
 			});
+		} else if (force) {
+			// Apply cycleEffect for the new cycle
+			this.game.upgrade({
+				spaceBuilding: this.game.space.spaceBuildingsMap
+			});
 		}
-
 	},
 
 	onNewYear: function(updateUI){
-		// split origin onNewYear funtion to [onNewYearStackable, getPruductionPerYear, onNewYearAddResources, onNewYearNotStackable, updateCycle]
+		// split origin onNewYear funtion to [onNewYearStackable, getProductionPerYear, onNewYearAddResources, onNewYearNotStackable, updateCycle]
 		// in order to improve the efficieny of time.js: shatter();
-		// shatter() will call onNewYearStackable, getPruductionPerYear, onNewYearNotStackable and updateCycle;
+		// shatter() will call onNewYearStackable, getProductionPerYear, onNewYearNotStackable, updateCycle and addResPer1000Year;
 		// shatter() copy some of aiApocalypse code from the onNewYearAddResources and this.game.ui.render();
 		this.onNewYearStackable(1, true);
+		
+		if (this.year % 1000 === 0) {
+			this.onNew1000YearAddResources();
+		}
 
 		this.updateCycle(1);
 		this.onNewYearAddResources();
