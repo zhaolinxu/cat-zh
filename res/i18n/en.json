@@ -1335,7 +1335,7 @@
     "time.vsu.voidResonator.desc": "Every Void Resonator will improve Order of the Void effect by 10%. Will trigger Order of the Void on a time skip.",
     "time.vsu.voidRift.label": "Void Rift",
     "time.vsu.voidRift.desc": "Increase the maximum storage space by 2%",
-    
+
     "trade.autopinned.labelOn" : "Turn off auto-pin",
     "trade.autopinned.labelOff" : "Turn on auto-pin",
     "trade.autopinned.desc" : "Turning auto-pin on and off. When it is on, leviathans get pinned as soon as they arrive",
