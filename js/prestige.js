@@ -166,7 +166,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		description: $I("prestige.zebraCovenant.desc"),
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
-		researched: false
+		researched: false,
 		unlocks: {
 			"perks": ["navigationDiplomacy"]
 		}
