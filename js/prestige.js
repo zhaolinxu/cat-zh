@@ -167,6 +167,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		prices: [{ name: "paragon", val: 75 }],
 		unlocked: false,
 		researched: false
+		unlocks: {
+			"perks": ["navigationDiplomacy"]
+		}
+	},{
+		name: "navigationDiplomacy",
+		label: $I("prestige.navigationDiplomacy.label"),
+		description: $I("prestige.navigationDiplomacy.desc"),
+		prices: [{ name: "paragon", val: 300 }],
+		unlocked: false,
+		researched: false
 	},{
 		name: "chronomancy",
 		label: $I("prestige.chronomancy.label"),
