@@ -315,7 +315,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	update: function() {
 		if (!this.hasUnlockedRaces()) {
 
-			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 
+			var unlockYear = (this.game.prestige.getPerk("navigationDiplomacy").researched
+					&& this.game.resPool.get("ship").value > 0 ?
+				0 : this.game.prestige.getPerk("diplomacy").researched ?
 				1 : this.game.karmaKittens > 0 ? 5 : 20;
 
 			if (this.game.calendar.year < unlockYear) {
