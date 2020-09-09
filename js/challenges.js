@@ -154,7 +154,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 		}
 
-
+		for(var i = 0; i< this.challenges.length; i++){
+			if(this.challenges[i].active && this.challenges[i].checkCompletionCondition && this.challenges[i].checkCompletionCondition(this.game)){
+				this.researchChallenge(this.challenges[i].name);
+				if(this.challenges[i].actionOnCompletion){
+					this.challenges[i].actionOnCompletion(this.game);
+				}
+			}
+		}
 	},
 
 	getChallenge: function(name){
