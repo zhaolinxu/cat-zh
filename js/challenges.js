@@ -137,11 +137,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			) {
 				this.researchChallenge("energy");
 			}
-		} else if (this.isActive("anarchy")) {
+		}
+		if (this.isActive("anarchy")) {
 			if (this.game.bld.get("aiCore").val > 0){
 				this.researchChallenge("anarchy");
 			}
-		} else if (this.isActive("blackSky")) {
+		}
+		if (this.isActive("blackSky")) {
 			if (this.game.space.getBuilding("spaceBeacon").val > 0) {
 				this.researchChallenge("blackSky");
 			}
