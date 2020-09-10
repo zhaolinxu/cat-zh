@@ -23,7 +23,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.winterIsComing.effect.desc"),
 		repeatEffectDesc: $I("challendge.winterIsComing.repeatEffect.desc"),
 		researched: false,
-		unlocked: true
+		unlocked: true,
+		checkCompletionCondition: function(game){
+			return game.space.getPlanet("helios").reached
+		}
 	},{
 		name: "anarchy",
 		label: $I("challendge.anarchy.label"),
@@ -31,7 +34,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.anarchy.effect.desc"),
 		repeatEffectDesc: $I("challendge.anarchy.repeatEffect.desc"),
 		researched: false,
-		unlocked: true
+		unlocked: true,
+		checkCompletionCondition: function(game){
+			return this.game.bld.get("aiCore").val > 0
+		}
 	},{
 		name: "energy",
 		label: $I("challendge.energy.label"),
@@ -47,6 +53,19 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		},
 		effects: {
 			"challengeReward": -0.1
+		},
+		checkCompletionCondition: function(game){
+			return(
+				(game.bld.get("pasture").val > 0 && this.game.bld.get("pasture").stage == 1) &&
+				(game.bld.get("aqueduct").val > 0 && this.game.bld.get("aqueduct").stage == 1) &&
+				game.bld.get("steamworks").val > 0 &&
+				game.bld.get("magneto").val > 0 &&
+				game.bld.get("reactor").val > 0 &&
+				(game.space.getBuilding("sattelite").val > 0 && this.game.workshop.get("solarSatellites").researched) &&
+				game.space.getBuilding("sunlifter").val > 0 &&
+				game.space.getBuilding("tectonic").val > 0 &&
+				game.space.getBuilding("hrHarvester").val > 0
+				)
 		}
 	},{
 		name: "atheism",
@@ -76,7 +95,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.blackSky.desc"),
 		effectDesc: $I("challendge.blackSky.effect.desc"),
 		researched: false,
-		unlocked: false
+		unlocked: false,
+		checkCompletionCondition: function(game){
+			return game.space.getBuilding("spaceBeacon").val > 0
+		}
 	}],
 
 	game: null,
