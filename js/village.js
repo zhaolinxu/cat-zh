@@ -2233,8 +2233,8 @@ dojo.declare("classes.ui.village.Census", null, {
 				//TODO: move me to getFromLeaderBonus
 				bonus = bonus > 0 && !kitten.isLeader && 
 					this.game.village.leader ? 
-					((1 - this.game.village.getLeaderBonus((this.game.village.leader || 0).rank) * 
-					this.game.getEffect("boostFromLeader")) * (bonus + 1) - 1) : bonus;
+					(this.game.village.getLeaderBonus((this.game.village.leader || 0).rank) * this.game.getEffect("boostFromLeader") + 1)
+					* (bonus + 1) - 1 : bonus;
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}
