@@ -169,7 +169,7 @@ dojo.declare("classes.ui.toolbar.ToolbarHappiness", classes.ui.ToolbarIcon, {
 		}
 
 		if (this.game.calendar.festivalDays > 0){
-			var festivalHappinessEffect = (30 * (1+this.game.getEffect("festivalRatio"))).toFixed(0);
+			var festivalHappinessEffect = (30 * (1+this.game.getEffect("festivalRatio"))).toFixed();
 			tooltip += $I("village.happiness.festival") + ": +"+festivalHappinessEffect+"%<br>";
 		}
 
