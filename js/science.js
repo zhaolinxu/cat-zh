@@ -988,7 +988,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150000}
 		],
 		effects:{
-		"technocracyScienceCap": 0.2
+			"technocracyScienceCap": 0.2
 		},
 		unlocked: false,
 		blocked: false,
@@ -1030,8 +1030,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"aiCoreProductivness" : 1,
-        "aiCoreUpgradeBonus" : 0.1
+			"aiCoreProductivness" : 1,
+			"aiCoreUpgradeBonus" : 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -1045,7 +1045,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"blsProductionBonus" : 0.001
+			"blsProductionBonus" : 0.001,
+			"leviathansEnergyModifier" : 0.05
 		},
 		unlocked: false,
 		blocked: false,
@@ -1059,7 +1060,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 1500000}
 		],
 		effects:{
-		"holyGenocideBonus" : 1
+			"holyGenocideBonus" : 1
 		},
 		unlocked: false,
 		blocked: false,
@@ -1294,8 +1295,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "science", val: 2000}
         ],
         effects:{
-            "environmentUnhappiness" : -5,
-			"mineralsPolicyRatio" : 0.25
+            "environmentUnhappiness" : -2,
+			"mineralsPolicyRatio" : 0.3
         },
         unlocked: false,
         unlocks:{},
@@ -1320,8 +1321,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "science", val: 2000}
         ],
         effects:{
-            "environmentUnhappiness" : -5,
-			"woodPolicyRatio" : 0.25
+            "environmentUnhappiness" : -2,
+			"woodPolicyRatio" : 0.3
         },
         unlocked: false,
         unlocks:{},
@@ -1346,7 +1347,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 2000}
         ],
         effects:{
-            "environmentHappinessBonus" : 5
+            "environmentHappinessBonus" : 3
         },
         unlocked: false,
         unlocks:{},
@@ -1371,7 +1372,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentUnhappinessModifier" : -1
+            "environmentHappinessBonus" : 5
         },
         unlocked: false,
         blocked: false,
@@ -1400,7 +1401,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentHappinessBonusModifier" : 1
+            "environmentHappinessBonus" : 5
         },
         unlocked: false,
         blocked: false,
@@ -1524,13 +1525,22 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			}
 			tech.researched = false;
 		}
-
+		for (var i = 0; i < this.policies.length; i++){
+			var policy = this.policies[i];
+			policy.unlocked = false;
+			policy.blocked = false;
+			policy.researched = false;
+		}
 		this.hideResearched = false;
+		this.policyToggleBlocked = false;
+		this.policyToggleResearched = false;
 	},
 
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
+			policyToggleResearched: this.policyToggleResearched,
+			policyToggleBlocked: this.policyToggleBlocked,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
 			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
 		};
@@ -1539,6 +1549,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
+			this.policyToggleResearched = saveData.science.policyToggleResearched,
+			this.policyToggleBlocked = saveData.science.policyToggleBlocked,
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
@@ -1599,6 +1611,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 //-------- Policy ----------
 
 dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
+	},
+
 	getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.science.getPolicy(model.options.id);
@@ -1668,7 +1687,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 	},
 	buyItem: function(model, event, callback) {
 		if ((!model.metadata.researched && this.hasResources(model)) || this.game.devMode){
-			if(!this.shouldBeBough(model, game)){
+			if(!this.shouldBeBough(model, this.game)){
 				callback(false);
 				return;
 			}
@@ -1716,10 +1735,10 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleResearched = !this.game.science.policyToggleResearched;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
-		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label")+"<br>", for: "policyToggleResearched"}, div);
+		dojo.create("label", { innerHTML: $I("science.policyToggleResearched.label") + "<br>", for: "policyToggleResearched"}, div);
 		
 		var groupCheckbox1 = dojo.create("input", {
             id : "policyToggleBlocked",
@@ -1734,7 +1753,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
             this.game.science.policyToggleBlocked = !this.game.science.policyToggleBlocked;
 
             dojo.empty(content);
-            game.render(content);
+            this.game.render(content);
         });
 
         dojo.create("label", { innerHTML: $I("science.policyToggleBlocked.label"), for: "policyToggleBlocked"}, div);
@@ -1847,8 +1866,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		//-------------- policies ----------------
 
-		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel = new classes.ui.PolicyPanel($I("policy.panel.label"), this.game.science);
 		this.policyPanel.game = this.game;
+		// this.policyPanel.policyToggleBlocked = this.game.science.policyToggleBlocked;
+		// this.policyPanel.policyToggleResearched = this.game.science.policyToggleResearched;
 		this.policyPanel.render(tabContainer);
 
 		//------------ metaphysics ----------------
