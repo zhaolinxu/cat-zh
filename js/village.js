@@ -1909,7 +1909,21 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 	},
 
 	clickHandler: function(model, event){
-		this.assignJobs(model, 1);
+		if (event.ctrlKey || event.metaKey /*osx tears*/){
+			this.assignJobs(model, this.game.opts.batchSize || 10);
+		} else if (event.shiftKey){
+			if (this.game.opts.noConfirm){
+				this.assignAllJobs(model);
+			} else {
+				var self = this;
+				this.game.ui.confirm("", $I("village.btn.assignall.confirmation.msg"), function() {
+					self.assignAllJobs(model);
+				}, function() {
+				});
+			}
+		} else {
+			this.assignJobs(model, 1);
+		}
 	},
 
 	unassignJobs: function(model, amt){

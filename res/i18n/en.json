@@ -1415,6 +1415,7 @@
     "village.btn.promote": "Promote kittens",
     "village.btn.promote.desc": "The leader promotes your kittens and spend gold for celebrations",
     "village.btn.senator": "Make Senator",
+    "village.btn.assignall.confirmation.msg": "Are you sure you want to assign all jobs?",
     "village.btn.unassign": "Unassign Leader",
     "village.btn.unassign.job": "Unassign",
     "village.btn.unwrap": "Unwrap present box",
