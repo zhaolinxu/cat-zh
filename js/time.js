@@ -429,6 +429,10 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 			}
 			self.effects = effects;
 		},
+		unlockScheme: {
+			name: "vintage",
+			threshold: 1
+		},
 		unlocks: {
 			upgrades: ["turnSmoothly"]
 		},
