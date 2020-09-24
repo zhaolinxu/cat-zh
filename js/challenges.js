@@ -149,9 +149,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for(var i = 0; i< this.challenges.length; i++){
 			if(this.challenges[i].active && this.challenges[i].checkCompletionCondition && this.challenges[i].checkCompletionCondition(this.game)){
 				this.researchChallenge(this.challenges[i].name);
-				if(this.challenges[i].actionOnCompletion){
-					this.challenges[i].actionOnCompletion(this.game);
-				}
 			}
 		}
 	},
@@ -172,6 +169,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.getChallenge(challenge).researched = true;
 			this.getChallenge(challenge).active = false;
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
+			if(this.getChallenge(challenge).actionOnCompletion){
+				this.getChallenge(challenge).actionOnCompletion(this.game);
+			}
 			this.game.calculateAllEffects();
 		}
 	},
