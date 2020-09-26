@@ -1362,12 +1362,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.ReligionTab", com.nuclearunicorn.ga
 				this.faithCount.innerHTML += ( " (+" + this.game.getDisplayValueExt(100 * bonus) + "% " + $I("religion.faithCount.bonus") + ")" );
 			}
 
-			dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });
-
-			var hasCT = this.game.science.get("cryptotheology").researched && this.game.religion.transcendenceTier > 0;
-			if (hasCT){
-				this.ctPanel.setVisible(true);
-			}
+			dojo.forEach(this.rUpgradeButtons,  function(e, i){ e.update(); });	
+		}
+		var hasCT = this.game.science.get("cryptotheology").researched && this.game.religion.transcendenceTier > 0;
+		if (hasCT){
+			this.ctPanel.setVisible(true);
 		}
 
 		dojo.forEach(this.zgUpgradeButtons, function(e, i){ e.update(); });
