@@ -1363,8 +1363,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["openWoodlands"],
 		evaluateLocks(game){
-			return (game.science.getPolicy("stripMining").researched || game.science.getPolicy("clearCutting").researched)
-			&& game.science.get("industrialization").researched
+			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched
 		}
     }, {
         name: "openWoodlands",
