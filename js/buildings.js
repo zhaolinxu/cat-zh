@@ -1252,7 +1252,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"energyConsumption": 0
 		},
 		unlocks:{
-			policies:[]
+			policies:["liberalism", "communism", "fascism"]
 		},
 		calculateEffects: function(self, game){
 			var effects = {
@@ -1267,27 +1267,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			effects["energyConsumption"] *= game.challenges.getEnergyMod();
 
 			self.effects = effects;
-			if(game.science.getPolicy("monarchy").researched == true){
-				var unlocksTemp = {
-					policies:["liberalism", "fascism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-			if(game.science.getPolicy("republic").researched == true){
-				var unlocksTemp = {
-					policies:["liberalism", "communism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-			if(game.science.getPolicy("authocracy").researched == true){
-				var unlocksTemp = {
-					policies:["communism", "fascism"]
-				};
-				self.unlocks = unlocksTemp;
-			}
-        	if(self.val > 0){
-				game.unlock(self.unlocks);
-			}
 		}
 	},{
 		name: "reactor",
