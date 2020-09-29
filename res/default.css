@@ -274,6 +274,7 @@ select>option {
 
     background-color: #FFF;
     padding: 20px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 }
 
 .help {
@@ -496,7 +497,7 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 .tabInner {
 	margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid gray;
+    border: 1px solid #B0B0B0;
 }
 
 .toggleCenter {

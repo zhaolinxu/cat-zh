@@ -964,7 +964,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150000}
 		],
 		effects:{
-		"technocracyScienceCap": 0.2
+			"technocracyScienceCap": 0.2
 		},
 		unlocked: false,
 		blocked: false,
@@ -1501,6 +1501,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	save: function(saveData){
 		saveData.science = {
 			hideResearched: this.hideResearched,
+			policyToggleResearched: this.policyToggleResearched,
+			policyToggleBlocked: this.policyToggleBlocked,
 			techs: this.filterMetadata(this.techs, ["name", "unlocked", "researched"]),
 			policies: this.filterMetadata(this.policies, ["name", "unlocked", "blocked", "researched"]),
 		};
@@ -1509,6 +1511,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
+			this.policyToggleResearched = saveData.science.policyToggleResearched,
+			this.policyToggleBlocked = saveData.science.policyToggleBlocked,
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}
@@ -1569,6 +1573,13 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 //-------- Policy ----------
 
 dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
+	},
+
 	getMetadata: function(model){
         if (!model.metaCached){
             model.metaCached = this.game.science.getPolicy(model.options.id);
@@ -1817,8 +1828,10 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Library", com.nuclearunicorn.game.u
 
 		//-------------- policies ----------------
 
-		this.policyPanel = new classes.ui.PolicyPanel("Policies", this.game.science);
+		this.policyPanel = new classes.ui.PolicyPanel($I("policy.panel.label"), this.game.science);
 		this.policyPanel.game = this.game;
+		// this.policyPanel.policyToggleBlocked = this.game.science.policyToggleBlocked;
+		// this.policyPanel.policyToggleResearched = this.game.science.policyToggleResearched;
 		this.policyPanel.render(tabContainer);
 
 		//------------ metaphysics ----------------
