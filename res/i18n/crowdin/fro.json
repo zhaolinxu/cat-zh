@@ -1,5 +1,9 @@
 {
     "console.intro": "Tv estois un feslin sevl en cette sombre forest d'herbe povr chats.",
     "console.intro.zebra": "Tu estois un zesbre en cette savane emplie de mines de titane.",
-    "achievements.header": "Svcces : {0} svr {1}"
+    "achievements.header": "Svcces : {0} svr {1}",
+    "achievements.anachronox.desc": "Syre, cessez",
+    "achievements.cathammer.title": "Chatmartel 40 mil",
+    "achievements.serenity.title": "Sérénité",
+    "achievements.sinsOfEmpire.title": "Péchés de l’empyre solaire"
 }
