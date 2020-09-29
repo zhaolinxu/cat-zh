@@ -913,9 +913,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		blocked: false,
 		blocks:["communism", "fascism"],
-		evaluateLocks(game){
+		evaluateLocks: function(game){
 			return (game.science.getPolicy("monarchy").researched || game.science.getPolicy("republic").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0 
+			&& game.bld.getBuildingExt("factory").meta.val > 0; 
 		}
 	}, {
 		name: "communism",
@@ -933,9 +933,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		blocked: false,
 		blocks:["liberalism", "fascism"],
-		evaluateLocks(game){
+		evaluateLocks: function(game){
 			return (game.science.getPolicy("republic").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0 
+			&& game.bld.getBuildingExt("factory").meta.val>0; 
 		}
 	}, {
 		name: "fascism",
@@ -950,9 +950,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocked: false,
 		blocked: false,
 		blocks:["liberalism", "communism"],
-		evaluateLocks(game){
+		evaluateLocks: function(game){
 			return (game.science.getPolicy("monarchy").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0 
+			&& game.bld.getBuildingExt("factory").meta.val>0; 
 		}
 	},
 	//----------------	information age --------------------
@@ -1116,8 +1116,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["culturalExchange"],
-		evaluateLocks(game){
-			return game.science.getPolicy("diplomacy").researched && game.science.get("astronomy").researched 
+		evaluateLocks: function(game){
+			return game.science.getPolicy("diplomacy").researched && game.science.get("astronomy").researched; 
 		}
     }, {
         name: "culturalExchange",
@@ -1132,8 +1132,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["knowledgeSharing"],
-		evaluateLocks(game){
-			return game.science.getPolicy("diplomacy").researched && game.science.get("astronomy").researched 
+		evaluateLocks: function(game){
+			return game.science.getPolicy("diplomacy").researched && game.science.get("astronomy").researched; 
 		}
     }, {
         name: "bigStickPolicy",
@@ -1148,8 +1148,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["cityOnAHill"],
-		evaluateLocks(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched 
+		evaluateLocks: function(game){
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
 		}
     }, {
         name: "cityOnAHill",
@@ -1164,8 +1164,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["bigStickPolicy"],
-		evaluateLocks(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched 
+		evaluateLocks: function(game){
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched;
 		}
     }, {
         name: "outerSpaceTreaty",
@@ -1180,8 +1180,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["militarizeSpace"],
-		evaluateLocks(game){
-			return game.space.getBuilding("sattelite").val>0
+		evaluateLocks: function(game){
+			return game.space.getBuilding("sattelite").val>0;
 		}
     }, {
         name: "militarizeSpace",
@@ -1196,8 +1196,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["outerSpaceTreaty"],
-		evaluateLocks(game){
-			return game.space.getBuilding("sattelite").val>0
+		evaluateLocks: function(game){
+			return game.space.getBuilding("sattelite").val>0;
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1326,9 +1326,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
 		blocks:["fullIndustrialization"],
-		evaluateLocks(game){
+		evaluateLocks: function(game){
 			return (game.science.getPolicy("stripMining").researched || game.science.getPolicy("clearCutting").researched)
-			&& game.science.get("industrialization").researched
+			&& game.science.get("industrialization").researched;
 		}
     }, {
         name: "fullIndustrialization",
@@ -1346,8 +1346,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["sustainability"],
-		evaluateLocks(game){
-			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched
+		evaluateLocks: function(game){
+			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
     }, {
         name: "conservation",
@@ -1362,8 +1362,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["openWoodlands"],
-		evaluateLocks(game){
-			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched
+		evaluateLocks: function(game){
+			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
     }, {
         name: "openWoodlands",
@@ -1379,8 +1379,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         unlocked: false,
         blocked: false,
         blocks:["conservation"],
-		evaluateLocks(game){
-			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched
+		evaluateLocks: function(game){
+			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
     }, /*{
         name: "spaceBasedTerraforming",
