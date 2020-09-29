@@ -788,6 +788,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.game.village.clearJobs(false);
 
+		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){//hack for theocracy; so that it stop being soo annoying
+			this.game.village.leader.job = "priest";
+			situationJobs["priest"] = situationJobs["priest"] - 1;
+			this.game.village.getJob("priest").value += 1;
+		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 				for (var job in situationJobs) {
@@ -2393,9 +2398,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + kitten.age + " years old, "
+				 ", " + kitten.age + " " + $I("village.census.age") + ", "
 				+ kitten.trait["title"]
-				+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")") + "</div>";
+				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
 			/*
@@ -2534,7 +2539,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons = [];
 		this.buttons = [];
 
-		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs", this.game.village);
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.job"), this.game.village);
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
 		}

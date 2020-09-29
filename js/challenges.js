@@ -25,7 +25,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true,
 		checkCompletionCondition: function(game){
-			return game.space.getPlanet("helios").reached
+			return game.space.getPlanet("helios").reached;
 		}
 	},{
 		name: "anarchy",
@@ -36,7 +36,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true,
 		checkCompletionCondition: function(game){
-			return game.bld.get("aiCore").val > 0
+			return game.bld.get("aiCore").val > 0;
 		}
 	},{
 		name: "energy",
@@ -65,7 +65,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				game.space.getBuilding("sunlifter").val > 0 &&
 				game.space.getBuilding("tectonic").val > 0 &&
 				game.space.getBuilding("hrHarvester").val > 0
-				)
+				);
 		}
 	},{
 		name: "atheism",
@@ -97,7 +97,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: false,
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > 0
+			return game.space.getBuilding("spaceBeacon").val > 0;
 		}
 	}],
 

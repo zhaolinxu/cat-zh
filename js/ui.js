@@ -104,6 +104,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isDisplayOver: false,
     isChatActive: false,
     isChatVisited: false,
+    isCenter: false,
 
     defaultSchemes: ["default", "dark", "grassy", "sleek", "black"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
@@ -424,7 +425,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 				if (game.prestige.getPerk("numeromancy").researched && this.festivalDays) {
 					// Cycle Festival Effects
 					var cycleSpan = dojo.create("div", {
-						innerHTML: "Cycle Festival Effects:",
+						innerHTML: $I("cycle.effects.festival.title"),
 						style: { textAlign: "center"}
 					}, tooltip );
 
@@ -473,7 +474,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         //-------------------------
         var now = new Date();
         if (now.getDate() == 1 && now.getMonth() == 3) {
-            $(".console-intro").css("font-size", "300%").addClass("blaze").text("You are a zebra in a savanna full of titanium mines.");
+            $(".console-intro").css("font-size", "300%").addClass("blaze").text($I("console.intro.zebra"));
         } else {
             $(".console-intro").text($I("console.intro"));
         }
@@ -561,7 +562,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
             var huntCount = Math.floor(catpower.value / 100);
             $("#fastHuntContainerCount")[0].innerHTML = this.game.getDisplayValueExt(huntCount, false, false, 0)
-                + (huntCount === 1 ? " time" : " times");
+                + " " + (huntCount === 1 ? $I("left.hunt.time") : $I("left.hunt.times"));
         } else {
             if (this.fastHuntContainer.style.visibility == "visible"){
                 this.fastHuntContainer.style.visibility = "hidden";
@@ -608,7 +609,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             }
 
             calendarDiv.innerHTML = $I("calendar.year.full", [year.toLocaleString(), seasonTitle + mod, Math.floor(calendar.day)]);
-            document.title = "Kittens Game - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
+            document.title = $I("navbar.title") + " - " + $I("calendar.year.full", [calendar.year, seasonTitle, Math.floor(calendar.day)]);
 
             if (this.game.ironWill && calendar.observeBtn) {
                 document.title = "[EVENT!]" + document.title;
@@ -631,7 +632,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#undoBtn").toggle(isVisible);
 
         if (isVisible) {
-            $("#undoBtn").html("undo (" + Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond) + "s)");
+            $("#undoBtn").text($I("ui.undo", [Math.floor(this.game.undoChange.ttl / this.game.ticksPerSecond)]));
         }
     },
 
@@ -869,15 +870,71 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             };
         });
 
-        this.updateLinksBlockLanguage();
+        this.updateIndexHTMLLanguage();
     },
 
-    updateLinksBlockLanguage: function() {
+    updateIndexHTMLLanguage: function() {
         $("#save-link").text($I("menu.save"));
         $("#options-link").text($I("menu.options"));
         $("#reset-link").text($I("menu.reset"));
         $("#wipe-link").text($I("menu.wipe"));
         $("#getTheApp-link").text($I("menu.getTheApp"));
+
+        $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
+        $("#saveTooltip").text($I("ui.save.tooltip"));
+        $("#energyTooltip").attr("title", $I("ui.energy.tooltip"));
+        $("#sorrowTooltip").attr("title", $I("resources.sorrow.full"));
+        $("#logLink").text($I("ui.log.link"));
+        $("#chatLink").text($I("ui.chat.link"));
+        $("#clearLogHref").text($I("ui.clear.log"));
+        $("#logFiltersBlockText").html($I("ui.log.filters.block"));
+        $("#pauseBtn").text($I("ui.pause"));
+        $("#pauseBtn").attr("title", $I("ui.pause.title"));
+        $("#undoBtn").attr("title", $I("ui.undo.title"));
+        $(".close").text($I("ui.close"));
+        $("#optionLanguage").text($I("ui.option.language"));
+        $("#addTranslationLink").text($I("ui.option.language.add"));
+        $("#languageApplyLink").text($I("ui.option.language.apply"));
+        $("#optionScheme").text($I("ui.option.scheme"));
+        $("#schemeRelock").text($I("ui.option.scheme.relock"));
+        $("#schemeTip").text($I("ui.option.scheme.tip"));
+        $("#optionWorkers").html($I("ui.option.workers"));
+        $("#optionForceHighPrecision").text($I("ui.option.force.high.precision"));
+        $("#optionUsePerSecondValues").html($I("ui.option.use.per.second.values"));
+        $("#optionUsePercentageResourceValues").text($I("ui.option.use.percentage.resource.values"));
+        $("#optionShowNonApplicableButtons").text($I("ui.option.show.non.applicable.buttons"));
+        $("#optionUsePercentageConsumptionValues").text($I("ui.option.use.percentage.consumption.values"));
+        $("#optionHighlightUnavailable").text($I("ui.option.highlight.unavailable"));
+        $("#optionHideSell").text($I("ui.option.hide.sell"));
+        $("#optionHideDowngrade").text($I("ui.option.hide.downgrade"));
+        $("#optionHideBGImage").html($I("ui.option.hide.bgimage"));
+        $("#optionTooltipsInRightColumn").text($I("ui.option.tooltips.right"));
+        $("#optionMore").text($I("ui.option.more"));
+        $("#optionNoConfirm").text($I("ui.option.no.confirm"));
+        $("#optionIWSmelter").text($I("ui.option.iw.smelter"));
+        $("#optionDisableTelemetry").text($I("ui.option.disable.telemetry"));
+        $("#optionEnableRedshift").text($I("ui.option.enable.redshift"));
+        $("#optionBatchSize").text($I("ui.option.batch.size"));
+        $("#optionForceLZ").text($I("ui.option.force.lz"));
+        $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
+        $("#exportButton").attr("value", $I("ui.option.export.button"));
+        $("#importButton").attr("value", $I("ui.option.import.button"));
+        $("#exportTo").text($I("ui.option.export"));
+        $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
+        $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
+        $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
+        $("#exportToEext").text($I("ui.option.export.text"));
+        $("#closeButton").attr("value", $I("ui.option.close.button"));
+        $("#importWarning").text($I("ui.option.import.warning"));
+        $("#importFrom").text($I("ui.option.import.from"));
+        $("#importFromDropbox").attr("value", $I("ui.option.import.from.dropbox"));
+        $("#importFromText").text($I("ui.option.import.from.text"));
+        $("#doImportButton").attr("value",$I("ui.option.do.import.button"));
+        $("#cancelButton").attr("value",$I("ui.option.cancel.button"));
+        $("#appText").text($I("ui.option.app.text"));
+        $("#appAndroid").text($I("ui.option.app.android"));
+        $("#appIOS").text($I("ui.option.app.ios"));
+        $("#optionNotation").text($I("ui.option.notation"));        
     },
 
     _createFilter: function(filter, fId, filtersDiv){
@@ -1002,23 +1059,37 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
             this.fontSize = uiData.fontSize || 16;
             this.isChatVisited = uiData.isChatVisited || false;
+            this.isCenter = uiData.isCenter || false;
         } catch (ex) {
             console.error("unable to load ui data");
         }
         this.updateFontSize();
+        this.updateCenter();
     },
 
     save: function(){
         LCstorage["com.nuclearunicorn.kittengame.ui"] = JSON.stringify({
            fontSize: this.fontSize,
            isChatVisited: this.isChatVisited,
+           isCenter: this.isCenter,
            theme: this.game.colorScheme
         });
     },
 
+    updateCenter: function(){
+        if (this.isCenter) {
+            $("#game").addClass("centered");
+            $("#toggleCenter").html("&lt;");
+        } else {
+            $("#game").removeClass("centered");
+            $("#toggleCenter").html("&gt;");
+        }
+
+    },
+
     toggleCenter: function(){
-        $("#game").toggleClass("centered");
-        $("#toggleCenter").html($("#game").hasClass("centered") ? "&lt;" : "&gt");
+        this.isCenter = !this.isCenter;
+        this.updateCenter();
     },
 
     isEffectMultiplierEnabled: function(){
