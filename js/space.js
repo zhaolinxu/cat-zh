@@ -268,7 +268,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
-					self.effects["energyConsumption"] *= game.challenges.getEnergyMod();
 				}
 			},
 			unlockScheme: {
@@ -299,7 +298,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"maxKittens": 2
 				};
 				effects["energyConsumption"] = 10;
-				effects["energyConsumption"] *= game.challenges.getEnergyMod();
 				self.effects = effects;
 			},
 			unlocks: {
@@ -336,7 +334,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumPerTickSpace": 0.007 * (1 + game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
-				effects["energyConsumption"] *= game.challenges.getEnergyMod();
 				
 				self.effects = effects;
 			},
@@ -391,7 +388,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption" : 0
 				};
 				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
-				effects["energyConsumption"] *= game.challenges.getEnergyMod();
 
 				if (game.workshop.get("aiBases").researched){
                     var aiBasesModifier = 1 + game.getEffect("aiCoreUpgradeBonus");
@@ -526,7 +522,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"spaceRatio": 0.02
 				};
 				effects["energyConsumption"] = 20;
-				effects["energyConsumption"] *= game.challenges.getEnergyMod();
 				self.effects = effects;
             }
         }]
@@ -575,7 +570,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption" : 50 * (1 + game.space.getBuilding("heatsink").val * 0.01)
 				};
 
-				effects["energyConsumption"] *= game.challenges.getEnergyMod();
 				self.effects = effects;
 			}
 		},{

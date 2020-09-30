@@ -424,7 +424,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
 			};
 			effects["energyConsumption"] = 15;
-			effects["energyConsumption"] *= game.challenges.getEnergyMod();
 			self.effects = effects;
 		},
 		unlocks: {
@@ -681,6 +680,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 if (this.game.time.heat > heatMax) {
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
                 }
+
+                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
 			}
 		}
 
@@ -708,6 +709,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
+
+                        priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
 					pricesTotal += priceLoop;
 				}
 			}
