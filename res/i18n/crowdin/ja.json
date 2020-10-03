@@ -2,5 +2,10 @@
     "console.intro": "あなたはキャットニップの森にいる1匹の子猫です。",
     "buildings.hut.desc": "小屋を建てます(それぞれ子猫2匹分のスペース)。子猫はキャットニップが足りないと死んでしまいます。<br>子猫1匹は1tickごとに約4つキャットニップを消費します。",
     "buildings.logHouse.desc": "家を建てます(それぞれ子猫1匹分のスペース)。",
-    "buildings.mansion.desc": "夢のような豪邸(それぞれ子猫1匹分のスペース)。"
+    "buildings.mansion.desc": "夢のような豪邸(それぞれ子猫1匹分のスペース)。",
+    "policy.stripMining.label": "露天掘り",
+    "religion.tu.blackLibrary.label": "黒い図書館",
+    "religion.tu.blackLibrary.desc": "すべての黒い図書館は Codex Leviathanianus を2%向上させます。この値は、ユニコーンの墓場によってさらに改善されます。",
+    "religion.tu.blackNexus.desc": "時間結晶をレリックへ精製する比率を向上させます。<br>黒い連鎖は黒いピラミッドの数に応じてレリックの精製効率を増加させます。<br>これはレリックステーションの効果も上昇します。",
+    "time.reset.instructional": "その時間線をリセットするとゲームを最初から始めます。すべての統計と実績は引き継がれます。また様々なボーナスを受けられるでしょう。<br><br>現時点でリセットして得られるものは:"
 }
