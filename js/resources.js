@@ -692,17 +692,18 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		game.updateKarma();
 
 		//--------
-		var energyRatio = 1 + game.getEffect("energyProductionRatio");
-		this.energyProd = game.getEffect("energyProduction") * energyRatio;
+		var energyProdRatio = 1 + game.getEffect("energyProductionRatio");
+		this.energyProd = game.getEffect("energyProduction") * energyProdRatio;
 		this.energyWinterProd = this.energyProd;
-		this.energyCons = game.getEffect("energyConsumption");
+		var energyConsRatio = 1 + game.getLimitedDR(game.getEffect("energyConsumptionRatio"), 1);
+		this.energyCons = game.getEffect("energyConsumption") * energyConsRatio * (this.game.challenges.isActive("energy") ? 2 : 1);
 
 		var currentSeason = game.calendar.season;
 		var solarFarm = game.bld.getBuildingExt("pasture");
 		var calculateEnergyProduction = solarFarm.get("calculateEnergyProduction");
 		if (currentSeason != 3 && calculateEnergyProduction) {
 			var energyLoss = calculateEnergyProduction(game, currentSeason) - calculateEnergyProduction(game, 3);
-			this.energyWinterProd -= solarFarm.get("on") * energyLoss * energyRatio;
+			this.energyWinterProd -= solarFarm.get("on") * energyLoss * energyProdRatio;
 		}
 	},
 

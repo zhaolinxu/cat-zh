@@ -898,17 +898,27 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		this.game.msg($I("trade.correct.bcoin"), "important");
 	},
 
-	getWeatherMod: function(){
-		var mod = 0;
+	getWeatherMod: function(res){
+		var mod = this.getCurSeason().modifiers[res.name] ? this.getCurSeason().modifiers[res.name] : 1;
+
+		if (res.name != "catnip") {
+			return mod;
+		}
+
+		if (this.game.science.getPolicy("communism").researched && this.getCurSeason().name == "winter" && this.weather == "cold"){
+			return 0;
+		}
+
 		if (this.weather == "warm"){
 			mod =  0.15;
 		} else if (this.weather == "cold"){
 			mod = -0.15;
-
-			if (this.game.science.getPolicy("communism").researched && this.season == 3){
-				mod = -0.95;
-			}
 		}
+
+		if (this.getCurSeason().name == "spring") {
+                        mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
+                }
+
 		return mod;
 	},
 

@@ -456,6 +456,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.energyProductionRatio.title"),
 				type: "ratio"
 			},
+			"energyConsumptionRatio": {
+				title: $I("effectsMgr.statics.energyConsumptionRatio.title"),
+				type: "ratio"
+			},
 
 			//production
 
@@ -618,6 +622,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "ratio"
             },
 
+            "masterSkillMultiplier" : {
+                title: $I("effectsMgr.statics.masterSkillMultiplier.title"),
+                type: "ratio"
+            },
+
             "uraniumRatio" : {
                 title: $I("effectsMgr.statics.uraniumRatio.title"),
                 type: "ratio"
@@ -745,6 +754,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
             "solarRevolutionRatio" : {
                 title: $I("effectsMgr.statics.solarRevolutionRatio.title"),
+                type: "ratio"
+            },
+
+            "faithSolarRevolutionBoost" : {
+                title: $I("effectsMgr.statics.faithSolarRevolutionBoost.title"),
                 type: "ratio"
             },
 
@@ -955,6 +969,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 
 			"corruptionBoostRatio": {
 				title: $I("effectsMgr.statics.corruptionBoostRatio.title"),
+				type: "ratio"
+			},
+
+			"corruptionBoostRatioChallenge": {
+				title: $I("effectsMgr.statics.corruptionBoostRatioChallenge.title"),
 				type: "ratio"
 			},
 
@@ -1209,7 +1228,19 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "goldPolicyRatio":{
 				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
 				type: "ratio"
-            }
+            },
+			"springCatnipRatio": {
+				title: $I("effectsMgr.statics.springCatnipRatio.title"),
+				type: "ratio"
+			},
+                        "summerSolarFarmRatio": {
+                                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
+                                type: "ratio"
+                        },
+                        "shatterCostReduction": {
+                                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                                type: "ratio"
+                        }
 		}
 	}
 });
@@ -2470,18 +2501,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick += perTickBaseSpace;
 
 		// *SEASON MODIFIERS
-		if (!season){
-			var season = this.calendar.getCurSeason();
-		}
-		var weatherMod = this.calendar.getWeatherMod();
-		    weatherMod = (season.modifiers[res.name] + weatherMod);
-		if (weatherMod < -0.95){
-			weatherMod = -0.95;
-		}
-
-		if (season.modifiers[res.name]){
-			perTick *= weatherMod;
-		}
+		perTick *= this.calendar.getWeatherMod(res);
 
 		// +VILLAGE JOB PRODUCTION
 		var resMapProduction = this.village.getResProduction();
@@ -2663,19 +2683,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		stack.push(perTickBaseSpaceStack);
 
 		// *SEASON MODIFIERS
-		if (!season){
-			var season = this.calendar.getCurSeason();
-		}
-		var weatherMod = this.calendar.getWeatherMod();
-		    weatherMod = (season.modifiers[res.name] + weatherMod);
-		if (weatherMod < -0.95){
-			weatherMod = -0.95;
-		}
-
 		stack.push({
 			name: $I("res.stack.weather"),
 			type: "ratio",
-			value: weatherMod - 1
+			value: this.calendar.getWeatherMod(res) - 1
 		});
 
 		// +VILLAGE JOB PRODUCTION
