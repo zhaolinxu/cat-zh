@@ -30,7 +30,10 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			"br": "Português",
 			"es": "Español",
 			"fr": "Français",
+<<<<<<< Updated upstream
+=======
 			"fro": "Ancien Français",
+>>>>>>> Stashed changes
 			"cz": "Čeština",
 			"pl": "Polski",
 			"de": "Deutsch"
