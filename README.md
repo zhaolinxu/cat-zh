@@ -99,9 +99,6 @@ In a grim and dark future of catkind, no one can hear you scream.
 ### Translation and Localization
 
 https://crowdin.com/project/kittensgame
-[![Crowdin](https://badges.crowdin.net/kittensgame/localized.svg)](https://crowdin.com/project/kittensgame)
-
-
 
 ### Links
 * [Resource Order](./Resource-Order.md)
