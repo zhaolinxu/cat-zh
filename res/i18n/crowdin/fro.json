@@ -10,6 +10,7 @@
     "achievements.sinsOfEmpire.title": "Péchés de l’empyre solaire",
     "achievements.soilUptuned.title": "Vierge sol retourné",
     "achievements.sunGod.title": "Diev Soleil",
+    "achievements.theElderLegacy.title": "L'épiqve des anciens",
     "achievements.uberkatzhen.desc": "Qvi ne me trespasse point m'enhardit",
     "achievements.winterIsComing.title": "Ci vient l'hyver",
     "achievements.winterIsComing.desc": "10 chastons ont péri de vostre main",
@@ -27,7 +28,11 @@
     "btn.off.tooltip": "Bâtisse en repos",
     "btn.on.tooltip": "Bâtisse travaillant",
     "btn.promote": "Adovber",
+    "btn.sell": "Vendre",
+    "btn.sell.minor": "vendre",
     "buildings.aicore.attemptsell": "Halte, manant !",
+    "buildings.aqueduct.label": "Aqvedvc",
+    "buildings.barn.label": "Grange",
     "buildings.chapel.label": "Chapelle",
     "buildings.factory.label": "Usyne",
     "buildings.pasture.label": "Pastvre",
@@ -63,5 +68,6 @@
     "stats.kittens.dead": "Chastons occis",
     "village.job.woodcutter": "Bvcheron",
     "village.msg.kitten": "chaston",
-    "village.msg.kittens": "chastons"
+    "village.msg.kittens": "chastons",
+    "workshop.titaniumMirrors.flavor": "Ceste lvevr est elle en movance ?"
 }
