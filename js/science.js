@@ -865,7 +865,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			policies:["liberty"]
 		},
 		calculateEffects: function(self, game){
-			self.effects["maxKittens"] = game.village.getVillageLevel();
+			var villageLevel = game.village.getVillageLevel();
+			self.effects["maxKittens"] = (villageLevel < 11)? math.floor(villageLevel/2) : 
+			(villageLevel < 16)? villageLevel-5: villageLevel
 		}
 	}, {
 		name: "tradition",
