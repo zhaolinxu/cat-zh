@@ -342,7 +342,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         // 5 years + 1 year per energy unit
         elders.duration = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);
 
-        this.game.msg($I("trade.msg.elders"), "notice");
+        this.game.msg($I("trade.msg.elders"), "urgent");
     },
 
     onNewDay: function(){

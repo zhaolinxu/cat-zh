@@ -2,7 +2,7 @@ dojo.declare("classes.KGConfig", null, {
     statics: {
         disableWebWorkers: false,
         locales: ["ru", "ja", "br", "es", "fr", "cz", "zh", "pl"],
-        schemes: ["dark", "grassy", "sleek", "black", "gold", "space", "wood", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate"],
+        schemes: ["dark", "grassy", "sleek", "black", "wood", "gold", "space", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate", "vintage"],
         notations: ["si", "e", "sie"]
     }
 });

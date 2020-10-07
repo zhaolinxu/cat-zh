@@ -2,6 +2,9 @@ v 1.4.8.2 (15 aug 2020)
 Major:
 * Repeatable challenges (alpha backport, phase 0)
 
+Themes:
+* New themes: Vintage, Wood v2 (permanent unlock)
+
 Minor:
 * Added an option for the scientific notation (Cirn09)
 * Shark embassies scaling was reduced from 5-5-5 to 5-3-1
