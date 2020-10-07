@@ -852,11 +852,20 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"maxKittens": 0
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["tradition"],
 		unlocks:{
 			policies: ["authocracy", "republic"]
+		},
+		upgrades:{
+			policies:["liberty"]
+		},
+		calculateEffects: function(self, game){
+			self.effects["maxKittens"] = game.village.getVillageLevel();
 		}
 	}, {
 		name: "tradition",
