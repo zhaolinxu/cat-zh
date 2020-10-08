@@ -2779,12 +2779,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	updateTab: function(){
-		var newTabTitle = this.getVillageTitle();
-		if(this.tabName !=newTabTitle){
-			this.tabName = newTabTitle;
-			var liberty = this.game.science.getPolicy("liberty")
-			liberty.calculateEffects(liberty, this.game)
-		}
+		this.tabName = this.getVillageTitle();
 		var freeKittens = this.game.village.getFreeKittens();
 		if (freeKittens > 0) {
 			this.tabName += " <span class='genericWarning'>(" + this.game.getDisplayValueExt(freeKittens, false, false, 0) + ")</span>";

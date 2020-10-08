@@ -1930,6 +1930,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.breakIronWill) {
 				this.game.ironWill = false;
+				var liberty = this.game.science.getPolicy("liberty")
+				liberty.calculateEffect(liberty, this.game)
 			}
 
 			if (meta.unlocks) {
