@@ -861,11 +861,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks:{
 			policies: ["authocracy", "republic"]
 		},
-		upgrades:{
-			policies:["liberty"]
-		},
 		calculateEffects: function(self, game){
-			self.effects["maxKittens"] = (game.village.getKittens()>0)?1:0
+			self.effects["maxKittens"] = (game.resPool.get("kittens").value>0)?1:0
 		}
 	}, {
 		name: "tradition",
