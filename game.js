@@ -3000,6 +3000,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
+		this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
