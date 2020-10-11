@@ -1767,6 +1767,8 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 			button.render(content);
 			self.addChild(button);
 		});
+		
+		dojo.create("div", { style: { clear: "both"}}, content);
 	}
 });
 

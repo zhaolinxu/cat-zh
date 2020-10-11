@@ -752,7 +752,7 @@
     "prestige.zebraDiplomacy.desc": "Some zebras hunters will stay in the village. (You need to unlock zebra hunters first to use this upgrade).",
 
     "religion.adoreBtn.label": "Adore the galaxy",
-    "religion.adoreBtn.desc": "Former [Faith Reset]",
+    "religion.adoreBtn.desc": "Convert all your worship to a praise effectiveness bonus.\nFormer [Faith Reset]",
     "religion.faithCount.bonus": "bonus",
     "religion.faithCount.pool": "Worship: {0}",
     "religion.adore.confirmation.msg": "Are you sure you want to convert all worship to epiphany?\n\nYou will get a bonus to faith convertion (Praise the sun) based on your total amount of epiphany.\n\nEpiphany and this bonus will carry over through resets.\n\nCLICKING THIS BUTTON WILL ERASE ALL WORSHIP AND RESET SOLAR REVOLUTION PRODUCTION BONUS.",
