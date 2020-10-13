@@ -854,7 +854,57 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			}
 		}
 
-	}
+	},
+	getVillageLevel: function(){
+		var kittens = this.getKittens();
+		switch (true) {
+			//you gotta be kitten me
+		case kittens > 10000:
+			return 21;
+		case kittens > 5000:
+			return 20;
+		case kittens > 2000:
+			return 19;
+		case kittens > 1500:
+			return 18;
+		case kittens > 1200:
+			return 17;
+        case kittens > 1000:
+            return 16
+        case kittens > 900:
+            return 15;
+        case kittens > 800:
+            return 14;
+        case kittens > 700:
+            return 13;
+        case kittens > 600:
+            return 12;
+		case kittens > 500:
+			return 11;
+		case kittens > 400:
+			return 10;
+		case kittens > 300:
+			return 9;
+		case kittens > 250:
+			return 8;
+		case kittens > 200:
+			return 7;
+		case kittens > 150:
+			return 6;
+		case kittens > 100:
+			return 5;
+		case kittens > 50:
+			return 4;
+		case kittens > 30:
+			return 3;
+		case kittens > 15:
+			return 2;
+		case kittens > 0:
+			return 1;
+		default:
+			return 0;
+		}
+	},
 });
 
 /**
