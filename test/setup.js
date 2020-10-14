@@ -65,12 +65,14 @@ try {
     }
 
     require("../config");
-    require("../core");
+    require("../i18n");
 
     //mock $I
     global.$I = function(key, args) {
         return "$" + key + "$";
     };
+
+    require("../core");
 
     require("../js/resources");
     require("../js/calendar");

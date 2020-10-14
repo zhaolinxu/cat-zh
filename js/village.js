@@ -433,8 +433,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Get cumulative resource production per village population
 	 */
 	updateResourceProduction: function(){
-		var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
-
 		var res = {
 		};
 
@@ -459,7 +457,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 					for (var jobResMod in job.modifiers){
 
-						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod - 1) * productionRatio);
+						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * mod;
 
 						if (diff > 0 ){
 							if (kitten.isLeader){
@@ -490,7 +488,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							diff -= diff * rankDiff * 0.15;
 						}
 
-						diff += diff * (mod - 1) * productionRatio;
+						diff += diff * mod;
 
 						if (diff > 0 ){
 							if (kitten.isLeader){
@@ -788,6 +786,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 			this.game.village.clearJobs(false);
 
+		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){//hack for theocracy; so that it stop being soo annoying
+			this.game.village.leader.job = "priest";
+			situationJobs["priest"] = situationJobs["priest"] - 1;
+			this.game.village.getJob("priest").value += 1;
+		}
 			// Optimisation share between each jobs by assigning 1 kitten per job until all jobs are reassigned
 			while (Object.getOwnPropertyNames(situationJobs).length !== 0) {
 				for (var job in situationJobs) {
@@ -851,22 +854,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
+		var value = 0;
 		switch (true) {
 		case value < 100:
-			return 1.0;
+			break;
 		case value < 500:
-			return 1.05;	//5%
+			value = 0.0125;
+			break;
 		case value < 1200:
-			return 1.10;
+			value = 0.025;
+			break;
 		case value < 2500:
-			return 1.18;
+			value = 0.045;
+			break;
 		case value < 5000:
-			return 1.30;
+			value = 0.075;
+			break;
 		case value < 9000:
-			return 1.50;
+			value = 0.125;
+			break;
 		default:
-			return 1.75;
+			value = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
 		}
+		return value * (1 + this.game.getEffect("skillMultiplier"));
 	},
 
 	getSkillExpRange: function(value){
@@ -2271,10 +2281,8 @@ dojo.declare("classes.ui.village.Census", null, {
 			if (skillsArr[j].name == kitten.job) {
 				style = "style='font-weight: bold'";
 
-				var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
 				var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job]);
-				bonus = (mod - 1) * productionRatio;
-				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus + 1) - 1) : bonus;
+				bonus = mod > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (mod + 1) - 1) : mod;
 
 				//TODO: move me to getFromLeaderBonus
 				bonus = bonus > 0 && !kitten.isLeader && 
@@ -2393,9 +2401,9 @@ dojo.declare("classes.ui.village.Census", null, {
 			
 			record.content.innerHTML =
 				"<div class='info'>" + this.getStyledName(kitten) +
-				 ", " + kitten.age + " years old, "
+				 ", " + kitten.age + " " + $I("village.census.age") + ", "
 				+ kitten.trait["title"]
-				+ (kitten.rank == 0 ? "" : " (rank " + kitten.rank + ")") + "</div>";
+				+ (kitten.rank == 0 ? "" : " (" + $I("village.census.rank") + " " + kitten.rank + ")") + "</div>";
 
             //--------------- skills ----------------
 			/*
@@ -2534,7 +2542,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.advModeButtons = [];
 		this.buttons = [];
 
-		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel("Jobs", this.game.village);
+		this.jobsPanel = new com.nuclearunicorn.game.ui.Panel($I("village.panel.job"), this.game.village);
 		if (this.game.ironWill && !this.game.village.getKittens()){
 			this.jobsPanel.setVisible(false);
 		}

@@ -21,29 +21,44 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.winterIsComing.label"),
 		description: $I("challendge.winterIsComing.desc"),
 		effectDesc: $I("challendge.winterIsComing.effect.desc"),
-		repeatEffectDesc: $I("challendge.winterIsComing.repeatEffect.desc"),
 		researched: false,
 		unlocked: true,
+		effects: {
+			"springCatnipRatio": 0.05,
+			"summerSolarFarmRatio": 0.05
+		},
+		calculateEffects: function(self, game){
+			if (self.active) {
+				self.effects["springCatnipBonus"] = 0;
+                                self.effects["summerSolarFarmBonus"] = 0;
+			}
+		},
 		checkCompletionCondition: function(game){
-			return game.space.getPlanet("helios").reached
+			return game.space.getPlanet("helios").reached;
 		}
 	},{
 		name: "anarchy",
 		label: $I("challendge.anarchy.label"),
 		description: $I("challendge.anarchy.desc"),
 		effectDesc: $I("challendge.anarchy.effect.desc"),
-		repeatEffectDesc: $I("challendge.anarchy.repeatEffect.desc"),
 		researched: false,
 		unlocked: true,
+                effects: {
+                        "masterSkillMultiplier": 0.2
+                },
+                calculateEffects: function(self, game){
+                        if (self.active) {
+                                self.effects["masterSkillMultiplier"] = 0;
+                        }
+                },
 		checkCompletionCondition: function(game){
-			return game.bld.get("aiCore").val > 0
+			return game.bld.get("aiCore").val > 0;
 		}
 	},{
 		name: "energy",
 		label: $I("challendge.energy.label"),
 		description: $I("challendge.energy.desc"),
 		effectDesc: $I("challendge.energy.effect.desc"),
-		repeatEffectDesc: $I("challendge.energy.repeatEffect.desc"),
         researched: false,
 		unlocked: false,
 		upgrades: {
@@ -52,7 +67,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			voidSpace: ["chronocontrol"]
 		},
 		effects: {
-			"challengeReward": -0.1
+			"energyConsumptionRatio": -0.02
+		},
+		calculateEffects: function(self, game){
+			if (self.active) {
+				self.effects["energyConsumptionRatio"] = 0;
+			}
 		},
 		checkCompletionCondition: function(game){
 			return(
@@ -65,19 +85,20 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				game.space.getBuilding("sunlifter").val > 0 &&
 				game.space.getBuilding("tectonic").val > 0 &&
 				game.space.getBuilding("hrHarvester").val > 0
-				)
+				);
 		}
 	},{
 		name: "atheism",
 		label: $I("challendge.atheism.label"),
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
-		repeatEffectDesc: $I("challendge.atheism.repeatEffect.desc"),
 		effects: {
-			"solarRevolutionLimit": 1
+			"faithSolarRevolutionBoost": 0.1
 		},
 		calculateEffects: function(self, game) {
-			self.effects["solarRevolutionLimit"] = game.religion.transcendenceTier;
+                        if (self.active) {
+                                self.effects["faithSolarRevolutionBoost"] = 0;
+                        }
 		},
         researched: false,
         unlocked: false
@@ -86,7 +107,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
-		repeatEffectDesc: $I("challendge.1000Years.repeatEffect.desc"),
+                effects: {
+                        "shatterCostReduction": -0.02
+                },
+                calculateEffects: function(self, game){
+                        if (self.active) {
+                                self.effects["shatterCostReduction"] = 0;
+                        }
+                },
 		researched: false,
 		unlocked: false
 	},{
@@ -96,8 +124,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.blackSky.effect.desc"),
 		researched: false,
 		unlocked: false,
+                effects: {
+                        "corruptionBoostRatioChallenge": 0.1
+                },
+                calculateEffects: function(self, game){
+                        if (self.active) {
+                                self.effects["corruptionBoostRatioChallenge"] = 0;
+                        }
+                },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > 0
+			return game.space.getBuilding("spaceBeacon").val > 0;
 		}
 	}],
 
@@ -117,7 +153,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			challenges: this.filterMetadata(this.challenges, [
 				"name", 
 				"researched", 	//deprecated
-				"val", 
+				"on", 
 				"unlocked", 
 				"active"		//if currently active or not
 			])
@@ -167,6 +203,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	researchChallenge: function(challenge) {
 		if (this.isActive(challenge)){
 			this.getChallenge(challenge).researched = true;
+			this.getChallenge(challenge).on += 1;
 			this.getChallenge(challenge).active = false;
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
 			if(this.getChallenge(challenge).actionOnCompletion){
@@ -204,13 +241,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		});
 	},
 
-	getEnergyMod: function() {
-		return (
-			this.isActive("energy") ? 2 : 1
-		) * 
-			this.getChallengeReward("energy");
-	},
-
 	//TODO: rewrite using the general getEffect logic
 
 	/*getChallengeEffect: function(name, type) {
@@ -220,13 +250,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		}
 	},*/
 
-	getChallengeReward: function(name){
-		var challenge = this.getChallenge(name);
-		return 1 + this.game.getLimitedDR(
-			challenge.val * challenge.effects["challengeReward"], 
-			challenge.effects["challengeRewardLimit"] || 1
-		);
-	}
 });
 
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
@@ -258,6 +281,9 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 		} 
 		if (meta.pending){
 			name += " (" + $I("challendge.pending") + ")";
+		}
+		if (meta.on) {
+			name += " (" + meta.on + ")";
 		}
 		return name;
 	},

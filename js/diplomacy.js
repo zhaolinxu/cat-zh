@@ -577,7 +577,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
-		this.game.msg("You've bought " + this.game.getDisplayValueExt(amt) + " blackcoins");
+		this.game.msg($I("trade.bcoin.sell.msg", [this.game.getDisplayValueExt(amt)]));
+
 	},
 
 	sellBcoin: function(){
@@ -585,7 +586,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		this.game.resPool.get("relic").value += amt;
 		this.game.resPool.get("blackcoin").value = 0;
 
-		this.game.msg("You've got " + this.game.getDisplayValueExt(amt) + " relics");
+		this.game.msg($I("trade.bcoin.sell.msg", [this.game.getDisplayValueExt(amt)]));
 	},
 
 	unlockAll: function(){
@@ -676,8 +677,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 
 		if (this.game.science.get("blackchain").researched || this.game.resPool.get("blackcoin").value > 0) {
 			this.buyBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.buy.bcoin"),
-				description: $I("trade.buy.bcoin.desc"),
+				name: $I("trade.bcoin.buy"),
+				description: $I("trade.bcoin.buy.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
 					self.game.diplomacy.buyBcoin();
@@ -686,8 +687,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 			this.buyBcoin.render(content);
 
 			this.sellBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.sell.bcoin"),
-				description: $I("trade.sell.bcoin.desc"),
+				name: $I("trade.bcoin.sell"),
+				description: $I("trade.bcoin.sell.desc"),
 				controller: new com.nuclearunicorn.game.ui.ButtonModernController(this.game),
 				handler: function () {
 					self.game.diplomacy.sellBcoin();
@@ -698,8 +699,8 @@ dojo.declare("classes.diplomacy.ui.EldersPanel", classes.diplomacy.ui.RacePanel,
 
 		if (this.game.science.get("antimatter").researched && this.game.workshop.get("invisibleBlackHand").researched) {
 			this.crashBcoin = new com.nuclearunicorn.game.ui.ButtonModern({
-				name: $I("trade.crash.bcoin"),
-				description: $I("trade.crash.bcoin.desc"),
+				name: $I("trade.bcoin.crash"),
+				description: $I("trade.bcoin.crash.desc"),
 				controller: new com.nuclearunicorn.game.ui.CrashBcoinButtonController(this.game),
 				handler: function () {
 					self.game.calendar.correctCryptoPrice();
@@ -1150,7 +1151,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			var buys = race.buys[0];
 			var res = this.game.resPool.get(buys.name);
 			dojo.create("div", {
-				innerHTML: "<span class='buys'>Buys: </span>" + (res.title || res.name) + " <span class='tradeAmount'>" + buys.val + "</span>"
+				innerHTML: "<span class='buys'>" + $I("trade.buys") + ": </span>" + (res.title || res.name) + " <span class='tradeAmount'>" + buys.val + "</span>"
 			}, leftColumn);
 
 			for (var j = 0; j < race.sells.length; j++) {
@@ -1162,7 +1163,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				var res = this.game.resPool.get(s.name);
 				var average = s.value * tradeRatio * (1 + race.energy * 0.02) * (1 + (s.seasons ? s.seasons[currentSeason] : 0));
 
-				var prefix = j == 0 ? "<span class='sells'>Sells: </span>" : "<span class='sells'></span>";
+				var prefix = j == 0 ? "<span class='sells'>" + $I("trade.sells") + ": </span>" : "<span class='sells'></span>";
 				dojo.create("div", {
 						innerHTML: prefix + (res.title || res.name) + " <span class='tradeAmount'>"
 							+ this.game.getDisplayValueExt(average * (1 - s.width / 2), false, false, 0) + " - "
@@ -1294,11 +1295,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				(1 + this.game.getEffect("leviathansEnergyModifier"))
 			);
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
-			this.leviathansInfo.innerHTML = "Energy: " + leviathansInfoEnergy +
-				"<br />Time to leave: " + this.game.toDisplayDays(leviathans.duration);
+			this.leviathansInfo.innerHTML = $I("trade.leviathans.energy") + leviathansInfoEnergy +
+				"<br />" + $I("trade.leviathans.timeToLeave") + this.game.toDisplayDays(leviathans.duration);
 
 			if (this.game.science.get("antimatter").researched){
-				this.leviathansInfo.innerHTML += "<br /> B-coin price: <span style='cursor:pointer' title='" + this.game.calendar.cryptoPrice + "'>" +
+				this.leviathansInfo.innerHTML += "<br /> " + $I("trade.bcoin.price") + " <span style='cursor:pointer' title='" + this.game.calendar.cryptoPrice + "'>" +
 					this.game.getDisplayValueExt(this.game.calendar.cryptoPrice, false, false, 5) + "R</span>";
 			}
 		}

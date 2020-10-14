@@ -355,11 +355,11 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 			"corruptionRatio" : 0.000001
 		},
 		calculateEffects: function(self, game) {
-			self.effects["corruptionRatio"] = 0.000001 * (game.challenges.getChallenge("blackSky").researched ? 1.1 : 1);
+			self.effects["corruptionRatio"] = 0.000001 * (1 + game.getLimitedDR(game.getEffect("corruptionBoostRatioChallenge"), 2));
 		},
 		unlocked: false,
 		getEffectiveValue: function(game) {
-			return this.val * (game.challenges.getChallenge("blackSky").researched ? 1.1 : 1);
+			return this.val * (1 + game.getLimitedDR(game.getEffect("corruptionBoostRatioChallenge"), 2));
 		}
 	},{
 		name: "unicornGraveyard",
@@ -759,7 +759,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 
 	getSolarRevolutionRatio: function() {
 		var uncappedBonus = this.getRU("solarRevolution").on ? this.game.getUnlimitedDR(this.faith, 1000) / 100 : 0;
-		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit"));
+		return this.game.getLimitedDR(uncappedBonus, 10 + this.game.getEffect("solarRevolutionLimit") + (this.game.challenges.getChallenge("atheism").researched ? 1 : 0)) * (1 + this.game.getLimitedDR(this.game.getEffect("faithSolarRevolutionBoost"), 4));
 	},
 
 	getApocryphaBonus: function(){
