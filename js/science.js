@@ -852,11 +852,17 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"maxKittens": 0
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["tradition"],
 		unlocks:{
 			policies: ["authocracy", "republic"]
+		},
+		updateEffects: function(self, game){
+			self.effects["maxKittens"] = (game.ironWill)?0:1
 		}
 	}, {
 		name: "tradition",
@@ -1605,7 +1611,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              // Add effect in globalEffectsCached, in addition of other managers
              this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
              }
-             }*/
+			 }*/
+	update: function(){
+		for(var i = 0; i < this.policies.length; i++){
+			var policy = this.policies[i]
+			if(policy.researched && policy.updateEffects){
+				policy.updateEffects(policy, this.game)
+			}
+		}
+	}
 });
 
 //-------- Policy ----------
@@ -1767,6 +1781,8 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 			button.render(content);
 			self.addChild(button);
 		});
+		
+		dojo.create("div", { style: { clear: "both"}}, content);
 	}
 });
 
