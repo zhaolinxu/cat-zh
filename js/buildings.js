@@ -1817,6 +1817,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 50 }
 		],
+		unlocks: {
+			craft:["bloodstone"]
+		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
 		effects: {}
