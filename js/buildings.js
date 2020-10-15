@@ -1792,7 +1792,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		calculateEffects: function(self, game){
 			if(game.workshop.getZebraUpgrade("darkRevolution").researched){
-				self.effects["zebraPreparations"] = game.ironWill? 1:0.05
+				self.effects["zebraPreparations"] = game.ironWill? 1:0.1
 			}
 		}
 	},{

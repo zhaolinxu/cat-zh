@@ -494,6 +494,7 @@
     "effectsMgr.statics.warehouseRatio.title": "Warehouse expansion",
     "effectsMgr.statics.woodJobRatio.title": "Woodcutter tools",
     "effectsMgr.statics.zebraAppeasedGoldPenalty.title" : "Gold penalty",
+    "effectsMgr.statics.zebraPreparations.title": "Zebra Preparation",
     "effectsMgr.statics.zebraRelationModifier.title" : "Zebra relations modifier",
     "effectsMgr.type.resConversion": "{0} conversion",
     "effectsMgr.type.resCraftRatio": "{0} craft effectiveness",
@@ -2023,5 +2024,6 @@
     "workshop.voidReactors.desc": "Your Research Vessels are ~116% more effective",
     "workshop.zebraUpgrade.darkRevolution.label": "Dark Revolution",
     "workshop.zebraUpgrade.darkRevolution.desc": "Zebra Outposts allow more zebras to prepare for hunting",
-    "workshop.zebraUpgrade.darkRevolution.flavor": "Mewing would be distracting..."
+    "workshop.zebraUpgrade.darkRevolution.flavor": "Mewing would be distracting...",
+    "workshop.zebraUpgradesPanel.label": "Zebra Upgrades"
 }

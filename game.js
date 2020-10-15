@@ -1240,7 +1240,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                         "shatterCostReduction": {
                                 title: $I("effectsMgr.statics.shatterCostReduction.title"),
                                 type: "ratio"
-                        }
+						},
+			//zebra workshop upgrades
+			"zebraPreparations": {
+				title: $I("effectsMgr.statics.zebraPreparations.title"),
+				type: "fixed"
+			}
 		}
 	}
 });

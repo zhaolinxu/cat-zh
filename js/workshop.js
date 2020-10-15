@@ -2904,7 +2904,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	//---------------------------------------------------------------------
 
-	var zebraUpgradesPanel = new com.nuclearunicorn.game.ui.Panel(/*$I("workshop.upgradePanel.label")*/"Zebra Upgrades", this.game.workshop);
+	var zebraUpgradesPanel = new com.nuclearunicorn.game.ui.Panel($I("workshop.zebraUpgradesPanel.label"), this.game.workshop);
 	var content = zebraUpgradesPanel.render(tabContainer);
 
 	for (var i = 0; i < this.game.workshop.zebraUpgrades.length; i++){
