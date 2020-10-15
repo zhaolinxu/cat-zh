@@ -2020,5 +2020,8 @@
     "workshop.voidEnergy.label": "Void Energy",
     "workshop.voidEnergy.desc": "Energy Rifts are even more effective at storing resources.",
     "workshop.voidReactors.label": "Void Reactors",
-    "workshop.voidReactors.desc": "Your Research Vessels are ~116% more effective"
+    "workshop.voidReactors.desc": "Your Research Vessels are ~116% more effective",
+    "workshop.zebraUpgrade.darkRevolution.label": "Dark Revolution",
+    "workshop.zebraUpgrade.darkRevolution.desc": "Zebra Outposts allow more zebras to prepare for hunting",
+    "workshop.zebraUpgrade.darkRevolution.flavor": "Mewing would be distracting..."
 }

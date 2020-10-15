@@ -423,7 +423,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			res["manpower"] += 0.15;	//zebras are a bit stronger than kittens
 		}
 		if (zebras.value > 1){
-			 res["manpower"] += this.game.getLimitedDR((zebras.value - 1) * 0.05, 2);
+			 var zebraPreparations = Math.floor(this.game.getEffect("zebraPreparations"))
+			 res["manpower"] += this.game.getLimitedDR((zebras.value - 1) * 0.05, 2 + zebraPreparations * 0.05);
 		}
 
 		return res;

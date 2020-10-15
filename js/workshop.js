@@ -2085,6 +2085,23 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		tier: 5
 	}],
 
+	zebraUpgrades:[
+		{
+			name: "darkRevolution",
+			label: $I("workshop.zebraUpgrade.darkRevolution.label"),
+			description: $I("workshop.zebraUpgrade.darkRevolution.desc"),
+			effects: {
+			},
+			prices:[
+				{ name : "bloodstone", val: 15 },
+				{ name : "science", val: 100 }
+			],
+			upgrades: {
+				buildings: ["zebraOutpost"]
+			},
+				flavor: $I("workshop.zebraUpgrade.darkRevolution.flavor")
+		},
+	],
 	effectsBase: {
 		"oilMax" : 0,
 		"scienceMax" : 0,
@@ -2097,6 +2114,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.game = game;
 		this.metaCache = {};
 		this.registerMeta("research", this.upgrades, null);
+		this.registerMeta("research", this.zebraUpgrades, null);
 		this.setEffectsCachedExisting();
 	},
 
@@ -2122,6 +2140,21 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				return this.crafts[i];
 			}
 		}
+		return null;
+	},
+
+	getZebraUpgrade: function(zebraUpgradeName){
+		var zebraUpgrade = this.metaCache[zebraUpgradeName]
+		if (zebraUpgrade){
+			return zebraUpgrade;
+		}
+		for (var i = this.zebraUpgrades.length - 1; i >= 0; i--) {
+			if (this.zebraUpgrades[i].name === zebraUpgradeName){
+				this.metaCache[zebraUpgrade] = this.zebraUpgrades[i];
+				return this.zebraUpgrades[i];
+			}
+		}
+		console.error("Failed to get upgrade for id '" + upgradeName + "'");
 		return null;
 	},
 
@@ -2161,6 +2194,10 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				craft.progressHandicap = 1;
 			}
 		}
+		for (var i = 0; i < this.zebraUpgrades.length; i++){
+			var zebraUpgrade = this.zebraUpgrades[i];
+			zebraUpgrade.researched = false;
+		}
 
 		//ugh
 		this.getCraft("wood").prices = [{name: "catnip", val: 100}];
@@ -2172,7 +2209,8 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		saveData.workshop = {
 			hideResearched: this.hideResearched,
 			upgrades: this.filterMetadata(this.upgrades, ["name", "unlocked", "researched"]),
-			crafts: this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"])
+			crafts: this.filterMetadata(this.crafts, ["name", "unlocked", "value", "progress"]),
+			zebraUpgrades: this.filterMetadata(this.zebraUpgrades, ["name", "unlocked", "researched"])
 		};
 	},
 
@@ -2184,6 +2222,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		this.hideResearched = saveData.workshop.hideResearched;
 		this.loadMetadata(this.upgrades, saveData.workshop.upgrades);
 		this.loadMetadata(this.crafts, saveData.workshop.crafts);
+		this.loadMetadata(this.zebraUpgrades, saveData.workshop.zebraUpgrades);
 
 		for (var i = 0; i < this.upgrades.length; i++){
 			var upgrade = this.upgrades[i];
@@ -2193,6 +2232,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				}
 				if (upgrade.unlocks) {
 					this.game.unlock(upgrade.unlocks);
+				}
+			}
+		}
+		for (var i = 0; i < this.zebraUpgrades.length; i++){
+			var zebraUpgrade = this.zebraUpgrades[i];
+			if (zebraUpgrade.researched){
+				if (zebraUpgrade.handler) {
+					zebraUpgrade.handler(this.game);	//just in case update workshop upgrade effects
+				}
+				if (zebraUpgrade.unlocks) {
+					this.game.unlock(zebraUpgrade.unlocks);
 				}
 			}
 		}
@@ -2447,6 +2497,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 
 		for (var i in this.crafts){
 			this.crafts[i].unlocked = true;
+		}
+		for (var i in this.zebraUpgrades){
+			this.zebraUpgrades[i].unlocked = true;
 		}
 		this.game.msg($I("workshop.all.upgrades.unlocked"));
 	}
@@ -2722,6 +2775,41 @@ dojo.declare("com.nuclearunicorn.game.ui.CraftButton", com.nuclearunicorn.game.u
 
 });
 
+dojo.declare("com.nuclearunicorn.game.ui.ZebraUpgradeButtonController", com.nuclearunicorn.game.ui.BuildingNotStackableBtnController, {
+
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.tooltipName = true;
+		result.simplePrices = false;
+		return result;
+	},
+
+	getMetadata: function(model){
+        if (!model.metaCached){
+            model.metaCached = this.game.workshop.getZebraUpgrade(model.options.id);
+        }
+        return model.metaCached;
+    },
+
+	getPrices: function(model) {
+        return this.game.village.getEffectLeader("scientist", this.inherited(arguments));
+    },
+
+	updateVisible: function(model){
+		var upgrade = model.metadata;
+		if (!upgrade.unlocked){
+			model.visible = false;
+		}else{
+			model.visible = true;
+		}
+
+		if (upgrade.researched && this.game.workshop.hideResearched){
+			model.visible = false;
+		}
+	}
+});
+
+
 dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.ui.tab, {
 
 	tdTop: null,
@@ -2814,6 +2902,24 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 			this.craftBtns.push(craftBtn);
 		}
 
+	//---------------------------------------------------------------------
+
+	var zebraUpgradesPanel = new com.nuclearunicorn.game.ui.Panel(/*$I("workshop.upgradePanel.label")*/"Zebra Upgrades", this.game.workshop);
+	var content = zebraUpgradesPanel.render(tabContainer);
+
+	for (var i = 0; i < this.game.workshop.zebraUpgrades.length; i++){
+		var zebraUpgrade = this.game.workshop.zebraUpgrades[i];
+
+		var zebraUpgradeButton = this.createZebraUpgradeBtn(zebraUpgrade);
+
+		zebraUpgradeButton.updateEnabled();
+		zebraUpgradeButton.updateVisible();
+
+		this.addButton(zebraUpgradeButton);
+		zebraUpgradeButton.render(content);
+	}
+
+
 		//resources go there
 		var td = dojo.create("td", { className: "craftStuffPanel", style: {paddingLeft: "50px"}}, table);
 		this.resTd = td;
@@ -2852,6 +2958,11 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 
 	createBtn: function(upgrade) {
 		var controller = new com.nuclearunicorn.game.ui.UpgradeButtonController(this.game);
+		return new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: upgrade.name, controller: controller}, this.game);
+	},
+
+	createZebraUpgradeBtn: function(upgrade) {
+		var controller = new com.nuclearunicorn.game.ui.ZebraUpgradeButtonController(this.game);
 		return new com.nuclearunicorn.game.ui.BuildingResearchBtn({id: upgrade.name, controller: controller}, this.game);
 	},
 

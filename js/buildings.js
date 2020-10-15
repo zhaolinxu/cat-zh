@@ -1787,7 +1787,13 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.35,
 		zebraRequired: 5,
 		effects: {
-			"hunterRatio" : 0.05
+			"hunterRatio" : 0.05,
+			"zebraPreparations" : 0
+		},
+		calculateEffects: function(self, game){
+			if(game.workshop.getZebraUpgrade("darkRevolution").researched){
+				self.effects["zebraPreparations"] = game.ironWill? 1:0.05
+			}
 		}
 	},{
 		name: "zebraWorkshop",
@@ -1797,6 +1803,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		prices: [
 			{ name : "bloodstone", val: 5 }
 		],
+		unlocks: {
+			zebraUpgrades:["darkRevolution"]
+		},
 		priceRatio: 1.15,
 		zebraRequired: 10,
 		effects: {}
