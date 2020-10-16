@@ -3889,6 +3889,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usedCryochambers_reset[0]["on"] = 0;
 		}
 
+		// Set the challenge for after reset
+		for (var i = 0; i < this.challenges.challenges.length; i++){
+			var challenge = this.challenges.challenges[i];
+			if (challenge.pending){
+				challenge.pending = false;
+				challenge.active = true;
+			}
+			else{
+				challenge.active = false;
+			}
+		}
+
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
