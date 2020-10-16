@@ -910,9 +910,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		}
 
 		if (this.weather == "warm"){
-			mod =  0.15;
+			mod +=  0.15;
 		} else if (this.weather == "cold"){
-			mod = -0.15;
+			mod += -0.15;
 		}
 
 		if (this.getCurSeason().name == "spring") {
