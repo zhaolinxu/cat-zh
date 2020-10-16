@@ -143,6 +143,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for (var i = 0; i < this.challenges.length; i++){
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
+			challenge.pending = false;
+			challenge.active = false;
 			this.resetStateStackable(challenge);
 		}
 		this.currentChallenge = null;
@@ -171,6 +173,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		var currentChallenge = saveData.challenges.currentChallenge;
 		if (currentChallenge){
 			this.getChallenge(currentChallenge).active = true;
+		}
+
+		for (var i = 0; i < this.challenges.length; i++) {
+			if (this.challenges[i].researched && !this.challenges[i].on) {
+				this.challenges[i].on = 1;
+			}
 		}
 	},
 
@@ -222,13 +230,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			$I("challendge.btn.confirmation.title"), 
 			$I("challendge.btn.confirmation.msg"), function() 
 		{
-			// Set the challenge for after reset
-			for (var i = 0; i < this.game.challenges.challenges.length; i++){
-				var challenge = this.game.challenges.challenges[i];
-				if (challenge.pending){
-					challenge.active = true;
-				}
-			}
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
 
 			game.bld.get("chronosphere").val = 0;
