@@ -2197,6 +2197,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		for (var i = 0; i < this.zebraUpgrades.length; i++){
 			var zebraUpgrade = this.zebraUpgrades[i];
 			zebraUpgrade.researched = false;
+			zebraUpgrade.unlocked = false;
 		}
 
 		//ugh
@@ -2905,20 +2906,21 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Workshop", com.nuclearunicorn.game.
 	//---------------------------------------------------------------------
 
 	var zebraUpgradesPanel = new com.nuclearunicorn.game.ui.Panel($I("workshop.zebraUpgradesPanel.label"), this.game.workshop);
-	var content = zebraUpgradesPanel.render(tabContainer);
+	if(this.game.bld.getBuildingExt("zebraWorkshop").meta.val>0){
+		var content = zebraUpgradesPanel.render(tabContainer);
 
-	for (var i = 0; i < this.game.workshop.zebraUpgrades.length; i++){
-		var zebraUpgrade = this.game.workshop.zebraUpgrades[i];
+		for (var i = 0; i < this.game.workshop.zebraUpgrades.length; i++){
+			var zebraUpgrade = this.game.workshop.zebraUpgrades[i];
 
-		var zebraUpgradeButton = this.createZebraUpgradeBtn(zebraUpgrade);
+			var zebraUpgradeButton = this.createZebraUpgradeBtn(zebraUpgrade);
 
-		zebraUpgradeButton.updateEnabled();
-		zebraUpgradeButton.updateVisible();
+			zebraUpgradeButton.updateEnabled();
+			zebraUpgradeButton.updateVisible();
 
-		this.addButton(zebraUpgradeButton);
-		zebraUpgradeButton.render(content);
+			this.addButton(zebraUpgradeButton);
+			zebraUpgradeButton.render(content);
+		}
 	}
-
 
 		//resources go there
 		var td = dojo.create("td", { className: "craftStuffPanel", style: {paddingLeft: "50px"}}, table);
