@@ -1732,7 +1732,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-		var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+		var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px", width: "50%"}}, content);
 		msgBox.innerHTML = $I("msg.policy.exclusivity");
 
 		var div = dojo.create("div", { style: { float: "right"}}, content);

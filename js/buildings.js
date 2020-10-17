@@ -507,6 +507,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"cultureMax": 25,
 					"energyConsumption": 2
 				},
+				unlockScheme: {
+					name: "computer",
+					threshold: 100
+				},
 				stageUnlocked : false
 			}
 		],
