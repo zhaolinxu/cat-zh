@@ -1,5 +1,5 @@
 /* ******************************************************** */
-/* ***			Black 1.00 Theme © Volkeyrn             *** */
+/* ***			Black 1.0.1 Theme © Volkeyrn            *** */
 /* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Asap:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
@@ -30,23 +30,23 @@ body.scheme_black {
 .scheme_black .btn.modern.disabled:hover {
 	border: solid 1px #606060;
 }
-.scheme_black .btn.modern.disabled span.btnTitle { /* color text for all buttons disabled */
+.scheme_black .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #505050;
 }
-.scheme_black .btn.modern.disabled span.btnTitle.limited { /* color text for all buttons limited */
+.scheme_black .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
 	color: #f9002b;
 }
 .scheme_black .btn.modern:not(.disabled) {
 	border: solid 1px #1e0080;
 }
-.scheme_black .btn.modern:not(.disabled):hover { /* hover on all button not disabled in center column */
+.scheme_black .btn.modern:not(.disabled):hover {
 	background-color: #101010;
 	border: solid 1px #6e42ff;
 }
-.scheme_black .btn.modern:not(.disabled) span.btnTitle { /* color text for all buttons not disabled */
+.scheme_black .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #d0d0d0;
 }
-.scheme_black .btn:not(.disabled):hover span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+.scheme_black .btn:not(.disabled):hover span.btnTitle {
 	color: #f0f0f0;
 }
 .scheme_black a {
@@ -73,30 +73,30 @@ body.scheme_black {
 	padding-left: 20px;
 }
 .scheme_black h1:first-child {
-    margin-top: 0p;
+    margin-top: 0;
 }
 .scheme_black .modern .btnContent {
-    padding: 10px 0 10px 1px !important; /* 1px left for buttons without power background-image */
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_black .btn.bldEnabled div.btnContent,
 .scheme_black .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 14px !important; /* 14px left for power background-image (linear-gradient) */
-	border: none;	
+	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_black .btn.disabled.bldlackResConvert { /* color #991A22 */ /* color for lack resources convertion */	
-	background: no-repeat border-box linear-gradient(90deg, #f9002b 0%, #f9002b 10px, transparent 12px, transparent 100%);
+.scheme_black .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
+	background: no-repeat border-box linear-gradient(90deg, #b00029 0%, #b00029 10px, transparent 12px, transparent 100%);
 }
 .scheme_black .btn.disabled.bldlackResConvert:hover {
-	background: no-repeat border-box linear-gradient(90deg, #f9002b 0%, #f9002b 10px, transparent 12px, transparent 100%);
+	background: no-repeat border-box linear-gradient(90deg, #b00029 0%, #b00029 10px, transparent 12px, transparent 100%);
 }
 .scheme_black .btn:not(.disabled).bldlackResConvert {
-	background: no-repeat border-box linear-gradient(90deg, #f9002b 0%, #f9002b 10px, transparent 12px, transparent 100%);
+	background: no-repeat border-box linear-gradient(90deg, #b00029 0%, #b00029 10px, transparent 12px, transparent 100%);
 }
 .scheme_black .btn:not(.disabled).bldlackResConvert:hover {
-	background: no-repeat border-box linear-gradient(90deg, #ff2047 0%, #ff2047 10px, #101010 12px, #101010 100%);
+	background: no-repeat border-box linear-gradient(90deg, #f9002b 0%, #f9002b 10px, #101010 12px, #101010 100%);
 }
-.scheme_black .btn.disabled.bldEnabled { /* color #7AA738 */
+.scheme_black .btn.disabled.bldEnabled {
 	background: no-repeat border-box linear-gradient(90deg, #00801e 0%, #00801e 10px, transparent 12px, transparent 100%);
 }
 .scheme_black .btn.disabled.bldEnabled:hover {
@@ -134,7 +134,7 @@ body.scheme_black {
 	text-shadow: none;
 }
 .scheme_black select { /* dropdown list on settlement tab and options windows */
-	background-color: #101010;
+	background-color: #181818;
     color: #b0b0b0;
 	border: solid 1px #181818;
 	border-radius: 3px;
@@ -150,6 +150,10 @@ body.scheme_black {
 	color: #505050;
 	font-size: 90%;
 }
+.scheme_black .dialog input[type="button"] {
+	margin-left: 7px;
+	margin-bottom: 10px;
+}
 .scheme_black #optionsDiv input[type="checkbox"] + label:before {
     content: "\2610"; /* BALLOT BOX */
 	font: 14px sans-serif;
@@ -159,6 +163,17 @@ body.scheme_black {
 	content: "\2611"; /* BALLOT BOX WITH CHECK */
 	font: 14px sans-serif;
 	color: #a0a0a0;
+}
+.scheme_black .dialog input#batchSize {
+	background-color: #202020;
+    color: #b0b0b0;
+    padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	border: 2px inset #181818;
+    box-shadow: inset -1px -1px 2px #505050, 
+                inset 2px 2px 5px #000000;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 .scheme_black textarea#importData,
 .scheme_black textarea#exportData {
@@ -195,7 +210,7 @@ body.scheme_black {
 	color: #d0d0d0;
 }
 .scheme_black #sorrowTooltip.max {
-    color: #f9002b;
+    color: #f9002b !important;
 }
 .scheme_black #headerLinks>div:first-child:before {
     color: #6e42ff;
@@ -226,7 +241,9 @@ body.scheme_black {
     color: #ff6e42;
 }
 .scheme_black .toolbarIcon.energy.warning,
-.scheme_black .button_tooltip .energyConsumption,
+.scheme_black .button_tooltip .energyConsumption {
+	color: #b00029;
+}
 .scheme_black .button_tooltip .energyPenalty {
 	color: #f9002b;
 }
@@ -237,12 +254,7 @@ body.scheme_black {
 .scheme_black #footerLinks {
 	font-size: 90%;
 	bottom: 3px; /* default bottom: 10px; */
-}
-.scheme_black #footerLinks a:hover {
-	text-shadow: none;
-}
-.scheme_black #footerLinks { /* a link separator : | on footer links */
-	color: transparent;
+	color: transparent; /* a link separator : | on footer links */
 }
 
 /* *********************************************** */
@@ -326,6 +338,10 @@ body.scheme_black {
 }
 .scheme_black .tabsContainer span:not(.genericWarning) { /* separator | for tab */
 	color: #202020;
+}
+.scheme_black .tab.traitLeaderBonus::before {
+	content: "\2605"; /* BLACK STAR */
+	color: #4275FF;
 }
 .scheme_black .tabsContainer a.activeTab {
 	color: #f0f0f0;
@@ -486,6 +502,9 @@ body.scheme_black {
 .scheme_black .container {
 	padding: 5px; /* default padding: 10px; */
 }
+.scheme_black .container.trade-race .crypto-trade .btn.modern {
+	max-width: 126px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (264 -2 -10)/2 = 126 */
+}
 .scheme_black .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
 }
@@ -513,6 +532,13 @@ body.scheme_black {
 }
 .scheme_black .attitude:after {
 	content: ""; /* default content: ")"; */
+}
+.scheme_black .container.trade-race a[title='Pinned'] {
+	color: #00801e;
+	font-weight: bold;
+}
+.scheme_black .container.trade-race a[title='Pinned']:hover {
+	color: #00b029;
 }
 .scheme_black .panelContainer div.censusFilters {
 	margin-bottom: 2px; /* for add a margin under the 2 lists (select) in the settlement tab */
@@ -657,7 +683,7 @@ body.scheme_black {
 	color: #ffffff;
 	text-shadow: 2px 2px 2px #000000;
 	border: 2px solid rgba(110, 66, 255, 1); /* color #6e42ff */
-	background-image: linear-gradient(90deg,rgba(110, 66, 255, 0.5) 0%, rgba(110, 66, 255, 0.1) 100%);
+	background-image: linear-gradient(90deg, rgba(110, 66, 255, 0.5) 0%, rgba(110, 66, 255, 0.1) 100%);
 }
 .scheme_black .achievement:not(.unethical).unlocked:hover {
 	box-shadow: 0 0 3px 1px #6e42ff;
@@ -668,7 +694,7 @@ body.scheme_black {
 .scheme_black .achievement.unethical:hover {
 	border-color : rgba(249, 0, 43, 1); /* color #f9002b */
 	box-shadow: 0 0 3px 1px #f9002b;
-	background-image: linear-gradient(90deg,rgba(249, 0, 43, 0.5) 0%, rgba(249, 0, 43, 0.1) 100%);
+	background-image: linear-gradient(90deg, rgba(249, 0, 43, 0.5) 0%, rgba(249, 0, 43, 0.1) 100%);
 }
 .scheme_black .achievement:not(.unlocked) {
 	color: #606060;
@@ -678,7 +704,7 @@ body.scheme_black {
 }
 .scheme_black .achievement:not(.unlocked):hover {
 	border-color: #606060;
-	background-image: linear-gradient(90deg,rgba(128, 128, 128, 0.1) 0%, rgba(128, 128, 128, 0.1) 100%);
+	background-image: linear-gradient(90deg, rgba(128, 128, 128, 0.1) 0%, rgba(128, 128, 128, 0.1) 100%);
 }
 .scheme_black .achievement:after {
 	display: block;
@@ -769,8 +795,9 @@ body.scheme_black {
 .scheme_black #pauseBtn { /* Link in right column : pawse */
 	margin-left: 5px;
 }
-.scheme_black div#gameLog {
+.scheme_black #gameLog {
 	margin: 3px 5px 3px 0;
+	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_black #gameLog span.msg:not(.type_date) {
 	font-size: 90%;
@@ -795,6 +822,10 @@ body.scheme_black {
 .scheme_black .msg.type_alert {
     color: #f9002b; /* color default : red; */
 }
+.scheme_black .msg.type_urgent {
+	color: #6e42ff; /* default color: blueviolet; */
+	font-size: 1.1em;
+}
 .scheme_black .msg.type_date {
 	color: #6e42ff;
 	border-bottom: solid 1px #404040;
@@ -808,6 +839,9 @@ body.scheme_black {
 	margin-top: 8px; /* default margin-top: 4px; */
 	padding-right: 10px; /* -10px gained on res-toolbar.right padding-right default padding right : 20px */
 }
+.scheme_black .res-toolbar.right {
+	padding-right: 20px;
+}
 .scheme_black a.link.collapse {
 	opacity: 0.5; /* default opacity: 0.2; */
 }
@@ -818,6 +852,9 @@ body.scheme_black {
 .scheme_black #leftColumn .res-toolbar a.link.toggled {
     color: #6e42ff;
 }
+.scheme_black div.tooltip-block > span {
+	color: #909090;
+}
 .scheme_black div.tooltip-block:hover > span {
 	font-weight: bold;
 	color: #d0d0d0;
@@ -827,10 +864,7 @@ body.scheme_black {
     border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
 	margin-left: 2px; /* without 0px margin left for all ressources */
 }
-.scheme_black .res-toolbar.right {
-	padding-right: 20px;
-}
- .scheme_black .craftTable {
+.scheme_black .craftTable {
 	margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
 }
 .scheme_black .res-cell.craft-link {
@@ -886,6 +920,12 @@ body.scheme_black {
 	cursor: default;
 	color: #a0a0a0;
 }
+.scheme_black .res-row.resLeaderBonus .resPerTick {
+	color: #4275FF;
+}
+.scheme_black .res-row.craftEngineer .res-cell.resource-value {
+	color: #00801e;
+}
 .scheme_unicor div#advisorsContainer {
 	color: #f9002b;
 }
@@ -922,7 +962,8 @@ body.scheme_black {
 /* Only FireFox */
 .scheme_black #leftColumn,
 .scheme_black #rightColumn,
-.scheme_black #midColumn {
+.scheme_black #midColumn,
+.scheme_black .dialog {
    scrollbar-width: thin;
    scrollbar-color: #101010 #000000 !important;
 }
