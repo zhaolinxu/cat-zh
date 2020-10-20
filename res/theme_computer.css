@@ -578,6 +578,10 @@ body.scheme_computer {
 .scheme_computer .tabInner.Trade .panelContainer {
 	margin-top: 3px; /* default margin-top: 8px; */
 }
+.scheme_computer .tabInner.Trade .btn {
+	max-height: 36px;
+	margin-bottom: 3px; /* default margin-bottom: 10px; */
+}
 .scheme_computer table.statTable {
     margin-top: 6px;
 	margin-left: 12px;
@@ -616,6 +620,9 @@ body.scheme_computer {
 }
 .scheme_computer .container.trade-race {
 	padding: 1px 5px 1px 5px; /* default padding: 10px; */
+}
+.scheme_computer .container.trade-race .crypto-trade .btn.modern {
+	max-width: 125px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (264 - 4 -10)/2 = 125 */
 }
 .scheme_computer .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
