@@ -1522,6 +1522,7 @@
     "ui.option.app.android": "Android",
     "ui.option.app.ios": "iOS",
     "ui.option.notation": "Notation:",
+    "ui.option.shatter": "Fast Shatter <i>(experimental)<br>\nWARNING: There is a certain error compared to the original shatter.</i>",
 
     "left.resources": "resources",
     "left.resources.tip": "Ctrl+click resource to hide it, use gear icon for more settings.",

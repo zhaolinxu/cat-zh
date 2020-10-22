@@ -594,7 +594,7 @@
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
 					<input id="fastShatter" type="checkbox" onclick="gamePage.opts.fastShatter = $('#fastShatter')[0].checked;">
-					<label for="fastShatter">Faster Shatter <i>(experimental)<br>
+					<label id="optionFastShatter" for="fastShatter">Fast Shatter <i>(experimental)<br>
 						WARNING: There is a certain error compared to the original shatter.</i></label>
 					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
