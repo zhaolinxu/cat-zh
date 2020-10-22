@@ -9,7 +9,7 @@ dojo.declare("classes.KGConfig", null, {
 
 
 
-        schemes: ["dark", "grassy", "sleek", "black", "gold", "space", "wood", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate"],
+        schemes: ["dark", "grassy", "sleek", "black", "gold", "space", "wood", "school", "fluid", "vessel", "minimalist", "oil", "unicorn", "anthracite", "chocolate", "vintage","computer"],
         notations: ["si", "e", "sie"]
     }
 });

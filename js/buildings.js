@@ -508,6 +508,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"cultureMax": 25,
 					"energyConsumption": 2
 				},
+				unlockScheme: {
+					name: "computer",
+					threshold: 100
+				},
 				stageUnlocked : false
 			}
 		],
@@ -1171,11 +1175,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			self.effects["woodRatio"] = 0.1 + game.getEffect("lumberMillRatio") * 0.1;
 		},
-		flavor: $I("buildings.lumberMill.flavor"),
-		unlockScheme: {
-			name: "wood",
-			threshold: 100
-		}
+		flavor: $I("buildings.lumberMill.flavor")
 	},
 	{
 		name: "oilWell",
