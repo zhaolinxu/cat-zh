@@ -1,5 +1,6 @@
 v 1.4.8.2 (15 aug 2020)
 Major:
+* Repeatable challenges (alpha backport, phase 0)
 
 Minor:
 * Added an option for the scientific notation (Cirn09)

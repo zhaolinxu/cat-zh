@@ -315,7 +315,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	update: function() {
 		if (!this.hasUnlockedRaces()) {
 
-			var unlockYear = this.game.prestige.getPerk("diplomacy").researched ? 
+			var unlockYear = (this.game.prestige.getPerk("navigationDiplomacy").researched
+					&& this.game.resPool.get("ship").value > 0) ?
+				0 : this.game.prestige.getPerk("diplomacy").researched ?
 				1 : this.game.karmaKittens > 0 ? 5 : 20;
 
 			if (this.game.calendar.year < unlockYear) {
@@ -341,6 +343,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         elders.unlocked = true;
         // 5 years + 1 year per energy unit
         elders.duration = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);
+		
+		if(elders.autoPinned){elders.pinned=true;}
 
         this.game.msg($I("trade.msg.elders"), "notice");
     },
@@ -349,6 +353,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         var elders = this.get("leviathans");
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
+			elders.pinned=false;
 			this.game.msg($I("trade.msg.elders.departed"), "notice");
 
 			this.game.render();
@@ -572,7 +577,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
-		this.game.msg($I("trade.buy.bcoin.msg", [this.game.getDisplayValueExt(amt)]));
+		this.game.msg($I("trade.bcoin.sell.msg", [this.game.getDisplayValueExt(amt)]));
 
 	},
 
@@ -646,6 +651,9 @@ dojo.declare("classes.diplomacy.ui.RacePanel", com.nuclearunicorn.game.ui.Panel,
 		}
 		if (this.embassyButton){
 			this.embassyButton.update();
+		}
+		if (this.autoPinnedButton){
+			this.autoPinnedButton.update();
 		}
 	}
 });
@@ -936,6 +944,71 @@ dojo.declare("classes.diplomacy.ui.EmbassyButton", com.nuclearunicorn.game.ui.Bu
 });
 
 /** -------------------------------------
+ * 			Auto Pinned Button
+----------------------------------------- */
+
+dojo.declare("classes.diplomacy.ui.autoPinnedButtonController", com.nuclearunicorn.game.ui.ButtonModernController, {
+	defaults: function() {
+		var result = this.inherited(arguments);
+		result.hasResourceHover = false;
+		result.simplePrices = false;
+		return result;
+	},
+
+	getName: function(model){
+		var name = this.inherited(arguments);
+		var res = "";
+		if(model.options.race.autoPinned){
+			res = $I("trade.autopinned.labelOn");
+		}
+		else{
+			res = $I("trade.autopinned.labelOff");
+		}
+		return res;
+	},
+
+	hasSellLink: function(model){
+		return false;
+	},
+
+	updateVisible: function(model){
+		model.visible = true;
+	}
+});
+
+
+dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui.ButtonModern, {
+	pinLinkHref: null,
+	race: null,
+
+	constructor: function(opts, game){
+		this.race = opts.race;
+		console.log("race:", this.race);
+	},
+
+
+	renderLinks: function(){
+		this.pinLinkHref = this.addLink({
+			title: "&#9733;",
+			handler: function() {
+				if (this.race.name!="leviathans"){
+					return;
+				}
+				this.race.pinned = !this.race.pinned;
+				console.log("toggled pin for race:", this.game.diplomacy.races);
+			}
+		});
+	},
+
+	update: function(){
+		this.inherited(arguments);
+		this.pinLinkHref.link.textContent = this.race.pinned ? "[v]" : "[ ]";
+		this.pinLinkHref.link.title = this.race.pinned ? 
+			$I("trade.embassy.pinned") : $I("trade.embassy.unpinned");
+	}
+});
+
+/** -------------------------------------
  * 			Explore Button
 ----------------------------------------- */
 
@@ -1142,6 +1215,19 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 				}, this.game);
 				racePanel.embassyButton = embassyButton;
 				embassyButton.render(rightColumn);
+			} else{
+				var autoPinnedButton = new classes.diplomacy.ui.autoPinnedButton({
+					name: $I("trade.autopinned.labelOff"),
+					description: $I("trade.autopinned.desc"),
+					race: race,
+					controller: new classes.diplomacy.ui.autoPinnedButtonController(this.game),
+					handler: dojo.partial(function(race){
+						race.autoPinned = !race.autoPinned;
+						self.game.ui.render();
+					}, race)
+					}, this.game);
+					racePanel.autoPinnedButton = autoPinnedButton;
+					autoPinnedButton.render(rightColumn);
 			}
 
 			if (racePanel.buyBcoin && racePanel.sellBcoin) {

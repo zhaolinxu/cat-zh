@@ -715,6 +715,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#disableTelemetry")[0].checked = game.opts.disableTelemetry;
         $("#noConfirm")[0].checked = game.opts.noConfirm;
         $("#IWSmelter")[0].checked = game.opts.IWSmelter;
+        $("#fastShatter")[0].checked = game.opts.fastShatter;
 
         var selectedLang = i18nLang.getLanguage();
         var locales = i18nLang.getAvailableLocales();
@@ -907,7 +908,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionHighlightUnavailable").text($I("ui.option.highlight.unavailable"));
         $("#optionHideSell").text($I("ui.option.hide.sell"));
         $("#optionHideDowngrade").text($I("ui.option.hide.downgrade"));
-        $("#optionHideBGImage").text($I("ui.option.hide.bgimage"));
+        $("#optionHideBGImage").html($I("ui.option.hide.bgimage"));
         $("#optionTooltipsInRightColumn").text($I("ui.option.tooltips.right"));
         $("#optionMore").text($I("ui.option.more"));
         $("#optionNoConfirm").text($I("ui.option.no.confirm"));
@@ -934,7 +935,8 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appText").text($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
-        $("#optionNotation").text($I("ui.option.notation"));        
+        $("#optionNotation").text($I("ui.option.notation"));
+        $("#optionFastShatter").html($I("ui.option.shatter"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){

@@ -156,7 +156,7 @@
 					"js/ui",
 					"js/toolbar"
 				];
-				progressMax = modules.length + 2;
+				progressMax = modules.length + 3;
 				console.log("Loading...");
 
 				//------ preload theme id ---------
@@ -519,7 +519,7 @@
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
 				</select>
-				&nbsp;<a id="addTranslationLink" target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">Add translation</a>
+				&nbsp;<a id="addTranslationLink" target="_blank" href="https://crowdin.com/project/kittensgame" style="font-size:14px;">Translation portal</a>
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
@@ -600,6 +600,10 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
+					<input id="fastShatter" type="checkbox" onclick="gamePage.opts.fastShatter = $('#fastShatter')[0].checked;">
+					<label id="optionFastShatter" for="fastShatter">Fast Shatter <i>(experimental)<br>
+						WARNING: There is a certain error compared to the original shatter.</i></label>
+					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>
 					<br>
@@ -609,6 +613,7 @@
 					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
 					<label id="optionCompressSaveFile" for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
 						WARNING: it generates save files that are NOT COMPATIBLE with older versions.</i></label>
+					<br>
 				</div>
 
 				<br>
@@ -718,6 +723,20 @@
 			};
 			_282d5adfdca92885cd9f210a9b60a328();
 		</script>
+
+
+	  <script
+		type="text/javascript"
+		src="https://crowdin.com/js/crowdjet/crowdjet.js">
+	  </script>
+	  <div
+		id="crowdjet-container"
+		data-project-id="410426"
+		style="bottom: 90px; right: 20px;">
+	  </div>
+	  <div id="crowdjet-expand-container" onclick="$('#crowdjet-container').toggle();$('#crowdjet-iframe').contents().find('#crowdjet').toggleClass('expanded');">
+		[文|A]
+	  </div>
 
 	</body>
 </html>
