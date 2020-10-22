@@ -93,8 +93,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 
 		var bonusSeconds = Math.floor(temporalFluxAdded / this.game.ticksPerSecond);
         if (bonusSeconds > 0){
-            this.game.msg("You have recharged " + bonusSeconds + " second"
-				+ (bonusSeconds > 1 ? "s" : "") + " of temporal flux");
+            this.game.msg($I("time.redshift.temporalFlux", [bonusSeconds]));
         }
     },
 
@@ -425,9 +424,6 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
 				"temporalParadoxDay": 1 + game.getEffect("temporalParadoxDayBonus")
 			};
 			effects["energyConsumption"] = 15;
-			if (game.challenges.currentChallenge == "energy") {
-				effects["energyConsumption"] *= 2;
-			}
 			self.effects = effects;
 		},
 		unlocks: {
@@ -1262,7 +1258,7 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         this.flux += amt - 1 + remainingDaysInFirstYear / daysPerYear;
 
         game.challenges.getChallenge("1000Years").unlocked = true;
-        if (game.challenges.currentChallenge == "1000Years" && cal.year >= 1000) {
+        if (game.challenges.isActive("1000Years") && cal.year >= 1000) {
             game.challenges.researchChallenge("1000Years");
         }
     },
@@ -1419,6 +1415,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 if (this.game.time.heat > heatMax) {
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
                 }
+
+                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
 			}
 		}
 
@@ -1446,6 +1444,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
+
+                        priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
 					pricesTotal += priceLoop;
 				}
 			}
@@ -1578,7 +1578,7 @@ dojo.declare("classes.ui.time.VoidSpaceBtnController", com.nuclearunicorn.game.u
 	getName: function(model){
 		var meta = model.metadata;
 		if (meta.name == "cryochambers" && meta.on != meta.val) {
-			return meta.label + " ("+ meta.on + "/" + meta.val + ")";
+			return meta.label + " (" + meta.on + "/" + meta.val + ")";
 		} else {
 			return this.inherited(arguments);
 		}
@@ -1703,7 +1703,7 @@ dojo.declare("classes.ui.ResetWgt", [mixin.IChildrenAware, mixin.IGameAware], {
         var stripe = 5;
         var karmaPointsPresent = this.game.getUnlimitedDR(this.game.karmaKittens, stripe);
         var karmaPointsAfter = this.game.getUnlimitedDR(this.game.karmaKittens + this.game._getKarmaKittens(kittens), stripe);
-		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) *100)/100;
+		var karmaPoints = Math.floor((karmaPointsAfter - karmaPointsPresent) * 100) / 100;
         var paragonPoints = 0;
 
         if (kittens > 70){

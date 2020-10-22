@@ -1,3 +1,11 @@
+v 1.4.8.2 (15 aug 2020)
+Major:
+* Repeatable challenges (alpha backport, phase 0)
+
+Minor:
+* Added an option for the scientific notation (Cirn09)
+* Shark embassies scaling was reduced from 5-5-5 to 5-3-1
+
 v 1.4.8.1 (18 july 2020)
 Major:
 * Fix per-tick resources that were not gained if offline progression is performed during a Temporal Paradox

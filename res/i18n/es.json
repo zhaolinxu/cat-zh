@@ -1314,10 +1314,9 @@
     "navbar.menu.title": "Menú",
     "navbar.btn.hunters": "Enviar a todos los cazadores",
     "navbar.btn.praise": "Alabado sea el sol",
-    "navbar.energy": "Energía: {0} Wt",
-    "navbar.energy.prod": "Producción: {0} Wt",
-    "navbar.energy.cons": "Consumo: - {0} Wt",
-    "navbar.energy.penalty": "Reducción de bonificación de producción: - {0}%",
+    "navbar.energy.prod": "Producción: ",
+    "navbar.energy.cons": "Consumo: ",
+    "navbar.energy.penalty": "Reducción de bonificación de producción: ",
     "navbar.res.amount": "Cantidad",
     "navbar.observe": "Observa el cielo",
     "notification.save.title": "Juego guardado",
@@ -1484,10 +1483,18 @@
     "menu.import.btn": "Importar desde texto",
     "navbar.observe.short": "Observar",
 
-    "res.per.sec": "est",
-    "res.per.day": "día",
-    "res.per.year": "año",
-    "res.energy.wt": "Wt",
+    "unit.watt": "Wt",
+    "unit.sec": "est",
+    "unit.s": "s",
+    
+    "unit.m": "m",
+    
+    "unit.h": "h",
+    "unit.day": "día",
+    "unit.d": "d",
+    "unit.year": "año",
+    "unit.y": "a",
+
     "menu.language": "Idioma",
     "about.title": "Kittens Game por Nuclear Unicorn",
     "about.title.studio": "Estudio",
@@ -1580,8 +1587,8 @@
     "science.blackchain.desc": "Todos los gatos geniales están extrayendo esto, así que creo que es algún tipo de mineral",
     "science.blackchain.effectDesc": "Desbloquea cryptomineria y intercambiar blackcoin",
     "resources.blackcoin.title": "Blackcoin",
-    "trade.buy.bcoin": "Comprar Bcoin",
-    "trade.buy.bcoin.desc": "Intercambia tus reliquias por blackcoins",
-    "trade.sell.bcoin": "Vender Bcoin",
-    "trade.sell.bcoin.desc": "Vende tus blackcoins y recupera las reliquias"
+    "trade.bcoin.buy": "Comprar Bcoin",
+    "trade.bcoin.buy.desc": "Intercambia tus reliquias por blackcoins",
+    "trade.bcoin.sell": "Vender Bcoin",
+    "trade.bcoin.sell.desc": "Vende tus blackcoins y recupera las reliquias"
 }

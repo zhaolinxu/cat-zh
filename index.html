@@ -77,22 +77,10 @@
 				progressMax = 0;
 
 			var loadingMessages = [
-				"Feeding zebras",
-				"Calibrating ziggurats",
-				"Seeding catnip",
-				"Taming unicorns",
-				"Polishing railguns",
-				"Restarting steam engines",
-				"Opening temporal rifts",
-				"Gathering lizards",
-				"Deploying satellites",
-				"Tweaking Yarn precession",
-				"Praising the sun",
-				"Cooling off the chronoforge",
-				"Burning paragon",
-				"Petting sharks",
-				"Minting blackcoins",
-				"Fixing time paradoxes"
+				"mew~mew~",
+				"mew~mew~mew~",
+				"mew~mew~mew~mew~",
+				"mew~mew~mew~mew~mew~",
 			];
 
 			function loadModule(module){
@@ -167,7 +155,7 @@
 					"js/ui",
 					"js/toolbar"
 				];
-				progressMax = modules.length + 2;
+				progressMax = modules.length + 3;
 				console.log("Loading...");
 
 				//------ preload theme id ---------
@@ -191,20 +179,44 @@
 					}
 				});
 
-				def = _import("core", def);
+				def = _import("i18n", def);
 				def.then(function () {
 					console.log("Loading locale system");
 					var langPromise = i18nLang.init(now);
 					langPromise.done(function() {
-						console.log("Loading game modules");
-						for (var i in modules){
-							def = _import(modules[i], def);
-						}
-						def.then(initGame);
+						loadingMessages = [
+							$I("ui.loading.msg.0"),
+							$I("ui.loading.msg.1"),
+							$I("ui.loading.msg.2"),
+							$I("ui.loading.msg.3"),
+							$I("ui.loading.msg.4"),
+							$I("ui.loading.msg.5"),
+							$I("ui.loading.msg.6"),
+							$I("ui.loading.msg.7"),
+							$I("ui.loading.msg.8"),
+							$I("ui.loading.msg.9"),
+							$I("ui.loading.msg.10"),
+							$I("ui.loading.msg.11"),
+							$I("ui.loading.msg.12"),
+							$I("ui.loading.msg.13"),
+							$I("ui.loading.msg.14"),
+							$I("ui.loading.msg.15"),
+						];
+
+						def = _import("core", def);
+						def.then(function () {
+							console.log("Loading game modules");
+							for (var i in modules){
+								def = _import(modules[i], def);
+							}
+							def.then(initGame);
+						});
+
 					}).fail(function() {
 						console.log("Unable to load locales");
 					});
 				});
+
 			});
 
 			function initGame() {
@@ -233,12 +245,12 @@
 					if (gamePage.isEldermass()){
 						if (gamePage.resPool.get("elderBox").value == 0){
 							gamePage.resPool.get("elderBox").value++;
-							gamePage.msg("XOXOXO! Elder Gods have send you a gift box!", "important");
+							gamePage.msg($I("gift.get"), "important");
 						}
 					} else {
 						if (gamePage.resPool.get("elderBox").value > 0 && gamePage.resPool.get("elderBox").value < 1) {
 							gamePage.resPool.get("elderBox").value = 1;
-							gamePage.msg("Elder Gods have repaired your gift box!", "important");
+							gamePage.msg($I("gift.repaired"), "important");
 						}
 					}
 					//---------------------------------
@@ -413,7 +425,7 @@
 								<a id="clearLogHref" href="#" onClick="gamePage.clearLog();">Clear log</a>
 							</span>
 							<span id="logFiltersBlock" style="padding-top: 5px">
-								<a onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
+								<a id="logFiltersBlockText" onclick="gamePage.toggleFilters();" href="#">[<span id="filterIcon">+</span>] Log Filters</a>
 							</span>
 							<a id="pauseBtn" style="font-size: 12px;" href="#" title="Pause/unpause the game" onclick="gamePage.togglePause();">pawse</a>
 							<a id="undoBtn" style="font-size: 12px;" href="#" title="Undo the change" onclick="gamePage.undo();">undo</a>
@@ -437,7 +449,7 @@
 			</div>
 
 			<div id="creditsDiv" style="display: none" class="dialog credits">
-				<a href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="dialogClose" class="close" href="#" onclick="$('#creditsDiv').hide();" style="position: absolute; top: 10px; right: 15px;">close</a>
 
 				CSS themes: shrx, Kida, Volkeyrn (see top bar of each theme).<br />
 				<br />
@@ -498,140 +510,149 @@
 
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
-				<a href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="dialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				<label for="languageSelector">Language:</label>
+				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
 				</select>
-				&nbsp;<a target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">Add translation</a>
+				&nbsp;<a id="addTranslationLink" target="_blank" href="https://crowdin.com/project/kittensgame" style="font-size:14px;">Translation portal</a>
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
+				
+				<label id="optionNotation" for="notationSelector">Notation:</label>
+				<select id="notationSelector" onchange="gamePage.ui.updateNotation()">
+				</select>
+				<br>
+				<br>
 
-				<label for="schemeToggle">Color scheme:</label>
+				<label id="optionScheme" for="schemeToggle">Color scheme:</label>
 				<select id="schemeToggle" onchange="gamePage.toggleScheme($('#schemeToggle').val())">
 				</select>
-				&nbsp;<a href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
-				<br><i><span style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
+				&nbsp;<a id="schemeRelock" href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
+				<br><i><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
 				<br>
 				<br>
 
 				<input id="workersToggle" type="checkbox" onclick="gamePage.useWorkers = $('#workersToggle')[0].checked;">
-				<label for="workersToggle">Use web worker
+				<label id="optionWorkers" for="workersToggle">Use web worker
 					<i>(game works correctly in background tab, may cause performance issues)
 						<br>
 						You need to refresh the browser page for this setting to take effect.
 					</i></label>
 				<br>
 
+				<!-- ===================================== NOTE: FOR FULL I18N SUPPORT ===================================== -->
+				<!-- add new option text into en.json and code for i18n in ui.js:classes.ui.DesktopUI.updateIndexHTMLLanguage -->
+
 				<input id="forceHighPrecision" type="checkbox" onclick="gamePage.opts.forceHighPrecision = $('#forceHighPrecision')[0].checked;">
-				<label for="forceHighPrecision">Use high precision for resource values</label>
+				<label id="optionForceHighPrecision" for="forceHighPrecision">Use high precision for resource values</label>
 				<br>
 
 				<input id="usePerSecondValues" type="checkbox" onclick="gamePage.opts.usePerSecondValues = $('#usePerSecondValues')[0].checked;">
-				<label for="usePerSecondValues">Use per second values <i>(per tick otherwise)</i></label>
+				<label id="optionUsePerSecondValues" for="usePerSecondValues">Use per second values <i>(per tick otherwise)</i></label>
 				<br>
 				<input id="usePercentageResourceValues" type="checkbox" onclick="gamePage.opts.usePercentageResourceValues = $('#usePercentageResourceValues')[0].checked;">
-				<label for="usePercentageResourceValues">Use percentage resource production values</label>
+				<label id="optionUsePercentageResourceValues" for="usePercentageResourceValues">Use percentage resource production values</label>
 				<br>
 				<input id="showNonApplicableButtons" type="checkbox" onclick="gamePage.opts.showNonApplicableButtons = $('#showNonApplicableButtons')[0].checked;">
-				<label for="showNonApplicableButtons">Always show festivals/trade/sacrifice/shatter buttons even if not applicable</label>
+				<label id="optionShowNonApplicableButtons" for="showNonApplicableButtons">Always show festivals/trade/sacrifice/shatter buttons even if not applicable</label>
 				<br>
 				<input id="usePercentageConsumptionValues" type="checkbox" onclick="gamePage.opts.usePercentageConsumptionValues = $('#usePercentageConsumptionValues')[0].checked;">
-				<label for="usePercentageConsumptionValues">Use percentage values for craft/trade/sacrifice buttons</label>
+				<label id="optionUsePercentageConsumptionValues" for="usePercentageConsumptionValues">Use percentage values for craft/trade/sacrifice buttons</label>
 				<br>
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
-				<label for="highlightUnavailable">Highlight buildings limited by storage space</label>
+				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
-				<label for="hideSell">Hide 'sell' buttons</label>
+				<label id="optionHideSell" for="hideSell">Hide 'sell' buttons</label>
 				<br>
 				<input id="hideDowngrade" type="checkbox" onclick="gamePage.opts.hideDowngrade = $('#hideDowngrade')[0].checked;">
-				<label for="hideDowngrade">Hide 'downgrade' buttons</label>
+				<label id="optionHideDowngrade" for="hideDowngrade">Hide 'downgrade' buttons</label>
 				<br>
 				<input id="hideBGImage" type="checkbox" onclick="gamePage.opts.hideBGImage = $('#hideBGImage')[0].checked; gamePage.ui.updateOptions();">
-				<label for="hideBGImage">Hide background image <i>(for color schemes where applicable)</i></label>
+				<label id="optionHideBGImage" for="hideBGImage">Hide background image <i>(for color schemes where applicable)</i></label>
 				<br>
 				<input id="tooltipsInRightColumn" type="checkbox" onclick="gamePage.opts.tooltipsInRightColumn = $('#tooltipsInRightColumn')[0].checked; gamePage.ui.updateOptions();">
-				<label for="tooltipsInRightColumn">Move tooltips in right column</label>
+				<label id="optionTooltipsInRightColumn" for="tooltipsInRightColumn">Move tooltips in right column</label>
 				<br>
                 <br>
 
-                <a href="#" onclick="$('.optsExtra').toggle();">More...</a>
+                <a id="optionMore" href="#" onclick="$('.optsExtra').toggle();">More...</a>
 				<!-- looks like a to niche option to occupy entire setting slot -->
 				<div class="optsExtra" style="display:none;">
 					<input id="noConfirm" type="checkbox" onclick="gamePage.opts.noConfirm = $('#noConfirm')[0].checked;">
-					<label for="noConfirm">Do not confirm when clearing all jobs, researching policy or when buying or selling all (Shift-click)</label>
+					<label id="optionNoConfirm" for="noConfirm">Do not confirm when clearing all jobs, researching policy or when buying or selling all (Shift-click)</label>
 					<br>
                     <input id="IWSmelter" type="checkbox" onclick="gamePage.opts.IWSmelter = $('#IWSmelter')[0].checked;">
-                    <label for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
+                    <label id="optionIWSmelter" for="IWSmelter">Smelters turn off at 95% max Iron in Iron Will mode</label>
                     <br>
 					<input id="disableTelemetry" type="checkbox" onclick="gamePage.opts.disableTelemetry = $('#disableTelemetry')[0].checked;">
-					<label for="disableTelemetry">Disable game telemetry</label>
+					<label id="optionDisableTelemetry" for="disableTelemetry">Disable game telemetry</label>
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
-					<label for="enableRedshift">Enable offline progression</label>
+					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
 					<input id="fastShatter" type="checkbox" onclick="gamePage.opts.fastShatter = $('#fastShatter')[0].checked;">
 					<label for="fastShatter">Faster Shatter <i>(experimental)<br>
 						WARNING: There is a certain error compared to the original shatter.</i></label>
 					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
-					<label for="batchSize">Batch size of Ctrl-click</label>
+					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
-					<label for="forceLZ" style="font-size: 75%;">Always compress in-memory save, in UTF-16 <i>(experimental)</i></label>
+					<label id="optionForceLZ" for="forceLZ" style="font-size: 75%;">Always compress in-memory save, in UTF-16 <i>(experimental)</i></label>
 					<br>
 					<input id="compressSaveFile" type="checkbox" onclick="gamePage.opts.compressSaveFile = $('#compressSaveFile')[0].checked;">
-					<label for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
+					<label id="optionCompressSaveFile" for="compressSaveFile" style="font-size: 75%;">Compress exported save file <i>(experimental)<br>
 						WARNING: it generates save files that are NOT COMPATIBLE with older versions.</i></label>
 					<br>
 				</div>
 
 				<br>
 
-				<input type="button" value="Export" onclick="gamePage.saveExport();">
+				<input id="exportButton" type="button" value="Export" onclick="gamePage.saveExport();">
 
-				<input type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
+				<input id="importButton" type="button" value="Import" onclick="$('#importData').val(''); $('#importDiv').show();" style="margin-top: 10px;">
 				<br>
 			</div>
 
 			<div id="exportDiv" style="display: none" class="dialog help">
-				<h1>Export To:</h1>
-				<input type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
-				<input type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
-				<input type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
+				<h1 id="exportTo" >Export To:</h1>
+				<input id="exportToDropbox" type="button" onclick="gamePage.saveExportDropbox();" value="Dropbox (Beta)">
+				<input id="exportToSimpleFile" type="button" onclick="gamePage.saveToFile(false);" value="File (simple name)">
+				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
 				<br>
-				<h1>Text Export:</h1>
+				<h1 id="exportToEext">Text Export:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
+				<input id="closeButton" type="button" value="Close" onclick="$('#exportDiv').hide();" style="margin-top: 10px;">
 			</div>
 
 			<div id="importDiv" style="display: none" class="dialog help">
-				<div>Warning! Importing data will overwrite your current game data.</div>
-				<h1>Import Form:</h1>
-				<input type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
+				<div id="importWarning">Warning! Importing data will overwrite your current game data.</div>
+				<h1 id="importFrom">Import Form:</h1>
+				<input id="importFromDropbox" type="button" onclick="gamePage.saveImportDropbox();" value="Dropbox (Beta)">
 				<br>
-				<h1>Text Import:</h1>
+				<h1 id="importFromText">Text Import:</h1>
 				<br>
 				<textarea id="importData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
-				<input type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
-				<input type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
+				<input id="doImportButton" type="button" value="Import" onclick="gamePage.saveImport(); $('#importDiv').hide();" style="margin-top: 10px;">
+				<input id="cancelButton" type="button" value="Cancel" onclick="$('#importDiv').hide();" style="margin-top: 10px;">
 
 			</div>
 
 			<div id="appDiv" style="display: none" class="dialog help">
-				<a href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="dialogClose" href="#" class="close" style="position: absolute; top: 10px; right: 15px;">close</a>
 
-				<span>Kittens Game Mobile has been released! Click on the link to follow:</span>
+				<span id="appText">Kittens Game Mobile has been released! Click on the link to follow:</span>
 				<br>
 				<br>
-				<a target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">Android</a>&nbsp;|&nbsp;
-				<a target="_blank" href="https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8">iOS</a>
+				<a id="appAndroid" target="_blank" href="https://play.google.com/store/apps/details?id=com.nuclearunicorn.kittensgame&hl=en">Android</a>&nbsp;|&nbsp;
+				<a id="appIOS" target="_blank" href="https://itunes.apple.com/us/app/kittens-game/id1198099725?mt=8">iOS</a>
 				<br>
 				<br>
 				<br>
@@ -639,17 +660,31 @@
 			</div>
 
 			<div id="footerLinks" class="links-block">
-				<a href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
-				<a href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
-				<a href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
+				<a id="reddit" href="http://www.reddit.com/r/kittensgame/" target="_blank">reddit</a> |
+				<a id="wiki" href="http://bloodrizer.ru/games/kittens/wiki/" target="_blank">wiki</a> |
+				<a id="discord" href="https://discord.gg/2arBf9K" target="_blank">Discord</a> |
 				<!-- <a href="http://kittensgame.tumblr.com" target="_blank">tumblr</a> | -->
 				<!-- <a href="#" onclick="$('#helpDiv').toggle();">help</a> | -->
-				<a href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> |
-				<a href="https://www.patreon.com/bloodrizer" target="_blank">Patreon</a>
+				<a id="credits" href="#" onclick="$('#creditsDiv').toggle();">credits</a> |
+				<a id="donate" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=82FJX5M8M3GVN" target="_blank">donate</a> |
+				<a id="patreon" href="https://www.patreon.com/bloodrizer" target="_blank">Patreon</a>
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
+
+	  <script
+		type="text/javascript"
+		src="https://crowdin.com/js/crowdjet/crowdjet.js">
+	  </script>
+	  <div
+		id="crowdjet-container"
+		data-project-id="410426"
+		style="bottom: 90px; right: 20px;">
+	  </div>
+	  <div id="crowdjet-expand-container" onclick="$('#crowdjet-container').toggle();$('#crowdjet-iframe').contents().find('#crowdjet').toggleClass('expanded');">
+		[文|A]
+	  </div>
 
 	</body>
 </html>
