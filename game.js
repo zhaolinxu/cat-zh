@@ -1310,7 +1310,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
-			compressSaveFile: false
+			compressSaveFile: false,
+			fastShatter: false
 		};
 
 		this.console = new com.nuclearunicorn.game.log.Console(this);
@@ -1569,7 +1570,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
 			forceLZ: false,
-			compressSaveFile: false
+			compressSaveFile: false,
+			fastShatter: false
 		};
 
 		this.resPool.resetState();
