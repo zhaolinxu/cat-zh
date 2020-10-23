@@ -1,1 +1,27 @@
-{}
+{
+    "btn.sell.minor": "verkoop",
+    "buildings.logHouse.desc": "Bouw een huis (elk heeft een ruimte voor 1 kitten)",
+    "buildings.zebraForge.desc": "Ontgrendelt het ambacht van bloedstenen en t-mythril",
+    "effectsMgr.statics.solarRevolutionRatio.title": "Productiebonus",
+    "general.food.advisor.text": "Voedingsadviseur: 'Je kattenkruidvoorraad is te laag!'",
+    "navbar.btn.hunters": "Stuur alle jagers",
+    "policy.autocracy.label": "Autocratie",
+    "policy.knowledgeSharing.desc": "Je wetenschappers zullen naar vreemde landen reizen, waardoor het wetenschapsinkomen lichtelijk stijgt.",
+    "prestige.megalomania.desc": "Ontgrendelt aanvullende megastructuren.",
+    "prestige.unicornmancy.label": "Eenhoornmantie",
+    "religion.sacrificeAlicornsBtn.desc": "Verban de alicorns naar de Bloedmaan. Je zult een Tijdkristal ontvangen.",
+    "resources.culture.title": "cultuur",
+    "resources.necrocorn.title": "necromaïs",
+    "resources.wrappingPaper.title": "inpakpapier",
+    "space.charonMission.desc": "Charon is een kleine, ongelooflijk dichte en verre dwergplaneet aan de uiterste rand van het Helios-systeem. Het is zo vijandig en kaal dat het soms wordt aangeduid als 'De Poorten des Doods'",
+    "ui.filter.enabled": "Ingeschakeld",
+    "ui.loading.msg.13": "Haaien aaien",
+    "console.filter.astronomicalEvent": "Astronomische Gebeurtenissen",
+    "village.job.priest.desc": "+0,0075 geloof per seconde",
+    "workshop.advancedRefinement.label": "Kattenkruidverrijking",
+    "workshop.advancedRefinement.desc": "Kattenkruid verfijnt twee keer zo goed",
+    "workshop.enrichedThorium.desc": "Reactoren verbruiken nu 25% minder thorium",
+    "workshop.railgun.flavor": "Muizen pas op",
+    "workshop.silos.label": "Silo's",
+    "workshop.stoneBarns.label": "Uitgebreide Schuren"
+}
