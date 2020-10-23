@@ -1,1 +1,10 @@
-{}
+{
+    "buildings.logHouse.desc": "Bouw een huis (elk heeft een ruimte voor 1 kitten)",
+    "prestige.megalomania.desc": "Ontgrendelt aanvullende megastructuren.",
+    "religion.sacrificeAlicornsBtn.desc": "Verban de alicorns naar de Bloedmaan. Je zult een Tijdkristal ontvangen.",
+    "resources.necrocorn.title": "necromaïs",
+    "space.charonMission.desc": "Charon is een kleine, ongelooflijk dichte en verre dwergplaneet aan de uiterste rand van het Helios-systeem. Het is zo vijandig en kaal dat het soms wordt aangeduid als 'De Poorten des Doods'",
+    "ui.filter.enabled": "Ingeschakeld",
+    "workshop.railgun.flavor": "Muizen pas op",
+    "workshop.stoneBarns.label": "Uitgebreide Schuren"
+}
