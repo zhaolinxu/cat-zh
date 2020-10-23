@@ -460,6 +460,14 @@ dojo.declare("classes.managers.TimeManager", com.nuclearunicorn.core.TabManager,
         return this.getMeta(id, this.voidspaceUpgrades);
     },
 
+    shatter: function(amt) {
+        if (game.opts.fastShatter){
+            this.fastShatter(amt);
+        } else {
+            this.originShatter(amt);
+        }
+    },
+
     fastShatter: function(amt) {
         // fast shatter
         amt = amt || 1;
@@ -1478,11 +1486,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     doShatter: function(model, amt) {
         var factor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
         this.game.time.heat += amt*factor;
-        if (game.opts.fastShatter){
-            this.game.time.fastShatter(amt);
-        } else {
-            this.game.time.originShatter(amt);
-        }
+        this.game.time.shatter(amt);
     },
 
     updateVisible: function(model){
