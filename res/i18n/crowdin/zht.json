@@ -1,5 +1,6 @@
 {
     "console.intro": "你是一隻貓貓在貓咪森林裡。",
+    "console.intro.zebra": "你是一隻在充满鈦礦的稀樹草原中的斑馬.",
     "achievements.header": "成就: {0} of {1}",
     "achievements.msg.unlock": "成就解鎖: {0}!",
     "achievements.msg.starUnlock": "成就星解鎖: {0}!",
@@ -67,6 +68,7 @@
     "bld.msg.automation.slabs": "花費 {0} 礦物, +{1} 石板!",
     "btn.all": "全部",
     "btn.all.minor": "全部",
+    "btn.all.assign": "[+全部]",
     "btn.build": "建設",
     "btn.challenge": "開始挑戰",
     "btn.complete": "（完成）",
