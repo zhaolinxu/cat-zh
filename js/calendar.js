@@ -771,7 +771,7 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 
 		if (this.game.rand(100) < 35 && this.year > 3){
 			var warmChance = 50;
-			if (this.game.challenges.getChallenge("winterIsComing").researched){
+			if (this.game.challenges.getChallenge("winterIsComing").researched  && !this.game.challenges.isActive("winterIsComing")){
 				warmChance += 15;
 			}
 

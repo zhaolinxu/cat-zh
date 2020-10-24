@@ -67,11 +67,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			voidSpace: ["chronocontrol"]
 		},
 		effects: {
-			"energyConsumptionRatio": -0.02
+			"energyConsumptionRatio": -0.02,
+			"energyConsumptionIncrease": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
 				self.effects["energyConsumptionRatio"] = 0;
+				self.effects["energyConsumptionIncrease"] = 0.1;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -108,11 +110,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
                 effects: {
-                        "shatterCostReduction": -0.02
+						"shatterCostReduction": -0.02,
+						"shatterCostIncrease": 0
                 },
                 calculateEffects: function(self, game){
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
+                                self.effects["shatterCostIncrease"] = 0.5;
                         }
                 },
 		researched: false,
