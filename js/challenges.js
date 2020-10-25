@@ -30,7 +30,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		calculateEffects: function(self, game){
 			if (self.active) {
 				self.effects["springCatnipBonus"] = 0;
-                                self.effects["summerSolarFarmBonus"] = 0;
+                self.effects["summerSolarFarmBonus"] = 0;
+			}else{
+				self.effects["springCatnipBonus"] = 0.05;
+                self.effects["summerSolarFarmBonus"] = 0.05;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -43,14 +46,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.anarchy.effect.desc"),
 		researched: false,
 		unlocked: true,
-                effects: {
-                        "masterSkillMultiplier": 0.2
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["masterSkillMultiplier"] = 0;
-                        }
-                },
+        effects: {
+            "masterSkillMultiplier": 0.2
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+            	self.effects["masterSkillMultiplier"] = 0;
+            }else{
+				self.effects["masterSkillMultiplier"] = 0.2;
+			}
+        },
 		checkCompletionCondition: function(game){
 			return game.bld.get("aiCore").val > 0;
 		}
@@ -74,6 +79,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (self.active) {
 				self.effects["energyConsumptionRatio"] = 0;
 				self.effects["energyConsumptionIncrease"] = 0.1;
+			}else{
+				self.effects["energyConsumptionRatio"] = -0.02;
+				self.effects["energyConsumptionIncrease"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -98,9 +106,11 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			"faithSolarRevolutionBoost": 0.1
 		},
 		calculateEffects: function(self, game) {
-                        if (self.active) {
-                                self.effects["faithSolarRevolutionBoost"] = 0;
-                        }
+            if (self.active) {
+                self.effects["faithSolarRevolutionBoost"] = 0;
+			}else{
+				self.effects["faithSolarRevolutionBoost"] = 0.1;
+			}
 		},
         researched: false,
         unlocked: false
@@ -117,7 +127,10 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
                                 self.effects["shatterCostIncrease"] = 0.5;
-                        }
+                        }else{
+							self.effects["shatterCostReduction"] = -0.02;
+							self.effects["shatterCostIncrease"] = 0.5;
+						}
                 },
 		researched: false,
 		unlocked: false
@@ -128,14 +141,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.blackSky.effect.desc"),
 		researched: false,
 		unlocked: false,
-                effects: {
-                        "corruptionBoostRatioChallenge": 0.1
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["corruptionBoostRatioChallenge"] = 0;
-                        }
-                },
+        effects: {
+            "corruptionBoostRatioChallenge": 0.1
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["corruptionBoostRatioChallenge"] = 0;
+            }else{
+				self.effects["corruptionBoostRatioChallenge"] = 0.1;
+			}
+        },
 		checkCompletionCondition: function(game){
 			return game.space.getBuilding("spaceBeacon").val > 0;
 		}
