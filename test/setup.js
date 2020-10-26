@@ -42,7 +42,11 @@ try {
         destroy: function(){},
         empty: function(){},
         byId: function(){},
-        forEach: function(){},
+        forEach: function(array, predicate){
+            for (var i in array){
+                predicate(array[i]);
+            }
+        },
         clone: function(mixin){return Object.assign({}, mixin);},
         hitch: function(){},
         connect: function(){},
@@ -94,9 +98,9 @@ try {
     require("../js/toolbar");
 
 
-    jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn());
-    jest.spyOn(global.console, 'trace').mockImplementation(() => jest.fn());
-    jest.spyOn(global.console, 'warn').mockImplementation(() => jest.fn());
+    jest.spyOn(global.console, "log").mockImplementation(() => jest.fn());
+    jest.spyOn(global.console, "trace").mockImplementation(() => jest.fn());
+    jest.spyOn(global.console, "warn").mockImplementation(() => jest.fn());
 }
 catch (e) {
     console.log("oh no big error");

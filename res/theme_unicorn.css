@@ -1,5 +1,5 @@
 /* ******************************************** */
-/*			Unicorn 1.00 Theme © Volkeyrn       */
+/*			Unicorn 1.0.1 Theme © Volkeyrn      */
 /* ******************************************** */
 
  @import url(https://fonts.googleapis.com/css?family=Lato:ital,wght@300,400,700,300italic,400italic,700italic&display=swap);
@@ -48,10 +48,10 @@ body.scheme_unicorn.with_background_image {
 	box-shadow: inset 2px 2px 5px #111922,
                  0 1px 0 #d7dbe0;
 }
-.scheme_unicorn .btn.modern.disabled span.btnTitle {
+.scheme_unicorn .btn.modern.disabled span.btnTitle {  /* to change only the properties of the button name for buttons disabled */
 	color: #6f7f90;
 }
-.scheme_unicorn .btn.modern.disabled span.btnTitle.limited {
+.scheme_unicorn .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
 	color: #e43011;
 }
 .scheme_unicorn .btn.modern:not(.disabled) {
@@ -59,7 +59,7 @@ body.scheme_unicorn.with_background_image {
 	border: outset 1px #707f90;
 	box-shadow: 1px 1px 2px #111922;
 }
-.scheme_unicorn .btn.modern:not(.disabled):hover {
+.scheme_unicorn .btn.modern:not(.disabled):hover { /* to change only the properties of the button name for buttons enabled */
 	background-color: #f4f1e9;
 	border: outset 1px #ebedf0;
 	box-shadow: 3px 3px 5px #111922;
@@ -92,16 +92,16 @@ body.scheme_unicorn.with_background_image {
 	padding-left: 20px;
 }
 .scheme_unicorn h1:first-child {
-    margin-top: 0p;
+    margin-top: 0;
 }
 .scheme_unicorn .modern .btnContent {
-    padding: 10px 0 10px 1px !important; /* 1px left for buttons without power background-image */
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /* *** green and red light for machine on/off *** */
 .scheme_unicorn .btn.bldEnabled div.btnContent,
 .scheme_unicorn .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 13px !important; /* 13px left for power background-image (linear-gradient) */
-	border: none;	
+	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
 .scheme_unicorn .btn.disabled.bldlackResConvert { /* color #e43011 */ /* color for lack resources convertion */	
 	background: no-repeat border-box linear-gradient(90deg, #e43011 0%, #e43011 11px, #223244 12px, #223244 100%);
@@ -174,6 +174,10 @@ body.scheme_unicorn.with_background_image {
 	color: #838493;
 	font-size: 90%;
 }
+.scheme_unicorn .dialog input[type="button"] {
+	margin-left: 7px;
+	margin-bottom: 10px;
+}
 .scheme_unicorn #optionsDiv input[type="checkbox"] + label:before {
     content: "\26C9"; /* BALLOT BOX */
 	font: 12px sans-serif;
@@ -188,6 +192,18 @@ body.scheme_unicorn.with_background_image {
 }
 .scheme_unicorn #appDiv {
 	background: no-repeat local bottom -44px right -7px url('img/theme_unicorn_02.png'), #e0cfb5; /* source: https://pngtree.com/freepng/white-unicorn----lying_3770538.html Volkeyrn: permanent premium member */
+}
+.scheme_unicorn .dialog input#batchSize {
+	background-color: #344c68;
+    color: #f8f5f0;
+    padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	border: 2px inset #8491a0;
+	border-radius: 3px;
+    box-shadow: inset -1px -1px 2px #505050, 
+                inset 2px 2px 5px #111922;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 .scheme_unicorn textarea#importData,
 .scheme_unicorn textarea#exportData {
@@ -228,7 +244,7 @@ body.scheme_unicorn.with_background_image {
 	color: #7d8497;
 }
 .scheme_unicorn #sorrowTooltip.max {
-    color: #e43011;
+    color: #e43011 !important;
 }
 .scheme_unicorn #headerLinks>div:first-child:before {
     color: #eae2d4;
@@ -266,18 +282,14 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .button_tooltip .energyPenalty {
 	color: #ee4022;
 }
+
 /* ********************************************** */
 /* ******************* FOOTER ******************* */
 /* ********************************************** */
 .scheme_unicorn #footerLinks {
 	font-size: 90%;
 	bottom: 3px; /* default bottom: 10px; */
-}
-.scheme_unicorn #footerLinks a:hover {
-	text-shadow: none;
-}
-.scheme_unicorn #footerLinks { /* a link separator : | on footer links */
-	color: transparent;
+	color: transparent; /* a link separator : | on footer links */
 }
 
 /* *********************************************** */
@@ -363,7 +375,7 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .tabInner .expandAllBar a:last-child {
 	margin-right: 15px !important;
 }
-.scheme_unicorn .tabsContainer { 		
+.scheme_unicorn .tabsContainer {
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	padding-top: 4px; /* default padding-top: 2px; */
 	padding-left: 3px;
@@ -372,7 +384,7 @@ body.scheme_unicorn.with_background_image {
 	font-size: 14px;
 	color: #547aa9;
 	padding: 3px 4px 0 4px;
-	border: 1px solid transparent; /* for no offset when border on */
+	border: 1px solid transparent; /* for no offset when border on */	
 }
 .scheme_unicorn .tabsContainer span:not(.genericWarning) { /* separator | for tab */
 	color: transparent;
@@ -462,7 +474,6 @@ body.scheme_unicorn.with_background_image {
 	color: #f0e8db;
 	border: groove 2px #f0e8db !important; /* !important in default.css */	
 	box-shadow: inset 1px 1px 2px #111922, 0 0 2px 2px rgba(114, 146, 185, 0.8) !important; /* !important in default.css */
-	
 }
 .scheme_unicorn .btn .btnContent a {
     max-width: 60px; /* default max-width: 50px; */
@@ -536,10 +547,6 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab */
 	border-radius: 0 5px 5px 0;
 }
-.scheme_unicorn .btn .btnContent a.small {
-    font-size: 0.7em;
-    line-height: 16px;
-}
 .scheme_unicorn .panelContainer {
 	border: 3px ridge #f4eee4;
 	background: #adb6c0;
@@ -581,6 +588,9 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .container {
 	padding: 5px; /* default padding: 10px; */
 }
+.scheme_unicorn .container.trade-race .crypto-trade .btn.modern {
+	max-width: 134px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (280 -2 -10)/2 = 134 */
+}
 .scheme_unicorn .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
 }
@@ -608,6 +618,16 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .attitude:after {
     content: ""; /* default content: ")"; */
 }
+.scheme_unicorn .container.trade-race .btn.modern.disabled a[title='Pinned'],
+.scheme_unicorn .container.trade-race .btn.modern.disabled a[title='Pinned']:hover {
+	color: #7AA738;
+	font-weight: bold;
+}
+.scheme_unicorn .container.trade-race .btn.modern:not(.disabled) a[title='Pinned'],
+.scheme_unicorn .container.trade-race .btn.modern:not(.disabled) a[title='Pinned']:hover {
+	color: #63872d;
+	font-weight: bold;
+}
 /* ---------- Village ---------- */
 /* container 'Census' -> list of kittens in settlement tab */
 .scheme_unicorn .census-block {
@@ -615,14 +635,21 @@ body.scheme_unicorn.with_background_image {
 	border-radius: 3px;
 	border: groove 1px #8491a0;
 	box-shadow: inset 1px 1px 3px #111922, inset -1px -1px 1px #f0ebe1;
-	font-size: 90%;
 	padding: 3px; /* default padding: 5px; */
 	margin-bottom: 3px; /* default margin-bottom: 5px; */
+}
+.scheme_unicorn .census-block:hover {
+	box-shadow: inset 2px 2px 5px #111922,
+	0 1px 0 #d7dbe0;
 }
 .scheme_unicorn .census-block.simLeader {
 	background-color: #c0cee0;
 	box-shadow: 1px 1px 3px #111922, -1px -1px 1px #f0ebe1;
 	border: ridge 1px #8491a0;
+}
+.scheme_unicorn .census-block.simLeader:hover {
+	box-shadow: 3px 3px 5px #111922;
+	border-color: #ebedf0;
 }
 .scheme_unicorn .census-block.simLeader a.leaderHref {
 	color: #4f8fdd;
@@ -686,13 +713,16 @@ body.scheme_unicorn.with_background_image {
 }
 .scheme_unicorn .btn.modern a.bld-on,
 .scheme_unicorn .btn.modern a.auto-on,
-.scheme_unicorn .btn.modern a.fugit-on {
+.scheme_unicorn .btn.modern a.fugit-on,
+.scheme_unicorn .btn.modern.disabled a.bld-on:hover,
+.scheme_unicorn .btn.modern.disabled a.auto-on:hover,
+.scheme_unicorn .btn.modern.disabled a.fugit-on:hover {
 	color: #7AA738;
 }
-.scheme_unicorn .btn.modern:hover a.bld-on,
-.scheme_unicorn .btn.modern:hover a.auto-on,
-.scheme_unicorn .btn.modern:hover a.fugit-on {
-	color: #7AA738;
+.scheme_unicorn .btn.modern:not(.disabled) a.bld-on:hover,
+.scheme_unicorn .btn.modern:not(.disabled) a.auto-on:hover,
+.scheme_unicorn .btn.modern:not(.disabled) a.fugit-on:hover {
+	color: #63872d;
 }
 .scheme_unicorn .btn.modern a.bld-off,
 .scheme_unicorn .btn.modern a.auto-off,
@@ -795,8 +825,8 @@ body.scheme_unicorn.with_background_image {
 /* **************************************************** */
 .scheme_unicorn #rightColumn {
 	width: calc(50% - 355px);
-	max-width: 440px; /* max-width: 400px; */
-	top: 0; /* default top: 20px; */
+	max-width: 440px; /* default max-width: 400px; */
+	top: 12px; /* default top: 20px; */
 	margin-top: 16px;
 }
 .scheme_unicorn #toggleCenter,
@@ -821,10 +851,10 @@ body.scheme_unicorn.with_background_image {
 	font-weight: bold;
 }
 .scheme_unicorn #calendarSign {
-   font-size: 120% ;
+   font-size: 120%;
 }
 .scheme_unicorn #calendarSign:hover {
-   cursor: default ;
+   cursor: default;
 }
 .scheme_unicorn .right-tab-header { /* Log | Chat link on right column */
 	color: #333342; /* for separator tab | */
@@ -874,12 +904,10 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn #pauseBtn { /* Link in right column : pawse */
 	margin-left: 5px;
 }
-.scheme_unicorn div#gameLog {
+.scheme_unicorn #gameLog {
 	margin: 6px 5px 5px 0;
 	background: transparent;
-	min-height: 5% !important;
-	height: unset !important;
-	max-height: calc(100% -80px) !important;
+	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_unicorn #gameLog span.msg:not(.type_date) {
 	font-size: 80%;
@@ -903,6 +931,10 @@ body.scheme_unicorn.with_background_image {
 }
 .scheme_unicorn .msg.type_alert {
     color: #e43011; /* color default : red; */
+}
+.scheme_unicorn .msg.type_urgent {
+	/* default color: blueviolet; */
+	font-size: 1.1em;
 }
 .scheme_unicorn .msg.type_date {
 	color: #385170;
@@ -944,6 +976,9 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn .res-row.resource_kerosene .resource-name {
 	color: #c3cad0;
 }
+.scheme_unicorn .res-toolbar.right {
+	padding-right: 20px;
+}
 .scheme_unicorn a.link.collapse {
 	opacity: 0.3; /* default opacity: 0.2; */
 }
@@ -954,6 +989,9 @@ body.scheme_unicorn.with_background_image {
 .scheme_unicorn #leftColumn .res-toolbar a.link.toggled {
     color: #4f8fdd;
 }
+.scheme_unicorn div.tooltip-block > span {
+	color: #a1acb7;
+}
 .scheme_unicorn div.tooltip-block:hover > span {
 	font-weight: bold;
 	color: #eae2d4;
@@ -963,12 +1001,6 @@ body.scheme_unicorn.with_background_image {
     border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
 	margin-left: 2px; /* without 0px margin left for all ressources */
  }
-.scheme_unicorn .res-toolbar {
-    font-size: 90%;
-}
-.scheme_unicorn .res-toolbar.right {
-	padding-right: 20px;
-}
 .scheme_unicorn .craftTable {
 	margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
 }
@@ -1035,7 +1067,7 @@ body.scheme_unicorn.with_background_image {
 	color: #7AA738;
 	opacity: 0.8;
 }
-.scheme_unicor div#advisorsContainer {
+.scheme_unicorn div#advisorsContainer {
 	color: #e43011;
 }
 .scheme_unicorn .res-cell.resource-value {
@@ -1081,7 +1113,8 @@ body.scheme_unicorn.with_background_image {
 /* Only FireFox */
 .scheme_unicorn #leftColumn,
 .scheme_unicorn #rightColumn,
-.scheme_unicorn #midColumn {
+.scheme_unicorn #midColumn,
+.scheme_unicorn .dialog {
    scrollbar-width: thin;
    scrollbar-color: #324964 #223244 !important;
 }

@@ -274,6 +274,7 @@ select>option {
 
     background-color: #FFF;
     padding: 20px;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 }
 
 .help {
@@ -418,6 +419,10 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     color: red;
 }
 
+.msg.type_urgent {
+    color: blueviolet;
+}
+
 .msg.type_date {
     color: #ff7f50;
     margin-top: 15px;
@@ -496,7 +501,7 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
 .tabInner {
 	margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid gray;
+    border: 1px solid #B0B0B0;
 }
 
 .toggleCenter {
@@ -1511,4 +1516,16 @@ div.leet {
 
 .pin-link {
     padding-left: 5px;
+}
+
+#crowdjet-expand-container{
+    bottom: 40px; 
+    right: 20px;
+    width: 60px !important; 
+    height: 15px !important;
+    cursor: pointer;
+}
+
+#crowdjet-expand-container iframe {
+    display: none;
 }
