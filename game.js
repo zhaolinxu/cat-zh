@@ -460,6 +460,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.energyConsumptionRatio.title"),
 				type: "ratio"
 			},
+			"energyConsumptionIncrease": {
+				title: $I("effectsMgr.statics.energyConsumptionIncrease.title"),
+				type: "ratio"
+            },
 
 			//production
 
@@ -1233,14 +1237,18 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
 			},
-                        "summerSolarFarmRatio": {
-                                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
-                                type: "ratio"
-                        },
-                        "shatterCostReduction": {
-                                title: $I("effectsMgr.statics.shatterCostReduction.title"),
-                                type: "ratio"
-                        }
+            "summerSolarFarmRatio": {
+                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
+				type: "ratio"
+            },
+            "shatterCostReduction": {
+                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                type: "ratio"
+			},
+            "shatterCostIncrease": {
+                title: $I("effectsMgr.statics.shatterCostIncrease.title"),
+                type: "ratio"
+			}
 		}
 	}
 });

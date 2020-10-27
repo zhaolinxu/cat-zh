@@ -361,6 +361,7 @@
     "effectsMgr.statics.eludiumAutomationBonus.title": "Eludium engineer crafting bonus",
     "effectsMgr.statics.embassyCostReduction.title": "Embassy cost reduction",
     "effectsMgr.statics.energyConsumption.title": "Energy consumption",
+    "effectsMgr.statics.energyConsumptionIncrease.title": "Energy consumption increase",
     "effectsMgr.statics.energyConsumptionRatio.title": "Energy consumption reduction",
     "effectsMgr.statics.energyProduction.title": "Energy production",
     "effectsMgr.statics.energyProductionRatio.title": "Energy production bonus",
@@ -515,6 +516,7 @@
     "effectsMgr.statics.goldPolicyRatio.title": "Gold production bonus",
     "effectsMgr.statics.springCatnipRatio.title": "Spring catnip bonus",
     "effectsMgr.statics.summerSolarFarmRatio.title": "Summer Solar Farm bonus",
+    "effectsMgr.statics.shatterCostIncrease.title": "Shatter TC cost increase",
     "effectsMgr.statics.shatterCostReduction.title": "Shatter TC cost reduction",
 
     "general.copy.to.clipboard.prompt": "Copy to clipboard: Ctrl+C, Enter",
