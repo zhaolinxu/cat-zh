@@ -854,29 +854,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
-		var value = 0;
+		var bonus = 0;
 		switch (true) {
 		case value < 100:
 			break;
 		case value < 500:
-			value = 0.0125;
+			bonus = 0.0125;
 			break;
 		case value < 1200:
-			value = 0.025;
+			bonus = 0.025;
 			break;
 		case value < 2500:
-			value = 0.045;
+			bonus = 0.045;
 			break;
 		case value < 5000:
-			value = 0.075;
+			bonus = 0.075;
 			break;
 		case value < 9000:
-			value = 0.125;
+			bonus = 0.125;
 			break;
 		default:
-			value = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
+			bonus = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
 		}
-		return value * (1 + this.game.getEffect("skillMultiplier"));
+		return bonus * (1 + this.game.getEffect("skillMultiplier"));
 	},
 
 	getSkillExpRange: function(value){
