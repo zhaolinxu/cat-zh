@@ -1391,7 +1391,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
 		upgrades: {
-			buildings: ["temple"]
+			buildings: ["factory"]
 		},
         effects:{
             "environmentFactoryCraftBonus" : 0.05
