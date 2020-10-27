@@ -1248,6 +1248,18 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "shatterCostIncrease": {
                 title: $I("effectsMgr.statics.shatterCostIncrease.title"),
                 type: "ratio"
+			},
+			"coldChance": {
+                title: $I("effectsMgr.statics.coldChance.title"),
+                type: "ratio"
+			},
+			"coldHarshness": {
+                title: $I("effectsMgr.statics.coldHarshness.title"),
+                type: "ratio"
+			},
+			"kittenLaziness": {
+                title: $I("effectsMgr.statics.kittenLaziness.title"),
+                type: "ratio"
 			}
 		}
 	}

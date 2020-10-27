@@ -25,15 +25,21 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: true,
 		effects: {
 			"springCatnipRatio": 0.05,
-			"summerSolarFarmRatio": 0.05
+			"summerSolarFarmRatio": 0.05,
+			"coldChance": 0,
+			"coldHarshness": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
 				self.effects["springCatnipBonus"] = 0;
-                self.effects["summerSolarFarmBonus"] = 0;
+				self.effects["summerSolarFarmBonus"] = 0;
+				self.effects["coldChance"] = 0.05;
+				self.effects["coldHarshness"] = -0.02;
 			}else{
 				self.effects["springCatnipBonus"] = 0.05;
                 self.effects["summerSolarFarmBonus"] = 0.05;
+				self.effects["coldChance"] = 0;
+				self.effects["coldHarshness"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -47,11 +53,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		researched: false,
 		unlocked: true,
         effects: {
-            "masterSkillMultiplier": 0.2
+			"masterSkillMultiplier": 0.2,
+			"kittenLaziness": 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
             	self.effects["masterSkillMultiplier"] = 0;
+            	self.effects["kittenLaziness"] = 0.05;
             }else{
 				self.effects["masterSkillMultiplier"] = 0.2;
 			}
@@ -129,7 +137,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
                                 self.effects["shatterCostIncrease"] = 0.5;
                         }else{
 							self.effects["shatterCostReduction"] = -0.02;
-							self.effects["shatterCostIncrease"] = 0.5;
+							self.effects["shatterCostIncrease"] = 0;
 						}
                 },
 		researched: false,

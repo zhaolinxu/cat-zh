@@ -356,7 +356,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		var diligentKittens = this.game.challenges.isActive("anarchy")
-			? Math.floor(this.getKittens() / 2)
+			? Math.round(this.getKittens() * (0.5 - this.game.getLimitedDR(this.game.getEffect("kittenLaziness"), 0.25)))
 			: this.getKittens();
 
 		return diligentKittens - workingKittens;

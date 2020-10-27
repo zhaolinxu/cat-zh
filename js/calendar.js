@@ -769,16 +769,30 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 	onNewSeason: function(){
 		this.eventChance = 0;
 
-		if (this.game.rand(100) < 35 && this.year > 3){
-			var warmChance = 50;
-			if (this.game.challenges.getChallenge("winterIsComing").researched  && !this.game.challenges.isActive("winterIsComing")){
-				warmChance += 15;
+		
+		if (this.year > 3){
+			var coldChance = 175;
+			var warmChance = 175;
+
+			if (this.game.challenges.getChallenge("winterIsComing").on) {
+				var effect = this.game.getLimitedDR(this.game.getEffect("coldChance") * 1000, 825);
+				coldChance += effect;
+				warmChance -= effect;
+				if (warmChance < 0) {
+					warmChance = 0;
+				}
+			}
+			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched){
+				coldChance = 0;
 			}
 
-			if (this.game.rand(100) < warmChance){
+			var rand = this.game.rand(1000);
+			if (rand < warmChance){
 				this.weather = "warm";
-			} else {
+			} else if (rand < warmChance + coldChance){
 				this.weather = "cold";
+			} else{
+				this.weather = null;
 			}
 		}else{
 			this.weather = null;
@@ -914,7 +928,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		} else if (this.weather == "cold"){
 			mod += -0.15;
 		}
-
+		if (this.game.challenges.getChallenge("winterIsComing").on && this.weather == "cold") {
+			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
+		}
 		if (this.getCurSeason().name == "spring") {
                         mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
                 }
