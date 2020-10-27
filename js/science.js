@@ -886,6 +886,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+        effects:{
+            "goldPolicyRatio" : -0.1
+        },
 		unlocked: false,
         upgrades:{
             buildings: ["factory"]
