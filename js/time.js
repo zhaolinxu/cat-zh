@@ -681,7 +681,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
                 }
 
-                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1));
+                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncrease"));
 			}
 		}
 
