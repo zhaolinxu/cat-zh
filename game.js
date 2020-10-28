@@ -1044,6 +1044,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				calculation: "nonProportional"
 			},
 			//age 2 policy effects
+			"rankLeaderBonusConversion": {
+				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
+                type: "ratio"
+			},
 			"boostFromLeader": {
                 title: $I("effectsMgr.statics.boostFromLeader.title"),
                 type: "ratio"
@@ -2484,7 +2488,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-
+			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0))
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2705,7 +2709,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0)
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -2718,6 +2722,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				name: $I("res.stack.paragon"),
 				type: "ratio",
 				value: paragonProductionRatio * 0.05
+			});
+			buildingAutoprod.push({
+				name: $I("res.stack.rankLeaderBonusConversion"),
+				type: "ratio",
+				value: rankLeaderBonusConversion
 			});
 		//<----
 		stack.push(buildingAutoprod);
