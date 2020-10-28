@@ -649,7 +649,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     _newLink: function(model, shatteredQuantity) {
         var self = this;
         return {
-            visible: this.game.opts.showNonApplicableButtons || this.getPricesMultiple(model, shatteredQuantity) <= this.game.resPool.get("timeCrystal").value,
+            visible: this.game.opts.showNonApplicableButtons || (this.getPricesMultiple(model, shatteredQuantity)[0] <= this.game.resPool.get("timeCrystal").value
+            &&( this.getPricesMultiple(model, shatteredQuantity)[1] <= this.game.resPool.get("void").value)
+            ),
             title: "x" + shatteredQuantity,
             handler: function(event) {
                 self.doShatterAmt(model, shatteredQuantity);
@@ -691,14 +693,20 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 }
 
                 price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncreaseChallenge"));
-			}
+            }
+            else if(price["name"] == "void"){
+                var heatMax = this.game.getEffect("heatMax");
+                if (this.game.time.heat > heatMax) {
+                    price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
+                    price["val"] = Math.floor(price["val"])
+                }
+            }
         }
-        console.warn(prices_cloned)
 		return prices_cloned;
 	},
 
 	getPricesMultiple: function(model, amt) {
-		var pricesTotal = 0;
+		var pricesTotal = [0, 0];
 
 		var prices_cloned = $.extend(true, [], model.options.prices);
         var impedance = this.game.getEffect("timeImpedance");
@@ -706,6 +714,15 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
+        if(this.game.getEffect("shatterVoidCost")){
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
+            prices_cloned[1] = {
+                name: "void",
+                val: shatterVoidCost
+            }
+        }else{
+            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+        }
 		for (var k = 0; k < amt; k++) {
 			for (var i = 0; i < prices_cloned.length; i++) {
 				var price = prices_cloned[i];
@@ -720,8 +737,14 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                }
 
                         priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncrease"));
-					pricesTotal += priceLoop;
-				}
+					pricesTotal[0] += priceLoop;
+				}else if (price["name"] == "void"){
+                    var priceLoop = price["val"];
+	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
+	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
+                    }
+                    pricesTotal[1] += priceLoop;
+                }
 			}
 		}
 
@@ -732,6 +755,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         if (model.enabled && this.hasResources(model)) {
             var price = this.getPrices(model);
             this.game.resPool.addResEvent("timeCrystal", -price[0].val);
+            this.game.resPool.addResEvent("void", -price[1].val);
             callback(this.doShatter(model, 1));
         }
         callback(false);
@@ -743,8 +767,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             return;
         }
         var price = this.getPricesMultiple(model, amt);
-        if (price <= this.game.resPool.get("timeCrystal").value) {
-            this.game.resPool.addResEvent("timeCrystal", -price);
+        if(price[1]){
+            if (price[0] <= this.game.resPool.get("timeCrystal").value &&
+            price[1]||-1 <= this.game.resPool.get("void").value) {
+                this.game.resPool.addResEvent("timeCrystal", -price[0]);
+                this.game.resPool.addResEvent("void", -price[1]);
+                this.doShatter(model, amt);
+            }
+        }
+        else if (price[0] <= this.game.resPool.get("timeCrystal").value) {
+            this.game.resPool.addResEvent("timeCrystal", -price[0]);
             this.doShatter(model, amt);
         }
     },
