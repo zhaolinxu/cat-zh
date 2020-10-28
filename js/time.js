@@ -668,8 +668,8 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     getPrices: function(model) {
 		var prices_cloned = $.extend(true, [], model.options.prices);
 
-        if(this.game.getEffect("shatterCostIncreaseChallenge")){
-            var shatterVoidCost = this.game.getEffect("shatterCostIncreaseChallenge")
+        if(this.game.getEffect("shatterVoidCost")){
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
             prices_cloned[1] = {
                 name: "void",
                 val: shatterVoidCost

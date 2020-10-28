@@ -1260,6 +1260,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"kittenLaziness": {
                 title: $I("effectsMgr.statics.kittenLaziness.title"),
                 type: "ratio"
+			},
+			"shatterVoidCost":{
+                title: $I("effectsMgr.statics.shatterVoidCost.title"),
+                type: "fixed"
 			}
 		}
 	}

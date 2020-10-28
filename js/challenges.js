@@ -129,15 +129,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.1000Years.effect.desc"),
                 effects: {
 						"shatterCostReduction": -0.02,
-						"shatterCostIncreaseChallenge": 0
+						"shatterCostIncreaseChallenge": 0,
+						"shatterVoidCost": 0
                 },
                 calculateEffects: function(self, game){
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
                                 self.effects["shatterCostIncreaseChallenge"] = 0.5;
+                                self.effects["shatterVoidCost"] = 0.5;
                         }else{
 							self.effects["shatterCostReduction"] = -0.02;
 							self.effects["shatterCostIncreaseChallenge"] = 0;
+							self.effects["shatterVoidCost"] = 0;
 						}
                 },
 		researched: false,
