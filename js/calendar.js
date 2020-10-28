@@ -774,13 +774,11 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			var coldChance = 175;
 			var warmChance = 175;
 
-			if (this.game.challenges.getChallenge("winterIsComing").on) {
-				var effect = this.game.getLimitedDR(this.game.getEffect("coldChance") * 1000, 825);
-				coldChance += effect;
-				warmChance -= effect;
-				if (warmChance < 0) {
-					warmChance = 0;
-				}
+			var effect = this.game.getLimitedDR(this.game.getEffect("coldChance") * 1000, 825);
+			coldChance += effect;
+			warmChance -= effect;
+			if (warmChance < 0) {
+				warmChance = 0;
 			}
 			if (this.getCurSeason().name == "winter" && this.game.challenges.getChallenge("winterIsComing").researched){
 				coldChance = 0;
