@@ -518,7 +518,7 @@
     "effectsMgr.statics.goldPolicyRatio.title": "Gold production bonus",
     "effectsMgr.statics.springCatnipRatio.title": "Spring catnip bonus",
     "effectsMgr.statics.summerSolarFarmRatio.title": "Summer Solar Farm bonus",
-    "effectsMgr.statics.shatterCostIncrease.title": "Shatter TC cost increase",
+    "effectsMgr.statics.shatterCostIncreaseChallenge.title": "Shatter TC cost increase",
     "effectsMgr.statics.shatterCostReduction.title": "Shatter TC cost reduction",
 
     "general.copy.to.clipboard.prompt": "Copy to clipboard: Ctrl+C, Enter",

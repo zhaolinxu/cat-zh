@@ -668,6 +668,15 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     getPrices: function(model) {
 		var prices_cloned = $.extend(true, [], model.options.prices);
 
+        if(this.game.getEffect("shatterCostIncreaseChallenge")){
+            var shatterVoidCost = this.game.getEffect("shatterCostIncreaseChallenge")
+            prices_cloned[1] = {
+                name: "void",
+                val: shatterVoidCost
+            }
+        }else{
+            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+        }
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
             var impedance = this.game.getEffect("timeImpedance");
@@ -681,10 +690,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
                 }
 
-                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncrease"));
+                price["val"] *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncreaseChallenge"));
 			}
-		}
-
+        }
+        console.warn(prices_cloned)
 		return prices_cloned;
 	},
 
