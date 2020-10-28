@@ -564,6 +564,7 @@
     "opts.tabLayout.desc": "Game will use old two-column layout for on wide screen resolution (768px+). ",
     "opts.theme": "Color scheme",
     "opts.theme.anthracite": "Anthracite",
+    "opts.theme.arctic": "Arctic",
     "opts.theme.black": "Black",
     "opts.theme.chocolate": "Chocolate",
     "opts.theme.computer": "Computer",
