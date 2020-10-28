@@ -31,13 +31,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
-				self.effects["springCatnipBonus"] = 0;
-				self.effects["summerSolarFarmBonus"] = 0;
+				self.effects["springCatnipRatio"] = 0;
+				self.effects["summerSolarFarmRatio"] = 0;
 				self.effects["coldChance"] = 0.05;
 				self.effects["coldHarshness"] = -0.02;
 			}else{
-				self.effects["springCatnipBonus"] = 0.05;
-                self.effects["summerSolarFarmBonus"] = 0.05;
+				self.effects["springCatnipRatio"] = 0.05;
+                self.effects["summerSolarFarmRatio"] = 0.05;
 				self.effects["coldChance"] = 0;
 				self.effects["coldHarshness"] = 0;
 			}
