@@ -698,7 +698,6 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 var heatMax = this.game.getEffect("heatMax");
                 if (this.game.time.heat > heatMax) {
                     price["val"] *= (1 + (this.game.time.heat - heatMax) * 0.01);  //1% per excessive heat unit
-                    price["val"] = Math.floor(price["val"])
                 }
             }
         }
