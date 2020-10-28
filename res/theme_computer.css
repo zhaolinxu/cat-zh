@@ -1048,7 +1048,7 @@ body.scheme_computer {
 	/* default width: 25%; */
     /* default min-width: 300px; */
 	/* default max-width: 400px; */
-	padding-right: 10px;/* default padding right : 20px */
+	padding-right: 8px;/* default padding right : 20px */
 }
 /* .scheme_computer a.link { */
     /* default padding-right: 10px; */
@@ -1082,16 +1082,20 @@ body.scheme_computer {
 	border-radius: 5px;
 	box-shadow: inset 2px 0 5px #000000, inset -2px 0 5px #000000, inset 0 1px 2px #000000, inset 0 -1px 2px #000000;	
 	margin-top: 5px;
-	margin-left: 12px;
+	margin-left: 10px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+
+	max-width: 378px !important;
 }
 .scheme_computer #leftColumnViewport div[data-reactid=".0.5.1"] {
 	margin-bottom: 20px;
 }
 .scheme_computer .res-table {	
     border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */	
-	max-width: 378px; /* default max-width: 340px; */
+	/* max-width: 378px; /* default max-width: 340px; */
+	max-width: unset; /* default max-width: 340px; */
+	/* table-layout: fixed; */
 }
 .scheme_computer .res-table.craftTable {
 	padding-bottom: 0;/* default padding-bottom: 50px; */
@@ -1116,7 +1120,7 @@ body.scheme_computer {
 	opacity: 1;
 }
 .scheme_computer .res-row {
-	padding-bottom: 2px; /* default padding-bottom: 4px; */
+	padding-bottom: 2px; /* default padding-bottom: 4px; */	
 }
 .scheme_computer .res-row:hover {
     background-color: rgba(32, 32, 32, 0.1);
@@ -1129,9 +1133,9 @@ body.scheme_computer {
 	white-space: nowrap;
 }
 .scheme_computer div.res-cell.resource-name {
-	width: 65px; /* default width: 60px; */
-	max-width: 90px; /* default max-width: 85px; */
-	padding-left: 5px;
+	width: 55px; /* default width: 60px; */
+	max-width: 80px; /* default max-width: 85px; */
+	padding-left: 3px;
 }
 .scheme_computer .res-row.resource_catnip .resource-name,
 .scheme_computer .res-row.resource_wood .resource-name,
@@ -1203,6 +1207,9 @@ body.scheme_computer {
 	color: #df9000 !important;
 	text-shadow: none !important;
 }
+.scheme_computer .resource_blackcoin .resource-name {
+	color: #ffd600;
+}
 .scheme_computer .maxRes {
 	color: #707070;
 }
@@ -1254,11 +1261,11 @@ body.scheme_computer {
 	margin-left: 5px;
 }
 .scheme_computer .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
-	font-size: 90%;
+	font-size: 80%;
 	color: #0f751d;
 }
 .scheme_computer .res-cell.negative-weather { /* to change the color for penalty cell according to the season */
-	font-size: 90%;
+	font-size: 80%;
 	color: #b00005;
 }
 

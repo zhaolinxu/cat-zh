@@ -70,7 +70,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			//console.log("navigator:", navigator, "platform:", this.platformLocale);
 			var defaultLocale = this.platformLocale || navigator.language || navigator.userLanguage;
 			// find closes match
-			var parts = defaultLocale.split("[-_]");
+			var parts = defaultLocale.split(/[-_]/);
 			lang = this.fallbackLocale;
 
 			for (var j = 0; j < this.availableLocales.length; j++) {
