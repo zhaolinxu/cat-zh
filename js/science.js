@@ -920,6 +920,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 							uncappedHousing+=1
 						}	
 					}
+					break
     			}
 			}
 			self.effects["rankLeaderBonusConversion"] = 0.004*uncappedHousing;
