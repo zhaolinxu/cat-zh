@@ -432,6 +432,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			//unlock village tab
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		effects: {
 			"manpowerMax": 75,
 			"maxKittens": 2
@@ -456,6 +459,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
@@ -475,6 +481,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor: $I("buildings.mansion.flavor")
 	},

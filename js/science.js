@@ -853,6 +853,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+        effects:{
+            "goldPolicyRatio" : -0.1
+        },
 		unlocked: false,
         upgrades:{
             buildings: ["factory"]
@@ -869,9 +872,26 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+		effects:{
+			"rankLeaderBonusConversion": 0
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["monarchy", "republic", "liberalism"],
+		calculateEffects: function(self, game){
+			var uncappedHousing = 0
+			for (var i = 0; i < game.bld.buildingGroups.length; i++){
+    			if(game.bld.buildingGroups[i].name=="population"){
+					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+							uncappedHousing+=1
+						}	
+					}
+					break
+    			}
+			}
+			self.effects["rankLeaderBonusConversion"] = 0.004*uncappedHousing;
+		},
 		unlocks:{
 			policies:["communism", "fascism", "socialism"]
 		}
