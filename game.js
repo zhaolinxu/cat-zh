@@ -3078,6 +3078,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
+		this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -4045,6 +4046,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
 		this.upgrade({
 			tech: this.science.techs.map(function(item){return item.name;}),
+			policies: this.science.policies.map(function(item){return item.name;}),
 			perks: this.prestige.perks.map(function(item){return item.name;}),
 			jobs: this.village.jobs.map(function(item){return item.name;}),
 			crafts: this.workshop.crafts.map(function(item){return item.name;}),
