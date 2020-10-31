@@ -102,7 +102,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	},
 
 	logEvent: function(eventType, payload) {
-		var event = {
+		/*var event = {
 			guid: this.guid,
 			type: eventType,
 			timestamp: Date.now(),
@@ -111,20 +111,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-
 			if (window.FirebasePlugin) {
 				window.FirebasePlugin.logEvent(eventType, event);
-			} else if (this.game.server.telemetryUrl) {
-				/*$.ajax({
-					url: this.game.server.telemetryUrl,
-					type: "POST",
-					crossOrigin: true,
-					data: JSON.stringify(event),
-					dataType: "json",
-					contentType: "text/plain"
-				});*/
 			}
-		}
+		}*/
 	}
 });
 
@@ -135,10 +125,6 @@ dojo.declare("classes.game.Server", null, {
 
 	// Server datas
 	//---->
-	donateAmt: 0,
-	telemetryUrl: null,
-	telemetryAppId: "KG",
-
 	showMotd: true,
 	motdTitle: null,
 	motdContent: null,
@@ -161,10 +147,6 @@ dojo.declare("classes.game.Server", null, {
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
-				self.donateAmt = json.donateAmt || 0;
-				self.telemetryUrl = json.telemetryUrl;
-				self.telemetryAppId = json.telemetryAppId;
-
 				self.showMotd = json.showMotd;
 				self.motdTitle = json.motdTitle;
 				self.motdContent = json.motdContent;
@@ -176,6 +158,14 @@ dojo.declare("classes.game.Server", null, {
 			}
 		}).fail(function(err) {
 			console.log("Unable to parse server.json configuration:", err);
+		});
+
+		$.ajax({
+			cache: false,
+			url: "/user/",
+			dataType: "json"
+		}).done(function(){
+			
 		});
 
 	},
@@ -1380,7 +1370,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false,
 			enableRedshift: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code

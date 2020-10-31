@@ -11,6 +11,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 		this.addIcon(new classes.ui.toolbar.ToolbarMOTD(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarHappiness(game));
 		this.addIcon(new classes.ui.toolbar.ToolbarEnergy(game));
+		this.addIcon(new classes.ui.toolbar.ToolbarNetwork(game));
 	},
 
 	addIcon: function(icon){
@@ -25,6 +26,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 			var icon = this.icons[i];
 			if (icon.getOpts().hasTooltip) {
 				this.attachToolbarTooltip(iconContainer, this.icons[i]);
+				dojo.connect(iconContainer, "onclick", this.icons[i], "onClick");
 			}
 			switch (i) {
 				case "0": // MOTD
@@ -120,6 +122,10 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 	getTooltip: function(){
 		return "Unimplemented";
+	},
+
+	onClick: function(){
+
 	},
 
 	getOpts: function(){
@@ -244,5 +250,16 @@ dojo.declare("classes.ui.toolbar.ToolbarMOTD", classes.ui.ToolbarIcon, {
 			server.motdFreshMessage = false;
 			return "Message of the day:<br />" + server.motdContent;
 		}
+	}
+});
+
+dojo.declare("classes.ui.toolbar.ToolbarNetwork", classes.ui.ToolbarIcon, {
+	update: function(){
+
+		this.container.innerHTML = "<span>* Offline</span>";
+	},
+
+	onClick: function(){
+		$.getJSON("/user/");
 	}
 });
