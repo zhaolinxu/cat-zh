@@ -24,16 +24,25 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru": "Русский",
-			"zh": "中文",
-			"ja": "日本語",
+
 			"br": "Português",
+			"cz": "Čeština",
+			"de": "Deutsch",
 			"es": "Español",
 			"fr": "Français",
 			"fro": "Ancien Français",
-			"cz": "Čeština",
+			"it": "Italiano",
+			"ja": "日本語",
+			"ko": "한국어",
+			"nl": "NL",
+			"no": "NO",
 			"pl": "Polski",
-			"de": "Deutsch"
+			"ro": "RO",
+			"ru": "Русский",
+			"tr": "TR",
+			"uk": "Українська",
+			"zh": "中文",
+			"zht": "漢語"
 		};
 	},
 
