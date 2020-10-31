@@ -649,8 +649,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     _newLink: function(model, shatteredQuantity) {
         var self = this;
         return {
-            visible: this.game.opts.showNonApplicableButtons || (this.getPricesMultiple(model, shatteredQuantity)[0] <= this.game.resPool.get("timeCrystal").value
-            &&( this.getPricesMultiple(model, shatteredQuantity)[1] <= this.game.resPool.get("void").value)
+            visible: this.game.opts.showNonApplicableButtons || 
+                (this.getPricesMultiple(model, shatteredQuantity).timeCrystal <= this.game.resPool.get("timeCrystal").value &&
+                (this.getPricesMultiple(model, shatteredQuantity).void <= this.game.resPool.get("void").value)
             ),
             title: "x" + shatteredQuantity,
             handler: function(event) {
@@ -671,17 +672,15 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 		var prices_cloned = $.extend(true, [], model.options.prices);
 
         if(this.game.getEffect("shatterVoidCost")){
-            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
-            prices_cloned[1] = {
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
+            prices_cloned.push({
                 name: "void",
                 val: shatterVoidCost
-            }
-        }else{
-            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+            });
         }
-		for (var i = 0; i < prices_cloned.length; i++) {
+
+		for (var i in prices_cloned) {
 			var price = prices_cloned[i];
-            var impedance = this.game.getEffect("timeImpedance");
 			if (price["name"] == "timeCrystal") {
                 var darkYears = this.game.calendar.darkFutureYears(true);
                 if (darkYears > 0) {
@@ -705,25 +704,26 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	},
 
 	getPricesMultiple: function(model, amt) {
-		var pricesTotal = [0, 0];
+		var pricesTotal = {
+            void: 0,
+            timeCrystal: 0
+        };
 
 		var prices_cloned = $.extend(true, [], model.options.prices);
-        var impedance = this.game.getEffect("timeImpedance");
         var heatMax = this.game.getEffect("heatMax");
 
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
         if(this.game.getEffect("shatterVoidCost")){
-            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
-            prices_cloned[1] = {
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
+            prices_cloned.push({
                 name: "void",
                 val: shatterVoidCost
-            }
-        }else{
-            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+            });
         }
+        
 		for (var k = 0; k < amt; k++) {
-			for (var i = 0; i < prices_cloned.length; i++) {
+			for (var i in prices_cloned) {
 				var price = prices_cloned[i];
 				if (price["name"] == "timeCrystal") {
 					var priceLoop = price["val"];
@@ -735,14 +735,17 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
 	                }
 
-                        priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + this.game.getEffect("shatterCostIncrease"));
-					pricesTotal[0] += priceLoop;
+                    priceLoop *= (1 + this.game.getLimitedDR(this.game.getEffect("shatterCostReduction"),1) + 
+                        this.game.getEffect("shatterCostIncrease"));
+
+                    pricesTotal.timeCrystal += priceLoop;
+                    
 				}else if (price["name"] == "void"){
                     var priceLoop = price["val"];
 	                if ((this.game.time.heat + k * heatFactor) > heatMax) {
 	                    priceLoop *= (1 + (this.game.time.heat + k * heatFactor - heatMax) * 0.01);  //1% per excessive heat unit
                     }
-                    pricesTotal[1] += priceLoop;
+                    pricesTotal.void += priceLoop;
                 }
 			}
 		}
@@ -766,16 +769,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
             return;
         }
         var price = this.getPricesMultiple(model, amt);
-        if(price[1]){
-            if (price[0] <= this.game.resPool.get("timeCrystal").value &&
-            price[1]||-1 <= this.game.resPool.get("void").value) {
-                this.game.resPool.addResEvent("timeCrystal", -price[0]);
-                this.game.resPool.addResEvent("void", -price[1]);
+        if(price.void){
+            if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value &&
+            price.void||-1 <= this.game.resPool.get("void").value) {
+                this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
+                this.game.resPool.addResEvent("void", -price.void);
                 this.doShatter(model, amt);
             }
         }
-        else if (price[0] <= this.game.resPool.get("timeCrystal").value) {
-            this.game.resPool.addResEvent("timeCrystal", -price[0]);
+        else if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value) {
+            this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
             this.doShatter(model, amt);
         }
     },
