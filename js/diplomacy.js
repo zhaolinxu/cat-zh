@@ -1040,7 +1040,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+		var baseTradeRatio = 1 + this.game.diplomacy.getTradeRatio();
 		var currentSeason = this.game.calendar.getCurSeason().name;
 		for (var i = 0; i < races.length; i++) {
 			var race = races[i];
