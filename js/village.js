@@ -652,7 +652,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
         var enviromentalEffect = this.getEnvironmentEffect();
 		var happinessBonus = this.game.getEffect("happiness");
-		happiness += (happinessBonus + enviromentalEffect);
+		var challengeHappiness = this.game.getEffect("challengeHappiness");
+		happiness += (happinessBonus + enviromentalEffect + challengeHappiness);
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;

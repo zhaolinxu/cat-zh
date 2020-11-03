@@ -256,6 +256,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					title: $I("effectsMgr.type.resMax", [restitle]),
 					resName: resname
 				};
+			case type == "MaxChallenge": //for when challenges change Max of resources; LDR to all other sources of Max
+				return {
+					title: $I("effectsMgr.type.resMax", [restitle]),
+					resName: resname
+				};
 			case type == "Ratio":
 				return {
 					title: $I("effectsMgr.type.resRatio", [restitle]),
@@ -1232,7 +1237,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "goldPolicyRatio":{
 				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
 				type: "ratio"
-            },
+			},
+			//challenges
 			"springCatnipRatio": {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
@@ -1264,6 +1270,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			"shatterVoidCost":{
                 title: $I("effectsMgr.statics.shatterVoidCost.title"),
                 type: "fixed"
+			},
+			"challengeHappiness":{
+                title: $I("effectsMgr.statics.challengeHappiness.title")
 			}
 		}
 	}
