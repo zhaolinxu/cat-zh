@@ -672,10 +672,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
         if(this.game.getEffect("shatterVoidCost")){
             var shatterVoidCost = this.game.getEffect("shatterVoidCost");
-            prices_cloned[1] = {
+            prices_cloned.push({
                 name: "void",
                 val: shatterVoidCost
-            };
+            });
         }else{
             prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
@@ -715,10 +715,10 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 
         if(this.game.getEffect("shatterVoidCost")){
             var shatterVoidCost = this.game.getEffect("shatterVoidCost");
-            prices_cloned[1] = {
+            prices_cloned.push({
                 name: "void",
                 val: shatterVoidCost
-            };
+            });
         }else{
             prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
