@@ -671,13 +671,13 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
 		var prices_cloned = $.extend(true, [], model.options.prices);
 
         if(this.game.getEffect("shatterVoidCost")){
-            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
             prices_cloned[1] = {
                 name: "void",
                 val: shatterVoidCost
-            }
+            };
         }else{
-            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+            prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
@@ -714,13 +714,13 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var heatFactor = this.game.challenges.getChallenge("1000Years").researched ? 5 : 10;
 
         if(this.game.getEffect("shatterVoidCost")){
-            var shatterVoidCost = this.game.getEffect("shatterVoidCost")
+            var shatterVoidCost = this.game.getEffect("shatterVoidCost");
             prices_cloned[1] = {
                 name: "void",
                 val: shatterVoidCost
-            }
+            };
         }else{
-            prices_cloned = prices_cloned.splice(0, 1) //delete void price if challenge isn't on
+            prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
 		for (var k = 0; k < amt; k++) {
 			for (var i = 0; i < prices_cloned.length; i++) {
