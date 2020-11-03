@@ -676,8 +676,6 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 name: "void",
                 val: shatterVoidCost
             });
-        }else{
-            prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
 		for (var i = 0; i < prices_cloned.length; i++) {
 			var price = prices_cloned[i];
@@ -719,8 +717,6 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 name: "void",
                 val: shatterVoidCost
             });
-        }else{
-            prices_cloned = prices_cloned.splice(0, 1); //delete void price if challenge isn't on
         }
 		for (var k = 0; k < amt; k++) {
 			for (var i = 0; i < prices_cloned.length; i++) {
