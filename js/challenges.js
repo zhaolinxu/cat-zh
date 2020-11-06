@@ -291,12 +291,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive()){
-				if(!this.game.ironWill){
-					this.reserves.addReserves();
-				}else{
-					this.reserves.ironWillClaim = true;
-				}
+			if(!this.anyChallengeActive()&&!this.game.ironWill){
+				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
 		}
