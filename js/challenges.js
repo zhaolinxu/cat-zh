@@ -111,13 +111,25 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
 		effects: {
-			"faithSolarRevolutionBoost": 0.1
+			"faithSolarRevolutionBoost": 0.1,
+			"cultureMaxChallenge": 0,
+			"scienceMaxChallenge": 0,
+			"manpowerMaxChallenge": 0,
+			"challengeHappiness": 0
 		},
 		calculateEffects: function(self, game) {
             if (self.active) {
-                self.effects["faithSolarRevolutionBoost"] = 0;
+				self.effects["faithSolarRevolutionBoost"] = 0;
+				self.effects["cultureMaxChallenge"] = -250;
+				self.effects["scienceMaxChallenge"] = -500;
+				self.effects["challengeHappiness"] = -0.5;
+				self.effects["manpowerMaxChallenge"] = -125;
 			}else{
 				self.effects["faithSolarRevolutionBoost"] = 0.1;
+				self.effects["cultureMaxChallenge"] = 0;
+				self.effects["scienceMaxChallenge"] = 0;
+				self.effects["challengeHappiness"] = 0;
+				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
         researched: false,
@@ -136,7 +148,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
                                 self.effects["shatterCostIncreaseChallenge"] = 0.5;
-                                self.effects["shatterVoidCost"] = 0.5;
+                                self.effects["shatterVoidCost"] = 0.4;
                         }else{
 							self.effects["shatterCostReduction"] = -0.02;
 							self.effects["shatterCostIncreaseChallenge"] = 0;
@@ -163,7 +175,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
         },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > 0;
+			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
 		}
 	}],
 
@@ -261,7 +273,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			$I("challendge.btn.confirmation.msg"), function() 
 		{
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
-
+			// Should put resources and kittens to reserve HERE!
+			// Kittens won't be put into reserve in post apocalypcis!
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
 			game.time.getVSU("cryochambers").val = 0;
