@@ -1,6 +1,6 @@
-/**
- *			Oil 1.0.0 Theme © Volkeyrn
- */
+/* ******************************************************** */
+/* ***			Oil 1.0.1 Theme © Volkeyrn              *** */
+/* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Asap:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Asap+Condensed:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
@@ -65,10 +65,10 @@ body.scheme_oil,
 	cursor: pointer;
 	border: solid 1px #ffc900;
 }
-.scheme_oil .btn:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+.scheme_oil .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #999999;
 }
-.scheme_oil .btn:not(.disabled):hover span.btnTitle {
+.scheme_oil .btn.modern:not(.disabled):hover span.btnTitle {
 	color: #FFFFFF;
 	text-shadow: 1px 1px 2px #090909;
 }
@@ -99,13 +99,12 @@ body.scheme_oil,
 }
 .scheme_oil .modern .btnContent {
 	/* 10px left not necessary for buttons without on/off */
-	padding: 10px 0 10px 1px; /* default :  padding: 10px 0 10px 10px; */
+	padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_oil .btn.bldEnabled div.btnContent,
 .scheme_oil .btn.bldlackResConvert div.btnContent {
-	/* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
-	border: none;
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 	padding: 10px 0 10px 23px; /* 23px left for power background-image - default padding: 10px 0 10px 10px; */
 }
 .scheme_oil .btn.bldlackResConvert div.btnContent {
@@ -116,22 +115,19 @@ body.scheme_oil,
 }
 /*** end of green light for machine on ***/
 .scheme_oil .dialog {
-	box-shadow: inset 1px 1px 4px #fc8d00, inset -1px -1px 3px rgba(252, 141, 0, 0.5),
-	-1px -1px 3px #ffc900, 1px 1px 3px #292929;
+	box-shadow: -1px -1px 3px #ffc900, 1px 1px 3px #292929;
 	border: solid 1px #ffc900;
 	border-right-color: rgba(255, 201, 0, 0.7);
 	border-bottom-color: rgba(255, 201, 0, 0.7);
-	border-radius: 19px;
+	border-radius: 19px 0 0 19px;
 }
 .scheme_oil .dialog a {
-    font-weight: bold;
+	font-weight: bold;
+	text-transform: capitalize;
 }
 .scheme_oil label i { /* information text in option windows */
     /* default font size = font-size: 90%; */
     color: #707070;
-}
-.scheme_oil .dialog input[type="button"] {
-    font-size : 12px !important;
 }
 .scheme_oil select { /* dropdown list on settlement tab and options windows */
     background-color: #000000;
@@ -153,6 +149,11 @@ body.scheme_oil,
 	color: #707070;
 	font-size: 90%;
 }
+.scheme_oil .dialog input[type="button"] {
+	font-size : 12px !important;
+	margin-left: 7px;
+	margin-bottom: 10px;
+}
 .scheme_oil #optionsDiv input[type="checkbox"] + label:before {
     content: "\02299"; /* CircleDot */
 	font: 12px sans-serif;
@@ -162,6 +163,31 @@ body.scheme_oil,
 	content: "\25C9"; /* FISHEYE */
 	font: 14px sans-serif;
 	color: rgba(255, 201, 0, 0.75); /* color #FFC900; */
+}
+.scheme_oil .dialog input#batchSize {
+	background-color: #000000;
+    color: #A9A9A9;
+    padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	border: 2px inset #181818;
+    box-shadow: inset -1px -1px 2px #202020, 
+                inset 2px 2px 5px #000000;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+.scheme_oil textarea#importData,
+.scheme_oil textarea#exportData {
+    color: #d9d9d9;
+    background-color: #161616;
+    margin-left: 10px;
+    padding: 7px;
+	border: 2px solid #ffc900;
+	border-radius: 7px;
+    box-shadow: 2px 2px 7px #000000 inset,
+                 0 1px 2px rgba(200, 200, 200, 0.1) !important;
+	/* Only FireFox */
+	scrollbar-width: thin;
+   	scrollbar-color:  #191919 #090909;
 }
 
 /*************************************************/
@@ -176,21 +202,28 @@ body.scheme_oil,
 				1px 1px 2px #191919;
 	top: 0; /* for no shadow on top */
 }
-.scheme_oil #headerLinks .links-block { /* a link separator : | on header links*/
+.scheme_oil #topBar a.copyright {
+	color: #a90909;
+}
+.scheme_oil #topBar a.copyright:hover {
+	color: #ffc900;
+}
+.scheme_oil #headerLinks .links-block { /* a link separator : | on header links */
 	color: #333342;
 }
-.scheme_oil #headerLinks div { /* for color text of MOTD on top bar */
+.scheme_oil #topBar div,
+.scheme_oil #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
 	color: #999999;
+}
+.scheme_oil #sorrowTooltip.max {
+    color: #a90909 !important; /* in default.js !important needed */
 }
 .scheme_oil #headerLinks>div:first-child:before {
     color: #ffc900;
-    content: 'Theme by Volkeyrn  ';
+    content: 'Theme by Volkeyrn\00a0\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal;
-}
-.scheme_oil #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
-	color: #999999;
 }
 .scheme_oil #autosaveTooltip {
 	color: #ffc900;
@@ -204,6 +237,21 @@ body.scheme_oil,
 .scheme_oil .links-block {
 	padding-top: 0 !important;
 }
+.scheme_oil .toolbarIcon.happiness {
+    color: #fc8d00;
+}
+.scheme_oil .toolbarIcon.energy,
+.scheme_oil .button_tooltip .energyProduction {
+    color: #8AC211;
+}
+.scheme_oil .toolbarIcon.energy.warningWinter {
+    color: #fc8d00;
+}
+.scheme_oil .toolbarIcon.energy.warning,
+.scheme_oil .button_tooltip .energyConsumption,
+.scheme_oil .button_tooltip .energyPenalty {
+	color: #a90909;
+}
 
 /************************************************/
 /******************** FOOTER ********************/
@@ -211,13 +259,8 @@ body.scheme_oil,
 .scheme_oil #footerLinks {
 	font-size: 90%;
 	bottom: 5px; /* default bottom: 10px; */
+	color: #191919; /* a link separator : | on footer links */
 	background-color: #000000;
-}
-.scheme_oil #footerLinks a:hover {
-	text-shadow: none;
-}
-.scheme_oil #footerLinks { /* a link separator : | on footer links*/
-	color: #191919;
 }
 
 /*************************************************/
@@ -299,16 +342,18 @@ body.scheme_oil,
 	margin-bottom: 64px; /* to view entire dropdownlink of last button */
 }
 .scheme_oil .tabInner.Bonfire {
-	margin-bottom: 0; /*default margin-bottom: 20px; */
+	margin-bottom: 0; /* default margin-bottom: 20px; */
 }
 .scheme_oil .tabInner label[for='toggleResearched'],
 .scheme_oil .tabInner .expandAllBar a:last-child {
 	margin-right: 15px !important;
 }
-.scheme_oil .tabsContainer { /* separator | for tab */
-	color: #191919;
+.scheme_oil .tabsContainer {
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	/* default padding-top: 2px; */
+}
+.scheme_oil .tabsContainer span:not(.genericWarning) { /* separator | for tab */
+	color: #191919;
 }
 .scheme_oil .activeTab {
 	color: #FFFFFF;
@@ -323,6 +368,9 @@ body.scheme_oil,
 }
 .scheme_oil a.activeTab:hover {
     color: #FFFFFF;
+}
+.scheme_oil span.genericWarning { /* number of kittens free or engineering free on tab */
+	color: #a90909;
 }
 .scheme_oil .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
@@ -420,7 +468,7 @@ body.scheme_oil,
 .scheme_oil input[type='button']#observeBtn:active {
     border-color: #fc8d00;
 }
-.scheme_oil .btn.modern .linkContent { /* dropdown list on button*/
+.scheme_oil .btn.modern .linkContent { /* dropdown list on button */
     margin-top: 26px !important; /* for correct vertical align dropdown list */
     width: auto !important;
 	background-color: #292929; /* color pick from button not disabled and hover */
@@ -498,6 +546,9 @@ body.scheme_oil,
 .scheme_oil .container {
 	padding: 5px; /* default padding: 10px; */
 }
+.scheme_oil .container.trade-race .crypto-trade .btn.modern {
+	max-width: 134px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (280 -2 -10)/2 = 134 */
+}
 .scheme_oil .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 6px !important; /* default padding-bottom: 10px; */
 }
@@ -518,19 +569,35 @@ body.scheme_oil,
 	color: #636A7C !important;
 	text-shadow: none !important;
 }
+.scheme_oil .attitude:before {
+	/* default content: "("; */
+	content: "\00a0\227A\227B\00a0"; /* default content: "("; */ /* PRECEDES and SUCCEEDS */
+	color: #a9a9a9;
+	font-size: larger;
+	font-weight: bold;
+}
+.scheme_oil .attitude:after {
+	/* default content: ")"; */
+	content: ""; /* default content: ")"; */
+}
+.scheme_oil .container.trade-race a[title='Pinned'] {
+	color: #ffc900;
+}
 .scheme_oil .panelContainer div.censusFilters {
 	margin-bottom: 3px; /* for add a margin under the 2 lists (select) in the settlement tab */
 }
 /* ---------- Village ----------*/
 /* container 'Census' -> list of kittens in settlement tab */
-.scheme_oil .panelContainer .census-block{
+.scheme_oil .panelContainer .census-block {
 	background-color : transparent;
 	box-shadow: inset 0 0 12px 2px #101010;
 	border-radius: 7px;
-	border-color: #191919 !important;
-	font-size: 90%;
-	padding: 4px !important; /* default padding: 5px; */
-	margin-bottom: 4px !important; /* default margin-bottom: 5px; */
+	border-color: #191919;
+	padding: 4px; /* default padding: 5px; */
+	margin-bottom: 4px; /* default margin-bottom: 5px; */
+}
+.scheme_oil .census-block:hover {
+	border-color: #606060;
 }
 .scheme_oil .census-block.simLeader {
 	background-color : rgba(160, 160, 160, 0.2); /* color #A0A0A0; */
@@ -539,6 +606,7 @@ body.scheme_oil,
 	color: #118AC2;
 }
 .scheme_oil .census-block .info { /* info of kitten */
+	font-size: 0.9em;
 	color: #B9B9B9;
 }
 .scheme_oil .census-block .skill { /* jobs unasigned */
@@ -548,7 +616,7 @@ body.scheme_oil,
 	color: #ffc900;
 	font-weight: normal !important;
 }
-.scheme_oil .census-block.simLeader .info span[class^=color] {  /* Leader name */ 
+.scheme_oil .census-block.simLeader .info span.name {  /* Leader name */ 
 	font-size: 1.2em;
 }
 .scheme_oil .census-block.simLeader .skill:first-of-type { /* Leader job assigned */
@@ -571,6 +639,28 @@ body.scheme_oil,
 }
 .scheme_oil .census-block .color-white {
     color: #EEEEEE;
+}
+.scheme_oil .container .name.variety-none {
+	border: 1px solid transparent;
+}
+.scheme_oil .container .name.variety-dual { /* bicolore */
+	border: 1px solid grey;
+}
+.scheme_oil .container .name.variety-tabby { /* tigré  ou rayé*/
+	border: 1px dashed grey;
+}
+.scheme_oil .container .name.variety-torbie { /* marbré strié */
+	border: 1px dashed grey;
+	border-left: dotted;
+	border-right: dotted;
+}
+.scheme_oil .container .name.variety-calico { /* tricolore */
+	border: 1px solid grey;
+	border-top-color: burlywood;
+	border-bottom-color: burlywood;
+}
+.scheme_oil .container .name.variety-spots { /* tacheté */
+	border: 1px dotted grey;
 }
 .scheme_oil .btn.modern a.bld-on,
 .scheme_oil .btn.modern a.bld-off,
@@ -602,11 +692,11 @@ body.scheme_oil,
 .scheme_oil .btn.modern a.auto-off {
 	background-image: url('img/theme_oil_gear_off.png'); /* source of images for graphic design : https://pngtree.com/freepng/set-of-engineering-tools-icons-in-simple-glyph-style_5316639.html Volkeyrn: permanent premium member */
 }
-.scheme_oil .btn.modern.craftOn .btnTitle { /* all buttons with engineer(s) in workshop tab */
+.scheme_oil .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
 	color: #ffc900;
 	opacity: 0.7;
 }
-.scheme_oil .btn.modern.craftOn:hover .btnTitle {
+.scheme_oil .btn.modern.craftOn:hover span.btnTitle {
 	color: #ffc900;
 	opacity: 1;
 	text-shadow: 1px 1px 2px #090909;
@@ -699,7 +789,7 @@ body.scheme_oil,
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_oil #rightColumn {
-	width: calc(50 - 355px);
+	width: calc(50% - 355px);
 	max-width: 440px;
 }
 .scheme_oil #toggleCenter,
@@ -724,10 +814,10 @@ body.scheme_oil,
 	font-size: 90%;
 }
 .scheme_oil #calendarSign {
-   font-size: 120% ;
+   font-size: 120%;
 }
 .scheme_oil #calendarSign:hover {
-   cursor: default ;
+   cursor: default;
 }
 .scheme_oil .right-tab-header { /* Log and Chat link on right column */
 	/* default margin-top: 10px; */
@@ -748,9 +838,6 @@ body.scheme_oil,
 .scheme_oil .right-tab-header a:not(.active) {
 	text-decoration: none;
 	border-top: none;
-}
-.scheme_oil .right-tab {
-	height: calc(100% - 160px); /* default height: calc(100% - 150px); */
 }
 .scheme_oil #rightTabChat {
 	margin-top: 20px;
@@ -780,9 +867,10 @@ body.scheme_oil,
 	border-radius: 15px 0 0 15px;
 	padding: 0 4px 4px 4px;
 	box-shadow: -1px -1px 1px #393939, 1px 1px 1px #191919;
+	/* 3 lines of code below if border with an image */
 	min-height: 5% !important;
 	height: unset !important; 
-	max-height: calc(100% - 80px) !important;
+	max-height: calc(100% - 100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_oil #gameLog span.msg:not(.type_date)  {
@@ -809,6 +897,10 @@ body.scheme_oil,
 .scheme_oil .msg.type_alert {
     color: #a90909; /* color default : red; */
 }
+.scheme_oil .msg.type_urgent {
+	color: #ffc900; /* default color: blueviolet; */
+	font-size: 1.1em;
+}
 .scheme_oil .msg.type_date {
 	color: #ffc900;
 	/* default font-size: 90%; */
@@ -825,6 +917,9 @@ body.scheme_oil,
 	/* -20px gained on res-table with border collapse and padding-right. default max-width: 400px; */
 	padding-right: 12px; /* -8px gained on res-toolbar.right padding-right default padding right : 20px */
 }
+.scheme_oil .res-toolbar.right {
+	padding-right: 20px;
+}
 .scheme_oil a.link.collapse {
     opacity: 0.5; /* default opacity: 0.2; */
 }
@@ -832,14 +927,12 @@ body.scheme_oil,
 	color: #ffc900;
 	opacity: 1;
 }
-.scheme_oil .res-toolbar {
-    font-size: 90%;
-}
-.scheme_oil .res-toolbar.right {
-	padding-right: 20px;
+.scheme_oil div.tooltip-block > span {
+	color: #797979;
 }
 .scheme_oil div.tooltip-block:hover > span {
 	font-weight: bold;
+	color: #ffc900;
 }
 .scheme_oil .res-toolbar .link.toggled {
     color: #ffc900;
@@ -910,7 +1003,7 @@ body.scheme_oil,
 }
 .scheme_oil div#advisorsContainer {
 	color: #a90909;
-	padding-top: 6px;/* default padding-top:10px; */
+	padding-top: 6px;/* default padding-top: 10px; */
 }
 .scheme_oil #fastHuntContainerCount { /* Text left column : "xx times" from Send hunters */
 	color: #c9c9c9;
@@ -932,21 +1025,11 @@ body.scheme_oil,
 	opacity: 0.7; /* default opacity: 0.4; */
 	color: #fc8d00;
 }
-.scheme_oil .resource_kittens .resource-name {
-	color: #606060 !important;
-}
-.scheme_oil .resource_faith .resource-name {
-	color: #606060 !important;
-}
-.scheme_oil .resource_steel .resource-name { 
-	color: #606060 !important;
-}
-.scheme_oil .resource_gear .resource-name {
-	color: #606060 !important;
-}
-.scheme_oil .resource_alloy .resource-name {
-	color: #606060 !important;
-}
+.scheme_oil .resource_faith .resource-name,
+.scheme_oil .resource_kittens .resource-name,
+.scheme_oil .resource_steel .resource-name,
+.scheme_oil .resource_gear .resource-name,
+.scheme_oil .resource_alloy .resource-name,
 .scheme_oil .resource_megalith .resource-name {
 	color: #606060 !important;
 }
@@ -966,7 +1049,7 @@ body.scheme_oil,
 .scheme_oil #leftColumn,
 .scheme_oil #rightColumn,
 .scheme_oil #midColumn,
-.scheme_oil select,
+.scheme_oil .dialog,
 .scheme_oil #gamelog {
    scrollbar-width: thin;
    scrollbar-color: #191919 #090909 !important;

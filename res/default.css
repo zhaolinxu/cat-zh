@@ -419,6 +419,10 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     color: red;
 }
 
+.msg.type_urgent {
+    color: blueviolet;
+}
+
 .msg.type_date {
     color: #ff7f50;
     margin-top: 15px;
@@ -518,6 +522,9 @@ table.craftTable tr:hover td {
     display: inline-block;
 }
 
+.icons-container div{
+    display: inline-block;
+}
 .toolbarIcon {
     padding-right: 15px;
     font-size: 12px;

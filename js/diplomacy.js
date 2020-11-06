@@ -346,7 +346,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		
 		if(elders.autoPinned){elders.pinned=true;}
 
-        this.game.msg($I("trade.msg.elders"), "notice");
+        this.game.msg($I("trade.msg.elders"), "urgent");
     },
 
     onNewDay: function(){
@@ -577,7 +577,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		var amt = this.game.resPool.get("relic").value / this.game.calendar.cryptoPrice;
 		this.game.resPool.get("blackcoin").value += amt;
 		this.game.resPool.get("relic").value = 0;
-		this.game.msg($I("trade.bcoin.sell.msg", [this.game.getDisplayValueExt(amt)]));
+		this.game.msg($I("trade.bcoin.buy.msg", [this.game.getDisplayValueExt(amt)]));
 
 	},
 
@@ -1113,14 +1113,14 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		dojo.create("div", { class: "clear"}, tabContainer);
 
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio();
+		var baseTradeRatio = 1 + this.game.diplomacy.getTradeRatio();
 		var currentSeason = this.game.calendar.getCurSeason().name;
 		for (var i = 0; i < races.length; i++) {
 			var race = races[i];
 			if (!race.unlocked) {
 				continue;
 			}
-			tradeRatio += this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);

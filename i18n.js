@@ -24,16 +24,25 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru": "Русский",
-			"zh": "中文",
-			"ja": "日本語",
+
 			"br": "Português",
+			"cz": "Čeština",
+			"de": "Deutsch",
 			"es": "Español",
 			"fr": "Français",
 			"fro": "Ancien Français",
-			"cz": "Čeština",
+			"it": "Italiano",
+			"ja": "日本語",
+			"ko": "한국어",
+			"nl": "NL",
+			"no": "NO",
 			"pl": "Polski",
-			"de": "Deutsch"
+			"ro": "RO",
+			"ru": "Русский",
+			"tr": "TR",
+			"uk": "Українська",
+			"zh": "中文",
+			"zht": "漢語"
 		};
 	},
 
@@ -71,7 +80,7 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 			//console.log("navigator:", navigator, "platform:", this.platformLocale);
 			var defaultLocale = this.platformLocale || navigator.language || navigator.userLanguage;
 			// find closes match
-			var parts = defaultLocale.split("[-_]");
+			var parts = defaultLocale.split(/[-_]/);
 			lang = this.fallbackLocale;
 
 			for (var j = 0; j < this.availableLocales.length; j++) {
