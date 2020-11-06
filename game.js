@@ -1324,6 +1324,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
 	totalUpdateTimeTicks: 5,
 	totalUpdateTimeCurrent : 0,
+	fps: null,	//fps breakdows of a render cycle
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -1352,6 +1353,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	constructor: function(containerId){
 		this.id = containerId;
 
+		this.fps = {};
 		this.tabs = [];
         this.managers = [];
 
@@ -3583,8 +3585,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks - 4) / 5);
 			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks - 5) / 5);
 
-			if (tsDiff < 10) {tsDiff = 10;}
-            fpsElement = $("#devPanelFPS")[0];
+			if (tsDiff < 10) {
+				tsDiff = 10;
+			}
+			this.fps = {
+				ms: tsDiff,
+				avg: avg,
+				avg0: avg0,
+				avg1: avg1,
+				avg2: avg2,
+				avg3: avg3,
+				avg4: avg4
+			};
+
+            /*fpsElement = $("#devPanelFPS")[0];
             if (fpsElement) {
                 fpsElement.textContent = "fps: " + tsDiff + " ms,"
 				+ " avg: " + avg.toFixed() + 
@@ -3593,7 +3607,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				"." + avg2.toFixed() + 
 				"." + avg3.toFixed() + 
 				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }
+            }*/
 		}
 	},
 
