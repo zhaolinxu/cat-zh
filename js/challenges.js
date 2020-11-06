@@ -336,12 +336,10 @@ dojo.declare("classes.reserveMan", null,{
 		this.game = game;
 		this.reserveResources = null;
 		this.reserveKittens = null;
-		this.ironWillClaim = false;
 	},
 	resetState: function(){
 		this.reserveResources = {};
 		this.reserveKittens = [];
-		this.ironWillClaim = false;
 	},
 	calculateReserveResources: function(){
 		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
@@ -421,6 +419,9 @@ dojo.declare("classes.reserveMan", null,{
 			reserveResources: this.game.challenges.reserves.reserveResources,
 			ironWillClaim: this.ironWillClaim
 		};
+	},
+	reservesExist: function(){
+		return (this.reserveResources.length||this.reserveKittens.length)
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
@@ -575,6 +576,23 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 		}, this.game);
 		applyPendingBtn.render(container);
 		this.applyPendingBtn = applyPendingBtn;
+
+
+		var reclaimReservesBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("challendge.reclaimReserves.label"),
+			description: $I("challendge.reclaimReserves.desc"),
+			handler: dojo.hitch(this, function(){
+				this.game.challenges.reserves.addReserves();
+			}),
+			controller: new com.nuclearunicorn.game.ui.ButtonController(this.game, {
+				updateVisible: function (model) {
+					model.visible = (!this.game.challenges.anyChallengeActive() && !this.game.ironWill&&
+					this.game.challenges.reserves.reservesExist());
+				},
+			})
+		}, this.game);
+		reclaimReservesBtn.render(container);
+		this.reclaimReservesBtn = reclaimReservesBtn;
 	},
 
 	update: function(){
