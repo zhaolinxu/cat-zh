@@ -678,6 +678,9 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			var maxValue = game.getEffect(res.name + "Max") || 0;
 
 			maxValue = this.addResMaxRatios(res, maxValue);
+			
+			var challengeEffect = this.game.getLimitedDR(this.game.getEffect(res.name + "MaxChallenge"), maxValue);
+			maxValue += challengeEffect;
 
 			if (maxValue < 0 ){
 				maxValue = 0;
@@ -695,7 +698,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var energyProdRatio = 1 + game.getEffect("energyProductionRatio");
 		this.energyProd = game.getEffect("energyProduction") * energyProdRatio;
 		this.energyWinterProd = this.energyProd;
-		var energyConsRatio = 1 + game.getLimitedDR(game.getEffect("energyConsumptionRatio"), 1);
+		var energyConsRatio = 1 + game.getLimitedDR(game.getEffect("energyConsumptionRatio"), 1) + game.getEffect("energyConsumptionIncrease");
 		this.energyCons = game.getEffect("energyConsumption") * energyConsRatio * (this.game.challenges.isActive("energy") ? 2 : 1);
 
 		var currentSeason = game.calendar.season;

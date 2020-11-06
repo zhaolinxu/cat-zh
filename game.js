@@ -246,6 +246,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					title: $I("effectsMgr.type.resMax", [restitle]),
 					resName: resname
 				};
+			case type == "MaxChallenge": //for when challenges change Max of resources; LDR to all other sources of Max
+				return {
+					title: $I("effectsMgr.type.resMax", [restitle]),
+					resName: resname
+				};
 			case type == "Ratio":
 				return {
 					title: $I("effectsMgr.type.resRatio", [restitle]),
@@ -450,6 +455,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.energyConsumptionRatio.title"),
 				type: "ratio"
 			},
+			"energyConsumptionIncrease": {
+				title: $I("effectsMgr.statics.energyConsumptionIncrease.title"),
+				type: "ratio"
+            },
 
 			//production
 
@@ -1053,6 +1062,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				calculation: "nonProportional"
 			},
 			//age 2 policy effects
+			"rankLeaderBonusConversion": {
+				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
+                type: "ratio"
+			},
 			"boostFromLeader": {
                 title: $I("effectsMgr.statics.boostFromLeader.title"),
                 type: "ratio"
@@ -1218,19 +1231,43 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "goldPolicyRatio":{
 				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
 				type: "ratio"
-            },
+			},
+			//challenges
 			"springCatnipRatio": {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
 			},
-                        "summerSolarFarmRatio": {
-                                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
-                                type: "ratio"
-                        },
-                        "shatterCostReduction": {
-                                title: $I("effectsMgr.statics.shatterCostReduction.title"),
-                                type: "ratio"
-                        }
+            "summerSolarFarmRatio": {
+                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
+				type: "ratio"
+            },
+            "shatterCostReduction": {
+                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                type: "ratio"
+			},
+            "shatterCostIncreaseChallenge": {
+                title: $I("effectsMgr.statics.shatterCostIncreaseChallenge.title"),
+                type: "ratio"
+			},
+			"coldChance": {
+                title: $I("effectsMgr.statics.coldChance.title"),
+                type: "ratio"
+			},
+			"coldHarshness": {
+                title: $I("effectsMgr.statics.coldHarshness.title"),
+                type: "ratio"
+			},
+			"kittenLaziness": {
+                title: $I("effectsMgr.statics.kittenLaziness.title"),
+                type: "ratio"
+			},
+			"shatterVoidCost":{
+                title: $I("effectsMgr.statics.shatterVoidCost.title"),
+                type: "fixed"
+			},
+			"challengeHappiness":{
+                title: $I("effectsMgr.statics.challengeHappiness.title")
+			}
 		}
 	}
 });
@@ -2538,7 +2575,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-
+			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2750,7 +2787,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -2763,6 +2800,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				name: $I("res.stack.paragon"),
 				type: "ratio",
 				value: paragonProductionRatio * 0.05
+			});
+			buildingAutoprod.push({
+				name: $I("res.stack.rankLeaderBonusConversion"),
+				type: "ratio",
+				value: rankLeaderBonusConversion
 			});
 		//<----
 		stack.push(buildingAutoprod);
@@ -3045,6 +3087,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
+		this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -3892,6 +3935,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usedCryochambers_reset[0]["on"] = 0;
 		}
 
+		// Set the challenge for after reset
+		for (var i = 0; i < this.challenges.challenges.length; i++){
+			var challenge = this.challenges.challenges[i];
+			if (challenge.pending){
+				challenge.pending = false;
+				challenge.active = true;
+			}
+			else{
+				challenge.active = false;
+			}
+		}
+
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
@@ -4012,6 +4067,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
 		this.upgrade({
 			tech: this.science.techs.map(function(item){return item.name;}),
+			policies: this.science.policies.map(function(item){return item.name;}),
 			perks: this.prestige.perks.map(function(item){return item.name;}),
 			jobs: this.village.jobs.map(function(item){return item.name;}),
 			crafts: this.workshop.crafts.map(function(item){return item.name;}),

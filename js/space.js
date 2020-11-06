@@ -651,7 +651,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"uraniumMax"    : 5000,
 					"unobtainiumMax": 750
 				};
-            }
+            },
+			unlockScheme: {
+				name: "arctic",
+				threshold: 10
+			}
         }
         ]
 	},{

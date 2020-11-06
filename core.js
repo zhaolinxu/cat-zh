@@ -1342,7 +1342,7 @@ ButtonModernHelper = {
 		if (!hideTitle){
 			dojo.create("div", {
 				innerHTML: $I("res.effects") + ":",
-				className: "tooltip-divider",
+				className: "tooltip-divider" + " resEffectsTxt",
 				style: {
 					textAlign: "center",
 					width: "100%",

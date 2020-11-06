@@ -25,12 +25,21 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: true,
 		effects: {
 			"springCatnipRatio": 0.05,
-			"summerSolarFarmRatio": 0.05
+			"summerSolarFarmRatio": 0.05,
+			"coldChance": 0,
+			"coldHarshness": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
-				self.effects["springCatnipBonus"] = 0;
-                                self.effects["summerSolarFarmBonus"] = 0;
+				self.effects["springCatnipRatio"] = 0;
+				self.effects["summerSolarFarmRatio"] = 0;
+				self.effects["coldChance"] = 0.05;
+				self.effects["coldHarshness"] = -0.02;
+			}else{
+				self.effects["springCatnipRatio"] = 0.05;
+                self.effects["summerSolarFarmRatio"] = 0.05;
+				self.effects["coldChance"] = 0;
+				self.effects["coldHarshness"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -43,14 +52,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.anarchy.effect.desc"),
 		researched: false,
 		unlocked: true,
-                effects: {
-                        "masterSkillMultiplier": 0.2
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["masterSkillMultiplier"] = 0;
-                        }
-                },
+        effects: {
+			"masterSkillMultiplier": 0.2,
+			"kittenLaziness": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+            	self.effects["masterSkillMultiplier"] = 0;
+            	self.effects["kittenLaziness"] = 0.05;
+            }else{
+				self.effects["masterSkillMultiplier"] = 0.2;
+			}
+        },
 		checkCompletionCondition: function(game){
 			return game.bld.get("aiCore").val > 0;
 		}
@@ -67,11 +80,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			voidSpace: ["chronocontrol"]
 		},
 		effects: {
-			"energyConsumptionRatio": -0.02
+			"energyConsumptionRatio": -0.02,
+			"energyConsumptionIncrease": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
 				self.effects["energyConsumptionRatio"] = 0;
+				self.effects["energyConsumptionIncrease"] = 0.1;
+			}else{
+				self.effects["energyConsumptionRatio"] = -0.02;
+				self.effects["energyConsumptionIncrease"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -93,12 +111,26 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
 		effects: {
-			"faithSolarRevolutionBoost": 0.1
+			"faithSolarRevolutionBoost": 0.1,
+			"cultureMaxChallenge": 0,
+			"scienceMaxChallenge": 0,
+			"manpowerMaxChallenge": 0,
+			"challengeHappiness": 0
 		},
 		calculateEffects: function(self, game) {
-                        if (self.active) {
-                                self.effects["faithSolarRevolutionBoost"] = 0;
-                        }
+            if (self.active) {
+				self.effects["faithSolarRevolutionBoost"] = 0;
+				self.effects["cultureMaxChallenge"] = -250;
+				self.effects["scienceMaxChallenge"] = -500;
+				self.effects["challengeHappiness"] = -0.5;
+				self.effects["manpowerMaxChallenge"] = -125;
+			}else{
+				self.effects["faithSolarRevolutionBoost"] = 0.1;
+				self.effects["cultureMaxChallenge"] = 0;
+				self.effects["scienceMaxChallenge"] = 0;
+				self.effects["challengeHappiness"] = 0;
+				self.effects["manpowerMaxChallenge"] = 0;
+			}
 		},
         researched: false,
         unlocked: false
@@ -108,12 +140,20 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
                 effects: {
-                        "shatterCostReduction": -0.02
+						"shatterCostReduction": -0.02,
+						"shatterCostIncreaseChallenge": 0,
+						"shatterVoidCost": 0
                 },
                 calculateEffects: function(self, game){
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
-                        }
+                                self.effects["shatterCostIncreaseChallenge"] = 0.5;
+                                self.effects["shatterVoidCost"] = 0.4;
+                        }else{
+							self.effects["shatterCostReduction"] = -0.02;
+							self.effects["shatterCostIncreaseChallenge"] = 0;
+							self.effects["shatterVoidCost"] = 0;
+						}
                 },
 		researched: false,
 		unlocked: false
@@ -124,16 +164,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.blackSky.effect.desc"),
 		researched: false,
 		unlocked: false,
-                effects: {
-                        "corruptionBoostRatioChallenge": 0.1
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["corruptionBoostRatioChallenge"] = 0;
-                        }
-                },
+        effects: {
+            "corruptionBoostRatioChallenge": 0.1
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["corruptionBoostRatioChallenge"] = 0;
+            }else{
+				self.effects["corruptionBoostRatioChallenge"] = 0.1;
+			}
+        },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > 0;
+			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
 		}
 	}],
 
@@ -143,6 +185,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for (var i = 0; i < this.challenges.length; i++){
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
+			challenge.pending = false;
+			challenge.active = false;
 			this.resetStateStackable(challenge);
 		}
 		this.currentChallenge = null;
@@ -171,6 +215,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		var currentChallenge = saveData.challenges.currentChallenge;
 		if (currentChallenge){
 			this.getChallenge(currentChallenge).active = true;
+		}
+
+		for (var i = 0; i < this.challenges.length; i++) {
+			if (this.challenges[i].researched && !this.challenges[i].on) {
+				this.challenges[i].on = 1;
+			}
 		}
 	},
 
@@ -222,15 +272,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			$I("challendge.btn.confirmation.title"), 
 			$I("challendge.btn.confirmation.msg"), function() 
 		{
-			// Set the challenge for after reset
-			for (var i = 0; i < this.game.challenges.challenges.length; i++){
-				var challenge = this.game.challenges.challenges[i];
-				if (challenge.pending){
-					challenge.active = true;
-				}
-			}
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
-
+			// Should put resources and kittens to reserve HERE!
+			// Kittens won't be put into reserve in post apocalypcis!
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
 			game.time.getVSU("cryochambers").val = 0;

@@ -415,7 +415,7 @@ dojo.declare("classes.managers.ReligionManager", com.nuclearunicorn.core.TabMana
 		unlocked: false,
 		flavor: $I("religion.zu.blackPyramid.flavor"),
 		getEffectiveValue: function(game) {
-			return this.val + (game.challenges.getChallenge("blackSky").researched ? 1 : 0);
+			return this.val + (game.challenges.getChallenge("blackSky").researched && !game.challenges.isActive("blackSky") ? 1 : 0);
 		}
 	}],
 
