@@ -1,9 +1,9 @@
 /* ******************************************************** */
-/* ***			Vintage 1.0.1 Theme © Volkeyrn          *** */
+/* ***			Vintage 1.0.2 Theme © Volkeyrn          *** */
 /* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,500,600,700,400italic,500italic,600italic,700italic&display=swap);
-@import url(https://fonts.googleapis.com/css?family=Opens+Sans:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic,&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic,&display=swap);
 
 /* ******************************************** */
 /* ******************* GAME ******************* */
@@ -1174,7 +1174,7 @@ body.scheme_vintage {
 .scheme_vintage .resPerTick,
 .scheme_vintage .res-cell.resource-value,
 .scheme_vintage .craftTable {
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Source Sans Pro', sans-serif;
 }
 .scheme_vintage .maxRes {
 	color: #808080;

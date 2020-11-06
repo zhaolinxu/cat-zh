@@ -771,11 +771,12 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
         dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
 
-        dojo.query(".btnContent a.rightestLink").removeClass("rightestLink");
         if  (this.model.tenErasLink.visible) {
             dojo.addClass(this.tenEras.link,"rightestLink");
+            dojo.removeClass(this.previousCycle.link,"rightestLink");
         } else if (this.model.previousCycleLink.visible) {
             dojo.addClass(this.previousCycle.link,"rightestLink");
+            dojo.removeClass(this.nextCycle.link,"rightestLink");
         } else if (this.model.nextCycleLink.visible) {
             dojo.addClass(this.nextCycle.link,"rightestLink");
         }
