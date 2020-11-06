@@ -1,3 +1,16 @@
+//------------------------------------------
+
+
+
+
+/**
+ * Deprecated, use toolbar.jsx.js
+ */
+
+
+
+//keeping it here in case some 3rd party scripts rely on this
+//---------------------------------------- 
 dojo.declare("classes.ui.Toolbar", null, {
 
 	icons: null,
@@ -25,6 +38,7 @@ dojo.declare("classes.ui.Toolbar", null, {
 			var icon = this.icons[i];
 			if (icon.getOpts().hasTooltip) {
 				this.attachToolbarTooltip(iconContainer, this.icons[i]);
+				dojo.connect(iconContainer, "onclick", this.icons[i], "onClick");
 			}
 			switch (i) {
 				case "0": // MOTD
@@ -38,7 +52,6 @@ dojo.declare("classes.ui.Toolbar", null, {
 					break;				
 			}		
 		}
-
 		this.update(true /*forceUpdate*/);
 	},
 
@@ -120,6 +133,10 @@ dojo.declare("classes.ui.ToolbarIcon", null, {
 
 	getTooltip: function(){
 		return "Unimplemented";
+	},
+
+	onClick: function(){
+
 	},
 
 	getOpts: function(){

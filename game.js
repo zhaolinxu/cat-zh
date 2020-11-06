@@ -102,7 +102,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	},
 
 	logEvent: function(eventType, payload) {
-		var event = {
+		/*var event = {
 			guid: this.guid,
 			type: eventType,
 			timestamp: Date.now(),
@@ -111,20 +111,10 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-
 			if (window.FirebasePlugin) {
 				window.FirebasePlugin.logEvent(eventType, event);
-			} else if (this.game.server.telemetryUrl) {
-				/*$.ajax({
-					url: this.game.server.telemetryUrl,
-					type: "POST",
-					crossOrigin: true,
-					data: JSON.stringify(event),
-					dataType: "json",
-					contentType: "text/plain"
-				});*/
 			}
-		}
+		}*/
 	}
 });
 
@@ -135,10 +125,6 @@ dojo.declare("classes.game.Server", null, {
 
 	// Server datas
 	//---->
-	donateAmt: 0,
-	telemetryUrl: null,
-	telemetryAppId: "KG",
-
 	showMotd: true,
 	motdTitle: null,
 	motdContent: null,
@@ -161,10 +147,6 @@ dojo.declare("classes.game.Server", null, {
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
-				self.donateAmt = json.donateAmt || 0;
-				self.telemetryUrl = json.telemetryUrl;
-				self.telemetryAppId = json.telemetryAppId;
-
 				self.showMotd = json.showMotd;
 				self.motdTitle = json.motdTitle;
 				self.motdContent = json.motdContent;
@@ -176,6 +158,14 @@ dojo.declare("classes.game.Server", null, {
 			}
 		}).fail(function(err) {
 			console.log("Unable to parse server.json configuration:", err);
+		});
+
+		$.ajax({
+			cache: false,
+			url: "/user/",
+			dataType: "json"
+		}).done(function(){
+			
 		});
 
 	},
@@ -1371,6 +1361,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
 	totalUpdateTimeTicks: 5,
 	totalUpdateTimeCurrent : 0,
+	fps: null,	//fps breakdows of a render cycle
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -1399,6 +1390,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	constructor: function(containerId){
 		this.id = containerId;
 
+		this.fps = {};
 		this.tabs = [];
         this.managers = [];
 
@@ -1417,7 +1409,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false,
 			enableRedshift: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
@@ -3637,8 +3628,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks - 4) / 5);
 			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks - 5) / 5);
 
-			if (tsDiff < 10) {tsDiff = 10;}
-            fpsElement = $("#devPanelFPS")[0];
+			if (tsDiff < 10) {
+				tsDiff = 10;
+			}
+			this.fps = {
+				ms: tsDiff,
+				avg: avg,
+				avg0: avg0,
+				avg1: avg1,
+				avg2: avg2,
+				avg3: avg3,
+				avg4: avg4
+			};
+
+            /*fpsElement = $("#devPanelFPS")[0];
             if (fpsElement) {
                 fpsElement.textContent = "fps: " + tsDiff + " ms,"
 				+ " avg: " + avg.toFixed() + 
@@ -3647,7 +3650,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				"." + avg2.toFixed() + 
 				"." + avg3.toFixed() + 
 				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }
+            }*/
 		}
 	},
 
