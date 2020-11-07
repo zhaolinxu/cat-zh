@@ -405,6 +405,8 @@ dojo.declare("classes.reserveMan", null,{
 		for(var i in this.reserveKittens){
 			this.game.village.sim.kittens.push(this.reserveKittens[i]);
 		}
+		this.game.time.getVSU("usedCryochambers").val += reserveKittens.length;
+		this.game.time.getVSU("usedCryochambers").on += reserveKittens.length
 		this.reserveKittens = [];
 	},
 
