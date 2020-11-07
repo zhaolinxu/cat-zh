@@ -392,7 +392,6 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	addReserves: function(){
 		for (var i in this.reserveResources){
-			//console.warn(this.reserveResources[i] + i);
 			var resCap = this.game.resPool.get(i).maxValue;
 			if(!resCap){
 				this.game.resPool.get(i).value += this.reserveResources[i];
