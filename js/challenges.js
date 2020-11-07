@@ -406,7 +406,7 @@ dojo.declare("classes.reserveMan", null,{
 			this.game.village.sim.kittens.push(this.reserveKittens[i]);
 		}
 		this.game.time.getVSU("usedCryochambers").val += reserveKittens.length;
-		this.game.time.getVSU("usedCryochambers").on += reserveKittens.length
+		this.game.time.getVSU("usedCryochambers").on += reserveKittens.length;
 		this.reserveKittens = [];
 	},
 
@@ -423,7 +423,7 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		return (this.reserveResources.length||this.reserveKittens.length)
+		return (this.reserveResources.length||this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
