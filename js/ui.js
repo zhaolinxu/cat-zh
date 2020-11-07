@@ -520,26 +520,30 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			}
         }
         if (this.game.village.leader) {
-            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus engineer metallurgist chemist merchant manager scientist wise");
             switch (this.game.village.leader.trait.name) {
                 case "engineer": // Crafting bonuses
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " engineer");
+                    break;
                 case "metallurgist":
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " metallurgist");
+                    break;
                 case "chemist":
-                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " chemist");
                     break;
                 case "merchant": // Trading bonus
-                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus" + " merchant");
                     break;
                 case "manager": // Hunting bonus
-                    dojo.query("a.tab.Village").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus" + " manager");
                     break;
                 case "scientist": // Science prices bonus
-                    dojo.query("a.tab.Science").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus" + " scientist");
                     break;
                 case "wise": // Religion bonus
-                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus" + " wise");
                     break;
-                }
+            }
         }
 	},
 

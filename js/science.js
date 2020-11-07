@@ -1440,8 +1440,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentMineralBonus" : 0.125,
-            "environmentWoodBonus" : 0.125
+            "mineralsPolicyRatio" : 0.125,
+            "woodPolicyRatio" : 0.125
         },
         unlocked: false,
         blocked: false,
