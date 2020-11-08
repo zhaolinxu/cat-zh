@@ -248,9 +248,9 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist #sorrowTooltip.max {
     color: #be4151 !important;
 }
-.scheme_minimalist #headerLinks>div:first-child:before {
+.scheme_minimalist #topBar > div:first-child > span:first-child:after {
     color: #DD836C;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal;
@@ -409,6 +409,27 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #5D56A9;
+}
+.scheme_minimalist .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_minimalist .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_minimalist .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_minimalist .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_minimalist .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_minimalist .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_minimalist .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_minimalist .bldTopContainer { /* under tab */
     font-size: 90%;
