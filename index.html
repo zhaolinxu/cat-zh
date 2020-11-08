@@ -71,7 +71,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1481";
+			var version = "1482";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -150,6 +150,7 @@
 					"game",
 
 					"js/jsx/left.jsx",
+					"js/jsx/toolbar.jsx",
 					"js/jsx/map.jsx",
 
 					"js/ui",
@@ -493,7 +494,7 @@
 						Volkeyrn
 					</li>
 					<li title="help with i18n and localization">
-						PellaAndroid
+						<a href="http://www.reddit.com/user/Pellax">PellaAndroid</a>
 					</li>
 				</ul>
 
@@ -503,7 +504,9 @@
 				Special thanks for anyone who is not in the list, we still love you &lt;3<br/>
 				tumblr icon by <a href="https://moonlight-pendent13.deviantart.com">Moonlight-pendent13</a><br />
 				<br />
-				Warmest thanks to <a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback.<br />
+				Warmest thanks to <a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback during the formative days of KG.<br />
+				<br />
+				Thanks to mothloveslamp for supporting me and keeping me sane in my darkest hours.<br />
 				<br />
 				And finally, my undying gratitude to Waraiko.
 			</div>
@@ -515,7 +518,7 @@
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
 				</select>
-				&nbsp;<a id="addTranslationLink" target="_blank" href="http://bloodrizer.ru/games/kittens/wiki/index.php?page=locales" style="font-size:14px;">Add translation</a>
+				&nbsp;<a id="addTranslationLink" target="_blank" href="https://crowdin.com/project/kittensgame" style="font-size:14px;">Translation portal</a>
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
@@ -666,6 +669,20 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
+
+	  <script
+		type="text/javascript"
+		src="https://crowdin.com/js/crowdjet/crowdjet.js">
+	  </script>
+	  <div
+		id="crowdjet-container"
+		data-project-id="410426"
+		style="bottom: 90px; right: 20px;">
+	  </div>
+	  <div id="crowdjet-expand-container" onclick="$('#crowdjet-container').toggle();$('#crowdjet-iframe').contents().find('#crowdjet').toggleClass('expanded');">
+		[文|A]
+	  </div>
 
 	</body>
 </html>

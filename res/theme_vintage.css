@@ -498,7 +498,7 @@ body.scheme_vintage {
 	text-shadow: 1px 1px 1px #000000;
 	box-shadow: inset 2px 2px 3px #000000,
 				 0 1px 0 #606060 !important; /* !important in default.css */
-	cursor: pointer !important;
+	cursor: pointer !important; /* !important in default.css */
 }
 /* button observer different from other input buttons  */
 .scheme_vintage input[type='button']#observeBtn {	
