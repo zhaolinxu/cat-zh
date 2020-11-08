@@ -2879,23 +2879,31 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 	},
 
 	getValueModifierPerSkill: function(value){
+		var bonus = 0;
 		switch (true) {
 		case value < 100:
-			return 1.0;
+			break;
 		case value < 500:
-			return 1.05;	//5%
+			bonus = 0.0125;
+			break;
 		case value < 1200:
-			return 1.10;
+			bonus = 0.025;
+			break;
 		case value < 2500:
-			return 1.18;
+			bonus = 0.045;
+			break;
 		case value < 5000:
-			return 1.30;
+			bonus = 0.075;
+			break;
 		case value < 9000:
-			return 1.50;
+			bonus = 0.125;
+			break;
 		default:
-			return 1.75;
+			bonus = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
 		}
+		return bonus * (1 + this.game.getEffect("skillMultiplier"));
 	},
+
 
 	sendHunterSquad: function(){
 		this.game.village.sendHunters();
