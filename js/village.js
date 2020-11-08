@@ -855,6 +855,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 	},
+
 	getValueModifierPerSkill: function(value){
 		var bonus = 0;
 		switch (true) {
