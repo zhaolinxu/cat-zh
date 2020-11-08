@@ -761,7 +761,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         if (model.enabled && this.hasResources(model)) {
             var price = this.getPrices(model);
             this.game.resPool.addResEvent("timeCrystal", -price[0].val);
-            this.game.resPool.addResEvent("void", -price[1].val);
+            if(price[1]){this.game.resPool.addResEvent("void", -price[1].val);}
             callback(this.doShatter(model, 1));
         }
         callback(false);
@@ -815,11 +815,12 @@ dojo.declare("classes.ui.time.ShatterTCBtn", com.nuclearunicorn.game.ui.ButtonMo
         dojo.style(this.previousCycle.link, "display", this.model.previousCycleLink.visible ? "" : "none");
         dojo.style(this.tenEras.link, "display", this.model.tenErasLink.visible ? "" : "none");
 
-        dojo.query(".btnContent a.rightestLink").removeClass("rightestLink");
         if  (this.model.tenErasLink.visible) {
             dojo.addClass(this.tenEras.link,"rightestLink");
+            dojo.removeClass(this.previousCycle.link,"rightestLink");
         } else if (this.model.previousCycleLink.visible) {
             dojo.addClass(this.previousCycle.link,"rightestLink");
+            dojo.removeClass(this.nextCycle.link,"rightestLink");
         } else if (this.model.nextCycleLink.visible) {
             dojo.addClass(this.nextCycle.link,"rightestLink");
         }
