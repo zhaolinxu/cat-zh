@@ -760,8 +760,9 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
     buyItem: function(model, event, callback){
         if (model.enabled && this.hasResources(model)) {
             var price = this.getPrices(model);
-            this.game.resPool.addResEvent("timeCrystal", -price[0].val);
-            this.game.resPool.addResEvent("void", -price[1].val);
+            for (var i in price){
+                this.game.resPool.addResEvent(price[i].name, -price[i].val);
+            }
             callback(this.doShatter(model, 1));
         }
         callback(false);
