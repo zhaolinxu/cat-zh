@@ -1,1 +1,25 @@
-{}
+{
+    "console.intro": "Du er en kattunge i en kattemynteskog.",
+    "console.intro.zebra": "Du er en sebra i en savanne full av titangruver.",
+    "achievements.header": "Prestasjoner: {0} av {1}",
+    "achievements.msg.unlock": "Prestasjon låst opp: {0}!",
+    "achievements.msg.starUnlock": "Prestasjon stjerne låst opp: {0}!",
+    "achievements.anachronox.title": "Anachronox",
+    "achievements.anachronox.desc": "Vennligst stopp",
+    "achievements.deadSpace.title": "Dødt Rom",
+    "achievements.deadSpace.desc": "I rommet kan ingen høre deg mjaue.",
+    "achievements.heartOfDarkness.title": "Hjerte Av Mørke",
+    "achievements.heartOfDarkness.desc": "Bli høvdingen til en sebrastamme. (Hvordan er dette engang mulig?)",
+    "achievements.hundredYearsSolitude.title": "Ett Hundre Års Ensomhet",
+    "achievements.hundredYearsSolitude.desc": "Hvor langt er for langt?",
+    "achievements.ironWill.title": "Jernvilje",
+    "achievements.ironWill.desc": "Du har virkelig fortjent dette",
+    "achievements.jupiterAscending.desc": "Kom deg til rommet i det første året",
+    "achievements.limitlessClicker.title": "Grenseløs Klikker",
+    "achievements.limitlessClicker.desc": "Akkumuler 100,000 klikk.",
+    "achievements.limitlessClicker.starDesc": "Akkumuler 1,000,000 klikk.",
+    "achievements.meowMeowRevolution.desc": "Bygg en fabrikk i jernviljemodus",
+    "achievements.serenity.desc": "Ha 50 kattunger uten å miste noen av dem",
+    "achievements.superUnethicalClimax.desc": "Juks din vei gjennom spillet.",
+    "achievements.systemShock.desc": "Beklager Dave, jeg er redd jeg ikke kan gjøre det."
+}
