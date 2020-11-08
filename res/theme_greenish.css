@@ -245,9 +245,9 @@ body.scheme_greenish {
 .scheme_greenish #sorrowTooltip.max {
     color: #c5282e !important; /* in default.js !important needed */
 }
-.scheme_greenish #headerLinks>div:first-child:before {
+.scheme_greenish #topBar > div:first-child > span:first-child:after {
     color: #1b8539;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
@@ -446,7 +446,7 @@ body.scheme_greenish {
 	/* background-color: #ebf8e8; */
 	/* background-color: #e4f5dd; */
 	background-color: rgba(128, 128, 128, 0.2);
-	border-radius: 7px;;
+	border-radius: 7px;
 }
 .scheme_greenish input[type='button'] {
 	background-color: #2c8d48 !important; /* !important in default.css */
