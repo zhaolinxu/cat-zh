@@ -855,6 +855,50 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 	},
+	getValueModifierPerSkill: function(value){
+		var bonus = 0;
+		switch (true) {
+		case value < 100:
+			break;
+		case value < 500:
+			bonus = 0.0125;
+			break;
+		case value < 1200:
+			bonus = 0.025;
+			break;
+		case value < 2500:
+			bonus = 0.045;
+			break;
+		case value < 5000:
+			bonus = 0.075;
+			break;
+		case value < 9000:
+			bonus = 0.125;
+			break;
+		default:
+			bonus = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
+		}
+		return bonus * (1 + this.game.getEffect("skillMultiplier"));
+	},
+
+	getSkillExpRange: function(value){
+		switch (true) {
+		case value < 100:
+			return [0,100];
+		case value < 500:
+			return [100,500];
+		case value < 2500:
+			return [500,2500];
+		case value < 5000:
+			return [2500,5000];
+		case value < 9000:
+			return [5000,9000];
+		case value < 20000:
+			return [9000,20000];
+		default:
+			return [20000,value];
+		}
+	}
 });
 
 /**
