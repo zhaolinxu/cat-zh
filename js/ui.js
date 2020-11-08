@@ -1,4 +1,7 @@
-/* global WLeftPanel */
+/* global 
+    WLeftPanel 
+    WToolbar
+*/
 /**
  * Class that provides an abstraction layer for UI/model communication
  * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
@@ -106,7 +109,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatVisited: false,
     isCenter: false,
 
-    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood"],
+    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
@@ -257,7 +260,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     setGame: function(game){
         this.game = game;
 
-        this.toolbar = new classes.ui.Toolbar(game);
+        //this.toolbar = new classes.ui.Toolbar(game);
     },
 
     render: function(){
@@ -272,7 +275,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
 
         //TODO: remove hardcoded id?
-        this.toolbar.render(dojo.byId("headerToolbar"));
+        //this.toolbar.render(dojo.byId("headerToolbar"));
 
         game.calendar.render();
 
@@ -482,6 +485,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport"));
+
+        React.render($r(WToolbar, {
+            game: this.game
+        }), document.getElementById("headerToolbar"));
     },
 
     //---------------------------------------------------------------
@@ -494,7 +501,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateUndoButton();
         this.updateAdvisors();
 
-        this.toolbar.update();
+        //this.toolbar.update();
 
         if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
             this.game.tooltipUpdateFunc();
@@ -520,26 +527,30 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			}
         }
         if (this.game.village.leader) {
-            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus engineer metallurgist chemist merchant manager scientist wise");
             switch (this.game.village.leader.trait.name) {
                 case "engineer": // Crafting bonuses
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " engineer");
+                    break;
                 case "metallurgist":
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " metallurgist");
+                    break;
                 case "chemist":
-                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " chemist");
                     break;
                 case "merchant": // Trading bonus
-                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus" + " merchant");
                     break;
                 case "manager": // Hunting bonus
-                    dojo.query("a.tab.Village").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus" + " manager");
                     break;
                 case "scientist": // Science prices bonus
-                    dojo.query("a.tab.Science").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus" + " scientist");
                     break;
                 case "wise": // Religion bonus
-                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus" + " wise");
                     break;
-                }
+            }
         }
 	},
 

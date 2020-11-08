@@ -24,15 +24,25 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 
 		this.availableLocaleLabels = {
 			"en" : "English",
-			"ru": "Русский",
-			"zh": "中文",
-			"ja": "日本語",
+
 			"br": "Português",
+			"cz": "Čeština",
+			"de": "Deutsch",
 			"es": "Español",
 			"fr": "Français",
-			"cz": "Čeština",
-			"pl": "Polski"
-
+			"fro": "Ancien Français",
+			"it": "Italiano",
+			"ja": "日本語",
+			"ko": "한국어",
+			"nl": "NL",
+			"no": "NO",
+			"pl": "Polski",
+			"ro": "RO",
+			"ru": "Русский",
+			"tr": "TR",
+			"uk": "Українська",
+			"zh": "中文",
+			"zht": "漢語"
 		};
 	},
 
@@ -84,40 +94,45 @@ dojo.declare("com.nuclearunicorn.i18n.Lang", null, {
 		// at this point we always have correct lang selected
 		this.language = lang;
 		var self = this;
-		this._deffered = $.Deferred();
+		this._deferred = $.Deferred();
 		// now we can try to load it
-		var defferedForDefaultLocale = $.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp);
-		defferedForDefaultLocale.fail(function(def, errMrs, err){
-			console.error("Couldn't load default locale '", self.fallbackLocale, "', error:", errMrs, ", details:", err);
-			self._deffered.reject("Couldn't load default locale");
-		});
-		var fallbackLocale = this.fallbackLocale;
+
+		var getLocaleDef = $.getJSON( "res/i18n/" + this.fallbackLocale + ".json?_=" + timestamp);
+		var fallbackLocale = this.fallbackLocale;		
 		if (this.language != fallbackLocale ) {
-			var defferedForUserLocale = $.getJSON( "res/i18n/" + lang + ".json?_=" + timestamp).fail(function(e){
-				console.error("Couldn't load user locale '" + lang + "', error:", e);
-			});
+			getLocaleDef = $.getJSON( "res/i18n/" + lang + ".json?_=" + timestamp).
+				then(function(legacyLocale){
 
-			$.when(defferedForDefaultLocale, defferedForUserLocale).then(function(fallbackLocale, userLocale) {
-				console.log("locale arguments:", arguments);
-				// merge locales
-				$.extend( fallbackLocale[0], userLocale[0] );
-				self.messages = fallbackLocale[0];
-				self._deffered.resolve();
-			}, function(e1, e2) {
-				if (defferedForDefaultLocale.state() == "resolved") {
-					// default locale was loaded correctly
-					self.messages = fallbackLocale;
-					self._deffered.resolve();
-				}
-			});
-		} else {
-			defferedForDefaultLocale.done(function(fallbackLocale) {
-				self.messages = fallbackLocale;
-				self._deffered.resolve();
-			});
+					console.log("loaded legacy locale for lang", lang, legacyLocale);
+
+					return $.getJSON( "res/i18n/crowdin/" + lang + ".json?_=" + timestamp).then(function(crowdinLocale){
+						console.log("loaded crowdin locale for lang", lang, crowdinLocale);
+
+						var messages = legacyLocale;
+						console.log("Overriding locale with community translation...");
+						var crowdinKeys = Object.keys(crowdinLocale);
+						for(var i in crowdinKeys){
+							if(crowdinLocale[crowdinKeys[i]]){
+								messages[crowdinKeys[i]] = crowdinLocale[crowdinKeys[i]];
+							}
+						}
+						return messages;
+
+					}).fail(function(){
+						console.log("legacyLocale:", legacyLocale);
+						self.messages = legacyLocale;
+						self._deferred.resolve();
+					});
+				});
 		}
+		getLocaleDef.done(function(messages){
+			self.messages = messages;
+			self._deferred.resolve();
+		}).fail(function(error){
+			console.error("Unable to load locale chain for  '" + lang + "', error:", error);
+		});
 
-		return this._deffered.promise();
+		return this._deferred.promise();
 	},
 
 	getAvailableLocales: function() {

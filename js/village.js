@@ -85,7 +85,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		value: 0,
 		unlocked: false,
 		evaluateLocks: function(game){
-			return game.challenges.currentChallenge!="atheism";
+			return !game.challenges.isActive("atheism");
 		}
 	},{
 		name: "geologist",
@@ -283,7 +283,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		var resDiff = catnipVal + catnipPerTick;
 
 		if (this.sim.getKittens() > 0){
-			if (resDiff < 0 || this.game.challenges.currentChallenge == "winterIsComing" && this.sim.getKittens() > this.sim.maxKittens && this.game.calendar.weather == "cold") {
+			if (resDiff < 0 || this.game.challenges.isActive("winterIsComing") && this.sim.getKittens() > this.sim.maxKittens && this.game.calendar.weather == "cold") {
 
 				var starvedKittens = Math.abs(Math.round(resDiff));
 				if (starvedKittens > 1){
@@ -355,8 +355,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			workingKittens += this.jobs[i].value;
 		}
 
-		var diligentKittens = this.game.challenges.currentChallenge == "anarchy"
-			? Math.floor(this.getKittens() / 2)
+		var diligentKittens = this.game.challenges.isActive("anarchy")
+			? Math.round(this.getKittens() * (0.5 - this.game.getLimitedDR(this.game.getEffect("kittenLaziness"), 0.25)))
 			: this.getKittens();
 
 		return diligentKittens - workingKittens;
@@ -433,9 +433,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	 * Get cumulative resource production per village population
 	 */
 	updateResourceProduction: function(){
-
-		var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
-
 		var res = {
 		};
 
@@ -456,11 +453,11 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 				if(job) {
 					// Is there a shorter path to this function? I could go from gamePage but I'm trying to keep the style consistent.
 					//TODO: move to the village manager
-					var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
+					var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job] || 0);
 
 					for (var jobResMod in job.modifiers){
 
-						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * ((mod - 1) * productionRatio);
+						var diff = job.modifiers[jobResMod] + job.modifiers[jobResMod] * mod;
 
 						if (diff > 0 ){
 							if (kitten.isLeader){
@@ -491,7 +488,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 							diff -= diff * rankDiff * 0.15;
 						}
 
-						diff += diff * (mod - 1) * productionRatio;
+						diff += diff * mod;
 
 						if (diff > 0 ){
 							if (kitten.isLeader){
@@ -655,7 +652,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
         var enviromentalEffect = this.getEnvironmentEffect();
 		var happinessBonus = this.game.getEffect("happiness");
-		happiness += (happinessBonus + enviromentalEffect);
+		var challengeHappiness = this.game.getEffect("challengeHappiness");
+		happiness += (happinessBonus + enviromentalEffect + challengeHappiness);
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
@@ -1518,7 +1516,7 @@ dojo.declare("classes.village.KittenSim", null, {
 				kitten.trait = kitten.traits[kitten.rand(kitten.traits.length)];
 			}
 
-			if (kitten.job && game.calendar.day >= 0 && game.challenges.currentChallenge != "anarchy"){
+			if (kitten.job && game.calendar.day >= 0 && !game.challenges.isActive("anarchy")){
 				//Initialisation of job's skill
 				if (!kitten.skills[kitten.job]){
 					kitten.skills[kitten.job] = 0;
@@ -1922,7 +1920,21 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 	},
 
 	clickHandler: function(model, event){
-		this.assignJobs(model, 1);
+		if (event.ctrlKey || event.metaKey /*osx tears*/){
+			this.assignJobs(model, this.game.opts.batchSize || 10);
+		} else if (event.shiftKey){
+			if (this.game.opts.noConfirm){
+				this.assignAllJobs(model);
+			} else {
+				var self = this;
+				this.game.ui.confirm("", $I("village.btn.assignall.confirmation.msg"), function() {
+					self.assignAllJobs(model);
+				}, function() {
+				});
+			}
+		} else {
+			this.assignJobs(model, 1);
+		}
 	},
 
 	unassignJobs: function(model, amt){
@@ -2053,7 +2065,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 		//--------------------------------------------------------------------------------------
 		this.governmentDiv = null;
-		if (this.game.challenges.currentChallenge != "anarchy") {
+		if (!this.game.challenges.isActive("anarchy")) {
 			this.renderGovernment(container);
 		}
 		//--------------------------------------------
@@ -2140,7 +2152,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				}
 			}, div);
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				var leaderHref = dojo.create("a", {
 					href: "#", innerHTML: "",
 					className: "leaderHref",
@@ -2168,7 +2180,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 			}, this.game, i));
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				dojo.connect(leaderHref, "onclick", this, dojo.partial(function(census, i, event){
 					event.preventDefault();
 					var game = census.game;
@@ -2198,7 +2210,7 @@ dojo.declare("classes.ui.village.Census", null, {
 	},
 
 	makeLeader: function(kitten){
-		var theocracy =this.game.science.getPolicy("theocracy");
+		var theocracy = this.game.science.getPolicy("theocracy");
 		if((theocracy.researched) && (kitten.job != theocracy.requiredLeaderJob)){
 			var jobTitle = this.game.village.getJob(theocracy.requiredLeaderJob).title;
 			this.game.msg($I("msg.policy.kittenNotMadeLeader", [theocracy.label, jobTitle]), "important");
@@ -2258,7 +2270,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				break;
 			}
 
-			var skillExp = this.game.villageTab.getSkillExpRange(exp);
+			var skillExp = this.game.village.getSkillExpRange(exp);
 			var prevExp = skillExp[0];
 			var nextExp = skillExp[1];
 
@@ -2270,10 +2282,8 @@ dojo.declare("classes.ui.village.Census", null, {
 			if (skillsArr[j].name == kitten.job) {
 				style = "style='font-weight: bold'";
 
-				var productionRatio = (1 + this.game.getEffect("skillMultiplier")) / 4;
-				var mod = this.game.villageTab.getValueModifierPerSkill(kitten.skills[kitten.job]);
-				bonus = (mod - 1) * productionRatio;
-				bonus = bonus > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (bonus + 1) - 1) : bonus;
+				var mod = this.game.village.getValueModifierPerSkill(kitten.skills[kitten.job]);
+				bonus = mod > 0 && kitten.isLeader ? (this.game.village.getLeaderBonus(kitten.rank) * (mod + 1) - 1) : mod;
 
 				//TODO: move me to getFromLeaderBonus
 				bonus = bonus > 0 && !kitten.isLeader && 
@@ -2373,7 +2383,7 @@ dojo.declare("classes.ui.village.Census", null, {
 		//TODO: promote leader link
 		var govInfo = this.getGovernmentInfo();
 
-		if (this.game.challenges.currentChallenge != "anarchy") {
+		if (!this.game.challenges.isActive("anarchy")) {
 			this.leaderDiv.innerHTML = "<strong>" + $I("village.census.lbl.leader") + ":</strong> " + govInfo.leaderInfo;
 		}
 
@@ -2405,7 +2415,7 @@ dojo.declare("classes.ui.village.Census", null, {
             var skillInfo = this.getSkillInfo(kitten);
 			record.content.innerHTML += skillInfo;
 
-			if (this.game.challenges.currentChallenge != "anarchy") {
+			if (!this.game.challenges.isActive("anarchy")) {
 				record.leaderHref.innerHTML = kitten.isLeader ? "&#9733;" : "&#9734;"; //star-shaped link to reduce visual noise
 			}
 
@@ -2668,7 +2678,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
 			controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader != undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader != undefined 
+					&& this.game.workshop.get("register").researched 
+					&& !this.game.challenges.isActive("anarchy");
 				}
 			})
 		}, this.game);
@@ -2684,7 +2696,9 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 			}),
             controller: new classes.village.ui.VillageButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = this.game.village.leader !== undefined && this.game.workshop.get("register").researched && this.game.challenges.currentChallenge != "anarchy";
+					model.visible = this.game.village.leader !== undefined && 
+					this.game.workshop.get("register").researched && 
+					!this.game.challenges.isActive("anarchy");
 				}
 			})
 		}, this.game);
