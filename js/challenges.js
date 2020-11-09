@@ -178,6 +178,37 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		checkCompletionCondition: function(game){
 			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
 		}
+	},{
+		name: "pacifism",
+		label: $I("challendge.pacifism.label"),
+		description: $I("challendge.pacifism.desc"),
+		effectDesc: $I("challendge.pacifism.effect.desc"),
+		researched: false,
+		unlocked: true,
+        effects: {
+			"alicornPerTickRatio": 0.1,
+			"tradeKnowledge": 1
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["alicornPerTickRatio"] = 0;
+                self.effects["tradeKnowledge"] = 0;
+            }else{
+				self.effects["alicornPerTickRatio"] = 0.1;
+				self.effects["tradeKnowledge"] = 1;
+			}
+		},
+		getTradeBonusEffect: function(game){
+			var self = game.challenges.getChallenge("pacifism");
+			if(!self.val){
+				return 0;
+			}
+			var tradepost =game.bld.getBuildingExt("tradepost").meta;
+			return (tradepost.effects["tradeRatio"]*Math.min(10 + game.getEffect("tradeKnowledge"), tradepost.val/10)); //10% of tradeposts; not more than 10 tradepost
+		},
+		checkCompletionCondition: function(game){
+			return game.science.getPolicy("outerSpaceTreaty").researched;
+		}
 	}],
 
 	game: null,
@@ -343,7 +374,7 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	calculateReserveResources: function(){
 		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
-		var reserveResources = {};
+		var reserveResources = this.game.challenges.reserves.reserveResources;
 		for (var i in this.game.resPool.resources) {
 			var res = this.game.resPool.resources[i];
 			var fluxCondensator = this.game.workshop.get("fluxCondensator");
@@ -365,7 +396,7 @@ dojo.declare("classes.reserveMan", null,{
 			}
 
 			if (value > 0) {
-				reserveResources[res.name] = Math.max(this.game.challenges.reserves.reserveResources[res.name]||0, value);
+				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
 			}
 		}
 		this.game.challenges.reserves.reserveResources = reserveResources;

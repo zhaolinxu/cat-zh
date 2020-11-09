@@ -241,6 +241,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					resName: resname,
 					type: "perTick"
 				};
+			case type == "PerTickRatio":
+				return {
+					title: $I("effectsMgr.type.resRatio", [restitle]),
+					resName: resname,
+					type: "ratio"
+				};
 			case type == "Max":
 				return {
 					title: $I("effectsMgr.type.resMax", [restitle]),
@@ -1267,6 +1273,9 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
                 title: $I("effectsMgr.statics.challengeHappiness.title")
+			},
+			"tradeKnowledge":{
+				title: $I("effectsMgr.statics.tradeKnowledge.title")
 			}
 		}
 	}
@@ -2631,7 +2640,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick = effects[resName];
 
 		// +BUILDING AND SPACE PerTick
-		perTick += this.getEffect(res.name + "PerTick");
+		perTick += this.getEffect(res.name + "PerTick") * (1+ this.getEffect(res.name + "PerTickRatio"));
 
 		// -EARTH CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
@@ -2950,6 +2959,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			name: $I("res.stack.baseline"),
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTick")
+		});
+
+		stack.push({
+			name: $I("res.stack.baseline"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PerTickRatio")
 		});
 
 		// +CRAFTING JOB PRODUCTION
