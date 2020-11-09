@@ -133,7 +133,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
-        researched: false,
+		researched: false,
+		reserveDelay: true,
         unlocked: false
 	},{
 		name: "1000Years",
@@ -322,7 +323,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive()&&!this.game.ironWill){
+			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
