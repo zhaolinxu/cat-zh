@@ -184,8 +184,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.pacifism.label"),
 		description: $I("challendge.pacifism.desc"),
 		effectDesc: $I("challendge.pacifism.effect.desc"),
-		researched: false,
-		unlocked: true,
         effects: {
 			"alicornPerTickRatio": 0.1,
 			"tradeKnowledge": 1
@@ -199,6 +197,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["tradeKnowledge"] = 1;
 			}
 		},
+		researched: false,
+		reserveDelay: true,
+		unlocked: false,
 		getTradeBonusEffect: function(game){
 			var self = game.challenges.getChallenge("pacifism");
 			if(!self.val){
@@ -206,9 +207,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
 			return (tradepost.effects["tradeRatio"]*Math.min(10 + game.getEffect("tradeKnowledge"), tradepost.val/10)); //10% of tradeposts; not more than 10 tradepost
-		},
-		checkCompletionCondition: function(game){
-			return game.science.getPolicy("outerSpaceTreaty").researched;
 		}
 	}],
 

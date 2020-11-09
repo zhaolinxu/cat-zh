@@ -3694,6 +3694,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.researchChallenge("atheism");
 			}
+			if(game.challenges.isActive("pacifism") && game.science.getPolicy("outerSpaceTreaty").researched){
+				game.challenges.researchChallenge("pacifism");
+			}
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
