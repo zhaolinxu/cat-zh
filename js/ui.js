@@ -564,7 +564,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         }
 
         var catpower = this.game.resPool.get("manpower");
-        var showFastHunt = (catpower.value >= 100)&&(!this.game.challenges.isActive("pacifism"));
+        var showFastHunt = (catpower.value >= 100) && (!this.game.challenges.isActive("pacifism"));
 
         //blazing fast vanilla toggle
         if (showFastHunt){
