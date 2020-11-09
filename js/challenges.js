@@ -293,7 +293,6 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
 			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
-				console.warn(this.getChallenge(challenge).reserveDelay)
 				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
