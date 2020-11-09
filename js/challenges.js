@@ -206,7 +206,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				return 0;
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
-			return (tradepost.effects["tradeRatio"]*Math.min(10 + game.getEffect("tradeKnowledge"), tradepost.val/10)); //10% of tradeposts; not more than 10 tradepost
+			return (tradepost.effects["tradeRatio"]*Math.min(9 + game.getEffect("tradeKnowledge"), tradepost.val/10)); //10% of tradeposts; not more than 10 tradepost
 		}
 	}],
 
