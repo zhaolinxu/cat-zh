@@ -2171,7 +2171,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		beamCrafter.craft();
 		if(game.opts.enableRedshiftGflops){
 			var aiCore = this.get("aiCore");
-			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset;
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset * game.calendar.ticksPerDay;
 		}
 	},
 
