@@ -657,6 +657,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.5
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.5 * (1 + game.getLimitedDR(game.getEffect("weaponEfficency"), 1));
+		},
 		prices:[
 			{ name : "wood", val: 200 },
 			{ name : "iron", val: 100 },
@@ -669,6 +672,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		effects: {
 			"manpowerJobRatio" : 0.25
 		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] = 0.25 * (1 + game.getLimitedDR(game.getEffect("weaponEfficency"), 1));
+		},
 		prices:[
 			{ name : "iron", val: 1500 },
 			{ name : "science", val: 12000 }
@@ -679,6 +685,9 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		description: $I("workshop.railgun.desc"),
 		effects: {
 			"manpowerJobRatio" : 0.25
+		},
+		calculateEffects: function(self, game){
+			self.effects["manpowerJobRatio"] *= 0.25 * (1 + game.getLimitedDR(game.getEffect("weaponEfficency"), 1));
 		},
 		prices:[
 			{ name : "titanium", val: 5000 },

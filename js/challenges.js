@@ -186,16 +186,23 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.pacifism.effect.desc"),
         effects: {
 			"alicornPerTickRatio": 0.1,
-			"tradeKnowledge": 1
+			"tradeKnowledge": 1,
+			"weaponEfficency": 0
         },
         calculateEffects: function(self, game){
             if (self.active) {
                 self.effects["alicornPerTickRatio"] = 0;
                 self.effects["tradeKnowledge"] = 0;
+				self.effects["weaponEfficency"] = -0.1;
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
+                self.effects["weaponEfficency"] = 0;
 			}
+			game.upgrade(self.upgrades);
+		},
+		upgrades: {
+			upgrades: ["compositeBow", "crossbow", "railgun"]
 		},
 		researched: false,
 		reserveDelay: true,
