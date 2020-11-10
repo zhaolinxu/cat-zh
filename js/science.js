@@ -1559,7 +1559,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			if (!policy.researched) {
 				continue;
 			}
-			console.log(policy.unlocks);
+
 			this.game.unlock(policy.unlocks);
 		}
 
