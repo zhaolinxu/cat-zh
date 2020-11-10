@@ -1216,8 +1216,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
-				? game.challenges.isActive("energy") ? 2 : 1
-				: 0;
+				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {

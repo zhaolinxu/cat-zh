@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
         },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
+			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
 	}],
 
