@@ -1409,7 +1409,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		evaluateLocks: function(game){
 			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
-	}, /*{
+    }, /*{
         name: "spaceBasedTerraforming",
         label: $I("policy.spaceBasedTerraforming.label"),
         description: $I("policy.spaceBasedTerraforming.desc"),
@@ -1675,7 +1675,7 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 			this.game.msg($I("msg.policy.aiNotMerges"),"alert", "ai");
 			return false;
 		}else if(model.metadata.blocked != true) {
-             for(var i = 0; i < (model.metadata.blocks||[]).length; i++){
+             for(var i = 0; i < model.metadata.blocks.length; i++){
                 if(this.game.science.getPolicy(model.metadata.blocks[i]).researched){
                     model.metadata.blocked = true;
                     return false;
