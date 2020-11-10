@@ -329,9 +329,9 @@ body.scheme_cyber {
 .scheme_cyber #sorrowTooltip.max {
     color: #e30002 !important; /* in default.js !important needed */
 }
-.scheme_cyber #headerLinks>div:first-child:before {
+.scheme_cyber #topBar > div:first-child > span:first-child:after {
     color: #79d9ff;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
