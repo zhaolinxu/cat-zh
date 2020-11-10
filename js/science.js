@@ -1410,12 +1410,6 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
 		}
 	},
-	//---------------- aiCoresRedshiftDesision --------------------
-	{
-		name: "imbueAICores",
-		label: $I("policy.imbueAICores.label"),
-		description:$I("policy.imbueAICores.desc")
-	},
 	 /*{
         name: "spaceBasedTerraforming",
         label: $I("policy.spaceBasedTerraforming.label"),
