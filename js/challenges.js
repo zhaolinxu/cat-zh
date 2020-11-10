@@ -133,7 +133,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
-        researched: false,
+		researched: false,
+		reserveDelay: true,
         unlocked: false
 	},{
 		name: "1000Years",
@@ -291,7 +292,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive()&&!this.game.ironWill){
+			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
@@ -343,7 +344,10 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	calculateReserveResources: function(){
 		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
-		var reserveResources = {};
+		if(!saveRatio){
+			return;
+		}
+		var reserveResources = this.game.challenges.reserves.reserveResources;
 		for (var i in this.game.resPool.resources) {
 			var res = this.game.resPool.resources[i];
 			var fluxCondensator = this.game.workshop.get("fluxCondensator");
@@ -365,7 +369,7 @@ dojo.declare("classes.reserveMan", null,{
 			}
 
 			if (value > 0) {
-				reserveResources[res.name] = Math.max(this.game.challenges.reserves.reserveResources[res.name]||0, value);
+				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
 			}
 		}
 		this.game.challenges.reserves.reserveResources = reserveResources;
