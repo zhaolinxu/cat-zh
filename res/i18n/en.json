@@ -658,8 +658,6 @@
     "policy.fascism.desc" : "Lebensraum! Population penalties to happiness are eliminated, and log cabins cost half as much.",
     "policy.fullIndustrialization.label" : "Full Industrialization",
     "policy.fullIndustrialization.desc" : "Take the advice of your new captains of industry, slightly improving the crafting bonus each factory provides.",
-    "policy.imbueAICores.label": "Imbue AI Cores",
-    "policy.imbueAICores.desc": "Allow AI Cores to shift through time. Entanglers are also affected.",
     "policy.isolationism.label" : "Isolationism",
     "policy.isolationism.desc" : "Engage in protectionism of all types, making trades cheaper in terms of gold.",
     "policy.knowledgeSharing.label" : "Knowledge Sharing",
