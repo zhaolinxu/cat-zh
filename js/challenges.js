@@ -193,13 +193,13 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
             if (self.active) {
                 self.effects["alicornPerTickRatio"] = 0;
                 self.effects["tradeKnowledge"] = 0;
-				self.effects["weaponEfficency"] = -0.1;
+				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
             }else{
 				self.effects["alicornPerTickRatio"] = 0.1;
 				self.effects["tradeKnowledge"] = 1;
                 self.effects["weaponEfficency"] = 0;
 			}
-			game.upgrade(self.upgrades);
+			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
 		},
 		upgrades: {
 			upgrades: ["compositeBow", "crossbow", "railgun"]
