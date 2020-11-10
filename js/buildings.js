@@ -1751,6 +1751,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"gflopsPerTickBase": 0.02,
 			"energyConsumption": 2
 		},
+		unlocks:{
+			policies: ["imbueAICores"]
+		},
 		upgrades: {
 			buildings: ["library"],
 			spaceBuilding: ["moonBase"]
@@ -2169,6 +2172,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
+		if(game.science.getPolicy("imbueAICores").researched){
+			var aiCore = this.get("aiCore");
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset;
+		}
 	},
 
 	undo: function(data){
