@@ -260,6 +260,121 @@ WBLS = React.createClass({
     }
 });
 
+WLoginForm = React.createClass({
+    getInitialState: function(){
+        return {
+            login: null,
+            password: null,
+            isLoading: false
+        }
+    },
+
+    render: function(){
+        if (this.state.isLoading){
+            return $r("span", "Loading...");
+        }
+        return $r(
+            "span",
+            {onClick: function (e){ e.stopPropagation(); }},
+            [
+                $r("div", {className: "row"}, [
+                    "Email:", 
+                        $r("input", {
+                            type: "email", 
+                            onChange: this.setLogin,
+                            value: this.state.login
+                        } ),
+                    "Password:", 
+                        $r("input", {
+                            type: "password",
+                            onChange: this.setPassword,
+                            value: this.state.password
+                        })
+                ]),
+                $r("div", {className: "row"}, [
+                    $r("a", { 
+                        href:"#", 
+                        onClick: this.login
+                    }, "login"),
+                    $r("a", {
+                        target: "_blank", 
+                        href: "http://kittensgame.com/ui/register"
+                    }, "register")
+                ])
+            ]
+        )
+    },
+
+    //block keyboard hooks from changing UI when we type login/password
+    setLogin(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({login: e.target.value});
+    },
+
+
+    setPassword(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({password: e.target.value});
+    },
+
+    login: function(){
+        var self = this;
+
+        this.setState({isLoading: true});
+        $.ajax({
+            cache: false,
+            type: "POST",
+            data: {
+                email: this.state.login,
+                password: this.state.password
+            },
+			url: "http://localhost:7780/user/login/",
+			dataType: "json"
+		}).done(function(){
+			
+		}).always(function(){
+            self.setState({isLoading: false});
+        });
+    }
+});
+
+WLogin = React.createClass({
+    getInitialState: function(){
+        return {
+            isExpanded: false
+        }
+    },
+
+    render: function(){
+        return $r(WToolbarIconContainer, { 
+            game: game, 
+        }, 
+            $r("div", 
+                {
+                    onClick: this.toggleExpanded
+                },
+                [
+                    "Offline",
+                    this.state.isExpanded && $r("div", {
+                        className: "login-popup"
+                    }, 
+                        $r(WLoginForm)
+                    )
+                ]
+            )
+        );
+    },
+    
+    toggleExpanded: function(){
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        })
+    }
+});
 
 WToolbar = React.createClass({
     getInitialState: function(){
@@ -280,7 +395,9 @@ WToolbar = React.createClass({
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
             $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game})
+            $r(WBLS, {game: this.props.game}),
+            $r(WLogin, {game: this.props.game})
+
         );
         return icons;
     },
