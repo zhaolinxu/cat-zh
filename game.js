@@ -1410,6 +1410,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1703,6 +1704,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,

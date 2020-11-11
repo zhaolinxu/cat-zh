@@ -925,6 +925,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionIWSmelter").text($I("ui.option.iw.smelter"));
         $("#optionDisableTelemetry").text($I("ui.option.disable.telemetry"));
         $("#optionEnableRedshift").text($I("ui.option.enable.redshift"));
+        $("#optionEnableRedshiftGflops").text($I("ui.option.enable.redshiftGflops"));
         $("#optionBatchSize").text($I("ui.option.batch.size"));
         $("#optionForceLZ").text($I("ui.option.force.lz"));
         $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
