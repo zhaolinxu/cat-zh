@@ -4,6 +4,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		this.game = game;
 		this.registerMeta("stackable", this.challenges, null);
 		this.setEffectsCachedExisting();
+		this.reserves = new classes.reserveMan(game);
 	},
 
 	currentChallenge: null,
@@ -132,7 +133,8 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
-        researched: false,
+		researched: false,
+		reserveDelay: true,
         unlocked: false
 	},{
 		name: "1000Years",
@@ -190,6 +192,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.resetStateStackable(challenge);
 		}
 		this.currentChallenge = null;
+		this.reserves.resetState();
 	},
 
 	save: function(saveData){
@@ -202,6 +205,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				"active"		//if currently active or not
 			])
 		};
+		var kittens = [];
+		for (var i in this.game.challenges.reserves.reserveKittens){
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			kittens.push(_kitten);
+		}
+		saveData.challenges.reserves = this.reserves.getSaveData();
 	},
 
 	load: function(saveData){
@@ -221,6 +230,22 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if (this.challenges[i].researched && !this.challenges[i].on) {
 				this.challenges[i].on = 1;
 			}
+		}
+		if (saveData.challenges.reserves){
+			var kittens = saveData.challenges.reserves.reserveKittens;
+	
+				var reserveKittens = [];
+	
+				for (var i = kittens.length - 1; i >= 0; i--) {
+					var kitten = kittens[i];
+	
+					var newKitten = new com.nuclearunicorn.game.village.Kitten();
+					newKitten.load(kitten, this.game.village.jobNames);
+					reserveKittens.unshift(newKitten);
+				}
+				this.game.challenges.reserves.reserveKittens = reserveKittens;
+				var reserveRes = saveData.challenges.reserves.reserveResources;
+				this.game.challenges.reserves.reserveResources= saveData.challenges.reserves.reserveResources;
 		}
 	},
 
@@ -242,7 +267,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	getChallenge: function(name){
 		return this.getMeta(name, this.challenges);
 	},
-
+	anyChallengeActive: function(){
+		var challengeActive = false;
+		for(var i in this.challenges){
+			if (this.isActive(this.challenges[i].name)){
+				challengeActive = true;
+			}
+		}
+		return challengeActive;
+	},
 	/*
 		returns true if challenge currently in progress
 	*/
@@ -258,6 +291,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			this.game.msg($I("challendge.btn.log.message.on.complete", [this.getChallenge(challenge).label]));
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
+			}
+			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
+				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
 		}
@@ -275,11 +311,11 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
 			// Should put resources and kittens to reserve HERE!
 			// Kittens won't be put into reserve in post apocalypcis!
+			game.challenges.reserves.calculateReserves();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
 			game.time.getVSU("cryochambers").val = 0;
 			game.time.getVSU("cryochambers").on = 0;
-
 			game.resetAutomatic();
 		}, function() {
 		});
@@ -296,6 +332,109 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 });
 
+dojo.declare("classes.reserveMan", null,{
+	constructor: function(game){
+		this.game = game;
+		this.reserveResources = null;
+		this.reserveKittens = null;
+	},
+	resetState: function(){
+		this.reserveResources = {};
+		this.reserveKittens = [];
+	},
+	calculateReserveResources: function(){
+		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
+		if(!saveRatio){
+			return;
+		}
+		var reserveResources = this.game.challenges.reserves.reserveResources;
+		for (var i in this.game.resPool.resources) {
+			var res = this.game.resPool.resources[i];
+			var fluxCondensator = this.game.workshop.get("fluxCondensator");
+			if (res.persists === false
+			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
+				continue;	//>:
+			}
+			var value = 0;
+
+			if (!res.persists){
+				if (!res.craftable || res.name == "wood") {
+					value = res.value * saveRatio;
+					if (res.name == "void") {
+						value = Math.floor(value);
+					}
+				} else if (res.value > 0) {
+					value = Math.sqrt(res.value) * saveRatio * 100;
+				}
+			}
+
+			if (value > 0) {
+				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
+			}
+		}
+		this.game.challenges.reserves.reserveResources = reserveResources;
+	},
+	calculateReserveKittens: function(){
+		// Kittens won't be put into reserve in post apocalypcis!
+		var reserveKittens = [];
+		var cryochambers = this.game.time.getVSU("cryochambers").on;
+		
+		if (cryochambers > 0) {
+			this.game.village.sim.sortKittensByExp();
+			reserveKittens = this.game.village.sim.kittens.slice(-cryochambers);
+			for (var i in reserveKittens) {
+				delete reserveKittens[i].job;
+				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+			}
+		}
+		this.game.challenges.reserves.reserveKittens = 
+		this.game.challenges.reserves.reserveKittens.concat(reserveKittens);
+	},
+	calculateReserves: function(){
+		this.game.challenges.reserves.calculateReserveResources();
+		this.game.challenges.reserves.calculateReserveKittens();
+	},
+	addReserves: function(){
+		for (var i in this.reserveResources){
+			var resCap = this.game.resPool.get(i).maxValue;
+			if(!resCap){
+				this.game.resPool.get(i).value += this.reserveResources[i];
+			}else{
+				this.game.resPool.get(i).value = Math.max(this.game.resPool.get(i).value, this.reserveResources[i]);
+			}
+			this.reserveResources[i] = 0;
+		}
+
+		for(var i in this.reserveKittens){
+			this.game.village.sim.kittens.push(this.reserveKittens[i]);
+		}
+		this.game.time.getVSU("usedCryochambers").val += this.reserveKittens.length;
+		this.game.time.getVSU("usedCryochambers").on += this.reserveKittens.length;
+		this.reserveKittens = [];
+	},
+
+	getSaveData: function(){
+		var kittens = [];
+		for (var i in this.game.challenges.reserves.reserveKittens){
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			kittens.push(_kitten);
+		}
+		return {
+			reserveKittens: kittens,
+			reserveResources: this.game.challenges.reserves.reserveResources,
+			ironWillClaim: this.ironWillClaim
+		};
+	},
+	reservesExist: function(){
+		var hasReserveResources = false;
+		for(var i in this.reserveResources){
+			if(this.reserveResources[i]){
+				hasReserveResources = true;
+			}
+		}
+		return (hasReserveResources||this.reserveKittens.length);
+	}
+});
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
 
 	getMetadata: function(model){
@@ -369,6 +508,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
 	togglePending: function(model){
 		if (model.metadata.name == "ironWill") {
+			this.game.challenges.applyPending();
 			return;
 		}
 		model.metadata.pending = !model.metadata.pending;
@@ -447,6 +587,23 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 		}, this.game);
 		applyPendingBtn.render(container);
 		this.applyPendingBtn = applyPendingBtn;
+
+
+		var reclaimReservesBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("challendge.reclaimReserves.label"),
+			description: $I("challendge.reclaimReserves.desc"),
+			handler: dojo.hitch(this, function(){
+				this.game.challenges.reserves.addReserves();
+			}),
+			controller: new com.nuclearunicorn.game.ui.ButtonController(this.game, {
+				updateVisible: function (model) {
+					model.visible = (!this.game.challenges.anyChallengeActive() && !this.game.ironWill&&
+					this.game.challenges.reserves.reservesExist());
+				},
+			})
+		}, this.game);
+		reclaimReservesBtn.render(container);
+		this.reclaimReservesBtn = reclaimReservesBtn;
 	},
 
 	update: function(){

@@ -3946,7 +3946,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				challenge.active = false;
 			}
 		}
-
+		var reservesSaveData = this.challenges.reserves.getSaveData();
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
@@ -3956,7 +3956,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				cryptoPrice: this.calendar.cryptoPrice
 			},
 			challenges: {
-				challenges: this.challenges.challenges
+				challenges: this.challenges.challenges,
+				reserves: reservesSaveData
 			},
 			diplomacy: {
 				races: []

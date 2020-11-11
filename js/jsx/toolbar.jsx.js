@@ -230,6 +230,36 @@ WToolbarFPS = React.createClass({
     }
 });
 
+WBLS = React.createClass({
+    render: function(){
+        var game = this.props.game;
+
+        var sorrowRes = game.resPool.get("sorrow"),
+            sorrow = sorrowRes.value;
+            
+        if (!sorrow){
+            return null;
+        }
+		var isMax = (sorrowRes.value == sorrowRes.maxValue);
+		//$("#sorrowTooltip").addClass(isMax ? "max" : "");
+
+        return $r(WToolbarIconContainer, { 
+            game: game, 
+            getTooltip: this.getTooltip
+        },  
+            $r("div", {
+                className: isMax ? "max" : ""
+            }, 
+                $I("resources.sorrow.short") + ": " + sorrow.toFixed() + "%"
+            )
+        );
+    },
+
+    getTooltip: function(){
+        return $I("resources.sorrow.full");
+    }
+});
+
 
 WToolbar = React.createClass({
     getInitialState: function(){
@@ -249,7 +279,8 @@ WToolbar = React.createClass({
             $r(WToolbarFPS, {game: this.props.game}),
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
-            $r(WToolbarEnergy, {game: this.props.game})
+            $r(WToolbarEnergy, {game: this.props.game}),
+            $r(WBLS, {game: this.props.game})
         );
         return icons;
     },

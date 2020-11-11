@@ -1,8 +1,9 @@
 /* ******************************************************** */
-/* ***			Vintage 1.0.1 Theme © Volkeyrn          *** */
+/* ***			Vintage 1.0.2 Theme © Volkeyrn          *** */
 /* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,500,600,700,400italic,500italic,600italic,700italic&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic,&display=swap);
 
 /* ******************************************** */
 /* ******************* GAME ******************* */
@@ -292,9 +293,9 @@ body.scheme_vintage {
 .scheme_vintage #sorrowTooltip.max {
     color: #cd564f !important; /* in default.js !important needed */
 }
-.scheme_vintage #headerLinks>div:first-child:before {
+.scheme_vintage #topBar > div:first-child > span:first-child:after {
     color: #d4b356;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
@@ -454,6 +455,27 @@ body.scheme_vintage {
 	content: "\2605"; /* BLACK STAR */
 	color: #d4b356;
 }
+.scheme_vintage .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_vintage .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_vintage .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_vintage .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_vintage .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_vintage .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_vintage .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
+}
 .scheme_vintage div.bldTopContainer > a { /* under tab */
 	font-size: 90%;
 	font-style: italic;
@@ -497,7 +519,7 @@ body.scheme_vintage {
 	text-shadow: 1px 1px 1px #000000;
 	box-shadow: inset 2px 2px 3px #000000,
 				 0 1px 0 #606060 !important; /* !important in default.css */
-	cursor: pointer !important;
+	cursor: pointer !important; /* !important in default.css */
 }
 /* button observer different from other input buttons  */
 .scheme_vintage input[type='button']#observeBtn {	
@@ -1093,8 +1115,8 @@ body.scheme_vintage {
 .scheme_vintage .res-table {
 	max-width: 352px;/* default max-width: 340px; */
     border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
-	margin-left: 2px; /* without 0px margin left for all ressources */
- }
+	margin-left: 2px; /* without 0px margin left for all ressources */	
+}
 /* .scheme_vintage .res-toolbar.left { */
     /* default padding-left: 5px; */
 /* } */
@@ -1167,6 +1189,13 @@ body.scheme_vintage {
 }
 .scheme_vintage .resource_eludium .resource-name {
 	color: #b003ff!important;
+}
+.scheme_vintage .maxRes,
+.scheme_vintage .resAmount,
+.scheme_vintage .resPerTick,
+.scheme_vintage .res-cell.resource-value,
+.scheme_vintage .craftTable {
+	font-family: 'Source Sans Pro', sans-serif;
 }
 .scheme_vintage .maxRes {
 	color: #808080;

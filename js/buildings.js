@@ -1756,6 +1756,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"],
 			spaceBuilding: ["moonBase"]
 		},
+		unlockScheme: {
+			name: "cyber",
+			threshold: 5
+		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
 		updateEffects: function(self, game) {

@@ -243,11 +243,10 @@ body.scheme_anthracite.with_background_image,
 .scheme_anthracite #sorrowTooltip.max {
     color: #f0140f !important;
 }
-.scheme_anthracite #headerLinks>div:first-child:before {
+.scheme_anthracite #topBar > div:first-child > span:first-child:after {
     color: #707070;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
-	font-weight: normal;
 }
 .scheme_anthracite #autosaveTooltip {
 	color: #19b0ff;
@@ -408,6 +407,27 @@ body.scheme_anthracite.with_background_image,
 .scheme_anthracite .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #19b0ff;
+}
+.scheme_anthracite .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_anthracite .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_anthracite .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_anthracite .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_anthracite .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_anthracite .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_anthracite .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_anthracite span.genericWarning { /* number of kittens free or engineering free on tab */
 	color: #d42f2b;
