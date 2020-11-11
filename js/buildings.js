@@ -2169,6 +2169,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
+		if(game.opts.enableRedshiftGflops){
+			var aiCore = this.get("aiCore");
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset * game.calendar.ticksPerDay;
+		}
 	},
 
 	undo: function(data){

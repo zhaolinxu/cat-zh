@@ -596,6 +596,9 @@
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
 					<br>
+					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
+					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">Enable offline gflops production</label>
+					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>
 					<br>
