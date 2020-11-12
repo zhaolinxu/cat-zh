@@ -163,8 +163,8 @@ WToolbarEnergy = React.createClass({
         var delta = this.game.resPool.getEnergyDelta();
 		var penalty = energy >= 0 ? "" : "<br><br>" + $I("navbar.energy.penalty") + "<span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
-		return $I("navbar.energy.prod") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
-			   "<br>" + $I("navbar.energy.cons") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
+		return $I("navbar.energy.prod.short") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
+			   "<br>" + $I("navbar.energy.cons.short") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
     }
 });
 

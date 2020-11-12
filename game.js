@@ -216,6 +216,8 @@ dojo.declare("classes.game.Server", null, {
 				withCredentials: true
 			},
 			data: {
+				//pre-parsing guid to avoid checking it on the backend side
+				guid: this.game.telemetry.guid,
 				saveData: this.game.compressLZData(JSON.stringify(saveData), true)
 			}
 		}).done(function(resp){
