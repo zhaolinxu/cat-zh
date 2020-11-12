@@ -179,6 +179,18 @@ dojo.declare("classes.game.Server", null, {
 		});
 
 		//-- sync up user profile ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
+
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
 		$.ajax({
             cache: false,
             type: "GET",
@@ -191,6 +203,23 @@ dojo.declare("classes.game.Server", null, {
             if (resp && resp.id){
                 self.setUserProfile(resp);
             }
+		});
+	},
+
+	syncSave: function(){
+		var saveData = this.game.save();
+		$.ajax({
+            cache: false,
+            type: "POST",
+			url: this.getServerUrl() + "/kgnet/save/upload/",
+			xhrFields: {
+				withCredentials: true
+			},
+			data: {
+				saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+			}
+		}).done(function(resp){
+			console.log("save successful?");
 		});
 	},
 
