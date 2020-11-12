@@ -347,7 +347,7 @@ WLoginForm = React.createClass({
 			xhrFields: {
 				withCredentials: true
 			},
-			url: "http://localhost:7780/user/login/",
+			url: this.props.game.server.getServerUrl() + "/user/login/",
 			dataType: "json"
 		}).done(function(resp){
             if (resp.id){

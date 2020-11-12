@@ -146,6 +146,16 @@ dojo.declare("classes.game.Server", null, {
 		this.userProfile = userProfile;
 	},
 
+    getServerUrl: function(){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing
+            return "http://localhost:7780";
+        }
+        return "";
+    },
+
 	refresh: function(){
 		var self = this;
 
@@ -173,7 +183,7 @@ dojo.declare("classes.game.Server", null, {
             cache: false,
             type: "GET",
             dataType: "JSON",
-			url: "http://localhost:7780/user/",
+			url: this.getServerUrl() + "/user/",
 			xhrFields: {
 				withCredentials: true
 			}
