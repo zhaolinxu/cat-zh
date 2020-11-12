@@ -425,7 +425,13 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		return (this.reserveResources.length||this.reserveKittens.length);
+		var hasReserveResources = false;
+		for(var i in this.reserveResources){
+			if(this.reserveResources[i]){
+				hasReserveResources = true;
+			}
+		}
+		return (hasReserveResources||this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
