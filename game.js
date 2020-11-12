@@ -134,9 +134,27 @@ dojo.declare("classes.game.Server", null, {
 	motdContentPrevious: null,
 	motdFreshMessage: false,
 
+	//chiral stuff
+
+	userProfile: null,
+
 	constructor: function(game){
 		this.game = game;
 	},
+
+	setUserProfile: function(userProfile){
+		this.userProfile = userProfile;
+	},
+
+    getServerUrl: function(){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing
+            return "http://localhost:7780";
+        }
+        return "";
+    },
 
 	refresh: function(){
 		var self = this;
@@ -160,14 +178,49 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
-		$.ajax({
-			cache: false,
-			url: "/user/",
-			dataType: "json"
-		}).done(function(){
-			
-		});
+		//-- sync up user profile ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
 
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
+		$.ajax({
+            cache: false,
+            type: "GET",
+            dataType: "JSON",
+			url: this.getServerUrl() + "/user/",
+			xhrFields: {
+				withCredentials: true
+			}
+		}).done(function(resp){
+            if (resp && resp.id){
+                self.setUserProfile(resp);
+            }
+		});
+	},
+
+	syncSave: function(){
+		var saveData = this.game.save();
+		$.ajax({
+            cache: false,
+            type: "POST",
+			url: this.getServerUrl() + "/kgnet/save/upload/",
+			xhrFields: {
+				withCredentials: true
+			},
+			data: {
+				saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+			}
+		}).done(function(resp){
+			console.log("save successful?");
+		});
 	},
 
 	save: function(saveData) {

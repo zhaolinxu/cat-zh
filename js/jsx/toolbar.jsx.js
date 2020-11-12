@@ -260,6 +260,144 @@ WBLS = React.createClass({
     }
 });
 
+WLoginForm = React.createClass({
+    getInitialState: function(){
+        return {
+            login: null,
+            password: null,
+            isLoading: false
+        }
+    },
+
+    render: function(){
+        if (this.state.isLoading){
+            return $r("span", "Loading...");
+        }
+        var game = this.props.game;
+        if (game.server.userProfile){
+            var userProfile = game.server.userProfile;
+            return $r("div", {className: "userProfile"},[
+                $r("img", {src: "https://www.gravatar.com/avatar/" + 
+                    (userProfile.email ? md5(userProfile.email) : "n/a") 
+                + "?s=15"}),
+                $r("a", {
+                    href:"/ui/profile", target:"_blank"
+                }, userProfile.id)
+            ]);
+            
+        }
+        return $r(
+            "span",
+            {onClick: function (e){ e.stopPropagation(); }},
+            [
+                $r("div", {className: "row"}, [
+                    "Email:", 
+                        $r("input", {
+                            type: "email", 
+                            onChange: this.setLogin,
+                            value: this.state.login
+                        } ),
+                    "Password:", 
+                        $r("input", {
+                            type: "password",
+                            onChange: this.setPassword,
+                            value: this.state.password
+                        })
+                ]),
+                $r("div", {className: "row"}, [
+                    $r("a", { 
+                        href:"#", 
+                        onClick: this.login
+                    }, "login"),
+                    $r("a", {
+                        target: "_blank", 
+                        href: "http://kittensgame.com/ui/register"
+                    }, "register")
+                ])
+            ]
+        )
+    },
+
+    //block keyboard hooks from changing UI when we type login/password
+    setLogin(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({login: e.target.value});
+    },
+
+
+    setPassword(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({password: e.target.value});
+    },
+
+    login: function(){
+        var self = this;
+
+        this.setState({isLoading: true});
+        $.ajax({
+            cache: false,
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                email: this.state.login,
+                password: this.state.password
+            },
+			xhrFields: {
+				withCredentials: true
+			},
+			url: this.props.game.server.getServerUrl() + "/user/login/",
+			dataType: "json"
+		}).done(function(resp){
+            if (resp.id){
+                self.props.game.server.setUserProfile(resp);
+            }
+		}).always(function(){
+            self.setState({isLoading: false});
+        });
+    }
+});
+
+WLogin = React.createClass({
+    getInitialState: function(){
+        return {
+            isExpanded: false
+        }
+    },
+
+    render: function(){
+        var game = this.props.game;
+
+        return $r(WToolbarIconContainer, { 
+            game: game, 
+        }, 
+            $r("div", 
+                {
+                    onClick: this.toggleExpanded
+                },
+                [
+                    $r("span", {
+                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ? "Online" : "Offline")),
+                    this.state.isExpanded && $r("div", {
+                        className: "login-popup"
+                    }, 
+                        $r(WLoginForm, {game: game})
+                    )
+                ]
+            )
+        );
+    },
+    
+    toggleExpanded: function(){
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        })
+    }
+});
 
 WToolbar = React.createClass({
     getInitialState: function(){
@@ -280,7 +418,9 @@ WToolbar = React.createClass({
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
             $r(WToolbarEnergy, {game: this.props.game}),
-            $r(WBLS, {game: this.props.game})
+            $r(WBLS, {game: this.props.game}),
+            $r(WLogin, {game: this.props.game})
+
         );
         return icons;
     },
