@@ -273,6 +273,17 @@ WLoginForm = React.createClass({
         if (this.state.isLoading){
             return $r("span", "Loading...");
         }
+        var game = this.props.game;
+        if (game.server.userProfile){
+            var userProfile = game.server.userProfile;
+            return $r("div", {className: "userProfile"},[
+                $r("img", {src: "https://www.gravatar.com/avatar/" + 
+                    (userProfile.email ? md5(userProfile.email) : "n/a") 
+                + "?s=15"}),
+                userProfile.id
+            ]);
+            
+        }
         return $r(
             "span",
             {onClick: function (e){ e.stopPropagation(); }},
@@ -328,14 +339,20 @@ WLoginForm = React.createClass({
         $.ajax({
             cache: false,
             type: "POST",
+            dataType: "JSON",
             data: {
                 email: this.state.login,
                 password: this.state.password
             },
+			xhrFields: {
+				withCredentials: true
+			},
 			url: "http://localhost:7780/user/login/",
 			dataType: "json"
-		}).done(function(){
-			
+		}).done(function(resp){
+            if (resp.id){
+                self.props.game.server.setUserProfile(resp);
+            }
 		}).always(function(){
             self.setState({isLoading: false});
         });
@@ -350,6 +367,8 @@ WLogin = React.createClass({
     },
 
     render: function(){
+        var game = this.props.game;
+
         return $r(WToolbarIconContainer, { 
             game: game, 
         }, 
@@ -358,11 +377,13 @@ WLogin = React.createClass({
                     onClick: this.toggleExpanded
                 },
                 [
-                    "Offline",
+                    $r("span", {
+                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ? "Online" : "Offline")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup"
                     }, 
-                        $r(WLoginForm)
+                        $r(WLoginForm, {game: game})
                     )
                 ]
             )

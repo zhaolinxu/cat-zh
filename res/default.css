@@ -545,6 +545,14 @@ table.craftTable tr:hover td {
     color: coral;
 }
 
+.toolbarIcon .status-indicator-online {
+    color: green;
+}
+
+.toolbarIcon .status-indicator-offline {
+    color: red;
+}
+
 /* kgnet login form */
 .login-popup {
     position: absolute;
@@ -563,6 +571,18 @@ table.craftTable tr:hover td {
 
 .login-popup .row a, input {
     margin-right: 10px;
+}
+
+.login-popup .userProfile {
+    line-height: 15px;
+}
+
+.login-popup .userProfile span {
+    vertical-align: top;
+}
+.login-popup .userProfile img{
+    border-radius: 50%;
+    margin-right: 5px;
 }
 
 span.genericWarning,

@@ -134,8 +134,16 @@ dojo.declare("classes.game.Server", null, {
 	motdContentPrevious: null,
 	motdFreshMessage: false,
 
+	//chiral stuff
+
+	userProfile: null,
+
 	constructor: function(game){
 		this.game = game;
+	},
+
+	setUserProfile: function(userProfile){
+		this.userProfile = userProfile;
 	},
 
 	refresh: function(){
@@ -160,14 +168,20 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
+		//-- sync up user profile ---
 		$.ajax({
-			cache: false,
-			url: "/user/",
-			dataType: "json"
-		}).done(function(){
-			
+            cache: false,
+            type: "GET",
+            dataType: "JSON",
+			url: "http://localhost:7780/user/",
+			xhrFields: {
+				withCredentials: true
+			}
+		}).done(function(resp){
+            if (resp && resp.id){
+                self.setUserProfile(resp);
+            }
 		});
-
 	},
 
 	save: function(saveData) {
