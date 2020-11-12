@@ -225,6 +225,22 @@ dojo.declare("classes.game.Server", null, {
 		});
 	},
 
+	loadSave: function(){
+		var guid = this.game.telemetry.guid;
+		$.ajax({
+            cache: false,
+            type: "GET",
+			url: this.getServerUrl() + "/kgnet/save/" + guid + "/download/",
+			xhrFields: {
+				withCredentials: true
+			}
+		}).done(function(data){
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
+			console.log("load successful?");
+			this.game.load();
+		});
+	},
+
 	save: function(saveData) {
 		saveData.server = {
 			motdContent: this.motdContent
