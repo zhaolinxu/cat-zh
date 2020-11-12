@@ -1553,6 +1553,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 			this.game.unlock(tech.unlocks);
 		}
+		//re-unlock policies in case we have modified something
+		for (var i = this.policies.length - 1; i >= 0; i--) {
+			var policy = this.policies[i];
+			if (!policy.researched) {
+				continue;
+			}
+
+			this.game.unlock(policy.unlocks);
+		}
 
 	},
 
