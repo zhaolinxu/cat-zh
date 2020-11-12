@@ -280,7 +280,9 @@ WLoginForm = React.createClass({
                 $r("img", {src: "https://www.gravatar.com/avatar/" + 
                     (userProfile.email ? md5(userProfile.email) : "n/a") 
                 + "?s=15"}),
-                userProfile.id
+                $r("a", {
+                    href:"/ui/profile", target:"_blank"
+                }, userProfile.id)
             ]);
             
         }

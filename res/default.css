@@ -577,7 +577,7 @@ table.craftTable tr:hover td {
     line-height: 15px;
 }
 
-.login-popup .userProfile span {
+.login-popup .userProfile a {
     vertical-align: top;
 }
 .login-popup .userProfile img{
