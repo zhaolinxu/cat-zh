@@ -522,7 +522,7 @@ table.craftTable tr:hover td {
     display: inline-block;
 }
 
-.icons-container div{
+.icons-container > div{
     display: inline-block;
 }
 
@@ -583,6 +583,20 @@ table.craftTable tr:hover td {
 .login-popup .userProfile img{
     border-radius: 50%;
     margin-right: 5px;
+}
+
+.userProfile .save-record {
+    display: block;
+    padding-top: 5px;
+}
+
+.save-record span, a {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.save-record a {
+    text-decoration: underline;
 }
 
 span.genericWarning,

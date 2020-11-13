@@ -119,7 +119,12 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 });
 
 
-//TODO: to be replaced with actual server call
+/**
+ * Server is a mediator between client and KGNet
+ * It supports fetching data about saves, syncing using info, etc
+ * 
+ * Please see toolbar.jsx.js#WLogin widget for rendering part
+ */
 
 dojo.declare("classes.game.Server", null, {
 
@@ -136,7 +141,18 @@ dojo.declare("classes.game.Server", null, {
 
 	//chiral stuff
 
+	/**
+	 * KGNet user profile
+	 * Represents an active session, if not null, all XHR calls will be made
+	 * using session cookies
+	 */
 	userProfile: null,
+
+	/**
+	 * Current client snapshot of the save data
+	 * All operations with the cloud saves should return the save snapshot?
+	 */
+	saveData: null,
 
 	constructor: function(game){
 		this.game = game;
@@ -178,11 +194,34 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
-		//-- sync up user profile ---
+		//-- fetch UID from KGNet if HTTP session is established ---
 		if (!this.userProfile){
 			this.syncUserProfile();
 		}
 		
+	},
+
+	/**
+	 * Make an XHR request to KGNet server
+	 * 
+	 * @param {A s} url - relative endpoint URL
+	 * @param {*} method - "GET" or "POST"
+	 * @param {*} data - post data
+	 * @param {*} handler - onDone callback handler
+	 */
+	_xhr: function(url, method, data, handler){
+		$.ajax({
+            cache: false,
+            type: method || "GET",
+            dataType: "JSON",
+			url: this.getServerUrl() + url,
+			xhrFields: {
+				withCredentials: true
+			},
+			data: data
+		}).done(function(resp){
+			handler(resp);
+		});
 	},
 
 	/**
@@ -191,52 +230,45 @@ dojo.declare("classes.game.Server", null, {
 	 */
 	syncUserProfile: function(){
 		var self = this;
-		$.ajax({
-            cache: false,
-            type: "GET",
-            dataType: "JSON",
-			url: this.getServerUrl() + "/user/",
-			xhrFields: {
-				withCredentials: true
-			}
-		}).done(function(resp){
+
+		//TODO: use some XHR snippet, this is getting too verbose
+		this._xhr("/user/", "GET", {}, function(resp){
             if (resp && resp.id){
                 self.setUserProfile(resp);
             }
 		});
 	},
 
-	syncSave: function(){
+	syncSaveData: function(){
+		var self = this;
+		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+			self.saveData = resp;
+		});
+	},
+
+	pushSave: function(){
 		var saveData = this.game.save();
-		$.ajax({
-            cache: false,
-            type: "POST",
-			url: this.getServerUrl() + "/kgnet/save/upload/",
-			xhrFields: {
-				withCredentials: true
-			},
-			data: {
-				//pre-parsing guid to avoid checking it on the backend side
-				guid: this.game.telemetry.guid,
-				saveData: this.game.compressLZData(JSON.stringify(saveData), true)
-			}
-		}).done(function(resp){
+		this._xhr("/kgnet/save/upload/", "POST", 
+		{
+			//pre-parsing guid to avoid checking it on the backend side
+			guid: this.game.telemetry.guid,
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+		}, 
+		function(resp){
 			console.log("save successful?");
 		});
 	},
 
 	loadSave: function(){
 		var guid = this.game.telemetry.guid;
-		$.ajax({
-            cache: false,
-            type: "GET",
-			url: this.getServerUrl() + "/kgnet/save/" + guid + "/download/",
-			xhrFields: {
-				withCredentials: true
+		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
+			if (!resp.data){
+				console.error("unable to load game data", resp);
 			}
-		}).done(function(data){
+			var data = resp.data;
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
 			console.log("load successful?");
+
 			this.game.load();
 		});
 	},

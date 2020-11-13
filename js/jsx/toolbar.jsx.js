@@ -361,6 +361,57 @@ WLoginForm = React.createClass({
     }
 });
 
+WCloudSaves = React.createClass({
+
+    render: function(){
+        var game = this.props.game;
+        if (!game.server.userProfile){
+            return null;
+        }
+
+        /**
+         * TODO: use local state when appropriate (dataset, animation, etc) 
+         * and override it with game's server real data on update cycle
+         * 
+         * This way we don't have to handle complex state management on the game.server side
+         */
+        return $r("div", null, [
+            "save data:",
+            //$r("span", null, JSON.stringify(game.server.saveData, null, 2)),
+
+            $r("div", null, game.server.saveData && game.server.saveData.map(function(save){
+                var isActiveSave = (save.guid == game.telemetry.guid);
+                return $r("div", {className:"save-record"}, [
+                    $r("span", null, isActiveSave ? "[current]" : ""),
+                    $r("span", null, save.guid),
+                    $r("span", null, 
+                        new Date(save.timestamp).toLocaleDateString("en-US", {
+                        month: 'long', day: 'numeric'
+                        })
+                    ),
+                    $r("span", null, save.size),
+                    isActiveSave && $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        game.server.pushSave();
+                    }}, "Overwrite"),
+                    isActiveSave && $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        console.log("poop");
+                        game.server.loadSave();
+                    }}, "Download"),
+                ])
+            })),
+
+            $r("a", {
+                onClick: function(e){
+                    e.stopPropagation();
+                    game.server.syncSaveData();
+                }
+            }, "Sync saves")
+        ])
+    }
+});
+
 WLogin = React.createClass({
     getInitialState: function(){
         return {
@@ -385,7 +436,8 @@ WLogin = React.createClass({
                     this.state.isExpanded && $r("div", {
                         className: "login-popup"
                     }, 
-                        $r(WLoginForm, {game: game})
+                        $r(WLoginForm, {game: game}),
+                        $r(WCloudSaves, {game: game})
                     )
                 ]
             )
