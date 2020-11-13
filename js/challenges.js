@@ -438,7 +438,7 @@ dojo.declare("classes.reserveMan", null,{
 			}else{
 				this.game.resPool.get(i).value = Math.max(this.game.resPool.get(i).value, this.reserveResources[i]);
 			}
-			this.reserveResources[i] = 0;
+			delete this.reserveResources[i];
 		}
 
 		for(var i in this.reserveKittens){
@@ -462,13 +462,7 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		var hasReserveResources = false;
-		for(var i in this.reserveResources){
-			if(this.reserveResources[i]){
-				hasReserveResources = true;
-			}
-		}
-		return (hasReserveResources||this.reserveKittens.length);
+		return (Object.keys(this.reserveResources).length||this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
