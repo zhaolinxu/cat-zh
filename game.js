@@ -1950,9 +1950,10 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				}
 			}
 
-			this.calculateAllEffects();
 			this.updateOptionsUI();
 		}
+
+		this.calculateAllEffects();
 		//------------------------------------
 
 		this.villageTab.visible = (this.bld.get("hut").on > 0
