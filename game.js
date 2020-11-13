@@ -1919,8 +1919,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			success = false;
 		}
 
-		// Calculate effects (needs to be done after all managers are loaded)
-		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -1952,7 +1950,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.updateOptionsUI();
 		}
-
+		// Calculate effects (needs to be done after all managers and save data are loaded)
 		this.calculateAllEffects();
 		//------------------------------------
 
