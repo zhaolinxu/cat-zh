@@ -166,8 +166,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
 					(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 					effect = effectValue * bld.val;
-				} else if(effectName == "bloodstoneCraftRatio") {
-					effect = effectValue * bld.val;
 				}
 				else {
 					effect = effectValue * bld.on;
@@ -1835,37 +1833,42 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			{ name : "bloodstone", val: 50 }
 		],
 		unlocks: {
-			crafts:["bloodstone"]
+			crafts: ["bloodstone"],
+			zebraUpgrades: ["whispers"]
 		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
 		effects: {
 			"bloodstoneCraftRatio" : 0.02,
-			"bloodstonePerTickCon": -0.2,
-			"ivoryPerTickCon": -1,
-			"titaniumPerTickCon": -1,
-			"tMythrillPerTickAutoprod": 0.0002
+			"tMythrilCraftRatio" : 0.005,
+			"ivoryPerTickCon": -4,
+			"titaniumPerTickCon": -2,
+			"alicornPerTickCon": -0.01,
+			"tMythrilPerTick": 0.00005
 		},
 		lackResConvert: false,
 		togglable: true,
 		action: function(self, game){
 			self.effects = {
 				"bloodstoneCraftRatio" : 0.02,
-				"bloodstonePerTickCon": -0.2,
-				"ivoryPerTickCon": -1,
-				"titaniumPerTickCon": -1,
-				"tMythrillPerTickAutoprod": 0.0002
+				"tMythrilCraftRatio" : 0.01,
+				"ivoryPerTickCon": -4,
+				"titaniumPerTickCon": -2,
+				"alicornPerTickCon": -0.01,
+				"tMythrilPerTick": 0.00005
 			}
 			var amt = game.resPool.getAmtDependsOnStock(
-				[{res: "bloodstone", amt: -self.effects["bloodstonePerTickCon"]},
-				{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
-				{res: "titanium", amt: -self.effects["titaniumPerTickCon"]}],
+				[{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
+				{res: "titanium", amt: -self.effects["titaniumPerTickCon"]},
+				{res: "alicorn", amt: -self.effects["alicornPerTickCon"]}],
 				self.on
 			);
-			self.effects["bloodstonePerTickCon"] *= amt;
+			self.effects["bloodstoneCraftRatio"] *= amt;
+			self.effects["tMythrilCraftRatio"] *= amt;
 			self.effects["ivoryPerTickCon"] *= amt;
 			self.effects["titaniumPerTickCon"] *= amt;
-			self.effects["tMythrillPerTickAutoprod"] *= amt;
+			self.effects["alicornPerTickCon"] *= amt;
+			self.effects["tMythrilPerTick"] *= amt *(1 + self.on * self.effects["tMythrilCraftRatio"]);
 		}
 	}
 	],
@@ -2096,6 +2099,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		this.groupBuildings = saveData.bldData ? saveData.bldData.groupBuildings : false;
 		this.twoRows = saveData.bldData ? saveData.bldData.twoRows : false;
 		this.loadMetadata(this.buildingsData, saveData.buildings);
+		for(var i in this.buildingsData){
+			var building = this.buildingsData[i];
+			if(building.val){
+				this.game.unlock(building.unlocks); //just in case some unlock got updated
+			}
+		}
 	},
 
 	resetState: function(){

@@ -1005,7 +1005,7 @@
     "resources.spice.title": "spice",
     "resources.starchart.title": "starchart",
     "resources.steel.title": "steel",
-    "resources.tMythrill.title": "T-Mythrill",
+    "resources.tMythril.title": "T-Mythril",
     "resources.tanker.title": "tanker",
     "resources.tears.title": "tears",
     "resources.temporalFlux.title": "temporal flux",
@@ -1898,6 +1898,8 @@
     "workshop.crafts.slab.desc": "A small slab composed of minerals. Required for advanced construction.",
     "workshop.crafts.steel.label": "Steel",
     "workshop.crafts.steel.desc": "A durable metal made by smelting iron and coal. Required for construction of gears and complex machinery.",
+    "workshop.crafts.tMythril.label": "T-Mythril",
+    "workshop.crafts.tMythril.desc": "T-Mythril (tbd)",
     "workshop.crafts.tanker.label": "Tanker",
     "workshop.crafts.tanker.desc": "Increase maximum oil capacity by 500",
     "workshop.crafts.thorium.label": "Thorium",
@@ -2115,5 +2117,7 @@
     "workshop.zebraUpgrade.darkRevolution.label": "Dark Revolution",
     "workshop.zebraUpgrade.darkRevolution.desc": "Zebra Outposts allow more zebras to prepare for hunting",
     "workshop.zebraUpgrade.darkRevolution.flavor": "Mewing would be distracting...",
+    "workshop.zebraUpgrade.whispers.label": "Whispers",
+    "workshop.zebraUpgrade.whispers.desc": "Unlock T-Mythril craft",
     "workshop.zebraUpgradesPanel.label": "Zebra Upgrades"
 }

@@ -2083,6 +2083,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		],
 		progressHandicap: 7500,
 		tier: 5
+	},{
+		name: "tMythril",
+		label: $I("workshop.crafts.tMythril.label"),
+		description: $I("workshop.crafts.tMythril.desc"),
+		//label: "T-Mythril",
+		//description: "Some believe this alloy to be alive...",
+		prices:[
+			{ name: "bloodstone", val: 5 },
+			{ name: "ivory", val: 1000 },
+			{ name: "titanium", val: 500 }
+		],
+		progressHandicap: 7500,
+		tier: 5
 	}],
 
 	zebraUpgrades:[
@@ -2096,10 +2109,22 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				{ name : "bloodstone", val: 15 },
 				{ name : "science", val: 100 }
 			],
-			upgrades: {
-				buildings: ["zebraOutpost"]
+			unlocks: {
+				crafts: ["tMythril"]
+			}
+		},{
+			name: "whispers",
+			label: $I("workshop.zebraUpgrade.whispers.label"),
+			description: $I("workshop.zebraUpgrade.whispers.desc"),
+			effects: {
 			},
-				flavor: $I("workshop.zebraUpgrade.darkRevolution.flavor")
+			prices:[
+				{ name : "tMythril", val: 1 }
+			],
+			unlocks: {
+				crafts: ["tMythril"]
+			},
+				//flavor: $I("workshop.zebraUpgrade.darkRevolution.flavor")
 		},
 	],
 	effectsBase: {

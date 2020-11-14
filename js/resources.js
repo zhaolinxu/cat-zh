@@ -371,12 +371,12 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		}*/
 	},
 	{
-		name: "tMythrill",
-		title: $I("resources.tMythrill.title"),
+		name: "tMythril",
+		title: $I("resources.tMythril.title"),
 		type : "exotic",
 		transient: true,
 		calculatePerTick: true,
-		aiCanDestroy: true,
+		craftable: true,
 		visible: true,
 		color: "#00e6b8"
 		/*style: {
