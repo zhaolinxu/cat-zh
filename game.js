@@ -1233,14 +1233,41 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
 			},
-                        "summerSolarFarmRatio": {
-                                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
-                                type: "ratio"
-                        },
-                        "shatterCostReduction": {
-                                title: $I("effectsMgr.statics.shatterCostReduction.title"),
-                                type: "ratio"
-						},
+			"summerSolarFarmRatio": {
+                title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
+				type: "ratio"
+            },
+            "shatterCostReduction": {
+                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                type: "ratio"
+			},
+            "shatterCostIncreaseChallenge": {
+                title: $I("effectsMgr.statics.shatterCostIncreaseChallenge.title"),
+                type: "ratio"
+			},
+			"coldChance": {
+                title: $I("effectsMgr.statics.coldChance.title"),
+                type: "ratio"
+			},
+			"coldHarshness": {
+                title: $I("effectsMgr.statics.coldHarshness.title"),
+                type: "ratio"
+			},
+			"kittenLaziness": {
+                title: $I("effectsMgr.statics.kittenLaziness.title"),
+                type: "ratio"
+			},
+			"shatterVoidCost":{
+                title: $I("effectsMgr.statics.shatterVoidCost.title"),
+                type: "fixed"
+			},
+			"challengeHappiness":{
+				title: $I("effectsMgr.statics.challengeHappiness.title"),
+			},
+            "shatterCostReduction": {
+                title: $I("effectsMgr.statics.shatterCostReduction.title"),
+                type: "ratio"
+			},
 			//zebra workshop upgrades
 			"zebraPreparations": {
 				title: $I("effectsMgr.statics.zebraPreparations.title"),

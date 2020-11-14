@@ -915,6 +915,10 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			mod += -0.15;
 		}
 
+		if (this.game.challenges.getChallenge("winterIsComing").on && this.weather == "cold") {
+			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
+		}
+
 		if (this.getCurSeason().name == "spring") {
                         mod *= (1 + this.game.getLimitedDR(this.game.getEffect("springCatnipBonus"), 2));
                 }
