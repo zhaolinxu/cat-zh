@@ -1263,11 +1263,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
 				title: $I("effectsMgr.statics.challengeHappiness.title"),
-			},
-			//zebra workshop upgrades
-			"zebraPreparations": {
-				title: $I("effectsMgr.statics.zebraPreparations.title"),
-				type: "fixed"
 			}
 		}
 	}
