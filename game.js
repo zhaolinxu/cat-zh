@@ -1262,7 +1262,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
                 type: "fixed"
 			},
 			"challengeHappiness":{
-				title: $I("effectsMgr.statics.challengeHappiness.title"),
+				title: $I("effectsMgr.statics.challengeHappiness.title")
 			}
 		}
 	}
