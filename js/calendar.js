@@ -914,7 +914,6 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 		} else if (this.weather == "cold"){
 			mod += -0.15;
 		}
-
 		if (this.game.challenges.getChallenge("winterIsComing").on && this.weather == "cold") {
 			mod *= 1 + this.game.getLimitedDR(this.game.getEffect("coldHarshness"),1);
 		}

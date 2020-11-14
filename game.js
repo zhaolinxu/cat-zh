@@ -1233,7 +1233,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
 			},
-			"summerSolarFarmRatio": {
+            "summerSolarFarmRatio": {
                 title: $I("effectsMgr.statics.summerSolarFarmRatio.title"),
 				type: "ratio"
             },
@@ -1263,10 +1263,6 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"challengeHappiness":{
 				title: $I("effectsMgr.statics.challengeHappiness.title"),
-			},
-            "shatterCostReduction": {
-                title: $I("effectsMgr.statics.shatterCostReduction.title"),
-                type: "ratio"
 			},
 			//zebra workshop upgrades
 			"zebraPreparations": {
