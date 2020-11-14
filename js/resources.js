@@ -370,6 +370,22 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
 		}*/
 	},
+	{
+		name: "tMythrill",
+		title: $I("resources.tMythrill.title"),
+		type : "exotic",
+		transient: true,
+		calculatePerTick: true,
+		aiCanDestroy: true,
+		visible: true,
+		color: "#00e6b8"
+		/*style: {
+			         animation : "neon-red 1.5s ease-in-out infinite alternate",
+			"-webkit-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			   "-moz-animation": "neon-red 1.5s ease-in-out infinite alternate",
+			     "-o-animation": "neon-red 1.5s ease-in-out infinite alternate"
+		}*/
+	},
 	//=========================================
 	// 				    CRAFT
 	//=========================================

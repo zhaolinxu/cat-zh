@@ -166,7 +166,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
 					(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 					effect = effectValue * bld.val;
-				} else {
+				} else if(effectName == "bloodstoneCraftRatio") {
+					effect = effectValue * bld.val;
+				}
+				else {
 					effect = effectValue * bld.on;
 				}
 
@@ -1808,7 +1811,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		zebraRequired: 10,
-		effects: {}
+		effects: {
+			"bloodstoneCraftRatio" : 0.01
+		}
 	},{
 		name: "zebraForge",
 		label: $I("buildings.zebraForge.label"),
@@ -1822,7 +1827,34 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		},
 		priceRatio: 1.15,
 		zebraRequired: 50,
-		effects: {}
+		effects: {
+			"bloodstoneCraftRatio" : 0.02,
+			"bloodstonePerTickCon": -0.2,
+			"ivoryPerTickCon": -1,
+			"titaniumPerTickCon": -1,
+			"tMythrillPerTickAutoprod": 0.0002
+		},
+		lackResConvert: false,
+		togglable: true,
+		action: function(self, game){
+			self.effects = {
+				"bloodstoneCraftRatio" : 0.02,
+				"bloodstonePerTickCon": -0.2,
+				"ivoryPerTickCon": -1,
+				"titaniumPerTickCon": -1,
+				"tMythrillPerTickAutoprod": 0.0002
+			}
+			var amt = game.resPool.getAmtDependsOnStock(
+				[{res: "bloodstone", amt: -self.effects["bloodstonePerTickCon"]},
+				{res: "ivory", amt: -self.effects["ivoryPerTickCon"]},
+				{res: "titanium", amt: -self.effects["titaniumPerTickCon"]}],
+				self.on
+			);
+			self.effects["bloodstonePerTickCon"] *= amt;
+			self.effects["ivoryPerTickCon"] *= amt;
+			self.effects["titaniumPerTickCon"] *= amt;
+			self.effects["tMythrillPerTickAutoprod"] *= amt;
+		}
 	}
 	],
 
