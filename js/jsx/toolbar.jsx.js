@@ -363,10 +363,29 @@ WLoginForm = React.createClass({
 
 WCloudSaves = React.createClass({
 
+    bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+
     render: function(){
+        var self = this;
+
         var game = this.props.game;
         if (!game.server.userProfile){
             return null;
+        }
+
+        var saveData = game.server.saveData;
+        var hasActiveSaves = false;
+        if (saveData && saveData.length){
+            for (var i in saveData){
+                if (saveData[i].guid == game.telemetry.guid){
+                    hasActiveSaves = true;
+                }
+            }
         }
 
         /**
@@ -376,38 +395,46 @@ WCloudSaves = React.createClass({
          * This way we don't have to handle complex state management on the game.server side
          */
         return $r("div", null, [
-            "save data:",
-            //$r("span", null, JSON.stringify(game.server.saveData, null, 2)),
 
-            $r("div", null, game.server.saveData && game.server.saveData.map(function(save){
+            $r("div", null, saveData && saveData.map(function(save){
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("span", null, isActiveSave ? "[current]" : ""),
                     $r("span", null, save.guid),
                     $r("span", null, 
                         new Date(save.timestamp).toLocaleDateString("en-US", {
-                        month: 'long', day: 'numeric'
+                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
                         })
                     ),
-                    $r("span", null, save.size),
-                    isActiveSave && $r("a", {onClick: function(e){
-                        e.stopPropagation();
-                        game.server.pushSave();
-                    }}, "Overwrite"),
-                    isActiveSave && $r("a", {onClick: function(e){
-                        e.stopPropagation();
-                        console.log("poop");
-                        game.server.loadSave();
-                    }}, "Download"),
+                    $r("span", null, self.bytesToSize(save.size)),
+                    isActiveSave && $r("a", {
+                        title: "Upload your current game save to the server (this will replace the old copy you backed up last time)",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.pushSave();
+                        }}, "Overwrite"),
+                    isActiveSave && $r("a", {
+                        title: "Download a backup version of your save from the server and load it in the current game session (your current data will be lost)",
+                            onClick: function(e){
+                            e.stopPropagation();
+                            game.server.loadSave();
+                        }}, "Download"),
                 ])
             })),
-
+            (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
+                $r("a", {onClick: function(e){
+                    e.stopPropagation();
+                    game.server.pushSave();
+                }}, "Create")
+            ]),
             $r("a", {
+                className: "link",
+                title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
                 onClick: function(e){
                     e.stopPropagation();
                     game.server.syncSaveData();
                 }
-            }, "Sync saves")
+            }, "Update save data")
         ])
     }
 });

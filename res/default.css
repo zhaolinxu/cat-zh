@@ -595,6 +595,10 @@ table.craftTable tr:hover td {
     padding-right: 5px;
 }
 
+a.link {
+    text-decoration: underline;
+}
+
 .save-record a {
     text-decoration: underline;
 }

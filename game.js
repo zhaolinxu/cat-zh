@@ -247,6 +247,7 @@ dojo.declare("classes.game.Server", null, {
 	},
 
 	pushSave: function(){
+		var self = this;
 		var saveData = this.game.save();
 		this._xhr("/kgnet/save/upload/", "POST", 
 		{
@@ -256,6 +257,7 @@ dojo.declare("classes.game.Server", null, {
 		}, 
 		function(resp){
 			console.log("save successful?");
+			self.saveData = resp;
 		});
 	},
 
