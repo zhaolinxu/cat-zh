@@ -1228,12 +1228,7 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "goldPolicyRatio":{
 				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
 				type: "ratio"
-			},
-			//zebra workshop upgrades
-			"zebraPreparations": {
-				title: $I("effectsMgr.statics.zebraPreparations.title"),
-				type: "fixed"
-			},//
+            },
 			"springCatnipRatio": {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
