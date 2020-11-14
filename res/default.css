@@ -419,6 +419,10 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     color: red;
 }
 
+.msg.type_urgent {
+    color: blueviolet;
+}
+
 .msg.type_date {
     color: #ff7f50;
     margin-top: 15px;
@@ -518,6 +522,10 @@ table.craftTable tr:hover td {
     display: inline-block;
 }
 
+.icons-container > div{
+    display: inline-block;
+}
+
 .toolbarIcon {
     padding-right: 15px;
     font-size: 12px;
@@ -535,6 +543,64 @@ table.craftTable tr:hover td {
 
 .toolbarIcon.energy.warningWinter {
     color: coral;
+}
+
+.toolbarIcon .status-indicator-online {
+    color: green;
+}
+
+.toolbarIcon .status-indicator-offline {
+    color: red;
+}
+
+/* kgnet login form */
+.login-popup {
+    position: absolute;
+    top: 20px;
+    border: 1px solid gray;
+    padding: 5px;
+    background: white;
+    z-index: 1;
+
+    margin-left: -35px;
+}
+
+.login-popup .row {
+    display: block;   
+}
+
+.login-popup .row a, input {
+    margin-right: 10px;
+}
+
+.login-popup .userProfile {
+    line-height: 15px;
+}
+
+.login-popup .userProfile a {
+    vertical-align: top;
+}
+.login-popup .userProfile img{
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.userProfile .save-record {
+    display: block;
+    padding-top: 5px;
+}
+
+.save-record span, a {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+a.link {
+    text-decoration: underline;
+}
+
+.save-record a {
+    text-decoration: underline;
 }
 
 span.genericWarning,

@@ -102,7 +102,7 @@ WResourceRow = React.createClass({
         
         var perTick = isTimeParadox ? 0 : game.getResourcePerTick(res.name, true);
         perTick = game.opts.usePerSecondValues ? perTick * game.getTicksPerSecondUI() : perTick;
-        var postfix = game.opts.usePerSecondValues ? "/" + $I("unit.sec") : "";
+        var postfix = game.opts.usePerSecondValues ? "/" + $I("unit.s") : "";
         if (game.opts.usePercentageResourceValues && res.maxValue){
             perTick = (perTick / res.maxValue * 100).toFixed(2);
             postfix = "%" + postfix;
@@ -111,7 +111,8 @@ WResourceRow = React.createClass({
         var perTickVal = 
             game.getResourcePerTick(res.name, false) || 
             game.getResourcePerTickConvertion(res.name) ? 
-            "(" + game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
+            game.getDisplayValueExt(perTick, true, false) + postfix : "";
+            // "(" + game.getDisplayValueExt(perTick, true, false) + postfix + ")" : "";
 
         //----------------------------------------------------------------------------
 

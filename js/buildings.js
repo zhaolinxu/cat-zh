@@ -435,6 +435,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			//unlock village tab
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		effects: {
 			"manpowerMax": 75,
 			"maxKittens": 2
@@ -459,6 +462,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor : $I("buildings.logHouse.flavor")
 	},{
@@ -478,6 +484,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks: {
 			tabs: ["village"]
 		},
+		upgrades:{
+            policies: ["authocracy"]
+        },
 		breakIronWill: true,
 		flavor: $I("buildings.mansion.flavor")
 	},
@@ -510,6 +519,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					"scienceMaxCompendia": 1000,
 					"cultureMax": 25,
 					"energyConsumption": 2
+				},
+				unlockScheme: {
+					name: "computer",
+					threshold: 100
 				},
 				stageUnlocked : false
 			}
@@ -1174,11 +1187,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		calculateEffects: function(self, game){
 			self.effects["woodRatio"] = 0.1 + game.getEffect("lumberMillRatio") * 0.1;
 		},
-		flavor: $I("buildings.lumberMill.flavor"),
-		unlockScheme: {
-			name: "wood",
-			threshold: 100
-		}
+		flavor: $I("buildings.lumberMill.flavor")
 	},
 	{
 		name: "oilWell",
@@ -1210,8 +1219,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			self.effects["oilPerTickBase"] = 0.02 * oilRatio;
 
 			self.effects["energyConsumption"] = self.isAutomationEnabled
-				? game.challenges.isActive("energy") ? 2 : 1
-				: 0;
+				? 1 : 0;
 		},
 		flavor: $I("buildings.oilWell.flavor"),
 		unlockScheme: {
@@ -1750,6 +1758,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			buildings: ["library"],
 			spaceBuilding: ["moonBase"]
 		},
+		unlockScheme: {
+			name: "cyber",
+			threshold: 5
+		},
 		// TODO Actually "action" is almost always just updating effects (unclear from the name), better separate the 2 concerns: update effects (can be done several times per tick) and perform specific action (only once per tick!)
 		// TODO Separation of concerns currently done only for AI Core, Time Boilers and Hydroponics (REQUIRED by non-proportional effect!), will be systematized later
 		updateEffects: function(self, game) {
@@ -2201,6 +2213,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		plateCrafter.craft();
 		slabCrafter.craft();
 		beamCrafter.craft();
+		if(game.opts.enableRedshiftGflops){
+			var aiCore = this.get("aiCore");
+			game.resPool.get("gflops").value += aiCore.effects["gflopsPerTickBase"] * aiCore.on * daysOffset * game.calendar.ticksPerDay;
+		}
 	},
 
 	undo: function(data){

@@ -819,11 +819,17 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"maxKittens": 0
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["tradition"],
 		unlocks:{
 			policies: ["authocracy", "republic"]
+		},
+		updateEffects: function(self, game){
+			self.effects["maxKittens"] = game.ironWill ? 0 : 1;
 		}
 	}, {
 		name: "tradition",
@@ -847,6 +853,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+        effects:{
+            "goldPolicyRatio" : -0.1
+        },
 		unlocked: false,
         upgrades:{
             buildings: ["factory"]
@@ -863,9 +872,26 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 1500}
 		],
+		effects:{
+			"rankLeaderBonusConversion": 0
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["monarchy", "republic", "liberalism"],
+		calculateEffects: function(self, game){
+			var uncappedHousing = 0;
+			for (var i = 0; i < game.bld.buildingGroups.length; i++){
+    			if(game.bld.buildingGroups[i].name=="population"){
+					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
+						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
+							uncappedHousing += 1;
+						}	
+					}
+					break;
+    			}
+			}
+			self.effects["rankLeaderBonusConversion"] = 0.004*uncappedHousing;
+		},
 		unlocks:{
 			policies:["communism", "fascism", "socialism"]
 		}
@@ -1338,7 +1364,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
 		upgrades: {
-			buildings: ["temple"]
+			buildings: ["factory"]
 		},
         effects:{
             "environmentFactoryCraftBonus" : 0.05
@@ -1347,7 +1373,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["sustainability"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("environmentalism").researched && game.science.get("ecology").researched;
+			return (game.science.getPolicy("stripMining").researched || game.science.getPolicy("clearCutting").researched)
+			&& game.science.get("industrialization").researched;
 		}
     }, {
         name: "conservation",
@@ -1373,8 +1400,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             {name : "culture", val: 10000}
         ],
         effects:{
-            "environmentMineralBonus" : 0.125,
-            "environmentWoodBonus" : 0.125
+            "mineralsPolicyRatio" : 0.125,
+            "woodPolicyRatio" : 0.125
         },
         unlocked: false,
         blocked: false,
@@ -1526,6 +1553,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 			this.game.unlock(tech.unlocks);
 		}
+		//re-unlock policies in case we have modified something
+		for (var i = this.policies.length - 1; i >= 0; i--) {
+			var policy = this.policies[i];
+			if (!policy.researched) {
+				continue;
+			}
+
+			this.game.unlock(policy.unlocks);
+		}
 
 	},
 
@@ -1567,7 +1603,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              // Add effect in globalEffectsCached, in addition of other managers
              this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
              }
-             }*/
+			 }*/
+	update: function(){
+		for(var i = 0; i < this.policies.length; i++){
+			var policy = this.policies[i];
+			if (policy.researched && policy.updateEffects){
+				policy.updateEffects(policy, this.game);
+			}
+		}
+	}
 });
 
 //-------- Policy ----------
@@ -1680,7 +1724,7 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 	render: function(container){
 		var content = this.inherited(arguments),
 			self = this;
-		var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px"}}, content);
+		var msgBox = dojo.create("span", { style: { display: "inline-block", marginBottom: "10px", width: "50%"}}, content);
 		msgBox.innerHTML = $I("msg.policy.exclusivity");
 
 		var div = dojo.create("div", { style: { float: "right"}}, content);
@@ -1729,6 +1773,8 @@ dojo.declare("classes.ui.PolicyPanel", com.nuclearunicorn.game.ui.Panel, {
 			button.render(content);
 			self.addChild(button);
 		});
+		
+		dojo.create("div", { style: { clear: "both"}}, content);
 	}
 });
 

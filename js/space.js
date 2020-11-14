@@ -651,7 +651,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"uraniumMax"    : 5000,
 					"unobtainiumMax": 750
 				};
-            }
+            },
+			unlockScheme: {
+				name: "arctic",
+				threshold: 10
+			}
         }
         ]
 	},{
@@ -1067,6 +1071,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
+
+		var entangler = this.getBuilding("entangler");
+
+		var existingGFlops = this.game.resPool.get("gflops").value;
+		var gflopsPerTick = entangler.effects.gflopsConsumption * entangler.on;
+		var gflopsAttemptConsume = gflopsPerTick * times;
+
+		var gflopsConsume = Math.min(existingGFlops, gflopsAttemptConsume);
+		if (gflopsConsume <= 0) {
+			return;
+		}
+		
+		this.game.resPool.addResEvent("gflops", -gflopsConsume);
+		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
 
 	getProgram: function(name){

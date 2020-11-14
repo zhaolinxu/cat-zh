@@ -4,6 +4,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		this.game = game;
 		this.registerMeta("stackable", this.challenges, null);
 		this.setEffectsCachedExisting();
+		this.reserves = new classes.reserveMan(game);
 	},
 
 	currentChallenge: null,
@@ -25,12 +26,21 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		unlocked: true,
 		effects: {
 			"springCatnipRatio": 0.05,
-			"summerSolarFarmRatio": 0.05
+			"summerSolarFarmRatio": 0.05,
+			"coldChance": 0,
+			"coldHarshness": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
-				self.effects["springCatnipBonus"] = 0;
-                                self.effects["summerSolarFarmBonus"] = 0;
+				self.effects["springCatnipRatio"] = 0;
+				self.effects["summerSolarFarmRatio"] = 0;
+				self.effects["coldChance"] = 0.05;
+				self.effects["coldHarshness"] = -0.02;
+			}else{
+				self.effects["springCatnipRatio"] = 0.05;
+                self.effects["summerSolarFarmRatio"] = 0.05;
+				self.effects["coldChance"] = 0;
+				self.effects["coldHarshness"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -43,14 +53,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.anarchy.effect.desc"),
 		researched: false,
 		unlocked: true,
-                effects: {
-                        "masterSkillMultiplier": 0.2
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["masterSkillMultiplier"] = 0;
-                        }
-                },
+        effects: {
+			"masterSkillMultiplier": 0.2,
+			"kittenLaziness": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+            	self.effects["masterSkillMultiplier"] = 0;
+            	self.effects["kittenLaziness"] = 0.05;
+            }else{
+				self.effects["masterSkillMultiplier"] = 0.2;
+			}
+        },
 		checkCompletionCondition: function(game){
 			return game.bld.get("aiCore").val > 0;
 		}
@@ -67,11 +81,16 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			voidSpace: ["chronocontrol"]
 		},
 		effects: {
-			"energyConsumptionRatio": -0.02
+			"energyConsumptionRatio": -0.02,
+			"energyConsumptionIncrease": 0
 		},
 		calculateEffects: function(self, game){
 			if (self.active) {
 				self.effects["energyConsumptionRatio"] = 0;
+				self.effects["energyConsumptionIncrease"] = 0.1;
+			}else{
+				self.effects["energyConsumptionRatio"] = -0.02;
+				self.effects["energyConsumptionIncrease"] = 0;
 			}
 		},
 		checkCompletionCondition: function(game){
@@ -93,14 +112,29 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.atheism.desc"),
 		effectDesc: $I("challendge.atheism.effect.desc"),
 		effects: {
-			"faithSolarRevolutionBoost": 0.1
+			"faithSolarRevolutionBoost": 0.1,
+			"cultureMaxChallenge": 0,
+			"scienceMaxChallenge": 0,
+			"manpowerMaxChallenge": 0,
+			"challengeHappiness": 0
 		},
 		calculateEffects: function(self, game) {
-                        if (self.active) {
-                                self.effects["faithSolarRevolutionBoost"] = 0;
-                        }
+            if (self.active) {
+				self.effects["faithSolarRevolutionBoost"] = 0;
+				self.effects["cultureMaxChallenge"] = -250;
+				self.effects["scienceMaxChallenge"] = -500;
+				self.effects["challengeHappiness"] = -0.5;
+				self.effects["manpowerMaxChallenge"] = -125;
+			}else{
+				self.effects["faithSolarRevolutionBoost"] = 0.1;
+				self.effects["cultureMaxChallenge"] = 0;
+				self.effects["scienceMaxChallenge"] = 0;
+				self.effects["challengeHappiness"] = 0;
+				self.effects["manpowerMaxChallenge"] = 0;
+			}
 		},
-        researched: false,
+		researched: false,
+		reserveDelay: true,
         unlocked: false
 	},{
 		name: "1000Years",
@@ -108,12 +142,20 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
                 effects: {
-                        "shatterCostReduction": -0.02
+						"shatterCostReduction": -0.02,
+						"shatterCostIncreaseChallenge": 0,
+						"shatterVoidCost": 0
                 },
                 calculateEffects: function(self, game){
                         if (self.active) {
                                 self.effects["shatterCostReduction"] = 0;
-                        }
+                                self.effects["shatterCostIncreaseChallenge"] = 0.5;
+                                self.effects["shatterVoidCost"] = 0.4;
+                        }else{
+							self.effects["shatterCostReduction"] = -0.02;
+							self.effects["shatterCostIncreaseChallenge"] = 0;
+							self.effects["shatterVoidCost"] = 0;
+						}
                 },
 		researched: false,
 		unlocked: false
@@ -124,16 +166,18 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		effectDesc: $I("challendge.blackSky.effect.desc"),
 		researched: false,
 		unlocked: false,
-                effects: {
-                        "corruptionBoostRatioChallenge": 0.1
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["corruptionBoostRatioChallenge"] = 0;
-                        }
-                },
+        effects: {
+            "corruptionBoostRatioChallenge": 0.1
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["corruptionBoostRatioChallenge"] = 0;
+            }else{
+				self.effects["corruptionBoostRatioChallenge"] = 0.1;
+			}
+        },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > 0;
+			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
 	}],
 
@@ -143,9 +187,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		for (var i = 0; i < this.challenges.length; i++){
 			var challenge = this.challenges[i];
 			challenge.enabled = false;
+			challenge.pending = false;
+			challenge.active = false;
 			this.resetStateStackable(challenge);
 		}
 		this.currentChallenge = null;
+		this.reserves.resetState();
 	},
 
 	save: function(saveData){
@@ -158,6 +205,12 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				"active"		//if currently active or not
 			])
 		};
+		var kittens = [];
+		for (var i in this.game.challenges.reserves.reserveKittens){
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			kittens.push(_kitten);
+		}
+		saveData.challenges.reserves = this.reserves.getSaveData();
 	},
 
 	load: function(saveData){
@@ -171,6 +224,28 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		var currentChallenge = saveData.challenges.currentChallenge;
 		if (currentChallenge){
 			this.getChallenge(currentChallenge).active = true;
+		}
+
+		for (var i = 0; i < this.challenges.length; i++) {
+			if (this.challenges[i].researched && !this.challenges[i].on) {
+				this.challenges[i].on = 1;
+			}
+		}
+		if (saveData.challenges.reserves){
+			var kittens = saveData.challenges.reserves.reserveKittens;
+	
+				var reserveKittens = [];
+	
+				for (var i = kittens.length - 1; i >= 0; i--) {
+					var kitten = kittens[i];
+	
+					var newKitten = new com.nuclearunicorn.game.village.Kitten();
+					newKitten.load(kitten, this.game.village.jobNames);
+					reserveKittens.unshift(newKitten);
+				}
+				this.game.challenges.reserves.reserveKittens = reserveKittens;
+				var reserveRes = saveData.challenges.reserves.reserveResources;
+				this.game.challenges.reserves.reserveResources= saveData.challenges.reserves.reserveResources;
 		}
 	},
 
@@ -192,7 +267,15 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 	getChallenge: function(name){
 		return this.getMeta(name, this.challenges);
 	},
-
+	anyChallengeActive: function(){
+		var challengeActive = false;
+		for(var i in this.challenges){
+			if (this.isActive(this.challenges[i].name)){
+				challengeActive = true;
+			}
+		}
+		return challengeActive;
+	},
 	/*
 		returns true if challenge currently in progress
 	*/
@@ -209,6 +292,9 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
+			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
+				this.reserves.addReserves();
+			}
 			this.game.calculateAllEffects();
 		}
 	},
@@ -222,20 +308,14 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			$I("challendge.btn.confirmation.title"), 
 			$I("challendge.btn.confirmation.msg"), function() 
 		{
-			// Set the challenge for after reset
-			for (var i = 0; i < this.game.challenges.challenges.length; i++){
-				var challenge = this.game.challenges.challenges[i];
-				if (challenge.pending){
-					challenge.active = true;
-				}
-			}
 			// Reset with any benefit of chronosphere (resources, kittens, etc...)
-
+			// Should put resources and kittens to reserve HERE!
+			// Kittens won't be put into reserve in post apocalypcis!
+			game.challenges.reserves.calculateReserves();
 			game.bld.get("chronosphere").val = 0;
 			game.bld.get("chronosphere").on = 0;
 			game.time.getVSU("cryochambers").val = 0;
 			game.time.getVSU("cryochambers").on = 0;
-
 			game.resetAutomatic();
 		}, function() {
 		});
@@ -252,6 +332,109 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 
 });
 
+dojo.declare("classes.reserveMan", null,{
+	constructor: function(game){
+		this.game = game;
+		this.reserveResources = null;
+		this.reserveKittens = null;
+	},
+	resetState: function(){
+		this.reserveResources = {};
+		this.reserveKittens = [];
+	},
+	calculateReserveResources: function(){
+		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
+		if(!saveRatio){
+			return;
+		}
+		var reserveResources = this.game.challenges.reserves.reserveResources;
+		for (var i in this.game.resPool.resources) {
+			var res = this.game.resPool.resources[i];
+			var fluxCondensator = this.game.workshop.get("fluxCondensator");
+			if (res.persists === false
+			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
+				continue;	//>:
+			}
+			var value = 0;
+
+			if (!res.persists){
+				if (!res.craftable || res.name == "wood") {
+					value = res.value * saveRatio;
+					if (res.name == "void") {
+						value = Math.floor(value);
+					}
+				} else if (res.value > 0) {
+					value = Math.sqrt(res.value) * saveRatio * 100;
+				}
+			}
+
+			if (value > 0) {
+				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
+			}
+		}
+		this.game.challenges.reserves.reserveResources = reserveResources;
+	},
+	calculateReserveKittens: function(){
+		// Kittens won't be put into reserve in post apocalypcis!
+		var reserveKittens = [];
+		var cryochambers = this.game.time.getVSU("cryochambers").on;
+		
+		if (cryochambers > 0) {
+			this.game.village.sim.sortKittensByExp();
+			reserveKittens = this.game.village.sim.kittens.slice(-cryochambers);
+			for (var i in reserveKittens) {
+				delete reserveKittens[i].job;
+				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+			}
+		}
+		this.game.challenges.reserves.reserveKittens = 
+		this.game.challenges.reserves.reserveKittens.concat(reserveKittens);
+	},
+	calculateReserves: function(){
+		this.game.challenges.reserves.calculateReserveResources();
+		this.game.challenges.reserves.calculateReserveKittens();
+	},
+	addReserves: function(){
+		for (var i in this.reserveResources){
+			var resCap = this.game.resPool.get(i).maxValue;
+			if(!resCap){
+				this.game.resPool.get(i).value += this.reserveResources[i];
+			}else{
+				this.game.resPool.get(i).value = Math.max(this.game.resPool.get(i).value, this.reserveResources[i]);
+			}
+			this.reserveResources[i] = 0;
+		}
+
+		for(var i in this.reserveKittens){
+			this.game.village.sim.kittens.push(this.reserveKittens[i]);
+		}
+		this.game.time.getVSU("usedCryochambers").val += this.reserveKittens.length;
+		this.game.time.getVSU("usedCryochambers").on += this.reserveKittens.length;
+		this.reserveKittens = [];
+	},
+
+	getSaveData: function(){
+		var kittens = [];
+		for (var i in this.game.challenges.reserves.reserveKittens){
+			var _kitten = this.game.challenges.reserves.reserveKittens[i].save(this.game.opts.compressSaveFile, this.jobNames);
+			kittens.push(_kitten);
+		}
+		return {
+			reserveKittens: kittens,
+			reserveResources: this.game.challenges.reserves.reserveResources,
+			ironWillClaim: this.ironWillClaim
+		};
+	},
+	reservesExist: function(){
+		var hasReserveResources = false;
+		for(var i in this.reserveResources){
+			if(this.reserveResources[i]){
+				hasReserveResources = true;
+			}
+		}
+		return (hasReserveResources||this.reserveKittens.length);
+	}
+});
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
 
 	getMetadata: function(model){
@@ -325,6 +508,7 @@ dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.Bui
 
 	togglePending: function(model){
 		if (model.metadata.name == "ironWill") {
+			this.game.challenges.applyPending();
 			return;
 		}
 		model.metadata.pending = !model.metadata.pending;
@@ -403,6 +587,23 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 		}, this.game);
 		applyPendingBtn.render(container);
 		this.applyPendingBtn = applyPendingBtn;
+
+
+		var reclaimReservesBtn = new com.nuclearunicorn.game.ui.ButtonModern({
+			name: $I("challendge.reclaimReserves.label"),
+			description: $I("challendge.reclaimReserves.desc"),
+			handler: dojo.hitch(this, function(){
+				this.game.challenges.reserves.addReserves();
+			}),
+			controller: new com.nuclearunicorn.game.ui.ButtonController(this.game, {
+				updateVisible: function (model) {
+					model.visible = (!this.game.challenges.anyChallengeActive() && !this.game.ironWill&&
+					this.game.challenges.reserves.reservesExist());
+				},
+			})
+		}, this.game);
+		reclaimReservesBtn.render(container);
+		this.reclaimReservesBtn = reclaimReservesBtn;
 	},
 
 	update: function(){

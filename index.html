@@ -20,6 +20,7 @@
 		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox_v2.js"></script>
+		<script src="lib/md5.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
@@ -71,7 +72,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1481";
+			var version = "1482";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -150,6 +151,7 @@
 					"game",
 
 					"js/jsx/left.jsx",
+					"js/jsx/toolbar.jsx",
 					"js/jsx/map.jsx",
 
 					"js/ui",
@@ -309,7 +311,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					Kittens Game <span style="font-size: small;">by <a href="http://bloodrizer.ru/" class="copyright" target="_blank">bloodrizer</a></span>
+					Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
 					<span style="font-size: small;">
@@ -493,7 +495,7 @@
 						Volkeyrn
 					</li>
 					<li title="help with i18n and localization">
-						PellaAndroid
+						<a href="http://www.reddit.com/user/Pellax">PellaAndroid</a>
 					</li>
 				</ul>
 
@@ -503,7 +505,9 @@
 				Special thanks for anyone who is not in the list, we still love you &lt;3<br/>
 				tumblr icon by <a href="https://moonlight-pendent13.deviantart.com">Moonlight-pendent13</a><br />
 				<br />
-				Warmest thanks to <a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback.<br />
+				Warmest thanks to <a href="http://www.reddit.com/user/ainil" target="_blank">ainil</a> for the long months of support and feedback during the formative days of KG.<br />
+				<br />
+				Thanks to mothloveslamp for supporting me and keeping me sane in my darkest hours.<br />
 				<br />
 				And finally, my undying gratitude to Waraiko.
 			</div>
@@ -592,6 +596,9 @@
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
+					<br>
+					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
+					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">Enable offline gflops production</label>
 					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>

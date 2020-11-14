@@ -356,7 +356,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
 
 		var diligentKittens = this.game.challenges.isActive("anarchy")
-			? Math.floor(this.getKittens() / 2)
+			? Math.round(this.getKittens() * (0.5 - this.game.getLimitedDR(this.game.getEffect("kittenLaziness"), 0.25)))
 			: this.getKittens();
 
 		return diligentKittens - workingKittens;
@@ -653,7 +653,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		}
         var enviromentalEffect = this.getEnvironmentEffect();
 		var happinessBonus = this.game.getEffect("happiness");
-		happiness += (happinessBonus + enviromentalEffect);
+		var challengeHappiness = this.game.getEffect("challengeHappiness");
+		happiness += (happinessBonus + enviromentalEffect + challengeHappiness);
 
 		//boost happiness/production by 10% for every uncommon/rare resource
 		var resources = this.game.resPool.resources;
@@ -855,29 +856,29 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 	},
 
 	getValueModifierPerSkill: function(value){
-		var value = 0;
+		var bonus = 0;
 		switch (true) {
 		case value < 100:
 			break;
 		case value < 500:
-			value = 0.0125;
+			bonus = 0.0125;
 			break;
 		case value < 1200:
-			value = 0.025;
+			bonus = 0.025;
 			break;
 		case value < 2500:
-			value = 0.045;
+			bonus = 0.045;
 			break;
 		case value < 5000:
-			value = 0.075;
+			bonus = 0.075;
 			break;
 		case value < 9000:
-			value = 0.125;
+			bonus = 0.125;
 			break;
 		default:
-			value = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
+			bonus = 0.1875 * (1 + this.game.getLimitedDR(this.game.getEffect("masterSkillMultiplier"), 4));
 		}
-		return value * (1 + this.game.getEffect("skillMultiplier"));
+		return bonus * (1 + this.game.getEffect("skillMultiplier"));
 	},
 
 	getSkillExpRange: function(value){
@@ -2288,8 +2289,8 @@ dojo.declare("classes.ui.village.Census", null, {
 				//TODO: move me to getFromLeaderBonus
 				bonus = bonus > 0 && !kitten.isLeader && 
 					this.game.village.leader ? 
-					((1 - this.game.village.getLeaderBonus((this.game.village.leader || 0).rank) * 
-					this.game.getEffect("boostFromLeader") + 1) * (bonus + 1) - 1) : bonus;
+					(this.game.village.getLeaderBonus((this.game.village.leader || 0).rank) * this.game.getEffect("boostFromLeader") + 1)
+					* (bonus + 1) - 1 : bonus;
 				bonus = bonus * 100;
 				bonus = bonus > 0 ? " +" + bonus.toFixed(0) + "%" : "";
 			}

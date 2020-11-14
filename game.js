@@ -102,7 +102,7 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 	},
 
 	logEvent: function(eventType, payload) {
-		var event = {
+		/*var event = {
 			guid: this.guid,
 			type: eventType,
 			timestamp: Date.now(),
@@ -111,34 +111,25 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 		};
 
 		if (!this.game.opts.disableTelemetry) {
-
 			if (window.FirebasePlugin) {
 				window.FirebasePlugin.logEvent(eventType, event);
-			} else if (this.game.server.telemetryUrl) {
-				/*$.ajax({
-					url: this.game.server.telemetryUrl,
-					type: "POST",
-					crossOrigin: true,
-					data: JSON.stringify(event),
-					dataType: "json",
-					contentType: "text/plain"
-				});*/
 			}
-		}
+		}*/
 	}
 });
 
 
-//TODO: to be replaced with actual server call
+/**
+ * Server is a mediator between client and KGNet
+ * It supports fetching data about saves, syncing using info, etc
+ * 
+ * Please see toolbar.jsx.js#WLogin widget for rendering part
+ */
 
 dojo.declare("classes.game.Server", null, {
 
 	// Server datas
 	//---->
-	donateAmt: 0,
-	telemetryUrl: null,
-	telemetryAppId: "KG",
-
 	showMotd: true,
 	motdTitle: null,
 	motdContent: null,
@@ -148,9 +139,38 @@ dojo.declare("classes.game.Server", null, {
 	motdContentPrevious: null,
 	motdFreshMessage: false,
 
+	//chiral stuff
+
+	/**
+	 * KGNet user profile
+	 * Represents an active session, if not null, all XHR calls will be made
+	 * using session cookies
+	 */
+	userProfile: null,
+
+	/**
+	 * Current client snapshot of the save data
+	 * All operations with the cloud saves should return the save snapshot?
+	 */
+	saveData: null,
+
 	constructor: function(game){
 		this.game = game;
 	},
+
+	setUserProfile: function(userProfile){
+		this.userProfile = userProfile;
+	},
+
+    getServerUrl: function(){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing
+            return "http://localhost:7780";
+        }
+        return "";
+    },
 
 	refresh: function(){
 		var self = this;
@@ -161,10 +181,6 @@ dojo.declare("classes.game.Server", null, {
 			url: "server.json",
 			dataType: "json",
 			success: function(json) {
-				self.donateAmt = json.donateAmt || 0;
-				self.telemetryUrl = json.telemetryUrl;
-				self.telemetryAppId = json.telemetryAppId;
-
 				self.showMotd = json.showMotd;
 				self.motdTitle = json.motdTitle;
 				self.motdContent = json.motdContent;
@@ -178,6 +194,85 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
+		//-- fetch UID from KGNet if HTTP session is established ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
+
+	/**
+	 * Make an XHR request to KGNet server
+	 * 
+	 * @param {A s} url - relative endpoint URL
+	 * @param {*} method - "GET" or "POST"
+	 * @param {*} data - post data
+	 * @param {*} handler - onDone callback handler
+	 */
+	_xhr: function(url, method, data, handler){
+		$.ajax({
+            cache: false,
+            type: method || "GET",
+            dataType: "JSON",
+			url: this.getServerUrl() + url,
+			xhrFields: {
+				withCredentials: true
+			},
+			data: data
+		}).done(function(resp){
+			handler(resp);
+		});
+	},
+
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
+
+		//TODO: use some XHR snippet, this is getting too verbose
+		this._xhr("/user/", "GET", {}, function(resp){
+            if (resp && resp.id){
+                self.setUserProfile(resp);
+            }
+		});
+	},
+
+	syncSaveData: function(){
+		var self = this;
+		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+			self.saveData = resp;
+		});
+	},
+
+	pushSave: function(){
+		var self = this;
+		var saveData = this.game.save();
+		this._xhr("/kgnet/save/upload/", "POST", 
+		{
+			//pre-parsing guid to avoid checking it on the backend side
+			guid: this.game.telemetry.guid,
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+		}, 
+		function(resp){
+			console.log("save successful?");
+			self.saveData = resp;
+		});
+	},
+
+	loadSave: function(){
+		var guid = this.game.telemetry.guid;
+		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
+			if (!resp.data){
+				console.error("unable to load game data", resp);
+			}
+			var data = resp.data;
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
+			console.log("load successful?");
+
+			this.game.load();
+		});
 	},
 
 	save: function(saveData) {
@@ -252,6 +347,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					type: "perTick"
 				};
 			case type == "Max":
+				return {
+					title: $I("effectsMgr.type.resMax", [restitle]),
+					resName: resname
+				};
+			case type == "MaxChallenge": //for when challenges change Max of resources; LDR to all other sources of Max
 				return {
 					title: $I("effectsMgr.type.resMax", [restitle]),
 					resName: resname
@@ -460,6 +560,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				title: $I("effectsMgr.statics.energyConsumptionRatio.title"),
 				type: "ratio"
 			},
+			"energyConsumptionIncrease": {
+				title: $I("effectsMgr.statics.energyConsumptionIncrease.title"),
+				type: "ratio"
+            },
 
 			//production
 
@@ -1063,6 +1167,10 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				calculation: "nonProportional"
 			},
 			//age 2 policy effects
+			"rankLeaderBonusConversion": {
+				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
+                type: "ratio"
+			},
 			"boostFromLeader": {
                 title: $I("effectsMgr.statics.boostFromLeader.title"),
                 type: "ratio"
@@ -1228,7 +1336,8 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "goldPolicyRatio":{
 				title: $I("effectsMgr.statics.goldPolicyRatio.title"),
 				type: "ratio"
-            },
+			},
+			//challenges
 			"springCatnipRatio": {
 				title: $I("effectsMgr.statics.springCatnipRatio.title"),
 				type: "ratio"
@@ -1357,6 +1466,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	totalUpdateTime: [0, 0, 0, 0, 0],	//total time spent on update cycle in milliseconds, useful for debug/fps counter. 1 ticks per second have more calculations
 	totalUpdateTimeTicks: 5,
 	totalUpdateTimeCurrent : 0,
+	fps: null,	//fps breakdows of a render cycle
 
 	pauseTimestamp: 0, //time of last pause
 
@@ -1385,6 +1495,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 	constructor: function(containerId){
 		this.id = containerId;
 
+		this.fps = {};
 		this.tabs = [];
         this.managers = [];
 
@@ -1403,8 +1514,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			noConfirm: false,
 			IWSmelter: true,
 			disableCMBR: false,
-			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1698,6 +1809,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -2570,7 +2682,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-
+			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2782,7 +2894,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -2795,6 +2907,11 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				name: $I("res.stack.paragon"),
 				type: "ratio",
 				value: paragonProductionRatio * 0.05
+			});
+			buildingAutoprod.push({
+				name: $I("res.stack.rankLeaderBonusConversion"),
+				type: "ratio",
+				value: rankLeaderBonusConversion
 			});
 		//<----
 		stack.push(buildingAutoprod);
@@ -3077,6 +3194,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
+		this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -3617,8 +3735,20 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			var avg3 = this.totalUpdateTime[3] / Math.floor((this.totalUpdateTimeTicks - 4) / 5);
 			var avg4 = this.totalUpdateTime[4] / Math.floor((this.totalUpdateTimeTicks - 5) / 5);
 
-			if (tsDiff < 10) {tsDiff = 10;}
-            fpsElement = $("#devPanelFPS")[0];
+			if (tsDiff < 10) {
+				tsDiff = 10;
+			}
+			this.fps = {
+				ms: tsDiff,
+				avg: avg,
+				avg0: avg0,
+				avg1: avg1,
+				avg2: avg2,
+				avg3: avg3,
+				avg4: avg4
+			};
+
+            /*fpsElement = $("#devPanelFPS")[0];
             if (fpsElement) {
                 fpsElement.textContent = "fps: " + tsDiff + " ms,"
 				+ " avg: " + avg.toFixed() + 
@@ -3627,7 +3757,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				"." + avg2.toFixed() + 
 				"." + avg3.toFixed() + 
 				"." + avg4.toFixed() + "] (Cl. to res.)";
-            }
+            }*/
 		}
 	},
 
@@ -3912,6 +4042,18 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			usedCryochambers_reset[0]["on"] = 0;
 		}
 
+		// Set the challenge for after reset
+		for (var i = 0; i < this.challenges.challenges.length; i++){
+			var challenge = this.challenges.challenges[i];
+			if (challenge.pending){
+				challenge.pending = false;
+				challenge.active = true;
+			}
+			else{
+				challenge.active = false;
+			}
+		}
+		var reservesSaveData = this.challenges.reserves.getSaveData();
 		var saveData = {
 			saveVersion: this.saveVersion,
 			game : lsData.game,
@@ -3921,7 +4063,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				cryptoPrice: this.calendar.cryptoPrice
 			},
 			challenges: {
-				challenges: this.challenges.challenges
+				challenges: this.challenges.challenges,
+				reserves: reservesSaveData
 			},
 			diplomacy: {
 				races: []
@@ -4033,6 +4176,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// TODO: delegate this to managers? Can't be done in load unfortunately.
 		this.upgrade({
 			tech: this.science.techs.map(function(item){return item.name;}),
+			policies: this.science.policies.map(function(item){return item.name;}),
 			perks: this.prestige.perks.map(function(item){return item.name;}),
 			jobs: this.village.jobs.map(function(item){return item.name;}),
 			crafts: this.workshop.crafts.map(function(item){return item.name;}),
