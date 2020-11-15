@@ -408,24 +408,24 @@ WCloudSaves = React.createClass({
                     ),
                     $r("span", null, self.bytesToSize(save.size)),
                     isActiveSave && $r("a", {
-                        title: "Upload your current game save to the server (this will replace the old copy you backed up last time)",
+                        title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
-                        }}, "Overwrite"),
-                    isActiveSave && $r("a", {
-                        title: "Download a backup version of your save from the server and load it in the current game session (your current data will be lost)",
+                        }}, "Save"),
+                    $r("a", {
+                        title: "Download a cloud save and apply it to your game (your current data will be lost)",
                             onClick: function(e){
                             e.stopPropagation();
                             game.server.loadSave();
-                        }}, "Download"),
+                        }}, "Load"),
                 ])
             })),
             (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
                 $r("a", {onClick: function(e){
                     e.stopPropagation();
                     game.server.pushSave();
-                }}, "Create")
+                }}, "Create new save")
             ]),
             $r("a", {
                 className: "link",
@@ -434,7 +434,7 @@ WCloudSaves = React.createClass({
                     e.stopPropagation();
                     game.server.syncSaveData();
                 }
-            }, "Update save data")
+            }, "Sync cloud saves")
         ])
     }
 });
