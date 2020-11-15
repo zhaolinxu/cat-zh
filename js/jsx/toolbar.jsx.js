@@ -417,7 +417,7 @@ WCloudSaves = React.createClass({
                         title: "Download a cloud save and apply it to your game (your current data will be lost)",
                             onClick: function(e){
                             e.stopPropagation();
-                            game.server.loadSave();
+                            game.server.loadSave(save.guid);
                         }}, "Load"),
                 ])
             })),

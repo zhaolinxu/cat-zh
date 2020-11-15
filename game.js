@@ -261,8 +261,7 @@ dojo.declare("classes.game.Server", null, {
 		});
 	},
 
-	loadSave: function(){
-		var guid = this.game.telemetry.guid;
+	loadSave: function(guid){
 		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
 			if (!resp.data){
 				console.error("unable to load game data", resp);
