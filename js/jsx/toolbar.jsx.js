@@ -425,7 +425,7 @@ WCloudSaves = React.createClass({
                 $r("a", {onClick: function(e){
                     e.stopPropagation();
                     game.server.pushSave();
-                }}, "Create new save")
+                }}, "Create new save (" + game.telemetry.guid + ")")
             ]),
             $r("a", {
                 className: "link",
