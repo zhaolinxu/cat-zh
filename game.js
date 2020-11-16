@@ -3924,6 +3924,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			newKittens = this.village.sim.kittens.slice(-cryochambers);
 			for (var i in newKittens) {
 				delete newKittens[i].job;
+				delete newKittens[i].engineerSpeciality;
 			}
 		}
 

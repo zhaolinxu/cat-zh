@@ -385,6 +385,7 @@ dojo.declare("classes.reserveMan", null,{
 			for (var i in reserveKittens) {
 				delete reserveKittens[i].job;
 				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+				delete reserveKittens[i].engineerSpeciality;
 			}
 		}
 		this.game.challenges.reserves.reserveKittens = 
