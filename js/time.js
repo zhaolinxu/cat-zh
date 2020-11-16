@@ -753,7 +753,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 }
 			}
 		}
-
+        pricesTotal.void = Math.round(pricesTotal.void * 10)/10
 		return pricesTotal;
 	},
 
