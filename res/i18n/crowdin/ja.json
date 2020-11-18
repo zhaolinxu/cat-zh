@@ -113,6 +113,7 @@
     "buildings.chapel.desc": "1tickごとに少量の文化値と信仰値が創出されます。宗教関係のアップグレードでさらに効果は上昇するかもしれません。",
     "buildings.chronosphere.label": "クロノスフィア",
     "buildings.chronosphere.desc": "時を越えて少量の資源を移転します。さらにアップグレードできます。すべてのクロノスフィアはタイムパラドックスの機会を増やします。",
+    "buildings.dataCenter.label": "データセンター",
     "buildings.factory.label": "工場",
     "buildings.factory.desc": "クラフトの効率が向上します。",
     "buildings.field.label": "キャットニップ畑",
