@@ -177,7 +177,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
         },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
+			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
 	}],
 
@@ -403,7 +403,7 @@ dojo.declare("classes.reserveMan", null,{
 			}else{
 				this.game.resPool.get(i).value = Math.max(this.game.resPool.get(i).value, this.reserveResources[i]);
 			}
-			this.reserveResources[i] = 0;
+			delete this.reserveResources[i];
 		}
 
 		for(var i in this.reserveKittens){
@@ -425,7 +425,7 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		return (this.reserveResources.length||this.reserveKittens.length);
+		return (Object.keys(this.reserveResources).length||this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {

@@ -828,7 +828,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		unlocks:{
 			policies: ["authocracy", "republic"]
 		},
-		updateEffects: function(self, game){
+		calculateEffects: function(self, game){
 			self.effects["maxKittens"] = game.ironWill ? 0 : 1;
 		}
 	}, {
@@ -1553,6 +1553,15 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 
 			this.game.unlock(tech.unlocks);
 		}
+		//re-unlock policies in case we have modified something
+		for (var i = this.policies.length - 1; i >= 0; i--) {
+			var policy = this.policies[i];
+			if (!policy.researched) {
+				continue;
+			}
+
+			this.game.unlock(policy.unlocks);
+		}
 
 	},
 
@@ -1595,14 +1604,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
              this.game.globalEffectsCached[name] = typeof(this.game.globalEffectsCached[name]) == "number" ? this.game.globalEffectsCached[name] + effect : effect;
              }
 			 }*/
-	update: function(){
-		for(var i = 0; i < this.policies.length; i++){
-			var policy = this.policies[i];
-			if (policy.researched && policy.updateEffects){
-				policy.updateEffects(policy, this.game);
-			}
-		}
-	}
+	//update: function(){
+	//}
 });
 
 //-------- Policy ----------
