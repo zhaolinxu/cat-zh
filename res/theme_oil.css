@@ -237,17 +237,17 @@ body.scheme_oil,
 .scheme_oil .links-block {
 	padding-top: 0 !important;
 }
-.scheme_oil .toolbarIcon.happiness {
+.scheme_oil #topBar .toolbarIcon.happiness div {
     color: #fc8d00;
 }
-.scheme_oil .toolbarIcon.energy,
+.scheme_oil #topBar .toolbarIcon.energy div,
 .scheme_oil .button_tooltip .energyProduction {
     color: #8AC211;
 }
-.scheme_oil .toolbarIcon.energy.warningWinter {
+.scheme_oil #topBar .toolbarIcon.energy.warningWinter div {
     color: #fc8d00;
 }
-.scheme_oil .toolbarIcon.energy.warning,
+.scheme_oil #topBar .toolbarIcon.energy.warning div,
 .scheme_oil .button_tooltip .energyConsumption,
 .scheme_oil .button_tooltip .energyPenalty {
 	color: #a90909;

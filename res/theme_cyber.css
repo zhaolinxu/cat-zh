@@ -347,17 +347,17 @@ body.scheme_cyber {
 .scheme_cyber .links-block {
 	padding-top: 5px !important;
 }
-.scheme_cyber .toolbarIcon.happiness {
+.scheme_cyber #topBar .toolbarIcon.happiness div {
     color: #e26e00;
 }
-.scheme_cyber .toolbarIcon.energy,
+.scheme_cyber #topBar .toolbarIcon.energy div,
 .scheme_cyber .button_tooltip .energyProduction {
     color: #00e26e;
 }
-.scheme_cyber .toolbarIcon.energy.warningWinter {
+.scheme_cyber #topBar .toolbarIcon.energy.warningWinter div{
     color: #e26e00;
 }
-.scheme_cyber .toolbarIcon.energy.warning,
+.scheme_cyber #topBar .toolbarIcon.energy.warning div,
 .scheme_cyber .button_tooltip .energyConsumption {
 	color: #e30002;
 }
@@ -387,6 +387,7 @@ body.scheme_cyber {
 	padding-left: 9px; /* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background: padding-box rgba(16, 17, 18, 0.85);
+	backdrop-filter: blur(2px);	
 	color: #e8e8e8; /* tooltip windows == left column : left text */
 	border: 3px solid transparent;
 	border-image-source: url('img/theme_cyber_frame_01.png');
@@ -1341,7 +1342,7 @@ body.scheme_cyber {
 }
 .scheme_cyber ::-webkit-scrollbar-thumb {
 	border-radius: 0;
-	background-color: #080808;	
+	background-color: rgba(128, 128, 128, 0.15);	
 }
 .scheme_cyber .dialog::-webkit-scrollbar-thumb {
 	border-radius: 0;
@@ -1367,7 +1368,7 @@ body.scheme_cyber {
 }
 .scheme_cyber #gameLog::-webkit-scrollbar-thumb {
 	border-radius: 0;
-	background: rgba(128, 128, 128, 0.1);
+	background: rgba(128, 128, 128, 0.15);
 }
 /* Only FireFox */
 .scheme_cyber #leftColumn,
@@ -1383,11 +1384,11 @@ body.scheme_cyber {
 .scheme_cyber #rightColumn,
 .scheme_cyber #midColumn,
 .scheme_cyber .dialog {
-	scrollbar-color: #080808 transparent !important;
+	scrollbar-color: rgba(128, 128, 128, 0.15) transparent !important;
 }
 .scheme_cyber textarea#importData,
 .scheme_cyber textarea#exportData {
-	scrollbar-color: #303030 transparent !important;
+	scrollbar-color: rgba(128, 128, 128, 0.3) transparent !important;
 }
 .scheme_cyber select {
    scrollbar-width: auto !important;
