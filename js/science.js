@@ -1630,7 +1630,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyCostRatio = this.game.getEffect("policyCostRatio");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * (1 + policyCostRatio),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;
