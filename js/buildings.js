@@ -1839,12 +1839,12 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		priceRatio: 1.15,
 		zebraRequired: 50,
 		effects: {
-			"bloodstoneCraftRatio" : 0.02,
-			"tMythrilCraftRatio" : 0.005,
-			"ivoryPerTickCon": -4,
-			"titaniumPerTickCon": -2,
-			"alicornPerTickCon": -0.01,
-			"tMythrilPerTick": 0.00005
+			"bloodstoneCraftRatio" : 0,
+			"tMythrilCraftRatio" : 0,
+			"ivoryPerTickCon": 0,
+			"titaniumPerTickCon": 0,
+			"alicornPerTickCon": 0,
+			"tMythrilPerTick": 0
 		},
 		lackResConvert: false,
 		togglable: true,
@@ -1854,7 +1854,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				"tMythrilCraftRatio" : 0.01,
 				"ivoryPerTickCon": -4,
 				"titaniumPerTickCon": -2,
-				"alicornPerTickCon": -0.01,
+				"alicornPerTickCon": -0.00002,
 				"tMythrilPerTick": 0.00005
 			}
 			var amt = game.resPool.getAmtDependsOnStock(
