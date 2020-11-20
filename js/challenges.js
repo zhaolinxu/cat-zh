@@ -133,29 +133,30 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				self.effects["manpowerMaxChallenge"] = 0;
 			}
 		},
-        researched: false,
+		researched: false,
+		reserveDelay: true,
         unlocked: false
 	},{
 		name: "1000Years",
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
-                effects: {
-						"shatterCostReduction": -0.02,
-						"shatterCostIncreaseChallenge": 0,
-						"shatterVoidCost": 0
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["shatterCostReduction"] = 0;
-                                self.effects["shatterCostIncreaseChallenge"] = 0.5;
-                                self.effects["shatterVoidCost"] = 0.4;
-                        }else{
-							self.effects["shatterCostReduction"] = -0.02;
-							self.effects["shatterCostIncreaseChallenge"] = 0;
-							self.effects["shatterVoidCost"] = 0;
-						}
-                },
+        effects: {
+			"shatterCostReduction": -0.02,
+			"shatterCostIncreaseChallenge": 0,
+			"shatterVoidCost": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+        	    self.effects["shatterCostReduction"] = 0;
+                self.effects["shatterCostIncreaseChallenge"] = 0.5;
+                self.effects["shatterVoidCost"] = 0.4;
+             }else{
+				self.effects["shatterCostReduction"] = -0.02;
+				self.effects["shatterCostIncreaseChallenge"] = 0;
+				self.effects["shatterVoidCost"] = 0;
+			}
+		},
 		researched: false,
 		unlocked: false
 	},{
@@ -176,7 +177,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
         },
 		checkCompletionCondition: function(game){
-			return game.space.getBuilding("spaceBeacon").val > game.challenges.getChallenge("blackSky").on;
+			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
 	}],
 
@@ -291,7 +292,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive()&&!this.game.ironWill){
+			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
@@ -343,7 +344,10 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	calculateReserveResources: function(){
 		var saveRatio = this.game.bld.get("chronosphere").val > 0 ? this.game.getEffect("resStasisRatio") : 0;
-		var reserveResources = {};
+		if(!saveRatio){
+			return;
+		}
+		var reserveResources = this.game.challenges.reserves.reserveResources;
 		for (var i in this.game.resPool.resources) {
 			var res = this.game.resPool.resources[i];
 			var fluxCondensator = this.game.workshop.get("fluxCondensator");
@@ -365,7 +369,7 @@ dojo.declare("classes.reserveMan", null,{
 			}
 
 			if (value > 0) {
-				reserveResources[res.name] = Math.max(this.game.challenges.reserves.reserveResources[res.name]||0, value);
+				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
 			}
 		}
 		this.game.challenges.reserves.reserveResources = reserveResources;
@@ -381,6 +385,7 @@ dojo.declare("classes.reserveMan", null,{
 			for (var i in reserveKittens) {
 				delete reserveKittens[i].job;
 				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+				delete reserveKittens[i].engineerSpeciality;
 			}
 		}
 		this.game.challenges.reserves.reserveKittens = 
@@ -398,7 +403,7 @@ dojo.declare("classes.reserveMan", null,{
 			}else{
 				this.game.resPool.get(i).value = Math.max(this.game.resPool.get(i).value, this.reserveResources[i]);
 			}
-			this.reserveResources[i] = 0;
+			delete this.reserveResources[i];
 		}
 
 		for(var i in this.reserveKittens){
@@ -422,13 +427,7 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		var hasReserveResources = false;
-		for(var i in this.reserveResources){
-			if(this.reserveResources[i]){
-				hasReserveResources = true;
-			}
-		}
-		return (hasReserveResources||this.reserveKittens.length);
+		return (Object.keys(this.reserveResources).length||this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
