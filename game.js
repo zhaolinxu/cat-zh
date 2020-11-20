@@ -2023,8 +2023,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			success = false;
 		}
 
-		// Calculate effects (needs to be done after all managers are loaded)
-		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -2056,6 +2054,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.updateOptionsUI();
 		}
+		// Calculate effects (needs to be done after all managers and save data are loaded)
+		this.calculateAllEffects();
 		//------------------------------------
 
 		this.villageTab.visible = (this.bld.get("hut").on > 0
@@ -3193,7 +3193,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
-		this.science.update();
+		//this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -4028,6 +4028,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			newKittens = this.village.sim.kittens.slice(-cryochambers);
 			for (var i in newKittens) {
 				delete newKittens[i].job;
+				delete newKittens[i].engineerSpeciality;
 			}
 		}
 
