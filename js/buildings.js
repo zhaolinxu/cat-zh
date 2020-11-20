@@ -2020,7 +2020,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+					bld.lackResConvert = amt != 1 && bld.on != 0;
 				}
 			}
 

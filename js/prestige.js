@@ -548,11 +548,7 @@ dojo.declare("classes.ui.PrestigeBtnController", com.nuclearunicorn.game.ui.Buil
 
 	updateVisible: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
-			model.visible = false;
-		} else{
-			model.visible = true;
-		}
+		model.visible = meta.unlocked && (meta.researched || this.game.science.get("metaphysics").researched);
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;

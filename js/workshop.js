@@ -2553,11 +2553,7 @@ dojo.declare("com.nuclearunicorn.game.ui.UpgradeButtonController", com.nuclearun
 
 	updateVisible: function(model){
 		var upgrade = model.metadata;
-		if (!upgrade.unlocked){
-			model.visible = false;
-		}else{
-			model.visible = true;
-		}
+		model.visible = upgrade.unlocked;
 
 		if (upgrade.researched && this.game.workshop.hideResearched){
 			model.visible = false;
