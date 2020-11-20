@@ -166,8 +166,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				} else if (effectName.indexOf("Max", effectName.length - 3) != -1 ||
 					(bld.name == "biolab" && effectName.indexOf("Ratio", effectName.length - 5) != -1)){
 					effect = effectValue * bld.val;
-				}
-				else {
+				} else {
 					effect = effectValue * bld.on;
 				}
 
