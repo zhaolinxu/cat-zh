@@ -217,7 +217,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 			var tradepost =game.bld.getBuildingExt("tradepost").meta;
 			var tradeKnowledge = game.getEffect("tradeKnowledge");
-			return (tradepost.effects["tradeRatio"]*Math.min(9 + tradeKnowledge, tradepost.val * (game.getLimitedDR(0.1 + tradeKnowledge * 0.001, 0.25))));
+			return (tradepost.effects["tradeRatio"]*Math.min(9 + tradeKnowledge, tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.001, 0.25))));
 		}
 	}],
 
