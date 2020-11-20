@@ -179,6 +179,46 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		checkCompletionCondition: function(game){
 			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
+	},{
+		name: "pacifism",
+		label: $I("challendge.pacifism.label"),
+		description: $I("challendge.pacifism.desc"),
+		effectDesc: $I("challendge.pacifism.effect.desc"),
+        effects: {
+			"alicornPerTickRatio": 0.1,
+			"tradeKnowledge": 1,
+			"weaponEfficency": 0,
+			"policyCostRatio": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["alicornPerTickRatio"] = 0;
+                self.effects["tradeKnowledge"] = 0;
+				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
+                self.effects["policyCostRatio"] = 0.02;
+            }else{
+				self.effects["alicornPerTickRatio"] = 0.1;
+				self.effects["tradeKnowledge"] = 1;
+                self.effects["weaponEfficency"] = 0;
+                self.effects["policyCostRatio"] = 0;
+			}
+			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
+		},
+		upgrades: {
+			upgrades: ["compositeBow", "crossbow", "railgun"]
+		},
+		researched: false,
+		reserveDelay: true,
+		unlocked: false,
+		getTradeBonusEffect: function(game){
+			var self = game.challenges.getChallenge("pacifism");
+			if(!self.val){
+				return 0;
+			}
+			var tradepost =game.bld.getBuildingExt("tradepost").meta;
+			var tradeKnowledge = game.getEffect("tradeKnowledge");
+			return (tradepost.effects["tradeRatio"]*Math.min(9 + tradeKnowledge, tradepost.val * (game.getLimitedDR(0.1 + tradeKnowledge * 0.001, 0.25))));
+		}
 	}],
 
 	game: null,
