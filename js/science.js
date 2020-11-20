@@ -1507,11 +1507,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	resetState: function(){
 		for (var i = 0; i < this.techs.length; i++){
 			var tech = this.techs[i];
-			if (tech.name == "calendar") {
-				tech.unlocked = true;
-			} else {
-				tech.unlocked = false;
-			}
+			tech.unlocked = tech.name == "calendar";
 			tech.researched = false;
 		}
 		for (var i = 0; i < this.policies.length; i++){
@@ -1794,11 +1790,7 @@ dojo.declare("com.nuclearunicorn.game.ui.TechButtonController", com.nuclearunico
 
 	updateVisible: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked){
-			model.visible = false;
-		}else{
-			model.visible = true;
-		}
+		model.visible = meta.unlocked;
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;
