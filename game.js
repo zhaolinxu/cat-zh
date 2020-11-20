@@ -3795,8 +3795,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (game.calendar.day < 0) {
 				game.achievements.unlockHat("fezHat");
 			}
-			for (var i = 0; i < this.challenges.challenges.length; i++){
-				this.challenges.challenges[i].pending = false;
+			for (var i = 0; i < game.challenges.challenges.length; i++){
+				game.challenges.challenges[i].pending = false;
 			}
 			game.resetAutomatic();
 		});
