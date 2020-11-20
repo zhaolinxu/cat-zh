@@ -141,22 +141,22 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		label: $I("challendge.1000Years.label"),
 		description: $I("challendge.1000Years.desc"),
 		effectDesc: $I("challendge.1000Years.effect.desc"),
-                effects: {
-						"shatterCostReduction": -0.02,
-						"shatterCostIncreaseChallenge": 0,
-						"shatterVoidCost": 0
-                },
-                calculateEffects: function(self, game){
-                        if (self.active) {
-                                self.effects["shatterCostReduction"] = 0;
-                                self.effects["shatterCostIncreaseChallenge"] = 0.5;
-                                self.effects["shatterVoidCost"] = 0.4;
-                        }else{
-							self.effects["shatterCostReduction"] = -0.02;
-							self.effects["shatterCostIncreaseChallenge"] = 0;
-							self.effects["shatterVoidCost"] = 0;
-						}
-                },
+        effects: {
+			"shatterCostReduction": -0.02,
+			"shatterCostIncreaseChallenge": 0,
+			"shatterVoidCost": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+        	    self.effects["shatterCostReduction"] = 0;
+                self.effects["shatterCostIncreaseChallenge"] = 0.5;
+                self.effects["shatterVoidCost"] = 0.4;
+             }else{
+				self.effects["shatterCostReduction"] = -0.02;
+				self.effects["shatterCostIncreaseChallenge"] = 0;
+				self.effects["shatterVoidCost"] = 0;
+			}
+		},
 		researched: false,
 		unlocked: false
 	},{
@@ -385,6 +385,7 @@ dojo.declare("classes.reserveMan", null,{
 			for (var i in reserveKittens) {
 				delete reserveKittens[i].job;
 				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+				delete reserveKittens[i].engineerSpeciality;
 			}
 		}
 		this.game.challenges.reserves.reserveKittens = 

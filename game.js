@@ -119,7 +119,12 @@ dojo.declare("classes.game.Telemetry", [mixin.IDataStorageAware], {
 });
 
 
-//TODO: to be replaced with actual server call
+/**
+ * Server is a mediator between client and KGNet
+ * It supports fetching data about saves, syncing using info, etc
+ * 
+ * Please see toolbar.jsx.js#WLogin widget for rendering part
+ */
 
 dojo.declare("classes.game.Server", null, {
 
@@ -134,9 +139,38 @@ dojo.declare("classes.game.Server", null, {
 	motdContentPrevious: null,
 	motdFreshMessage: false,
 
+	//chiral stuff
+
+	/**
+	 * KGNet user profile
+	 * Represents an active session, if not null, all XHR calls will be made
+	 * using session cookies
+	 */
+	userProfile: null,
+
+	/**
+	 * Current client snapshot of the save data
+	 * All operations with the cloud saves should return the save snapshot?
+	 */
+	saveData: null,
+
 	constructor: function(game){
 		this.game = game;
 	},
+
+	setUserProfile: function(userProfile){
+		this.userProfile = userProfile;
+	},
+
+    getServerUrl: function(){
+		var host = window.location.hostname;
+		var isLocalhost = window.location.protocol == "file:" || host == "localhost" || host == "127.0.0.1";
+        if (isLocalhost){
+            //if you are running chilar locally you should know what you are doing
+            return "http://localhost:7780";
+        }
+        return "";
+    },
 
 	refresh: function(){
 		var self = this;
@@ -160,14 +194,84 @@ dojo.declare("classes.game.Server", null, {
 			console.log("Unable to parse server.json configuration:", err);
 		});
 
-		$.ajax({
-			cache: false,
-			url: "/user/",
-			dataType: "json"
-		}).done(function(){
-			
-		});
+		//-- fetch UID from KGNet if HTTP session is established ---
+		if (!this.userProfile){
+			this.syncUserProfile();
+		}
+		
+	},
 
+	/**
+	 * Make an XHR request to KGNet server
+	 * 
+	 * @param {A s} url - relative endpoint URL
+	 * @param {*} method - "GET" or "POST"
+	 * @param {*} data - post data
+	 * @param {*} handler - onDone callback handler
+	 */
+	_xhr: function(url, method, data, handler){
+		$.ajax({
+            cache: false,
+            type: method || "GET",
+            dataType: "JSON",
+			url: this.getServerUrl() + url,
+			xhrFields: {
+				withCredentials: true
+			},
+			data: data
+		}).done(function(resp){
+			handler(resp);
+		});
+	},
+
+	/**
+	 * Fetch user profile from the chiral server, 
+	 * User must be logged in and session cookie should be set beforehead
+	 */
+	syncUserProfile: function(){
+		var self = this;
+
+		//TODO: use some XHR snippet, this is getting too verbose
+		this._xhr("/user/", "GET", {}, function(resp){
+            if (resp && resp.id){
+                self.setUserProfile(resp);
+            }
+		});
+	},
+
+	syncSaveData: function(){
+		var self = this;
+		this._xhr("/kgnet/save/", "GET", {}, function(resp){
+			self.saveData = resp;
+		});
+	},
+
+	pushSave: function(){
+		var self = this;
+		var saveData = this.game.save();
+		this._xhr("/kgnet/save/upload/", "POST", 
+		{
+			//pre-parsing guid to avoid checking it on the backend side
+			guid: this.game.telemetry.guid,
+			saveData: this.game.compressLZData(JSON.stringify(saveData), true)
+		}, 
+		function(resp){
+			console.log("save successful?");
+			self.saveData = resp;
+		});
+	},
+
+	loadSave: function(guid){
+		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
+			if (!resp.data){
+				console.error("unable to load game data", resp);
+			}
+			var data = resp.data;
+			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
+			console.log("load successful?");
+
+			this.game.load();
+		});
 	},
 
 	save: function(saveData) {
@@ -1419,6 +1523,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			IWSmelter: true,
 			disableCMBR: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1712,6 +1817,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			disableCMBR: false,
 			disableTelemetry: false,
 			enableRedshift: false,
+			enableRedshiftGflops: false,
 			batchSize: 10,
 			// Used only in KG Mobile, hence it's absence in the rest of the code
 			useLegacyTwoInRowLayout: false,
@@ -1926,8 +2032,6 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			success = false;
 		}
 
-		// Calculate effects (needs to be done after all managers are loaded)
-		this.calculateAllEffects();
 
 		if (saveData && saveData.game){
 			var data = saveData.game;
@@ -1959,6 +2063,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 			this.updateOptionsUI();
 		}
+		// Calculate effects (needs to be done after all managers and save data are loaded)
+		this.calculateAllEffects();
 		//------------------------------------
 
 		this.villageTab.visible = (this.bld.get("hut").on > 0
@@ -3102,7 +3208,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		this.resPool.update();
 
 		this.bld.update();
-		this.science.update();
+		//this.science.update();
 
 		//business logic goes there
 		//maybe it will be a good idea to move it elsewhere?
@@ -3940,6 +4046,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			newKittens = this.village.sim.kittens.slice(-cryochambers);
 			for (var i in newKittens) {
 				delete newKittens[i].job;
+				delete newKittens[i].engineerSpeciality;
 			}
 		}
 

@@ -20,20 +20,19 @@
 		<script src="lib/dojo.xd.js"></script>
 		<script src="lib/lz-string.js"></script>
 		<script src="lib/dropbox_v2.js"></script>
+		<script src="lib/md5.js"></script>
 
 		<!-- friends don't let friends use AMD and require.js -->
 		<script src="lib/system.js"></script>
 
-        <!-- <script type="text/javascript" src="http://www.kongregate.com/javascripts/kongregate_api.js"></script> -->
-
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0QBDX221PR"></script>
 		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
 
-			ga('create', 'UA-29812134-1', 'bloodrizer.ru');
-			ga('send', 'pageview');
+			gtag('config', 'G-0QBDX221PR');
 		</script>
 
 		<script type="text/javascript">
@@ -71,7 +70,7 @@
 
 		<script type="text/javascript">
 
-			var version = "1482";
+			var version = "1483";
 
 			var loadingProgress = 0,
 				progressMax = 0;
@@ -310,7 +309,7 @@
 
 			<div id="topBar">
 				<div style="padding-left: 10px;">
-					Kittens Game <span style="font-size: small;">by <a href="http://bloodrizer.ru/" class="copyright" target="_blank">bloodrizer</a></span>
+					Kittens Game <span style="font-size: small;">by <a href="http://kittensgame.com/" class="copyright" target="_blank">bloodrizer</a></span>
 					<!--- a Dark Souls of incremental gaming -->
 
 					<span style="font-size: small;">
@@ -595,6 +594,9 @@
 					<br>
 					<input id="enableRedshift" type="checkbox" onclick="gamePage.opts.enableRedshift = $('#enableRedshift')[0].checked;">
 					<label id="optionEnableRedshift" for="enableRedshift">Enable offline progression</label>
+					<br>
+					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
+					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">Enable offline gflops production</label>
 					<br>
 					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>

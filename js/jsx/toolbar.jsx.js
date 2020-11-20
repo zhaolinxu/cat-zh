@@ -163,8 +163,8 @@ WToolbarEnergy = React.createClass({
         var delta = this.game.resPool.getEnergyDelta();
 		var penalty = energy >= 0 ? "" : "<br><br>" + $I("navbar.energy.penalty") + "<span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
-		return $I("navbar.energy.prod") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
-			   "<br>" + $I("navbar.energy.cons") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
+		return $I("navbar.energy.prod.short") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
+			   "<br>" + $I("navbar.energy.cons.short") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
     }
 });
 
@@ -230,6 +230,253 @@ WToolbarFPS = React.createClass({
     }
 });
 
+WBLS = React.createClass({
+    render: function(){
+        var game = this.props.game;
+
+        var sorrowRes = game.resPool.get("sorrow"),
+            sorrow = sorrowRes.value;
+            
+        if (!sorrow){
+            return null;
+        }
+		var isMax = (sorrowRes.value == sorrowRes.maxValue);
+		//$("#sorrowTooltip").addClass(isMax ? "max" : "");
+
+        return $r(WToolbarIconContainer, { 
+            game: game, 
+            getTooltip: this.getTooltip
+        },  
+            $r("div", {
+                className: isMax ? "max" : ""
+            }, 
+                $I("resources.sorrow.short") + ": " + sorrow.toFixed() + "%"
+            )
+        );
+    },
+
+    getTooltip: function(){
+        return $I("resources.sorrow.full");
+    }
+});
+
+WLoginForm = React.createClass({
+    getInitialState: function(){
+        return {
+            login: null,
+            password: null,
+            isLoading: false
+        }
+    },
+
+    render: function(){
+        if (this.state.isLoading){
+            return $r("span", "Loading...");
+        }
+        var game = this.props.game;
+        if (game.server.userProfile){
+            var userProfile = game.server.userProfile;
+            return $r("div", {className: "userProfile"},[
+                $r("img", {src: "https://www.gravatar.com/avatar/" + 
+                    (userProfile.email ? md5(userProfile.email) : "n/a") 
+                + "?s=15"}),
+                $r("a", {
+                    href:"/ui/profile", target:"_blank"
+                }, userProfile.id)
+            ]);
+            
+        }
+        return $r(
+            "span",
+            {onClick: function (e){ e.stopPropagation(); }},
+            [
+                $r("div", {className: "row"}, [
+                    "Email:", 
+                        $r("input", {
+                            type: "email", 
+                            onChange: this.setLogin,
+                            value: this.state.login
+                        } ),
+                    "Password:", 
+                        $r("input", {
+                            type: "password",
+                            onChange: this.setPassword,
+                            value: this.state.password
+                        })
+                ]),
+                $r("div", {className: "row"}, [
+                    $r("a", { 
+                        href:"#", 
+                        onClick: this.login
+                    }, "login"),
+                    $r("a", {
+                        target: "_blank", 
+                        href: "http://kittensgame.com/ui/register"
+                    }, "register")
+                ])
+            ]
+        )
+    },
+
+    //block keyboard hooks from changing UI when we type login/password
+    setLogin(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({login: e.target.value});
+    },
+
+
+    setPassword(e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+
+        this.setState({password: e.target.value});
+    },
+
+    login: function(){
+        var self = this;
+
+        this.setState({isLoading: true});
+        $.ajax({
+            cache: false,
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                email: this.state.login,
+                password: this.state.password
+            },
+			xhrFields: {
+				withCredentials: true
+			},
+			url: this.props.game.server.getServerUrl() + "/user/login/",
+			dataType: "json"
+		}).done(function(resp){
+            if (resp.id){
+                self.props.game.server.setUserProfile(resp);
+            }
+		}).always(function(){
+            self.setState({isLoading: false});
+        });
+    }
+});
+
+WCloudSaves = React.createClass({
+
+    bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+
+    render: function(){
+        var self = this;
+
+        var game = this.props.game;
+        if (!game.server.userProfile){
+            return null;
+        }
+
+        var saveData = game.server.saveData;
+        var hasActiveSaves = false;
+        if (saveData && saveData.length){
+            for (var i in saveData){
+                if (saveData[i].guid == game.telemetry.guid){
+                    hasActiveSaves = true;
+                }
+            }
+        }
+
+        /**
+         * TODO: use local state when appropriate (dataset, animation, etc) 
+         * and override it with game's server real data on update cycle
+         * 
+         * This way we don't have to handle complex state management on the game.server side
+         */
+        return $r("div", null, [
+
+            $r("div", null, saveData && saveData.map(function(save){
+                var isActiveSave = (save.guid == game.telemetry.guid);
+                return $r("div", {className:"save-record"}, [
+                    $r("span", null, isActiveSave ? "[current]" : ""),
+                    $r("span", null, save.guid),
+                    $r("span", null, 
+                        new Date(save.timestamp).toLocaleDateString("en-US", {
+                            month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
+                        })
+                    ),
+                    $r("span", null, self.bytesToSize(save.size)),
+                    isActiveSave && $r("a", {
+                        title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.pushSave();
+                        }}, "Save"),
+                    $r("a", {
+                        title: "Download a cloud save and apply it to your game (your current data will be lost)",
+                            onClick: function(e){
+                            e.stopPropagation();
+                            game.server.loadSave(save.guid);
+                        }}, "Load"),
+                ])
+            })),
+            (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
+                $r("a", {onClick: function(e){
+                    e.stopPropagation();
+                    game.server.pushSave();
+                }}, "Create new save (" + game.telemetry.guid + ")")
+            ]),
+            $r("a", {
+                className: "link",
+                title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
+                onClick: function(e){
+                    e.stopPropagation();
+                    game.server.syncSaveData();
+                }
+            }, "Sync cloud saves")
+        ])
+    }
+});
+
+WLogin = React.createClass({
+    getInitialState: function(){
+        return {
+            isExpanded: false
+        }
+    },
+
+    render: function(){
+        var game = this.props.game;
+
+        return $r(WToolbarIconContainer, { 
+            game: game, 
+        }, 
+            $r("div", 
+                {
+                    onClick: this.toggleExpanded
+                },
+                [
+                    $r("span", {
+                        className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
+                    }, "* " + (game.server.userProfile ? "Online" : "Offline")),
+                    this.state.isExpanded && $r("div", {
+                        className: "login-popup"
+                    }, 
+                        $r(WLoginForm, {game: game}),
+                        $r(WCloudSaves, {game: game})
+                    )
+                ]
+            )
+        );
+    },
+    
+    toggleExpanded: function(){
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        })
+    }
+});
 
 WToolbar = React.createClass({
     getInitialState: function(){
@@ -249,7 +496,10 @@ WToolbar = React.createClass({
             $r(WToolbarFPS, {game: this.props.game}),
             $r(WToolbarMOTD, {game: this.props.game}),
             $r(WToolbarHappiness, {game: this.props.game}),
-            $r(WToolbarEnergy, {game: this.props.game})
+            $r(WToolbarEnergy, {game: this.props.game}),
+            $r(WBLS, {game: this.props.game}),
+            $r(WLogin, {game: this.props.game})
+
         );
         return icons;
     },
