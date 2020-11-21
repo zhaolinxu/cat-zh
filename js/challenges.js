@@ -384,7 +384,7 @@ dojo.declare("classes.reserveMan", null,{
 			reserveKittens = this.game.village.sim.kittens.slice(-cryochambers);
 			for (var i in reserveKittens) {
 				delete reserveKittens[i].job;
-				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+				delete reserveKittens[i].isLeader; //two leaders at the same time would break things probably
 				delete reserveKittens[i].engineerSpeciality;
 			}
 		}

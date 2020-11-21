@@ -220,6 +220,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			race.embassyLevel = 0;
 			race.unlocked = false;
 			race.collapsed = false;
+			race.pinned = false;
 			race.energy = 0;
 			race.duration = 0;
 		}

@@ -1690,6 +1690,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,

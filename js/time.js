@@ -612,7 +612,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan.innerHTML = $I("time.flux") + ": " + this.game.getDisplayValueExt(temporalFlux.value) + " / " + temporalFlux.maxValue;
 
         var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
-        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
             this.timeSpan.innerHTML += "<br>" + $I("time.heat") + ": ";
@@ -627,7 +627,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
             var heatPerSecond = this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
             var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
-            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
