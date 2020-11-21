@@ -2113,6 +2113,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				crafts: ["tMythril"]
 			}
 		},{
+			name: "blackBrew",
+			label: $I("workshop.zebraUpgrade.blackBrew.label"),
+			description: $I("workshop.zebraUpgrade.blackBrew.desc"),
+			effects: {
+			},
+			prices:[
+				{ name : "bloodstone", val: 30 },
+				{ name : "parchment", val: 30 },
+				{ name : "science", val: 200 }
+			]
+		},{
 			name: "whispers",
 			label: $I("workshop.zebraUpgrade.whispers.label"),
 			description: $I("workshop.zebraUpgrade.whispers.desc"),
@@ -2124,7 +2135,6 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			unlocks: {
 				crafts: ["tMythril"]
 			},
-				//flavor: $I("workshop.zebraUpgrade.darkRevolution.flavor")
 		},
 	],
 	effectsBase: {
