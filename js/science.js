@@ -1220,6 +1220,10 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "satelliteSynergyBonus" : 0.1
         },
         unlocked: false,
+		upgrades: {
+			spaceBuilding: ["sattelite"],
+			buildings: ["observatory"]
+		},
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
