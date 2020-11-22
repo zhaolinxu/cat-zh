@@ -345,7 +345,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         // 5 years + 1 year per energy unit
         elders.duration = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);
 		
-		if(elders.autoPinned){elders.pinned=true;}
+		if(elders.autoPinned){elders.pinned = true;}
 
         this.game.msg($I("trade.msg.elders"), "urgent");
     },
@@ -354,7 +354,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         var elders = this.get("leviathans");
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
-			elders.pinned=false;
+			elders.pinned = false;
 			this.game.msg($I("trade.msg.elders.departed"), "notice");
 
 			this.game.render();
@@ -992,7 +992,7 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 		this.pinLinkHref = this.addLink({
 			title: "&#9733;",
 			handler: function() {
-				if (this.race.name!="leviathans"){
+				if (this.race.name != "leviathans"){
 					return;
 				}
 				this.race.pinned = !this.race.pinned;
