@@ -350,6 +350,9 @@ dojo.declare("classes.reserveMan", null,{
 		var reserveResources = this.game.challenges.reserves.reserveResources;
 		for (var i in this.game.resPool.resources) {
 			var res = this.game.resPool.resources[i];
+			if(res.name == "timeCrystal"){
+				continue;
+			}
 			var fluxCondensator = this.game.workshop.get("fluxCondensator");
 			if (res.persists === false
 			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
@@ -397,6 +400,9 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	addReserves: function(){
 		for (var i in this.reserveResources){
+			if(i == "timeCrystal"){
+				continue;
+			}
 			var resCap = this.game.resPool.get(i).maxValue;
 			if(!resCap){
 				this.game.resPool.get(i).value += this.reserveResources[i];
