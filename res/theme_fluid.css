@@ -259,17 +259,17 @@ body.scheme_fluid,
 .scheme_fluid #getTheApp-link:hover {
 	color: #C0C0C0 !important;	
 }
-.scheme_fluid .toolbarIcon.happiness {
+.scheme_fluid #topBar .toolbarIcon.happiness div {
     color: #C2A211;
 }
-.scheme_fluid .toolbarIcon.energy,
+.scheme_fluid #topBar .toolbarIcon.energy div,
 .scheme_fluid .button_tooltip .energyProduction {
     color: #7cb342;
 }
-.scheme_fluid .toolbarIcon.energy.warningWinter {
+.scheme_fluid #topBar .toolbarIcon.energy.warningWinter div {
     color: #C2A211;
 }
-.scheme_fluid .toolbarIcon.energy.warning,
+.scheme_fluid #topBar .toolbarIcon.energy.warning div,
 .scheme_fluid .button_tooltip .energyConsumption {
 	color: #C24911;
 }

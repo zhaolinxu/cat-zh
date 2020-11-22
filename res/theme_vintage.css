@@ -1,8 +1,8 @@
 /* ******************************************************** */
-/* ***			Vintage 1.0.2 Theme © Volkeyrn          *** */
+/* ***			Vintage 1.0.3 Theme © Volkeyrn          *** */
 /* ******************************************************** */
 
-@import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,500,600,700,400italic,500italic,600italic,700italic&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic,&display=swap);
 
 /* ******************************************** */
@@ -202,8 +202,6 @@ body.scheme_vintage {
 	border-radius: 9999em;
     background-color: #cd564f;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
-	-webkit-transition: left 0.25s ease;
-	transition: left 0.25s ease;
 	background-image: url('img/theme_vintage_switch_off.png'); /* source of images for graphic design : Volkeyrn */
 	background-repeat: no-repeat;
 	background-attachment: local;
@@ -311,17 +309,17 @@ body.scheme_vintage {
 .scheme_vintage .links-block {
 	padding-top: 5px !important;
 }
-.scheme_vintage .toolbarIcon.happiness {
+.scheme_vintage #topBar .toolbarIcon.happiness div{
     color: #c66829;
 }
-.scheme_vintage .toolbarIcon.energy,
+.scheme_vintage #topBar .toolbarIcon.energy div,
 .scheme_vintage .button_tooltip .energyProduction {
     color: #709c85;
 }
-.scheme_vintage .toolbarIcon.energy.warningWinter {
+.scheme_vintage #topBar .toolbarIcon.energy.warningWinter div{
     color: #c66829;
 }
-.scheme_vintage .toolbarIcon.energy.warning,
+.scheme_vintage #topBar .toolbarIcon.energy.warning div,
 .scheme_vintage .button_tooltip .energyConsumption {
 	color: #cd564f;
 }

@@ -253,17 +253,17 @@ body.scheme_school.with_background_image,
 .scheme_school #getTheApp-link:hover {
 	color: #B5BAC4 !important;
 }
-.scheme_school .toolbarIcon.happiness {
+.scheme_school #topBar .toolbarIcon.happiness div {
     color: #A56B5B;
 }
-.scheme_school .toolbarIcon.energy,
+.scheme_school #topBar .toolbarIcon.energy div,
 .scheme_school .button_tooltip .energyProduction {
     color: #3B7233;
 }
-.scheme_school .toolbarIcon.energy.warningWinter {
+.scheme_school #topBar .toolbarIcon.energy.warningWinter div{
     color: #A56B5B;
 }
-.scheme_school .toolbarIcon.energy.warning,
+.scheme_school #topBar .toolbarIcon.energy.warning div,
 .scheme_school .button_tooltip .energyConsumption {
 	color: #973B47;
 }

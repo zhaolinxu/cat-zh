@@ -318,7 +318,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     }, tab)
             );
 
-            if (i < visibleTabs.length-1){
+            if (i < visibleTabs.length - 1){
                 dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
             }
         }
@@ -406,7 +406,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
 						var effectSpan = dojo.create("span", {
@@ -448,7 +448,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
 						var effectSpan = dojo.create("span", {
@@ -738,7 +738,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         langSelector.val(selectedLang);
 
         var selectedNotation = game.opts.notation;
-        var notationSelect = $('#notationSelector');
+        var notationSelect = $("#notationSelector");
         notationSelect.empty();
         var notations = new classes.KGConfig().statics.notations;
         for (var i in notations) {
@@ -809,7 +809,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateFontSize();
     },
     updateFontSize: function(){
-        $("#leftColumn").css("font-size", this.fontSize+"px");
+        $("#leftColumn").css("font-size", this.fontSize + "px");
     },
 
     hideChat: function(){
@@ -935,7 +935,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
         $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
         $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
-        $("#exportToEext").text($I("ui.option.export.text"));
+        $("#exportToText").text($I("ui.option.export.text"));
         $("#closeButton").attr("value", $I("ui.option.close.button"));
         $("#importWarning").text($I("ui.option.import.warning"));
         $("#importFrom").text($I("ui.option.import.from"));
@@ -979,13 +979,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             return;
         }
 
-        var msg = messages[messages.length-1];
+        var msg = messages[messages.length - 1];
 
         if (!msg.span) {
             var span = dojo.create("span", {className: "msg" }, gameLog);
 
             if (msg.type) {
-                dojo.addClass(span, "type_"+msg.type);
+                dojo.addClass(span, "type_" + msg.type);
             }
             if (msg.noBullet) {
                 dojo.addClass(span, "noBullet");
@@ -1001,7 +1001,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.attr(msg.span, {innerHTML: msg.text});
         //Destroy child nodes if there are too many.
         var logLength = dojo.byId("gameLog").childNodes.length;
-        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId("gameLog").childNodes[logLength-1]);}
+        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId("gameLog").childNodes[logLength - 1]);}
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
@@ -1010,7 +1010,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeInterval = 1 / fadeCount;
 
         for (var i = fadeStart + 1; i < spans.length; i++) {
-            dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
+            dojo.style(spans[i], "opacity", (1 - (i - fadeStart) * fadeInterval));
         }
     },
 
@@ -1039,7 +1039,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     //TODO: add dialog and close/bind events
     showDialog: function(id){
-        var container = $("#"+id);
+        var container = $("#" + id);
         container.show();
 
         $(".close", container).click(function(){

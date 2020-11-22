@@ -267,17 +267,17 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist .links-block {
 	padding-top: 0 !important;
 }
-.scheme_minimalist .toolbarIcon.happiness {
+.scheme_minimalist #topBar .toolbarIcon.happiness div {
     color: #DD836C;
 }
-.scheme_minimalist .toolbarIcon.energy,
+.scheme_minimalist #topBar .toolbarIcon.energy div,
 .scheme_minimalist .button_tooltip .energyProduction {
     color: #90b23e;
 }
-.scheme_minimalist .toolbarIcon.energy.warningWinter {
+.scheme_minimalist #topBar .toolbarIcon.energy.warningWinter div {
     color: #DD836C;
 }
-.scheme_minimalist .toolbarIcon.energy.warning,
+.scheme_minimalist #topBar .toolbarIcon.energy.warning div,
 .scheme_minimalist .button_tooltip .energyConsumption,
 .scheme_minimalist .button_tooltip .energyPenalty {
 	color: #be4151;

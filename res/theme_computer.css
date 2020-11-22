@@ -276,17 +276,17 @@ body.scheme_computer {
 .scheme_computer .links-block {
 	padding-top: 5px !important;
 }
-.scheme_computer .toolbarIcon.happiness {
+.scheme_computer #topBar .toolbarIcon.happiness div {
     color: #f0a258;
 }
-.scheme_computer .toolbarIcon.energy,
+.scheme_computer #topBar .toolbarIcon.energy div ,
 .scheme_computer .button_tooltip .energyProduction {
 	color: #58f063;
 }
-.scheme_computer .toolbarIcon.energy.warningWinter {
+.scheme_computer #topBar .toolbarIcon.energy.warningWinter div {
     color: #f0a258;
 }
-.scheme_computer .toolbarIcon.energy.warning,
+.scheme_computer #topBar .toolbarIcon.energy.warning div,
 .scheme_computer .button_tooltip .energyConsumption {
 	color: #f05858;
 }
