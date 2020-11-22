@@ -2108,20 +2108,17 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 			prices:[
 				{ name : "bloodstone", val: 15 },
 				{ name : "science", val: 100 }
-			],
-			unlocks: {
-				crafts: ["tMythril"]
-			}
+			]
 		},{
-			name: "blackBrew",
-			label: $I("workshop.zebraUpgrade.blackBrew.label"),
-			description: $I("workshop.zebraUpgrade.blackBrew.desc"),
+			name: "darkBrew",
+			label: $I("workshop.zebraUpgrade.darkBrew.label"),
+			description: $I("workshop.zebraUpgrade.darkBrew.desc"),
 			effects: {
 			},
 			prices:[
-				{ name : "bloodstone", val: 30 },
-				{ name : "parchment", val: 30 },
-				{ name : "science", val: 200 }
+				{ name : "bloodstone", val: 1 },
+				{ name : "parchment", val: 3000 },
+				{ name : "science", val: 100 }
 			]
 		},{
 			name: "whispers",

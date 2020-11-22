@@ -537,7 +537,9 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 				this.game.resPool.addResEvent("zebras", 1);
 				this.game.msg($I("calendar.msg.zebra.hunter"));
 			} else if ( zebras.value > 0 && zebras.value <= this.game.karmaZebras && this.game.karmaZebras > 0){
-				if (this.game.rand(100000) <= 500){
+				var chanceModifier = (this.game.workshop.getZebraUpgrade("darkBrew").researched && this.festivalDays)?
+				2 + this.game.getEffect("festivalArrivalRatio") : 1; //bigger chance for zebras to arive after darkBrew is researched
+				if (this.game.rand(100000) <= 500 * chanceModifier){
 					this.game.resPool.addResEvent("zebras", 1);
 					this.game.msg($I("calendar.msg.zebra.hunter.new"));
 					this.game.ui.render();

@@ -1495,6 +1495,9 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			return amt;
 		},
 		flavor: $I("buildings.brewery.flavor"),
+		unlocks:{
+			zebraUpgrades: ["darkBrew"]
+		},
 		unlockScheme: {
 			name: "chocolate",
 			threshold: 10
