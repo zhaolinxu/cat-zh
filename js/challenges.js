@@ -401,7 +401,7 @@ dojo.declare("classes.reserveMan", null,{
 	addReserves: function(){
 		for (var i in this.reserveResources){
 			if(i == "timeCrystal"){
-				continue;
+				delete this.reserveResources[i];
 			}
 			var resCap = this.game.resPool.get(i).maxValue;
 			if(!resCap){
