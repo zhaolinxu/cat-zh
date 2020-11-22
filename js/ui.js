@@ -935,7 +935,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
         $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
         $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
-        $("#exportToEext").text($I("ui.option.export.text"));
+        $("#exportToText").text($I("ui.option.export.text"));
         $("#closeButton").attr("value", $I("ui.option.close.button"));
         $("#importWarning").text($I("ui.option.import.warning"));
         $("#importFrom").text($I("ui.option.import.from"));

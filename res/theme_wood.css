@@ -332,17 +332,17 @@ body.scheme_wood.with_background_image {
 .scheme_wood .toolbarIcon {
 	text-shadow: 0 -2px 1px #000000;
 }
-.scheme_wood .toolbarIcon.happiness {
+.scheme_wood #topBar .toolbarIcon.happiness div {
     color: #c66829;
 }
-.scheme_wood .toolbarIcon.energy,
+.scheme_wood #topBar .toolbarIcon.energy div,
 .scheme_wood .button_tooltip .energyProduction {
     color: #9e9527;
 }
-.scheme_wood .toolbarIcon.energy.warningWinter {
+.scheme_wood #topBar .toolbarIcon.energy.warningWinter div {
     color: #c66829;
 }
-.scheme_wood .toolbarIcon.energy.warning,
+.scheme_wood #topBar .toolbarIcon.energy.warning div,
 .scheme_wood .button_tooltip .energyConsumption,
 .scheme_wood .button_tooltip .energyPenalty {
 	color: #a7372c;

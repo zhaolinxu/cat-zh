@@ -238,13 +238,13 @@ body.scheme_gold {
 .scheme_gold #topBar a.copyright:hover {
 	color: #DFCE99;
 }
+.scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
+	color: #404040;
+}
 .scheme_gold #topBar div {	
 	color: #E7AF4F;
 }
-.scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
-	color: #404040 !important;
-}
-.scheme_gold #topBar #headerLinks div, /* MOTD on top bar */
+.scheme_gold #topBar .toolbarIcon.null div, /* MOTD */
 .scheme_gold #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
 	color: #d9d9d9;
 }
@@ -266,17 +266,17 @@ body.scheme_gold {
 .scheme_gold #getTheApp-link:hover {
     color: #DFCE99 !important;
 }
-.scheme_gold .toolbarIcon.happiness {
+.scheme_gold #topBar .toolbarIcon.happiness div {
     color: #E7AF4F;
 }
-.scheme_gold .toolbarIcon.energy,
+.scheme_gold #topBar .toolbarIcon.energy div,
 .scheme_gold .button_tooltip .energyProduction {
     color: #7cb342;
 }
-.scheme_gold .toolbarIcon.energy.warningWinter {
+.scheme_gold #topBar .toolbarIcon.energy.warningWinter div {
     color: #E7AF4F;
 }
-.scheme_gold .toolbarIcon.energy.warning,
+.scheme_gold #topBar .toolbarIcon.energy.warning div,
 .scheme_gold .button_tooltip .energyConsumption,
 .scheme_gold .button_tooltip .energyPenalty {
 	color: #C83B00;
@@ -849,6 +849,9 @@ body.scheme_gold {
     margin-left: 1.2em;
 	list-style-type: '\276F'; /* HEAVY RIGHT-POINTING ANGLE QUOTATION MARK ORNAMENT */
     padding-left: 0.3em;
+}
+.scheme_gold #gameLog span.msg:not(.type_date)::marker {
+	font-size: 10px;
 }
 .scheme_gold #gameLog span.noBullet {
 	margin-left: 2em !important;

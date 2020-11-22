@@ -289,17 +289,17 @@ body.scheme_chocolate.with_background_image {
 .scheme_chocolate .links-block {
 	padding-top: 0 !important;
 }
-.scheme_chocolate .toolbarIcon.happiness {
+.scheme_chocolate #topBar .toolbarIcon.happiness div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy,
+.scheme_chocolate #topBar .toolbarIcon.energy div,
 .scheme_chocolate .button_tooltip .energyProduction {
     color: #80b929;
 }
-.scheme_chocolate .toolbarIcon.energy.warningWinter {
+.scheme_chocolate #topBar .toolbarIcon.energy.warningWinter div {
     color: #FF7A5B;
 }
-.scheme_chocolate .toolbarIcon.energy.warning {
+.scheme_chocolate #topBar .toolbarIcon.energy.warning div {
 	color: #930000;
 }
 .scheme_chocolate .button_tooltip .energyConsumption {
