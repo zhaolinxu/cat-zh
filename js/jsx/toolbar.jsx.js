@@ -400,7 +400,10 @@ WCloudSaves = React.createClass({
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
                     $r("span", null, isActiveSave ? "[current]" : ""),
-                    $r("span", null, save.guid),
+                    $r("span", null, save.index ? 
+                        ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
+                        "loading..."
+                    ),
                     $r("span", null, 
                         new Date(save.timestamp).toLocaleDateString("en-US", {
                             month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
