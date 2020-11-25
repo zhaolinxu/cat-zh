@@ -1149,6 +1149,7 @@
     "space.planet.helios.containmentChamber.desc": "Câmara de Contenção. Aumenta o espaço de armazenamento de antimatéria em 100.",
     "space.planet.helios.heatsink.label": "Dissipador de calor",
     "space.planet.helios.heatsink.desc": "Um sistema de dissipação de calor. Cada Dissipador aumenta o consumo de energia da Câmara de Contensão em 1% e capacidade de armazenamento de antimatéria em 2%",
+    "space.planet.helios.sunforge.label": "Forja Solar",
     "space.planet.helios.sunlifter.label": "Eleva-Sóis",
     "space.planet.helios.sunlifter.desc": "Gera antimatéria uma vez por ano. Inativa se a produção de energia é negativa",
     "space.planet.kairo.spaceBeacon.label": "Farol Espacial",
