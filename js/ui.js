@@ -1,5 +1,6 @@
 /* global
     WLeftPanel
+    WMidPanel
     WToolbar
 */
 /**
@@ -510,6 +511,10 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport"));
+
+        React.render($r(WMidPanel, {
+            game: this.game
+        }), document.getElementById("midColumnViewport"));
 
         React.render($r(WToolbar, {
             game: this.game

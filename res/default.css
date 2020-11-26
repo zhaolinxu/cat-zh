@@ -313,12 +313,6 @@ select>option {
     margin: 2px;
 }
 
-.button_tooltip {
-    background-color: #FFF;
-    color: black;
-    z-index: 9000;
-}
-
 .panelContainer {
     border: 1px solid black;
     min-height: 30px;
@@ -504,10 +498,14 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     border: 1px solid #B0B0B0;
 }
 
-.toggleCenter {
+#toggleCenter {
     opacity: 0.2;
-    cursor:pointer;
-    width:200px;
+    cursor: pointer;
+}
+
+#toggleCenter:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 
 table.craftTable tr:hover td {
@@ -966,6 +964,16 @@ progress[value]::-webkit-progress-value {
     display: inline-block;
     cursor: pointer;
     padding-left: 3px;
+}
+
+
+.button_tooltip {
+    /* TODO consider performance */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(2px);
+
+    color: black;
+    z-index: 9000;
 }
 
 .tooltip-content {
