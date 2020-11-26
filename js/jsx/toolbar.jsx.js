@@ -271,7 +271,7 @@ WLoginForm = React.createClass({
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", "Loading...");
+            return $r("span", null, "Loading...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
@@ -396,27 +396,43 @@ WCloudSaves = React.createClass({
          */
         return $r("div", null, [
 
-            $r("div", null, saveData && saveData.map(function(save){
+            $r("div", {className:"save-record-container"}, 
+            //header
+            saveData && $r("div", {className:"save-record header"}, [
+                $r("div", {className:"save-record-cell"}, "Id"),
+                $r("div", {className:"save-record-cell"}, "Save"),
+                $r("div", {className:"save-record-cell"}, "Last update"),
+                $r("div", {className:"save-record-cell"}, "Size"),
+                $r("div", {className:"save-record-cell"}, "Actions")
+            ]),
+            //body
+            //TODO: externalize save record as component?
+            saveData && saveData.map(function(save){
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
-                    $r("span", null, isActiveSave ? "[current]" : ""),
-                    $r("span", null, save.index ? 
+                    $r("div", {className:"save-record-cell"}, 
+                        isActiveSave ? "[current]" : ""
+                    ),
+                    $r("div", {className:"save-record-cell"}, 
+                        save.index ? 
                         ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
                         "loading..."
                     ),
-                    $r("span", null, 
+                    $r("div", {className:"save-record-cell"}, 
                         new Date(save.timestamp).toLocaleDateString("en-US", {
                             month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
                         })
                     ),
-                    $r("span", null, self.bytesToSize(save.size)),
+                    $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
                     isActiveSave && $r("a", {
+                        className: "link",
                         title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
                         onClick: function(e){
                             e.stopPropagation();
                             game.server.pushSave();
                         }}, "Save"),
                     $r("a", {
+                        className: "link",
                         title: "Download a cloud save and apply it to your game (your current data will be lost)",
                             onClick: function(e){
                             e.stopPropagation();

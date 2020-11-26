@@ -563,6 +563,11 @@ table.craftTable tr:hover td {
     z-index: 1;
 
     margin-left: -35px;
+    font-size: 15px;
+}
+
+.login-popup a.link {
+    text-decoration: underline;
 }
 
 .login-popup .row {
@@ -585,22 +590,34 @@ table.craftTable tr:hover td {
     margin-right: 5px;
 }
 
+.save-record-container {
+    display: table;
+}
+
+.save-record {
+    display: table-row;
+}
+
+.save-record.header {
+    display: table-row;
+    font-style: italic;
+    opacity: 0.25;
+    border-bottom: 1px solid lightgray;
+}
+
+.save-record-cell {
+    display: table-cell;
+    padding-right: 10px;
+}
+
 .userProfile .save-record {
     display: block;
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .save-record span, a {
     display: inline-block;
     padding-right: 5px;
-}
-
-.userProfile a.link {
-    text-decoration: underline;
-}
-
-.save-record a {
-    text-decoration: underline;
 }
 
 span.genericWarning,
