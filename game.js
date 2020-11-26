@@ -258,10 +258,12 @@ dojo.declare("classes.game.Server", null, {
 		function(resp){
 			console.log("save successful?");
 			self.saveData = resp;
+			self.game.msg($I("save.export.msg"));
 		});
 	},
 
 	loadSave: function(guid){
+		var self = this;
 		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
 			if (!resp.data){
 				console.error("unable to load game data", resp);
@@ -270,7 +272,8 @@ dojo.declare("classes.game.Server", null, {
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
 			console.log("load successful?");
 
-			this.game.load();
+			self.game.load();
+			self.game.msg($I("save.import.msg"));
 		});
 	},
 
