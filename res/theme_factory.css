@@ -389,7 +389,7 @@ body.scheme_factory {
 	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_factory #tooltip,
-.scheme_factory .tooltip-block div {
+.scheme_factory .tooltip-block > div {
 	/* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background: rgba(31, 30, 31, 0.9);
@@ -404,7 +404,7 @@ body.scheme_factory {
 				0 0 3px 1px rgba(0, 0 , 0, 0.5);
 	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_factory .tooltip-block div { /* tooltip on ? top right column */
+.scheme_factory .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_factory .button_tooltip {

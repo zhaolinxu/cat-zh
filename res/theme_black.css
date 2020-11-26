@@ -261,14 +261,14 @@ body.scheme_black {
 /* ******************* TOOLTIP ******************* */
 /* *********************************************** */
 .scheme_black #tooltip,
-.scheme_black .tooltip-block div {
+.scheme_black .tooltip-block > div {
 	background-color: #000000;
 	color: #808080; /* tooltip windows == left column : left text */
 	border: 1px solid #404040;
 	border-radius: 3px;
 	box-shadow: 0 0 5px 1px #000000;
 }
-.scheme_black .tooltip-block div { /* tooltip on ? top right column */
+.scheme_black .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_black .button_tooltip {

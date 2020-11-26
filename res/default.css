@@ -588,8 +588,15 @@ table.craftTable tr:hover td {
     margin-right: 5px;
 }
 
+.tooltip-block, .tooltip-block > div {
+    z-index: 9999;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 3px;
+}
+
 .save-record-container {
-    display: table;
+    display: table !important;
 }
 
 .save-record {
@@ -958,14 +965,6 @@ progress[value]::-webkit-progress-value {
 }
 
 /*======================================================================*/
-
-.tooltip-block, .tooltip-block div {
-    z-index: 9999;
-    display: inline-block;
-    cursor: pointer;
-    padding-left: 3px;
-}
-
 
 .button_tooltip {
     /* TODO consider performance */

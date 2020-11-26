@@ -291,7 +291,7 @@ body.scheme_anthracite.with_background_image,
 /* ******************* TOOLTIP ******************* */
 /* *********************************************** */
 .scheme_anthracite #tooltip,
-.scheme_anthracite .tooltip-block div {
+.scheme_anthracite .tooltip-block > div {
 	background-color: #282828;
 	background-image: url('img/theme_anthracite_tooltip_background.png'); /* source of images for graphic design : https://pngtree.com/freepng/metal-brushed-texture-background-hd-picture_4364018.html Volkeyrn: permanent premium member */
 	background-repeat: repeat;
@@ -302,7 +302,7 @@ body.scheme_anthracite.with_background_image,
 	border-radius: 5px;
 	box-shadow: 2px 2px 3px #000000;
 }
-.scheme_anthracite .tooltip-block div { /* tooltip on ? top right column */
+.scheme_anthracite .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_anthracite .button_tooltip {

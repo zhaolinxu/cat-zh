@@ -299,7 +299,7 @@ body.scheme_greenish {
 	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_greenish #tooltip,
-.scheme_greenish .tooltip-block div {
+.scheme_greenish .tooltip-block > div {
 	/* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background-color: #d6f0d1;
@@ -308,7 +308,7 @@ body.scheme_greenish {
 	border-radius: 7px;
 	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_greenish .tooltip-block div { /* tooltip on ? top right column */
+.scheme_greenish .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_greenish .button_tooltip {

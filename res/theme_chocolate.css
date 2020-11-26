@@ -321,7 +321,7 @@ body.scheme_chocolate.with_background_image {
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_chocolate #tooltip,
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	background-color: #42302d;
 	color: #a0a0a0; /* tooltip windows == left column : left text */
 	border-style: solid;
@@ -331,7 +331,7 @@ body.scheme_chocolate.with_background_image {
 	margin-left: 15px; /* for offset tooltip due to larger buttons .btn.modern */
 	box-shadow: -1px -1px 2px #584230, 1px 1px 2px #241b13;
 }
-.scheme_chocolate .tooltip-block div {
+.scheme_chocolate .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_chocolate .button_tooltip {

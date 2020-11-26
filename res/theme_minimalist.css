@@ -296,7 +296,7 @@ body.scheme_minimalist.with_background_image,
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_minimalist #tooltip,
-.scheme_minimalist .tooltip-block div {
+.scheme_minimalist .tooltip-block > div {
 	background-color: #101115;
 	font-size: 14px;
 	color: #828790; /* tooltip windows == left column : left text */
@@ -307,7 +307,7 @@ body.scheme_minimalist.with_background_image,
 	box-shadow: 4px 4px 9px #0A0A0D;
 	margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_minimalist .tooltip-block div {
+.scheme_minimalist .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_minimalist .button_tooltip {

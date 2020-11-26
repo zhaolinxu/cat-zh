@@ -440,20 +440,25 @@ WCloudSaves = React.createClass({
                         }}, "Load"),
                 ])
             })),
-            (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
-                $r("a", {onClick: function(e){
-                    e.stopPropagation();
-                    game.server.pushSave();
-                }}, "Create new save (" + game.telemetry.guid + ")")
-            ]),
-            $r("a", {
-                className: "link",
-                title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
-                onClick: function(e){
-                    e.stopPropagation();
-                    game.server.syncSaveData();
-                }
-            }, "Sync cloud saves")
+
+            $r("div", {className:"save-record-container"}, [
+                (saveData && !hasActiveSaves) && $r("div", {className:"save-record"},[
+                    $r("a", {onClick: function(e){
+                        e.stopPropagation();
+                        game.server.pushSave();
+                    }}, "Create new save (" + game.telemetry.guid + ")")
+                ]),
+                $r("div", {className:"save-record"},[
+                    $r("a", {
+                        className: "link",
+                        title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
+                        onClick: function(e){
+                            e.stopPropagation();
+                            game.server.syncSaveData();
+                        }
+                    }, "Sync cloud saves")
+                ])
+            ])
         ])
     }
 });
@@ -480,10 +485,12 @@ WLogin = React.createClass({
                         className: "status-indicator-" + (game.server.userProfile ? "online" : "offline")
                     }, "* " + (game.server.userProfile ? "Online" : "Offline")),
                     this.state.isExpanded && $r("div", {
-                        className: "login-popup"
+                        className: "login-popup button_tooltip tooltip-block"
                     }, 
-                        $r(WLoginForm, {game: game}),
-                        $r(WCloudSaves, {game: game})
+                        $r("div", null,
+                            $r(WLoginForm, {game: game}),
+                            $r(WCloudSaves, {game: game})
+                        )
                     )
                 ]
             )
