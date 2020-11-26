@@ -263,17 +263,17 @@ body.scheme_greenish {
 .scheme_greenish .links-block {
 	padding-top: 5px !important;
 }
-.scheme_greenish .toolbarIcon.happiness {
+.scheme_greenish #topBar .toolbarIcon.happiness div {
     color: #d56d2e;
 }
-.scheme_greenish .toolbarIcon.energy,
+.scheme_greenish #topBar .toolbarIcon.energy div,
 .scheme_greenish .button_tooltip .energyProduction {
     color: #1b8539;
 }
-.scheme_greenish .toolbarIcon.energy.warningWinter {
+.scheme_greenish #topBar .toolbarIcon.energy.warningWinter div {
     color: #d56d2e;
 }
-.scheme_greenish .toolbarIcon.energy.warning,
+.scheme_greenish #topBar .toolbarIcon.energy.warning div,
 .scheme_greenish .button_tooltip .energyConsumption {
 	color: #c5282e;
 }

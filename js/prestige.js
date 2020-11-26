@@ -111,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["vitruvianFeline"]
 		},
 		effects:{
-			"priceRatio" : -16/900
+			"priceRatio" : -16 / 900
 		}
 	},{
 		name: "vitruvianFeline",
@@ -462,7 +462,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 		this.loadMetadata(this.perks, saveData.prestige.perks);
 
-		for (var i = 0; i< this.perks.length; i++){
+		for (var i = 0; i < this.perks.length; i++){
 			var perk = this.perks[i];
 			if (perk.researched){
 				this.game.unlock(perk.unlocks);

@@ -12,7 +12,7 @@ Major:
 * Repeatable challenges (alpha backport, phase 0)
 
 Themes:
-* New themes: Vintage, Wood v2 (permanent unlock), Computer, Arctic, Cyber, Bluish, Grayish, Greenish
+* New themes: Vintage, Wood v2 (permanent unlock), Computer, Arctic, Cyber, Bluish, Grayish, Greenish, Factory
 
 Minor:
 * Added an option for the scientific notation (Cirn09)

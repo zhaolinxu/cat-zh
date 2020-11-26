@@ -259,17 +259,17 @@ body.scheme_vessel.with_background_image {
 .scheme_vessel #getTheApp-link:hover {
 	color: #A0A0A0 !important;
 }
-.scheme_vessel .toolbarIcon.happiness {
+.scheme_vessel #topBar .toolbarIcon.happiness div {
     color: #FF7700;
 }
-.scheme_vessel .toolbarIcon.energy,
+.scheme_vessel #topBar .toolbarIcon.energy div,
 .scheme_vessel .button_tooltip .energyProduction {
     color: #007B3E;
 }
-.scheme_vessel .toolbarIcon.energy.warningWinter {
+.scheme_vessel #topBar .toolbarIcon.energy.warningWinter div{
     color: #FF7700;
 }
-.scheme_vessel .toolbarIcon.energy.warning,
+.scheme_vessel #topBar .toolbarIcon.energy.warning div,
 .scheme_vessel .button_tooltip .energyConsumption,
 .scheme_vessel .button_tooltip .energyPenalty {
 	color: #991A22;

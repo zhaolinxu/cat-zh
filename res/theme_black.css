@@ -230,17 +230,17 @@ body.scheme_black {
 .scheme_black .links-block {
 	padding-top: 5px !important;
 }
-.scheme_black .toolbarIcon.happiness {
+.scheme_black #topBar .toolbarIcon.happiness div {
     color: #ff6e42;
 }
-.scheme_black .toolbarIcon.energy,
+.scheme_black #topBar .toolbarIcon.energy div,
 .scheme_black .button_tooltip .energyProduction {
     color: #00b029;
 }
-.scheme_black .toolbarIcon.energy.warningWinter {
+.scheme_black #topBar .toolbarIcon.energy.warningWinter div {
     color: #ff6e42;
 }
-.scheme_black .toolbarIcon.energy.warning,
+.scheme_black #topBar .toolbarIcon.energy.warning div,
 .scheme_black .button_tooltip .energyConsumption {
 	color: #b00029;
 }

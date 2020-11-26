@@ -323,22 +323,22 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .links-block {
 	padding-top: 5px !important;
 }
-.scheme_arctic .toolbarIcon.happiness {
+.scheme_arctic #topBar .toolbarIcon.happiness div {
 	color: #f86c07;
 	text-shadow: 0 -1px 1px #fddcc5;
 }
-.scheme_arctic .toolbarIcon.energy {
+.scheme_arctic #topBar .toolbarIcon.energy div {
     color: #1b786d;
 	text-shadow: 0 -1px 1px #aaf0d1;
 }
 .scheme_arctic .button_tooltip .energyProduction {
     color: #1b786d;
 }
-.scheme_arctic .toolbarIcon.energy.warningWinter {
+.scheme_arctic #topBar .toolbarIcon.energy.warningWinter div {
 	color: #f86c07;
 	text-shadow: 0 -1px 1px #fddcc5;
 }
-.scheme_arctic .toolbarIcon.energy.warning {
+.scheme_arctic #topBar .toolbarIcon.energy.warning div {
 	color: #b72200;
 	text-shadow: 0 -1px 1px #ffa894;
 }
