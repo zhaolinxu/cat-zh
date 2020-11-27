@@ -2076,10 +2076,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 				bld.jammed = false;
 			}
 
-			if (bld.isAutomationEnabled != undefined){
-				bld.isAutomationEnabled = true;
-			}
-
 			this.resetStateStackable(bld);
 		}
 	},
