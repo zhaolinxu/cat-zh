@@ -30,7 +30,7 @@ body.scheme_arctic {
 body.scheme_arctic.with_background_image {
 	background:	repeat-x local top -6px left url('img/theme_arctic_background_01.png'),
 				repeat-x local bottom left url('img/theme_arctic_background_bottom.png'),
-				no-repeat local top right url('img/theme_arctic_background_right.png'), 
+				no-repeat local top right url('img/theme_arctic_background_right.png'),
 				repeat-x local top left 70px url('img/theme_arctic_background_top.png'), #ffffff;
 }
 .scheme_arctic #gamePageContainer,
@@ -60,7 +60,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .btn.modern.disabled {
 	border: solid 1px #c0c0c0;
 	border-top-color: #909090;
-	border-right-color: #909090;	
+	border-right-color: #909090;
 	background-color: transparent;
 	background: no-repeat local top right url('img/theme_arctic_background_03.jpg'), transparent;
 	box-shadow: inset -1px 1px 2px #303030, inset 1px -1px 2px #a0a0a0, 1px -1px 3px #707070, 0 1px 0 #f0f0f0;
@@ -124,7 +124,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic h1 {
 	/* default margin-top: 30px; */
 	font-size: 18px; /* default font size = font-size: 12px; */
-	text-transform: capitalize;	
+	text-transform: capitalize;
 	padding-left: 20px;
 	color: #404040;
 	text-shadow: -1px 1px 1px #bad9e0;
@@ -144,43 +144,43 @@ body.scheme_arctic.with_background_image {
 	padding: 10px 0 10px 16px; /* 16px left for power background-image */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_arctic .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
-	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%), 
+.scheme_arctic .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
+	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top right url('img/theme_arctic_background_03.jpg');
 }
 .scheme_arctic .btn.disabled.bldlackResConvert:hover {
-	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat bottom right url('img/theme_arctic_background_03.jpg');
 }
 .scheme_arctic .btn:not(.disabled).bldlackResConvert {
-	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top -16px left url('img/theme_arctic_background_02.png');
 }
 .scheme_arctic .btn:not(.disabled).bldlackResConvert:hover {
-	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #dd483f 0%, rgba(221, 72, 63, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top -10px left url('img/theme_arctic_background_02.png');
 }
 .scheme_arctic .btn.disabled.bldEnabled {
-	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top right url('img/theme_arctic_background_03.jpg');
 }
 .scheme_arctic .btn.disabled.bldEnabled:hover {
-	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat bottom right url('img/theme_arctic_background_03.jpg');
 }
 .scheme_arctic .btn:not(.disabled).bldEnabled {
-	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top -16px left url('img/theme_arctic_background_02.png');
 }
 .scheme_arctic .btn:not(.disabled).bldEnabled:hover {
-	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%), 
+	background: no-repeat border-box linear-gradient(90deg, #6ae5ae 0%, rgba(106, 229, 174, 0.5) 7px, transparent 15px, transparent 100%),
 				local no-repeat top -10px left url('img/theme_arctic_background_02.png');
 }
 /* *** end of green light for machine on/off *** */
 .scheme_arctic .dialog {
 	padding: 15px; /* default padding: 20px; */
-	background: padding-box linear-gradient(90deg, rgba(222, 235, 238, 0.2) 0%, rgba(222, 235, 238, 0.2) 100%), 
-							linear-gradient(90deg, rgba(256, 256, 256, 0.7) 0%, rgba(256, 256, 256, 0.7) 100%), 
+	background: padding-box linear-gradient(90deg, rgba(222, 235, 238, 0.2) 0%, rgba(222, 235, 238, 0.2) 100%),
+							linear-gradient(90deg, rgba(256, 256, 256, 0.7) 0%, rgba(256, 256, 256, 0.7) 100%),
 							repeat local top left url('img/theme_arctic_texture_01.png'), transparent;
 	border: 4px solid transparent;
 	border-image-source: url('img/theme_arctic_frame_01.png');
@@ -244,14 +244,14 @@ body.scheme_arctic.with_background_image {
 	color: #14292e;
 	text-shadow: 0 -1px 1px #606060;
 	border: groove 2px #ffffff;
-	border-radius: 5px;	
+	border-radius: 5px;
 	box-shadow: inset -1px 1px 2px #404040;
-	padding: 3px 2px;	
+	padding: 3px 2px;
 	margin: 3px 0;
 }
 .scheme_arctic textarea#importData,
 .scheme_arctic textarea#exportData {
-	background-color: #c6f2df;	
+	background-color: #c6f2df;
 	color: #14292e;
 	box-shadow: inset -2px 2px 3px #404040, -1px 1px 1px #909090;
 	border: groove 2px #ffffff;
@@ -261,7 +261,7 @@ body.scheme_arctic.with_background_image {
 }
 .scheme_arctic input:active,
 .scheme_arctic select:active,
-.scheme_arctic textarea:active { 
+.scheme_arctic textarea:active {
     border-color: #f8edd0 !important;
 }
 
@@ -269,9 +269,9 @@ body.scheme_arctic.with_background_image {
 /* ******************* TOP BAR ******************* */
 /* *********************************************** */
 .scheme_arctic #topBar {
-    /* default height: 26px; */	
+    /* default height: 26px; */
 	border-bottom: none;
-	border-top: none;	
+	border-top: none;
 	box-shadow: none;
 	top: 0; /* for no shadow on top */
 	/* default min-width: 1180px; */
@@ -293,10 +293,10 @@ body.scheme_arctic.with_background_image {
 	color: #d0d0d0;
 }
 .scheme_arctic #topBar div,
-.scheme_arctic #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_arctic #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #303030;
 }
-.scheme_arctic #sorrowTooltip.max {
+.scheme_arctic .toolbarIcon.sorrow.max div {
 	color: #b72200 !important; /* in default.js !important needed */
 	text-shadow: 0 -1px 1px #ffa894;
 }
@@ -369,8 +369,8 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .tooltip-block > div {
 	padding-left: 9px; /* default padding-left: 3px; */
 	padding-bottom: 5px;
-	background: padding-box linear-gradient(90deg, rgba(222, 235, 238, 0.2) 0%, rgba(222, 235, 238, 0.2) 100%), 
-				linear-gradient(90deg, rgba(256, 256, 256, 0.75) 0%, rgba(256, 256, 256, 0.75) 100%), 
+	background: padding-box linear-gradient(90deg, rgba(222, 235, 238, 0.2) 0%, rgba(222, 235, 238, 0.2) 100%),
+				linear-gradient(90deg, rgba(256, 256, 256, 0.75) 0%, rgba(256, 256, 256, 0.75) 100%),
 				repeat local top left url('img/theme_arctic_texture_01.png'), transparent;
 	color: #606060; /* tooltip windows == left column : left text */
 	border: 4px solid rgba(256, 256, 256, 0);
@@ -419,7 +419,7 @@ body.scheme_arctic.with_background_image {
 	margin-top: 4px;
 	border-bottom: none !important;
 }
-.scheme_arctic .effectName { /* Tooltip Window : effects text */	
+.scheme_arctic .effectName { /* Tooltip Window : effects text */
 	color: #147248 !important;
 	text-shadow: 0 -1px 1px #aaf0d1;
 	/* default font size = font-size: 14px; */
@@ -434,7 +434,7 @@ body.scheme_arctic.with_background_image {
 	color: #b72200;
 }
 .scheme_arctic #tooltip .flavor { /* Tooltip Window : last bottom text on center column tooltip window */
-	color: #0793f8 !important;	
+	color: #0793f8 !important;
 	font-size: 13px !important; /* in core.js !important needed */
 	padding-right: 7px;
 }
@@ -539,9 +539,9 @@ body.scheme_arctic.with_background_image {
 	background-color: #d5e8f2 !important; /* !important in default.css */ /* color: #aad3e9; */
 	border: 1px outset #ffffff !important; /* !important in default.css */
 	border-radius: 5px !important; /* !important in default.css */
-	box-shadow: -1px 1px 2px #404040 !important; /* !important in default.css */	
+	box-shadow: -1px 1px 2px #404040 !important; /* !important in default.css */
 	color: #23464e;
-	text-shadow: 0 -1px 1px #4e9daf;	
+	text-shadow: 0 -1px 1px #4e9daf;
 	padding: 5px 20px;
 	margin-left: 10px;
 }
@@ -554,7 +554,7 @@ body.scheme_arctic.with_background_image {
 	cursor: pointer !important;
 }
 /* button observer different from other input buttons */
-.scheme_arctic input[type='button']#observeBtn {	
+.scheme_arctic input[type='button']#observeBtn {
 	font-size: 15px;
 	width: 200px;
 	height: 40px;
@@ -562,7 +562,7 @@ body.scheme_arctic.with_background_image {
 	text-shadow: -2px 1px 2px #000000;
 	background-color: transparent !important; /* !important in default.css */
 	background: repeat local top left url('img/theme_arctic_texture_01.png'), transparent !important;
-	border: 4px solid rgba(256, 256, 256, 0) !important; /* !important in default.css */	
+	border: 4px solid rgba(256, 256, 256, 0) !important; /* !important in default.css */
 	border-image-source: url('img/theme_arctic_frame_01.png') !important;
 	border-image-width: 4px 4px 4px 4px !important;
 	border-image-slice: 4 4 4 4 !important;
@@ -581,7 +581,7 @@ body.scheme_arctic.with_background_image {
     /* default overflow-x: hidden; */
     /* default text-overflow: ellipsis; */
 /* } */
-.scheme_arctic .btn.modern a {	
+.scheme_arctic .btn.modern a {
 	font-weight: normal;
 	line-height: 16px;
 	background-color: transparent;
@@ -600,7 +600,7 @@ body.scheme_arctic.with_background_image {
 	text-shadow: 0 -1px 1px #c0c0c0;
 }
 .scheme_arctic .btn.modern.disabled a {
-    color: #505050;	
+    color: #505050;
 	border-left: 1px solid transparent;
 	text-shadow: 0 -1px 1px #c0c0c0;
 }
@@ -614,7 +614,7 @@ body.scheme_arctic.with_background_image {
 }
 .scheme_arctic .btn.modern:not(.disabled):active,
 .scheme_arctic input[type='button']:active,
-.scheme_arctic input[type='button']#observeBtn:active { 
+.scheme_arctic input[type='button']#observeBtn:active {
     border-color: #f8edd0 !important;
 }
 .scheme_arctic .linkContent { /* dropdown list on button */
@@ -639,7 +639,7 @@ body.scheme_arctic.with_background_image {
 	border: solid 1px #909090;
 	border-top-color: #989898;
 	border-left-color: #b0b0b0;
-	border-right-color: #808080;	
+	border-right-color: #808080;
 	box-shadow: inset -1px 1px 3px #404040, inset 1px -1px 2px #808080;
 }
 .scheme_arctic .linkContent a:first-child,
@@ -683,18 +683,18 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .tabInner.Stats table.statTable:first-of-type {
     margin-top: 6px;
 	margin-left: 12px;
-	padding: 10px;	
+	padding: 10px;
 	color: #282828;
 	border: 6px solid #ffffff;
 	border-radius: 0;
 	box-shadow: inset -1px 1px 2px #404040, -2px 2px 4px #404040;
-	background: linear-gradient(90deg, rgba(222, 235, 238, 0) 0%, rgba(222, 235, 238, 0) 100%), 
+	background: linear-gradient(90deg, rgba(222, 235, 238, 0) 0%, rgba(222, 235, 238, 0) 100%),
 				repeat local bottom left url('img/theme_arctic_texture_01.png'), transparent;
 }
 .scheme_arctic .tabInner.Stats table.statTable:last-of-type {
     margin-top: 6px;
 	margin-left: 12px;
-	padding: 10px;	
+	padding: 10px;
 	color: #303030;
 	border: solid 1px #c0c0c0;
 	border-radius: 5px;
@@ -801,12 +801,12 @@ body.scheme_arctic.with_background_image {
     padding: 5px; /* default padding: 5px; */
     /* default margin-bottom: 5px; */
     background-color: transparent;
-	border: 1px solid #c0c0c0;	
+	border: 1px solid #c0c0c0;
 	box-shadow: inset 0 0 2px 1px #505050;
 	border-radius: 5px;
 }
 .scheme_arctic .census-block:hover {
-	border: 1px solid #808080;	
+	border: 1px solid #808080;
 }
 .scheme_arctic .census-block.simLeader {
 	background: local repeat top left url('img/theme_arctic_background_04.jpg'), #d0d0d0;
@@ -906,7 +906,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #404040;
 	text-shadow: -1px 1px 1px #bad9e0;
-	font-size: 15px;	
+	font-size: 15px;
 }
 .scheme_arctic td.craftStuffPanel > table { /* craft stuff panel */
     margin-top: 2px;
@@ -937,7 +937,7 @@ body.scheme_arctic.with_background_image {
 	margin-bottom: 0;/* default margin-bottom: 10px; */
 	height: 18px;
 	background-color: transparent;
-	color: #023152;	
+	color: #023152;
 	border: 2px solid transparent;
  	border-image-source: url('img/theme_arctic_frame_01.png');
 	border-image-width: 0 0 2px 0;
@@ -951,7 +951,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .achievement.unethical {
 	color: #b72200;
 }
-.scheme_arctic .achievement.unethical:hover {	
+.scheme_arctic .achievement.unethical:hover {
 	text-shadow: 0 -1px 1px #ffa894;
 }
 .scheme_arctic .achievement:not(.unlocked) {
@@ -966,7 +966,7 @@ body.scheme_arctic.with_background_image {
 	margin-top: 2px;
 	font-size: 90%;
 	color: #404040;
-	text-shadow: 0 -1px 1px #ffffff;	
+	text-shadow: 0 -1px 1px #ffffff;
 }
 @media screen {
 	.scheme_arctic .achievement[title]:hover::after {
@@ -999,7 +999,7 @@ body.scheme_arctic.with_background_image {
 	max-width: 440px; /* default max-width: 400px; */
     /* default min-width: 250px; */
 	top: 30px; /* default top: 20px; */
-	/* default margin-top: 4px */	
+	/* default margin-top: 4px */
 }
 .scheme_arctic #toggleCenter,
 .scheme_arctic span.toggleCenter {
@@ -1020,7 +1020,7 @@ body.scheme_arctic.with_background_image {
 	color: #202020;
 	text-shadow: 0 -1px 1px #ffffff;
 	padding-left: 5px;
-    margin-top: 5px;	
+    margin-top: 5px;
 }
 .scheme_arctic #calendarSign {
    font-size: 120%;
@@ -1036,12 +1036,12 @@ body.scheme_arctic.with_background_image {
 	margin-right: -5px;
 	/* default padding: 5px; */
     /* default padding-left: 30px; */
-	/* default padding-right: 30px; */	
+	/* default padding-right: 30px; */
 }
 .scheme_arctic .right-tab-header a.active {
 	border-top: 1px solid #a0a0a0; /* default border-top: 1px solid rgba(128, 128, 128, 0.4); */
 	color: #147248;
-	text-shadow: 0 -1px 1px #aaf0d1;	
+	text-shadow: 0 -1px 1px #aaf0d1;
 }
 .scheme_arctic .right-tab-header a.active:hover {
 	color: #147248;
@@ -1073,7 +1073,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic #gameLog {
 	/* default overflow-y: auto !important; */
 	min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important; /* if div#observeButton to height to have scrollbar on gamelog */
 }
 .scheme_arctic #gameLog span.msg:not(.type_date)  {
@@ -1086,7 +1086,7 @@ body.scheme_arctic.with_background_image {
 }
 .scheme_arctic #gameLog span.msg.noBullet {
 	margin-left: 3em !important;
-	list-style-type: '\26AC' !important; /* MEDIUM SMALL WHITE CIRCLE */	
+	list-style-type: '\26AC' !important; /* MEDIUM SMALL WHITE CIRCLE */
 	padding-left: 0.3em;
 }
 .scheme_arctic .msg {
@@ -1095,7 +1095,7 @@ body.scheme_arctic.with_background_image {
 	color: #404040;
 }
 .scheme_arctic .msg.type_notice {
-	color: #0793f8; /* default color: #01A9DB; */	
+	color: #0793f8; /* default color: #01A9DB; */
 }
 .scheme_arctic .msg.type_important {
     color: #f86c07; /* default color: coral; */
@@ -1108,7 +1108,7 @@ body.scheme_arctic.with_background_image {
 	font-size: 1.1em;
 }
 .scheme_arctic .msg.type_date {
-	/* default margin-top: 15px; */	
+	/* default margin-top: 15px; */
 	font-size: 95%; /* default font size = font-size: 90%; */
 	border-bottom: solid 1px transparent;
 	padding-left: 5px;
@@ -1193,7 +1193,7 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic .res-row {
 	padding-bottom: 2px; /* default padding-bottom: 4px; */
 }
-.scheme_arctic .res-row:hover {	
+.scheme_arctic .res-row:hover {
 	background-color: rgba(170, 240, 209, 0.4);
 	cursor: default;
 }
@@ -1316,8 +1316,8 @@ body.scheme_arctic.with_background_image {
 /* ************************************************* */
 .scheme_arctic ::-webkit-scrollbar-track {
 	border-radius: 8px;
-	box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);	
-	background-color: #f0f0f0; 
+	box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+	background-color: #f0f0f0;
 }
 .scheme_arctic ::-webkit-scrollbar {
 	width: 10px;
@@ -1332,8 +1332,8 @@ body.scheme_arctic.with_background_image {
 .scheme_arctic textarea#importData::-webkit-scrollbar-track,
 .scheme_arctic textarea#exportData::-webkit-scrollbar-track {
 	border-radius: 8px;
-	box-shadow: inset 0 0 3px rgba(170, 240, 209, 0.9);	
-	background-color: rgba(170, 240, 209, 0.3); 
+	box-shadow: inset 0 0 3px rgba(170, 240, 209, 0.9);
+	background-color: rgba(170, 240, 209, 0.3);
 }
 .scheme_arctic .dialog::-webkit-scrollbar,
 .scheme_arctic textarea#importData::-webkit-scrollbar,

@@ -239,10 +239,10 @@ body.scheme_grayish {
 	color: #e2e2e2;
 }
 .scheme_grayish #topBar div,
-.scheme_grayish #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_grayish #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #2c2c2c;
 }
-.scheme_grayish #sorrowTooltip.max {
+.scheme_grayish .toolbarIcon.sorrow.max div {
     color: #c82318 !important; /* in default.js !important needed */
 }
 .scheme_grayish #topBar > div:first-child > span:first-child:after {
