@@ -239,10 +239,10 @@ body.scheme_bluish {
 	color: #1f284e;
 }
 .scheme_bluish #topBar div,
-.scheme_bluish #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_bluish #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #a6acc7;
 }
-.scheme_bluish #sorrowTooltip.max {
+.scheme_bluish .toolbarIcon.sorrow.max div {
     color: #da667b !important; /* in default.js !important needed */
 }
 .scheme_bluish #topBar > div:first-child > span:first-child:after {

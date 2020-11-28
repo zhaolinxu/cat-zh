@@ -1,4 +1,4 @@
-/* global 
+/* global
 
     $r,
     WToolbar: writable,
@@ -14,7 +14,7 @@ WToolbarIconContainer = React.createClass({
 
     render: function(){
         return $r("div", {
-            className:"toolbarIcon " + this.props.className, 
+            className:"toolbarIcon " + this.props.className,
             ref: "iconContainer"
         }, this.props.children);
     },
@@ -62,12 +62,12 @@ WToolbarHappiness = React.createClass({
         if (game.village.getKittens() <= 5){
             return null;
         }
-        return $r(WToolbarIconContainer, { 
-            game: this.props.game, 
+        return $r(WToolbarIconContainer, {
+            game: this.props.game,
             getTooltip: this.getTooltip,
-            className: "happiness" 
+            className: "happiness"
         },
-            $r("div", { 
+            $r("div", {
                 dangerouslySetInnerHTML: {
                     __html: "(:3)&nbsp;" + Math.floor(game.village.happiness * 100) + "%"
                 }
@@ -136,21 +136,20 @@ WToolbarEnergy = React.createClass({
         var resPool = game.resPool;
         var className = "";
         if (resPool.energyProd < resPool.energyCons) {
-            className = "warning";
-        }
-        if (resPool.energyWinterProd < resPool.energyCons) {
-            className = "warningWinter";
+            className = " warning";
+        } else if (resPool.energyWinterProd < resPool.energyCons) {
+            className = " warningWinter";
         }
 
-        return $r(WToolbarIconContainer, { 
-            game: game, 
+        return $r(WToolbarIconContainer, {
+            game: game,
             getTooltip: this.getTooltip,
-            className: "energy" 
+            className: "energy" + className
         },
-            $r("div", { 
+            $r("div", {
                 dangerouslySetInnerHTML: {
                     __html: "&#9889;&nbsp;" + game.getDisplayValueExt(resPool.energyProd - resPool.energyCons) + $I("unit.watt")
-                }
+				}
             })
         );
     },
@@ -163,8 +162,8 @@ WToolbarEnergy = React.createClass({
         var delta = this.game.resPool.getEnergyDelta();
 		var penalty = energy >= 0 ? "" : "<br><br>" + $I("navbar.energy.penalty") + "<span class='energyPenalty'>-" + Math.floor( (1 - delta) * 100) + "%</span>";
 
-		return $I("navbar.energy.prod.short") + "<span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
-			   "<br>" + $I("navbar.energy.cons.short") + "<span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
+		return $I("navbar.energy.prod.short") + " <span class='energyProduction'>" +  this.game.getDisplayValueExt(resPool.energyProd, true, false) + $I("unit.watt") + "</span>" +
+			   "<br>" + $I("navbar.energy.cons.short") + " <span class='energyConsumption'>-" +  this.game.getDisplayValueExt(resPool.energyCons) + $I("unit.watt") + "</span>" + penalty;
     }
 });
 
@@ -176,13 +175,13 @@ WToolbarMOTD = React.createClass({
 		if (!server.showMotd || !server.motdTitle) {
 			return null;
         }
-        
-        return $r(WToolbarIconContainer, { 
-            game: game, 
+
+        return $r(WToolbarIconContainer, {
+            game: game,
             getTooltip: this.getTooltip,
             className: server.motdFreshMessage ? "freshMessage" : null
         },
-            $r("div", { 
+            $r("div", {
                 dangerouslySetInnerHTML: {
                     __html: "&nbsp;" + server.motdTitle + "&nbsp;"
                 }
@@ -208,11 +207,11 @@ WToolbarFPS = React.createClass({
             return null;
         }
 
-        return $r(WToolbarIconContainer, { 
-            game: game, 
+        return $r(WToolbarIconContainer, {
+            game: game,
             getTooltip: this.getTooltip
-        },  
-            $r("div", {}, 
+        },
+            $r("div", {},
                 "fps: " + game.fps.ms + " ms"
             )
         );
@@ -221,11 +220,11 @@ WToolbarFPS = React.createClass({
     getTooltip: function(){
         var fps = this.props.game.fps;
 
-        return " avg: " + fps.avg.toFixed() + 
-				" ms [" + fps.avg0.toFixed() + 
-				"." + fps.avg1.toFixed() + 
-				"." + fps.avg2.toFixed() + 
-				"." + fps.avg3.toFixed() + 
+        return " avg: " + fps.avg.toFixed() +
+				" ms [" + fps.avg0.toFixed() +
+				"." + fps.avg1.toFixed() +
+				"." + fps.avg2.toFixed() +
+				"." + fps.avg3.toFixed() +
 				"." + fps.avg4.toFixed() + "] (Cl. to res.)";
     }
 });
@@ -236,20 +235,18 @@ WBLS = React.createClass({
 
         var sorrowRes = game.resPool.get("sorrow"),
             sorrow = sorrowRes.value;
-            
+
         if (!sorrow){
             return null;
         }
 		var isMax = (sorrowRes.value == sorrowRes.maxValue);
-		//$("#sorrowTooltip").addClass(isMax ? "max" : "");
 
-        return $r(WToolbarIconContainer, { 
-            game: game, 
-            getTooltip: this.getTooltip
-        },  
-            $r("div", {
-                className: isMax ? "max" : ""
-            }, 
+        return $r(WToolbarIconContainer, {
+            game: game,
+            getTooltip: this.getTooltip,
+            className: "sorrow" + (isMax ? " max" : "")
+        },
+            $r("div", {},
                 $I("resources.sorrow.short") + ": " + sorrow.toFixed() + "%"
             )
         );
@@ -277,27 +274,27 @@ WLoginForm = React.createClass({
         if (game.server.userProfile){
             var userProfile = game.server.userProfile;
             return $r("div", {className: "userProfile"},[
-                $r("img", {src: "https://www.gravatar.com/avatar/" + 
-                    (userProfile.email ? md5(userProfile.email) : "n/a") 
+                $r("img", {src: "https://www.gravatar.com/avatar/" +
+                    (userProfile.email ? md5(userProfile.email) : "n/a")
                 + "?s=15"}),
                 $r("a", {
                     href:"/ui/profile", target:"_blank"
                 }, userProfile.id)
             ]);
-            
+
         }
         return $r(
             "span",
             {onClick: function (e){ e.stopPropagation(); }},
             [
                 $r("div", {className: "row"}, [
-                    "Email:", 
+                    "Email:",
                         $r("input", {
-                            type: "email", 
+                            type: "email",
                             onChange: this.setLogin,
                             value: this.state.login
                         } ),
-                    "Password:", 
+                    "Password:",
                         $r("input", {
                             type: "password",
                             onChange: this.setPassword,
@@ -305,12 +302,12 @@ WLoginForm = React.createClass({
                         })
                 ]),
                 $r("div", {className: "row"}, [
-                    $r("a", { 
-                        href:"#", 
+                    $r("a", {
+                        href:"#",
                         onClick: this.login
                     }, "login"),
                     $r("a", {
-                        target: "_blank", 
+                        target: "_blank",
                         href: "http://kittensgame.com/ui/register"
                     }, "register")
                 ])
@@ -389,14 +386,14 @@ WCloudSaves = React.createClass({
         }
 
         /**
-         * TODO: use local state when appropriate (dataset, animation, etc) 
+         * TODO: use local state when appropriate (dataset, animation, etc)
          * and override it with game's server real data on update cycle
-         * 
+         *
          * This way we don't have to handle complex state management on the game.server side
          */
         return $r("div", null, [
 
-            $r("div", {className:"save-record-container"}, 
+            $r("div", {className:"save-record-container"},
             //header
             saveData && $r("div", {className:"save-record header"}, [
                 $r("div", {className:"save-record-cell"}, "Id"),
@@ -410,15 +407,15 @@ WCloudSaves = React.createClass({
             saveData && saveData.map(function(save){
                 var isActiveSave = (save.guid == game.telemetry.guid);
                 return $r("div", {className:"save-record"}, [
-                    $r("div", {className:"save-record-cell"}, 
+                    $r("div", {className:"save-record-cell"},
                         isActiveSave ? "[current]" : ""
                     ),
-                    $r("div", {className:"save-record-cell"}, 
-                        save.index ? 
+                    $r("div", {className:"save-record-cell"},
+                        save.index ?
                         ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
                         "loading..."
                     ),
-                    $r("div", {className:"save-record-cell"}, 
+                    $r("div", {className:"save-record-cell"},
                         new Date(save.timestamp).toLocaleDateString("en-US", {
                             month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
                         })
@@ -473,10 +470,10 @@ WLogin = React.createClass({
     render: function(){
         var game = this.props.game;
 
-        return $r(WToolbarIconContainer, { 
-            game: game, 
-        }, 
-            $r("div", 
+        return $r(WToolbarIconContainer, {
+            game: game,
+        },
+            $r("div",
                 {
                     onClick: this.toggleExpanded
                 },
@@ -486,7 +483,7 @@ WLogin = React.createClass({
                     }, "* " + (game.server.userProfile ? "Online" : "Offline")),
                     this.state.isExpanded && $r("div", {
                         className: "login-popup button_tooltip tooltip-block"
-                    }, 
+                    },
                         $r("div", null,
                             $r(WLoginForm, {game: game}),
                             $r(WCloudSaves, {game: game})
@@ -496,7 +493,7 @@ WLogin = React.createClass({
             )
         );
     },
-    
+
     toggleExpanded: function(){
         this.setState({
             isExpanded: !this.state.isExpanded
@@ -508,7 +505,7 @@ WToolbar = React.createClass({
     getInitialState: function(){
         return {game: this.props.game};
     },
-    
+
     componentDidMount: function(){
         var self = this;
         dojo.subscribe("ui/update", function(game){

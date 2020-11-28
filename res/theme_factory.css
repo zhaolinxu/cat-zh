@@ -295,10 +295,10 @@ body.scheme_factory {
 	color: #575657;
 }
 .scheme_factory #topBar div,
-.scheme_factory #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_factory #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #ededed;
 }
-.scheme_factory #sorrowTooltip.max {
+.scheme_factory .toolbarIcon.sorrow.max div {
     color: #fe5a5a !important; /* in default.js !important needed */
 }
 .scheme_factory #topBar > div:first-child > span:first-child:after {
