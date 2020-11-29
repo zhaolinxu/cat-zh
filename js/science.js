@@ -1223,7 +1223,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val>0 && !game.challenges.isActive("pacifism");
+			return game.space.getBuilding("sattelite").val > 0;
 		}
     },
     //----------------   Philosophy   --------------------
