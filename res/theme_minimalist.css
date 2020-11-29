@@ -114,7 +114,7 @@ body.scheme_minimalist.with_background_image,
 	padding: 10px 0 10px 13px; /* 13px left for power background-image (linear-gradient) */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_minimalist .btn.disabled.bldlackResConvert { /* color #be4151 */ /* color for lack resources convertion */	
+.scheme_minimalist .btn.disabled.bldlackResConvert { /* color #be4151 */ /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #be4151 0%, #be4151 10px, #21212B 12px, #21212B 50%, #313140 95%, #313140 100%);
 }
 .scheme_minimalist .btn.disabled.bldlackResConvert:hover {
@@ -192,7 +192,7 @@ body.scheme_minimalist.with_background_image,
     margin-right: 5px;
 	border: 2px inset #b8b8b8;
 	border-radius: 5px;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -242,10 +242,10 @@ body.scheme_minimalist.with_background_image,
 	color: #333342;
 }
 .scheme_minimalist #topBar div,
-.scheme_minimalist #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_minimalist .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #A6A4B0;
 }
-.scheme_minimalist #sorrowTooltip.max {
+.scheme_minimalist .toolbarIcon.sorrow.max div {
     color: #be4151 !important;
 }
 .scheme_minimalist #topBar > div:first-child > span:first-child:after {
@@ -267,17 +267,17 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist .links-block {
 	padding-top: 0 !important;
 }
-.scheme_minimalist .toolbarIcon.happiness {
+.scheme_minimalist #topBar .toolbarIcon.happiness div {
     color: #DD836C;
 }
-.scheme_minimalist .toolbarIcon.energy,
+.scheme_minimalist #topBar .toolbarIcon.energy div,
 .scheme_minimalist .button_tooltip .energyProduction {
     color: #90b23e;
 }
-.scheme_minimalist .toolbarIcon.energy.warningWinter {
+.scheme_minimalist #topBar .toolbarIcon.energy.warningWinter div {
     color: #DD836C;
 }
-.scheme_minimalist .toolbarIcon.energy.warning,
+.scheme_minimalist #topBar .toolbarIcon.energy.warning div,
 .scheme_minimalist .button_tooltip .energyConsumption,
 .scheme_minimalist .button_tooltip .energyPenalty {
 	color: #be4151;
@@ -296,7 +296,7 @@ body.scheme_minimalist.with_background_image,
 /******************** TOOLTIP ********************/
 /*************************************************/
 .scheme_minimalist #tooltip,
-.scheme_minimalist .tooltip-block div {
+.scheme_minimalist .tooltip-block > div {
 	background-color: #101115;
 	font-size: 14px;
 	color: #828790; /* tooltip windows == left column : left text */
@@ -307,7 +307,7 @@ body.scheme_minimalist.with_background_image,
 	box-shadow: 4px 4px 9px #0A0A0D;
 	margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_minimalist .tooltip-block div {
+.scheme_minimalist .tooltip-block > div {
 	padding: 5px;
 }
 .scheme_minimalist .button_tooltip {
@@ -384,7 +384,7 @@ body.scheme_minimalist.with_background_image,
 .scheme_minimalist .tabInner .expandAllBar a:last-child {
 	margin-right: 15px !important;
 }
-.scheme_minimalist .tabsContainer {	
+.scheme_minimalist .tabsContainer {
 	padding-bottom: 2px; /* default padding-bottom: 15px; */
 	padding-top: 0; /* default padding-top: 2px; */
 	font-size: 15px;
@@ -494,7 +494,7 @@ body.scheme_minimalist.with_background_image,
 	line-height: 16px;
 	background-color: transparent;
 	padding: 10px 2px 10px 2px !important; /* default :  padding: 10px 6px 10px 6px !important; */
-	text-shadow: none;	
+	text-shadow: none;
 }
 .scheme_minimalist .btn.modern:not(.disabled) a {
 	color: #808799;
@@ -609,7 +609,7 @@ body.scheme_minimalist.with_background_image,
 }
 .scheme_minimalist .container.trade-race .crypto-trade .btn.modern {
 	/* div.crypto-trade width=310px max */
-	max-width: 146px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (300 -2 -6)/2 = 146 */	
+	max-width: 146px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (300 -2 -6)/2 = 146 */
 }
 .scheme_minimalist .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
@@ -746,7 +746,7 @@ body.scheme_minimalist.with_background_image,
 	color: #d0172a;
 }
 .scheme_minimalist .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
-	color: #749148;	
+	color: #749148;
 }
 .scheme_minimalist .btn.modern.craftOn:hover span.btnTitle {
 	color: #90b23e;
@@ -903,7 +903,7 @@ body.scheme_minimalist.with_background_image,
 	padding: 0 4px 4px 4px;
 	/* 3 lines of code below if border with an image */
 	min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
