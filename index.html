@@ -149,6 +149,7 @@
 					"game",
 
 					"js/jsx/left.jsx",
+					"js/jsx/mid.jsx",
 					"js/jsx/toolbar.jsx",
 					"js/jsx/map.jsx",
 
@@ -345,8 +346,6 @@
 					<div id="headerToolbar" style="font-size: 12px; display: inline-block">
 						<!-- toolbar panel goes there -->
 					</div>
-					<span id="energyTooltip" style="padding-right: 15px; font-size: 12px;" title="Energy"></span>
-					<span id="sorrowTooltip" style="padding-right: 15px; font-size: 12px;" title="Black liquid sorrow"></span>
 					<span id="autosaveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">autosaving...</span>
 					<span id="saveTooltip" style="padding-right: 15px; font-size: 12px; opacity: 0;">Saved!</span>
 
@@ -378,11 +377,16 @@
 
 				<!-- LEFT -->
 				<div id="leftColumn" class="column" style="vertical-align: top;">
-					<div id="leftColumnViewport">#nothing interesting here</div>
+					<div id="leftColumnViewport">
+						Loading...
+					</div>
 				</div>
 
 				<!-- MID -->
 				<div id="midColumn" style="vertical-align: top;" class="column">
+					<div id="midColumnViewport" style="float:right; padding: 5px;">
+						Loading...
+					</div>
 					<div id="gameContainerId" style="border: 1px solid gray;">
 						<span>Oops!</span>
 						<div id="gameContainerHelp" style="font-size:150%;">
@@ -445,7 +449,11 @@
 						</div>
 					</div>
 				</div>
-				<div id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column"><span class="toggleCenter">&gt;</span></div>
+				<div
+					id="toggleCenter" onClick="gamePage.ui.toggleCenter();" class="column" tooltip="Toggle centered view"
+				>
+					<span class="toggleCenter">&gt;</span>
+				</div>
 			</div>
 
 			<div id="creditsDiv" style="display: none" class="dialog credits">
@@ -521,7 +529,7 @@
 				<a id="languageApplyLink" href="#" onclick="gamePage.ui.applyLanguage()" style="display: none; padding-left: 15px;">Apply changes</a>
 				<br>
 				<br>
-				
+
 				<label id="optionNotation" for="notationSelector">Notation:</label>
 				<select id="notationSelector" onchange="gamePage.ui.updateNotation()">
 				</select>
@@ -598,7 +606,7 @@
 					<input id="enableRedshiftGflops" type="checkbox" onclick="gamePage.opts.enableRedshiftGflops = $('#enableRedshiftGflops')[0].checked;">
 					<label id="optionEnableRedshiftGflops" for="enableRedshiftGflops">Enable offline gflops production</label>
 					<br>
-					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));"> 
+					<input id="batchSize" type="number" min="1" max="9999" size="4" oninput="$('#batchSize')[0].value = gamePage.opts.batchSize = Math.max(1, Math.min(9999, $('#batchSize')[0].value));">
 					<label id="optionBatchSize" for="batchSize">Batch size of Ctrl-click</label>
 					<br>
 					<input id="forceLZ" type="checkbox" onclick="gamePage.opts.forceLZ = $('#forceLZ')[0].checked;">
@@ -624,7 +632,7 @@
 				<input id="exportToFullFile" type="button" onclick="gamePage.saveToFile(true);" value="File (full name)">
 				<a id="download-link" target="_blank" style="display: none"></a>
 				<br>
-				<h1 id="exportToEext">Text Export:</h1>
+				<h1 id="exportToText">Text Export:</h1>
 				<br>
 				<textarea id="exportData" style="width: 550px; height: 220px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				<br>
