@@ -313,12 +313,6 @@ select>option {
     margin: 2px;
 }
 
-.button_tooltip {
-    background-color: #FFF;
-    color: black;
-    z-index: 9000;
-}
-
 .panelContainer {
     border: 1px solid black;
     min-height: 30px;
@@ -504,10 +498,14 @@ td.resLimitWarn, .res-cell.resLimitWarn  {
     border: 1px solid #B0B0B0;
 }
 
-.toggleCenter {
+#toggleCenter {
     opacity: 0.2;
-    cursor:pointer;
-    width:200px;
+    cursor: pointer;
+}
+
+#toggleCenter:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 
 table.craftTable tr:hover td {
@@ -532,16 +530,16 @@ table.craftTable tr:hover td {
     cursor: default;
 }
 
-.toolbarIcon.happiness {
+.toolbarIcon.happiness div {
     color: coral;
 }
 
-.toolbarIcon.energy,
+.toolbarIcon.energy div,
 .button_tooltip .energyProduction {
     color: green;
 }
 
-.toolbarIcon.energy.warningWinter {
+.toolbarIcon.energy.warningWinter div {
     color: coral;
 }
 
@@ -557,16 +555,20 @@ table.craftTable tr:hover td {
 .login-popup {
     position: absolute;
     top: 20px;
-    border: 1px solid gray;
     padding: 5px;
     background: white;
     z-index: 1;
 
     margin-left: -35px;
+    font-size: 15px;
+}
+
+.login-popup a.link {
+    text-decoration: underline;
 }
 
 .login-popup .row {
-    display: block;   
+    display: block;
 }
 
 .login-popup .row a, input {
@@ -585,9 +587,44 @@ table.craftTable tr:hover td {
     margin-right: 5px;
 }
 
+.tooltip-block {
+    cursor: pointer;
+    padding-left: 3px;
+    display: inline-block;
+}
+
+.tooltip-block > div {
+    z-index: 9999;
+    padding: 5px;
+}
+
+.tooltip-block > div {
+    border: 1px solid lightgray;
+}
+
+.save-record-container {
+    display: table !important;
+}
+
+.save-record {
+    display: table-row;
+}
+
+.save-record.header {
+    display: table-row;
+    font-style: italic;
+    opacity: 0.25;
+    border-bottom: 1px solid lightgray;
+}
+
+.save-record-cell {
+    display: table-cell;
+    padding-right: 10px;
+}
+
 .userProfile .save-record {
     display: block;
-    padding-top: 5px;
+    padding-top: 10px;
 }
 
 .save-record span, a {
@@ -595,16 +632,8 @@ table.craftTable tr:hover td {
     padding-right: 5px;
 }
 
-.userProfile a.link {
-    text-decoration: underline;
-}
-
-.save-record a {
-    text-decoration: underline;
-}
-
 span.genericWarning,
-.toolbarIcon.energy.warning,
+.toolbarIcon.energy.warning div,
 .button_tooltip .energyConsumption,
 .button_tooltip .energyPenalty {
     color: red;
@@ -678,7 +707,7 @@ label:hover {
 #optionsDiv {
     overflow-y: scroll;
     height: 400px;
-    margin-top:-170px; 
+    margin-top:-170px;
 }
 
 #optionsDiv input[type="checkbox"] {
@@ -776,8 +805,8 @@ h1 {
 }
 
 #observeButton {
-    text-align: center; 
-    margin-top: 15px; 
+    text-align: center;
+    margin-top: 15px;
     height: 30px;
 }
 
@@ -786,11 +815,11 @@ h1 {
     overflow-y: hidden;
 }
 
-#sorrowTooltip {
+.toolbarIcon.sorrow div {
 	color: black;
 }
 
-#sorrowTooltip.max {
+.toolbarIcon.sorrow.max div {
     color: red !important;
 }
 
@@ -944,17 +973,20 @@ progress[value]::-webkit-progress-value {
 
 /*======================================================================*/
 
-.tooltip-block, .tooltip-block div {
-    z-index: 9999;
-    display: inline-block;
-    cursor: pointer;
-    padding-left: 3px;
+.button_tooltip {
+    /* TODO consider performance */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(2px);
+
+    color: black;
+    z-index: 9000;
 }
 
 .tooltip-content {
     background-color: rgb(239, 239, 244);
     border: 1px solid #a8a7ac;
     position: absolute;
+    margin-top: -20px;
     margin-left: 20px;
     padding-right: 10px;
 }
@@ -1123,7 +1155,7 @@ a.link.collapse:hover {
 .census-block .skill{
     font-size: 0.8em;
 }
-   
+
 .name.color-brown {
     color:#856341;
 }
@@ -1581,9 +1613,9 @@ div.leet {
 }
 
 #crowdjet-expand-container{
-    bottom: 40px; 
+    bottom: 40px;
     right: 20px;
-    width: 60px !important; 
+    width: 60px !important;
     height: 15px !important;
     cursor: pointer;
 }

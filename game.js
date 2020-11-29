@@ -258,10 +258,12 @@ dojo.declare("classes.game.Server", null, {
 		function(resp){
 			console.log("save successful?");
 			self.saveData = resp;
+			self.game.msg($I("save.export.msg"));
 		});
 	},
 
 	loadSave: function(guid){
+		var self = this;
 		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
 			if (!resp.data){
 				console.error("unable to load game data", resp);
@@ -270,7 +272,8 @@ dojo.declare("classes.game.Server", null, {
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
 			console.log("load successful?");
 
-			this.game.load();
+			self.game.load();
+			self.game.msg($I("save.import.msg"));
 		});
 	},
 
@@ -1794,6 +1797,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,
@@ -2681,7 +2685,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0));
+			perTickAutoprod *= (1 + this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2893,7 +2897,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0);
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
