@@ -1,6 +1,6 @@
-/**
- *			School 1.1.0 Theme © Volkeyrn
- */
+/* ******************************************************** */
+/* ***			School 1.1.1 Theme © Volkeyrn           *** */
+/* ******************************************************** */
 
 @import url(https://fonts.googleapis.com/css?family=Delius+Swash+Caps&display=swap);
 
@@ -12,7 +12,7 @@ body.scheme_school,
 	background-color: #292728;
 }
 body.scheme_school.with_background_image,
-.scheme_school div.dialog {	
+.scheme_school div.dialog {
 	background-image: url('img/theme-school.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
 	background-repeat: repeat;
 	background-attachment: fixed;
@@ -58,10 +58,10 @@ body.scheme_school.with_background_image,
 	cursor: pointer;
 	box-shadow: 2px 2px 3px #000000;
 }
-.scheme_school .btn:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+.scheme_school .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #ABAEB7;
 }
-.scheme_school .btn:not(.disabled):hover span.btnTitle {
+.scheme_school .btn.modern:not(.disabled):hover span.btnTitle {
 	color: #C2C6CF;
 	text-shadow: 1px 1px 1px #191718;
 }
@@ -92,15 +92,15 @@ body.scheme_school.with_background_image,
     margin-top: 10px; /* default margin-top: 30px */
 }
 .scheme_school .modern .btnContent {
-    padding: 10px 0 10px 1px !important; /* 1px left for buttons without power background-image */
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_school .btn.bldEnabled div.btnContent,
 .scheme_school .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 15px !important; /* 15px left for power background-image (linear-gradient) */
-	border: none;	
+	padding: 10px 0 10px 15px; /* 15px left for power background-image (linear-gradient) */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_school .btn.disabled.bldlackResConvert { /* color #973B47 */ /* color for lack resources convertion */	
+.scheme_school .btn.disabled.bldlackResConvert { /* color #973B47 */ /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #973B47 0%, #973B47 12px, rgba(85, 85, 85, 0.4) 14px, rgba(85, 85, 85, 0.4) 100%);
 }
 .scheme_school .btn.disabled.bldlackResConvert:hover {
@@ -131,9 +131,9 @@ body.scheme_school.with_background_image,
 	border-radius: 5px 5px 11px 11px;
 }
 .scheme_school .dialog a {
-	text-transform: capitalize;	
+	text-transform: capitalize;
 }
-.scheme_school .dialog a:hover{
+.scheme_school .dialog a:hover {
 	text-shadow: 1px 1px 1px #000000;
 	color: #A56B5B;
 }
@@ -141,7 +141,7 @@ body.scheme_school.with_background_image,
     /* default font size = font-size: 90%; */
     color: #777777;
 }
-.scheme_school select { /* dropdown list on settlement tab and options windows */	
+.scheme_school select { /* dropdown list on settlement tab and options windows */
 	font-weight: lighter;
 	background-color: #292728;
     color: #D2D2D2;
@@ -169,6 +169,10 @@ body.scheme_school.with_background_image,
 	color: #606060;
 	font-size: 90%;
 }
+.scheme_school .dialog input[type="button"] {
+	margin-left: 7px;
+	margin-bottom: 10px;
+}
 .scheme_school #optionsDiv input[type="checkbox"] + label:before {
     content: "\2610"; /* BALLOT BOX */
 	font: 14px sans-serif;
@@ -178,6 +182,18 @@ body.scheme_school.with_background_image,
 	content: "\2611"; /* BALLOT BOX WITH CHECK */
 	font: 14px sans-serif;
 	color: #A0A0A0;
+}
+.scheme_school .dialog input#batchSize {
+	background-color: #292728;
+    color: #D2D2D2;
+    padding: 3px 1px 3px 5px;
+    margin-right: 5px;
+	border: 2px inset #404040;
+	border-radius: 3px;
+    box-shadow: inset -1px -1px 2px #707070,
+                inset 2px 2px 5px #000000;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 .scheme_school textarea#importData,
 .scheme_school textarea#exportData {
@@ -199,15 +215,19 @@ body.scheme_school.with_background_image,
 	background-color: #292728;
 	font-size: 90%;
     height: 22px;
-    border-bottom: 1px solid #292728;	
+    border-bottom: 1px solid #292728;
 	top: 0; /* for no shadow on top */
 	box-shadow: 0 2px 5px #000000;
 }
 .scheme_school #headerLinks .links-block { /* a link separator : | on header links */
 	color: rgba(86, 89, 92, 0.3); /* color #56595C */
 }
-.scheme_school #headerLinks div { /* for color text of MOTD on top bar */
+.scheme_school #topBar div,
+.scheme_school #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #D2D2D2;
+}
+.scheme_school .toolbarIcon.sorrow.max div {
+    color: #973B47 !important; /* in default.js !important needed */
 }
 .scheme_school #topBar a.copyright {
 	text-transform: capitalize;
@@ -216,15 +236,12 @@ body.scheme_school.with_background_image,
 .scheme_school #topBar a.copyright:hover {
 	color: #B5BAC4;
 }
-.scheme_school #headerLinks>div:first-child:before {
+.scheme_school #topBar > div:first-child > span:first-child:after {
     color: #A56B5B;
-    content: 'Theme by Volkeyrn  ';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
 	text-shadow: none;
     text-decoration: none;
 	font-weight: normal; /* thin if possible with font sizes */
-}
-.scheme_school #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
-	color: #D2D2D2;
 }
 .scheme_school #autosaveTooltip {
 	color: #A56B5B;
@@ -236,23 +253,35 @@ body.scheme_school.with_background_image,
 .scheme_school #getTheApp-link:hover {
 	color: #B5BAC4 !important;
 }
+.scheme_school #topBar .toolbarIcon.happiness div {
+    color: #A56B5B;
+}
+.scheme_school #topBar .toolbarIcon.energy div,
+.scheme_school .button_tooltip .energyProduction {
+    color: #3B7233;
+}
+.scheme_school #topBar .toolbarIcon.energy.warningWinter div{
+    color: #A56B5B;
+}
+.scheme_school #topBar .toolbarIcon.energy.warning div,
+.scheme_school .button_tooltip .energyConsumption {
+	color: #973B47;
+}
+.scheme_school .button_tooltip .energyPenalty {
+	color: #b74756;
+}
 
 /************************************************/
 /******************** FOOTER ********************/
 /************************************************/
 .scheme_school #footerLinks {
 	font-size: 90%;
-	bottom: 6px;
+	bottom: 6px; /* default bottom: 10px; */
+	color: rgba(86, 89, 92, 0.3); /* color #56595C */ /* a link separator : | on footer links */
 	background: none;
 }
 .scheme_school #footerLinks a {
 	text-transform: capitalize;
-}
-.scheme_school #footerLinks a:hover {
-	text-shadow: none;
-}
-.scheme_school #footerLinks { /* a link separator : | on footer links */
-	color: rgba(86, 89, 92, 0.3); /* color #56595C */
 }
 
 /*************************************************/
@@ -262,7 +291,7 @@ body.scheme_school.with_background_image,
 	font-size: 13px; /* for center tooltip except title, effects and flavor */
 }
 .scheme_school #tooltip,
-.scheme_school .tooltip-block div {
+.scheme_school .tooltip-block > div {
     background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
 	background-repeat: repeat;
 	background-attachment: fixed;
@@ -274,7 +303,7 @@ body.scheme_school.with_background_image,
 	border-radius: 0 0 5px 5px;
 	box-shadow: inset 0 1px 2px #000000, 2px 2px 3px #000000;
 }
-.scheme_school .tooltip-block div { /* tooltip on ? top right column */
+.scheme_school .tooltip-block > div { /* tooltip on ? top right column */
 	font-size: 13px;
 	padding: 5px;
 }
@@ -338,11 +367,13 @@ body.scheme_school.with_background_image,
 .scheme_school .tabInner.Workshop {
 	margin-bottom: 70px; /* default margin-bottom: 20px; */
 }
-.scheme_school .tabsContainer { /* separator | for tab */
-	color: rgba(86, 89, 92, 0.3); /* color #56595C */
+.scheme_school .tabsContainer {
 	font-size: 10px;
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	/* default padding-top: 2px; */
+}
+.scheme_school .tabsContainer span:not(.genericWarning) { /* separator | for tab */
+	color: rgba(86, 89, 92, 0.3); /* color #56595C */
 }
 .scheme_school .activeTab {
 	color: #B5BAC4;
@@ -351,9 +382,33 @@ body.scheme_school.with_background_image,
 .scheme_school a.activeTab {
 	text-decoration: underline rgba(187, 192, 202, 0.5); /* color #BBC0CA */
 }
+.scheme_school span.genericWarning { /* number of kittens free or engineering free on tab */
+	color: #973B47;
+}
 .scheme_school .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #4895b9;
+}
+.scheme_school .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_school .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_school .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_school .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_school .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_school .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_school .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_school .bldTopContainer { /* under tab */
     font-size: 13px;
@@ -405,7 +460,7 @@ body.scheme_school.with_background_image,
 	border-color: rgba(85, 85, 85, 0.4) !important; /* color #555555 */
 }
 .scheme_school .btn.modern a:hover {
-	color: #C2C6CF;	
+	color: #C2C6CF;
 	text-shadow: 1px 1px #000000;
 }
 .scheme_school .btn.modern:not(.disabled) a:hover {
@@ -424,6 +479,9 @@ body.scheme_school.with_background_image,
 	width: auto !important;
 	border-radius: 0 3px 3px 3px;
 	background-color: #4c4f55; /* color pick from button not disabled and hover */
+}
+.scheme_school .btn.modern:not(.disabled) .linkContent {
+	box-shadow: 2px 2px 3px #000000;
 }
 .scheme_school .container .linkContent { /* dropdown list on button in container */
 	margin-top: 26px !important; /* for correct vertical align dropdown list */
@@ -480,6 +538,9 @@ body.scheme_school.with_background_image,
 	border: none;
 	text-shadow: 0 0 6px rgba(255, 255, 255, 1);
 }
+.scheme_school .container.trade-race .crypto-trade .btn.modern {
+	max-width: 126px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (264 -2 -10)/2 = 126 */
+}
 .scheme_school .trade-race .buys {
 	color: #974338;
 	font-size: smaller;
@@ -493,24 +554,45 @@ body.scheme_school.with_background_image,
 	font-size: smaller;
 }
 .scheme_school .attitude { /* text for attitude races int trade tab */
-	color: #4A4A4A !important;
+	color: #696969 !important;
 	text-shadow: none !important;
+}
+.scheme_school .attitude:before {
+	/* default content: "("; */
+	content: "\00a0\21B7\00a0"; /* default content: "("; */ /* CLOCKWISE TOP SEMICIRCLE ARROW */
+	color: #4895b9;
+	font-size: larger;
+	font-weight: bold;
+}
+.scheme_school .attitude:after {
+	/* default content: ")"; */
+	content: ""; /* default content: ")"; */
+}
+.scheme_school .container.trade-race a[title='Pinned'] {
+	color: #4b9241;
+	font-weight: bold;
+}
+.scheme_school .container.trade-race a[title='Pinned']:hover {
+	color: #5eb252;
 }
 .scheme_school .panelContainer div.censusFilters {
 	margin-bottom: 3px; /* for add a margin under the 2 lists (select) in the settlement tab */
 }
 /* ---------- Village ----------*/
 /* container 'Census' -> list of kittens in settlement tab */
-.scheme_school .panelContainer .census-block{
+.scheme_school .panelContainer .census-block {
 	background-color : transparent;
 	border-radius: 1px 1px 5px 5px;
-	border-color: rgba(187, 192, 202, 0.1) !important; /* color #BBC0CA */
+	border-color: rgba(187, 192, 202, 0.1); /* color #BBC0CA */
 	/* default padding: 5px; */
 	/* default margin-bottom: 5px; */
 }
+.scheme_school .census-block:hover {
+	border-color: #606060;
+}
 .scheme_school .census-block.simLeader {
 	background-color : rgba(17, 138, 194, 0.05); /* color #4895b9; */
-	border-color: rgba(187, 192, 202, 0.3) !important; /* color #BBC0CA */
+	border-color: rgba(187, 192, 202, 0.3); /* color #BBC0CA */
 }
 .scheme_school .census-block.simLeader a.leaderHref {
 	color: #4895b9;
@@ -527,8 +609,8 @@ body.scheme_school.with_background_image,
 	color: #4895b9;
 	font-weight: normal !important;
 }
-.scheme_school .census-block.simLeader .info span[class^=color] {  /* Leader name */
-	font-size: 1.2em;
+.scheme_school .census-block.simLeader .info span.name {  /* Leader name */
+	font-size: 1.3em;
 }
 .scheme_school .census-block.simLeader .skill:first-of-type { /* Leader job assigned */
 	font-size: 1em; /* default font-size: 0.8em; */
@@ -571,10 +653,10 @@ body.scheme_school.with_background_image,
 .scheme_school .btn.modern:hover a.fugit-off {
 	color: #b74756;
 }
-.scheme_school .btn.modern.craftOn .btnTitle { /* all buttons with engineer(s) in workshop tab */
+.scheme_school .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
 	color: #4b9241;
 }
-.scheme_school .btn.modern.craftOn:hover .btnTitle {
+.scheme_school .btn.modern.craftOn:hover span.btnTitle {
 	color: #5eb252;
 	text-shadow: 1px 1px 2px #090909;
 }
@@ -650,7 +732,7 @@ body.scheme_school.with_background_image,
      color: #A56B5B; /* orange or dominant color of the theme */
 }
 .scheme_school .achievement .star {
-	color : #888888; 	
+	color : #888888;
 }
 .scheme_school .achievement.unlocked .star {
 	color : #A56B5B; /* orange or dominant color of the theme */
@@ -662,7 +744,7 @@ body.scheme_school.with_background_image,
 /******************** RIGHT COLUMN ********************/
 /******************************************************/
 .scheme_school #rightColumn {
-	width: calc(50 - 355px);
+	width: calc(50% - 355px);
 	max-width: 440px;
 }
 .scheme_school #toggleCenter,
@@ -686,16 +768,16 @@ body.scheme_school.with_background_image,
 	text-shadow: 1px 1px 1px #000000, 0 0 3px #000000;
 }
 .scheme_school #calendarSign {
-   font-size: 120% ;
+   font-size: 120%;
 }
 .scheme_school #calendarSign:hover {
-   cursor: default ;
+   cursor: default;
 }
 .scheme_school .right-tab-header { /* Log | Chat link on right column */
 	color: rgba(86, 89, 92, 0.5); /* color #56595C */ /* for separator tab | */
 	font-size: 80%;
  }
- .scheme_school .right-tab-header a.active {
+.scheme_school .right-tab-header a.active {
     text-decoration: underline rgba(187, 192, 202, 0.4); /* color #BBC0CA */;
 	color: #B5BAC4;
 	border-top: none;
@@ -719,6 +801,9 @@ body.scheme_school.with_background_image,
 }
 .scheme_school #pauseBtn { /* Link in right column : pawse */
 	margin-left: 5px;
+}
+.scheme_school #gameLog {
+	scrollbar-width: thin; /* only Firefox */
 }
 .scheme_school #gameLog span.msg:not(.type_date) {
     margin-left: 1.2em;
@@ -744,6 +829,10 @@ body.scheme_school.with_background_image,
 .scheme_school .msg.type_alert {
     color: #973B47; /* color default : red; */
 }
+.scheme_school .msg.type_urgent {
+	/* default color: blueviolet; */
+	font-size: 1.1em;
+}
 .scheme_school .msg.type_date {
     color: #D2D2D2;
 	text-transform: none;
@@ -755,15 +844,29 @@ body.scheme_school.with_background_image,
 /*****************************************************/
 /******************** LEFT COLUMN ********************/
 /*****************************************************/
+.scheme_school .res-toolbar.right {
+	padding-right: 10px;
+}
+.scheme_school a.link.collapse {
+	opacity: 0.4; /* default opacity: 0.2; */
+}
+.scheme_school a.link.collapse:hover {
+	opacity: 1;/* default opacity: 0.9; */
+	color: #B5BAC4;
+}
 .scheme_school .res-toolbar .link.toggled {
     color: #A56B5B;
 }
+.scheme_school div.tooltip-block > span {
+	color: #6B707A;
+}
 .scheme_school div.tooltip-block:hover > span {
 	font-weight: bold;
+	color: #B5BAC4;
 }
 .scheme_school .res-table {
     max-width: 352px;    /* +12 pixel */
-    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */ 	
+    border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
 	margin-left: 2px; /* without 0px margin left for all ressources */
  }
 .scheme_school .res-row:hover {
@@ -774,7 +877,7 @@ body.scheme_school.with_background_image,
 	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
 }
 .scheme_school .craftTable {
-	 margin-bottom: 50px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
+	 margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
  }
 .scheme_school .res-cell.craft-link {
 	color: #6B707A;
@@ -784,12 +887,13 @@ body.scheme_school.with_background_image,
     color: #B5BAC4;
 	text-decoration: none;
 	font-weight: bold;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.9);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.9);
+	opacity: 1;
 }
 .scheme_school .maxRes {
 	color: #9498a0;
 	font-size: 90%;
-	min-width:60px; /* for not adjust size of cell in live. Without column move horizontally */
+	min-width: 60px; /* for not adjust size of cell in live. Without column move horizontally */
 }
 .scheme_school .resAmount {
     color: #9498a0;
@@ -798,7 +902,7 @@ body.scheme_school.with_background_image,
 }
 .scheme_school .resLimitWarn {
     color: #A56B5B;
-	font-style: italic;	
+	font-style: italic;
 }
 .scheme_school .resLimitNotice {
     color: #e3e4e7;
@@ -815,7 +919,7 @@ body.scheme_school.with_background_image,
 }
 .scheme_school div#advisorsContainer {
 	color: #973B47;
-	padding-top: 6px; /* default padding-top:10px; */
+	padding-top: 6px; /* default padding-top: 10px; */
 }
 .scheme_school #fastHuntContainer > a { /* Text left column : "Send hunters (xx times)" */
 	font-size: 100%;
@@ -827,10 +931,10 @@ body.scheme_school.with_background_image,
 .scheme_school #fastPraiseContainer > a { /* Text left column : "Praise the sun!" */
 	font-size: 100%;
 }
-.scheme_school #fastPraiseContainer > a:hover{
+.scheme_school #fastPraiseContainer > a:hover {
 	text-shadow: 0 0 7px rgba(255, 255, 255, 0.9);
 }
-.scheme_school #fastHuntContainer > a:hover{
+.scheme_school #fastHuntContainer > a:hover {
 	text-shadow: 1px 1px #000000;
 }
 .scheme_school .res-cell.positive-weather { /* to change bonus cell according to the season */
@@ -839,28 +943,18 @@ body.scheme_school.with_background_image,
 }
 .scheme_school .res-cell.negative-weather { /* to change penalty cell according to the season */
 	font-size: 80% !important;
-	color: #973B47 !important;	
+	color: #973B47 !important;
 }
 .scheme_school .res-cell.craft-link.all { /* 6th column of craft table : "all" */
 	font-size: 90%; /* default font-size: 80%; */
 	opacity: 0.7; /* default opacity: 0.4; */
 	color: #A56B5B;
 }
-.scheme_school .resource_kittens .resource-name {
-	color: #777777 !important;
-}
-.scheme_school .resource_faith .resource-name {
-	color: #777777 !important;
-}
-.scheme_school .resource_steel .resource-name {
-	color: #777777 !important;
-}
-.scheme_school .resource_gear .resource-name {
-	color: #777777 !important;
-}
-.scheme_school .resource_alloy .resource-name {
-	color: #777777 !important;
-}
+.scheme_school .resource_faith .resource-name,
+.scheme_school .resource_kittens .resource-name,
+.scheme_school .resource_steel .resource-name,
+.scheme_school .resource_gear .resource-name,
+.scheme_school .resource_alloy .resource-name,
 .scheme_school .resource_megalith .resource-name {
 	color: #777777 !important;
 }
@@ -879,7 +973,8 @@ body.scheme_school.with_background_image,
 /* Only FireFox */
 .scheme_school #leftColumn,
 .scheme_school #rightColumn,
-.scheme_school #midColumn {
+.scheme_school #midColumn,
+.scheme_school .dialog {
    scrollbar-width: thin;
    scrollbar-color: #292728 #242424 !important;
 }

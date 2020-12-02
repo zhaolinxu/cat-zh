@@ -355,6 +355,11 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 				enabled: true,
 				unlocked: false
 			},
+			"alicornCorruption":{
+				title: "Alicorn Corruption",
+				enabled: true,
+				unlocked: false
+			},
 			"tc": {
 				title: $I("console.filter.tc"),
 				enabled: true,
@@ -441,8 +446,14 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	},
 
 	save: function(saveData){
+		var saveFilters = {};
+		for (var fId in this.filters) {
+			var filter = this.filters[fId];
+			saveFilters[fId] = {unlocked: filter.unlocked, enabled: filter.enabled};
+		}
+
 		saveData.console = {
-			filters: this.filters
+			filters: saveFilters
 		};
 	},
 
@@ -575,6 +586,9 @@ dojo.declare("com.nuclearunicorn.game.ui.ButtonController", null, {
 	},
 
 	getName: function(model){
+		if (this.controllerOpts.getName){
+			return this.controllerOpts.getName.apply(this, arguments);
+		}
 		return model.options.name;
 	},
 
@@ -1334,7 +1348,7 @@ ButtonModernHelper = {
 		if (!hideTitle){
 			dojo.create("div", {
 				innerHTML: $I("res.effects") + ":",
-				className: "tooltip-divider",
+				className: "tooltip-divider" + " resEffectsTxt",
 				style: {
 					textAlign: "center",
 					width: "100%",
@@ -1930,6 +1944,8 @@ dojo.declare("com.nuclearunicorn.game.ui.BuildingStackableBtnController", com.nu
 
 			if (meta.breakIronWill) {
 				this.game.ironWill = false;
+				var liberty = this.game.science.getPolicy("liberty");
+				liberty.calculateEffects(liberty, this.game);
 			}
 
 			if (meta.unlocks) {

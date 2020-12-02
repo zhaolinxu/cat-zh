@@ -1,8 +1,9 @@
 /* ******************************************************** */
-/* ***			Vintage 1.00 Theme © Volkeyrn             *** */
+/* ***			Vintage 1.0.3 Theme © Volkeyrn          *** */
 /* ******************************************************** */
 
-@import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,500,600,700,400italic,500italic,600italic,700italic&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Bitter:ital,wght@400,600,700,400italic,600italic,700italic&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:ital,wght@300,400,600,700,300italic,400italic,600italic,700italic,&display=swap);
 
 /* ******************************************** */
 /* ******************* GAME ******************* */
@@ -14,14 +15,14 @@ body.scheme_vintage {
 .scheme_vintage  #gamePageContainer,
 .scheme_vintage select,
 .scheme_vintage .btn,
-.scheme_vintage  .modern,
+.scheme_vintage .modern,
 .scheme_vintage .btn.modern,
 .scheme_vintage input[type='button'] {
 	font-family: 'Bitter', serif;
 }
 .scheme_vintage .btn {
 	color: gray;
-	margin-bottom: 6px; /* default 10px */
+	margin-bottom: 6px; /* default margin-bottom: 10px; */
 	background-color: transparent;
 	border: solid 1px transparent;
     /* default padding: 5px; */
@@ -48,17 +49,17 @@ body.scheme_vintage {
 	border-image-repeat: round;
 	box-shadow: inset 0 0 3px 1px #000000, 1px -1px 3px #707070;
 }
-.scheme_vintage .btn.modern.disabled span.btnTitle { /* color text for all buttons disabled */
+.scheme_vintage .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #909090;
 }
-.scheme_vintage .btn.modern.disabled span.btnTitle.limited { /* color text for all buttons limited */
+.scheme_vintage .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
 	color: #cd564f;
 }
 .scheme_vintage .btn.modern:not(.disabled) {
 	border: solid 1px #606060;
 	background-color: #403e49;
 }
-.scheme_vintage .btn.modern:not(.disabled):hover { /* hover on all button not disabled in center column */	
+.scheme_vintage .btn.modern:not(.disabled):hover {
 	background-color: #d4b258;
 	border: 1px solid transparent;
 	border-image-source: url('img/theme_vintage_frame_04.png'); /* source of images for graphic design : https://pngtree.com/freepng/golden-border-pattern_4493955.html Volkeyrn: permanent premium member */
@@ -71,10 +72,10 @@ body.scheme_vintage {
 .scheme_vintage .btn.modern:not(.disabled):hover a {
 	border-left-color: #d8ba69;
 }
-.scheme_vintage .btn.modern:not(.disabled) span.btnTitle { /* color text for all buttons not disabled */
+.scheme_vintage .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #f8edd0;
 }
-.scheme_vintage .btn:not(.disabled):hover span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+.scheme_vintage .btn.modern:not(.disabled):hover span.btnTitle {
 	color: #000000;
 	text-shadow: 0 1px 1px #000000;
 }
@@ -109,15 +110,15 @@ body.scheme_vintage {
 	/* default font-size: 90%; */
 /* } */
 .scheme_vintage .modern .btnContent {
-    padding: 10px 0 10px 1px !important; /* 15px left for buttons without power background-image */
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_vintage .btn.bldEnabled div.btnContent,
 .scheme_vintage .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 16px !important; /* 16px left for power background-image */
-	border: none;	
+	padding: 10px 0 10px 16px; /* 16px left for power background-image */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_vintage .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
+.scheme_vintage .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #cd564f 0%, #cd564f 12px, #161619 15px, #161619 100%);
 }
 .scheme_vintage .btn.disabled.bldlackResConvert:hover {
@@ -143,7 +144,7 @@ body.scheme_vintage {
 }
 /*** end of green light for machine on/off ***/
 .scheme_vintage .dialog {
-	/* default padding: 20px; */
+	padding: 15px; /* default padding: 20px; */
 	background-color:  #242329;
     box-shadow: 0 0 25px 45px #242329;
 	border: 1px solid transparent;
@@ -154,7 +155,6 @@ body.scheme_vintage {
 	border-image-repeat: round;
 	border-image-source: url('img/theme_vintage_frame_01.png'); /* source of images for graphic design : https://pngtree.com/freepng/trend-hot-stamping-photo-frame-golden-border_3945592.html Volkeyrn: permanent premium member */
 	border-image-outset: 45px 45px 45px 45px;
-	padding: 15px;
 	/* Only FireFox */
 	scrollbar-width: thin;
 	scrollbar-color: #2b2a31 #1d1c21;
@@ -202,8 +202,6 @@ body.scheme_vintage {
 	border-radius: 9999em;
     background-color: #cd564f;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
-	-webkit-transition: left 0.25s ease;
-	transition: left 0.25s ease;
 	background-image: url('img/theme_vintage_switch_off.png'); /* source of images for graphic design : Volkeyrn */
 	background-repeat: no-repeat;
 	background-attachment: local;
@@ -217,7 +215,7 @@ body.scheme_vintage {
 	background-repeat: no-repeat;
 	background-attachment: local;
 	background-position: top 1px left 1px;
-	background-color: #709c85;	
+	background-color: #709c85;
 }
 .scheme_vintage .dialog input[type="button"] {
 	margin-left: 7px;
@@ -227,6 +225,9 @@ body.scheme_vintage {
 	background-color: #161619;
 	color: #b0b0b0;
 	border: 2px inset #403e49;
+	border-radius: 3px;
+	padding: 3px 1px 3px 5px;
+    margin-right: 5px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
@@ -240,7 +241,7 @@ body.scheme_vintage {
 	border-image-width: 4px 4px 4px 4px;
 	border-image-slice: 4 4 4 4;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	padding: 5px;
 	margin-bottom: 3px;
 	/* Only FireFox */
@@ -249,7 +250,7 @@ body.scheme_vintage {
 }
 .scheme_vintage input:active,
 .scheme_vintage select:active,
-.scheme_vintage textarea:active { 
+.scheme_vintage textarea:active {
     border-color: #f8edd0 !important;
 }
 
@@ -257,7 +258,7 @@ body.scheme_vintage {
 /* ******************* TOP BAR ******************* */
 /* *********************************************** */
 .scheme_vintage #topBar {
-    /* default height: 26px; */	
+    /* default height: 26px; */
 	border-bottom: 1px solid transparent;
 	border-top: 1px solid transparent;
 	border-image-source: url('img/theme_vintage_frame_03.png'); /* source of images for graphic design : https://pngtree.com/freepng/trend-hot-stamping-photo-frame-golden-border_3945592.html Volkeyrn: permanent premium member */
@@ -280,19 +281,19 @@ body.scheme_vintage {
 .scheme_vintage #topBar a.copyright:hover {
 	color: #f8edd0;
 }
-.scheme_vintage #headerLinks .links-block { /* a link separator : | on header links*/
+.scheme_vintage #headerLinks .links-block { /* a link separator : | on header links */
 	color: transparent;
 }
 .scheme_vintage #topBar div,
-.scheme_vintage #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_vintage #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #c0c0c0;
 }
-.scheme_vintage #sorrowTooltip.max {
+.scheme_vintage .toolbarIcon.sorrow.max div {
     color: #cd564f !important; /* in default.js !important needed */
 }
-.scheme_vintage #headerLinks>div:first-child:before {
+.scheme_vintage #topBar > div:first-child > span:first-child:after {
     color: #d4b356;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     text-decoration: none;
 	font-weight: normal;
 }
@@ -308,20 +309,22 @@ body.scheme_vintage {
 .scheme_vintage .links-block {
 	padding-top: 5px !important;
 }
-.scheme_vintage .toolbarIcon.happiness {
+.scheme_vintage #topBar .toolbarIcon.happiness div{
     color: #c66829;
 }
-.scheme_vintage .toolbarIcon.energy,
+.scheme_vintage #topBar .toolbarIcon.energy div,
 .scheme_vintage .button_tooltip .energyProduction {
     color: #709c85;
 }
-.scheme_vintage .toolbarIcon.energy.warningWinter {
+.scheme_vintage #topBar .toolbarIcon.energy.warningWinter div{
     color: #c66829;
 }
-.scheme_vintage .toolbarIcon.energy.warning,
-.scheme_vintage .button_tooltip .energyConsumption,
-.scheme_vintage .button_tooltip .energyPenalty {
+.scheme_vintage #topBar .toolbarIcon.energy.warning div,
+.scheme_vintage .button_tooltip .energyConsumption {
 	color: #cd564f;
+}
+.scheme_vintage .button_tooltip .energyPenalty {
+	color: #B53B34;
 }
 
 /* ********************************************** */
@@ -331,10 +334,7 @@ body.scheme_vintage {
 	font-size: 90%;
 	bottom: 3px; /* default bottom: 10px; */
 	/* default right: 5px; */
-	color: transparent; /* a link separator : | on footer links*/
-}
-.scheme_vintage #footerLinks a:hover {
-	text-shadow: none;
+	color: transparent; /* a link separator : | on footer links */
 }
 
 /* *********************************************** */
@@ -342,14 +342,14 @@ body.scheme_vintage {
 /* *********************************************** */
 /* .scheme_vintage .tooltip-inner {
 	/* default width: 280px; */
-	/*font-size: 13px; /* for center tooltip except title, effects and flavor */
+	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_vintage #tooltip,
-.scheme_vintage .tooltip-block div {
+.scheme_vintage .tooltip-block > div {
 	padding-left: 9px; /* default padding-left: 3px; */
 	padding-bottom: 5px;
 	background-color: #161619;
-	background: no-repeat local bottom -15px right -2px url('img/theme_vintage_background.png'),#161619; /* source of images for graphic design : https://pngtree.com/freepng/yellowed-old-border-shabby-texture-photo-frame-nostalgic-photo-frame-grain-texture_3917077.html Volkeyrn: permanent premium member */	
+	background: no-repeat local bottom -15px right -2px url('img/theme_vintage_background.png'), #161619; /* source of images for graphic design : https://pngtree.com/freepng/yellowed-old-border-shabby-texture-photo-frame-nostalgic-photo-frame-grain-texture_3917077.html Volkeyrn: permanent premium member */
 	color: #e8e8e8; /* tooltip windows == left column : left text */
 	border: 3px solid transparent;
 	border-image-source: url('img/theme_vintage_border_02.png'); /* source of images for graphic design : https://pngtree.com/freepng/european-border-pattern-dividing-line-commonly-used-retro-commercial-elements_4023849.html Volkeyrn: permanent premium member */
@@ -358,9 +358,9 @@ body.scheme_vintage {
 	border-image-outset: 5 2 5 2;
 	border-image-repeat: round;
 	box-shadow: 2px 5px 7px #000000, -2px -5px 7px #000000;
-	/*margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
+	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_vintage .tooltip-block div { /* tooltip on ? top right column */
+.scheme_vintage .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_vintage .button_tooltip {
@@ -415,7 +415,7 @@ body.scheme_vintage {
 	/* default margin-top: 30px; */
 	/* default width: 630px */
 /* } */
-.scheme_vintage .tab { 
+.scheme_vintage .tab {
     font-size: 13px;
 }
 .scheme_vintage .tabInner {
@@ -427,11 +427,11 @@ body.scheme_vintage {
 	margin-bottom: 54px; /* to view entire dropdownlink of last button */
 }
 .scheme_vintage .tabInner.Bonfire {
-	margin-bottom: 14px; /*default margin-bottom: 20px; */
+	margin-bottom: 14px; /* default margin-bottom: 20px; */
 }
 .scheme_vintage .tabsContainer {
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
-	padding-top: 5px;/* default padding-top: 2px; */
+	padding-top: 5px; /* default padding-top: 2px; */
 	/* default top: 5px; */
 }
 .scheme_vintage .tabsContainer a {
@@ -452,6 +452,27 @@ body.scheme_vintage {
 .scheme_vintage .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #d4b356;
+}
+.scheme_vintage .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_vintage .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_vintage .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_vintage .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_vintage .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_vintage .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_vintage .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_vintage div.bldTopContainer > a { /* under tab */
 	font-size: 90%;
@@ -479,7 +500,7 @@ body.scheme_vintage {
 }
 .scheme_vintage input[type='button'] {
 	background-color: #161619 !important; /* !important in default.css */
-	background: local no-repeat bottom -5px right url('img/theme_vintage_background.png'),#161619 !important; /* source of images for graphic design : https://pngtree.com/freepng/yellowed-old-border-shabby-texture-photo-frame-nostalgic-photo-frame-grain-texture_3917077.html Volkeyrn: permanent premium member */	
+	background: local no-repeat bottom -5px right url('img/theme_vintage_background.png'), #161619 !important; /* source of images for graphic design : https://pngtree.com/freepng/yellowed-old-border-shabby-texture-photo-frame-nostalgic-photo-frame-grain-texture_3917077.html Volkeyrn: permanent premium member */
 	box-shadow: 2px 2px 5px #000000,
                  0 -1px 0 #808080 !important; /* !important in default.css */
     border: solid 1px #181818 !important; /* for no offset when border on */ /* !important in default.css */
@@ -496,12 +517,12 @@ body.scheme_vintage {
 	text-shadow: 1px 1px 1px #000000;
 	box-shadow: inset 2px 2px 3px #000000,
 				 0 1px 0 #606060 !important; /* !important in default.css */
-	cursor: pointer !important;
+	cursor: pointer !important; /* !important in default.css */
 }
 /* button observer different from other input buttons  */
-.scheme_vintage input[type='button']#observeBtn {	
+.scheme_vintage input[type='button']#observeBtn {
 	font-size: 15px;
-	/*border-radius: 5px !important; /* !important in default.css */
+	/* border-radius: 5px !important; /* !important in default.css */
 	text-shadow: 2px 2px 2px #000000;
 	background-color: #403e49 !important; /* !important in default.css */
 	background-position: bottom -28px right -5px;
@@ -511,17 +532,11 @@ body.scheme_vintage {
 	border-image-width: 2px 2px 2px 2px !important;
 	border-image-slice: 2 2 2 2 !important;
 	border-image-outset: 0 !important;
-	border-image-repeat: round !important;	
-	box-shadow: 0 0 5px 2px #161619 !important; /* !important in default.css */	
+	border-image-repeat: round !important;
+	box-shadow: 0 0 5px 2px #161619 !important; /* !important in default.css */
 }
 .scheme_vintage input[type='button']#observeBtn:hover {
 	background-color: #d4b258 !important; /* !important in default.css */
-	/*border: solid 1px transparent !important; /* !important in default.css */
-	/*border-image-source: url('img/theme_vintage_frame_04.png') !important; /* source of images for graphic design : https://pngtree.com/freepng/golden-border-pattern_4493955.html Volkeyrn: permanent premium member */
-	/*border-image-width: 2px 2px 2px 2px !important;
-	border-image-slice: 2 2 2 2 !important;
-	border-image-outset: 0 !important;
-	border-image-repeat: round !important;*/
 	color: #f8edd0;
 	text-shadow: 2px 2px 2px #000000;
 	box-shadow: 0 0 5px 1px #f8edd0 !important; /* !important in default.css */
@@ -532,7 +547,7 @@ body.scheme_vintage {
     /* default overflow-x: hidden; */
     /* default text-overflow: ellipsis; */
 /* } */
-.scheme_vintage .btn.modern a {	
+.scheme_vintage .btn.modern a {
 	font-weight: normal;
 	line-height: 16px;
 	background-color: transparent;
@@ -547,7 +562,7 @@ body.scheme_vintage {
 	border-left: 1px solid #505050
 }
 .scheme_vintage .btn.modern.disabled a {
-    color: #707070;	
+    color: #707070;
 	border-left: 1px solid #202020;
 }
 .scheme_vintage .btn.modern:not(.disabled) a:hover {
@@ -559,10 +574,10 @@ body.scheme_vintage {
 }
 .scheme_vintage .btn.modern:not(.disabled):active,
 .scheme_vintage input[type='button']:active,
-.scheme_vintage input[type='button']#observeBtn:active { 
+.scheme_vintage input[type='button']#observeBtn:active {
     border-color: #f8edd0 !important;
 }
-.scheme_vintage .linkContent { /* dropdown list on button*/
+.scheme_vintage .linkContent { /* dropdown list on button */
     margin-top: 26px !important; /* for correct vertical align dropdown list */
     width: auto !important;
     background-color: #d4b258; /* color pick from button not disabled and hover */
@@ -580,7 +595,7 @@ body.scheme_vintage {
 }
 .scheme_vintage .btn.modern.disabled .linkContent { /* dropdown list on button disabled */
 	background-color: #161619; /* color pick from button disabled and hover */
-	box-shadow: inset 0 0 3px 1px #000000, 1px 1px 3px #000000, inset -1px -1px 1px #a0a0a0;	
+	box-shadow: inset 0 0 3px 1px #000000, 1px 1px 3px #000000, inset -1px -1px 1px #a0a0a0;
 }
 .scheme_vintage .btn.modern.disabled .linkContent a {
 	border-left: none !important;
@@ -600,7 +615,7 @@ body.scheme_vintage {
 	/* buttons border-radius: 5px; */
 	border-radius: 0 5px 5px 0;
 }
-.scheme_vintage .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab*/
+.scheme_vintage .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab */
 	border-radius: 0 5px 5px 0;
 }
 /* .scheme_vintage .btn .btnContent a.small { */
@@ -615,7 +630,7 @@ body.scheme_vintage {
 	border-image-width: 4px 4px 4px 4px;
 	border-image-slice: 4 4 4 4;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	box-shadow: inset 0 0 5px 2px #000000, 0 0 3px 1px #000000;
 }
 .scheme_vintage table.statTable {
@@ -628,7 +643,7 @@ body.scheme_vintage {
 	border-image-width: 50px 50px 50px 50px;
 	border-image-slice: 50 50 50 50;
 	border-image-outset: 7px 7px 7px 7px;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 }
 .scheme_vintage .panelContainer div.title {
 	padding: 4px 4px 4px 20px; /* default padding: 4px; */ /* default padding-left: 10px; */
@@ -660,11 +675,14 @@ body.scheme_vintage {
 	border-image-width: 2px 2px 2px 2px;
 	border-image-slice: 2 2 2 2;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	box-shadow: inset 0 0 3px 1px #000000, 0 0 1px 1px #000000;
 }
 .scheme_vintage .container {
 	padding: 5px; /* default padding: 10px; */
+}
+.scheme_vintage .container.trade-race .crypto-trade .btn.modern {
+	max-width: 126px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (264 - 2 -10)/2 = 126 */
 }
 .scheme_vintage .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
@@ -742,7 +760,7 @@ body.scheme_vintage {
 	border-image-width: 2px 2px 2px 2px;
 	border-image-slice: 2 2 2 2;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	box-shadow: inset 0 0 3px 1px #000000, 0 0 3px 1px #000000;
 }
 .scheme_vintage .census-block.simLeader a.leaderHref {
@@ -828,14 +846,14 @@ body.scheme_vintage {
 .scheme_vintage .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
 	color: #709c85;
 }
-.scheme_vintage .btn.modern.craftOn:hover .btnTitle {
-	color: #1b786d; /* #009c4a;*/
+.scheme_vintage .btn.modern.craftOn:hover span.btnTitle {
+	color: #1b786d;
 	text-shadow: 0 1px 1px #000000;
 }
 .scheme_vintage td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #e8e8e8;
 	text-shadow: 1px 1px 2px #000000;
-	font-size: 15px;	
+	font-size: 15px;
 }
 .scheme_vintage td.craftStuffPanel > table { /* craft stuff panel */
     margin-top: 2px;
@@ -867,16 +885,16 @@ body.scheme_vintage {
 	/* default margin-bottom: 10px; */
 	height: 34px;
 	background-color: transparent;
-	color: #e8e8e8;	
+	color: #e8e8e8;
 	letter-spacing: 1px;
 	border: 2px solid transparent;
  	border-image-source: url('img/theme_vintage_frame_03.png'); /* source of images for graphic design : https://pngtree.com/ Volkeyrn: permanent premium member */
 	border-image-width: 2px 2px 2px 2px;
 	border-image-slice: 2 2 2 2;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 }
-.scheme_vintage .achievement:hover {	
+.scheme_vintage .achievement:hover {
 	text-shadow: 2px 2px 2px #000000;
 	border: 2px solid transparent;
 	border-image-source: url('img/theme_vintage_frame_04.png'); /* source of images for graphic design : https://pngtree.com/freepng/golden-border-pattern_4493955.html Volkeyrn: permanent premium member */
@@ -891,11 +909,9 @@ body.scheme_vintage {
 	box-shadow: 0 0 3px 1px #f8edd0;
 }
 .scheme_vintage .achievement.unethical {
-	/*border-color : rgba(205, 86, 79, 0.3); /* color #cd564f */
 	color: #cd564f;
 }
 .scheme_vintage .achievement.unethical:hover {
-	/*border-color : rgba(205, 86, 79, 1); /* color #cd564f */
 	color: #db483c;
 	box-shadow: 0 0 3px 1px #cd564f;
 }
@@ -966,10 +982,10 @@ body.scheme_vintage {
 	text-shadow: 2px 2px 2px #000000;
 }
 .scheme_vintage #calendarSign {
-   font-size: 120% ;
+   font-size: 120%;
 }
 .scheme_vintage #calendarSign:hover {
-   cursor: default ;
+   cursor: default;
 }
 .scheme_vintage .right-tab-header { /* Log | Chat link on right column */
 	/* default margin-top: 10px; */
@@ -982,7 +998,7 @@ body.scheme_vintage {
     /* default padding-right: 30px; */
 }
 .scheme_vintage .right-tab-header a.active {
-	border-top: 1px solid #404040; /* default border-top: 1px solid rgba(128,128,128, 0.4); */
+	border-top: 1px solid #404040; /* default border-top: 1px solid rgba(128, 128, 128, 0.4); */
 	color: #f8edd0;
 }
 .scheme_vintage .right-tab-header a.active:hover {
@@ -1014,8 +1030,9 @@ body.scheme_vintage {
 	/* default overflow-y: auto !important; */
 	margin: 15px 10px 5px 10px;
 	padding: 5px 10px 10px 3px !important;
+	/* 2 lines of code below if border with an image without scrollbar */
 	min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	scrollbar-width: thin; /* only Firefox */
 	border: 3px solid transparent;
 	border-image-source: url('img/theme_vintage_frame_05.png'); /* source of images for graphic design : https://pngtree.com/freepng/retro-european-style-trend-hot-stamping_3854783.html Volkeyrn: permanent premium member */
@@ -1039,7 +1056,7 @@ body.scheme_vintage {
 	color: #c0c0c0;
 }
 .scheme_vintage .msg.type_notice {
-	color: #5677D4; /* default color: #01A9DB; */	
+	color: #5677D4; /* default color: #01A9DB; */
 }
 .scheme_vintage .msg.type_important {
     color: #c66829; /* default color: coral; */
@@ -1072,6 +1089,10 @@ body.scheme_vintage {
 /* .scheme_vintage a.link { */
     /* default padding-right: 10px; */
 /* } */
+.scheme_vintage .res-toolbar.right {
+	padding-right: 20px;
+	/* default margin-right:-18px; */
+}
 .scheme_vintage a.link.collapse {
 	opacity: 0.5; /* default opacity: 0.2; */
 }
@@ -1082,6 +1103,9 @@ body.scheme_vintage {
 .scheme_vintage #leftColumn .res-toolbar a.link.toggled {
     color: #d4b356;
 }
+.scheme_vintage div.tooltip-block > span {
+	color: #a0a0a0;
+}
 .scheme_vintage div.tooltip-block:hover > span {
 	font-weight: bold;
 	color: #f8edd0;
@@ -1090,20 +1114,16 @@ body.scheme_vintage {
 	max-width: 352px;/* default max-width: 340px; */
     border-collapse: collapse; /* gain of 3 pixel by border -> no margin bottom after */
 	margin-left: 2px; /* without 0px margin left for all ressources */
- }
-/* .scheme_vintage .res-toolbar.left { */
-    /* default padding-left:5px; */
-/* } */
-.scheme_vintage .res-toolbar.right {
-	padding-right: 20px;
-	/* default margin-right:-18px; */
 }
+/* .scheme_vintage .res-toolbar.left { */
+    /* default padding-left: 5px; */
+/* } */
 /* .scheme_vintage .res-cell { */
 	/* default padding-left: 2px; */
     /* default padding-right: 2px; */
 /* } */
 .scheme_vintage .craftTable {
-	margin-bottom: 20px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
+	margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
 	/* default padding-bottom: 50px; */
  }
 .scheme_vintage .res-cell.craft-link {
@@ -1168,6 +1188,13 @@ body.scheme_vintage {
 .scheme_vintage .resource_eludium .resource-name {
 	color: #b003ff!important;
 }
+.scheme_vintage .maxRes,
+.scheme_vintage .resAmount,
+.scheme_vintage .resPerTick,
+.scheme_vintage .res-cell.resource-value,
+.scheme_vintage .craftTable {
+	font-family: 'Source Sans Pro', sans-serif;
+}
 .scheme_vintage .maxRes {
 	color: #808080;
 }
@@ -1193,7 +1220,7 @@ body.scheme_vintage {
 }
 .scheme_vintage div#advisorsContainer {
 	color: #cd564f;
-	/* default padding-top:10px; */
+	/* default padding-top: 10px; */
 }
 .scheme_vintage .res-cell.resource-value {
 	/* default width: 75px; */
@@ -1208,7 +1235,7 @@ body.scheme_vintage {
 	font-size: larger;
 }
 .scheme_vintage #fastPraiseContainer >a:hover {
-	color: #f8edd0;	
+	color: #f8edd0;
 	text-shadow: 1px 1px 4px #f8edd0, -1px -1px 4px #f8edd0;
 }
 .scheme_vintage .res-cell.positive-weather { /* to change the color for bonus cell according to the season */

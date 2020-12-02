@@ -111,7 +111,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 			"perks": ["vitruvianFeline"]
 		},
 		effects:{
-			"priceRatio" : -16/900
+			"priceRatio" : -16 / 900
 		}
 	},{
 		name: "vitruvianFeline",
@@ -165,6 +165,16 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 		label: $I("prestige.zebraCovenant.label"),
 		description: $I("prestige.zebraCovenant.desc"),
 		prices: [{ name: "paragon", val: 75 }],
+		unlocked: false,
+		researched: false,
+		unlocks: {
+			"perks": ["navigationDiplomacy"]
+		}
+	},{
+		name: "navigationDiplomacy",
+		label: $I("prestige.navigationDiplomacy.label"),
+		description: $I("prestige.navigationDiplomacy.desc"),
+		prices: [{ name: "paragon", val: 300 }],
 		unlocked: false,
 		researched: false
 	},{
@@ -452,7 +462,7 @@ dojo.declare("classes.managers.PrestigeManager", com.nuclearunicorn.core.TabMana
 
 		this.loadMetadata(this.perks, saveData.prestige.perks);
 
-		for (var i = 0; i< this.perks.length; i++){
+		for (var i = 0; i < this.perks.length; i++){
 			var perk = this.perks[i];
 			if (perk.researched){
 				this.game.unlock(perk.unlocks);
@@ -538,11 +548,7 @@ dojo.declare("classes.ui.PrestigeBtnController", com.nuclearunicorn.game.ui.Buil
 
 	updateVisible: function(model){
 		var meta = model.metadata;
-		if (!meta.unlocked || (!meta.researched && !this.game.science.get("metaphysics").researched)){
-			model.visible = false;
-		} else{
-			model.visible = true;
-		}
+		model.visible = meta.unlocked && (meta.researched || this.game.science.get("metaphysics").researched);
 
 		if (meta.researched && this.game.science.hideResearched){
 			model.visible = false;
