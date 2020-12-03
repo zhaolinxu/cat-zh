@@ -612,7 +612,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
         this.timeSpan.innerHTML = $I("time.flux") + ": " + this.game.getDisplayValueExt(temporalFlux.value) + " / " + temporalFlux.maxValue;
 
         var remainingTemporalFluxInSeconds = temporalFlux.value / this.game.ticksPerSecond;
-        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
+        this.timeSpan.innerHTML += " (" + (remainingTemporalFluxInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingTemporalFluxInSeconds)) + " / " + this.game.toDisplaySeconds(temporalFlux.maxValue / this.game.ticksPerSecond) + ")";
 
         if (this.game.workshop.get("chronoforge").researched) {
             this.timeSpan.innerHTML += "<br>" + $I("time.heat") + ": ";
@@ -627,7 +627,7 @@ dojo.declare("classes.ui.TimeControlWgt", [mixin.IChildrenAware, mixin.IGameAwar
 
             var heatPerSecond = this.game.getEffect("heatPerTick") * this.game.ticksPerSecond;
             var remainingHeatDissipationInSeconds = this.game.time.heat / heatPerSecond;
-            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0s" : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
+            this.timeSpan.innerHTML += " (" + (remainingHeatDissipationInSeconds < 1 ? "0" + $I("unit.s") : this.game.toDisplaySeconds(remainingHeatDissipationInSeconds)) + " / " + this.game.toDisplaySeconds(heatMax / heatPerSecond) + ")";
         }
 
         this.inherited(arguments);
@@ -753,15 +753,16 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
                 }
 			}
 		}
-
+        pricesTotal.void = Math.round(pricesTotal.void * 1000) / 1000;
 		return pricesTotal;
 	},
 
     buyItem: function(model, event, callback){
         if (model.enabled && this.hasResources(model)) {
             var price = this.getPrices(model);
-            this.game.resPool.addResEvent("timeCrystal", -price[0].val);
-            if(price[1]){this.game.resPool.addResEvent("void", -price[1].val);}
+            for (var i in price){
+                this.game.resPool.addResEvent(price[i].name, -price[i].val);
+            }
             callback(this.doShatter(model, 1));
         }
         callback(false);
@@ -775,7 +776,7 @@ dojo.declare("classes.ui.time.ShatterTCBtnController", com.nuclearunicorn.game.u
         var price = this.getPricesMultiple(model, amt);
         if(price.void){
             if (price.timeCrystal <= this.game.resPool.get("timeCrystal").value &&
-            price.void||-1 <= this.game.resPool.get("void").value) {
+            price.void || -1 <= this.game.resPool.get("void").value) {
                 this.game.resPool.addResEvent("timeCrystal", -price.timeCrystal);
                 this.game.resPool.addResEvent("void", -price.void);
                 this.doShatter(model, amt);

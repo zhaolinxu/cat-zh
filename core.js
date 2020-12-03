@@ -446,8 +446,14 @@ dojo.declare("com.nuclearunicorn.game.log.Console", null, {
 	},
 
 	save: function(saveData){
+		var saveFilters = {};
+		for (var fId in this.filters) {
+			var filter = this.filters[fId];
+			saveFilters[fId] = {unlocked: filter.unlocked, enabled: filter.enabled};
+		}
+
 		saveData.console = {
-			filters: this.filters
+			filters: saveFilters
 		};
 	},
 

@@ -1260,6 +1260,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks:{
 			policies:["liberalism", "communism", "fascism"]
 		},
+		unlockScheme: {
+			name: "factory",
+			threshold: 20
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"craftRatio": 0.05 * (1 + game.getEffect("environmentFactoryCraftBonus"))
@@ -1973,7 +1977,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			if (bld.action && (bld.on > 0 || bld.name == "biolab" || bld.name == "aiCore")){
 				var amt = bld.action(bld, this.game);
 				if (typeof(amt) != "undefined") {
-					bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+					bld.lackResConvert = amt != 1 && bld.on != 0;
 				}
 			}
 
@@ -2070,10 +2074,6 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 
 			if (bld.jammed != undefined){
 				bld.jammed = false;
-			}
-
-			if (bld.isAutomationEnabled != undefined){
-				bld.isAutomationEnabled = true;
 			}
 
 			this.resetStateStackable(bld);
