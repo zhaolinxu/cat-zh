@@ -1522,7 +1522,7 @@ dojo.declare("classes.village.KittenSim", null, {
 					kitten.skills[kitten.job] = 0;
 				}
 				//Learning job's skill
-				if (!(kitten.job == "engineer" && kitten.engineerSpeciality == null)) {// Engineers who don't craft don't learn
+				if (kitten.job != "engineer" || kitten.engineerSpeciality != null) {// Engineers who don't craft don't learn
 					if (kitten.skills[kitten.job] < skillsCap){
 						kitten.skills[kitten.job] = Math.min(kitten.skills[kitten.job] + skillXP, skillsCap);
 					}

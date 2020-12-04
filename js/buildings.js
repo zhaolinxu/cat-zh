@@ -2243,7 +2243,7 @@ dojo.declare("classes.game.ui.RefineCatnipButtonController", com.nuclearunicorn.
 		var catnipCost = model.prices[0].val;
 		model.x100Link = {
 			title: "x100",
-			visible: !(catnipVal < (catnipCost * 100)),
+			visible: catnipVal >= (catnipCost * 100),
 			handler: function(btn){
 				self.handleX100Click(model);
 			}
