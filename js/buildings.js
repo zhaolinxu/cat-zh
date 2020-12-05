@@ -1559,7 +1559,7 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 					if (energyRatio > 1.75){
 						energyRatio = 1.75;
 					}
-					btower.effects["culturePerTickBase"] = Math.floor( (1 * energyRatio) * 1000) / 1000;
+					btower.effects["culturePerTickBase"] = Math.floor(energyRatio * 1000) / 1000;
 					btower.effects["cultureMax"] = Math.floor( (300 * energyRatio) * 1000) / 1000;
 				}
 
