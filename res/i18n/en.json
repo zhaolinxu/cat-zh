@@ -1531,6 +1531,7 @@
     "ui.option.iw.smelter": "Smelters turn off at 95% max Iron in Iron Will mode",
     "ui.option.disable.telemetry": "Disable game telemetry",
     "ui.option.enable.redshift": "Enable offline progression",
+    "ui.option.enable.redshiftGflops": "Enable offline gigaflops progression",
     "ui.option.batch.size": "Batch size of Ctrl-click",
     "ui.option.force.lz": "Always compress in-memory save, in UTF-16 <i>(experimental)</i>",
     "ui.option.compress.savefile": "Compress exported save file <i>(experimental)<br>\nWARNING: it generates save files that are NOT COMPATIBLE with older versions.</i>",
