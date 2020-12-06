@@ -1,5 +1,6 @@
 {
     "console.intro": "あなたはキャットニップの森にいる1匹の子猫です。",
+    "console.intro.zebra": "あなたはチタン鉱山でいっぱいのサバンナのシマウマです。",
     "achievements.header": "実績: {1}中{0}",
     "achievements.msg.unlock": "実績がアンロックされた: {0}!",
     "achievements.msg.starUnlock": "実績の星がアンロックされた: {0}!",
