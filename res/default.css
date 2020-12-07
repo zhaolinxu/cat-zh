@@ -530,16 +530,16 @@ table.craftTable tr:hover td {
     cursor: default;
 }
 
-.toolbarIcon.happiness {
+.toolbarIcon.happiness div {
     color: coral;
 }
 
-.toolbarIcon.energy,
+.toolbarIcon.energy div,
 .button_tooltip .energyProduction {
     color: green;
 }
 
-.toolbarIcon.energy.warningWinter {
+.toolbarIcon.energy.warningWinter div {
     color: coral;
 }
 
@@ -568,7 +568,7 @@ table.craftTable tr:hover td {
 }
 
 .login-popup .row {
-    display: block;   
+    display: block;
 }
 
 .login-popup .row a, input {
@@ -633,7 +633,7 @@ table.craftTable tr:hover td {
 }
 
 span.genericWarning,
-.toolbarIcon.energy.warning,
+.toolbarIcon.energy.warning div,
 .button_tooltip .energyConsumption,
 .button_tooltip .energyPenalty {
     color: red;
@@ -707,7 +707,7 @@ label:hover {
 #optionsDiv {
     overflow-y: scroll;
     height: 400px;
-    margin-top:-170px; 
+    margin-top:-170px;
 }
 
 #optionsDiv input[type="checkbox"] {
@@ -805,8 +805,8 @@ h1 {
 }
 
 #observeButton {
-    text-align: center; 
-    margin-top: 15px; 
+    text-align: center;
+    margin-top: 15px;
     height: 30px;
 }
 
@@ -815,11 +815,11 @@ h1 {
     overflow-y: hidden;
 }
 
-#sorrowTooltip {
+.toolbarIcon.sorrow div {
 	color: black;
 }
 
-#sorrowTooltip.max {
+.toolbarIcon.sorrow.max div {
     color: red !important;
 }
 
@@ -1155,7 +1155,7 @@ a.link.collapse:hover {
 .census-block .skill{
     font-size: 0.8em;
 }
-   
+
 .name.color-brown {
     color:#856341;
 }
@@ -1636,9 +1636,9 @@ div.leet {
 }
 
 #crowdjet-expand-container{
-    bottom: 40px; 
+    bottom: 40px;
     right: 20px;
-    width: 60px !important; 
+    width: 60px !important;
     height: 15px !important;
     cursor: pointer;
 }

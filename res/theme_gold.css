@@ -46,13 +46,13 @@ body.scheme_gold {
 	color: #C83B00;
 }
 .scheme_gold .btn.modern:not(.disabled) {
-    border: solid 1px #696451;	
+    border: solid 1px #696451;
     background-color: rgba(87, 78, 64, 0.1); /* color #574E40 */
     cursor: pointer;
 }
 .scheme_gold .btn.modern:not(.disabled):hover
 {
-    background-color: rgba(223, 206, 153, 0.3); /* color #DFCE99 */	
+    background-color: rgba(223, 206, 153, 0.3); /* color #DFCE99 */
     border: solid 1px #DFCE99;
     cursor: pointer;
     text-shadow: 0 1px 1px #000000;
@@ -113,7 +113,7 @@ body.scheme_gold {
 .scheme_gold .btn.disabled.bldEnabled {
 	background: no-repeat padding-box linear-gradient(90deg, #7CB342 0%, #7cb342 10px, rgba(32, 32, 32, 0.4) 12px, rgba(32, 32, 32, 0.4) 100%);
 }
-.scheme_gold .btn:not(.disabled).bldEnabled {	
+.scheme_gold .btn:not(.disabled).bldEnabled {
 	background: no-repeat border-box linear-gradient(90deg, #7cb342 0%, #7cb342 10px, rgba(87, 78, 64, 0.1) 12px, rgba(87, 78, 64, 0.1) 100%);
 }
 .scheme_gold .btn:not(.disabled).bldEnabled:hover {
@@ -190,7 +190,7 @@ body.scheme_gold {
     padding: 3px 1px 3px 5px;
     margin-right: 5px;
 	border: 2px inset #181818;
-    box-shadow: inset -1px -1px 2px #505050, 
+    box-shadow: inset -1px -1px 2px #505050,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -213,7 +213,7 @@ body.scheme_gold {
 .scheme_gold input:active,
 .scheme_gold select:active,
 .scheme_gold textarea:active,
-.scheme_gold input#batchSize:active { 
+.scheme_gold input#batchSize:active {
     border-color: #f0e8cf !important;
 }
 
@@ -241,14 +241,14 @@ body.scheme_gold {
 .scheme_gold #headerLinks .links-block { /* a link separator : | on header links */
 	color: #404040;
 }
-.scheme_gold #topBar div {	
+.scheme_gold #topBar div {
 	color: #E7AF4F;
 }
 .scheme_gold #topBar .toolbarIcon.null div, /* MOTD */
-.scheme_gold #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_gold #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #d9d9d9;
 }
-.scheme_gold #sorrowTooltip.max {
+.scheme_gold .toolbarIcon.sorrow.max div {
     color: #C83B00 !important; /* in default.js !important needed */
 }
 .scheme_gold #topBar > div:first-child > span:first-child:after {
@@ -473,7 +473,7 @@ body.scheme_gold {
     border-color: #645F4F; /* color pick from button not disabled and hover */
 }
 .scheme_gold .btn.modern.disabled a {
-    color: #725e55;	
+    color: #725e55;
 	border-left: 1px solid rgba(160, 160, 160, 0.2); /* color #A0A0A0 */
 }
 .scheme_gold .btn.modern a:hover {
@@ -689,7 +689,7 @@ body.scheme_gold {
 .scheme_gold td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #E7AF4F;
     text-shadow: 1px 1px 2px #000000;
-	font-size: 15px;	
+	font-size: 15px;
 }
 .scheme_gold td.craftStuffPanel > table { /* craft stuff panel */
     margin-top: 2px;
@@ -841,7 +841,7 @@ body.scheme_gold {
                  0 1px 2px rgba(200, 200, 200, 0.1);
     padding: 0 8px 5px 8px;
     min-height: 5% !important;
-	height: unset !important; 
+	height: unset !important;
 	max-height: calc(100% - 100px) !important;
 	scrollbar-width: thin; /* only Firefox */
 }
@@ -993,7 +993,7 @@ body.scheme_gold {
     text-shadow: 1px 1px 1px #E7AF4F, 1px 1px 4px #DFCE99, -1px -1px 4px #DFCE99;
 }
 .scheme_gold #fastHuntContainer > a:hover {
-	color: #E7AF4F;	
+	color: #E7AF4F;
 	text-shadow: 1px 1px #404040;
 }
 .scheme_gold .res-cell.positive-weather { /* to change the color for bonus cell according to the season */
@@ -1001,7 +1001,7 @@ body.scheme_gold {
 	color: #7CB342;
 }
 .scheme_gold .res-cell.negative-weather { /* to change the color for penalty cell according to the season */
-	font-size: 85%;	
+	font-size: 85%;
 	color: #C83B00;
 }
 .scheme_gold .resource_faith .resource-name,
