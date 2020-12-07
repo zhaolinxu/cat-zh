@@ -4358,7 +4358,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          */
         var managers = {
 		   "workshop": this.workshop,
-		   "building": this.bld
+		   "building": this.bld,
+		   "religion": this.religion
         };
 
         for (var i in this.undoChange.events){
