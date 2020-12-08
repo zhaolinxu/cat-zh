@@ -1,10 +1,10 @@
 /* ******************************************************** */
-/* ***		   	Wood 2.00 Theme © Volkeyrn              *** */
+/* ***		   	Wood 2.0.1 Theme © Volkeyrn             *** */
 /* ******************************************************** */
 
 /* *********************************** */
 /* source of images for graphic design */
-/* *********************************** */                 
+/* *********************************** */
 
 /* theme_wood_background_01.jpg : https://pngtree.com/freepng/wood-mockup-design-image_5344408.html Volkeyrn: permanent premium member */
 /* theme_wood_background_02.jpg : https://pngtree.com/freepng/wood-logo-mockup-image_5344407.html Volkeyrn: permanent premium member */
@@ -19,7 +19,7 @@
 
 /* ************* */
 /* *** FONTS *** */
-/* ************* */ 
+/* ************* */
 @import url(https://fonts.googleapis.com/css?family=Sansita:ital,wght@400,700,400italic,700italic&display=swap);
 
 /* ******************************************** */
@@ -69,11 +69,11 @@ body.scheme_wood.with_background_image {
 .scheme_wood .btn.modern.disabled:hover {
 	box-shadow: inset -1px -1px 3px #000000, -1px -1px 3px #584848, 2px 2px 5px #000000;
 }
-.scheme_wood .btn.modern.disabled span.btnTitle { /* color text for all buttons disabled */
+.scheme_wood .btn.modern.disabled span.btnTitle { /* to change only the properties of the button name for buttons disabled */
 	color: #706464;
 	text-shadow: 0 -2px 1px #000000;
 }
-.scheme_wood .btn.modern.disabled span.btnTitle.limited { /* color text for all buttons limited */
+.scheme_wood .btn.modern.disabled span.btnTitle.limited { /* to change only the properties of the button name for buttons limited */
 	color: #a7372c;
 	text-shadow: 0 -2px 1px #000000;
 }
@@ -87,14 +87,14 @@ body.scheme_wood.with_background_image {
 	box-shadow: 1px 1px 3px #000000,
                  0 -1px 0 #584848;
 }
-.scheme_wood .btn.modern:not(.disabled):hover { /* hover on all button not disabled in center column */	
+.scheme_wood .btn.modern:not(.disabled):hover {
 	box-shadow: inset -1px -1px 3px #000000, -1px -1px 3px #e9b03d, 2px 2px 5px #000000;
 }
-.scheme_wood .btn.modern:not(.disabled) span.btnTitle { /* color text for all buttons not disabled */
+.scheme_wood .btn.modern:not(.disabled) span.btnTitle { /* to change only the properties of the button name for buttons enabled */
 	color: #d39133;
 	text-shadow: 0 -2px 1px #000000;
 }
-.scheme_wood .btn:not(.disabled):hover span.btnTitle { /* to change only the properties of the button name for buttons enabled */
+.scheme_wood .btn.modern:not(.disabled):hover span.btnTitle {
 	color: #e9b03d;
 	text-shadow: 0 -2px 1px #000000;
 }
@@ -130,15 +130,15 @@ body.scheme_wood.with_background_image {
 	/* default font-size: 90%; */
 /* } */
 .scheme_wood .modern .btnContent {
-    padding: 10px 0 10px 1px !important; /* 15px left for buttons without power background-image */
+    padding: 10px 0 10px 1px; /* 1px left for buttons without power background-image */
 }
 /*** green and red light for machine on/off ***/
 .scheme_wood .btn.bldEnabled div.btnContent,
 .scheme_wood .btn.bldlackResConvert div.btnContent {
-	padding: 10px 0 10px 16px !important; /* 16px left for power background-image */
-	border: none;	
+	padding: 10px 0 10px 16px; /* 16px left for power background-image */
+	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_wood .btn.disabled.bldlackResConvert { /* color for lack resources convertion */	
+.scheme_wood .btn.disabled.bldlackResConvert { /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #a7372c 0%, rgba(167, 55, 44, 0.5) 7px, transparent 15px, transparent 100%),
 		local no-repeat bottom -86px right -30px url('img/theme_wood_background_02.jpg');
 }
@@ -172,7 +172,7 @@ body.scheme_wood.with_background_image {
 }
 /*** end of green light for machine on/off ***/
 .scheme_wood .dialog {
-	/* default padding: 20px; */
+	padding: 15px; /* default padding: 20px; */
 	background-color:  #201916;
     box-shadow: 0 0 8px 18px #0f0a0a, inset 0 0 1px 1px #14100e;
 	border: 1px solid transparent;
@@ -183,7 +183,6 @@ body.scheme_wood.with_background_image {
 	border-image-repeat: round;
 	border-image-source: url('img/theme_wood_frame_01.png');
 	border-image-outset: 14px 14px 14px 14px;
-	padding: 15px;
 	/* Only FireFox */
 	scrollbar-width: thin;
 	scrollbar-color: #261e1a #1a1412;
@@ -224,29 +223,14 @@ body.scheme_wood.with_background_image {
 	font-size: 90%;
 }
 .scheme_wood #optionsDiv input[type="checkbox"] + label:before {
-    content: "";
-	font: 16px sans-serif;
-	width: 34px !important;
-	height: 16px !important;
-	border-radius: 9999em;
-    background-color: #808080;
-	box-shadow: 2px 1px 2px #100c0b, inset -2px -1px 2px #383838;
-	-webkit-transition: left 0.25s ease;
-	transition: left 0.25s ease;
-	background-image: url('img/theme_wood_switch_off.png');
-	background-repeat: no-repeat;
-	background-attachment: local;
-	background-position: top 1px left 1px;
+	content: "\2740"; /* WHITE FLORETTE */
+	font: 15px sans-serif;
+	color: #706464;
 }
 .scheme_wood #optionsDiv input[type="checkbox"]:checked + label:before {
-	content: "";
-	font: 16px sans-serif;
-	background-image: url('img/theme_wood_switch_on.png');
-	background-repeat: no-repeat;
-	background-attachment: local;
-	background-position: top 1px left 1px;
-	background-color: #9E9527;
-	box-shadow: -2px 1px 2px #100c0b, inset 2px 1px 2px #584848;
+	content: "\273F"; /* BLACK FLORETTE */
+	font: 15px sans-serif;
+	color: #9E9527;
 }
 .scheme_wood .dialog input[type="button"] {
 	margin-left: 7px;
@@ -257,6 +241,9 @@ body.scheme_wood.with_background_image {
 	background-color: #1a1311;
 	color: #b09b7e;
 	border: 2px groove #261f1c;
+	border-radius: 5px;
+	padding: 3px 1px 3px 5px;
+    margin-right: 5px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	text-shadow: 0 -2px 1px #000000;
@@ -271,7 +258,7 @@ body.scheme_wood.with_background_image {
 	border-image-width: 3px 3px 3px 3px;
 	border-image-slice: 18 18 18 18;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	padding: 5px;
 	margin-bottom: 3px;
 	/* Only FireFox */
@@ -281,7 +268,7 @@ body.scheme_wood.with_background_image {
 }
 .scheme_wood input:active,
 .scheme_wood select:active,
-.scheme_wood textarea:active { 
+.scheme_wood textarea:active {
     border-color: #f8edd0 !important;
 }
 
@@ -289,9 +276,9 @@ body.scheme_wood.with_background_image {
 /* ******************* TOP BAR ******************* */
 /* *********************************************** */
 .scheme_wood #topBar {
-    /* default height: 26px; */	
+    /* default height: 26px; */
 	border-bottom: 1px solid transparent;
-	border-top: 1px solid transparent;	
+	border-top: 1px solid transparent;
 	top: 0; /* for no shadow on top default top: 2px;*/
 	/* default min-width: 1180px;*/
 	padding-top: 4px;
@@ -310,21 +297,21 @@ body.scheme_wood.with_background_image {
 .scheme_wood #topBar a.copyright:hover {
 	color: #c5bc9b;
 }
-.scheme_wood #headerLinks .links-block { /* a link separator : | on header links*/
+.scheme_wood #headerLinks .links-block { /* a link separator : | on header links */
 	color: transparent;
 	text-shadow: none;
 }
 .scheme_wood #topBar div,
-.scheme_wood #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_wood #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #b09b7e;
 	text-shadow: 0 -2px 1px #000000;
 }
-.scheme_wood #sorrowTooltip.max {
+.scheme_wood .toolbarIcon.sorrow.max div {
     color: #a7372c !important; /* in default.js !important needed */
 }
-.scheme_wood #headerLinks>div:first-child:before {
+.scheme_wood #topBar > div:first-child > span:first-child:after {
     color: #d39133;
-    content: 'Theme by Volkeyrn\00a0\00a0\00a0\00a0';
+    content: '\00a0\00a0\00a0Theme by Volkeyrn\00a0\00a0\00a0';
     /* text-decoration: none; */
 	font-weight: normal;
 	text-shadow: 0 -2px 1px #000000;
@@ -345,17 +332,17 @@ body.scheme_wood.with_background_image {
 .scheme_wood .toolbarIcon {
 	text-shadow: 0 -2px 1px #000000;
 }
-.scheme_wood .toolbarIcon.happiness {
+.scheme_wood #topBar .toolbarIcon.happiness div {
     color: #c66829;
 }
-.scheme_wood .toolbarIcon.energy,
+.scheme_wood #topBar .toolbarIcon.energy div,
 .scheme_wood .button_tooltip .energyProduction {
     color: #9e9527;
 }
-.scheme_wood .toolbarIcon.energy.warningWinter {
+.scheme_wood #topBar .toolbarIcon.energy.warningWinter div {
     color: #c66829;
 }
-.scheme_wood .toolbarIcon.energy.warning,
+.scheme_wood #topBar .toolbarIcon.energy.warning div,
 .scheme_wood .button_tooltip .energyConsumption,
 .scheme_wood .button_tooltip .energyPenalty {
 	color: #a7372c;
@@ -368,7 +355,7 @@ body.scheme_wood.with_background_image {
 	font-size: 90%;
 	bottom: 3px; /* default bottom: 10px; */
 	/* default right: 5px; */
-	color: #32221d; /* a link separator : | on footer links*/
+	color: #32221d; /* a link separator : | on footer link */
 	text-shadow: 0 -2px 1px #000000;
 }
 
@@ -377,10 +364,10 @@ body.scheme_wood.with_background_image {
 /* *********************************************** */
 /* .scheme_wood .tooltip-inner {
 	/* default width: 280px; */
-	/*font-size: 13px; /* for center tooltip except title, effects and flavor */
+	/* font-size: 13px; /* for center tooltip except title, effects and flavor */
 /* } */
 .scheme_wood #tooltip,
-.scheme_wood .tooltip-block div {
+.scheme_wood .tooltip-block > div {
 	padding-left: 9px; /* default padding-left: 3px; */
 	padding-right: 9px;
 	padding-bottom: 5px;
@@ -391,14 +378,14 @@ body.scheme_wood.with_background_image {
 	border-image-slice: 14 14 14 14;
 	border-image-outset: 0;
 	border-image-repeat: round;
-	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.8) 100%), 
+	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.8) 100%),
 				repeat-y local border-box top right url('img/theme_wood_background_03.jpg'), #1a1412;
 	color: #b09b7e; /* tooltip windows == left column : left text */
 	text-shadow: 0 -2px 1px #000000;
 	box-shadow: 2px 2px 7px #000000, inset 1px 1px 5px #000000;
-	/*margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
+	/* margin-left: 20px; /* for offset tooltip due to larger buttons .btn.modern */
 }
-.scheme_wood .tooltip-block div { /* tooltip on ? top right column */
+.scheme_wood .tooltip-block > div { /* tooltip on ? top right column */
 	padding: 5px;
 }
 .scheme_wood .button_tooltip {
@@ -453,7 +440,7 @@ body.scheme_wood.with_background_image {
 	/* default margin-top: 30px; */
 	/* default width: 630px */
 /* } */
-.scheme_wood .tab { 
+.scheme_wood .tab {
     font-size: 13px;
 }
 .scheme_wood .tabInner {
@@ -492,6 +479,27 @@ body.scheme_wood.with_background_image {
 .scheme_wood .tab.traitLeaderBonus::before {
 	content: "\2605"; /* BLACK STAR */
 	color: #d4b356;
+}
+.scheme_wood .tab.engineer::before { /* artisan bonus */
+	content: "\2692\00a0"; /* HAMMER AND PICK */
+}
+.scheme_wood .tab.metallurgist::before {
+	content: "\267B\00a0"; /* BLACK UNIVERSAL RECYCLING SYMBOL */
+}
+.scheme_wood .tab.chemist::before {
+	content: "\2623\00a0"; /* BIOHAZARD SIGN */
+}
+.scheme_wood .tab.merchant::before {
+	content: "\2696\00a0"; /* SCALES */
+}
+.scheme_wood .tab.manager::before { /* hunting bonus */
+	content: "\27B4\00a0"; /* BLACK-FEATHERED SOUTH EAST ARROW */
+}
+.scheme_wood .tab.scientist::before {
+	content: "\269B\00a0"; /* ATOM SYMBOL */
+}
+.scheme_wood .tab.wise::before {
+	content: "\2600\00a0"; /* BLACK SUN WITH RAYS */
 }
 .scheme_wood div.bldTopContainer > a { /* under tab */
 	font-size: 90%;
@@ -540,14 +548,14 @@ body.scheme_wood.with_background_image {
 .scheme_wood input[type='button']:hover {
 	background-color: #1c1b20 !important; /* !important in default.css */
 	border: solid 1px #120d0c !important; /* !important in default.css */
-	color: #716757;	
+	color: #716757;
 	box-shadow: inset 2px 2px 3px #000000,
 				 0 1px 0 #584848 !important; /* !important in default.css */
 	cursor: pointer !important;
 	text-shadow: 0 -2px 1px #000000;
 }
 /* button observer different from other input buttons */
-.scheme_wood input[type='button']#observeBtn {	
+.scheme_wood input[type='button']#observeBtn {
 	font-size: 16px;
 	height: 45px;
 	width: 147px;
@@ -557,7 +565,7 @@ body.scheme_wood.with_background_image {
 	border: none !important; /* !important in default.css */
 	color: #b09b7e;
 	text-shadow: 0 -2px 1px #000000;
-	box-shadow: none !important; /* !important in default.css */	
+	box-shadow: none !important; /* !important in default.css */
 }
 .scheme_wood input[type='button']#observeBtn:hover {
 	color: #e9b03d;
@@ -568,7 +576,7 @@ body.scheme_wood.with_background_image {
     /* default overflow-x: hidden; */
     /* default text-overflow: ellipsis; */
 /* } */
-.scheme_wood .btn.modern a {	
+.scheme_wood .btn.modern a {
 	font-weight: normal;
 	line-height: 16px;
 	background-color: transparent;
@@ -583,7 +591,7 @@ body.scheme_wood.with_background_image {
 	border-left: 1px solid #47372e;
 }
 .scheme_wood .btn.modern.disabled a {
-    color: #725e55;	
+    color: #725e55;
 	border-left: 1px solid #261e1b;
 }
 .scheme_wood .btn.modern:not(.disabled) a:hover {
@@ -596,10 +604,10 @@ body.scheme_wood.with_background_image {
 }
 .scheme_wood .btn.modern:not(.disabled):active,
 .scheme_wood input[type='button']:active,
-.scheme_wood input[type='button']#observeBtn:active { 
+.scheme_wood input[type='button']#observeBtn:active {
     border-color: #e9b03d !important;
 }
-.scheme_wood .linkContent { /* dropdown list on button*/
+.scheme_wood .linkContent { /* dropdown list on button */
     margin-top: 26px !important; /* for correct vertical align dropdown list */
     width: auto !important;
     border-radius: 0 5px 5px 5px;
@@ -645,7 +653,7 @@ body.scheme_wood.with_background_image {
 	/* buttons border-radius: 5px; */
 	border-radius: 0 5px 5px 0;
 }
-.scheme_wood .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab*/
+.scheme_wood .btn.modern .btnContent a.rightestLink { /* for Combust TC button in Time tab and Hold Festival in Settlement tab */
 	border-radius: 0 5px 5px 0;
 }
 /* .scheme_wood .btn .btnContent a.small { */
@@ -672,11 +680,11 @@ body.scheme_wood.with_background_image {
 	border: 7px solid transparent;
 	border-image-source: url('img/theme_wood_frame_01.png');
 	border-image-width: 7px 7px 7px 7px;
-	border-image-slice: 14 14 14 14; 
+	border-image-slice: 14 14 14 14;
 	border-image-outset: 0;
 	border-image-repeat: round;
 	background-color: #261e1a;
-	background: linear-gradient(180deg, rgba(38, 30, 26, 0.75) 0%, rgba(38, 30, 26, 0.75) 100%), 
+	background: linear-gradient(180deg, rgba(38, 30, 26, 0.75) 0%, rgba(38, 30, 26, 0.75) 100%),
 				repeat-y local padding-box top right url('img/theme_wood_background_03.jpg'), #261e1a;
 	box-shadow: 2px 2px 7px #000000, inset 2px 2px 5px #000000;
 }
@@ -702,7 +710,7 @@ body.scheme_wood.with_background_image {
 	border-image-width: 3px 3px 3px 3px;
 	border-image-slice: 9 9 9 9 fill;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 	background-color: transparent;
 	color: #9f987c;
 }
@@ -717,10 +725,13 @@ body.scheme_wood.with_background_image {
 	border-image-width: 3px 3px 3px 3px;
 	border-image-slice: 9 9 9 9;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
 }
 .scheme_wood .container {
 	padding: 5px; /* default padding: 10px; */
+}
+.scheme_wood .container.trade-race .crypto-trade .btn.modern {
+	max-width: 131px; /* (button content width - (2 x button border width) - (1 x button margin-right)) / 2 => (274 -2 -10)/2 = 131 */
 }
 .scheme_wood .container div.currentGovernment { /* for padding-bottom too height */
 	padding-bottom: 3px !important;
@@ -755,7 +766,7 @@ body.scheme_wood.with_background_image {
 	content: "\00a0\00a0\21E0\21E2\00a0\00a0"; /* default content: "("; */ /* LEFTWARDS DASHED ARROW and RIGHTWARDS DASHED ARROW */
 	color: #40332e;
 	font-size: larger;
-	font-weight: bold;	
+	font-weight: bold;
 }
 .scheme_wood .attitude:after {
 	/* default content: ")"; */
@@ -801,7 +812,11 @@ body.scheme_wood.with_background_image {
 	border-image-width: 3px 3px 3px 3px;
 	border-image-slice: 9 9 9 9;
 	border-image-outset: 0;
-	border-image-repeat: round;	
+	border-image-repeat: round;
+}
+.scheme_wood .census-block.simLeader:hover {
+	border-image-width: 6px 6px 6px 6px;
+	border-image-slice: 12 12 12 12;
 }
 .scheme_wood .census-block.simLeader a.leaderHref {
 	color: #d4b356;
@@ -886,13 +901,13 @@ body.scheme_wood.with_background_image {
 .scheme_wood .btn.modern.craftOn span.btnTitle { /* all buttons with engineer(s) in workshop tab */
 	color: #9e9527;
 }
-.scheme_wood .btn.modern.craftOn:hover .btnTitle {
+.scheme_wood .btn.modern.craftOn:hover span.btnTitle {
 	color: #b6b042;
 }
 .scheme_wood td.craftStuffPanel > span { /* title of craft stuff panel */
 	color: #d0c4b3;
 	text-shadow: 0 -2px 1px #000000;
-	font-size: 15px;	
+	font-size: 15px;
 }
 .scheme_wood td.craftStuffPanel > table { /* craft stuff panel */
     margin-top: 2px;
@@ -904,7 +919,7 @@ body.scheme_wood.with_background_image {
 	border-image-slice: 9 9 9 9;
 	border-image-outset: 0;
 	border-image-repeat: round;
-	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.6) 100%), 
+	background: linear-gradient(180deg, rgba(26, 20, 18, 0.6) 0%, rgba(26, 20, 18, 0.6) 100%),
 				repeat-y local border-box top right url('img/theme_wood_background_03.jpg'), #1a1412;
 	text-shadow: 0 -2px 1px #000000;
 	box-shadow: 2px 2px 7px #000000, inset 3px 3px 7px #000000;
@@ -927,7 +942,7 @@ body.scheme_wood.with_background_image {
 	margin-bottom: 8px;/* default margin-bottom: 10px; */
 	height: 32px;
 	background-color: transparent;
-	color: #805e47;	
+	color: #805e47;
 	letter-spacing: .1rem;
 	border: 3px solid transparent;
  	border-image-source: url('img/theme_wood_frame_02.png');
@@ -937,7 +952,7 @@ body.scheme_wood.with_background_image {
 	border-image-repeat: round;
 	box-shadow: inset 1px 1px 2px #000000, 1px 1px 1px #000000;
 }
-.scheme_wood .achievement:hover {	
+.scheme_wood .achievement:hover {
 	box-shadow: inset -1px -1px 2px #000000, 2px 2px 5px #000000, 0 -1px 2px #403939;
 	border-image-width: 5px 5px 5px 5px;
 	border-image-slice: 15 15 15 15;
@@ -961,7 +976,7 @@ body.scheme_wood.with_background_image {
 	font-size: smaller;
 	display: block;
 	letter-spacing: normal;
-	color: #c5bc9b;	
+	color: #c5bc9b;
 }
 .scheme_wood .achievement-header .star {
 	/* default font size = font-size: 18px; */
@@ -1064,6 +1079,7 @@ body.scheme_wood.with_background_image {
 	/* default overflow-y: auto !important; */
 	margin: 15px 10px 5px 10px;
 	padding: 7px 10px 10px 10px !important;
+	/* 3 lines of code below if border with an image */
 	min-height: 5% !important;
 	height: unset !important;
 	max-height: calc(100% - 100px) !important;
@@ -1071,7 +1087,7 @@ body.scheme_wood.with_background_image {
 	border: 1px solid transparent;
 	border-image-source: url('img/theme_wood_frame_02.png');
 	border-image-width: 9px 9px 9px 9px;
-	border-image-slice: 18 18 18 18; 
+	border-image-slice: 18 18 18 18;
 	border-image-outset: 8px 9px 8px 8px;
 	border-image-repeat: round;
 	background: border-box linear-gradient(180deg, rgba(32, 25, 22, 0.7) 0%, rgba(32, 25, 22, 0.9) 100%),
@@ -1096,7 +1112,7 @@ body.scheme_wood.with_background_image {
 	text-shadow: 0 -2px 1px #000000;
 }
 .scheme_wood .msg.type_notice {
-	color: #2987c6; /* default color: #01A9DB; */	
+	color: #2987c6; /* default color: #01A9DB; */
 }
 .scheme_wood .msg.type_important {
     color: #c66829; /* default color: coral; */
@@ -1133,6 +1149,10 @@ body.scheme_wood.with_background_image {
 /* .scheme_wood a.link { */
     /* default padding-right: 10px; */
 /* } */
+.scheme_wood .res-toolbar.right {
+	padding-right: 20px;
+	/* default margin-right:-18px; */
+}
 .scheme_wood a.link.collapse {
 	opacity: 0.5; /* default opacity: 0.2; */
 }
@@ -1142,6 +1162,9 @@ body.scheme_wood.with_background_image {
 }
 .scheme_wood #leftColumn .res-toolbar a.link.toggled {
     color: #d4b356;
+}
+.scheme_wood div.tooltip-block > span {
+	color: #9f987c;
 }
 .scheme_wood div.tooltip-block:hover > span {
 	font-weight: bold;
@@ -1153,18 +1176,14 @@ body.scheme_wood.with_background_image {
 	margin-left: 2px; /* without 0px margin left for all ressources */
  }
 /* .scheme_wood .res-toolbar.left { */
-    /* default padding-left:5px; */
+    /* default padding-left: 5px; */
 /* } */
-.scheme_wood .res-toolbar.right {
-	padding-right: 20px;
-	/* default margin-right:-18px; */
-}
 /* .scheme_wood .res-cell { */
 	/* default padding-left: 2px; */
     /* default padding-right: 2px; */
 /* } */
 .scheme_wood .craftTable {
-	margin-bottom: 20px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
+	margin-bottom: 10px !important; /* for correct margin bottom due of the line above with border-collapse: collapse on .res-Table ! */
 	/* default padding-bottom: 50px; */
  }
 .scheme_wood .res-cell.craft-link {
@@ -1270,7 +1289,7 @@ body.scheme_wood.with_background_image {
 }
 .scheme_wood div#advisorsContainer {
 	color: #a7372c;
-	/* default padding-top:10px; */
+	/* default padding-top: 10px; */
 }
 .scheme_wood .res-cell.resource-value {
 	/* default width: 75px; */
@@ -1285,7 +1304,7 @@ body.scheme_wood.with_background_image {
 	font-size: larger;
 }
 .scheme_wood #fastPraiseContainer >a:hover {
-	color: #d5ceb6;	
+	color: #d5ceb6;
 	text-shadow: 1px 1px 5px #c5bc9b, -1px -1px 5px #c5bc9b;
 }
 .scheme_wood .res-cell.positive-weather { /* to change the color for bonus cell according to the season */

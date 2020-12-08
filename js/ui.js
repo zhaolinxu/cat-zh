@@ -1,4 +1,8 @@
-/* global WLeftPanel */
+/* global
+    WLeftPanel
+    WMidPanel
+    WToolbar
+*/
 /**
  * Class that provides an abstraction layer for UI/model communication
  * Extended in web version and in mobile version, so change signatures below only if you can change them in mobile too!
@@ -106,7 +110,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     isChatVisited: false,
     isCenter: false,
 
-    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood"],
+    defaultSchemes: ["default", "dark", "grassy", "sleek", "black", "wood", "bluish", "grayish", "greenish"],
     allSchemes: ["default"].concat(new classes.KGConfig().statics.schemes),
 
     constructor: function(containerId){
@@ -191,6 +195,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     control: false
                 },
                 {
+                    name: "Challenges",
+                    key: "C",
+                    shift: true,
+                    alt: false,
+                    control: false
+                },
+                {
                     name: "Close Options",
                     key: "Escape",
                     shift: false,
@@ -241,6 +252,24 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     this.game.ui.activeTabId = this.game.tabs[tabIndex].tabId;
                     this.game.ui.render();
                 }
+            } else if (!isInputElement && (event.keyCode == 37 || event.keyCode == 39)){ //left arrow, right arrow
+                var visibleTabs = [];
+                var activeTabIndex = 0;
+                for (var i = 0; i < this.game.tabs.length; i++){
+                    var tab = this.game.tabs[i];
+                    if (tab.visible){
+                        if (tab.tabId == this.game.ui.activeTabId){
+                            activeTabIndex = visibleTabs.length;
+                        }
+                        visibleTabs.push(tab);
+                    }
+                }
+                var jump = event.keyCode == 37 ? -1 : 1;
+                var switchTab = visibleTabs[activeTabIndex + jump];
+                if (switchTab){
+                    this.game.ui.activeTabId = switchTab.tabId;
+                    this.game.ui.render();
+                }
             } else if (!isInputElement && keybind && keybind.name != this.game.ui.activeTabId ) {
                 // If a keybound is found and the tab isn't current
                 for (var i = 0; i < this.game.tabs.length; i++){
@@ -257,7 +286,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
     setGame: function(game){
         this.game = game;
 
-        this.toolbar = new classes.ui.Toolbar(game);
+        //this.toolbar = new classes.ui.Toolbar(game);
     },
 
     render: function(){
@@ -272,7 +301,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var tabNavigationDiv = dojo.create("div", { className: "tabsContainer"}, container);
 
         //TODO: remove hardcoded id?
-        this.toolbar.render(dojo.byId("headerToolbar"));
+        //this.toolbar.render(dojo.byId("headerToolbar"));
 
         game.calendar.render();
 
@@ -315,7 +344,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
                     }, tab)
             );
 
-            if (i < visibleTabs.length-1){
+            if (i < visibleTabs.length - 1){
                 dojo.create("span", {innerHTML:" | "}, tabNavigationDiv);
             }
         }
@@ -403,7 +432,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
 						var effectSpan = dojo.create("span", {
@@ -445,7 +474,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 							}
 						}, effectItemNode );
 
-						var effectMod = effects[effect] > 1 ? "+": "";
+						var effectMod = effects[effect] > 1 ? "+" : "";
 						effectMod += ((effects[effect] - 1) * 100).toFixed(0) + "%";
 
 						var effectSpan = dojo.create("span", {
@@ -482,6 +511,14 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         React.render($r(WLeftPanel, {
             game: this.game
         }), document.getElementById("leftColumnViewport"));
+
+        React.render($r(WMidPanel, {
+            game: this.game
+        }), document.getElementById("midColumnViewport"));
+
+        React.render($r(WToolbar, {
+            game: this.game
+        }), document.getElementById("headerToolbar"));
     },
 
     //---------------------------------------------------------------
@@ -494,7 +531,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateUndoButton();
         this.updateAdvisors();
 
-        this.toolbar.update();
+        //this.toolbar.update();
 
         if (this.game.ticks % 5 == 0 && this.game.tooltipUpdateFunc) {
             this.game.tooltipUpdateFunc();
@@ -520,26 +557,30 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 			}
         }
         if (this.game.village.leader) {
-            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus");
+            dojo.query("a.tab.traitLeaderBonus").removeClass("traitLeaderBonus engineer metallurgist chemist merchant manager scientist wise");
             switch (this.game.village.leader.trait.name) {
                 case "engineer": // Crafting bonuses
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " engineer");
+                    break;
                 case "metallurgist":
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " metallurgist");
+                    break;
                 case "chemist":
-                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Workshop").addClass("traitLeaderBonus" + " chemist");
                     break;
                 case "merchant": // Trading bonus
-                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Trade").addClass("traitLeaderBonus" + " merchant");
                     break;
                 case "manager": // Hunting bonus
-                    dojo.query("a.tab.Village").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Village").addClass("traitLeaderBonus" + " manager");
                     break;
                 case "scientist": // Science prices bonus
-                    dojo.query("a.tab.Science").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Science").addClass("traitLeaderBonus" + " scientist");
                     break;
                 case "wise": // Religion bonus
-                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus");
+                    dojo.query("a.tab.Religion").addClass("traitLeaderBonus" + " wise");
                     break;
-                }
+            }
         }
 	},
 
@@ -727,7 +768,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         langSelector.val(selectedLang);
 
         var selectedNotation = game.opts.notation;
-        var notationSelect = $('#notationSelector');
+        var notationSelect = $("#notationSelector");
         notationSelect.empty();
         var notations = new classes.KGConfig().statics.notations;
         for (var i in notations) {
@@ -798,7 +839,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         this.updateFontSize();
     },
     updateFontSize: function(){
-        $("#leftColumn").css("font-size", this.fontSize+"px");
+        $("#leftColumn").css("font-size", this.fontSize + "px");
     },
 
     hideChat: function(){
@@ -882,8 +923,6 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
         $("#autosaveTooltip").text($I("ui.autosave.tooltip"));
         $("#saveTooltip").text($I("ui.save.tooltip"));
-        $("#energyTooltip").attr("title", $I("ui.energy.tooltip"));
-        $("#sorrowTooltip").attr("title", $I("resources.sorrow.full"));
         $("#logLink").text($I("ui.log.link"));
         $("#chatLink").text($I("ui.chat.link"));
         $("#clearLogHref").text($I("ui.clear.log"));
@@ -914,6 +953,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#optionIWSmelter").text($I("ui.option.iw.smelter"));
         $("#optionDisableTelemetry").text($I("ui.option.disable.telemetry"));
         $("#optionEnableRedshift").text($I("ui.option.enable.redshift"));
+        $("#optionEnableRedshiftGflops").text($I("ui.option.enable.redshiftGflops"));
         $("#optionBatchSize").text($I("ui.option.batch.size"));
         $("#optionForceLZ").text($I("ui.option.force.lz"));
         $("#optionCompressSaveFile").html($I("ui.option.compress.savefile"));
@@ -923,7 +963,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#exportToDropbox").attr("value", $I("ui.option.export.dropbox"));
         $("#exportToSimpleFile").attr("value", $I("ui.option.export.simple.file"));
         $("#exportToFullFile").attr("value", $I("ui.option.export.full.file"));
-        $("#exportToEext").text($I("ui.option.export.text"));
+        $("#exportToText").text($I("ui.option.export.text"));
         $("#closeButton").attr("value", $I("ui.option.close.button"));
         $("#importWarning").text($I("ui.option.import.warning"));
         $("#importFrom").text($I("ui.option.import.from"));
@@ -934,7 +974,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         $("#appText").text($I("ui.option.app.text"));
         $("#appAndroid").text($I("ui.option.app.android"));
         $("#appIOS").text($I("ui.option.app.ios"));
-        $("#optionNotation").text($I("ui.option.notation"));        
+        $("#optionNotation").text($I("ui.option.notation"));
     },
 
     _createFilter: function(filter, fId, filtersDiv){
@@ -967,13 +1007,13 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
             return;
         }
 
-        var msg = messages[messages.length-1];
+        var msg = messages[messages.length - 1];
 
         if (!msg.span) {
             var span = dojo.create("span", {className: "msg" }, gameLog);
 
             if (msg.type) {
-                dojo.addClass(span, "type_"+msg.type);
+                dojo.addClass(span, "type_" + msg.type);
             }
             if (msg.noBullet) {
                 dojo.addClass(span, "noBullet");
@@ -989,7 +1029,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         dojo.attr(msg.span, {innerHTML: msg.text});
         //Destroy child nodes if there are too many.
         var logLength = dojo.byId("gameLog").childNodes.length;
-        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId("gameLog").childNodes[logLength-1]);}
+        if (logLength > _console.maxMessages) {dojo.destroy(dojo.byId("gameLog").childNodes[logLength - 1]);}
 
         //fade message spans as they get closer to being removed and replaced
         var spans = dojo.query("span", gameLog);
@@ -998,7 +1038,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
         var fadeInterval = 1 / fadeCount;
 
         for (var i = fadeStart + 1; i < spans.length; i++) {
-            dojo.style(spans[i], "opacity", (1 - (i-fadeStart) * fadeInterval));
+            dojo.style(spans[i], "opacity", (1 - (i - fadeStart) * fadeInterval));
         }
     },
 
@@ -1027,7 +1067,7 @@ dojo.declare("classes.ui.DesktopUI", classes.ui.UISystem, {
 
     //TODO: add dialog and close/bind events
     showDialog: function(id){
-        var container = $("#"+id);
+        var container = $("#" + id);
         container.show();
 
         $(".close", container).click(function(){

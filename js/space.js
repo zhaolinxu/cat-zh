@@ -268,9 +268,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 				else {
 					self.effects["energyConsumption"] = 1;
-					if (game.challenges.currentChallenge == "energy") {
-						self.effects["energyConsumption"] *= 2;
-					}
 				}
 			},
 			unlockScheme: {
@@ -301,9 +298,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"maxKittens": 2
 				};
 				effects["energyConsumption"] = 10;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
 			},
 			unlocks: {
@@ -340,9 +334,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"unobtainiumPerTickSpace": 0.007 * (1 + game.getEffect("lunarOutpostRatio"))
 				};
 				effects["energyConsumption"] = 5;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
+				
 				self.effects = effects;
 			},
 			lackResConvert: false,
@@ -396,9 +388,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption" : 0
 				};
 				effects["energyConsumption"] = game.workshop.get("amBases").researched ? 5 : 10;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 
 				if (game.workshop.get("aiBases").researched){
                     var aiBasesModifier = 1 + game.getEffect("aiCoreUpgradeBonus");
@@ -505,7 +494,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 			calculateEffects: function(self, game) {
 				self.effects = {
 					"scienceMax": 10000 * (1 + game.getEffect("spaceScienceRatio")),
-					"starchartPerTickBaseSpace": game.challenges.currentChallenge == "blackSky" ? 0 : 0.01
+					"starchartPerTickBaseSpace": game.challenges.isActive("blackSky") ? 0 : 0.01
 				};
             },
 			unlockScheme: {
@@ -533,9 +522,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"spaceRatio": 0.02
 				};
 				effects["energyConsumption"] = 20;
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
             }
         }]
@@ -584,9 +570,6 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"energyConsumption" : 50 * (1 + game.space.getBuilding("heatsink").val * 0.01)
 				};
 
-				if (game.challenges.currentChallenge == "energy") {
-					effects["energyConsumption"] *= 2;
-				}
 				self.effects = effects;
 			}
 		},{
@@ -668,7 +651,11 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					"uraniumMax"    : 5000,
 					"unobtainiumMax": 750
 				};
-            }
+            },
+			unlockScheme: {
+				name: "arctic",
+				threshold: 10
+			}
         }
         ]
 	},{
@@ -802,8 +789,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
-							( 1 + game.getEffect("umbraBoostRatio"));
+						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
+						(1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]
@@ -951,7 +938,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 		for (var i = 0; i < this.programs.length; i++){
 			var program = this.programs[i];
 
-			program.unlocked = (program.name == "orbitalLaunch") ? true : false;
+			program.unlocked = program.name == "orbitalLaunch";
 			program.noStackable = true;
 
 			this.resetStateStackable(program);
@@ -1049,7 +1036,7 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				if (bld.action && bld.val > 0){
 					var amt = bld.action(bld, this.game);
 					if (typeof(amt) != "undefined") {
-						bld.lackResConvert = (amt == 1 || bld.on == 0) ? false : true;
+						bld.lackResConvert = amt != 1 && bld.on != 0;
 					}
 					this.game.calendar.cycleEffectsBasics(bld.effects, bld.name);
 				}
@@ -1084,6 +1071,20 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 				}
 			}
 		}
+
+		var entangler = this.getBuilding("entangler");
+
+		var existingGFlops = this.game.resPool.get("gflops").value;
+		var gflopsPerTick = entangler.effects.gflopsConsumption * entangler.on;
+		var gflopsAttemptConsume = gflopsPerTick * times;
+
+		var gflopsConsume = Math.min(existingGFlops, gflopsAttemptConsume);
+		if (gflopsConsume <= 0) {
+			return;
+		}
+		
+		this.game.resPool.addResEvent("gflops", -gflopsConsume);
+		this.game.resPool.addResEvent("hashrates", gflopsConsume);
 	},
 
 	getProgram: function(name){
@@ -1169,7 +1170,7 @@ dojo.declare("com.nuclearunicorn.game.ui.SpaceProgramBtnController", com.nuclear
 			}
 		}
 
-		if (this.game.challenges.currentChallenge == "blackSky"
+		if (this.game.challenges.isActive("blackSky")
 		 && model.metadata.name == "orbitalLaunch") {
 			for (var i = 0; i < prices.length; i++) {
 				prices[i].val *= prices[i].name == "starchart" ? 0 : 11;
@@ -1256,12 +1257,12 @@ dojo.declare("classes.ui.space.PlanetBuildingBtnController", com.nuclearunicorn.
                 var reductionRatio = this.game.getLimitedDR(this.game.getEffect("oilReductionRatio"), 0.75);
                 prices[i].val *= (1 - reductionRatio);
              }
-			 var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(prices[i].name+"CostReduction"), 1);
+			 var resPriceDiscount = this.game.getLimitedDR(this.game.getEffect(prices[i].name + "CostReduction"), 1);
 			 var resPriceModifier = 1 - resPriceDiscount;
 			 prices[i].val *= priceModifier * resPriceModifier; //CostReduction effects
 		}
 
-		if (this.game.challenges.currentChallenge == "blackSky"
+		if (this.game.challenges.isActive("blackSky")
 		 && meta.name == "sattelite"
 		 && meta.val == 0) {
 			for (var i = 0; i < prices.length; i++) {

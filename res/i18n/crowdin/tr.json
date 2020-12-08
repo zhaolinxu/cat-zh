@@ -1,0 +1,18 @@
+{
+    "buildings.barn.desc": "Kaynakları depolamak için yer sağlar.",
+    "effectsMgr.statics.cultureMaxRatio.title": "Maks kültür bonusu",
+    "effectsMgr.statics.globalResourceRatio.title": "Maks kaynaklar bonusu",
+    "policy.republic.label": "Cumhuriyet",
+    "resources.bloodstone.title": "kantaşı",
+    "save.import.confirmation.msg": "Emin misin? Bu eski kayıdın üzerine yazacak!",
+    "science.architecture.label": "Mimari",
+    "science.mining.effectDesc": "Maden inşa edebilirsiniz",
+    "science.particlePhysics.label": "Parçacık Fiziği",
+    "space.planet.moon.moonOutpost.label": "Ay Üssü",
+    "trade.race.dragons": "Ejderhalar",
+    "village.bonus.desc.manager": "Avlanma bonusu",
+    "village.job.woodcutter.desc": "+0.09 odun/saniye",
+    "village.tab.title.outpost": "Karakol",
+    "workshop.qdot.desc": "Güneş Panelleri yıl boyunca biraz daha verimlidir",
+    "workshop.thoriumReactors.label": "Toryum Reaktörleri"
+}
