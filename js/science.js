@@ -862,7 +862,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			policies: ["authocracy", "republic"]
 		},
 		updateEffects: function(self, game){
-			self.effects["maxKittens"] = (game.ironWill)?0:1;
+			self.effects["maxKittens"] = (game.ironWill)?0:1
 		}
 	}, {
 		name: "tradition",
@@ -1614,9 +1614,9 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			 }*/
 	update: function(){
 		for(var i = 0; i < this.policies.length; i++){
-			var policy = this.policies[i];
+			var policy = this.policies[i]
 			if(policy.researched && policy.updateEffects){
-				policy.updateEffects(policy, this.game);
+				policy.updateEffects(policy, this.game)
 			}
 		}
 	}

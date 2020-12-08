@@ -789,7 +789,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 			this.game.village.clearJobs(false);
 
 		if(this.game.village.leader && this.game.science.getPolicy("theocracy").researched){//hack for theocracy; so that it stop being soo annoying
-			this.game.village.leader.job = "priest";
+			this.game.village.leader.job = "priest"
 			situationJobs["priest"] = situationJobs["priest"] - 1;
 			this.game.village.getJob("priest").value += 1;
 		}
@@ -869,7 +869,7 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 		case kittens > 1200:
 			return 17;
         case kittens > 1000:
-            return 16;
+            return 16
         case kittens > 900:
             return 15;
         case kittens > 800:
