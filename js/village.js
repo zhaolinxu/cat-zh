@@ -470,7 +470,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1) 
 								* this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= (this.game.science.getPolicy("liberty").researched)? 
+							this.happiness + this.game.getLimitedDR((this.happiness - 1) * 0.1, 0.25) : this.happiness;	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
@@ -501,7 +502,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1)
 								 * this.game.getEffect("boostFromLeader"));
                             }
-							diff *= this.happiness;	//alter positive resource production from jobs
+							diff *= (this.game.science.getPolicy("liberty").researched)? 
+							this.happiness + this.game.getLimitedDR((this.happiness - 1) * 0.1, 0.25) : this.happiness;
 						}
 
 						if (!res[jobResMod]){
@@ -630,9 +632,6 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 
 	getUnhappiness: function(){
 		var populationPenalty = 2;
-		if (this.game.science.getPolicy("liberty").researched){
-			populationPenalty = 1;
-		}
 		if (this.game.science.getPolicy("fascism").researched) {
 			return 0;
 		}
