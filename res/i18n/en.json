@@ -670,7 +670,7 @@
     "policy.liberalism.label" : "Liberalism",
     "policy.liberalism.desc" : "A peaceful and open society. Gains better relations with all trade partners and makes buildings require less gold.",
     "policy.liberty.label" : "Liberty",
-    "policy.liberty.desc" : "Good for large, expansive societies. Increases happiness production effect by 10%, up to 25% bonus. This will affect what policies are available in the future!",
+    "policy.liberty.desc" : "Good for large, expansive societies. Happiness affects kitten production 10% more, up to 25%. This will affect what policies are available in the future!",
     "policy.militarizeSpace.label" : "Militarize Space",
     "policy.militarizeSpace.desc" : "Try to take over the skies. Your satellites science bonus to observatories is 10% more powerful.",
     "policy.monarchy.label" : "Monarchy",
