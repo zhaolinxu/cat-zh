@@ -467,8 +467,8 @@ dojo.declare("classes.managers.VillageManager", com.nuclearunicorn.core.TabManag
 								diff *= (1 + (this.getLeaderBonus(this.game.village.leader.rank) - 1) 
 								* this.game.getEffect("boostFromLeader"));
                             }
-							diff *= (this.game.science.getPolicy("liberty").researched)? 
-							this.happiness + this.game.getLimitedDR((this.happiness - 1) * 0.1, 0.25) : this.happiness;	//alter positive resource production from jobs
+							diff *= this.happiness + this.game.getLimitedDR((this.happiness - 1) 
+							* this.game.getEffect("happinessKittenProductionRatio"), 0.25);	//alter positive resource production from jobs
 						}
 
 						if (!res[jobResMod]){
