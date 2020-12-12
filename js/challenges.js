@@ -179,6 +179,46 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 		checkCompletionCondition: function(game){
 			return game.space.getBuilding("spaceBeacon").val > (game.challenges.getChallenge("blackSky").on || 0) ;
 		}
+	},{
+		name: "pacifism",
+		label: $I("challendge.pacifism.label"),
+		description: $I("challendge.pacifism.desc"),
+		effectDesc: $I("challendge.pacifism.effect.desc"),
+        effects: {
+			"alicornPerTickRatio": 0.1,
+			"tradeKnowledge": 1,
+			"weaponEfficency": 0,
+			"policyCostRatio": 0
+        },
+        calculateEffects: function(self, game){
+            if (self.active) {
+                self.effects["alicornPerTickRatio"] = 0;
+                self.effects["tradeKnowledge"] = 0;
+				self.effects["weaponEfficency"] = -0.1; //after 10 completions weapons WILL be useles; no LDR >:3
+                self.effects["policyCostRatio"] = 0.02;
+            }else{
+				self.effects["alicornPerTickRatio"] = 0.1;
+				self.effects["tradeKnowledge"] = 1;
+                self.effects["weaponEfficency"] = 0;
+                self.effects["policyCostRatio"] = 0;
+			}
+			game.upgrade(self.upgrades); //this is a hack. Sometime we should make challenges actually upgrade things.
+		},
+		upgrades: {
+			upgrades: ["compositeBow", "crossbow", "railgun"]
+		},
+		researched: false,
+		reserveDelay: true,
+		unlocked: false,
+		getTradeBonusEffect: function(game){
+			var self = game.challenges.getChallenge("pacifism");
+			if(!self.val){
+				return 0;
+			}
+			var tradepost =game.bld.getBuildingExt("tradepost").meta;
+			var tradeKnowledge = game.getEffect("tradeKnowledge");
+			return (tradepost.effects["tradeRatio"]*Math.min(9 + tradeKnowledge, tradepost.val * (game.getLimitedDR(0.099 + tradeKnowledge * 0.001, 0.25))));
+		}
 	}],
 
 	game: null,
@@ -245,7 +285,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 				}
 				this.game.challenges.reserves.reserveKittens = reserveKittens;
 				var reserveRes = saveData.challenges.reserves.reserveResources;
-				this.game.challenges.reserves.reserveResources= saveData.challenges.reserves.reserveResources;
+				this.game.challenges.reserves.reserveResources = saveData.challenges.reserves.reserveResources;
 		}
 	},
 
@@ -257,7 +297,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			}
 		} 
 		//checkCompletionCondition for functions tested for completion here
-		for(var i = 0; i< this.challenges.length; i++){
+		for(var i = 0; i < this.challenges.length; i++){
 			if(this.challenges[i].active && this.challenges[i].checkCompletionCondition && this.challenges[i].checkCompletionCondition(this.game)){
 				this.researchChallenge(this.challenges[i].name);
 			}
@@ -292,7 +332,7 @@ dojo.declare("classes.managers.ChallengesManager", com.nuclearunicorn.core.TabMa
 			if(this.getChallenge(challenge).actionOnCompletion){
 				this.getChallenge(challenge).actionOnCompletion(this.game);
 			}
-			if(!this.anyChallengeActive()&&!this.game.ironWill&&!this.getChallenge(challenge).reserveDelay){
+			if(!this.anyChallengeActive() && !this.game.ironWill && !this.getChallenge(challenge).reserveDelay){
 				this.reserves.addReserves();
 			}
 			this.game.calculateAllEffects();
@@ -350,6 +390,9 @@ dojo.declare("classes.reserveMan", null,{
 		var reserveResources = this.game.challenges.reserves.reserveResources;
 		for (var i in this.game.resPool.resources) {
 			var res = this.game.resPool.resources[i];
+			if(res.name == "timeCrystal"){
+				continue;
+			}
 			var fluxCondensator = this.game.workshop.get("fluxCondensator");
 			if (res.persists === false
 			 || (res.craftable && res.name != "wood" && !fluxCondensator.researched)) {
@@ -369,7 +412,7 @@ dojo.declare("classes.reserveMan", null,{
 			}
 
 			if (value > 0) {
-				reserveResources[res.name] = Math.max(reserveResources[res.name]||0, value);
+				reserveResources[res.name] = Math.max(reserveResources[res.name] || 0, value);
 			}
 		}
 		this.game.challenges.reserves.reserveResources = reserveResources;
@@ -384,7 +427,7 @@ dojo.declare("classes.reserveMan", null,{
 			reserveKittens = this.game.village.sim.kittens.slice(-cryochambers);
 			for (var i in reserveKittens) {
 				delete reserveKittens[i].job;
-				delete reserveKittens[i].leader; //two leaders at the same time would break things probably
+				delete reserveKittens[i].isLeader; //two leaders at the same time would break things probably
 				delete reserveKittens[i].engineerSpeciality;
 			}
 		}
@@ -397,6 +440,10 @@ dojo.declare("classes.reserveMan", null,{
 	},
 	addReserves: function(){
 		for (var i in this.reserveResources){
+			if(i == "timeCrystal"){
+				delete this.reserveResources[i];
+				continue;
+			}
 			var resCap = this.game.resPool.get(i).maxValue;
 			if(!resCap){
 				this.game.resPool.get(i).value += this.reserveResources[i];
@@ -427,7 +474,7 @@ dojo.declare("classes.reserveMan", null,{
 		};
 	},
 	reservesExist: function(){
-		return (Object.keys(this.reserveResources).length||this.reserveKittens.length);
+		return (Object.keys(this.reserveResources).length || this.reserveKittens.length);
 	}
 });
 dojo.declare("classes.ui.ChallengeBtnController", com.nuclearunicorn.game.ui.BuildingBtnController, {
@@ -592,7 +639,7 @@ dojo.declare("classes.tab.ChallengesTab", com.nuclearunicorn.game.ui.tab, {
 			}),
 			controller: new com.nuclearunicorn.game.ui.ButtonController(this.game, {
 				updateVisible: function (model) {
-					model.visible = (!this.game.challenges.anyChallengeActive() && !this.game.ironWill&&
+					model.visible = (!this.game.challenges.anyChallengeActive() && !this.game.ironWill &&
 					this.game.challenges.reserves.reservesExist());
 				},
 			})

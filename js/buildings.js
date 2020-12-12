@@ -1264,6 +1264,10 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 		unlocks:{
 			policies:["liberalism", "communism", "fascism"]
 		},
+		unlockScheme: {
+			name: "factory",
+			threshold: 20
+		},
 		calculateEffects: function(self, game){
 			var effects = {
 				"craftRatio": 0.05 * (1 + game.getEffect("environmentFactoryCraftBonus"))

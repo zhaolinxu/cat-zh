@@ -882,7 +882,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		calculateEffects: function(self, game){
 			var uncappedHousing = 0;
 			for (var i = 0; i < game.bld.buildingGroups.length; i++){
-    			if(game.bld.buildingGroups[i].name=="population"){
+    			if(game.bld.buildingGroups[i].name == "population"){
 					for (var k = 0; k < game.bld.buildingGroups[i].buildings.length; k++){
 						if(!game.resPool.isStorageLimited(game.bld.getPrices(game.bld.buildingGroups[i].buildings[k]))){
 							uncappedHousing += 1;
@@ -891,7 +891,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 					break;
     			}
 			}
-			self.effects["rankLeaderBonusConversion"] = 0.004*uncappedHousing;
+			self.effects["rankLeaderBonusConversion"] = 0.004 * uncappedHousing;
 		},
 		unlocks:{
 			policies:["communism", "fascism", "socialism"]
@@ -962,7 +962,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocks:["liberalism", "fascism"],
 		evaluateLocks: function(game){
 			return (game.science.getPolicy("republic").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0; 
+			&& game.bld.getBuildingExt("factory").meta.val > 0; 
 		}
 	}, {
 		name: "fascism",
@@ -979,7 +979,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		blocks:["liberalism", "communism"],
 		evaluateLocks: function(game){
 			return (game.science.getPolicy("monarchy").researched || game.science.getPolicy("authocracy").researched)
-			&& game.bld.getBuildingExt("factory").meta.val>0; 
+			&& game.bld.getBuildingExt("factory").meta.val > 0; 
 		}
 	},
 	//----------------	information age --------------------
@@ -1176,7 +1176,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["cityOnAHill"],
 		evaluateLocks: function(game){
-			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched; 
+			return game.science.getPolicy("isolationism").researched && game.science.get("astronomy").researched && !game.challenges.isActive("pacifism"); 
 		}
     }, {
         name: "cityOnAHill",
@@ -1208,7 +1208,7 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
         blocked: false,
         blocks:["militarizeSpace"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val>0;
+			return game.space.getBuilding("sattelite").val > 0;
 		}
     }, {
         name: "militarizeSpace",
@@ -1221,10 +1221,14 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
             "satelliteSynergyBonus" : 0.1
         },
         unlocked: false,
+		upgrades: {
+			spaceBuilding: ["sattelite"],
+			buildings: ["observatory"]
+		},
         blocked: false,
         blocks:["outerSpaceTreaty"],
 		evaluateLocks: function(game){
-			return game.space.getBuilding("sattelite").val>0;
+			return game.space.getBuilding("sattelite").val >0 && !game.challenges.isActive("pacifism");
 		}
     },
     //----------------   Philosophy   --------------------
@@ -1630,7 +1634,18 @@ dojo.declare("classes.ui.PolicyBtnController", com.nuclearunicorn.game.ui.Buildi
 
 		return this.inherited(arguments);
 	},
-	
+	getPrices: function(model){
+		var meta = model.metadata;
+		var policyCostRatio = this.game.getEffect("policyCostRatio");
+		var prices = [];
+		for (var i = 0; i < meta.prices.length; i++){
+            prices.push({
+            	val: meta.prices[i].val * (1 + policyCostRatio),
+            	name: meta.prices[i].name
+			});
+		}
+        return prices;
+	},
 	updateVisible: function(model){
 		var meta = model.metadata;
 		model.visible = meta.unlocked;

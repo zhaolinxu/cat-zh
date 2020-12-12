@@ -220,6 +220,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			race.embassyLevel = 0;
 			race.unlocked = false;
 			race.collapsed = false;
+			race.pinned = false;
 			race.energy = 0;
 			race.duration = 0;
 		}
@@ -344,7 +345,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         // 5 years + 1 year per energy unit
         elders.duration = this.game.calendar.daysPerSeason * this.game.calendar.seasonsPerYear *  (5  + elders.energy);
 		
-		if(elders.autoPinned){elders.pinned=true;}
+		if(elders.autoPinned){elders.pinned = true;}
 
         this.game.msg($I("trade.msg.elders"), "urgent");
     },
@@ -353,7 +354,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
         var elders = this.get("leviathans");
         if (elders.duration <= 0  && elders.unlocked){
 			elders.unlocked = false;
-			elders.pinned=false;
+			elders.pinned = false;
 			this.game.msg($I("trade.msg.elders.departed"), "notice");
 
 			this.game.render();
@@ -395,7 +396,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 
 		var boughtResources = {};
-		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+		var tradeRatio = 1 + this.game.diplomacy.getTradeRatio() + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 		var raceRatio = 1 + race.energy * 0.02;
 		var currentSeason = this.game.calendar.getCurSeason().name;
 
@@ -991,7 +992,7 @@ dojo.declare("classes.diplomacy.ui.autoPinnedButton", com.nuclearunicorn.game.ui
 		this.pinLinkHref = this.addLink({
 			title: "&#9733;",
 			handler: function() {
-				if (this.race.name!="leviathans"){
+				if (this.race.name != "leviathans"){
 					return;
 				}
 				this.race.pinned = !this.race.pinned;
@@ -1120,7 +1121,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 			if (!race.unlocked) {
 				continue;
 			}
-			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game);
+			var tradeRatio = baseTradeRatio + this.game.diplomacy.calculateTradeBonusFromPolicies(race.name, this.game) + this.game.challenges.getChallenge("pacifism").getTradeBonusEffect(this.game);
 			var racePanel = this.racePanels[i];
 			if (!racePanel) {
 				racePanel = race.name === "leviathans" ? new classes.diplomacy.ui.EldersPanel(race) : new classes.diplomacy.ui.RacePanel(race);

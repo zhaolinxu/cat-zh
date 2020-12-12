@@ -12,7 +12,7 @@ body.scheme_school,
 	background-color: #292728;
 }
 body.scheme_school.with_background_image,
-.scheme_school div.dialog {	
+.scheme_school div.dialog {
 	background-image: url('img/theme-school.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
 	background-repeat: repeat;
 	background-attachment: fixed;
@@ -100,7 +100,7 @@ body.scheme_school.with_background_image,
 	padding: 10px 0 10px 15px; /* 15px left for power background-image (linear-gradient) */
 	border: none; /* also allows you to remove the height difference with the other buttons (they have no border on div.content) */
 }
-.scheme_school .btn.disabled.bldlackResConvert { /* color #973B47 */ /* color for lack resources convertion */	
+.scheme_school .btn.disabled.bldlackResConvert { /* color #973B47 */ /* color for lack resources convertion */
 	background: no-repeat border-box linear-gradient(90deg, #973B47 0%, #973B47 12px, rgba(85, 85, 85, 0.4) 14px, rgba(85, 85, 85, 0.4) 100%);
 }
 .scheme_school .btn.disabled.bldlackResConvert:hover {
@@ -131,7 +131,7 @@ body.scheme_school.with_background_image,
 	border-radius: 5px 5px 11px 11px;
 }
 .scheme_school .dialog a {
-	text-transform: capitalize;	
+	text-transform: capitalize;
 }
 .scheme_school .dialog a:hover {
 	text-shadow: 1px 1px 1px #000000;
@@ -141,7 +141,7 @@ body.scheme_school.with_background_image,
     /* default font size = font-size: 90%; */
     color: #777777;
 }
-.scheme_school select { /* dropdown list on settlement tab and options windows */	
+.scheme_school select { /* dropdown list on settlement tab and options windows */
 	font-weight: lighter;
 	background-color: #292728;
     color: #D2D2D2;
@@ -190,7 +190,7 @@ body.scheme_school.with_background_image,
     margin-right: 5px;
 	border: 2px inset #404040;
 	border-radius: 3px;
-    box-shadow: inset -1px -1px 2px #707070, 
+    box-shadow: inset -1px -1px 2px #707070,
                 inset 2px 2px 5px #000000;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -215,7 +215,7 @@ body.scheme_school.with_background_image,
 	background-color: #292728;
 	font-size: 90%;
     height: 22px;
-    border-bottom: 1px solid #292728;	
+    border-bottom: 1px solid #292728;
 	top: 0; /* for no shadow on top */
 	box-shadow: 0 2px 5px #000000;
 }
@@ -223,10 +223,10 @@ body.scheme_school.with_background_image,
 	color: rgba(86, 89, 92, 0.3); /* color #56595C */
 }
 .scheme_school #topBar div,
-.scheme_school #topBar #sorrowTooltip { /* counter of BLS (Black Liquid Sorrow) */
+.scheme_school #topBar .toolbarIcon.sorrow div { /* counter of BLS (Black Liquid Sorrow) */
 	color: #D2D2D2;
 }
-.scheme_school #sorrowTooltip.max {
+.scheme_school .toolbarIcon.sorrow.max div {
     color: #973B47 !important; /* in default.js !important needed */
 }
 .scheme_school #topBar a.copyright {
@@ -253,17 +253,17 @@ body.scheme_school.with_background_image,
 .scheme_school #getTheApp-link:hover {
 	color: #B5BAC4 !important;
 }
-.scheme_school .toolbarIcon.happiness {
+.scheme_school #topBar .toolbarIcon.happiness div {
     color: #A56B5B;
 }
-.scheme_school .toolbarIcon.energy,
+.scheme_school #topBar .toolbarIcon.energy div,
 .scheme_school .button_tooltip .energyProduction {
     color: #3B7233;
 }
-.scheme_school .toolbarIcon.energy.warningWinter {
+.scheme_school #topBar .toolbarIcon.energy.warningWinter div{
     color: #A56B5B;
 }
-.scheme_school .toolbarIcon.energy.warning,
+.scheme_school #topBar .toolbarIcon.energy.warning div,
 .scheme_school .button_tooltip .energyConsumption {
 	color: #973B47;
 }
@@ -291,7 +291,7 @@ body.scheme_school.with_background_image,
 	font-size: 13px; /* for center tooltip except title, effects and flavor */
 }
 .scheme_school #tooltip,
-.scheme_school .tooltip-block div {
+.scheme_school .tooltip-block > div {
     background-image: url('img/theme-school_dark.jpg'); /* source : https://pngtree.com/freebackground/taobao-small-appliances-poster-tmall-kitchen-supplies-banner_1061754.html */
 	background-repeat: repeat;
 	background-attachment: fixed;
@@ -303,7 +303,7 @@ body.scheme_school.with_background_image,
 	border-radius: 0 0 5px 5px;
 	box-shadow: inset 0 1px 2px #000000, 2px 2px 3px #000000;
 }
-.scheme_school .tooltip-block div { /* tooltip on ? top right column */
+.scheme_school .tooltip-block > div { /* tooltip on ? top right column */
 	font-size: 13px;
 	padding: 5px;
 }
@@ -367,7 +367,7 @@ body.scheme_school.with_background_image,
 .scheme_school .tabInner.Workshop {
 	margin-bottom: 70px; /* default margin-bottom: 20px; */
 }
-.scheme_school .tabsContainer {	
+.scheme_school .tabsContainer {
 	font-size: 10px;
 	padding-bottom: 5px; /* default padding-bottom: 15px; */
 	/* default padding-top: 2px; */
@@ -460,11 +460,11 @@ body.scheme_school.with_background_image,
 	border-color: rgba(85, 85, 85, 0.4) !important; /* color #555555 */
 }
 .scheme_school .btn.modern a:hover {
-	color: #C2C6CF;	
+	color: #C2C6CF;
 	text-shadow: 1px 1px #000000;
 }
 .scheme_school .btn.modern:not(.disabled) a:hover {
-	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */	
+	background-color: rgba(194, 198, 207, 0.1); /* color #C2C6CF */
 }
 .scheme_school .btn.modern.disabled a:hover {
 	color: #C2C6CF;
@@ -902,7 +902,7 @@ body.scheme_school.with_background_image,
 }
 .scheme_school .resLimitWarn {
     color: #A56B5B;
-	font-style: italic;	
+	font-style: italic;
 }
 .scheme_school .resLimitNotice {
     color: #e3e4e7;
@@ -943,7 +943,7 @@ body.scheme_school.with_background_image,
 }
 .scheme_school .res-cell.negative-weather { /* to change penalty cell according to the season */
 	font-size: 80% !important;
-	color: #973B47 !important;	
+	color: #973B47 !important;
 }
 .scheme_school .res-cell.craft-link.all { /* 6th column of craft table : "all" */
 	font-size: 90%; /* default font-size: 80%; */

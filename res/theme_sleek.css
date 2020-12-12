@@ -644,6 +644,6 @@ body.scheme_sleek  {
     padding: 4px 10px;
 }
 
-.scheme_sleek #sorrowTooltip {
+.scheme_sleek .toolbarIcon.sorrow div {
 	color: white;
 }

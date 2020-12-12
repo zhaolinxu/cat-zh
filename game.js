@@ -258,10 +258,12 @@ dojo.declare("classes.game.Server", null, {
 		function(resp){
 			console.log("save successful?");
 			self.saveData = resp;
+			self.game.msg($I("save.export.msg"));
 		});
 	},
 
 	loadSave: function(guid){
+		var self = this;
 		this._xhr("/kgnet/save/" + guid + "/download/", "GET", {}, function(resp){
 			if (!resp.data){
 				console.error("unable to load game data", resp);
@@ -270,7 +272,8 @@ dojo.declare("classes.game.Server", null, {
 			LCstorage["com.nuclearunicorn.kittengame.savedata"] = data;
 			console.log("load successful?");
 
-			this.game.load();
+			self.game.load();
+			self.game.msg($I("save.import.msg"));
 		});
 	},
 
@@ -344,6 +347,12 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 					title: restitle,
 					resName: resname,
 					type: "perTick"
+				};
+			case type == "PerTickRatio":
+				return {
+					title: $I("effectsMgr.type.resRatio", [restitle]),
+					resName: resname,
+					type: "ratio"
 				};
 			case type == "Max":
 				return {
@@ -1797,6 +1806,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		this.opts = {
 			usePerSecondValues: true,
+			notation: "si",
 			forceHighPrecision: false,
 			usePercentageResourceValues: false,
 			showNonApplicableButtons: false,
@@ -2684,7 +2694,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		// +BUILDING AUTOPROD
 		var perTickAutoprod = this.getEffect(res.name + "PerTickAutoprod");
 		    perTickAutoprod *= paragonSpaceProductionRatio;
-			perTickAutoprod *= (1 +this.getEffect("rankLeaderBonusConversion")*((this.village.leader)? this.village.leader.rank: 0));
+			perTickAutoprod *= (1 + this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0));
 		perTick += perTickAutoprod;
 
 		// *MAGNETOS PRODUCTION BONUS
@@ -2740,7 +2750,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 		perTick = effects[resName];
 
 		// +BUILDING AND SPACE PerTick
-		perTick += this.getEffect(res.name + "PerTick");
+		perTick += this.getEffect(res.name + "PerTick") * (1+ this.getEffect(res.name + "PerTickRatio"));
 
 		// -EARTH CONSUMPTION
 		var resMapConsumption = this.village.getResConsumption();
@@ -2896,7 +2906,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 
 		//ParagonSpaceProductionRatio definition 1/4
 		var paragonSpaceProductionRatio = 1 + paragonProductionRatio * 0.05;
-		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader)? this.village.leader.rank : 0);
+		var rankLeaderBonusConversion = this.getEffect("rankLeaderBonusConversion") * ((this.village.leader) ? this.village.leader.rank : 0);
 		// +BUILDING AUTOPROD
 		var buildingAutoprod = [];
 		// ---->
@@ -3059,6 +3069,12 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			name: $I("res.stack.baseline"),
 			type: "fixed",
 			value: this.getEffect(res.name + "PerTick")
+		});
+
+		stack.push({
+			name: $I("res.stack.baseline"),
+			type: "ratio",
+			value: this.getEffect(res.name + "PerTickRatio")
 		});
 
 		// +CRAFTING JOB PRODUCTION
@@ -3788,6 +3804,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.researchChallenge("atheism");
 			}
+			if(game.challenges.isActive("pacifism") && game.science.getPolicy("outerSpaceTreaty").researched){
+				game.challenges.researchChallenge("pacifism");
+			}
 			/*if (game.challenges.isActive("atheism") && game.time.getVSU("cryochambers").on > 0) {
 				game.challenges.getChallenge("atheism").researched = true;
 
@@ -3797,6 +3816,9 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 			}*/
 			if (game.calendar.day < 0) {
 				game.achievements.unlockHat("fezHat");
+			}
+			for (var i = 0; i < game.challenges.challenges.length; i++){
+				game.challenges.challenges[i].pending = false;
 			}
 			game.resetAutomatic();
 		});
@@ -4339,7 +4361,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
          */
         var managers = {
 		   "workshop": this.workshop,
-		   "building": this.bld
+		   "building": this.bld,
+		   "religion": this.religion
         };
 
         for (var i in this.undoChange.events){
