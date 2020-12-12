@@ -1383,6 +1383,15 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 			},
 			"tradeKnowledge":{
 				title: $I("effectsMgr.statics.tradeKnowledge.title")
+			},
+            //zebra workshop upgrades
+            "zebraPreparations": {
+                title: $I("effectsMgr.statics.zebraPreparations.title"),
+                type: "fixed"
+			},
+			"academyMeteorBonus": {
+                title: $I("effectsMgr.statics.academyMeteorBonus.title"),
+                type: "ratio"
 			}
 		}
 	}
