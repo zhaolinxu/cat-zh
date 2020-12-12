@@ -587,7 +587,11 @@ dojo.declare("classes.managers.BuildingsManager", com.nuclearunicorn.core.TabMan
 			"scienceRatio": 0.2,
 			"skillXP": 0.0005,
 			"scienceMax": 500,
-			"cultureMax": 25
+			"cultureMax": 25,
+			"academyMeteorBonus": 0
+		},
+		calculateEffects(self, game){
+			if(game.workshop.getZebraUpgrade("minerologyDepartment").researched) self.effects["academyMeteorBonus"] = 0.01
 		},
 		flavor: $I("buildings.academy.flavor"),
 		unlockScheme: {

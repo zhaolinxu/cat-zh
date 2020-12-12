@@ -493,16 +493,18 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			this.game.science.get("mining").researched){	//0.1% chance of meteors
 
 			var mineralsAmt = 50 + 25 * this.game.getEffect("mineralsRatio");
+			var minerologyBonus = this.game.getEffect("academyMeteorBonus");
 
 			if (this.game.ironWill){
 				mineralsAmt += mineralsAmt * 0.1;	//+10% of minerals for iron will
 			}
-
+			mineralsAmt *= 1 + minerologyBonus;
 			var mineralsGain = this.game.resPool.addResEvent("minerals", mineralsAmt);
 
 			var sciGain = 0;
 			if (this.game.workshop.get("celestialMechanics").researched) {
 				var sciBonus = 15 * (1 + this.game.getEffect("scienceRatio"));
+				sciBonus *= 1 + minerologyBonus;
 				sciGain = this.game.resPool.addResEvent("science", sciBonus);
 			}
 

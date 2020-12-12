@@ -329,7 +329,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			buildings: ["quarry"],
 			jobs: ["geologist"],
 			tech: ["biology"],
-			upgrades:["geodesy"]
+			upgrades:["geodesy"],
+			zebraUpgrades: ["minerologyDepartment"]
 		},
 		flavor: $I("science.archeology.flavor")
 	}, {

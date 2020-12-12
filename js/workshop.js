@@ -2133,6 +2133,19 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 				crafts: ["tMythril"]
 			},
 		},
+		//minerals
+		{
+			name: "minerologyDepartment",
+			label: $I("workshop.zebraUpgrade.minerologyDepartment.label"),
+			description: $I("workshop.zebraUpgrade.minerologyDepartment.desc"),
+			effects: {		
+			},
+			prices:[
+				{name : "science", val: 75000},
+				{name: 	"compedium", val: 75}
+			]
+	
+		}
 	],
 	effectsBase: {
 		"oilMax" : 0,

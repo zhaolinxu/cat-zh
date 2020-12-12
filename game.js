@@ -1376,7 +1376,11 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
             "zebraPreparations": {
                 title: $I("effectsMgr.statics.zebraPreparations.title"),
                 type: "fixed"
-            }
+			},
+			"academyMeteorBonus": {
+                title: $I("effectsMgr.statics.academyMeteorBonus.title"),
+                type: "ratio"
+			}
 
 		}
 	}
