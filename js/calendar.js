@@ -522,6 +522,15 @@ dojo.declare("com.nuclearunicorn.game.Calendar", null, {
 			//TODO: make meteors give titanium on higher levels
 		}
 
+		//------------------------- 0.035% chance of spawning unicorns in pacifism -----------------
+		if(this.game.challenges.isActive("pacifism")){
+			var archery = this.game.science.get("archery");
+			var unicorns = this.game.resPool.get("unicorns");
+			if (this.game.rand(100000) <= 17 * unicornChanceRatio && unicorns.value < 2 && archery.researched){
+				this.game.resPool.addResEvent("unicorns", 1);
+				this.game.msg($I("calendar.msg.unicorn"));
+			}
+		}
 		//------------------------- 0.035% chance of spawning unicorns in Iron Will -----------------
 		var zebras = this.game.resPool.get("zebras");
 
