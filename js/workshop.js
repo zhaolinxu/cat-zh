@@ -2392,9 +2392,7 @@ dojo.declare("classes.managers.WorkshopManager", com.nuclearunicorn.core.TabMana
 		var cultureBonusRaw = Math.floor(this.game.resPool.get("manuscript").value);
 		this.effectsBase["cultureMax"] = this.game.getUnlimitedDR(cultureBonusRaw, 0.01);
 
-		if (this.game.science.getPolicy("tradition").researched){
-			this.effectsBase["cultureMax"] *= 2;
-		}
+		this.effectsBase["cultureMax"] *= 1 + this.game.getEffect("cultureCapFromManuscripts");
 
 		//sanity check
 		if (this.game.village.getFreeEngineers() < 0){

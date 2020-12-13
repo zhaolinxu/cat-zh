@@ -789,8 +789,8 @@ dojo.declare("classes.managers.SpaceManager", com.nuclearunicorn.core.TabManager
 					}
 
 					self.effects["energyProduction"] =
-						1 * ( 1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
-							( 1 + game.getEffect("umbraBoostRatio"));
+						(1 + game.getUnlimitedDR(yearBonus, 0.075) * 0.01) *
+						(1 + game.getEffect("umbraBoostRatio"));
 				}
 			}
 		]
