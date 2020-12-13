@@ -2586,7 +2586,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Village", com.nuclearunicorn.game.u
 		this.addButton(btn);
 		//------------------------------------------------------------
 
-		var tr = dojo.create("tr", null, table);
+		dojo.create("tr", null, table);
 
 		var tdTop = dojo.create("td", { colspan: 2 },
 			dojo.create("tr", null, table));
