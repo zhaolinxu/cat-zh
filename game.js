@@ -4504,7 +4504,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 							resPrice = item.prices[i].val
 						}
 					}
-					return resPrice * (priceRatio ** (1+ num) - 1)/(priceRatio - 1)
+					return resPrice * (Math.pow(priceRatio,1+ num) - 1)/(priceRatio - 1)
 				}
 				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
 				Math.max(this.resPool.get("necrocorn").value, 10))
