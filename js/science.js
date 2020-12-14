@@ -821,7 +821,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 			{name : "culture", val: 150}
 		],
 		effects: {
-			"maxKittens": 0
+			"maxKittens": 0,
+			"happinessKittenProductionRatio": 0.1
 		},
 		unlocked: false,
 		blocked: false,
@@ -839,6 +840,11 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 		prices: [
 			{name : "culture", val: 150}
 		],
+		effects: {
+			"cultureFromManuscripts": 1,
+			"manuscriptParchmentCost": -5, //visual,
+			"manuscriptCultureCost": -100 //just for the players
+		},
 		unlocked: false,
 		blocked: false,
 		blocks:["liberty"],
@@ -1539,8 +1545,8 @@ dojo.declare("classes.managers.ScienceManager", com.nuclearunicorn.core.TabManag
 	load: function(saveData){
 		if (saveData.science){
 			this.hideResearched = saveData.science.hideResearched;
-			this.policyToggleResearched = saveData.science.policyToggleResearched,
-			this.policyToggleBlocked = saveData.science.policyToggleBlocked,
+			this.policyToggleResearched = saveData.science.policyToggleResearched;
+			this.policyToggleBlocked = saveData.science.policyToggleBlocked;
 			this.loadMetadata(this.techs, saveData.science.techs, "technologies");
 			this.loadMetadata(this.policies, saveData.science.policies, "policies");
 		}

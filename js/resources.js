@@ -733,7 +733,7 @@ dojo.declare("classes.managers.ResourceManager", com.nuclearunicorn.core.TabMana
 		var limits = {};
 		for (var i in this.resources) {
 			var res = this.resources[i];
-			if (res.perTickCached && !(res.name == "catnip" && res.perTickCached < 0)) {
+			if (res.perTickCached && (res.name != "catnip" || res.perTickCached >= 0)) {
 				if (res.maxValue) {
 					limits[res.name] = Math.max(res.value, res.maxValue);
 				}

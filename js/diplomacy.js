@@ -254,8 +254,9 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 	 */
 	isValidTrade: function(sell, race){
 		var resName = sell.name;
-		return !(sell.minLevel && race.embassyLevel < sell.minLevel)
-			&& (this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans");
+		var hasHighEnoughEmbassyLevel = !sell.minLevel || race.embassyLevel >= sell.minLevel;
+		var isResourceTradeable = this.game.resPool.get(resName).unlocked || resName === "uranium" || race.name === "leviathans";
+		return hasHighEnoughEmbassyLevel && isResourceTradeable;
 	},
 
 	unlockRandomRace: function(){

@@ -1174,6 +1174,23 @@ dojo.declare("com.nuclearunicorn.game.EffectsManager", null, {
 				type: "ratio",
 				calculation: "nonProportional"
 			},
+			//age 1 policy effects
+			"happinessKittenProductionRatio": {
+				title: $I("effectsMgr.statics.happinessKittenProductionRatio.title"),
+				type: "ratio"
+			},
+			"cultureFromManuscripts": {
+				title: $I("effectsMgr.statics.cultureFromManuscripts.title"),
+				type: "ratio"
+			},
+			"manuscriptParchmentCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title", [$I("resources.parchment.title")]),
+				type: "fixed"
+			},
+			"manuscriptCultureCost": {
+				title: $I("effectsMgr.statics.manuscriptCost.title",[$I("resources.culture.title")]),
+				type: "fixed"
+			},
 			//age 2 policy effects
 			"rankLeaderBonusConversion": {
 				title: $I("effectsMgr.statics.rankLeaderBonusConversion.title"),
