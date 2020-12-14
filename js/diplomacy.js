@@ -550,17 +550,19 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		}
 		return min;
 	},
-
+	getMarkerCap: function(){
+		return Math.floor(
+			(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
+			(1 + this.game.getEffect("leviathansEnergyModifier"))
+		);
+	},
 	feedElders: function(){
 		var ncorns = this.game.resPool.get("necrocorn");
 		var elders = this.game.diplomacy.get("leviathans");
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.getMarkerCap ();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
@@ -1292,10 +1294,7 @@ dojo.declare("com.nuclearunicorn.game.ui.tab.Diplomacy", com.nuclearunicorn.game
 
 		if (this.leviathansInfo) {
 			var leviathans = this.game.diplomacy.get("leviathans");
-			var markerCap = Math.floor(
-				(this.game.religion.getZU("marker").getEffectiveValue(this.game) * 5 + 5) *
-				(1 + this.game.getEffect("leviathansEnergyModifier"))
-			);
+			var markerCap = this.getMarkerCap();
 			var leviathansInfoEnergy = leviathans.energy ? leviathans.energy + " / " + markerCap : "N/A";
 			this.leviathansInfo.innerHTML = $I("trade.leviathans.energy") + leviathansInfoEnergy +
 				"<br />" + $I("trade.leviathans.timeToLeave") + this.game.toDisplayDays(leviathans.duration);
