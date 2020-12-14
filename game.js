@@ -4382,10 +4382,8 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 					}
 					return resPrice * (priceRatio ** (1+ num) - 1)/(priceRatio - 1)
 				}
-				var amt1 = getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn") + this.resPool.get("necrocorn").value 
-				if((amt1 + this.resPool.get("necrocorn").value) < 100){
-					amt1 = 100
-				}
+				var amt1 = Math.max(getSumOfPrices(unicornGraveyard, "necrocorn") + getSumOfPrices(unicornNecropolis, "necrocorn"), 
+				Math.max(this.resPool.get("necrocorn").value, 10))
 				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.compedium.title"))]);
 				msg += $I("gift.resources", [this.getDisplayValueExt(amt1), ucfirst($I("resources.necrocorn.title"))]);
 				this.resPool.addResEvent("compedium", amt);
