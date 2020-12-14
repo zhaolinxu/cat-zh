@@ -207,6 +207,8 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 		}
 		console.error("Failed to get race for id '" + raceName + "'");
+		
+		
 		return null;
 	},
 
@@ -562,7 +564,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = this.game.diplomac.getMarkerCap ();
+			var markerCap = this.game.diplomac.getMarkerCap();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
