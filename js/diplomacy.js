@@ -562,7 +562,7 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 		if (ncorns.value >= 1){
 			elders.energy++;
 
-			var markerCap = this.getMarkerCap ();
+			var markerCap = this.game.diplomac.getMarkerCap ();
 			 
 			if (elders.energy > markerCap){
 				elders.energy = markerCap;
