@@ -207,8 +207,6 @@ dojo.declare("classes.managers.DiplomacyManager", null, {
 			}
 		}
 		console.error("Failed to get race for id '" + raceName + "'");
-		
-		
 		return null;
 	},
 
