@@ -4511,7 +4511,7 @@ dojo.declare("com.nuclearunicorn.game.ui.GamePage", null, {
 				var msg = $I("gift.resources", [this.getDisplayValueExt(amt), ucfirst($I("resources.compedium.title"))]);
 				msg += $I("gift.resources", [this.getDisplayValueExt(amt1), ucfirst($I("resources.necrocorn.title"))]);
 				this.resPool.addResEvent("compedium", amt);
-				this.resPool.addResEvent("compedium", amt1);
+				this.resPool.addResEvent("necrocorn", amt1);
 				break;
 			case "BurnedParagon":
 				if(this.resPool.get("burnedParagon").value > 500){
